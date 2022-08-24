@@ -2,7 +2,7 @@
 @use "../core" as *;
 @use "core" as *;
 @use "../../util/scss/deep-merge" as *;
-@use "../../util/scss/add-rules" as *;
+@use "../../util/scss/add-rules.scss" as *;
 
 $cx-default-checkbox-color: $cx-default-input-color !default;
 $cx-default-checkbox-background-color: $cx-default-input-background-color !default;

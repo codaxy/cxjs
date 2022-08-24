@@ -16,7 +16,7 @@ import "./index.scss";
 //import Demo from './performance/LongList';
 // import Demo from "./dev/batchListUpdates";
 
-import Demo from './features/flexbox';
+import Demo from "./features/flexbox";
 //import Demo from './features/drag-drop/ReorderInsertionLine';
 //import Demo from './features/drag-drop/Dashboard';
 //import Demo from './features/drag-drop/trello';
@@ -104,7 +104,7 @@ import Demo from './features/flexbox';
 // import Demo from "./bugs/971";
 // import Demo from "./bugs/LookupFieldListItemFocus";
 //import Demo from "./bugs/SliderValue";
-import Demo from "./features/context-menu/conext-menu-in-a-dropdown";
+//import Demo from "./features/context-menu/conext-menu-in-a-dropdown";
 
 let store = (window.store = new Store());
 

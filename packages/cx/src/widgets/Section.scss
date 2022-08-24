@@ -1,10 +1,12 @@
+@use "sass:math";
+@use "./Button.variables" as *;
+@use "./box" as *;
+@use "./core" as *;
+@use "../util/scss/add-rules.scss" as *;
+@use "../util/scss/clockwise.scss" as *;
+@use "./variables" as *;
 
-@mixin cx-section(
-   $name: 'section',
-   $mods: $cx-section-mods,
-   $besm: $cx-besm
-) {
-
+@mixin cx-section($name: "section", $mods: $cx-section-mods, $besm: $cx-besm) {
    $block: map-get($besm, block);
    $element: map-get($besm, element);
    $state: map-get($besm, state);
@@ -18,11 +20,10 @@
       @include cx-add-rules($cx-section-styles);
 
       @each $modname, $config in $mods {
-        &.#{$mod}#{$modname} {
-          @include cx-add-state-rules($config, default);
-        }
+         &.#{$mod}#{$modname} {
+            @include cx-add-state-rules($config, default);
+         }
       }
-      
    }
 
    .#{$element}#{$name}-header {
@@ -50,6 +51,6 @@
    }
 }
 
-@if (cx-should-include('cx/widgets/Section')) {
+@if (cx-should-include("cx/widgets/Section")) {
    @include cx-section();
 }

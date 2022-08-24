@@ -1,3 +1,13 @@
+@use "sass:math";
+@use "./core.scss" as *;
+@use "../core.scss" as *;
+@use "../box.scss" as *;
+@use "../../variables.scss" as *;
+@use "../../util/scss/add-rules.scss" as *;
+@use "../../util/scss/clockwise.scss" as *;
+@use "../../util/scss/deep-merge.scss" as *;
+@use "../../util/scss/calc.scss" as *;
+
 @keyframes cx-tooltip-enter-animation {
    from {
       transform: scale(0.9);
@@ -22,10 +32,7 @@
    }
 }
 
-@mixin cx-tooltip(
-   $name: 'tooltip',
-   $besm: $cx-besm
-) {
+@mixin cx-tooltip($name: "tooltip", $besm: $cx-besm) {
    $block: map-get($besm, block);
    $element: map-get($besm, element);
    $state: map-get($besm, state);
@@ -80,96 +87,19 @@
       font-size: 100%;
    }
 
-   @include cx-dropdown-arrows($name, (
-      border-width: $cx-tooltip-border-width,
-      border-color: $cx-tooltip-border-color,
-      border-style: solid,
-      background-color: $cx-tooltip-background-color
-   ), $cx-tooltip-arrow-size, $besm)
-
-   //.#{$element}#{$name}-arrow-border, .#{$element}#{$name}-arrow-fill {
-   //   border: solid transparent;
-   //   content: " ";
-   //   height: 0;
-   //   width: 0;
-   //   position: absolute;
-   //}
-   //
-   //.#{$element}#{$name}-arrow-border {
-   //   color: $cx-tooltip-border-color;
-   //   border-width: $cx-tooltip-border-width + $cx-tooltip-arrow-size;
-   //}
-   //
-   //.#{$element}#{$name}-arrow-fill {
-   //   color: $cx-tooltip-background-color;
-   //   border-width: $cx-tooltip-arrow-size;
-   //}
-   //
-   //.#{$state}place-right {
-   //   .#{$element}#{$name}-arrow-fill {
-   //      right: 100%;
-   //      top: 50%;
-   //      border-right-color: currentColor;
-   //      margin-top: -$cx-tooltip-arrow-size;
-   //   }
-   //
-   //   .#{$element}#{$name}-arrow-border {
-   //      right: 100%;
-   //      top: 50%;
-   //      border-right-color: currentColor;
-   //      margin-top: -$cx-tooltip-border-width - $cx-tooltip-arrow-size;
-   //   }
-   //}
-   //
-   //.#{$state}place-left {
-   //   .#{$element}#{$name}-arrow-fill {
-   //      left: 100%;
-   //      top: 50%;
-   //      border-left-color: currentColor;
-   //      margin-top: -$cx-tooltip-arrow-size;
-   //   }
-   //
-   //   .#{$element}#{$name}-arrow-border {
-   //      left: 100%;
-   //      top: 50%;
-   //      border-left-color: currentColor;
-   //      margin-top: -$cx-tooltip-border-width - $cx-tooltip-arrow-size;
-   //   }
-   //}
-   //
-   //.#{$state}place-up {
-   //   .#{$element}#{$name}-arrow-fill {
-   //      left: 50%;
-   //      top: 100%;
-   //      border-top-color: currentColor;
-   //      margin-left: -$cx-tooltip-arrow-size;
-   //   }
-   //
-   //   .#{$element}#{$name}-arrow-border {
-   //      left: 50%;
-   //      top: 100%;
-   //      border-top-color: currentColor;
-   //      margin-left: -$cx-tooltip-border-width - $cx-tooltip-arrow-size;
-   //   }
-   //}
-   //
-   //.#{$state}place-down {
-   //   .#{$element}#{$name}-arrow-fill {
-   //      left: 50%;
-   //      bottom: 100%;
-   //      border-bottom-color: currentColor;
-   //      margin-left: -$cx-tooltip-arrow-size;
-   //   }
-   //
-   //   .#{$element}#{$name}-arrow-border {
-   //      left: 50%;
-   //      bottom: 100%;
-   //      border-bottom-color: currentColor;
-   //      margin-left: -$cx-tooltip-border-width - $cx-tooltip-arrow-size;
-   //   }
-   //}
+   @include cx-dropdown-arrows(
+      $name,
+      (
+         border-width: $cx-tooltip-border-width,
+         border-color: $cx-tooltip-border-color,
+         border-style: solid,
+         background-color: $cx-tooltip-background-color,
+      ),
+      $cx-tooltip-arrow-size,
+      $besm
+   );
 }
 
-@if (cx-should-include('cx/widgets/Tooltip')) {
+@if (cx-should-include("cx/widgets/Tooltip")) {
    @include cx-tooltip();
 }

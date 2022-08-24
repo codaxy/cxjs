@@ -1,8 +1,10 @@
+@use "sass:math";
+@use "./core" as *;
+@use "./box" as *;
+@use "../util/scss/add-rules.scss" as *;
+@use "./lists.scss" as *;
 
-@mixin cx-list(
-   $name: 'list',
-   $besm: $cx-besm
-) {
+@mixin cx-list($name: "list", $besm: $cx-besm) {
    $block: map-get($besm, block);
    $element: map-get($besm, element);
    $state: map-get($besm, state);
@@ -56,7 +58,8 @@
       &.#{$state}cursor {
          @include cx-add-state-rules($cx-list-item, hover);
 
-         .#{$block}#{$name}.#{$state}focused > &, .#{$block}#{$name}:focus > & {
+         .#{$block}#{$name}.#{$state}focused > &,
+         .#{$block}#{$name}:focus > & {
             @include cx-add-state-rules($cx-list-item, cursor);
 
             &:active {
@@ -66,13 +69,14 @@
       }
 
       &.#{$state}selected {
-          @include cx-add-state-rules($cx-list-item, selected);
+         @include cx-add-state-rules($cx-list-item, selected);
 
          &.#{$state}cursor {
             @include cx-add-state-rules($cx-list-item, selected-hover);
 
-            .#{$block}#{$name}.#{$state}focused > &, .#{$block}#{$name}:focus > & {
-                @include cx-add-state-rules($cx-list-item, selected-cursor);
+            .#{$block}#{$name}.#{$state}focused > &,
+            .#{$block}#{$name}:focus > & {
+               @include cx-add-state-rules($cx-list-item, selected-cursor);
             }
          }
       }
@@ -88,6 +92,6 @@
    }
 }
 
-@if (cx-should-include('cx/widgets/List')) {
+@if (cx-should-include("cx/widgets/List")) {
    @include cx-list();
 }

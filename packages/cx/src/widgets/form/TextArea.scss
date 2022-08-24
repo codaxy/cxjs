@@ -1,6 +1,12 @@
+@use "sass:math";
+@use "./core.scss" as *;
+@use "../core.scss" as *;
+@use "../box.scss" as *;
+@use "../../util/scss/add-rules.scss" as *;
+@use "../../util/scss/clockwise.scss" as *;
 
 @mixin cx-textarea(
-   $name: 'textarea',
+   $name: "textarea",
    $state-style-map: $cx-textarea-state-style-map,
    $placeholder: $cx-input-placeholder,
    $empty-text: $cx-empty-text,
@@ -14,24 +20,14 @@
    $state: map-get($besm, state);
    $mod: map-get($besm, mod);
 
-
    .#{$block}#{$name} {
-      @include cxb-field(
-         $besm,
-         $state-style-map,
-         $input: false
-      );
+      @include cxb-field($besm, $state-style-map, $input: false);
       line-height: 0;
       width: $width;
    }
 
    .#{$element}#{$name}-input {
-      @include cxe-field-input(
-         $besm,
-         $state-style-map,
-         $placeholder: $placeholder,
-         $input: false
-      );
+      @include cxe-field-input($besm, $state-style-map, $placeholder: $placeholder, $input: false);
 
       width: 100%;
       height: 100%;
@@ -50,11 +46,6 @@
    }
 }
 
-@if (cx-should-include('cx/widgets/TextArea')) {
+@if (cx-should-include("cx/widgets/TextArea")) {
    @include cx-textarea;
 }
-
-
-
-
-

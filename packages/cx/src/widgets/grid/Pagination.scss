@@ -1,3 +1,13 @@
+@use "sass:math";
+@use "../core.scss" as *;
+@use "../box.scss" as *;
+@use "./variables.scss" as *;
+@use "../lists.scss" as *;
+@use "../../util/scss/add-rules.scss" as *;
+@use "../../util/scss/clockwise.scss" as *;
+@use "../../util/scss/deep-merge.scss" as *;
+@use "../../util/scss/calc.scss" as *;
+
 @mixin cx-pagination(
    $name: "pagination",
    $state-style-map: $cx-grid-pagination-state-style-map,

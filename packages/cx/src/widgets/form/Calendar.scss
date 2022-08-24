@@ -1,3 +1,11 @@
+@use "sass:math";
+@use "./core.scss" as *;
+@use "../core.scss" as *;
+@use "../box.scss" as *;
+@use "../../util/scss/add-rules.scss" as *;
+@use "../../util/scss/clockwise.scss" as *;
+@use "./Calendar.variables.scss" as *;
+
 @mixin cx-calendar(
    $name: "calendar",
    $state-style-map: $cx-calendar-state-style-map,

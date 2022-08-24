@@ -1,6 +1,13 @@
+@use "sass:math";
+@use "./core.scss" as *;
+@use "../core.scss" as *;
+@use "../box.scss" as *;
+@use "../../util/scss/add-rules.scss" as *;
+@use "../../util/scss/clockwise.scss" as *;
+@use "../../util/scss/deep-merge.scss" as *;
 
 @mixin cx-datetimefield(
-   $name: 'datetimefield',
+   $name: "datetimefield",
    $input-state-style-map: $cx-std-field-state-style-map,
    $placeholder: $cx-input-placeholder,
    $empty-text: $cx-empty-text,
@@ -19,14 +26,17 @@
       @include cxb-field($besm, $input-state-style-map, $width: $width, $input: true);
    }
 
-   $padding: cx-get-state-rule($input-state-style-map, default, 'padding');
+   $padding: cx-get-state-rule($input-state-style-map, default, "padding");
 
    .#{$element}#{$name}-input {
-      @include cxe-field-input($besm, $input-state-style-map,
+      @include cxe-field-input(
+         $besm,
+         $input-state-style-map,
          $placeholder: $placeholder,
          $overrides: (
             default: (
-               padding: cx-top($padding) cx-calc(cx-right($padding), $cx-default-clear-size) cx-bottom($padding) cx-calc(2 * cx-left($padding), $icon-size)
+               padding: cx-top($padding) cx-calc(cx-right($padding), $cx-default-clear-size) cx-bottom($padding)
+                  cx-calc(2 * cx-left($padding), $icon-size),
             )
          )
       );
@@ -36,43 +46,49 @@
       @include cxe-field-button($besm, $clear-state-style-map);
 
       .#{$state}focus > & {
-        @include cx-add-state-rules($clear-state-style-map, focus);
+         @include cx-add-state-rules($clear-state-style-map, focus);
       }
       .#{$state}error > & {
-        @include cx-add-state-rules($clear-state-style-map, error);
+         @include cx-add-state-rules($clear-state-style-map, error);
       }
    }
 
    .#{$element}#{$name}-left-icon {
-      @include cxe-field-button($besm, cx-deep-map-merge($left-icon-state-style-map, (
-         default: (
-            cursor: pointer
+      @include cxe-field-button(
+         $besm,
+         cx-deep-map-merge(
+            $left-icon-state-style-map,
+            (
+               default: (
+                  cursor: pointer,
+               ),
+            )
          )
-      )));
+      );
 
       .#{$state}disabled > & {
-        @include cx-add-state-rules($input-state-style-map, disabled);
-        border-width: 0;
+         @include cx-add-state-rules($input-state-style-map, disabled);
+         border-width: 0;
       }
       .#{$state}focus > & {
-        @include cx-add-state-rules($left-icon-state-style-map, focus);
+         @include cx-add-state-rules($left-icon-state-style-map, focus);
       }
       .#{$state}error > & {
-        @include cx-add-state-rules($left-icon-state-style-map, error);
+         @include cx-add-state-rules($left-icon-state-style-map, error);
       }
    }
 
    .#{$element}#{$name}-right-icon {
       @include cxe-field-button($besm, $right-icon-state-style-map);
       .#{$state}disabled > & {
-        @include cx-add-state-rules($input-state-style-map, disabled);
-        border-width: 0;
+         @include cx-add-state-rules($input-state-style-map, disabled);
+         border-width: 0;
       }
       .#{$state}focus > & {
-        @include cx-add-state-rules($right-icon-state-style-map, focus);
+         @include cx-add-state-rules($right-icon-state-style-map, focus);
       }
       .#{$state}error > & {
-        @include cx-add-state-rules($right-icon-state-style-map, error);
+         @include cx-add-state-rules($right-icon-state-style-map, error);
       }
    }
 
@@ -85,6 +101,6 @@
    }
 }
 
-@if (cx-should-include('cx/widgets/DateTimeField')) {
+@if (cx-should-include("cx/widgets/DateTimeField")) {
    @include cx-datetimefield();
 }

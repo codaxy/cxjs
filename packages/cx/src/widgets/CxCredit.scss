@@ -1,8 +1,6 @@
+@use "./core" as *;
 
-@mixin cx-cxcredit(
-   $name: 'cxcredit',
-   $besm: $cx-besm
-) {
+@mixin cx-cxcredit($name: "cxcredit", $besm: $cx-besm) {
    $block: map-get($besm, block);
    $element: map-get($besm, element);
    $state: map-get($besm, state);
@@ -37,6 +35,6 @@
    }
 }
 
-@if (cx-should-include('cx/widgets/CxCredit')) {
+@if (cx-should-include("cx/widgets/CxCredit")) {
    @include cx-cxcredit();
 }

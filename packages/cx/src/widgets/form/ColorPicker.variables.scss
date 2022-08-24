@@ -2,7 +2,7 @@
 @use "../core" as *;
 @use "core" as *;
 @use "../../util/scss/deep-merge" as *;
-@use "../../util/scss/add-rules" as *;
+@use "../../util/scss/add-rules.scss" as *;
 
 $cx-default-colorpicker-font-family: "Consolas", monospace !default;
 $cx-default-colorpicker-font-size: 11px !default;

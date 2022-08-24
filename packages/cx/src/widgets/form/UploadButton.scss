@@ -1,8 +1,15 @@
-
-@import "../Button";
+@use "sass:math";
+@use "./core.scss" as *;
+@use "../core.scss" as *;
+@use "../box.scss" as *;
+@use "../../util/scss/add-rules.scss" as *;
+@use "../../util/scss/clockwise.scss" as *;
+@use "../../util/scss/deep-merge.scss" as *;
+@use "../Button.variables.scss" as *;
+@use "../Button.scss" as *;
 
 @mixin cx-uploadbutton(
-   $name: 'uploadbutton',
+   $name: "uploadbutton",
    $state-style-map: $cx-button-state-style-map,
    $mods: $cx-button-mods,
    $besm: $cx-besm
@@ -11,11 +18,7 @@
    $element: map-get($besm, element);
    $state: map-get($besm, state);
 
-   @include cx-button($name,
-      $mods: $mods,
-      $state-style-map: $state-style-map,
-      $besm: $besm
-   );
+   @include cx-button($name, $mods: $mods, $state-style-map: $state-style-map, $besm: $besm);
 
    .#{$element}#{$name}-input {
       position: absolute;
@@ -42,6 +45,6 @@
    }
 }
 
-@if (cx-should-include('cx/widgets/UploadButton')) {
+@if (cx-should-include("cx/widgets/UploadButton")) {
    @include cx-uploadbutton();
 }

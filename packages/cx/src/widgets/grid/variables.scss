@@ -2,9 +2,9 @@
 @use "../box" as *;
 @use "../lists" as *;
 @use "../../util/scss/include" as *;
-@use "../../util/scss/add-rules" as *;
+@use "../../util/scss/add-rules.scss" as *;
 @use "../../util/scss/deep-merge" as *;
-@use "../../util/scss/clockwise" as *;
+@use "../../util/scss/clockwise.scss" as *;
 
 // GRID
 $cx-default-grid-font-size: $cx-default-box-font-size !default;

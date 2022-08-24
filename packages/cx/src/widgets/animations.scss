@@ -1,4 +1,6 @@
-@if cx-call-once('cx/widgets/animations') {
+@use "../util/scss/call-once" as *;
+
+@if cx-call-once("cx/widgets/animations") {
    @keyframes cx-rotate {
       from {
          transform: rotate(0);

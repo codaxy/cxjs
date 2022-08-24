@@ -1,8 +1,13 @@
-
-@import "../overlay/Dropdown";
+@use "sass:math";
+@use "./core.scss" as *;
+@use "../core.scss" as *;
+@use "../box.scss" as *;
+@use "../../util/scss/add-rules.scss" as *;
+@use "../../util/scss/clockwise.scss" as *;
+@use "../overlay/core.scss" as *;
 
 @mixin cx-select(
-   $name: 'select',
+   $name: "select",
    $state-style-map: $cx-std-field-state-style-map,
    $placeholder: $cx-input-placeholder,
    $empty-text: $cx-empty-text,
@@ -19,20 +24,15 @@
    $mod: map-get($besm, mod);
 
    .#{$block}#{$name} {
-      @include cxb-field(
-         $besm,
-         $state-style-map: $state-style-map,
-         $width: $width,
-         $input: true
-      );
+      @include cxb-field($besm, $state-style-map: $state-style-map, $width: $width, $input: true);
 
-   .#{$element}#{$name}-left-icon {
+      .#{$element}#{$name}-left-icon {
          @include cxe-field-button($besm, $left-icon-state-style-map);
          pointer-events: none;
       }
    }
 
-   $padding: cx-get-state-rule($state-style-map, default, 'padding');
+   $padding: cx-get-state-rule($state-style-map, default, "padding");
 
    .#{$element}#{$name}-select {
       @include cxe-field-input(
@@ -40,7 +40,13 @@
          $state-style-map,
          $placeholder: $placeholder,
          $overrides: (
-            padding: cx-top($cx-default-input-padding) calc(#{cx-right($cx-default-input-padding)} + #{$cx-default-clear-size} - #{cx-right($cx-default-input-padding)}) cx-bottom($cx-default-input-padding) cx-left($cx-default-input-padding),
+            padding: cx-top($cx-default-input-padding)
+               calc(
+                  #{cx-right($cx-default-input-padding)} + #{$cx-default-clear-size} - #{cx-right(
+                        $cx-default-input-padding
+                     )}
+               )
+               cx-bottom($cx-default-input-padding) cx-left($cx-default-input-padding),
             -webkit-appearance: none,
             -moz-appearance: none,
             -ms-appearance: none,
@@ -81,11 +87,11 @@
       pointer-events: none; //cannot call open-dropdown on native element
 
       .#{$state}disabled > & {
-        @include cx-add-state-rules($state-style-map, disabled);
-        border-width: 0;
+         @include cx-add-state-rules($state-style-map, disabled);
+         border-width: 0;
       }
       .#{$state}focus > & {
-        @include cx-add-state-rules($tool-state-style-map, focus);
+         @include cx-add-state-rules($tool-state-style-map, focus);
       }
    }
 
@@ -94,6 +100,6 @@
    }
 }
 
-@if (cx-should-include('cx/widgets/Select')) {
+@if (cx-should-include("cx/widgets/Select")) {
    @include cx-select;
 }

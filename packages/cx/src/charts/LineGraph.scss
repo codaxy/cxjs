@@ -1,8 +1,9 @@
+@use "sass:math";
+@use "../widgets/core.scss" as *;
+@use "../util/scss/add-rules.scss" as *;
+@use "../util/scss/clockwise.scss" as *;
 
-@mixin cx-linegraph(
-   $name: 'linegraph',
-   $besm: $cx-besm
-) {
+@mixin cx-linegraph($name: "linegraph", $besm: $cx-besm) {
    $block: map-get($besm, block);
    $element: map-get($besm, element);
    $state: map-get($besm, state);
@@ -19,6 +20,6 @@
    }
 }
 
-@if (cx-should-include('cx/charts/LineGraph')) {
+@if (cx-should-include("cx/charts/LineGraph")) {
    @include cx-linegraph();
 }

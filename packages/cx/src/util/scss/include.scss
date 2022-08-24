@@ -1,5 +1,5 @@
-@use "call-once";
-@use "colors";
+@use "call-once" as *;
+@use "colors" as *;
 
 $cx-include-all: true !default;
 

@@ -1,8 +1,9 @@
+@use "sass:math";
+@use "../widgets/core.scss" as *;
+@use "../util/scss/add-rules.scss" as *;
+@use "../util/scss/clockwise.scss" as *;
 
-@mixin cx-range(
-   $name: 'range',
-   $besm: $cx-besm
-) {
+@mixin cx-range($name: "range", $besm: $cx-besm) {
    $block: map-get($besm, block);
    $element: map-get($besm, element);
    $state: map-get($besm, state);
@@ -14,6 +15,6 @@
    }
 }
 
-@if (cx-should-include('cx/charts/Range')) {
+@if (cx-should-include("cx/charts/Range")) {
    @include cx-range();
 }

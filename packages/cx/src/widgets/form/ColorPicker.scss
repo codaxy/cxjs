@@ -1,3 +1,11 @@
+@use "sass:math";
+@use "./core.scss" as *;
+@use "../core.scss" as *;
+@use "../box.scss" as *;
+@use "../../util/scss/add-rules.scss" as *;
+@use "../../util/scss/clockwise.scss" as *;
+@use "../../util/scss/deep-merge.scss" as *;
+@use "./ColorPicker.variables.scss" as *;
 
 //@if cx-call-once("cx/widgets/checker-background") {
 //   %cx-checker-bg {
@@ -6,17 +14,16 @@
 //   }
 //}
 
-@mixin cx-checker-background(
-   $tile-size: 4px,
-   $color: rgba(gray, 0.5)
-) {
-   background-image: linear-gradient(45deg, $color 25%, transparent 25%), linear-gradient(-45deg, $color 25%, transparent 25%), linear-gradient(45deg, transparent 75%, $color 75%), linear-gradient(-45deg, transparent 75%, $color 75%);
+@mixin cx-checker-background($tile-size: 4px, $color: rgba(gray, 0.5)) {
+   background-image: linear-gradient(45deg, $color 25%, transparent 25%),
+      linear-gradient(-45deg, $color 25%, transparent 25%), linear-gradient(45deg, transparent 75%, $color 75%),
+      linear-gradient(-45deg, transparent 75%, $color 75%);
    background-size: 2 * $tile-size 2 * $tile-size;
    background-position: 0 0, 0 $tile-size, $tile-size -#{$tile-size}, -#{$tile-size} 0px;
 }
 
 @mixin cx-colorpicker(
-   $name: 'colorpicker',
+   $name: "colorpicker",
    $state-style-map: $cx-colorpicker-state-style-map,
    $placeholder: $cx-input-placeholder,
    $besm: $cx-besm
@@ -26,7 +33,6 @@
    $state: map-get($besm, state);
 
    .#{$block}#{$name} {
-
       @include cx-add-state-rules($state-style-map, default);
 
       display: inline-flex;
@@ -37,7 +43,7 @@
       }
 
       &:hover {
-        @include cx-add-state-rules($state-style-map, hover);
+         @include cx-add-state-rules($state-style-map, hover);
       }
 
       input {
@@ -51,7 +57,7 @@
                   line-height: 12px,
                   font-size: 11px,
                   font-family: $cx-default-colorpicker-font-family,
-                  padding: 2px
+                  padding: 2px,
                )
             )
          );
@@ -67,10 +73,38 @@
       position: relative;
       touch-action: none;
 
-      background: -webkit-linear-gradient(top, hsl(0, 0%, 100%) 0%, hsla(0, 0%, 100%, 0) 50%, hsla(0, 0%, 0%, 0) 50%, hsl(0, 0%, 0%) 100%), -webkit-linear-gradient(left, hsl(0, 0%, 50%) 0%, hsla(0, 0%, 50%, 0) 100%);
-      background: -moz-linear-gradient(top, hsl(0, 0%, 100%) 0%, hsla(0, 0%, 100%, 0) 50%, hsla(0, 0%, 0%, 0) 50%, hsl(0, 0%, 0%) 100%), -moz-linear-gradient(left, hsl(0, 0%, 50%) 0%, hsla(0, 0%, 50%, 0) 100%);
-      background: -ms-linear-gradient(top, hsl(0, 0%, 100%) 0%, hsla(0, 0%, 100%, 0) 50%, hsla(0, 0%, 0%, 0) 50%, hsl(0, 0%, 0%) 100%), -ms-linear-gradient(left, hsl(0, 0%, 50%) 0%, hsla(0, 0%, 50%, 0) 100%);
-      background: -o-linear-gradient(top, hsl(0, 0%, 100%) 0%, hsla(0, 0%, 100%, 0) 50%, hsla(0, 0%, 0%, 0) 50%, hsl(0, 0%, 0%) 100%), -o-linear-gradient(left, hsl(0, 0%, 50%) 0%, hsla(0, 0%, 50%, 0) 100%);
+      background: -webkit-linear-gradient(
+            top,
+            hsl(0, 0%, 100%) 0%,
+            hsla(0, 0%, 100%, 0) 50%,
+            hsla(0, 0%, 0%, 0) 50%,
+            hsl(0, 0%, 0%) 100%
+         ),
+         -webkit-linear-gradient(left, hsl(0, 0%, 50%) 0%, hsla(0, 0%, 50%, 0) 100%);
+      background: -moz-linear-gradient(
+            top,
+            hsl(0, 0%, 100%) 0%,
+            hsla(0, 0%, 100%, 0) 50%,
+            hsla(0, 0%, 0%, 0) 50%,
+            hsl(0, 0%, 0%) 100%
+         ),
+         -moz-linear-gradient(left, hsl(0, 0%, 50%) 0%, hsla(0, 0%, 50%, 0) 100%);
+      background: -ms-linear-gradient(
+            top,
+            hsl(0, 0%, 100%) 0%,
+            hsla(0, 0%, 100%, 0) 50%,
+            hsla(0, 0%, 0%, 0) 50%,
+            hsl(0, 0%, 0%) 100%
+         ),
+         -ms-linear-gradient(left, hsl(0, 0%, 50%) 0%, hsla(0, 0%, 50%, 0) 100%);
+      background: -o-linear-gradient(
+            top,
+            hsl(0, 0%, 100%) 0%,
+            hsla(0, 0%, 100%, 0) 50%,
+            hsla(0, 0%, 0%, 0) 50%,
+            hsl(0, 0%, 0%) 100%
+         ),
+         -o-linear-gradient(left, hsl(0, 0%, 50%) 0%, hsla(0, 0%, 50%, 0) 100%);
    }
 
    .#{$element}#{$name}-indicator {
@@ -87,10 +121,46 @@
    .#{$element}#{$name}-hue {
       height: 15px;
       position: relative;
-      background: -moz-linear-gradient(left, #F00 0%, #FF0 16.66%, #0F0 33.33%, #0FF 50%, #00F 66.66%, #F0F 83.33%, #F00 100%);
-      background: -webkit-linear-gradient(left, #F00 0%, #FF0 16.66%, #0F0 33.33%, #0FF 50%, #00F 66.66%, #F0F 83.33%, #F00 100%);
-      background: -ms-linear-gradient(left, #F00 0%, #FF0 16.66%, #0F0 33.33%, #0FF 50%, #00F 66.66%, #F0F 83.33%, #F00 100%);
-      background: -o-linear-gradient(left, #F00 0%, #FF0 16.66%, #0F0 33.33%, #0FF 50%, #00F 66.66%, #F0F 83.33%, #F00 100%);
+      background: -moz-linear-gradient(
+         left,
+         #f00 0%,
+         #ff0 16.66%,
+         #0f0 33.33%,
+         #0ff 50%,
+         #00f 66.66%,
+         #f0f 83.33%,
+         #f00 100%
+      );
+      background: -webkit-linear-gradient(
+         left,
+         #f00 0%,
+         #ff0 16.66%,
+         #0f0 33.33%,
+         #0ff 50%,
+         #00f 66.66%,
+         #f0f 83.33%,
+         #f00 100%
+      );
+      background: -ms-linear-gradient(
+         left,
+         #f00 0%,
+         #ff0 16.66%,
+         #0f0 33.33%,
+         #0ff 50%,
+         #00f 66.66%,
+         #f0f 83.33%,
+         #f00 100%
+      );
+      background: -o-linear-gradient(
+         left,
+         #f00 0%,
+         #ff0 16.66%,
+         #0f0 33.33%,
+         #0ff 50%,
+         #00f 66.66%,
+         #f0f 83.33%,
+         #f00 100%
+      );
       touch-action: none;
       //margin-bottom: 5px;
 
@@ -180,6 +250,6 @@
    }
 }
 
-@if (cx-should-include('cx/widgets/ColorPicker')) {
+@if (cx-should-include("cx/widgets/ColorPicker")) {
    @include cx-colorpicker();
 }

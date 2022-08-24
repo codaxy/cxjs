@@ -1,11 +1,8 @@
-//@import "../packages/cx/src/variables";
+@use "../packages/cx/src/variables";
 
 //@import "manifest";
 
-//@import "../packages/cx/src/index";
-
-@use "../packages/cx/src/widgets/FlexBox.scss";
-@use "../packages/cx/src/widgets/Button.scss";
+@use "../packages/cx/src/index.scss";
 
 @use "features/drag-drop/trello/index" as *;
 @use "features/wheel/index" as *;

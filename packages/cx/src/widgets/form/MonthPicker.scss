@@ -1,23 +1,23 @@
+@use "sass:math";
+@use "./core.scss" as *;
+@use "../core.scss" as *;
+@use "../box.scss" as *;
+@use "../../util/scss/add-rules.scss" as *;
+@use "../../util/scss/clockwise.scss" as *;
+@use "../../util/scss/deep-merge.scss" as *;
+@use "../lists.scss" as *;
 
-@mixin cx-monthpicker(
-   $name: 'monthpicker',
-   $state-style-map: $cx-input-state-style-map,
-   $besm: $cx-besm
-) {
+@mixin cx-monthpicker($name: "monthpicker", $state-style-map: $cx-input-state-style-map, $besm: $cx-besm) {
    $block: map-get($besm, block);
    $element: map-get($besm, element);
    $state: map-get($besm, state);
 
    .#{$block}#{$name} {
-      @include cxe-field-input(
-         $besm,
-         $state-style-map,
-         $input: false
-      );
+      @include cxe-field-input($besm, $state-style-map, $input: false);
       overflow-y: scroll;
       overflow-x: hidden;
       min-height: 10em;
-      max-height: 30em;//100vh;
+      max-height: 30em; //100vh;
       height: 100%;
       position: relative;
       width: 23em;
@@ -32,20 +32,23 @@
 
       $border-color: cx-get-state-rule($state-style-map, default, border-color);
 
-      th, td {
+      th,
+      td {
          border-top: 1px solid transparentize($border-color, 0.5);
          -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
       }
 
       tbody:not(:first-child) {
          tr:first-child {
-            th, td {
+            th,
+            td {
                border-top: 1px solid $border-color;
             }
          }
       }
 
-      th, td {
+      th,
+      td {
          text-align: center;
          font-size: $cx-default-monthpicker-font-size;
          font-weight: $cx-default-monthpicker-font-weight;
@@ -83,11 +86,12 @@
          @include cx-add-state-rules($cx-list-item, selected);
          border-color: transparent;
          &:hover {
-           @include cx-add-state-rules($cx-list-item, selected-hover);
+            @include cx-add-state-rules($cx-list-item, selected-hover);
          }
       }
 
-      td.#{$state}cursor, th.#{$state}cursor {
+      td.#{$state}cursor,
+      th.#{$state}cursor {
          @include cx-add-state-rules($cx-list-item, hover);
       }
 
@@ -96,7 +100,8 @@
             @include cx-add-state-rules($cx-list-item, selected);
          }
 
-         td.#{$state}cursor, th.#{$state}cursor {
+         td.#{$state}cursor,
+         th.#{$state}cursor {
             @include cx-add-state-rules($cx-list-item, selected-cursor);
          }
       }
@@ -115,6 +120,6 @@
    }
 }
 
-@if (cx-should-include('cx/widgets/MonthPicker')) {
+@if (cx-should-include("cx/widgets/MonthPicker")) {
    @include cx-monthpicker();
 }
