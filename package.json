@@ -1,78 +1,78 @@
 {
-  "name": "cx",
-  "version": "1.1.0",
-  "description": "Framework for enterprise JavaScript applications",
-  "scripts": {
-    "start": "webpack-dev-server --config docs/webpack.config.js --open",
-    "test": "mocha --config ./test/mocha.config.js",
-    "docs": "webpack-dev-server --config docs/webpack.config.js --open",
-    "build": "node packages/cx/build/index.js",
-    "build:docs": "webpack --config docs/webpack.config.js",
-    "build:docs:root": "webpack --config docs/webpack.config.js",
-    "measure:docs": "webpack-dev-server --config docs/webpack.config.js --open",
-    "litmus": "webpack-dev-server --config litmus/webpack.config.js --open",
-    "build:litmus": "webpack --config litmus/webpack.config.js",
-    "benchmark": "webpack --config benchmark/webpack.config.js --watch",
-    "build:benchmark": "webpack --config benchmark/webpack.config.js",
-    "build:theme:home": "webpack --config themes/home/webpack.config.js",
-    "build:theme:core": "webpack --config themes/core/webpack.config.js",
-    "build:theme:dark": "webpack --config themes/dark/webpack.config.js",
-    "build:theme:frost": "webpack --config themes/frost/webpack.config.js",
-    "build:theme:material": "webpack --config themes/material/webpack.config.js",
-    "build:theme:marine": "webpack --config themes/marine/webpack.config.js",
-    "build:theme:playground": "webpack --config themes/playground/webpack.config.js",
-    "gallery": "webpack-dev-server --config gallery/config/webpack.dev.js --open",
-    "build:gallery": "webpack --config gallery/config/webpack.prod.js",
-    "build:gallery:root": "webpack --config gallery/config/webpack.prod.js",
-    "test-cx-create-app": "cx create test-app-1",
-    "test-create-cx-app": "create-cx-app test-app-2"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:codaxy/cxjs.git"
-  },
-  "keywords": [
-    "UI"
-  ],
-  "author": "Codaxy",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://gitlab.com/codaxy/cxjs/issues"
-  },
-  "homepage": "https://cxjs.io",
-  "private": true,
-  "workspaces": [
-    "packages/*",
-    "docs",
-    "gallery",
-    "litmus",
-    "benchmark",
-    "fiddle"
-  ],
-  "jest": {
-    "transform": {
-      "^.+\\.js$": "./test/jest.transform.js"
-    },
-    "transformIgnorePatterns": [
-      "node_modules/(?!cx|cx-react)"
-    ]
-  },
-  "dependencies": {
-    "@types/react": "^16.0.5",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.13.8",
-    "@babel/plugin-transform-react-jsx": "^7.12.17",
-    "@babel/preset-env": "^7.13.9",
-    "@babel/register": "^7.13.0",
-    "babel-jest": "27.2.0",
-    "env-test": "^1.0.0",
-    "mocha": "^8.3.0",
-    "prettier": "^2.0.5"
-  },
-  "resolutions": {
-    "@babel/helper-define-polyfill-provider": "^0.1.5"
-  }
+   "name": "cx",
+   "version": "1.1.0",
+   "description": "Framework for enterprise JavaScript applications",
+   "scripts": {
+      "start": "webpack-dev-server --config docs/webpack.config.js --open",
+      "test": "mocha --config ./test/mocha.config.js",
+      "docs": "webpack-dev-server --config docs/webpack.config.js --open",
+      "build": "node packages/cx/build/index.js",
+      "build:docs": "webpack --config docs/webpack.config.js",
+      "build:docs:root": "webpack --config docs/webpack.config.js",
+      "measure:docs": "webpack-dev-server --config docs/webpack.config.js --open",
+      "litmus": "webpack-dev-server --config litmus/webpack.config.js --open",
+      "build:litmus": "webpack --config litmus/webpack.config.js",
+      "benchmark": "webpack --config benchmark/webpack.config.js --watch",
+      "build:benchmark": "webpack --config benchmark/webpack.config.js",
+      "build:theme:home": "webpack --config themes/home/webpack.config.js",
+      "build:theme:core": "webpack --config themes/core/webpack.config.js",
+      "build:theme:dark": "webpack --config themes/dark/webpack.config.js",
+      "build:theme:frost": "webpack --config themes/frost/webpack.config.js",
+      "build:theme:material": "webpack --config themes/material/webpack.config.js",
+      "build:theme:marine": "webpack --config themes/marine/webpack.config.js",
+      "build:theme:playground": "webpack --config themes/playground/webpack.config.js",
+      "gallery": "webpack-dev-server --config gallery/config/webpack.dev.js --open",
+      "build:gallery": "webpack --config gallery/config/webpack.prod.js",
+      "build:gallery:root": "webpack --config gallery/config/webpack.prod.js",
+      "test-cx-create-app": "cx create test-app-1",
+      "test-create-cx-app": "create-cx-app test-app-2"
+   },
+   "repository": {
+      "type": "git",
+      "url": "git@github.com:codaxy/cxjs.git"
+   },
+   "keywords": [
+      "UI"
+   ],
+   "author": "Codaxy",
+   "license": "MIT",
+   "bugs": {
+      "url": "https://gitlab.com/codaxy/cxjs/issues"
+   },
+   "homepage": "https://cxjs.io",
+   "private": true,
+   "workspaces": [
+      "packages/*",
+      "docs",
+      "gallery",
+      "litmus",
+      "benchmark",
+      "fiddle"
+   ],
+   "jest": {
+      "transform": {
+         "^.+\\.js$": "./test/jest.transform.js"
+      },
+      "transformIgnorePatterns": [
+         "node_modules/(?!cx|cx-react)"
+      ]
+   },
+   "dependencies": {
+      "@types/react": "^16.0.5",
+      "react": "^17.0.1",
+      "react-dom": "^17.0.1"
+   },
+   "devDependencies": {
+      "@babel/core": "^7.18.3",
+      "@babel/plugin-transform-react-jsx": "^7.18.10",
+      "@babel/preset-env": "^7.18.10",
+      "@babel/register": "^7.18.9",
+      "babel-jest": "27.2.0",
+      "env-test": "^1.0.0",
+      "mocha": "^8.3.0",
+      "prettier": "^2.0.5"
+   },
+   "resolutions": {
+      "@babel/helper-define-polyfill-provider": "^0.1.5"
+   }
 }

@@ -5,14 +5,14 @@
   "main": "./index.js",
   "author": "Codaxy",
   "license": "SEE LICENSE.md",
-  "dependencies": {    
-    "@babel/plugin-proposal-function-bind": "^7.12.13",
-    "@babel/plugin-transform-react-jsx": "^7.12.17",
+  "dependencies": {
+    "@babel/plugin-proposal-function-bind": "^7.18.9",
+    "@babel/plugin-transform-react-jsx": "^7.18.10",
     "babel-plugin-transform-cx-imports": "^21.3.0",
     "babel-plugin-transform-cx-jsx": "^21.3.0"
   },
   "peerDependencies": {
-    "@babel/preset-env": "^7.0.0-0",
-    "@babel/core" :"^7.0.0-0"
+    "@babel/core": "^7.0.0-0",
+    "@babel/preset-env": "^7.0.0-0"
   }
 }
