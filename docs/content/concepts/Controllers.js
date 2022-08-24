@@ -133,32 +133,35 @@ export const Controllers = <cx>
                     </div>
                 </div>
             </div>
-
-            <CodeSnippet putInto="code" fiddle="TDfO9C3g">{`
-                class TabController extends Controller {
-                    onInit() {
-                        this.store.set('$page.tabOpenTime', 0);
-                        this.timer = setInterval(() => {
-                            this.store.update('$page.tabOpenTime', t => t + 1);
-                        }, 1000);
+            <Content name="code">  
+                <Tab value-bind="$page.code1.tab" mod="code" tab="controller" text="Controller" default />
+                <Tab value-bind="$page.code1.tab" mod="code" tab="index" text="Index" />
+                <CodeSnippet visible-expr="{$page.code1.tab}=='controller'"fiddle="TDfO9C3g">{`
+                    class TabController extends Controller {
+                        onInit() {
+                            this.store.set('$page.tabOpenTime', 0);
+                            this.timer = setInterval(() => {
+                                this.store.update('$page.tabOpenTime', t => t + 1);
+                            }, 1000);
+                        }
+                        onDestroy() {
+                            clearInterval(this.timer);
+                        }
                     }
-                    onDestroy() {
-                        clearInterval(this.timer);
-                    }
-                }
-                ...
-                <div>
-                    <Tab value-bind="$page.tab" tab="1" default>Tab 1</Tab>
-                    <Tab value-bind="$page.tab" tab="2">Tab 2</Tab>
-                </div>
-                <div visible-bind="$page.tab=='1'" controller={TabController}>
-                    Tab 1 is open <span text-bind="$page.tabOpenTime"/> seconds.
-                </div>
-                <div visible-bind="$page.tab=='2'" controller={TabController}>
-                    Tab 2 is open <span text-bind="$page.tabOpenTime"/> seconds.
-                </div>
-
-            `}</CodeSnippet>
+                `}</CodeSnippet>
+                <CodeSnippet visible-expr="{$page.code1.tab}=='index'"fiddle="TDfO9C3g">{`
+                    <div>
+                        <Tab value-bind="$page.tab" tab="1" default>Tab 1</Tab>
+                        <Tab value-bind="$page.tab" tab="2">Tab 2</Tab>
+                    </div>
+                    <div visible-bind="$page.tab=='1'" controller={TabController}>
+                        Tab 1 is open <span text-bind="$page.tabOpenTime"/> seconds.
+                    </div>
+                    <div visible-bind="$page.tab=='2'" controller={TabController}>
+                        Tab 2 is open <span text-bind="$page.tabOpenTime"/> seconds.
+                    </div>
+                `}</CodeSnippet>
+            </Content>
 
             `onInit` method is a good place to initialize or fetch data and define triggers and computable values.
         </CodeSplit>
@@ -190,7 +193,9 @@ export const Controllers = <cx>
             - implement complex data behavior
 
             <Content name="code">
-                <CodeSnippet fiddle="QmlMqPUa">{`
+                <Tab value-bind="$page.code2.tab" mod="code" tab="controller" text="Controller" default />
+                <Tab value-bind="$page.code2.tab" mod="code" tab="index" text="Index" />
+                <CodeSnippet visible-expr="{$page.code2.tab}=='controller'" fiddle="QmlMqPUa">{`
                class CbController extends Controller {
                   onInit() {
                      this.addTrigger('t1', ['$page.cb1'], cb1 => {
@@ -201,7 +206,8 @@ export const Controllers = <cx>
                      });
                   }
                }
-               ...
+            `}</CodeSnippet>
+                <CodeSnippet visible-expr="{$page.code2.tab}=='index'" fiddle="QmlMqPUa">{`
                <div controller={CbController}>
                   <Checkbox value-bind="$page.cb1">Checkbox 1</Checkbox>
                   <br/>
@@ -231,29 +237,33 @@ export const Controllers = <cx>
                 </div>
             </div>
 
+            <Content name="code">
+                <Tab value-bind="$page.code3.tab" mod="code" tab="controller" text="Controller" default />
+                <Tab value-bind="$page.code3.tab" mod="code" tab="index" text="Index" />
+                <CodeSnippet visible-expr="{$page.code3.tab}=='controller'" fiddle="ooYt3HD9">{`
+                    class InfoController extends Controller {
+                        onInit() {
+                            this.store.set('$page.cities', [{id: 'ams', text: 'Amsterdam', population: '1.6M'}, {id: 'bg',text: 'Belgrade',population: '3M'}]);
 
-            <CodeSnippet putInto="code" fiddle="ooYt3HD9">{`
-                class InfoController extends Controller {
-                   onInit() {
-                      this.store.set('$page.cities', [{id: 'ams', text: 'Amsterdam', population: '1.6M'}, {id: 'bg',text: 'Belgrade',population: '3M'}]);
-
-                      this.addComputable('$page.city', ['$page.cities', '$page.cityId'], (options, id) => {
-                         return options.find(o=>o.id == id);
-                      });
-                   }
-                }
-                ...
-                <div controller={InfoController}>
-                   <Select value-bind="$page.cityId">
-                      <Repeater records-bind='$page.cities'>
-                         <Option value-bind='$record.id' text-bind='$record.text' />
-                      </Repeater>
-                   </Select>
-                   <p visible-expr='{$page.cityId}'>
-                      <Text tpl='{$page.city.text} has {$page.city.population} people.' />
-                   </p>
-                </div>
-            `}</CodeSnippet>
+                            this.addComputable('$page.city', ['$page.cities', '$page.cityId'], (options, id) => {
+                                return options.find(o=>o.id == id);
+                            });
+                        }
+                    }
+                `}</CodeSnippet>
+                <CodeSnippet visible-expr="{$page.code3.tab}=='index'" fiddle="ooYt3HD9">{`
+                    <div controller={InfoController}>
+                        <Select value-bind="$page.cityId">
+                            <Repeater records-bind='$page.cities'>
+                                <Option value-bind='$record.id' text-bind='$record.text' />
+                            </Repeater>
+                        </Select>
+                        <p visible-expr='{$page.cityId}'>
+                            <Text tpl='{$page.city.text} has {$page.city.population} people.' />
+                        </p>
+                    </div>
+                `}</CodeSnippet>
+            </Content>
 
             Computed values are defined using the `addComputable` method which takes three arguments.
             The first argument is a binding path where computed data will be stored.
@@ -284,17 +294,22 @@ export const Controllers = <cx>
                 </div>
             </div>
 
-            <CodeSnippet putInto="code" fiddle="ztNKYqEO">{`
-            class MethodController extends Controller {
-               sayHello() {
-                  MsgBox.alert('Hello!');
-               }
-            }
-            ...
-            <div controller={MethodController}>
-               <Button onClick={(e, {controller})=>{ controller.sayHello();}}>Say Hello</Button>
-            </div>
-         `}</CodeSnippet>
+            <Content name="code">
+                <Tab value-bind="$page.code4.tab" mod="code" tab="controller" text="Controller" default />
+                <Tab value-bind="$page.code4.tab" mod="code" tab="index" text="Index" />
+                <CodeSnippet visible-expr="{$page.code4.tab}=='controller'" fiddle="ztNKYqEO">{`
+                    class MethodController extends Controller {
+                        sayHello() {
+                            MsgBox.alert('Hello!');
+                        }
+                    }
+            `}</CodeSnippet>
+                <CodeSnippet visible-expr="{$page.code4.tab}=='index'" fiddle="ztNKYqEO">{`
+                    <div controller={MethodController}>
+                        <Button onClick={(e, {controller})=>{ controller.sayHello();}}>Say Hello</Button>
+                    </div>
+            `}</CodeSnippet>
+            </Content>
         </CodeSplit>
 
         For simple controller invocations, use short syntax by assigning just the name of the
@@ -306,12 +321,14 @@ export const Controllers = <cx>
                     <Button onClick="sayHello">Say Hello</Button>
                 </div>
             </div>
-
-            <CodeSnippet putInto="code" fiddle="ztNKYqEO">{`
-            <div controller={MethodController}>
-               <Button onClick="sayHello">Say Hello</Button>
-            </div>
-         `}</CodeSnippet>
+            <Content name="code">
+                <Tab value-bind="$page.code5.tab" mod="code" tab="index" text="Index" default/>
+                <CodeSnippet fiddle="ztNKYqEO">{`
+                <div controller={MethodController}>
+                    <Button onClick="sayHello">Say Hello</Button>
+                </div>
+            `}</CodeSnippet>
+            </Content>
         </CodeSplit>
 
         When using names of callbacks, it's possible to invoke methods defined higher in the ancestor controller tree.
@@ -336,28 +353,32 @@ export const Controllers = <cx>
                     </Repeater>
                 </div>
             </div>
-
-            <CodeSnippet putInto="code" fiddle="4m9CnnAH">{`
-                // Open fiddle to see the entire code example
-                // https://fiddle.cxjs.io/?f=4m9CnnAH
-                class NewTaskController extends Controller {
-                    addTask() {
-                        let task = this.store.get("$page.task");
-                        this.store.delete("$page.task");
-                        // addNewTask method is defined in TodoListController
-                        this.invokeParentMethod("addNewTask", task);
+            <Content name="code">
+                <Tab value-bind="$page.code6.tab" mod="code" tab="controller" text="Controller" default />
+                <Tab value-bind="$page.code6.tab" mod="code" tab="index" text="Index" />
+                <CodeSnippet visible-expr="{$page.code6.tab}=='controller'" fiddle="4m9CnnAH">{`
+                    // Open fiddle to see the entire code example
+                    // https://fiddle.cxjs.io/?f=4m9CnnAH
+                    class NewTaskController extends Controller {
+                        addTask() {
+                            let task = this.store.get("$page.task");
+                            this.store.delete("$page.task");
+                            // addNewTask method is defined in TodoListController
+                            this.invokeParentMethod("addNewTask", task);
+                        }
                     }
-                }
-
-                <div controller={TodoListController} layout={LabelsLeftLayout}>
-                    <NewTask controller={NewTaskController} />
-                    <h4 style="padding: 0; margin: 0; margin-top: 10px;">Todo List</h4>
-                    <Repeater records-bind="$page.todoList" >
-                        <Checkbox value-bind="$record.done" text-bind="$record.text"/>
-                        <br/>
-                    </Repeater>
-                </div>
-            `}</CodeSnippet>
+                `}</CodeSnippet>
+                <CodeSnippet visible-expr="{$page.code6.tab}=='index'" fiddle="4m9CnnAH">{`
+                    <div controller={TodoListController} layout={LabelsLeftLayout}>
+                        <NewTask controller={NewTaskController} />
+                        <h4 style="padding: 0; margin: 0; margin-top: 10px;">Todo List</h4>
+                        <Repeater records-bind="$page.todoList" >
+                            <Checkbox value-bind="$record.done" text-bind="$record.text"/>
+                            <br/>
+                        </Repeater>
+                    </div>
+                `}</CodeSnippet>
+            </Content>
 
             `invokeParentMethod` accepts the name of the parent method, followed by any number of arguments the method expects.
         </CodeSplit>
@@ -388,7 +409,9 @@ export const Controllers = <cx>
                   />
                 </div>
             </div>
-            <CodeSnippet putInto="code" fiddle="AHDmj3eT">{`
+            <Content name="code">
+                <Tab value-bind="$page.code7.tab" mod="code" tab="index" text="invokeMethod" default/>
+            <CodeSnippet visible-expr="{$page.code7.tab}=='index'"fiddle="AHDmj3eT">{`
                 <div
                     controller={{
                         onSubscribe(email) {
@@ -408,6 +431,7 @@ export const Controllers = <cx>
                   />
                 </div>
             `}</CodeSnippet>
+            </Content>
         </CodeSplit>
 
         `invokeParent` accepts the name of the method, followed by any number of arguments the method expects.

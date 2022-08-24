@@ -79,11 +79,11 @@ export class Menu extends HtmlElement {
    }
 
    add(item) {
-      if (item && item.tag == "a") {
+      if (item && (item.tag == "a" || item.tag == "hr")) {
          let mi = {
             type: MenuItem,
             items: item,
-            autoClose: true,
+            autoClose: item.tag == "a",
          };
 
          if (isDefined(item.if)) mi.if = item.if;
@@ -152,12 +152,7 @@ class MenuComponent extends VDOM.Component {
                let key = content && typeof content == "object" && content.key ? content.key : index;
 
                if (content && content.spacer) {
-                  return (
-                     widget.horizontal &&
-                     (
-                        <li className={CSS.element(baseClass, "spacer")} key={key} />
-                     )
-                  );
+                  return widget.horizontal && <li className={CSS.element(baseClass, "spacer")} key={key} />;
                }
 
                return (

@@ -235,21 +235,23 @@ class ListComponent extends VDOM.Component {
       if (widget.autoFocus) FocusManager.focus(this.el);
 
       if (widget.onScroll) {
-         this.unsubscribeScroll = addEventListenerWithOptions(this.el, "scroll", event => {
-            instance.invoke("onScroll", event, instance);
-         }, { passive: true });
+         this.unsubscribeScroll = addEventListenerWithOptions(
+            this.el,
+            "scroll",
+            (event) => {
+               instance.invoke("onScroll", event, instance);
+            },
+            { passive: true }
+         );
       }
 
       this.componentDidUpdate();
    }
 
    UNSAFE_componentWillReceiveProps(props) {
-      if (this.state.focused && props.instance.widget.selectMode)
-         this.showCursor(true, props.items);
-      else if (this.state.cursor >= props.items.length)
-         this.moveCursor(props.items.length - 1);
-      else if (this.state.focused && this.state.cursor < 0)
-         this.moveCursor(0);
+      if (this.state.focused && props.instance.widget.selectMode) this.showCursor(true, props.items);
+      else if (this.state.cursor >= props.items.length) this.moveCursor(props.items.length - 1);
+      else if (this.state.focused && this.state.cursor < 0) this.moveCursor(0);
    }
 
    componentWillUnmount() {
@@ -268,7 +270,7 @@ class ListComponent extends VDOM.Component {
          select: true,
          selectOptions: {
             toggle: e.ctrlKey && !e.shiftKey,
-            add: e.ctrlKey && e.shiftKey
+            add: e.ctrlKey && e.shiftKey,
          },
          selectRange: e.shiftKey,
       });
@@ -284,7 +286,7 @@ class ListComponent extends VDOM.Component {
          select: true,
          selectOptions: {
             toggle: e.ctrlKey && !e.shiftKey,
-            add: e.ctrlKey && e.shiftKey
+            add: e.ctrlKey && e.shiftKey,
          },
          selectRange: e.shiftKey,
       });
@@ -388,7 +390,7 @@ class ListComponent extends VDOM.Component {
       let selectedRowSelector = `.${CSS.element(baseClass, "item")}.${CSS.state("selected")}`;
       let firstSelectedRow = this.el.querySelector(selectedRowSelector);
       if (firstSelectedRow != this.selectedEl) {
-         if (firstSelectedRow) scrollElementIntoView(firstSelectedRow);
+         if (firstSelectedRow) scrollElementIntoView(firstSelectedRow, true, false, 0, this.el);
          this.selectedEl = firstSelectedRow;
       }
    }
@@ -422,7 +424,7 @@ class ListComponent extends VDOM.Component {
                }
             });
          }
-      })
+      });
    }
 
    selectRange(from, to, options) {
@@ -460,9 +462,10 @@ class ListComponent extends VDOM.Component {
          firstValid = -1;
       for (let i = 0; i < items.length; i++) {
          let item = items[i];
-         if (isItemSelectable(item)) {
+         if (isDataItem(item)) {
             index++;
-            if (firstValid == -1) firstValid = index;
+
+            if (!isItemDisabled(item) && firstValid == -1) firstValid = index;
             if (item.instance.selected) {
                firstSelected = index;
                break;
@@ -515,7 +518,7 @@ class ListComponent extends VDOM.Component {
                select: true,
                selectOptions: {
                   toggle: e.ctrlKey && !e.shiftKey,
-                  add: e.ctrlKey && e.shiftKey
+                  add: e.ctrlKey && e.shiftKey,
                },
                selectRange: e.shiftKey,
             });
@@ -574,5 +577,13 @@ class ListItem extends Container {
 }
 
 function isItemSelectable(item) {
-   return item && item.type == "data" && !item.instance.data.disabled;
+   return isDataItem(item) && !isItemDisabled(item);
+}
+
+function isDataItem(item) {
+   return item?.type == "data";
+}
+
+function isItemDisabled(item) {
+   return item?.instance.data.disabled;
 }

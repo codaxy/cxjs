@@ -98,6 +98,13 @@ import Demo from './features/flexbox';
 
 //import Demo from "./bugs/AsyncValidator";
 
+//import Demo from "./features/charts/pie/labels";
+//import Demo from "./bugs/BlurBug";
+//import Demo from "./features/immer";
+// import Demo from "./bugs/971";
+// import Demo from "./bugs/LookupFieldListItemFocus";
+//import Demo from "./bugs/SliderValue";
+import Demo from "./features/context-menu/conext-menu-in-a-dropdown";
 
 let store = (window.store = new Store());
 

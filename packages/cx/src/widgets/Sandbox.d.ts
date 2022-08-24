@@ -1,18 +1,16 @@
-import * as Cx from '../core';
+import * as Cx from "../core";
 
 interface SandboxProps extends Cx.PureContainerProps {
+   storage: Cx.Prop<Cx.Record>;
 
-    storage: Cx.StringProp,
+   /* Cx.StringProp doesn't work for unknown reason */
+   key?: any;
 
-    /* Cx.StringProp doesn't work for unknown reason */
-    key?: any,
+   accessKey?: Cx.StringProp;
 
-    accessKey?: Cx.StringProp,
-    
-    recordName?: string,
-    recordAlias?: string,
-    immutable?: boolean
-    
+   recordName?: string;
+   recordAlias?: string;
+   immutable?: boolean;
 }
 
 export class Sandbox extends Cx.Widget<SandboxProps> {}

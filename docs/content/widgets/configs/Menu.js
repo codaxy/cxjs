@@ -52,7 +52,7 @@ export default {
         </Md></cx>
     },
     overflowIcon: {
-        type: 'boolean',
+        type: 'string',
         description: <cx><Md>
             Icon to be used for the overflow menu.
         </Md></cx>

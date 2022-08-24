@@ -14,6 +14,8 @@ export * from './Store';
 export * from './PrivateStores';
 export * from './FunctionalComponents';
 export * from './DragAndDrop';
+export * from './TypedModels';
+export * from './ImmerJsIntegration';
 
 
 import { bumpVersion } from '../version';

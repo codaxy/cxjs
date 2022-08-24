@@ -1,7 +1,7 @@
 import * as Cx from "../../core";
 import { ButtonProps } from "../Button";
 
-interface LinkButtonProps extends ButtonProps {
+export interface LinkButtonProps extends ButtonProps {
    /** Url to the link's target location. Should start with `~/` or `#/` for pushState/hash based navigation. */
    href?: Cx.StringProp;
 

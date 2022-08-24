@@ -2,6 +2,8 @@ import { Binding } from "./Binding";
 import { isArray } from "../util/isArray";
 import { isDefined } from "../util/isDefined";
 import { StoreRef } from "./StoreRef";
+import { isObject } from "../util/isObject";
+import { isFunction } from "../util/isFunction";
 
 export class View {
    constructor(config) {
@@ -17,27 +19,25 @@ export class View {
    }
 
    init(path, value) {
-      if (path instanceof Binding) path = path.path;
-      else if (typeof path == "object" && path != null) {
-         var changed = false;
-         for (var key in path)
+      if (typeof path == "object" && path != null) {
+         let changed = false;
+         for (let key in path)
             if (path.hasOwnProperty(key) && this.get(key) === undefined && this.setItem(key, path[key])) changed = true;
          return changed;
       }
-
-      if (this.get(path) === undefined) return this.setItem(path, value);
-
+      let binding = Binding.get(path);
+      if (this.get(binding.path) === undefined) return this.setItem(binding.path, value);
       return false;
    }
 
    set(path, value) {
-      if (path instanceof Binding) path = path.path;
-      else if (typeof path == "object" && path != null) {
-         var changed = false;
-         for (var key in path) if (path.hasOwnProperty(key) && this.setItem(key, path[key])) changed = true;
+      if (isObject(path)) {
+         let changed = false;
+         for (let key in path) if (path.hasOwnProperty(key) && this.setItem(key, path[key])) changed = true;
          return changed;
       }
-      return this.setItem(path, value);
+      let binding = Binding.get(path);
+      return this.setItem(binding.path, value);
    }
 
    copy(from, to) {
@@ -55,17 +55,15 @@ export class View {
    //protected
    setItem(path, value) {
       if (this.store) return this.store.setItem(path, value);
-
       throw new Error("abstract method");
    }
 
    delete(path) {
-      if (path instanceof Binding) path = path.path;
-      else if (arguments.length > 1) path = Array.from(arguments);
+      if (arguments.length > 1) path = Array.from(arguments);
+      if (isArray(path)) return path.map((arg) => this.delete(arg)).some(Boolean);
 
-      if (isArray(path)) return path.map((arg) => this.deleteItem(arg)).some(Boolean);
-
-      return this.deleteItem(path);
+      let binding = Binding.get(path);
+      return this.deleteItem(binding.path);
    }
 
    //protected
@@ -96,6 +94,8 @@ export class View {
    }
 
    update(path, updateFn, ...args) {
+      if (arguments.length == 1 && isFunction(path))
+         return this.load(path.apply(null, [this.getData(), updateFn, ...args]));
       return this.set(path, updateFn.apply(null, [this.get(path), ...args]));
    }
 
@@ -130,7 +130,7 @@ export class View {
 
    load(data) {
       return this.batch((store) => {
-         for (var key in data) store.set(key, data[key]);
+         for (let key in data) store.set(key, data[key]);
       });
    }
 
@@ -167,8 +167,16 @@ export class View {
          toggle: this.toggle.bind(this),
          init: this.init.bind(this),
          ref: this.ref.bind(this),
+         mutate: this.ref.bind(this),
       };
    }
 }
 
 View.prototype.sealed = false; //indicate that data should be copied before virtual items are added
+
+//Immer integration point
+View.prototype.mutate = function () {
+   throw new Error(
+      "Mutate requires Immer. Please install 'immer' and 'cx-immer' packages and enable store mutation by calling enableImmerMutate()."
+   );
+};

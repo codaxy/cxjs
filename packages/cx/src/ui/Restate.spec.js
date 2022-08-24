@@ -350,7 +350,6 @@ describe("Restate", () => {
       let store = new Store();
       store.subscribe(() => {
          changed = true;
-         console.log("CHANGED");
       });
 
       const component = renderer.create(<Cx widget={widget} store={store} subscribe immediate />);

@@ -31,7 +31,7 @@ export const Lines = <cx>
             
             <Content name="code" >
                 <div>
-                    <Tab value-bind="$page.code.tab" tab="line" mod="code" default><code>Line</code></Tab>
+                    <Tab value-bind="$page.code.tab" tab="line" mod="code" text='Line' default />
                 </div>
                 <CodeSnippet  fiddle="iCLI9BMb" visible-expr="{$page.code.tab}=='line'">{`
                 <Svg style="width:200px;height:200px;background:white" padding={5}>

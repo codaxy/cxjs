@@ -1,6 +1,7 @@
 import { Binding } from "./Binding";
 import { isString } from "../util/isString";
 import { isFunction } from "../util/isFunction";
+import { isAccessorChain } from "./createAccessorModelProxy";
 
 export function computable(...selectorsAndCompute) {
    if (selectorsAndCompute.length == 0)
@@ -14,7 +15,7 @@ export function computable(...selectorsAndCompute) {
 
    for (let i = 0; i + 1 < selectorsAndCompute.length; i++) {
       a = selectorsAndCompute[i];
-      if (isString(a)) inputs.push(Binding.get(a).value);
+      if (isString(a) || isAccessorChain(a)) inputs.push(Binding.get(a.toString()).value);
       else if (a.memoize) inputs.push(a.memoize());
       else if (isFunction(a)) inputs.push(a);
       else throw new Error(`Invalid selector type '${typeof a}' received.`);

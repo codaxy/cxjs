@@ -18,7 +18,8 @@ import {
    tooltipParentDidMount,
 } from "../overlay/tooltip-ops";
 import { yesNo } from "../overlay/alerts";
-import { isTextInputElement } from "../../util";
+import { isTextInputElement, stopPropagation } from "../../util";
+import { unfocusElement } from "../../ui/FocusManager";
 
 /*
  Functionality:
@@ -108,7 +109,6 @@ MenuItem.prototype.checkedIcon = "check";
 MenuItem.prototype.uncheckedIcon = "dummy";
 MenuItem.prototype.keyboardShortcut = false;
 MenuItem.prototype.openOnFocus = true;
-MenuItem.prototype.closeDropdownOnScrollDistance = 100;
 
 Widget.alias("submenu", MenuItem);
 Localization.registerPrototype("cx/widgets/MenuItem", MenuItem);
@@ -135,28 +135,21 @@ class MenuItemComponent extends VDOM.Component {
             placementOrder: widget.placementOrder || this.getDefaultPlacementOrder(horizontal),
             trackScroll: true,
             inline: true,
+            onClick: stopPropagation,
             ...widget.dropdownOptions,
             relatedElement: this.el.parentElement,
             placement: widget.placement,
             onKeyDown: this.onDropdownKeyDown.bind(this),
+            onMouseDown: stopPropagation,
             items: widget.dropdown,
             parentPositionChangeEvent,
             pipeValidateDropdownPosition: (cb) => {
                this.validateDropdownPosition = cb;
             },
-            onDropdownPositionDidUpdate: (params) => {
-               let { parentBounds } = params;
-               let { initialScreenPosition } = this;
-
-               if (!initialScreenPosition)
-                  initialScreenPosition = this.initialScreenPosition = params.parentBounds;
-
-               if (
-                  Math.abs(parentBounds.top - initialScreenPosition.top) > widget.closeDropdownOnScrollDistance ||
-                  Math.abs(parentBounds.left - initialScreenPosition.left) > widget.closeDropdownOnScrollDistance
-               )
-                  this.closeDropdown();
-            }
+            onDismissAfterScroll: () => {
+               this.closeDropdown();
+               return false;
+            },
          });
       }
       return this.dropdown;
@@ -260,7 +253,10 @@ class MenuItemComponent extends VDOM.Component {
    onDropdownKeyDown(e) {
       debug(menuFlag, "MenuItem", "dropdownKeyDown");
       let { horizontal } = this.props.instance;
-      if (e.keyCode == KeyCode.esc || (!isTextInputElement(e.target) && (horizontal ? e.keyCode == KeyCode.up : e.keyCode == KeyCode.left))) {
+      if (
+         e.keyCode == KeyCode.esc ||
+         (!isTextInputElement(e.target) && (horizontal ? e.keyCode == KeyCode.up : e.keyCode == KeyCode.left))
+      ) {
          FocusManager.focus(this.el);
          e.preventDefault();
          e.stopPropagation();
@@ -309,7 +305,7 @@ class MenuItemComponent extends VDOM.Component {
          debug(menuFlag, "MenuItem", "mouseLeave", this.el);
          this.clearAutoFocusTimer();
 
-         if (widget.hoverToOpen && document.activeElement == this.el) this.el.blur();
+         if (widget.hoverToOpen && document.activeElement == this.el) unfocusElement(this.el);
       }
 
       tooltipMouseLeave(e, this.props.instance, widget.tooltip);
@@ -320,6 +316,7 @@ class MenuItemComponent extends VDOM.Component {
       let { horizontal, widget } = this.props.instance;
       if (widget.dropdown) {
          if (
+            !this.state.dropdownOpen &&
             e.target == this.el &&
             (e.keyCode == KeyCode.enter || (horizontal ? e.keyCode == KeyCode.down : e.keyCode == KeyCode.right))
          ) {
@@ -402,7 +399,7 @@ class MenuItemComponent extends VDOM.Component {
          }
       }
 
-      if (widget.autoClose) getActiveElement().blur();
+      if (widget.autoClose) unfocusElement(this.el, true);
    }
 
    onFocus() {

@@ -36,22 +36,22 @@
 }
 
 .dxe-codesnippet-link {
-   position: absolute;
-   right: 10px;
-   top: -16px;
-   background: rgb(231, 231, 231);
-   padding: 5px 10px;
-   text-decoration: none;
-   color: #376aff;
-   z-index: 2000;
+    position: absolute;
+    right: 10px;
+    top: -16px;
+    background: rgb(231, 231, 231);
+    padding: 5px 10px;
+    text-decoration: none;
+    color: #376aff;
+    z-index: 2000;
 
    opacity: 0;
    transition: opacity 1s;
    transition-delay: 0.2s;
 
-   .dxb-codesnippet:hover > & {
-      opacity: 1;
-   }
+    .dxb-codesnippet:hover > & {
+        opacity: 1;
+    }
 }
 
 .dxe-codesplit-right .dxb-codesnippet {
@@ -59,12 +59,12 @@
 }
 
 .dxe-codesplit-right .cxb-tab.cxm-code {
-   //@extend .cxb-tab.cxm-line;
-   color: rgba(white, 0.5);
-   border-bottom-width: 2px;
-   margin-bottom: 10px;
-   background: transparent;
-   text-transform: none;
+    @extend .cxb-tab.cxm-line;
+    color: rgba(white, 0.5);
+    border-bottom-width: 2px;
+    margin-bottom: 10px;
+    background: transparent;
+    text-transform: none;
 
    &:focus {
       color: rgba(white, 0.7);

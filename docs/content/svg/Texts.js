@@ -1,4 +1,4 @@
-import { HtmlElement } from 'cx/widgets';
+import { Content, HtmlElement, Tab } from 'cx/widgets';
 import { Svg, Rectangle, Text } from 'cx/svg';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
@@ -64,51 +64,53 @@ export const Texts = <cx>
                <Text anchors="1 1 1 1" textAnchor="end">Bottom-right</Text>
             </Svg>
          </div>
+         <Content name="code">
+            <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Index" default/>
+            <CodeSnippet  fiddle="kcimmLEt">{`
+               <Svg style="width:100px;height:100px;background:white;margin:5px">
+                  <Rectangle anchors="0 1 1 0" style="fill:lightblue" />
+                  <Text anchors="0 1 1 0" textAnchor="start" dy="0.8em">Top-left</Text>
+               </Svg>
+               <Svg style="width:100px;height:100px;background:white;margin:5px">
+                  <Rectangle anchors="0 1 1 0.5" style="fill:lightblue" />
+                  <Text anchors="0 1 1 0.5" textAnchor="middle" dy="0.8em">Top-center</Text>
+               </Svg>
+               <Svg style="width:100px;height:100px;background:white;margin:5px">
+                  <Rectangle anchors="0 1 1 1" style="fill:lightblue" />
+                  <Text anchors="0 1 1 1" textAnchor="end" dy="0.8em">Top-right</Text>
+               </Svg>
 
-         <CodeSnippet putInto="code" fiddle="kcimmLEt">{`
-            <Svg style="width:100px;height:100px;background:white;margin:5px">
-               <Rectangle anchors="0 1 1 0" style="fill:lightblue" />
-               <Text anchors="0 1 1 0" textAnchor="start" dy="0.8em">Top-left</Text>
-            </Svg>
-            <Svg style="width:100px;height:100px;background:white;margin:5px">
-               <Rectangle anchors="0 1 1 0.5" style="fill:lightblue" />
-               <Text anchors="0 1 1 0.5" textAnchor="middle" dy="0.8em">Top-center</Text>
-            </Svg>
-            <Svg style="width:100px;height:100px;background:white;margin:5px">
-               <Rectangle anchors="0 1 1 1" style="fill:lightblue" />
-               <Text anchors="0 1 1 1" textAnchor="end" dy="0.8em">Top-right</Text>
-            </Svg>
+               <div style="width:100%" />
 
-            <div style="width:100%" />
+               <Svg style="width:100px;height:100px;background:white;margin:5px">
+                  <Rectangle anchors="0.5 1 1 0" style="fill:lightblue" />
+                  <Text anchors="0.5 1 1 0" textAnchor="start" dy="0.4em">Middle-left</Text>
+               </Svg>
+               <Svg style="width:100px;height:100px;background:white;margin:5px">
+                  <Rectangle anchors="0.5 1 1 0.5" style="fill:lightblue" />
+                  <Text anchors="0.5 1 1 0.5" textAnchor="middle" dy="0.4em">Middle-center</Text>
+               </Svg>
+               <Svg style="width:100px;height:100px;background:white;margin:5px">
+                  <Rectangle anchors="0.5 1 1 1" style="fill:lightblue" />
+                  <Text anchors="0.5 1 1 1" textAnchor="end" dy="0.4em">Middle-right</Text>
+               </Svg>
 
-            <Svg style="width:100px;height:100px;background:white;margin:5px">
-               <Rectangle anchors="0.5 1 1 0" style="fill:lightblue" />
-               <Text anchors="0.5 1 1 0" textAnchor="start" dy="0.4em">Middle-left</Text>
-            </Svg>
-            <Svg style="width:100px;height:100px;background:white;margin:5px">
-               <Rectangle anchors="0.5 1 1 0.5" style="fill:lightblue" />
-               <Text anchors="0.5 1 1 0.5" textAnchor="middle" dy="0.4em">Middle-center</Text>
-            </Svg>
-            <Svg style="width:100px;height:100px;background:white;margin:5px">
-               <Rectangle anchors="0.5 1 1 1" style="fill:lightblue" />
-               <Text anchors="0.5 1 1 1" textAnchor="end" dy="0.4em">Middle-right</Text>
-            </Svg>
+               <div style="width:100%" />
 
-            <div style="width:100%" />
-
-            <Svg style="width:100px;height:100px;background:white;margin:5px">
-               <Rectangle anchors="1 1 1 0" style="fill:lightblue" />
-               <Text anchors="1 1 1 0" textAnchor="start">Bottom-left</Text>
-            </Svg>
-            <Svg style="width:100px;height:100px;background:white;margin:5px">
-               <Rectangle anchors="1 1 1 0.5" style="fill:lightblue" />
-               <Text anchors="1 1 1 0.5" textAnchor="middle">Bottom-center</Text>
-            </Svg>
-            <Svg style="width:100px;height:100px;background:white;margin:5px">
-               <Rectangle anchors="1 1 1 1" style="fill:lightblue" />
-               <Text anchors="1 1 1 1" textAnchor="end">Bottom-right</Text>
-            </Svg>
-         `}</CodeSnippet>
+               <Svg style="width:100px;height:100px;background:white;margin:5px">
+                  <Rectangle anchors="1 1 1 0" style="fill:lightblue" />
+                  <Text anchors="1 1 1 0" textAnchor="start">Bottom-left</Text>
+               </Svg>
+               <Svg style="width:100px;height:100px;background:white;margin:5px">
+                  <Rectangle anchors="1 1 1 0.5" style="fill:lightblue" />
+                  <Text anchors="1 1 1 0.5" textAnchor="middle">Bottom-center</Text>
+               </Svg>
+               <Svg style="width:100px;height:100px;background:white;margin:5px">
+                  <Rectangle anchors="1 1 1 1" style="fill:lightblue" />
+                  <Text anchors="1 1 1 1" textAnchor="end">Bottom-right</Text>
+               </Svg>
+            `}</CodeSnippet>
+         </Content>
       </CodeSplit>
 
       Internet Explorer doesn't support [dominant-baseline](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/dominant-baseline)

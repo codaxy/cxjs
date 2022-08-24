@@ -1,5 +1,5 @@
 import { Content, LabelsLeftLayout } from 'cx/ui';
-import { HtmlElement, DateField } from 'cx/widgets';
+import { HtmlElement, DateField, Tab } from 'cx/widgets';
 import { Md } from '../../components/Md';
 import { CodeSplit } from '../../components/CodeSplit';
 import { CodeSnippet } from '../../components/CodeSnippet';
@@ -38,6 +38,7 @@ export const DateFields = <cx>
             </div>
 
             <Content name="code">
+                <Tab value-bind="$page.code.tab" mod="code" tab="wrap" text="Index" default/>
                 <CodeSnippet fiddle="oUVatu1E">{`
                <div layout={LabelsLeftLayout}>
                   <DateField label="Standard" value-bind="$page.date" format="datetime;yyyyMMMMdd" autoFocus/>

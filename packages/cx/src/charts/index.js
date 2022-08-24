@@ -1,28 +1,31 @@
-export * from './Chart';
+export * from "./Chart";
 
-export * from './PieChart';
-export * from './Pie';
-export * from './Column';
-export * from './Bar';
+export * from "./PieChart";
+export * from "./Pie";
+export * from "./PieLabel";
+export * from "./PieLabelsContainer";
 
-export * from './Legend';
-export * from './LegendEntry';
-export * from './ColorMap';
+export * from "./Column";
+export * from "./Bar";
 
-export * from './Marker';
-export * from './MarkerLine';
-export * from './Range';
-export * from './Gridlines';
+export * from "./Legend";
+export * from "./LegendEntry";
+export * from "./ColorMap";
 
-export * from './LineGraph';
-export * from './ColumnGraph';
-export * from './BarGraph';
-export * from './ScatterGraph';
-export * from './BubbleGraph';
+export * from "./Marker";
+export * from "./MarkerLine";
+export * from "./Range";
+export * from "./Gridlines";
 
-export * from './MouseTracker';
+export * from "./LineGraph";
+export * from "./ColumnGraph";
+export * from "./BarGraph";
+export * from "./ScatterGraph";
+export * from "./BubbleGraph";
 
-export * from './shapes';
+export * from "./MouseTracker";
 
-export * from './axis/index';
-export * from './helpers/index';
+export * from "./shapes";
+
+export * from "./axis/index";
+export * from "./helpers/index";

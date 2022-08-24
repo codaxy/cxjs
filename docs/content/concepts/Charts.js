@@ -1,7 +1,7 @@
-import { HtmlElement, Repeater } from 'cx/widgets';
+import { HtmlElement, Repeater, Tab } from 'cx/widgets';
 import { Svg, Rectangle } from 'cx/svg';
 import { Chart, NumericAxis, Gridlines, LineGraph, Legend, ColorMap, PieChart, PieSlice } from 'cx/charts';
-import { KeySelection } from 'cx/ui';
+import { Content, KeySelection } from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
@@ -47,26 +47,28 @@ export const Charts = <cx>
                <Legend vertical />
             </Legend.Scope>
          </div>
+         <Content name="code">
+            <Tab value-bind="$page.code1.tab" mod="code" tab="chart" text="Chart" default/>      
+            <CodeSnippet visible-expr="{$page.code1.tab}=='chart'" fiddle="Wase9Aty">{`
+               <Svg style="width:300px;height:200px" margin="10 20 30 50">
+                  <Chart axes={{
+                     x: <NumericAxis />,
+                     y: <NumericAxis vertical/>
+                  }}>
+                     <Rectangle fill="white" />
+                     <Gridlines />
+                     <LineGraph name="Line 1"
+                              colorIndex={5}
+                              data={[{x: 0, y: 0}, {x: 100, y: 100}, {x: 200, y: 150}]} />
 
-         <CodeSnippet putInto="code" fiddle="Wase9Aty">{`
-             <Svg style="width:300px;height:200px" margin="10 20 30 50">
-               <Chart axes={{
-                  x: <NumericAxis />,
-                  y: <NumericAxis vertical/>
-               }}>
-                  <Rectangle fill="white" />
-                  <Gridlines />
-                  <LineGraph name="Line 1"
-                             colorIndex={5}
-                             data={[{x: 0, y: 0}, {x: 100, y: 100}, {x: 200, y: 150}]} />
-
-                  <LineGraph name="Line 2"
-                             colorIndex={10}
-                             data={[{x: 0, y: 50}, {x: 100, y: 150}, {x: 200, y: 100}]} />
-               </Chart>
-            </Svg>
-            <Legend vertical />
-         `}</CodeSnippet>
+                     <LineGraph name="Line 2"
+                              colorIndex={10}
+                              data={[{x: 0, y: 50}, {x: 100, y: 150}, {x: 200, y: 100}]} />
+                  </Chart>
+               </Svg>
+               <Legend vertical />
+            `}</CodeSnippet>
+         </Content>
       </CodeSplit>
 
       The most important part is axis configuration. Numeric, category and date axis types are supported.
@@ -119,32 +121,34 @@ export const Charts = <cx>
                <Legend vertical />
             </Legend.Scope>
          </div>
-
-         <CodeSnippet putInto="code" fiddle="WEPtT9C5">{`
-            <Svg style="width:200px;height:200px;">
-               <ColorMap />
-               <PieChart>
-                  <Repeater records={[
-                     {name: 'A', value: 10},
-                     {name: 'B', value: 20},
-                     {name: 'C', value: 15}
-                  ]}>
-                     <PieSlice name-bind="$record.name"
-                                value-bind="$record.value"
-                                colorMap="pie"
-                                r={90}
-                                selection={{
-                                   type: KeySelection,
-                                   bind: '$page.selected.pie',
-                                   keyField: 'name',
-                                   record: { bind: "$record" }
-                                }}
-                     />
-                  </Repeater>
-               </PieChart>
-            </Svg>
-            <Legend vertical />
+         <Content name="code">
+            <Tab value-bind="$page.code2.tab" mod="code" tab="chart" text="Chart" default/>      
+            <CodeSnippet visible-expr="{$page.code2.tab}=='chart'" fiddle="WEPtT9C5">{`
+         <Svg style="width:200px;height:200px;">
+         <ColorMap />
+         <PieChart>
+            <Repeater records={[
+               {name: 'A', value: 10},
+               {name: 'B', value: 20},
+               {name: 'C', value: 15}
+            ]}>
+               <PieSlice name-bind="$record.name"
+                           value-bind="$record.value"
+                           colorMap="pie"
+                           r={90}
+                           selection={{
+                              type: KeySelection,
+                              bind: '$page.selected.pie',
+                              keyField: 'name',
+                              record: { bind: "$record" }
+                           }}
+               />
+            </Repeater>
+         </PieChart>
+         </Svg>
+         <Legend vertical />
          `}</CodeSnippet>
+         </Content>
       </CodeSplit>
 
       A selection model may be used to enable selection and interact with other widgets on the page.

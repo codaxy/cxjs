@@ -24,6 +24,9 @@ export const Menus = <cx>
 
             Menus are completely driven by focus. If the menu loses focus, all sub-menus are closed.
 
+            You can programmatically close the menu by calling `document.activeElement.blur()`.
+            To close only one level, i.e. the context menu, call `unfocusElement(e.target, true)`;
+
             <div class="widgets">
                 <Menu horizontal overflow style="width: 300px">
                     <Submenu keyboardShortcut={KeyCode.esc}>
@@ -136,6 +139,7 @@ export const Menus = <cx>
             </div>
 
             <Content name="code">
+                <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Menus" default/>
                 <CodeSnippet fiddle="LZFHw09A">{`
                 <Menu horizontal overflow style="width: 300px">
                     <Submenu keyboardShortcut={KeyCode.esc}>

@@ -26,8 +26,7 @@ import { KeyCode } from "../../util/KeyCode";
 
 export class Overlay extends Container {
    init() {
-      if (this.center)
-         this.centerX = this.centerY = this.center;
+      if (this.center) this.centerX = this.centerY = this.center;
 
       super.init();
    }
@@ -60,7 +59,7 @@ export class Overlay extends Container {
    }
 
    initInstance(context, instance) {
-      instance.positionChangeSubcribers = new SubscriberList();
+      instance.positionChangeSubscribers = new SubscriberList();
       super.initInstance(context, instance);
    }
 
@@ -83,7 +82,7 @@ export class Overlay extends Container {
 
       if (instance.cache("dismiss", instance.dismiss)) instance.markShouldUpdate(context);
 
-      context.push("parentPositionChangeEvent", instance.positionChangeSubcribers);
+      context.push("parentPositionChangeEvent", instance.positionChangeSubscribers);
 
       super.explore(context, instance);
    }
@@ -112,15 +111,14 @@ export class Overlay extends Container {
 
    overlayDidMount(instance, component) {
       let { el } = component;
-      if (this.centerX)
-         if (!el.style.left) el.style.left = `${(window.innerWidth - el.offsetWidth) / 2}px`;
+      if (this.centerX) if (!el.style.left) el.style.left = `${(window.innerWidth - el.offsetWidth) / 2}px`;
       if (this.centerY)
          if (!el.style.top) el.style.top = `${Math.max(0, (window.innerHeight - el.offsetHeight) / 2)}px`;
    }
 
-   overlayDidUpdate(instance, component) { }
+   overlayDidUpdate(instance, component) {}
 
-   overlayWillUnmount(instance, component) { }
+   overlayWillUnmount(instance, component) {}
 
    handleFocusOut(instance, component) {
       if (this.onFocusOut) instance.invoke("onFocusOut", instance, component);
@@ -145,9 +143,14 @@ export class Overlay extends Container {
       if (this.onMouseEnter) instance.invoke("onMouseEnter", instance, component);
    }
 
+   getOverlayContainer() {
+      return document.body;
+   }
+
    containerFactory() {
       let el = document.createElement("div");
-      document.body.appendChild(el);
+      let container = this.getOverlayContainer();
+      container.appendChild(el);
       el.style.position = "absolute";
       if (this.containerStyle) Object.assign(el.style, parseStyle(this.containerStyle));
       return el;
@@ -193,7 +196,7 @@ export class Overlay extends Container {
             }
          });
       }
-      instance.positionChangeSubcribers.notify();
+      instance.positionChangeSubscribers.notify();
    }
 
    handleResize(e, instance, component) {
@@ -209,7 +212,7 @@ export class Overlay extends Container {
             }
          });
       }
-      instance.positionChangeSubcribers.notify();
+      instance.positionChangeSubscribers.notify();
    }
 }
 
@@ -257,6 +260,7 @@ class OverlayContent extends VDOM.Component {
             onMouseEnter={this.props.onMouseEnter}
             onMouseLeave={this.props.onMouseLeave}
             onClick={this.props.onClick}
+            data-focusable-overlay-container={this.props.focusableOverlayContainer}
          >
             {this.props.children}
          </div>
@@ -322,15 +326,8 @@ export class OverlayComponent extends VDOM.Component {
             onMouseEnter={this.onMouseEnter.bind(this)}
             onClick={this.onClick.bind(this)}
             onDidUpdate={this.overlayDidUpdate.bind(this)}
+            focusableOverlayContainer={widget.dismissOnFocusOut}
          >
-            {widget.modal ||
-               (widget.backdrop && (
-                  <div
-                     key="backdrop"
-                     className={CSS.element(baseClass, "modal-backdrop")}
-                     onClick={this.onBackdropClick.bind(this)}
-                  />
-               ))}
             {this.renderOverlayBody()}
          </OverlayContent>
       );
@@ -351,6 +348,13 @@ export class OverlayComponent extends VDOM.Component {
                })}
                style={parseStyle(data.shadowStyle)}
             >
+               {widget.backdrop && (
+                  <div
+                     key="backdrop"
+                     className={CSS.element("overlay", "modal-backdrop")}
+                     onClick={this.onBackdropClick.bind(this)}
+                  />
+               )}
                {content}
             </div>
          );
@@ -373,7 +377,7 @@ export class OverlayComponent extends VDOM.Component {
       FocusManager.nudge();
    }
 
-   onFocusIn() { }
+   onFocusIn() {}
 
    onFocusOut() {
       let { widget } = this.props.instance;
@@ -421,7 +425,11 @@ export class OverlayComponent extends VDOM.Component {
    }
 
    onMouseDown(e) {
-      let { data } = this.props.instance;
+      let { instance } = this.props;
+      let { widget, data } = instance;
+
+      if (widget.onMouseDown && instance.invoke("onMouseDown", e, instance) === false) return;
+
       let prefix = this.getResizePrefix(e);
       if (prefix) {
          //e.preventDefault();
@@ -439,7 +447,7 @@ export class OverlayComponent extends VDOM.Component {
       } else if (data.draggable) {
          ddMouseDown(e);
       }
-      e.stopPropagation();
+      //e.stopPropagation();
    }
 
    onBackdropClick(e) {

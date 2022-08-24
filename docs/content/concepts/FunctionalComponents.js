@@ -5,7 +5,7 @@ import {ConfigTable} from '../../components/ConfigTable';
 import {ImportPath} from '../../components/ImportPath';
 import {Svg} from 'cx/svg';
 import {Gridlines, LineGraph, Chart, NumericAxis} from 'cx/charts';
-import {TextField} from 'cx/widgets';
+import {Content, Tab, TextField} from 'cx/widgets';
 import {createFunctionalComponent, LabelsTopLayout, LabelsLeftLayout} from 'cx/ui';
 
 import configs from '../widgets/configs/FunctionalComponent';
@@ -63,8 +63,11 @@ export const FunctionalComponents = <cx>
                     data={Array.from({length: 100}, (_, x) => ({ x, y: 75 - 50 * Math.random() }))}
                 />
             </div>
+            <Content name="code">
+            <Tab value-bind="$page.code.tab" mod="code" tab="component" text="Component" default/>
+            <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Index" default/>
 
-            <CodeSnippet putInto="code" fiddle="EjLrADci">{`
+            <CodeSnippet visible-expr="{$page.code.tab}=='component'" fiddle="EjLrADci">{`
                 //first define a component
                 const LineChart = ({ data, chartStyle, lineStyle }) => <cx>
                     <Svg style={chartStyle}>
@@ -74,9 +77,8 @@ export const FunctionalComponents = <cx>
                         </Chart>
                     </Svg>
                 </cx>;
-
-                ...
-
+            `}</CodeSnippet>
+            <CodeSnippet visible-expr="{$page.code.tab}=='index'" fiddle="EjLrADci">{`
                 <div class="widgets">
                     <LineChart
                         chartStyle="width: 300px; height: 200px; background: white;"
@@ -96,10 +98,8 @@ export const FunctionalComponents = <cx>
                         data={Array.from({length: 100}, (_, x) => ({ x, y: 75 - 50 * Math.random() }))}
                     />
                 </div>
-
-
-
             `}</CodeSnippet>
+            </Content>
         </CodeSplit>
 
         ### Complex Functional Components
@@ -114,8 +114,11 @@ export const FunctionalComponents = <cx>
                 <MyForm />
                 <MyForm vertical />
             </div>
+            <Content name="code">
+            <Tab value-bind="$page.code2.tab" mod="code" tab="component" text="Component" default/>
+            <Tab value-bind="$page.code2.tab" mod="code" tab="widget" text="Widget" default/>
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet visible-expr="{$page.code2.tab}=='component'">{`
                 const MyForm = createFunctionalComponent(({vertical}) => {
                     let layout = !vertical ? LabelsLeftLayout : { type: LabelsTopLayout, vertical: true };
                     return <cx>
@@ -125,14 +128,14 @@ export const FunctionalComponents = <cx>
                         </div>
                     </cx>;
                 });
-
-                ...
-
+            `}</CodeSnippet>
+            <CodeSnippet visible-expr="{$page.code2.tab}=='widget'">{`
                 <div class="widgets">
                     <MyForm />
                     <MyForm vertical />
                 </div>
             `}</CodeSnippet>
+            </Content>
 
         </CodeSplit>
 

@@ -33,7 +33,7 @@ export const ClipRects = <cx>
 
             <Content name="code">
                 <div>
-                    <Tab value-bind="$page.code.tab" tab="rect" mod="code" default><code>Rect</code></Tab>
+                    <Tab value-bind="$page.code.tab" tab="rect" mod="code" text="Rect" default />
                 </div>
                 <CodeSnippet fiddle="fc1P9AaB" visible-expr="{$page.code.tab}=='rect'">{`
                 <div class="widgets">

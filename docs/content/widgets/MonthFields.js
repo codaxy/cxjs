@@ -1,4 +1,4 @@
-import { HtmlElement, MonthField } from 'cx/widgets';
+import { HtmlElement, MonthField, Tab } from 'cx/widgets';
 import { Content, LabelsLeftLayout } from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
@@ -25,13 +25,15 @@ export const MonthFields = <cx>
                     <MonthField value-bind="$page.date" label="Single"/>
                 </div>
             </div>
-
-            <CodeSnippet putInto="code" fiddle="3Tm7m9Cz">{`
-                <div layout={LabelsLeftLayout}>
-                    <MonthField range from-bind="$page.from" to-bind="$page.to" label="Range" autoFocus/>
-                    <MonthField value-bind="$page.date" label="Single"/>
-                </div>
-            `}</CodeSnippet>
+            <Content name="code">
+                <Tab value-bind="$page.code.tab" mod="code" tab="index" text="MonthField" default/>
+                <CodeSnippet fiddle="3Tm7m9Cz">{`
+                    <div layout={LabelsLeftLayout}>
+                        <MonthField range from-bind="$page.from" to-bind="$page.to" label="Range" autoFocus/>
+                        <MonthField value-bind="$page.date" label="Single"/>
+                    </div>
+                `}</CodeSnippet>
+            </Content>
         </CodeSplit>
 
         ## Configuration

@@ -152,8 +152,8 @@ interface LookupFieldProps extends FieldProps {
    /** Number of additional items to be loaded in `infinite` mode. Default is 100. */
    pageSize?: number;
 
-   /** The dropdown will be automatically closed if the page is scrolled a certain distance.  */
-   closeDropdownOnScrollDistance?: number;
+   /** Set to `true` to allow quick selection of all displayed lookup items on `ctrl + a` keys combination.  */
+   quickSelectAll?: boolean;
 }
 
 export class LookupField extends Cx.Widget<LookupFieldProps> {}

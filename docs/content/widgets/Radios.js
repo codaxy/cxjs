@@ -1,5 +1,5 @@
 import { Content, Controller, LabelsLeftLayout } from 'cx/ui';
-import { HtmlElement, Radio, Repeater } from 'cx/widgets';
+import { HtmlElement, Radio, Repeater, Tab } from 'cx/widgets';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
@@ -41,6 +41,7 @@ export const Radios = <cx>
             </div>
 
             <Content name="code">
+            <Tab value-bind="$page.code1.tab" mod="code" tab="wrap" text="Index" default/>
                 <CodeSnippet fiddle="w0Hk6JJo">{`
                 <div layout={LabelsLeftLayout}>
                     <Radio label="Native" value-bind="$page.option" option="0" text="Radio" native default />
@@ -76,7 +77,9 @@ export const Radios = <cx>
             Please note that, in order to avoid multiple instances, controller should not be assigned to the Repeater.
 
             <Content name="code">
-                <CodeSnippet fiddle="6Am2ggFS">
+                <Tab value-bind="$page.code2.tab" mod="code" tab="controller" text="Controller"/>
+                <Tab value-bind="$page.code2.tab" mod="code" tab="index" text="Index" default/>
+                <CodeSnippet visible-expr="{$page.code2.tab}=='controller'" fiddle="6Am2ggFS">
                 {`
                     class RadioController extends Controller {
                         init() {
@@ -84,7 +87,10 @@ export const Radios = <cx>
                             this.store.set('$page.options', options);
                         }
                     }
-                    ...
+                `}
+                </CodeSnippet>
+                <CodeSnippet visible-expr="{$page.code2.tab}=='index'" fiddle="6Am2ggFS">
+                {`
                     <div controller={RadioController}>
                         <Repeater records-bind="$page.options">
                             <Radio value-bind="$page.option" option-bind="$record.id" text-bind="$record.text" style={{float: 'left', width: '130px'}} />

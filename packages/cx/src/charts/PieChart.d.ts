@@ -13,7 +13,7 @@ interface PieChartProps extends BoundedObjectProps {
    clockwise?: Cx.BooleanProp;
 }
 
-export class PieChart extends Cx.Widget<PieChartProps> { }
+export class PieChart extends Cx.Widget<PieChartProps> {}
 
 interface PieSliceProps extends Cx.StyledContainerProps {
    /** Used to indicate whether an item is active or not. Inactive items are shown only in the legend. */
@@ -43,7 +43,7 @@ interface PieSliceProps extends Cx.StyledContainerProps {
    /** Value in pixels to be used to explode the pie. */
    offset?: Cx.NumberProp;
 
-   value?: Cx.StringProp;
+   value?: Cx.NumberProp;
    disabled?: Cx.BooleanProp;
    innerPointRadius?: Cx.NumberProp;
    outerPointRadius?: Cx.NumberProp;
@@ -68,7 +68,7 @@ interface PieSliceProps extends Cx.StyledContainerProps {
    tooltip?: Cx.StringProp | Cx.StructuredProp;
 
    /** Selection configuration. */
-   selection?: { type: typeof PropertySelection | typeof KeySelection;[prop: string]: any };
+   selection?: { type: typeof PropertySelection | typeof KeySelection; [prop: string]: any };
 
    /** A value used to identify the group of components participating in hover effect synchronization. */
    hoverChannel?: string;
@@ -77,4 +77,4 @@ interface PieSliceProps extends Cx.StyledContainerProps {
    hoverId?: Cx.StringProp;
 }
 
-export class PieSlice extends Cx.Widget<PieSliceProps> { }
+export class PieSlice extends Cx.Widget<PieSliceProps> {}

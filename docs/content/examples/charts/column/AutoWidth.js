@@ -117,12 +117,8 @@ export const AutoWidth = <cx>
          </div>
 
          <Content name="code">
-            <div>
-               <Tab value-bind="$page.code.tab" tab="controller" mod="code"><code>Controller</code></Tab>
-               <Tab value-bind="$page.code.tab" tab="chart" mod="code" default><code>Chart</code></Tab>
-            </div>
-         
-
+               <Tab value-bind="$page.code.tab" tab="controller" mod="code" text='Controller' />
+               <Tab value-bind="$page.code.tab" tab="chart" mod="code" default text='Chart' />
          <CodeSnippet fiddle="oXFtcGiA" visible-expr="{$page.code.tab}=='controller'">{`
          var categories = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 

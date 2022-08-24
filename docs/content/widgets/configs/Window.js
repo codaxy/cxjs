@@ -20,7 +20,6 @@ export default {
     },
     closable: {
         key: true,
-        alias: 'closeable',
         type: 'boolean',
         description: <cx><Md>
             Controls the close button visibility. Defaults to `true`.

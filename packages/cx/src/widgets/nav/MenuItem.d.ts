@@ -1,4 +1,5 @@
 import * as Cx from "../../core";
+import { Instance } from "../../ui";
 import { KeyboardShortcut } from "../../ui/keyboardShortcuts";
 
 export interface MenuItemProps extends Cx.HtmlElementProps {
@@ -16,11 +17,11 @@ export interface MenuItemProps extends Cx.HtmlElementProps {
    placementOrder?: string;
    autoClose?: boolean;
    icons?: boolean;
+   icon?: Cx.StringProp;
    keyboardShortcut?: KeyboardShortcut;
    tooltip?: string | Cx.Config;
    openOnFocus?: boolean;
-   /** The dropdown will be automatically closed if the page is scrolled a certain distance.  */
-   closeDropdownOnScrollDistance?: number;
+   disabled?: Cx.BooleanProp;
 
    /**
     * Click handler.

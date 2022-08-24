@@ -1,5 +1,6 @@
 import { getSelector } from "./getSelector";
 import assert from "assert";
+import { createAccessorModelProxy } from "./createAccessorModelProxy";
 
 describe("getSelector", function () {
    it("array of selectors converts each element into a selector", function () {
@@ -32,5 +33,11 @@ describe("getSelector", function () {
    it("null is a valid selector", function () {
       let selector = getSelector(null);
       assert(selector({}) === null);
+   });
+
+   it("works with accessor chains", function () {
+      let m = createAccessorModelProxy();
+      let selector = getSelector(m.a.b);
+      assert(selector({ a: { b: 1 } }) === 1);
    });
 });

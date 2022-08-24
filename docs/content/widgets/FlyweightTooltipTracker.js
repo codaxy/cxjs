@@ -1,4 +1,4 @@
-import { HtmlElement, MsgBox, Button, enableMsgBoxAlerts, FlyweightTooltipTracker } from 'cx/widgets';
+import { HtmlElement, MsgBox, Button, enableMsgBoxAlerts, FlyweightTooltipTracker, Content, Tab } from 'cx/widgets';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
@@ -53,7 +53,9 @@ export const FlyweightTooltipTrackerPage = <cx>
             Links:
             - [Flyweight pattern](https://en.wikipedia.org/wiki/Flyweight_pattern)
 
-            <div putInto="code">
+            <Content name="code">
+                <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Index" default/>
+                
                 <CodeSnippet fiddle="hHCQlfL2">{`
                 <div class="ellipsis" style="overflow: hidden; text-overflow: ellipsis; width: 30px; white-space: nowrap">
                     This is a long text that doesn't fit its designated space.
@@ -82,7 +84,7 @@ export const FlyweightTooltipTrackerPage = <cx>
                     }}
                 />
                 `}</CodeSnippet>
-            </div>
+            </Content>
         </CodeSplit>
 
         ## Configuration

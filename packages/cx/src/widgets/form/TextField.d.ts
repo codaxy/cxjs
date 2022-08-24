@@ -67,6 +67,9 @@ export interface TextFieldProps extends FieldProps {
 
    /** If trackFocus is set, this value will be set when the field recieves or loses focus. */
    focused?: Cx.BooleanProp;
+
+   /** Trim text to remove whitespace. Default is false. */
+   trim?: Cx.BooleanProp;
 }
 
 export class TextField extends Cx.Widget<TextFieldProps> {}

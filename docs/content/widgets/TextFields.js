@@ -1,5 +1,5 @@
 import { Content, LabelsLeftLayout } from 'cx/ui';
-import { TextField } from 'cx/widgets';
+import { Tab, TextField } from 'cx/widgets';
 import { CodeSnippet } from '../../components/CodeSnippet';
 import { CodeSplit } from '../../components/CodeSplit';
 import { ConfigTable } from '../../components/ConfigTable';
@@ -23,22 +23,23 @@ export const TextFields = <cx>
                     <TextField label="Standard" value-bind="$page.text" autoFocus tabOnEnterKey />
                     <TextField label="Disabled" value-bind="$page.text" disabled />
                     <TextField label="Readonly" value-bind="$page.text" readOnly />
-                    <TextField label="Placeholder" value-bind="$page.text" placeholder="Type something here..."/>
-                    <TextField label="Tooltip" value-bind="$page.text" tooltip='This is a tooltip.'/>
+                    <TextField label="Placeholder" value-bind="$page.text" placeholder="Type something here..." />
+                    <TextField label="Tooltip" value-bind="$page.text" tooltip='This is a tooltip.' />
                 </div>
                 <div layout={LabelsLeftLayout}>
-                    <TextField label="Required" value-bind="$page.text" required />
-                    <TextField label="Min/Max Length" value-bind="$page.text" minLength={3} maxLength={8}/>
+                    <TextField label="Required" value-bind="$page.text" required trim />
+                    <TextField label="Min/Max Length" value-bind="$page.text" minLength={3} maxLength={8} />
                     <TextField label="Styled" value-bind="$page.text"
-                        inputStyle={{border: '1px solid green'}}
+                        inputStyle={{ border: '1px solid green' }}
                         icon="search"
                         showClear />
-                    <TextField label="View" value-bind="$page.text" mode="view" tooltip="Tooltips are shown in view mode too."/>
-                    <TextField label="EmptyText" value-bind="$page.text" mode="view" emptyText="N/A"/>
+                    <TextField label="View" value-bind="$page.text" mode="view" tooltip="Tooltips are shown in view mode too." />
+                    <TextField label="EmptyText" value-bind="$page.text" mode="view" emptyText="N/A" />
                 </div>
             </div>
 
             <Content name="code">
+                <Tab value-bind="$page.code.tab" mod="code" tab="wrap" text="Index" default/>
                 <CodeSnippet fiddle="drqgvlX1">{`
                 <div layout={LabelsLeftLayout}>
                     <TextField label="Standard" value-bind="$page.text" autoFocus tabOnEnterKey />
@@ -48,7 +49,7 @@ export const TextFields = <cx>
                     <TextField label="Tooltip" value-bind="$page.text" tooltip='This is a tooltip.'/>
                 </div>
                 <div layout={LabelsLeftLayout}>
-                    <TextField label="Required" value-bind="$page.text" required />
+                    <TextField label="Required" value-bind="$page.text" required trim />
                     <TextField label="Min/Max Length" value-bind="$page.text" minLength={3} maxLength={8}/>
                     <TextField label="Styled" value-bind="$page.text"
                         inputStyle={{border: '1px solid green'}}

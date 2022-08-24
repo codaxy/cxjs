@@ -21,7 +21,7 @@ describe("ValidationGroup", () => {
 
       let store = new Store();
 
-      const component = renderer.create(<Cx widget={widget} store={store} subscribe />);
+      const component = renderer.create(<Cx widget={widget} store={store} subscribe immediate />);
 
       let tree = component.toJSON();
       assert.equal(tree.type, "div");

@@ -67,8 +67,8 @@ export const Grids = <cx>
             </div>
             <Content name="code">
                 <div>
-                    <Tab value-bind="$page.code.tab" tab="controller" mod="code"><code>Controller</code></Tab>
-                    <Tab value-bind="$page.code.tab" tab="grid" mod="code" default><code>Grid</code></Tab>
+                    <Tab value-bind="$page.code.tab" tab="controller" mod="code" text="Controller" />
+                    <Tab value-bind="$page.code.tab" tab="grid" mod="code"  text="Grid" default/>
                 </div>
                 <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="kzHH3vkM">
                     {`
@@ -115,7 +115,8 @@ export const Grids = <cx>
         - [Row Editing](~/examples/grid/row-editing)
         - [Cell Editing](~/examples/grid/cell-editing)
         - [Inline Editing](~/examples/grid/inline-edit)
-        - [TreeGrid](~/examples/grid/tree-grid)
+        - [Tree Grid](~/examples/grid/tree-grid)
+        - [Stateful Tree Grid](~/examples/grid/stateful-tree-grid)
         - [Header Menu](~/examples/grid/header-menu)
         - [Complex Header](~/examples/grid/complex-headers)
         - [Buffering 5000 rows](~/examples/grid/buffering)

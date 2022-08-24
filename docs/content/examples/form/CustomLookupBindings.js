@@ -1,4 +1,4 @@
-import { HtmlElement, LookupField, Repeater, PureContainer, TextField, NumberField } from 'cx/widgets';
+import { HtmlElement, LookupField, Repeater, PureContainer, TextField, NumberField, Tab, Content } from 'cx/widgets';
 import { Controller, LabelsTopLayout, UseParentLayout } from 'cx/ui';
 import { Md } from '../../../components/Md';
 import { CodeSplit } from '../../../components/CodeSplit';
@@ -98,28 +98,32 @@ export const CustomLookupBindings = <cx>
 
             When custom bindings are used in multiple selection mode, both `key` and `text` fields are mandatory.
             Option data is available through `$option` alias, while selection data is available through the `$value` alias.
+            <Content name="code">
+                <Tab value-bind="$page.code.tab" mod="code" tab="controller" text="Controller" />
+                <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Index" default/>
+                
+                <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="5Zp9AfEj">{`
+                    class PageController extends Controller {
+                        query(q) {
+                            if (!this.cityDb)
+                                this.cityDb = Array.from({ length: 100 }).map((_, i) => ({
+                                    id: i+1,
+                                    text: casual.city,
+                                    population: Math.floor(Math.random() * Math.floor(100000)),
+                                    landArea: Math.floor(Math.random() * Math.floor(1000))
+                                }));
 
-            <CodeSnippet putInto="code" fiddle="5Zp9AfEj">{`
-                class PageController extends Controller {
-                    query(q) {
-                        if (!this.cityDb)
-                            this.cityDb = Array.from({ length: 100 }).map((_, i) => ({
-                                id: i+1,
-                                text: casual.city,
-                                population: Math.floor(Math.random() * Math.floor(100000)),
-                                landArea: Math.floor(Math.random() * Math.floor(1000))
-                            }));
-
-                        var regex = new RegExp(q, "gi");
-                            return new Promise(resolve => {
-                            setTimeout(
-                                () => resolve(this.cityDb.filter(x => x.text.match(regex))),
-                                100
-                            );
-                        });
+                            var regex = new RegExp(q, "gi");
+                                return new Promise(resolve => {
+                                setTimeout(
+                                    () => resolve(this.cityDb.filter(x => x.text.match(regex))),
+                                    100
+                                );
+                            });
+                        }
                     }
-                }
-                ...
+                `}</CodeSnippet>
+                <CodeSnippet visible-expr="{$page.code.tab}=='index'" fiddle="5Zp9AfEj">{`
                 <div layout={{type: LabelsTopLayout, vertical: true}}>
                     <LookupField
                         label="Select"
@@ -171,6 +175,7 @@ export const CustomLookupBindings = <cx>
                     </Repeater>
                 </div>
                 `}</CodeSnippet>
+            </Content>
         </CodeSplit>
 
     </Md>
