@@ -60,11 +60,17 @@ describe("Repeater", () => {
    });
 
    it("changes are properly updated", () => {
+      let divInstances = [];
       let widget = (
          <cx>
             <div>
                <Repeater records-bind="data" sorters={[{ field: "value", direction: "ASC" }]} recordAlias="$item">
-                  <div text:bind="$item.value" />
+                  <div
+                     text:bind="$item.value"
+                     onExplore={(context, instance) => {
+                        divInstances.push(instance);
+                     }}
+                  />
                </Repeater>
             </div>
          </cx>
@@ -103,6 +109,8 @@ describe("Repeater", () => {
          ],
       });
 
+      divInstances = [];
+
       store.update("data", (data) => [{ value: "A" }, ...data]);
 
       assert.deepEqual(component.toJSON(), {
@@ -126,5 +134,10 @@ describe("Repeater", () => {
             },
          ],
       });
+
+      assert.equal(divInstances.length, 3);
+      assert.equal(divInstances[0].store.get("$item.value"), "A");
+      assert.equal(divInstances[1].store.get("$item.value"), "B");
+      assert.equal(divInstances[2].store.get("$item.value"), "C");
    });
 });
