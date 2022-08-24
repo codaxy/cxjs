@@ -1,0 +1,54 @@
+@use "./Calendar.variables.scss" as *;
+@use "./Field.maps.scss" as *;
+@use "../lists.scss" as *;
+
+@use "../../util/scss/deep-merge" as *;
+@use "../../util/scss/add-rules.scss" as *;
+
+// CALENDAR
+$cx-calendar-state-style-map: cx-deep-map-merge(
+   $cx-input-state-style-map,
+   (
+      default: (
+         font-size: $cx-default-calendar-font-size,
+         background-color: $cx-default-calendar-background-color,
+         border-style: solid,
+         border-width: $cx-default-calendar-border-width,
+         border-color: $cx-default-calendar-border-color,
+         border-radius: $cx-default-calendar-border-radius,
+         box-shadow: $cx-default-calendar-box-shadow,
+         padding: $cx-default-calendar-padding,
+      ),
+      hover: (),
+      header: (
+         font-size: $cx-default-calendar-header-font-size,
+         font-weight: $cx-default-calendar-header-font-weight,
+         color: $cx-default-calendar-header-color,
+         background-color: $cx-default-calendar-header-background-color,
+      ),
+      focus: (
+         border-color: cx-get-state-rule($cx-input-state-style-map, focus, border-color),
+         box-shadow: cx-get-state-rule($cx-input-state-style-map, focus, box-shadow),
+         outline: none,
+      ),
+   )
+) !default;
+
+// calendar day field styles
+$cx-calendar-day-state-style-map: cx-deep-map-merge(
+   $cx-list-item,
+   (
+      default: (
+         font-size: $cx-default-calendar-day-font-size,
+         background-color: transparent,
+         border-radius: $cx-default-calendar-day-border-radius,
+      ),
+      today: (
+         background-color: rgba(220, 250, 183, 0.5),
+      ),
+      outside: (
+         color: rgba(0, 0, 0, 0.3),
+      ),
+      today-hover: (),
+   )
+);

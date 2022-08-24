@@ -1,6 +1,6 @@
 @forward "axis/variables";
 
-@use "../util/scss/include" as *;
+@use "../util/scss/include.scss" as *;
 
 $cx-dependencies: map-merge(
    $cx-dependencies,

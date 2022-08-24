@@ -1,0 +1,9 @@
+@use "./padding.scss" as *;
+
+$pad-size: (
+   xsmall: $cx-default-padding-extra-small,
+   small: $cx-default-padding-small,
+   medium: $cx-default-padding-medium,
+   large: $cx-default-padding-large,
+   xlarge: $cx-default-padding-extra-large,
+) !default;

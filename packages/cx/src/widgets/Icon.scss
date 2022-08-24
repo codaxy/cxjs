@@ -1,6 +1,6 @@
 @use "sass:math";
 @use "./box" as *;
-@use "./core" as *;
+@use "../util/scss/besm.scss" as *;
 @use "../util/scss/add-rules.scss" as *;
 @use "../util/scss/clockwise.scss" as *;
 

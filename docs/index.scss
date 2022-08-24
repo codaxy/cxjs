@@ -1,11 +1,12 @@
 @use "../misc/index" as *;
 
-@use "~cx-theme-aquamarine/src/variables" as * with (
-   $cx-theme-primary-color: $master-brand-highlight-color,
-   $cx-link-state-style-map: ()
-);
+@use "~cx-theme-aquamarine/src/variables.scss" as *;
+$cx-theme-primary-color: $master-brand-highlight-color;
 
-@use "~cx-theme-aquamarine/src/index" as *;
+@use "~cx-theme-aquamarine/src/maps.scss" as *;
+$cx-link-state-style-map: ();
+
+@use "~cx-theme-aquamarine/src/index.scss" as *;
 
 @use "app/index" as *;
 @use "content/index" as *;

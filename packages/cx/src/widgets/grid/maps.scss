@@ -1,0 +1,56 @@
+@use "./variables.scss" as *;
+@use "../lists" as *;
+
+@use "../../util/scss/add-rules.scss" as *;
+@use "../../util/scss/deep-merge" as *;
+@use "../../util/scss/clockwise.scss" as *;
+
+$cx-grid-header-state-style-map: (
+   default: (
+      font-size: $cx-default-grid-header-font-size,
+      font-weight: $cx-default-grid-header-font-weight,
+      line-height: $cx-default-grid-header-line-height,
+      color: $cx-default-grid-header-color,
+      background-color: $cx-default-grid-header-background-color,
+      border-color: $cx-default-grid-header-border-color,
+      background-clip: border-box,
+      padding: $cx-default-grid-header-padding,
+   ),
+   hover: (
+      background-color: darken($cx-default-grid-header-background-color, 2),
+   ),
+   sorted: (
+      background-color: darken($cx-default-grid-header-background-color, 7),
+   ),
+   sorted-hover: (
+      background-color: darken($cx-default-grid-header-background-color, 5),
+   ),
+) !default;
+
+$cx-grid-data-state-style-map: cx-deep-map-merge(
+   $cx-list-item,
+   (
+      default: (
+         font-size: $cx-default-grid-data-font-size,
+         line-height: $cx-default-grid-data-line-height,
+         font-weight: $cx-default-grid-data-font-weight,
+         background-color: $cx-default-grid-data-background-color,
+         border-color: $cx-default-grid-data-border-color,
+         padding: $cx-default-grid-data-padding,
+      ),
+      alternate: (
+         background-color: $cx-default-grid-data-alternate-background-color,
+      ),
+   )
+) !default;
+
+$cx-grid-pagination-state-style-map: cx-deep-map-merge($cx-list-item, ()) !default;
+
+$cx-grid-cell-cursor-style: (
+   left: -1px,
+   top: -1px,
+   right: -1px,
+   bottom: -1px,
+   background: rgba(green, 0.1),
+   border: 2px solid rgba(green, 1),
+);

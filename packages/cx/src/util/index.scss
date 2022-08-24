@@ -1,3 +1,5 @@
+@use "./scss/index.scss" as *;
+
 .cx-text-left.cx-text-left {
    text-align: left;
 }
@@ -6,6 +8,6 @@
    text-align: right;
 }
 
-.cx-text-center.cx-text-center  {
+.cx-text-center.cx-text-center {
    text-align: center;
 }

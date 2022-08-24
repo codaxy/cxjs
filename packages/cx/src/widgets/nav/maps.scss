@@ -1,0 +1,19 @@
+@use "../lists.scss" as *;
+@use "../../util/scss/padding.scss" as *;
+
+$cx-link-state-style-map: (
+   active: (
+      font-weight: bold,
+   ),
+) !default;
+
+@forward "./Tab.maps.scss";
+
+$cx-menu-state-style-map: $cx-list !default;
+$cx-menu-padding-options: (
+   xsmall: $cx-default-padding-extra-small 2 * $cx-default-padding-extra-small,
+   small: $cx-default-padding-small 2 * $cx-default-padding-small,
+   medium: $cx-default-padding-medium 2 * $cx-default-padding-medium,
+   large: $cx-default-padding-large 2 * $cx-default-padding-large,
+   xlarge: $cx-default-padding-extra-large 2 * $cx-default-padding-extra-large,
+) !default;

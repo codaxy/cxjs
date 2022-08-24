@@ -1,8 +1,5 @@
 @use "../box" as *;
-@use "../core" as *;
-@use "core" as *;
-@use "../../util/scss/deep-merge" as *;
-@use "../../util/scss/add-rules.scss" as *;
+@use "./Field.variables.scss" as *;
 
 $cx-default-colorpicker-font-family: "Consolas", monospace !default;
 $cx-default-colorpicker-font-size: 11px !default;
@@ -10,18 +7,3 @@ $cx-default-colorpicker-background-color: $cx-default-input-background-color !de
 $cx-default-colorpicker-border-width: $cx-default-box-border-width !default;
 $cx-default-colorpicker-border-color: $cx-default-input-border-color !default;
 $cx-default-colorpicker-box-shadow: none !default;
-
-$cx-colorpicker-state-style-map: cx-deep-map-merge(
-   $cx-input-state-style-map,
-   (
-      default: (
-         font-family: $cx-default-colorpicker-font-family,
-         font-size: $cx-default-colorpicker-font-size,
-         background-color: $cx-default-colorpicker-background-color,
-         border-width: $cx-default-colorpicker-border-width,
-         border-color: $cx-default-colorpicker-border-color,
-         box-shadow: $cx-default-colorpicker-box-shadow,
-      ),
-      hover: (),
-   )
-) !default;

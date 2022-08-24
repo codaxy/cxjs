@@ -1,11 +1,11 @@
 @use "sass:math";
-@use "./core.scss" as *;
-@use "../core.scss" as *;
 @use "../box.scss" as *;
 @use "../../util/scss/add-rules.scss" as *;
 @use "../../util/scss/clockwise.scss" as *;
 @use "../../util/scss/deep-merge.scss" as *;
+@use "../../util/scss/besm.scss" as *;
 @use "../Button.variables.scss" as *;
+@use "../Button.maps.scss" as *;
 @use "../Button.scss" as *;
 
 @mixin cx-uploadbutton(

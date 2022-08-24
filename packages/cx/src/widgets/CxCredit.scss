@@ -1,4 +1,4 @@
-@use "./core" as *;
+@use "../util/scss/besm.scss" as *;
 
 @mixin cx-cxcredit($name: "cxcredit", $besm: $cx-besm) {
    $block: map-get($besm, block);

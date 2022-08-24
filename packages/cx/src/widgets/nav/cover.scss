@@ -1,5 +1,5 @@
-@use "../core.scss" as *;
-@use "../../variables.scss" as *;
+@use "../../util/scss/besm.scss" as *;
+@use "./variables.scss" as *;
 
 @mixin cx-cover($besm: $cx-besm) {
    $block: map-get($besm, block);

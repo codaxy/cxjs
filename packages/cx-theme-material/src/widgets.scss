@@ -35,11 +35,6 @@ $mod: map-get($cx-besm, mod);
          border: none;
       }
    }
-
-   // can be used interchangeably with mod='card'
-   .cxm-well {
-      @extend .cxm-card;
-   }
 }
 
 //BUTTON

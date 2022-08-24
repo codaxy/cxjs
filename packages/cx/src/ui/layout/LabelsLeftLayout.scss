@@ -1,7 +1,4 @@
-@use "sass:math";
-@use "../../widgets/core" as *;
-@use "../../util/scss/add-rules.scss" as *;
-@use "../../util/scss/clockwise.scss" as *;
+@use "../../util/scss/besm.scss" as *;
 
 @mixin cx-labelsleftlayout($name: "labelsleftlayout", $besm: $cx-besm) {
    $block: map-get($besm, block);

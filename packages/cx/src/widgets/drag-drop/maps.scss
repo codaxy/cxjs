@@ -1,0 +1,7 @@
+@use "./variables.scss" as *;
+
+$cx-dragclone-style: (
+   background-color: $cx-default-dragclone-background-color,
+   box-shadow: $cx-default-dragclone-box-shadow,
+   opacity: 0.9,
+) !default;

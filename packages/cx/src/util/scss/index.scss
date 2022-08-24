@@ -1,8 +1,1 @@
-@forward "add-rules.scss";
-@forward "calc";
-@forward "call-once";
-@forward "clockwise.scss";
-@forward "colors";
-@forward "deep-merge";
-@forward "deep-get";
-@forward "include";
+@use "./global.scss" as *;

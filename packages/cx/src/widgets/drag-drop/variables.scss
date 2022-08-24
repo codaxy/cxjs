@@ -1,6 +1,7 @@
-@use "core" as *;
-@use "../../util/scss/deep-merge" as *;
-@use "../../util/scss/include" as *;
+@use "../../util/scss/include.scss" as *;
+
+$cx-default-dragclone-background-color: rgba(white, 0.9) !default;
+$cx-default-dragclone-box-shadow: 0 0 3px rgba(128, 128, 128, 0.3) !default;
 
 $cx-dependencies: map-merge(
    $cx-dependencies,

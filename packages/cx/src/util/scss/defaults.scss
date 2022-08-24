@@ -1,0 +1,24 @@
+// Text
+$cx-default-font-family: (
+   -apple-system,
+   BlinkMacSystemFont,
+   "Segoe UI",
+   "Roboto",
+   "Helvetica Neue",
+   Arial,
+   sans-serif
+) !default;
+$cx-default-font-size: 14px !default;
+$cx-default-color: #373a3c !default;
+
+// Border
+$cx-default-border-color: #bfbfbf !default;
+$cx-default-border-radius: 0 !default;
+$cx-default-border-width: 1px !default;
+
+// Container
+$cx-default-container-padding: 5px !default;
+
+// Cover
+$cx-default-cover-border-color: $cx-default-border-color !default;
+$cx-default-cover-background-color: white !default;

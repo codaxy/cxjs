@@ -1,11 +1,14 @@
-@use "../../util/scss/include" as *;
+@use "../../util/scss/defaults.scss" as *;
+@use "../../util/scss/include.scss" as *;
 
-@use "core" as *;
-//MENU
-@use "Menu.variables";
+// COVER
+$cx-default-cover-border-color: $cx-default-border-color !default;
+$cx-default-cover-background-color: white !default;
 
-// TAB
-@use "Tab.variables";
+$cx-default-scroller-button-size: 20px !default;
+
+@forward "Menu.variables";
+@forward "Tab.variables";
 
 $cx-dependencies: map-merge(
    $cx-dependencies,

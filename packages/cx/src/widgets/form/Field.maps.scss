@@ -1,0 +1,122 @@
+@use "../../util/scss/deep-merge.scss" as *;
+@use "./Field.variables.scss" as *;
+@use "../box" as *;
+@use "../../util/scss/defaults.scss" as *;
+
+$cx-input-placeholder: (
+   color: $cx-default-input-placeholder-color,
+   opacity: 1,
+) !default;
+
+$cx-input-state-style-map: (
+   default: (
+      line-height: $cx-default-box-line-height,
+      padding: $cx-default-input-padding,
+      border-width: $cx-default-box-border-width,
+      font-size: $cx-default-input-font-size,
+      font-family: $cx-default-input-font-family,
+      border-color: $cx-default-input-border-color,
+      border-style: solid,
+      border-radius: $cx-default-input-border-radius,
+      background-color: $cx-default-input-background-color,
+      color: $cx-default-input-color,
+      outline-offset: 0,
+      box-shadow: none,
+      -ms-appearance: none,
+      -moz-appearance: none,
+      -webkit-appearance: none,
+   ),
+   hover: (),
+   focus: (
+      border-color: rgba(77, 144, 254, 0.8),
+      outline: none,
+      box-shadow: 0 0 2px rgba(77, 144, 254, 0.8),
+   ),
+   disabled: (
+      background: rgb(235, 235, 228),
+      color: rgb(84, 84, 84),
+      pointer-events: none,
+   ),
+   error: (
+      border-color: rgba(220, 0, 9, 0.8),
+   ),
+   error-focus: (
+      box-shadow: 0 0 2px rgba(220, 0, 9, 0.8),
+   ),
+) !default;
+
+// Left Icon
+$cx-input-left-icon-state-style-map: (
+   default: (
+      font-size: $cx-default-icon-size,
+      left: $cx-default-input-left-tool-left,
+      top: 50%,
+      margin-top: -0.5 * $cx-default-input-left-tool-size,
+      height: $cx-default-input-left-tool-size,
+      width: $cx-default-input-left-tool-size,
+      line-height: $cx-default-input-left-tool-size,
+      opacity: 0.6,
+      text-align: center,
+   ),
+   hover: (
+      opacity: 1,
+   ),
+   active: (),
+   focus: (),
+   error: (),
+) !default;
+
+//Right Icon
+$cx-input-right-icon-state-style-map: (
+   default: (
+      font-size: $cx-default-icon-size,
+      right: $cx-default-input-right-tool-right,
+      top: 50%,
+      margin-top: -0.5 * $cx-default-input-tool-size,
+      height: $cx-default-input-tool-size,
+      width: $cx-default-input-tool-size,
+      line-height: $cx-default-input-tool-size,
+      opacity: 0.6,
+      text-align: center,
+      cursor: pointer,
+   ),
+   hover: (
+      opacity: 1,
+   ),
+   active: (),
+   focus: (),
+   error: (),
+) !default;
+
+$cx-clear-state-style-map: (
+   default: (
+      font-size: $cx-default-icon-size,
+      right: $cx-default-input-right-tool-right,
+      top: 50%,
+      margin-top: -0.5 * $cx-default-clear-size,
+      height: $cx-default-clear-size,
+      width: $cx-default-clear-size,
+      line-height: $cx-default-clear-size,
+      color: $cx-default-clear-color,
+      border-radius: $cx-default-border-radius,
+      text-align: center,
+   ),
+   hover: (
+      background-color: rgba(128, 128, 128, 0.2),
+   ),
+   active: (),
+   focus: (),
+   error: (),
+) !default;
+
+// STANDARD FORM FIELD (textfield, numberfield, lookupfield, select,...)
+$cx-std-field-state-style-map: cx-deep-map-merge($cx-input-state-style-map, ()) !default;
+
+$cx-textarea-state-style-map: cx-deep-map-merge(
+   $cx-input-state-style-map,
+   (
+      default: (
+         line-height: normal,
+      ),
+   )
+);

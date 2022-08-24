@@ -1,0 +1,45 @@
+@use "./variables.scss" as *;
+@use "../../util/scss/defaults.scss" as *;
+
+$cx-dropdown-styles: (
+   color: $cx-default-dropdown-color,
+   background-color: $cx-default-dropdown-background-color,
+   border-radius: $cx-default-border-radius,
+   border-color: $cx-default-border-color,
+   border-width: 0,
+   box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.29),
+   white-space: normal,
+   font-weight: normal,
+   font-size: $cx-default-font-size,
+   text-align: left,
+   line-height: normal,
+) !default;
+
+@forward "./Window.maps.scss";
+
+$cx-toast-mods: (
+   warning: (
+      default: (
+         color: #fff,
+         background-color: #f09037,
+      ),
+   ),
+   primary: (
+      default: (
+         color: #fff,
+         background-color: #1f99f8,
+      ),
+   ),
+   success: (
+      default: (
+         color: #fff,
+         background-color: #5cb85c,
+      ),
+   ),
+   error: (
+      default: (
+         color: #fff,
+         background-color: #d9534f,
+      ),
+   ),
+) !default;

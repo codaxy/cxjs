@@ -1,0 +1,81 @@
+@use "./variables.scss" as *;
+@use "../box.scss" as *;
+@use "../../util/scss/defaults.scss" as *;
+
+$cx-label-state-style-map: (
+   default: (
+      padding: $cx-default-label-padding,
+      font-size: $cx-default-label-font-size,
+      font-family: $cx-default-label-font-family,
+      font-weight: $cx-default-label-font-weight,
+      line-height: $cx-default-label-line-height,
+      color: $cx-default-label-color,
+      border-style: solid,
+      border-width: cx-top($cx-default-box-border-width) 0 cx-bottom($cx-default-box-border-width) 0,
+      border-color: transparent,
+   ),
+   hover: (),
+   active: (),
+   disabled: (
+      color: #bdbdbd,
+   ),
+) !default;
+
+$cx-slider-handle-styles: (
+   default: (
+      background-color: $cx-default-slider-handle-background-color,
+      border-style: solid,
+      border-width: $cx-default-slider-handle-border-width,
+      border-color: $cx-default-slider-handle-border-color,
+      border-radius: $cx-default-slider-handle-border-radius,
+      box-shadow: $cx-default-slider-handle-box-shadow,
+   ),
+   hover: (
+      box-shadow: 0 0 3px rgba(128, 128, 128, 0.5),
+   ),
+   focus: (
+      border-color: rgba(77, 144, 254, 0.8),
+      outline: none,
+      box-shadow: 0 0 2px rgba(77, 144, 254, 0.8),
+   ),
+   disabled: (),
+   active: (
+      background: rgb(220, 220, 220),
+   ),
+) !default;
+
+$cx-switch-handle-styles: (
+   default: (
+      background-color: $cx-default-switch-handle-background-color,
+      border-style: solid,
+      border-width: $cx-default-switch-handle-border-width,
+      border-color: $cx-default-switch-handle-border-color,
+      border-radius: $cx-default-switch-handle-border-radius,
+      box-shadow: $cx-default-switch-handle-box-shadow,
+   ),
+   hover: (
+      box-shadow: 0 0 3px rgba(128, 128, 128, 0.5),
+   ),
+   focus: (
+      border-color: rgba(77, 144, 254, 0.8),
+      outline: none,
+      box-shadow: 0 0 2px rgba(77, 144, 254, 0.8),
+   ),
+   disabled: (),
+   active: (
+      background: rgb(220, 220, 220),
+   ),
+   on: (),
+   on-active: (),
+) !default;
+
+$cx-empty-text: (
+   color: $cx-default-empty-text-color,
+) !default;
+
+@forward "./Field.maps.scss";
+@forward "./Calendar.maps.scss";
+@forward "./Checkbox.maps.scss";
+@forward "./Radio.maps.scss";
+@forward "./ColorPicker.maps.scss";
+@forward "./LookupField.maps.scss";

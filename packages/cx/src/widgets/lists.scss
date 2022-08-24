@@ -1,9 +1,3 @@
-//Selection
-$cx-selection-background-color: rgba(135, 206, 250, 0.6);
-
-//List
-$cx-default-list-item-padding: 5px 10px !default;
-
 //Lists
 $cx-list: (
    default: (
@@ -43,6 +37,6 @@ $cx-list-item: (
    ),
    active: (
       //causes flickering
-      //background: rgba(123,190,255, 0.7),,,,,,,,,,,
+      //background: rgba(123,190,255, 0.7),
    ),
 ) !default;
