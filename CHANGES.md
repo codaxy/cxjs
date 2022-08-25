@@ -2,6 +2,12 @@
 
 <!--- ## Unreleased -->
 
+## `cx@22.8.2`
+
+**Fixes**
+
+-  Various typing improvements
+
 ## `cx@22.8.0`
 
 **Fixes**
