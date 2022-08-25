@@ -1,7 +1,8 @@
 @use "sass:math";
-@use "../../widgets/core.scss" as *;
 @use "../../util/scss/add-rules.scss" as *;
 @use "../../util/scss/clockwise.scss" as *;
+@use "../../util/scss/besm.scss" as *;
+@use "../../util/scss/include.scss" as *;
 @use "./Axis.scss" as *;
 
 @mixin cx-numericaxis($name: "numericaxis", $besm: $cx-besm) {

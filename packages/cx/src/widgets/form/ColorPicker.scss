@@ -4,6 +4,7 @@
 @use "./maps.scss" as *;
 @use "../../util/scss/besm.scss" as *;
 @use "../../util/scss/add-rules.scss" as *;
+@use "./Field.scss" as *;
 
 //@if cx-call-once("cx/widgets/checker-background") {
 //   %cx-checker-bg {
@@ -173,7 +174,6 @@
 
    .#{$element}#{$name}-alpha {
       height: 16px;
-      //@extend %cx-checker-bg;
       @include cx-checker-background();
       position: relative;
       touch-action: none;
@@ -220,7 +220,6 @@
    }
 
    .#{$element}#{$name}-color {
-      //@extend %cx-checker-bg;
       @include cx-checker-background();
       height: 68px;
       width: 68px;

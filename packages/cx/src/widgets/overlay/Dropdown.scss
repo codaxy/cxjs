@@ -1,10 +1,12 @@
 @use "sass:math";
-@use "./core.scss" as *;
-@use "../core.scss" as *;
 @use "../box.scss" as *;
 @use "../../util/scss/add-rules.scss" as *;
 @use "../../util/scss/clockwise.scss" as *;
-@use "../../variables.scss" as *;
+@use "../../util/scss/besm.scss" as *;
+@use "../../util/scss/defaults.scss" as *;
+@use "./variables.scss" as *;
+@use "./maps.scss" as *;
+@use "./Overlay.scss" as *;
 
 @mixin cx-dropdown-arrows(
    $name: "dropdown",
@@ -161,7 +163,7 @@
    $state: map-get($besm, state);
 
    .#{$block}#{$name} {
-      @extend %cxb-overlay;
+      @include cxb-overlay($name, $besm);
       display: block;
       left: -10000px;
       top: -10000px;

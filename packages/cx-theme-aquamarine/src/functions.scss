@@ -1,0 +1,31 @@
+@function get-accent-color($primary-color) {
+   $accent-color: null;
+   @if green($primary-color) <= 80 {
+      $accent-color: #ffeb3b;
+   } @else if green($primary-color) >= 150 and red($primary-color) < 20 and saturation($primary-color) > 90% {
+      $accent-color: #cddc39;
+   } @else if
+      green($primary-color) >
+      80 and
+      green($primary-color) <=
+      175 and
+      saturation($primary-color) <
+      50% and
+      saturation($primary-color) >
+      20%
+   {
+      $accent-color: #ff9800;
+   } @else {
+      $accent-color: #ffc107;
+   }
+   @return $accent-color;
+}
+
+// float button text color picker
+@function set-text-color($bg-color) {
+   @if (lightness($bg-color) > 55) {
+      @return $cx-default-color; // Lighter backgorund, return dark color
+   } @else {
+      @return #ffffff; // Darker background, return light color
+   }
+}

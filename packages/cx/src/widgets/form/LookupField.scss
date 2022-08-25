@@ -6,6 +6,7 @@
 @use "../../util/scss/calc.scss" as *;
 @use "./variables.scss" as *;
 @use "./maps.scss" as *;
+@use "./Field.scss" as *;
 
 @mixin cx-lookupfield(
    $name: "lookupfield",

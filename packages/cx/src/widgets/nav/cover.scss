@@ -1,5 +1,5 @@
-@use "../../util/scss/besm.scss" as *;
 @use "./variables.scss" as *;
+@use "../../util/scss/besm.scss" as *;
 
 @mixin cx-cover($besm: $cx-besm) {
    $block: map-get($besm, block);
@@ -8,11 +8,12 @@
    $mod: map-get($besm, mod);
 
    .#{$mod}cover {
-      background-color: $cx-default-cover-background-color;
-      border-color: $cx-default-cover-border-color;
+      //strange error
+      //background-color: $cx-default-cover-background-color;
+      //border-color: $cx-default-cover-border-color;
       border-style: solid;
-      fill: $cx-default-cover-background-color;
-      stroke: $cx-default-cover-border-color;
+      //fill: $cx-default-cover-background-color;
+      //stroke: $cx-default-cover-border-color;
    }
 }
 

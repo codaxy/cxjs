@@ -1,61 +1,63 @@
 @use "sass:math";
-@use "./core.scss" as *;
-@use "../core.scss" as *;
-@use "../box.scss" as *;
-@use "../../variables.scss" as *;
+@use "./variables.scss" as *;
 @use "../../util/scss/add-rules.scss" as *;
 @use "../../util/scss/clockwise.scss" as *;
 @use "../../util/scss/deep-merge.scss" as *;
 @use "../../util/scss/calc.scss" as *;
+@use "../../util/scss/besm.scss" as *;
+@use "../../util/scss/defaults.scss" as *;
+
+@mixin cxb-overlay($name: "overlay", $besm: $cx-besm) {
+   $block: map-get($besm, block);
+   $element: map-get($besm, element);
+   $state: map-get($besm, state);
+   left: calc(50% - 250px); //guess
+   top: calc(50% - 100px); //guess
+   min-width: 10px;
+   min-height: 10px;
+   position: fixed;
+   overflow: visible;
+   box-sizing: border-box;
+
+   &.#{$state}draggable {
+      cursor: pointer;
+      touch-action: none;
+   }
+
+   &.#{$state}shadow {
+      position: absolute;
+   }
+
+   &:focus {
+      outline: none;
+   }
+}
+
+@mixin cxe-overlay-modal-backdrop() {
+   position: fixed;
+   left: 0;
+   top: 0;
+   width: 100vw;
+   height: 100vh;
+}
+
+@mixin cxe-overlay-shadow() {
+   position: fixed;
+   left: 0;
+   top: 0;
+   width: 100vw;
+   height: 100vh;
+   background: rgba(128, 128, 128, 0.3);
+   overflow: auto;
+}
 
 @mixin cx-overlay($name: "overlay", $besm: $cx-besm) {
    $block: map-get($besm, block);
    $element: map-get($besm, element);
    $state: map-get($besm, state);
 
-   %cxb-overlay {
-      left: calc(50% - 250px); //guess
-      top: calc(50% - 100px); //guess
-      min-width: 10px;
-      min-height: 10px;
-      position: fixed;
-      overflow: visible;
-      box-sizing: border-box;
-
-      &.#{$state}draggable {
-         cursor: pointer;
-         touch-action: none;
-      }
-
-      &.#{$state}shadow {
-         position: absolute;
-      }
-
-      &:focus {
-         outline: none;
-      }
-   }
-
-   %cxe-overlay-modal-backdrop {
-      position: fixed;
-      left: 0;
-      top: 0;
-      width: 100vw;
-      height: 100vh;
-   }
-
-   %cxe-overlay-shadow {
-      position: fixed;
-      left: 0;
-      top: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(128, 128, 128, 0.3);
-      overflow: auto;
-   }
-
    .#{$block}#{$name} {
-      @extend %cxb-overlay;
+      @include cxb-overlay($name, $besm);
 
       &.#{$state}pad {
          padding: $cx-default-container-padding;
@@ -63,11 +65,11 @@
    }
 
    .#{$element}#{$name}-modal-backdrop {
-      @extend %cxe-overlay-modal-backdrop;
+      @include cxe-overlay-modal-backdrop;
    }
 
    .#{$element}#{$name}-shadow {
-      @extend %cxe-overlay-shadow;
+      @include cxe-overlay-shadow;
    }
 }
 

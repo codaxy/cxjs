@@ -1,4 +1,6 @@
-@import "~cx/src/index";
+@use "~cx/src/index";
+@use "./variables.scss" as *;
+@use "~cx/src/util/scss/include.scss" as *;
 
 $block: map-get($cx-besm, block);
 $element: map-get($cx-besm, element);

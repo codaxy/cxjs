@@ -6,6 +6,7 @@
 @use "./maps.scss" as *;
 @use "./Field.maps.scss" as *;
 @use "./Field.variables.scss" as *;
+@use "./Field.scss" as *;
 
 @mixin cx-numberfield(
    $name: "numberfield",
