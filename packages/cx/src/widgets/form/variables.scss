@@ -84,7 +84,7 @@ $cx-input-left-icon-state-style-map: (
       font-size: $cx-default-icon-size,
       left: $cx-default-input-left-tool-left,
       top: 50%,
-      margin-top: -$cx-default-input-left-tool-size / 2,
+      margin-top: -$cx-default-input-left-tool-size * 0.5,
       height: $cx-default-input-left-tool-size,
       width: $cx-default-input-left-tool-size,
       line-height: $cx-default-input-left-tool-size,
@@ -105,7 +105,7 @@ $cx-input-right-icon-state-style-map: (
       font-size: $cx-default-icon-size,
       right: $cx-default-input-right-tool-right,
       top: 50%,
-      margin-top: -$cx-default-input-tool-size / 2,
+      margin-top: -$cx-default-input-tool-size * 0.5,
       height: $cx-default-input-tool-size,
       width: $cx-default-input-tool-size,
       line-height: $cx-default-input-tool-size,
@@ -131,7 +131,7 @@ $cx-clear-state-style-map: (
       font-size: $cx-default-icon-size,
       right: $cx-default-input-right-tool-right,
       top: 50%,
-      margin-top: -$cx-default-clear-size / 2,
+      margin-top: -$cx-default-clear-size * 0.5,
       height: $cx-default-clear-size,
       width: $cx-default-clear-size,
       line-height: $cx-default-clear-size,
@@ -293,7 +293,7 @@ $cx-input-tag-clear-state-style-map: cx-deep-map-merge(
    $cx-clear-state-style-map,
    (
       default: (
-         right: round($cx-default-input-tag-border-radius / 8),
+         right: round($cx-default-input-tag-border-radius * 0.125),
       ),
    )
 ) !default;

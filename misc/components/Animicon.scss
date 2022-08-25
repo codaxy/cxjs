@@ -4,11 +4,11 @@ $transition: 0.3s;
 
 //common to all three-liners
 .lines-button {
-   padding: $button-size/2 $button-size/4;
+   padding: $button-size * 0.5 $button-size * 0.25;
    transition: 0.3s;
    cursor: pointer;
    user-select: none;
-   border-radius: $button-size/8;
+   border-radius: $button-size * 0.125;
    &:active {
       transition: 0;
    }
@@ -20,9 +20,9 @@ $transition: 0.3s;
 @mixin line {
    display: inline-block;
    width: $button-size;
-   height: $button-size/8;
+   height: $button-size * 0.125;
    background: $color;
-   border-radius: $button-size/16;
+   border-radius: $button-size * 0.06125;
    transition: $transition;
 }
 
@@ -36,14 +36,14 @@ $transition: 0.3s;
       position: absolute;
       left: 0;
       content: "";
-      -webkit-transform-origin: $button-size/16 center;
-      transform-origin: $button-size/16 center;
+      -webkit-transform-origin: $button-size * 0.06125 center;
+      transform-origin: $button-size * 0.06125 center;
    }
    &:before {
-      top: $button-size/4;
+      top: $button-size * 0.25;
    }
    &:after {
-      top: -$button-size/4;
+      top: -$button-size * 0.25;
    }
 }
 
@@ -52,7 +52,7 @@ $transition: 0.3s;
       &:before,
       &:after {
          top: 0;
-         width: $button-size/1.5;
+         width: $button-size * 0.66667;
       }
       &:before {
          -webkit-transform: rotate3d(0, 0, 1, 40deg);
