@@ -1,5 +1,10 @@
-@use "~cx/src/index";
+@use "~cx/src/variables" as *;
+@use "~cx/src/maps" as *;
+@use "~cx/src/index" as *;
+
 @use "./variables.scss" as *;
+@use "./maps.scss" as *;
+
 @use "~cx/src/util/scss/include.scss" as *;
 
 $block: map-get($cx-besm, block);
