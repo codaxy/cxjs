@@ -1,6 +1,5 @@
-import {expression} from './Expression';
-
-import {quoteStr} from '../util/quote';
+import { quoteStr } from '../util/quote';
+import { expression } from './Expression';
 
 function plus(str) {
    return str.length ? str + ' + ' : str;
@@ -9,10 +8,8 @@ function plus(str) {
 var tplCache = {};
 
 export function stringTemplate(str) {
-
    var expr = tplCache[str];
-   if (expr)
-      return expr;
+   if (expr) return expr;
 
    expr = '';
 
@@ -25,24 +22,19 @@ export function stringTemplate(str) {
    for (var i = 0; i < str.length; i++) {
       var c = str[i];
       switch (c) {
-
          case '{':
             if (termStart < 0) {
                if (str[i + 1] == '{' && str[i - 1] != '%') {
                   expr = plus(expr) + quoteStr(str.substring(quoteStart, i) + '{');
                   i++;
                   quoteStart = i + 1;
-               }
-               else {
+               } else {
                   termStart = i + 1;
                   percentSign = str[i - 1] == '%';
-                  if (i > quoteStart)
-                     expr = plus(expr) + quoteStr(str.substring(quoteStart, percentSign ? i-1 : i));
+                  if (i > quoteStart) expr = plus(expr) + quoteStr(str.substring(quoteStart, percentSign ? i - 1 : i));
                   bracketsOpen = 1;
                }
-            }
-            else
-               bracketsOpen++;
+            } else bracketsOpen++;
             break;
 
          case '}':
@@ -51,10 +43,8 @@ export function stringTemplate(str) {
                   term = str.substring(termStart, i);
                   if (term.indexOf(':') == -1) {
                      let nullSepIndex = term.indexOf('|');
-                     if (nullSepIndex == -1)
-                        term += ':s';
-                     else
-                        term = term.substring(0, nullSepIndex) + ":s" + term.substring(nullSepIndex);
+                     if (nullSepIndex == -1) term += ':s';
+                     else term = term.substring(0, nullSepIndex) + ':s' + term.substring(nullSepIndex);
                   }
                   expr = plus(expr) + (percentSign ? '%{' : '{') + term + '}';
                   termStart = -1;
@@ -70,16 +60,21 @@ export function stringTemplate(str) {
       }
    }
 
-   if (quoteStart < str.length)
-      expr = plus(expr) + quoteStr(str.substring(quoteStart));
+   if (quoteStart < str.length) expr = plus(expr) + quoteStr(str.substring(quoteStart));
 
    //console.log(expr);
 
-   return tplCache[str] = expression(expr);
+   try {
+      tplCache[str] = expression(expr);
+   } catch (err) {
+      console.warn(err);
+      tplCache[str] = () => str;
+   }
+
+   return tplCache[str];
 }
 
 export const StringTemplate = {
-
    get: function (str) {
       return stringTemplate(str);
    },
@@ -90,8 +85,8 @@ export const StringTemplate = {
 
    format: function (format, ...args) {
       return stringTemplate(format)(args);
-   }
-}
+   },
+};
 
 export function invalidateStringTemplateCache() {
    tplCache = {};
