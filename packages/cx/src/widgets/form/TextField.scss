@@ -33,6 +33,8 @@
          $placeholder: $placeholder
       );
 
+      text-overflow: ellipsis;
+
       .#{$state}icon > & {
          padding-left: cx-calc(2 * cx-left($padding), $icon-size);
       }
