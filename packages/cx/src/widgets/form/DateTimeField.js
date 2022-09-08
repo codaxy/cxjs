@@ -214,7 +214,7 @@ class DateTimeInput extends VDOM.Component {
                partial: widget.partial,
                encoding: widget.encoding,
                disabledDaysOfWeek: widget.disabledDaysOfWeek,
-               focusable: !widget.focusInputFirst
+               focusable: !widget.focusInputFirst,
             };
             break;
 
@@ -252,6 +252,7 @@ class DateTimeInput extends VDOM.Component {
          onFocusOut: (e) => {
             this.closeDropdown(e);
          },
+         onMouseDown: stopPropagation,
          items: {
             ...pickerConfig,
             ...this.props.picker,
@@ -398,8 +399,7 @@ class DateTimeInput extends VDOM.Component {
          e.preventDefault();
 
          //the field should not focus only in case when dropdown will open and autofocus
-         if (this.props.instance.widget.focusInputFirst || this.state.dropdownOpen)
-            this.input.focus();
+         if (this.props.instance.widget.focusInputFirst || this.state.dropdownOpen) this.input.focus();
 
          if (this.state.dropdownOpen) this.closeDropdown(e);
          else this.openDropdown(e);
