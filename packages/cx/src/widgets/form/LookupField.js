@@ -125,6 +125,7 @@ export class LookupField extends Field {
 
       data.stateMods = {
          multiple: this.multiple,
+         single: !this.multiple,
          disabled: data.disabled,
          readonly: data.readOnly,
       };
