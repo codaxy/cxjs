@@ -2,6 +2,12 @@
 
 <!--- ## Unreleased -->
 
+## `cx@22.9.0`
+
+**Fixes**
+
+-  Add text ellipsis to all form fields
+
 ## `cx@22.8.2`
 
 **Fixes**
