@@ -2,258 +2,260 @@
 
 //THEME SPECIFIC VARIABLES
 // pick theme color scheme
-$primary-color-blue: #47ccde !default; //#00BFFF !default;//lighten(#0587DD, 12) !default;//
-$primary-color-gray: #607d8b !default;
-$primary-color-brown: #795548 !default;
-$primary-color-pink: #c2185b !default;
-$primary-color-purple: #673ab7 !default;
-$primary-color-red: #d32f2f !default;
-$primary-color-black: #212121 !default;
-$primary-color-green: #4caf50 !default;
-$primary-color-indigo: #3f51b5 !default;
-$primary-color-teal: #009688 !default;
+$primary-color-blue: #47ccde; //!default; //#00BFFF;  //!default;//lighten(#0587DD, 12);  //!default;//
+$primary-color-gray: #607d8b; //!default;
+$primary-color-brown: #795548; //!default;
+$primary-color-pink: #c2185b; //!default;
+$primary-color-purple: #673ab7; //!default;
+$primary-color-red: #d32f2f; //!default;
+$primary-color-black: #212121; //!default;
+$primary-color-green: #4caf50; //!default;
+$primary-color-indigo: #3f51b5; //!default;
+$primary-color-teal: #009688; //!default;
 
-$cx-theme-primary-color: #49c7de !default;
-$cx-theme-primary-color-light: lighten($cx-theme-primary-color, 8) !default;
-$cx-theme-primary-color-dark: darken($cx-theme-primary-color, 7) !default;
+$cx-theme-primary-color: #49c7de; //!default;
+$cx-theme-primary-color-light: lighten($cx-theme-primary-color, 8); //!default;
+$cx-theme-primary-color-dark: darken($cx-theme-primary-color, 7); //!default;
 
-$cx-theme-primary-text-color: darken($cx-theme-primary-color, 15) !default;
+$cx-theme-primary-text-color: darken($cx-theme-primary-color, 15); //!default;
 
-$cx-theme-accent-color: #ffffb0 !default;
-$cx-theme-danger-color: #ec695f !default;
-$cx-theme-danger-color-dark: darken($cx-theme-danger-color, 15) !default;
-$cx-theme-secondary-text-color: #757575 !default;
+$cx-theme-accent-color: #ffffb0; //!default;
+$cx-theme-danger-color: #ec695f; //!default;
+$cx-theme-danger-color-dark: darken($cx-theme-danger-color, 15); //!default;
+$cx-theme-secondary-text-color: #757575; //!default;
 
 $cx-theme-background-gradient: linear-gradient(
    to top right,
    $cx-theme-primary-color-dark,
    $cx-theme-primary-color
-) !default; //linear-gradient(to top right, $cx-theme-primary-color, #00cde1) !default;
+); //!default; //linear-gradient(to top right, $cx-theme-primary-color, #00cde1);  //!default;
 
 $cx-theme-focus-box-shadow: 0 0 2px 2px rgba($cx-theme-primary-color, 0.4);
 
 // shadows
-$cx-theme-box-shadow: 0 1px 10px rgba(197, 176, 176, 0.1) !default;
-$cx-theme-box-shadow-elevated: 0 2px 20px rgba(0, 0, 0, 0.2) !default;
+$cx-theme-box-shadow: 0 1px 10px rgba(197, 176, 176, 0.1); //!default;
+$cx-theme-box-shadow-elevated: 0 2px 20px rgba(0, 0, 0, 0.2); //!default;
 
 // pick theme size
-$normal-base-size: 14px !default;
-$small-base-size: 12px !default;
-$cx-theme-base-size: $normal-base-size !default;
+$normal-base-size: 14px; //!default;
+$small-base-size: 12px; //!default;
+$cx-theme-base-size: $normal-base-size; //!default;
 
 //GLOBAL VARIABLES
 
 @use "~cx/src/util/variables" as *;
 
-$cx-default-container-padding: 5px !default;
+$cx-default-container-padding: 5px;
 
-$cx-default-font-family: ("Open Sans", "Roboto", sans-serif) !default;
-$cx-default-color: rgba(0, 0, 0, 0.7) !default;
+$cx-default-font-family: ("Open Sans", "Roboto", sans-serif);
+$cx-default-color: rgba(0, 0, 0, 0.7);
 
-$cx-default-border-color: #d3d8d6 !default;
+$cx-default-border-color: #d3d8d6;
 
-$cx-default-border-radius: 4px !default;
+$cx-default-border-radius: 4px;
 
 @use "~cx/src/widgets/box" as *;
 
-$cx-default-icon-size: 16px !default;
+$cx-default-icon-size: 16px;
 
-$cx-default-box-font-size: 14px !default;
-$cx-default-box-line-height: 24px !default;
-$cx-default-box-border-width: 1px !default;
-$cx-default-box-padding: 5px !default;
+$cx-default-box-font-size: 14px;
+$cx-default-box-line-height: 24px;
+$cx-default-box-border-width: 1px;
+$cx-default-box-padding: 5px;
 
 @use "~cx/src/widgets/variables" as *;
 
-$cx-default-color-light: rgba(0, 0, 0, 0.6) !default;
-$cx-default-font-weight: 400 !default;
-$cx-default-paragraph-line-height: 1.5 !default;
-$cx-default-background-color: #fff !default;
-$cx-default-border-color-light: lighten(#d3d8d6, 10) !default;
+$cx-default-color-light: rgba(0, 0, 0, 0.6); //!default;
+$cx-default-font-weight: 400; //!default;
+$cx-default-paragraph-line-height: 1.5; //!default;
+$cx-default-background-color: #fff; //!default;
+$cx-default-border-color-light: lighten(#d3d8d6, 10); //!default;
 
-//$cx-default-padding-extra-small: 5px !default;
-//$cx-default-padding-small: $cx-default-box-padding !default;
-//$cx-default-padding-medium: 10px !default;
-//$cx-default-padding-large: 14px !default;
-//$cx-default-padding-extra-large: 19px !default;
+//$cx-default-padding-extra-small: 5px;  //!default;
+//$cx-default-padding-small: $cx-default-box-padding;  //!default;
+//$cx-default-padding-medium: 10px;  //!default;
+//$cx-default-padding-large: 14px;  //!default;
+//$cx-default-padding-extra-large: 19px;  //!default;
 
-$cx-default-transition: all 0.35s ease !default;
+$cx-default-transition: all 0.35s ease; //!default;
 
-$cx-default-dropdown-arrow-offset: 26px !default;
+$cx-default-dropdown-arrow-offset: 26px; //!default;
 
-$cx-use-box-line-height-fix: false !default;
+$cx-use-box-line-height-fix: false; //!default;
 
 //BUTTON
-$cx-default-button-color: $cx-default-color !default;
-$cx-default-button-font-size: 11px !default;
-$cx-default-button-font-weight: 600 !default;
-$cx-default-button-background-color: #f3f3f3; //#fff !default;
-$cx-default-button-border-width: 1px !default;
-$cx-default-button-border-color: lightgray !default;
-$cx-default-button-border-radius: $cx-default-border-radius !default;
-$cx-default-button-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); //$cx-theme-box-shadow !default; //
+$cx-default-button-color: $cx-default-color; //!default;
+$cx-default-button-font-size: 11px; //!default;
+$cx-default-button-font-weight: 600; //!default;
+$cx-default-button-background-color: #f3f3f3; //#fff;  //!default;
+$cx-default-button-border-width: 1px; //!default;
+$cx-default-button-border-color: lightgray; //!default;
+$cx-default-button-border-radius: $cx-default-border-radius; //!default;
+$cx-default-button-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); //$cx-theme-box-shadow;  //!default; //
 $cx-default-button-padding: $cx-default-box-padding 2 * $cx-default-box-padding + $cx-default-box-line-height -
-   $cx-default-icon-size !default;
+   $cx-default-icon-size; //!default;
 
 //TAB
-$cx-default-tab-color: $cx-default-color-light !default;
-$cx-default-tab-font-size: $cx-default-box-font-size - 1px !default;
-$cx-default-tab-font-weight: 700 !default;
-$cx-default-tab-background-color: transparent !default;
-$cx-default-tab-border-width: 0 !default;
-$cx-default-tab-border-color: transparent !default;
-$cx-default-tab-border-radius: $cx-default-border-radius !default;
-$cx-default-tab-padding: $cx-default-box-padding 2 * $cx-default-box-padding + 10px !default;
+$cx-default-tab-color: $cx-default-color-light; //!default;
+$cx-default-tab-font-size: $cx-default-box-font-size - 1px; //!default;
+$cx-default-tab-font-weight: 700; //!default;
+$cx-default-tab-background-color: transparent; //!default;
+$cx-default-tab-border-width: 0; //!default;
+$cx-default-tab-border-color: transparent; //!default;
+$cx-default-tab-border-radius: $cx-default-border-radius; //!default;
+$cx-default-tab-padding: $cx-default-box-padding 2 * $cx-default-box-padding + 10px; //!default;
 
 //SCROLLER
-$cx-default-scroller-button-size: 30px !default;
+$cx-default-scroller-button-size: 30px; //!default;
 
 //SECTION
-$cx-default-section-box-shadow: 0 3px 18px rgba(0, 0, 0, 0.1) !default;
-$cx-default-section-border-radius: $cx-default-border-radius !default;
+$cx-default-section-box-shadow: 0 3px 18px rgba(0, 0, 0, 0.1); //!default;
+$cx-default-section-border-radius: $cx-default-border-radius; //!default;
 
 //MENU
-$cx-default-menu-shadow: 0 4px 8px rgba(0, 0, 0, 0.3) !default;
-$cx-default-menu-separator-color: #e9e9e9 !default;
+$cx-default-menu-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); //!default;
+$cx-default-menu-separator-color: #e9e9e9; //!default;
 
 //WINDOW
-$cx-default-window-box-shadow: $cx-theme-box-shadow-elevated !default;
-$cx-default-window-header-padding: 10px 10px 10px 20px !default;
-$cx-default-window-header-font-size: 18px !default;
-$cx-default-window-header-color: $cx-theme-primary-text-color !default;
-$cx-default-window-header-background-color: $cx-default-background-color !default;
+$cx-default-window-box-shadow: $cx-theme-box-shadow-elevated; //!default;
+$cx-default-window-header-padding: 10px 10px 10px 20px; //!default;
+$cx-default-window-header-font-size: 18px; //!default;
+$cx-default-window-header-color: $cx-theme-primary-text-color; //!default;
+$cx-default-window-header-background-color: $cx-default-background-color; //!default;
 
 //TOAST
-$cx-default-toast-box-shadow: $cx-theme-box-shadow-elevated !default;
-$cx-default-toast-padding: 2 * $cx-default-box-padding 2 * $cx-default-box-padding !default;
+$cx-default-toast-box-shadow: $cx-theme-box-shadow-elevated; //!default;
+$cx-default-toast-padding: 2 * $cx-default-box-padding 2 * $cx-default-box-padding; //!default;
 
 //GRID
-$cx-default-grid-font-size: $cx-default-box-font-size - 1px !default;
-$cx-default-grid-border-radius: $cx-default-border-radius !default;
-$cx-default-grid-border-color: lighten($cx-default-border-color, 5) !default;
+$cx-default-grid-font-size: $cx-default-box-font-size - 1px; //!default;
+$cx-default-grid-border-radius: $cx-default-border-radius; //!default;
+$cx-default-grid-border-color: lighten($cx-default-border-color, 5); //!default;
 
 // header
-$cx-default-grid-header-font-size: $cx-default-box-font-size - 3px !default;
-$cx-default-grid-header-font-weight: 700 !default;
-$cx-default-grid-header-line-height: $cx-default-box-line-height !default;
-$cx-default-grid-header-color: $cx-default-color !default;
-$cx-default-grid-header-background-color: lighten($cx-default-button-background-color, 1) !default;
-$cx-default-grid-header-border-color: $cx-default-grid-border-color !default;
-$cx-default-grid-header-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06) !default;
-$cx-default-grid-header-padding: $cx-default-box-padding 1.5 * $cx-default-box-padding !default;
+$cx-default-grid-header-font-size: $cx-default-box-font-size - 3px; //!default;
+$cx-default-grid-header-font-weight: 700; //!default;
+$cx-default-grid-header-line-height: $cx-default-box-line-height; //!default;
+$cx-default-grid-header-color: $cx-default-color; //!default;
+$cx-default-grid-header-background-color: lighten($cx-default-button-background-color, 1); //!default;
+$cx-default-grid-header-border-color: $cx-default-grid-border-color; //!default;
+$cx-default-grid-header-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06); //!default;
+$cx-default-grid-header-padding: $cx-default-box-padding 1.5 * $cx-default-box-padding; //!default;
 
 // data
-//$cx-default-grid-data-font-size: 25px !default;
-//$cx-default-grid-data-font-weight: 500 !default;
-//$cx-default-grid-data-border-color: transparent !default;//lighten($cx-default-border-color, 5) !default;
-$cx-default-grid-data-background-color: #fff !default;
-$cx-default-grid-data-padding: $cx-default-box-padding 1.5 * $cx-default-box-padding !default;
+//$cx-default-grid-data-font-size: 25px;  //!default;
+//$cx-default-grid-data-font-weight: 500;  //!default;
+//$cx-default-grid-data-border-color: transparent;  //!default;//lighten($cx-default-border-color, 5);  //!default;
+$cx-default-grid-data-background-color: #fff; //!default;
+$cx-default-grid-data-padding: $cx-default-box-padding 1.5 * $cx-default-box-padding; //!default;
 $cx-default-grid-data-line-height: $cx-default-box-line-height;
 
 //FORM
-$cx-default-input-font-size: $cx-default-box-font-size - 1px !default;
+$cx-default-input-font-size: $cx-default-box-font-size - 1px; //!default;
 $cx-default-input-width: 200px;
-$cx-default-input-border-color: $cx-default-border-color-light !default;
-$cx-default-input-box-shadow: null !default; //none; //0 0 1px darken($cx-default-input-border-color, 20) !default;
-$cx-default-input-background-color: #f8f9fb !default; //#f8f9fb !default;
-$cx-default-input-padding: $cx-default-box-padding 1.5 * $cx-default-box-padding !default;
-$cx-default-input-left-tool-left: 6px !default;
-$cx-default-input-left-tool-spacing: 2px !default;
-$cx-default-input-right-tool-right: 6px !default;
+$cx-default-input-border-color: $cx-default-border-color-light; //!default;
+$cx-default-input-box-shadow: null; //!default; //none; //0 0 1px darken($cx-default-input-border-color, 20);  //!default;
+$cx-default-input-background-color: #f8f9fb; //!default; //#f8f9fb;  //!default;
+$cx-default-input-padding: $cx-default-box-padding 1.5 * $cx-default-box-padding; //!default;
+$cx-default-input-left-tool-left: 6px; //!default;
+$cx-default-input-left-tool-spacing: 2px; //!default;
+$cx-default-input-right-tool-right: 6px; //!default;
 
 // label
-$cx-default-label-font-size: 12px !default;
-$cx-default-label-color: rgba(0, 0, 0, 38) !default;
+$cx-default-label-font-size: 12px; //!default;
+$cx-default-label-color: rgba(0, 0, 0, 38); //!default;
 
 // date time picker
-$cx-default-datetimepicker-border-color: transparent !default;
-$cx-default-datetimepicker-border-radius: $cx-default-border-radius !default;
-$cx-default-wheel-clip-border-color: transparent !default;
+$cx-default-datetimepicker-border-color: transparent; //!default;
+$cx-default-datetimepicker-border-radius: $cx-default-border-radius; //!default;
+$cx-default-wheel-clip-border-color: transparent; //!default;
 
 // calendar
-$cx-default-calendar-background-color: #fff !default;
-$cx-default-calendar-border-width: 0px !default;
-$cx-default-calendar-border-color: $cx-default-input-border-color !default;
-$cx-default-calendar-border-radius: $cx-default-border-radius !default;
-$cx-default-calendar-box-shadow: $cx-theme-box-shadow-elevated !default;
-$cx-default-calendar-padding: 0 0 10px !default;
+$cx-default-calendar-background-color: #fff; //!default;
+$cx-default-calendar-border-width: 0px; //!default;
+$cx-default-calendar-border-color: $cx-default-input-border-color; //!default;
+$cx-default-calendar-border-radius: $cx-default-border-radius; //!default;
+$cx-default-calendar-box-shadow: $cx-theme-box-shadow-elevated; //!default;
+$cx-default-calendar-padding: 0 0 10px; //!default;
 
-$cx-default-calendar-header-font-size: $cx-default-box-font-size + 2px !default;
-$cx-default-calendar-header-color: $cx-default-color !default;
-$cx-default-calendar-header-background-color: $cx-default-background-color !default;
+$cx-default-calendar-header-font-size: $cx-default-box-font-size + 2px; //!default;
+$cx-default-calendar-header-color: $cx-default-color; //!default;
+$cx-default-calendar-header-background-color: $cx-default-background-color; //!default;
 
-$cx-default-calendar-day-font-size: 11px !default;
-$cx-default-calendar-day-border-radius: $cx-default-border-radius !default;
+$cx-default-calendar-day-font-size: 11px; //!default;
+$cx-default-calendar-day-border-radius: $cx-default-border-radius; //!default;
 
 // checkbox
-$cx-default-checkbox-size: $cx-default-box-line-height - 8px !default;
-//$cx-default-checkbox-border-width: 2px !default;
-$cx-default-checkbox-border-color: $cx-default-border-color !default;
+$cx-default-checkbox-size: $cx-default-box-line-height - 8px; //!default;
+//$cx-default-checkbox-border-width: 2px;  //!default;
+$cx-default-checkbox-border-color: $cx-default-border-color; //!default;
 
 // radio
-$cx-default-radio-size: $cx-default-box-line-height - 8px !default;
-$cx-default-radio-color: $cx-theme-primary-color-light !default;
-//$cx-default-radio-border-width: 2px !default;
-$cx-default-radio-border-color: $cx-default-border-color !default;
+$cx-default-radio-size: $cx-default-box-line-height - 8px; //!default;
+$cx-default-radio-color: $cx-theme-primary-color-light; //!default;
+//$cx-default-radio-border-width: 2px;  //!default;
+$cx-default-radio-border-color: $cx-default-border-color; //!default;
 
 // lookupfield tag
-$cx-default-input-tag-font-size: 12px !default;
-$cx-default-input-tag-border-radius: $cx-default-border-radius !default;
-$cx-default-input-tag-spacing: 4px !default;
-$cx-default-input-tag-padding: 0 !default;
+$cx-default-input-tag-font-size: 12px; //!default;
+$cx-default-input-tag-border-radius: $cx-default-border-radius; //!default;
+$cx-default-input-tag-spacing: 4px; //!default;
+$cx-default-input-tag-padding: 0; //!default;
 
 // colorpicker
-$cx-default-colorpicker-font-family: $cx-default-font-family !default;
-$cx-default-colorpicker-background-color: $cx-default-calendar-background-color !default;
-$cx-default-colorpicker-border-width: 1px !default;
-$cx-default-colorpicker-box-shadow: none !default;
+$cx-default-colorpicker-font-family: $cx-default-font-family; //!default;
+$cx-default-colorpicker-background-color: $cx-default-calendar-background-color; //!default;
+$cx-default-colorpicker-border-width: 1px; //!default;
+$cx-default-colorpicker-box-shadow: none; //!default;
 
 // slider
-$cx-default-slider-axis-size: 4px !default;
-$cx-default-slider-axis-background-color: $cx-default-border-color-light !default;
-$cx-default-slider-range-background-color: $cx-theme-primary-color-light !default;
-$cx-default-slider-handle-size: 16px !default;
-$cx-default-slider-handle-background-color: $cx-theme-primary-color-light !default;
-$cx-default-slider-handle-border-width: 0 !default;
-$cx-default-slider-handle-border-color: $cx-default-slider-handle-background-color !default;
-$cx-default-slider-handle-box-shadow: $cx-theme-box-shadow !default;
+$cx-default-slider-axis-size: 4px; //!default;
+$cx-default-slider-axis-background-color: $cx-default-border-color-light; //!default;
+$cx-default-slider-range-background-color: $cx-theme-primary-color-light; //!default;
+$cx-default-slider-handle-size: 16px; //!default;
+$cx-default-slider-handle-background-color: $cx-theme-primary-color-light; //!default;
+$cx-default-slider-handle-border-width: 0; //!default;
+$cx-default-slider-handle-border-color: $cx-default-slider-handle-background-color; //!default;
+$cx-default-slider-handle-box-shadow: $cx-theme-box-shadow; //!default;
 
 // switch
-$cx-default-switch-axis-size: 24px !default;
-$cx-default-switch-axis-background-color: $cx-default-border-color-light !default;
-$cx-default-switch-handle-size: 18px !default;
-$cx-default-switch-width: 40px !default;
-$cx-default-switch-range-background-color: $cx-theme-primary-color-light !default;
-$cx-default-switch-handle-background-color: #fff !default;
-$cx-default-switch-handle-border-color: $cx-default-switch-handle-background-color !default;
-$cx-default-switch-handle-box-shadow: $cx-theme-box-shadow-elevated !default;
+$cx-default-switch-axis-size: 24px; //!default;
+$cx-default-switch-axis-background-color: $cx-default-border-color-light; //!default;
+$cx-default-switch-handle-size: 18px; //!default;
+$cx-default-switch-width: 40px; //!default;
+$cx-default-switch-range-background-color: $cx-theme-primary-color-light; //!default;
+$cx-default-switch-handle-background-color: #fff; //!default;
+$cx-default-switch-handle-border-color: $cx-default-switch-handle-background-color; //!default;
+$cx-default-switch-handle-box-shadow: $cx-theme-box-shadow-elevated; //!default;
 
 // icon
-$cx-default-input-tool-size: $cx-default-box-line-height !default;
-$cx-default-input-left-tool-size: $cx-default-box-line-height !default;
-$cx-default-clear-size: $cx-default-box-line-height !default;
+$cx-default-input-tool-size: $cx-default-box-line-height; //!default;
+$cx-default-input-left-tool-size: $cx-default-box-line-height; //!default;
+$cx-default-clear-size: $cx-default-box-line-height; //!default;
 
 // CHART
 
-$cx-default-palette-fill-whiten: 30% !default;
-$cx-default-palette-fill-hover-whiten: 50% !default;
-$cx-default-palette-fill-selected-whiten: 0% !default;
-$cx-default-palette-fill-disabled-whiten: 90% !default;
+$cx-default-palette-fill-whiten: 30%; //!default;
+$cx-default-palette-fill-hover-whiten: 50%; //!default;
+$cx-default-palette-fill-selected-whiten: 0%; //!default;
+$cx-default-palette-fill-disabled-whiten: 90%; //!default;
 
-$cx-default-palette-fill-blacken: 5% !default;
-$cx-default-palette-fill-hover-blacken: 5% !default;
-$cx-default-palette-fill-selected-blacken: 7% !default;
-$cx-default-palette-fill-disabled-blacken: 0% !default;
+$cx-default-palette-fill-blacken: 5%; //!default;
+$cx-default-palette-fill-hover-blacken: 5%; //!default;
+$cx-default-palette-fill-selected-blacken: 7%; //!default;
+$cx-default-palette-fill-disabled-blacken: 0%; //!default;
 
 //PROGRESSBAR
-$cx-default-progressbar-width: 200px !default;
-$cx-default-progressbar-height: 16px !default;
-$cx-default-progressbar-font-size: 10px !default;
-$cx-default-progressbar-color: $cx-default-color !default;
-$cx-default-progressbar-background-color: $cx-default-border-color-light !default;
-$cx-default-progressbar-border-width: 0 !default;
+$cx-default-progressbar-width: 200px; //!default;
+$cx-default-progressbar-height: 16px; //!default;
+$cx-default-progressbar-font-size: 10px; //!default;
+$cx-default-progressbar-color: $cx-default-color; //!default;
+$cx-default-progressbar-background-color: $cx-default-border-color-light; //!default;
+$cx-default-progressbar-border-width: 0; //!default;
 
-$cx-default-progressbar-indicator-background-color: rgba($cx-theme-primary-color, 0.6) !default;
+$cx-default-progressbar-indicator-background-color: rgba($cx-theme-primary-color, 0.6); //!default;
 
 //list
-$cx-default-list-item-padding: 8px 12px !default;
+$cx-default-list-item-padding: 8px 12px; //!default;
+
+@forward "~cx/src/variables";

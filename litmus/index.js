@@ -16,7 +16,7 @@ import "./index.scss";
 //import Demo from './performance/LongList';
 // import Demo from "./dev/batchListUpdates";
 
-import Demo from "./features/flexbox";
+//import Demo from "./features/flexbox";
 //import Demo from './features/drag-drop/ReorderInsertionLine';
 //import Demo from './features/drag-drop/Dashboard';
 //import Demo from './features/drag-drop/trello';
@@ -99,7 +99,7 @@ import Demo from "./features/flexbox";
 //import Demo from "./bugs/AsyncValidator";
 
 //import Demo from "./features/charts/pie/labels";
-//import Demo from "./bugs/BlurBug";
+import Demo from "./bugs/BlurBug";
 //import Demo from "./features/immer";
 // import Demo from "./bugs/971";
 // import Demo from "./bugs/LookupFieldListItemFocus";

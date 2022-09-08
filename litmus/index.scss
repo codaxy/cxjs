@@ -1,4 +1,7 @@
-@use "../packages/cx/src/variables";
+@use "../packages/cx/src/variables.scss" as cx;
+
+cx.$cx-default-padding-extra-small: 10px;
+cx.$cx-default-button-font-size: 20px;
 
 //@import "manifest";
 
