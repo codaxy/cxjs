@@ -135,4 +135,45 @@ export default {
             Default value is `false`.
         </Md></cx>
     },
+
+    focusable: {
+        key: false,
+        type: 'boolean',
+        description: <cx><Md>
+            Set to true to make the top level overlay element focusable.
+        </Md></cx>
+    },
+
+    onMove: {
+        key: false,
+        type: 'function',
+        description: <cx><Md>
+            A callback function which fires while the overlay is being moved around.
+        </Md></cx>
+    },
+
+    onResize: {
+        key: false,
+        type: 'function',
+        description: <cx><Md>
+            A callback function which fires while the overlay is being resized.
+        </Md></cx>
+    },
+
+    zIndex: {
+        key: false,
+        type: 'number',
+        description: <cx><Md>
+            zIndex
+        </Md></cx>
+    },
+
+    resizeWidth: {
+        key: false,
+        type: 'number',
+        description: <cx><Md>
+            resizeWidth
+        </Md></cx>
+    },
+
 };
