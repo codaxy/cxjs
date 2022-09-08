@@ -7,6 +7,7 @@
 **Fixes**
 
 -  Add text ellipsis to all form fields
+-  Fix problems with datetime field dropdowns
 
 ## `cx@22.8.2`
 
