@@ -57,18 +57,22 @@
       );
 
       height: 100%;
-      display: block; 
-      width: 100%; 
-      overflow: hidden; 
-      text-overflow: ellipsis; 
-      white-space: nowrap;
 
       .#{$state}multiple > & {
          padding: 0 cx-calc(cx-right($padding), $cx-default-clear-size, $cx-default-input-tag-spacing)
             $cx-default-input-tag-spacing 0;
-            align-items: center;
-            flex-wrap: wrap;
-            display: flex;
+         align-items: center;
+         flex-wrap: wrap;
+         display: flex;
+      }
+
+      .#{$state}single > & {
+         overflow: hidden;
+         text-overflow: ellipsis;
+         white-space: nowrap;
+         display: block;
+         flex-basis: 0%;
+         flex-grow: 1;
       }
 
       .#{$state}icon > & {
