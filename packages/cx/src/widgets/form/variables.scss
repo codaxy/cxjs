@@ -37,6 +37,7 @@ $cx-input-state-style-map: (
       color: $cx-default-input-color,
       outline-offset: 0,
       box-shadow: none,
+      text-overflow: ellipsis,
       -ms-appearance: none,
       -moz-appearance: none,
       -webkit-appearance: none,

@@ -1,6 +1,5 @@
-
 @mixin cx-textfield(
-   $name: 'textfield',
+   $name: "textfield",
    $state-style-map: $cx-std-field-state-style-map,
    $placeholder: $cx-input-placeholder,
    $empty-text: $cx-empty-text,
@@ -16,24 +15,13 @@
    $mod: map-get($besm, mod);
 
    .#{$block}#{$name} {
-      @include cxb-field(
-         $besm,
-         $state-style-map,
-         $width: $width,
-         $input: true
-      );
+      @include cxb-field($besm, $state-style-map, $width: $width, $input: true);
    }
 
-   $padding: cx-get-state-rule($state-style-map, default, 'padding');
+   $padding: cx-get-state-rule($state-style-map, default, "padding");
 
    .#{$element}#{$name}-input {
-      @include cxe-field-input(
-         $besm,
-         $state-style-map,
-         $placeholder: $placeholder
-      );
-
-      text-overflow: ellipsis;
+      @include cxe-field-input($besm, $state-style-map, $placeholder: $placeholder);
 
       .#{$state}icon > & {
          padding-left: cx-calc(2 * cx-left($padding), $icon-size);
@@ -62,8 +50,6 @@
    }
 }
 
-@if (cx-should-include('cx/widgets/TextField')) {
+@if (cx-should-include("cx/widgets/TextField")) {
    @include cx-textfield();
 }
-
-
