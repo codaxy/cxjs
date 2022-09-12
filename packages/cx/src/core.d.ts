@@ -17,6 +17,9 @@ declare namespace Cx {
 
    type Expr = {
       expr: string;
+      set?: (value: T, instance?: any) => boolean;
+      throttle?: number;
+      debounce?: number;
    };
 
    type Binding = Bind | Tpl | Expr;
