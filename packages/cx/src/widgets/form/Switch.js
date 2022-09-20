@@ -8,6 +8,7 @@ import {
 } from '../overlay/tooltip-ops';
 import {preventFocus} from '../../ui/FocusManager';
 import {isDefined} from '../../util/isDefined';
+import { isNonEmptyArray } from "../util/isNonEmptyArray";
 import {isArray} from '../../util/isArray';
 
 export class Switch extends Field {
@@ -35,7 +36,7 @@ export class Switch extends Field {
    }
 
    init() {
-      if (isDefined(this.value))
+      if (isDefined(this.value))q
          this.on = this.value;
 
       this.rangeStyle = parseStyle(this.rangeStyle);
@@ -64,6 +65,7 @@ export class Switch extends Field {
       let {CSS, baseClass} = this;
 
       let text = data.text || this.renderChildren(context, instance);
+      let renderTextElement = text?.length != 0;
 
       return <div key={key}
          className={data.classNames}
@@ -95,7 +97,7 @@ export class Switch extends Field {
             </div>
          </div>
          {
-            text &&
+            renderTextElement &&
             <div key="text" className={CSS.element(this.baseClass, "text")}>
                {text}
             </div>
