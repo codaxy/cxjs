@@ -41,6 +41,9 @@ interface SliderProps extends FieldProps {
 
    /** Set to `true` to orient the slider vertically. */
    vertical?: boolean,
+   
+   /** Invert vertical slider behavior. Set this to `true` if you want the slider to go from `top` to `bottom`. */
+   invert?: boolean,
 
    /** Range tooltip configuration. */
    toTooltip?: Cx.StringProp | Cx.StructuredProp,
