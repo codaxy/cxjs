@@ -33,8 +33,7 @@ export class Switch extends Field {
    }
 
    init() {
-      if (isDefined(this.value)) q;
-      this.on = this.value;
+      if (isDefined(this.value)) this.on = this.value;
 
       this.rangeStyle = parseStyle(this.rangeStyle);
       this.handleStyle = parseStyle(this.handleStyle);
