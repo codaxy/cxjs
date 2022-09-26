@@ -88,7 +88,7 @@ interface GridColumnHeaderConfig {
    style?: StyleProp;
    class?: ClassProp;
    className?: ClassProp;
-   tooltip?: Cx.StringProp | Cx.StructuredProp;
+   tooltip?: StringProp | StructuredProp;
 }
 
 interface GridColumnConfig {
@@ -147,6 +147,7 @@ interface GridRowConfig {
    line1?: GridRowLineConfig;
    line2?: GridRowLineConfig;
    line3?: GridRowLineConfig;
+   mod?: StringProp | Prop<string[]> | StructuredProp;
 }
 
 interface GridProps extends StyledContainerProps {
