@@ -1,5 +1,5 @@
 import { HtmlElement, Repeater, LookupField, Tab } from 'cx/widgets';
-import { Content, Controller, LabelsLeftLayout } from 'cx/ui';
+import { bind, Content, Controller, LabelsLeftLayout } from 'cx/ui';
 import { Md } from '../../components/Md';
 import { CodeSplit } from '../../components/CodeSplit';
 import { CodeSnippet } from '../../components/CodeSnippet';
@@ -92,7 +92,17 @@ export const LookupFields = <cx>
                         value-bind="$page.s5.id"
                         text-bind="$page.s5.text"
                         icon="pencil"
-                        options-bind="$page.options5" />
+                        options-bind="$page.options5"
+                        listOptions={{
+                            filterParams: bind('$page.selectedCities2'),
+                            onCreateFilter: (filterParams, instance) => {
+                                console.log("FILTER PARAMS: ", filterParams);
+                                return option => {
+                                    return false;
+                                }
+                            }
+                        }}
+                        />
                 </div>
             </div>
 

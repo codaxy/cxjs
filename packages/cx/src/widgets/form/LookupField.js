@@ -395,10 +395,24 @@ class LookupComponent extends VDOM.Component {
       let { data, widget } = instance;
       let { CSS, baseClass } = widget;
 
+      let filteredOptionsLength = null;
+      let filteredStateOptionsLength = this.state.options.length;
+      let optionsIsArray = isArray(data.options);
+      // TODO: check how to access list filterParams from within LookupField.
+      // if (optionsIsArray) {
+      //    filteredOptionsLength = data.options.length;
+      //    if (widget.listOptions?.onCreateFilter) {
+      //       let filter = widget.listOptions.onCreateFilter(data.filterParams, instance);
+
+      //       filteredOptionsLength = data.options.filter(filter).length;
+      //       filteredStateOptionsLength = this.state.options.filter(filter).length;
+      //    }
+      // }
+
       let searchVisible =
          !widget.hideSearchField &&
-         (!isArray(data.options) ||
-            (widget.minOptionsForSearchField && data.options.length >= widget.minOptionsForSearchField));
+         (!optionsIsArray ||
+            (widget.minOptionsForSearchField && filteredOptionsLength >= widget.minOptionsForSearchField));
 
       if (this.state.status == "loading") {
          content = (
@@ -418,7 +432,7 @@ class LookupComponent extends VDOM.Component {
                {this.state.message}
             </div>
          );
-      } else if (this.state.options.length == 0) {
+      } else if (filteredStateOptionsLength == 0) {
          content = (
             <div key="msg" className={CSS.element(baseClass, "message", "no-results")}>
                {widget.noResultsText}
