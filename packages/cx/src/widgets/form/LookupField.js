@@ -53,6 +53,7 @@ export class LookupField extends Field {
             icon: undefined,
             autoOpen: undefined,
             readOnly: undefined,
+            filterParams: { structured: true },
          },
          additionalAttributes,
          ...arguments
@@ -129,6 +130,12 @@ export class LookupField extends Field {
          disabled: data.disabled,
          readonly: data.readOnly,
       };
+
+      data.visibleOptions = data.options;
+      if (this.onCreateVisibleOptionsFilter && isArray(data.options)) {
+         let filterCallback = instance.invoke("onCreateVisibleOptionsFilter", data.filterParams, instance);
+         data.visibleOptions = data.options.filter(filterCallback);
+      }
 
       data.selectedKeys = [];
 
@@ -395,24 +402,10 @@ class LookupComponent extends VDOM.Component {
       let { data, widget } = instance;
       let { CSS, baseClass } = widget;
 
-      let filteredOptionsLength = null;
-      let filteredStateOptionsLength = this.state.options.length;
-      let optionsIsArray = isArray(data.options);
-      // TODO: check how to access list filterParams from within LookupField.
-      // if (optionsIsArray) {
-      //    filteredOptionsLength = data.options.length;
-      //    if (widget.listOptions?.onCreateFilter) {
-      //       let filter = widget.listOptions.onCreateFilter(data.filterParams, instance);
-
-      //       filteredOptionsLength = data.options.filter(filter).length;
-      //       filteredStateOptionsLength = this.state.options.filter(filter).length;
-      //    }
-      // }
-
       let searchVisible =
          !widget.hideSearchField &&
-         (!optionsIsArray ||
-            (widget.minOptionsForSearchField && filteredOptionsLength >= widget.minOptionsForSearchField));
+         (!isArray(data.visibleOptions) ||
+            (widget.minOptionsForSearchField && data.visibleOptions.length >= widget.minOptionsForSearchField));
 
       if (this.state.status == "loading") {
          content = (
@@ -432,7 +425,7 @@ class LookupComponent extends VDOM.Component {
                {this.state.message}
             </div>
          );
-      } else if (filteredStateOptionsLength == 0) {
+      } else if (this.state.options.length == 0) {
          content = (
             <div key="msg" className={CSS.element(baseClass, "message", "no-results")}>
                {widget.noResultsText}
@@ -952,8 +945,8 @@ class LookupComponent extends VDOM.Component {
          return;
       }
 
-      if (isArray(data.options)) {
-         let results = widget.filterOptions(this.props.instance, data.options, q);
+      if (isArray(data.visibleOptions)) {
+         let results = widget.filterOptions(this.props.instance, data.visibleOptions, q);
          this.setState({
             options: results,
             status: "loaded",
