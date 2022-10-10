@@ -349,6 +349,10 @@ export class Grid extends Widget {
       if (this.onCreateIsRecordSelectable) {
          instance.isRecordSelectable = instance.invoke("onCreateIsRecordSelectable", null, instance);
       }
+
+      if (this.onTrackMappedRecords) {
+         instance.invoke("onTrackMappedRecords", instance.records, instance);
+      }
    }
 
    initInstance(context, instance) {
