@@ -9,7 +9,6 @@ import { getSearchQueryPredicate } from 'cx/util';
 import { updateArray } from 'cx/data';
 
 class PageController extends Controller {
-
     init() {
         super.init();
 
