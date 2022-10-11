@@ -61,6 +61,9 @@ export const MultipleSelection = <cx>
 
             To select all rows click the checkbox in the header.
 
+            Example also showcases use of `onTrackMappedRecords` in combination with `onCreateFilter` callback.
+            Using `onTrackMappedRecords` we can access filtered records.
+
             <div style="margin-bottom: 10px" ws>
                 <TextField value-bind='$page.searchText' icon='search' placeholder='Search...' showClear style='width: 300px'/>
             </div>
@@ -109,18 +112,29 @@ export const MultipleSelection = <cx>
 
                             this.addTrigger('select-all-click', ['$page.selectAll'], (value) => {
                                 if (value != null)
-                                    this.store.set('$page.records', this.store.get('$page.records')
-                                        .map(r => Object.assign({}, r, {selected: value})));
+                                    this.store.update('$page.records', updateArray, r => ({ ...r, selected: value }), r => this.visibleIdsMap[r.id]);
                             });
+                        }
 
-                            this.addTrigger('item-click', ['$page.records'], (records) => {
-                                if (records.every(a => a.selected))
-                                    this.store.set('$page.selectAll', true);
-                                else if (records.every(a => !a.selected))
-                                    this.store.set('$page.selectAll', false);
-                                else
-                                    this.store.set('$page.selectAll', null);
-                            }, true);
+                        updateSelection(newRecords, instance) {
+                            this.visibleIdsMap = newRecords.reduce((acc, r) => {
+                                acc[r.data.id] = true;
+                                return acc;
+                            }, {});
+
+                            let anySelected, anyUnselected;
+                            for (let rec of newRecords) {
+                                if (rec.data.selected === true)
+                                    anySelected = true;
+
+                                else if (rec.data.selected === false)
+                                    anyUnselected = true;
+
+                                if (anySelected && anyUnselected)
+                                    break;
+                            }
+
+                            this.store.set('$page.selectAll', anySelected && anyUnselected ? null : !!anySelected);
                         }
                     }`}
                 </CodeSnippet>
@@ -140,6 +154,13 @@ export const MultipleSelection = <cx>
                         ]}
                         selection={{type: PropertySelection, bind: "$page.selection", multiple: true}}
                         sorters-bind="$page.sorters"
+                        filterParams-bind='$page.searchText'
+                        onCreateFilter={(searchText) => {
+                            if (!searchText) return () => true;
+                            let predicate = getSearchQueryPredicate(searchText);
+                            return record => predicate(record.fullName) || predicate(record.phone) || predicate(record.city);
+                        }}
+                        onTrackMappedRecords='updateSelection'
                     />`}
                 </CodeSnippet>
             </Content>
