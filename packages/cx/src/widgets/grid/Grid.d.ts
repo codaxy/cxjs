@@ -354,10 +354,10 @@ interface GridProps extends StyledContainerProps {
    /** A value used to uniquely identify the record within the hover sync group. */
    rowHoverId?: StringProp;
 
-   /** Set to true or false to explicitly define if grid is allowed to receive focus.  */
+   /** Set to true or false to explicitly define if grid is allowed to receive focus. */
    focusable?: boolean;
 
-   /** Callback function to retrieve grouping data.  */
+   /** Callback function to retrieve grouping data. */
    onGetGrouping?: (params: any, instance: Instance) => GridGroupingConfig[];
 
    /** Callback function to dynamically calculate columns.  */
