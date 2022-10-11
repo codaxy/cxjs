@@ -64,7 +64,6 @@ export const PaginationPage = <cx>
             <Grid
 
                 records-bind='$page.records'
-                // onTrackMappedRecords={(records, instance) => { instance.controller.someMethod(records)}}
                 style={{width: "100%"}}
                 mod="bordered"
                 lockColumnWidths
