@@ -365,6 +365,13 @@ interface GridProps extends StyledContainerProps {
 
    /** Allow grid to receive drag and drop operations containing files. */
    allowsFileDrops?: boolean;
+
+   /**
+    * Callback function to track and retrieve displayed records.
+    * Accepts new records as a first argument.
+    * If onCreateFilter callback is defined, filtered records can be retrieved using this callback.
+    */
+   onTrackMappedRecords?: (records: Record[], instance: Instance) => void;
 }
 
 export class Grid extends Widget<GridProps> {}

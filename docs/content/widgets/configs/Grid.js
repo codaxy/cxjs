@@ -302,6 +302,15 @@ export default {
         </Md></cx>
     },
 
+    onTrackMappedRecords: {
+        type: "function",
+        description: <cx><Md>
+            Callback function to track and retrieve displayed records.
+            Accepts new records as a first argument.
+            If onCreateFilter callback is defined, filtered records can be retrieved using this callback.
+        </Md></cx>
+    },
+    
     onGetGrouping: {
         type: "function",
         description: <cx><Md>
