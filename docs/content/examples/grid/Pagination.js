@@ -61,9 +61,7 @@ export const PaginationPage = <cx>
 
             Grid control is commonly combined with server-side sorting, filtering and pagination.
 
-            <Grid
-
-                records-bind='$page.records'
+            <Grid records-bind='$page.records'
                 style={{width: "100%"}}
                 mod="bordered"
                 lockColumnWidths
