@@ -309,5 +309,13 @@ export default {
             Accepts new records as a first argument.
             If onCreateFilter callback is defined, filtered records can be retrieved using this callback.
         </Md></cx>
-    }
+    },
+    
+    onGetGrouping: {
+        type: "function",
+        description: <cx><Md>
+            Callback function to retrieve grouping data. Accepts `groupingParams` as a first argument and
+            should return a grid grouping configuration.
+        </Md></cx>
+    },
 };
