@@ -2,6 +2,12 @@
 
 <!--- ## Unreleased -->
 
+## `cx@22.10.2`
+
+**Fixes**
+
+-  Properly sort by the second column if the values in first column are null
+
 ## `cx@22.10.1`
 
 **Fixes**
