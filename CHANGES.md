@@ -2,6 +2,20 @@
 
 <!--- ## Unreleased -->
 
+## `cx@22.10.1`
+
+**Fixes**
+
+-  Recalculate the widget on store change to correctly propagate the new store to widget's children
+-  Add the onTrackMappedRecord callback for easier manipulation of sorted and filtered grid data
+-  Document onGetGrouping
+
+## `cx@22.10.0`
+
+**Fixes**
+
+-  Prevent late autofocus for touch devices
+
 ## `cx@22.9.0`
 
 **Fixes**
