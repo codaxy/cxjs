@@ -301,4 +301,21 @@ export default {
             Set to `true`` to allow the grid to receive drag and drop operations containing files.
         </Md></cx>
     },
+
+    onTrackMappedRecords: {
+        type: "function",
+        description: <cx><Md>
+            Callback function to track and retrieve displayed records.
+            Accepts new records as a first argument.
+            If onCreateFilter callback is defined, filtered records can be retrieved using this callback.
+        </Md></cx>
+    },
+    
+    onGetGrouping: {
+        type: "function",
+        description: <cx><Md>
+            Callback function to retrieve grouping data. Accepts `groupingParams` as a first argument and
+            should return a grid grouping configuration.
+        </Md></cx>
+    },
 };
