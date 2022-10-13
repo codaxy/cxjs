@@ -1,5 +1,5 @@
 import { HtmlElement, Repeater, LookupField, Tab } from 'cx/widgets';
-import { bind, Content, Controller, LabelsLeftLayout } from 'cx/ui';
+import { Content, Controller, LabelsLeftLayout } from 'cx/ui';
 import { Md } from '../../components/Md';
 import { CodeSplit } from '../../components/CodeSplit';
 import { CodeSnippet } from '../../components/CodeSnippet';
@@ -92,8 +92,7 @@ export const LookupFields = <cx>
                         value-bind="$page.s5.id"
                         text-bind="$page.s5.text"
                         icon="pencil"
-                        options-bind="$page.options5"
-                        />
+                        options-bind="$page.options5" />
                 </div>
             </div>
 
