@@ -133,8 +133,8 @@ export class LookupField extends Field {
 
       data.visibleOptions = data.options;
       if (this.onCreateVisibleOptionsFilter && isArray(data.options)) {
-         let filterCallback = instance.invoke("onCreateVisibleOptionsFilter", data.filterParams, instance);
-         data.visibleOptions = data.options.filter(filterCallback);
+         let filterPredicate = instance.invoke("onCreateVisibleOptionsFilter", data.filterParams, instance);
+         data.visibleOptions = data.options.filter(filterPredicate);
       }
 
       data.selectedKeys = [];

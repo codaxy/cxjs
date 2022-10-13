@@ -93,15 +93,6 @@ export const LookupFields = <cx>
                         text-bind="$page.s5.text"
                         icon="pencil"
                         options-bind="$page.options5"
-                        listOptions={{
-                            filterParams: bind('$page.selectedCities2'),
-                            onCreateFilter: (filterParams, instance) => {
-                                console.log("FILTER PARAMS: ", filterParams);
-                                return option => {
-                                    return false;
-                                }
-                            }
-                        }}
                         />
                 </div>
             </div>
@@ -223,6 +214,7 @@ export const LookupFields = <cx>
 
         - [Custom bindings](~/examples/form/custom-lookup-bindings) *- for passing additional options to the selection*
         - [Infinite lists](~/examples/form/infinite-lookup-list) *- for lookups with large number of options*
+        - [Options filter](~/examples/form/lookup-options-filter) *- for lookups supporting options filtering*
 
         ## Configuration
 
