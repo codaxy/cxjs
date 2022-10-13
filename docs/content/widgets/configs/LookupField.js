@@ -218,4 +218,20 @@ export default {
             Set to `true` to allow quick selection of all displayed lookup items on `ctrl + a` keys combination.
         </Md></cx>
     },
+
+    filterParams: {
+        type: 'object',
+        description: <cx><Md>
+            Parameters which will be passed to the onCreateFilter callback.
+        </Md></cx>
+    },
+
+    onCreateVisibleOptionsFilter: {
+        type: "function",
+        description: <cx><Md>
+            Callback function used to create a filter. The function accepts `filterParams` as a first argument and
+            it should return a predicate function used to filter the records.
+            Callback is invoked on every `filterParams` change, if latter is specified.
+        </Md></cx>
+    },
 };

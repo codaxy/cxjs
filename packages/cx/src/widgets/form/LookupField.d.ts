@@ -154,6 +154,12 @@ interface LookupFieldProps extends FieldProps {
 
    /** Set to `true` to allow quick selection of all displayed lookup items on `ctrl + a` keys combination.  */
    quickSelectAll?: boolean;
+
+   /** Parameters that affect filtering. */
+   filterParams?: StructuredProp;
+
+   /** Callback to create a filter function for given filter params. */
+   onCreateVisibleOptionsFilter?: (filterParams: any, instance?: Instance) => (record: Record) => boolean;
 }
 
 export class LookupField extends Cx.Widget<LookupFieldProps> {}
