@@ -22,7 +22,7 @@
 
 ** Features**
 
--  Add the onTrackMappedRecord callback for easier manipulation of sorted and filtered grid data
+-  Add the onTrackMappedRecords callback for easier manipulation of sorted and filtered grid data
 -  Document onGetGrouping
 
 ## `cx@22.10.0`
