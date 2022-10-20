@@ -357,10 +357,10 @@ interface GridProps extends StyledContainerProps {
    /** A value used to uniquely identify the record within the hover sync group. */
    rowHoverId?: StringProp;
 
-   /** Set to true or false to explicitly define if grid is allowed to receive focus.  */
+   /** Set to true or false to explicitly define if grid is allowed to receive focus. */
    focusable?: boolean;
 
-   /** Callback function to retrieve grouping data.  */
+   /** Callback function to retrieve grouping data. */
    onGetGrouping?: (params: any, instance: Instance) => GridGroupingConfig[];
 
    /** Callback function to dynamically calculate columns.  */
@@ -368,6 +368,13 @@ interface GridProps extends StyledContainerProps {
 
    /** Allow grid to receive drag and drop operations containing files. */
    allowsFileDrops?: boolean;
+
+   /**
+    * Callback function to track and retrieve displayed records.
+    * Accepts new records as a first argument.
+    * If onCreateFilter callback is defined, filtered records can be retrieved using this callback.
+    */
+   onTrackMappedRecords?: (records: Record[], instance: Instance) => void;
 }
 
 export class Grid extends Widget<GridProps> {}

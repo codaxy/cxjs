@@ -241,6 +241,10 @@ export const docsNavTree = [
                   text: "Infinite Lookup List",
                   url: "~/examples/form/infinite-lookup-list",
                },
+               {
+                  text: "Lookup Options Filter",
+                  url: "~/examples/form/lookup-options-filter",
+               },
             ],
          },
          {

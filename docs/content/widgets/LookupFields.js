@@ -213,6 +213,7 @@ export const LookupFields = <cx>
 
         - [Custom bindings](~/examples/form/custom-lookup-bindings) *- for passing additional options to the selection*
         - [Infinite lists](~/examples/form/infinite-lookup-list) *- for lookups with large number of options*
+        - [Options filter](~/examples/form/lookup-options-filter) *- for lookups supporting options filtering*
 
         ## Configuration
 

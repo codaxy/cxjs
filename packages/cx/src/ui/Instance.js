@@ -558,7 +558,10 @@ export class InstanceCache {
          instance = new Instance(widget, k, this.parent);
          this.children[k] = instance;
       }
-      if (instance.store !== store) instance.setStore(store);
+      if (instance.store !== store) {
+         instance.setStore(store);
+         if (instance.cached) delete instance.cached.rawData; // force prepareData to execute again
+      }
 
       return instance;
    }

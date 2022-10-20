@@ -3,7 +3,7 @@ import { isDefined } from "../util/isDefined";
 import { defaultCompare } from "./defaultCompare";
 
 export function getComparer(sorters, dataAccessor, comparer) {
-   let data = (sorters || []).map((s) => {
+   let resolvedSorters = (sorters || []).map((s) => {
       let selector = isDefined(s.value) ? getSelector(s.value) : s.field ? (x) => x[s.field] : () => null;
       return {
          getter: dataAccessor ? (x) => selector(dataAccessor(x)) : selector,
@@ -14,13 +14,16 @@ export function getComparer(sorters, dataAccessor, comparer) {
 
    return function (a, b) {
       let d, av, bv;
-      for (let i = 0; i < data.length; i++) {
-         d = data[i];
+      for (let i = 0; i < resolvedSorters.length; i++) {
+         d = resolvedSorters[i];
          av = d.getter(a);
          bv = d.getter(b);
 
-         // show nulls always on the bottom         
-         if (av == null) return bv == null ? 0 : 1;
+         // show nulls always on the bottom
+         if (av == null) {
+            if (bv == null) continue;
+            else return 1;
+         }
          if (bv == null) return -1;
 
          let r = d.compare(av, bv);
