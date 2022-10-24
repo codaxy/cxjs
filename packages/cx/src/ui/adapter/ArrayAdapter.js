@@ -1,4 +1,4 @@
-import { DataAdapter } from "./DataAdapter";
+import { DataAdapter, DataAdapterRecordType } from "./DataAdapter";
 import { ReadOnlyDataView } from "../../data/ReadOnlyDataView";
 import { sorter } from "../../data/comparer";
 import { isArray } from "../../util/isArray";
@@ -90,7 +90,7 @@ export class ArrayAdapter extends DataAdapter {
          store: recordStore,
          index: index,
          data: data,
-         type: "data",
+         type: DataAdapterRecordType.Data,
          key: this.keyField ? data[this.keyField] : index,
       };
    }

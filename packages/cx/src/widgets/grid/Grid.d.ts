@@ -19,6 +19,7 @@ import {
    StyleProp,
    Widget,
 } from "../../core";
+import { DataAdapterRecord } from "../../ui/adapter/DataAdapter";
 
 type FetchRecordsResult = Record[] | { records: Record[]; lastPage?: boolean; totalRecordCount?: number };
 
@@ -329,10 +330,10 @@ interface GridProps extends StyledContainerProps {
    cellEditable?: boolean;
 
    /** A callback function which is executed before a cell editor is initialized. Return false from the callback to prevent the cell from going into the edit mode. */
-   onBeforeCellEdit?: string | ((change: any, record: Record) => any);
+   onBeforeCellEdit?: string | ((change: GridCellBeforeEditInfo, record: DataAdapterRecord) => any);
 
    /** A callback function which is executed after a cell has been successfully edited. */
-   onCellEdited?: string | ((change: any, record: Record) => void);
+   onCellEdited?: string | ((change: GridCellEditInfo, record: DataAdapterRecord) => void);
 
    /** A callback function which is executed after a column has been resized. */
    onColumnResize?: (data: { width: number; column: Record }, instance: Instance) => void;
@@ -375,6 +376,20 @@ interface GridProps extends StyledContainerProps {
     * If onCreateFilter callback is defined, filtered records can be retrieved using this callback.
     */
    onTrackMappedRecords?: (records: Record[], instance: Instance) => void;
+}
+
+interface GridCellInfo {
+   column: any;
+   field: string;
+}
+
+interface GridCellBeforeEditInfo extends GridCellInfo {
+   data: any;
+}
+
+interface GridCellEditInfo extends GridCellInfo {
+   oldData: any;
+   newData: any;
 }
 
 export class Grid extends Widget<GridProps> {}

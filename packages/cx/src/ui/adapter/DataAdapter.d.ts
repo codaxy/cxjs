@@ -3,9 +3,24 @@ import {Instance} from '../Instance';
 import {View} from '../../data/View';
 import {RenderingContext} from '../RenderingContext';
 
+export enum DataAdapterRecordType {
+   Data = 'data',
+   GroupHeader = 'group-header',
+   GroupFooter = 'group-footer',
+}
+
+export interface DataAdapterRecord {
+   data: any;
+   index: number;
+   key: string;
+   row: any;
+   store: View;
+   type: DataAdapterRecordType;
+}
+
 export class DataAdapter {
 
-   getRecords(context?: RenderingContext, instance?: Instance, records?: Cx.Record[], parentStore?: View): Cx.Record[];
+   getRecords(context?: RenderingContext, instance?: Instance, records?: Cx.Record[], parentStore?: View): DataAdapterRecord[];
 
    setFilter(filterFn: (data: any) => boolean): void;
 

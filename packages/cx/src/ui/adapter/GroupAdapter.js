@@ -5,6 +5,7 @@ import { isArray } from '../../util/isArray';
 import { isDefined } from "../../util/isDefined";
 import { getComparer } from "../../data/comparer";
 import { Culture } from "../Culture";
+import { DataAdapterRecordType } from './DataAdapter';
 
 export class GroupAdapter extends ArrayAdapter {
 
@@ -89,7 +90,7 @@ export class GroupAdapter extends ArrayAdapter {
          if (grouping.includeHeader !== false)
             result.push({
                ...group,
-               type: 'group-header',
+               type: DataAdapterRecordType.GroupHeader,
                key: 'header:' + group.key
             });
 
@@ -98,7 +99,7 @@ export class GroupAdapter extends ArrayAdapter {
          if (grouping.includeFooter !== false)
             result.push({
                ...group,
-               type: 'group-footer',
+               type: DataAdapterRecordType.GroupFooter,
                key: 'footer:' + group.key
             });
 
