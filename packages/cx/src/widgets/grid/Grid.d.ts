@@ -89,6 +89,9 @@ interface GridColumnHeaderConfig {
    class?: ClassProp;
    className?: ClassProp;
    tooltip?: StringProp | StructuredProp;
+   defaultWidth?: NumberProp;
+   width?: NumberProp;
+   resizable?: boolean;
 }
 
 interface GridColumnConfig {
