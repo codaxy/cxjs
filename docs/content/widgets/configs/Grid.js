@@ -185,6 +185,12 @@ export default {
             Callback function to be executed when a row is double-clicked.
         </Md></cx>
     },
+    onRowKeyDown: {
+        type: 'function',
+        description: <cx><Md>
+            Callback function to be executed on key down. Accepts instance of the currently focused record as the second argument.
+        </Md></cx>
+    },
     onRowClick: {
         type: 'function',
         description: <cx><Md>
