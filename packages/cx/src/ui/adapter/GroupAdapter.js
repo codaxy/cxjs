@@ -90,7 +90,7 @@ export class GroupAdapter extends ArrayAdapter {
          if (grouping.includeHeader !== false)
             result.push({
                ...group,
-               type: DataAdapterRecordType.GroupHeader,
+               type: 'group-header',
                key: 'header:' + group.key
             });
 
@@ -99,7 +99,7 @@ export class GroupAdapter extends ArrayAdapter {
          if (grouping.includeFooter !== false)
             result.push({
                ...group,
-               type: DataAdapterRecordType.GroupFooter,
+               type: 'group-footer',
                key: 'footer:' + group.key
             });
 

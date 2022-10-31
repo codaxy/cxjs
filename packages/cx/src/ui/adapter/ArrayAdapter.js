@@ -90,7 +90,7 @@ export class ArrayAdapter extends DataAdapter {
          store: recordStore,
          index: index,
          data: data,
-         type: DataAdapterRecordType.Data,
+         type: "data",
          key: this.keyField ? data[this.keyField] : index,
       };
    }

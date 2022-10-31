@@ -3,19 +3,13 @@ import {Instance} from '../Instance';
 import {View} from '../../data/View';
 import {RenderingContext} from '../RenderingContext';
 
-export enum DataAdapterRecordType {
-   Data = 'data',
-   GroupHeader = 'group-header',
-   GroupFooter = 'group-footer',
-}
-
 export interface DataAdapterRecord {
    data: any;
    index: number;
    key: string;
    row: any;
    store: View;
-   type: DataAdapterRecordType;
+   type: "data" | "group-header" | "group-footer";
 }
 
 export class DataAdapter {
