@@ -6,7 +6,7 @@ import {RenderingContext} from '../RenderingContext';
 export interface DataAdapterRecord {
    data: any;
    index: number;
-   key: string;
+   key: string | number;
    row: any;
    store: View;
    type: "data" | "group-header" | "group-footer";
