@@ -1,18 +1,18 @@
-import { Dropdown } from './Dropdown';
+import { Dropdown } from "./Dropdown";
 import { getCursorPos } from "./captureMouse";
 
-export class ContextMenu extends Dropdown { }
+export class ContextMenu extends Dropdown {}
 ContextMenu.prototype.trackMouse = true;
 ContextMenu.prototype.dismissOnFocusOut = true;
 ContextMenu.prototype.firstChildDefinesWidth = true;
 ContextMenu.prototype.matchWidth = false;
-ContextMenu.prototype.placementOrder = 'down-right right up-right down-left left up-left';
+ContextMenu.prototype.placementOrder = "down-right right up-right down-left left up-left";
 ContextMenu.prototype.offset = 0;
 ContextMenu.prototype.autoFocus = true;
 ContextMenu.prototype.autoFocusFirstChild = false;
 ContextMenu.prototype.focusable = true;
 
-export const openContextMenu = (e, content, store, options) => {
+export const openContextMenu = (e, content, storeOrInstance, options) => {
    e.preventDefault();
    e.stopPropagation();
    let position = getCursorPos(e);
@@ -20,10 +20,10 @@ export const openContextMenu = (e, content, store, options) => {
       relatedElement: e.currentTarget,
       mousePosition: {
          x: position.clientX,
-         y: position.clientY
+         y: position.clientY,
       },
       trackMouse: true,
-      items: content
+      items: content,
    });
-   menu.open(store, options);
+   menu.open(storeOrInstance, options);
 };
