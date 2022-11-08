@@ -5,6 +5,7 @@ import { isArray } from '../../util/isArray';
 import { isDefined } from "../../util/isDefined";
 import { getComparer } from "../../data/comparer";
 import { Culture } from "../Culture";
+import { DataAdapterRecordType } from './DataAdapter';
 
 export class GroupAdapter extends ArrayAdapter {
 

@@ -17,7 +17,7 @@ declare namespace Cx {
 
    type Expr = {
       expr: string;
-      set?: (value: T, instance?: any) => boolean;
+      set?: (value: any, instance?: any) => boolean;
       throttle?: number;
       debounce?: number;
    };

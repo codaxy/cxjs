@@ -2,6 +2,12 @@ import { Instance } from "./../../ui/Instance";
 import * as Cx from "../../core";
 import { FieldProps } from "./Field";
 
+export interface LookupBinding {
+   local: string;
+   remote: string;
+   key?: boolean;
+}
+
 interface LookupFieldProps extends FieldProps {
    /** Defaults to `false`. Set to `true` to enable multiple selection. */
    multiple?: Cx.BooleanProp;
@@ -56,7 +62,7 @@ interface LookupFieldProps extends FieldProps {
     * An array of objects describing the mapping of option data to store data.
     * Each entry must define `local`, `remote` bindings. `key: true` is used to indicate fields that are used in the primary key.
     */
-   bindings?: any;
+   bindings?: LookupBinding[];
 
    /** A delay in milliseconds between the moment the user stops typing and when tha query is made. Default value is `150`. */
    queryDelay?: number;
