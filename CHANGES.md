@@ -2,6 +2,17 @@
 
 <!--- ## Unreleased -->
 
+## `cx@22.11.0`
+
+**Features**
+
+-  Add the `dayData` property for calendar day styling
+
+**Fixes**
+
+-  Add typing for LookupField bindings
+-  Improve typing for openContextMenu
+
 ## `cx@22.10.3`
 
 **Features**
