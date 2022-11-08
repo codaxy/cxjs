@@ -31,11 +31,8 @@ interface NumberFieldProps extends FieldProps {
    /** Set to `true` to disallow the `maxValue`. Default value is `false`. */
    maxExclusive?: Cx.BooleanProp,
    
-   /** When specified, values lower than `constrainMin` will be constrained to `constrainMin`. */
-   constrainMin?: Cx.NumberProp;
-
-   /** When specified, values higher than `constrainMax` will be constrained to `constrainMax`. */
-   constrainMax?: Cx.NumberProp;
+   /** When specified, values lower than `minValue` or higher than `maxValue` will be constrained to `minValue` that is, `maxValue`, respectively. */
+   constrain?: Cx.NumberProp;
 
    /** 
     * Percentage used to calculate the increment when it's not explicitly specified. 
