@@ -104,7 +104,8 @@ import "./index.scss";
 // import Demo from "./bugs/971";
 // import Demo from "./bugs/LookupFieldListItemFocus";
 //import Demo from "./bugs/SliderValue";
-import Demo from "./features/context-menu/conext-menu-in-a-dropdown";
+//import Demo from "./features/context-menu/conext-menu-in-a-dropdown";
+import Demo from "./features/calendar";
 
 let store = (window.store = new Store());
 

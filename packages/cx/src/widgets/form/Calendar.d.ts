@@ -1,6 +1,18 @@
 import * as Cx from "../../core";
 import { FieldProps } from "./Field";
 
+interface DayInfo {
+   mod?: string;
+   className?: string;
+   style?: Cx.Record;
+   unselectable?: boolean;
+   disabled?: boolean;
+}
+
+interface DayData {
+   [day: string]: DayInfo;
+}
+
 interface CalendarProps extends FieldProps {
    /** Selected date. This should be a `Date` object or a valid date string consumable by `Date.parse` function. */
    value?: Cx.Prop<string | Date>;
@@ -55,6 +67,20 @@ interface CalendarProps extends FieldProps {
 
    /** Set to true to show weeks starting from Monday. */
    startWithMonday?: boolean;
+
+   /** Map of days to additional day information such as style, className, mod, unselectable and disabled.
+    * Keys for the map should be created with date.toDateString().
+    * Example. {
+    *    [new Date().toDateString()]: {
+    *       style: "color: red",
+    *       className: 'test-class',
+    *       mod: 'holiday',
+    *       unselectable: false,
+    *       disabled: false
+    *    }
+    * }
+    */
+   dayData: Cx.Prop<DayData>;
 }
 
 export class Calendar extends Cx.Widget<CalendarProps> {}
