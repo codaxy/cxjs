@@ -109,6 +109,18 @@ export default {
             Largest allowed number value.
         </Md></cx>
     },
+    constrainMin: {
+        type: 'number',
+        description: <cx><Md>
+            When specified, values lower than `constrainMin` will be constrained to `constrainMin`.
+        </Md></cx>
+    },
+    constrainMax: {
+        type: 'number',
+        description: <cx><Md>
+            When specified, values higher than `constrainMax` will be constrained to `constrainMax`.
+        </Md></cx>
+    },
     emptyValue: {
         type: 'any',
         description: <cx><Md>

@@ -37,6 +37,8 @@ export class NumberField extends Field {
             format: undefined,
             minValue: undefined,
             maxValue: undefined,
+            constrainMin: undefined,
+            constrainMax: undefined,
             minExclusive: undefined,
             maxExclusive: undefined,
             incrementPercentage: undefined,
@@ -391,6 +393,18 @@ class Input extends VDOM.Component {
                } else {
                   value = Math.min(value, data.maxValue);
                }
+            }
+         }
+
+         if (data.constrainMin != null) {
+            if (value < data.constrainMin) {
+               value = data.constrainMin;
+            }
+         }
+
+         if (data.constrainMax != null) {
+            if (value > data.constrainMax) {
+               value = data.constrainMax;
             }
          }
 
