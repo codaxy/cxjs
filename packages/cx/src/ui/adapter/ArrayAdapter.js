@@ -1,4 +1,4 @@
-import { DataAdapter, DataAdapterRecordType } from "./DataAdapter";
+import { DataAdapter } from "./DataAdapter";
 import { ReadOnlyDataView } from "../../data/ReadOnlyDataView";
 import { sorter } from "../../data/comparer";
 import { isArray } from "../../util/isArray";
