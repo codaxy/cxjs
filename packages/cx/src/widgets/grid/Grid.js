@@ -3020,6 +3020,7 @@ class GridColumnHeader extends Widget {
          this.footer = {
             value: this.footer,
             pad: this.pad,
+            colSpan: this.colSpan,
          };
 
       if (this.footer) {
