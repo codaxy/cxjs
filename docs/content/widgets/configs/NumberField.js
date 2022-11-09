@@ -110,7 +110,7 @@ export default {
         </Md></cx>
     },
     constrain: {
-        type: 'number',
+        type: 'boolean',
         description: <cx><Md>
             When specified, values lower than `minValue` or higher than `maxValue` will be constrained to `minValue` that is, `maxValue`, respectively.
         </Md></cx>
