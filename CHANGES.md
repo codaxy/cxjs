@@ -2,7 +2,20 @@
 
 <!--- ## Unreleased -->
 
-## `cx@22.11.0`
+## `cx@22.11.2`
+
+**Features**
+
+-  Add the `constrain` property to limit NumberField inputs
+
+**Fixes**
+
+-  Typing for Url.setBaseFromScript
+-  Typing for the `bind` function
+-  Typing for the LineGraph
+-  Propagate colSpan to grid column footers
+
+## `cx@22.11.1`
 
 **Features**
 
