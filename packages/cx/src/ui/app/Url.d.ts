@@ -1,4 +1,4 @@
-import * as Cx from '../../core';
+import * as Cx from "../../core";
 
 export class Url {
    static resolve(path: string): string;
@@ -13,9 +13,9 @@ export class Url {
 
    static setBase(base: string): void;
 
-   static getOrigin(): string; 
+   static getOrigin(): string;
 
    static getBaseFromScriptSrc(src: string, scriptPath: string): string;
 
-   static setBaseFromScript(scriptPath: string);
+   static setBaseFromScript(scriptPath: string | RegeExp);
 }
