@@ -93,4 +93,4 @@ interface NumberFieldProps extends FieldProps {
    offset?: number;
 }
 
-export class NumberField extends Cx.Widget<any> {}
+export class NumberField extends Cx.Widget<NumberFieldProps> {}
