@@ -162,7 +162,7 @@ interface LookupFieldProps extends FieldProps {
    quickSelectAll?: boolean;
 
    /** Parameters that affect filtering. */
-   filterParams?: StructuredProp;
+   filterParams?: Cx.StructuredProp;
 
    /** Callback to create a filter function for given filter params. */
    onCreateVisibleOptionsFilter?: (filterParams: any, instance?: Instance) => (record: Record) => boolean;
