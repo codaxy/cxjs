@@ -12,9 +12,13 @@ import {
    StructuredProp,
    StyledContainerProps,
    StyleProp,
-   Widget
+   Widget,
 } from "../core";
 import { Instance } from "./../ui/Instance";
+
+type KeyDownPipe = (event: KeyboardEvent) => void;
+
+type PipeKeyDownCallback = (pipe: KeyDownPipe) => void;
 
 interface ListProps extends StyledContainerProps {
    /** An array of records to be displayed in the list. */
@@ -82,6 +86,8 @@ interface ListProps extends StyledContainerProps {
    onScroll?: (event: Event, instance: Instance) => void;
 
    onItemClick?: string | ((e: React.SyntheticEvent<any>, instance: Instance) => void);
+
+   pipeKeyDown?: string | PipeKeyDownCallback;
 }
 
 export class List extends Widget<ListProps> {}

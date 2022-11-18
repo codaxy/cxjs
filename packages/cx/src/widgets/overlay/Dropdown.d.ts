@@ -21,6 +21,8 @@ export interface DropdownProps extends OverlayProps {
    /** The dropdown will be automatically closed if the page is scrolled a certain distance.  */
    closeOnScrollDistance?: number;
 
+   relatedElement?: Element;
+
    onResolveRelatedElement?(beaconEl: Element, instance: any);
 }
 
