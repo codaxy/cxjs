@@ -2,6 +2,13 @@
 
 <!--- ## Unreleased -->
 
+## `cx@22.11.3`
+
+**Fixes**
+
+-  Typing for `Dropdown.relatedElement`
+-  Typing for `List.keyField`
+
 ## `cx@22.11.2`
 
 **Features**
