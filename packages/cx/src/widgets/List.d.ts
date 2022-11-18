@@ -88,6 +88,8 @@ interface ListProps extends StyledContainerProps {
    onItemClick?: string | ((e: React.SyntheticEvent<any>, instance: Instance) => void);
 
    pipeKeyDown?: string | PipeKeyDownCallback;
+
+   keyField?: string;
 }
 
 export class List extends Widget<ListProps> {}

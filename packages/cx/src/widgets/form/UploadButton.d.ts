@@ -22,6 +22,9 @@ interface UploadButtonProps extends FieldProps {
    /** Defines file types that are accepted for upload. */
    accept?: Cx.StringProp;
 
+   /** Name of the icon to be put on the left side of the button. */
+   icon?: Cx.StringProp;
+
    onUploadStarting?: (xhr: XMLHttpRequest, instance: any, file: File, formData: FormData) => boolean;
    onUploadComplete?: (xhr: XMLHttpRequest, instance: any, file: File, formData: FormData) => void;
    onUploadProgress?: (event: ProgressEvent, instance: any, file: File, formData: FormData) => void;
