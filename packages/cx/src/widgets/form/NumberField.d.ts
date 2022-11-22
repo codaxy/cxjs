@@ -37,13 +37,13 @@ interface NumberFieldProps extends FieldProps {
     * Percentage used to calculate the increment when it's not explicitly specified.
     * Default value is `0.1` (10%).
     */
-   incrementPercentage: Cx.NumberProp;
+   incrementPercentage?: Cx.NumberProp;
 
    /** Increment/decrement value when using arrow keys or mouse wheel. */
-   increment: Cx.NumberProp;
+   increment?: Cx.NumberProp;
 
    /** Increment/decrement value when using arrow keys or mouse wheel. */
-   step: number;
+   step?: number;
 
    /** Base CSS class to be applied to the field. Defaults to `numberfield`. */
    baseClass?: string;
