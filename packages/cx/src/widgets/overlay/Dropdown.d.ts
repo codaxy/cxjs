@@ -23,7 +23,9 @@ export interface DropdownProps extends OverlayProps {
 
    relatedElement?: Element;
 
-   onResolveRelatedElement?(beaconEl: Element, instance: any);
+   onResolveRelatedElement?: string | ((beaconEl: Element, instance: any) => Element);
+
+   onMeasureNaturalContentSize?: string | ((el: Element, instance: any) => { width?: number; height?: number });
 }
 
 export class Dropdown extends Cx.Widget<DropdownProps> {}
