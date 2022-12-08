@@ -103,7 +103,6 @@ export class Dropdown extends Overlay {
    }
 
    updateDropdownPosition(instance, component) {
-      console.log("updateDropdownPosition", instance);
       var { el, initialScreenPosition } = component;
       var { data, relatedElement } = instance;
       var parentBounds = getTopLevelBoundingClientRect(relatedElement);
