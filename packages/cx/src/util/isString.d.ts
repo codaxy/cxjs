@@ -1,1 +1,1 @@
-export function isString(x: any): boolean;
+export function isString(x: any): x is string;

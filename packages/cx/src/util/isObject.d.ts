@@ -1,1 +1,1 @@
-export function isObject(x: any): boolean;
+export function isObject(x: any): x is object;

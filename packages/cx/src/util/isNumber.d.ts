@@ -1,1 +1,1 @@
-export function isNumber(x: any): boolean;
+export function isNumber(x: any): x is number;

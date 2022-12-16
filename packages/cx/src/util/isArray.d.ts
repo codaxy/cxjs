@@ -1,1 +1,1 @@
-export function isArray(x: any): boolean;
+export function isArray<T>(x: T): x is Array<T>;
