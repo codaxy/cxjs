@@ -1,1 +1,1 @@
-export function isFunction(f);
+export function isFunction(f: any): f is function;
