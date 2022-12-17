@@ -6,6 +6,11 @@ declare type Path = string | Binding;
 
 export interface ViewConfig {
    store?: View;
+
+   /* When set, the root data object of the parent store will be preserved (no virtual properties will be added), i.e. $record. */
+   immutable?: boolean;
+
+   /* When set, instructs the child views not to modify its data object (same effect as setting immutable on child stores). */
    sealed?: boolean;
 }
 
