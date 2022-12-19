@@ -313,7 +313,7 @@ class SliderComponent extends VDOM.Component {
       let { data, widget } = instance;
       if ((widget.showFrom && widget.showTo) || !data.wheel) return;
 
-      e.preventDefault();
+      // e.preventDefault(); <- wheel is a passive event listener, so preventDefault() is not allowed
       e.stopPropagation();
 
       let increment = e.deltaY > 0 ? this.getIncrement() : -this.getIncrement();
