@@ -350,6 +350,10 @@ export class Grid extends Widget {
          instance.isRecordSelectable = instance.invoke("onCreateIsRecordSelectable", null, instance);
       }
 
+      if (this.onCreateIsRecordDraggable) {
+         instance.isRecordDraggable = instance.invoke("onCreateIsRecordDraggable", null, instance);
+      }
+
       if (this.onTrackMappedRecords) {
          instance.invoke("onTrackMappedRecords", instance.records, instance);
       }
@@ -1280,7 +1284,7 @@ class GridComponent extends VDOM.Component {
 
    createRowRenderer(cellWrap) {
       let { instance, data } = this.props;
-      let { widget, isRecordSelectable, visibleColumns } = instance;
+      let { widget, isRecordSelectable, visibleColumns, isRecordDraggable } = instance;
       let { CSS, baseClass } = widget;
       let { dragSource } = data;
       let { dragged, cursor, cursorCellIndex, cellEdit, dropInsertionIndex, dropTarget } = this.state;
@@ -1289,10 +1293,18 @@ class GridComponent extends VDOM.Component {
       return (record, index, standalone, fixed) => {
          let { store, key, row } = record;
          let isDragged = dragged && (row.selected || record == dragged);
+         let isDraggable =
+            dragSource &&
+            (!row.dragHandles || row.dragHandles.length == 0) &&
+            (!isRecordDraggable || isRecordDraggable(record.data));
+
+         // TODO: at which point should we prevent dragging?
+         if (!isDraggable) dragSource = null;
+
          let mod = {
             selected: row.selected,
             dragged: isDragged,
-            draggable: dragSource && (!row.dragHandles || row.dragHandles.length == 0),
+            draggable: isDraggable,
             cursor: widget.selectable && index == cursor,
             over: dropTarget == "row" && dropInsertionIndex === index,
          };

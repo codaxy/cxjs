@@ -144,7 +144,13 @@ export class GridRowComponent extends VDOM.Component {
 
    onMouseMove(e) {
       let { grid, instance, parent, record } = this.props;
-      if (ddDetect(e) && (isDragHandleEvent(e) || instance.dragHandles.length == 0)) parent.beginDragDrop(e, record);
+
+      if (
+         ddDetect(e) &&
+         (isDragHandleEvent(e) || instance.dragHandles.length == 0)
+         //&& (!instance.parent.isRecordDraggable || instance.parent.isRecordDraggable(record.data))
+      )
+         parent.beginDragDrop(e, record);
       if (grid.hoverSync && instance.data.hoverId != null)
          grid.hoverSync.report(grid.widget.hoverChannel, instance.data.hoverId, true);
    }
