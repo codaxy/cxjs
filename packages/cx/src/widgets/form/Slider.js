@@ -12,6 +12,7 @@ import { isUndefined } from "../../util/isUndefined";
 import { isDefined } from "../../util/isDefined";
 import { isArray } from "../../util/isArray";
 import { getTopLevelBoundingClientRect } from "../../util/getTopLevelBoundingClientRect";
+import { addEventListenerWithOptions } from "../../util/addEventListenerWithOptions";
 
 export class Slider extends Field {
    declareData() {
@@ -139,7 +140,9 @@ class SliderComponent extends VDOM.Component {
             style={data.style}
             id={data.id}
             onClick={(e) => this.onClick(e)}
-            onWheel={(e) => this.onWheel(e)}
+            ref={(el) => {
+               this.subscribeOnWheel(el);
+            }}
             onMouseMove={(e) => tooltipMouseMove(e, ...getFieldTooltip(instance))}
             onMouseLeave={(e) => tooltipMouseLeave(e, ...getFieldTooltip(instance))}
          >
@@ -308,12 +311,24 @@ class SliderComponent extends VDOM.Component {
       }
    }
 
+   subscribeOnWheel(el) {
+      if (this.unsubscribeOnWheel) {
+         this.unsubscribeOnWheel();
+         this.unsubscribeOnWheel = null;
+      }
+      if (el) {
+         this.unsubscribeOnWheel = addEventListenerWithOptions(el, "wheel", (e) => this.onWheel(e), {
+            passive: false,
+         });
+      }
+   }
+
    onWheel(e) {
       let { instance } = this.props;
       let { data, widget } = instance;
       if ((widget.showFrom && widget.showTo) || !data.wheel) return;
 
-      // e.preventDefault(); <- wheel is a passive event listener, so preventDefault() is not allowed
+      e.preventDefault();
       e.stopPropagation();
 
       let increment = e.deltaY > 0 ? this.getIncrement() : -this.getIncrement();
