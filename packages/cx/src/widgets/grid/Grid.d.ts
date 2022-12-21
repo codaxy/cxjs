@@ -344,6 +344,7 @@ interface GridProps extends StyledContainerProps {
    /** Options for data sorting. See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Collator */
    sortOptions?: CollatorOptions;
 
+   /** Callback to create a function that can be used to check whether a record is selectable. */
    onCreateIsRecordSelectable?: (
       params: any,
       instance: Instance
@@ -379,6 +380,9 @@ interface GridProps extends StyledContainerProps {
     * If onCreateFilter callback is defined, filtered records can be retrieved using this callback.
     */
    onTrackMappedRecords?: (records: Record[], instance: Instance) => void;
+
+   /** Callback to create a function that can be used to check whether a record is draggable. */
+   onCreateIsRecordDraggable?: (params: any, instance: Instance) => (record: Record) => boolean;
 }
 
 interface GridCellInfo {
