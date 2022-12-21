@@ -12,6 +12,7 @@ import { isUndefined } from "../../util/isUndefined";
 import { isDefined } from "../../util/isDefined";
 import { isArray } from "../../util/isArray";
 import { getTopLevelBoundingClientRect } from "../../util/getTopLevelBoundingClientRect";
+import { addEventListenerWithOptions } from "../../util/addEventListenerWithOptions";
 
 export class Slider extends Field {
    declareData() {
@@ -139,7 +140,9 @@ class SliderComponent extends VDOM.Component {
             style={data.style}
             id={data.id}
             onClick={(e) => this.onClick(e)}
-            onWheel={(e) => this.onWheel(e)}
+            ref={(el) => {
+               this.subscribeOnWheel(el);
+            }}
             onMouseMove={(e) => tooltipMouseMove(e, ...getFieldTooltip(instance))}
             onMouseLeave={(e) => tooltipMouseLeave(e, ...getFieldTooltip(instance))}
          >
@@ -305,6 +308,21 @@ class SliderComponent extends VDOM.Component {
             this.setState({ to: value });
             this.props.instance.set("to", value, { immediate: true });
          }
+      }
+   }
+
+   subscribeOnWheel(el) {
+      // el will be passed as null when the component is unmounted
+      let { instance } = this.props;
+
+      if (instance.unsubscribeOnWheel) {
+         instance.unsubscribeOnWheel();
+         instance.unsubscribeOnWheel = null;
+      }
+      if (el) {
+         instance.unsubscribeOnWheel = addEventListenerWithOptions(el, "wheel", (e) => this.onWheel(e), {
+            passive: false,
+         });
       }
    }
 
