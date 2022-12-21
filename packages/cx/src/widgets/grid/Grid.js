@@ -1306,14 +1306,12 @@ class GridComponent extends VDOM.Component {
             mod["non-selectable"] = !selectable;
          }
 
-         if (isRecordDraggable) {
-            let draggable =
-               dragSource &&
-               (!row.dragHandles || row.dragHandles.length == 0) &&
-               (!isRecordDraggable || isRecordDraggable(record.data));
-            mod["draggable"] = draggable;
-            mod["non-draggable"] = !draggable;
-         }
+         let draggable =
+            dragSource &&
+            (!row.dragHandles || row.dragHandles.length == 0) &&
+            (!isRecordDraggable || isRecordDraggable(record.data));
+         mod["draggable"] = draggable;
+         mod["non-draggable"] = !draggable;
 
          let wrap = (children) => (
             <GridRowComponent
