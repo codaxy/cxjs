@@ -140,9 +140,7 @@ class SliderComponent extends VDOM.Component {
             style={data.style}
             id={data.id}
             onClick={(e) => this.onClick(e)}
-            ref={(el) => {
-               this.subscribeOnWheel(el);
-            }}
+            ref={(el) => (this.dom.el = el)}
             onMouseMove={(e) => tooltipMouseMove(e, ...getFieldTooltip(instance))}
             onMouseLeave={(e) => tooltipMouseLeave(e, ...getFieldTooltip(instance))}
          >
@@ -200,6 +198,7 @@ class SliderComponent extends VDOM.Component {
 
    componentWillUnmount() {
       tooltipParentWillUnmount(this.props.instance);
+      this.unsubscribeOnWheel();
    }
 
    componentDidMount() {
@@ -207,6 +206,10 @@ class SliderComponent extends VDOM.Component {
       let { widget } = instance;
       tooltipParentDidMount(this.dom.to, instance, widget.toTooltip, { tooltipName: "toTooltip" });
       tooltipParentDidMount(this.dom.from, instance, widget.fromTooltip, { tooltipName: "fromTooltip" });
+
+      this.unsubscribeOnWheel = addEventListenerWithOptions(this.dom.el, "wheel", (e) => this.onWheel(e), {
+         passive: false,
+      });
    }
 
    onHandleMouseLeave(e, handle) {
@@ -308,21 +311,6 @@ class SliderComponent extends VDOM.Component {
             this.setState({ to: value });
             this.props.instance.set("to", value, { immediate: true });
          }
-      }
-   }
-
-   subscribeOnWheel(el) {
-      // el will be passed as null when the component is unmounted
-      let { instance } = this.props;
-
-      if (instance.unsubscribeOnWheel) {
-         instance.unsubscribeOnWheel();
-         instance.unsubscribeOnWheel = null;
-      }
-      if (el) {
-         instance.unsubscribeOnWheel = addEventListenerWithOptions(el, "wheel", (e) => this.onWheel(e), {
-            passive: false,
-         });
       }
    }
 
