@@ -312,12 +312,15 @@ class SliderComponent extends VDOM.Component {
    }
 
    subscribeOnWheel(el) {
-      if (this.unsubscribeOnWheel) {
-         this.unsubscribeOnWheel();
-         this.unsubscribeOnWheel = null;
+      // el will be passed as null when the component is unmounted
+      let { instance } = this.props;
+
+      if (instance.unsubscribeOnWheel) {
+         instance.unsubscribeOnWheel();
+         instance.unsubscribeOnWheel = null;
       }
       if (el) {
-         this.unsubscribeOnWheel = addEventListenerWithOptions(el, "wheel", (e) => this.onWheel(e), {
+         instance.unsubscribeOnWheel = addEventListenerWithOptions(el, "wheel", (e) => this.onWheel(e), {
             passive: false,
          });
       }
