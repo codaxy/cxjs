@@ -350,6 +350,10 @@ export class Grid extends Widget {
          instance.isRecordSelectable = instance.invoke("onCreateIsRecordSelectable", null, instance);
       }
 
+      if (this.onCreateIsRecordDraggable) {
+         instance.isRecordDraggable = instance.invoke("onCreateIsRecordDraggable", null, instance);
+      }
+
       if (this.onTrackMappedRecords) {
          instance.invoke("onTrackMappedRecords", instance.records, instance);
       }
@@ -1280,7 +1284,7 @@ class GridComponent extends VDOM.Component {
 
    createRowRenderer(cellWrap) {
       let { instance, data } = this.props;
-      let { widget, isRecordSelectable, visibleColumns } = instance;
+      let { widget, isRecordSelectable, visibleColumns, isRecordDraggable } = instance;
       let { CSS, baseClass } = widget;
       let { dragSource } = data;
       let { dragged, cursor, cursorCellIndex, cellEdit, dropInsertionIndex, dropTarget } = this.state;
@@ -1292,7 +1296,6 @@ class GridComponent extends VDOM.Component {
          let mod = {
             selected: row.selected,
             dragged: isDragged,
-            draggable: dragSource && (!row.dragHandles || row.dragHandles.length == 0),
             cursor: widget.selectable && index == cursor,
             over: dropTarget == "row" && dropInsertionIndex === index,
          };
@@ -1302,6 +1305,13 @@ class GridComponent extends VDOM.Component {
             mod["selectable"] = selectable;
             mod["non-selectable"] = !selectable;
          }
+
+         let draggable =
+            dragSource &&
+            (!row.dragHandles || row.dragHandles.length == 0) &&
+            (!isRecordDraggable || isRecordDraggable(record.data));
+         mod["draggable"] = draggable;
+         mod["non-draggable"] = !draggable;
 
          let wrap = (children) => (
             <GridRowComponent
@@ -2826,6 +2836,9 @@ class GridComponent extends VDOM.Component {
    beginDragDrop(e, record) {
       let { instance, data } = this.props;
       let { widget, store } = instance;
+      let { isRecordDraggable } = instance;
+
+      if (!isRecordDraggable(record.data)) return;
 
       //get a fresh isSelected delegate
       let isSelected = widget.selection.getIsSelectedDelegate(store);
@@ -2833,7 +2846,7 @@ class GridComponent extends VDOM.Component {
       let selected = [];
 
       let add = (rec, data, index, force) => {
-         if (!data || !(force || isSelected(data, index))) return;
+         if (!data || !(force || isSelected(data, index)) || !isRecordDraggable(data)) return;
          let mappedRecord = rec ? { ...rec } : widget.mapRecord(null, instance, data, index);
          let row = (mappedRecord.row = instance.getDetachedChild(
             instance.row,
