@@ -6,6 +6,11 @@ declare type Path = string | Binding;
 
 export interface ViewConfig {
    store?: View;
+
+   /* When set, the root data object of the parent store will be preserved (no virtual properties will be added), i.e. $record. */
+   immutable?: boolean;
+
+   /* When set, instructs the child views not to modify its data object (same effect as setting immutable on child stores). */
    sealed?: boolean;
 }
 
@@ -13,11 +18,11 @@ export interface ViewMethods<D = Record> {
    getData(): D;
 
    init(path: Path, value: any): boolean;
-   init<V>(path: AccessorChain<V>, value: V): boolean;
+   init<V>(path: AccessorChain<V>, value: V | any): boolean;
 
    set(path: Path, value: any): boolean;
    set(changes: Record): boolean;
-   set<V>(path: AccessorChain<V>, value: V): boolean;
+   set<V>(path: AccessorChain<V>, value: V | any): boolean;
 
    get(path: Path): any;
    get(paths: Path[]): any[];
@@ -60,7 +65,7 @@ export class View<D = any> implements ViewMethods<D> {
 
    set(path: Path, value: any): boolean;
    set(changes: Record): boolean;
-   set<V>(path: AccessorChain<V>, value: V): boolean;
+   set<V>(path: AccessorChain<V>, value: V | any): boolean;
 
    /**
     * Copies the value stored under the `from` path and saves it under the `to` path.

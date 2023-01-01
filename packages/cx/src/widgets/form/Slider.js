@@ -12,6 +12,7 @@ import { isUndefined } from "../../util/isUndefined";
 import { isDefined } from "../../util/isDefined";
 import { isArray } from "../../util/isArray";
 import { getTopLevelBoundingClientRect } from "../../util/getTopLevelBoundingClientRect";
+import { addEventListenerWithOptions } from "../../util/addEventListenerWithOptions";
 
 export class Slider extends Field {
    declareData() {
@@ -139,7 +140,7 @@ class SliderComponent extends VDOM.Component {
             style={data.style}
             id={data.id}
             onClick={(e) => this.onClick(e)}
-            onWheel={(e) => this.onWheel(e)}
+            ref={(el) => (this.dom.el = el)}
             onMouseMove={(e) => tooltipMouseMove(e, ...getFieldTooltip(instance))}
             onMouseLeave={(e) => tooltipMouseLeave(e, ...getFieldTooltip(instance))}
          >
@@ -197,6 +198,7 @@ class SliderComponent extends VDOM.Component {
 
    componentWillUnmount() {
       tooltipParentWillUnmount(this.props.instance);
+      this.unsubscribeOnWheel();
    }
 
    componentDidMount() {
@@ -204,6 +206,10 @@ class SliderComponent extends VDOM.Component {
       let { widget } = instance;
       tooltipParentDidMount(this.dom.to, instance, widget.toTooltip, { tooltipName: "toTooltip" });
       tooltipParentDidMount(this.dom.from, instance, widget.fromTooltip, { tooltipName: "fromTooltip" });
+
+      this.unsubscribeOnWheel = addEventListenerWithOptions(this.dom.el, "wheel", (e) => this.onWheel(e), {
+         passive: false,
+      });
    }
 
    onHandleMouseLeave(e, handle) {

@@ -1,15 +1,15 @@
-import * as Cx from '../../core';
+import * as Cx from "../../core";
 
 interface LabelsTopLayoutProps extends Cx.StyledContainerProps {
-   vertical?: boolean,
-   columns?: number
+   vertical?: boolean;
+   columns?: number;
 }
 
 export class LabelsTopLayout extends Cx.Widget<LabelsTopLayoutProps> {}
 
 interface LabelsTopLayoutCellProps extends Cx.StyledContainerProps {
-   colSpan?: boolean,
-   rowSpan?: number
+   colSpan?: number;
+   rowSpan?: number;
 }
 
 export class LabelsTopLayoutCell extends Cx.Widget<LabelsTopLayoutCellProps> {}

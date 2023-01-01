@@ -1,0 +1,9 @@
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[headers]]
+  for = "/*.ltc.*"
+  [headers.values]
+    Cache-Control = "public, max-age=2630000"

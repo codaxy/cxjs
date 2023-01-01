@@ -2,6 +2,73 @@
 
 <!--- ## Unreleased -->
 
+## `cx@22.11.3`
+
+**Fixes**
+
+-  Typing for `Dropdown.relatedElement`
+-  Typing for `List.keyField`
+
+## `cx@22.11.2`
+
+**Features**
+
+-  Add the `constrain` property to limit NumberField inputs
+
+**Fixes**
+
+-  Typing for Url.setBaseFromScript
+-  Typing for the `bind` function
+-  Typing for the LineGraph
+-  Propagate colSpan to grid column footers
+
+## `cx@22.11.1`
+
+**Features**
+
+-  Add the `dayData` property for calendar day styling
+
+**Fixes**
+
+-  Add typing for LookupField bindings
+-  Improve typing for openContextMenu
+
+## `cx@22.10.3`
+
+**Features**
+
+-  Add LookupField onCreateVisibleOptionsFilter callback docs and example
+
+## `cx@22.10.2`
+
+**Fixes**
+
+-  Properly sort by the second column if the values in first column are null
+
+## `cx@22.10.1`
+
+**Fixes**
+
+-  Recalculate the widget on store change to correctly propagate the new store to widget's children
+
+** Features**
+
+-  Add the onTrackMappedRecords callback for easier manipulation of sorted and filtered grid data
+-  Document onGetGrouping
+
+## `cx@22.10.0`
+
+**Fixes**
+
+-  Prevent late autofocus for touch devices
+
+## `cx@22.9.0`
+
+**Fixes**
+
+-  Add text ellipsis to all form fields
+-  Fix problems with datetime field dropdowns
+
 ## `cx@22.8.2`
 
 **Fixes**

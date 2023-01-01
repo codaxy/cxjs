@@ -126,6 +126,9 @@ class ColorInput extends VDOM.Component {
          onFocusOut: () => {
             this.closeDropdown();
          },
+         dismissAfterScroll: () => {
+            this.closeDropdown();
+         },
          firstChildDefinesHeight: true,
          firstChildDefinesWidth: true,
       };

@@ -19,6 +19,7 @@ import {
    StyleProp,
    Widget,
 } from "../../core";
+import { DataAdapterRecord } from "../../ui/adapter/DataAdapter";
 
 type FetchRecordsResult = Record[] | { records: Record[]; lastPage?: boolean; totalRecordCount?: number };
 
@@ -88,7 +89,10 @@ interface GridColumnHeaderConfig {
    style?: StyleProp;
    class?: ClassProp;
    className?: ClassProp;
-   tooltip?: Cx.StringProp | Cx.StructuredProp;
+   tooltip?: StringProp | StructuredProp;
+   defaultWidth?: NumberProp;
+   width?: NumberProp;
+   resizable?: boolean;
 }
 
 interface GridColumnConfig {
@@ -147,6 +151,7 @@ interface GridRowConfig {
    line1?: GridRowLineConfig;
    line2?: GridRowLineConfig;
    line3?: GridRowLineConfig;
+   mod?: StringProp | Prop<string[]> | StructuredProp;
 }
 
 interface GridProps extends StyledContainerProps {
@@ -315,6 +320,9 @@ interface GridProps extends StyledContainerProps {
    /** Callback function to be executed when a row is double-clicked. */
    onRowDoubleClick?: string | ((e: React.SyntheticEvent<any>, instance: Instance) => void);
 
+   /** Callback function to be executed on key down. Accepts instance of the currently focused record as the second argument. */
+   onRowKeyDown?: string | ((e: React.SyntheticEvent<any>, instance: Instance) => void);
+
    /** Callback function to be executed when a row is clicked. */
    onRowClick?: string | ((e: React.SyntheticEvent<any>, instance: Instance) => void);
 
@@ -325,10 +333,10 @@ interface GridProps extends StyledContainerProps {
    cellEditable?: boolean;
 
    /** A callback function which is executed before a cell editor is initialized. Return false from the callback to prevent the cell from going into the edit mode. */
-   onBeforeCellEdit?: (change, record) => any;
+   onBeforeCellEdit?: string | ((change: GridCellBeforeEditInfo, record: DataAdapterRecord) => any);
 
    /** A callback function which is executed after a cell has been successfully edited. */
-   onCellEdited?: (change, record) => void;
+   onCellEdited?: string | ((change: GridCellEditInfo, record: DataAdapterRecord) => void);
 
    /** A callback function which is executed after a column has been resized. */
    onColumnResize?: (data: { width: number; column: Record }, instance: Instance) => void;
@@ -336,6 +344,7 @@ interface GridProps extends StyledContainerProps {
    /** Options for data sorting. See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Collator */
    sortOptions?: CollatorOptions;
 
+   /** Callback to create a function that can be used to check whether a record is selectable. */
    onCreateIsRecordSelectable?: (
       params: any,
       instance: Instance
@@ -353,10 +362,10 @@ interface GridProps extends StyledContainerProps {
    /** A value used to uniquely identify the record within the hover sync group. */
    rowHoverId?: StringProp;
 
-   /** Set to true or false to explicitly define if grid is allowed to receive focus.  */
+   /** Set to true or false to explicitly define if grid is allowed to receive focus. */
    focusable?: boolean;
 
-   /** Callback function to retrieve grouping data.  */
+   /** Callback function to retrieve grouping data. */
    onGetGrouping?: (params: any, instance: Instance) => GridGroupingConfig[];
 
    /** Callback function to dynamically calculate columns.  */
@@ -364,6 +373,30 @@ interface GridProps extends StyledContainerProps {
 
    /** Allow grid to receive drag and drop operations containing files. */
    allowsFileDrops?: boolean;
+
+   /**
+    * Callback function to track and retrieve displayed records.
+    * Accepts new records as a first argument.
+    * If onCreateFilter callback is defined, filtered records can be retrieved using this callback.
+    */
+   onTrackMappedRecords?: (records: Record[], instance: Instance) => void;
+
+   /** Callback to create a function that can be used to check whether a record is draggable. */
+   onCreateIsRecordDraggable?: (params: any, instance: Instance) => (record: Record) => boolean;
+}
+
+interface GridCellInfo {
+   column: any;
+   field: string;
+}
+
+interface GridCellBeforeEditInfo extends GridCellInfo {
+   data: any;
+}
+
+interface GridCellEditInfo extends GridCellInfo {
+   oldData: any;
+   newData: any;
 }
 
 export class Grid extends Widget<GridProps> {}

@@ -53,6 +53,7 @@ export class LookupField extends Field {
             icon: undefined,
             autoOpen: undefined,
             readOnly: undefined,
+            filterParams: { structured: true },
          },
          additionalAttributes,
          ...arguments
@@ -125,9 +126,16 @@ export class LookupField extends Field {
 
       data.stateMods = {
          multiple: this.multiple,
+         single: !this.multiple,
          disabled: data.disabled,
          readonly: data.readOnly,
       };
+
+      data.visibleOptions = data.options;
+      if (this.onCreateVisibleOptionsFilter && isArray(data.options)) {
+         let filterPredicate = instance.invoke("onCreateVisibleOptionsFilter", data.filterParams, instance);
+         data.visibleOptions = data.options.filter(filterPredicate);
+      }
 
       data.selectedKeys = [];
 
@@ -396,8 +404,8 @@ class LookupComponent extends VDOM.Component {
 
       let searchVisible =
          !widget.hideSearchField &&
-         (!isArray(data.options) ||
-            (widget.minOptionsForSearchField && data.options.length >= widget.minOptionsForSearchField));
+         (!isArray(data.visibleOptions) ||
+            (widget.minOptionsForSearchField && data.visibleOptions.length >= widget.minOptionsForSearchField));
 
       if (this.state.status == "loading") {
          content = (
@@ -937,8 +945,8 @@ class LookupComponent extends VDOM.Component {
          return;
       }
 
-      if (isArray(data.options)) {
-         let results = widget.filterOptions(this.props.instance, data.options, q);
+      if (isArray(data.visibleOptions)) {
+         let results = widget.filterOptions(this.props.instance, data.visibleOptions, q);
          this.setState({
             options: results,
             status: "loaded",

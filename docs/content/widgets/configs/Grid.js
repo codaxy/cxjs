@@ -185,6 +185,12 @@ export default {
             Callback function to be executed when a row is double-clicked.
         </Md></cx>
     },
+    onRowKeyDown: {
+        type: 'function',
+        description: <cx><Md>
+            Callback function to be executed on key down. Accepts instance of the currently focused record as the second argument.
+        </Md></cx>
+    },
     onRowClick: {
         type: 'function',
         description: <cx><Md>
@@ -299,6 +305,23 @@ export default {
         type: 'boolean',
         description: <cx><Md>
             Set to `true`` to allow the grid to receive drag and drop operations containing files.
+        </Md></cx>
+    },
+
+    onTrackMappedRecords: {
+        type: "function",
+        description: <cx><Md>
+            Callback function to track and retrieve displayed records.
+            Accepts new records as a first argument.
+            If onCreateFilter callback is defined, filtered records can be retrieved using this callback.
+        </Md></cx>
+    },
+    
+    onGetGrouping: {
+        type: "function",
+        description: <cx><Md>
+            Callback function to retrieve grouping data. Accepts `groupingParams` as a first argument and
+            should return a grid grouping configuration.
         </Md></cx>
     },
 };

@@ -1,1 +1,1 @@
-export function moveElement(array, sourceIndex, targetIndex);
+export function moveElement<T>(array: T[], sourceIndex: number, targetIndex: number): T[];

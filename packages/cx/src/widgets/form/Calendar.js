@@ -35,6 +35,7 @@ export class Calendar extends Field {
             maxValue: undefined,
             maxExclusive: undefined,
             focusable: undefined,
+            dayData: undefined,
          },
          ...arguments
       );
@@ -88,6 +89,12 @@ export class Calendar extends Field {
 
          if (widget.disabledDaysOfWeek) {
             if (widget.disabledDaysOfWeek.includes(data.date.getDay())) data.error = this.disabledDaysOfWeekErrorText;
+         }
+
+         if (data.dayData) {
+            let date = new Date(data.value);
+            let info = data.dayData[date.toDateString()];
+            if (info && info.disabled) data.error = this.disabledDaysOfWeekErrorText;
          }
       }
    }
@@ -147,6 +154,11 @@ const validationCheck = (date, data, disabledDaysOfWeek) => {
    if (data.minValue && !lowerBoundCheck(date, data.minValue, data.minExclusive)) return false;
 
    if (disabledDaysOfWeek && disabledDaysOfWeek.includes(date.getDay())) return false;
+
+   if (data.dayData) {
+      let day = data.dayData[date.toDateString()];
+      if (day && (day.disabled || day.unselectable)) return false;
+   }
 
    return true;
 };
@@ -384,23 +396,32 @@ export class CalendarCmp extends VDOM.Component {
       let weeks = [];
       let date = startDate;
 
+      let empty = {};
+
       let today = zeroTime(new Date());
       while (date >= startDate && date <= endDate) {
          let days = [];
          for (let i = 0; i < 7; i++) {
+            let dayInfo = (data.dayData && data.dayData[date.toDateString()]) || empty;
             let unselectable = !validationCheck(date, data, disabledDaysOfWeek);
-            let classNames = CSS.state({
-               outside: month != date.getMonth(),
-               unselectable: unselectable,
-               selected: data.date && sameDate(data.date, date),
-               cursor: (this.state.hover || this.state.focus) && this.state.cursor && sameDate(this.state.cursor, date),
-               today: widget.highlightToday && sameDate(date, today),
-            });
+            let classNames = CSS.expand(
+               CSS.element(baseClass, "day", {
+                  outside: month != date.getMonth(),
+                  unselectable: unselectable,
+                  selected: data.date && sameDate(data.date, date),
+                  cursor:
+                     (this.state.hover || this.state.focus) && this.state.cursor && sameDate(this.state.cursor, date),
+                  today: widget.highlightToday && sameDate(date, today),
+               }),
+               dayInfo.className,
+               CSS.mod(dayInfo.mod)
+            );
             let dateInst = new Date(date);
             days.push(
                <td
                   key={i}
                   className={classNames}
+                  style={CSS.parseStyle(dayInfo.style)}
                   data-year={dateInst.getFullYear()}
                   data-month={dateInst.getMonth() + 1}
                   data-date={dateInst.getDate()}

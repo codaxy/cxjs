@@ -21,7 +21,11 @@ export interface DropdownProps extends OverlayProps {
    /** The dropdown will be automatically closed if the page is scrolled a certain distance.  */
    closeOnScrollDistance?: number;
 
-   onResolveRelatedElement?(beaconEl: Element, instance: any);
+   relatedElement?: Element;
+
+   onResolveRelatedElement?: string | ((beaconEl: Element, instance: any) => Element);
+
+   onMeasureNaturalContentSize?: string | ((el: Element, instance: any) => { width?: number; height?: number });
 }
 
 export class Dropdown extends Cx.Widget<DropdownProps> {}

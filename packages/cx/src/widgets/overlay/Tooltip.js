@@ -163,7 +163,12 @@ export function getTooltipInstance(e, parentInstance, tooltip, options = {}) {
       return;
    }
 
-   if (tooltipInstance && (tooltipInstance.widget.relatedElement != target || tooltipInstance.config != tooltip)) {
+   if (
+      tooltipInstance &&
+      (tooltipInstance.widget.relatedElement != target ||
+         tooltipInstance.config != tooltip ||
+         tooltipInstance.store.store != parentInstance.store)
+   ) {
       if (tooltipInstance.dismissTooltip) tooltipInstance.dismissTooltip();
       delete parentInstance.tooltips[name];
       tooltipInstance = null;

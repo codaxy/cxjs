@@ -22,14 +22,10 @@ export interface MenuItemProps extends Cx.HtmlElementProps {
    tooltip?: string | Cx.Config;
    openOnFocus?: boolean;
    disabled?: Cx.BooleanProp;
+   checked?: Cx.BooleanProp;
 
-   /**
-    * Click handler.
-    *
-    * @param e - Event.
-    * @param instance - Cx widget instance that fired the event.
-    */
-   onClick?: string | ((e: React.SyntheticEvent<any>, instance: Instance) => void);
+   /** Confirmation text or configuration object. See MsgBox.yesNo for more details. */
+   confirm?: Cx.Prop<string | Cx.Config>;
 }
 
 export class MenuItem extends Cx.Widget<MenuItemProps> {}

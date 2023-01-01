@@ -44,6 +44,9 @@ interface RepeaterProps extends PureContainerProps {
 
    /** A field used to get the unique identifier of the record. Setting keyField improves performance on sort operations as the widget is able to movement of records inside the collection.  */
    keyField?: StringProp;
+
+   /** Data adapter used to convert data in the list of records. Used for manipulation of records, e.g flattening the tree records. */
+   dataAdapter?: any;
 }
 
 export class Repeater extends Widget<RepeaterProps> {}

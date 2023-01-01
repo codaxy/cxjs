@@ -67,4 +67,10 @@ export class Controller<D = any> {
    removeTrigger(name: string): void;
 
    removeComputable(name: string): void;
+
+   /** Invoke a method found on a parent controller. */
+   invokeParentMethod(methodName: string, ...args: any[]);
+
+   /** Invoke a method of this controller. */
+   invokeMethod(methodName: string, ...args: any[]);
 }
