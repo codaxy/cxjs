@@ -29,7 +29,7 @@ export class DataProxy extends PureContainer {
    initInstance(context, instance) {
       instance.store = new NestedDataView({
          store: instance.store,
-         nestedData: new StructuredInstanceDataAccessor({ instance, data: this.data }),
+         nestedData: new StructuredInstanceDataAccessor({ instance, data: this.data, useParentStore: true }),
          immutable: this.immutable,
          sealed: this.sealed,
       });
@@ -40,5 +40,5 @@ export class DataProxy extends PureContainer {
    }
 }
 
-DataProxy.prototype.immutable = false;
-DataProxy.prototype.sealed = false;
+   DataProxy.prototype.immutable = false;
+   DataProxy.prototype.sealed = false;

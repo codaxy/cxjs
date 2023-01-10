@@ -93,16 +93,9 @@ export const ColumnResizing = <cx>
             <MyResizableGrid/>
 
             <Content name="code">
-                <div>
-                    <Tab value={{bind: "$page.code.tab", defaultValue: "grid"}} tab="grid" mod="code">
-                        <code>Grid</code>
-                    </Tab>
-                    <Tab value-bind="$page.code.tab" tab="controller" mod="code">
-                        <code>Controller</code>
-                    </Tab>
-                </div>
-
-                <CodeSnippet visible:expr="{$page.code.tab}=='controller'" fiddle="1q59A8u3">{`
+                <Tab  value-bind="$page.code.tab" tab="controller" mod="code" text='Controller' />
+                <Tab  value-bind="$page.code.tab" tab="grid" mod="code" text='Grid' default/>
+                <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="DaBDyiCf">{`
                 class PageController extends Controller {
                     onInit() {
                         //init grid data
@@ -126,7 +119,7 @@ export const ColumnResizing = <cx>
                     }
                 }
                 `}</CodeSnippet>
-                <CodeSnippet visible:expr="{$page.code.tab}=='grid'" fiddle="1q59A8u3">{`                
+                <CodeSnippet visible-expr="{$page.code.tab}=='grid'" fiddle="DaBDyiCf">{`                
                     <Grid
                         records-bind="$page.records"        
                         columns={[

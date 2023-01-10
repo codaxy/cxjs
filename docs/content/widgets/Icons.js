@@ -1,13 +1,12 @@
-import { HtmlElement, Icon } from 'cx/widgets';
-import { LabelsLeftLayout } from 'cx/ui';
-import {Md} from '../../components/Md';
-import {CodeSplit} from '../../components/CodeSplit';
-import {CodeSnippet} from '../../components/CodeSnippet';
-import {ConfigTable} from '../../components/ConfigTable';
-import {ImportPath} from '../../components/ImportPath';
-
-
+import { Content, Icon, Tab } from 'cx/widgets';
+import { CodeSnippet } from '../../components/CodeSnippet';
+import { CodeSplit } from '../../components/CodeSplit';
+import { ConfigTable } from '../../components/ConfigTable';
+import { ImportPath } from '../../components/ImportPath';
+import { Md } from '../../components/Md';
 import configs from './configs/Icon';
+
+
 
 
 export const Icons = <cx>
@@ -26,13 +25,16 @@ export const Icons = <cx>
                 <Icon name="bug" style="background:yellow"/>
                 <Icon name="pencil" />
             </div>
-
-            <CodeSnippet putInto="code" fiddle="6aQAwn3B">{`
-                <Icon name="calendar" />
-                <Icon name="calculator" style="color:blue" />
-                <Icon name="bug" style="background:yellow"/>
-                <Icon name="pencil" />
-            `}</CodeSnippet>
+            <Content name="code">
+                <Tab value-bind="$page.code.tab" mod="code" tab="wrap" text="Index" default/>
+                <CodeSnippet fiddle="6aQAwn3B">{`
+                    <Icon name="calendar" />
+                    <Icon name="calculator" style="color:blue" />
+                    <Icon name="bug" style="background:yellow"/>
+                    <Icon name="pencil" />
+                `}</CodeSnippet>
+            </Content>
+            
         </CodeSplit>
 
         ## Configuration
@@ -45,13 +47,17 @@ export const Icons = <cx>
 
         <CodeSplit>
         The following example shows how to register FontAwesome icon set.
-            <CodeSnippet putInto="code">{`
+        <Content name="code">
+        <Tab value-bind="$page.code2.tab" mod="code" tab="wrap" text="registerFactory" default/>
+
+            <CodeSnippet>{`
             Icon.registerFactory((name, props) => {
                 props = { ...props };
                 props.className = \`fa fa-\${name} \${props.className || ''}\`;
                 return <i {...props} />
             });
             `}</CodeSnippet>
+        </Content>
         </CodeSplit>
 
         Individual icons can be registered using `Icon.register` method.

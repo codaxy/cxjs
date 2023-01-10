@@ -1,4 +1,4 @@
-import { HtmlElement, LabeledContainer, TextField, DateField } from 'cx/widgets';
+import { HtmlElement, LabeledContainer, TextField, DateField, Content, Tab } from 'cx/widgets';
 import { LabelsLeftLayout } from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
@@ -24,28 +24,30 @@ export const LabeledContainers = <cx>
          <div class="widgets">
             <div layout={LabelsLeftLayout}>
                <LabeledContainer label="Name" trimWhitespace={false}>
-                  <TextField value:bind="$page.person.firstName" placeholder="First Name" />
-                  <TextField value:bind="$page.person.lastName" placeholder="Last Name" />
+                  <TextField value-bind="$page.person.firstName" placeholder="First Name" />
+                  <TextField value-bind="$page.person.lastName" placeholder="Last Name" />
                </LabeledContainer>
                <LabeledContainer label="Origin" trimWhitespace={false}>
-                  <DateField value:bind="$page.person.dob" placeholder="DOB" />
-                  <TextField value:bind="$page.person.country" placeholder="Country" />
+                  <DateField value-bind="$page.person.dob" placeholder="DOB" />
+                  <TextField value-bind="$page.person.country" placeholder="Country" />
                </LabeledContainer>
             </div>
          </div>
-
-         <CodeSnippet putInto="code" fiddle="Ax68dwot">{`
-            <div layout={LabelsLeftLayout}>
-               <LabeledContainer label="Name" trimWhitespace={false}>
-                  <TextField value:bind="$page.person.firstName" placeholder="First Name" />
-                  <TextField value:bind="$page.person.lastName" placeholder="Last Name" />
-               </LabeledContainer>
-               <LabeledContainer label="Origin" trimWhitespace={false}>
-                  <DateField value:bind="$page.person.dob" placeholder="DOB" />
-                  <TextField value:bind="$page.person.country" placeholder="Country" />
-               </LabeledContainer>
-            </div>
-         `}</CodeSnippet>
+         <Content name="code">
+            <Tab value-bind="$page.code.tab" mod="code" tab="index" text="LabeledContainers" default/>
+            <CodeSnippet fiddle="Ax68dwot">{`
+               <div layout={LabelsLeftLayout}>
+                  <LabeledContainer label="Name" trimWhitespace={false}>
+                     <TextField value-bind="$page.person.firstName" placeholder="First Name" />
+                     <TextField value-bind="$page.person.lastName" placeholder="Last Name" />
+                  </LabeledContainer>
+                  <LabeledContainer label="Origin" trimWhitespace={false}>
+                     <DateField value-bind="$page.person.dob" placeholder="DOB" />
+                     <TextField value-bind="$page.person.country" placeholder="Country" />
+                  </LabeledContainer>
+               </div>
+            `}</CodeSnippet>
+         </Content>
       </CodeSplit>
 
       ## Configuration

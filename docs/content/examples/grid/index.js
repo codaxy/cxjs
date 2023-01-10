@@ -13,4 +13,6 @@ export * from "./RowExpanding";
 export * from "./HeaderMenu";
 export * from "./CellEditing";
 export * from "./ColumnResizing";
+export * from "./ColumnReordering";
 export * from "./FixedColumns";
+export * from "./StatefulTreeGrid";

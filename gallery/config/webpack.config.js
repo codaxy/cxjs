@@ -33,10 +33,10 @@ module.exports = production => ({
          {
             test: /\.tsx?$/,
             include: /gallery/,
-            loaders: [
+            use: [
                {
                   loader: "babel-loader",
-                  query: babelCfg
+                  options: babelCfg
                },
                "ts-loader"
             ]
@@ -46,7 +46,7 @@ module.exports = production => ({
             //add here any ES6 based library
             include: /[\\\/](cx|cx-react|gallery|misc|cx-theme-.*)[\\\/]/,
             loader: "babel-loader",
-            query: babelCfg
+            options: babelCfg
          },
          {
             test: /\.(png|jpg|svg)/,
@@ -80,7 +80,7 @@ module.exports = production => ({
          },
          {
             test: /\.css$/,
-            loaders: ["style-loader", "css-loader"]
+            use: ["style-loader", "css-loader"]
          }
       ]
    },
@@ -109,7 +109,7 @@ module.exports = production => ({
          reactScripts: production ? reactScripts : reactScriptsDev,
          favicon: p("assets/favicon.png")
       }),
-      new InlineManifestWebpackPlugin(),
+      //new InlineManifestWebpackPlugin(),
       new ScriptExtHtmlWebpackPlugin({
          async: /\.js$/,
          preload: {
@@ -121,5 +121,18 @@ module.exports = production => ({
             chunks: "async"
          }
       })
-   ]
+   ],
+
+   cache: {
+      // 1. Set cache type to filesystem
+      type: 'filesystem',
+
+      buildDependencies: {
+         // 2. Add your config as buildDependency to get cache invalidation on config change
+         config: [p('config/webpack.config.js'), p('config/webpack.dev.js'), p('config/webpack.prod.js'), p('config/babel-config.js')],
+
+         // 3. If you have other things the build depends on you can add them here
+         // Note that webpack, loaders and all modules referenced from your config are automatically added
+      },
+   },
 });

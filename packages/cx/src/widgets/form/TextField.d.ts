@@ -1,4 +1,5 @@
 import * as Cx from "../../core";
+import { Instance } from "../../ui/Instance";
 import { FieldProps } from "./Field";
 
 export interface TextFieldProps extends FieldProps {
@@ -65,8 +66,13 @@ export interface TextFieldProps extends FieldProps {
    /** Name of the icon to be put on the left side of the input. */
    icon?: Cx.StringProp;
 
-   /** If trackFocus is set, this value will be set when the field recieves or loses focus. */
+   /** If trackFocus is set, this value will be set when the field receives or loses focus. */
    focused?: Cx.BooleanProp;
+
+   /** Trim text to remove whitespace. Default is false. */
+   trim?: Cx.BooleanProp;
+
+   onKeyDown?: string | ((event: KeyboardEvent, instance: Instance) => boolean | void);
 }
 
 export class TextField extends Cx.Widget<TextFieldProps> {}

@@ -1,4 +1,4 @@
-import {HtmlElement, Repeater} from 'cx/widgets';
+import {Content, HtmlElement, Repeater, Tab} from 'cx/widgets';
 import {Controller} from 'cx/ui';
 import {Svg, Rectangle} from 'cx/svg';
 import {Chart, NumericAxis, MouseTracker, Gridlines, Marker, MarkerLine, PointReducer} from 'cx/charts';
@@ -57,68 +57,70 @@ export const PointReducers = <cx>
                                 }
                             }}
                         >
-                            <Repeater records:bind="$page.points" recordAlias="$point">
-                                <Marker colorIndex:bind="$point.color"
-                                    size:bind="$point.size"
-                                    x:bind="$point.x"
-                                    y:bind="$point.y"
+                            <Repeater records-bind="$page.points" recordAlias="$point">
+                                <Marker colorIndex-bind="$point.color"
+                                    size-bind="$point.size"
+                                    x-bind="$point.x"
+                                    y-bind="$point.y"
                                     style={{fillOpacity: 0.5}}
                                     draggableX draggableY
                                 />
                             </Repeater>
 
-                            <MarkerLine x:bind="$page.avgX" />
-                            <MarkerLine y:bind="$page.avgY" />
+                            <MarkerLine x-bind="$page.avgX" />
+                            <MarkerLine y-bind="$page.avgY" />
 
                         </PointReducer>
 
                     </Chart>
                 </Svg>
             </div>
+            <Content name="code">
+                <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Index" default/>
+                <CodeSnippet fiddle="Yit7I9BN">{`
+                    <Svg style="width:600px;height:600px;" margin="30 30 30 30">
+                        <Chart axes={{
+                            x: <NumericAxis min={0} max={300}/>,
+                            y: <NumericAxis min={0} max={300} vertical/>,
+                        }}>
+                            <Gridlines />
+                            <PointReducer
+                                onInitAccumulator={(acc) => {
+                                    acc.sumX = 0;
+                                    acc.sumY = 0;
+                                    acc.sumSize = 0;
+                                }}
+                                onMap={(acc, x, y, name, p) => {
+                                    acc.sumX += x * p.size;
+                                    acc.sumY += y * p.size;
+                                    acc.sumSize += p.size;
+                                }}
+                                onReduce={(acc, {store}) => {
+                                    if (acc.sumSize > 0) {
+                                        store.set('$page.avgX', acc.sumX / acc.sumSize);
+                                        store.set('$page.avgY', acc.sumY / acc.sumSize);
+                                    }
+                                }}
+                            >
+                                <Repeater records-bind="$page.points" recordAlias="$point">
+                                    <Marker colorIndex-bind="$point.color"
+                                        size-bind="$point.size"
+                                        x-bind="$point.x"
+                                        y-bind="$point.y"
+                                        style={{fillOpacity: 0.5}}
+                                        draggableX draggableY
+                                    />
+                                </Repeater>
 
-            <CodeSnippet putInto="code" fiddle="B8fcC7VF">{`
-                <Svg style="width:600px;height:600px;" margin="30 30 30 30">
-                    <Chart axes={{
-                        x: <NumericAxis min={0} max={300}/>,
-                        y: <NumericAxis min={0} max={300} vertical/>,
-                    }}>
-                        <Gridlines />
-                        <PointReducer
-                            onInitAccumulator={(acc) => {
-                                acc.sumX = 0;
-                                acc.sumY = 0;
-                                acc.sumSize = 0;
-                            }}
-                            onMap={(acc, x, y, name, p) => {
-                                acc.sumX += x * p.size;
-                                acc.sumY += y * p.size;
-                                acc.sumSize += p.size;
-                            }}
-                            onReduce={(acc, {store}) => {
-                                if (acc.sumSize > 0) {
-                                    store.set('$page.avgX', acc.sumX / acc.sumSize);
-                                    store.set('$page.avgY', acc.sumY / acc.sumSize);
-                                }
-                            }}
-                        >
-                            <Repeater records:bind="$page.points" recordAlias="$point">
-                                <Marker colorIndex:bind="$point.color"
-                                    size:bind="$point.size"
-                                    x:bind="$point.x"
-                                    y:bind="$point.y"
-                                    style={{fillOpacity: 0.5}}
-                                    draggableX draggableY
-                                />
-                            </Repeater>
+                                <MarkerLine x-bind="$page.avgX" />
+                                <MarkerLine y-bind="$page.avgY" />
 
-                            <MarkerLine x:bind="$page.avgX" />
-                            <MarkerLine y:bind="$page.avgY" />
+                            </PointReducer>
 
-                        </PointReducer>
-
-                    </Chart>
-                </Svg>
-            `}</CodeSnippet>
+                        </Chart>
+                    </Svg>
+                `}</CodeSnippet>
+            </Content>
 
             `PointReducer` can be used as a standalone component or as one of the predefined forms:
 

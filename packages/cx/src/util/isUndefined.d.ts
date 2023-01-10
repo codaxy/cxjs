@@ -1,1 +1,1 @@
-export function isUndefined(x: any): boolean;
+export function isUndefined(x: any): x is undefined;

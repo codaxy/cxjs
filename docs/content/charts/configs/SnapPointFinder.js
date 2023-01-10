@@ -47,5 +47,12 @@ export default {
         description: <cx><Md>
             A binding used to receive full data of the point nearest to the cursor.
         </Md></cx>
+    },
+
+    maxDistance: {
+        type: 'number',
+        description: <cx><Md>
+        Maximum distance between cursor and the snap point.
+    </Md></cx>
     }
 };

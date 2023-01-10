@@ -1,4 +1,4 @@
-import { HtmlElement, ColorPicker } from 'cx/widgets';
+import { HtmlElement, ColorPicker, Content, Tab } from 'cx/widgets';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
@@ -20,16 +20,18 @@ export const ColorPickers = <cx>
         <CodeSplit>
 
             <div class="widgets">
-                <ColorPicker value:bind="$page.color"/>
+                <ColorPicker value-bind="$page.color"/>
                 <div style={{width:'100px', height: '70px', background:{bind:'$page.color'}}}></div>
             </div>
-
-            <CodeSnippet putInto="code" fiddle="9B8Xyzfj">{`
-            <div class="widgets">
-                <ColorPicker value:bind="$page.color"/>
-                <div style={{width:'100px', height: '70px', background:{bind:'$page.color'}}}></div>
-            </div>
-         `}</CodeSnippet>
+            <Content name="code">
+                <Tab value-bind="$page.code.tab" mod="code" tab="index" text="ColorPicker" default/>
+                <CodeSnippet fiddle="9B8Xyzfj">{`
+                <div class="widgets">
+                    <ColorPicker value-bind="$page.color"/>
+                    <div style={{width:'100px', height: '70px', background:{bind:'$page.color'}}}></div>
+                </div>
+            `}</CodeSnippet>
+            </Content>
         </CodeSplit>
 
         ## Configuration

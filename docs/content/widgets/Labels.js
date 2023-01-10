@@ -1,4 +1,4 @@
-import { HtmlElement, TextField, Checkbox } from 'cx/widgets';
+import { HtmlElement, TextField, Checkbox, Tab } from 'cx/widgets';
 import { Content, LabelsLeftLayout } from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
@@ -19,45 +19,47 @@ export const Labels = <cx>
 
             <div class="widgets">
                 <div layout={LabelsLeftLayout}>
-                    <TextField label="Standard" value:bind="$page.text" autoFocus/>
-                    <TextField label={{text: "Styled", style: "color:green;font-weight:bold"}} value:bind="$page.text" />
-                    <TextField label="Asterisk" value:bind="$page.text" required asterisk />
+                    <TextField label="Standard" value-bind="$page.text" autoFocus/>
+                    <TextField label={{text: "Styled", style: "color:green;font-weight:bold"}} value-bind="$page.text" />
+                    <TextField label="Asterisk" value-bind="$page.text" required asterisk />
                     <TextField
-                        label={<Checkbox value:bind="$page.enabled">Enabled</Checkbox>}
-                        value:bind="$page.text"
-                        enabled:bind="$page.enabled"
+                        label={<Checkbox value-bind="$page.enabled">Enabled</Checkbox>}
+                        value-bind="$page.text"
+                        enabled-bind="$page.enabled"
                     />
                     <TextField
                         label={{
                             text: 'Tooltips',
                             tooltip: 'This tooltip is related to the label.'
                         }}
-                        value:bind="$page.text"
+                        value-bind="$page.text"
                         tooltip="This tooltip is related to the field."
                     />
                 </div>
             </div>
-
-            <CodeSnippet putInto="code" fiddle="HcJ9CpKT">{`
-                <div layout={LabelsLeftLayout}>
-                    <TextField label="Standard" value:bind="$page.text" autoFocus/>
-                    <TextField label={{text: "Styled", style: "color:green;font-weight:bold"}} value:bind="$page.text" />
-                    <TextField label="Asterisk" value:bind="$page.text" required asterisk />
-                    <TextField
-                        label={<Checkbox value:bind="$page.enabled">Enabled</Checkbox>}
-                        value:bind="$page.text"
-                        enabled:bind="$page.enabled"
-                    />
-                    <TextField
-                        label={{
-                            text: 'Tooltips',
-                            tooltip: 'This tooltip is related to the label.'
-                        }}
-                        value:bind="$page.text"
-                        tooltip="This tooltip is related to the field."
-                    />
-                </div>
-            `}</CodeSnippet>
+            <Content name="code">
+                <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Labels" default/>
+                <CodeSnippet fiddle="HcJ9CpKT">{`
+                    <div layout={LabelsLeftLayout}>
+                        <TextField label="Standard" value-bind="$page.text" autoFocus/>
+                        <TextField label={{text: "Styled", style: "color:green;font-weight:bold"}} value-bind="$page.text" />
+                        <TextField label="Asterisk" value-bind="$page.text" required asterisk />
+                        <TextField
+                            label={<Checkbox value-bind="$page.enabled">Enabled</Checkbox>}
+                            value-bind="$page.text"
+                            enabled-bind="$page.enabled"
+                        />
+                        <TextField
+                            label={{
+                                text: 'Tooltips',
+                                tooltip: 'This tooltip is related to the label.'
+                            }}
+                            value-bind="$page.text"
+                            tooltip="This tooltip is related to the field."
+                        />
+                    </div>
+                `}</CodeSnippet>
+            </Content>
 
         </CodeSplit>
 

@@ -97,9 +97,11 @@ export class Marker extends BoundedObject {
       if (instance.colorMap && data.colorName) instance.colorMap.acknowledge(data.colorName);
 
       if (data.active) {
-         if (xAxis && data.x != null) xAxis.acknowledge(data.x, 0, this.xOffset);
+         if (this.affectsAxes) {
+            if (xAxis && data.x != null) xAxis.acknowledge(data.x, 0, this.xOffset);
 
-         if (yAxis && data.y != null) yAxis.acknowledge(data.y, 0, this.yOffset);
+            if (yAxis && data.y != null) yAxis.acknowledge(data.y, 0, this.yOffset);
+         }
 
          if (context.pointReducer) context.pointReducer(data.x, data.y, data.name, data);
 
@@ -218,6 +220,7 @@ Marker.prototype.legendAction = "auto";
 Marker.prototype.shape = "circle";
 Marker.prototype.styled = true;
 Marker.prototype.hidden = false;
+Marker.prototype.affectsAxes = true;
 
 BoundedObject.alias("marker", Marker);
 

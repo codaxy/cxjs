@@ -1,4 +1,4 @@
-import {Md} from '../../../components/Md';
+import { Md } from '../../../components/Md';
 
 import pureContainer from './PureContainer';
 import classAndStyle from './classAndStyle';
@@ -6,6 +6,7 @@ import classAndStyle from './classAndStyle';
 export default {
     ...pureContainer,
     ...classAndStyle,
+
     resizable: {
         key: false,
         type: 'boolean',
@@ -24,7 +25,21 @@ export default {
         key: true,
         type: 'boolean',
         description: <cx><Md>
-            Set to `true` to initially place the overlay in the center of the page.
+            Set to `true` to initially place the overlay in the center of the page. This has the same effect as setting both `centerX` and `centerY` to `true`.
+        </Md></cx>
+    },
+    centerX: {
+        key: false,
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to initially place the overlay in the center of the page horizontally.
+        </Md></cx>
+    },
+    centerY: {
+        key: false,
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to initially place the overlay in the center of the page vertically.
         </Md></cx>
     },
     animate: {
@@ -86,5 +101,79 @@ export default {
         description: <cx><Md>
             Set to `true` to dismiss the window if the user presses the back button in the browser.
         </Md></cx>
-    }
+    },
+
+    dismissOnFocusOut: {
+        key: false,
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to dismiss the overlay when it loses focus.
+        </Md></cx>
+    },
+
+    autoFocus: {
+        key: false,
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to automatically focus the dropdown when it's shown.
+        </Md></cx>
+    },
+
+    autoFocusFirstChild: {
+        key: false,
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to automatically find and focus the first chinld in the dropdown when it's shown.
+        </Md></cx>
+    },
+
+    closeOnEscape: {
+        key: true,
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to make the window automatically close if the Esc key is pressed on the keyboard.
+            Default value is `false`.
+        </Md></cx>
+    },
+
+    focusable: {
+        key: false,
+        type: 'boolean',
+        description: <cx><Md>
+            Set to true to make the top level overlay element focusable.
+        </Md></cx>
+    },
+
+    onMove: {
+        key: false,
+        type: 'function',
+        description: <cx><Md>
+            A callback function which fires while the overlay is being moved around.
+        </Md></cx>
+    },
+
+    onResize: {
+        key: false,
+        type: 'function',
+        description: <cx><Md>
+            A callback function which fires while the overlay is being resized.
+        </Md></cx>
+    },
+
+    zIndex: {
+        key: false,
+        type: 'number',
+        description: <cx><Md>
+            zIndex
+        </Md></cx>
+    },
+
+    resizeWidth: {
+        key: false,
+        type: 'number',
+        description: <cx><Md>
+            resizeWidth
+        </Md></cx>
+    },
+
 };

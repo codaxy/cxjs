@@ -1,4 +1,4 @@
-import {HtmlElement, FieldGroup, TextField, Checkbox, Button} from 'cx/widgets';
+import {HtmlElement, FieldGroup, TextField, Checkbox, Button, Content, Tab} from 'cx/widgets';
 import {LabelsLeftLayout} from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
@@ -21,40 +21,43 @@ export const FieldGroups = <cx>
             is just an alias for it.
 
             <div class="widgets">
-                <Checkbox value:bind="$page.enabled">Enabled</Checkbox>
-                <Checkbox value:bind="$page.readOnly">ReadOnly</Checkbox>
-                <Checkbox value:bind="$page.viewMode">ViewMode</Checkbox>
+                <Checkbox value-bind="$page.enabled">Enabled</Checkbox>
+                <Checkbox value-bind="$page.readOnly">ReadOnly</Checkbox>
+                <Checkbox value-bind="$page.viewMode">ViewMode</Checkbox>
                 <FieldGroup
                     layout={LabelsLeftLayout}
-                    enabled:bind="$page.enabled"
-                    readOnly:bind="$page.readOnly"
-                    viewMode:bind="$page.viewMode"
+                    enabled-bind="$page.enabled"
+                    readOnly-bind="$page.readOnly"
+                    viewMode-bind="$page.viewMode"
                     tabOnEnterKey
                 >
-                    <TextField label="First Name" value:bind="$page.firstName" required/>
-                    <TextField label="Last Name" value:bind="$page.lastName" required/>
-                    <Checkbox label="Status" value:bind="$page.active" text="Active" emptyText="Inactive" />
+                    <TextField label="First Name" value-bind="$page.firstName" required/>
+                    <TextField label="Last Name" value-bind="$page.lastName" required/>
+                    <Checkbox label="Status" value-bind="$page.active" text="Active" emptyText="Inactive" />
+                    <Checkbox label="Active" value-bind="$page.active" viewText-expr='{$page.active} ? "Yes" : "No"' />
                     <Button text="Button" />
                 </FieldGroup>
             </div>
-
-            <CodeSnippet putInto="code" fiddle="Hw0NgP7R">{`
-                <Checkbox value:bind="$page.enabled">Enabled</Checkbox>
-                <Checkbox value:bind="$page.readOnly">ReadOnly</Checkbox>
-                <Checkbox value:bind="$page.viewMode">ViewMode</Checkbox>
-                <FieldGroup
-                    layout={LabelsLeftLayout}
-                    enabled:bind="$page.enabled"
-                    readOnly:bind="$page.readOnly"
-                    viewMode:bind="$page.viewMode"
-                    tabOnEnterKey
-                >
-                    <TextField label="First Name" value:bind="$page.firstName" required/>
-                    <TextField label="Last Name" value:bind="$page.lastName" required/>
-                    <Checkbox label="Status" value:bind="$page.active" text="Active" emptyText="Inactive" />
-                    <Button text="Button" />
-                </FieldGroup>
-            `}</CodeSnippet>
+            <Content name="code">
+                <Tab value-bind="$page.code.tab" mod="code" tab="index" text="FieldGroups" default/>
+                <CodeSnippet fiddle="Hw0NgP7R">{`
+                    <Checkbox value-bind="$page.enabled">Enabled</Checkbox>
+                    <Checkbox value-bind="$page.readOnly">ReadOnly</Checkbox>
+                    <Checkbox value-bind="$page.viewMode">ViewMode</Checkbox>
+                    <FieldGroup
+                        layout={LabelsLeftLayout}
+                        enabled-bind="$page.enabled"
+                        readOnly-bind="$page.readOnly"
+                        viewMode-bind="$page.viewMode"
+                        tabOnEnterKey
+                    >
+                        <TextField label="First Name" value-bind="$page.firstName" required/>
+                        <TextField label="Last Name" value-bind="$page.lastName" required/>
+                        <Checkbox label="Status" value-bind="$page.active" text="Active" emptyText="Inactive" />
+                        <Button text="Button" />
+                    </FieldGroup>
+                `}</CodeSnippet>
+            </Content>
         </CodeSplit>
 
         ## Configuration

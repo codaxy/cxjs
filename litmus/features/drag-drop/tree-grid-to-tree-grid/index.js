@@ -18,7 +18,10 @@ function move(store, target, e) {
 }
 
 function drop(store, target, e) {
-   alert('DROP' + JSON.stringify(e.source.data));
+   if (!!e.dataTransfer)
+      alert('DROP FILES');
+   else
+      alert('DROP' + JSON.stringify(e.source.data));
 }
 
 export default <cx>
@@ -32,6 +35,8 @@ export default <cx>
                type: TreeAdapter,
                childrenField: 'children',
             }}
+            allowsFileDrops
+            buffered
             scrollable
             style="height:400px"
             columns={[{
@@ -56,11 +61,11 @@ export default <cx>
                }
             }}
             dropZone={{
-               mode: 'insertion'
+               //mode: 'insertion'
             }}
-            onDropTest={e => e.source.data.type == 'record'}
+            onDropTest={e => !!e.dataTransfer || e.source?.data?.type == 'record'}
             onDrop={(e, { store }) => move(store, "grid1", e)}
-            onRowDropTest={e => e.source.data.type == 'record'}
+            onRowDropTest={e => !!e.dataTransfer || e.source.data.type == 'record'}
             onRowDrop={(e, { store }) => drop(store, "grid1", e)}
             selection={{
                type: KeySelection,
@@ -76,12 +81,13 @@ export default <cx>
             records-bind="grid2"
             buffered
             scrollable
+            allowsFileDrops
             style="height:400px"
             columns={[{
                items: <cx>
                   <DragHandle style="cursor:move">
                      &#9776;
-                     </DragHandle>
+                  </DragHandle>
                </cx>
             }, {
                style: 'width: 300px',
@@ -105,7 +111,7 @@ export default <cx>
             dropZone={{
                mode: 'insertion'
             }}
-            onDropTest={e => e.source.data.type == 'record'}
+            onDropTest={e => !!e.dataTransfer || e.source.data.type == 'record'}
             onDrop={(e, { store }) => move(store, "grid2", e)}
             keyField="id"
          />

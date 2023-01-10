@@ -26,14 +26,9 @@ module.exports = function (options) {
                 trimWhitespace: true,
                 trimWhitespaceExceptions: ['Md', 'CodeSnippet', 'CodeSplit']
             }],
-            ["@babel/transform-react-jsx", {"pragma": 'VDOM.createElement'}],
-            //'@babel/external-helpers',
-            '@babel/proposal-object-rest-spread',
+            ["@babel/transform-react-jsx", { "runtime": 'automatic' }],
             "@babel/proposal-function-bind",
-            '@babel/transform-parameters',
-            '@babel/syntax-dynamic-import',
-            "@babel/plugin-proposal-export-namespace-from",
-            isProduction && ["transform-cx-imports", {useSrc: true}],
+            isProduction && ["transform-cx-imports", { useSrc: true }],
         ].filter(Boolean)
     }
 };

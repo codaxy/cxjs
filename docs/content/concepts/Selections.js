@@ -1,4 +1,4 @@
-import {HtmlElement, Repeater, Checkbox, Select, Option, Grid, Content} from 'cx/widgets';
+import {HtmlElement, Repeater, Checkbox, Select, Option, Grid, Content, Tab} from 'cx/widgets';
 import {Controller, PropertySelection, KeySelection} from 'cx/ui';
 import {Svg, Rectangle} from 'cx/svg';
 import {Chart, Gridlines, ScatterGraph, NumericAxis} from 'cx/charts';
@@ -36,7 +36,9 @@ export const Selections = <cx>
             be handled and `Cx` offers commonly used methods out of the box.
 
             <Content name="code">
-               <CodeSnippet>{`
+                <Tab value-bind="$page.code.tab" tab="controller" mod="code" text="Controller"/>
+                <Tab value-bind="$page.code.tab" tab="chart" mod="code" text="Chart" default/>
+               <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="eINrAOlQ">{`
                class PageController extends Controller {
                   init() {
                      super.init();
@@ -50,6 +52,35 @@ export const Selections = <cx>
                      })));
                   }
                }
+            `}</CodeSnippet>
+            <CodeSnippet visible-expr="{$page.code.tab}=='chart'" fiddle="eINrAOlQ">{`
+                <div class="widgets" controller={PageController}>
+                    <Svg style={{ width: "400px", height: "400px" }}>
+                        <Chart anchors="0 1 1 0" offset="25 -25 -40 50" axes={NumericAxis.XY()}>
+                            <Rectangle
+                                anchors="0 1 1 0"
+                                style={{ fill: "rgba(100, 100, 100, 0.1)" }}
+                            />
+                            <Gridlines />
+                            <ScatterGraph
+                                data-bind="$page.bubbles"
+                                selection={{ type: PropertySelection, multiple: true }}
+                                sizeField="d"
+                                colorIndex={0}
+                            />
+                        </Chart>
+                    </Svg>
+                    <div>
+                        <Repeater records-bind="$page.bubbles">
+                            <div>
+                                <Checkbox
+                                    checked-bind="$record.selected"
+                                    text-bind="$record.name"
+                                />
+                            </div>
+                        </Repeater>
+                    </div>
+                </div>
             `}</CodeSnippet>
             </Content>
         </CodeSplit>
@@ -73,7 +104,7 @@ export const Selections = <cx>
                         />
                         <Gridlines />
                         <ScatterGraph
-                            data:bind="$page.bubbles"
+                            data-bind="$page.bubbles"
                             selection={{ type: PropertySelection, multiple: true }}
                             sizeField="d"
                             colorIndex={0}
@@ -81,48 +112,16 @@ export const Selections = <cx>
                     </Chart>
                 </Svg>
                 <div>
-                    <Repeater records:bind="$page.bubbles">
+                    <Repeater records-bind="$page.bubbles">
                         <div>
                             <Checkbox
-                                checked:bind="$record.selected"
-                                text:bind="$record.name"
+                                checked-bind="$record.selected"
+                                text-bind="$record.name"
                             />
                         </div>
                     </Repeater>
                 </div>
             </div>
-
-            <Content name="code">
-                <CodeSnippet fiddle="eINrAOlQ">{`
-                <div class="widgets" controller={PageController}>
-                    <Svg style={{ width: "400px", height: "400px" }}>
-                        <Chart anchors="0 1 1 0" offset="25 -25 -40 50" axes={NumericAxis.XY()}>
-                            <Rectangle
-                                anchors="0 1 1 0"
-                                style={{ fill: "rgba(100, 100, 100, 0.1)" }}
-                            />
-                            <Gridlines />
-                            <ScatterGraph
-                                data:bind="$page.bubbles"
-                                selection={{ type: PropertySelection, multiple: true }}
-                                sizeField="d"
-                                colorIndex={0}
-                            />
-                        </Chart>
-                    </Svg>
-                    <div>
-                        <Repeater records:bind="$page.bubbles">
-                            <div>
-                                <Checkbox
-                                    checked:bind="$record.selected"
-                                    text:bind="$record.name"
-                                />
-                            </div>
-                        </Repeater>
-                    </div>
-                </div>
-            `}</CodeSnippet>
-            </Content>
         </CodeSplit>
 
         The `Ctrl` key can be used to toggle bubble selection.
@@ -143,7 +142,7 @@ export const Selections = <cx>
 
             <div class="widgets">
 
-                <Grid records:bind="$page.bubbles"
+                <Grid records-bind="$page.bubbles"
                       style={{width: "400px"}}
                       columns={[
                           {header: 'Name', field: 'name'},
@@ -155,17 +154,18 @@ export const Selections = <cx>
                 />
 
                 <div>
-                    <Select value:bind="$page.selection">
-                        <Repeater records:bind="$page.bubbles"> <Option value:bind="$record.name"
-                                                                        text:bind="$record.name"/>
+                    <Select value-bind="$page.selection">
+                        <Repeater records-bind="$page.bubbles"> 
+                            <Option value-bind="$record.name" text-bind="$record.name"/>
                         </Repeater>
                     </Select>
                 </div>
             </div>
 
             <Content name="code">
-                <CodeSnippet fiddle="j8o4HZQV">{`
-               <Grid records:bind="$page.bubbles"
+                <Tab value-bind="$page.code1.tab" mod="code" tab="index" text="Index" default/>
+                <CodeSnippet visible-expr="{$page.code1.tab}=='index'" fiddle="j8o4HZQV">{`
+               <Grid records-bind="$page.bubbles"
                      style={{width: "400px"}}
                      columns={[
                         { header: 'Name', field: 'name', sortable: true },
@@ -176,9 +176,9 @@ export const Selections = <cx>
                      selection={{type: KeySelection, keyField: 'name', bind: '$page.selection'}}
                />
                <div>
-                  <Select value:bind="$page.selection">
-                     <Repeater records:bind="$page.bubbles">
-                        <Option value:bind="$record.name" text:bind="$record.name" />
+                  <Select value-bind="$page.selection">
+                     <Repeater records-bind="$page.bubbles">
+                        <Option value-bind="$record.name" text-bind="$record.name" />
                      </Repeater>
                   </Select>
                </div>

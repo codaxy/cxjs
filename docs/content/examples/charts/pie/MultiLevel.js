@@ -1,4 +1,4 @@
-import { HtmlElement, Repeater } from 'cx/widgets';
+import { Content, HtmlElement, Repeater, Tab } from 'cx/widgets';
 import { Controller, KeySelection } from 'cx/ui';
 import { Svg, Text, Rectangle, Line } from 'cx/svg';
 import { PieChart, PieSlice, Legend } from 'cx/charts';
@@ -36,14 +36,14 @@ export const MultiLevel = <cx>
             <Legend />
                <Svg style="width:400px; height:400px;">
                   <PieChart angle={360}>
-                     <Repeater records:bind="$page.points">
-                        <PieSlice value:bind='$record.v'
-                                   active:bind='$record.active'
-                                    colorIndex:expr='{$index} * 3 % 16'
-                                    r:expr='55'
-                                    r0:expr='20'
+                     <Repeater records-bind="$page.points">
+                        <PieSlice value-bind='$record.v'
+                                   active-bind='$record.active'
+                                    colorIndex-expr='{$index} * 3 % 16'
+                                    r-expr='55'
+                                    r0-expr='20'
                                     offset={3}
-                                    name:tpl="Item {$index}"
+                                    name-tpl="Item {$index}"
                                     selection={{
                                        type: KeySelection,
                                        bind:'$page.selection',
@@ -53,15 +53,15 @@ export const MultiLevel = <cx>
                                        keyField: 'x'
                                     }}>
                         </PieSlice>
-                        <Repeater records:bind="$record.slices" recordAlias="$slice" indexAlias="$sliceIndex">
-                           <PieSlice value:bind='$slice.sv'
-                                      active:bind='$record.active'
-                                      colorIndex:expr='{$index} * 3 % 16'
-                                      r:expr='90'
-                                      r0:expr='58'
+                        <Repeater records-bind="$record.slices" recordAlias="$slice" indexAlias="$sliceIndex">
+                           <PieSlice value-bind='$slice.sv'
+                                      active-bind='$record.active'
+                                      colorIndex-expr='{$index} * 3 % 16'
+                                      r-expr='90'
+                                      r0-expr='58'
                                       offset={3}
-                                      name:tpl="Slice {$sliceIndex}"
-                                      legend:expr="{$page.selection} == {$record.x} ? 'slice' : false"
+                                      name-tpl="Slice {$sliceIndex}"
+                                      legend-expr="{$page.selection} == {$record.x} ? 'slice' : false"
                                       stack="outer"
                                       style={{
                                        fillOpacity: {expr: '0.3 + 0.7 * ({$sliceIndex} / 4)'}
@@ -81,8 +81,14 @@ export const MultiLevel = <cx>
                </Svg>
                <Legend name="slice" vertical />
          </div>
+         
+         <Content name="code">
+            <div>
+               <Tab value-bind="$page.code.tab" tab="controller" mod="code" text='Controller' />
+               <Tab value-bind="$page.code.tab" tab="chart" mod="code" default text='Chart' />
+            </div>
 
-         <CodeSnippet putInto="code" fiddle="kn9A3wlj">{`
+            <CodeSnippet fiddle="kn9A3wlj" visible-expr="{$page.code.tab}=='controller'">{`
          class PageController extends Controller {
             init() {
                super.init();
@@ -96,19 +102,20 @@ export const MultiLevel = <cx>
                }));
             }
          }
-         ...
+         `}</CodeSnippet>
+         <CodeSnippet fiddle="kn9A3wlj" visible-expr="{$page.code.tab}=='chart'">{`
          <div class="widgets" controller={PageController}>
             <Legend />
                <Svg style="width:400px; height:400px;">
                   <PieChart angle={360}>
-                     <Repeater records:bind="$page.points">
-                        <PieSlice value:bind='$record.v'
-                                   active:bind='$record.active'
-                                    colorIndex:expr='{$index} * 3 % 16'
-                                    r:expr='55'
-                                    r0:expr='20'
+                     <Repeater records-bind="$page.points">
+                        <PieSlice value-bind='$record.v'
+                                   active-bind='$record.active'
+                                    colorIndex-expr='{$index} * 3 % 16'
+                                    r-expr='55'
+                                    r0-expr='20'
                                     offset={3}
-                                    name:tpl="Item {$index}"
+                                    name-tpl="Item {$index}"
                                     selection={{
                                        type: KeySelection,
                                        bind:'$page.selection',
@@ -118,15 +125,15 @@ export const MultiLevel = <cx>
                                        keyField: 'x'
                                     }}>
                         </PieSlice>
-                        <Repeater records:bind="$record.slices" recordAlias="$slice" indexAlias="$sliceIndex">
-                           <PieSlice value:bind='$slice.sv'
-                                      active:bind='$record.active'
-                                      colorIndex:expr='{$index} * 3 % 16'
-                                      r:expr='90'
-                                      r0:expr='58'
+                        <Repeater records-bind="$record.slices" recordAlias="$slice" indexAlias="$sliceIndex">
+                           <PieSlice value-bind='$slice.sv'
+                                      active-bind='$record.active'
+                                      colorIndex-expr='{$index} * 3 % 16'
+                                      r-expr='90'
+                                      r0-expr='58'
                                       offset={3}
-                                      name:tpl="Slice {$sliceIndex}"
-                                      legend:expr="{$page.selection} == {$record.x} ? 'slice' : false"
+                                      name-tpl="Slice {$sliceIndex}"
+                                      legend-expr="{$page.selection} == {$record.x} ? 'slice' : false"
                                       stack="outer"
                                       style={{
                                        fillOpacity: {expr: '0.3 + 0.7 * ({$sliceIndex} / 4)'}
@@ -147,6 +154,7 @@ export const MultiLevel = <cx>
                <Legend name="slice" vertical />
          </div>
          `}</CodeSnippet>
+         </Content>
       </CodeSplit>
    </Md>
 </cx>

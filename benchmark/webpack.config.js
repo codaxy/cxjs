@@ -6,8 +6,10 @@ const webpack = require('webpack'),
    path = require('path'),
    babelConfig = require('./babel-config');
 
+let dev = process.env.npm_lifecycle_event.startsWith("dev");
+
 let config = {
-   mode: 'production',
+   mode: dev ? 'development' : 'production',
    resolve: {
       alias: {
          'cx': path.resolve(path.join(__dirname, '../packages/cx')),
@@ -23,9 +25,9 @@ let config = {
          loader: 'json-loader'
       }, {
          test: /\.js$/,
-         include: /(benchmark|cx)/,
+         include: /[\\\/](misc|benchmark|cx|cx-react)[\\\/]/,
          loader: 'babel-loader',
-         query: babelConfig(true)
+         options: babelConfig(true)
       }, {
          test: /\.scss$/,
          use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
@@ -39,7 +41,7 @@ let config = {
       //    'babel-polyfill',
       //    'cx-react'
       // ],
-      app: __dirname + '/index.js'
+      app: path.join(__dirname, 'index.js'),
    },
    output: {
       filename: "[name].js",
@@ -52,7 +54,7 @@ let config = {
    },
    plugins: [
       new webpack.DefinePlugin({
-         'process.env.NODE_ENV': JSON.stringify('production'),
+         'process.env.NODE_ENV': JSON.stringify(dev ? 'development' : 'production'),
       }),
       new MiniCssExtractPlugin({
          filename: 'app.ltc.[chunkhash].css',
@@ -61,7 +63,16 @@ let config = {
       new HtmlWebpackPlugin({
          template: path.join(__dirname, 'index.html')
       }),
-   ]
+      //dev && new webpack.HotModuleReplacementPlugin(),
+   ],
+
+   devServer: {
+      hot: true,
+      port: 8111,
+      noInfo: false,
+      inline: true,
+      historyApiFallback: true,
+   },
 };
 
 module.exports = config;

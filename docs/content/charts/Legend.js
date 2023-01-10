@@ -1,4 +1,4 @@
-import { HtmlElement, Repeater, Text, Grid } from 'cx/widgets';
+import { HtmlElement, Repeater, Text, Grid, Content, Tab } from 'cx/widgets';
 import { Controller, KeySelection } from 'cx/ui';
 import { Svg, Rectangle, Line } from 'cx/svg';
 import { PieChart, PieSlice, LegendEntry, ColorMap } from 'cx/charts';
@@ -47,17 +47,17 @@ export const LegendPage = <cx>
                 <Svg style="width:300px; height:300px;">
                     <ColorMap />
                     <PieChart angle={360}>
-                        <Repeater records:bind="$page.points">
-                            <PieSlice value:bind='$record.value'
-                                      active:bind='$record.active'
+                        <Repeater records-bind="$page.points">
+                            <PieSlice value-bind='$record.value'
+                                      active-bind='$record.active'
                                       colorMap="pie"
                                       r={80}
                                       r0={20}
                                       offset={5}
-                                      tooltip:tpl="{$record.name}: {$record.value:n;2}"
+                                      tooltip-tpl="{$record.name}: {$record.value:n;2}"
                                       innerPointRadius={80}
                                       outerPointRadius={90}
-                                      name:bind="$record.name"
+                                      name-bind="$record.name"
                                       selection={{
                                           type: KeySelection,
                                           bind: '$page.selection',
@@ -70,13 +70,13 @@ export const LegendPage = <cx>
                     </PieChart>
                 </Svg>
 
-                <Grid records:bind="$page.points"
+                <Grid records-bind="$page.points"
                       style="width: 200px"
                       columns={[
                           { field: 'name', pad: false, header: "Item", items: <cx>
-                              <LegendEntry name:bind="$record.name"
+                              <LegendEntry name-bind="$record.name"
                                            colorMap="pie"
-                                           active:bind='$record.active'
+                                           active-bind='$record.active'
                                            selection={{
                                                type: KeySelection,
                                                bind: '$page.selection',
@@ -98,13 +98,12 @@ export const LegendPage = <cx>
                       }}/>
             </div>
 
+            <Content name="code">
+                <Tab value-bind="$page.code.tab" mod="code" tab="controller" text="Controller" />
+                <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Index" default/>
+                <Tab value-bind="$page.code.tab" mod="code" tab="columns" text="Columns" />
 
-
-
-
-            <CodeSnippet putInto="code" lang="html" fiddle="c2Y0MiBY">{`
-                // There is a performance issue with code higlighting of this snippet, so lang is set to html instead of jsx.
-
+            <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="c2Y0MiBY">{`
                 class PageController extends Controller {
                     init() {
                         super.init();
@@ -116,22 +115,23 @@ export const LegendPage = <cx>
                         })));
                     }
                 }
-                ...
+            `}</CodeSnippet>
+            <CodeSnippet visible-expr="{$page.code.tab}=='index'" fiddle="c2Y0MiBY">{`
                 <div class="widgets" controller={PageController}>
                     <Svg style="width:300px; height:300px;">
                         <ColorMap />
                         <PieChart angle={360}>
-                            <Repeater records:bind="$page.points">
-                                <PieSlice value:bind='$record.value'
-                                          active:bind='$record.active'
+                            <Repeater records-bind="$page.points">
+                                <PieSlice value-bind='$record.value'
+                                          active-bind='$record.active'
                                           colorMap="pie"
                                           r={80}
                                           r0={20}
                                           offset={5}
-                                          tooltip:tpl="{$record.name}: {$record.value:n;2}"
+                                          tooltip-tpl="{$record.name}: {$record.value:n;2}"
                                           innerPointRadius={80}
                                           outerPointRadius={90}
-                                          name:bind="$record.name"
+                                          name-bind="$record.name"
                                           selection={{
                                               type: KeySelection,
                                               bind: '$page.selection',
@@ -144,27 +144,9 @@ export const LegendPage = <cx>
                         </PieChart>
                     </Svg>
 
-                     <Grid records:bind="$page.points"
+                     <Grid records-bind="$page.points"
                            style="width: 200px"
-                           columns={[
-                               { field: 'name', pad: false, header: "Item", items: <cx>
-                                   <LegendEntry name:bind="$record.name"
-                                                colorMap="pie"
-                                                active:bind='$record.active'
-                                                text:bind="$record.name"
-                                                selection={{
-                                                    type: KeySelection,
-                                                    bind: '$page.selection',
-                                                    records: {bind: '$page.points'},
-                                                    record: {bind: '$record'},
-                                                    index: {bind: '$index'},
-                                                    keyField: 'id'
-                                                }}
-                                                size={10}
-                                                shape='circle'/>
-                                 </cx>},
-                               { field: 'value', header: 'Value', format: "n;2", align: "right" }
-                           ]}
+                           columns={columns}
                            selection={{
                                type: KeySelection,
                                bind: '$page.selection',
@@ -172,6 +154,35 @@ export const LegendPage = <cx>
                            }}/>
                 </div>
             `}</CodeSnippet>
+            <CodeSnippet  visible-expr="{$page.code.tab}=='columns'" fiddle="c2Y0MiBY">{`
+                let columns = [
+                    { 
+                        field: 'name', 
+                        pad: false, 
+                        header: "Item", 
+                        items: (
+                            <cx>
+                                <LegendEntry 
+                                    name-bind="$record.name"
+                                    colorMap="pie"
+                                    active-bind='$record.active'
+                                    text-bind="$record.name"
+                                    selection={{
+                                        type: KeySelection,
+                                        bind: '$page.selection',
+                                        records: {bind: '$page.points'},
+                                        record: {bind: '$record'},
+                                        index: {bind: '$index'},
+                                        keyField: 'id'
+                                    }}
+                                    size={10}
+                                    shape='circle'/>
+                                </cx>)
+                    },
+                    { field: 'value', header: 'Value', format: "n;2", align: "right" }
+                ]
+            `}</CodeSnippet>
+            </Content>
         </CodeSplit>
 
         **Note on `Legend`:** If multiple charts are rendered on the same page, use `Legend.Scope` to prevent Legends from interfering with one another, 
@@ -184,7 +195,6 @@ export const LegendPage = <cx>
         ## `LegendEntry` Configuration
 
         <ConfigTable props={legendEntryConfigs} />
-
     </Md>
 </cx>;
 

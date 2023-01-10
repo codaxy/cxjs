@@ -1,4 +1,4 @@
-import { View } from './../../data/View';
+import { View } from "./../../data/View";
 
 export class History {
    static connect(store: View, urlBinding: string, hashBinding?: string);
@@ -11,5 +11,7 @@ export class History {
 
    static reloadOnNextChange();
 
-   static addNavigateConfirmation(callback: ((url?: string) => boolean | Promise<boolean>), executeOnlyOnce?: boolean);
+   static addNavigateConfirmation(callback: (url?: string) => boolean | Promise<boolean>, executeOnlyOnce?: boolean);
+
+   static confirm(continueCallback: () => void, state: any);
 }

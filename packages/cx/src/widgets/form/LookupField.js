@@ -1,6 +1,6 @@
 import { Widget, VDOM, getContent } from "../../ui/Widget";
 import { Cx } from "../../ui/Cx";
-import { Field, getFieldTooltip, autoFocus } from "./Field";
+import { Field, getFieldTooltip } from "./Field";
 import { ReadOnlyDataView } from "../../data/ReadOnlyDataView";
 import { HtmlElement } from "../HtmlElement";
 import { Binding } from "../../data/Binding";
@@ -33,6 +33,9 @@ import { addEventListenerWithOptions } from "../../util/addEventListenerWithOpti
 import { List } from "../List";
 import { Selection } from "../../ui/selection/Selection";
 import { HighlightedSearchText } from "../HighlightedSearchText";
+import { autoFocus } from "../autoFocus";
+import { bind } from "../../ui";
+import { isAccessorChain } from "../../data/createAccessorModelProxy";
 
 export class LookupField extends Field {
    declareData() {
@@ -50,6 +53,7 @@ export class LookupField extends Field {
             icon: undefined,
             autoOpen: undefined,
             readOnly: undefined,
+            filterParams: { structured: true },
          },
          additionalAttributes,
          ...arguments
@@ -63,20 +67,27 @@ export class LookupField extends Field {
 
       if (!this.bindings) {
          let b = [];
-         if (this.value && this.value.bind)
-            b.push({
-               key: true,
-               local: this.value.bind,
-               remote: `$option.${this.optionIdField}`,
-               set: this.value.set,
-            });
+         if (this.value) {
+            if (isAccessorChain(this.value)) this.value = bind(this.value);
+            if (this.value.bind)
+               b.push({
+                  key: true,
+                  local: this.value.bind,
+                  remote: `$option.${this.optionIdField}`,
+                  set: this.value.set,
+               });
+         }
 
-         if (this.text && this.text.bind)
-            b.push({
-               local: this.text.bind,
-               remote: `$option.${this.optionTextField}`,
-               set: this.text.set,
-            });
+         if (this.text) {
+            if (isAccessorChain(this.text)) this.value = bind(this.text);
+            if (this.text.bind)
+               b.push({
+                  local: this.text.bind,
+                  remote: `$option.${this.optionTextField}`,
+                  set: this.text.set,
+               });
+         }
+
          this.bindings = b;
       }
 
@@ -115,9 +126,16 @@ export class LookupField extends Field {
 
       data.stateMods = {
          multiple: this.multiple,
+         single: !this.multiple,
          disabled: data.disabled,
          readonly: data.readOnly,
       };
+
+      data.visibleOptions = data.options;
+      if (this.onCreateVisibleOptionsFilter && isArray(data.options)) {
+         let filterPredicate = instance.invoke("onCreateVisibleOptionsFilter", data.filterParams, instance);
+         data.visibleOptions = data.options.filter(filterPredicate);
+      }
 
       data.selectedKeys = [];
 
@@ -150,8 +168,6 @@ export class LookupField extends Field {
          }
       }
 
-      if (data.autoOpen) data.autoFocus = true;
-
       instance.lastDropdown = context.lastDropdown;
 
       super.prepareData(context, instance);
@@ -168,6 +184,7 @@ export class LookupField extends Field {
             baseClass={this.baseClass}
             label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
             help={this.helpPlacement && getContent(this.renderHelp(context, instance, "help"))}
+            forceUpdate={context.forceUpdate}
          />
       );
    }
@@ -234,6 +251,9 @@ LookupField.prototype.listOptions = null;
 LookupField.prototype.autoOpen = false;
 LookupField.prototype.submitOnEnterKey = false;
 LookupField.prototype.submitOnDropdownEnterKey = false;
+LookupField.prototype.pageSize = 100;
+LookupField.prototype.infinite = false;
+LookupField.prototype.quickSelectAll = false;
 
 Localization.registerPrototype("cx/widgets/LookupField", LookupField);
 
@@ -285,7 +305,6 @@ class LookupComponent extends VDOM.Component {
          formatted: data.formatted,
          value: data.formatted,
          dropdownOpen: false,
-         cursorKey: null,
          focus: false,
       };
 
@@ -323,6 +342,7 @@ class LookupComponent extends VDOM.Component {
                sortDirection="ASC"
                mod="dropdown"
                scrollSelectionIntoView
+               cached={widget.infinite}
                {...widget.listOptions}
                records-bind="$options"
                recordName="$option"
@@ -330,6 +350,8 @@ class LookupComponent extends VDOM.Component {
                pipeKeyDown={(kd) => {
                   this.listKeyDown = kd;
                }}
+               selectOnTab
+               focusable={false}
                selection={{
                   type: SelectionDelegate,
                   delegate: (data) =>
@@ -365,6 +387,10 @@ class LookupComponent extends VDOM.Component {
                };
             }
          },
+         onDismissAfterScroll: () => {
+            this.closeDropdown(null, true);
+            return false;
+         },
       };
 
       return (this.dropdown = Widget.create(dropdown));
@@ -378,8 +404,8 @@ class LookupComponent extends VDOM.Component {
 
       let searchVisible =
          !widget.hideSearchField &&
-         (!isArray(data.options) ||
-            (widget.minOptionsForSearchField && data.options.length >= widget.minOptionsForSearchField));
+         (!isArray(data.visibleOptions) ||
+            (widget.minOptionsForSearchField && data.visibleOptions.length >= widget.minOptionsForSearchField));
 
       if (this.state.status == "loading") {
          content = (
@@ -412,6 +438,7 @@ class LookupComponent extends VDOM.Component {
                ref={(el) => {
                   this.dom.list = el;
                   this.subscribeListOnWheel(el);
+                  this.subscribeListOnScroll(el);
                }}
                className={CSS.element(baseClass, "scroll-container")}
             >
@@ -463,6 +490,14 @@ class LookupComponent extends VDOM.Component {
       }
    }
 
+   onListScroll() {
+      if (!this.dom.list) return;
+      var el = this.dom.list;
+      if (el.scrollTop > el.scrollHeight - 2 * el.offsetHeight) {
+         this.loadAdditionalOptionPages();
+      }
+   }
+
    onDropdownFocus(e) {
       if (this.dom.query && !isFocused(this.dom.query) && !isTouchDevice()) FocusManager.focus(this.dom.query);
    }
@@ -509,20 +544,20 @@ class LookupComponent extends VDOM.Component {
       }
 
       let insideButton = null;
+      let multipleEntries = this.props.multiple && isArray(data.records) && data.records.length > 1;
 
       if (!data.readOnly) {
          if (
             widget.showClear &&
             !data.disabled &&
-            !this.props.multiple &&
-            (widget.alwaysShowClear || !data.required) &&
-            !data.empty
+            !data.empty &&
+            (widget.alwaysShowClear || (!data.required && !this.props.multiple) || multipleEntries)
          ) {
             insideButton = (
                <div
                   key="ib"
                   onMouseDown={preventDefault}
-                  onClick={(e) => this.onClearClick(e)}
+                  onClick={(e) => (!this.props.multiple ? this.onClearClick(e) : this.onClearMultipleClick(e))}
                   className={CSS.element(baseClass, "clear")}
                >
                   <ClearIcon className={CSS.element(baseClass, "icon")} />
@@ -535,7 +570,7 @@ class LookupComponent extends VDOM.Component {
                   className={CSS.element(baseClass, "tool")}
                   onMouseDown={preventDefault}
                   onClick={(e) => {
-                     this.openDropdown(e);
+                     this.toggleDropdown(e, true);
                      e.stopPropagation();
                      e.preventDefault();
                   }}
@@ -550,7 +585,7 @@ class LookupComponent extends VDOM.Component {
 
       if (this.props.multiple) {
          let readOnly = data.disabled || data.readOnly;
-         if (isArray(data.records) && data.records.length > 0) {
+         if (isNonEmptyArray(data.records)) {
             text = data.records.map((v, i) => (
                <div
                   key={i}
@@ -626,16 +661,26 @@ class LookupComponent extends VDOM.Component {
       );
    }
 
-   onClick(e) {
-      e.stopPropagation();
+   onMouseDown(e) {
+      //skip touch start to allow touch scrolling
+      if (isTouchEvent()) return;
       e.preventDefault();
-      this.openDropdown(e);
+      e.stopPropagation();
+      this.toggleDropdown(e, true);
+   }
+
+   onClick(e) {
+      //mouse down will handle it for non-touch events
+      if (!isTouchEvent()) return;
+      e.preventDefault();
+      e.stopPropagation();
+      this.toggleDropdown(e, true);
    }
 
    onItemClick(e, { store }) {
-      this.select(e, store.getData());
+      this.select(e, [store.getData()]);
       if (!this.props.instance.widget.submitOnEnterKey || e.type != "keydown") e.stopPropagation();
-      e.preventDefault();
+      if (e.keyCode != KeyCode.tab) e.preventDefault();
    }
 
    onClearClick(e, value) {
@@ -666,7 +711,13 @@ class LookupComponent extends VDOM.Component {
       if (!isTouchEvent(e)) this.dom.input.focus();
    }
 
-   select(e, itemData) {
+   onClearMultipleClick(e) {
+      let { instance } = this.props;
+      instance.set("records", []);
+      instance.set("values", []);
+   }
+
+   select(e, itemsData, reset) {
       let { instance } = this.props;
       let { store, data, widget } = instance;
       let { bindings, keyBindings } = widget;
@@ -674,18 +725,24 @@ class LookupComponent extends VDOM.Component {
       if (widget.multiple) {
          let { selectedKeys, records } = data;
 
-         let optionKey = this.getOptionKey(itemData);
-         let newRecords = records;
-         if (!selectedKeys.find((k) => areKeysEqual(optionKey, k))) {
-            let valueData = {
-               $value: {},
-            };
-            bindings.forEach((b) => {
-               valueData = Binding.get(b.local).set(valueData, Binding.get(b.remote).value(itemData));
-            });
-            newRecords = [...(records || []), valueData.$value];
-         } else {
+         let newRecords = reset ? [] : [...(records || [])];
+         let singleSelect = itemsData.length == 1;
+         let optionKey = null;
+         if (singleSelect) optionKey = this.getOptionKey(itemsData[0]);
+
+         // deselect
+         if (singleSelect && selectedKeys.find((k) => areKeysEqual(optionKey, k))) {
             newRecords = records.filter((v) => !areKeysEqual(optionKey, this.getLocalKey({ $value: v })));
+         } else {
+            itemsData.forEach((itemData) => {
+               let valueData = {
+                  $value: {},
+               };
+               bindings.forEach((b) => {
+                  valueData = Binding.get(b.local).set(valueData, Binding.get(b.remote).value(itemData));
+               });
+               newRecords.push(valueData.$value);
+            });
          }
 
          instance.set("records", newRecords);
@@ -697,15 +754,18 @@ class LookupComponent extends VDOM.Component {
          instance.set("values", newValues);
       } else {
          bindings.forEach((b) => {
-            let v = Binding.get(b.remote).value(itemData);
+            let v = Binding.get(b.remote).value(itemsData[0]);
             if (b.set) b.set(v, instance);
             else store.set(b.local, v);
          });
       }
 
       if (widget.closeOnSelect) {
-         this.closeDropdown(e);
-         if (!isTouchEvent(e)) this.dom.input.focus();
+         //Pressing Tab should work it's own thing. Focus will move elsewhere and the dropdown will close.
+         if (e.keyCode != KeyCode.tab) {
+            if (!isTouchEvent(e)) this.dom.input.focus();
+            this.closeDropdown(e);
+         }
       }
 
       if (e.keyCode == KeyCode.enter && widget.submitOnDropdownEnterKey) {
@@ -714,22 +774,37 @@ class LookupComponent extends VDOM.Component {
    }
 
    onDropdownKeyPress(e) {
-      if (e.keyCode == KeyCode.enter) {
-         let index = this.findOption(this.state.options, this.state.cursorKey);
-         if (index != -1) {
-            let itemData = {
-               $option: this.state.options[index],
-            };
-            this.select(e, itemData);
-         }
-      }
+      switch (e.keyCode) {
+         case KeyCode.esc:
+            this.closeDropdown(e);
+            this.dom.input.focus();
+            break;
 
-      if (e.keyCode == KeyCode.esc) {
-         this.closeDropdown(e);
-         this.dom.input.focus();
-      }
+         case KeyCode.tab:
+            // if tab needs to do a list selection, we have to first call List's handleKeyDown
+            if (this.listKeyDown) this.listKeyDown(e);
+            // if next focusable element is disabled, recalculate and update the dom before switching focus
+            this.props.forceUpdate();
+            break;
 
-      if (this.listKeyDown) this.listKeyDown(e);
+         case KeyCode.a:
+            if (!e.ctrlKey) return;
+
+            let { quickSelectAll, multiple } = this.props.instance.widget;
+            if (!quickSelectAll || !multiple) return;
+
+            let optionsToSelect = this.state.options.map((o) => ({
+               $option: o,
+            }));
+            this.select(e, optionsToSelect, true);
+            e.stopPropagation();
+            e.preventDefault();
+            break;
+
+         default:
+            if (this.listKeyDown) this.listKeyDown(e);
+            break;
+      }
    }
 
    onKeyDown(e) {
@@ -780,12 +855,6 @@ class LookupComponent extends VDOM.Component {
       }
    }
 
-   onMouseDown(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      this.openDropdown(e);
-   }
-
    onQueryBlur(e) {
       FocusManager.nudge();
    }
@@ -798,6 +867,8 @@ class LookupComponent extends VDOM.Component {
             focus: true,
          });
       }
+
+      if (this.props.instance.data.autoOpen) this.openDropdown(null);
    }
 
    onBlur(e) {
@@ -809,24 +880,32 @@ class LookupComponent extends VDOM.Component {
          });
    }
 
-   closeDropdown(e) {
+   toggleDropdown(e, keepFocus) {
+      if (this.state.dropdownOpen) this.closeDropdown(e, keepFocus);
+      else this.openDropdown(e);
+   }
+
+   closeDropdown(e, keepFocus) {
       if (this.state.dropdownOpen) {
-         this.setState({
-            dropdownOpen: false,
-            cursorKey: null,
-         });
+         this.setState(
+            {
+               dropdownOpen: false,
+            },
+            () => keepFocus && this.dom.input.focus()
+         );
 
          this.props.instance.setState({
             visited: true,
          });
       }
 
-      //delete results valid only while dropdown is open
+      //delete results valid only while the dropdown is open
       delete this.tmpCachedResult;
    }
 
    openDropdown(e) {
-      let { data } = this.props.instance;
+      let { instance } = this.props;
+      let { data } = instance;
       if (!this.state.dropdownOpen && !data.disabled && !data.readOnly) {
          this.query("");
          this.setState(
@@ -866,8 +945,8 @@ class LookupComponent extends VDOM.Component {
          return;
       }
 
-      if (isArray(data.options)) {
-         let results = widget.filterOptions(this.props.instance, data.options, q);
+      if (isArray(data.visibleOptions)) {
+         let results = widget.filterOptions(this.props.instance, data.visibleOptions, q);
          this.setState({
             options: results,
             status: "loaded",
@@ -875,7 +954,7 @@ class LookupComponent extends VDOM.Component {
       }
 
       if (widget.onQuery) {
-         let { queryDelay, fetchAll, cacheAll } = widget;
+         let { queryDelay, fetchAll, cacheAll, pageSize } = widget;
 
          if (fetchAll) queryDelay = 0;
 
@@ -889,14 +968,23 @@ class LookupComponent extends VDOM.Component {
             delete this.queryTimeoutId;
 
             let result = this.tmpCachedResult || this.cachedResult;
-            if (!result) result = instance.invoke("onQuery", fetchAll ? "" : q, instance);
+            let query = fetchAll ? "" : q;
+            let params = !widget.infinite
+               ? query
+               : {
+                    query,
+                    page: 1,
+                    pageSize,
+                 };
 
-            let query = (this.lastQueryId = Date.now());
+            if (!result) result = instance.invoke("onQuery", params, instance);
+
+            let queryId = (this.lastQueryId = Date.now());
 
             Promise.resolve(result)
                .then((results) => {
                   //discard results which do not belong to the last query
-                  if (query !== this.lastQueryId) return;
+                  if (queryId !== this.lastQueryId) return;
 
                   if (!isArray(results)) results = [];
 
@@ -907,10 +995,17 @@ class LookupComponent extends VDOM.Component {
                      results = widget.filterOptions(this.props.instance, results, this.lastQuery);
                   }
 
-                  this.setState({
-                     options: results,
-                     status: "loaded",
-                  });
+                  this.setState(
+                     {
+                        page: 1,
+                        query,
+                        options: results,
+                        status: "loaded",
+                     },
+                     () => {
+                        if (widget.infinite) this.onListScroll();
+                     }
+                  );
                })
                .catch((err) => {
                   this.setState({ status: "error" });
@@ -920,6 +1015,60 @@ class LookupComponent extends VDOM.Component {
       }
    }
 
+   loadAdditionalOptionPages() {
+      let { instance } = this.props;
+      let { widget } = instance;
+      if (!widget.infinite) return;
+
+      let { query, page, status, options } = this.state;
+
+      let blockerKey = query;
+
+      if (status != "loaded") return;
+
+      if (options.length < page * widget.pageSize) return; //some pages were not full which means we reached the end
+
+      if (this.extraPageLoadingBlocker === blockerKey) return;
+
+      this.extraPageLoadingBlocker = blockerKey;
+
+      let params = {
+         page: page + 1,
+         query,
+         pageSize: widget.pageSize,
+      };
+
+      var result = instance.invoke("onQuery", params, instance);
+
+      Promise.resolve(result)
+         .then((results) => {
+            //discard results which do not belong to the last query
+            if (this.extraPageLoadingBlocker !== blockerKey) return;
+
+            this.extraPageLoadingBlocker = false;
+
+            if (!isArray(results)) return;
+
+            this.setState(
+               {
+                  page: params.page,
+                  query,
+                  options: [...options, ...results],
+               },
+               () => {
+                  this.onListScroll();
+               }
+            );
+         })
+         .catch((err) => {
+            if (this.extraPageLoadingBlocker !== blockerKey) return;
+            this.extraPageLoadingBlocker = false;
+            this.setState({ status: "error" });
+            debug("Lookup query error:", err);
+            console.error(err);
+         });
+   }
+
    UNSAFE_componentWillReceiveProps(props) {
       tooltipParentWillReceiveProps(this.dom.input, ...getFieldTooltip(props.instance));
    }
@@ -927,7 +1076,6 @@ class LookupComponent extends VDOM.Component {
    componentDidMount() {
       tooltipParentDidMount(this.dom.input, ...getFieldTooltip(this.props.instance));
       autoFocus(this.dom.input, this);
-      if (this.props.instance.data.autoOpen) this.openDropdown(null);
    }
 
    componentDidUpdate() {
@@ -947,6 +1095,18 @@ class LookupComponent extends VDOM.Component {
       }
       if (list) {
          this.unsubscribeListOnWheel = addEventListenerWithOptions(list, "wheel", (e) => this.onListWheel(e), {
+            passive: false,
+         });
+      }
+   }
+
+   subscribeListOnScroll(list) {
+      if (this.unsubscribeListOnScroll) {
+         this.unsubscribeListOnScroll();
+         this.unsubscribeListOnScroll = null;
+      }
+      if (list) {
+         this.unsubscribeListOnScroll = addEventListenerWithOptions(list, "scroll", (e) => this.onListScroll(e), {
             passive: false,
          });
       }

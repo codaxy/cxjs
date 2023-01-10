@@ -51,7 +51,7 @@ export const Grids = <cx>
 
 
             <div controller={PageController}>
-                <Grid records:bind='$page.records'
+                <Grid records-bind='$page.records'
                       style={{height: '300px'}}
                       mod="responsive"
                       scrollable
@@ -65,35 +65,44 @@ export const Grids = <cx>
                       selection={{type: KeySelection, bind: '$page.selection', multiple: true}}
                 />
             </div>
-            <CodeSnippet putInto="code" fiddle="kzHH3vkM">{`
-            class PageController extends Controller {
-               init() {
-                  super.init();
-
-                  //init grid data
-                  this.store.set('$page.records', Array.from({length: 10}).map((v, i)=>({
-                     id: i + 1,
-                     fullName: casual.full_name,
-                     continent: casual.continent,
-                     browser: casual.browser,
-                     os: casual.operating_system,
-                     visits: casual.integer(1, 100)
-                  })));
-               }
-            }
-            ...
-            <Grid records:bind='$page.records'
-                  style={{width: "100%"}}
-                  columns={[
-                  { header: 'Name', field: 'fullName', sortable: true, aggregate: 'count', footer: { tpl: '{$group.fullName} {$group.fullName:plural;person}' }},
-                  { header: 'Continent', field: 'continent', sortable: true, aggregate: 'distinct', aggregateField: 'continents', footer: { tpl: '{$group.continents} {$group.continents:plural;continent}' } },
-                  { header: 'Browser', field: 'browser', sortable: true, aggregate: 'distinct', aggregateField: 'browsers', footer: { tpl: '{$group.browsers} {$group.browsers:plural;browser}' }  },
-                  { header: 'OS', field: 'os', sortable: true, aggregate: 'distinct', aggregateField: 'oss', footer: { tpl: '{$group.oss} {$group.oss:plural;OS}' } },
-                  { header: 'Visits', field: 'visits', sortable: true, aggregate: "sum", align: "right" }
-               ]}
-               selection={{type: KeySelection, bind:'$page.selection'}}
-            />
-         `}</CodeSnippet>
+            <Content name="code">
+                <div>
+                    <Tab value-bind="$page.code.tab" tab="controller" mod="code" text="Controller" />
+                    <Tab value-bind="$page.code.tab" tab="grid" mod="code"  text="Grid" default/>
+                </div>
+                <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="kzHH3vkM">
+                    {`
+                        class PageController extends Controller {
+                            init() {
+                               super.init();
+                         
+                               //init grid data
+                               this.store.set('$page.records', Array.from({length: 10}).map((v, i)=>({
+                                  id: i + 1,
+                                  fullName: casual.full_name,
+                                  continent: casual.continent,
+                                  browser: casual.browser,
+                                  os: casual.operating_system,
+                                  visits: casual.integer(1, 100)
+                               })));
+                            }
+                         }
+                        `}</CodeSnippet>
+                        <CodeSnippet visible-expr="{$page.code.tab}=='grid'" fiddle="kzHH3vkM">{`
+                        <Grid records-bind='$page.records'
+                            style={{width: "100%"}}
+                            columns={[
+                            { header: 'Name', field: 'fullName', sortable: true, aggregate: 'count', footer: { tpl: '{$group.fullName} {$group.fullName:plural;person}' }},
+                            { header: 'Continent', field: 'continent', sortable: true, aggregate: 'distinct', aggregateField: 'continents', footer: { tpl: '{$group.continents} {$group.continents:plural;continent}' } },
+                            { header: 'Browser', field: 'browser', sortable: true, aggregate: 'distinct', aggregateField: 'browsers', footer: { tpl: '{$group.browsers} {$group.browsers:plural;browser}' }  },
+                            { header: 'OS', field: 'os', sortable: true, aggregate: 'distinct', aggregateField: 'oss', footer: { tpl: '{$group.oss} {$group.oss:plural;OS}' } },
+                            { header: 'Visits', field: 'visits', sortable: true, aggregate: "sum", align: "right" }
+                        ]}
+                        selection={{type: KeySelection, bind:'$page.selection'}}
+                        />
+                    `}
+                </CodeSnippet>
+            </Content>
         </CodeSplit>
 
         ## Examples:
@@ -106,31 +115,33 @@ export const Grids = <cx>
         - [Row Editing](~/examples/grid/row-editing)
         - [Cell Editing](~/examples/grid/cell-editing)
         - [Inline Editing](~/examples/grid/inline-edit)
-        - [TreeGrid](~/examples/grid/tree-grid)
+        - [Tree Grid](~/examples/grid/tree-grid)
+        - [Stateful Tree Grid](~/examples/grid/stateful-tree-grid)
         - [Header Menu](~/examples/grid/header-menu)
         - [Complex Header](~/examples/grid/complex-headers)
         - [Buffering 5000 rows](~/examples/grid/buffering)
         - [Infinite scrolling](~/examples/grid/infinite-scrolling)
         - [Row Expanding](~/examples/grid/row-expanding)
         - [Column Resizing](~/examples/grid/column-resizing)
+        - [Column Reordering (Drag & Drop)](~/examples/grid/column-reordering)
         - [Fixed Columns](~/examples/grid/fixed-columns)
 
         ## Configuration
 
         <p>
             <Tab value={{ bind: "$page.configTab", defaultValue: 'grid' }} tab="grid" mod="line">Grid</Tab>
-            <Tab value:bind="$page.configTab" tab="column" mod="line">Column</Tab>
-            <Tab value:bind="$page.configTab" tab="header" mod="line">Column Header</Tab>
-            <Tab value:bind="$page.configTab" tab="grouping" mod="line">Grouping</Tab>
+            <Tab value-bind="$page.configTab" tab="column" mod="line">Column</Tab>
+            <Tab value-bind="$page.configTab" tab="header" mod="line">Column Header</Tab>
+            <Tab value-bind="$page.configTab" tab="grouping" mod="line">Grouping</Tab>
         </p>
 
-        <ConfigTable props={configs} visible:expr="{$page.configTab}=='grid'"/>
+        <ConfigTable props={configs} visible-expr="{$page.configTab}=='grid'"/>
 
-        <ConfigTable props={columnConfigs} visible:expr="{$page.configTab}=='column'"/>
+        <ConfigTable props={columnConfigs} visible-expr="{$page.configTab}=='column'"/>
 
-        <ConfigTable props={columnHeaderConfigs} visible:expr="{$page.configTab}=='header'"/>
+        <ConfigTable props={columnHeaderConfigs} visible-expr="{$page.configTab}=='header'"/>
 
-        <ConfigTable props={groupingConfigs} visible:expr="{$page.configTab}=='grouping'"/>
+        <ConfigTable props={groupingConfigs} visible-expr="{$page.configTab}=='grouping'"/>
 
     </Md>
 </cx>

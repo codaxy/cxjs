@@ -1,4 +1,4 @@
-import {HtmlElement, DetachedScope, Grid} from 'cx/widgets';
+import {HtmlElement, DetachedScope, Grid, Tab, Content} from 'cx/widgets';
 import {Controller, KeySelection} from 'cx/ui';
 import {Md} from '../../../components/Md';
 import {CodeSplit} from '../../../components/CodeSplit';
@@ -54,42 +54,44 @@ export const InfiniteScrolling = <cx>
                     }, 100);
                 })}
             />
-
-            <CodeSnippet putInto="code">{`
-                <Grid
-                    infinite
-                    style="height: 800px"
-                    lockColumnWidths
-                    cached
-                    keyField="question_id"
-                    columns={[
-                        {header: "#", field: "id", sortable: true},
-                        {header: "Name", field: "fullName", sortable: true},
-                        {header: "Continent", field: "continent", sortable: true},
-                        {header: "Browser", field: "browser", sortable: true},
-                        {header: "Visits", field: "visits", sortable: true, align: "right"}
-                    ]}
-                    selection={{type: KeySelection, bind: "$page.selection", keyField: "id"}}
-                    onFetchRecords={({page, pageSize}) => new Promise(resolve => {
-                        setTimeout(() => {
-                            let records = [];
-                            for (let i = 0; i < pageSize; i++)
-                                records.push({
-                                    id: (page - 1) * pageSize + i + 1,
-                                    fullName: casual.full_name,
-                                    continent: casual.continent,
-                                    browser: casual.browser,
-                                    title: casual.full_name,
-                                    visits: casual.integer(1, 100)
+            <Content name="code">
+                <Tab value-bind="$page.code.tab" mod="code" tab="index" text="InfiniteScroll Grid" default/>
+                <CodeSnippet fiddle="T9B7s62E">{`
+                    <Grid
+                        infinite
+                        style="height: 800px"
+                        lockColumnWidths
+                        cached
+                        keyField="question_id"
+                        columns={[
+                            {header: "#", field: "id", sortable: true},
+                            {header: "Name", field: "fullName", sortable: true},
+                            {header: "Continent", field: "continent", sortable: true},
+                            {header: "Browser", field: "browser", sortable: true},
+                            {header: "Visits", field: "visits", sortable: true, align: "right"}
+                        ]}
+                        selection={{type: KeySelection, bind: "$page.selection", keyField: "id"}}
+                        onFetchRecords={({page, pageSize}) => new Promise(resolve => {
+                            setTimeout(() => {
+                                let records = [];
+                                for (let i = 0; i < pageSize; i++)
+                                    records.push({
+                                        id: (page - 1) * pageSize + i + 1,
+                                        fullName: casual.full_name,
+                                        continent: casual.continent,
+                                        browser: casual.browser,
+                                        title: casual.full_name,
+                                        visits: casual.integer(1, 100)
+                                    });
+                                resolve({
+                                    records,
+                                    totalRecordCount: 100000
                                 });
-                            resolve({
-                                records,
-                                totalRecordCount: 100000
-                            });
-                        }, 100);
-                    })}
-                />
-            `}</CodeSnippet>
+                            }, 100);
+                        })}
+                    />
+                `}</CodeSnippet>
+            </Content>
         </CodeSplit>
     </Md>
 </cx>

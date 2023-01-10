@@ -56,4 +56,12 @@ export default {
          Shared `x1` and `x2` value binding or expression.
       </Md></cx>
    },
+
+   affectsAxes:{
+      key: true,
+      type: 'boolean',
+      description: <cx><Md>
+         Used to indicate if the data should affect axis span.
+         </Md></cx>
+   }
 };

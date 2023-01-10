@@ -24,6 +24,9 @@ export const Menus = <cx>
 
             Menus are completely driven by focus. If the menu loses focus, all sub-menus are closed.
 
+            You can programmatically close the menu by calling `document.activeElement.blur()`.
+            To close only one level, i.e. the context menu, call `unfocusElement(e.target, true)`;
+
             <div class="widgets">
                 <Menu horizontal overflow style="width: 300px">
                     <Submenu keyboardShortcut={KeyCode.esc}>
@@ -45,7 +48,7 @@ export const Menus = <cx>
                             </MenuItem>
                             <hr/>
                             <MenuItem hideCursor>
-                                <TextField value:bind="$page.text" mod="menu"/>
+                                <TextField value-bind="$page.text" mod="menu"/>
                             </MenuItem>
                             <Submenu arrow icon="calendar" placement="top">
                                 Submenu
@@ -71,9 +74,9 @@ export const Menus = <cx>
                                 document.activeElement.blur();
                             }}>Link</a>
                             <hr/>
-                            <TextField value:bind="$page.text" mod="menu"/>
-                            <TextField value:bind="$page.text" mod="menu"/>
-                            <Checkbox value:bind="$page.checked" mod="menu">Checkbox</Checkbox>
+                            <TextField value-bind="$page.text" mod="menu"/>
+                            <TextField value-bind="$page.text" mod="menu"/>
+                            <Checkbox value-bind="$page.checked" mod="menu">Checkbox</Checkbox>
                             <Submenu arrow>
                                 Submenu
                                 <Menu putInto="dropdown">
@@ -88,18 +91,55 @@ export const Menus = <cx>
                                     <a href="#">Item 2</a>
                                 </Menu>
                             </Submenu>
-                            <DateField value:bind="$page.date" mod="menu"/>
+                            <DateField value-bind="$page.date" mod="menu"/>
                             <MenuItem mod="active" class="test" style="color:red;" autoClose>
                                 <a href="#">Item Level CSS</a>
                             </MenuItem>
                         </Menu>
                     </Submenu>
                     <MenuSpacer />
-                    <MenuItem text="Right" onClick={() => {}} />
+                    <Submenu keyboardShortcut={KeyCode.esc}>
+                        Right
+                        <Menu putInto="dropdown" icons>
+                            <MenuItem
+                                autoClose
+                                text="Action"
+                                onClick={() => { alert('Action')}}
+                            />
+                            <MenuItem icon="search" autoClose>
+                                <a href="#">Link</a>
+                            </MenuItem>
+                            <MenuItem icon="search" disabled onClick={() => { alert('Disabled')}}>
+                                Disabled
+                            </MenuItem>
+                            <MenuItem checked={{bind: '$page.checked', defaultValue: true}}>
+                                Checkbox
+                            </MenuItem>
+                            <hr/>
+                            <MenuItem hideCursor>
+                                <TextField value-bind="$page.text" mod="menu"/>
+                            </MenuItem>
+                            <Submenu arrow icon="calendar" placement="top">
+                                Submenu
+                                <Menu putInto="dropdown">
+                                    <a href="#">Item 1</a>
+                                    <a href="#">Item 2</a>
+                                </Menu>
+                            </Submenu>
+                            <Submenu checked={{bind: '$page.checked', defaultValue: true}} arrow>
+                                Submenu + Check
+                                <Menu putInto="dropdown">
+                                    <a href="#">Item 1</a>
+                                    <a href="#">Item 2</a>
+                                </Menu>
+                            </Submenu>
+                        </Menu>
+                    </Submenu>
                 </Menu>
             </div>
 
             <Content name="code">
+                <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Menus" default/>
                 <CodeSnippet fiddle="LZFHw09A">{`
                 <Menu horizontal overflow style="width: 300px">
                     <Submenu keyboardShortcut={KeyCode.esc}>
@@ -121,7 +161,7 @@ export const Menus = <cx>
                             </MenuItem>
                             <hr/>
                             <MenuItem hideCursor>
-                                <TextField value:bind="$page.text" mod="menu"/>
+                                <TextField value-bind="$page.text" mod="menu"/>
                             </MenuItem>
                             <Submenu arrow icon="calendar">
                                 Submenu
@@ -147,9 +187,9 @@ export const Menus = <cx>
                                 document.activeElement.blur();
                             }}>Link</a>
                             <hr/>
-                            <TextField value:bind="$page.text" mod="menu"/>
-                            <TextField value:bind="$page.text" mod="menu"/>
-                            <Checkbox value:bind="$page.checked" mod="menu">Checkbox</Checkbox>
+                            <TextField value-bind="$page.text" mod="menu"/>
+                            <TextField value-bind="$page.text" mod="menu"/>
+                            <Checkbox value-bind="$page.checked" mod="menu">Checkbox</Checkbox>
                             <Submenu arrow>
                                 Submenu 1
                                 <Menu putInto="dropdown">
@@ -164,7 +204,7 @@ export const Menus = <cx>
                                     <a href="#">Item 2</a>
                                 </Menu>
                             </Submenu>
-                            <DateField value:bind="$page.date" mod="menu"/>
+                            <DateField value-bind="$page.date" mod="menu"/>
                             <MenuItem mod="active" class="test" style="color:red;" autoClose>
                                 <a href="#">Item Level CSS</a>
                             </MenuItem>
@@ -186,11 +226,11 @@ export const Menus = <cx>
         ## Configuration
         <p>
             <Tab value={{ bind: "$page.configTab", defaultValue: 'menu' }} tab="menu" mod="line">Menu</Tab>
-            <Tab value:bind="$page.configTab" tab="menuitem" mod="line">Menu Item</Tab>
+            <Tab value-bind="$page.configTab" tab="menuitem" mod="line">Menu Item</Tab>
         </p>
 
-        <ConfigTable props={configs} visible:expr="{$page.configTab}=='menu'"/>
-        <ConfigTable props={menuItemConfigs} visible:expr="{$page.configTab}=='menuitem'"/>
+        <ConfigTable props={configs} visible-expr="{$page.configTab}=='menu'"/>
+        <ConfigTable props={menuItemConfigs} visible-expr="{$page.configTab}=='menuitem'"/>
 
     </Md>
 </cx>

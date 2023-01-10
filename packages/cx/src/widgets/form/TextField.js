@@ -1,5 +1,5 @@
 import { Widget, VDOM, getContent } from "../../ui/Widget";
-import { Field, getFieldTooltip, autoFocus } from "./Field";
+import { Field, getFieldTooltip } from "./Field";
 import {
    tooltipParentWillReceiveProps,
    tooltipParentWillUnmount,
@@ -13,6 +13,8 @@ import { Icon } from "../Icon";
 import { KeyCode } from "../../util/KeyCode";
 import { Localization } from "../../ui/Localization";
 import ClearIcon from "../icons/clear";
+import { autoFocus } from "../autoFocus";
+import { isString } from "../../util/isString";
 
 export class TextField extends Field {
    init() {
@@ -26,7 +28,7 @@ export class TextField extends Field {
    declareData() {
       super.declareData(
          {
-            value: null,
+            value: this.emptyValue,
             disabled: undefined,
             readOnly: undefined,
             enabled: undefined,
@@ -35,6 +37,7 @@ export class TextField extends Field {
             minLength: undefined,
             maxLength: undefined,
             icon: undefined,
+            trim: undefined,
          },
          ...arguments
       );
@@ -69,7 +72,7 @@ export class TextField extends Field {
 }
 
 TextField.prototype.baseClass = "textfield";
-TextField.prototype.reactOn = "change input blur";
+TextField.prototype.reactOn = "change input blur enter";
 TextField.prototype.inputType = "text";
 TextField.prototype.validationErrorText = "The entered value is not valid.";
 TextField.prototype.minLengthValidationErrorText = "Enter {[{0}-{1}]} more character(s).";
@@ -79,6 +82,7 @@ TextField.prototype.icon = null;
 TextField.prototype.showClear = false;
 TextField.prototype.alwaysShowClear = false;
 TextField.prototype.keyboardShortcut = false;
+TextField.prototype.trim = false;
 
 Localization.registerPrototype("cx/widgets/TextField", TextField);
 
@@ -124,7 +128,7 @@ class Input extends VDOM.Component {
          );
       }
 
-      let empty = this.input ? !this.input.value : data.empty;
+      let empty = this.input ? !this.trimmed(this.input.value) : data.empty;
 
       return (
          <div
@@ -257,7 +261,7 @@ class Input extends VDOM.Component {
       let { widget } = instance;
 
       if (widget.reactOn.indexOf(change) != -1) {
-         let text = e.target.value;
+         let text = this.trimmed(e.target.value);
          if (data.maxLength != null && text.length > data.maxLength) {
             text = text.substring(0, data.maxLength);
             this.input.value = text;
@@ -265,11 +269,16 @@ class Input extends VDOM.Component {
 
          let value = text || widget.emptyValue;
          if (!instance.set("value", value, { immediate })) {
-            if (text != this.input.value) this.input.value = text;
+            if (text != this.input.value && immediate) this.input.value = text;
          } else {
             if (value) instance.setState({ visited: true });
          }
       }
+   }
+
+   trimmed(value) {
+      if (this.props.data.trim && isString(value)) return value.trim();
+      return value;
    }
 }
 

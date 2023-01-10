@@ -156,6 +156,15 @@ export default {
             Number of rows to be scrolled before buffer adjustment. Default value is 15.
         </Md></cx>
     },
+
+    measureRowHeights: {
+        type: 'boolean',
+        key: true,
+        description: <cx><Md>
+            Used when rows have variable heights to improve buffered rendering by measuring and caching rendered row heights. Default value is `false`.
+        </Md></cx>
+    },
+
     pageSize: {
         type: 'number',
         key: true,
@@ -174,6 +183,12 @@ export default {
         type: 'function',
         description: <cx><Md>
             Callback function to be executed when a row is double-clicked.
+        </Md></cx>
+    },
+    onRowKeyDown: {
+        type: 'function',
+        description: <cx><Md>
+            Callback function to be executed on key down. Accepts instance of the currently focused record as the second argument.
         </Md></cx>
     },
     onRowClick: {
@@ -266,9 +281,47 @@ export default {
     row: {
         type: 'object',
         description: <cx><Md>
-            A parameter that allows defining multiple lines in a row. 
-            Attributes of the `row` object: `line1` - defines the first line, `line2` - defines the second line, `style` - style object applied to the wrapper div, 
+            A parameter that allows defining multiple lines in a row.
+            Attributes of the `row` object: `line1` - defines the first line, `line2` - defines the second line, `style` - style object applied to the wrapper div,
             `class` - additional CSS classes to be applied to the element. If an object is provided, all keys with a "truthy" value will be added to the CSS class list.
         </Md></cx>
-    }
+    },
+
+    columnParams: {
+        type: 'object',
+        description: <cx><Md>
+            Whenever `columnParams` change, columns are recalculated using the `onGetColumns` callback.
+        </Md></cx>
+    },
+
+    groupingParams: {
+        type: 'object',
+        description: <cx><Md>
+            Whenever `groupingParams` change, columns are recalculated using the `onGetGrouping` callback.
+        </Md></cx>
+    },
+
+    allowsFileDrops: {
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true`` to allow the grid to receive drag and drop operations containing files.
+        </Md></cx>
+    },
+
+    onTrackMappedRecords: {
+        type: "function",
+        description: <cx><Md>
+            Callback function to track and retrieve displayed records.
+            Accepts new records as a first argument.
+            If onCreateFilter callback is defined, filtered records can be retrieved using this callback.
+        </Md></cx>
+    },
+    
+    onGetGrouping: {
+        type: "function",
+        description: <cx><Md>
+            Callback function to retrieve grouping data. Accepts `groupingParams` as a first argument and
+            should return a grid grouping configuration.
+        </Md></cx>
+    },
 };

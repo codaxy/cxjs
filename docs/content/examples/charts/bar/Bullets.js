@@ -1,4 +1,4 @@
-import { HtmlElement, Grid, Repeater } from 'cx/widgets';
+import { HtmlElement, Grid, Repeater, Content, Tab } from 'cx/widgets';
 import { Controller, PropertySelection } from 'cx/ui';
 import { Svg, Rectangle, Text } from 'cx/svg';
 import { Gridlines, Legend, NumericAxis, CategoryAxis, Chart, Bar } from 'cx/charts';
@@ -35,32 +35,32 @@ export const Bullets = <cx>
             <div>
                <Svg style="width:600px; height:600px;">
                   <Chart offset="20 -20 -40 150" axes={{ y: { type: CategoryAxis, vertical: true, inverted: true }, x: { type: NumericAxis, snapToTicks: 0 } }}>
-                     <Repeater records:bind="$page.points" recordAlias="$point" sorters:bind="$page.sorters">
+                     <Repeater records-bind="$page.points" recordAlias="$point" sorters-bind="$page.sorters">
                         <Bar colorIndex={10}
                              style="stroke:none;opacity:0.3"
-                             x:bind="$point.max"
-                             y:bind="$point.city" />
+                             x-bind="$point.max"
+                             y-bind="$point.city" />
 
                         <Bar colorIndex={8}
                              style="stroke:none;opacity:0.3"
-                             x:expr="0.8*{$point.max}"
-                             y:bind="$point.city" />
+                             x-expr="0.8*{$point.max}"
+                             y-bind="$point.city" />
 
                         <Bar colorIndex={4}
                              style="stroke:none;opacity:0.3"
-                             x:expr="0.6*{$point.max}"
-                             y:bind="$point.city" />
+                             x-expr="0.6*{$point.max}"
+                             y-bind="$point.city" />
 
                         <Bar style="fill:#555"
                              height={0.2}
-                             x:bind="$point.value"
-                             y:bind="$point.city" />
+                             x-bind="$point.value"
+                             y-bind="$point.city" />
 
                         <Bar style="stroke:red;stroke-width:1px"
                              height={0.5}
-                             x:expr="0.7*{$point.max}"
-                             x0:expr="0.7*{$point.max}"
-                             y:bind="$point.city" />
+                             x-expr="0.7*{$point.max}"
+                             x0-expr="0.7*{$point.max}"
+                             y-bind="$point.city" />
 
                      </Repeater>
                      <Gridlines yAxis={false}/>
@@ -69,7 +69,13 @@ export const Bullets = <cx>
             </div>
          </div>
 
-         <CodeSnippet putInto="code" fiddle="Z9CYf1Ph">{`
+         <Content name="code">
+            <div>
+               <Tab value-bind="$page.code.tab" tab="controller" mod="code" text="Controller"/>
+               <Tab value-bind="$page.code.tab" tab="chart" mod="code" default text="Chart"/>
+            </div>
+
+            <CodeSnippet fiddle="Z9CYf1Ph" visible-expr="{$page.code.tab}=='controller'">{`
          class PageController extends Controller {
             init() {
                super.init();
@@ -83,41 +89,43 @@ export const Bullets = <cx>
                })));
             }
          }
-         ...
+        `}</CodeSnippet>
+        <CodeSnippet fiddle="Z9CYf1Ph" visible-expr="{$page.code.tab}=='chart'">{`
           <Svg style="width:600px; height:600px;">
                <Chart offset="20 -20 -40 150" axes={{ y: { type: CategoryAxis, vertical: true, inverted: true }, x: { type: NumericAxis, snapToTicks: 0 } }}>
-                  <Repeater records:bind="$page.points" recordAlias="$point" sorters:bind="$page.sorters">
+                  <Repeater records-bind="$page.points" recordAlias="$point" sorters-bind="$page.sorters">
                      <Bar colorIndex={10}
                           style="stroke:none;opacity:0.3"
-                          x:bind="$point.max"
-                          y:bind="$point.city" />
+                          x-bind="$point.max"
+                          y-bind="$point.city" />
 
                      <Bar colorIndex={8}
                           style="stroke:none;opacity:0.3"
-                          x:expr="0.8*{$point.max}"
-                          y:bind="$point.city" />
+                          x-expr="0.8*{$point.max}"
+                          y-bind="$point.city" />
 
                      <Bar colorIndex={4}
                           style="stroke:none;opacity:0.3"
-                          x:expr="0.6*{$point.max}"
-                          y:bind="$point.city" />
+                          x-expr="0.6*{$point.max}"
+                          y-bind="$point.city" />
 
                      <Bar style="fill:#555"
                           height={0.2}
-                          x:bind="$point.value"
-                          y:bind="$point.city" />
+                          x-bind="$point.value"
+                          y-bind="$point.city" />
 
                      <Bar style="stroke:red;stroke-width:1px"
                           height={0.5}
-                          x:expr="0.7*{$point.max}"
-                          x0:expr="0.7*{$point.max}"
-                          y:bind="$point.city" />
+                          x-expr="0.7*{$point.max}"
+                          x0-expr="0.7*{$point.max}"
+                          y-bind="$point.city" />
 
                   </Repeater>
                   <Gridlines yAxis={false}/>
                </Chart>
             </Svg>
          `}</CodeSnippet>
+         </Content>
       </CodeSplit>
    </Md>
 </cx>;

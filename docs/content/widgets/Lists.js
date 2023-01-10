@@ -1,4 +1,4 @@
-import {HtmlElement, Text, List, MsgBox} from 'cx/widgets';
+import {HtmlElement, Text, List, MsgBox, Content, Tab} from 'cx/widgets';
 import {Controller, PropertySelection} from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
@@ -30,7 +30,7 @@ export const Lists = <cx>
 
             <div class="widgets">
                 <List
-                    records:bind="$page.records"
+                    records-bind="$page.records"
                     selection={{ type: PropertySelection, multiple: true }}
                     style="width:200px"
                     emptyText="No results found."
@@ -48,7 +48,13 @@ export const Lists = <cx>
 
             * [Grouping](~/examples/list/grouping)
 
-            <CodeSnippet putInto="code" fiddle="WBK5QrGZ">{`
+            <Content name="code">
+                <div>
+                <Tab value-bind="$page.code.tab" tab="controller" mod="code" text="Controller" />
+                <Tab value-bind="$page.code.tab" tab="list" mod="code"  text="List" default/>
+                </div>
+
+                <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="WBK5QrGZ">{`
             class PageController extends Controller {
                onInit() {
                   this.store.init('$page.records', Array.from({length: 5}, (x, i)=>({
@@ -56,9 +62,10 @@ export const Lists = <cx>
                   })));
                }
             }
-            ...
+            `}</CodeSnippet>
+            <CodeSnippet visible-expr="{$page.code.tab}=='list'" fiddle="WBK5QrGZ">{`
             <List
-                records:bind="$page.records"
+                records-bind="$page.records"
                 selection={PropertySelection}
                 style="width:200px"
                 emptyText="No results found."
@@ -71,6 +78,7 @@ export const Lists = <cx>
                 Description
             </List>
          `}</CodeSnippet>
+            </Content>
         </CodeSplit>
 
         ## Configuration

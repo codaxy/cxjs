@@ -1,4 +1,4 @@
-import {Md} from '../../../components/Md';
+import { Md } from '../../../components/Md';
 
 import classAndStyle from './classAndStyle';
 import pureContainer from './PureContainer';
@@ -104,7 +104,7 @@ export default {
         </Md></cx>
     },
     editable: {
-        type: 'bool',
+        type: 'boolean',
         description: <cx><Md>
             Indicate if a cell is editable or not. Default value is `true`.
         </Md></cx>
@@ -114,5 +114,23 @@ export default {
         description: <cx><Md>
             Cell editor configuration.
         </Md></cx>
-    }
+    },
+    draggable: {
+        type: 'boolean',
+        description: <cx><Md>
+            Make column draggable.
+        </Md></cx>
+    },
+    comparer: {
+        type: 'function',
+        description: <cx><Md>
+            Function to use to compare values in the column.
+        </Md></cx>
+    },
+    sortOptions: {
+        type: "record",
+        description: <cx><Md>
+            Options for data sorting. See [Intl.Collator options](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Collator) for more info.
+        </Md></cx>
+    },
 };

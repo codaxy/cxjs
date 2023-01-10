@@ -26,3 +26,5 @@ export * from "./getAccessor";
 export * from "./defaultCompare";
 export * from "./NestedDataView";
 export * from "./StructuredDataAccessor";
+
+export * from "./createAccessorModelProxy";

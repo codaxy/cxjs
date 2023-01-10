@@ -1,4 +1,4 @@
-import { HtmlElement, DetachedScope } from 'cx/widgets';
+import { HtmlElement, DetachedScope, Content, Tab } from 'cx/widgets';
 import { Controller } from 'cx/ui';
 import { Svg, Rectangle, ClipRect } from 'cx/svg';
 import { Chart, TimeAxis, NumericAxis, Range, Marker, Gridlines, ColumnGraph } from 'cx/charts';
@@ -38,13 +38,13 @@ export const Timeline = <cx>
                         anchors="0 1 0.8 0"
                         offset="0 0 -50 0"
                         axes={{
-                            x: <TimeAxis min:bind="$page.range.from" max:bind="$page.range.to" snapToTicks={false}/>,
+                            x: <TimeAxis min-bind="$page.range.from" max-bind="$page.range.to" snapToTicks={false}/>,
                             y: <NumericAxis vertical/>,
                         }}>
                         <Rectangle fill="white"/>
                         <Gridlines />
                         <ClipRect>
-                            <ColumnGraph data:bind="$page.data"
+                            <ColumnGraph data-bind="$page.data"
                                          colorIndex={4}
                                          offset={15 * 24 * 60 * 60 * 1000} //15 days
                                          size={30 * 24 * 60 * 60 * 1000} //30 days
@@ -62,19 +62,19 @@ export const Timeline = <cx>
                         <Rectangle fill="white"/>
                         <Gridlines />
                         <ColumnGraph
-                            data:bind="$page.data"
+                            data-bind="$page.data"
                             size={30 * 24 * 60 * 60 * 1000}
                             offset={15 * 24 * 60 * 60 * 1000}
                             xField="date"
                             yField="value"
                         />
 
-                        <Range x1:bind="$page.range.from"
-                               x2:bind="$page.range.to"
+                        <Range x1-bind="$page.range.from"
+                               x2-bind="$page.range.to"
                                hidden>
                             <ClipRect>
                                 <ColumnGraph
-                                    data:bind="$page.data"
+                                    data-bind="$page.data"
                                     colorIndex={4}
                                     size={30 * 24 * 60 * 60 * 1000}
                                     offset={15 * 24 * 60 * 60 * 1000}
@@ -83,8 +83,8 @@ export const Timeline = <cx>
                                 />
                             </ClipRect>
                             <Range colorIndex={4}
-                                   x1:bind="$page.range.from"
-                                   x2:bind="$page.range.to"
+                                   x1-bind="$page.range.from"
+                                   x2-bind="$page.range.to"
                                    style="cursor:move"
                                    draggableX
                                    constrainX/>
@@ -92,7 +92,7 @@ export const Timeline = <cx>
 
                         <Marker
                             colorIndex={4}
-                            x:bind="$page.range.from"
+                            x-bind="$page.range.from"
                             size={10}
                             draggableX
                             constrain
@@ -100,7 +100,7 @@ export const Timeline = <cx>
 
                         <Marker
                             colorIndex={4}
-                            x:bind="$page.range.to"
+                            x-bind="$page.range.to"
                             size={10}
                             draggableX
                             constrain
@@ -110,7 +110,13 @@ export const Timeline = <cx>
                 </Svg>
             </DetachedScope>
 
-            <CodeSnippet putInto="code" fiddle="XzIyI8pv">{`
+            <Content name="code">
+                <div>
+                    <Tab value-bind="$page.code.tab" tab="controller" mod="code" text='Controller' />
+                    <Tab value-bind="$page.code.tab" tab="chart" mod="code" default text='Chart' />
+                </div>
+
+                <CodeSnippet fiddle="XzIyI8pv" visible-expr="{$page.code.tab}=='controller'">{`
             class PageController extends Controller {
                 init() {
                     super.init();
@@ -128,20 +134,21 @@ export const Timeline = <cx>
                     })));
                 }
             }
-            ...
+            `}</CodeSnippet>
+            <CodeSnippet fiddle="XzIyI8pv" visible-expr="{$page.code.tab}=='chart'">{`
             <div controller={PageController}>
                 <Svg style="width:100%;height:600px;" margin="60 10 60 60">
                     <Chart
                         anchors="0 1 0.8 0"
                         offset="0 0 -50 0"
                         axes={{
-                            x: <TimeAxis min:bind="$page.range.from" max:bind="$page.range.to" snapToTicks={false}/>,
+                            x: <TimeAxis min-bind="$page.range.from" max-bind="$page.range.to" snapToTicks={false}/>,
                             y: <NumericAxis vertical/>,
                         }}>
                         <Rectangle fill="white"/>
                         <Gridlines />
                         <ClipRect>
-                            <ColumnGraph data:bind="$page.data"
+                            <ColumnGraph data-bind="$page.data"
                                          colorIndex={4}
                                          offset={15 * 24 * 60 * 60 * 1000} //15 days
                                          size={30 * 24 * 60 * 60 * 1000} //30 days
@@ -159,19 +166,19 @@ export const Timeline = <cx>
                         <Rectangle fill="white"/>
                         <Gridlines />
                         <ColumnGraph
-                            data:bind="$page.data"
+                            data-bind="$page.data"
                             size={30 * 24 * 60 * 60 * 1000}
                             offset={15 * 24 * 60 * 60 * 1000}
                             xField="date"
                             yField="value"
                         />
 
-                        <Range x1:bind="$page.range.from"
-                               x2:bind="$page.range.to"
+                        <Range x1-bind="$page.range.from"
+                               x2-bind="$page.range.to"
                                hidden>
                             <ClipRect>
                                 <ColumnGraph
-                                    data:bind="$page.data"
+                                    data-bind="$page.data"
                                     colorIndex={4}
                                     size={30 * 24 * 60 * 60 * 1000}
                                     offset={15 * 24 * 60 * 60 * 1000}
@@ -180,8 +187,8 @@ export const Timeline = <cx>
                                 />
                             </ClipRect>
                             <Range colorIndex={4}
-                                   x1:bind="$page.range.from"
-                                   x2:bind="$page.range.to"
+                                   x1-bind="$page.range.from"
+                                   x2-bind="$page.range.to"
                                    style="cursor:move"
                                    draggableX
                                    constrainX/>
@@ -189,7 +196,7 @@ export const Timeline = <cx>
 
                         <Marker
                             colorIndex={4}
-                            x:bind="$page.range.from"
+                            x-bind="$page.range.from"
                             size={10}
                             draggableX
                             constrain
@@ -197,7 +204,7 @@ export const Timeline = <cx>
 
                         <Marker
                             colorIndex={4}
-                            x:bind="$page.range.to"
+                            x-bind="$page.range.to"
                             size={10}
                             draggableX
                             constrain
@@ -207,6 +214,7 @@ export const Timeline = <cx>
                 </Svg>
             </div>
             `}</CodeSnippet>
+            </Content>
         </CodeSplit>
     </Md>
 </cx>;

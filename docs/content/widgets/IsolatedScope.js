@@ -1,4 +1,4 @@
-import {HtmlElement, IsolatedScope, TextField} from 'cx/widgets';
+import {Content, HtmlElement, IsolatedScope, Tab, TextField} from 'cx/widgets';
 import {LabelsLeftLayout} from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
@@ -36,20 +36,22 @@ export const IsolatedScopePage = <cx>
                     </div>
                 </IsolatedScope>
             </div>
+            <Content name="code">
+                <Tab value-bind="$page.code.tab" mod="code" tab="index" text="IsolatedScope" default/>
+                <CodeSnippet fiddle="Kw4NTOJf">{`
+                    <IsolatedScope bind="$page.scope1">
+                        <div style="width: 150px; height: 150px; background: #d4d4d4; padding: 20px">
+                            Heavy duty contents 1
+                        </div>
+                    </IsolatedScope>
 
-            <CodeSnippet putInto="code">{`
-                <IsolatedScope bind="$page.scope1">
-                    <div style="width: 150px; height: 150px; background: #d4d4d4; padding: 20px">
-                        Heavy duty contents 1
-                    </div>
-                </IsolatedScope>
-
-                <IsolatedScope bind="$page.scope2">
-                    <div style="width: 150px; height: 150px; background: #d4d4d4; padding: 20px">
-                        Heavy duty contents 2
-                    </div>
-                </IsolatedScope>
-            `}</CodeSnippet>
+                    <IsolatedScope bind="$page.scope2">
+                        <div style="width: 150px; height: 150px; background: #d4d4d4; padding: 20px">
+                            Heavy duty contents 2
+                        </div>
+                    </IsolatedScope>
+                `}</CodeSnippet>
+            </Content>
         </CodeSplit>
 
         ## Configuration

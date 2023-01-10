@@ -1,4 +1,4 @@
-import {Button, HtmlElement, Checkbox, Overlay} from 'cx/widgets';
+import {Button, HtmlElement, Checkbox, Overlay, Tab} from 'cx/widgets';
 import {Content} from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
@@ -47,17 +47,18 @@ export const Overlays = <cx>
 
         <CodeSplit>
             <div class="widgets">
-                <Checkbox value:bind="$page.overlay">Show Overlay</Checkbox>
-                <Overlay visible:bind="$page.overlay" style={{background: 'yellow', padding: '30px'}} draggable>
+                <Checkbox value-bind="$page.overlay">Show Overlay</Checkbox>
+                <Overlay visible-bind="$page.overlay" style={{background: 'yellow', padding: '30px'}} draggable>
                     This is a draggable overlay.
                 </Overlay>
             </div>
 
             <Content name="code">
+                <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Contextual overlays " default/>
                 <CodeSnippet fiddle="4OdI5hlw">{`
                <div class="widgets">
-                  <Checkbox value:bind="$page.overlay">Show Overlay</Checkbox>
-                  <Overlay visible:bind="$page.overlay" style={{background: 'yellow', padding: '30px'}} draggable>
+                  <Checkbox value-bind="$page.overlay">Show Overlay</Checkbox>
+                  <Overlay visible-bind="$page.overlay" style={{background: 'yellow', padding: '30px'}} draggable>
                      This is a draggable overlay.
                   </Overlay>
                </div>
@@ -89,31 +90,32 @@ export const Overlays = <cx>
             </div>
 
             <Content name="code">
+                <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Independent Overlays" default/>
                 <CodeSnippet fiddle="WnCH7fS0">{`
-               var addOverlay = store => {
-                  var overlay = Overlay.create(<cx>
-                     <Overlay style={{
-                        left: Math.random()*100+'%',
-                        top: Math.random()*100+'%',
-                        padding: '30px',
-                        border: '2px solid gray',
-                        background: '#efefef',
-                        textAlign: 'center'
-                     }}>
-                        This overlay will automatically close after 5s.
-                     </Overlay>
-                  </cx>);
+                    var addOverlay = store => {
+                        var overlay = Overlay.create(<cx>
+                            <Overlay style={{
+                                left: Math.random()*100+'%',
+                                top: Math.random()*100+'%',
+                                padding: '30px',
+                                border: '2px solid gray',
+                                background: '#efefef',
+                                textAlign: 'center'
+                            }}>
+                                This overlay will automatically close after 5s.
+                            </Overlay>
+                        </cx>);
 
-                  var close = overlay.open(store);
+                        var close = overlay.open(store);
 
-                  setTimeout(close, 5000);
-               };
-               ...
-               <Button
-                    onClick={(e, {store}) => { addOverlay(store); }}>
-                  Add Overlay
-               </Button>
-            `}</CodeSnippet>
+                        setTimeout(close, 5000);
+                    };
+                    ...
+                    <Button
+                            onClick={(e, {store}) => { addOverlay(store); }}>
+                        Add Overlay
+                    </Button>
+                `}</CodeSnippet>
             </Content>
 
         </CodeSplit>

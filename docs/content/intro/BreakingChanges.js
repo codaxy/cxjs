@@ -1,8 +1,8 @@
-import {HtmlElement, Button, enableMsgBoxAlerts} from 'cx/widgets';
-import {Rescope} from 'cx/ui';
-import {Md} from '../../components/Md';
-import {CodeSplit} from '../../components/CodeSplit';
-import {CodeSnippet} from '../../components/CodeSnippet';
+import { HtmlElement, Button, enableMsgBoxAlerts } from 'cx/widgets';
+import { Rescope } from 'cx/ui';
+import { Md } from '../../components/Md';
+import { CodeSplit } from '../../components/CodeSplit';
+import { CodeSnippet } from '../../components/CodeSnippet';
 
 export const BreakingChanges = <cx>
     <Rescope bind="$page">
@@ -12,6 +12,97 @@ export const BreakingChanges = <cx>
             Sometimes we are forced to introduce breaking changes to the framework.
             This page will provide information about breaking changes and how to migrate your applications to the latest
             versions of the framework.
+
+            ## 21.3.0
+
+            ### Babel 7
+
+            The source code now uses the optional chaining operator. Please upgrade Babel to the latest version or add this plugin to your existing configuration.
+
+            ### JSX runtime
+
+            This release contains a new version of `babel-preset-cx-env` plugin which uses the new React JSX transform.
+            This should result in slightly smaller bundle sizes and in some cases it's not required to import VDOM for React components.
+            For more information check [this post on the official React blog](https://reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html).
+
+            The new release also removes Babel plugins which are now part of the @babel/preset-env preset out of the box, i.e. `@babel/transform-object-spread`.
+
+            ### Whitespace trimming on generated `cx` code
+
+            There are new version of `babel-plugin-cx-env` and `babel-plugin-transfrom-cx-jsx` which allow whitespace trimming in the generated code.
+            This might help a bit with the generated bundle sizes.
+
+            You can set this up in your `babel-config.js` file:
+
+            <CodeSplit>
+                <CodeSnippet>{`
+{
+    presets: [
+        ["babel-preset-cx-env", {
+            cx: {
+                jsx: {
+                    trimWhitespace: true,
+                    trimWhitespaceExceptions: ['Md', 'CodeSnippet', 'CodeSplit']
+                },
+                imports: {
+                    useSrc: true
+                }
+            }
+        }]
+    ]
+}
+                `}</CodeSnippet>
+            </CodeSplit>
+
+            For more information, check the NPM page for [babel-plugin-transform-cx-jsx](https://www.npmjs.com/package/babel-plugin-transform-cx-jsx).
+
+            ## 21.1.0
+
+            ### Change in invokeParentMethod
+
+            Previously [`invokeParentMethod`](~/concepts/controllers#-code-invokeparentmethod-code-) could be used to invoke Controller's own method. If the specified method was not found on current
+            Controller instance, parent instances would be checked until the one with the specified method is found.
+
+            With this change, `invokeParentMethod` now **skips** the current Controller instance and tries to invoke the specified method
+            in one of the parent instances, as the name suggests.
+            This can cause the code to break if, for example, `invokeParentMethod` was used in one of the inline event handlers:
+            <CodeSplit>
+                <CodeSnippet>
+                    {`
+                    <div controller={{
+                        onSubmit(val) {
+                            console.log('val', val)
+                        }
+                    }}>
+                        <Button
+                            onClick={(e, instance) => {
+                                let controller = instance.controller;
+                                // This will cause an error:
+                                // Uncaught Error: Cannot invoke controller method "onSubmit" as controller is not assigned to the widget.
+                                controller.invokeParentMethod('onSubmit', 1);
+                            }}
+                            text="Submit"
+                        />
+                    </div>
+                `}
+                </CodeSnippet>
+            </CodeSplit>
+
+            To fix this, make the following change in the `onClick` handler:
+            <CodeSplit>
+                <CodeSnippet>
+                    {`
+                    onClick={(e, instance) => {
+                        let controller = instance.controller;
+                        // use invokeMethod instead of invokeParentMethod
+                        controller.invokeMethod('onSubmit', 1);
+                    }}
+                `}
+                </CodeSnippet>
+            </CodeSplit>
+
+            [`invokeMethod`](~/concepts/controllers#-code-invokemethod-code-) has the same behaviour as the previous implementation of `invokeParentMethod`, hence it can be used as a fail-safe replacement for
+            `invokeParentMethod` in this version of CxJS.
 
             ## 20.1.0
 
@@ -146,7 +237,7 @@ export const BreakingChanges = <cx>
             ### `-bind`, `-tpl`, `-expr` syntax
 
             Data-binding attributes can now be written in an alternative syntax with a dash instead of a colon, for
-            example `value-bind` instead of `value:bind`. Although not necessarily a breaking change, both methods are
+            example `value:bind` instead of `value-bind`. Although not necessarily a breaking change, both methods are
             supported which solves a long standing problem of syntax errors that [Visual Studio
             Code](https://code.visualstudio.com) reports if XML namespaces are used inside JSX.
 
@@ -174,9 +265,9 @@ export const BreakingChanges = <cx>
                 <div class="widgets">
                     <Button
                         mod="danger"
-                        text={{bind: "$page.showDialogText", defaultValue: "Click Here"}}
+                        text={{ bind: "$page.showDialogText", defaultValue: "Click Here" }}
                         confirm="Would you like to use CxJS based dialogs?"
-                        onClick={(e, {store}) => {
+                        onClick={(e, { store }) => {
                             enableMsgBoxAlerts();
                             store.set('$page.showDialogText', "Click Here Again");
                         }}

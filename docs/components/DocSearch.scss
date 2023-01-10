@@ -1,0 +1,27 @@
+.cxb-docsearch {
+   display: inline-block;
+   position: relative;
+
+   &:focus-within {
+      color: gray;
+   }
+
+   height: 30px;
+   margin-bottom: 6px;
+   vertical-align: bottom;
+}
+
+.DocSearch-Container {
+   z-index: 2000;
+   font-family: "Open Sans", sans-serif;
+   font-size: 12px;
+
+   --docsearch-primary-color: #017be6;
+   --docsearch-highlight-color: #017be6;
+   --docsearch-searchbox-shadow: inset 0 0 0 2px var(--docsearch-primary-color);
+}
+
+.DocSearch-Button {
+   transform: scale(0.75);
+   transform-origin: top left;
+}

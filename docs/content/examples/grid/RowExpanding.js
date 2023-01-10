@@ -51,7 +51,7 @@ export const RowExpanding = <cx>
             Please note that search is not implemented in this example.
 
             <Grid
-                records:bind="$page.records"
+                records-bind="$page.records"
                 lockColumnWidths
                 cached
                 row={{
@@ -122,7 +122,7 @@ export const RowExpanding = <cx>
                                 header: {
                                     items: <cx>
                                         <TextField
-                                            value:bind="$page.filter.fullName"
+                                            value-bind="$page.filter.fullName"
                                             style="width: 100%"
                                             autoFocus
                                         />
@@ -133,7 +133,7 @@ export const RowExpanding = <cx>
                                 header: {
                                     items: <cx>
                                         <TextField
-                                            value:bind="$page.filter.continent"
+                                            value-bind="$page.filter.continent"
                                             style="width: 100%"
                                         />
                                     </cx>
@@ -143,7 +143,7 @@ export const RowExpanding = <cx>
                                 header: {
                                     items: <cx>
                                         <TextField
-                                            value:bind="$page.filter.browser"
+                                            value-bind="$page.filter.browser"
                                             style="width: 100%"
                                         />
                                     </cx>
@@ -153,7 +153,7 @@ export const RowExpanding = <cx>
                                 header: {
                                     items: <cx>
                                         <TextField
-                                            value:bind="$page.filter.os"
+                                            value-bind="$page.filter.os"
                                             style="width: 100%"
                                         />
                                     </cx>
@@ -163,7 +163,7 @@ export const RowExpanding = <cx>
                                 header: {
                                     items: <cx>
                                         <NumberField
-                                            value:bind="$page.filter.visits"
+                                            value-bind="$page.filter.visits"
                                             style="width: 100%"
                                             inputStyle="text-align: right"
                                         />
@@ -197,7 +197,7 @@ export const RowExpanding = <cx>
                                     <Chart offset="20 -10 -40 40"
                                            axes={{x: {type: NumericAxis}, y: {type: NumericAxis, vertical: true}}}>
                                         <Gridlines/>
-                                        <LineGraph data:bind="$record.points" colorIndex={8}/>
+                                        <LineGraph data-bind="$record.points" colorIndex={8}/>
                                     </Chart>
                                 </Svg>
                             </cx>
@@ -207,7 +207,11 @@ export const RowExpanding = <cx>
             />
 
             <Content name="code">
-                <CodeSnippet>{`
+                <div>
+                    <Tab value-bind="$page.code.tab" tab="controller" mod="code" text="Controller" />
+                    <Tab value-bind="$page.code.tab" tab="grid" mod="code"  text="Grid" default/>
+                </div>
+                <CodeSnippet fiddle="puN3fVm4" visible-expr="{$page.code.tab}=='controller'">{`
                     class PageController extends Controller {
                         onInit() {
                             //init grid data
@@ -238,12 +242,10 @@ export const RowExpanding = <cx>
                                 y: y = y + Math.random() - 0.5
                             }))
                         }
-                    }
-
-                    ...
-
+                    }`}</CodeSnippet>
+                <CodeSnippet fiddle="puN3fVm4" visible-expr="{$page.code.tab}=='grid'">{`
                     <Grid
-                        records:bind="$page.records"
+                        records-bind="$page.records"
                         lockColumnWidths
                         cached
                         row={{
@@ -314,7 +316,7 @@ export const RowExpanding = <cx>
                                         header: {
                                             items: <cx>
                                                 <TextField
-                                                    value:bind="$page.filter.fullName"
+                                                    value-bind="$page.filter.fullName"
                                                     style="width: 100%"
                                                     autoFocus
                                                 />
@@ -325,7 +327,7 @@ export const RowExpanding = <cx>
                                         header: {
                                             items: <cx>
                                                 <TextField
-                                                    value:bind="$page.filter.continent"
+                                                    value-bind="$page.filter.continent"
                                                     style="width: 100%"
                                                 />
                                             </cx>
@@ -335,7 +337,7 @@ export const RowExpanding = <cx>
                                         header: {
                                             items: <cx>
                                                 <TextField
-                                                    value:bind="$page.filter.browser"
+                                                    value-bind="$page.filter.browser"
                                                     style="width: 100%"
                                                 />
                                             </cx>
@@ -345,7 +347,7 @@ export const RowExpanding = <cx>
                                         header: {
                                             items: <cx>
                                                 <TextField
-                                                    value:bind="$page.filter.os"
+                                                    value-bind="$page.filter.os"
                                                     style="width: 100%"
                                                 />
                                             </cx>
@@ -355,7 +357,7 @@ export const RowExpanding = <cx>
                                         header: {
                                             items: <cx>
                                                 <NumberField
-                                                    value:bind="$page.filter.visits"
+                                                    value-bind="$page.filter.visits"
                                                     style="width: 100%"
                                                     inputStyle="text-align: right"
                                                 />
@@ -389,7 +391,7 @@ export const RowExpanding = <cx>
                                             <Chart offset="20 -10 -40 40"
                                                    axes={{x: {type: NumericAxis}, y: {type: NumericAxis, vertical: true}}}>
                                                 <Gridlines/>
-                                                <LineGraph data:bind="$record.points" colorIndex={8}/>
+                                                <LineGraph data-bind="$record.points" colorIndex={8}/>
                                             </Chart>
                                         </Svg>
                                     </cx>

@@ -1,4 +1,4 @@
-import { HtmlElement, Repeater } from 'cx/widgets';
+import { Content, HtmlElement, Repeater, Tab } from 'cx/widgets';
 import { Controller } from 'cx/ui';
 import { Svg } from 'cx/svg';
 import { Gridlines, NumericAxis, CategoryAxis, Chart, Marker, Legend } from 'cx/charts';
@@ -48,28 +48,28 @@ export const Markers = <cx>
                   y: { type: NumericAxis, vertical: true, snapToTicks: 1 }
                }}>
                   <Gridlines/>
-                  <Repeater records:bind="$page.reds" recordAlias="$point">
-                     <Marker colorIndex:bind="$point.color"
+                  <Repeater records-bind="$page.reds" recordAlias="$point">
+                     <Marker colorIndex-bind="$point.color"
                             legendColorIndex={1}
-                            active:bind="$page.showReds"
+                            active-bind="$page.showReds"
                             name="Reds"
-                            size:bind="$point.size"
-                            x:bind="$point.x"
-                            y:bind="$point.y"
-                            tooltip:tpl="Red ({$point.x:n;0}, {$point.y:n;0})"
+                            size-bind="$point.size"
+                            x-bind="$point.x"
+                            y-bind="$point.y"
+                            tooltip-tpl="Red ({$point.x:n;0}, {$point.y:n;0})"
                             style={{fillOpacity: 0.5}}
                             draggableX draggableY
                      />
                   </Repeater>
-                  <Repeater records:bind="$page.blues" recordAlias="$point">
-                     <Marker colorIndex:bind="$point.color"
+                  <Repeater records-bind="$page.blues" recordAlias="$point">
+                     <Marker colorIndex-bind="$point.color"
                             legendColorIndex={5}
-                            active:bind="$page.showBlues"
+                            active-bind="$page.showBlues"
                             name="Blues"
-                            size:bind="$point.size"
-                            x:bind="$point.x"
-                            y:bind="$point.y"
-                            tooltip:tpl="Blue ({$point.x:n;0}, {$point.y:n;0})"
+                            size-bind="$point.size"
+                            x-bind="$point.x"
+                            y-bind="$point.y"
+                            tooltip-tpl="Blue ({$point.x:n;0}, {$point.y:n;0})"
                             style={{fillOpacity: 0.5}}
                             draggableX draggableY/>
                   </Repeater>
@@ -77,26 +77,30 @@ export const Markers = <cx>
             </Svg>
             <Legend vertical />
          </div>
-
-         <CodeSnippet putInto="code" fiddle="SqfLY8YB">{`
-            class PageController extends Controller {
-               init() {
-                  super.init();
-                  this.store.set('$page.reds', Array.from({length: 50}, (_, i) => ({
-                     x: 100+Math.random() * 300,
-                     y: Math.random() * 300,
-                     size: 10 + Math.random() * 30,
-                     color: Math.floor(Math.random() * 3)
-                  })));
-                  this.store.set('$page.blues', Array.from({length: 50}, (_, i) => ({
-                     x: Math.random() * 300,
-                     y: 100 + Math.random() * 300,
-                     size: 10 + Math.random() * 30,
-                     color: 4 + Math.floor(Math.random() * 3)
-                  })));
+            
+         <Content name="code">
+            <Tab value-bind="$page.code.tab" mod="code" tab="controller" text="Controller"/>
+            <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Index" default/>
+            <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="SqfLY8YB">{`
+               class PageController extends Controller {
+                  init() {
+                     super.init();
+                     this.store.set('$page.reds', Array.from({length: 50}, (_, i) => ({
+                        x: 100+Math.random() * 300,
+                        y: Math.random() * 300,
+                        size: 10 + Math.random() * 30,
+                        color: Math.floor(Math.random() * 3)
+                     })));
+                     this.store.set('$page.blues', Array.from({length: 50}, (_, i) => ({
+                        x: Math.random() * 300,
+                        y: 100 + Math.random() * 300,
+                        size: 10 + Math.random() * 30,
+                        color: 4 + Math.floor(Math.random() * 3)
+                     })));
+                  }
                }
-            }
-            ...
+            `}</CodeSnippet>
+            <CodeSnippet visible-expr="{$page.code.tab}=='index'" fiddle="SqfLY8YB">{`
             <div class="widgets" controller={PageController}>
                <Svg style="width:500px; height:400px;">
                   <Chart offset="20 -20 -40 130" axes={{
@@ -104,36 +108,37 @@ export const Markers = <cx>
                      y: { type: NumericAxis, vertical: true, snapToTicks: 1 }
                   }}>
                      <Gridlines/>
-                     <Repeater records:bind="$page.reds" recordAlias="$point">
-                        <Marker colorIndex:bind="$point.color"
-                               legendColorIndex={1}
-                               active:bind="$page.showReds"
-                               name="Reds"
-                               size:bind="$point.size"
-                               x:bind="$point.x"
-                               y:bind="$point.y"
-                               tooltip:tpl="Red ({$point.x:n;0}, {$point.y:n;0})"
-                               style={{fillOpacity: 0.5}}
-                               draggableX draggableY
+                     <Repeater records-bind="$page.reds" recordAlias="$point">
+                        <Marker colorIndex-bind="$point.color"
+                              legendColorIndex={1}
+                              active-bind="$page.showReds"
+                              name="Reds"
+                              size-bind="$point.size"
+                              x-bind="$point.x"
+                              y-bind="$point.y"
+                              tooltip-tpl="Red ({$point.x:n;0}, {$point.y:n;0})"
+                              style={{fillOpacity: 0.5}}
+                              draggableX draggableY
                         />
                      </Repeater>
-                     <Repeater records:bind="$page.blues" recordAlias="$point">
-                        <Marker colorIndex:bind="$point.color"
-                               legendColorIndex={5}
-                               active:bind="$page.showBlues"
-                               name="Blues"
-                               size:bind="$point.size"
-                               x:bind="$point.x"
-                               y:bind="$point.y"
-                               tooltip:tpl="Blue ({$point.x:n;0}, {$point.y:n;0})"
-                               style={{fillOpacity: 0.5}}
-                               draggableX draggableY/>
+                     <Repeater records-bind="$page.blues" recordAlias="$point">
+                        <Marker colorIndex-bind="$point.color"
+                              legendColorIndex={5}
+                              active-bind="$page.showBlues"
+                              name="Blues"
+                              size-bind="$point.size"
+                              x-bind="$point.x"
+                              y-bind="$point.y"
+                              tooltip-tpl="Blue ({$point.x:n;0}, {$point.y:n;0})"
+                              style={{fillOpacity: 0.5}}
+                              draggableX draggableY/>
                      </Repeater>
                   </Chart>
                </Svg>
                <Legend vertical />
             </div>
-         `}</CodeSnippet>
+            `}</CodeSnippet>
+         </Content>
       </CodeSplit>
 
       ## Configuration

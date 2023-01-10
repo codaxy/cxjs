@@ -1,4 +1,4 @@
-import { HtmlElement, Grid, Repeater } from 'cx/widgets';
+import { HtmlElement, Grid, Repeater, Content, Tab } from 'cx/widgets';
 import { Controller, PropertySelection } from 'cx/ui';
 import { Svg, Rectangle, Text } from 'cx/svg';
 import { Gridlines, NumericAxis, CategoryAxis, Chart, Bar } from 'cx/charts';
@@ -48,35 +48,35 @@ export const Combination = <cx>
                <Svg style="width:600px; height:600px;">
                   <Chart offset="20 -20 -40 150" axes={{ y: { type: CategoryAxis, vertical: true, inverted: true }, x: { type: NumericAxis, snapToTicks: 1 } }}>
                      <Gridlines/>
-                     <Repeater records:bind="$page.points" recordAlias="$point" sorters:bind="$page.sorters">
+                     <Repeater records-bind="$page.points" recordAlias="$point" sorters-bind="$page.sorters">
                         <Bar colorIndex={0}
                              height={0.2}
                              offset={-0.2}
-                             x:bind="$point.v1"
-                             y:bind="$point.city"
+                             x-bind="$point.v1"
+                             y-bind="$point.city"
                              selection={barSelection}
-                             tooltip:tpl="{$point.v1:n;0}" />
+                             tooltip-tpl="{$point.v1:n;0}" />
 
                         <Bar colorIndex={2}
                              height={0.2}
                              offset={0}
-                             x:bind="$point.v2"
-                             y:bind="$point.city"
+                             x-bind="$point.v2"
+                             y-bind="$point.city"
                              selection={barSelection}
-                             tooltip:tpl="{$point.v2:n;0}" />
+                             tooltip-tpl="{$point.v2:n;0}" />
 
                         <Bar colorIndex={4}
                              height={0.2}
                              offset={0.2}
-                             x:bind="$point.v3"
-                             y:bind="$point.city"
+                             x-bind="$point.v3"
+                             y-bind="$point.city"
                              selection={barSelection}
-                             tooltip:tpl="{$point.v3:n;0}" />
+                             tooltip-tpl="{$point.v3:n;0}" />
                      </Repeater>
                   </Chart>
                </Svg>
-               <Grid records:bind="$page.points"
-                     sorters:bind="$page.sorters"
+               <Grid records-bind="$page.points"
+                     sorters-bind="$page.sorters"
                      columns={[
                         { header: 'City', field: 'city', sortable: true },
                         { field: 'v1', format: 'n;2', align: "right", sortable: true,
@@ -114,7 +114,13 @@ export const Combination = <cx>
             </div>
          </div>
 
-         <CodeSnippet putInto="code" fiddle="mQSxhSAU">{`
+         <Content name="code">
+            <div>
+               <Tab value-bind="$page.code.tab" tab="controller" mod="code" text='Controller' />
+               <Tab value-bind="$page.code.tab" tab="chart" mod="code" default text='Chart' />
+            </div>
+
+            <CodeSnippet fiddle="mQSxhSAU" visible-expr="{$page.code.tab}=='controller'">{`
          class PageController extends Controller {
             init() {
                super.init();
@@ -138,40 +144,41 @@ export const Combination = <cx>
             index: { bind: '$index' },
             records: { bind: '$page.points' }
          });
-
+         `}</CodeSnippet>
+         <CodeSnippet fiddle="mQSxhSAU" visible-expr="{$page.code.tab}=='chart'">{`
          var legendStyle = "border-width:1px;border-style:solid;display:inline-block;width:20px;height:10px;";
          <Svg style="width:600px; height:600px;">
             <Chart offset="20 -20 -40 150" axes={{ y: { type: CategoryAxis, vertical: true, inverted: true }, x: { type: NumericAxis, snapToTicks: 1 } }}>
                <Gridlines/>
-               <Repeater records:bind="$page.points" recordAlias="$point" sorters:bind="$page.sorters">
+               <Repeater records-bind="$page.points" recordAlias="$point" sorters-bind="$page.sorters">
                   <Bar colorIndex={0}
                        height={0.2}
                        offset={-0.2}
-                       x:bind="$point.v1"
-                       y:bind="$point.city"
+                       x-bind="$point.v1"
+                       y-bind="$point.city"
                        selection={barSelection}
-                       tooltip:tpl="{$point.v1:n;0}" />
+                       tooltip-tpl="{$point.v1:n;0}" />
 
                   <Bar colorIndex={2}
                        height={0.2}
                        offset={0}
-                       x:bind="$point.v2"
-                       y:bind="$point.city"
+                       x-bind="$point.v2"
+                       y-bind="$point.city"
                        selection={barSelection}
-                       tooltip:tpl="{$point.v2:n;0}" />
+                       tooltip-tpl="{$point.v2:n;0}" />
 
                   <Bar colorIndex={4}
                        height={0.2}
                        offset={0.2}
-                       x:bind="$point.v3"
-                       y:bind="$point.city"
+                       x-bind="$point.v3"
+                       y-bind="$point.city"
                        selection={barSelection}
-                       tooltip:tpl="{$point.v3:n;0}" />
+                       tooltip-tpl="{$point.v3:n;0}" />
                </Repeater>
             </Chart>
          </Svg>
-         <Grid records:bind="$page.points"
-               sorters:bind="$page.sorters"
+         <Grid records-bind="$page.points"
+               sorters-bind="$page.sorters"
                columns={[
                   { header: 'City', field: 'city', sortable: true },
                   { field: 'v1', format: 'n;2', align: "right", sortable: true,
@@ -207,6 +214,7 @@ export const Combination = <cx>
                ]}
                selection={{type: PropertySelection, keyField: 'id', bind: '$page.selection' }}/>
          `}</CodeSnippet>
+         </Content>
       </CodeSplit>
    </Md>
 </cx>;

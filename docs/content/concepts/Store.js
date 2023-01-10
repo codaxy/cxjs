@@ -1,4 +1,4 @@
-import {HtmlElement, Content, Checkbox, Repeater, FlexBox, TextField, NumberField, Button, MsgBox} from 'cx/widgets';
+import {HtmlElement, Content, Checkbox, Repeater, FlexBox, TextField, NumberField, Button, MsgBox, Tab} from 'cx/widgets';
 import {Md} from 'docs/components/Md';
 import {CodeSplit} from 'docs/components/CodeSplit';
 import {CodeSnippet} from 'docs/components/CodeSnippet';
@@ -159,7 +159,9 @@ export const Store = <cx>
             Otherwise, it saves the `value` and returns `true`.
 
             <Content name="code">
-                <CodeSnippet fiddle="fMy6p8FB">{`
+                <Tab value-bind="$page.code.tab" mod="code" tab="controller" text="Controller" default />
+                <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Index"  />
+                <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="fMy6p8FB">{`
                     class PageController extends Controller {
                         onInit() {
                             this.store.init('$page', {
@@ -179,10 +181,12 @@ export const Store = <cx>
                             MsgBox.alert(\`Hello, \${name}!\`);
                         }
                     }
-                    ...
+                `}
+                </CodeSnippet>
 
+                <CodeSnippet visible-expr="{$page.code.tab}=='index'" fiddle="fMy6p8FB">{`
                     <div layout={LabelsTopLayout} controller={PageController}>
-                        <TextField label="Name" value:bind="$page.name" />
+                        <TextField label="Name" value-bind="$page.name" />
                         <Button onClick="greet">Greet</Button>
                     </div>
                 `}
@@ -204,7 +208,7 @@ export const Store = <cx>
         <CodeSplit>
             <div class="widgets">
                 <div layout={LabelsTopLayout} controller={PageController}>
-                    <TextField label="Name" value:bind='$page.name'/>
+                    <TextField label="Name" value-bind='$page.name'/>
                     <Button onClick="greet">Greet</Button>
                 </div>
             </div>
@@ -222,7 +226,7 @@ export const Store = <cx>
 
             <div class="widgets">
                 <div layout={LabelsTopLayout}>
-                    <TextField label="Name" value:bind="$page.name" disabled:bind="$page.disabled"/>
+                    <TextField label="Name" value-bind="$page.name" disabled-bind="$page.disabled"/>
                     <Button onClick={(e, instance) => {
                         let {store} = instance;
                         store.set('$page.disabled', !store.get('$page.disabled'));
@@ -236,9 +240,10 @@ export const Store = <cx>
             calculate the button text, depending on the `$page.disabled` value.
 
             <Content name="code">
-                <CodeSnippet fiddle="RzBoFq52">{`
+                <Tab value-bind="$page.code2.tab"  mod="code" tab="index"  text="Code" default />
+                <CodeSnippet visible-expr="{$page.code2.tab}=='index'" fiddle="RzBoFq52">{`
                     <div layout={LabelsTopLayout} >
-                        <TextField label="Name" value:bind="$page.name" disabled:bind="$page.disabled" />
+                        <TextField label="Name" value-bind="$page.name" disabled-bind="$page.disabled" />
                         <Button onClick={(e, instance) => {
                                 let {store} = instance;
                                 store.set('$page.disabled', !store.get('$page.disabled'));
@@ -249,7 +254,6 @@ export const Store = <cx>
                 `}
                 </CodeSnippet>
             </Content>
-
         </CodeSplit>
 
         <CodeSplit>
@@ -261,7 +265,7 @@ export const Store = <cx>
 
             <div class="widgets">
                 <div layout={LabelsTopLayout}>
-                    <TextField label="Name" value:bind="$page.name" disabled:bind="$page.disabled"/>
+                    <TextField label="Name" value-bind="$page.name" disabled-bind="$page.disabled"/>
                     <Button
                         onClick={(e, {store}) => {
                             store.toggle('$page.disabled');
@@ -274,9 +278,11 @@ export const Store = <cx>
             You can also make the code more compact by doing destructuring right inside the function declaration.
 
             <Content name="code">
-                <CodeSnippet fiddle="tBnXbiZo">{`
+            <Tab value-bind="$page.code3.tab" mod="code" tab="code" text="Code" default />
+                
+                <CodeSnippet visible-expr="{$page.code3.tab}=='code'" fiddle="tBnXbiZo">{`
                     <div layout={LabelsTopLayout} >
-                        <TextField label="Name" value:bind="$page.name" disabled:bind="$page.disabled" />
+                        <TextField label="Name" value-bind="$page.name" disabled-bind="$page.disabled" />
                         <Button
                             onClick={(e, {store}) => {
                                 store.toggle('$page.disabled');
@@ -299,7 +305,7 @@ export const Store = <cx>
 
             <div class="widgets">
                 <div layout={LabelsTopLayout}>
-                    <TextField value:bind="$page.name" label="Name"/>
+                    <TextField value-bind="$page.name" label="Name"/>
                     <Button onClick={(e, {store}) =>
                         store.delete('$page.name')
                     }>
@@ -309,9 +315,10 @@ export const Store = <cx>
             </div>
 
             <Content name="code">
-                <CodeSnippet fiddle="d8JViIoe">{`
+            <Tab value-bind="$page.code4.tab"  mod="code" tab="code"  text="Code" default />
+                <CodeSnippet visible-expr="{$page.code4.tab}=='code'" fiddle="d8JViIoe">{`
                     <div layout={LabelsTopLayout}>
-                        <TextField value:bind="$page.name" label="Name" />
+                        <TextField value-bind="$page.name" label="Name" />
                         <Button onClick={(e, {store}) =>
                             store.delete('$page.name')
                         }>
@@ -333,8 +340,8 @@ export const Store = <cx>
 
             <div class="widgets">
                 <div layout={LabelsTopLayout}>
-                    <TextField label="Text" value:bind="$page.name"/>
-                    <TextField label="Copied text" value:bind="$page.copyDestination" placeholder="click Copy"/>
+                    <TextField label="Text" value-bind="$page.name"/>
+                    <TextField label="Copied text" value-bind="$page.copyDestination" placeholder="click Copy"/>
                     <Button onClick={(e, {store}) => {
                         store.copy('$page.name', '$page.copyDestination');
                     }}>Copy</Button>
@@ -342,10 +349,11 @@ export const Store = <cx>
             </div>
 
             <Content name="code">
-                <CodeSnippet fiddle="vKZrbYe4">{`
+                <Tab value-bind="$page.code5.tab"  mod="code" tab="code"  text="Code" default />
+                <CodeSnippet visible-expr="{$page.code5.tab}=='code'" fiddle="vKZrbYe4">{`
                     <div layout={LabelsTopLayout}>
-                        <TextField label="Origin" value:bind="$page.name" />
-                        <TextField label="Destination" value:bind="$page.copyDestination" placeholder="click Copy" />
+                        <TextField label="Origin" value-bind="$page.name" />
+                        <TextField label="Destination" value-bind="$page.copyDestination" placeholder="click Copy" />
                         <Button onClick={(e, {store}) => {
                             store.copy('$page.name', '$page.copyDestination');    
                         }}>Copy</Button>
@@ -365,8 +373,8 @@ export const Store = <cx>
 
             <div class="widgets">
                 <div layout={LabelsTopLayout}>
-                    <TextField label="Text" value:bind="$page.name"/>
-                    <TextField label="Moved text" value:bind="$page.moveDestination" placeholder="click Move"/>
+                    <TextField label="Text" value-bind="$page.name"/>
+                    <TextField label="Moved text" value-bind="$page.moveDestination" placeholder="click Move"/>
                     <Button onClick={(e, {store}) => {
                         store.move('$page.name', '$page.moveDestination');
                     }}>Move</Button>
@@ -374,10 +382,11 @@ export const Store = <cx>
             </div>
 
             <Content name="code">
-                <CodeSnippet fiddle="E4BOtF4S">{`
+                <Tab value-bind="$page.code6.tab"  mod="code" tab="code"  text="Code" default />
+                <CodeSnippet visible-expr="{$page.code6.tab}=='code'" fiddle="E4BOtF4S">{`
                     <div layout={LabelsTopLayout}>
-                        <TextField label="Origin" value:bind="$page.name" />
-                        <TextField label="Destination" value:bind="$page.moveDestination" placeholder="click Move" />
+                        <TextField label="Origin" value-bind="$page.name" />
+                        <TextField label="Destination" value-bind="$page.moveDestination" placeholder="click Move" />
                         <Button onClick={(e, {store}) => {
                             store.move('$page.name', '$page.moveDestination'); 
                         }}>Move</Button>
@@ -405,7 +414,7 @@ export const Store = <cx>
 
             <div class="widgets">
                 <div layout={LabelsTopLayout}>
-                    <NumberField label="Count" value:bind="$page.count" style="width: 50px"/>
+                    <NumberField label="Count" value-bind="$page.count" style="width: 50px"/>
                     <Button onClick={(e, {store}) => {
                         store.update('$page.count', count => count + 1);
                     }}>+1</Button>
@@ -419,9 +428,10 @@ export const Store = <cx>
             should be a pure function, without any side effects, e.g. direct object or array mutations.
 
             <Content name="code">
-                <CodeSnippet fiddle="t5fbQpxq">{`
+            <Tab value-bind="$page.code6.tab"  mod="code" tab="code"  text="Code" default />
+                <CodeSnippet visible-expr="{$page.code6.tab}=='code'" fiddle="t5fbQpxq">{`
                     <div layout={LabelsTopLayout}>
-                        <NumberField label="Count" value:bind="$page.count" style="width: 50px"/>
+                        <NumberField label="Count" value-bind="$page.count" style="width: 50px"/>
                         <Button onClick={(e, {store}) => {
                             store.update('$page.count', count => count + 1); 
                         }}>+1</Button>
@@ -451,8 +461,8 @@ export const Store = <cx>
             <div class="widgets">
                 <div layout={LabelsLeftLayout}>
                     <strong>Todo List</strong>
-                    <Repeater records:bind="$page.todoList">
-                        <Checkbox value:bind="$record.done" text:bind="$record.text"/>
+                    <Repeater records-bind="$page.todoList">
+                        <Checkbox value-bind="$record.done" text-bind="$record.text"/>
                         <br/>
                     </Repeater>
                     <Button
@@ -474,12 +484,13 @@ export const Store = <cx>
             </div>
 
             <Content name="code">
-                <CodeSnippet fiddle="u89Crydo">{`
+            <Tab value-bind="$page.code8.tab"  mod="code" tab="code"  text="Code" default />
+                <CodeSnippet visible-expr="{$page.code8.tab}=='code'" fiddle="u89Crydo">{`
                     <div class="widgets">
                         <div layout={LabelsLeftLayout}>
                             <strong>Todo List</strong>
-                            <Repeater records:bind="$page.todoList">
-                                <Checkbox value:bind="$record.done" text:bind="$record.text" />
+                            <Repeater records-bind="$page.todoList">
+                                <Checkbox value-bind="$record.done" text-bind="$record.text" />
                                 <br />
                             </Repeater>
                             <Button

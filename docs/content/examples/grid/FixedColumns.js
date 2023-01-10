@@ -1,4 +1,4 @@
-import { HtmlElement, Checkbox, Grid, TextField } from "cx/widgets";
+import { HtmlElement, Checkbox, Grid, TextField, Content, Tab } from "cx/widgets";
 import { Controller, KeySelection } from "cx/ui";
 import { Md } from "../../../components/Md";
 import { CodeSplit } from "../../../components/CodeSplit";
@@ -29,7 +29,8 @@ export const FixedColumns = (
             <CodeSplit>
                 The `Grid` widget supports fixing columns to the left hand side
                 for grids which have many columns. Simply, set `fixed: true` on
-                the column and it will appear on the left. > The grid with fixed
+                the column and it will appear on the left. 
+                > The grid with fixed
                 columns does not support grouping.
                 <Grid
                     records-bind="$page.records"
@@ -151,36 +152,45 @@ export const FixedColumns = (
                         }
                     ]}
                 />
-                <CodeSnippet putInto="code">{`
-                class PageController extends Controller {
-                    onInit() {
-                        this.store.init(
-                            "$page.records",
-                            Array
-                                .from({length: 5000})
-                                .map((v, i) => ({
-                                    id: i + 1,
-                                    fullName: casual.full_name,
-                                    continent: casual.continent,
-                                    browser: casual.browser,
-                                    os: casual.operating_system,
-                                    visits: casual.integer(1, 100)
-                                }))
-                        );
+                <Content name="code">
+                    <Tab value-bind="$page.code.tab" tab="controller" mod="code" text="Controller" />
+                    <Tab value-bind="$page.code.tab" tab="grid" mod="code" text="Grid" default/>
+                    <Tab value-bind="$page.code.tab" tab="columns" mod="code" text="Columns" />
+                    <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="wISoYrYi">{`
+                    class PageController extends Controller {
+                        onInit() {
+                            this.store.init(
+                                "$page.records",
+                                Array
+                                    .from({length: 5000})
+                                    .map((v, i) => ({
+                                        id: i + 1,
+                                        fullName: casual.full_name,
+                                        continent: casual.continent,
+                                        browser: casual.browser,
+                                        os: casual.operating_system,
+                                        visits: casual.integer(1, 100)
+                                    }))
+                            );
+                        }
                     }
-                }
-                ...
-                <Grid
-                    records-bind="$page.records"
-                    scrollable
-                    buffered
-                    style="height: 600px;"
-                    lockColumnWidths
-                    fixedFooter
-                    cached
-                    mod="fixed-layout"
-                    cellEditable
-                    columns={[
+                    `}</CodeSnippet>
+                    <CodeSnippet visible-expr="{$page.code.tab}=='grid'" fiddle="wISoYrYi">{`
+                    <Grid
+                        records-bind="$page.records"
+                        scrollable
+                        buffered
+                        style="height: 600px;"
+                        lockColumnWidths
+                        fixedFooter
+                        cached
+                        mod="fixed-layout"
+                        cellEditable
+                        columns={allColumns}
+                    />
+                    `}</CodeSnippet>
+                    <CodeSnippet visible-expr="{$page.code.tab}=='columns'" fiddle="wISoYrYi">{`
+                    let AllColumns = [
                         {
                             header: "#",
                             field: "index",
@@ -288,9 +298,11 @@ export const FixedColumns = (
                             align: "right",
                             resizable: true
                         }
-                    ]}
-                />
-                `}</CodeSnippet>
+                    ];
+
+                    `}
+                    </CodeSnippet>
+                </Content>
             </CodeSplit>
         </Md>
     </cx>

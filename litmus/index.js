@@ -14,13 +14,13 @@ import "./index.scss";
 // import Demo from './sections/features/TimeSeriesScroll';
 // import {MixedModeForm as Demo} from './components/MixedModeForm';
 //import Demo from './performance/LongList';
-import Demo from "./dev/batchListUpdates";
+// import Demo from "./dev/batchListUpdates";
 
 //import Demo from './features/flexbox';
 //import Demo from './features/drag-drop/ReorderInsertionLine';
 //import Demo from './features/drag-drop/Dashboard';
 //import Demo from './features/drag-drop/trello';
-// import Demo from './features/drag-drop/tree-grid-to-tree-grid';
+//import Demo from './features/drag-drop/tree-grid-to-tree-grid';
 //import Demo from './features/drag-drop/ReorderHorizontal';
 //import Demo from './features/drag-drop/Boxes';
 //import Demo from './features/wheel';
@@ -33,6 +33,7 @@ import Demo from "./dev/batchListUpdates";
 //import Demo from "./features/charts/time-axis/LocalTime";
 //import Demo from "./features/charts/time-axis/Ticks";
 //import Demo from "./features/grid/header-tool";
+//import Demo from "./features/grid/column-reorder";
 //import Demo from "./features/grid/GridBuffering";
 //import Demo from './features/grid/RowEditing';
 //import Demo from './features/grid/MultiLine';
@@ -58,6 +59,8 @@ import Demo from "./dev/batchListUpdates";
 //import Demo from './features/layout/ComplexLayout';
 //import Demo from './features/resizer';
 
+//import Demo from './features/charts/NonOverlappingRect';
+
 //import Demo from './bugs/stacked';
 //import Demo from './bugs/FirstVisibleChild';
 //import Demo from './bugs/LabelsTopLayout';
@@ -73,6 +76,7 @@ import Demo from "./dev/batchListUpdates";
 //import Demo from "./features/hooks/Clock";
 //import Demo from "./features/hooks/complex";
 //import Demo from "./features/hooks/localStorage";
+//import Demo from "./features/lookupfield/Infinite";
 //import Demo from "./bugs/Spread";
 //import Demo from "./bugs/587";
 //import Demo from "./bugs/MultipleSelection";
@@ -80,12 +84,29 @@ import Demo from "./dev/batchListUpdates";
 //import Demo from "./bugs/leak";
 //import Demo from "./bugs/697";
 //import Demo from "./bugs/674";
+//import Demo from "./bugs/884";
 //import Demo from "./features/grid/DockedColumns";
 //import Demo from "./features/time-list";
 //import Demo from "./features/debounce/NumberField";
+//import Demo from "./features/uploadButton"
+// import Demo from "./bugs/GroupCaptionBug";
+//import Demo from "./bugs/invokeParentMethod";
+//import Demo from "./bugs/742";
 //import Demo from "./bugs/656";
 //import Demo from "./bugs/RestateFirstVisibleChild";
 //import Demo from "./bugs/TooltipDisable";
+
+//import Demo from "./bugs/AsyncValidator";
+
+//import Demo from "./features/charts/pie/labels";
+//import Demo from "./bugs/BlurBug";
+//import Demo from "./features/immer";
+// import Demo from "./bugs/971";
+// import Demo from "./bugs/LookupFieldListItemFocus";
+//import Demo from "./bugs/SliderValue";
+//import Demo from "./features/context-menu/conext-menu-in-a-dropdown";
+// import Demo from "./features/calendar";
+import Demo from "./features/slider/SliderPreventDefault";
 
 let store = (window.store = new Store());
 
@@ -98,4 +119,4 @@ Debug.enable("app-data");
 
 History.connect(store, "url");
 
-let stop = startHotAppLoop(module, document.getElementById("app"), store, Demo);
+startHotAppLoop(module, document.getElementById("app"), store, Demo);

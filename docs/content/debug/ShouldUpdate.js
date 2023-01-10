@@ -14,8 +14,8 @@ import {CodeSnippet} from 'docs/components/CodeSnippet';
 export const ShouldUpdate = <cx>
 
    <div class="widgets">
-      <TextField value:bind="$page.v1" />
-      <TextField value:bind="$page.v1" />
+      <TextField value-bind="$page.v1" />
+      <TextField value-bind="$page.v1" />
    </div>
 
 </cx>;

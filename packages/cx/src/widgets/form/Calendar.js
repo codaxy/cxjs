@@ -34,9 +34,17 @@ export class Calendar extends Field {
             minExclusive: undefined,
             maxValue: undefined,
             maxExclusive: undefined,
+            focusable: undefined,
+            dayData: undefined,
          },
          ...arguments
       );
+   }
+
+   init() {
+      if (this.unfocusable) this.focusable = false;
+
+      super.init();
    }
 
    prepareData(context, { data }) {
@@ -81,6 +89,12 @@ export class Calendar extends Field {
 
          if (widget.disabledDaysOfWeek) {
             if (widget.disabledDaysOfWeek.includes(data.date.getDay())) data.error = this.disabledDaysOfWeekErrorText;
+         }
+
+         if (data.dayData) {
+            let date = new Date(data.value);
+            let info = data.dayData[date.toDateString()];
+            if (info && info.disabled) data.error = this.disabledDaysOfWeekErrorText;
          }
       }
    }
@@ -129,6 +143,8 @@ Calendar.prototype.disabledDaysOfWeekErrorText = "Selected day of week is not al
 Calendar.prototype.suppressErrorsUntilVisited = false;
 Calendar.prototype.showTodayButton = false;
 Calendar.prototype.todayButtonText = "Today";
+Calendar.prototype.startWithMonday = false;
+Calendar.prototype.focusable = true;
 
 Localization.registerPrototype("cx/widgets/Calendar", Calendar);
 
@@ -138,6 +154,11 @@ const validationCheck = (date, data, disabledDaysOfWeek) => {
    if (data.minValue && !lowerBoundCheck(date, data.minValue, data.minExclusive)) return false;
 
    if (disabledDaysOfWeek && disabledDaysOfWeek.includes(date.getDay())) return false;
+
+   if (data.dayData) {
+      let day = data.dayData[date.toDateString()];
+      if (day && (day.disabled || day.unselectable)) return false;
+   }
 
    return true;
 };
@@ -165,13 +186,18 @@ export class CalendarCmp extends VDOM.Component {
    getPage(refDate) {
       refDate = monthStart(refDate); //make a copy
 
+      let startWithMonday = this.props.instance.widget.startWithMonday;
+
+      let startDay = startWithMonday ? 1 : 0;
       let startDate = new Date(refDate);
-      startDate.setDate(1 - startDate.getDay());
+      while (startDate.getDay() != startDay) startDate.setDate(startDate.getDate() - 1);
 
       let endDate = new Date(refDate);
       endDate.setMonth(refDate.getMonth() + 1);
       endDate.setDate(endDate.getDate() - 1);
-      endDate.setDate(endDate.getDate() + 6 - endDate.getDay());
+
+      let endDay = startWithMonday ? 0 : 6;
+      while (endDate.getDay() != endDay) endDate.setDate(endDate.getDate() + 1);
 
       return {
          refDate,
@@ -361,36 +387,41 @@ export class CalendarCmp extends VDOM.Component {
 
    render() {
       let { data, widget } = this.props.instance;
-      let { CSS, baseClass, disabledDaysOfWeek } = widget;
+      let { CSS, baseClass, disabledDaysOfWeek, startWithMonday } = widget;
 
-      let refDate = this.state.refDate;
+      let { refDate, startDate, endDate } = this.getPage(this.state.refDate);
 
       let month = refDate.getMonth();
       let year = refDate.getFullYear();
-
-      let startDate = new Date(year, month, 1);
-      startDate.setDate(1 - startDate.getDay());
-
       let weeks = [];
       let date = startDate;
 
+      let empty = {};
+
       let today = zeroTime(new Date());
-      while (date < refDate || date.getMonth() == month) {
+      while (date >= startDate && date <= endDate) {
          let days = [];
          for (let i = 0; i < 7; i++) {
+            let dayInfo = (data.dayData && data.dayData[date.toDateString()]) || empty;
             let unselectable = !validationCheck(date, data, disabledDaysOfWeek);
-            let classNames = CSS.state({
-               outside: month != date.getMonth(),
-               unselectable: unselectable,
-               selected: data.date && sameDate(data.date, date),
-               cursor: (this.state.hover || this.state.focus) && this.state.cursor && sameDate(this.state.cursor, date),
-               today: widget.highlightToday && sameDate(date, today),
-            });
+            let classNames = CSS.expand(
+               CSS.element(baseClass, "day", {
+                  outside: month != date.getMonth(),
+                  unselectable: unselectable,
+                  selected: data.date && sameDate(data.date, date),
+                  cursor:
+                     (this.state.hover || this.state.focus) && this.state.cursor && sameDate(this.state.cursor, date),
+                  today: widget.highlightToday && sameDate(date, today),
+               }),
+               dayInfo.className,
+               CSS.mod(dayInfo.mod)
+            );
             let dateInst = new Date(date);
             days.push(
                <td
                   key={i}
                   className={classNames}
+                  style={CSS.parseStyle(dayInfo.style)}
                   data-year={dateInst.getFullYear()}
                   data-month={dateInst.getMonth() + 1}
                   data-date={dateInst.getDate()}
@@ -414,13 +445,20 @@ export class CalendarCmp extends VDOM.Component {
       let culture = Culture.getDateTimeCulture();
       let monthNames = culture.getMonthNames("long");
       let dayNames = culture.getWeekdayNames("short").map((x) => x.substr(0, 2));
+      if (startWithMonday) dayNames = [...dayNames.slice(1), dayNames[0]];
 
       return (
          <div
             className={data.classNames}
-            tabIndex={data.disabled ? null : data.tabIndex || 0}
+            tabIndex={data.disabled || !data.focusable ? null : data.tabIndex || 0}
             onKeyDown={(e) => this.handleKeyPress(e)}
-            onMouseDown={(e) => e.stopPropagation()}
+            onMouseDown={(e) => {
+               // prevent losing focus from the input field
+               if (!data.focusable) {
+                  e.preventDefault();
+               }
+               e.stopPropagation();
+            }}
             ref={(el) => {
                this.el = el;
             }}

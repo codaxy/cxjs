@@ -45,7 +45,7 @@ export class MonthPicker extends Field {
          };
       } else {
          values = {
-            value: null,
+            value: this.emptyValue,
          };
       }
 

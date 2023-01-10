@@ -1,4 +1,4 @@
-import {HtmlElement, Checkbox, TextField, Text} from 'cx/widgets';
+import {HtmlElement, Checkbox, TextField, Text, Tab, Content} from 'cx/widgets';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
@@ -37,18 +37,24 @@ export const GettingStarted = <cx>
         <CodeSplit>
             <div class="widgets">
                 <div>
-                    <Checkbox value:bind="enabled">Enable</Checkbox>
+                    <Checkbox value-bind="enabled">Enable</Checkbox>
                     <br/>
-                    <TextField value:bind="text" disabled:expr="!{enabled}"/>
+                    <TextField value-bind="text" disabled-expr="!{enabled}"/>
                 </div>
             </div>
-            <CodeSnippet putInto="code" fiddle="HkcFZwXT">{`
+            <Content name="code">
                 <div>
-                    <Checkbox value:bind="enabled">Enable</Checkbox>
+                    <Tab value-bind="$page.code.tab" mod="code" tab="code" text="Code" default/>
+                </div>
+
+            <CodeSnippet fiddle="HkcFZwXT" visible-expr="{$page.code.tab}=='code'">{`
+                <div>
+                    <Checkbox value-bind="enabled">Enable</Checkbox>
                     <br/>
-                    <TextField value:bind="text" disabled:expr="!{enabled}"/>
+                    <TextField value-bind="text" disabled-expr="!{enabled}"/>
                 </div>
             `}</CodeSnippet>
+            </Content>
         </CodeSplit>
 
 

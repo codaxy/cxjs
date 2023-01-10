@@ -41,7 +41,7 @@ export default {
         </Md></cx>
     },
     validationErrorText: {
-        type: 'RegExp',
+        type: 'string',
         description: <cx><Md>
             Message to be shown to the user if validation fails.
         </Md></cx>
@@ -106,6 +106,12 @@ export default {
         type: 'any',
         description: <cx><Md>
             If `trackFocus` is set, this value will be set when the field recieves focus.
+        </Md></cx>
+    },
+    trim: {
+        type: 'boolean',
+        description: <cx><Md>
+            Trim text to remove whitespace. Default is `false`.
         </Md></cx>
     }
 };

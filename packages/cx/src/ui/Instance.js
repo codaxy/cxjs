@@ -11,6 +11,7 @@ import { isArray } from "../util/isArray";
 import { isObject } from "../util/isObject";
 import { isNonEmptyArray } from "../util/isNonEmptyArray";
 import { isUndefined } from "../util/isUndefined";
+import { isAccessorChain } from "../data/createAccessorModelProxy";
 
 let instanceId = 1000;
 
@@ -116,8 +117,8 @@ export class Instance {
          ins = ins.widget.isContent
             ? ins.contentPlaceholder
             : ins.parent.outerLayout === ins
-               ? ins.parent.parent
-               : ins.parent;
+            ? ins.parent.parent
+            : ins.parent;
       }
       renderList.reverse();
    }
@@ -416,21 +417,27 @@ export class Instance {
                let action = p.action(value, this);
                this.store.dispatch(action);
                changed = true;
-            } else if (isString(p.bind)) {
+            } else if (isString(p.bind) || isAccessorChain(p.bind)) {
                changed = this.store.set(p.bind, value);
             }
-         }
+         } else if (isAccessorChain(p)) changed = this.store.set(p.toString(), value);
       });
       return changed;
    }
 
-   nestedDataSet(key, value, dataConfig) {
+   nestedDataSet(key, value, dataConfig, useParentStore) {
       let config = dataConfig[key];
       if (!config)
          throw new Error(`Unknown nested data key ${key}. Known keys are ${Object.keys(dataConfig).join(", ")}.`);
 
-      if (config.bind)
-         return isUndefined(value) ? this.store.deleteItem(config.bind) : this.store.setItem(config.bind, value);
+      if (isAccessorChain(config)) config = { bind: config.toString() };
+
+      if (config.bind) {
+         let store = this.store;
+         //in case of Rescope or DataProxy, bindings point to the data in the parent store
+         if (useParentStore && store.store) store = store.store;
+         return isUndefined(value) ? store.deleteItem(config.bind) : store.setItem(config.bind, value);
+      }
 
       if (!config.set)
          throw new Error(
@@ -540,14 +547,21 @@ export class InstanceCache {
    }
 
    getChild(widget, store, key) {
-      let k = this.keyPrefix + (key != null ? key : widget.widgetId);
+      let k = this.keyPrefix + (key != null ? key : widget.vdomKey || widget.widgetId);
       let instance = this.children[k];
 
-      if (!instance || (!instance.visible && (instance.widget.controller || instance.widget.onInit))) {
+      if (
+         !instance ||
+         instance.widget !== widget ||
+         (!instance.visible && (instance.widget.controller || instance.widget.onInit))
+      ) {
          instance = new Instance(widget, k, this.parent);
          this.children[k] = instance;
       }
-      if (instance.store !== store) instance.setStore(store);
+      if (instance.store !== store) {
+         instance.setStore(store);
+         if (instance.cached) delete instance.cached.rawData; // force prepareData to execute again
+      }
 
       return instance;
    }

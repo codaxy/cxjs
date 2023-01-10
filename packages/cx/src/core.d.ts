@@ -1,47 +1,62 @@
 export = Cx;
 export as namespace Cx;
 
-import * as React from 'react';
+import * as React from "react";
 
 declare namespace Cx {
-
    type Bind = {
-      bind: string,
-      defaultValue?: any,
-      throttle?: number,
-      debounce?: number
-   }
+      bind: string;
+      defaultValue?: any;
+      throttle?: number;
+      debounce?: number;
+   };
 
    type Tpl = {
-      tpl: string,
-      defaultValue?: any
-   }
+      tpl: string;
+   };
 
    type Expr = {
-      expr: string,
-      defaultValue?: any
-   }
+      expr: string;
+      set?: (value: any, instance?: any) => boolean;
+      throttle?: number;
+      debounce?: number;
+   };
 
    type Binding = Bind | Tpl | Expr;
 
    type Selector<T> = (data: any) => T;
 
+   type GetSet<T> = {
+      get: Selector<T>;
+      set?: (value: T, instance?: any) => boolean;
+      throttle?: number;
+      debounce?: number;
+   };
+
    interface StructuredSelector {
-      [prop: string]: Selector<any>
+      [prop: string]: Selector<any>;
    }
 
-   type Prop<T> = Binding | T | Selector<T>;
+   type AccessorChain<M> = {
+      toString(): string;
+      valueOf(): string;
+      nameOf(): string;
+   } & {
+      [prop in keyof M]: AccessorChain<M[prop]>;
+   };
+
+   type Prop<T> = T | Binding | Selector<T> | AccessorChain<T> | GetSet<T>;
 
    interface Record {
-      [prop: string]: any
+      [prop: string]: any;
    }
 
    interface Config {
-      [prop: string]: any
+      [prop: string]: any;
    }
 
    interface StructuredProp {
-      [prop: string]: Prop<any>
+      [prop: string]: Prop<any>;
    }
 
    type StringProp = Prop<string>;
@@ -52,97 +67,116 @@ declare namespace Cx {
    type RecordsProp = Prop<Record[]>;
    type SortersProp = Prop<Sorter[]>;
 
-   interface WidgetProps {
+   type RecordAlias = string | { toString(): string };
 
+   interface WidgetProps {
       /** Inner layout used to display children inside the widget. */
-      layout?: any,
+      layout?: any;
 
       /** Outer (wrapper) layout used to display the widget in. */
-      outerLayout?: any,
+      outerLayout?: any;
 
       /** Name of the ContentPlaceholder that should be used to display the widget. */
-      putInto?: string,
+      putInto?: string;
 
       /** Name of the ContentPlaceholder that should be used to display the widget. */
-      contentFor?: string,
+      contentFor?: string;
 
       /** Controller. */
-      controller?: any,
+      controller?: any;
 
       /** Visibility of the widget. Defaults to `true`. */
-      visible?: BooleanProp,
+      visible?: BooleanProp;
 
       /** Visibility of the widget. Defaults to `true`. */
-      if?: BooleanProp,
+      if?: BooleanProp;
 
       /** Appearance modifier. For example, mod="big" will add the CSS class `.cxm-big` to the block element. */
-      mod?: StringProp | Prop<string[]> | StructuredProp,
+      mod?: StringProp | Prop<string[]> | StructuredProp;
 
       /** Cache render output. Default is `true`. */
-      memoize?: BooleanProp,
+      memoize?: BooleanProp;
 
       /** Widget supports class, className and style attributes. */
-      styled?: boolean,
+      styled?: boolean;
+
+      /** Key that will be used as the key when rendering the React component.  */
+      vdomKey?: string;
+
+      onExplore?(context?: any, instance?: any): void;
+
+      onPrepare?(context?: any, instance?: any): void;
+
+      onCleanup?(context?: any, instance?: any): void;
+
+      onDestroy?(): void;
    }
 
    interface PureContainerProps extends WidgetProps {
-
       /** Keep whitespace in text based children. Default is `false`. See also `trimWhitespace`. */
-      ws?: boolean,
+      ws?: boolean;
 
       /** Remove all whitespace in text based children. Default is `true`. See also `preserveWhitespace`. */
-      trimWhitespace?: boolean,
+      trimWhitespace?: boolean;
 
       /** Keep whitespace in text based children. Default is `false`. See also `trimWhitespace`. */
-      preserveWhitespace?: boolean,
+      preserveWhitespace?: boolean;
 
       /** List of child elements. */
-      items?: any,
+      items?: any;
 
       /** List of child elements. */
-      children?: React.ReactNode,
+      children?: React.ReactNode;
 
-      plainText?: boolean
-
+      plainText?: boolean;
    }
 
    interface StyledContainerProps extends PureContainerProps {
-
-     /**
-     * Additional CSS classes to be applied to the element.
-     * If an object is provided, all keys with a "truthy" value will be added to the CSS class list.
-     */
-      class?: ClassProp,
+      /**
+       * Additional CSS classes to be applied to the element.
+       * If an object is provided, all keys with a "truthy" value will be added to the CSS class list.
+       */
+      class?: ClassProp;
 
       /**
-      * Additional CSS classes to be applied to the element.
-      * If an object is provided, all keys with a "truthy" value will be added to the CSS class list.
-      */
-      className?: ClassProp,
+       * Additional CSS classes to be applied to the element.
+       * If an object is provided, all keys with a "truthy" value will be added to the CSS class list.
+       */
+      className?: ClassProp;
 
       /** Style object applied to the element */
-      style?: StyleProp,
+      style?: StyleProp;
 
       /** Style object applied to the element */
-      styles?: Cx.StyleProp
+      styles?: StyleProp;
    }
 
    interface HtmlElementProps extends StyledContainerProps {
-
       /** Id of the element */
-      id?: string | number | Binding | Selector<string | number>,
+      id?: string | number | Binding | Selector<string | number>;
 
       /** Inner text contents. */
-      text?: string | number | Binding | Selector<string | number>
+      text?: Cx.StringProp | Cx.NumberProp;
 
       /** Tooltip configuration. */
-      tooltip?: StringProp | StructuredProp
+      tooltip?: StringProp | StructuredProp;
+
+      onMouseDown?: string | ((event: MouseEvent, instance: any) => void);
+      onMouseMove?: string | ((event: MouseEvent, instance: any) => void);
+      onMouseUp?: string | ((event: MouseEvent, instance: any) => void);
+      onTouchStart?: string | ((event: TouchEvent, instance: any) => void);
+      onTouchMove?: string | ((event: TouchEvent, instance: any) => void);
+      onTouchEnd?: string | ((event: TouchEvent, instance: any) => void);
+      onClick?: string | ((event: MouseEvent, instance: any) => void);
+      onContextMenu?: string | ((event: MouseEvent, instance: any) => void);
    }
+
+   type SortDirection = "ASC" | "DESC";
 
    interface Sorter {
       field?: string;
       value?: (Record) => any;
-      direction: 'ASC' | 'DESC';
+      direction: SortDirection;
    }
 
    interface CollatorOptions {
@@ -175,19 +209,52 @@ declare namespace Cx {
 declare global {
    namespace JSX {
       interface IntrinsicElements {
-         cx: any
+         cx: any;
+      }
+
+      interface IntrinsicAttributes {
+         /** Inner layout used to display children inside the widget. */
+         layout?: any;
+
+         /** Outer (wrapper) layout used to display the widget in. */
+         outerLayout?: any;
+
+         /** Name of the ContentPlaceholder that should be used to display the widget. */
+         putInto?: string;
+
+         /** Name of the ContentPlaceholder that should be used to display the widget. */
+         contentFor?: string;
+
+         /** Controller. */
+         controller?: any;
+
+         /** Visibility of the widget. Defaults to `true`. */
+         visible?: Cx.BooleanProp;
+
+         /** Visibility of the widget. Defaults to `true`. */
+         if?: Cx.BooleanProp;
+
+         /** Appearance modifier. For example, mod="big" will add the CSS class `.cxm-big` to the block element. */
+         mod?: Cx.StringProp | Cx.Prop<string[]> | Cx.StructuredProp;
+
+         /** Cache render output. Default is `true`. */
+         memoize?: Cx.BooleanProp;
+
+         /** Tooltip configuration. */
+         tooltip?: Cx.StringProp | Cx.StructuredProp;
       }
    }
 }
 
 declare module "react" {
    interface ClassAttributes<T> extends Cx.PureContainerProps {
-      class?: Cx.ClassProp,
-      styles?: Cx.StyleProp,
-      text?: Cx.StringProp,
-      innerText?: Cx.StringProp,
-      html?: Cx.StringProp,
-      innerHtml?: Cx.StringProp
+      class?: Cx.ClassProp;
+      styles?: Cx.StyleProp;
+      text?: Cx.StringProp | Cx.NumberProp;
+      innerText?: Cx.StringProp;
+      html?: Cx.StringProp;
+      innerHtml?: Cx.StringProp;
+      tooltip?: Cx.StringProp | Cx.StructuredProp;
    }
 
    //this doesn't work, however, it would be nice if it does

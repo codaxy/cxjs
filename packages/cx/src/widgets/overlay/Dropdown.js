@@ -1,11 +1,11 @@
-import { Widget, VDOM } from "../../ui/Widget";
-import { Overlay } from "./Overlay";
-import { findFirst, isFocusable, getFocusedElement } from "../../util/DOM";
-import { isTouchDevice } from "../../util/isTouchDevice";
-import { ResizeManager } from "../../ui/ResizeManager";
 import { Localization } from "../../ui/Localization";
-import { getTopLevelBoundingClientRect } from "../../util/getTopLevelBoundingClientRect";
+import { ResizeManager } from "../../ui/ResizeManager";
+import { Widget, VDOM } from "../../ui/Widget";
 import { calculateNaturalElementHeight } from "../../util/calculateNaturalElementHeight";
+import { closestParent, findFirst, isFocusable } from "../../util/DOM";
+import { getTopLevelBoundingClientRect } from "../../util/getTopLevelBoundingClientRect";
+import { isTouchDevice } from "../../util/isTouchDevice";
+import { Overlay } from "./Overlay";
 
 /*
  Dropdown specific features:
@@ -19,6 +19,7 @@ export class Dropdown extends Overlay {
          this.trackMouseX = true;
          this.trackMouseY = true;
       }
+      if (this.autoFocus && !this.hasOwnProperty(this.focusable)) this.focusable = true;
       super.init();
    }
 
@@ -49,6 +50,8 @@ export class Dropdown extends Overlay {
       var scrollableParents = (component.scrollableParents = [window]);
       component.updateDropdownPosition = (e) => this.updateDropdownPosition(instance, component);
 
+      instance.initialScreenPosition = null;
+
       var el = instance.relatedElement.parentElement;
       while (el) {
          scrollableParents.push(el);
@@ -65,7 +68,9 @@ export class Dropdown extends Overlay {
          instance.invoke("pipeValidateDropdownPosition", component.updateDropdownPosition, instance);
 
       if (instance.parentPositionChangeEvent)
-         component.offParentPositionChange = instance.parentPositionChangeEvent.subscribe(component.updateDropdownPosition);
+         component.offParentPositionChange = instance.parentPositionChangeEvent.subscribe(
+            component.updateDropdownPosition
+         );
    }
 
    overlayDidUpdate(instance, component) {
@@ -88,16 +93,25 @@ export class Dropdown extends Overlay {
       if (component.offParentPositionChange) component.offParentPositionChange();
 
       delete component.parentBounds;
+      delete component.initialScreenPosition;
+   }
+
+   dismissAfterScroll(data, instance, component) {
+      if (this.onDismissAfterScroll && instance.invoke("onDismissAfterScroll", data, instance, component) === false)
+         return;
+      if (instance.dismiss) instance.dismiss();
    }
 
    updateDropdownPosition(instance, component) {
-      var { el } = component;
+      var { el, initialScreenPosition } = component;
       var { data, relatedElement } = instance;
-      var parentBounds = (component.parentBounds = getTopLevelBoundingClientRect(relatedElement));
+      var parentBounds = getTopLevelBoundingClientRect(relatedElement);
 
       //getBoundingClientRect() will return an empty rect if the element is hidden or removed
-      if (parentBounds.left == 0 && parentBounds.top == 0 && parentBounds.bottom == 0 && parentBounds.right == 0)
-         return;
+      if (parentBounds.left == 0 && parentBounds.top == 0 && parentBounds.bottom == 0 && parentBounds.right == 0) {
+         if (!component.parentBounds) return;
+         parentBounds = component.parentBounds;
+      } else component.parentBounds = parentBounds;
 
       if (this.trackMouseX && instance.mousePosition) {
          parentBounds = {
@@ -148,9 +162,15 @@ export class Dropdown extends Overlay {
          }
       }
 
-      if (this.onDropdownPositionDidUpdate) instance.invoke("onDropdownPositionDidUpdate", instance, component);
+      if (!initialScreenPosition) initialScreenPosition = component.initialScreenPosition = parentBounds;
 
-      instance.positionChangeSubcribers.notify();
+      if (
+         Math.abs(parentBounds.top - initialScreenPosition.top) > this.closeOnScrollDistance ||
+         Math.abs(parentBounds.left - initialScreenPosition.left) > this.closeOnScrollDistance
+      )
+         this.dismissAfterScroll({ parentBounds, initialScreenPosition }, instance, component);
+
+      instance.positionChangeSubscribers.notify();
    }
 
    applyFixedPositioningPlacementStyles(style, placement, contentSize, rel, el, noAuto) {
@@ -528,8 +548,7 @@ export class Dropdown extends Overlay {
       //if relatedElement is not provided, a beacon is rendered to and used to resolve a nearby element as a target
       //if onResolveTarget doesn't provide another element, the beacon itself is used as a target
       let beacon = null;
-      if (this.relatedElement)
-         instance.relatedElement = this.relatedElement;
+      if (this.relatedElement) instance.relatedElement = this.relatedElement;
 
       if (!this.relatedElement || instance.needsBeacon) {
          beacon = (
@@ -551,6 +570,15 @@ export class Dropdown extends Overlay {
       }
       return [beacon, instance.relatedElement && super.render(context, instance, key)];
    }
+
+   getOverlayContainer() {
+      // this should be instance.relatedElement
+      if (this.relatedElement) {
+         let container = closestParent(this.relatedElement, (el) => el.dataset && el.dataset.focusableOverlayContainer);
+         if (container) return container;
+      }
+      return super.getOverlayContainer();
+   }
 }
 
 Dropdown.prototype.offset = 0;
@@ -565,6 +593,7 @@ Dropdown.prototype.touchFriendly = false;
 Dropdown.prototype.arrow = false;
 Dropdown.prototype.pad = false;
 Dropdown.prototype.elementExplode = 0;
+Dropdown.prototype.closeOnScrollDistance = 50;
 Dropdown.prototype.screenPadding = 5;
 Dropdown.prototype.firstChildDefinesHeight = false;
 Dropdown.prototype.firstChildDefinesWidth = false;

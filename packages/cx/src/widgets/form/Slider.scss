@@ -84,6 +84,7 @@
       height: $size;
       margin-left: -$size / 2;
       margin-top: -$size / 2;
+      margin-bottom: -$size / 2;
       touch-action: none;
 
       .#{$block}#{$name}.#{$state}horizontal & {
@@ -93,7 +94,6 @@
 
       .#{$block}#{$name}.#{$state}vertical & {
          left: 50%;
-         top: 0;
       }
 
       @include cx-add-state-rules($styles, default);

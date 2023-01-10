@@ -1,4 +1,4 @@
-import { ContentPlaceholder, HtmlElement } from 'cx/widgets';
+import { Content, ContentPlaceholder, HtmlElement, Tab } from 'cx/widgets';
 import { ContentPlaceholderScope, Controller, KeySelection } from 'cx/ui';
 import { Svg } from 'cx/svg';
 import { Gridlines, NumericAxis, CategoryAxis, Chart, BarGraph, Legend } from 'cx/charts';
@@ -91,59 +91,65 @@ export const ScrollableBars = <cx>
                 </div>
             </div>
 
-            <CodeSnippet putInto="code">{`
-            <Legend horizontal style="margin-bottom: 16px" />
-            <ContentPlaceholderScope name="xAxis">
-                <div style="overflow-y: auto; max-height: 500px">
-                    <Svg style={{ width: "auto", height: { expr: "{$page.points.length} * 30" } }}>
-                        <Chart offset="1 -20 0 150" axes={{
-                            x: {
-                                type: NumericAxis,
-                                snapToTicks: 1,
-                                putInto: "xAxis",
-                                anchors: "0 1 0 0",
-                                offset: "-1 0 0 0"
-                            },
-                            y: { type: CategoryAxis, vertical: true }
-                        }}>
-                            <Gridlines />
-                            <BarGraph
-                                data-bind="$page.points"
-                                colorIndex={0}
-                                name="V1"
-                                size={0.3}
-                                offset={-0.15}
-                                xField="v1"
-                                selection={{
-                                    type: KeySelection,
-                                    bind: '$page.selected.y',
-                                    keyField: 'y'
-                                }}
-                            />
+            <Content name="code">
+                <div>
+                    <Tab value-bind="$page.code.tab" tab="chart" mod="code" text='Chart' default/>
+                </div>
 
-                            <BarGraph
-                                data-bind="$page.points"
-                                colorIndex={6}
-                                name="V2"
-                                size={0.3}
-                                offset={+0.15}
-                                xField="v2"
-                                selection={{
-                                    type: KeySelection,
-                                    bind: '$page.selected.y',
-                                    keyField: 'y'
-                                }}
-                            />
-                        </Chart>
-                    </Svg>
-                </div>
-                <div style="margin-top: -1px">
-                    <Svg style="height: 50px; width: auto">
-                        <ContentPlaceholder name="xAxis" />
-                    </Svg>
-                </div>
-            </ContentPlaceholderScope>
-            `}</CodeSnippet>
+                <CodeSnippet fiddle="9CmNf7Ez" visible-expr="{$page.code.tab}=='chart'">{`
+                <Legend horizontal style="margin-bottom: 16px" />
+                <ContentPlaceholderScope name="xAxis">
+                    <div style="overflow-y: auto; max-height: 500px">
+                        <Svg style={{ width: "auto", height: { expr: "{$page.points.length} * 30" } }}>
+                            <Chart offset="1 -20 0 150" axes={{
+                                x: {
+                                    type: NumericAxis,
+                                    snapToTicks: 1,
+                                    putInto: "xAxis",
+                                    anchors: "0 1 0 0",
+                                    offset: "-1 0 0 0"
+                                },
+                                y: { type: CategoryAxis, vertical: true }
+                            }}>
+                                <Gridlines />
+                                <BarGraph
+                                    data-bind="$page.points"
+                                    colorIndex={0}
+                                    name="V1"
+                                    size={0.3}
+                                    offset={-0.15}
+                                    xField="v1"
+                                    selection={{
+                                        type: KeySelection,
+                                        bind: '$page.selected.y',
+                                        keyField: 'y'
+                                    }}
+                                />
+
+                                <BarGraph
+                                    data-bind="$page.points"
+                                    colorIndex={6}
+                                    name="V2"
+                                    size={0.3}
+                                    offset={+0.15}
+                                    xField="v2"
+                                    selection={{
+                                        type: KeySelection,
+                                        bind: '$page.selected.y',
+                                        keyField: 'y'
+                                    }}
+                                />
+                            </Chart>
+                        </Svg>
+                    </div>
+                    <div style="margin-top: -1px">
+                        <Svg style="height: 50px; width: auto">
+                            <ContentPlaceholder name="xAxis" />
+                        </Svg>
+                    </div>
+                </ContentPlaceholderScope>
+                `}</CodeSnippet>
+            </Content>
         </CodeSplit>
     </Md>
 </cx >

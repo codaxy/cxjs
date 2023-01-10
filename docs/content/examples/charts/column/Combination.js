@@ -1,4 +1,4 @@
-import { HtmlElement, Grid, Repeater } from "cx/widgets";
+import { HtmlElement, Grid, Repeater, Tab, Content } from "cx/widgets";
 import { Controller, KeySelection } from "cx/ui";
 import { Svg, Rectangle, Text } from "cx/svg";
 import {
@@ -78,36 +78,36 @@ export const Combination = (
                             >
                                 <Gridlines />
                                 <Repeater
-                                    records:bind="$page.points"
+                                    records-bind="$page.points"
                                     recordAlias="$point"
                                 >
                                     <Column
-                                        colorIndex:expr="{$index}"
+                                        colorIndex-expr="{$index}"
                                         width={0.5}
                                         offset={0}
-                                        x:bind="$point.x"
-                                        y:bind="$point.v1"
-                                        tooltip:tpl="{$point.x} {$point.v1:n}"
+                                        x-bind="$point.x"
+                                        y-bind="$point.v1"
+                                        tooltip-tpl="{$point.x} {$point.v1:n}"
                                         selection={columnSelection}
                                     />
 
                                     <Column
-                                        colorIndex:expr="{$index}+2"
+                                        colorIndex-expr="{$index}+2"
                                         width={0.5}
                                         offset={0}
-                                        x:bind="$point.x"
-                                        y0:bind="$point.v1"
-                                        y:bind="$point.v2"
+                                        x-bind="$point.x"
+                                        y0-bind="$point.v1"
+                                        y-bind="$point.v2"
                                         tooltip="X2"
                                         selection={columnSelection}
                                     />
 
                                     <Marker
-                                        x:bind="$point.x"
-                                        y:bind="$point.v1"
+                                        x-bind="$point.x"
+                                        y-bind="$point.v1"
                                         xOffset={0}
                                         size={10}
-                                        colorIndex:expr="{$index}"
+                                        colorIndex-expr="{$index}"
                                         style="cursor:move;"
                                         draggableY
                                     >
@@ -124,11 +124,11 @@ export const Combination = (
                                         </Rectangle>
                                     </Marker>
                                     <Marker
-                                        x:bind="$point.x"
-                                        y:bind="$point.v2"
+                                        x-bind="$point.x"
+                                        y-bind="$point.v2"
                                         xOffset={0}
                                         size={10}
-                                        colorIndex:expr="{$index}+2"
+                                        colorIndex-expr="{$index}+2"
                                         style="cursor:move;"
                                         draggableY
                                     >
@@ -148,7 +148,7 @@ export const Combination = (
                             </Chart>
                         </Svg>
                         <Grid
-                            records:bind="$page.points"
+                            records-bind="$page.points"
                             columns={[
                                 { header: "Month", field: "x" },
                                 {
@@ -180,8 +180,12 @@ export const Combination = (
                         />
                     </div>
                 </div>
-
-                <CodeSnippet putInto="code" fiddle="wG2zDoWE">{`
+                <Content name="code">
+                    <div>
+                        <Tab value-bind="$page.code.tab" tab="controller" mod="code" text='Controller' />
+                        <Tab value-bind="$page.code.tab" tab="chart" mod="code" default text='Chart' />
+                    </div>
+                    <CodeSnippet fiddle="wG2zDoWE " visible-expr="{$page.code.tab}=='controller'">{`
          var categories = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
          class PageController extends Controller {
@@ -203,33 +207,38 @@ export const Combination = (
             record: { bind: '$point' },
             index: { bind: '$index' }
          });
-         ...
+         `}</CodeSnippet>
+          <CodeSnippet fiddle="wG2zDoWE " visible-expr="{$page.code.tab}=='chart'">{`
          <Svg style="width:600px; height:400px;">
-            <Chart offset="20 -20 -40 40" axes={{ x: { type: CategoryAxis }, y: { type: NumericAxis, vertical: true, snapToTicks: 0 } }}>
+            <Chart offset="20 -20 -40 40" 
+                   axes={{ 
+                       x: { type: CategoryAxis }, 
+                       y: { type: NumericAxis, vertical: true, snapToTicks: 0 } 
+                    }}>
                <Gridlines/>
-               <Repeater records:bind="$page.points" recordAlias="$point">
-                  <Column colorIndex:expr="{$index}"
+               <Repeater records-bind="$page.points" recordAlias="$point">
+                  <Column colorIndex-expr="{$index}"
                           width={0.5}
                           offset={0}
-                          x:bind="$point.x"
-                          y:bind="$point.v1"
-                          tooltip:tpl="{$point.x} {$point.v1:n}"
+                          x-bind="$point.x"
+                          y-bind="$point.v1"
+                          tooltip-tpl="{$point.x} {$point.v1:n}"
                           selection={columnSelection} />
 
-                  <Column colorIndex:expr="{$index}+2"
+                  <Column colorIndex-expr="{$index}+2"
                           width={0.5}
                           offset={0}
-                          x:bind="$point.x"
-                          y0:bind="$point.v1"
-                          y:bind="$point.v2"
+                          x-bind="$point.x"
+                          y0-bind="$point.v1"
+                          y-bind="$point.v2"
                           tooltip="X2"
                           selection={columnSelection} />
 
-                  <Marker x:bind="$point.x"
-                          y:bind="$point.v1"
+                  <Marker x-bind="$point.x"
+                          y-bind="$point.v1"
                           xOffset={0}
                           size={10}
-                          colorIndex:expr="{$index}"
+                          colorIndex-expr="{$index}"
                           style="cursor:move;"
                           draggableY>
                      <Rectangle anchors="0 1 0 0"
@@ -238,11 +247,11 @@ export const Combination = (
                         <Text tpl="{$point.v1:n;0}" ta="middle" dy="0.4em" />
                      </Rectangle>
                   </Marker>
-                  <Marker x:bind="$point.x"
-                          y:bind="$point.v2"
+                  <Marker x-bind="$point.x"
+                          y-bind="$point.v2"
                           xOffset={0}
                           size={10}
-                          colorIndex:expr="{$index}+2"
+                          colorIndex-expr="{$index}+2"
                           style="cursor:move;"
                           draggableY >
                      <Rectangle anchors="0 1 0 0"
@@ -254,7 +263,7 @@ export const Combination = (
                </Repeater>
             </Chart>
          </Svg>
-         <Grid records:bind="$page.points"
+         <Grid records-bind="$page.points"
                columns={[
                   { header: 'Month', field: 'x' },
                   { header: 'V1', field: 'v1', format: 'n;2', align: "right" },
@@ -263,6 +272,7 @@ export const Combination = (
                ]}
                selection={{type: KeySelection, keyField: 'x', bind: '$page.selection' }}/>
          `}</CodeSnippet>
+                </Content>           
             </CodeSplit>
         </Md>
     </cx>

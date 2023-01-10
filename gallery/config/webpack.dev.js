@@ -1,5 +1,5 @@
 var webpack = require('webpack'),
-   merge = require('webpack-merge'),
+   { merge } = require('webpack-merge'),
    common = require('./webpack.config'),
    path = require("path");
 
@@ -9,9 +9,9 @@ var specific = {
    },
    mode: 'development',
    plugins: [
-      new webpack.NamedModulesPlugin(),
       new webpack.HotModuleReplacementPlugin()
    ],
+   optimization: { moduleIds: 'named' },
    output: {
       publicPath: '/'
    },

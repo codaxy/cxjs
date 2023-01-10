@@ -7,7 +7,8 @@ import {
     Grid,
     PureContainer,
     Button,
-    Icon
+    Icon,
+    Tab
 } from 'cx/widgets';
 import {Content, Controller, LabelsLeftLayout, LabelsTopLayout, FirstVisibleChildLayout, KeySelection} from 'cx/ui';
 import {Md} from '../../../components/Md';
@@ -54,20 +55,23 @@ export const ValidationOptions = <cx>
             <div class="widgets" layout={LabelsLeftLayout}>
                 <TextField
                     label="Name"
-                    value:bind="$page.default"
+                    value-bind="$page.default"
                     placeholder="Required"
                     required
                 />
             </div>
-
-            <CodeSnippet putInto="code" fiddle="89CFD32T">{`
+            <Content name="code">
+            <Tab value-bind="$page.code1.tab" mod="code" tab="index" text="Index" default/>
+                
+            <CodeSnippet visible-expr="{$page.code1.tab}=='index'" fiddle="89CFD32T">{`
                     <TextField
                         label="Name"
-                        value:bind="$page.default"
+                        value-bind="$page.default"
                         placeholder="Required"
                         required
                     />
                 `}</CodeSnippet>
+            </Content>
 
         </CodeSplit>
 
@@ -79,7 +83,7 @@ export const ValidationOptions = <cx>
             <div class="widgets" layout={LabelsLeftLayout}>
                 <TextField
                     label="Asterisk"
-                    value:bind="$page.asterisk"
+                    value-bind="$page.asterisk"
                     placeholder="Required"
                     required
                     asterisk
@@ -87,18 +91,20 @@ export const ValidationOptions = <cx>
 
                 <TextField
                     label="Visited"
-                    value:bind="$page.visited"
+                    value-bind="$page.visited"
                     placeholder="Required"
                     required
                     visited
                 />
             </div>
-
-            <CodeSnippet putInto="code" fiddle="NrkChvlx">{`
-                <TextField label="Asterisk" value:bind="$page.asterisk" placeholder="Required" required asterisk />
-
-                <TextField label="Visited" value:bind="$page.visited" placeholder="Required" required visited />
-            `}</CodeSnippet>
+            <Content name="code">
+                <Tab value-bind="$page.code2.tab" mod="code" tab="index" text="Index" default/>
+                <CodeSnippet visible-expr="{$page.code2.tab}=='index'"fiddle="NrkChvlx">{`
+                    <TextField label="Asterisk" value-bind="$page.asterisk" placeholder="Required" required asterisk />
+                    <TextField label="Visited" value-bind="$page.visited" placeholder="Required" required visited />
+                `}</CodeSnippet>
+            </Content>
+            
         </CodeSplit>
 
         <CodeSplit>
@@ -109,18 +115,21 @@ export const ValidationOptions = <cx>
             <div class="widgets" layout={LabelsLeftLayout}>
                 <TextField
                     label="Help"
-                    value:bind="$page.help"
+                    value-bind="$page.help"
                     help={<span style="font-size:smaller">Help text</span>}
                 />
             </div>
 
-            <CodeSnippet putInto="code" fiddle="wS5tlMkT">{`
-                <TextField
-                    label="Help"
-                    value:bind="$page.help"
-                    help={<span style="font-size:smaller">Help text</span>}
-                />
-            `}</CodeSnippet>
+            <Content name="code">
+                <Tab value-bind="$page.code3.tab" mod="code" tab="index" text="Index" default/>
+                <CodeSnippet visible-expr="{$page.code3.tab}=='index'" fiddle="wS5tlMkT">{`
+                    <TextField
+                        label="Help"
+                        value-bind="$page.help"
+                        help={<span style="font-size:smaller">Help text</span>}
+                    />
+                `}</CodeSnippet>
+            </Content>
 
         </CodeSplit>
 
@@ -134,27 +143,30 @@ export const ValidationOptions = <cx>
 
                     <TextField
                         label="Help"
-                        value:bind="$page.help2"
+                        value-bind="$page.help2"
                         help={<Button icon="calculator" mod="hollow"/>}
                     />
 
                     <TextField
                         label="Help"
-                        value:bind="$page.help2"
+                        value-bind="$page.help2"
                         required visited
                         help={ValidationError}
                     />
                 </ValidationGroup>
             </div>
 
-                <CodeSnippet putInto="code" fiddle="tKub0tQP">{`
-                    <ValidationGroup layout={LabelsLeftLayout}>
-                        <TextField label="Help" value:bind="$page.help2" help={<Button icon="calculator" mod="hollow"/>}
-                        />
-                        <TextField label="Help" value:bind="$page.help2" required visited help={ValidationError}
-                        />
-                    </ValidationGroup>
-                `}</CodeSnippet>
+                <Content name="code">
+                    <Tab value-bind="$page.code3.tab" mod="code" tab="index" text="Index" default/>
+                    <CodeSnippet visible-expr="{$page.code3.tab}=='index'" fiddle="tKub0tQP">{`
+                        <ValidationGroup layout={LabelsLeftLayout}>
+                            <TextField label="Help" value-bind="$page.help2" help={<Button icon="calculator" mod="hollow"/>}
+                            />
+                            <TextField label="Help" value-bind="$page.help2" required visited help={ValidationError}
+                            />
+                        </ValidationGroup>
+                    `}</CodeSnippet>
+                </Content>
 
         </CodeSplit>
 
@@ -168,7 +180,7 @@ export const ValidationOptions = <cx>
                 <ValidationGroup layout={LabelsLeftLayout}>
                     <TextField
                         label="Help"
-                        value:bind="$page.help3"
+                        value-bind="$page.help3"
                         required
                         minLength={5}
                         visited
@@ -176,24 +188,28 @@ export const ValidationOptions = <cx>
                     />
                     <TextField
                         label="Help Block"
-                        value:bind="$page.help4"
+                        value-bind="$page.help4"
                         required
                         minLength={5}
                         visited
                         validationMode="help-block"
                     />
                 </ValidationGroup>
-            </div>
+            </div> 
 
-            <CodeSnippet putInto="code" fiddle="hY5BXIPR">{`
-                <ValidationGroup layout={LabelsLeftLayout}>
-                    <TextField label="Help" value:bind="$page.help3" required visited
-                        minLength={5} validationMode="help" />
+            <Content name="code">
+                <Tab value-bind="$page.code4.tab" mod="code" tab="index" text="Index" default/>
+                <CodeSnippet visible-expr="{$page.code4.tab}=='index'" fiddle="hY5BXIPR">{`
+                    <ValidationGroup layout={LabelsLeftLayout}>
+                        <TextField label="Help" value-bind="$page.help3" required visited
+                            minLength={5} validationMode="help" />
 
-                    <TextField label="Help Block" value:bind="$page.help4" required visited
-                        minLength={5} validationMode="help-block" />
-                </ValidationGroup>
-            `}</CodeSnippet>
+                        <TextField label="Help Block" value-bind="$page.help4" required visited
+                            minLength={5} validationMode="help-block" />
+                    </ValidationGroup>
+                `}</CodeSnippet>
+            </Content>
+
 
         </CodeSplit>
 
@@ -207,7 +223,7 @@ export const ValidationOptions = <cx>
                 <ValidationGroup layout={LabelsTopLayout}>
                     <TextField
                         label="Favorite framework?"
-                        value:bind="$page.framework"
+                        value-bind="$page.framework"
                         validationMode="help-block"
                         reactOn="enter blur"
                         onValidate={(v) => {
@@ -218,16 +234,20 @@ export const ValidationOptions = <cx>
                 </ValidationGroup>
             </div>
 
-            <CodeSnippet putInto="code" fiddle="HsSymblF">{`
-                <TextField
-                    label="Favorite framework?" value:bind="$page.framework"
-                    validationMode="help-block" reactOn="enter blur"
-                    onValidate={(v) => {
-                        if (v != 'Cx')
-                            return 'Oops, wrong answer!'
-                    }}
-                />
-            `}</CodeSnippet>
+            <Content name="code">
+                <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Index" default/>
+                <CodeSnippet fiddle="HsSymblF">{`
+                    <TextField
+                        label="Favorite framework?" value-bind="$page.framework"
+                        validationMode="help-block" reactOn="enter blur"
+                        onValidate={(v) => {
+                            if (v != 'Cx')
+                                return 'Oops, wrong answer!'
+                        }}
+                    />
+                `}</CodeSnippet>
+            </Content>
+
 
         </CodeSplit>
 
@@ -239,7 +259,7 @@ export const ValidationOptions = <cx>
                 <ValidationGroup layout={LabelsTopLayout}>
                     <TextField
                         label="Username"
-                        value:bind="$page.form.username"
+                        value-bind="$page.form.username"
                         required visited
                         onValidate={
                             v => new Promise(fulfill => {
@@ -258,28 +278,32 @@ export const ValidationOptions = <cx>
                 </ValidationGroup>
             </div>
 
-            <CodeSnippet putInto="code" fiddle="qMFIX9Cc">{`
-                <ValidationGroup layout={LabelsTopLayout}>
-                    <TextField
-                        label="Username"
-                        value:bind="$page.form.username"
-                        required visited
-                        onValidate={
-                            v => new Promise(fulfill => {
-                                setTimeout(() => {
-                                    fulfill(v == 'cx' ? "This name is taken." : false);
-                                }, 500)
-                            })
-                        }
-                        help={
-                            <div layout={FirstVisibleChildLayout}>
-                                <ValidationError />
-                                <Icon name="check" style="color:green"/>
-                            </div>
-                        }
-                    />
-                </ValidationGroup>
-            `}</CodeSnippet>
+
+            <Content name="code">
+                <Tab value-bind="$page.code5.tab" mod="code" tab="index" text="Index" default/>
+                <CodeSnippet visible-expr="{$page.code5.tab}=='index'" fiddle="qMFIX9Cc">{`
+                    <ValidationGroup layout={LabelsTopLayout}>
+                        <TextField
+                            label="Username"
+                            value-bind="$page.form.username"
+                            required visited
+                            onValidate={
+                                v => new Promise(fulfill => {
+                                    setTimeout(() => {
+                                        fulfill(v == 'cx' ? "This name is taken." : false);
+                                    }, 500)
+                                })
+                            }
+                            help={
+                                <div layout={FirstVisibleChildLayout}>
+                                    <ValidationError />
+                                    <Icon name="check" style="color:green"/>
+                                </div>
+                            }
+                        />
+                    </ValidationGroup>
+                `}</CodeSnippet>
+            </Content>
         </CodeSplit>
     </Md>
 </cx>;

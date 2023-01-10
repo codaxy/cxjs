@@ -11,9 +11,12 @@ interface HtmlElementProps extends Cx.HtmlElementProps {
    tag?: string;
 
    /** HTML to be injected into the element. */
-   html?: string;
+   html?: Cx.StringProp;
 
    styled?: boolean;
+
+   //** Set to true to automatically focus the element when mounted. */
+   autoFocus?: Cx.BooleanProp;
 
    /** Allow any prop if HtmlElement is used directly.
     * e.g. `<HtmlElement tag="form" onSubmit="submit" />`*/

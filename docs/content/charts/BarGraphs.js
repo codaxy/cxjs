@@ -1,4 +1,4 @@
-import { HtmlElement } from 'cx/widgets';
+import { Content, HtmlElement, Tab } from 'cx/widgets';
 import { Controller, KeySelection } from 'cx/ui';
 import { Svg } from 'cx/svg';
 import { Gridlines, NumericAxis, CategoryAxis, Chart, BarGraph, Legend } from 'cx/charts';
@@ -43,7 +43,7 @@ export const BarGraphs = <cx>
                         y: { type: CategoryAxis, vertical: true }
                     }}>
                         <Gridlines />
-                        <BarGraph data:bind="$page.points"
+                        <BarGraph data-bind="$page.points"
                                colorIndex={0}
                                name="V1"
                                size={0.3}
@@ -56,7 +56,7 @@ export const BarGraphs = <cx>
                         }}
                   />
 
-                  <BarGraph data:bind="$page.points"
+                  <BarGraph data-bind="$page.points"
                                colorIndex={6}
                                name="V2"
                                size={0.3}
@@ -75,57 +75,62 @@ export const BarGraphs = <cx>
          Examples:
 
          * [Scrollable Bar Charts](~/examples/charts/bar/scrollable-bars)
+         <Content name="code">
+            <Tab value-bind="$page.code.tab" mod="code" tab="controller" text="Controller"/>
+            <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Index" default/>
 
-         <CodeSnippet putInto="code" fiddle="I9AysZCY">{`
-         class PageController extends Controller {
-            init() {
-               super.init();
-               var v1 = 100;
-               var v2 = 110;
-               this.store.set('$page.points', Array.from({length: 11}, (_, i) => ({
-                  y: casual.city,
-                  v1: v1 = (v1 + (Math.random() - 0.5) * 30),
-                  v2: v2 = (v2 + (Math.random() - 0.5) * 30)
-               })));
+            <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="I9AysZCY">{`
+            class PageController extends Controller {
+               init() {
+                  super.init();
+                  var v1 = 100;
+                  var v2 = 110;
+                  this.store.set('$page.points', Array.from({length: 11}, (_, i) => ({
+                     y: casual.city,
+                     v1: v1 = (v1 + (Math.random() - 0.5) * 30),
+                     v2: v2 = (v2 + (Math.random() - 0.5) * 30)
+                  })));
+               }
             }
-         }
-         ...
-         <div class="widgets" controller={PageController}>
-            <Svg style="width:500px; height:400px;">
-               <Chart offset="20 -20 -30 150" axes={{
-                  x: { type: NumericAxis, snapToTicks: 1 },
-                  y: { type: CategoryAxis, vertical: true }
-               }}>
-                  <Gridlines/>
-                  <BarGraph data:bind="$page.points"
-                               colorIndex={0}
-                               name="V1"
-                               size={0.3}
-                               offset={-0.15}
-                               xField="v1"
-                               selection={{
-                                  type: KeySelection,
-                                  bind: '$page.selected.y',
-                                  keyField: 'y'
-                               }}
-                  />
+            `}</CodeSnippet>
+            <CodeSnippet visible-expr="{$page.code.tab}=='index'" fiddle="I9AysZCY">{`
+            <div class="widgets" controller={PageController}>
+               <Svg style="width:500px; height:400px;">
+                  <Chart offset="20 -20 -30 150" axes={{
+                     x: { type: NumericAxis, snapToTicks: 1 },
+                     y: { type: CategoryAxis, vertical: true }
+                  }}>
+                     <Gridlines/>
+                     <BarGraph data-bind="$page.points"
+                                 colorIndex={0}
+                                 name="V1"
+                                 size={0.3}
+                                 offset={-0.15}
+                                 xField="v1"
+                                 selection={{
+                                    type: KeySelection,
+                                    bind: '$page.selected.y',
+                                    keyField: 'y'
+                                 }}
+                     />
 
-                  <BarGraph data:bind="$page.points"
-                               colorIndex={6}
-                               name="V2"
-                               size={0.3}
-                               offset={+0.15}
-                               xField="v2"
-                               selection={{
-                                  type: KeySelection,
-                                  bind: '$page.selected.y',
-                                  keyField: 'y'
-                               }}/>
-               </Chart>
-            </Svg>
-            <Legend vertical />
-         </div>
-         `}</CodeSnippet>
+                     <BarGraph data-bind="$page.points"
+                                 colorIndex={6}
+                                 name="V2"
+                                 size={0.3}
+                                 offset={+0.15}
+                                 xField="v2"
+                                 selection={{
+                                    type: KeySelection,
+                                    bind: '$page.selected.y',
+                                    keyField: 'y'
+                                 }}/>
+                  </Chart>
+               </Svg>
+               <Legend vertical />
+            </div>
+            `}</CodeSnippet>
+            </Content>
         </CodeSplit>
 
       ## Configuration

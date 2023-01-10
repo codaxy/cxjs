@@ -1,6 +1,6 @@
 import { Widget, VDOM, getContent } from "../../ui/Widget";
 import { Cx } from "../../ui/Cx";
-import { Field, getFieldTooltip, autoFocus } from "./Field";
+import { Field, getFieldTooltip } from "./Field";
 import { DateTimePicker } from "./DateTimePicker";
 import { Calendar } from "./Calendar";
 import { Culture } from "../../ui/Culture";
@@ -25,12 +25,13 @@ import ClearIcon from "../icons/clear";
 import { stopPropagation } from "../../util/eventCallbacks";
 import { Format } from "../../util/Format";
 import { TimeList } from "./TimeList";
+import { autoFocus } from "../autoFocus";
 
 export class DateTimeField extends Field {
    declareData() {
       super.declareData(
          {
-            value: null,
+            value: this.emptyValue,
             disabled: undefined,
             readOnly: undefined,
             enabled: undefined,
@@ -184,6 +185,7 @@ DateTimeField.prototype.reactOn = "enter blur";
 DateTimeField.prototype.segment = "datetime";
 DateTimeField.prototype.picker = "auto";
 DateTimeField.prototype.disabledDaysOfWeek = null;
+DateTimeField.prototype.focusInputFirst = false;
 
 Widget.alias("datetimefield", DateTimeField);
 Localization.registerPrototype("cx/widgets/DateTimeField", DateTimeField);
@@ -212,6 +214,7 @@ class DateTimeInput extends VDOM.Component {
                partial: widget.partial,
                encoding: widget.encoding,
                disabledDaysOfWeek: widget.disabledDaysOfWeek,
+               focusable: !widget.focusInputFirst,
             };
             break;
 
@@ -249,16 +252,26 @@ class DateTimeInput extends VDOM.Component {
          onFocusOut: (e) => {
             this.closeDropdown(e);
          },
+         onMouseDown: stopPropagation,
          items: {
             ...pickerConfig,
             ...this.props.picker,
-            autoFocus: true,
+            autoFocus: !widget.focusInputFirst,
+            tabIndex: widget.focusInputFirst ? -1 : 0,
             onKeyDown: (e) => this.onKeyDown(e),
-            onSelect: (e) => {
+            onSelect: (e, calendar, date) => {
                e.stopPropagation();
                e.preventDefault();
                let touch = isTouchEvent(e);
                this.closeDropdown(e, () => {
+                  if (date) {
+                     // If a blur event occurs before we re-render the input,
+                     // the old input value is parsed and written to the store.
+                     // We want to prevent that by eagerly updating the input value.
+                     // This can happen if the date field is within a menu.
+                     let newFormattedValue = Format.value(date, this.props.data.format);
+                     this.input.value = newFormattedValue;
+                  }
                   if (!touch) this.input.focus();
                });
             },
@@ -384,8 +397,12 @@ class DateTimeInput extends VDOM.Component {
       //icon click
       if (e.target !== this.input) {
          e.preventDefault();
-         if (!this.state.dropdownOpen) this.openDropdown(e);
-         else this.input.focus();
+
+         //the field should not focus only in case when dropdown will open and autofocus
+         if (this.props.instance.widget.focusInputFirst || this.state.dropdownOpen) this.input.focus();
+
+         if (this.state.dropdownOpen) this.closeDropdown(e);
+         else this.openDropdown(e);
       }
    }
 
@@ -397,7 +414,7 @@ class DateTimeInput extends VDOM.Component {
             focus: true,
          });
       }
-      if (this.openDropdownOnFocus) this.openDropdown(e);
+      if (this.openDropdownOnFocus || widget.focusInputFirst) this.openDropdown(e);
    }
 
    onKeyDown(e) {
@@ -433,6 +450,7 @@ class DateTimeInput extends VDOM.Component {
 
    onBlur(e) {
       if (!this.state.dropdownOpen) this.props.instance.setState({ visited: true });
+      else if (this.props.instance.widget.focusInputFirst) this.closeDropdown(e);
       if (this.state.focus)
          this.setState({
             focus: false,
@@ -547,7 +565,7 @@ class DateTimeInput extends VDOM.Component {
 
          let value = date ? encode(date) : widget.emptyValue;
 
-         if (!instance.set("value", value)) this.input.value = text || "";
+         if (!instance.set("value", value)) this.input.value = value ? Format.value(date, data.format) : "";
       }
    }
 }

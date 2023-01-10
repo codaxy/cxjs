@@ -1,13 +1,12 @@
-import * as Cx from '../core';
+import * as Cx from "../core";
 
 interface ContentResolverProps extends Cx.PureContainerProps {
+   params?: Cx.Prop<any> | Cx.StructuredProp;
+   mode?: "replace" | "prepend" | "append";
 
-   params?: Cx.StructuredProp,
-   mode?: 'replace' | 'prepend' | 'append',
+   onResolve?: (params, Instance) => any;
 
-   onResolve?: (params, Instance) => any,
-
-   loading?: Cx.BooleanProp
+   loading?: Cx.BooleanProp;
 }
 
 export class ContentResolver extends Cx.Widget<ContentResolverProps> {}

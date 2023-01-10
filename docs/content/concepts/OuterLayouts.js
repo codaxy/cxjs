@@ -1,18 +1,18 @@
-import {Button, HtmlElement, TextField, Checkbox, Select, LabeledContainer, PureContainer, Menu} from 'cx/widgets';
-import {ContentPlaceholder, Content} from 'cx/ui';
-import {Md} from 'docs/components/Md';
-import {CodeSplit} from 'docs/components/CodeSplit';
-import {CodeSnippet} from 'docs/components/CodeSnippet';
-import {ImportPath} from 'docs/components/ImportPath';
+import { Button, HtmlElement, TextField, Checkbox, Select, LabeledContainer, PureContainer, Menu, Tab } from 'cx/widgets';
+import { ContentPlaceholder, Content, ContentPlaceholderScope } from 'cx/ui';
+import { Md } from 'docs/components/Md';
+import { CodeSplit } from 'docs/components/CodeSplit';
+import { CodeSnippet } from 'docs/components/CodeSnippet';
+import { ImportPath } from 'docs/components/ImportPath';
 
 var AppLayout = <cx>
-    <div style={{height: '200px', width: '300px', display: 'flex', flexDirection: 'column', border: '1px solid black'}}>
-        <header style={{background: "lightblue", padding: '5px'}}>App Header</header>
-        <div style={{flex: 1, display: 'flex', flexDirection: 'row'}}>
-            <aside style={{width: '70px', background: 'white', padding: '5px'}}>
-                <ContentPlaceholder name="sidebar"/>
+    <div style={{ height: '200px', width: '300px', display: 'flex', flexDirection: 'column', border: '1px solid black' }}>
+        <header style={{ background: "lightblue", padding: '5px' }}>App Header</header>
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'row' }}>
+            <aside style={{ width: '70px', background: 'white', padding: '5px' }}>
+                <ContentPlaceholder name="sidebar" />
             </aside>
-            <main style={{flex: 1, padding: '5px'}}>
+            <main style={{ flex: 1, padding: '5px' }}>
                 <ContentPlaceholder /* name="body" */ />
             </main>
         </div>
@@ -49,12 +49,14 @@ export const OuterLayouts = <cx>
             CSS layouts.
 
             <div class="widgets">
-                <div outerLayout={AppLayout}>
-                    <Content for="sidebar">
-                        Nav 1
-                    </Content>
-                    Main 1
-                </div>
+                <ContentPlaceholderScope name={["sidebar", "body"]}>
+                    <div outerLayout={AppLayout}>
+                        <Content for="sidebar">
+                            Nav 1
+                        </Content>
+                        Main 1
+                    </div>
+                </ContentPlaceholderScope>
                 <div outerLayout={AppLayout}>
                     <div putInto="sidebar">
                         Nav 2
@@ -64,36 +66,39 @@ export const OuterLayouts = <cx>
             </div>
 
             <Content name="code">
-                <CodeSnippet fiddle="BzPHusws">{`
-               var AppLayout = <cx>
-                  <div style={{height: '200px', width: '300px', display: 'flex', flexDirection: 'column', border: '1px solid black'}}>
-                     <header style={{background: "lightblue", padding: '5px'}}>App Header</header>
-                     <div style={{flex: 1, display: 'flex', flexDirection: 'row'}}>
-                        <aside style={{width: '70px', background: 'white', padding: '5px'}}>
-                           <ContentPlaceholder name="sidebar" />
-                        </aside>
-                        <main style={{flex: 1, padding: '5px'}}>
-                           <ContentPlaceholder /* name="body" *//>
-                        </main>
-                     </div>
-                  </div>
-               </cx>;
-               ...
-               <div outerLayout={AppLayout}>
-                  <Content for="sidebar">
-                     Nav 1
-                  </Content>
-                  Main 1
-               </div>
-               ...
-               <div outerLayout={AppLayout}>
-                  <Content for="sidebar">
-                     Nav 2
-                  </Content>
-                  Main 2
-               </div>
+                <Tab value-bind="$page.code.tab" mod="code" tab="layout" text="Layout" default/>
+                <Tab value-bind="$page.code.tab" mod="code" tab="widget" text="Widget" default/>
+                <CodeSnippet visible-expr="{$page.code.tab}=='layout'" fiddle="BzPHusws">{`
+                var AppLayout = <cx>
+                    <div style={{height: '200px', width: '300px', display: 'flex', flexDirection: 'column', border: '1px solid black'}}>
+                        <header style={{background: "lightblue", padding: '5px'}}>App Header</header>
+                        <div style={{flex: 1, display: 'flex', flexDirection: 'row'}}>
+                            <aside style={{width: '70px', background: 'white', padding: '5px'}}>
+                            <ContentPlaceholder name="sidebar" />
+                            </aside>
+                            <main style={{flex: 1, padding: '5px'}}>
+                            <ContentPlaceholder /* name="body" *//>
+                            </main>
+                        </div>
+                    </div>
+                </cx>;
+                `}</CodeSnippet>
+                <CodeSnippet visible-expr="{$page.code.tab}=='widget'" fiddle="BzPHusws">{`
+                <div outerLayout={AppLayout}>
+                    <Content for="sidebar">
+                        Nav 1
+                    </Content>
+                    Main 1
+                </div>
+                
+                <div outerLayout={AppLayout}>
+                    <Content for="sidebar">
+                        Nav 2
+                    </Content>
+                    Main 2
+                </div>
 
-            `}</CodeSnippet>
+                `}</CodeSnippet>
             </Content>
         </CodeSplit>
 

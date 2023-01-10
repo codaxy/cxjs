@@ -1,12 +1,15 @@
 // Custom Jest transform implementation that wraps babel-jest and injects our
 // babel presets, so we don't have to use .babelrc.
 
-module.exports = require('babel-jest').createTransformer({
+const babelJestMd = require('babel-jest');
+const babelJest = babelJestMd.__esModule ? babelJestMd.default : babelJestMd;
+
+module.exports = babelJest.createTransformer({
    "presets": [
-      ["@babel/preset-env", {loose: true}]
+      ["@babel/preset-env", { loose: true }]
    ],
    "plugins": [
-      ["@babel/transform-react-jsx", {"pragma": "VDOM.createElement"}],
+      ["@babel/transform-react-jsx", { "runtime": "automatic" }],
       [
          "transform-cx-jsx",
          {

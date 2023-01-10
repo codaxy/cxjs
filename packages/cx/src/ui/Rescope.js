@@ -17,7 +17,7 @@ export class Rescope extends PureContainer {
          store: instance.store,
          binding: this.binding,
          rootName: this.rootName,
-         nestedData: isObject(this.data) ? new StructuredInstanceDataAccessor({ instance, data: this.data }) : null,
+         nestedData: isObject(this.data) ? new StructuredInstanceDataAccessor({ instance, data: this.data, useParentStore: true }) : null,
       });
       instance.setStore = (store) => {
          instance.store.setStore(store);
@@ -25,7 +25,7 @@ export class Rescope extends PureContainer {
    }
 }
 
-Rescope.prototype.bind = "$page";
-Rescope.prototype.rootName = "$root";
+   Rescope.prototype.bind = "$page";
+   Rescope.prototype.rootName = "$root";
 
 Widget.alias("rescope", Rescope);

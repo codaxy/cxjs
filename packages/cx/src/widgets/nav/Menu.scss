@@ -1,8 +1,4 @@
-@mixin cx-menu(
-   $name: "menu",
-   $state-style-map: $cx-menu-state-style-map,
-   $besm: $cx-besm
-) {
+@mixin cx-menu($name: "menu", $state-style-map: $cx-menu-state-style-map, $besm: $cx-besm) {
    $block: map-get($besm, block);
    $element: map-get($besm, element);
    $state: map-get($besm, state);

@@ -1,4 +1,4 @@
-import { HtmlElement } from 'cx/widgets';
+import { Content, HtmlElement, Tab } from 'cx/widgets';
 import { Svg, Rectangle, Text } from 'cx/svg';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
@@ -63,33 +63,35 @@ export const Svgs = <cx>
                     <Text textAnchor="middle" dy="0.4em" style="font-size:10px">0.5 1 1 0.5</Text>
                 </Svg>
             </div>
+            <Content name="code">
+                <Tab value-bind="$page.code1.tab" mod="code" tab="index" text="SVGs" default/>
+                <CodeSnippet fiddle="SRpoMWVY">{`
+                    <Svg style="width:100px;height:100px;background:white;margin:5px">
+                        <Rectangle anchors="0 1 1 0" style="fill:lightblue" />
+                        <Text textAnchor="middle" dy="0.4em" style="font-size:10px">0 1 1 0</Text>
+                    </Svg>
 
-            <CodeSnippet putInto="code" fiddle="SRpoMWVY">{`
-            <Svg style="width:100px;height:100px;background:white;margin:5px">
-               <Rectangle anchors="0 1 1 0" style="fill:lightblue" />
-               <Text textAnchor="middle" dy="0.4em" style="font-size:10px">0 1 1 0</Text>
-            </Svg>
+                    <Svg style="width:100px;height:100px;background:white;margin:5px">
+                        <Rectangle anchors="0.25 0.75 0.75 0.25" style="fill:lightblue" />
+                        <Text textAnchor="middle" dy="0.4em" style="font-size:10px">0.25 0.75 0.75 0.25</Text>
+                    </Svg>
 
-            <Svg style="width:100px;height:100px;background:white;margin:5px">
-               <Rectangle anchors="0.25 0.75 0.75 0.25" style="fill:lightblue" />
-               <Text textAnchor="middle" dy="0.4em" style="font-size:10px">0.25 0.75 0.75 0.25</Text>
-            </Svg>
+                    <Svg style="width:100px;height:100px;background:white;margin:5px">
+                        <Rectangle anchors="0 0.5 1 0" style="fill:lightblue" />
+                        <Text textAnchor="middle" dy="0.4em" style="font-size:10px">0 0.5 1 0</Text>
+                    </Svg>
 
-            <Svg style="width:100px;height:100px;background:white;margin:5px">
-               <Rectangle anchors="0 0.5 1 0" style="fill:lightblue" />
-               <Text textAnchor="middle" dy="0.4em" style="font-size:10px">0 0.5 1 0</Text>
-            </Svg>
+                    <Svg style="width:100px;height:100px;background:white;margin:5px">
+                        <Rectangle anchors="0 1 0.5 0" style="fill:lightblue" />
+                        <Text textAnchor="middle" dy="0.4em" style="font-size:10px">0 1 0.5 0</Text>
+                    </Svg>
 
-            <Svg style="width:100px;height:100px;background:white;margin:5px">
-               <Rectangle anchors="0 1 0.5 0" style="fill:lightblue" />
-               <Text textAnchor="middle" dy="0.4em" style="font-size:10px">0 1 0.5 0</Text>
-            </Svg>
-
-            <Svg style="width:100px;height:100px;background:white;margin:5px">
-               <Rectangle anchors="0.5 1 1 0.5" style="fill:lightblue" />
-               <Text textAnchor="middle" dy="0.4em" style="font-size:10px">0.5 1 1 0.5</Text>
-            </Svg>
-         `}</CodeSnippet>
+                    <Svg style="width:100px;height:100px;background:white;margin:5px">
+                        <Rectangle anchors="0.5 1 1 0.5" style="fill:lightblue" />
+                        <Text textAnchor="middle" dy="0.4em" style="font-size:10px">0.5 1 1 0.5</Text>
+                    </Svg>
+            `}</CodeSnippet>
+            </Content>
         </CodeSplit>
 
         <CodeSplit>
@@ -111,19 +113,37 @@ export const Svgs = <cx>
                 </Svg>
             </div>
 
-            <CodeSnippet putInto="code" fiddle="VYruDPVD">{`
+            <Content name="code">
+                <Tab value-bind="$page.code2.tab" mod="code" tab="offset" text="Offset" default/>
+                <Tab value-bind="$page.code2.tab" mod="code" tab="margin" text="Margin"/>
+
+                <CodeSnippet visible-expr="{$page.code2.tab}=='offset'" fiddle="VYruDPVD">{`
+                <Svg style="width:100px;height:100px;background:white;margin:5px">
+                    <Rectangle anchors="0 1 1 0" offset="5 -5 -5 5" style="fill:lightblue" />
+                    <Text textAnchor="middle" dy="-0.1em" style="font-size:10px">A: 0 1 1 0</Text>
+                    <Text textAnchor="middle" dy="0.9em" style="font-size:10px">O: 5 -5 -5 5</Text>
+                </Svg>
+
+                <Svg style="width:100px;height:100px;background:white;margin:5px">
+                    <Rectangle anchors="0.5 0.5 0.5 0.5" offset="-30 30 30 -30" style="fill:lightblue" />
+                    <Text textAnchor="middle" dy="-0.1em" style="font-size:10px">A: 0.5 0.5 0.5 0.5</Text>
+                    <Text textAnchor="middle" dy="0.9em" style="font-size:10px">O: -30 30 30 -30</Text>
+                </Svg>
+            `}</CodeSnippet>
+            <CodeSnippet visible-expr="{$page.code2.tab}=='margin'" fiddle="MzQrRNpT">{`
             <Svg style="width:100px;height:100px;background:white;margin:5px">
-               <Rectangle anchors="0 1 1 0" offset="5 -5 -5 5" style="fill:lightblue" />
-               <Text textAnchor="middle" dy="-0.1em" style="font-size:10px">A: 0 1 1 0</Text>
-               <Text textAnchor="middle" dy="0.9em" style="font-size:10px">O: 5 -5 -5 5</Text>
+                <Rectangle anchors="0 1 1 0" margin={5} style="fill:lightblue" />
+                <Text textAnchor="middle" dy="-0.1em" style="font-size:10px">A: 0 1 1 0</Text>
+                <Text textAnchor="middle" dy="0.9em" style="font-size:10px">M: 5</Text>
             </Svg>
 
             <Svg style="width:100px;height:100px;background:white;margin:5px">
-               <Rectangle anchors="0.5 0.5 0.5 0.5" offset="-30 30 30 -30" style="fill:lightblue" />
-               <Text textAnchor="middle" dy="-0.1em" style="font-size:10px">A: 0.5 0.5 0.5 0.5</Text>
-               <Text textAnchor="middle" dy="0.9em" style="font-size:10px">O: -30 30 30 -30</Text>
+                <Rectangle anchors="0.5 0.5 0.5 0.5" margin={-30} style="fill:lightblue" />
+                <Text textAnchor="middle" dy="-0.1em" style="font-size:10px">A: 0.5 0.5 0.5 0.5</Text>
+                <Text textAnchor="middle" dy="0.9em" style="font-size:10px">M: -30</Text>
             </Svg>
          `}</CodeSnippet>
+         </Content>
         </CodeSplit>
 
         <CodeSplit>
@@ -146,20 +166,6 @@ export const Svgs = <cx>
                     <Text textAnchor="middle" dy="0.9em" style="font-size:10px">M: -30</Text>
                 </Svg>
             </div>
-
-            <CodeSnippet putInto="code" fiddle="MzQrRNpT">{`
-            <Svg style="width:100px;height:100px;background:white;margin:5px">
-               <Rectangle anchors="0 1 1 0" margin={5} style="fill:lightblue" />
-               <Text textAnchor="middle" dy="-0.1em" style="font-size:10px">A: 0 1 1 0</Text>
-               <Text textAnchor="middle" dy="0.9em" style="font-size:10px">M: 5</Text>
-            </Svg>
-
-            <Svg style="width:100px;height:100px;background:white;margin:5px">
-               <Rectangle anchors="0.5 0.5 0.5 0.5" margin={-30} style="fill:lightblue" />
-               <Text textAnchor="middle" dy="-0.1em" style="font-size:10px">A: 0.5 0.5 0.5 0.5</Text>
-               <Text textAnchor="middle" dy="0.9em" style="font-size:10px">M: -30</Text>
-            </Svg>
-         `}</CodeSnippet>
         </CodeSplit>
 
         ## Aspect Ratio
@@ -175,12 +181,15 @@ export const Svgs = <cx>
             </div>
 
             In this example, the height of the rectangle is exactly four times smaller than its width.
-
-            <CodeSnippet putInto="code">{`
-                <Svg style="width:100%" aspectRatio={4} autoHeight>
-                    <Rectangle anchors="0 1 1 0" style="fill:lightblue"/>
-                </Svg>
-            `}</CodeSnippet>
+            
+            <Content name="code">
+                <Tab value-bind="$page.code1.tab" mod="code" tab="index" text="Aspect Rations" default/>
+                <CodeSnippet>{`
+                    <Svg style="width:100%" aspectRatio={4} autoHeight>
+                        <Rectangle anchors="0 1 1 0" style="fill:lightblue"/>
+                    </Svg>
+                `}</CodeSnippet>
+            </Content>
         </CodeSplit>
 
         ## Configuration

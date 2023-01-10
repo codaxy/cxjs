@@ -107,16 +107,19 @@ export class Tooltip extends Dropdown {
    }
 
    dismissTooltip(instance) {
-      if (instance && instance.dismissTooltip) {
-         if (
-            instance.data &&
-            instance.data.alwaysVisible &&
-            this.relatedElement.ownerDocument.body.contains(this.relatedElement)
-         )
-            return;
-         instance.dismissTooltip();
-         instance.dismissTooltip = null;
-      }
+      if (!instance || !instance.dismissTooltip) return;
+      if (
+         instance.data &&
+         instance.data.alwaysVisible &&
+         this.relatedElement.ownerDocument.body.contains(this.relatedElement)
+      )
+         return;
+      instance.dismissTooltip();
+      instance.dismissTooltip = null;
+   }
+
+   dismissAfterScroll(data, instance) {
+      this.dismissTooltip(instance);
    }
 
    checkVisible(context, instance, data) {
@@ -160,7 +163,12 @@ export function getTooltipInstance(e, parentInstance, tooltip, options = {}) {
       return;
    }
 
-   if (tooltipInstance && (tooltipInstance.widget.relatedElement != target || tooltipInstance.config != tooltip)) {
+   if (
+      tooltipInstance &&
+      (tooltipInstance.widget.relatedElement != target ||
+         tooltipInstance.config != tooltip ||
+         tooltipInstance.store.store != parentInstance.store)
+   ) {
       if (tooltipInstance.dismissTooltip) tooltipInstance.dismissTooltip();
       delete parentInstance.tooltips[name];
       tooltipInstance = null;

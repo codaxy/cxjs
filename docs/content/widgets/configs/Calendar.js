@@ -87,5 +87,12 @@ export default {
         description: <cx><Md>
             Defines which days of week should be displayed as disabled, i.e. `[0, 6]` will make Sunday and Saturday unselectable.
         </Md></cx>
+    },
+    dayData: {
+        type: 'object',
+        description: <cx><Md>
+        Map of days to additional day information such as `style`, `className`, `mod`, `unselectable` and `disabled`.
+        Keys for the map should be created with `date.toDateString()`.
+        </Md></cx>
     }
 };

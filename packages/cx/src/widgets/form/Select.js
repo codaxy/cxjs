@@ -1,6 +1,6 @@
 import { Widget, VDOM, getContent } from "../../ui/Widget";
 import { HtmlElement } from "../HtmlElement";
-import { Field, getFieldTooltip, autoFocus } from "./Field";
+import { Field, getFieldTooltip } from "./Field";
 import {
    tooltipParentWillReceiveProps,
    tooltipParentWillUnmount,
@@ -16,6 +16,7 @@ import { Localization } from "../../ui/Localization";
 import { isString } from "../../util/isString";
 import { isDefined } from "../../util/isDefined";
 import { KeyCode } from "../../util/KeyCode";
+import { autoFocus } from "../autoFocus";
 
 export class Select extends Field {
    declareData() {

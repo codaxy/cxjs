@@ -8,6 +8,7 @@ import { parseStyle } from "../../util/parseStyle";
 export class LinkButton extends Button {
    init() {
       this.activeStyle = parseStyle(this.activeStyle);
+      this.inacativeStyle = parseStyle(this.inactiveStyle);
       super.init();
    }
 
@@ -19,6 +20,8 @@ export class LinkButton extends Button {
             active: undefined,
             activeClass: undefined,
             activeStyle: undefined,
+            inactiveClass: undefined,
+            inactiveStyle: undefined
          },
          ...arguments
       );
@@ -51,6 +54,13 @@ export class LinkButton extends Button {
             data.style = {
                ...data.style,
                ...parseStyle(data.activeStyle),
+            };
+      } else {
+         if (data.inactiveClass) data.classNames += " " + data.inactiveClass;
+         if (data.inactiveStyle)
+            data.style = {
+               ...data.style,
+               ...parseStyle(data.inactiveStyle),
             };
       }
    }
@@ -85,6 +95,8 @@ export class LinkButton extends Button {
       delete props.active;
       delete props.activeClass;
       delete props.activeStyle;
+      delete props.inactiveClass;
+      delete props.inactiveStyle;
    }
 
    isValidHtmlAttribute(attr) {

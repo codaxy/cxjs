@@ -66,8 +66,9 @@ export const TimeList = createFunctionalComponent(({ value, step, format, encodi
                               {...props}
                               onItemClick={(e, instance) => {
                                  if (!onSelect) return;
-                                 if (isString(onSelect)) instance.invokeControllerMethod(onSelect, e, instance);
-                                 else if (isFunction(onSelect)) onSelect(e, instance);
+                                 let date = new Date(instance.store.get('$value'));
+                                 if (isString(onSelect)) instance.invokeControllerMethod(onSelect, e, instance, date);
+                                 else if (isFunction(onSelect)) onSelect(e, instance, date);
                               }}
                            >
                               <div text-bind="$time.text" />

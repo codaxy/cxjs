@@ -1,10 +1,10 @@
-import {Cx} from './Cx';
-import {VDOM} from "./VDOM";
-import {Container} from "./Container";
-import {Store} from '../data/Store';
+import { Cx } from './Cx';
+import { VDOM } from "./VDOM";
+import { Container } from "./Container";
+import { Store } from '../data/Store';
 import renderer from 'react-test-renderer';
 import assert from 'assert';
-import {HtmlElement} from "../widgets/HtmlElement";
+import { HtmlElement } from "../widgets/HtmlElement";
 
 describe('Cx', () => {
 
@@ -16,7 +16,7 @@ describe('Cx', () => {
       let store = new Store();
 
       const component = renderer.create(
-         <Cx widget={widget} store={store} subscribe immediate/>
+         <Cx widget={widget} store={store} subscribe immediate />
       );
 
       let tree = component.toJSON();
@@ -25,6 +25,47 @@ describe('Cx', () => {
          props: {},
          children: ["Test"]
       })
+   });
+
+   it('store changes preserve the instance', () => {
+
+      let instanceLog = [];
+      let storeLog = [];
+
+      let widget = <cx>
+         <div text-bind="text" onExplore={(context, instance) => {
+            instanceLog.push(instance);
+            storeLog.push(instance.store);
+         }} />
+      </cx>;
+
+      let store1 = new Store({ data: { text: 'Test1' } });
+      let store2 = new Store({ data: { text: 'Test2' } });
+
+      const component = renderer.create(
+         <Cx widget={widget} store={store1} subscribe immediate />
+      );
+
+      let tree1 = component.toJSON();
+      assert.deepEqual(tree1, {
+         type: 'div',
+         props: {},
+         children: ["Test1"]
+      });
+
+      component.update(<Cx widget={widget} store={store2} subscribe immediate />);
+
+      let tree2 = component.toJSON();
+      assert.deepEqual(tree2, {
+         type: 'div',
+         props: {},
+         children: ["Test2"]
+      });
+
+      assert.equal(instanceLog.length, 2);
+      assert.equal(instanceLog[0], instanceLog[1]); //store changes should preserve the instance
+      assert(storeLog[0] === store1);
+      assert(storeLog[1] === store2);
    });
 
    it('invokes lifetime methods in the right order', () => {
@@ -76,7 +117,7 @@ describe('Cx', () => {
       let store = new Store();
 
       const component = renderer.create(
-         <Cx widget={widget} store={store} subscribe immediate/>
+         <Cx widget={widget} store={store} subscribe immediate />
       );
 
       let tree = component.toJSON();

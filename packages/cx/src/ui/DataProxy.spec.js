@@ -289,4 +289,47 @@ describe("DataProxy", () => {
       let tree = component.toJSON();
       assert.equal(value, 5);
    });
+
+   it("correctly propagates undefined values over a previous value (bug)", () => {
+      let widget = (
+         <cx>
+            <DataProxy
+               data={{
+                  $value: { bind: "value" },
+               }}
+            >
+               <span text-bind="$value" />
+            </DataProxy>
+            <DataProxy
+               data={{
+                  $value: { bind: "dummy" },
+               }}
+            >
+               <span text-bind="$value" />
+            </DataProxy>
+         </cx>
+      );
+
+      let store = new Store({
+         data: {
+            value: "initial",
+         },
+      });
+
+      const component = renderer.create(<Cx widget={widget} store={store} subscribe immediate />);
+
+      let tree = component.toJSON();
+
+      assert.deepEqual(tree, [{
+         type: "span",
+         props: {},
+         children: ["initial"],
+      }, {
+         type: "span",
+         props: {},
+         children: null,
+      }]);
+   });
+
+
 });

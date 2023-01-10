@@ -10,6 +10,7 @@ import { isDefined } from "../../util/isDefined";
 import { isString } from "../../util/isString";
 import { ResizeManager } from "../../ui/ResizeManager";
 import { MenuSpacer } from "./MenuSpacer";
+import { isTextInputElement } from "../../util";
 
 /*
  Functionality:
@@ -78,11 +79,11 @@ export class Menu extends HtmlElement {
    }
 
    add(item) {
-      if (item && item.tag == "a") {
+      if (item && (item.tag == "a" || item.tag == "hr")) {
          let mi = {
             type: MenuItem,
             items: item,
-            autoClose: true,
+            autoClose: item.tag == "a",
          };
 
          if (isDefined(item.if)) mi.if = item.if;
@@ -151,12 +152,7 @@ class MenuComponent extends VDOM.Component {
                let key = content && typeof content == "object" && content.key ? content.key : index;
 
                if (content && content.spacer) {
-                  return (
-                     widget.horizontal &&
-                     index < this.state.nonOverflownItemCount && (
-                        <li className={CSS.element(baseClass, "spacer")} key={key} />
-                     )
-                  );
+                  return widget.horizontal && <li className={CSS.element(baseClass, "spacer")} key={key} />;
                }
 
                return (
@@ -189,6 +185,9 @@ class MenuComponent extends VDOM.Component {
    }
 
    onKeyDown(e) {
+      //ignore the event if it comes from an input element
+      if (isTextInputElement(e.target)) return;
+
       let { instance } = this.props;
       let { widget } = instance;
 

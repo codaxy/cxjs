@@ -1,4 +1,4 @@
-import { Content, HtmlElement, Checkbox, TextField, Radio, Repeater, Sandbox, Text, Slider } from 'cx/widgets';
+import { Content, HtmlElement, Checkbox, TextField, Radio, Repeater, Sandbox, Text, Slider, Tab } from 'cx/widgets';
 import { LabelsLeftLayout, Rescope, DataProxy, computable, LabelsTopLayout } from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
@@ -50,13 +50,16 @@ export const DataViews = <cx>
             </div>
 
             <Content name="code">
-                <CodeSnippet fiddle="F3RHqb0x">{`
+                <Tab value-bind="$page.code1.tab"  mod="code" tab="controller"  text="Controller" default />
+                <Tab value-bind="$page.code1.tab"  mod="code" tab="code"  text="Repeater" default />
+                <CodeSnippet visible-expr="{$page.code1.tab}=='controller'" fiddle="F3RHqb0x">{`
                     store.set('intro.core.items', [
                         { text: 'A', checked: false },
                         { text: 'B', checked: false },
                         { text: 'C', checked: false }
                     ]);
-                    ...
+                `}</CodeSnippet>
+                <CodeSnippet visible-expr="{$page.code1.tab}=='code'" fiddle="F3RHqb0x">{`
                     <Repeater records-bind="intro.core.items">
                         <Checkbox value-bind="$record.checked" text-bind="$record.text" />
                         <br/>
@@ -90,7 +93,8 @@ export const DataViews = <cx>
             </div>
 
             <Content name="code">
-                <CodeSnippet >{`
+            <Tab value-bind="$page.code2.tab"  mod="code" tab="code"  text="Repeater" default />
+                <CodeSnippet visible-expr="{$page.code2.tab}=='code'" fiddle="wQzsdIx1">{`
                     <Repeater 
                         records-bind="intro.core.items" 
                         sortField="text"
@@ -146,37 +150,40 @@ export const DataViews = <cx>
                     </Rescope>
                 </div>
             </div>
-
-            <CodeSnippet putInto="code" fiddle="110OL8gu">{`
-                <div>
-                    <div preserveWhitespace>
-                        <Radio value={{bind: "$page.place", defaultValue: "winner"}} option="winner">1st Place</Radio>
-                        <Radio value-bind="$page.place" option="second">2nd Place</Radio>
-                        <Radio value-bind="$page.place" option="third">3rd Place</Radio>
+            <Content name="code">
+                <Tab value-bind="$page.code4.tab"  mod="code" tab="code"  text="Sandbox" default />
+                <CodeSnippet fiddle="110OL8gu">{`
+                    <div>
+                        <div preserveWhitespace>
+                            <Radio value={{bind: "$page.place", defaultValue: "winner"}} option="winner">1st Place</Radio>
+                            <Radio value-bind="$page.place" option="second">2nd Place</Radio>
+                            <Radio value-bind="$page.place" option="third">3rd Place</Radio>
+                        </div>
+                        <hr/>
+                        <Sandbox key-bind="$page.place" storage-bind="$page.results" recordAlias="$contestant">
+                            <div layout={LabelsLeftLayout}>
+                                <TextField value-bind="$contestant.firstName" label="First Name"/>
+                                <TextField value-bind="$contestant.lastName" label="Last Name"/>
+                            </div>
+                        </Sandbox>
                     </div>
-                    <hr/>
-                    <Sandbox key-bind="$page.place" storage-bind="$page.results" recordAlias="$contestant">
-                        <div layout={LabelsLeftLayout}>
-                            <TextField value-bind="$contestant.firstName" label="First Name"/>
-                            <TextField value-bind="$contestant.lastName" label="Last Name"/>
-                        </div>
-                    </Sandbox>
-                </div>
-                <div style="width:200px">
-                    <strong>Results</strong>
-                    <Rescope bind="$page.results">
-                        <div>
-                            1. <Text tpl="{winner.firstName} {winner.lastName}" />
-                        </div>
-                        <div>
-                            2. <Text tpl="{second.firstName} {second.lastName}" />
-                        </div>
-                        <div>
-                            3. <Text tpl="{third.firstName} {third.lastName}" />
-                        </div>
-                    </Rescope>
-                </div>
-            `}</CodeSnippet>
+                    <div style="width:200px">
+                        <strong>Results</strong>
+                        <Rescope bind="$page.results">
+                            <div>
+                                1. <Text tpl="{winner.firstName} {winner.lastName}" />
+                            </div>
+                            <div>
+                                2. <Text tpl="{second.firstName} {second.lastName}" />
+                            </div>
+                            <div>
+                                3. <Text tpl="{third.firstName} {third.lastName}" />
+                            </div>
+                        </Rescope>
+                    </div>
+                `}</CodeSnippet>
+            </Content>       
+            
 
             `Sandbox` is commonly used in single page applications to isolate data belonging to
             different pages being identified by the URL address. For the list of configuration properties, see the [Router docs](~/concepts/router#sandbox).
@@ -217,21 +224,24 @@ export const DataViews = <cx>
                         </LabelsTopLayout>
                     </DataProxy>
                 </div>
-                <CodeSnippet putInto="code">{`
-                    <div class="widgets flex-row">
-                        <LabelsTopLayout>
-                            <Slider value-bind="level" label="Level" />
-                        </LabelsTopLayout>  
-                        <DataProxy
-                            value-bind="level"
-                            alias="$level"
-                        >
+                <Content name="code">
+                    <Tab value-bind="$page.code5.tab"  mod="code" tab="code"  text="DataProxy" default />
+                    <CodeSnippet fiddle="YwPbwL8u">{`
+                        <div class="widgets flex-row">
                             <LabelsTopLayout>
-                                <Slider value-bind="$level" label="Level alias" />
-                            </LabelsTopLayout>
-                        </DataProxy>
-                    </div>
-                `}</CodeSnippet>
+                                <Slider value-bind="level" label="Level" />
+                            </LabelsTopLayout>  
+                            <DataProxy
+                                value-bind="level"
+                                alias="$level"
+                            >
+                                <LabelsTopLayout>
+                                    <Slider value-bind="$level" label="Level alias" />
+                                </LabelsTopLayout>
+                            </DataProxy>
+                        </div>
+                    `}</CodeSnippet>
+                </Content>
             </CodeSplit>
         </Rescope>
         ### Defining multiple aliases
@@ -273,8 +283,9 @@ export const DataViews = <cx>
                         </div>
                     </DataProxy>
                 </div>
-
-                <CodeSnippet putInto="code" fiddle="2HxXBe43">{`
+                <Content name="code">
+                <Tab value-bind="$page.code6.tab"  mod="code" tab="code"  text="DataProxy" default />
+                <CodeSnippet fiddle="2HxXBe43">{`
                     <div class="widgets flex-row flex-start">  
                         <LabelsTopLayout>
                             <Slider value-bind="level" label="Level" />
@@ -300,6 +311,7 @@ export const DataViews = <cx>
                         </DataProxy>
                     </div>
                 `}</CodeSnippet>
+                </Content>
 
                 If mapping is done in both directions (both getter and setter are used), it is important that both operations are reversible, without any data loss. 
                 This means, for any alias value, we should be able to get back all of the store values that were used to calculate it. 

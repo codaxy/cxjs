@@ -1,5 +1,5 @@
 import { Widget, VDOM, getContent } from "../../ui/Widget";
-import { Field, getFieldTooltip, autoFocus } from "./Field";
+import { Field, getFieldTooltip } from "./Field";
 import { Format } from "../../ui/Format";
 import { Culture } from "../../ui/Culture";
 import { StringTemplate } from "../../data/StringTemplate";
@@ -20,6 +20,7 @@ import { isDefined } from "../../util/isDefined";
 
 import { enableCultureSensitiveFormatting } from "../../ui/Format";
 import { KeyCode } from "../../util/KeyCode";
+import { autoFocus } from "../autoFocus";
 
 enableCultureSensitiveFormatting();
 
@@ -27,7 +28,7 @@ export class NumberField extends Field {
    declareData() {
       super.declareData(
          {
-            value: null,
+            value: this.emptyValue,
             disabled: undefined,
             readOnly: undefined,
             enabled: undefined,
@@ -36,6 +37,7 @@ export class NumberField extends Field {
             format: undefined,
             minValue: undefined,
             maxValue: undefined,
+            constrain: undefined,
             minExclusive: undefined,
             maxExclusive: undefined,
             incrementPercentage: undefined,
@@ -313,7 +315,7 @@ class Input extends VDOM.Component {
    onClearClick(e) {
       this.input.value = "";
       let { instance } = this.props;
-      instance.set("value", instance.widget.emptyValue, { immedate: true });
+      instance.set("value", instance.widget.emptyValue, { immediate: true });
    }
 
    onKeyDown(e) {
@@ -342,18 +344,17 @@ class Input extends VDOM.Component {
          });
       }
 
-      if (widget.reactOn.indexOf(change) == -1 || data.disabled || data.readOnly) return;
-
-      let immedate = change == "blur" || change == "enter";
-
-      if (immedate) instance.setState({ visited: true });
-
-      if (change == "blur") {
-         if (this.state.focus)
-            this.setState({
-               focus: false,
-            });
+      if (change == "blur" && this.state.focus) {
+         this.setState({
+            focus: false,
+         });
       }
+
+      let immediate = change == "blur" || change == "enter";
+
+      if ((widget.reactOn.indexOf(change) == -1 && !immediate) || data.disabled || data.readOnly) return;
+
+      if (immediate) instance.setState({ visited: true });
 
       let value = null;
 
@@ -394,6 +395,20 @@ class Input extends VDOM.Component {
             }
          }
 
+         if (data.constrain) {
+            if (data.minValue != null) {
+               if (value < data.minValue) {
+                  value = data.minValue;
+               }
+            }
+
+            if (data.maxValue != null) {
+               if (value > data.maxValue) {
+                  value = data.maxValue;
+               }
+            }
+         }
+
          let fmt = data.format;
          let decimalSeparator = this.getDecimalSeparator(fmt) || Format.value(1.1, "n;1")[1];
 
@@ -423,7 +438,7 @@ class Input extends VDOM.Component {
          }
       }
 
-      instance.set("value", value, { immedate });
+      instance.set("value", value, { immediate });
 
       instance.setState({
          inputError: false,

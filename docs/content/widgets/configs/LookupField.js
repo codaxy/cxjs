@@ -154,7 +154,7 @@ export default {
         type: 'array',
         description: <cx><Md>
             An array of mappings between options and value fields. Use this property to pass additional options to the selection.
-            [See example](~/examples/lookup/custom-bindings).
+            [See example](~/examples/form/custom-lookup-bindings).
         </Md></cx>
     },
     sort: {
@@ -196,5 +196,42 @@ export default {
         description: <cx><Md>
             Value to be written in the store when the field is empty. Default value is `null`;
         </Md></cx>
-    }
+    },
+
+    infinite: {
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to enable loading of additional lookup options through scrolling.
+        </Md></cx>
+    },
+
+    pageSize: {
+        type: 'number',
+        description: <cx><Md>
+            Number of additional items to be loaded in `infinite` mode. Default is 100.
+        </Md></cx>
+    },
+
+    quickSelectAll: {
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to allow quick selection of all displayed lookup items on `ctrl + a` keys combination.
+        </Md></cx>
+    },
+
+    filterParams: {
+        type: 'object',
+        description: <cx><Md>
+            Parameters which will be passed to the onCreateFilter callback.
+        </Md></cx>
+    },
+
+    onCreateVisibleOptionsFilter: {
+        type: "function",
+        description: <cx><Md>
+            Callback function used to create a filter. The function accepts `filterParams` as a first argument and
+            it should return a predicate function used to filter the records.
+            Callback is invoked on every `filterParams` change, if latter is specified.
+        </Md></cx>
+    },
 };

@@ -1,13 +1,13 @@
-import { HtmlElement, Text, TextField } from 'cx/widgets';
-import { LabelsLeftLayout, bind } from 'cx/ui';
-import {Md} from '../../components/Md';
-import {CodeSplit} from '../../components/CodeSplit';
-import {CodeSnippet} from '../../components/CodeSnippet';
-import {ConfigTable} from '../../components/ConfigTable';
-import {ImportPath} from '../../components/ImportPath';
-
-
+import { Content, LabelsLeftLayout } from 'cx/ui';
+import { Tab, Text, TextField } from 'cx/widgets';
+import { CodeSnippet } from '../../components/CodeSnippet';
+import { CodeSplit } from '../../components/CodeSplit';
+import { ConfigTable } from '../../components/ConfigTable';
+import { ImportPath } from '../../components/ImportPath';
+import { Md } from '../../components/Md';
 import configs from './configs/Text';
+
+
 
 const style = { 
     backgroundColor: "darkseagreen",
@@ -40,7 +40,13 @@ export const Texts = <cx>
             </div>
          </div>
 
-         <CodeSnippet putInto="code" >{`
+        <Content name="code">
+           
+            <Tab value-bind="$page.code.tab" tab="style" mod="code" text="Style"/>
+
+            <Tab value-bind="$page.code.tab" tab="text" mod="code" text="Text" default />
+            
+        <CodeSnippet visible-expr="{$page.code.tab}=='style'" fiddle="qgxBwygW" >{`
             const style = { 
                 backgroundColor: "darkseagreen",
                 color: "white",
@@ -48,8 +54,10 @@ export const Texts = <cx>
                 padding: 5,
                 textAlign: "center"
             };
-            ...
-            
+
+            `}</CodeSnippet>
+
+             <CodeSnippet visible-expr="{$page.code.tab}=='text'" fiddle="qgxBwygW" >{`
             <TextField label="User name" value={{bind: '$page.username', defaultValue: "Jane" }} />
             
             <div style={style} text-tpl="Hello, {$page.username|guest}!">
@@ -62,6 +70,7 @@ export const Texts = <cx>
                 Other static content.
             </div>
          `}</CodeSnippet>
+            </Content>
       </CodeSplit>
 
       A common use-case is when we want to define inner text content of an element that also contains other child components.

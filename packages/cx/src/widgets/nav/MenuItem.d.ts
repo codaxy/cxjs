@@ -1,4 +1,5 @@
 import * as Cx from "../../core";
+import { Instance } from "../../ui";
 import { KeyboardShortcut } from "../../ui/keyboardShortcuts";
 
 export interface MenuItemProps extends Cx.HtmlElementProps {
@@ -16,9 +17,15 @@ export interface MenuItemProps extends Cx.HtmlElementProps {
    placementOrder?: string;
    autoClose?: boolean;
    icons?: boolean;
+   icon?: Cx.StringProp;
    keyboardShortcut?: KeyboardShortcut;
    tooltip?: string | Cx.Config;
    openOnFocus?: boolean;
+   disabled?: Cx.BooleanProp;
+   checked?: Cx.BooleanProp;
+
+   /** Confirmation text or configuration object. See MsgBox.yesNo for more details. */
+   confirm?: Cx.Prop<string | Cx.Config>;
 }
 
 export class MenuItem extends Cx.Widget<MenuItemProps> {}

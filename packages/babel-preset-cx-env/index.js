@@ -1,20 +1,27 @@
 module.exports = function (context) {
-   var opts = arguments[1] || {
-         modules: false
-      };
+   let opts = arguments[1] || {
+      modules: false
+   };
 
-   var pragma = opts.pragma || "VDOM.createElement";
-   var imports = !opts.cx || typeof opts.cx.imports == 'undefined' ? true : opts.cx.imports;
-   var plugins = [];
+   let reactJsxOptions = {
+      "runtime": "automatic"
+   };
+
+   if (opts.pragma) {
+      reactJsxOptions = {
+         pragma: opts.pragma
+      };
+   }
+
+   let cx = opts.cx || {};
+   let imports = typeof cx.imports == 'undefined' ? true : cx.imports;
+   let plugins = [];
 
    plugins.push(
       '@babel/proposal-class-properties',
-      '@babel/proposal-object-rest-spread',
       '@babel/proposal-function-bind',
-      'transform-cx-jsx',
-      '@babel/transform-parameters',
-      '@babel/syntax-dynamic-import',
-      ["@babel/transform-react-jsx", {"pragma": pragma}]
+      ['transform-cx-jsx', cx.jsx],
+      ["@babel/transform-react-jsx", reactJsxOptions]
    );
 
    if (imports !== false) {

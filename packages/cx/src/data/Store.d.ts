@@ -1,12 +1,12 @@
-import {View, ViewConfig} from './View';
+import { View, ViewConfig } from "./View";
 
-interface StoreConfig extends ViewConfig {
+interface StoreConfig<D = any> extends ViewConfig {
    async?: boolean;
-   data?: any;
+   data?: D;
 }
 
-export class Store extends View {
-   constructor(config?: StoreConfig);
+export class Store<D = any> extends View<D> {
+   constructor(config?: StoreConfig<D>);
 
    unsubscribeAll(): void;
 

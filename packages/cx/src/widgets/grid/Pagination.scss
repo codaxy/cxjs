@@ -1,6 +1,5 @@
-
 @mixin cx-pagination(
-   $name: 'pagination',
+   $name: "pagination",
    $state-style-map: $cx-grid-pagination-state-style-map,
    $icon-size: $cx-default-icon-size,
    $besm: $cx-besm
@@ -32,7 +31,7 @@
 
    .#{$element}#{$name}-page {
       display: inline-block;
-      box-sizing: border-box;      
+      box-sizing: border-box;
       border-style: solid;
       margin-left: -1px;
       text-decoration: none;
@@ -47,27 +46,27 @@
       position: relative;
 
       &:first-child {
-         border-top-left-radius: $cx-default-border-radius;
-         border-bottom-left-radius: $cx-default-border-radius;
+         border-top-left-radius: $cx-grid-pagination-default-outer-border-radius;
+         border-bottom-left-radius: $cx-grid-pagination-default-outer-border-radius;
 
          &:after {
-            content: '<';
+            content: "<";
             visibility: hidden;
          }
       }
 
       &:last-child {
-         border-top-right-radius: $cx-default-border-radius;
-         border-bottom-right-radius: $cx-default-border-radius;
+         border-top-right-radius: $cx-grid-pagination-default-outer-border-radius;
+         border-bottom-right-radius: $cx-grid-pagination-default-outer-border-radius;
 
          &:after {
-            content: '>';
+            content: ">";
             visibility: hidden;
          }
       }
 
       &:hover {
-        @include cx-add-state-rules($state-style-map, hover);
+         @include cx-add-state-rules($state-style-map, hover);
 
          &:focus {
             @include cx-add-state-rules($state-style-map, cursor);
@@ -80,7 +79,7 @@
 
       &.#{$state}active {
          @include cx-add-state-rules($state-style-map, selected);
-        
+
          .#{$block}#{$name}:focus > & {
             @include cx-add-state-rules($state-style-map, selected-cursor);
          }
@@ -109,6 +108,6 @@
    }
 }
 
-@if (cx-should-include('cx/widgets/Pagination')) {
+@if (cx-should-include("cx/widgets/Pagination")) {
    @include cx-pagination();
 }

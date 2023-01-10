@@ -1,11 +1,12 @@
 {
   "name": "create-cx-app",
-  "version": "17.10.7",
+  "version": "21.7.0",
   "description": "Utility app to support `yarn create` command",
   "main": "./index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "execute": "cx"
+    "execute": "cx",
+    "test-create": "node index.js test-create"
   },
   "repository": {
     "type": "git",
@@ -18,7 +19,7 @@
     "template"
   ],
   "dependencies": {
-    "cx-cli": "19.7.0"
+    "cx-cli": "21.6.2"
   },
   "engines": {
     "node": ">=4.0.0"

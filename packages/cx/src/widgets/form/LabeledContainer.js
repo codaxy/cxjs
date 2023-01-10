@@ -54,4 +54,6 @@ export class LabeledContainer extends FieldGroup
    }
 }
 
+LabeledContainer.prototype.styled = true;
+
 Widget.alias('labeled-container', LabeledContainer);

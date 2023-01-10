@@ -1,4 +1,4 @@
-import { HtmlElement, ProgressBar, Slider } from 'cx/widgets';
+import { Content, HtmlElement, ProgressBar, Slider, Tab } from 'cx/widgets';
 import { LabelsLeftLayout, bind } from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
@@ -19,14 +19,19 @@ export const ProgressBars = <cx>
 
       <CodeSplit>
          <div class="widgets">
-            <ProgressBar text:tpl="{$page.value:p;0}" value:bind='$page.value' />
-            <Slider value:bind='$page.value' maxValue={1} />
+            <ProgressBar text-tpl="{$page.value:p;0}" value-bind='$page.value' />
+            <Slider value-bind='$page.value' maxValue={1} />
          </div>
 
-         <CodeSnippet putInto="code" >{`
-            <ProgressBar text:tpl="{$page.value:p;0}" value:bind='$page.value' />
-            <Slider value:bind='$page.value' maxValue={1} />
-         `}</CodeSnippet>
+         <Content name="code">
+            <div>
+               <Tab value-bind="$page.code.tab" tab="progressbar" mod="code" text="ProgressBar" default />
+            </div>
+            <CodeSnippet fiddle="JSuNm76v" visible-expr="{$page.code.tab}=='progressbar'" >{`
+               <ProgressBar text-tpl="{$page.value:p;0}" value-bind='$page.value' />
+               <Slider value-bind='$page.value' maxValue={1} />
+            `}</CodeSnippet>
+         </Content>
       </CodeSplit>
 
       ## Configuration

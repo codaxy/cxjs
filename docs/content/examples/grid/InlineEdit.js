@@ -1,4 +1,4 @@
-import {HtmlElement, TextField, Checkbox, Grid} from 'cx/widgets';
+import {HtmlElement, TextField, Checkbox, Grid, Tab} from 'cx/widgets';
 import {Content, Controller} from 'cx/ui';
 import {Md} from '../../../components/Md';
 import {CodeSplit} from '../../../components/CodeSplit';
@@ -28,7 +28,7 @@ export const InlineEdit = <cx>
             Grid supports arbitrary content inside its cells. Any widget or even a chart can be put inside it.
 
             <Grid
-                records:bind='$page.records'
+                records-bind='$page.records'
                 style={{width: "100%"}}
                 columns={[
                     {
@@ -37,14 +37,14 @@ export const InlineEdit = <cx>
                         sortable: true,
                         style: 'border:none',
                         items: <cx>
-                            <TextField value:bind="$record.fullName" style={{width: '100%'}}/>
+                            <TextField value-bind="$record.fullName" style={{width: '100%'}}/>
                         </cx>
                     }, {
                         header: 'Phone',
                         field: 'phone',
                         style: 'border:none',
                         items: <cx>
-                            <TextField value:bind="$record.phone" style={{width: '100%'}}/>
+                            <TextField value-bind="$record.phone" style={{width: '100%'}}/>
                         </cx>
                     }, {
                         header: 'City',
@@ -52,7 +52,7 @@ export const InlineEdit = <cx>
                         style: 'border:none',
                         sortable: true,
                         items: <cx>
-                            <TextField value:bind="$record.city" style={{width: '100%'}}/>
+                            <TextField value-bind="$record.city" style={{width: '100%'}}/>
                         </cx>
                     }, {
                         header: 'Notified',
@@ -62,14 +62,17 @@ export const InlineEdit = <cx>
                         align: 'center',
                         pad: false,
                         items: <cx>
-                            <Checkbox value:bind="$record.notified"/>
+                            <Checkbox value-bind="$record.notified"/>
                         </cx>
                     }
                 ]}
             />
 
             <Content name="code">
-                <CodeSnippet fiddle="wK09BHnM">{`
+                <Tab value-bind="$page.code.tab" mod="code" tab="controller" text="Controller" default/>
+                <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Index" default/>
+
+                <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="wK09BHnM">{`
                 class PageController extends Controller {
                     init() {
                         super.init();
@@ -83,9 +86,11 @@ export const InlineEdit = <cx>
                         })));
                     }
                 }
-                ...
+            `}
+                </CodeSnippet>
+                <CodeSnippet visible-expr="{$page.code.tab}=='index'" fiddle="wK09BHnM">{`
                 <Grid
-                    records:bind='$page.records'
+                    records-bind='$page.records'
                     style={{width: "100%"}}
                     columns={[
                         {
@@ -94,14 +99,14 @@ export const InlineEdit = <cx>
                             sortable: true,
                             style: 'border:none',
                             items: <cx>
-                                <TextField value:bind="$record.fullName" style={{width: '100%'}}/>
+                                <TextField value-bind="$record.fullName" style={{width: '100%'}}/>
                             </cx>
                         }, {
                             header: 'Phone',
                             field: 'phone',
                             style: 'border:none',
                             items: <cx>
-                                <TextField value:bind="$record.phone" style={{width: '100%'}}/>
+                                <TextField value-bind="$record.phone" style={{width: '100%'}}/>
                             </cx>
                         }, {
                             header: 'City',
@@ -109,7 +114,7 @@ export const InlineEdit = <cx>
                             style: 'border:none',
                             sortable: true,
                             items: <cx>
-                                <TextField value:bind="$record.city" style={{width: '100%'}}/>
+                                <TextField value-bind="$record.city" style={{width: '100%'}}/>
                             </cx>
                         }, {
                             header: 'Notified',
@@ -119,7 +124,7 @@ export const InlineEdit = <cx>
                             align: 'center',
                             pad: false,
                             items: <cx>
-                                <Checkbox value:bind="$record.notified"/>
+                                <Checkbox value-bind="$record.notified"/>
                             </cx>
                         }
                     ]}

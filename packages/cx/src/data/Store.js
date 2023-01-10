@@ -24,7 +24,7 @@ export class Store extends SubscribableView {
       }
       return false;
    }
-   
+
    deleteItem(path) {
       let next = Binding.get(path).delete(this.data);
       if (next != this.data) {
@@ -35,7 +35,7 @@ export class Store extends SubscribableView {
       }
       return false;
    }
-   
+
    clear() {
       this.data = {};
       this.meta.version++;

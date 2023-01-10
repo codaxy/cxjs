@@ -13,6 +13,7 @@ import { isNumber } from "../../util/isNumber";
 import { getTopLevelBoundingClientRect } from "../../util/getTopLevelBoundingClientRect";
 import { addEventListenerWithOptions } from "../../util/addEventListenerWithOptions";
 import { SubscriberList } from "../../util/SubscriberList";
+import { KeyCode } from "../../util/KeyCode";
 
 /*
  Features:
@@ -24,6 +25,12 @@ import { SubscriberList } from "../../util/SubscriberList";
  */
 
 export class Overlay extends Container {
+   init() {
+      if (this.center) this.centerX = this.centerY = this.center;
+
+      super.init();
+   }
+
    declareData() {
       return super.declareData(...arguments, {
          shadowStyle: {
@@ -52,7 +59,7 @@ export class Overlay extends Container {
    }
 
    initInstance(context, instance) {
-      instance.positionChangeSubcribers = new SubscriberList();
+      instance.positionChangeSubscribers = new SubscriberList();
       super.initInstance(context, instance);
    }
 
@@ -75,7 +82,7 @@ export class Overlay extends Container {
 
       if (instance.cache("dismiss", instance.dismiss)) instance.markShouldUpdate(context);
 
-      context.push("parentPositionChangeEvent", instance.positionChangeSubcribers);
+      context.push("parentPositionChangeEvent", instance.positionChangeSubscribers);
 
       super.explore(context, instance);
    }
@@ -103,16 +110,15 @@ export class Overlay extends Container {
    }
 
    overlayDidMount(instance, component) {
-      if (this.center) {
-         let { el } = component;
-         if (!el.style.left) el.style.left = `${(window.innerWidth - el.offsetWidth) / 2}px`;
+      let { el } = component;
+      if (this.centerX) if (!el.style.left) el.style.left = `${(window.innerWidth - el.offsetWidth) / 2}px`;
+      if (this.centerY)
          if (!el.style.top) el.style.top = `${Math.max(0, (window.innerHeight - el.offsetHeight) / 2)}px`;
-      }
    }
 
-   overlayDidUpdate(instance, component) { }
+   overlayDidUpdate(instance, component) {}
 
-   overlayWillUnmount(instance, component) { }
+   overlayWillUnmount(instance, component) {}
 
    handleFocusOut(instance, component) {
       if (this.onFocusOut) instance.invoke("onFocusOut", instance, component);
@@ -121,7 +127,12 @@ export class Overlay extends Container {
    }
 
    handleKeyDown(e, instance, component) {
-      return this.onKeyDown && instance.invoke("onKeyDown", e, instance, component);
+      if (this.onKeyDown && instance.invoke("onKeyDown", e, instance, component) === false) return false;
+
+      if (this.closeOnEscape && e.keyCode == KeyCode.esc && instance.dismiss) {
+         instance.dismiss();
+         e.stopPropagation();
+      }
    }
 
    handleMouseLeave(instance, component) {
@@ -132,9 +143,14 @@ export class Overlay extends Container {
       if (this.onMouseEnter) instance.invoke("onMouseEnter", instance, component);
    }
 
+   getOverlayContainer() {
+      return document.body;
+   }
+
    containerFactory() {
       let el = document.createElement("div");
-      document.body.appendChild(el);
+      let container = this.getOverlayContainer();
+      container.appendChild(el);
       el.style.position = "absolute";
       if (this.containerStyle) Object.assign(el.style, parseStyle(this.containerStyle));
       return el;
@@ -180,7 +196,7 @@ export class Overlay extends Container {
             }
          });
       }
-      instance.positionChangeSubcribers.notify();
+      instance.positionChangeSubscribers.notify();
    }
 
    handleResize(e, instance, component) {
@@ -196,27 +212,30 @@ export class Overlay extends Container {
             }
          });
       }
-      instance.positionChangeSubcribers.notify();
+      instance.positionChangeSubscribers.notify();
    }
 }
 
-   Overlay.prototype.styled = true;
-   Overlay.prototype.baseClass = "overlay";
-   Overlay.prototype.resizable = false;
-   Overlay.prototype.resizeWidth = 7;
-   Overlay.prototype.center = false;
-   Overlay.prototype.modal = false;
-   Overlay.prototype.backdrop = false;
-   Overlay.prototype.inline = false;
-   Overlay.prototype.autoFocus = false;
-   Overlay.prototype.autoFocusFirstChild = false;
-   Overlay.prototype.animate = false;
-   Overlay.prototype.draggable = false;
-   Overlay.prototype.destroyDelay = 0;
-   Overlay.prototype.dismissOnFocusOut = false;
-   Overlay.prototype.focusable = false;
-   Overlay.prototype.containerStyle = null;
-   Overlay.prototype.dismissOnPopState = false;
+Overlay.prototype.styled = true;
+Overlay.prototype.baseClass = "overlay";
+Overlay.prototype.resizable = false;
+Overlay.prototype.resizeWidth = 7;
+Overlay.prototype.center = false;
+Overlay.prototype.centerX = false;
+Overlay.prototype.centerY = false;
+Overlay.prototype.modal = false;
+Overlay.prototype.backdrop = false;
+Overlay.prototype.inline = false;
+Overlay.prototype.autoFocus = false;
+Overlay.prototype.autoFocusFirstChild = false;
+Overlay.prototype.animate = false;
+Overlay.prototype.draggable = false;
+Overlay.prototype.destroyDelay = 0;
+Overlay.prototype.dismissOnFocusOut = false;
+Overlay.prototype.focusable = false;
+Overlay.prototype.containerStyle = null;
+Overlay.prototype.dismissOnPopState = false;
+Overlay.prototype.closeOnEscape = false;
 
 Widget.alias("overlay", Overlay);
 
@@ -241,6 +260,7 @@ class OverlayContent extends VDOM.Component {
             onMouseEnter={this.props.onMouseEnter}
             onMouseLeave={this.props.onMouseLeave}
             onClick={this.props.onClick}
+            data-focusable-overlay-container={this.props.focusableOverlayContainer}
          >
             {this.props.children}
          </div>
@@ -306,15 +326,8 @@ export class OverlayComponent extends VDOM.Component {
             onMouseEnter={this.onMouseEnter.bind(this)}
             onClick={this.onClick.bind(this)}
             onDidUpdate={this.overlayDidUpdate.bind(this)}
+            focusableOverlayContainer={widget.dismissOnFocusOut}
          >
-            {widget.modal ||
-               (widget.backdrop && (
-                  <div
-                     key="backdrop"
-                     className={CSS.element(baseClass, "modal-backdrop")}
-                     onClick={this.onBackdropClick.bind(this)}
-                  />
-               ))}
             {this.renderOverlayBody()}
          </OverlayContent>
       );
@@ -335,6 +348,13 @@ export class OverlayComponent extends VDOM.Component {
                })}
                style={parseStyle(data.shadowStyle)}
             >
+               {widget.backdrop && (
+                  <div
+                     key="backdrop"
+                     className={CSS.element("overlay", "modal-backdrop")}
+                     onClick={this.onBackdropClick.bind(this)}
+                  />
+               )}
                {content}
             </div>
          );
@@ -357,7 +377,7 @@ export class OverlayComponent extends VDOM.Component {
       FocusManager.nudge();
    }
 
-   onFocusIn() { }
+   onFocusIn() {}
 
    onFocusOut() {
       let { widget } = this.props.instance;
@@ -405,7 +425,11 @@ export class OverlayComponent extends VDOM.Component {
    }
 
    onMouseDown(e) {
-      let { data } = this.props.instance;
+      let { instance } = this.props;
+      let { widget, data } = instance;
+
+      if (widget.onMouseDown && instance.invoke("onMouseDown", e, instance) === false) return;
+
       let prefix = this.getResizePrefix(e);
       if (prefix) {
          //e.preventDefault();
@@ -423,7 +447,7 @@ export class OverlayComponent extends VDOM.Component {
       } else if (data.draggable) {
          ddMouseDown(e);
       }
-      e.stopPropagation();
+      //e.stopPropagation();
    }
 
    onBackdropClick(e) {
@@ -602,7 +626,7 @@ export class OverlayComponent extends VDOM.Component {
             this.shadowEl,
             "wheel",
             (e) => {
-               if (e.deltaY == 0) return;
+               if (e.shiftKey) return;
                //check if there is a scrollable element within the shadow or overlay contents
                //such that its scrollbar is not at the very end
                let scrollAllowed = false;

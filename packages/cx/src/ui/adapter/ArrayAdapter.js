@@ -1,21 +1,23 @@
-import {DataAdapter} from './DataAdapter';
-import {ReadOnlyDataView} from '../../data/ReadOnlyDataView';
-import {sorter} from '../../data/comparer';
-import {isArray} from '../../util/isArray';
-import {ArrayElementView} from "../../data/ArrayElementView";
-import {getAccessor} from "../../data/getAccessor";
-import {Culture} from "../Culture";
-
+import { DataAdapter } from "./DataAdapter";
+import { ReadOnlyDataView } from "../../data/ReadOnlyDataView";
+import { sorter } from "../../data/comparer";
+import { isArray } from "../../util/isArray";
+import { ArrayElementView } from "../../data/ArrayElementView";
+import { getAccessor } from "../../data/getAccessor";
+import { Culture } from "../Culture";
+import { isDefined } from "../../util";
 
 export class ArrayAdapter extends DataAdapter {
-
    init() {
       this.recordsAccessor = getAccessor(this.recordsBinding ? this.recordsBinding : this.recordsAccessor);
+
+      //resolve accessor chains
+      this.recordName = this.recordName.toString();
+      this.indexName = this.indexName.toString();
    }
 
    initInstance(context, instance) {
-      if (!instance.recordStoreCache)
-         instance.recordStoreCache = new WeakMap();
+      if (!instance.recordStoreCache) instance.recordStoreCache = new WeakMap();
       if (!instance.recordsAccessor && this.recordsAccessor) {
          instance.recordsAccessor = this.recordsAccessor.bindInstance
             ? this.recordsAccessor.bindInstance(instance)
@@ -24,8 +26,7 @@ export class ArrayAdapter extends DataAdapter {
    }
 
    getRecords(context, instance, records, parentStore) {
-      if (!instance.recordStoreCache)
-         this.initInstance(context, instance);
+      if (!instance.recordStoreCache) this.initInstance(context, instance);
 
       return this.mapRecords(context, instance, records, parentStore, instance.recordsAccessor);
    }
@@ -33,22 +34,18 @@ export class ArrayAdapter extends DataAdapter {
    mapRecords(context, instance, records, parentStore, recordsAccessor) {
       let result = [];
 
-      if (!instance.recordStoreCache)
-         this.initInstance(context, instance);
+      if (!instance.recordStoreCache) this.initInstance(context, instance);
 
       if (isArray(records))
          records.forEach((data, index) => {
-
-            if (this.filterFn && !this.filterFn(data))
-               return;
+            if (this.filterFn && !this.filterFn(data)) return;
 
             let record = this.mapRecord(context, instance, data, parentStore, recordsAccessor, index);
 
             result.push(record);
          });
 
-      if (this.sorter)
-         result = this.sorter(result);
+      if (this.sorter) result = this.sorter(result);
 
       return result;
    }
@@ -65,7 +62,7 @@ export class ArrayAdapter extends DataAdapter {
                recordAlias: this.recordName,
                indexAlias: this.indexName,
                immutable: this.immutable,
-               sealed: this.sealed
+               sealed: this.sealed,
             });
          else {
             recordStore.setStore(parentStore);
@@ -77,25 +74,24 @@ export class ArrayAdapter extends DataAdapter {
                store: parentStore,
                data: {
                   [this.recordName]: data,
-                  [this.indexName]: index
+                  [this.indexName]: index,
                },
                immutable: this.immutable,
-               sealed: this.sealed
+               sealed: this.sealed,
             });
          else {
             recordStore.setStore(parentStore);
          }
       }
 
-      if (typeof data == 'object')
-         instance.recordStoreCache.set(data, recordStore);
+      if (typeof data == "object") instance.recordStoreCache.set(data, recordStore);
 
       return {
          store: recordStore,
          index: index,
          data: data,
-         type: 'data',
-         key: this.keyField ? data[this.keyField] : index
+         type: "data",
+         key: this.keyField ? data[this.keyField] : index,
       };
    }
 
@@ -103,37 +99,33 @@ export class ArrayAdapter extends DataAdapter {
       this.filterFn = filterFn;
    }
 
+   getComparer(sortOptions) {
+      return sortOptions ? Culture.getComparer(sortOptions) : null;
+   }
+
    buildSorter(sorters) {
-      let compare = this.sortOptions ? Culture.getComparer(this.sortOptions) : null;
       if (isArray(sorters) && sorters.length > 0) {
-         if (sorters.every(x => x.field && x.value == null)) {
-            //if all sorters are based on record fields access data directly (faster)
-            this.sorter = sorter(
-               sorters.map(x => {
-                  if (x.field)
-                     return {
-                        value: {bind: x.field},
-                        direction: x.direction
-                     };
-                  return x;
-               }),
-               x => x.data,
-               compare
-            )
+         let fieldValueMapper;
+         let dataAccessor;
+
+         //if all sorters are based on record fields access data directly (faster)
+         if (sorters.every((x) => x.field && x.value == null)) {
+            dataAccessor = (x) => x.data;
+            fieldValueMapper = (x) => ({ bind: x.field });
          } else {
-            //if some sorters use computed values, use store data object
-            this.sorter = sorter(
-               sorters.map(x => {
-                  if (x.field && x.value == null)
-                     return {
-                        value: {bind: this.recordName + '.' + x.field},
-                        direction: x.direction
-                     };
-                  return x;
-               }),
-               x => x.store.getData(),
-               compare)
+            dataAccessor = (x) => x.store.getData();
+            fieldValueMapper = (x) => ({ bind: this.recordName + "." + x.field });
          }
+         this.sorter = sorter(
+            sorters.map((x) => {
+               let s = Object.assign({}, x);
+               if (s.field && s.value == null) s.value = fieldValueMapper(s);
+               if (!s.comparer)
+                  s.comparer = this.getComparer(isDefined(s.sortOptions) ? s.sortOptions : this.sortOptions);
+               return s;
+            }),
+            dataAccessor
+         );
       } else {
          this.sorter = null;
       }

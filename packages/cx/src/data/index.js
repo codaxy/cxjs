@@ -25,3 +25,5 @@ export * from "./ArrayElementView";
 export * from "./getAccessor";
 export * from "./defaultCompare";
 export * from "./NestedDataView";
+
+export * from "./createAccessorModelProxy";

@@ -1,4 +1,4 @@
-import {HtmlElement} from 'cx/widgets';
+import {Content, HtmlElement, Tab} from 'cx/widgets';
 import {Controller} from 'cx/ui';
 import {Svg, Rectangle} from 'cx/svg';
 import {Chart, NumericAxis, MouseTracker, Gridlines, Marker, MarkerLine} from 'cx/charts';
@@ -28,8 +28,8 @@ export const MouseTrackerPage = <cx>
                     }}>
                         <Gridlines />
                         <MouseTracker
-                            x:bind="$page.cursor.x"
-                            y:bind="$page.cursor.y"
+                            x-bind="$page.cursor.x"
+                            y-bind="$page.cursor.y"
                             tooltip={{
                                 destroyDelay: 5,
                                 createDelay: 5,
@@ -37,34 +37,45 @@ export const MouseTrackerPage = <cx>
                                 trackMouse: true
                             }}
                         >
-                            <MarkerLine visible:expr="!!{$page.cursor}" x:bind="$page.cursor.x" y2:bind="$page.cursor.y" y1={0}/>
-                            <MarkerLine visible:expr="!!{$page.cursor}" y:bind="$page.cursor.y" x2:bind="$page.cursor.x"/>
+                            <MarkerLine visible-expr="!!{$page.cursor}" x-bind="$page.cursor.x" y2-bind="$page.cursor.y" y1={0}/>
+                            <MarkerLine visible-expr="!!{$page.cursor}" y-bind="$page.cursor.y" x2-bind="$page.cursor.x"/>
                             <Marker
-                                visible:expr="!!{$page.cursor}"
-                                x:bind="$page.cursor.x"
-                                y:bind="$page.cursor.y"
+                                visible-expr="!!{$page.cursor}"
+                                x-bind="$page.cursor.x"
+                                y-bind="$page.cursor.y"
                                 size={10}
                             />
                         </MouseTracker>
                     </Chart>
                 </Svg>
             </div>
-
-            <CodeSnippet putInto="code" fiddle="B8fcC7VF">{`
-                <Svg style="width:600px;height:500px;" margin="60 60 60 60">
-                    <Chart axes={{
-                        x: <NumericAxis min={0} max={100} />,
-                        y: <NumericAxis min={0} max={100} vertical/>,
-                    }}>
-                        <Gridlines />
-                        <MouseTracker x:bind="$page.cursor.x" y:bind="$page.cursor.y">
-                            <Marker visible:expr="!!{$page.cursor}" x:bind="$page.cursor.x" y:bind="$page.cursor.y" size={10}/>
-                            <MarkerLine visible:expr="!!{$page.cursor}" x:bind="$page.cursor.x" y2:bind="$page.cursor.y" y1={0}/>
-                            <MarkerLine visible:expr="!!{$page.cursor}" y:bind="$page.cursor.y" x2:bind="$page.cursor.x"/>
-                        </MouseTracker>
-                    </Chart>
-                </Svg>
-            `}</CodeSnippet>
+            <Content name="code">
+                <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Index" default/>
+                <CodeSnippet  fiddle="mpP7bCxe">{`
+                    <Svg style="width:600px;height:500px;" margin="60 60 60 60">
+                        <Chart axes={{
+                            x: <NumericAxis min={0} max={100} />,
+                            y: <NumericAxis min={0} max={100} vertical/>,
+                        }}>
+                            <Gridlines />
+                            <MouseTracker 
+                                x-bind="$page.cursor.x" 
+                                y-bind="$page.cursor.y"   
+                                tooltip={{
+                                  destroyDelay: 5,
+                                  createDelay: 5,
+                                  text: { tpl: "({$page.cursor.x:n;1}, {$page.cursor.y:n;1})" },
+                                  trackMouse: true
+                                }}
+                            >
+                                <Marker visible-expr="!!{$page.cursor}" x-bind="$page.cursor.x" y-bind="$page.cursor.y" size={10}/>
+                                <MarkerLine visible-expr="!!{$page.cursor}" x-bind="$page.cursor.x" y2-bind="$page.cursor.y" y1={0}/>
+                                <MarkerLine visible-expr="!!{$page.cursor}" y-bind="$page.cursor.y" x2-bind="$page.cursor.x"/>
+                            </MouseTracker>
+                        </Chart>
+                    </Svg>
+                `}</CodeSnippet>
+            </Content>
 
             `MouseTracker` is commonly used with [point reducers](~/charts/point-reducers) to track values the graph.
         </CodeSplit>

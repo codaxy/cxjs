@@ -1,6 +1,6 @@
 import { Widget, VDOM, getContent } from "../../ui/Widget";
 import { TextField } from "./TextField";
-import { getFieldTooltip, autoFocus } from "./Field";
+import { getFieldTooltip } from "./Field";
 import {
    tooltipParentWillReceiveProps,
    tooltipParentWillUnmount,
@@ -10,6 +10,7 @@ import {
 } from "../overlay/tooltip-ops";
 import { stopPropagation } from "../../util/eventCallbacks";
 import { KeyCode } from "../../util/KeyCode";
+import { autoFocus } from "../autoFocus";
 
 export class TextArea extends TextField {
    declareData() {
@@ -99,6 +100,7 @@ class Input extends VDOM.Component {
                }}
                onFocus={(e) => this.onFocus()}
                onClick={stopPropagation}
+               onKeyDown={(e) => this.onKeyDown(e)}
                onMouseMove={(e) => tooltipMouseMove(e, ...getFieldTooltip(instance))}
                onMouseLeave={(e) => tooltipMouseLeave(e, ...getFieldTooltip(instance))}
             />
@@ -126,10 +128,8 @@ class Input extends VDOM.Component {
       if (instance.widget.handleKeyDown(e, instance) === false) return;
 
       switch (e.keyCode) {
-         case KeyCode.enter:
-            this.onChange(e, "enter");
-            break;
-
+         case KeyCode.down:
+         case KeyCode.up:
          case KeyCode.left:
          case KeyCode.right:
             e.stopPropagation();

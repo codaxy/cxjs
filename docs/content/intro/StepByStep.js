@@ -130,12 +130,12 @@ export const StepByStep = <cx>
                     <Tab value={{bind:"$page.entryPoint.tab", defaultValue: "html"}} tab="html" mod="code" >
                         <code>app/index.html</code>
                     </Tab>
-                    <Tab value:bind="$page.entryPoint.tab" tab="js" mod="code">
+                    <Tab value-bind="$page.entryPoint.tab" tab="js" mod="code">
                         <code>app/index.js</code>
                     </Tab>
                 </div>
 
-                <CodeSnippet visible:expr="{$page.entryPoint.tab} === 'html'">{`
+                <CodeSnippet visible-expr="{$page.entryPoint.tab} === 'html'">{`
                     <!DOCTYPE html>
                     <html>
                     <head>
@@ -147,7 +147,7 @@ export const StepByStep = <cx>
                     </html>
                 `}</CodeSnippet>
 
-                <CodeSnippet visible:expr="{$page.entryPoint.tab} === 'js'">{`
+                <CodeSnippet visible-expr="{$page.entryPoint.tab} === 'js'">{`
                     import { startAppLoop } from 'cx/ui';
                     import { Store } from 'cx/data';
                     import { HtmlElement } from 'cx/widgets';
@@ -347,7 +347,7 @@ export const StepByStep = <cx>
 
             This means that the class name `css-task-done` will be applied to the checkbox element, only if the `$record.done`
             value is truthy. This is just a more verbose syntax of the same binding mechanism
-            (applying binding configuration object to the property, instead of a more common `:bind` syntax).
+            (applying binding configuration object to the property, instead of a more common `-bind` syntax).
             As expected, class name will be recalculated every time `$record.done` value changes
             (for example, when the user clicks on the checkbox). We can use this class in our stylesheet
             to display completed tasks as stricken through.
@@ -374,18 +374,18 @@ export const StepByStep = <cx>
 
                                 <div preserveWhitespace>
                                     <TextField style={{width: 320}}
-                                            value:bind="$page.text"
+                                            value-bind="$page.text"
                                             placeholder="Type a task name here"
                                             required
                                     />
-                                    <Button type="button" onClick="onAdd" disabled:expr="!{$page.text}">Add</Button>
+                                    <Button type="button" onClick="onAdd" disabled-expr="!{$page.text}">Add</Button>
                                 </div>
 
                                 <ul class="csb-task-list">
-                                    <Repeater records:bind="$page.todos">
+                                    <Repeater records-bind="$page.todos">
                                         <li class="csb-task">
                                             <Checkbox class={{ "css-task-done": {bind: '$record.done'} }}
-                                                    text:tpl="{$record.text}" value:bind="$record.done"/>
+                                                    text-tpl="{$record.text}" value-bind="$record.done"/>
 
                                             <button onClick="onRemove" text="x"/>
                                         </li>

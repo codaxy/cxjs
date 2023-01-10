@@ -1,4 +1,4 @@
-import {HtmlElement, DetachedScope} from 'cx/widgets';
+import {HtmlElement, DetachedScope, Content, Tab} from 'cx/widgets';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
@@ -35,20 +35,22 @@ export const DetachedScopePage = <cx>
                     </div>
                 </DetachedScope>
             </div>
+            <Content name="code">
+                <Tab value-bind="$page.code.tab" mod="code" tab="index" text="DetachedScope" default/>
+                <CodeSnippet fiddle="0bBHNtfs">{`
+                    <DetachedScope bind="$page.scope1">
+                        <div style="width: 150px; height: 150px; background: #d4d4d4; padding: 20px">
+                            Heavy duty contents 1
+                        </div>
+                    </DetachedScope>
 
-            <CodeSnippet putInto="code">{`
-                <DetachedScope bind="$page.scope1">
-                    <div style="width: 150px; height: 150px; background: #d4d4d4; padding: 20px">
-                        Heavy duty contents 1
-                    </div>
-                </DetachedScope>
-
-                <DetachedScope bind="$page.scope2">
-                    <div style="width: 150px; height: 150px; background: #d4d4d4; padding: 20px">
-                        Heavy duty contents 2
-                    </div>
-                </DetachedScope>
-            `}</CodeSnippet>
+                    <DetachedScope bind="$page.scope2">
+                        <div style="width: 150px; height: 150px; background: #d4d4d4; padding: 20px">
+                            Heavy duty contents 2
+                        </div>
+                    </DetachedScope>
+                `}</CodeSnippet>
+            </Content>
         </CodeSplit>
 
         ## Configuration

@@ -1,4 +1,4 @@
-import { HtmlElement, Grid, Repeater } from 'cx/widgets';
+import { HtmlElement, Grid, Repeater, Content, Tab } from 'cx/widgets';
 import { Controller, KeySelection } from 'cx/ui';
 import { Svg, Rectangle, Text } from 'cx/svg';
 import { Gridlines, NumericAxis, CategoryAxis, Chart, Column, Legend } from 'cx/charts';
@@ -45,46 +45,52 @@ export const Columns = <cx>
                      y: { type: NumericAxis, vertical: true } }}>
                      <Gridlines/>
                      <Repeater records:bind="$page.points" recordAlias="$point">
-                        <Column colorIndex:expr="15 - Math.round({$point.y}*6/50)"
+                        <Column colorIndex-expr="15 - Math.round({$point.y}*6/50)"
                                 width={0.8}
-                                x:bind="$point.x"
-                                y:bind="$point.y"
-                                tooltip:tpl="{$point.x} {$point.y:n;0}" />
+                                x-bind="$point.x"
+                                y-bind="$point.y"
+                                tooltip-tpl="{$point.x} {$point.y:n;0}" />
                      </Repeater>
                   </Chart>
                </Svg>
                <Legend />
             </div>
          </div>
+         
+         <Content name="code">
+            <Tab value-bind="$page.code.tab" mod="code" tab="controller" text="Controller"/>
+            <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Index" default/>
 
-         <CodeSnippet putInto="code" fiddle="Ve2AulIi">{`
-            class PageController extends Controller {
-               init() {
-                  super.init();
+            <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="Ve2AulIi">{`
+               class PageController extends Controller {
+                  init() {
+                     super.init();
 
-                  this.store.set('$page.points', Array.from({length: 30}, (_, i) => ({
-                     x: casual.city,
-                     y: 10 + (i+1) / 30 * 40 + (Math.random() - 0.5) * 10
-                  })));
+                     this.store.set('$page.points', Array.from({length: 30}, (_, i) => ({
+                        x: casual.city,
+                        y: 10 + (i+1) / 30 * 40 + (Math.random() - 0.5) * 10
+                     })));
+                  }
                }
-            }
-            ...
-            <Svg style="width:600px; height:400px;">
-               <Chart offset="20 -20 -140 40" axes={{
-                  x: { type: CategoryAxis, labelRotation: -90, labelDy: '0.4em', labelAnchor: "end" },
-                  y: { type: NumericAxis, vertical: true } }}>
-                  <Gridlines/>
-                  <Repeater records:bind="$page.points" recordAlias="$point">
-                     <Column colorIndex:expr="15 - Math.round({$point.y}*6/50)"
-                             width={0.8}
-                             x:bind="$point.x"
-                             y:bind="$point.y"
-                             tooltip:tpl="{$point.x} {$point.y:n;0}" />
-                  </Repeater>
-               </Chart>
-            </Svg>
-            <Legend />
-          `}</CodeSnippet>
+            `}</CodeSnippet>
+            <CodeSnippet visible-expr="{$page.code.tab}=='index'" fiddle="Ve2AulIi">{`
+               <Svg style="width:600px; height:400px;">
+                  <Chart offset="20 -20 -140 40" axes={{
+                     x: { type: CategoryAxis, labelRotation: -90, labelDy: '0.4em', labelAnchor: "end" },
+                     y: { type: NumericAxis, vertical: true } }}>
+                     <Gridlines/>
+                     <Repeater records:bind="$page.points" recordAlias="$point">
+                        <Column colorIndex-expr="15 - Math.round({$point.y}*6/50)"
+                              width={0.8}
+                              x-bind="$point.x"
+                              y-bind="$point.y"
+                              tooltip-tpl="{$point.x} {$point.y:n;0}" />
+                     </Repeater>
+                  </Chart>
+               </Svg>
+               <Legend />
+            `}</CodeSnippet>
+          </Content>
       </CodeSplit>
 
       ## Examples:

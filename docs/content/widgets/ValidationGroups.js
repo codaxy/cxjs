@@ -1,10 +1,10 @@
-import {HtmlElement, ValidationGroup, TextField} from 'cx/widgets';
-import {LabelsLeftLayout} from 'cx/ui';
-import {Md} from '../../components/Md';
-import {CodeSplit} from '../../components/CodeSplit';
-import {CodeSnippet} from '../../components/CodeSnippet';
-import {ConfigTable} from '../../components/ConfigTable';
-import {ImportPath} from '../../components/ImportPath';
+import { HtmlElement, ValidationGroup, TextField, Content, Tab } from 'cx/widgets';
+import { LabelsLeftLayout } from 'cx/ui';
+import { Md } from '../../components/Md';
+import { CodeSplit } from '../../components/CodeSplit';
+import { CodeSnippet } from '../../components/CodeSnippet';
+import { ConfigTable } from '../../components/ConfigTable';
+import { ImportPath } from '../../components/ImportPath';
 
 
 import configs from './configs/ValidationGroup';
@@ -14,7 +14,7 @@ export const ValidationGroups = <cx>
     <Md>
         # ValidationGroup
 
-        <ImportPath path="import {ValidationGroup} from 'cx/widgets';"/>
+        <ImportPath path="import {ValidationGroup} from 'cx/widgets';" />
 
         <CodeSplit>
 
@@ -24,26 +24,28 @@ export const ValidationGroups = <cx>
             <div class="widgets" style={{
                 borderLeftWidth: '3px',
                 borderLeftStyle: 'solid',
-                borderLeftColor: {expr: '{$page.valid} ? "lightgreen" : "red"'}
+                borderLeftColor: { expr: '{$page.valid} ? "lightgreen" : "red"' }
             }}>
-                <ValidationGroup layout={LabelsLeftLayout} valid:bind="$page.valid">
-                    <TextField label="First Name" value:bind="$page.firstName" required/>
-                    <TextField label="Last Name" value:bind="$page.lastName" required/>
+                <ValidationGroup layout={LabelsLeftLayout} valid-bind="$page.valid">
+                    <TextField label="First Name" value-bind="$page.firstName" required />
+                    <TextField label="Last Name" value-bind="$page.lastName" required />
                 </ValidationGroup>
             </div>
-
-            <CodeSnippet putInto="code" fiddle="Hw0NgP7R">{`
-            <div class="widgets" style={{
-                   borderLeftWidth: '3px',
-                   borderLeftStyle: 'solid',
-                   borderLeftColor: { expr: '{$page.valid} ? "lightgreen" : "red"' }
-                }}>
-                <ValidationGroup layout={LabelsLeftLayout} valid:bind="$page.valid">
-                   <TextField label="First Name" value:bind="$page.firstName" required />
-                   <TextField label="Last Name" value:bind="$page.lastName" required />
-                </ValidationGroup>
-             </div>
-             `}</CodeSnippet>
+            <Content name="code">
+                <Tab value-bind="$page.code.tab" mod="code" tab="index" text="ValidatorGroups" default/>
+                <CodeSnippet fiddle="lWZjS9Cb">{`
+                <div class="widgets" style={{
+                    borderLeftWidth: '3px',
+                    borderLeftStyle: 'solid',
+                    borderLeftColor: { expr: '{$page.valid} ? "lightgreen" : "red"' }
+                    }}>
+                    <ValidationGroup layout={LabelsLeftLayout} valid-bind="$page.valid">
+                    <TextField label="First Name" value-bind="$page.firstName" required />
+                    <TextField label="Last Name" value-bind="$page.lastName" required />
+                    </ValidationGroup>
+                </div>
+                `}</CodeSnippet>
+            </Content>
         </CodeSplit>
 
         ## Examples:
@@ -52,7 +54,7 @@ export const ValidationGroups = <cx>
 
         ## Configuration
 
-        <ConfigTable props={configs}/>
+        <ConfigTable props={configs} />
 
     </Md>
 </cx>

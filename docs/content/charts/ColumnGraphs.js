@@ -1,4 +1,4 @@
-import {HtmlElement} from 'cx/widgets';
+import {Content, HtmlElement, Tab} from 'cx/widgets';
 import {Controller, KeySelection} from 'cx/ui';
 import {Svg} from 'cx/svg';
 import {Gridlines, NumericAxis, CategoryAxis, Chart, ColumnGraph, Legend} from 'cx/charts';
@@ -61,9 +61,9 @@ export const ColumnGraphs = <cx>
                     >
                         <Gridlines/>
                         <ColumnGraph
-                            data:bind="$page.points"
+                            data-bind="$page.points"
                             colorIndex={0}
-                            active:bind="$page.showV1"
+                            active-bind="$page.showV1"
                             name="V1"
                             size={0.3}
                             offset={-0.15}
@@ -82,9 +82,9 @@ export const ColumnGraphs = <cx>
                         />
 
                         <ColumnGraph
-                            data:bind="$page.points"
+                            data-bind="$page.points"
                             colorIndex={6}
-                            active:bind="$page.showV2"
+                            active-bind="$page.showV2"
                             name="V2"
                             size={0.3}
                             offset={+0.15}
@@ -103,77 +103,83 @@ export const ColumnGraphs = <cx>
                     </Chart>
                 </Svg>
             </div>
+            <Content name="code">
+                <Tab value-bind="$page.code.tab" mod="code" tab="controller" text="Controller"/>
+                <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Index" default/>
 
-            <CodeSnippet putInto="code" fiddle="m9BtpNbW">{`
-            class PageController extends Controller {
-                init() {
-                   super.init();
-                   var v1 = 100;
-                   var v2 = 110;
-                   this.store.set('$page.points', Array.from({length: 11}, (_, i) => ({
-                      x: casual.city,
-                      v1: v1 = (v1 + (Math.random() - 0.5) * 30),
-                      v2: v2 = (v2 + (Math.random() - 0.5) * 30)
-                   })));
+                <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="m9BtpNbW">{`
+                class PageController extends Controller {
+                    init() {
+                    super.init();
+                    var v1 = 100;
+                    var v2 = 110;
+                    this.store.set('$page.points', Array.from({length: 11}, (_, i) => ({
+                        x: casual.city,
+                        v1: v1 = (v1 + (Math.random() - 0.5) * 30),
+                        v2: v2 = (v2 + (Math.random() - 0.5) * 30)
+                    })));
+                    }
                 }
-            }
-            ...
-            <div class="widgets" controller={PageController}>
-               <Legend />
-               <Svg style="width:600px; height:400px;">
-                    <Chart
-                        offset="20 -20 -100 40"
-                        axes={{
-                            x: {
-                                type: CategoryAxis,
-                                snapToTicks: 0,
-                                labelWrap: true,
-                                labelOffset: 15,
-                                labelRotation: -45,
-                                labelDy: '0.3em',
-                                labelAnchor: 'end',
-                                labelLineCountDyFactor: -0.5
-                            },
-                            y: {
-                                type: NumericAxis,
-                                vertical: true,
-                                snapToTicks: 1
-                            }
-                        }}
-                    >
-                        <Gridlines/>
-                        <ColumnGraph
-                            data:bind="$page.points"
-                            colorIndex={0}
-                            active:bind="$page.showV1"
-                            name="V1"
-                            size={0.3}
-                            offset={-0.15}
-                            yField="v1"
-                            selection={{
-                                type: KeySelection,
-                                bind: '$page.selected.x',
-                                keyField: 'x'
+            `}</CodeSnippet>
+                <CodeSnippet visible-expr="{$page.code.tab}=='index'" fiddle="m9BtpNbW">{`
+                class PageController extends Controller {
+                <div class="widgets" controller={PageController}>
+                <Legend />
+                <Svg style="width:600px; height:400px;">
+                        <Chart
+                            offset="20 -20 -100 40"
+                            axes={{
+                                x: {
+                                    type: CategoryAxis,
+                                    snapToTicks: 0,
+                                    labelWrap: true,
+                                    labelOffset: 15,
+                                    labelRotation: -45,
+                                    labelDy: '0.3em',
+                                    labelAnchor: 'end',
+                                    labelLineCountDyFactor: -0.5
+                                },
+                                y: {
+                                    type: NumericAxis,
+                                    vertical: true,
+                                    snapToTicks: 1
+                                }
                             }}
-                        />
+                        >
+                            <Gridlines/>
+                            <ColumnGraph
+                                data-bind="$page.points"
+                                colorIndex={0}
+                                active-bind="$page.showV1"
+                                name="V1"
+                                size={0.3}
+                                offset={-0.15}
+                                yField="v1"
+                                selection={{
+                                    type: KeySelection,
+                                    bind: '$page.selected.x',
+                                    keyField: 'x'
+                                }}
+                            />
 
-                        <ColumnGraph
-                            data:bind="$page.points"
-                            colorIndex={6}
-                            active:bind="$page.showV2"
-                            name="V2"
-                            size={0.3}
-                            offset={+0.15}
-                            yField="v2"
-                            selection={{
-                                type: KeySelection,
-                                bind: '$page.selected.x',
-                                keyField: 'x'
-                            }}/>
-                    </Chart>
-                </Svg>
-            </div>
-        `}</CodeSnippet>
+                            <ColumnGraph
+                                data-bind="$page.points"
+                                colorIndex={6}
+                                active-bind="$page.showV2"
+                                name="V2"
+                                size={0.3}
+                                offset={+0.15}
+                                yField="v2"
+                                selection={{
+                                    type: KeySelection,
+                                    bind: '$page.selected.x',
+                                    keyField: 'x'
+                                }}/>
+                        </Chart>
+                    </Svg>
+                </div>
+            `}</CodeSnippet>
+        </Content>
         </CodeSplit>
 
         ## Examples:
