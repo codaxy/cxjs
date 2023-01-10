@@ -2838,8 +2838,7 @@ class GridComponent extends VDOM.Component {
       let { widget, store } = instance;
       let { isRecordDraggable } = instance;
 
-      let isFuncIsRecordDraggable = isFunction(isRecordDraggable);
-      if (isFuncIsRecordDraggable && !isRecordDraggable(record.data)) return;
+      if (isRecordDraggable && !isRecordDraggable(record.data)) return;
 
       //get a fresh isSelected delegate
       let isSelected = widget.selection.getIsSelectedDelegate(store);
@@ -2847,8 +2846,7 @@ class GridComponent extends VDOM.Component {
       let selected = [];
 
       let add = (rec, data, index, force) => {
-         if (!data || !(force || isSelected(data, index)) || (isFuncIsRecordDraggable && !isRecordDraggable(data)))
-            return;
+         if (!data || !(force || isSelected(data, index)) || (isRecordDraggable && !isRecordDraggable(data))) return;
          let mappedRecord = rec ? { ...rec } : widget.mapRecord(null, instance, data, index);
          let row = (mappedRecord.row = instance.getDetachedChild(
             instance.row,
