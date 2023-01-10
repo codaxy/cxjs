@@ -2704,6 +2704,16 @@ class GridComponent extends VDOM.Component {
       let recordInstance = this.getRecordInstanceAt(this.state.cursor);
       if (recordInstance && widget.onRowKeyDown && instance.invoke("onRowKeyDown", e, recordInstance) === false) return;
 
+      if (widget.onCellKeyDown && widget.cellEditable && this.state.cursorCellIndex != -1) {
+         if (
+            instance.invoke("onCellKeyDown", e, instance, {
+               cellIndex: this.state.cursorCellIndex,
+               record: recordInstance,
+            }) === false
+         )
+            return;
+      }
+
       switch (e.keyCode) {
          case KeyCode.enter:
             this.moveCursor(this.state.cursor, {
