@@ -37,7 +37,7 @@ import { getAccessor } from "../../data/getAccessor";
 import { getActiveElement } from "../../util/getActiveElement";
 import { GridCellEditor } from "./GridCellEditor";
 import { batchUpdates } from "../../ui/batchUpdates";
-import { isFunction, parseStyle } from "cx/src/util";
+import { parseStyle } from "cx/src/util/parseStyle";
 import { StaticText } from "../../ui/StaticText";
 import { unfocusElement } from "../../ui/FocusManager";
 import { tooltipMouseMove, tooltipMouseLeave } from "../overlay/tooltip-ops";
