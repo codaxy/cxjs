@@ -321,6 +321,10 @@ export const docsNavTree = [
                   text: "Stateful Tree Grid",
                   url: "~/examples/grid/stateful-tree-grid",
                },
+               {
+                  text: "Dynamic Columns",
+                  url: "~/examples/grid/dynamic-columns",
+               },
             ],
          },
          {

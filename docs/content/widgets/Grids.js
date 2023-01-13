@@ -75,7 +75,7 @@ export const Grids = <cx>
                         class PageController extends Controller {
                             init() {
                                super.init();
-                         
+
                                //init grid data
                                this.store.set('$page.records', Array.from({length: 10}).map((v, i)=>({
                                   id: i + 1,
@@ -125,6 +125,7 @@ export const Grids = <cx>
         - [Column Resizing](~/examples/grid/column-resizing)
         - [Column Reordering (Drag & Drop)](~/examples/grid/column-reordering)
         - [Fixed Columns](~/examples/grid/fixed-columns)
+        - [Dynamic Columns](~/examples/grid/dynamic-columns)
 
         ## Configuration
 

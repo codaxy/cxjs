@@ -16,3 +16,4 @@ export * from "./ColumnResizing";
 export * from "./ColumnReordering";
 export * from "./FixedColumns";
 export * from "./StatefulTreeGrid";
+export * from "./DynamicColumns";
