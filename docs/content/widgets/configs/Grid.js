@@ -304,7 +304,7 @@ export default {
     allowsFileDrops: {
         type: 'boolean',
         description: <cx><Md>
-            Set to `true`` to allow the grid to receive drag and drop operations containing files.
+            Set to `true` to allow the grid to receive drag and drop operations containing files.
         </Md></cx>
     },
 
@@ -316,7 +316,7 @@ export default {
             If onCreateFilter callback is defined, filtered records can be retrieved using this callback.
         </Md></cx>
     },
-    
+
     onGetGrouping: {
         type: "function",
         description: <cx><Md>
@@ -324,4 +324,20 @@ export default {
             should return a grid grouping configuration.
         </Md></cx>
     },
+
+    onCreateIsRecordDraggable: {
+        type: "function",
+        description: <cx><Md>
+             Callback function used to specify which row is draggable.
+             It should return a predicate which accepts a record and returns a boolean indicating wheter that record is draggable or not.
+        </Md></cx>
+    },
+
+    onGetColumns: {
+        type: "function",
+        description: <cx><Md>
+             Callback function used to dynamically calculate columns.
+             The function accepts resolved `columnParams` as a first argument and it should return either `columns` (array of column configurations) or `row` (grid row configuration) for multi-line scenarios.
+        </Md></cx>
+    }
 };
