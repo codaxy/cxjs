@@ -1,1 +1,1 @@
-export function append(array: any[], ...items: any[]): any[];
+export function append<T = any>(array: T[], ...items: T[]): T[];
