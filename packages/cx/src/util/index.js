@@ -10,7 +10,7 @@ export * from "./isPromise";
 export * from "./isTouchDevice";
 export * from "./KeyCode";
 export * from "./parseStyle";
-export * from "./quote";
+export * from "./backtickStr";
 export * from "./scrollElementIntoView";
 export * from "./shallowEquals";
 export * from "./Timing";

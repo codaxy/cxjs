@@ -1,20 +1,18 @@
-import {expression} from './Expression';
+import { expression } from "./Expression";
 
-import {quoteStr} from '../util/quote';
+import { backtickStr } from "../util/backtickStr";
 
 function plus(str) {
-   return str.length ? str + ' + ' : str;
+   return str.length ? str + " + " : str;
 }
 
 var tplCache = {};
 
 export function stringTemplate(str) {
-
    var expr = tplCache[str];
-   if (expr)
-      return expr;
+   if (expr) return expr;
 
-   expr = '';
+   expr = "";
 
    var termStart = -1,
       quoteStart = 0,
@@ -25,44 +23,38 @@ export function stringTemplate(str) {
    for (var i = 0; i < str.length; i++) {
       var c = str[i];
       switch (c) {
-
-         case '{':
+         case "{":
             if (termStart < 0) {
-               if (str[i + 1] == '{' && str[i - 1] != '%') {
-                  expr = plus(expr) + quoteStr(str.substring(quoteStart, i) + '{');
+               if (str[i + 1] == "{" && str[i - 1] != "%") {
+                  expr = plus(expr) + backtickStr(str.substring(quoteStart, i) + "{");
                   i++;
                   quoteStart = i + 1;
-               }
-               else {
+               } else {
                   termStart = i + 1;
-                  percentSign = str[i - 1] == '%';
+                  percentSign = str[i - 1] == "%";
                   if (i > quoteStart)
-                     expr = plus(expr) + quoteStr(str.substring(quoteStart, percentSign ? i-1 : i));
+                     expr = plus(expr) + backtickStr(str.substring(quoteStart, percentSign ? i - 1 : i));
                   bracketsOpen = 1;
                }
-            }
-            else
-               bracketsOpen++;
+            } else bracketsOpen++;
             break;
 
-         case '}':
+         case "}":
             if (termStart >= 0) {
                if (--bracketsOpen == 0) {
                   term = str.substring(termStart, i);
-                  if (term.indexOf(':') == -1) {
-                     let nullSepIndex = term.indexOf('|');
-                     if (nullSepIndex == -1)
-                        term += ':s';
-                     else
-                        term = term.substring(0, nullSepIndex) + ":s" + term.substring(nullSepIndex);
+                  if (term.indexOf(":") == -1) {
+                     let nullSepIndex = term.indexOf("|");
+                     if (nullSepIndex == -1) term += ":s";
+                     else term = term.substring(0, nullSepIndex) + ":s" + term.substring(nullSepIndex);
                   }
-                  expr = plus(expr) + (percentSign ? '%{' : '{') + term + '}';
+                  expr = plus(expr) + (percentSign ? "%{" : "{") + term + "}";
                   termStart = -1;
                   quoteStart = i + 1;
                   bracketsOpen = 0;
                }
-            } else if (str[i + 1] == '}') {
-               expr = plus(expr) + quoteStr(str.substring(quoteStart, i) + '}');
+            } else if (str[i + 1] == "}") {
+               expr = plus(expr) + backtickStr(str.substring(quoteStart, i) + "}");
                i++;
                quoteStart = i + 1;
             }
@@ -70,16 +62,14 @@ export function stringTemplate(str) {
       }
    }
 
-   if (quoteStart < str.length)
-      expr = plus(expr) + quoteStr(str.substring(quoteStart));
+   if (quoteStart < str.length) expr = plus(expr) + backtickStr(str.substring(quoteStart));
 
    //console.log(expr);
 
-   return tplCache[str] = expression(expr);
+   return (tplCache[str] = expression(expr));
 }
 
 export const StringTemplate = {
-
    get: function (str) {
       return stringTemplate(str);
    },
@@ -90,8 +80,8 @@ export const StringTemplate = {
 
    format: function (format, ...args) {
       return stringTemplate(format)(args);
-   }
-}
+   },
+};
 
 export function invalidateStringTemplateCache() {
    tplCache = {};

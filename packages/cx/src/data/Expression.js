@@ -1,8 +1,8 @@
-import { computable } from "./computable";
 import { Format } from "../util/Format";
 import { Binding } from "./Binding";
+import { computable } from "./computable";
 
-import { quoteStr } from "../util/quote";
+import { backtickStr } from "../util/backtickStr";
 import { isDigit } from "../util/isDigit";
 import { isFunction } from "../util/isFunction";
 
@@ -139,7 +139,7 @@ export function expression(str) {
                   } else args[argName] = binding;
                   if (format) {
                      let formatter = "fmt" + formats.length;
-                     fb.push(formatter, "(", argName, ", ", quoteStr(format), ")");
+                     fb.push(formatter, "(", argName, ", ", backtickStr(format), ")");
                      formats.push(Format.parse(format));
                   } else fb.push(argName);
                   termStart = -1;
