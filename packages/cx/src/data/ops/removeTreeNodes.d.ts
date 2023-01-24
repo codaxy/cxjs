@@ -1,1 +1,5 @@
-export function removeTreeNodes(array: any[], criteria: ((item?: any, index?: number) => boolean), childrenField?: string);
+export function removeTreeNodes<T = any>(
+   array: T[],
+   criteria: (item?: T, index?: number) => boolean,
+   childrenField?: string
+): T[];
