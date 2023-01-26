@@ -65,7 +65,7 @@ export function enableCultureSensitiveFormatting() {
 
    Fmt.registerFactory(['date', 'd'], (fmt, format = 'yyyyMMdd') => {
       let culture = Culture.getDateTimeCulture();
-      let formatter = culture.getFormatter();
+      let formatter = culture.getFormatter(format);
       return value => formatter.format(new Date(value));
    });
 
