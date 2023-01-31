@@ -1,8 +1,7 @@
-import * as Cx from '../../core';
-import {Instance} from '../../ui/Instance';
+import * as Cx from "../../core";
+import { Instance } from "../../ui/Instance";
 
-interface PointReducerProps extends Cx.PureContainerProps {
-
+export interface PointReducerProps extends Cx.PureContainerProps {
    /** A callback function used to initialize the accumulator. */
    onInitAccumulator?: (accumulator: Cx.Record, instance?: Instance) => void;
 
