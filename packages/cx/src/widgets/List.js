@@ -160,25 +160,23 @@ export class List extends Widget {
    }
 
    groupBy(grouping) {
-      if (grouping) {
-         if (!isArray(grouping)) {
-            if (isString(grouping) || typeof grouping == "object") return this.groupBy([grouping]);
-            throw new Error("DynamicGrouping should be an array of grouping objects");
-         }
-
-         grouping = grouping.map((g, i) => {
-            if (isString(g)) {
-               return {
-                  key: {
-                     [g]: {
-                        bind: this.recordName + "." + g,
-                     },
-                  },
-               };
-            }
-            return g;
-         });
+      if (!isArray(grouping)) {
+         if (isString(grouping) || typeof grouping == "object") return this.groupBy([grouping]);
+         throw new Error("DynamicGrouping should be an array of grouping objects");
       }
+
+      grouping = grouping.map((g, i) => {
+         if (isString(g)) {
+            return {
+               key: {
+                  [g]: {
+                     bind: this.recordName + "." + g,
+                  },
+               },
+            };
+         }
+         return g;
+      });
 
       grouping.forEach((g) => {
          if (g.header) g.header = Widget.create(g.header);
