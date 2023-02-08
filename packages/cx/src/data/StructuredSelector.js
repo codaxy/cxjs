@@ -114,9 +114,9 @@ export class StructuredSelector {
       store.init(this.config.defaultValues);
    }
 
-   create() {
+   create(memoize = true) {
       let selector = createSelector(this.config);
-      if (selector.memoize) return selector.memoize();
+      if (memoize && selector.memoize) return selector.memoize();
       return selector;
    }
 
