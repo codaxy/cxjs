@@ -245,6 +245,10 @@ export const docsNavTree = [
                   text: "Lookup Options Filter",
                   url: "~/examples/form/lookup-options-filter",
                },
+               {
+                  text: "Lookup Options Grouping",
+                  url: "~/examples/form/lookup-options-grouping",
+               },
             ],
          },
          {
