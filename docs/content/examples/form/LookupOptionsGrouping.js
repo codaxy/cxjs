@@ -109,7 +109,7 @@ export const LookupOptionsGrouping = (
                <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Index" default />
                <Tab value-bind="$page.code.tab" mod="code" tab="controller" text="Controller" />
 
-               <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="2ISVGCiL">{`
+               <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="NT8RBKGb">{`
                   class PageController extends Controller {
                      onInit() {
                         this.store.set('$page.userOptions', Array.from({length: 50}).map((v, i) => ({
@@ -129,7 +129,7 @@ export const LookupOptionsGrouping = (
                      }
                   }
                `}</CodeSnippet>
-               <CodeSnippet visible-expr="{$page.code.tab}=='index'" fiddle="2ISVGCiL">{`
+               <CodeSnippet visible-expr="{$page.code.tab}=='index'" fiddle="NT8RBKGb">{`
                   <div layout={{ type: LabelsTopLayout, vertical: true, mod: 'stretch', columns: 2 }}>
                      <LookupField
                         label="Single level"
