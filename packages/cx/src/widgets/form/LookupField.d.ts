@@ -125,7 +125,7 @@ interface LookupFieldProps extends FieldProps {
    minQueryLengthMessageText?: string;
 
    /** Name of the icon to be put on the left side of the input. */
-   icon?: string;
+   icon?: Cx.StringProp;
 
    /** Query function. */
    onQuery?: (
