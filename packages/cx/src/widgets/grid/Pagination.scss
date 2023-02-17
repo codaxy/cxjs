@@ -98,9 +98,9 @@
       line-height: $icon-size;
       position: absolute;
       top: 50%;
-      margin-top: -$icon-size / 2;
+      margin-top: -$icon-size * 0.5;
       left: 50%;
-      margin-left: -$icon-size / 2;
+      margin-left: -$icon-size * 0.5;
    }
 
    .#{$element}#{$name}-icon-prev-page {

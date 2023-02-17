@@ -322,7 +322,7 @@
       width: $icon-size;
       height: $icon-size;
       top: 50%;
-      margin-top: -$icon-size / 2;
+      margin-top: -$icon-size * 0.5;
       position: absolute;
       transition: transform 0.1s linear;
 

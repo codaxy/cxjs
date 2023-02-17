@@ -1,5 +1,5 @@
 @mixin cx-scroller(
-   $name: 'scroller',
+   $name: "scroller",
    $icon-size: $cx-default-icon-size,
    $button-size: $cx-default-scroller-button-size,
    $besm: $cx-besm
@@ -136,12 +136,11 @@
       top: 50%;
       left: 50%;
       position: absolute;
-      margin-left: -$icon-size/2;
-      margin-top: -$icon-size/2;
+      margin-left: -$icon-size * 0.5;
+      margin-top: -$icon-size * 0.5;
    }
-
 }
 
-@if (cx-should-include('cx/widgets/Scroller')) {
+@if (cx-should-include("cx/widgets/Scroller")) {
    @include cx-scroller();
 }

@@ -36,12 +36,13 @@ $toolbar-height: 20px;
          top: 50%;
          width: $logo-size;
          height: $logo-size;
-         margin-left: -$logo-size/2;
-         margin-top: -$logo-size/2;
+         margin-left: -$logo-size * 0.5;
+         margin-top: -$logo-size * 0.5;
          color: #263c4b;
       }
 
-      .cxb-menuitem.cxs-medium-padding > a, .cxb-menuitem.cxs-medium-padding > span {
+      .cxb-menuitem.cxs-medium-padding > a,
+      .cxb-menuitem.cxs-medium-padding > span {
          padding: 10px 15px;
       }
    }
@@ -133,15 +134,16 @@ $toolbar-height: 20px;
          color: rgba(0, 0, 0, 0.5);
       }
 
-      &::-moz-placeholder{
+      &::-moz-placeholder {
          color: rgba(0, 0, 0, 0.5);
       }
 
-      &:-ms-input-placeholder{
+      &:-ms-input-placeholder {
          color: rgba(0, 0, 0, 0.5);
       }
 
-      &:focus, &:hover {
+      &:focus,
+      &:hover {
          background: white;
          color: black;
       }

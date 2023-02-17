@@ -67,11 +67,11 @@
             }
 
             &.#{$state}empty {
-               padding-right: cx-calc($icon-size) / 2;
+               padding-right: cx-calc($icon-size) * 0.5;
             }
 
             & > .#{$element}#{$name}-arrow {
-               right: cx-right($value) / 2;
+               right: cx-right($value) * 0.5;
             }
 
             & > .#{$element}#{$name}-button {
@@ -86,7 +86,7 @@
       width: $icon-size;
       height: $icon-size;
       top: 50%;
-      margin-top: -$icon-size/2;
+      margin-top: -$icon-size * 0.5;
 
       .#{$state}vertical > & {
          transform: rotate(-90deg);
@@ -115,8 +115,8 @@
       height: $icon-size;
       top: 50%;
       left: 50%;
-      margin-top: -$icon-size/2;
-      margin-left: -$icon-size/2;
+      margin-top: -$icon-size * 0.5;
+      margin-left: -$icon-size * 0.5;
       text-align: center;
       line-height: 1;
       font-size: $icon-size;

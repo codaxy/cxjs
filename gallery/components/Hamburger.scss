@@ -14,28 +14,28 @@
    &:after,
    &:before {
       background-color: $color;
-      transition: all .2s linear;
-      content: ' ';
+      transition: all 0.2s linear;
+      content: " ";
       display: block;
       position: absolute;
       height: $thickness;
-      left: ( $size - $icon-size ) / 2;
-      right: ( $size - $icon-size ) / 2;
-      top: ($size/2) - ceil($thickness/2);
+      left: ($size - $icon-size) * 0.5;
+      right: ($size - $icon-size) * 0.5;
+      top: ($size * 0.5) - ceil($thickness * 0.5);
    }
    &:before {
-      box-shadow: $color 0 (-$icon-size/2 + $thickness);
+      box-shadow: $color 0 (-$icon-size * 0.5 + $thickness);
    }
    &:after {
-      box-shadow: $color 0 ($icon-size/2) - $thickness;
+      box-shadow: $color 0 ($icon-size * 0.5) - $thickness;
    }
 
    &.open {
       &:before {
-         box-shadow: $color 0 (-$icon-size/2 + $thickness + 3px);
+         box-shadow: $color 0 (-$icon-size * 0.5 + $thickness + 3px);
       }
       &:after {
-         box-shadow: $color 0 ($icon-size/2 - $thickness - 3px);
+         box-shadow: $color 0 ($icon-size * 0.5 - $thickness - 3px);
       }
    }
 }

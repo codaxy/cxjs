@@ -13,6 +13,46 @@ export const BreakingChanges = <cx>
             This page will provide information about breaking changes and how to migrate your applications to the latest
             versions of the framework.
 
+            ## 23.2.0
+
+            ### Internet Explorer is not supported anymore.
+
+            If you need to support Internet Explorer please use an older version of CxJS.
+
+            ### Dart Sass Transition
+
+            CxJS theming support is based on Sass. Since the beginning, the `node-sass` package was used to compile `.scss` files
+            to CSS. This package is [deprecated](https://sass-lang.com/blog/libsass-is-deprecated) for some time and we're looking for a way to
+            replace it with the [`sass`](https://www.npmjs.com/package/sass) package which doesn't rely on native
+            code and therefore offers less compatibility problems.
+
+            In the first phase both `node-sass` and `sass` will be supported. Later on, we're going to make a permanent switch and `node-sass`
+            will not work anymore.
+
+            These are the steps required to start using `sass` today:
+            1. remove `node-sass` from `package.json`
+            2. install `sass`
+            3. make the following changes in the root `index.scss` file:
+                - add `@use 'sass:math';` at the top of the file
+                - replace `cx-divide` function, after it's been imported
+
+                <CodeSnippet>
+                {`
+                @use 'sass:math';
+
+                # define variables
+                ...
+
+                @import '~cx/src/variables';
+
+                @function cx-divide($a, $b) {
+                    @return math.div($a, $b);
+                }
+                `}
+                </CodeSnippet>
+
+            Voila, your project should now compile CSS using `sass`. No more annoying `node-sass` issues.
+
             ## 21.3.0
 
             ### Babel 7

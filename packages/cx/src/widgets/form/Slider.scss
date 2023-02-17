@@ -1,6 +1,5 @@
-
 @mixin cx-slider(
-   $name: 'slider',
+   $name: "slider",
    $state-style-map: $cx-input-state-style-map,
    $styles: $cx-slider-handle-styles,
    $width: $cx-default-input-width,
@@ -33,26 +32,25 @@
    }
 
    .#{$element}#{$name}-axis {
-
       position: absolute;
       background-color: $axis-background-color;
-      border-radius: $size / 2;
+      border-radius: $size * 0.5;
       box-sizing: border-box;
 
       .#{$block}#{$name}.#{$state}horizontal & {
-         left: $size / 2;
-         right: $size / 2;
-         top: calc(50% - #{$axis-size / 2});
+         left: $size * 0.5;
+         right: $size * 0.5;
+         top: calc(50% - #{$axis-size * 0.5});
          height: $axis-size;
-         padding: 0 $axis-size / 2;
+         padding: 0 $axis-size * 0.5;
       }
 
       .#{$block}#{$name}.#{$state}vertical & {
-         top: $size / 2;
-         bottom: $size / 2;
+         top: $size * 0.5;
+         bottom: $size * 0.5;
          width: $axis-size;
-         left: calc(50% - #{$axis-size / 2});
-         padding: $axis-size / 2 0;
+         left: calc(50% - #{$axis-size * 0.5});
+         padding: $axis-size * 0.5 0;
       }
    }
 
@@ -66,7 +64,7 @@
       position: absolute;
 
       background-color: $range-background-color;
-      border-radius: $axis-size / 2;
+      border-radius: $axis-size * 0.5;
 
       .#{$block}#{$name}.#{$state}horizontal & {
          height: 100%;
@@ -82,9 +80,9 @@
       box-sizing: border-box;
       width: $size;
       height: $size;
-      margin-left: -$size / 2;
-      margin-top: -$size / 2;
-      margin-bottom: -$size / 2;
+      margin-left: -$size * 0.5;
+      margin-top: -$size * 0.5;
+      margin-bottom: -$size * 0.5;
       touch-action: none;
 
       .#{$block}#{$name}.#{$state}horizontal & {
@@ -116,6 +114,6 @@
    }
 }
 
-@if (cx-should-include('cx/widgets/Slider')) {
+@if (cx-should-include("cx/widgets/Slider")) {
    @include cx-slider();
 }
