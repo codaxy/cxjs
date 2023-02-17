@@ -15,28 +15,28 @@ export const BreakingChanges = <cx>
 
             ## 23.2.0
 
-            ### Internet Explorer is not supported anymore.
+            ### Dropped support for Internet Explorer
 
             If you need to support Internet Explorer please use an older version of CxJS.
 
             ### Dart Sass Transition
 
             CxJS theming support is based on Sass. Since the beginning, the `node-sass` package was used to compile `.scss` files
-            to CSS. This package is [deprecated](https://sass-lang.com/blog/libsass-is-deprecated) for some time and we're looking for a way to
-            replace it with the [`sass`](https://www.npmjs.com/package/sass) package which doesn't rely on native
-            code and therefore offers less compatibility problems.
+            to CSS. This package is [deprecated](https://sass-lang.com/blog/libsass-is-deprecated) for some time and we're gradually
+            replacing it with the [`sass`](https://www.npmjs.com/package/sass) package which doesn't rely on native
+            code and therefore offers less compatibility problems, but has some of its own quirks.
 
-            In the first phase both `node-sass` and `sass` will be supported. Later on, we're going to make a permanent switch and `node-sass`
-            will not work anymore.
+            In the first phase both `node-sass` and `sass` will be supported. Later on, we're going to make a permanent switch
+            after which `node-sass` will not work anymore.
 
-            These are the steps required to start using `sass` today:
+            These are the steps required to start using `sass` today in your project:
             1. remove `node-sass` from `package.json`
             2. install `sass`
             3. make the following changes in the root `index.scss` file:
                 - add `@use 'sass:math';` at the top of the file
                 - replace `cx-divide` function, after it's been imported
 
-                <CodeSnippet>
+                <CodeSplit><CodeSnippet>
                 {`
                 @use 'sass:math';
 
@@ -49,9 +49,9 @@ export const BreakingChanges = <cx>
                     @return math.div($a, $b);
                 }
                 `}
-                </CodeSnippet>
+                </CodeSnippet></CodeSplit>
 
-            Voila, your project should now compile CSS using `sass`. No more annoying `node-sass` issues.
+            Voila, your project now compiles CSS using `sass`. No more annoying `node-sass` issues.
 
             ## 21.3.0
 
