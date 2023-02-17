@@ -2,6 +2,13 @@
 
 <!--- ## Unreleased -->
 
+## `cx@23.2.0`
+
+**Features**
+
+-  Dart Sass compatibility (see [Breaking Changes](https://docs.cxjs.io/intro/breaking-changes))
+-  Dropping IE support
+
 ## `cx@22.11.3`
 
 **Fixes**
