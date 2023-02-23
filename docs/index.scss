@@ -1,9 +1,22 @@
+@use "sass:math";
 @import "../misc/index";
 
 $cx-theme-primary-color: $master-brand-highlight-color;
 $cx-link-state-style-map: ();
 
 @import "~cx-theme-aquamarine/src/variables";
+
+@function cx-divide($a, $b) {
+   @return math.div($a, $b);
+}
+
+$cx-tab-mods: cx-deep-map-merge(
+   $cx-tab-mods,
+   (
+      code: cx-map-deep-get($cx-tab-mods, "line"),
+   )
+);
+
 @import "~cx-theme-aquamarine/src/index";
 
 html {
