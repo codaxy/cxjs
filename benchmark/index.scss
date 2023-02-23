@@ -1,15 +1,21 @@
-//@import "~cx/src/variables";
-//@import "~cx/src/index";
+@use 'sass:math';
+@import "~cx/src/variables";
+
+@function cx-divide($a, $b) {
+   @return math.div($a, $b);
+}
+
+@import "~cx/src/index";
 
 html {
-  height: 100%;
+   height: 100%;
 }
 
 body {
    margin: 0;
    padding: 0;
    height: 100%;
-   font-family: 'Open Sans', sans-serif;
+   font-family: "Open Sans", sans-serif;
 }
 
 #app {

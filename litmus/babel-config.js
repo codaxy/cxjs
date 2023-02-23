@@ -2,7 +2,7 @@ module.exports = function (production) {
    let config = {
       cacheDirectory: true,
       cacheIdentifier: "v15",
-      "plugins": [
+      plugins: [
          // ["transform-runtime", {
          //    helpers: true,
          //    polyfill: false,
@@ -10,25 +10,32 @@ module.exports = function (production) {
          // }]
       ],
       presets: [
-         '@babel/preset-typescript',
-         ["cx-env", {
-            targets: {
-               chrome: 50,
-               ie: 11,
-               firefox: 30,
-               edge: 12,
-               safari: 9
+         "@babel/preset-typescript",
+         [
+            "cx-env",
+            {
+               targets: {
+                  chrome: 50,
+                  ie: 11,
+                  firefox: 30,
+                  edge: 12,
+                  safari: 9,
+               },
+               modules: false,
+               loose: true,
+               useBuiltIns: false,
+               cx: {
+                  imports: {
+                     useSrc: true,
+                  },
+               },
             },
-            modules: false,
-            loose: true,
-            useBuiltIns: false,
-            cx: {
-               imports: {
-                  useSrc: true
-               }
-            }
-         }]
-      ]
+         ],
+      ],
+      plugins: [
+         ["@babel/plugin-proposal-private-methods", { loose: false }],
+         ["@babel/plugin-proposal-private-property-in-object", { loose: false }],
+      ],
    };
 
    // if (production)
@@ -38,5 +45,3 @@ module.exports = function (production) {
 
    return config;
 };
-
-

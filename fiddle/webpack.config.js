@@ -15,7 +15,7 @@ let production = process.env.npm_lifecycle_event.indexOf("build") == 0;
 
 var common = {
    mode: production ? "production" : "development",
-   target: ['web', 'es5'],
+   target: ["web", "es5"],
    resolve: {
       alias: {
          fiddle: __dirname,
@@ -67,6 +67,10 @@ var common = {
                         },
                      },
                   ],
+               ],
+               plugins: [
+                  ["@babel/plugin-proposal-private-methods", { loose: false }],
+                  ["@babel/plugin-proposal-private-property-in-object", { loose: false }],
                ],
             },
          },
