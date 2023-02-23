@@ -45,10 +45,10 @@ $cx-default-box-font-size: 13px !default;
 $cx-default-box-line-height: $cx-theme-base-size + 10px !default;
 $cx-default-box-border-width: 1px !default;
 
+$cx-default-box-padding: round($cx-theme-base-size * 0.5);
+
 @if $cx-theme-base-size < 14px {
-   $cx-default-box-padding: round($cx-theme-base-size/3) !global;
-} @else {
-   $cx-default-box-padding: round($cx-theme-base-size * 0.5) !global;
+   $cx-default-box-padding: round($cx-theme-base-size/3);
 }
 
 $cx-use-box-line-height-fix: false !default;
@@ -404,15 +404,9 @@ $cx-button-mods: cx-deep-map-merge(
             background-color: $cx-theme-accent-color,
             border-color: transparent,
             border-radius: 50%,
-            padding: 0 !important,
-            width: $cx-default-box-line-height + 2 *
-               (
-                  $cx-default-box-padding + 1px,
-               ) + 10px,
-            height: $cx-default-box-line-height + 2 *
-               (
-                  $cx-default-box-padding + 1px,
-               ) + 10px,
+            padding: 0,
+            width: $cx-default-box-line-height + 2 * cx-calc($cx-default-box-padding, 1px) + 10px,
+            height: $cx-default-box-line-height + 2 * cx-calc($cx-default-box-padding, 1px) + 10px,
          ),
          hover: (
             background-color: rgba($cx-theme-accent-color, 0.9),
