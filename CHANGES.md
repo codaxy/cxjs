@@ -2,6 +2,16 @@
 
 <!--- ## Unreleased -->
 
+## `cx@23.2.1`
+
+**Features**
+
+-  Allow Grid to render children, i.e. loading mask
+
+**Fixes**
+
+-  Make AccessorChain<T> assignable to AccessorChain<any>
+
 ## `cx@23.2.0`
 
 **Features**

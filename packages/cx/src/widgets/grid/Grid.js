@@ -41,8 +41,9 @@ import { parseStyle } from "cx/src/util/parseStyle";
 import { StaticText } from "../../ui/StaticText";
 import { unfocusElement } from "../../ui/FocusManager";
 import { tooltipMouseMove, tooltipMouseLeave } from "../overlay/tooltip-ops";
+import { Container } from "../../ui/Container";
 
-export class Grid extends Widget {
+export class Grid extends Container {
    declareData(...args) {
       let selection = this.selection.configureWidget(this);
 
@@ -487,7 +488,9 @@ export class Grid extends Widget {
             fixedHeader={fixedHeader}
             fixedFooter={instance.fixedFooterVDOM}
             fixedColumnsFixedFooter={instance.fixedColumnsFixedFooterVDOM}
-         />
+         >
+            {this.renderChildren(context, instance)}
+         </GridComponent>
       );
    }
 
@@ -1726,6 +1729,7 @@ class GridComponent extends VDOM.Component {
             {fixedColumnsContent}
             {content}
             {columnInsertionMarker}
+            {this.props.children}
          </div>
       );
    }
