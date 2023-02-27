@@ -1,4 +1,4 @@
-import { Record, AccessorChain } from "../core";
+import { Record, AccessorChain, Bind } from "../core";
 
 export class Binding<V = any> {
    constructor(path: string);
@@ -10,6 +10,7 @@ export class Binding<V = any> {
    value(state: Record): any;
 
    static get(path: string): Binding;
+   static get(bind: Bind): Binding;
    static get<V>(chain: AccessorChain<V>): Binding<V>;
 }
 

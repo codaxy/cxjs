@@ -37,13 +37,19 @@ declare namespace Cx {
       [prop: string]: Selector<any>;
    }
 
+   interface AccessorChainMethods {
+      toString(): string;
+      valueOf(): string;
+      nameOf(): string;
+   }
+
+   type AccessorChainMap<M> = { [prop in keyof M]: AccessorChain<M[prop]> };
+
    type AccessorChain<M> = {
       toString(): string;
       valueOf(): string;
       nameOf(): string;
-   } & {
-      [prop in keyof M]: AccessorChain<M[prop]>;
-   };
+   } & Omit<AccessorChainMap<M>, keyof AccessorChainMethods>;
 
    type Prop<T> = T | Binding | Selector<T> | AccessorChain<T> | GetSet<T>;
 
