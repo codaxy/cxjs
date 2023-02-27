@@ -1,7 +1,7 @@
 const buildJS = require("cx-build-tools/buildJS"),
    buildSCSS = require("cx-build-tools/buildSCSS"),
    getPathResolver = require("cx-build-tools/getPathResolver"),
-   fs = require('fs'),
+   fs = require("fs"),
    resolvePath = getPathResolver(__dirname),
    cxSrc = getPathResolver(resolvePath("../src"));
 
@@ -9,53 +9,53 @@ const entries = [
    {
       name: "util",
       options: {
-         input: cxSrc("util/index.js")
+         input: cxSrc("util/index.js"),
       },
-      output: {}
+      output: {},
    },
    {
       name: "data",
 
       options: {
-         input: cxSrc("data/index.js")
+         input: cxSrc("data/index.js"),
       },
-      output: {}
+      output: {},
    },
    {
       name: "ui",
       options: {
-         input: cxSrc("ui/index.js")
+         input: cxSrc("ui/index.js"),
       },
-      output: {}
+      output: {},
    },
    {
       name: "widgets",
       options: {
-         input: cxSrc("widgets/index.js")
+         input: cxSrc("widgets/index.js"),
       },
-      output: {}
+      output: {},
    },
    {
       name: "svg",
       options: {
-         input: cxSrc("svg/index.js")
+         input: cxSrc("svg/index.js"),
       },
-      output: {}
+      output: {},
    },
    {
       name: "charts",
       options: {
-         input: cxSrc("charts/index.js")
+         input: cxSrc("charts/index.js"),
       },
-      output: {}
+      output: {},
    },
    {
       name: "hooks",
       options: {
-         input: cxSrc("hooks/index.js")
+         input: cxSrc("hooks/index.js"),
       },
-      output: {}
-   }
+      output: {},
+   },
 ];
 
 const externalPaths = {
@@ -65,7 +65,7 @@ const externalPaths = {
    [cxSrc("./widgets")]: "cx/widgets",
    [cxSrc("./charts")]: "cx/charts",
    [cxSrc("./svg/")]: "cx/svg",
-   [cxSrc("./hooks/")]: "cx/hooks"
+   [cxSrc("./hooks/")]: "cx/hooks",
 };
 
 (async function buildAll() {
@@ -77,32 +77,25 @@ const externalPaths = {
       }
 
       await Promise.all([
-         buildJS(
-            resolvePath("../src"),
-            resolvePath("../dist"),
-            entries,
-            externalPaths
-         ),
-         buildSCSS(
-            [resolvePath("../../cx-build-tools/reset.scss")],
-            resolvePath("../dist/reset.css")
-         ),
+         buildJS(resolvePath("../src"), resolvePath("../dist"), entries, externalPaths),
+         buildSCSS([resolvePath("../../cx-build-tools/reset.scss")], resolvePath("../dist/reset.css")),
          buildSCSS(
             [
                cxSrc("variables.scss"),
+               resolvePath("../../cx-build-tools/divide.scss"),
                cxSrc("widgets/index.scss"),
-               cxSrc("ui/index.scss")
+               cxSrc("ui/index.scss"),
             ],
             resolvePath("../dist/widgets.css")
          ),
          buildSCSS(
-            [cxSrc("variables.scss"), cxSrc("charts/index.scss")],
+            [cxSrc("variables.scss"), resolvePath("../../cx-build-tools/divide.scss"), cxSrc("charts/index.scss")],
             resolvePath("../dist/charts.css")
          ),
          buildSCSS(
-            [cxSrc("variables.scss"), cxSrc("svg/index.scss")],
+            [cxSrc("variables.scss"), resolvePath("../../cx-build-tools/divide.scss"), cxSrc("svg/index.scss")],
             resolvePath("../dist/svg.css")
-         )
+         ),
       ]);
    } catch (err) {
       console.log("Build error.", err);

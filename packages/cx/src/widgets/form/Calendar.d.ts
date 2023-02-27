@@ -80,7 +80,7 @@ interface CalendarProps extends FieldProps {
     *    }
     * }
     */
-   dayData: Cx.Prop<DayData>;
+   dayData?: Cx.Prop<DayData>;
 }
 
 export class Calendar extends Cx.Widget<CalendarProps> {}

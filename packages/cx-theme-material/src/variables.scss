@@ -1,3 +1,4 @@
+/* prettier-ignore */
 //THEME SPECIFIC VARIABLES
 // pick theme color scheme
 $primary-color-blue: #2196f3 !default;
@@ -66,10 +67,11 @@ $cx-default-border-radius: 2px !default;
 $cx-default-box-font-size: 13px !default;
 $cx-default-box-line-height: $cx-theme-base-size + 10px !default;
 $cx-default-box-border-width: 1px !default;
+
+$cx-default-box-padding: round($cx-theme-base-size * 0.5);
+
 @if $cx-theme-base-size < 14px {
-   $cx-default-box-padding: round($cx-theme-base-size/3) !global;
-} @else {
-   $cx-default-box-padding: round($cx-theme-base-size * 0.5) !global;
+   $cx-default-box-padding: round($cx-theme-base-size/3);
 }
 
 $cx-default-padding-extra-small: 5px !default;
@@ -423,15 +425,9 @@ $cx-button-mods: cx-deep-map-merge(
             background-color: $cx-theme-accent-color,
             border-radius: 50%,
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.45),
-            padding: 0 !important,
-            width: $cx-default-box-line-height + 2 *
-               (
-                  $cx-default-box-padding + 1px,
-               ) + 10px,
-            height: $cx-default-box-line-height + 2 *
-               (
-                  $cx-default-box-padding + 1px,
-               ) + 10px,
+            padding: 0,
+            /* prettier-ignore */ width: $cx-default-box-line-height + 2 * cx-calc($cx-default-box-padding, 1px) + 10px,
+            height: $cx-default-box-line-height + 2 * cx-calc($cx-default-box-padding, 1px) + 10px,
          ),
          hover: (
             background-color: $cx-theme-accent-color,

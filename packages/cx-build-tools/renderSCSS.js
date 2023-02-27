@@ -1,4 +1,4 @@
-var sass = require("node-sass"),
+var sass = require("sass"),
    path = require("path");
 
 function getImport(path) {
@@ -11,20 +11,17 @@ module.exports = function renderSCSS(paths) {
       sass.render(
          {
             data,
-            importer: function(name, prev, done) {
+            importer: function (name, prev, done) {
                if (name.indexOf("~cx/") == 0) {
-                  let resolvedFile = path.resolve(
-                     __dirname,
-                     "../cx/" + name.substring(4) + ".scss"
-                  );
+                  let resolvedFile = path.resolve(__dirname, "../cx/" + name.substring(4) + ".scss");
                   return {
-                     file: resolvedFile
+                     file: resolvedFile,
                   };
                }
                return { file: name };
-            }
+            },
          },
-         function(err, result) {
+         function (err, result) {
             if (err) reject(err);
             else resolve(result);
          }

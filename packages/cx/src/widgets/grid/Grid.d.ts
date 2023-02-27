@@ -379,7 +379,7 @@ interface GridProps extends StyledContainerProps {
     * Accepts new records as a first argument.
     * If onCreateFilter callback is defined, filtered records can be retrieved using this callback.
     */
-   onTrackMappedRecords?: (records: Record[], instance: Instance) => void;
+   onTrackMappedRecords?: string | ((records: Record[], instance: Instance) => void);
 
    /** Callback to create a function that can be used to check whether a record is draggable. */
    onCreateIsRecordDraggable?: (params: any, instance: Instance) => (record: Record) => boolean;

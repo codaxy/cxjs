@@ -1,1 +1,1 @@
-export function createFunctionalComponent<T>(factory: (props: T) => any): (props: T) => any;
+export function createFunctionalComponent<T, X>(factory: (props: T) => X): (props: T) => X;

@@ -1,6 +1,8 @@
 $cx-include-global-rules: true;
 
 @import "~cx-theme-aquamarine/src/variables";
+@import "./util/divide.scss";
+
 @import "~cx-theme-aquamarine/src/index";
 
 @import "./util/customize-master";
@@ -8,4 +10,4 @@ $cx-include-global-rules: true;
 @include customize-master(
    $brand-background: darken($cx-theme-primary-color, 10%),
    $brand-highlight-color: darken($cx-theme-primary-color, 10%)
-)
+);
