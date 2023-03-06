@@ -2,6 +2,12 @@
 
 <!--- ## Unreleased -->
 
+## `cx@23.3.0`
+
+**Fixes**
+
+-  Fix `quoteStr` handling of special characters (used for multiline string templates)
+
 ## `cx@23.2.1`
 
 **Features**
