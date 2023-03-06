@@ -30,7 +30,7 @@ interface DragSourceProps extends Cx.StyledContainerProps {
    clone?: Cx.Config;
 
    /** CSS styles to be applied to the clone of the element being dragged. */
-   cloneStyle: Cx.StyleProp;
+   cloneStyle?: Cx.StyleProp;
 
    /** CSS styles to be applied to the element being dragged. */
    draggedStyle: Cx.StyleProp;
