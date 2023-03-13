@@ -103,6 +103,7 @@ interface GridColumnConfig {
    header1?: StringProp | GridColumnHeaderConfig;
    header2?: StringProp | GridColumnHeaderConfig;
    header3?: StringProp | GridColumnHeaderConfig;
+   fixed?: BooleanProp;
    sortable?: boolean;
    aggregate?: "min" | "max" | "count" | "sum" | "distinct" | "avg";
    aggregateAlias?: string;
