@@ -1,4 +1,4 @@
-import { Repeater, Slider } from "cx/widgets";
+import { Repeater, Slider, NumberField } from "cx/widgets";
 
 export default (
    <cx>
@@ -10,6 +10,8 @@ export default (
             },
          }}
       >
+         <NumberField value-bind="num" reactOn="change" />
+         <NumberField value-bind="num" reactOn="change" />
          <Repeater records-bind="arr">
             <div>
                <Slider to-bind="$record.value" wheel maxValue={100} step={1} />
