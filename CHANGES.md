@@ -2,6 +2,13 @@
 
 <!--- ## Unreleased -->
 
+## `cx@23.3.1`
+
+**Fixes**
+
+-  Allow up to eight typed parameters in triggers and computables
+-  Allow entering negative decimal numbers in NumberFields with reactOn="change"
+
 ## `cx@23.3.0`
 
 **Fixes**
