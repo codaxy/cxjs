@@ -2,6 +2,12 @@
 
 <!--- ## Unreleased -->
 
+## `cx@23.4.0`
+
+**Fixes**
+
+-  Expose SimpleSelection (undocumented)
+
 ## `cx@23.3.1`
 
 **Fixes**
