@@ -1,10 +1,15 @@
-import {Widget, VDOM} from '../../ui/Widget';
+import { Widget, VDOM } from "../../ui/Widget";
 
 export class ValidationError extends Widget {
-
    checkVisible(context, instance, data) {
-      if (data.visible && context.lastFieldId && context.validation && context.validation.errors && context.validation.errors.length > 0) {
-         var lastError = instance.lastError = context.validation.errors[context.validation.errors.length - 1];
+      if (
+         data.visible &&
+         context.lastFieldId &&
+         context.validation &&
+         context.validation.errors &&
+         context.validation.errors.length > 0
+      ) {
+         var lastError = (instance.lastError = context.validation.errors[context.validation.errors.length - 1]);
          return lastError.fieldId == context.lastFieldId && lastError.visited;
       }
 
@@ -12,9 +17,9 @@ export class ValidationError extends Widget {
    }
 
    explore(context, instance) {
-      var {data, lastError} = instance;
-      let c1 = instance.cache('lastErrorMessage', lastError.message);
-      let c2 = instance.cache('lastErrorFieldId', lastError.fieldId);
+      var { data, lastError } = instance;
+      let c1 = instance.cache("lastErrorMessage", lastError.message);
+      let c2 = instance.cache("lastErrorFieldId", lastError.fieldId);
       if (c1 || c2) {
          data.errorMessage = lastError.message;
          data.fieldId = lastError.fieldId;
@@ -24,14 +29,16 @@ export class ValidationError extends Widget {
    }
 
    render(context, instance, key) {
-      var {data} = instance;
-      return <label key={key} className={data.classNames} htmlFor={data.fieldId}>
-         {data.errorMessage}
-      </label>
+      var { data } = instance;
+      return (
+         <label key={key} className={data.classNames} htmlFor={data.fieldId} style={data.style}>
+            {data.errorMessage}
+         </label>
+      );
    }
 }
 
-ValidationError.prototype.baseClass = 'validationerror';
+ValidationError.prototype.baseClass = "validationerror";
 ValidationError.prototype.styled = true;
 
-Widget.alias('validation-error', ValidationError);
+Widget.alias("validation-error", ValidationError);

@@ -14,7 +14,8 @@ export class Validator extends Field {
       return false;
    }
 
-   render() {
-      return null;
+   render(context, instance, key) {
+      if (!instance.state.visited || !instance.data.error) return;
+      return this.renderChildren(context, instance, key);
    }
 }

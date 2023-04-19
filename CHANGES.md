@@ -2,6 +2,12 @@
 
 <!--- ## Unreleased -->
 
+## `cx@23.4.1`
+
+**Features**
+
+-  Allow Validator to render children, i.e. ValidationError (undocumented)
+
 ## `cx@23.4.0`
 
 **Fixes**
