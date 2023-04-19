@@ -1,4 +1,4 @@
-import { StructuredProp, Record, StructuredSelector as SS } from "../core";
+import { StructuredProp, Record, Selector } from "../core";
 import { View } from "./View";
 
 interface StructuredSelectorConfig {
@@ -11,5 +11,7 @@ export class StructuredSelector {
 
    init(store: View);
 
-   create(memoize?: bool = true): SS;
+   create(memoize?: bool = true): Selector<Record>;
+
+   createStoreSelector(): (store: View) => Record;
 }
