@@ -7,18 +7,12 @@ export class Binding {
    constructor(path) {
       this.path = path;
       this.parts = path.split(".");
-      let body = "return (x";
+      let body = "return x";
       let selector = "x";
 
       for (let i = 0; i < this.parts.length; i++) {
-         if (this.parts[i][0] >= "0" && this.parts[i][0] <= "9") selector += "[" + this.parts[i] + "]";
-         else selector += "." + this.parts[i];
-
-         if (i + 1 < this.parts.length) body += " && " + selector;
-         else body += " ? " + selector + " : undefined";
+         body += '?.["' + this.parts[i] + '"]';
       }
-
-      body += ")";
       this.value = new Function("x", body);
    }
 
