@@ -8,11 +8,7 @@ export class Binding {
       this.path = path;
       this.parts = path.split(".");
       let body = "return x";
-      let selector = "x";
-
-      for (let i = 0; i < this.parts.length; i++) {
-         body += '?.["' + this.parts[i] + '"]';
-      }
+      for (let i = 0; i < this.parts.length; i++) body += '?.["' + this.parts[i] + '"]';
       this.value = new Function("x", body);
    }
 
