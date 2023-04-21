@@ -33,6 +33,13 @@ describe("Binding", function () {
          var ns = b.set(state, "Joe");
          assert.equal(state, ns);
       });
+
+      it("allows non-standard property identifiers", function () {
+         var state = { person: { "@schema": "Person" } };
+         var b = Binding.get("person.@schema");
+         var ns = b.set(state, "Test");
+         assert.equal(ns.person["@schema"], "Test");
+      });
    });
 
    describe(".delete()", function () {
