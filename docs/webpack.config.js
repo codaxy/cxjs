@@ -5,7 +5,7 @@ const webpack = require("webpack"),
    path = require("path"),
    CopyWebpackPlugin = require("copy-webpack-plugin"),
    { CleanWebpackPlugin } = require("clean-webpack-plugin"),
-   ScriptExtHtmlWebpackPlugin = require("script-ext-html-webpack-plugin"),
+   //ScriptExtHtmlWebpackPlugin = require("script-ext-html-webpack-plugin"),
    babelConfig = require("./babel-config"),
    gtm = require("../misc/tracking/gtm.js"),
    reactScriptsProd = require("../misc/reactScripts"),
@@ -64,13 +64,13 @@ if (production) {
                },
             ],
          }),
-         new ScriptExtHtmlWebpackPlugin({
-            //async: /\!(app|vendor).js$/,
-            prefetch: {
-               test: /\.js$/,
-               chunks: "async",
-            },
-         }),
+         //  new ScriptExtHtmlWebpackPlugin({
+         //     //async: /\!(app|vendor).js$/,
+         //     prefetch: {
+         //        test: /\.js$/,
+         //        chunks: "async",
+         //     },
+         //  }),
          new CleanWebpackPlugin(),
       ],
 
@@ -124,11 +124,11 @@ if (production) {
          hints: false,
       },
       devServer: {
-         contentBase: "/docs",
+         //contentBase: "/docs",
          hot: true,
          port: 8065,
-         noInfo: false,
-         inline: true,
+         //noInfo: false,
+         //inline: true,
          historyApiFallback: true,
       },
    };

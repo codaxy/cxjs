@@ -3,7 +3,6 @@
    "version": "22.3.0",
    "description": "CxJS intergration for Immer.",
    "main": "index.js",
-   "scripts": {},
    "author": "Codaxy",
    "license": "MIT",
    "homepage": "https://github.com/codaxy/cxjs",

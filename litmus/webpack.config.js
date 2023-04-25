@@ -153,11 +153,11 @@ if (production) {
       },
       devtool: "eval",
       devServer: {
-         contentBase: "/",
+         //contentBase: "/",
          hot: true,
          port: 8085,
-         noInfo: false,
-         inline: true,
+         //noInfo: false,
+         //inline: true,
          historyApiFallback: true,
          //quiet: true
       },

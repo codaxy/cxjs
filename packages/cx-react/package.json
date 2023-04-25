@@ -3,7 +3,6 @@
    "version": "17.10.1",
    "description": "React based rendering for CxJS applications.",
    "main": "index.js",
-   "scripts": {},
    "author": "Codaxy",
    "license": "MIT",
    "homepage": "https://github.com/codaxy/cxjs",

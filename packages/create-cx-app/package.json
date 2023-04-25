@@ -24,9 +24,7 @@
   "engines": {
     "node": ">=4.0.0"
   },
-  "bin": {
-    "create-cx-app": "index.js"
-  },
+  "bin": "index.js",
   "preferGlobal": true,
   "author": "Codaxy",
   "license": "MIT"
