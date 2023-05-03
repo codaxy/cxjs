@@ -139,7 +139,6 @@ if (production) {
       mode: "development",
       //target: ["web", "es5"], //Uncomment for IE testing
       plugins: [
-         new webpack.HotModuleReplacementPlugin(),
          new webpack.DefinePlugin({
             "process.env.NODE_ENV": JSON.stringify("development"),
             "process.env.NODE_DEBUG": JSON.stringify(false),

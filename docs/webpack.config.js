@@ -99,7 +99,10 @@ if (production) {
          ],
       },
       entry: {
-         app: ["react-dev-utils/webpackHotDevClient", __dirname + "/index.js"],
+         app: [
+            //"react-dev-utils/webpackHotDevClient",
+            __dirname + "/index.js",
+         ],
       },
       optimization: {
          moduleIds: "named",

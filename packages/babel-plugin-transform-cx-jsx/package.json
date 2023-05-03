@@ -10,8 +10,8 @@
       "@babel/plugin-syntax-jsx": "^7.21.4"
    },
    "devDependencies": {
-      "@babel/core": "^7.21.4",
-      "@babel/preset-env": "^7.21.4",
+      "@babel/core": "^7.21.8",
+      "@babel/preset-env": "^7.21.5",
       "mocha": "^10.2.0"
    },
    "peerDependencies": {

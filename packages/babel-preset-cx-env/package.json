@@ -7,7 +7,7 @@
   "license": "SEE LICENSE.md",
   "dependencies": {
     "@babel/plugin-proposal-function-bind": "^7.18.9",
-    "@babel/plugin-transform-react-jsx": "^7.21.0",
+    "@babel/plugin-transform-react-jsx": "^7.21.5",
     "babel-plugin-transform-cx-imports": "^21.3.0",
     "babel-plugin-transform-cx-jsx": "^21.3.0"
   },

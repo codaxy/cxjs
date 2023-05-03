@@ -1,19 +1,19 @@
 import { DocumentTitle } from "cx/widgets";
 import { Url, History } from "cx/ui";
 import { HtmlElement } from "cx/widgets";
-import { marked } from "marked";
+import { marked, Renderer } from "marked";
 import { removeCommonIndent } from "./removeCommonIndent";
 
 var renderer = new marked.Renderer();
 
 renderer.link = function (href, title, text) {
    href = Url.resolve(href);
-   return marked.Renderer.prototype.link.call(this, href, title, text);
+   return Renderer.prototype.link.call(this, href, title, text);
 };
 
 var lastH1Text;
 
-renderer.heading = function (text, level, raw) {
+renderer.heading = function (text, level, raw, slugger) {
    var escapedText = text.toLowerCase().replace(/[^\w]+/g, "-");
 
    if (level == 1) lastH1Text = text;
@@ -21,7 +21,7 @@ renderer.heading = function (text, level, raw) {
    if (level > 1)
       return `<h${level}><a class="anchor" id="${escapedText}"></a><a href="#${escapedText}" tabindex="-1">${text}</a></h${level}>`;
 
-   return marked.Renderer.prototype.heading.call(this, text, level, raw);
+   return Renderer.prototype.heading.call(this, text, level, raw, slugger);
 };
 
 export class Md extends HtmlElement {

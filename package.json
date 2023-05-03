@@ -3,7 +3,7 @@
    "version": "1.1.1",
    "description": "Framework for enterprise JavaScript applications",
    "scripts": {
-      "start": "webpack-dev-server --config docs/webpack.config.js --open",
+      "start": "cd docs && webpack-dev-server --config webpack.config.js --open",
       "test": "mocha --config ./test/mocha.config.js",
       "docs": "webpack-dev-server --config docs/webpack.config.js --open",
       "build": "node packages/cx/build/index.js",
@@ -58,14 +58,14 @@
       ]
    },
    "dependencies": {
-      "@types/react": "^18.0.38",
+      "@types/react": "^18.2.0",
       "react": "^18.2.0",
       "react-dom": "^18.2.0"
    },
    "devDependencies": {
-      "@babel/core": "^7.21.4",
-      "@babel/plugin-transform-react-jsx": "^7.21.0",
-      "@babel/preset-env": "^7.21.4",
+      "@babel/core": "^7.21.8",
+      "@babel/plugin-transform-react-jsx": "^7.21.5",
+      "@babel/preset-env": "^7.21.5",
       "@babel/register": "^7.21.0",
       "babel-jest": "29.5.0",
       "env-test": "^1.0.0",
