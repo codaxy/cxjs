@@ -109,11 +109,13 @@ class RestateStore extends Store {
    constructor(config) {
       super(config);
       this.parentDataVersion = -1;
+   }
 
-      //initial data population should not cause an additional rendering pass
+   getData() {
       this.silently(() => {
          this.parentDataCheck();
       });
+      return super.getData();
    }
 
    parentDataCheck() {
@@ -134,6 +136,7 @@ class RestateStore extends Store {
          let changed = isUndefined(value) ? super.deleteItem(path) : super.setItem(path, value);
          return changed;
       }
+
       let newValue = value;
       if (binding.parts.length > 1) newValue = binding.set(this.getData(), value)[bindingRoot];
       this.onSet(bindingRoot, newValue);

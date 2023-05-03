@@ -139,7 +139,6 @@ if (production) {
       mode: "development",
       //target: ["web", "es5"], //Uncomment for IE testing
       plugins: [
-         new webpack.HotModuleReplacementPlugin(),
          new webpack.DefinePlugin({
             "process.env.NODE_ENV": JSON.stringify("development"),
             "process.env.NODE_DEBUG": JSON.stringify(false),
@@ -153,11 +152,11 @@ if (production) {
       },
       devtool: "eval",
       devServer: {
-         contentBase: "/",
+         //contentBase: "/",
          hot: true,
          port: 8085,
-         noInfo: false,
-         inline: true,
+         //noInfo: false,
+         //inline: true,
          historyApiFallback: true,
          //quiet: true
       },
