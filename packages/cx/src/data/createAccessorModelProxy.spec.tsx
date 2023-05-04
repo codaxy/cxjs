@@ -7,6 +7,7 @@ interface Model {
       city: string;
       streetNumber: number;
    };
+   "@crazy": string;
 }
 
 describe("createAccessorModelProxy", () => {
@@ -34,5 +35,10 @@ describe("createAccessorModelProxy", () => {
       let { streetNumber, city } = model.address;
       assert.strictEqual(streetNumber.nameOf(), "streetNumber");
       assert.strictEqual(city.nameOf(), "city");
+   });
+
+   it("allows non-standard property identifiers ", () => {
+      let model = createAccessorModelProxy<Model>();
+      assert.strictEqual(model["@crazy"].nameOf(), "@crazy");
    });
 });
