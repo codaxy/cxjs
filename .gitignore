@@ -1,5 +1,6 @@
 /.idea
 .vscode
+.yarn
 
 node_modules
 *.hot-update.js
