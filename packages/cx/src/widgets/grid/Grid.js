@@ -42,6 +42,7 @@ import { StaticText } from "../../ui/StaticText";
 import { unfocusElement } from "../../ui/FocusManager";
 import { tooltipMouseMove, tooltipMouseLeave } from "../overlay/tooltip-ops";
 import { Container } from "../../ui/Container";
+import { findFirstChild } from "../../util/DOM";
 
 export class Grid extends Container {
    declareData(...args) {
@@ -510,13 +511,16 @@ export class Grid extends Container {
             onClick={(e) => {
                e.stopPropagation();
             }}
+            data-unique-col-id={hdwidget.uniqueColumnId}
             onMouseDown={(e) => {
                if (e.buttons != 1) return;
                let resizeOverlayEl = document.createElement("div");
-               let headerCell = e.target.parentElement;
-               if (forPreviousColumn) headerCell = headerCell.previousSibling;
+               
+               let headerTBody = e.target.parentElement.parentElement.parentElement;
+               let uniqueColId = e.currentTarget.dataset.uniqueColId;
 
-               let scrollAreaEl = headerCell.parentElement.parentElement.parentElement.parentElement;
+               let headerCell = findFirstChild(headerTBody, el => el.tagName == 'TH' && el.dataset?.uniqueColId == uniqueColId);
+               let scrollAreaEl = headerTBody.parentElement.parentElement;
                let gridEl = scrollAreaEl.parentElement;
                let initialWidth = headerCell.offsetWidth;
                let initialPosition = getCursorPos(e);
@@ -640,15 +644,17 @@ export class Grid extends Container {
                      }
                   }
 
+                  let uniqueColumnId = header.data.colSpan > 1 ? null : hdwidget.uniqueColumnId;
+
                   style = header.data.style;
                   let customWidth =
                      header.data.width ||
-                     instance.state.colWidth[hdwidget.uniqueColumnId] ||
+                     instance.state.colWidth[uniqueColumnId] ||
                      header.data.defaultWidth ||
-                     instance.state.lockedColWidth[hdwidget.uniqueColumnId];
+                     instance.state.lockedColWidth[uniqueColumnId];
                   if (customWidth) {
-                     if (instance.state.colWidth[hdwidget.uniqueColumnId] != customWidth)
-                        instance.state.colWidth[hdwidget.uniqueColumnId] = customWidth;
+                     if (instance.state.colWidth[uniqueColumnId] != customWidth)
+                        instance.state.colWidth[uniqueColumnId] = customWidth;
                      let s = `${customWidth}px`;
                      style = {
                         ...style,
@@ -686,10 +692,15 @@ export class Grid extends Container {
 
                   if (colIndex > 0) {
                      let hdinstPrev = line.children[colIndex - 1];
-                     let headerPrev = hdinstPrev.components[`header${l + 1}`];
+                     let prevLine = 3;
+                     let headerPrev;
+                     while (!headerPrev && prevLine >= 0) {
+                        headerPrev = hdinstPrev.components[`header${prevLine + 1}`];
+                        prevLine--;
+                     }
                      if (
-                        (hdinstPrev.widget.resizable || (headerPrev && headerPrev.data.resizable)) &&
-                        headerPrev.data.colSpan < 2
+                        (hdinstPrev.widget.resizable || headerPrev?.data?.resizable) &&
+                        headerPrev?.data?.colSpan < 2
                      ) {
                         prevColumnResizer = this.renderResizer(instance, hdinstPrev, headerPrev, colIndex - 1, true);
                      }
@@ -714,7 +725,7 @@ export class Grid extends Container {
                      onMouseLeave={(e) => this.onHeaderMouseLeave(e, hdinst, l)}
                      onClick={(e) => this.onHeaderClick(e, hdwidget, instance, l)}
                      onContextMenu={onContextMenu}
-                     data-unique-col-id={hdwidget.uniqueColumnId}
+                     data-unique-col-id={colSpan > 1 ? null: hdwidget.uniqueColumnId}
                   >
                      {getContent(content)}
                      {sortIcon}

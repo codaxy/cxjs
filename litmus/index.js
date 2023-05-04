@@ -107,7 +107,8 @@ import "./index.scss";
 //import Demo from "./features/context-menu/conext-menu-in-a-dropdown";
 // import Demo from "./features/calendar";
 //import Demo from "./features/slider/SliderPreventDefault";
-import Demo from "./features/validator/index";
+//import Demo from "./features/validator/index";
+import Demo from "./bugs/1075-complex-column-resizing";
 
 let store = (window.store = new Store());
 

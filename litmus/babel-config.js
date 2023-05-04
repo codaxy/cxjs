@@ -15,11 +15,11 @@ module.exports = function (production) {
             "cx-env",
             {
                targets: {
-                  chrome: 50,
-                  ie: 11,
-                  firefox: 30,
-                  edge: 12,
-                  safari: 9,
+                  chrome: 90,
+                  // ie: 11,
+                  // firefox: 30,
+                  // edge: 12,
+                  // safari: 9,
                },
                modules: false,
                loose: true,
