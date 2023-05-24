@@ -78,6 +78,9 @@ export interface DateTimeFieldProps extends FieldProps {
 
    /** Set to true to focus the input field instead of the picker first. */
    focusInputFirst?: boolean;
+
+   /** Set to true to enable seconds segment in the picker. */
+   showSeconds?: boolean;
 }
 
 export class DateTimeField extends Cx.Widget<DateTimeFieldProps> {}

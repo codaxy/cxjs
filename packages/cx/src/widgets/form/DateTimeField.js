@@ -234,6 +234,7 @@ class DateTimeInput extends VDOM.Component {
                type: DateTimePicker,
                segment: widget.segment,
                encoding: widget.encoding,
+               showSeconds: widget.showSeconds,
             };
             break;
       }
