@@ -11,7 +11,7 @@ export default {
         type: 'string',
         key: true,
         description: <cx><Md>
-            Name of the legend. Default is `legend`.
+            Name of the legend. Default is `name`.
         </Md></cx>
     },
 
@@ -20,6 +20,13 @@ export default {
         key: true,
         description: <cx><Md>
             Switch to vertical mode.
+        </Md></cx>
+    },
+
+    shape: {
+        type: 'string',
+        description: <cx><Md>
+            Specifies the shape of the legend. By default, the shape of the series in the chart is used for the legend. `circle`, `square`, `triangle`, etc.
         </Md></cx>
     }
 };
