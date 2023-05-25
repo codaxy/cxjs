@@ -13,7 +13,7 @@ export class PieChart extends BoundedObject {
       super.declareData(...arguments, {
          angle: undefined,
          startAngle: 0,
-         clockwise: undefined
+         clockwise: undefined,
       });
    }
 
@@ -42,7 +42,7 @@ export class PieChart extends BoundedObject {
    }
 }
 
-      PieChart.prototype.anchors = "0 1 1 0";
+PieChart.prototype.anchors = "0 1 1 0";
 
 class PieCalculator {
    reset(angle, startAngle, clockwise) {
@@ -88,10 +88,8 @@ class PieCalculator {
       var angle = value * s.angleFactor;
       var startAngle = s.lastAngle;
 
-      if (!this.clockwise)
-         s.lastAngle += angle;
-      else
-         s.lastAngle -= angle;
+      if (!this.clockwise) s.lastAngle += angle;
+      else s.lastAngle -= angle;
 
       return {
          startAngle,
@@ -354,17 +352,17 @@ export class PieSlice extends Container {
    }
 }
 
-   PieSlice.prototype.offset = 0;
-   PieSlice.prototype.r0 = 0;
-   PieSlice.prototype.r = 50;
-   PieSlice.prototype.percentageRadius = true;
-   PieSlice.prototype.baseClass = "pieslice";
-   PieSlice.prototype.legend = "legend";
-   PieSlice.prototype.active = true;
-   PieSlice.prototype.stack = "stack";
-   PieSlice.prototype.legendAction = "auto";
-   PieSlice.prototype.legendShape = "rect";
-   PieSlice.prototype.hoverChannel = "default";
-   PieSlice.prototype.styled = true;
+PieSlice.prototype.offset = 0;
+PieSlice.prototype.r0 = 0;
+PieSlice.prototype.r = 50;
+PieSlice.prototype.percentageRadius = true;
+PieSlice.prototype.baseClass = "pieslice";
+PieSlice.prototype.legend = "legend";
+PieSlice.prototype.active = true;
+PieSlice.prototype.stack = "stack";
+PieSlice.prototype.legendAction = "auto";
+PieSlice.prototype.legendShape = "circle";
+PieSlice.prototype.hoverChannel = "default";
+PieSlice.prototype.styled = true;
 
 Widget.alias("pie-chart", PieChart);
