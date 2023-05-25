@@ -26,7 +26,7 @@ export default {
     shape: {
         type: 'string',
         description: <cx><Md>
-            Specifies the shape of the legend. By default, the shape of the series in the chart is used for the legend. `circle`, `square`, `triangle`, etc.
+            Specifies the shape of the symbol in the legend entries. By default, the shape of the series in the chart is used. `circle`, `square`, `triangle`, etc.
         </Md></cx>
     }
 };
