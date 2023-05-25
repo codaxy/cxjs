@@ -80,7 +80,7 @@ export class Legend extends HtmlElement {
                         onMouseMove={onMouseMove}
                         onMouseLeave={onMouseLeave}
                      >
-                        {this.renderShape(e, instance)}
+                        {this.renderShape(e, instance.data.shape)}
                         {e.name}
                      </div>
                   ))
@@ -92,11 +92,11 @@ export class Legend extends HtmlElement {
       return [list, super.renderChildren(context, instance)];
    }
 
-   renderShape(entry, instance) {
+   renderShape(entry, legendEntriesShape) {
       const className = this.CSS.element(this.baseClass, "shape", {
          [`color-${entry.colorIndex}`]: entry.colorIndex != null && (isUndefined(entry.active) || entry.active),
       });
-      const shape = getShape(instance?.data?.shape || entry.shape || "square");
+      const shape = getShape(legendEntriesShape || entry.shape || "square");
 
       return (
          <svg
