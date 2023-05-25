@@ -21,5 +21,12 @@ export default {
         description: <cx><Md>
             Switch to vertical mode.
         </Md></cx>
+    },
+
+    shape: {
+        type: 'string',
+        description: <cx><Md>
+            Specifies the shape of the symbol in the legend entries. By default, the shape of the series in the chart is used. `circle`, `square`, `triangle`, etc.
+        </Md></cx>
     }
 };

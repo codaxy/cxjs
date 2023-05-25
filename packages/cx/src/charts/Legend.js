@@ -15,6 +15,12 @@ export class Legend extends HtmlElement {
       super.prepareData(context, instance);
    }
 
+   declareData() {
+      super.declareData(...arguments, {
+         shape: undefined,
+      });
+   }
+
    isValidHtmlAttribute(attrName) {
       switch (attrName) {
          case "shapeSize":
@@ -74,7 +80,7 @@ export class Legend extends HtmlElement {
                         onMouseMove={onMouseMove}
                         onMouseLeave={onMouseLeave}
                      >
-                        {this.renderShape(e)}
+                        {this.renderShape(e, instance.data.shape)}
                         {e.name}
                      </div>
                   ))
@@ -86,11 +92,11 @@ export class Legend extends HtmlElement {
       return [list, super.renderChildren(context, instance)];
    }
 
-   renderShape(entry) {
+   renderShape(entry, legendEntriesShape) {
       const className = this.CSS.element(this.baseClass, "shape", {
          [`color-${entry.colorIndex}`]: entry.colorIndex != null && (isUndefined(entry.active) || entry.active),
       });
-      const shape = getShape(entry.shape || "square");
+      const shape = getShape(legendEntriesShape || entry.shape || "square");
 
       return (
          <svg
@@ -115,14 +121,14 @@ Legend.prototype.baseClass = "legend";
 Legend.prototype.vertical = false;
 Legend.prototype.memoize = false;
 Legend.prototype.shapeSize = 18;
+Legend.prototype.shape = null;
 Legend.prototype.svgSize = 20;
 
 Widget.alias("legend", Legend);
 
 Legend.Scope = class extends PureContainer {
    explore(context, instance) {
-      context.push("legends", (instance.legends = {
-      }));
+      context.push("legends", (instance.legends = {}));
       super.explore(context, instance);
    }
 
