@@ -91,5 +91,15 @@ describe("StringTemplate", function () {
          var e = StringTemplate.compile("1 + 2 = {[true ? 3 : 2]:s}");
          assert.equal(e(), "1 + 2 = 3");
       });
+
+      it("with sub-expression formatting", function () {
+         var e = StringTemplate.compile("{[!!{person.age} ? {person.age:suffix; years old} : 'Age unknown']}");
+         var state = {
+            person: {
+               age: 32,
+            },
+         };
+         assert.equal(e(state), "32 years old");
+      });
    });
 });
