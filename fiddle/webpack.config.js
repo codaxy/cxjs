@@ -205,13 +205,10 @@ if (production) {
             },
          ],
       },
-      plugins: [new webpack.HotModuleReplacementPlugin()],
       devtool: "eval",
       devServer: {
-         //contentBase: '/assets/',
          hot: true,
          port: 8089,
-         noInfo: false,
          historyApiFallback: true,
       },
    };
