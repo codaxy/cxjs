@@ -41,7 +41,7 @@ export class Field extends PureContainer {
    }
 
    init() {
-      if (this.validationMode == 'tooltip' && isUndefined(this.errorTooltip)) {
+      if (this.validationMode == "tooltip" && isUndefined(this.errorTooltip)) {
          this.errorTooltip = {
             text: { bind: "$error" },
             mod: "error",
@@ -190,17 +190,23 @@ export class Field extends PureContainer {
       instance.parentViewMode = context.parentViewMode;
       instance.parentTabOnEnterKey = context.parentTabOnEnterKey;
       instance.parentVisited = context.parentVisited;
+      instance.parentAsterisk = context.parentAsterisk;
 
       if (
          instance.cache("parentDisabled", context.parentDisabled) ||
          instance.cache("parentReadOnly", context.parentReadOnly) ||
          instance.cache("parentViewMode", context.parentViewMode) ||
          instance.cache("parentTabOnEnterKey", context.parentTabOnEnterKey) ||
-         instance.cache("parentVisited", context.parentVisited)
+         instance.cache("parentVisited", context.parentVisited) ||
+         instance.cache("parentAsterisk", context.parentAsterisk)
       ) {
          instance.markShouldUpdate(context);
          this.disableOrValidate(context, instance);
          this.prepareCSS(context, instance);
+      }
+
+      if (!isUndefined(context.parentAsterisk)) {
+         this.label.asterisk = context.parentAsterisk;
       }
 
       if (!context.validation)
@@ -243,7 +249,11 @@ export class Field extends PureContainer {
       if (!data.error) {
          if (state.inputError) data.error = state.inputError;
          else if (state.validating && !empty) data.error = this.validatingText;
-         else if (state.validationError && data.value === state.lastValidatedValue && shallowEquals(data.validationParams, state.lastValidationParams))
+         else if (
+            state.validationError &&
+            data.value === state.lastValidatedValue &&
+            shallowEquals(data.validationParams, state.lastValidationParams)
+         )
             data.error = state.validationError;
          else if (data.required) data.error = this.validateRequired(context, instance);
       }
@@ -253,7 +263,9 @@ export class Field extends PureContainer {
          !state.validating &&
          !data.error &&
          this.onValidate &&
-         (!state.previouslyValidated || data.value != state.lastValidatedValue || data.validationParams != state.lastValidationParams)
+         (!state.previouslyValidated ||
+            data.value != state.lastValidatedValue ||
+            data.validationParams != state.lastValidationParams)
       ) {
          let result = instance.invoke("onValidate", data.value, instance, data.validationParams);
          if (isPromise(result)) {
@@ -262,14 +274,16 @@ export class Field extends PureContainer {
                validating: true,
                lastValidatedValue: data.value,
                previouslyValidated: true,
-               lastValidationParams: data.validationParams
+               lastValidationParams: data.validationParams,
             });
             result
                .then((r) => {
                   let { data, state } = instance;
-                  let error = data.value == state.lastValidatedValue && shallowEquals(data.validationParams, state.lastValidationParams)
-                     ? r
-                     : this.validatingText; //parameters changed, this will be revalidated
+                  let error =
+                     data.value == state.lastValidatedValue &&
+                     shallowEquals(data.validationParams, state.lastValidationParams)
+                        ? r
+                        : this.validatingText; //parameters changed, this will be revalidated
 
                   instance.setState({
                      validating: false,
@@ -416,4 +430,3 @@ export function getFieldTooltip(instance) {
       ];
    return [instance, widget.tooltip];
 }
-
