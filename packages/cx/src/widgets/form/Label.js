@@ -36,7 +36,7 @@ export class Label extends HtmlElement {
 
       data.asterisk = context.parentAsterisk || this.asterisk;
 
-      if (instance.cache("disabled", data.disabled)) {
+      if (instance.cache("disabled", data.disabled) || instance.cache("required", data.asterisk)) {
          instance.markShouldUpdate(context);
          this.prepareCSS(context, instance);
       }
