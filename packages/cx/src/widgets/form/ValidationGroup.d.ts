@@ -33,6 +33,9 @@ export interface ValidationGroupProps extends Cx.PureContainerProps {
 
    /** Set to `true` to force children to respect disabled, readOnly, viewMode and visited flags set on the group level. */
    strict?: Cx.BooleanProp;
+
+   /** Set to `true` to add red asterisk for all required fields inside the group. */
+   asterisk?: boolean;
 }
 
 export class ValidationGroup extends Cx.Widget<ValidationGroupProps> {}
