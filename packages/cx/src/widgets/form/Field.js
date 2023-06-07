@@ -190,23 +190,17 @@ export class Field extends PureContainer {
       instance.parentViewMode = context.parentViewMode;
       instance.parentTabOnEnterKey = context.parentTabOnEnterKey;
       instance.parentVisited = context.parentVisited;
-      instance.parentAsterisk = context.parentAsterisk;
 
       if (
          instance.cache("parentDisabled", context.parentDisabled) ||
          instance.cache("parentReadOnly", context.parentReadOnly) ||
          instance.cache("parentViewMode", context.parentViewMode) ||
          instance.cache("parentTabOnEnterKey", context.parentTabOnEnterKey) ||
-         instance.cache("parentVisited", context.parentVisited) ||
-         instance.cache("parentAsterisk", context.parentAsterisk)
+         instance.cache("parentVisited", context.parentVisited)
       ) {
          instance.markShouldUpdate(context);
          this.disableOrValidate(context, instance);
          this.prepareCSS(context, instance);
-      }
-
-      if (!isUndefined(context.parentAsterisk)) {
-         this.label.asterisk = context.parentAsterisk;
       }
 
       if (!context.validation)

@@ -34,7 +34,9 @@ export class Label extends HtmlElement {
          context.parentDisabled
       );
 
-      if (instance.cache('disabled', data.disabled)) {
+      data.asterisk = context.parentAsterisk || this.asterisk;
+
+      if (instance.cache("disabled", data.disabled)) {
          instance.markShouldUpdate(context);
          this.prepareCSS(context, instance);
       }
@@ -69,7 +71,7 @@ export class Label extends HtmlElement {
 
       if (!props.id && data.htmlFor) props.id = `${data.htmlFor}-label`;
 
-      if (this.asterisk && data.required) {
+      if (data.required && data.asterisk) {
          if (!isArray(props.children)) props.children = [props.children];
          props.children.push(" ");
          props.children.push(
