@@ -515,11 +515,14 @@ export class Grid extends Container {
             onMouseDown={(e) => {
                if (e.buttons != 1) return;
                let resizeOverlayEl = document.createElement("div");
-               
+
                let headerTBody = e.target.parentElement.parentElement.parentElement;
                let uniqueColId = e.currentTarget.dataset.uniqueColId;
 
-               let headerCell = findFirstChild(headerTBody, el => el.tagName == 'TH' && el.dataset?.uniqueColId == uniqueColId);
+               let headerCell = findFirstChild(
+                  headerTBody,
+                  (el) => el.tagName == "TH" && el.dataset?.uniqueColId == uniqueColId
+               );
                let scrollAreaEl = headerTBody.parentElement.parentElement;
                let gridEl = scrollAreaEl.parentElement;
                let initialWidth = headerCell.offsetWidth;
@@ -725,7 +728,7 @@ export class Grid extends Container {
                      onMouseLeave={(e) => this.onHeaderMouseLeave(e, hdinst, l)}
                      onClick={(e) => this.onHeaderClick(e, hdwidget, instance, l)}
                      onContextMenu={onContextMenu}
-                     data-unique-col-id={colSpan > 1 ? null: hdwidget.uniqueColumnId}
+                     data-unique-col-id={colSpan > 1 ? null : hdwidget.uniqueColumnId}
                   >
                      {getContent(content)}
                      {sortIcon}
@@ -1935,11 +1938,15 @@ class GridComponent extends VDOM.Component {
       let { widget } = instance;
       if (widget.scrollable)
          this.offResize = ResizeManager.trackElement(this.dom.scroller, () => {
+            //ignore changes if the element is not visible on the page
+            if (this.dom.scroller.offsetWidth == 0) return;
             //update fixed header/footer
-            this.componentDidUpdate();
-            instance.setState({
-               dimensionsVersion: instance.state.dimensionsVersion + 1,
-               lockedColWidth: {},
+            requestAnimationFrame(() => {
+               this.componentDidUpdate();
+               instance.setState({
+                  dimensionsVersion: instance.state.dimensionsVersion + 1,
+                  lockedColWidth: {},
+               });
             });
          });
       if (widget.pipeKeyDown) instance.invoke("pipeKeyDown", this.handleKeyDown.bind(this), instance);
