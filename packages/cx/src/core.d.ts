@@ -202,11 +202,17 @@ declare namespace Cx {
 
       constructor(props: P);
 
-      render();
+      render(context: any, instance: any, key?: string): React.ReactNode;
 
       setState(state: any);
 
       forceUpdate();
+
+      initState(context: any, instance: any): void;
+
+      explore(context: any, instance: any): void;
+
+      declareData(...args: any): void;
 
       static create(typeAlias?: any, config?: Cx.Config, more?: Cx.Config): any;
    }
