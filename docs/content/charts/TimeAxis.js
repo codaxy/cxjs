@@ -87,6 +87,10 @@ export const TimeAxisPage = <cx>
             </Content>
         </CodeSplit>
 
+        ## Examples
+
+        * [Complex Labels](~/examples/charts/axis/complex-labels)
+
         ## Configuration
 
         <ConfigTable props={configs}/>

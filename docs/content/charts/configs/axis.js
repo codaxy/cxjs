@@ -95,6 +95,14 @@ export default {
             labels vertically centered.
         </Md></cx>
     },
+    labelLineHeight: {
+        key: true,
+        type: 'number',
+        description: <cx><Md>
+            Used for vertical adjustment of multi-line labels. Default value is 1 which means
+            that labels are stacked without any space between them. Value of 1.4 will add 40% of the label height as a space between labels.
+        </Md></cx>
+    },
     hideLabels: {
         key: true,
         type: 'boolean',

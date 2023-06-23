@@ -46,6 +46,12 @@ export interface AxisProps extends BoundedObjectProps {
     */
    labelLineCountDyFactor?: number | string;
 
+   /**
+    * Used for vertical adjustment of multi-line labels. Default value is 1 which means
+    * that labels are stacked without any space between them. Value of 1.4 will add 40% of the label height as a space between labels.
+    */
+   labelLineHeight?: number | string;
+
    /** If `labelWrap` is on, this number is used as a measure to split labels into multiple lines. Default value is `10`. */
    labelMaxLineLength?: number;
 
@@ -77,6 +83,14 @@ export interface AxisProps extends BoundedObjectProps {
    labelClass?: Cx.ClassProp;
 
    onMeasured?: (info: any, instance: Instance) => void;
+
+   /** A function used to create a formatter function for axis labels. See Complex Labels example in the CxJS documentation for more info. */
+   onCreateLabelFormatter?:
+      | string
+      | ((
+           context: any,
+           instance: Instance
+        ) => (formattedValue: string, value: any) => { text: string; style?: any; className?: string }[]);
 }
 
 export class Axis extends BoundedObject {}

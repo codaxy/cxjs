@@ -1,25 +1,21 @@
-import { BoundedObject } from '../../svg/BoundedObject'
-import { VDOM } from '../../ui/Widget';
-import { isUndefined } from '../../util/isUndefined';
-import { parseStyle } from '../../util/parseStyle';
+import { BoundedObject } from "../../svg/BoundedObject";
+import { VDOM } from "../../ui/Widget";
+import { isUndefined } from "../../util/isUndefined";
+import { parseStyle } from "../../util/parseStyle";
 
 export class Axis extends BoundedObject {
-
    init() {
-      if (this.labelAnchor == 'auto')
-         this.labelAnchor = this.vertical ? this.secondary ? 'start' : 'end' : 'middle';
+      if (this.labelAnchor == "auto") this.labelAnchor = this.vertical ? (this.secondary ? "start" : "end") : "middle";
 
-      if (this.labelDx == 'auto')
-         this.labelDx = 0;
+      if (this.labelDx == "auto") this.labelDx = 0;
 
-      if (this.labelDy == 'auto')
-         this.labelDy = this.vertical ? '0.4em' : this.secondary ? 0 : '0.8em';
+      if (this.labelDy == "auto") this.labelDy = this.vertical ? "0.4em" : this.secondary ? 0 : "0.8em";
 
       if (isUndefined(this.minLabelDistance))
          this.minLabelDistance = this.vertical ? this.minLabelDistanceVertical : this.minLabelDistanceHorizontal;
 
-      if (this.labelLineCountDyFactor == 'auto')
-         this.labelLineCountDyFactor = this.vertical ? -0.5 : this.secondary ? -1 : 0;
+      if (this.labelLineCountDyFactor == "auto")
+         this.labelLineCountDyFactor = this.vertical ? -this.labelLineHeight / 2 : this.secondary ? -1 : 0;
 
       this.lineStyle = parseStyle(this.lineStyle);
       this.tickStyle = parseStyle(this.tickStyle);
@@ -29,20 +25,29 @@ export class Axis extends BoundedObject {
    }
 
    declareData() {
-      super.declareData({
-         anchors: undefined,
-         hideLabels: undefined,
-         hideLine: undefined,
-         hideTicks: undefined,
-         labelRotation: undefined,
-         labelAnchor: undefined,
-         lineStyle: undefined,
-         lineClass: undefined,
-         labelStyle: undefined,
-         labelClass: undefined,
-         tickStyle: undefined,
-         tickClass: undefined
-      }, ...arguments)
+      super.declareData(
+         {
+            anchors: undefined,
+            hideLabels: undefined,
+            hideLine: undefined,
+            hideTicks: undefined,
+            labelRotation: undefined,
+            labelAnchor: undefined,
+            lineStyle: undefined,
+            lineClass: undefined,
+            labelStyle: undefined,
+            labelClass: undefined,
+            tickStyle: undefined,
+            tickClass: undefined,
+         },
+         ...arguments
+      );
+   }
+
+   prepareData(context, instance) {
+      super.prepareData(context, instance);
+      if (this.onCreateLabelFormatter)
+         instance.labelFormatter = instance.invoke("onCreateLabelFormatter", context, instance);
    }
 
    report(context, instance) {
@@ -50,19 +55,21 @@ export class Axis extends BoundedObject {
    }
 
    renderTicksAndLabels(context, instance, valueFormatter) {
+      if (this.hidden) return false;
 
-      if (this.hidden)
-         return false;
-
-      var { data, calculator } = instance;
+      var { data, calculator, labelFormatter } = instance;
       var { bounds } = data;
       let { CSS, baseClass } = this;
       var size = calculator.findTickSize(this.minLabelDistance);
 
-      var labelClass = CSS.expand(CSS.element(baseClass, 'label'), data.labelClass);
-      var offsetClass = CSS.element(baseClass, 'label-offset');
+      var labelClass = CSS.expand(CSS.element(baseClass, "label"), data.labelClass);
+      var offsetClass = CSS.element(baseClass, "label-offset");
 
-      var x1, y1, x2, y2, tickSize = this.tickSize;
+      var x1,
+         y1,
+         x2,
+         y2,
+         tickSize = this.tickSize;
 
       if (this.vertical) {
          x1 = x2 = this.secondary ? bounds.r : bounds.l;
@@ -82,9 +89,12 @@ export class Axis extends BoundedObject {
                key="line"
                className={CSS.expand(CSS.element(baseClass, "line"), data.lineClass)}
                style={data.lineStyle}
-               x1={x1} y1={y1} x2={x2} y2={y2}
+               x1={x1}
+               y1={y1}
+               x2={x2}
+               y2={y2}
             />
-         )
+         );
       }
 
       var t = [];
@@ -118,16 +128,19 @@ export class Axis extends BoundedObject {
                }
 
                var transform = data.labelRotation ? `rotate(${data.labelRotation} ${x} ${y})` : null;
+               var formattedValue = valueFormatter(v);
+               var lines = labelFormatter ? labelFormatter(formattedValue, v) : this.wrapLines(formattedValue);
                res.push(
-                  <text key={`label-${si}-${i}`}
+                  <text
+                     key={`label-${si}-${i}`}
                      className={labelClass}
                      style={data.labelStyle}
                      x={x}
                      y={y}
-                     dx={this.labelDx}
                      textAnchor={data.labelAnchor}
-                     transform={transform}>
-                     {this.wrapLines(valueFormatter(v), x, this.labelDy, offsetClass)}
+                     transform={transform}
+                  >
+                     {this.renderLabels(lines, x, this.labelDy, this.labelDx, offsetClass)}
                   </text>
                );
             });
@@ -135,44 +148,65 @@ export class Axis extends BoundedObject {
       }
 
       if (!data.hideTicks) {
-         res[1] = <path key="ticks" className={CSS.expand(CSS.element(baseClass, "ticks"), data.tickClass)} style={data.tickStyle} d={t.join(' ')} />;
+         res[1] = (
+            <path
+               key="ticks"
+               className={CSS.expand(CSS.element(baseClass, "ticks"), data.tickClass)}
+               style={data.tickStyle}
+               d={t.join(" ")}
+            />
+         );
       }
 
       return res;
    }
 
-   wrapLines(str, x, dy, offsetClass) {
-      if (!this.labelWrap || typeof str != 'string')
-         return <tspan x={x} dy={dy}>{str}</tspan>;
+   wrapLines(str) {
+      if (!this.labelWrap || typeof str != "string") return [{ text: str }];
 
-      let parts = str.split(' ');
-      if (parts.length == 0)
-         return null;
+      let parts = str.split(" ");
+      if (parts.length == 0) return null;
 
       let lines = [];
       let line = null;
       for (let i = 0; i < parts.length; i++) {
-         if (!line)
-            line = parts[i];
-         else if (parts[i].length + line.length < this.labelMaxLineLength)
-            line += ' ' + parts[i];
+         if (!line) line = parts[i];
+         else if (parts[i].length + line.length < this.labelMaxLineLength) line += " " + parts[i];
          else {
-            lines.push(line);
+            lines.push({ text: line });
             line = parts[i];
          }
       }
-      lines.push(line);
+      lines.push({ text: line });
+      return lines;
+   }
 
-      if (lines.length == 1)
-         return <tspan x={x} dy={dy}>{str}</tspan>;
-
+   renderLabels(lines, x, dy, dx, offsetClass) {
       let offset = this.labelLineCountDyFactor * (lines.length - 1);
-      let result = [dy != null && <tspan key={-2} className={offsetClass} dy={dy}>_</tspan>];
+      let result = [];
+
+      if (lines.length > 1 && dy != null) {
+         result.push(
+            <tspan key={-2} className={offsetClass} dy={dy}>
+               _
+            </tspan>
+         );
+      }
 
       lines.forEach((p, i) => {
-         result.push(<tspan key={i} dy={`${i == 0 ? offset : 1}em`} x={x}>{p}</tspan>)
+         result.push(
+            <tspan
+               key={i}
+               dy={lines.length > 1 ? `${i == 0 ? offset : this.labelLineHeight}em` : dy}
+               x={x}
+               style={p.style}
+               className={p.className}
+               dx={dx}
+            >
+               {p.text}
+            </tspan>
+         );
       });
-
       return result;
    }
 
@@ -181,10 +215,8 @@ export class Axis extends BoundedObject {
       var { bounds } = instance.data;
       var [a, b] = !this.vertical ? [bounds.l, bounds.r] : [bounds.b, bounds.t];
       instance.calculator.measure(a, b);
-      if (this.onMeasured)
-         instance.invoke("onMeasured", instance.calculator.hash(), instance);
-      if (!instance.calculator.isSame(instance.cached.axis))
-         instance.markShouldUpdate(context);
+      if (this.onMeasured) instance.invoke("onMeasured", instance.calculator.hash(), instance);
+      if (!instance.calculator.isSame(instance.cached.axis)) instance.markShouldUpdate(context);
    }
 
    cleanup(context, instance) {
@@ -193,7 +225,7 @@ export class Axis extends BoundedObject {
    }
 }
 
-Axis.prototype.anchors = '0 1 1 0';
+Axis.prototype.anchors = "0 1 1 0";
 Axis.prototype.styled = true;
 Axis.prototype.vertical = false;
 Axis.prototype.secondary = false;
@@ -209,14 +241,12 @@ Axis.prototype.minLabelDistanceVertical = 40;
 Axis.prototype.minLabelDistanceHorizontal = 50;
 Axis.prototype.labelOffset = 10;
 Axis.prototype.labelRotation = 0;
-Axis.prototype.labelAnchor = 'auto';
-Axis.prototype.labelDx = 'auto';
-Axis.prototype.labelDy = 'auto';
+Axis.prototype.labelAnchor = "auto";
+Axis.prototype.labelDx = "auto";
+Axis.prototype.labelDy = "auto";
 Axis.prototype.labelWrap = false;
-Axis.prototype.labelLineCountDyFactor = 'auto';
+Axis.prototype.labelLineCountDyFactor = "auto";
+Axis.prototype.labelLineHeight = 1;
 Axis.prototype.labelMaxLineLength = 10;
 
-Axis.namespace = 'ui.svg.chart.axis';
-
-
-
+Axis.namespace = "ui.svg.chart.axis";

@@ -335,6 +335,10 @@ export const docsNavTree = [
             text: "Charts",
             children: [
                {
+                  text: "Complex Labels",
+                  url: "~/examples/charts/axis/complex-labels",
+               },
+               {
                   text: "Stacked Line Chart",
                   url: "~/examples/charts/line/stacked",
                },
