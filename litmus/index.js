@@ -95,6 +95,7 @@ import "./index.scss";
 //import Demo from "./bugs/656";
 //import Demo from "./bugs/RestateFirstVisibleChild";
 //import Demo from "./bugs/TooltipDisable";
+import Demo from "./bugs/Repeater";
 
 //import Demo from "./bugs/AsyncValidator";
 
@@ -108,7 +109,7 @@ import "./index.scss";
 // import Demo from "./features/calendar";
 //import Demo from "./features/slider/SliderPreventDefault";
 //import Demo from "./features/validator/index";
-import Demo from "./bugs/1075-complex-column-resizing";
+//import Demo from "./bugs/1075-complex-column-resizing";
 
 let store = (window.store = new Store());
 

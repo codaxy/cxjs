@@ -8,6 +8,8 @@ import {
    Widget,
    PureContainerProps,
    Record,
+   Prop,
+   SortDirection,
 } from "../core";
 import { Instance } from "./Instance";
 
@@ -31,7 +33,7 @@ interface RepeaterProps extends PureContainerProps {
    sortField?: StringProp;
 
    /** A binding used to store the sort direction. Available only if `sorters` are not used. Possible values are `"ASC"` and `"DESC"`. Defaults to `"ASC"`. */
-   sortDirection?: StringProp;
+   sortDirection?: Prop<SortDirection>;
 
    /** Parameters that affect filtering */
    filterParams?: StructuredProp;
