@@ -79,7 +79,7 @@ export class LookupField extends Field {
          }
 
          if (this.text) {
-            if (isAccessorChain(this.text)) this.value = bind(this.text);
+            if (isAccessorChain(this.text)) this.text = bind(this.text);
             if (this.text.bind)
                b.push({
                   local: this.text.bind,
