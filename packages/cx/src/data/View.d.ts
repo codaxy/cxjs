@@ -52,7 +52,7 @@ export interface ViewMethods<D = Record> {
    mutate(path: Path, updateFn: (currentValue: any, ...args) => any, ...args): boolean;
    mutate<V>(path: AccessorChain<V>, updateFn: (currentValue: V, ...args) => V, ...args): boolean;
 
-   ref<T = any>(path: string, defaultValue?: T): Ref<T>;
+   ref<T = any>(path: string | AccessorChain<T>, defaultValue?: T): Ref<T>;
 }
 
 export class View<D = any> implements ViewMethods<D> {
@@ -127,5 +127,5 @@ export class View<D = any> implements ViewMethods<D> {
 
    getMethods(): ViewMethods;
 
-   ref<T = any>(path: string, defaultValue?: T): Ref<T>;
+   ref<T = any>(path: string | AccessorChain<T>, defaultValue?: T): Ref<T>;
 }
