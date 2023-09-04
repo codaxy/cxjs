@@ -1,6 +1,7 @@
 import * as Cx from "../core";
 
 import { View } from "../data/View";
+import { Instance } from "./Instance";
 
 export class Controller<D = any> {
    onInit?(): void;
@@ -17,6 +18,7 @@ export class Controller<D = any> {
 
    store: View<D>;
    widget: any;
+   instance: Instance<D, Controller<D>>;
 
    addTrigger<V1>(name: string, args: [Cx.AccessorChain<V1>], callback: (v1: V1) => void, autoRun?: boolean): void;
    addTrigger<V1, V2>(
