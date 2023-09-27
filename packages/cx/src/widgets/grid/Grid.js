@@ -128,6 +128,7 @@ export class Grid extends Container {
       row.hasSortableColumns = false;
       row.hasResizableColumns = false;
       let aggregates = {};
+      let footerFields = {};
       let lines = [];
       for (let i = 0; i < 10; i++) {
          let l = row["line" + i];
@@ -173,12 +174,17 @@ export class Grid extends Container {
                           },
                   type: c.aggregate,
                };
+            } else if (c.footer) {
+               footerFields[c.field] = c.footer;
             }
          });
       });
 
       //add default footer if some columns have aggregates and grouping is not defined
-      if (!groupingData && (Object.keys(aggregates).length > 0 || this.fixedFooter))
+      if (
+         !groupingData &&
+         (Object.keys(aggregates).length > 0 || this.fixedFooter || Object.keys(footerFields).length > 0)
+      )
          groupingData = [
             {
                key: {},
