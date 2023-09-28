@@ -2740,7 +2740,7 @@ cx-theme-space-blue@^20.1.0, "cx-theme-space-blue@file:D:\\Code\\CxJS\\cxjs\\pac
   resolved "file:packages/cx-theme-space-blue"
 
 cx@*, cx@^23.4.1, "cx@file:D:\\Code\\CxJS\\cxjs\\packages\\cx":
-  version "23.9.0"
+  version "23.9.1"
   resolved "file:packages/cx"
   dependencies:
     intl-io "^0.3.0"
