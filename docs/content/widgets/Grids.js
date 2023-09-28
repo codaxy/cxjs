@@ -92,11 +92,11 @@ export const Grids = <cx>
                         <Grid records-bind='$page.records'
                             style={{width: "100%"}}
                             columns={[
-                            { header: 'Name', field: 'fullName', sortable: true, aggregate: 'count', footer: { tpl: '{$group.fullName} {$group.fullName:plural;person}' }},
-                            { header: 'Continent', field: 'continent', sortable: true, aggregate: 'distinct', aggregateField: 'continents', footer: { tpl: '{$group.continents} {$group.continents:plural;continent}' } },
-                            { header: 'Browser', field: 'browser', sortable: true, aggregate: 'distinct', aggregateField: 'browsers', footer: { tpl: '{$group.browsers} {$group.browsers:plural;browser}' }  },
-                            { header: 'OS', field: 'os', sortable: true, aggregate: 'distinct', aggregateField: 'oss', footer: { tpl: '{$group.oss} {$group.oss:plural;OS}' } },
-                            { header: 'Visits', field: 'visits', sortable: true, aggregate: "sum", align: "right" }
+                            { header: 'Name', field: 'fullName', sortable: true },
+                            { header: 'Continent', field: 'continent', sortable: true },
+                            { header: 'Browser', field: 'browser', sortable: true },
+                            { header: 'OS', field: 'os', sortable: true },
+                            { header: 'Visits', field: 'visits', sortable: true }
                         ]}
                         selection={{type: KeySelection, bind:'$page.selection'}}
                         />
