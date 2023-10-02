@@ -17,7 +17,7 @@ interface UploadButtonProps extends FieldProps {
    uploadInProgressText?: string;
 
    /** Defaults to `false`. Set to `true` to abort uploads if the button is destroyed (unmounted). */
-   abortOnDestroy: boolean;
+   abortOnDestroy?: boolean;
 
    /** Defines file types that are accepted for upload. */
    accept?: Cx.StringProp;
