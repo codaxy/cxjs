@@ -7,9 +7,6 @@ import {CodeSplit} from 'docs/components/CodeSplit';
 import {CodeSnippet} from 'docs/components/CodeSnippet';
 import {ConfigTable} from 'docs/components/ConfigTable';
 import {ImportPath} from 'docs/components/ImportPath';
-
-
-
 import pieConfigs from './configs/PieChart';
 import sliceConfigs from './configs/PieSlice';
 
@@ -47,7 +44,7 @@ export const PieCharts = <cx>
                                   colorMap="pie"
                                   r={80}
                                   r0={20}
-                                  offset={5}
+                                 // offset={10}
                                   tooltip={{
                                       text: {
                                           tpl: "Item {$index}: {$record.value:n;2}"
@@ -68,7 +65,9 @@ export const PieCharts = <cx>
                                      record: {bind: '$record'},
                                      index: {bind: '$index'},
                                      keyField: 'id'
-                                  }}>
+                                  }}
+                                 gapAngle={5}
+                                  >
                               <Line style="stroke:gray" />
                               <Rectangle anchors='1 1 1 1' offset="-10 20 10 -20" style="fill:white">
                                  <Text tpl="{$record.value:n;1}" dy="0.4em" ta="middle" />
@@ -79,7 +78,6 @@ export const PieCharts = <cx>
                </Svg>
             </div>
          </div>
-         
          <Content name="code">
             <Tab value-bind="$page.code.tab" mod="code" tab="controller" text="Controller"/>
             <Tab value-bind="$page.code.tab" mod="code" tab="index" text="PieChart" default/>

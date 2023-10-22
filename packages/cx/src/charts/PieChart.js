@@ -83,17 +83,18 @@ class PieCalculator {
       this.R = Math.max(0, Math.min(rect.width(), rect.height())) / 2;
    }
 
-   map(stack, value) {
+   map(stack, value, gapAngle) {
       var s = this.stacks[stack];
-      var angle = value * s.angleFactor;
-      var startAngle = s.lastAngle;
+      let gap = (gapAngle / 180) * Math.PI;
+      var angle = value * s.angleFactor - gap;
+      var startAngle = s.lastAngle + gap / 2;
 
-      if (!this.clockwise) s.lastAngle += angle;
+      if (!this.clockwise) s.lastAngle += angle + gap;
       else s.lastAngle -= angle;
 
       return {
          startAngle,
-         endAngle: s.lastAngle,
+         endAngle: s.lastAngle - gap / 2,
          midAngle: (startAngle + s.lastAngle) / 2,
          cx: this.cx,
          cy: this.cy,
@@ -176,6 +177,7 @@ export class PieSlice extends Container {
          stack: undefined,
          legend: undefined,
          hoverId: undefined,
+         gapAngle: undefined,
       });
    }
 
@@ -215,7 +217,7 @@ export class PieSlice extends Container {
       }
 
       if (instance.valid && data.active) {
-         let seg = pie.map(data.stack, data.value);
+         let seg = pie.map(data.stack, data.value, data.gapAngle);
 
          if (
             !segment ||
@@ -364,5 +366,6 @@ PieSlice.prototype.legendAction = "auto";
 PieSlice.prototype.legendShape = "circle";
 PieSlice.prototype.hoverChannel = "default";
 PieSlice.prototype.styled = true;
+PieSlice.prototype.gapAngle = 0;
 
 Widget.alias("pie-chart", PieChart);
