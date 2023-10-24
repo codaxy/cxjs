@@ -351,6 +351,10 @@ export const docsNavTree = [
                   url: "~/examples/charts/pie/multi-level",
                },
                {
+                  text: "Donut Chart",
+                  url: "~/examples/charts/pie/donut",
+               },
+               {
                   text: "Bars + Grid Selection",
                   url: "~/examples/charts/bar/combination",
                },

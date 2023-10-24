@@ -40,8 +40,8 @@ export const MultiLevel = <cx>
                         <PieSlice value-bind='$record.v'
                                    active-bind='$record.active'
                                     colorIndex-expr='{$index} * 3 % 16'
-                                    r-expr='55'
-                                    r0-expr='20'
+                                    r={55}
+                                    r0={20}
                                     offset={3}
                                     name-tpl="Item {$index}"
                                     selection={{
@@ -81,7 +81,7 @@ export const MultiLevel = <cx>
                </Svg>
                <Legend name="slice" vertical />
          </div>
-         
+
          <Content name="code">
             <div>
                <Tab value-bind="$page.code.tab" tab="controller" mod="code" text='Controller' />
