@@ -36,18 +36,18 @@ export const PieCharts = <cx>
          `PieSlice`.
 
          <div class="widgets" controller={PageController}>
-            {/* <Legend /> */}
+            <Legend />
             <div>
                <Svg style="width:600px; height:400px;">
                   <ColorMap />
-                  <PieChart angle={360} gap={10}>
+                  <PieChart angle={360}>
                      <Repeater records-bind="$page.points">
                         <PieSlice value-bind='$record.value'
                                   active-bind='$record.active'
                                   colorMap="pie"
                                   r={80}
                                   r0={20}
-                                 //  offset={10}
+                                 offset={5}
                                   tooltip={{
                                       text: {
                                           tpl: "Item {$index}: {$record.value:n;2}"
