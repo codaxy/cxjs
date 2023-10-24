@@ -14,13 +14,14 @@ export class PieChart extends BoundedObject {
          angle: undefined,
          startAngle: 0,
          clockwise: undefined,
+         gap: 0,
       });
    }
 
    explore(context, instance) {
       if (!instance.pie) instance.pie = new PieCalculator();
       var { data } = instance;
-      instance.pie.reset(data.angle, data.startAngle, data.clockwise);
+      instance.pie.reset(data.angle, data.startAngle, data.clockwise, data.gap);
 
       context.push("pie", instance.pie);
       super.explore(context, instance);
@@ -45,10 +46,11 @@ export class PieChart extends BoundedObject {
 PieChart.prototype.anchors = "0 1 1 0";
 
 class PieCalculator {
-   reset(angle, startAngle, clockwise) {
+   reset(angle, startAngle, clockwise, gap) {
       this.angleTotal = (angle / 180) * Math.PI;
       this.startAngle = (startAngle / 180) * Math.PI;
       this.clockwise = clockwise;
+      this.gap = gap;
       this.stacks = {};
    }
 
@@ -102,14 +104,14 @@ class PieCalculator {
    }
 }
 
-function createSvgArc(x, y, r0, r, startAngle, endAngle) {
+function createSvgArc(x, y, r0, r, startAngle, endAngle, gap = 0) {
+   if (gap && (!r0 || gap * 2 > r0)) r0 = gap * 2;
+
    if (startAngle > endAngle) {
       var s = startAngle;
       startAngle = endAngle;
       endAngle = s;
    }
-
-   var largeArc = endAngle - startAngle <= Math.PI ? 0 : 1;
 
    if (endAngle - startAngle >= 2 * Math.PI - 0.0001) endAngle = startAngle + 2 * Math.PI - 0.0001;
 
@@ -118,29 +120,42 @@ function createSvgArc(x, y, r0, r, startAngle, endAngle) {
    var startX, startY;
 
    if (r0 > 0) {
-      startX = x + Math.cos(endAngle) * r0;
-      startY = y - Math.sin(endAngle) * r0;
+      let innerGapAngle = Math.asin(gap / (2 * r0));
+
+      startX = x + Math.cos(endAngle - innerGapAngle) * r0;
+      startY = y - Math.sin(endAngle - innerGapAngle) * r0;
       result.push("M", startX, startY);
 
-      result.push("A", r0, r0, 0, largeArc, 1, x + Math.cos(startAngle) * r0, y - Math.sin(startAngle) * r0);
+      result.push(
+         "A",
+         r0,
+         r0,
+         0,
+         endAngle - startAngle - 2 * innerGapAngle <= Math.PI ? 0 : 1,
+         1,
+         x + Math.cos(startAngle + innerGapAngle) * r0,
+         y - Math.sin(startAngle + innerGapAngle) * r0
+      );
    } else {
       startX = x;
       startY = y;
       result.push("M", startX, startY);
    }
 
+   // if gap is defined, outerGapAngle will be different from 0 and affect start and end angles
+   let outerGapAngle = Math.asin(gap / (2 * r));
    result.push(
       "L",
-      x + Math.cos(startAngle) * r,
-      y - Math.sin(startAngle) * r,
+      x + Math.cos(startAngle + outerGapAngle) * r,
+      y - Math.sin(startAngle + outerGapAngle) * r,
       "A",
       r,
       r,
       0,
-      largeArc,
+      endAngle - startAngle - 2 * outerGapAngle <= Math.PI ? 0 : 1,
       0,
-      x + Math.cos(endAngle) * r,
-      y - Math.sin(endAngle) * r,
+      x + Math.cos(endAngle - outerGapAngle) * r,
+      y - Math.sin(endAngle - outerGapAngle) * r,
       "L",
       startX,
       startY
@@ -290,7 +305,7 @@ export class PieSlice extends Container {
    }
 
    render(context, instance, key) {
-      var { segment, data } = instance;
+      var { segment, data, pie } = instance;
       if (!instance.valid || !data.active) return null;
 
       return withHoverSync(
@@ -313,7 +328,8 @@ export class PieSlice extends Container {
                data.r0 * segment.radiusMultiplier,
                data.r * segment.radiusMultiplier,
                segment.startAngle,
-               segment.endAngle
+               segment.endAngle,
+               pie.gap
             );
 
             return (
