@@ -71,6 +71,7 @@ class PieCalculator {
          cx: this.cx,
          cy: this.cy,
          R: this.R,
+         gap: this.gap,
       };
    }
 
@@ -105,7 +106,7 @@ class PieCalculator {
 }
 
 function createSvgArc(x, y, r0, r, startAngle, endAngle, gap = 0) {
-   if (gap && (!r0 || gap * 2 > r0)) r0 = gap * 2;
+   if (gap && (!r0 || gap > r0 / 2)) r0 = gap * 2;
 
    if (startAngle > endAngle) {
       var s = startAngle;
