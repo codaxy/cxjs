@@ -76,7 +76,7 @@ export const Donut = <cx>
 
             <LabelsTopLayout mod='stretch' style='margin-left: 40px'>
                 <Slider
-                    value={{ bind: "$page.r0", debounce: 300 }}
+                    value={{ bind: "$page.r0", debounce: 200 }}
                     help-tpl="{$page.r0} pixels"
                     increment={1}
                     step={1}
@@ -85,7 +85,7 @@ export const Donut = <cx>
                     label="Inner Radius"
                 />
                 <Slider
-                    value={{ bind: "$page.gap", debounce: 300 }}
+                    value={{ bind: "$page.gap", debounce: 200 }}
                     help-tpl="{$page.gap} pixels"
                     increment={1}
                     step={1}
@@ -96,7 +96,7 @@ export const Donut = <cx>
             </LabelsTopLayout>
         </div>
 
-        **Note:** Distance between slices can as well be achieved with `Pie Slice's` `offset` property, however this affects the circle shape and is recommended to use it to *slice out* specific slices.
+        **Note:** Distance between slices can be achieved with `Pie Slice's` `offset` property as well, however this affects the circle shape and is recommended to use it to *slice out* specific slices.
 
       <Content name="code">
          <Tab value-bind="$page.code.tab" tab="controller" mod="code" text='Controller' />

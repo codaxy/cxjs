@@ -25,6 +25,13 @@ export default {
             When set to `true`, stacks are rendered in clock wise direction.
       </Md></cx>
     },
+    gap: {
+        key: true,
+        type: 'number',
+        description: <cx><Md>
+            Value in pixels used to define the distance between the slices of the chart. When used, if not already defined, implicitely adds chart `inner radius` proportional to the gap size. Default is `0`.
+      </Md></cx>
+    },
     class: false,
     style: false,
     preserveWhitespace: false,

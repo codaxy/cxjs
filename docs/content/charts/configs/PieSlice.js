@@ -18,7 +18,7 @@ export default {
         type: 'number',
         description: <cx><Md>
             Outer pie radius in percents of the maximum available radius. If `percentageRadius` flag is set to false, then
-            the value represents the radius in pixels. Default is 50.
+            the value represents the radius in pixels. Default is `50`.
       </Md></cx>
     },
     offset: {
@@ -33,7 +33,7 @@ export default {
         type: 'number',
         description: <cx><Md>
             Inner pie radius in percents of the maximum available radius. If `percentageRadius` flag is set to false, then
-            the value represents the radius in pixels. Default is 0.
+            the value represents the radius in pixels. Default is `0`.
       </Md></cx>
     },
     name: {

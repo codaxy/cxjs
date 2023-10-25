@@ -11,6 +11,12 @@ interface PieChartProps extends BoundedObjectProps {
 
    /** When set to `true`, stacks are rendered in clock wise direction. */
    clockwise?: Cx.BooleanProp;
+
+   /**
+    * Value in pixels used to define the distance between the slices of the chart.
+    * When used, if not already defined, implicitely adds chart `inner radius` proportional to the gap size. Default is `0`.
+    */
+   gap?: Cx.NumberProp;
 }
 
 export class PieChart extends Cx.Widget<PieChartProps> {}
