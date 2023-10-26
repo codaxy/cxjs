@@ -4,6 +4,7 @@ import { removeCommonIndent } from "./removeCommonIndent";
 import { addLanguage, highlight } from "illuminate-js";
 import { jsx } from "illuminate-js/lib/languages/jsx";
 addLanguage("jsx", jsx);
+addLanguage("scss", jsx);
 
 function lazyHighlight(text, lang) {
    var cache;
