@@ -1,7 +1,7 @@
 import * as Cx from '../../core';
 import { DropdownProps } from './Dropdown';
 
-interface TooltipProps extends DropdownProps {
+export interface TooltipProps extends DropdownProps {
 
    /** Text to be displayed inside the tooltip. */
    text?: Cx.StringProp,
