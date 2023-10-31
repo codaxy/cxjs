@@ -155,9 +155,9 @@ interface GridRowConfig {
    mod?: StringProp | Prop<string[]> | StructuredProp;
 }
 
-interface GridProps extends StyledContainerProps {
+interface GridProps<T = unknown> extends StyledContainerProps {
    /** An array of records to be displayed in the grid. */
-   records?: Prop<Record[]>;
+   records?: Prop<T[]>;
 
    /** Set to true to add a vertical scroll and a fixed header to the grid. */
    scrollable?: boolean;
@@ -298,7 +298,7 @@ interface GridProps extends StyledContainerProps {
    filterParams?: StructuredProp;
 
    /** Callback to create a filter function for given filter params. */
-   onCreateFilter?: (filterParams: any, instance?: Instance) => (record: Record) => boolean;
+   onCreateFilter?: (filterParams: any, instance?: Instance) => (record: T) => boolean;
 
    /** Enable infinite scrolling */
    infinite?: boolean;
@@ -337,7 +337,7 @@ interface GridProps extends StyledContainerProps {
    onBeforeCellEdit?: string | ((change: GridCellBeforeEditInfo, record: DataAdapterRecord) => any);
 
    /** A callback function which is executed after a cell has been successfully edited. */
-   onCellEdited?: string | ((change: GridCellEditInfo, record: DataAdapterRecord) => void);
+   onCellEdited?: string | ((change: GridCellEditInfo<T>, record: DataAdapterRecord) => void);
 
    /** A callback function which is executed after a column has been resized. */
    onColumnResize?: (data: { width: number; column: Record }, instance: Instance) => void;
@@ -349,7 +349,7 @@ interface GridProps extends StyledContainerProps {
    onCreateIsRecordSelectable?: (
       params: any,
       instance: Instance
-   ) => (record: Record, options?: { range?: boolean; toggle?: boolean }) => boolean;
+   ) => (record: T, options?: { range?: boolean; toggle?: boolean }) => boolean;
 
    /** Parameters whose change will cause scroll to be reset. */
    scrollResetParams?: StructuredProp;
@@ -380,10 +380,10 @@ interface GridProps extends StyledContainerProps {
     * Accepts new records as a first argument.
     * If onCreateFilter callback is defined, filtered records can be retrieved using this callback.
     */
-   onTrackMappedRecords?: string | ((records: Record[], instance: Instance) => void);
+   onTrackMappedRecords?: string | ((records: T[], instance: Instance) => void);
 
    /** Callback to create a function that can be used to check whether a record is draggable. */
-   onCreateIsRecordDraggable?: (params: any, instance: Instance) => (record: Record) => boolean;
+   onCreateIsRecordDraggable?: (params: any, instance: Instance) => (record: T) => boolean;
 }
 
 interface GridCellInfo {
@@ -395,9 +395,9 @@ interface GridCellBeforeEditInfo extends GridCellInfo {
    data: any;
 }
 
-interface GridCellEditInfo extends GridCellInfo {
-   oldData: any;
-   newData: any;
+interface GridCellEditInfo<T> extends GridCellInfo {
+   oldData: T;
+   newData: T;
 }
 
-export class Grid extends Widget<GridProps> {}
+export class Grid<T> extends Widget<GridProps<T>> {}
