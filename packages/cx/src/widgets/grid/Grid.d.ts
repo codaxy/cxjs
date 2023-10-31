@@ -400,4 +400,4 @@ interface GridCellEditInfo<T> extends GridCellInfo {
    newData: T;
 }
 
-export class Grid<T> extends Widget<GridProps<T>> {}
+export class Grid<T = unknown> extends Widget<GridProps<T>> {}

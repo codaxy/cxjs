@@ -57,4 +57,4 @@ interface RepeaterProps<T = unknown> extends PureContainerProps {
    dataAdapter?: any;
 }
 
-export class Repeater<T> extends Widget<RepeaterProps<T>> {}
+export class Repeater<T = unknown> extends Widget<RepeaterProps<T>> {}

@@ -91,4 +91,4 @@ interface ListProps<T = unknown> extends StyledContainerProps {
    keyField?: string;
 }
 
-export class List<T> extends Widget<ListProps<T>> {}
+export class List<T = unknown> extends Widget<ListProps<T>> {}
