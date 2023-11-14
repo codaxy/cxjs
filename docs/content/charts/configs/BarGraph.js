@@ -5,6 +5,13 @@ import columnBarGraphBase from './ColumnBarGraphBase';
 export default {
    ...columnBarGraphBase,
 
+   autoSize: {
+      key: true,
+      type: 'boolean',
+      description: <cx><Md>
+          Set to true to auto-calculate size and offset. Available only if the y axis is a category axis.
+      </Md></cx>
+  },
    x0Field: {
       type: 'string',
       key: true,
