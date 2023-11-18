@@ -20,7 +20,7 @@ export default {
       </Md></cx>
    },
    dx: {
-      key: true, 
+      key: true,
       type: 'string',
       description: <cx><Md>
          Offset along the x-axis.
@@ -49,5 +49,13 @@ export default {
       description: <cx><Md>
          Sets text-outline color.
       </Md></cx>
-   }
+   },
+
+   autoTextAnchor: {
+        key: false,
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` for the text to set the text anchor based on the direction of the parent element. See PieLabels example.
+        </Md></cx>
+    }
 };

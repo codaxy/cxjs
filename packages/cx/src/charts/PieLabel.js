@@ -31,7 +31,14 @@ export class PieLabel extends BoundedObject {
       super.prepare(context, instance);
       if (!context.registerPieLabel)
          throw new Error("PieLabel components are allowed only within PieLabelsContainer components.");
+      console.log(instance.actualBounds, instance.originalBounds, instance.parentRect);
+      let right = instance.parentRect.r > instance.parentRect.l;
+      context.push("textDirection", right ? "right" : "left");
       context.registerPieLabel(instance);
+   }
+
+   prepareCleanup(context, instance) {
+      context.pop("textDirection");
    }
 
    render(context, instance, key) {

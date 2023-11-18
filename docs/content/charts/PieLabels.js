@@ -1,7 +1,7 @@
 import { ColorMap, Legend, PieChart, PieLabel, PieLabelsContainer, PieSlice } from 'cx/charts';
 import { Line, Rectangle, Svg, Text } from 'cx/svg';
 import { Content, Controller, KeySelection, LabelsTopLayout, Repeater } from 'cx/ui';
-import { Slider, Tab } from 'cx/widgets';
+import { Slider, Switch, Tab } from 'cx/widgets';
 import { CodeSnippet } from 'docs/components/CodeSnippet';
 import { CodeSplit } from 'docs/components/CodeSplit';
 import { ConfigTable } from 'docs/components/ConfigTable';
@@ -15,7 +15,7 @@ class PageController extends Controller {
    onInit() {
       super.init();
       this.store.init("count", 10);
-      this.store.init('distance', 85);
+      this.store.init('distance', 60);
 
       this.addTrigger(
          "points",
@@ -46,13 +46,17 @@ export const PieLabels = <cx>
          `PieLabel`s are used to display values of each pie slice. They will automatically adjust position to accommodate for a large number of values.
          `PieLabel`s must be used inside of a `PieLabelsContainer` component.
 
-         <div class="widgets" controller={PageController} style="padding: 20px">
+         Use the `offset` property to define the bounding box of the label. Use the `distance` property to adjust the distance of the label from the pie chart.
+         Text within can be centered, or auto-aligned to the left or right side if `autoTextAnchor` is set to `true`. In that case
+         `anchors` have to be set `0.5 1 0.5 0` and `margin` can be used add extra space between the label and the lead line.
+
+         <div class="widgets" controller={PageController} style="padding: 20px; display: block">
          <Legend />
          <div>
-            <Svg style="width:600px; height:400px;">
+            <Svg style="height:400px">
                <ColorMap />
                <PieLabelsContainer>
-                  <PieChart angle={360}>
+                  <PieChart angle={360} margin="0 80 0 80">
                      <Repeater records-bind="points">
                         <PieSlice
                            value-bind="$record.value"
@@ -60,7 +64,7 @@ export const PieLabels = <cx>
                            colorMap="pie"
                            r={60}
                            r0={20}
-                           offset={5}
+                           offset={2}
                            tooltip={{
                               text: {
                                  tpl: "Item {$index}: {$record.value:n;2}",
@@ -84,17 +88,11 @@ export const PieLabels = <cx>
                            }}
                         >
                            <Line style="stroke:gray" />
-                           <Rectangle
-                              visible={false}
-                              anchors="1 1 1 1"
-                              offset="-10 30 10 -30"
-                              style="fill:white; stroke:red"
-                           >
-                              <Text tpl="{$record.value:n;1}" dy="0.4em" ta="middle" />
-                           </Rectangle>
 
-                           <PieLabel anchors="1 1 1 1" offset="-10 25 10 -25" distance-bind="distance" lineStroke="gray">
-                              <Text tpl="{$record.value:n;1}" dy="0.4em" ta="middle" />
+                           <PieLabel anchors="1 1 1 1" offset="-12 50 12 -50" distance-bind="distance" lineStroke="gray">
+                                <Rectangle style="stroke: rgba(0, 0, 0, 0.1); fill: none" visible-expr="!{autoAlignLabels}"/>
+                                <Text visible-expr="!{autoAlignLabels}" tpl="{$record.name} ({$record.value:n;1})" dy="0.37em" textAnchor="middle" />
+                                <Text visible-expr="!!{autoAlignLabels}" tpl="{$record.name} ({$record.value:n;1})" dy="0.37em"  autoTextAnchor anchors="0.5 1 0.5 0" margin="0 5 0 5" />
                            </PieLabel>
                         </PieSlice>
                      </Repeater>
@@ -112,12 +110,13 @@ export const PieLabels = <cx>
                   label="Points"
                />
                <Slider
-                  value={{ bind: "distance", defaultValue: 100 }}
+                  value-bind="distance"
                   help-tpl="{distance:n;0}px"
                   minValue={0}
                   maxValue={500}
                   label="Distance"
                />
+               <Switch value-bind="autoAlignLabels" label="Auto-align Labels" />
             </LabelsTopLayout>
          </div>
       </div>
@@ -166,17 +165,10 @@ export const PieLabels = <cx>
                            }}
                         >
                            <Line style="stroke:gray" />
-                           <Rectangle
-                              visible={false}
-                              anchors="1 1 1 1"
-                              offset="-10 30 10 -30"
-                              style="fill:white; stroke:red"
-                           >
-                              <Text tpl="{$record.value:n;1}" dy="0.4em" ta="middle" />
-                           </Rectangle>
-
-                           <PieLabel anchors="1 1 1 1" offset="-10 25 10 -25" distance-bind="distance"  lineStroke="gray">
-                              <Text tpl="{$record.value:n;1}" dy="0.4em" ta="middle" />
+                           <PieLabel anchors="1 1 1 1" offset="-12 50 12 -50" distance-bind="distance" lineStroke="gray">
+                                <Rectangle style="stroke: rgba(0, 0, 0, 0.1); fill: none" visible-expr="!{autoAlignLabels}"/>
+                                <Text visible-expr="!{autoAlignLabels}" tpl="{$record.name} ({$record.value:n;1})" dy="0.37em" textAnchor="middle" />
+                                <Text visible-expr="!!{autoAlignLabels}" tpl="{$record.name} ({$record.value:n;1})" dy="0.37em"  autoTextAnchor anchors="0.5 1 0.5 0" margin="0 5 0 5" />
                            </PieLabel>
                         </PieSlice>
                      </Repeater>
@@ -191,7 +183,7 @@ export const PieLabels = <cx>
          class PageController extends Controller {
             onInit() {
                this.store.init("count", 10);
-               this.store.init('distance', 85);
+               this.store.init('distance', 60);
 
                this.addTrigger(
                   "points",
