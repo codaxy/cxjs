@@ -9,6 +9,7 @@ import { getVendorPrefix } from "../../util/getVendorPrefix";
 import { stopPropagation } from "../../util/eventCallbacks";
 import { isString } from "../../util/isString";
 import { getTopLevelBoundingClientRect } from "../../util/getTopLevelBoundingClientRect";
+import PixelPickerIcon from "../icons/pixel-picker";
 
 //TODO: Increase HSL precision in calculations, round only RGB values
 //TODO: Resolve alpha input problems
@@ -35,13 +36,15 @@ export class ColorPicker extends Field {
          switch (data.format) {
             default:
             case "rgba":
-               value = `rgba(${color.r.toFixed(0)},${color.g.toFixed(0)},${color.b.toFixed(0)},${Math.round(color.a * 100) / 100
-                  })`;
+               value = `rgba(${color.r.toFixed(0)},${color.g.toFixed(0)},${color.b.toFixed(0)},${
+                  Math.round(color.a * 100) / 100
+               })`;
                break;
 
             case "hsla":
-               value = `hsla(${color.h.toFixed(0)},${color.s.toFixed(0)}%,${color.l.toFixed(0)}%,${Math.round(color.a * 100) / 100
-                  })`;
+               value = `hsla(${color.h.toFixed(0)},${color.s.toFixed(0)}%,${color.l.toFixed(0)}%,${
+                  Math.round(color.a * 100) / 100
+               })`;
                break;
 
             case "hex":
@@ -114,15 +117,33 @@ class ColorPickerComponent extends VDOM.Component {
       let { widget, data } = instance;
       let { CSS, baseClass } = widget;
       let hcolor = `hsl(${h},100%,50%)`;
-      let hsl = `hsl(${h},${s}%,${l}%)`;
       let hsla = `hsla(${h.toFixed(0)},${s.toFixed(0)}%,${l.toFixed(0)}%,${a})`;
-      let rgb = `rgb(${r},${g},${b})`;
       let rgba = `rgba(${r.toFixed(0)},${g.toFixed(0)},${b.toFixed(0)},${a})`;
       let hex = rgbToHex(r, g, b);
+      let pixelPicker;
 
       let alphaGradient = `${getVendorPrefix(
          "css"
       )}linear-gradient(left, hsla(${h},${s}%,${l}%,0) 0%, hsla(${h},${s}%,${l}%,1) 100%)`;
+
+      if (window.EyeDropper) {
+         pixelPicker = (
+            <div
+               className={CSS.element(baseClass, "pixel-picker")}
+               onClick={(e) => {
+                  const eyeDropper = new EyeDropper();
+                  eyeDropper
+                     .open()
+                     .then((result) => {
+                        instance.set("value", result.sRGBHex);
+                     })
+                     .catch((e) => {});
+               }}
+            >
+               <PixelPickerIcon />
+            </div>
+         );
+      }
 
       return (
          <div
@@ -280,19 +301,27 @@ class ColorPickerComponent extends VDOM.Component {
                   </label>
                </div>
                <div className={CSS.element(baseClass, "preview")}>
+                  <div
+                     style={{
+                        display: "flex",
+                        alignItems: "center",
+                     }}
+                  >
+                     <div
+                        className={CSS.element(baseClass, "color")}
+                        onClick={(e) => {
+                           this.onColorClick(e);
+                        }}
+                     >
+                        <div style={{ backgroundColor: hsla }}></div>
+                     </div>
+                  </div>
                   <div className={CSS.element(baseClass, "values")}>
                      <input value={hsla} readOnly />
                      <input value={rgba} readOnly />
                      <input value={hex} readOnly />
                   </div>
-                  <div
-                     className={CSS.element(baseClass, "color")}
-                     onClick={(e) => {
-                        this.onColorClick(e);
-                     }}
-                  >
-                     <div style={{ backgroundColor: hsla }}></div>
-                  </div>
+                  {pixelPicker}
                </div>
             </div>
          </div>
