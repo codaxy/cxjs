@@ -4,9 +4,8 @@ import {
    ClassProp,
    CollatorOptions,
    Config,
-   Record,
+   Prop,
    RecordAlias,
-   RecordsProp,
    SortersProp,
    StringProp,
    StructuredProp,
@@ -20,9 +19,9 @@ type KeyDownPipe = (event: KeyboardEvent) => void;
 
 type PipeKeyDownCallback = (pipe: KeyDownPipe) => void;
 
-interface ListProps extends StyledContainerProps {
+interface ListProps<T = unknown> extends StyledContainerProps {
    /** An array of records to be displayed in the list. */
-   records?: RecordsProp;
+   records?: Prop<T[]>;
 
    /** Used for sorting the list. */
    sorters?: SortersProp;
@@ -65,7 +64,7 @@ interface ListProps extends StyledContainerProps {
    filterParams?: StructuredProp;
 
    /** Callback to create a filter function for given filter params. */
-   onCreateFilter?: (filterParams: any, instance: Instance) => (record: Record) => boolean;
+   onCreateFilter?: (filterParams: any, instance: Instance) => (record: T) => boolean;
 
    /** Scrolls selection into the view. Default value is false. */
    scrollSelectionIntoView?: boolean;
@@ -92,4 +91,4 @@ interface ListProps extends StyledContainerProps {
    keyField?: string;
 }
 
-export class List extends Widget<ListProps> {}
+export class List<T = unknown> extends Widget<ListProps<T>> {}
