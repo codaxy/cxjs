@@ -115,7 +115,7 @@ export const Dropdowns = <cx>
                         Dropdown placed next to the element returned by the onResolveRelatedElement target.
                     </Dropdown>
 
-                    <TextField value-bind="$page.query" focused-bind="$page.showSuggestions" trackFocus icon="search" />
+                    <TextField value-bind="$page.query" focused-bind="$page.showSuggestions" trackFocus icon="search" inputAttrs={{autoComplete: "off"}}/>
 
                     <Dropdown
                         visible-bind="$page.showSuggestions"
