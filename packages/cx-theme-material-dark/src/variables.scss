@@ -886,7 +886,7 @@ $cx-colorpicker-state-style-map: cx-deep-map-merge(
    (
       default: (
          color: $cx-default-color,
-         border-width: 0 0 2px,
+         border-width: 0 0 1px,
          border-color: #414141,
       ),
       focus: (

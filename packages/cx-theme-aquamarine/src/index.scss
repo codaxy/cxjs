@@ -131,13 +131,12 @@ $mod: map-get($cx-besm, mod);
    // colorpicker
    .#{$block}colorpicker {
       input {
-         line-height: $cx-default-box-line-height - 8px;
          box-shadow: none;
          background-color: #fff;
          border-width: 0 0 1px;
          border-color: darken($cx-default-input-border-color, 5);
          border-radius: 0;
-         padding: 2px 6px;
+         padding: 2px 0;
 
          &:focus {
             box-shadow: none;

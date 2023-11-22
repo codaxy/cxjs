@@ -23,8 +23,19 @@
    $element: map-get($besm, element);
    $state: map-get($besm, state);
 
+   $size: 220px;
+
    .#{$block}#{$name} {
-      @include cx-add-state-rules($state-style-map, default);
+      $styles: cx-deep-map-merge(
+         $state-style-map,
+         (
+            default: (
+               padding: 4px,
+            ),
+         )
+      );
+
+      @include cx-add-state-rules($styles, default);
 
       display: inline-flex;
       flex-direction: column;
@@ -45,10 +56,9 @@
             $input: false,
             $overrides: (
                default: (
-                  line-height: 12px,
+                  line-height: 14px,
                   font-size: 11px,
                   font-family: $cx-default-colorpicker-font-family,
-                  padding: 2px,
                )
             )
          );
@@ -56,11 +66,10 @@
    }
 
    .#{$element}#{$name}-picker {
-      width: 200px;
-      height: 200px;
-      margin: 5px;
+      width: $size;
+      height: $size;
+      margin: 4px;
       //cursor: crosshair;
-      float: left;
       position: relative;
       touch-action: none;
 
@@ -153,7 +162,6 @@
          #f00 100%
       );
       touch-action: none;
-      //margin-bottom: 5px;
 
       .#{$element}#{$name}-indicator {
          border-color: rgba(0, 0, 0, 0.5);
@@ -186,10 +194,9 @@
    }
 
    .#{$element}#{$name}-details {
-      width: 250px;
+      width: $size;
       min-height: 170px;
-      float: left;
-      margin: 5px;
+      margin: 4px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -200,9 +207,9 @@
          width: 25%;
          display: inline-block;
          text-align: right;
-         font-size: 12px;
 
          input {
+            margin-left: 2px;
             width: 60%;
             text-align: center;
          }
@@ -212,58 +219,53 @@
    .#{$element}#{$name}-pixel-picker {
       display: flex;
       width: 20px;
-      height: 50px;
-      margin-right: 10px;
-      margin-top: -15px;
+      height: 20px;
+      flex-shrink: 0;
       align-items: center;
+      margin-top: 4px;
 
       svg path {
-         fill: rgba(0, 0, 0, 0.8);
+         fill: currentColor;
       }
 
       &:hover {
          cursor: pointer;
 
          svg path {
-            fill: rgba(0, 0, 0, 1);
+            fill: currentColor;
+            opacity: 0.5;
          }
       }
    }
 
    .#{$element}#{$name}-preview {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
    }
 
    .#{$element}#{$name}-color {
-      //@extend %cx-checker-bg;
       @include cx-checker-background();
-      height: 48px;
-      width: 48px;
-      float: right;
+      height: 64px;
+      width: 64px;
       border-radius: 4px;
+      align-self: flex-end;
 
       & > div {
          width: 100%;
-         border-radius: 4px;
          height: 100%;
       }
    }
 
    .#{$element}#{$name}-values {
-      float: left;
-      width: 140px;
-      margin-right: 5px;
-      margin-left: 15px;
+      flex-grow: 1;
+      margin: 0 8px;
 
       input {
-         width: 140px;
+         width: 100%;
          display: block;
       }
 
       input:not(:last-child) {
-         margin: 0 0 8px 0;
+         margin: 0 0 4px 0;
       }
    }
 }
