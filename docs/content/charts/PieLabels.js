@@ -154,7 +154,7 @@ export const PieLabels = <cx>
                            }}
                            innerPointRadius={60}
                            outerPointRadius={70}
-                           name:bind="$record.name"
+                           name-bind="$record.name"
                            selection={{
                               type: KeySelection,
                               bind: "selection",

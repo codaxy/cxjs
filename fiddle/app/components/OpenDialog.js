@@ -40,7 +40,7 @@ export function openOpenDialog(store, callback) {
             </div>
             <TextField value:bind="$modal.query" placeholder="Search" style="margin-left: auto"/>
          </FlexRow>
-         <List records:bind="$modal.fiddles" style="height: 400px" onItemClick={(e, {store}) => {
+         <List records-bind="$modal.fiddles" style="height: 400px" onItemClick={(e, {store}) => {
             History.pushState({}, null, Url.resolve("~/?f=" + store.get('$record.accessCode')));
             dismiss();
          }}>
