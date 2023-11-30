@@ -590,7 +590,7 @@ class LookupComponent extends VDOM.Component {
       if (this.props.multiple) {
          let readOnly = data.disabled || data.readOnly;
          if (isNonEmptyArray(data.records)) {
-            let valueTextFormatter = this.onGetRecordDisplayText ?? ((record) => record[this.valueTextField]);
+            let valueTextFormatter = widget.onGetRecordDisplayText ?? ((record) => record[widget.valueTextField]);
             text = data.records.map((v, i) => (
                <div
                   key={i}
