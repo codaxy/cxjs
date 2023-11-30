@@ -166,6 +166,9 @@ interface LookupFieldProps extends FieldProps {
 
    /** Callback to create a filter function for given filter params. */
    onCreateVisibleOptionsFilter?: (filterParams: any, instance?: Instance) => (record: Record) => boolean;
+
+   /** Used in multiple selection lookups in combination with records, to construct the display text out of multiple fields or when additional formatting is needed. */
+   onGetRecordDisplayText?: (record: any, instance?: Instance) => string;
 }
 
 export class LookupField extends Cx.Widget<LookupFieldProps> {}

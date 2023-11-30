@@ -204,8 +204,11 @@ export class LookupField extends Field {
       if (!this.multiple) return super.formatValue(context, instance);
 
       let { records, values, options } = instance.data;
-      if (isArray(records))
-         return records.map((record) => record[this.valueTextField] || record[this.valueIdField]).join(", ");
+      if (isArray(records)) {
+         let valueTextFormatter =
+            this.onGetRecordDisplayText ?? ((record) => record[this.valueTextField] || record[this.valueIdField]);
+         return records.map((record) => valueTextFormatter(record, instance));
+      }
 
       if (isArray(values)) {
          if (isArray(options))
@@ -254,6 +257,7 @@ LookupField.prototype.submitOnDropdownEnterKey = false;
 LookupField.prototype.pageSize = 100;
 LookupField.prototype.infinite = false;
 LookupField.prototype.quickSelectAll = false;
+LookupField.prototype.onGetRecordDisplayText = null;
 
 Localization.registerPrototype("cx/widgets/LookupField", LookupField);
 
@@ -586,6 +590,7 @@ class LookupComponent extends VDOM.Component {
       if (this.props.multiple) {
          let readOnly = data.disabled || data.readOnly;
          if (isNonEmptyArray(data.records)) {
+            let valueTextFormatter = this.onGetRecordDisplayText ?? ((record) => record[this.valueTextField]);
             text = data.records.map((v, i) => (
                <div
                   key={i}
@@ -593,7 +598,7 @@ class LookupComponent extends VDOM.Component {
                      readonly: readOnly,
                   })}
                >
-                  <span className={CSS.element(baseClass, "tag-value")}>{v[widget.valueTextField]}</span>
+                  <span className={CSS.element(baseClass, "tag-value")}>{valueTextFormatter(v, instance)}</span>
                   {!readOnly && (
                      <div
                         className={CSS.element(baseClass, "tag-clear")}
