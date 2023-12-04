@@ -9,6 +9,7 @@ import { stopPropagation } from "../../util/eventCallbacks";
 import { ddMouseDown, ddDetect, ddMouseUp } from "../drag-drop/ops";
 import { isDefined } from "../../util/isDefined";
 import { isString } from "../../util/isString";
+import { FocusManager } from "../../ui";
 
 export class Window extends Overlay {
    init() {
@@ -168,11 +169,12 @@ class WindowComponent extends OverlayComponent {
       super.onFocusIn();
       if (!this.state.active) {
          if (this.containerEl.contains(document.activeElement)) this.setZIndex(ZIndexManager.next());
-         this.setState({ active: true, });
+         this.setState({ active: true });
       }
    }
 
    onFocusOut() {
+      FocusManager.focus(this.el);
       super.onFocusOut();
       if (this.state.active) {
          this.setState({
