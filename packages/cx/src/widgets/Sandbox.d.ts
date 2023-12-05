@@ -8,9 +8,9 @@ interface SandboxProps extends Cx.PureContainerProps {
 
    accessKey?: Cx.StringProp;
 
-   recordName?: string;
-   recordAlias?: string;
-   immutable?: boolean;
+   recordName?: Cx.RecordAlias;
+   recordAlias?: Cx.RecordAlias;
+   immutable?: Cx.BooleanProp;
 }
 
 export class Sandbox extends Cx.Widget<SandboxProps> {}
