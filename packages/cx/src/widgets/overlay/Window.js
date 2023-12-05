@@ -9,7 +9,6 @@ import { stopPropagation } from "../../util/eventCallbacks";
 import { ddMouseDown, ddDetect, ddMouseUp } from "../drag-drop/ops";
 import { isDefined } from "../../util/isDefined";
 import { isString } from "../../util/isString";
-import { FocusManager } from "../../ui";
 
 export class Window extends Overlay {
    init() {
@@ -174,7 +173,6 @@ class WindowComponent extends OverlayComponent {
    }
 
    onFocusOut() {
-      FocusManager.focus(this.el);
       super.onFocusOut();
       if (this.state.active) {
          this.setState({
