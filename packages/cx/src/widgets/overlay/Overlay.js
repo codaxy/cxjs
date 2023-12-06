@@ -355,6 +355,14 @@ export class OverlayComponent extends VDOM.Component {
                      onClick={this.onBackdropClick.bind(this)}
                   />
                )}
+
+               {widget.modal && !widget.backdrop && (
+                  <div
+                     key="modal"
+                     className={CSS.element("overlay", "modal-backdrop")}
+                     onClick={this.onModalClick.bind(this)}
+                  />
+               )}
                {content}
             </div>
          );
@@ -460,6 +468,11 @@ export class OverlayComponent extends VDOM.Component {
       if (widget.backdrop) {
          if (instance.dismiss) instance.dismiss();
       }
+   }
+   onModalClick(e, el) {
+      e.stopPropagation();
+      let { instance } = this.props;
+      let { widget } = instance;
    }
 
    onMouseUp(e) {
