@@ -461,14 +461,9 @@ export class OverlayComponent extends VDOM.Component {
          if (instance.dismiss) instance.dismiss();
       }
 
-      /* if (widget.modal) {
-         
-      } */
-   }
-   onModalClick(e, el) {
-      e.stopPropagation();
-      let { instance } = this.props;
-      let { widget } = instance;
+      if (widget.modal && !widget.backdrop) {
+         FocusManager.focus(this.el);
+      }
    }
 
    onMouseUp(e) {
