@@ -136,6 +136,7 @@ interface GridColumnConfig {
 
    /** Options for data sorting. See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Collator */
    sortOptions?: CollatorOptions;
+   colSpan?: NumberProp;
 }
 
 interface GridRowLineConfig {
