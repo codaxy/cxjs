@@ -2693,7 +2693,7 @@ cx-cli@21.6.2:
     unzipper "^0.10.11"
 
 "cx-cli@file:D:\\Code\\CxJS\\cxjs\\packages\\cx-cli":
-  version "23.7.0"
+  version "23.12.0"
   resolved "file:packages/cx-cli"
   dependencies:
     adm-zip "^0.5.10"
@@ -2740,7 +2740,7 @@ cx-theme-space-blue@^20.1.0, "cx-theme-space-blue@file:D:\\Code\\CxJS\\cxjs\\pac
   resolved "file:packages/cx-theme-space-blue"
 
 cx@*, cx@^23.4.1, "cx@file:D:\\Code\\CxJS\\cxjs\\packages\\cx":
-  version "23.11.2"
+  version "23.12.0"
   resolved "file:packages/cx"
   dependencies:
     intl-io "^0.3.0"
