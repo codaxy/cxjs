@@ -38,6 +38,14 @@ export default {
         </Md></cx>
     },
 
+    roundedRadius: {
+        key: true,
+        type: 'number',
+        description: <cx><Md>
+            Rounded radius of the column/bar. Default `0`
+        </Md></cx>
+    },
+
     offset: {
         key: true,
         type: 'number',

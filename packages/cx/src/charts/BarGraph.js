@@ -1,33 +1,29 @@
-import {Widget, VDOM} from '../ui/Widget';
-import {ColumnBarGraphBase} from './ColumnBarGraphBase';
-import {tooltipMouseMove, tooltipMouseLeave} from '../widgets/overlay/tooltip-ops';
-import {isArray} from '../util/isArray';
+import { Widget, VDOM } from "../ui/Widget";
+import { ColumnBarGraphBase } from "./ColumnBarGraphBase";
+import { tooltipMouseMove, tooltipMouseLeave } from "../widgets/overlay/tooltip-ops";
+import { isArray } from "../util/isArray";
 
 export class BarGraph extends ColumnBarGraphBase {
-
    explore(context, instance) {
       super.explore(context, instance);
 
-      let {data, yAxis, xAxis} = instance;
+      let { data, yAxis, xAxis } = instance;
 
       if (isArray(data.data)) {
-         data.data.forEach(p => {
+         data.data.forEach((p) => {
             var x0 = this.x0Field ? p[this.x0Field] : data.x0;
             var y = p[this.yField];
             var x = p[this.xField];
 
             yAxis.acknowledge(y, data.size, data.offset);
 
-            if (data.autoSize)
-               yAxis.book(y, data.stacked ? data.stack : data.name);
+            if (data.autoSize) yAxis.book(y, data.stacked ? data.stack : data.name);
 
             if (data.stacked) {
                xAxis.stacknowledge(data.stack, y, x0);
                xAxis.stacknowledge(data.stack, y, x);
-            }
-            else {
-               if (!this.hiddenBase)
-                  xAxis.acknowledge(x0);
+            } else {
+               if (!this.hiddenBase) xAxis.acknowledge(x0);
                xAxis.acknowledge(x);
             }
          });
@@ -35,16 +31,14 @@ export class BarGraph extends ColumnBarGraphBase {
    }
 
    renderGraph(context, instance) {
-      var {data, yAxis, xAxis, store} = instance;
+      var { data, yAxis, xAxis, store } = instance;
 
-      if (!isArray(data.data))
-         return false;
+      if (!isArray(data.data)) return false;
 
       var isSelected = this.selection.getIsSelectedDelegate(store);
 
       return data.data.map((p, i) => {
-
-         var {offset, size} = data;
+         var { offset, size } = data;
 
          var x0 = this.x0Field ? p[this.x0Field] : data.x0;
          var y = p[this.yField];
@@ -52,7 +46,7 @@ export class BarGraph extends ColumnBarGraphBase {
 
          if (data.autoSize) {
             var [index, count] = instance.yAxis.locate(y, data.stacked ? data.stack : data.name);
-            offset = size / count * (index - count / 2 + 0.5);
+            offset = (size / count) * (index - count / 2 + 0.5);
             size = size / count;
          }
 
@@ -65,47 +59,54 @@ export class BarGraph extends ColumnBarGraphBase {
          var state = {
             selected: isSelected(p, i),
             selectable: !this.selection.isDummy,
-            [`color-${color}`]: color != null
+            [`color-${color}`]: color != null,
          };
 
          let mmove, mleave;
 
          if (this.tooltip) {
-            mmove = e => tooltipMouseMove(e, instance, this.tooltip, {
-               target: e.target.parent,
-               data: {
-                  $record: p
-               }
-            });
-            mleave = e => tooltipMouseLeave(e, instance, this.tooltip, {
-               target: e.target.parent,
-               data: {
-                  $record: p
-               }
-            });
+            mmove = (e) =>
+               tooltipMouseMove(e, instance, this.tooltip, {
+                  target: e.target.parent,
+                  data: {
+                     $record: p,
+                  },
+               });
+            mleave = (e) =>
+               tooltipMouseLeave(e, instance, this.tooltip, {
+                  target: e.target.parent,
+                  data: {
+                     $record: p,
+                  },
+               });
          }
 
-         return <rect key={i}
-            className={this.CSS.element(this.baseClass, 'bar', state)}
-            onClick={e => {
-               this.handleClick(e, instance, p, i)
-            }}
-            x={Math.min(x1, x2)}
-            y={Math.min(y1, y2)}
-            width={Math.abs(x2 - x1)}
-            height={Math.abs(y2 - y1)}
-            style={data.style}
-            onMouseMove={mmove}
-            onMouseLeave={mleave}
-         />
+         return (
+            <rect
+               key={i}
+               className={this.CSS.element(this.baseClass, "bar", state)}
+               onClick={(e) => {
+                  this.handleClick(e, instance, p, i);
+               }}
+               x={Math.min(x1, x2)}
+               y={Math.min(y1, y2)}
+               width={Math.abs(x2 - x1)}
+               height={Math.abs(y2 - y1)}
+               style={data.style}
+               onMouseMove={mmove}
+               onMouseLeave={mleave}
+               rx={data.roundedRadius}
+            />
+         );
       });
    }
 }
 
-BarGraph.prototype.baseClass = 'bargraph';
+BarGraph.prototype.baseClass = "bargraph";
 BarGraph.prototype.x0Field = false;
 BarGraph.prototype.x0 = 0;
-BarGraph.prototype.legendShape = 'bar';
+BarGraph.prototype.legendShape = "bar";
 BarGraph.prototype.hiddenBase = false;
+BarGraph.prototype.roundedRadius = 0;
 
-Widget.alias('bargraph', BarGraph);
+Widget.alias("bargraph", BarGraph);
