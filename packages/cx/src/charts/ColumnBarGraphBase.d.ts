@@ -35,7 +35,7 @@ interface ColumnBarGraphBaseProps extends Cx.WidgetProps {
    /** Indicate that columns should be stacked on top of the other columns. Default value is `false`. */
    stacked?: Cx.BooleanProp;
 
-   /** Rounded radius of the column/bar. */
+   /** Border radius of the column/bar. */
    borderRadius?: Cx.NumberProp;
 
    /** Name of the stack. If multiple stacks are used, each should have a unique name. Default value is `stack`. */
