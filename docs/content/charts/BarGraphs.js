@@ -49,7 +49,7 @@ export const BarGraphs = <cx>
                                size={0.3}
                                offset={-0.15}
                                xField="v1"
-                               roundedRadius={2}
+                               borderRadius={2}
                                selection={{
                                   type: KeySelection,
                                   bind: '$page.selected.y',
@@ -61,7 +61,7 @@ export const BarGraphs = <cx>
                                colorIndex={6}
                                name="V2"
                                size={0.3}
-                               roundedRadius={2}
+                               borderRadius={2}
                                offset={+0.15}
                                xField="v2"
                                selection={{

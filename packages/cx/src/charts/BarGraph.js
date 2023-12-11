@@ -95,7 +95,7 @@ export class BarGraph extends ColumnBarGraphBase {
                style={data.style}
                onMouseMove={mmove}
                onMouseLeave={mleave}
-               rx={data.roundedRadius}
+               rx={data.borderRadius}
             />
          );
       });
@@ -107,6 +107,6 @@ BarGraph.prototype.x0Field = false;
 BarGraph.prototype.x0 = 0;
 BarGraph.prototype.legendShape = "bar";
 BarGraph.prototype.hiddenBase = false;
-BarGraph.prototype.roundedRadius = 0;
+BarGraph.prototype.borderRadius = 0;
 
 Widget.alias("bargraph", BarGraph);

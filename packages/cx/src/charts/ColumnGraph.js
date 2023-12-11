@@ -96,7 +96,7 @@ export class ColumnGraph extends ColumnBarGraphBase {
                style={data.style}
                onMouseMove={mmove}
                onMouseLeave={mleave}
-               rx={data.roundedRadius}
+               rx={data.borderRadius}
             />
          );
       });

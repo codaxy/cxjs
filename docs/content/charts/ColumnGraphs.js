@@ -67,7 +67,7 @@ export const ColumnGraphs = <cx>
                             name="V1"
                             size={0.3}
                             offset={-0.15}
-                            roundedRadius={2}
+                            borderRadius={2}
                             yField="v1"
                             selection={{
                                 type: KeySelection,
@@ -87,7 +87,7 @@ export const ColumnGraphs = <cx>
                             colorIndex={6}
                             active-bind="$page.showV2"
                             name="V2"
-                            roundedRadius={2}
+                            borderRadius={2}
                             size={0.3}
                             offset={+0.15}
                             yField="v2"

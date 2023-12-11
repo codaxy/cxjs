@@ -26,7 +26,7 @@ export class ColumnBarGraphBase extends Widget {
          active: true,
          stacked: undefined,
          stack: undefined,
-         roundedRadius: undefined,
+         borderRadius: undefined,
       });
    }
 
@@ -111,4 +111,4 @@ ColumnBarGraphBase.prototype.stacked = false;
 ColumnBarGraphBase.prototype.autoSize = 0;
 ColumnBarGraphBase.prototype.offset = 0;
 ColumnBarGraphBase.prototype.styled = true;
-ColumnBarGraphBase.prototype.roundedRadius = 0;
+ColumnBarGraphBase.prototype.borderRadius = 0;

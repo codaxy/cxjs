@@ -29,7 +29,7 @@ export class ColumnBarBase extends PureContainer {
          stack: undefined,
          offset: undefined,
          hoverId: undefined,
-         roundedRadius: undefined,
+         borderRadius: undefined,
       });
    }
 
@@ -127,7 +127,7 @@ export class ColumnBarBase extends PureContainer {
                      y={bounds.t}
                      width={Math.max(0.0001, bounds.width())}
                      height={Math.max(0.0001, bounds.height())}
-                     rx={data.roundedRadius}
+                     rx={data.borderRadius}
                      onMouseMove={(e) => {
                         onMouseMove(e, instance);
                         tooltipMouseMove(e, instance, this.tooltip);
@@ -169,4 +169,4 @@ ColumnBarBase.prototype.stack = "stack";
 ColumnBarBase.prototype.legendShape = "rect";
 ColumnBarBase.prototype.styled = true;
 ColumnBarBase.prototype.hoverChannel = "default";
-ColumnBarBase.prototype.roundedRadius = 0;
+ColumnBarBase.prototype.borderRadius = 0;

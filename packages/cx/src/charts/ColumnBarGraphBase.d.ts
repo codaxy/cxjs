@@ -36,7 +36,7 @@ interface ColumnBarGraphBaseProps extends Cx.WidgetProps {
    stacked?: Cx.BooleanProp;
 
    /** Rounded radius of the column/bar. */
-   roundedRadius?: Cx.NumberProp;
+   borderRadius?: Cx.NumberProp;
 
    /** Name of the stack. If multiple stacks are used, each should have a unique name. Default value is `stack`. */
    stack?: Cx.StringProp;

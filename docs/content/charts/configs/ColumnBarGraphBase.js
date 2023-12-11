@@ -36,7 +36,7 @@ export default {
         </Md></cx>
     },
 
-    roundedRadius: {
+    borderRadius: {
         key: true,
         type: 'number',
         description: <cx><Md>
