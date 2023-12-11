@@ -459,9 +459,7 @@ export class OverlayComponent extends VDOM.Component {
 
       if (widget.backdrop) {
          if (instance.dismiss) instance.dismiss();
-      }
-
-      if (widget.modal && !widget.backdrop) {
+      } else if (widget.modal) {
          FocusManager.focus(this.el);
       }
    }
