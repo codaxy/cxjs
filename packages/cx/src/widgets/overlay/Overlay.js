@@ -348,13 +348,11 @@ export class OverlayComponent extends VDOM.Component {
                })}
                style={parseStyle(data.shadowStyle)}
             >
-               {(widget.backdrop || widget.modal) && (
-                  <div
-                     key="backdrop"
-                     className={CSS.element("overlay", "modal-backdrop")}
-                     onClick={this.onBackdropClick.bind(this)}
-                  />
-               )}
+               <div
+                  key="backdrop"
+                  className={CSS.element("overlay", "modal-backdrop")}
+                  onClick={this.onBackdropClick.bind(this)}
+               />
                {content}
             </div>
          );
