@@ -33,6 +33,9 @@ interface ColumnBarBaseProps extends Cx.StyledContainerProps {
    /** Of center offset of the column. Use this in combination with `size` to align multiple series on the same chart. */
    offset?: Cx.NumberProp;
 
+   /** Border radius of the column/bar. */
+   borderRadius?: Cx.NumberProp;
+
    /**
     * Name of the horizontal axis. The value should match one of the horizontal axes set
     * in the `axes` configuration of the parent `Chart` component. Default value is `x`.
