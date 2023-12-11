@@ -67,6 +67,7 @@ export const ColumnGraphs = <cx>
                             name="V1"
                             size={0.3}
                             offset={-0.15}
+                            borderRadius={2}
                             yField="v1"
                             selection={{
                                 type: KeySelection,
@@ -78,14 +79,15 @@ export const ColumnGraphs = <cx>
                                 text: { tpl: "{$record.v1:n;2}" },
                                 trackMouse: true
                             }}
-
-                        />
+                            
+                            />
 
                         <ColumnGraph
                             data-bind="$page.points"
                             colorIndex={6}
                             active-bind="$page.showV2"
                             name="V2"
+                            borderRadius={2}
                             size={0.3}
                             offset={+0.15}
                             yField="v2"

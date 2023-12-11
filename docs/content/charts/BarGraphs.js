@@ -49,17 +49,19 @@ export const BarGraphs = <cx>
                                size={0.3}
                                offset={-0.15}
                                xField="v1"
+                               borderRadius={2}
                                selection={{
-                            type: KeySelection,
-                            bind: '$page.selected.y',
-                            keyField: 'y'
-                        }}
-                  />
+                                  type: KeySelection,
+                                  bind: '$page.selected.y',
+                                  keyField: 'y'
+                                 }}
+                                 />
 
                   <BarGraph data-bind="$page.points"
                                colorIndex={6}
                                name="V2"
                                size={0.3}
+                               borderRadius={2}
                                offset={+0.15}
                                xField="v2"
                                selection={{
