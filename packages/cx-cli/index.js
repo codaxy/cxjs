@@ -16,11 +16,16 @@ program.command("create")
         createNewApp(name);
     });
 
-program.command("add, route")
+program.command("add")
     .description("Add new route folder")
+    .argument('<type>')
     .argument('<name>', 'route folder')
-    .action((routeName) => {
-        addRoute(routeName);
+    .action((type, name) => {
+        if (type === "route") {
+            addRoute(name);
+        } else {
+            console.error(`Invalid type! Expected 'cx add route <name>', found 'cx add ${type} ${name}'.`);
+        }
     });
 
 program.parse();
