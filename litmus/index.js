@@ -95,8 +95,8 @@ import "./index.scss";
 //import Demo from "./bugs/656";
 //import Demo from "./bugs/RestateFirstVisibleChild";
 //import Demo from "./bugs/TooltipDisable";
-import Demo from "./bugs/Repeater";
-
+// import Demo from "./bugs/Repeater";
+import Demo from "./features/month-field/encoding";
 //import Demo from "./bugs/AsyncValidator";
 
 //import Demo from "./features/charts/pie/labels";

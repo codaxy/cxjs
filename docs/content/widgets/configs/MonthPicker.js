@@ -37,6 +37,15 @@ export default {
             Used only if `range` is set to `false` (default).
         </Md></cx>
     },
+        encoding: {
+        type: 'function',
+        description: <cx>
+            <Md>
+                Sets the function that will be used to convert Date objects before writing data to the store.
+                Default implementation is `Date.toISOString`. See also [Culture.setDefaultDateEncoding](~/concepts/localization#culture).
+            </Md>
+        </cx>
+    },
     baseClass: {
         type: 'string',
         description: <cx><Md>
