@@ -124,7 +124,8 @@ export class MonthPicker extends Field {
    }
 
    handleSelect(e, instance, date1, date2) {
-      let { data } = instance;
+      let { data, widget } = instance;
+      let encode = widget.encoding || Culture.getDefaultDateEncoding();
 
       if (data.disabled) return;
 
@@ -133,9 +134,9 @@ export class MonthPicker extends Field {
       if (this.onBeforeSelect && instance.invoke("onBeforeSelect", e, instance, date1, date2) === false) return;
 
       if (this.range) {
-         instance.set("from", date1.toISOString());
-         instance.set("to", date2.toISOString());
-      } else instance.set("value", date1.toISOString());
+         instance.set("from", encode(date1));
+         instance.set("to", encode(date2));
+      } else instance.set("value", encode(date1));
 
       if (this.onSelect) instance.invoke("onSelect", instance, date1, date2);
    }
