@@ -82,7 +82,12 @@ interface MonthFieldProps extends FieldProps {
     * Set to `true` to display the clear button even if `required` is set. Default is `false`.
     */
    alwaysShowClear?: boolean,
-
+   
+   /** The function that will be used to convert Date objects before writing data to the store.
+    * Default implementation is Date.toISOString.
+    * See also Culture.setDefaultDateEncoding.
+    */
+   encoding?: (date: Date) => any;
 }
 
 export class MonthField extends Cx.Widget<MonthFieldProps> {}

@@ -1,32 +1,32 @@
-import { Widget, VDOM, getContent } from "../../ui/Widget";
-import { Cx } from "../../ui/Cx";
-import { Field, getFieldTooltip } from "./Field";
-import { MonthPicker } from "./MonthPicker";
 import { DateTimeCulture } from "intl-io";
-import { Format } from "../../util/Format";
-import { Dropdown } from "../overlay/Dropdown";
-import { Console } from "../../util/Console";
 import { StringTemplate } from "../../data/StringTemplate";
-import { monthStart } from "../../util/date/monthStart";
+import { Culture } from "../../ui";
+import { Cx } from "../../ui/Cx";
+import { Localization } from "../../ui/Localization";
+import { VDOM, Widget, getContent } from "../../ui/Widget";
+import { Console } from "../../util/Console";
+import { Format } from "../../util/Format";
+import { KeyCode } from "../../util/KeyCode";
 import { dateDiff } from "../../util/date/dateDiff";
+import { monthStart } from "../../util/date/monthStart";
+import { stopPropagation } from "../../util/eventCallbacks";
+import { isDefined } from "../../util/isDefined";
+import { isTouchDevice } from "../../util/isTouchDevice";
+import { isTouchEvent } from "../../util/isTouchEvent";
+import { Icon } from "../Icon";
+import { autoFocus } from "../autoFocus";
+import ClearIcon from "../icons/clear";
+import DropdownIcon from "../icons/drop-down";
+import { Dropdown } from "../overlay/Dropdown";
 import {
+   tooltipMouseLeave,
+   tooltipMouseMove,
+   tooltipParentDidMount,
    tooltipParentWillReceiveProps,
    tooltipParentWillUnmount,
-   tooltipMouseMove,
-   tooltipMouseLeave,
-   tooltipParentDidMount,
 } from "../overlay/tooltip-ops";
-import { stopPropagation } from "../../util/eventCallbacks";
-import { Icon } from "../Icon";
-import CalendarIcon from "../icons/calendar";
-import DropdownIcon from "../icons/drop-down";
-import ClearIcon from "../icons/clear";
-import { KeyCode } from "../../util/KeyCode";
-import { isTouchEvent } from "../../util/isTouchEvent";
-import { isTouchDevice } from "../../util/isTouchDevice";
-import { Localization } from "../../ui/Localization";
-import { isDefined } from "../../util/isDefined";
-import { autoFocus } from "../autoFocus";
+import { Field, getFieldTooltip } from "./Field";
+import { MonthPicker } from "./MonthPicker";
 
 export class MonthField extends Field {
    declareData() {
@@ -179,16 +179,18 @@ export class MonthField extends Field {
    }
 
    handleSelect(instance, date1, date2) {
+      let { widget } = instance;
+      let encode = widget.encoding || Culture.getDefaultDateEncoding();
       instance.setState({
          inputError: false,
       });
       if (this.range) {
-         let d1 = date1 ? date1.toISOString() : this.emptyValue;
-         let d2 = date2 ? date2.toISOString() : this.emptyValue;
+         let d1 = date1 ? encode(date1) : this.emptyValue;
+         let d2 = date2 ? encode(date2) : this.emptyValue;
          instance.set("from", d1);
          instance.set("to", d2);
       } else {
-         let value = date1 ? date1.toISOString() : this.emptyValue;
+         let value = date1 ? encode(date1) : this.emptyValue;
          instance.set("value", value);
       }
    }
@@ -238,6 +240,7 @@ class MonthInput extends VDOM.Component {
          items: {
             type: MonthPicker,
             ...this.props.monthPicker,
+            encoding: widget.encoding,
             autoFocus: true,
             onFocusOut: (e) => {
                this.closeDropdown(e);
