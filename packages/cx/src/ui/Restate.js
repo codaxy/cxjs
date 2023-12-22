@@ -95,6 +95,7 @@ export class Restate extends PureContainer {
             onError={this.onError}
             deferredUntilIdle={instance.data.deferredUntilIdle}
             idleTimeout={instance.data.idleTimeout}
+            immediate={this.immediate}
          />
       );
    }
@@ -102,6 +103,7 @@ export class Restate extends PureContainer {
 
 Restate.prototype.detached = false;
 Restate.prototype.waitForIdle = false;
+Restate.prototype.immediate = false;
 
 export const PrivateStore = Restate;
 

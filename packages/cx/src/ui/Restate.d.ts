@@ -8,6 +8,9 @@ interface RestateProps extends Cx.PureContainerProps {
    idleTimeout?: Cx.NumberProp;
    cacheKey?: Cx.StringProp;
 
+   /* Set to true to disable batching of updates. */
+   immediate?: boolean;
+
    onError?: (err: Error, instance: Instance) => void;
 }
 
