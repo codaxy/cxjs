@@ -209,7 +209,7 @@ export const DataViews = <cx>
 
                 The simplest use case for `DataProxy` is when we want to create an alias for a certain store binding.
                 In the example below, `level` binding is also made available as `$level`.
-                This createas a simple two-way mapping between the two store values. Moving one slider will affect the other.
+                This creates a simple two-way mapping between the two store values. Moving one slider will affect the other.
                 
                 <div class="widgets flex-row">
                     <LabelsTopLayout>
