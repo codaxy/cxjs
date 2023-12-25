@@ -90,7 +90,7 @@ export const Widgets = <cx>
             ### `render`
 
             The `render` method returns virtual DOM representation of the widget.
-            Note that the`&lt;cx&gt;` wrapper is not used inside the `render` method.
+            Note that the `&lt;cx&gt;` wrapper is not used inside the `render` method.
 
             <Content name="code">
                 <Tab value-bind="$page.code.tab"  mod="code" tab="code"  text="Rectangle.js" default />
