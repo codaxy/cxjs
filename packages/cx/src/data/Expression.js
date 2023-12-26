@@ -173,8 +173,9 @@ export function expression(str) {
    let keys = Object.keys(args);
 
    try {
-      let compute = new Function(...formats.map((f, i) => "fmt" + i), ...keys, ...helperNames, body).bind(
+      let compute = new Function("fmt", ...formats.map((f, i) => "fmt" + i), ...keys, ...helperNames, body).bind(
          Format,
+         Format.value,
          ...formats,
          ...helperValues
       );

@@ -121,6 +121,11 @@ describe("Expression", function () {
          assert(e({ name: "CxJS" }), "Hello CxJS");
       });
 
+      it("allows using the fmt function inside", function () {
+         var e = Expression.compile('{[fmt({text}, "prefix;Hello ")]}');
+         assert.equal(e({ text: "CxJS" }), "Hello CxJS");
+      });
+
       // it('are properly memoized with proxies', function () {
       //    let inv = 0;
       //    var e = Expression.get(d => { inv++; return d.a + d.b}).memoize();
