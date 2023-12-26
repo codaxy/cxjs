@@ -2,6 +2,11 @@
 
 <!--- ## Unreleased -->
 
+**Features**
+
+-  Allow using the `fmt` function inside expressions and string templates. For example, this template works: ` {[fmt({amount}, ``currency;${{currency}};0;2``)]} `
+-  Add number formatting flags, i.e. n;0;2;+ca; `+` to show sign for positive number, `c` for compact number formatting, `a` for accounting mode (brackets for negative numbers)
+
 ## `cx@23.4.1`
 
 **Features**

@@ -85,6 +85,11 @@ describe("Expression", function () {
          var e = Expression.compile('{[true ? "T" : "F"]}');
          assert.equal(e(), "T");
       });
+
+      it("with string interpolation inside", function () {
+         var e = Expression.compile("{[`${{test}}`]}");
+         assert.equal(e({ test: "T" }), "T");
+      });
    });
 
    describe("are working", function () {
