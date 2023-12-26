@@ -1,5 +1,4 @@
-import {Content, HtmlElement, Checkbox, TextField, Select, Option, Repeater, Text, Tab} from 'cx/widgets';
-import {Controller} from 'cx/ui';
+import {Content, HtmlElement, Checkbox, TextField, Select, Option, Repeater, Text, Tab, NumberField} from 'cx/widgets';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
 import {CodeSnippet} from '../../components/CodeSnippet';
@@ -142,21 +141,39 @@ export const Formatting = <cx>
                 <Tab value-bind="$page.code1.tab" mod="code" tab="index" text="Usage in widgets" default/>
 
                 <CodeSnippet visible-expr="{$page.code1.tab}=='controller'">{`
-                    //single value
-                    Format.value(2, 'n;2'); //"2.00"
+                    // Number formatting (decimal precision)
+                    Format.value(7, 'n;2'); // "7.00"
+                    Format.value(3.29, 'n;0'); // "3"
+                    Format.value(3.14159, 'n;1;3'); // "3.142"
 
-                    //string template
-                    StringTemplate.format('Date: {0:d}', new Date('2016-9-2')); //"Date: 9/2/2016"
+                    // Date formatting
+                    const date = new Date("2023-02-01");
+                    Format.value(date, "d;yyMd"); // "2/1/23"
+                    Format.value(date, "d;yyMMdd"); // "02/01/23"
+                    Format.value(date, "d;yyyyMMdd"); // "02/01/2023"
+                    Format.value(date, "d;yyyyMMMd"); // "Feb 1, 2023"
+                    Format.value(date, "d;yyyyMMMMdd"); // "February 01, 2023"
+                    Format.value(date, "d;DDyyyyMMMMd"); // "Wed, February 1, 2023"
+                    Format.value(date, "d;DDDDyyyyMMMMd"); // "Wednesday, February 01, 2023"
 
-                    //multiple formats
-                    Format.value(5, 'n;2:wrap;(;)'); //"(5.00)"
-                    Format.value(null, 'n;2:wrap;(;)'); //""
+                    // String template
+                    StringTemplate.format('Date: {0:d}', new Date('2016-9-2')); // "Date: 9/2/2016"
 
-                    //null
-                    Format.value(null, 'n;2:wrap;(;)|N/A'); //"N/A"
+                    // Multiple formats
+                    Format.value(5, 'n;2:wrap;(;)'); // "(5.00)"
+                    Format.value(null, 'n;2:wrap;(;)'); // ""
+
+                    // null
+                    Format.value(null, 'n;2:wrap;(;)|N/A'); // "N/A"
                 `}</CodeSnippet>
                 <CodeSnippet  visible-expr="{$page.code1.tab}=='index'">{`
-                    //string template assigned to a widget property
+                    // Number formatting (decimal precision)
+                    <NumberField value-bind="array.average" format="n;1;3" />
+
+                    // Date formatting
+                    <DateField value-bind="person.dateOfBirth" format="d;yyyyMMMMd" />
+
+                    // String template assigned to a widget property
                     <span text-tpl="{person.height:suffix; cm|N/A}" />
                 `}</CodeSnippet>
             </Content>
@@ -201,4 +218,3 @@ export const Formatting = <cx>
     </Md>
 
 </cx>;
-
