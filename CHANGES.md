@@ -6,6 +6,7 @@
 
 -  Allow using the `fmt` function inside expressions and string templates. For example, this template works: ` {[fmt({amount}, ``currency;${{currency}};0;2``)]} `
 -  Add number formatting flags, i.e. n;0;2;+ca; `+` to show sign for positive number, `c` for compact number formatting, `a` for accounting mode (brackets for negative numbers)
+-  Add `Culture.setNumberCulture` and `Culture.setDateTimeCulture` methods which enable using different cultures for numbers and date formatting.
 
 ## `cx@23.4.1`
 

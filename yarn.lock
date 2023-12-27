@@ -2739,9 +2739,17 @@ cx-theme-space-blue@^20.1.0, "cx-theme-space-blue@file:D:\\Code\\CxJS\\cxjs\\pac
   version "20.11.0"
   resolved "file:packages/cx-theme-space-blue"
 
-cx@*, cx@^23.4.1, "cx@file:D:\\Code\\CxJS\\cxjs\\packages\\cx":
-  version "24.0.0"
+cx@*, "cx@file:D:\\Code\\CxJS\\cxjs\\packages\\cx":
+  version "24.0.1"
   resolved "file:packages/cx"
+  dependencies:
+    intl-io "^0.3.0"
+    route-parser "^0.0.5"
+
+cx@^23.4.1:
+  version "23.12.3"
+  resolved "https://registry.npmjs.org/cx/-/cx-23.12.3.tgz"
+  integrity sha512-S/7k6RVV0OqLRD/eVwppWrYa9RUeBU/2xFYE+BGLSkgaRs7hfnfozRlU7drMX6gg04AnEZum+yBTyXDLeZ//FA==
   dependencies:
     intl-io "^0.3.0"
     route-parser "^0.0.5"
