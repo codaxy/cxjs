@@ -155,7 +155,7 @@ function mainMenu(phone) {
             >
                <div visible:expr="!{fiddle.isPublic}">
                   <p>
-                     This is a private fiddle which can be accessed only by you
+                     This is a private fiddle which can be accessed only by you 
                      and the people who have a link to it.
                   </p>
                   <Button onClick="publish" focusOnMouseDown>
@@ -163,7 +163,7 @@ function mainMenu(phone) {
                   </Button>
                </div>
                <div visible:expr="!!{fiddle.isPublic}">
-                  <p>This is fiddle is public.</p>
+                  <p>This fiddle is public.</p>
                   <Button onClick="unpublish" focusOnMouseDown>
                      Hide it
                   </Button>
