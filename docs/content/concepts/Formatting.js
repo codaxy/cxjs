@@ -141,10 +141,12 @@ export const Formatting = <cx>
                 <Tab value-bind="$page.code1.tab" mod="code" tab="index" text="Usage in widgets" default/>
 
                 <CodeSnippet visible-expr="{$page.code1.tab}=='controller'">{`
-                    // Number formatting (decimal precision)
-                    Format.value(7, 'n;2'); // "7.00"
-                    Format.value(3.29, 'n;0'); // "3"
-                    Format.value(3.14159, 'n;1;3'); // "3.142"
+                    // Number formatting
+                    Format.value(7, 'n;2'); // Two decimals - "7.00"
+                    Format.value(3.29, 'n;0'); // No decimals - "3"
+                    Format.value(3.14159, 'n;1;3'); // Min 1, max 3 decimals - "3.142"
+                    Format.value(462.31, 'currency;EUR;1'); // Currency EUR, one decimal - "€462.3"
+                    Format.value(30.258, 'ps;0;2'); // Percentage sign, max 2 decimals - "30.26%"
 
                     // Date formatting
                     const date = new Date("2023-02-01");
@@ -167,14 +169,56 @@ export const Formatting = <cx>
                     Format.value(null, 'n;2:wrap;(;)|N/A'); // "N/A"
                 `}</CodeSnippet>
                 <CodeSnippet  visible-expr="{$page.code1.tab}=='index'">{`
-                    // Number formatting (decimal precision)
-                    <NumberField value-bind="array.average" format="n;1;3" />
+                    // Number formatting
+                    <LabelsTopLayout columns={2}>
+                        <NumberField value-bind="value" label="Value" />
+                        <div />
+                        <LabeledContainer label="Max two decimals">
+                            <div text-tpl="{value:n;0;2}" />
+                        </LabeledContainer>
+                        <LabeledContainer label="Currency (default)">
+                            <div text-tpl="{value:currency}" />
+                        </LabeledContainer>
+                        <LabeledContainer label="Currency USD, two decimals">
+                            <div text-tpl="{value:currency;USD;2}" />
+                        </LabeledContainer>
+                        <LabeledContainer label="Currency EUR, no decimals">
+                            <div text-tpl="{value:currency;EUR;0}" />
+                        </LabeledContainer>
+                        <LabeledContainer label="Percentage (1M, 1k)">
+                            <div text-tpl="{value:p;0;2;}" />
+                        </LabeledContainer>
+                        <LabeledContainer label="Percentage sign (1M, 1k)">
+                            <div text-tpl="{value:ps;0;2;}" />
+                        </LabeledContainer>
+                        <LabeledContainer label="Compact (1M, 1k)">
+                            <div text-tpl="{value:n;0;4;c}" />
+                        </LabeledContainer>
+                    </LabelsTopLayout>
 
                     // Date formatting
-                    <DateField value-bind="person.dateOfBirth" format="d;yyyyMMMMd" />
+                    <LabelsTopLayout columns={2}>
+                        <DateField value-bind="person.dateOfBirth" label="Date of Birth" />
+                        <div />
+                        <LabeledContainer label="MM/dd/yyyy format (default)">
+                            <div text-tpl="{person.dateOfBirth:d}" />
+                        </LabeledContainer>
+                        <LabeledContainer label="M/d/yy format">
+                            <div text-tpl="{person.dateOfBirth:d;yyMd}" />
+                        </LabeledContainer>
+                        <LabeledContainer label="Short day name, M/d/yyyy">
+                            <div text-tpl="{person.dateOfBirth:d;DDDyyyyMd}" />
+                        </LabeledContainer>
+                        <LabeledContainer label="Full day name, MMM dd, yyyy">
+                            <div text-tpl="{person.dateOfBirth:d;DDDDyyyyMMMdd}" />
+                        </LabeledContainer>
+                        <LabeledContainer label="Full day name, MMMM dd, yyyy">
+                            <div text-tpl="{person.dateOfBirth:d;DDDDyyyyMMMMdd}" />
+                        </LabeledContainer>
+                    </LabelsTopLayout>
 
                     // String template assigned to a widget property
-                    <span text-tpl="{person.height:suffix; cm|N/A}" />
+                    <div text-tpl="{person.height:suffix; cm|N/A}" />
                 `}</CodeSnippet>
             </Content>
 
