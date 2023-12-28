@@ -1,9 +1,10 @@
-import {Content, HtmlElement, Checkbox, TextField, Select, Option, Repeater, Text, Tab, NumberField} from 'cx/widgets';
-import {Md} from '../../components/Md';
-import {CodeSplit} from '../../components/CodeSplit';
-import {CodeSnippet} from '../../components/CodeSnippet';
-import {ConfigTable} from '../../components/ConfigTable';
-import {ImportPath} from '../../components/ImportPath';
+import { Content, Tab, NumberField, LabeledContainer, DateField } from 'cx/widgets';
+import { Md } from '../../components/Md';
+import { CodeSplit } from '../../components/CodeSplit';
+import { CodeSnippet } from '../../components/CodeSnippet';
+import { ConfigTable } from '../../components/ConfigTable';
+import { ImportPath } from '../../components/ImportPath';
+import { LabelsTopLayout } from 'cx/ui';
 
 const formats = {
     "string": {
@@ -130,12 +131,71 @@ export const Formatting = <cx>
 
         ### Formatting Rules
 
+        Use `;` to delimit format parameters.
+
+        Use `:` to use chain multiple formats. Formats are applied from left to right.
+
+        Use `|` to provide null text. Default null text is empty string.
+
         <CodeSplit>
-            Use `;` to delimit format parameters.
+            <div class="widgets">
+                <div>
+                    <LabelsTopLayout columns={2}>
+                        <NumberField value-bind="$page.value" label="Value" />
+                        <div />
+                        <LabeledContainer label="Max two decimals">
+                            <div text-tpl="{$page.value:n;0;2}" />
+                        </LabeledContainer>
+                        <LabeledContainer label="Currency (default)">
+                            <div text-tpl="{$page.value:currency}" />
+                        </LabeledContainer>
+                        <LabeledContainer label="Currency USD, two decimals">
+                            <div text-tpl="{$page.value:currency;USD;2}" />
+                        </LabeledContainer>
+                        <LabeledContainer label="Currency EUR, no decimals">
+                            <div text-tpl="{$page.value:currency;EUR;0}" />
+                        </LabeledContainer>
+                        <LabeledContainer label="Percentage (1M, 1k)">
+                            <div text-tpl="{$page.value:p;0;2;}" />
+                        </LabeledContainer>
+                        <LabeledContainer label="Percentage sign (1M, 1k)">
+                            <div text-tpl="{$page.value:ps;0;2;}" />
+                        </LabeledContainer>
+                        <LabeledContainer label="Compact (1M, 1k)">
+                            <div text-tpl="{$page.value:n;0;4;c}" />
+                        </LabeledContainer>
+                    </LabelsTopLayout>
+                    <hr />
+                    <LabelsTopLayout columns={2}>
+                        <DateField value-bind="$page.person.dateOfBirth" label="Date of Birth" />
+                        <div />
+                        <LabeledContainer label="MM/dd/yyyy format (default)">
+                            <div text-tpl="{$page.person.dateOfBirth:d}" />
+                        </LabeledContainer>
+                        <LabeledContainer label="M/d/yy format">
+                            <div text-tpl="{$page.person.dateOfBirth:d;yyMd}" />
+                        </LabeledContainer>
+                        <LabeledContainer label="Short day name, M/d/yyyy">
+                            <div text-tpl="{$page.person.dateOfBirth:d;DDDyyyyMd}" />
+                        </LabeledContainer>
+                        <LabeledContainer label="Full day name, MMM dd, yyyy">
+                            <div text-tpl="{$page.person.dateOfBirth:d;DDDDyyyyMMMdd}" />
+                        </LabeledContainer>
+                        <LabeledContainer label="Full day name, MMMM dd, yyyy">
+                            <div text-tpl="{$page.person.dateOfBirth:d;DDDDyyyyMMMMdd}" />
+                        </LabeledContainer>
+                    </LabelsTopLayout>
+                    <hr />
+                    <LabelsTopLayout columns={1}>
+                        <NumberField
+                            value-bind="$page.person.height"
+                            label="Enter your height in cm"
+                        />
+                        <div text-tpl="Your height is: {$page.person.height:suffix; cm|N/A}" />
+                    </LabelsTopLayout>
+                </div>
+            </div>
 
-            Use `:` to use chain multiple formats. Formats are applied from left to right.
-
-            Use `|` to provide null text; Default null text is empty string.
             <Content name="code">
                 <Tab value-bind="$page.code1.tab" mod="code" tab="controller" text="Usage in controller" default/>
                 <Tab value-bind="$page.code1.tab" mod="code" tab="index" text="Usage in widgets" default/>
@@ -168,64 +228,68 @@ export const Formatting = <cx>
                     // null
                     Format.value(null, 'n;2:wrap;(;)|N/A'); // "N/A"
                 `}</CodeSnippet>
-                <CodeSnippet  visible-expr="{$page.code1.tab}=='index'">{`
-                    // Number formatting
-                    <LabelsTopLayout columns={2}>
-                        <NumberField value-bind="value" label="Value" />
-                        <div />
-                        <LabeledContainer label="Max two decimals">
-                            <div text-tpl="{value:n;0;2}" />
-                        </LabeledContainer>
-                        <LabeledContainer label="Currency (default)">
-                            <div text-tpl="{value:currency}" />
-                        </LabeledContainer>
-                        <LabeledContainer label="Currency USD, two decimals">
-                            <div text-tpl="{value:currency;USD;2}" />
-                        </LabeledContainer>
-                        <LabeledContainer label="Currency EUR, no decimals">
-                            <div text-tpl="{value:currency;EUR;0}" />
-                        </LabeledContainer>
-                        <LabeledContainer label="Percentage (1M, 1k)">
-                            <div text-tpl="{value:p;0;2;}" />
-                        </LabeledContainer>
-                        <LabeledContainer label="Percentage sign (1M, 1k)">
-                            <div text-tpl="{value:ps;0;2;}" />
-                        </LabeledContainer>
-                        <LabeledContainer label="Compact (1M, 1k)">
-                            <div text-tpl="{value:n;0;4;c}" />
-                        </LabeledContainer>
-                    </LabelsTopLayout>
-
-                    // Date formatting
-                    <LabelsTopLayout columns={2}>
-                        <DateField value-bind="person.dateOfBirth" label="Date of Birth" />
-                        <div />
-                        <LabeledContainer label="MM/dd/yyyy format (default)">
-                            <div text-tpl="{person.dateOfBirth:d}" />
-                        </LabeledContainer>
-                        <LabeledContainer label="M/d/yy format">
-                            <div text-tpl="{person.dateOfBirth:d;yyMd}" />
-                        </LabeledContainer>
-                        <LabeledContainer label="Short day name, M/d/yyyy">
-                            <div text-tpl="{person.dateOfBirth:d;DDDyyyyMd}" />
-                        </LabeledContainer>
-                        <LabeledContainer label="Full day name, MMM dd, yyyy">
-                            <div text-tpl="{person.dateOfBirth:d;DDDDyyyyMMMdd}" />
-                        </LabeledContainer>
-                        <LabeledContainer label="Full day name, MMMM dd, yyyy">
-                            <div text-tpl="{person.dateOfBirth:d;DDDDyyyyMMMMdd}" />
-                        </LabeledContainer>
-                    </LabelsTopLayout>
-
-                    // String template assigned to a widget property
-                    <div text-tpl="{person.height:suffix; cm|N/A}" />
+                <CodeSnippet visible-expr="{$page.code1.tab}=='index'" fiddle="cZyeRDSw">{`
+                    <div>
+                        <LabelsTopLayout columns={2}>
+                            <NumberField value-bind="$page.value" label="Value" />
+                            <div />
+                            <LabeledContainer label="Max two decimals">
+                                <div text-tpl="{$page.value:n;0;2}" />
+                            </LabeledContainer>
+                            <LabeledContainer label="Currency (default)">
+                                <div text-tpl="{$page.value:currency}" />
+                            </LabeledContainer>
+                            <LabeledContainer label="Currency USD, two decimals">
+                                <div text-tpl="{$page.value:currency;USD;2}" />
+                            </LabeledContainer>
+                            <LabeledContainer label="Currency EUR, no decimals">
+                                <div text-tpl="{$page.value:currency;EUR;0}" />
+                            </LabeledContainer>
+                            <LabeledContainer label="Percentage (1M, 1k)">
+                                <div text-tpl="{$page.value:p;0;2;}" />
+                            </LabeledContainer>
+                            <LabeledContainer label="Percentage sign (1M, 1k)">
+                                <div text-tpl="{$page.value:ps;0;2;}" />
+                            </LabeledContainer>
+                            <LabeledContainer label="Compact (1M, 1k)">
+                                <div text-tpl="{$page.value:n;0;4;c}" />
+                            </LabeledContainer>
+                        </LabelsTopLayout>
+                        <hr />
+                        <LabelsTopLayout columns={2}>
+                            <DateField value-bind="$page.person.dateOfBirth" label="Date of Birth" />
+                            <div />
+                            <LabeledContainer label="MM/dd/yyyy format (default)">
+                                <div text-tpl="{$page.person.dateOfBirth:d}" />
+                            </LabeledContainer>
+                            <LabeledContainer label="M/d/yy format">
+                                <div text-tpl="{$page.person.dateOfBirth:d;yyMd}" />
+                            </LabeledContainer>
+                            <LabeledContainer label="Short day name, M/d/yyyy">
+                                <div text-tpl="{$page.person.dateOfBirth:d;DDDyyyyMd}" />
+                            </LabeledContainer>
+                            <LabeledContainer label="Full day name, MMM dd, yyyy">
+                                <div text-tpl="{$page.person.dateOfBirth:d;DDDDyyyyMMMdd}" />
+                            </LabeledContainer>
+                            <LabeledContainer label="Full day name, MMMM dd, yyyy">
+                                <div text-tpl="{$page.person.dateOfBirth:d;DDDDyyyyMMMMdd}" />
+                            </LabeledContainer>
+                        </LabelsTopLayout>
+                        <hr />
+                        <LabelsTopLayout columns={1}>
+                            <NumberField
+                                value-bind="$page.person.height"
+                                label="Enter your height in cm"
+                            />
+                            <div text-tpl="Your height is: {$page.person.height:suffix; cm|N/A}" />
+                        </LabelsTopLayout>
+                    </div>
                 `}</CodeSnippet>
             </Content>
-
-            ### Format Specifiers
-
-            <ConfigTable props={formats} sort={false} hideType header="Specifier"/>
         </CodeSplit>
+
+        ### Format Specifiers
+        <ConfigTable props={formats} sort={false} hideType header="Specifier"/>
 
         ### Culture Sensitive Formatting
         <ImportPath path="import { enableCultureSensitiveFormatting } from 'cx/ui';"/>
