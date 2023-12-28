@@ -129,14 +129,6 @@ export const Formatting = <cx>
 
         Formats are supported in data expressions and string templates.
 
-        ### Formatting Rules
-
-        Use `;` to delimit format parameters.
-
-        Use `:` to use chain multiple formats. Formats are applied from left to right.
-
-        Use `|` to provide null text. Default null text is empty string.
-
         <CodeSplit>
             <div class="widgets">
                 <div>
@@ -287,6 +279,14 @@ export const Formatting = <cx>
                 `}</CodeSnippet>
             </Content>
         </CodeSplit>
+
+        ### Formatting Rules
+
+        Use `;` to delimit format parameters.
+
+        Use `:` to use chain multiple formats. Formats are applied from left to right.
+
+        Use `|` to provide null text. Default null text is empty string.
 
         ### Format Specifiers
         <ConfigTable props={formats} sort={false} hideType header="Specifier"/>
