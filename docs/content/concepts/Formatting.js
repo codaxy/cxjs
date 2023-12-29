@@ -162,7 +162,7 @@ export const Formatting = (
                                 <LabeledContainer label="Percentage sign">
                                     <div text-tpl="{$page.value:ps;0;2;}" />
                                 </LabeledContainer>
-                                <LabeledContainer label="Compact">
+                                <LabeledContainer label="Compact (1M, 1k)">
                                     <div text-tpl="{$page.value:n;0;4;c}" />
                                 </LabeledContainer>
                             </LabelsTopLayout>
@@ -252,7 +252,7 @@ export const Formatting = (
                                     <LabeledContainer label="Percentage sign">
                                         <div text-tpl="{$page.value:ps;0;2;}" />
                                     </LabeledContainer>
-                                    <LabeledContainer label="Compact">
+                                    <LabeledContainer label="Compact (1M, 1k)">
                                         <div text-tpl="{$page.value:n;0;4;c}" />
                                     </LabeledContainer>
                                 </LabelsTopLayout>
