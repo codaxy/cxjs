@@ -1,4 +1,4 @@
-import { Content, HtmlElement, Checkbox, TextField, Radio, Repeater, Sandbox, Text, Slider, Tab } from 'cx/widgets';
+import { Content, Checkbox, TextField, Radio, Repeater, Sandbox, Text, Slider, Tab } from 'cx/widgets';
 import { LabelsLeftLayout, Rescope, DataProxy, computable, LabelsTopLayout } from 'cx/ui';
 import {Md} from '../../components/Md';
 import {CodeSplit} from '../../components/CodeSplit';
