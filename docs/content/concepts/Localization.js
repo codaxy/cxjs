@@ -1,14 +1,13 @@
-import { HtmlElement, Button, NumberField, DateField, Calendar, Tab } from 'cx/widgets';
+import { Button, NumberField, DateField, Calendar, Tab } from 'cx/widgets';
 import { Culture, Controller, LabelsLeftLayout, Content } from 'cx/ui';
 import { Md } from '../../components/Md';
 import { CodeSplit } from '../../components/CodeSplit';
 import { CodeSnippet } from '../../components/CodeSnippet';
-import { ConfigTable } from '../../components/ConfigTable';
 import { ImportPath } from "../../components/ImportPath";
 import { MethodTable } from "../../components/MethodTable";
 
 function loadCulture(culture) {
-    //code-splitting - it's mandatory to use string constants so webpack can know how to prepare packages
+    // Code-splitting - it's mandatory to use string constants so webpack can know how to prepare packages
     switch (culture) {
         case 'de-de':
             return import('cx/locale/de-de');
@@ -26,14 +25,12 @@ function setCulture(culture, store) {
     loadCulture(culture)
         .then(() => {
             Culture.setCulture(culture);
-            store.notify();//force re-render
+            store.notify(); // Force re-render
         });
 }
 
 class PageController extends Controller {
-    init() {
-        super.init();
-
+    onInit() {
         this.store.init('$page.number', 123456.78);
         this.store.init('$page.date', new Date().toISOString());
     }
@@ -57,8 +54,8 @@ export const LocalizationPage = <cx>
                 </div>
                 <div layout={LabelsLeftLayout}>
                     <NumberField value-bind="$page.number" required />
-                    <DateField value-bind="$page.date" required />
                     <NumberField value-bind="$page.number" required format="currency" />
+                    <DateField value-bind="$page.date" required readOnly />
                     <Calendar value-bind="$page.date" />
                 </div>
             </div>
@@ -67,11 +64,9 @@ export const LocalizationPage = <cx>
                 <Tab value-bind="$page.code.tab" mod="code" tab="widget" text="Widget"/>
                 <CodeSnippet visible-expr="{$page.code.tab}=='controller'">{`
                 function loadCulture(culture) {
-                    //code-splitting - it's mandatory to use string constants so webpack can know how to prepare packages
                     switch (culture) {
                         case 'de-de':
                             return import('cx/locale/de-de');
-
                         default:
                         case 'en-us':
                             return import('cx/locale/en-us');
@@ -82,14 +77,12 @@ export const LocalizationPage = <cx>
                     loadCulture(culture)
                         .then(() => {
                             Culture.setCulture(culture);
-                            store.notify();//force re-render
+                            store.notify(); // Force re-render
                         });
                 }
 
                 class PageController extends Controller {
-                    init() {
-                        super.init();
-
+                    onInit() {
                         this.store.init('$page.number', 123456.78);
                         this.store.init('$page.date', new Date().toISOString());
                     }
@@ -103,8 +96,8 @@ export const LocalizationPage = <cx>
                     </div>
                     <div layout={LabelsLeftLayout}>
                         <NumberField value-bind="$page.number" required />
-                        <DateField value-bind="$page.date" required />
                         <NumberField value-bind="$page.number" required format="currency"/>
+                        <DateField value-bind="$page.date" required readOnly />
                         <Calendar value-bind="$page.date" />
                     </div>
                 </div>
@@ -173,12 +166,11 @@ export const LocalizationPage = <cx>
                 </Md></cx>
             }]} />
 
-
             <CodeSnippet putInto="code">{`
-                //register widget for localization
+                // Register widget for localization
                 Localization.registerPrototype('cx/widgets/TextField', TextField);
 
-                //localize widget
+                // Localize widget
                 Localization.localize('de', 'cx/widgets/TextField', {
                    validationErrorText: 'Ungültige Eingabe.',
                    minLengthValidationErrorText: 'Bitte tragen Sie noch {[{0}-{1}]} Zeichen ein.',
