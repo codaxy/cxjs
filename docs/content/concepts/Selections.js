@@ -1,17 +1,15 @@
-import {HtmlElement, Repeater, Checkbox, Select, Option, Grid, Content, Tab} from 'cx/widgets';
-import {Controller, PropertySelection, KeySelection} from 'cx/ui';
-import {Svg, Rectangle} from 'cx/svg';
-import {Chart, Gridlines, ScatterGraph, NumericAxis} from 'cx/charts';
-import {Md} from 'docs/components/Md';
-import {CodeSplit} from 'docs/components/CodeSplit';
-import {CodeSnippet} from 'docs/components/CodeSnippet';
-import {ImportPath} from '../../components/ImportPath';
+import { Repeater, Checkbox, Select, Option, Grid, Content, Tab } from 'cx/widgets';
+import { Controller, PropertySelection, KeySelection } from 'cx/ui';
+import { Svg, Rectangle } from 'cx/svg';
+import { Chart, Gridlines, ScatterGraph, NumericAxis } from 'cx/charts';
+import { Md } from 'docs/components/Md';
+import { CodeSplit } from 'docs/components/CodeSplit';
+import { CodeSnippet } from 'docs/components/CodeSnippet';
+import { ImportPath } from '../../components/ImportPath';
 
 class PageController extends Controller {
-    init() {
-        super.init();
-
-        this.store.set('$page.bubbles', Array.from({length: 15}).map((v, i) => ({
+    onInit() {
+        this.store.set('$page.bubbles', Array.from({ length: 15 }).map((v, i) => ({
             name: `Bubble ${i + 1}`,
             x: Math.random() * 100,
             y: Math.random() * 100,
@@ -22,7 +20,6 @@ class PageController extends Controller {
 }
 
 export const Selections = <cx>
-
     <Md controller={PageController}>
         <CodeSplit>
             # Selections
@@ -40,9 +37,7 @@ export const Selections = <cx>
                 <Tab value-bind="$page.code.tab" tab="chart" mod="code" text="Chart" default/>
                <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="eINrAOlQ">{`
                class PageController extends Controller {
-                  init() {
-                     super.init();
-
+                  onInit() {
                      this.store.set('$page.bubbles', Array.from({length: 15}).map((v, i)=>({
                         name: \`Bubble \${i+1}\`,
                         x: Math.random() * 100,
@@ -139,9 +134,7 @@ export const Selections = <cx>
         Key selection is a more common selection mode, where selected value(s) is/are stored in a separate variable.
 
         <CodeSplit>
-
             <div class="widgets">
-
                 <Grid records-bind="$page.bubbles"
                       style={{width: "400px"}}
                       columns={[
@@ -152,7 +145,6 @@ export const Selections = <cx>
                       ]}
                       selection={{type: KeySelection, keyField: 'name', bind: '$page.selection'}}
                 />
-
                 <div>
                     <Select value-bind="$page.selection">
                         <Repeater records-bind="$page.bubbles"> 
@@ -161,30 +153,28 @@ export const Selections = <cx>
                     </Select>
                 </div>
             </div>
-
             <Content name="code">
                 <Tab value-bind="$page.code1.tab" mod="code" tab="index" text="Index" default/>
                 <CodeSnippet visible-expr="{$page.code1.tab}=='index'" fiddle="j8o4HZQV">{`
-               <Grid records-bind="$page.bubbles"
-                     style={{width: "400px"}}
-                     columns={[
-                        { header: 'Name', field: 'name', sortable: true },
-                        { header: 'X', field: 'x', sortable: true, format: 'n;2', align: "right" },
-                        { header: 'Y', field: 'y', sortable: true, format: 'n;2', align: "right" },
-                        { header: 'R', field: 'r', sortable: true, format: 'n;2', align: "right" }
-                     ]}
-                     selection={{type: KeySelection, keyField: 'name', bind: '$page.selection'}}
-               />
-               <div>
-                  <Select value-bind="$page.selection">
-                     <Repeater records-bind="$page.bubbles">
-                        <Option value-bind="$record.name" text-bind="$record.name" />
-                     </Repeater>
-                  </Select>
-               </div>
-            `}</CodeSnippet>
+                    <Grid records-bind="$page.bubbles"
+                            style={{width: "400px"}}
+                            columns={[
+                                { header: 'Name', field: 'name', sortable: true },
+                                { header: 'X', field: 'x', sortable: true, format: 'n;2', align: "right" },
+                                { header: 'Y', field: 'y', sortable: true, format: 'n;2', align: "right" },
+                                { header: 'R', field: 'r', sortable: true, format: 'n;2', align: "right" }
+                            ]}
+                            selection={{type: KeySelection, keyField: 'name', bind: '$page.selection'}}
+                    />
+                    <div>
+                        <Select value-bind="$page.selection">
+                            <Repeater records-bind="$page.bubbles">
+                                <Option value-bind="$record.name" text-bind="$record.name" />
+                            </Repeater>
+                        </Select>
+                    </div>
+                `}</CodeSnippet>
             </Content>
-
         </CodeSplit>
 
         Key selection works similar to `select` control where only key (value) of the selected option represents the
@@ -196,6 +186,4 @@ export const Selections = <cx>
 
         Use `multiple` property to decide if multiple selection is allowed or not.
     </Md>
-
 </cx>;
-

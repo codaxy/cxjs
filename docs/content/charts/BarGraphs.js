@@ -1,4 +1,4 @@
-import { Content, HtmlElement, Tab } from 'cx/widgets';
+import { Content, Tab } from 'cx/widgets';
 import { Controller, KeySelection } from 'cx/ui';
 import { Svg } from 'cx/svg';
 import { Gridlines, NumericAxis, CategoryAxis, Chart, BarGraph, Legend } from 'cx/charts';
@@ -7,15 +7,11 @@ import { CodeSplit } from 'docs/components/CodeSplit';
 import { CodeSnippet } from 'docs/components/CodeSnippet';
 import { ConfigTable } from 'docs/components/ConfigTable';
 import { ImportPath } from 'docs/components/ImportPath';
-
-
 import { casual } from 'docs/content/examples/data/casual';
-
 import configs from './configs/BarGraph';
 
 class PageController extends Controller {
-    init() {
-        super.init();
+    onInit() {
         var v1 = 100;
         var v2 = 110;
         this.store.set('$page.points', Array.from({ length: 11 }, (_, i) => ({
@@ -25,7 +21,6 @@ class PageController extends Controller {
         })));
     }
 }
-
 
 export const BarGraphs = <cx>
     <Md>
@@ -83,8 +78,7 @@ export const BarGraphs = <cx>
 
             <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="I9AysZCY">{`
             class PageController extends Controller {
-               init() {
-                  super.init();
+               onInit() {
                   var v1 = 100;
                   var v2 = 110;
                   this.store.set('$page.points', Array.from({length: 11}, (_, i) => ({
@@ -141,4 +135,3 @@ export const BarGraphs = <cx>
 
     </Md>
 </cx>
-

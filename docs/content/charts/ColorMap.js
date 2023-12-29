@@ -1,19 +1,17 @@
-import {Content, HtmlElement, Repeater, Tab} from 'cx/widgets';
-import {Controller} from 'cx/ui';
-import {Svg} from 'cx/svg';
-import {Gridlines, NumericAxis, Chart, LineGraph, Legend, ColorMap} from 'cx/charts';
-import {Md} from '../../components/Md';
-import {CodeSplit} from '../../components/CodeSplit';
-import {CodeSnippet} from '../../components/CodeSnippet';
-import {ConfigTable} from '../../components/ConfigTable';
-import {ImportPath} from 'docs/components/ImportPath';
-
+import { Content, Repeater, Tab } from 'cx/widgets';
+import { Controller } from 'cx/ui';
+import { Svg } from 'cx/svg';
+import { Gridlines, NumericAxis, Chart, LineGraph, Legend, ColorMap } from 'cx/charts';
+import { Md } from '../../components/Md';
+import { CodeSplit } from '../../components/CodeSplit';
+import { CodeSnippet } from '../../components/CodeSnippet';
+import { ConfigTable } from '../../components/ConfigTable';
+import { ImportPath } from 'docs/components/ImportPath';
 
 import configs from './configs/ColorMap';
 
 class PageController extends Controller {
-    init() {
-        super.init();
+    onInit() {
         this.store.set('$page.series', Array.from({length: 5}, (_, i) => {
             var y = 100 + Math.random() * 200;
             return {
@@ -69,8 +67,7 @@ export const ColorMapPage = <cx>
 
                 <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="8FQsfb9B">{`
                         class PageController extends Controller {
-                            init() {
-                                super.init();
+                            onInit() {
                                 this.store.set('$page.series', Array.from({length: 5}, (_, i) => {
                                     var y = 100 + Math.random() * 200;
                                     return {
@@ -119,4 +116,3 @@ export const ColorMapPage = <cx>
 
     </Md>
 </cx>
-
