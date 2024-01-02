@@ -80,7 +80,8 @@ export default {
     dataAdapter: {
         type: 'object',
         description: <cx><Md>
-            Data adapter is used in a `TreeGrid` for converting data in a list of records. Used to enable grouping and tree operations.
+            Data adapter is used for converting data in a list of records. Used to enable grouping and
+            tree operations. See [TreeGrid](~/widgets/tree-grid) for more details.
         </Md></cx>
     },
     defaultSortField: {
