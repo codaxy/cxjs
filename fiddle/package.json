@@ -79,8 +79,5 @@
       "webpack-dev-server": "^4.15.1",
       "webpack-md5-hash": "^0.0.6",
       "webpack-merge": "^5.10.0"
-   },
-   "resolutions": {
-      "@babel/runtime": "^7.13.9"
    }
 }
