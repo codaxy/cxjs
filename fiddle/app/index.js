@@ -1,5 +1,4 @@
 import "core-js/stable";
-import "regenerator-runtime/runtime";
 import { startAppLoop, Url, Widget, History } from "cx/ui";
 import { Store } from "cx/data";
 import { Debug } from "cx/util";
