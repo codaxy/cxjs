@@ -16,11 +16,8 @@ import columnConfigs from './configs/GridColumn';
 import columnHeaderConfigs from './configs/GridColumnHeader';
 
 class PageController extends Controller {
-    init() {
-        super.init();
-
-        //init grid data
-        this.store.init('$page.records', Array.from({length: 100}).map((v, i)=>({
+    onInit() {
+        this.store.init('$page.records', Array.from({length: 100}).map((v, i) => ({
             id: i + 1,
             fullName: casual.full_name,
             continent: casual.continent,
@@ -73,11 +70,8 @@ export const Grids = <cx>
                 <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="kzHH3vkM">
                     {`
                         class PageController extends Controller {
-                            init() {
-                               super.init();
-
-                               //init grid data
-                               this.store.set('$page.records', Array.from({length: 10}).map((v, i)=>({
+                            onInit() {
+                               this.store.set('$page.records', Array.from({length: 10}).map((v, i) => ({
                                   id: i + 1,
                                   fullName: casual.full_name,
                                   continent: casual.continent,
@@ -87,11 +81,12 @@ export const Grids = <cx>
                                })));
                             }
                          }
-                        `}</CodeSnippet>
-                        <CodeSnippet visible-expr="{$page.code.tab}=='grid'" fiddle="kzHH3vkM">{`
-                        <Grid records-bind='$page.records'
-                            style={{width: "100%"}}
-                            columns={[
+                    `}
+                </CodeSnippet>
+                <CodeSnippet visible-expr="{$page.code.tab}=='grid'" fiddle="kzHH3vkM">{`
+                    <Grid records-bind='$page.records'
+                        style={{width: "100%"}}
+                        columns={[
                             { header: 'Name', field: 'fullName', sortable: true },
                             { header: 'Continent', field: 'continent', sortable: true },
                             { header: 'Browser', field: 'browser', sortable: true },
@@ -99,8 +94,8 @@ export const Grids = <cx>
                             { header: 'Visits', field: 'visits', sortable: true }
                         ]}
                         selection={{type: KeySelection, bind:'$page.selection'}}
-                        />
-                    `}
+                    />
+                `}
                 </CodeSnippet>
             </Content>
         </CodeSplit>

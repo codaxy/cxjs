@@ -9,7 +9,6 @@ export default {
             Base CSS class to be applied to the element. Default is 'treenode'.
         </Md></cx>
     },
-
     expanded: {
         type: 'boolean',
         key: true,
