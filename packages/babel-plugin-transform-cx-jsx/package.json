@@ -1,17 +1,17 @@
 {
    "name": "babel-plugin-transform-cx-jsx",
-   "version": "21.3.0",
+   "version": "24.0.0",
    "description": "Transpile JSX into Cx config objects",
    "repository": "https://github.com/codaxy/cxjs",
    "author": "Codaxy",
    "license": "MIT",
    "main": "index.js",
    "dependencies": {
-      "@babel/plugin-syntax-jsx": "^7.21.4"
+      "@babel/plugin-syntax-jsx": "^7.23.3"
    },
    "devDependencies": {
-      "@babel/core": "^7.21.8",
-      "@babel/preset-env": "^7.21.5",
+      "@babel/core": "^7.23.7",
+      "@babel/preset-env": "^7.23.7",
       "mocha": "^10.2.0"
    },
    "peerDependencies": {

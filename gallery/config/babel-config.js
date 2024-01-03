@@ -8,7 +8,7 @@ module.exports = {
          {
             targets: {
                chrome: 50,
-               ie: 11,
+               //ie: 11,
                firefox: 30,
                edge: 12,
                safari: 9,
@@ -26,8 +26,8 @@ module.exports = {
       ],
    ],
    plugins: [
-      ["@babel/plugin-proposal-private-methods", { loose: false }],
-      ["@babel/plugin-proposal-private-property-in-object", { loose: false }],
+      //["@babel/plugin-proposal-private-methods", { loose: false }],
+      //["@babel/plugin-proposal-private-property-in-object", { loose: false }],
       // 'external-helpers',
       // 'transform-export-extensions',
       // 'transform-es2015-parameters',

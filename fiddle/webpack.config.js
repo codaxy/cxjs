@@ -53,7 +53,7 @@ var common = {
                      {
                         targets: {
                            chrome: 45,
-                           ie: 11,
+                           //ie: 11,
                            firefox: 30,
                            edge: 12,
                            safari: 9,
@@ -68,10 +68,7 @@ var common = {
                      },
                   ],
                ],
-               plugins: [
-                  ["@babel/plugin-proposal-private-methods", { loose: false }],
-                  ["@babel/plugin-proposal-private-property-in-object", { loose: false }],
-               ],
+               plugins: [],
             },
          },
          {
