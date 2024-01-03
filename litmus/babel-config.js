@@ -2,13 +2,7 @@ module.exports = function (production) {
    let config = {
       cacheDirectory: true,
       cacheIdentifier: "v15",
-      plugins: [
-         // ["transform-runtime", {
-         //    helpers: true,
-         //    polyfill: false,
-         //    regenerator: false
-         // }]
-      ],
+      plugins: [],
       presets: [
          "@babel/preset-typescript",
          [
@@ -32,16 +26,8 @@ module.exports = function (production) {
             },
          ],
       ],
-      plugins: [
-         // ["@babel/plugin-proposal-private-methods", { loose: false }],
-         // ["@babel/plugin-proposal-private-property-in-object", { loose: false }],
-      ],
+      plugins: [],
    };
-
-   // if (production)
-   //    config.presets.push(['babili', {
-   //       mangle: false
-   //    }]);
 
    return config;
 };

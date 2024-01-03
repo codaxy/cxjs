@@ -13,14 +13,11 @@
    "dependencies": {
       "@babel/core": "^7.23.7",
       "@babel/preset-env": "^7.23.7",
-      "@rollup/plugin-multi-entry": "^6.0.1",
+      "@rollup/plugin-babel": "^6.0.4",
       "babel-preset-cx-env": "^24.0.0",
-      "prettier": "^2.8.8",
-      "rollup": "^3.29.4",
-      "rollup-plugin-babel": "^4.4.0",
-      "rollup-plugin-buble": "^0.19.8",
-      "rollup-plugin-multi-entry": "^2.1.0",
-      "rollup-plugin-prettier": "^3.1.0",
+      "prettier": "^3.1.1",
+      "rollup": "^4.9.2",
+      "rollup-plugin-prettier": "^4.1.1",
       "sass": "^1.69.7"
    },
    "repository": {
