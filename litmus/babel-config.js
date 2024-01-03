@@ -33,8 +33,8 @@ module.exports = function (production) {
          ],
       ],
       plugins: [
-         ["@babel/plugin-proposal-private-methods", { loose: false }],
-         ["@babel/plugin-proposal-private-property-in-object", { loose: false }],
+         // ["@babel/plugin-proposal-private-methods", { loose: false }],
+         // ["@babel/plugin-proposal-private-property-in-object", { loose: false }],
       ],
    };
 
