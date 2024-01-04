@@ -13,7 +13,7 @@ export const DataAdapters = (
                 consumed by various components such as `Grid`, `List`, `Repeater`, or those like `Tree Grid` with tree
                 structure. Data adapters come in three types: **array adapter**, **group adapter**, and **tree adapter**.
 
-                #### Array Adapter
+                ### Array Adapter
                 Transforms flat lists through operations such as mapping or sorting.
                 See [Repeater](~/concepts/data-views#repeater) for more.
 
@@ -21,7 +21,7 @@ export const DataAdapters = (
                     <Content name="code">
                         <div>
                             <Tab value-bind="$page.code1.tab" tab="controller" mod="code" text="Controller" />
-                            <Tab value-bind="$page.code1.tab" tab="grid" mod="code" text="Repeater" default />
+                            <Tab value-bind="$page.code1.tab" tab="repeater" mod="code" text="Repeater" default />
                         </div>
 
                         <CodeSnippet visible-expr="{$page.code1.tab}=='controller'" fiddle="wQzsdIx1">{`
@@ -36,7 +36,7 @@ export const DataAdapters = (
                             }
                         `}
                         </CodeSnippet>
-                        <CodeSnippet visible-expr="{$page.code1.tab}=='grid'" fiddle="wQzsdIx1">{`
+                        <CodeSnippet visible-expr="{$page.code1.tab}=='repeater'" fiddle="wQzsdIx1">{`
                             <Repeater
                                 records:bind="$page.intro.core.items"
                                 sortField="text"
@@ -50,11 +50,75 @@ export const DataAdapters = (
                     </Content>
                 </CodeSplit>
 
-                #### Group Adapter
-                Groups data based on a provided key.
-                Grouping users by continents within a `Grid`.
+                ### Group Adapter
+                Groups data based on the provided key. Used in components such as `List` and `Grid`.
+                See [grouping in lists](~/examples/list/grouping) for more.
 
-                #### Tree Adapter
+                <CodeSplit>
+                    <Content name="code">
+                        <div>
+                            <Tab value-bind="$page.code2.tab" tab="controller" mod="code" text="Controller" />
+                            <Tab value-bind="$page.code2.tab" tab="grouping" mod="code" text="Grouping in lists" default />
+                        </div>
+
+                        <CodeSnippet visible-expr="{$page.code2.tab}=='controller'" fiddle="LHlJu3zb">{`
+                            class PageController extends Controller {
+                                onInit() {
+                                    this.store.init(
+                                        "$page.records",
+                                        Array.from({ length: 20 }).map((v, i) => {
+                                            const name = casual.full_name;
+                                            return {
+                                                id: i + 1,
+                                                fullName: name,
+                                                phone: casual.phone,
+                                                city: casual.city,
+                                                email: name.toLowerCase().replace(" ", ".") + "@example.com",
+                                                country: casual.country
+                                            };
+                                        })
+                                    );
+                                }
+                            }
+                        `}
+                        </CodeSnippet>
+                        <CodeSnippet visible-expr="{$page.code2.tab}=='grouping'" fiddle="LHlJu3zb">{`
+                            <List
+                                records:bind="$page.records"
+                                selection={{
+                                    type: KeySelection,
+                                    bind: "$page.selection"
+                                }}
+                                grouping={{
+                                    key: {
+                                        firstLetter: { expr: "{$record.fullName}[0]" }
+                                    },
+                                    aggregates: {
+                                        count: {
+                                            type: "count",
+                                            value: 1
+                                        }
+                                    },
+                                    header: (
+                                        <div style="padding-top: 25px">
+                                            <strong text:bind="$group.firstLetter" />
+                                        </div>
+                                    ),
+                                    footer: <strong text:tpl="{$group.count} item(s)" />
+                                }}
+                            >
+                                <strong text:bind="$record.fullName"></strong>
+                                <br />
+                                Phone: <span text:bind="$record.phone" />
+                                <br />
+                                City: <span text:bind="$record.city" />
+                            </List>
+                        `}
+                        </CodeSnippet>
+                    </Content>
+                </CodeSplit>
+
+                ### Tree Adapter
                 Structures data in a tree-like format, enabling the expansion of individual records.
                 See [Tree Grid](~/widgets/tree-grid) for more.
 
