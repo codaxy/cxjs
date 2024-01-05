@@ -28,69 +28,82 @@ class PageController extends Controller {
     }
 }
 
-let MyResizableGrid = <cx>
-    <Grid
-        records-bind="$page.records"
-        columns={[
-            {
-                header: {
-                    text: "Name",
-                    width: bind('$page.colWidth.fullName'),
-                    resizable: true,
-                    defaultWidth: 200
-                },
-                field: "fullName",
-                sortable: true
-            },
-            {
-                header: "Continent",
-                width: bind('$page.colWidth.continent'),
-                resizable: true,
-                field: "continent",
-                sortable: true
-            },
-            {
-                header: "Browser",
-                width: bind('$page.colWidth.browser'),
-                resizable: true,
-                field: "browser",
-                sortable: true
-            },
-            {
-                header: "OS",
-                width: bind('$page.colWidth.os'),
-                resizable: true,
-                field: "os",
-                sortable: true
-            },
-            {
-                header: "Visits",
-                width: bind('$page.colWidth.visits'),
-                resizable: false,
-                field: "visits",
-                sortable: true,
-                align: "right"
-            }
-        ]}
-    />
-</cx>;
-
 export const ColumnResizing = <cx>
     <Md controller={PageController}>
         <CodeSplit>
             # Column Resizing
 
-            Grid supports column resizing. To enable resizing on a column set the `resizable` flag to `true`.
-            If column widths need to be persisted, add the `width` binding or use `onColumnResize` event to process new measures.
+            Grid supports column resizing.
+
+            <Grid
+                records-bind="$page.records"
+                columns={[
+                    {
+                        header: {
+                            text: "Name",
+                            width: bind('$page.colWidth.fullName'),
+                            resizable: true,
+                            defaultWidth: 200
+                        },
+                        field: "fullName",
+                        sortable: true
+                    },
+                    {
+                        header: "Continent",
+                        width: bind('$page.colWidth.continent'),
+                        resizable: true,
+                        field: "continent",
+                        sortable: true
+                    },
+                    {
+                        header: "Browser",
+                        width: bind('$page.colWidth.browser'),
+                        resizable: true,
+                        field: "browser",
+                        sortable: true
+                    },
+                    {
+                        header: "OS",
+                        width: bind('$page.colWidth.os'),
+                        resizable: true,
+                        field: "os",
+                        sortable: true
+                    },
+                    {
+                        header: "Visits",
+                        width: bind('$page.colWidth.visits'),
+                        resizable: false,
+                        field: "visits",
+                        sortable: true,
+                        align: "right"
+                    }
+                ]}
+                scrollable
+                style="max-height: 400px; margin-bottom: 10px"
+                onRef={(el, instance) => {
+                    instance.controller.gridInstance = instance;
+                }}
+            />
+
+            <Button
+                text="Reset column widths"
+                onClick={(e, { store, controller }) => {
+                    controller.gridInstance.setState({ colWidth: {} });
+                    store.delete('$page.colWidth');
+                }}
+            />
+
+            To enable resizing on a column, set the `resizable` flag to `true`.
+
+            If columns widths need to be persisted, add the `width` binding or use grid's `onColumnResize` event to process new measures.
             Use `defaultWidth` to set the initial width. These properties should be defined in the `header` object,
             but they can also be set on the column itself if there is only one header.
 
-            <MyResizableGrid/>
-
-            Resize columns on the top and observe how changes are applied to the grid below too.
             Double clicking on a resizer will calculate minimum width required to fit the content of the column.
 
-            <MyResizableGrid/>
+            Default column widths can be restored by clearing both column widths store and grid instance `colWidth` state.
+            You can reset the default column widths by clearing both the column widths store and the Grid instance's `colWidth` state.
+            To clear the `colWidth` state, maintain the grid instance using the `onRef` callback and apply the `setState` method.
 
             <Content name="code">
                 <Tab  value-bind="$page.code.tab" tab="controller" mod="code" text='Controller' />
@@ -119,9 +132,9 @@ export const ColumnResizing = <cx>
                     }
                 }
                 `}</CodeSnippet>
-                <CodeSnippet visible-expr="{$page.code.tab}=='grid'" fiddle="DaBDyiCf">{`                
+                <CodeSnippet visible-expr="{$page.code.tab}=='grid'" fiddle="DaBDyiCf">{`
                     <Grid
-                        records-bind="$page.records"        
+                        records-bind="$page.records"
                         columns={[
                             {
                                 header: {
@@ -163,6 +176,19 @@ export const ColumnResizing = <cx>
                                 align: "right"
                             }
                         ]}
+                        scrollable
+                        style="max-height: 400px; margin-bottom: 10px"
+                        onRef={(el, instance) => {
+                            instance.controller.gridInstance = instance;
+                        }}
+                    />
+
+                    <Button
+                        text="Reset column widths"
+                        onClick={(e, {store, controller}) => {
+                            controller.gridInstance.setState({ colWidth: {} });
+                            store.delete('$page.colWidth');
+                        }}
                     />
                 `}
                 </CodeSnippet>

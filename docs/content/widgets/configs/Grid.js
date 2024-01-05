@@ -346,5 +346,12 @@ export default {
              Callback function used to dynamically calculate columns.
              The function accepts resolved `columnParams` as a first argument and it should return either `columns` (array of column configurations) or `row` (grid row configuration) for multi-line scenarios.
         </Md></cx>
+    },
+
+    onRef: {
+        type: 'function',
+        description: <cx><Md>
+             Callback function to get grid component and instance references on component init.
+        </Md></cx>
     }
 };
