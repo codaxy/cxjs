@@ -385,6 +385,9 @@ interface GridProps<T = unknown> extends StyledContainerProps {
 
    /** Callback to create a function that can be used to check whether a record is draggable. */
    onCreateIsRecordDraggable?: (params: any, instance: Instance) => (record: T) => boolean;
+
+   /** Callback function to get grid component and instance references on component init. */
+   onRef?: string | ((element: any, instance: Instance) => void);
 }
 
 interface GridCellInfo {

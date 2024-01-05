@@ -1649,6 +1649,9 @@ class GridComponent extends VDOM.Component {
                <table
                   ref={(el) => {
                      this.dom.table = el;
+                     if (instance.widget.onRef) {
+                        instance.invoke("onRef", el, instance);
+                     }
                   }}
                >
                   {this.props.header}
