@@ -1,5 +1,5 @@
-import { Button, NumberField, DateField, Calendar, Tab } from 'cx/widgets';
-import { Culture, Controller, LabelsLeftLayout, Content } from 'cx/ui';
+import { Button, NumberField, DateField, Calendar, Tab, FlexRow, FlexCol } from 'cx/widgets';
+import { Culture, Controller, Content } from 'cx/ui';
 import { Md } from '../../components/Md';
 import { CodeSplit } from '../../components/CodeSplit';
 import { CodeSnippet } from '../../components/CodeSnippet';
@@ -46,18 +46,20 @@ export const LocalizationPage = <cx>
             by modern browsers. Besides that, Cx offers translation of standard messages to any language.
 
             <div class="widgets" controller={PageController}>
-                <div preserveWhitespace>
-                    <Button onClick={(e, { store }) => { setCulture('de-de', store) }}>de-de</Button>
-                    <Button onClick={(e, { store }) => { setCulture('nl-nl', store) }}>nl-nl</Button>
-                    <Button onClick={(e, { store }) => { setCulture('en-us', store) }}>en-us</Button>
-                    <Button onClick={(e, { store }) => { setCulture('sr-latn-ba', store) }}>sr-ba</Button>
-                </div>
-                <div layout={LabelsLeftLayout}>
-                    <NumberField value-bind="$page.number" required />
-                    <NumberField value-bind="$page.number" required format="currency" />
-                    <DateField value-bind="$page.date" required readOnly />
-                    <Calendar value-bind="$page.date" />
-                </div>
+                <FlexCol vspacing="xlarge">
+                    <FlexRow hspacing="small">
+                        <Button onClick={(e, { store }) => { setCulture('de-de', store) }}>de-de</Button>
+                        <Button onClick={(e, { store }) => { setCulture('nl-nl', store) }}>nl-nl</Button>
+                        <Button onClick={(e, { store }) => { setCulture('en-us', store) }}>en-us</Button>
+                        <Button onClick={(e, { store }) => { setCulture('sr-latn-ba', store) }}>sr-ba</Button>
+                    </FlexRow>
+                    <FlexCol vspacing="medium" align="center">
+                        <NumberField value-bind="$page.number" required />
+                        <NumberField value-bind="$page.number" required format="currency" />
+                        <DateField value-bind="$page.date" required readOnly />
+                        <Calendar value-bind="$page.date" />
+                    </FlexCol>
+                </FlexCol>
             </div>
             <Content name="code">
                 <Tab value-bind="$page.code.tab" mod="code" tab="controller" text="Controller" default/>
@@ -90,16 +92,20 @@ export const LocalizationPage = <cx>
                 `}</CodeSnippet>
                 <CodeSnippet visible-expr="{$page.code.tab}=='widget'">{`
                 <div class="widgets" controller={PageController}>
-                    <div preserveWhitespace>
-                        <Button onClick={(e, {store}) => {setCulture('de-de', store)}}>de-de</Button>
-                        <Button onClick={(e, {store}) => {setCulture('en-us', store)}}>en-us</Button>
-                    </div>
-                    <div layout={LabelsLeftLayout}>
-                        <NumberField value-bind="$page.number" required />
-                        <NumberField value-bind="$page.number" required format="currency"/>
-                        <DateField value-bind="$page.date" required readOnly />
-                        <Calendar value-bind="$page.date" />
-                    </div>
+                    <FlexCol vspacing="xlarge">
+                        <FlexRow hspacing="small">
+                            <Button onClick={(e, { store }) => { setCulture('de-de', store) }}>de-de</Button>
+                            <Button onClick={(e, { store }) => { setCulture('nl-nl', store) }}>nl-nl</Button>
+                            <Button onClick={(e, { store }) => { setCulture('en-us', store) }}>en-us</Button>
+                            <Button onClick={(e, { store }) => { setCulture('sr-latn-ba', store) }}>sr-ba</Button>
+                        </FlexRow>
+                        <FlexCol vspacing="medium" align="center">
+                            <NumberField value-bind="$page.number" required />
+                            <NumberField value-bind="$page.number" required format="currency" />
+                            <DateField value-bind="$page.date" required readOnly />
+                            <Calendar value-bind="$page.date" />
+                        </FlexCol>
+                    </FlexCol>
                 </div>
                 `}</CodeSnippet>
             </Content>
