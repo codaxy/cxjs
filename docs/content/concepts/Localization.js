@@ -55,33 +55,29 @@ export const LocalizationPage = <cx>
                             onClick={(_e, { store }) => {
                                 setCulture('de-de', store);
                             }}
-                        >
-                            de-de
-                        </Button>
+                            text="de-de"
+                        />
                         <Button
                             pressed:expr="{$page.culture} === 'nl-nl'"
                             onClick={(_e, { store }) => {
                                 setCulture('nl-nl', store);
                             }}
-                        >
-                            nl-nl
-                        </Button>
+                            text="nl-nl"
+                        />
                         <Button
                             pressed:expr="{$page.culture} === 'en-us'"
                             onClick={(_e, { store }) => {
                                 setCulture('en-us', store);
                             }}
-                        >
-                            en-us
-                        </Button>
+                            text="en-us"
+                        />
                         <Button
                             pressed:expr="{$page.culture} === 'sr-latn-ba'"
                             onClick={(_e, { store }) => {
                                 setCulture('sr-latn-ba', store);
                             }}
-                        >
-                            sr-ba
-                        </Button>
+                            text="sr-ba"
+                        />
                     </FlexRow>
                     <FlexCol vspacing="medium" align="center">
                         <NumberField value-bind="$page.number" required />
@@ -131,33 +127,29 @@ export const LocalizationPage = <cx>
                                 onClick={(_e, { store }) => {
                                     setCulture('de-de', store);
                                 }}
-                            >
-                                de-de
-                            </Button>
+                                text="de-de"
+                            />
                             <Button
                                 pressed:expr="{$page.culture} === 'nl-nl'"
                                 onClick={(_e, { store }) => {
                                     setCulture('nl-nl', store);
                                 }}
-                            >
-                                nl-nl
-                            </Button>
+                                text="nl-nl"
+                            />
                             <Button
                                 pressed:expr="{$page.culture} === 'en-us'"
                                 onClick={(_e, { store }) => {
                                     setCulture('en-us', store);
                                 }}
-                            >
-                                en-us
-                            </Button>
+                                text="en-us"
+                            />
                             <Button
                                 pressed:expr="{$page.culture} === 'sr-latn-ba'"
                                 onClick={(_e, { store }) => {
                                     setCulture('sr-latn-ba', store);
                                 }}
-                            >
-                                sr-ba
-                            </Button>
+                                text="sr-ba"
+                            />
                         </FlexRow>
                         <FlexCol vspacing="medium" align="center">
                             <NumberField value-bind="$page.number" required />
