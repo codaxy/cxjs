@@ -1,13 +1,4 @@
-import {
-   Menu,
-   Submenu,
-   Text,
-   Button,
-   TextField,
-   FlexRow,
-   Checkbox,
-   MenuItem
-} from "cx/widgets";
+import { Menu, Submenu, Text, Button, TextField, Checkbox, MenuItem } from "cx/widgets";
 import { MsgBox } from "cx/widgets";
 import { FirstVisibleChildLayout } from "cx/ui";
 import { addFiddleStar, removeFiddleStar } from "app/api/stars";
@@ -21,14 +12,11 @@ function star(e, { store }) {
    let star = store.get("star");
    let starred = star && star.starred;
 
-   if (!starred)
-      addFiddleStar(store.get("fiddle.fiddleId")).then(s =>
-         store.set("star", s)
-      );
-   else
-      removeFiddleStar(store.get("fiddle.fiddleId")).then(s =>
-         store.set("star", s)
-      );
+   if (!starred) {
+      addFiddleStar(store.get("fiddle.fiddleId")).then((s) => store.set("star", s));
+   } else {
+      removeFiddleStar(store.get("fiddle.fiddleId")).then((s) => store.set("star", s));
+   }
 }
 
 function togglePreviewMode(e, { store }) {
@@ -45,10 +33,7 @@ function fileMenu(phone) {
          <a class="cxm-menu-pad" href="#" onClick="open" visible={phone}>
             Open
          </a>
-         <MenuItem
-            visible:expr="{user.email} != null"
-            layout={FirstVisibleChildLayout}
-         >
+         <MenuItem visible:expr="{user.email} != null" layout={FirstVisibleChildLayout}>
             <span class="cxm-menu-pad" visible:expr="{saving}">
                Saving...
             </span>
@@ -60,12 +45,7 @@ function fileMenu(phone) {
             >
                Save
             </a>
-            <a
-               class="cxm-menu-pad"
-               href="#"
-               onClick="save"
-               visible:expr="{dirty} && !{fiddle.owned}"
-            >
+            <a class="cxm-menu-pad" href="#" onClick="save" visible:expr="{dirty} && !{fiddle.owned}">
                Fork
             </a>
             <span class="cxm-menu-pad">
@@ -76,12 +56,7 @@ function fileMenu(phone) {
          <a class="cxm-menu-pad" href="#" onClick="duplicate">
             Duplicate
          </a>
-         <a
-            class="cxm-menu-pad"
-            href="#"
-            onClick="deleteFiddle"
-            visible:expr="{fiddle.fiddleId} != null"
-         >
+         <a class="cxm-menu-pad" href="#" onClick="deleteFiddle" visible:expr="{fiddle.fiddleId} != null">
             Delete
          </a>
       </cx>
@@ -89,19 +64,22 @@ function fileMenu(phone) {
 }
 
 function mainMenu(phone) {
-   if (phone) return <cx>
-      <Menu mod="main">
-         <a class="cxm-menu-pad" href="#" onClick={star}>
-            <i
-               class={{
-                  fa: true,
-                  "fa-star": { expr: "{star.starred}" },
-                  "fa-star-o": { expr: "!{star.starred}" }
-               }}
-            />
-         </a>
-      </Menu>
-   </cx>;
+   if (phone)
+      return (
+         <cx>
+            <Menu mod="main">
+               <a class="cxm-menu-pad" href="#" onClick={star}>
+                  <i
+                     class={{
+                        fa: true,
+                        "fa-star": { expr: "{star.starred}" },
+                        "fa-star-o": { expr: "!{star.starred}" },
+                     }}
+                  />
+               </a>
+            </Menu>
+         </cx>
+      );
 
    return (
       <cx>
@@ -112,10 +90,7 @@ function mainMenu(phone) {
          <a class="cxm-menu-pad" href="#" onClick="open">
             Open
          </a>
-         <Menu.Item
-            visible:expr="{user.email} != null"
-            layout={FirstVisibleChildLayout}
-         >
+         <Menu.Item visible:expr="{user.email} != null" layout={FirstVisibleChildLayout}>
             <span class="cxm-menu-pad" visible:expr="{saving}">
                Saving...
             </span>
@@ -127,12 +102,7 @@ function mainMenu(phone) {
             >
                Save
             </a>
-            <a
-               class="cxm-menu-pad"
-               href="#"
-               onClick="save"
-               visible:expr="{dirty} && !{fiddle.owned}"
-            >
+            <a class="cxm-menu-pad" href="#" onClick="save" visible:expr="{dirty} && !{fiddle.owned}">
                Fork
             </a>
             <span class="cxm-menu-pad">
@@ -145,18 +115,14 @@ function mainMenu(phone) {
                   class={{
                      fa: true,
                      "fa-lock": { expr: "!{fiddle.isPublic}" },
-                     "fa-unlock-alt": { expr: "{fiddle.isPublic}" }
+                     "fa-unlock-alt": { expr: "{fiddle.isPublic}" },
                   }}
                />
             </a>
-            <div
-               style="width:200px;height:200px;padding:20px;white-space:normal"
-               putInto="dropdown"
-            >
+            <div style="width:200px;height:200px;padding:20px;white-space:normal" putInto="dropdown">
                <div visible:expr="!{fiddle.isPublic}">
                   <p>
-                     This is a private fiddle which can be accessed only by you 
-                     and the people who have a link to it.
+                     This is a private fiddle which can be accessed only by you and the people who have a link to it.
                   </p>
                   <Button onClick="publish" focusOnMouseDown>
                      Make it public
@@ -169,9 +135,7 @@ function mainMenu(phone) {
                   </Button>
                </div>
                <p>
-                  <Checkbox value:bind="fiddle.allowsAdminChanges">
-                     This fiddle allows administrator changes
-                  </Checkbox>
+                  <Checkbox value:bind="fiddle.allowsAdminChanges">This fiddle allows administrator changes</Checkbox>
                </p>
             </div>
          </Submenu>
@@ -181,12 +145,7 @@ function mainMenu(phone) {
 
 let userInfo = (
    <cx>
-      <a
-         href="#"
-         class="cxm-menu-pad"
-         onClick="signInDialog"
-         visible:expr="!{user.email}"
-      >
+      <a href="#" class="cxm-menu-pad" onClick="signInDialog" visible:expr="!{user.email}">
          Sign In
       </a>
       <Submenu visible:expr="{user.email}">
@@ -202,7 +161,7 @@ let userInfo = (
    </cx>
 );
 
-let rightMenu = phone => {
+let rightMenu = (phone) => {
    if (phone) {
       return (
          <cx>
@@ -214,14 +173,14 @@ let rightMenu = phone => {
    return userInfo;
 };
 
-let middle = phone => {
+let middle = (phone) => {
    return (
       <cx>
          <TextField
             value:bind="fiddle.fiddleName"
             mod="fiddle-name"
             placeholder="Unnamed Fiddle"
-            style={ phone ? "flex:auto;margin:0" : null }
+            style={phone ? "flex:auto;margin:0" : null}
          />
          <Menu horizontal mod="main" visible={!phone}>
             <a class="cxm-menu-pad" href="#" onClick={star}>
@@ -229,7 +188,7 @@ let middle = phone => {
                   class={{
                      fa: true,
                      "fa-star": { expr: "{star.starred}" },
-                     "fa-star-o": { expr: "!{star.starred}" }
+                     "fa-star-o": { expr: "!{star.starred}" },
                   }}
                />
             </a>
@@ -238,7 +197,7 @@ let middle = phone => {
    );
 };
 
-export const Header = phone => [
+export const Header = (phone) => [
    <cx>
       <header class="cxb-toolbar">
          <div class="cxe-toolbar-left" style={phone ? "flex: 0 0 auto" : null}>
@@ -253,5 +212,5 @@ export const Header = phone => [
             </Menu>
          </div>
       </header>
-   </cx>
+   </cx>,
 ];
