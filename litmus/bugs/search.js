@@ -1,6 +1,5 @@
-import { TextField, HtmlElement, List, Text, Window, Overlay } from 'cx/widgets';
-import { LabelsLeftLayout, Controller } from 'cx/ui';
-import { getSearchQueryPredicate } from 'cx/util';
+import { TextField, List, Text, Window } from 'cx/widgets';
+import { Controller } from 'cx/ui';
 
 var contents = [{
    topic: 'Introduction',
@@ -19,7 +18,10 @@ var contents = [{
    articles: [
       {title: 'Widgets', url: '~/concepts/widgets'},
       {title: 'Data Binding', url: '~/concepts/data-binding'},
-      {title: 'Data Views', url: '~/concepts/data-views'},
+      {title: 'Repeater', url: '~/concepts/repeater'},
+      {title: 'Rescope', url: '~/concepts/rescope'},
+      {title: 'Sandbox', url: '~/concepts/sandbox'},
+      {title: 'Data Proxy', url: '~/concepts/data-proxy'},
       {title: 'Controllers', url: '~/concepts/controllers'},
       {title: 'Layouts', url: '~/concepts/layouts'},
       {title: 'Router', url: '~/concepts/router'},
@@ -74,7 +76,6 @@ var contents = [{
       {title: 'Heading', url: '~/widgets/headings'},
       {title: 'FlexBox', url: '~/widgets/flex-box'},
       {title: 'Icon', url: '~/widgets/icons'},
-
    ]
 }, {
    topic: 'Overlays',
@@ -152,14 +153,11 @@ class ListController extends Controller {
       }, true);
    }
 
-   onItemClick(e) {
-
-   }
+   onItemClick(e) {}
 }
 
-export default<cx>
+export default <cx>
    <section>
-
       <h3>List Cache Bug</h3>
 
       <Window

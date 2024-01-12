@@ -27,7 +27,7 @@ export const JsxPage = <cx>
             
 
            <Content name="code">
-                <Tab value-bind="$page.code.tab" tab="code" mod="code"  text="JSX" default/>
+                <Tab value-bind="$page.code.tab" tab="code" mod="code" text="JSX" default/>
                 <CodeSnippet visible-expr="{$page.code.tab}=='code'">{`
                         <cx>
                             <div>
@@ -98,7 +98,7 @@ export const JsxPage = <cx>
             convenient for the developer.
 
             <Content name="code">
-                <Tab value-bind="$page.code.tab"  mod="code" tab="code"  text="Whitespace Handling" default />
+                <Tab value-bind="$page.code.tab" mod="code" tab="code" text="Whitespace Handling" default />
                 <CodeSnippet fiddle="JYu5gf20" visible-expr="{$page.code.tab}=='code'">{`
                     <a href="#" class="btn" ws>
                         <i class="fa fa-icon" /> Link
@@ -117,7 +117,7 @@ export const JsxPage = <cx>
             `className` attributes.
 
             <Content name="code">
-                <Tab value-bind="$page.code.tab"  mod="code" tab="code"  text="Style" default />
+                <Tab value-bind="$page.code.tab" mod="code" tab="code" text="Style" default />
                 <CodeSnippet fiddle="enqL5Fok" visible-expr="{$page.code.tab}=='code'">{`
                     <div class="well" style="width:100px; height: 100px; background: red"></div>
                 `}</CodeSnippet>
@@ -129,7 +129,7 @@ export const JsxPage = <cx>
             are equal to `true` will be added to the class list.
 
             <Content name="code">
-                <Tab value-bind="$page.code.tab"  mod="code" tab="code"  text="Class" default />
+                <Tab value-bind="$page.code.tab" mod="code" tab="code" text="Class" default />
                 <CodeSnippet visible-expr="{$page.code.tab}=='code'">{`
                     <div class={{ panel: true, collapsed: { expr: '{panel.collapsed}' }}}>
                 `}</CodeSnippet>
@@ -144,7 +144,7 @@ export const JsxPage = <cx>
             the `save` method defined in the active controller.
             
             <Content name="code">
-                <Tab value-bind="$page.code.tab"  mod="code" tab="code"  text="Controller Callbacks" default />
+                <Tab value-bind="$page.code.tab" mod="code" tab="code" text="Controller Callbacks" default />
                 <CodeSnippet visible-expr="{$page.code.tab}=='code'">{`
                     <Button onClick="save">Save</Button>
                 `}</CodeSnippet>

@@ -240,7 +240,7 @@ export const Store = <cx>
             calculate the button text, depending on the `$page.disabled` value.
 
             <Content name="code">
-                <Tab value-bind="$page.code2.tab"  mod="code" tab="index"  text="Code" default />
+                <Tab value-bind="$page.code2.tab" mod="code" tab="index" text="Code" default />
                 <CodeSnippet visible-expr="{$page.code2.tab}=='index'" fiddle="RzBoFq52">{`
                     <div layout={LabelsTopLayout} >
                         <TextField label="Name" value-bind="$page.name" disabled-bind="$page.disabled" />
@@ -315,7 +315,7 @@ export const Store = <cx>
             </div>
 
             <Content name="code">
-            <Tab value-bind="$page.code4.tab"  mod="code" tab="code"  text="Code" default />
+            <Tab value-bind="$page.code4.tab" mod="code" tab="code" text="Code" default />
                 <CodeSnippet visible-expr="{$page.code4.tab}=='code'" fiddle="d8JViIoe">{`
                     <div layout={LabelsTopLayout}>
                         <TextField value-bind="$page.name" label="Name" />
@@ -349,7 +349,7 @@ export const Store = <cx>
             </div>
 
             <Content name="code">
-                <Tab value-bind="$page.code5.tab"  mod="code" tab="code"  text="Code" default />
+                <Tab value-bind="$page.code5.tab" mod="code" tab="code" text="Code" default />
                 <CodeSnippet visible-expr="{$page.code5.tab}=='code'" fiddle="vKZrbYe4">{`
                     <div layout={LabelsTopLayout}>
                         <TextField label="Origin" value-bind="$page.name" />
@@ -382,7 +382,7 @@ export const Store = <cx>
             </div>
 
             <Content name="code">
-                <Tab value-bind="$page.code6.tab"  mod="code" tab="code"  text="Code" default />
+                <Tab value-bind="$page.code6.tab" mod="code" tab="code" text="Code" default />
                 <CodeSnippet visible-expr="{$page.code6.tab}=='code'" fiddle="E4BOtF4S">{`
                     <div layout={LabelsTopLayout}>
                         <TextField label="Origin" value-bind="$page.name" />
@@ -428,7 +428,7 @@ export const Store = <cx>
             should be a pure function, without any side effects, e.g. direct object or array mutations.
 
             <Content name="code">
-            <Tab value-bind="$page.code6.tab"  mod="code" tab="code"  text="Code" default />
+            <Tab value-bind="$page.code6.tab" mod="code" tab="code" text="Code" default />
                 <CodeSnippet visible-expr="{$page.code6.tab}=='code'" fiddle="t5fbQpxq">{`
                     <div layout={LabelsTopLayout}>
                         <NumberField label="Count" value-bind="$page.count" style="width: 50px"/>
@@ -484,7 +484,7 @@ export const Store = <cx>
             </div>
 
             <Content name="code">
-            <Tab value-bind="$page.code8.tab"  mod="code" tab="code"  text="Code" default />
+            <Tab value-bind="$page.code8.tab" mod="code" tab="code" text="Code" default />
                 <CodeSnippet visible-expr="{$page.code8.tab}=='code'" fiddle="u89Crydo">{`
                     <div class="widgets">
                         <div layout={LabelsLeftLayout}>
