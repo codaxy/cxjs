@@ -5,9 +5,9 @@ import { CodeSnippet } from '../../components/CodeSnippet';
 import { ImportPath } from '../../components/ImportPath';
 import { ConfigTable } from '../../components/ConfigTable';
 import configs from '../widgets/configs/Repeater';
+import { Controller } from 'cx/ui';
 
 import { enableFatArrowExpansion } from "cx/data";
-import { Controller } from 'cx/ui';
 enableFatArrowExpansion();
 
 class PageController extends Controller {
