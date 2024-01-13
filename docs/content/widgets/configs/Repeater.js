@@ -22,7 +22,7 @@ export default {
         key: true,
         description: <cx><Md>
             A binding used to store the name of the field used for sorting the collection.
-            Available only if `sorters` are not used.
+            Available only if `sorters` are **not** used.
         </Md></cx>
     },
     sortDirection: {
