@@ -2,7 +2,6 @@ import { Md } from '../../../components/Md';
 
 const dataAdapterConfig = {
     immutable: {
-        key: false,
         type: 'boolean',
         description: <cx><Md>
             Indicate that the data in the parent store should **not** be mutated. Defaults to `false`.
@@ -15,12 +14,14 @@ const dataAdapterConfig = {
         </Md></cx>
     },
     recordName: {
+        key: true,
         type: 'string',
         description: <cx><Md>
             Alias used to expose record data. Defaults to `$record`.
         </Md></cx>
     },
 	indexName: {
+        key: true,
         type: 'string',
         description: <cx><Md>
             Alias used to expose record index. Defaults to `$index`.
@@ -31,6 +32,7 @@ const dataAdapterConfig = {
 export const arrayAdapterConfig = {
     ...dataAdapterConfig,
 	recordsBinding: {
+        key: true,
         type: 'string',
         description: <cx><Md>
             Specifies the location for storing records.
@@ -43,6 +45,7 @@ export const arrayAdapterConfig = {
         </Md></cx>
     },
 	keyField: {
+        key: true,
         type: 'string',
         description: <cx><Md>
             Configures which field forms the record key.
@@ -53,30 +56,35 @@ export const arrayAdapterConfig = {
 export const groupAdapterConfig = {
     ...arrayAdapterConfig,
     aggregates: {
+        key: true,
         type: 'record',
         description: <cx><Md>
             Defines computed values based on grouped records, e.g. count of elements in a group.
         </Md></cx>
     },
 	groupRecordsAlias: {
+        key: true,
         type: 'string',
         description: <cx><Md>
             Alias used to expose group records data outside the group.
         </Md></cx>
     },
 	groupRecordsName: {
+        key: true,
         type: 'string',
         description: <cx><Md>
             Alias used to expose records data within a group. Defaults to `$records`.
         </Md></cx>
     },
 	groupings: {
+        key: true,
         type: 'object',
         description: <cx><Md>
             Configures criteria for hierarchically grouping records. Allows configuring header and footer.
         </Md></cx>
     },
 	groupName: {
+        key: true,
         type: 'string',
         description: <cx><Md>
             Alias used to expose group data. Defaults to `$group`.
@@ -93,6 +101,7 @@ export const groupAdapterConfig = {
 export const treeAdapterConfig = {
     ...arrayAdapterConfig,
 	childrenField: {
+        key: true,
         type: 'string',
         description: <cx><Md>
             Alias used to expose children data. Default is `$children`.
@@ -123,12 +132,13 @@ export const treeAdapterConfig = {
         </Md></cx>
     },
     onLoadError: {
-        type: 'boolean',
+        type: 'function',
         description: <cx><Md>
-            A boolean value representing whether an error ocurred while loading children data.
+            An error occured while loading the children data.
         </Md></cx>
     },
 	foldersFirst: {
+        key: true,
         type: 'boolean',
         description: <cx><Md>
             A boolean value indicating whether folders should be displayed before leaves. Defaults to `true`.

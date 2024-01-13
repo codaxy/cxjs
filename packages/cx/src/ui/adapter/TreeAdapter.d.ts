@@ -15,7 +15,7 @@ interface TreeAdapterConfig {
     leafField?: string;
     loadingField?: string;
     loadedField?: string;
-    onLoadError?: boolean;
+    onLoadError?(response: any): any;
     foldersFirst?: boolean;
     isTreeAdapter?: boolean;
     hideRootNodes?: boolean;

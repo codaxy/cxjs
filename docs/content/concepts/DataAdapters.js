@@ -12,7 +12,7 @@ export const DataAdapters = <cx>
 
         ### Array Adapter
         Transforms flat lists through operations such as mapping or sorting.
-        See [Repeater](~/concepts/data-views#repeater) for more.
+        See [Repeater](~/concepts/repeater) for more.
 
         <ConfigTable props={arrayAdapterConfig} />
 
