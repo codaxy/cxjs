@@ -1,15 +1,12 @@
-import {HtmlElement, Button, MsgBox, Link, Tab, Content} from 'cx/widgets';
-import {History} from "cx/ui";
-import {Md} from '../../components/Md';
-import {CodeSnippet} from '../../components/CodeSnippet';
-import {ConfigTable} from '../../components/ConfigTable';
-import {CodeSplit} from '../../components/CodeSplit';
-import {MethodTable} from '../../components/MethodTable';
-import {ImportPath} from 'docs/components/ImportPath';
-
-
+import { Button, MsgBox, Tab, Content } from 'cx/widgets';
+import { History } from "cx/ui";
+import { Md } from '../../components/Md';
+import { CodeSnippet } from '../../components/CodeSnippet';
+import { ConfigTable } from '../../components/ConfigTable';
+import { CodeSplit } from '../../components/CodeSplit';
+import { MethodTable } from '../../components/MethodTable';
+import { ImportPath } from 'docs/components/ImportPath';
 import routeConfigs from '../widgets/configs/Route';
-import sandboxConfigs from '../widgets/configs/Sandbox';
 import linkConfigs from '../widgets/configs/Link';
 
 export const Router = <cx>
@@ -110,7 +107,7 @@ export const Router = <cx>
         Routes support parameters, splats and optional parts. For more details, check the
         [route-parser library](https://github.com/rcs/route-parser#what-can-i-use-in-my-routes).
 
-        ### Redirect Routes
+        ## Redirect Routes
 
         <ImportPath path="import {RedirectRoute} from 'cx/widgets';"/>
 
@@ -127,25 +124,22 @@ export const Router = <cx>
         Redirect routes use the `replaceState` method of the `History` interface, so navigating back after redirection
         will not return to the redirected page.
 
-        ## Sandbox
-
-        <ImportPath path="import {Sandbox} from 'cx/widgets';"/>
-
-        Sandbox component is used to isolate data between different pages. Page data is preserved on navigation
-        and it can be restored if the user goes back to the same page.
-
         <CodeSplit>
-            <ConfigTable props={sandboxConfigs}/>
+            ## Sandbox
+            <ImportPath path="import {Sandbox} from 'cx/widgets';"/>
+
+            [Sandbox](/concepts/sandbox) component is primarily used to isolate data between different pages.
+            Page data is preserved on navigation and it can be restored if the user goes back to the same page.
+
             <Content name="code">
                 <Tab value-bind="$page.code4.tab" mod="code" tab="index" text="Sandbox" default/>
                 <CodeSnippet visible-expr="{$page.code4.tab}=='index'">{`
-                <Sandbox key-bind="url" storage-bind="pages">
-                <Route url-bind="url" route="~/about">
-                    <TextField value-bind="$page.text" />
-                </Route>
-                </Sandbox>
-            `}
-                </CodeSnippet>
+                    <Sandbox key-bind="url" storage-bind="pages">
+                        <Route url-bind="url" route="~/about">
+                            <TextField value-bind="$page.text" />
+                        </Route>
+                    </Sandbox>
+                `}</CodeSnippet>
             </Content>
         </CodeSplit>
 

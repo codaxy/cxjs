@@ -4,8 +4,10 @@ import { Md } from '../../components/Md';
 import { CodeSplit } from '../../components/CodeSplit';
 import { CodeSnippet } from '../../components/CodeSnippet';
 import { ImportPath } from '../../components/ImportPath';
+import configs from '../widgets/configs/Sandbox';
 
 import { enableFatArrowExpansion } from "cx/data";
+import { ConfigTable } from '../../components/ConfigTable';
 enableFatArrowExpansion();
 
 export const SandboxPage = <cx>
@@ -15,7 +17,7 @@ export const SandboxPage = <cx>
             <ImportPath path="import { Sandbox } from 'cx/widgets';" />
 
             The `Sandbox` control works as a data multiplexer. It selects a value pointed by the `key` from the
-            `storage` object and exposes it as a new property (`$page`).
+            `storage` object and exposes it as a new property.
 
             <div class="widgets">
                 <div>
@@ -47,9 +49,10 @@ export const SandboxPage = <cx>
                     </Rescope>
                 </div>
             </div>
+
             <Content name="code">
                 <Tab value-bind="$page.code1.tab" mod="code" tab="code" text="Sandbox" default />
-                <CodeSnippet fiddle="110OL8gu">{`
+                <CodeSnippet fiddle="zO3TAOTo">{`
                     <div>
                         <div preserveWhitespace>
                             <Radio value={{bind: "$page.place", defaultValue: "winner"}} option="winner">1st Place</Radio>
@@ -79,11 +82,15 @@ export const SandboxPage = <cx>
                         </Rescope>
                     </div>
                 `}</CodeSnippet>
-            </Content>       
-
-            `Sandbox` is commonly used in single page applications to isolate data
-            belonging to different pages being identified by the URL address.
-            For the list of configuration properties, see the [Router docs](~/concepts/router#sandbox).
+            </Content>
         </CodeSplit>
+
+        ### Sandboxed routes
+        `Sandbox` is commonly used in single page applications to isolate data
+        belonging to different pages being identified by the URL address.
+        See [Router](/concepts/router#sandbox) for more info.
+
+        ### Configuration
+        <ConfigTable props={configs} />
     </Md>
 </cx>
