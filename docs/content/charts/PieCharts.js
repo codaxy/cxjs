@@ -1,21 +1,17 @@
-import { Content, HtmlElement, Repeater, Tab } from 'cx/widgets';
+import { Content, Repeater, Tab } from 'cx/widgets';
 import { Controller, KeySelection } from 'cx/ui';
 import { Svg, Text, Rectangle, Line } from 'cx/svg';
 import { PieChart, PieSlice, Legend, ColorMap } from 'cx/charts';
-import {Md} from 'docs/components/Md';
-import {CodeSplit} from 'docs/components/CodeSplit';
-import {CodeSnippet} from 'docs/components/CodeSnippet';
-import {ConfigTable} from 'docs/components/ConfigTable';
-import {ImportPath} from 'docs/components/ImportPath';
-
-
-
+import { Md } from 'docs/components/Md';
+import { CodeSplit } from 'docs/components/CodeSplit';
+import { CodeSnippet } from 'docs/components/CodeSnippet';
+import { ConfigTable } from 'docs/components/ConfigTable';
+import { ImportPath } from 'docs/components/ImportPath';
 import pieConfigs from './configs/PieChart';
 import sliceConfigs from './configs/PieSlice';
 
 class PageController extends Controller {
-   init() {
-      super.init();
+   onInit() {
       var value = 100;
       this.store.set('$page.points', Array.from({length: 7}, (_, i) => ({
          id: i,
@@ -86,8 +82,7 @@ export const PieCharts = <cx>
 
             <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="9C63P156">{`
             class PageController extends Controller {
-               init() {
-                  super.init();
+               onInit() {
                   var value = 100;
                   this.store.set('$page.points', Array.from({length: 7}, (_, i) => ({
                      id: i,
@@ -161,4 +156,3 @@ export const PieCharts = <cx>
 
    </Md>
 </cx>
-

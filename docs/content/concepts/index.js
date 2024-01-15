@@ -19,10 +19,11 @@ export * from './FunctionalComponents';
 export * from './DragAndDrop';
 export * from './TypedModels';
 export * from './ImmerJsIntegration';
+export * from './DataAdapters';
 
 import { bumpVersion } from '../version';
 
-//HMR
+// HMR
 if (module.hot) {
     module.hot.accept();
     bumpVersion();

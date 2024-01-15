@@ -1,20 +1,15 @@
-import {Component} from '../../util/Component';
+import { Component } from "../../util/Component";
 
 export class DataAdapter extends Component {
-
    getRecords() {
-      throw new Error('Abstract method');
+      throw new Error("Abstract method");
    }
 
-   setFilter() {
+   setFilter() {}
 
-   }
-
-   sort() {
-
-   }
+   sort() {}
 }
 
-DataAdapter.prototype.recordName = '$record';
-DataAdapter.prototype.indexName = '$index';
+DataAdapter.prototype.recordName = "$record";
+DataAdapter.prototype.indexName = "$index";
 DataAdapter.prototype.immutable = false;
