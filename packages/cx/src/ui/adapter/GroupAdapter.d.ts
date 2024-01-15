@@ -1,4 +1,23 @@
-import * as Cx from '../../core';
-import {ArrayAdapter} from './ArrayAdapter';
+import { ArrayAdapter } from './ArrayAdapter';
+import { AccessorChain, Prop, CollatorOptions, StructuredProp } from "../../core";
+import { Accessor } from "../../data/getAccessor";
 
-export class GroupAdapter extends ArrayAdapter {}
+interface GroupAdapterConfig {
+    immutable?: boolean;
+    sealed?: boolean;
+    recordsBinding?: Prop<any[]>;
+    recordsAccessor?: Accessor;
+    recordName: string | AccessorChain<any>;
+    indexName: string | AccessorChain<any>;
+    keyField?: string;
+    aggregates?: StructuredProp;
+    groupRecordsAlias?: string;
+    groupRecordsName?: string;
+    groupings?: any[] | null;
+    groupName?: string;
+    sortOptions?: CollatorOptions;
+}
+
+export class GroupAdapter extends ArrayAdapter {
+    constructor(config: GroupAdapterConfig);
+}
