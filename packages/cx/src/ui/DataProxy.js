@@ -40,5 +40,5 @@ export class DataProxy extends PureContainer {
    }
 }
 
-   DataProxy.prototype.immutable = false;
-   DataProxy.prototype.sealed = false;
+DataProxy.prototype.immutable = false;
+DataProxy.prototype.sealed = false;

@@ -6,6 +6,7 @@ interface DataProxyProps extends Cx.PureContainerProps {
    alias?: string;
    cached?: boolean;
    immutable?: boolean;
+   sealed?: boolean;
 }
 
 export class DataProxy extends Cx.Widget<DataProxyProps> {}
