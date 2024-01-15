@@ -69,12 +69,10 @@ export const NonOverlappingRects = <cx>
                 </Svg>
             </div>
 
-
-
             <Content name="code">
                 <div>
-                    <Tab value-bind="$page.code.tab" tab="controller" mod="code" text='Controller'/>
-                    <Tab value-bind="$page.code.tab" tab="chart" mod="code"  text='Chart' default/>
+                    <Tab value-bind="$page.code.tab" tab="controller" mod="code" text='Controller' />
+                    <Tab value-bind="$page.code.tab" tab="chart" mod="code" text='Chart' default />
                 </div>
                 <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="dAzljo79">{`
                 class PageController extends Controller {
@@ -132,4 +130,3 @@ export const NonOverlappingRects = <cx>
 
     </Md>
 </cx>
-
