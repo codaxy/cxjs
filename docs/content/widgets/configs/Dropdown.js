@@ -52,5 +52,19 @@ export default {
         description: <cx><Md>
             DOM element used as an anchor for determining dropdown's position.
         </Md></cx>
+    },
+
+    matchWidth: {
+        type: 'boolean',
+        description: <cx><Md>
+            Ensures the component matches the width of its parent container, creating a cohesive layout.
+        </Md></cx>
+    },
+
+    matchMaxWidth: {
+        type: 'boolean',
+        description: <cx><Md>
+            Constrains the component's width to the maximum width of its parent, maintaining a responsive design within limits.
+        </Md></cx>
     }
 };
