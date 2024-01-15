@@ -1,21 +1,16 @@
-import { Content, HtmlElement, Repeater, Tab } from 'cx/widgets';
+import { Content, Repeater, Tab } from 'cx/widgets';
 import { Controller } from 'cx/ui';
 import { Svg } from 'cx/svg';
-import { Gridlines, NumericAxis, CategoryAxis, Chart, Marker, Legend } from 'cx/charts';
+import { Gridlines, NumericAxis, Chart, Marker, Legend } from 'cx/charts';
 import {Md} from 'docs/components/Md';
 import {CodeSplit} from 'docs/components/CodeSplit';
 import {CodeSnippet} from 'docs/components/CodeSnippet';
 import {ConfigTable} from 'docs/components/ConfigTable';
 import {ImportPath} from 'docs/components/ImportPath';
-import {casual} from 'docs/content/examples/data/casual';
-
-
-
 import configs from './configs/Marker';
 
 class PageController extends Controller {
-   init() {
-      super.init();
+   onInit() {
       this.store.set('$page.reds', Array.from({length: 50}, (_, i) => ({
          x: 100+Math.random() * 300,
          y: Math.random() * 300,
@@ -83,8 +78,7 @@ export const Markers = <cx>
             <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Index" default/>
             <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="SqfLY8YB">{`
                class PageController extends Controller {
-                  init() {
-                     super.init();
+                  onInit() {
                      this.store.set('$page.reds', Array.from({length: 50}, (_, i) => ({
                         x: 100+Math.random() * 300,
                         y: Math.random() * 300,
@@ -147,4 +141,3 @@ export const Markers = <cx>
 
    </Md>
 </cx>
-

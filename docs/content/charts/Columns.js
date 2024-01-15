@@ -1,24 +1,17 @@
-import { HtmlElement, Grid, Repeater, Content, Tab } from 'cx/widgets';
-import { Controller, KeySelection } from 'cx/ui';
-import { Svg, Rectangle, Text } from 'cx/svg';
+import { Repeater, Content, Tab } from 'cx/widgets';
+import { Controller } from 'cx/ui';
+import { Svg } from 'cx/svg';
 import { Gridlines, NumericAxis, CategoryAxis, Chart, Column, Legend } from 'cx/charts';
-import {Md} from 'docs/components/Md';
-import {CodeSplit} from 'docs/components/CodeSplit';
-import {CodeSnippet} from 'docs/components/CodeSnippet';
-import {ConfigTable} from 'docs/components/ConfigTable';
-import {ImportPath} from 'docs/components/ImportPath';
-
-
-import {casual} from 'docs/content/examples/data/casual';
-
+import { Md } from 'docs/components/Md';
+import { CodeSplit } from 'docs/components/CodeSplit';
+import { CodeSnippet } from 'docs/components/CodeSnippet';
+import { ConfigTable } from 'docs/components/ConfigTable';
+import { ImportPath } from 'docs/components/ImportPath';
+import { casual } from 'docs/content/examples/data/casual';
 import configs from './configs/Column';
 
-var categories = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
 class PageController extends Controller {
-   init() {
-      super.init();
-
+   onInit() {
       this.store.set('$page.points', Array.from({length: 30}, (_, i) => ({
          x: casual.city,
          y: 10 + (i+1) / 30 * 40 + (Math.random() - 0.5) * 10
@@ -33,7 +26,6 @@ export const Columns = <cx>
       <ImportPath path="import {Column} from 'cx/charts';" />
 
       <CodeSplit>
-
          The `Column` widget is used to make column charts where each column has unique properties
          or additional content inside.
 
@@ -45,11 +37,13 @@ export const Columns = <cx>
                      y: { type: NumericAxis, vertical: true } }}>
                      <Gridlines/>
                      <Repeater records-bind="$page.points" recordAlias="$point">
-                        <Column colorIndex-expr="15 - Math.round({$point.y}*6/50)"
-                                width={0.8}
-                                x-bind="$point.x"
-                                y-bind="$point.y"
-                                tooltip-tpl="{$point.x} {$point.y:n;0}" />
+                        <Column
+                           colorIndex-expr="15 - Math.round({$point.y}*6/50)"
+                           width={0.8}
+                           x-bind="$point.x"
+                           y-bind="$point.y"
+                           tooltip-tpl="{$point.x} {$point.y:n;0}"
+                        />
                      </Repeater>
                   </Chart>
                </Svg>
@@ -63,9 +57,7 @@ export const Columns = <cx>
 
             <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="Ve2AulIi">{`
                class PageController extends Controller {
-                  init() {
-                     super.init();
-
+                  onInit() {
                      this.store.set('$page.points', Array.from({length: 30}, (_, i) => ({
                         x: casual.city,
                         y: 10 + (i+1) / 30 * 40 + (Math.random() - 0.5) * 10
@@ -103,7 +95,5 @@ export const Columns = <cx>
       ## Configuration
 
       <ConfigTable props={configs} />
-
    </Md>
 </cx>;
-
