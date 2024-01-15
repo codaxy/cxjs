@@ -163,7 +163,7 @@ export const RowEditing = <cx>
 
             <Content name="code">
                 <Tab value-bind="$page.code.tab" tab="controller" mod="code" text='Controller' />
-                <Tab value={{bind:"$page.code.tab", defaultValue: "grid"}} tab="grid" mod="code"  text='Grid' />
+                <Tab value={{bind:"$page.code.tab", defaultValue: "grid"}} tab="grid" mod="code" text='Grid' />
 
                 <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="1q59A8u3">{`
                 class PageController extends Controller {

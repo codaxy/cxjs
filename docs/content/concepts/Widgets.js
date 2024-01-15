@@ -24,7 +24,7 @@ export const Widgets = <cx>
             in the next code snippet.
 
             <Content name="code">
-                <Tab value-bind="$page.code.tab"  mod="code" tab="code"  text="Widgets" default />
+                <Tab value-bind="$page.code.tab" mod="code" tab="code" text="Widgets" default />
                 <CodeSnippet visible-expr="{$page.code.tab}=='code'">{`
                 export const Main = <cx>
                     <main outerLayout={Layout}>
@@ -61,7 +61,7 @@ export const Widgets = <cx>
 
         <CodeSplit>
             <Content name="code">
-                <Tab value-bind="$page.code.tab"  mod="code" tab="code"  text="app/index.js" default />
+                <Tab value-bind="$page.code.tab" mod="code" tab="code" text="app/index.js" default />
                 <CodeSnippet>{`
                let store = new Store();
                let appEl = document.getElementById('app');
@@ -93,7 +93,7 @@ export const Widgets = <cx>
             Note that the `&lt;cx&gt;` wrapper is not used inside the `render` method.
 
             <Content name="code">
-                <Tab value-bind="$page.code.tab"  mod="code" tab="code"  text="Rectangle.js" default />
+                <Tab value-bind="$page.code.tab" mod="code" tab="code" text="Rectangle.js" default />
                 <CodeSnippet>{`
                export class Rectangle extends BoundedObject {
 

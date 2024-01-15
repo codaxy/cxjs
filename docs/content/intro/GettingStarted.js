@@ -88,7 +88,10 @@ export const GettingStarted = <cx>
         In order to put all the pieces together, get familiar with the concepts listed below:
 
         - [Controllers](~/concepts/controllers)
-        - [Data Views](~/concepts/data-views)
+        - [Repeater](~/concepts/repeater)
+        - [Rescope](~/concepts/rescope)
+        - [Sandbox](~/concepts/sandbox)
+        - [Data Proxy](~/concepts/data-proxy)
         - [Layouts](~/concepts/layout)
         - [Selection](~/concepts/selections)
         - [Formatting](~/concepts/formatting)

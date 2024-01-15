@@ -169,7 +169,7 @@ export const ColumnReordering = <cx>
 
             <Content name="code">
                 <Tab value-bind="$page.code.tab" tab="controller" mod="code" text="Controller" />
-                <Tab value-bind="$page.code.tab" tab="grid" mod="code"  text="Grid" default/>
+                <Tab value-bind="$page.code.tab" tab="grid" mod="code" text="Grid" default/>
                 <Tab value-bind="$page.code.tab" tab="toolbar" mod="code" text="Toolbar" />
                 <Tab value-bind="$page.code.tab" tab="columns" mod="code" text="Columns" />
 

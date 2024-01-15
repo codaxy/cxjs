@@ -123,7 +123,10 @@ CxJS uses React for DOM manipulation and offers many high-level features on top 
 -  [controllers](https://cxjs.io/docs/concepts/controllers)
 -  [computed values](https://cxjs.io/docs/concepts/controllers#computed-values)
 -  [triggers](https://cxjs.io/docs/concepts/controllers#triggers)
--  [data views](https://cxjs.io/docs/concepts/data-views)
+-  [repeater](https://cxjs.io/docs/concepts/repeater)
+-  [rescope](https://cxjs.io/docs/concepts/rescope)
+-  [sandbox](https://cxjs.io/docs/concepts/sandbox)
+-  [data proxy](https://cxjs.io/docs/concepts/data-proxy)
 
 ### Layout
 

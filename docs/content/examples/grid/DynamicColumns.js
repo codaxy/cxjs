@@ -159,7 +159,7 @@ export const DynamicColumns = <cx>
 
             <Content name="code">
                 <Tab value-bind="$page.code.tab" tab="controller" mod="code" text="Controller" />
-                <Tab value-bind="$page.code.tab" tab="grids" mod="code"  text="Grids" default/>
+                <Tab value-bind="$page.code.tab" tab="grids" mod="code" text="Grids" default/>
                 <Tab value-bind="$page.code.tab" tab="columns" mod="code" text="Columns" />
 
                 <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle='eP8JXxF3'>{`

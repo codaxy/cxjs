@@ -25,7 +25,7 @@ export class Rescope extends PureContainer {
    }
 }
 
-   Rescope.prototype.bind = "$page";
-   Rescope.prototype.rootName = "$root";
+Rescope.prototype.bind = "$page";
+Rescope.prototype.rootName = "$root";
 
 Widget.alias("rescope", Rescope);

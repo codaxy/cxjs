@@ -24,5 +24,11 @@ export default {
         description: <cx><Md>
             Alias for computed value.
         </Md></cx>
+    },
+    immutable: {
+        type: 'boolean',
+        description: <cx><Md>
+            Indicate that the data in the parent store should **not** be mutated. Defaults to `false`.
+        </Md></cx>
     }
 };

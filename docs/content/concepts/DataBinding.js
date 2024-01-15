@@ -34,7 +34,7 @@ export const DataBinding = <cx>
             </div>
 
             <Content name="code">
-                <Tab value-bind="$page.code1.tab"  mod="code" tab="code"  text="Code" default />
+                <Tab value-bind="$page.code1.tab" mod="code" tab="code" text="Code" default />
                 <CodeSnippet visible-expr="{$page.code1.tab}=='code'" fiddle="csRQr9CA">{`
                 <Checkbox value-bind='intro.core.checked'>Checkbox</Checkbox>
             `}</CodeSnippet>
@@ -55,7 +55,7 @@ export const DataBinding = <cx>
             </div>
 
             <Content name="code">
-                <Tab value-bind="$page.code2.tab"  mod="code" tab="code"  text="Code" default />
+                <Tab value-bind="$page.code2.tab" mod="code" tab="code" text="Code" default />
                 <CodeSnippet visible-expr="{$page.code2.tab}=='code'" fiddle="csRQr9CA">{`
                     <TextField
                         value-bind='intro.core.text'
@@ -94,7 +94,7 @@ export const DataBinding = <cx>
             </div>
 
             <Content name="code">
-                <Tab value-bind="$page.code3.tab"  mod="code" tab="code"  text="Code" default />
+                <Tab value-bind="$page.code3.tab" mod="code" tab="code" text="Code" default />
                 <CodeSnippet visible-expr="{$page.code3.tab}=='code'" fiddle="M60J0cyg">{`
                 <div layout={LabelsLeftLayout}>
                   <TextField value-bind='intro.core.firstName' label="First Name" />
@@ -126,7 +126,7 @@ export const DataBinding = <cx>
             </div>
 
             <Content name="code">
-                 <Tab value-bind="$page.code4.tab"  mod="code" tab="code" text="Code" default />
+                 <Tab value-bind="$page.code4.tab" mod="code" tab="code" text="Code" default />
                 <CodeSnippet visible-expr="{$page.code4.tab}=='code'" fiddle="dfT9CWn4">{`
                store.set('intro.core.letterCount', '');
                ...
@@ -169,7 +169,7 @@ export const DataBinding = <cx>
             </div>
 
             <Content name="code">
-                <Tab value-bind="$page.code5.tab"  mod="code" tab="code"  text="Code" default />
+                <Tab value-bind="$page.code5.tab" mod="code" tab="code" text="Code" default />
                 <CodeSnippet visible-expr="{$page.code5.tab}=='code'" fiddle="9CxYWdfS">{`
                     <div preserveWhitespace>
                         <NumberField value-bind='intro.core.a' placeholder="A" />
@@ -204,7 +204,7 @@ export const DataBinding = <cx>
             </div>
             
             <Content name="code">
-                <Tab value-bind="$page.code6.tab"  mod="code" tab="code"  text="Code" default />
+                <Tab value-bind="$page.code6.tab" mod="code" tab="code" text="Code" default />
                 <CodeSnippet visible-expr="{$page.code6.tab}=='code'" fiddle="9CxYWdfS">{`
                     <div preserveWhitespace>
                         A + 2 = <NumberField style="width:50px"
@@ -249,7 +249,7 @@ export const DataBinding = <cx>
             </div>
             
             <Content name="code">
-                <Tab value-bind="$page.code7.tab"  mod="code" tab="code"  text="Code" default />
+                <Tab value-bind="$page.code7.tab" mod="code" tab="code" text="Code" default />
                 <CodeSnippet visible-expr="{$page.code7.tab}=='code'" fiddle="RAVD9CLT">{`
                     <div>
                     <Section class="well" title="Direct">
