@@ -166,7 +166,7 @@ export const LocalizationPage = <cx>
         ## Culture
         <ImportPath path="import {Culture} from 'cx/ui';" />
 
-        The `Culture` object provides methods for selecting a UI culture used for formatting and localizing messages.
+        The `Culture` object provides methods for selecting UI cultures used for formatting and localizing messages.
 
         <CodeSplit>
             <MethodTable methods={[{
@@ -178,14 +178,26 @@ export const LocalizationPage = <cx>
             }, {
                 signature: 'Culture.setDefaultCurrency(currencyCode)',
                 description: <cx><Md>
-                    Sets default currency, which is otherwise `USD`.
+                    Sets the default currency, which is otherwise `USD` by default.
                     https://en.wikipedia.org/wiki/ISO_4217
+                </Md></cx>
+            }, {
+                signature: 'Culture.setNumberCulture(cultureCode)',
+                description: <cx><Md>
+                    Sets the number culture. Read more about available culture
+                    codes [here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl).
+                </Md></cx>
+            }, {
+                signature: 'Culture.setDateTimeCulture(cultureCode)',
+                description: <cx><Md>
+                    Sets the datetime culture. Read more about available culture
+                    codes [here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl).
                 </Md></cx>
             }, {
                 signature: 'Culture.getDefaultDateEncoding()',
                 description: <cx><Md>
                     Returns a function that is used to encode dates.
-                    The function expects a Date and returns a string or a number;
+                    That function expects a Date and returns a string or a number.
                 </Md></cx>
             }, {
                 signature: 'Culture.setDefaultDateEncoding(encoding)',
