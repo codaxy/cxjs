@@ -1,29 +1,24 @@
-import { Accessor } from '../../data/getAccessor';
-import { ArrayAdapter } from './ArrayAdapter';
-import { AccessorChain, Prop } from "../../core";
+import { Prop, StringProp } from "../../core";
+import { ArrayAdapter } from "./ArrayAdapter";
 
 interface TreeAdapterConfig {
-    immutable?: boolean;
-    sealed?: boolean;
-    recordsBinding?: Prop<any[]>;
-    recordsAccessor?: Accessor;
-    recordName: string | AccessorChain<any>;
-    indexName: string | AccessorChain<any>;
-    keyField?: string;
-    childrenField?: string;
-    expandedField?: string;
-    leafField?: string;
-    loadingField?: string;
-    loadedField?: string;
-    onLoadError?(response: any): any;
-    foldersFirst?: boolean;
-    isTreeAdapter?: boolean;
-    hideRootNodes?: boolean;
-    childrenAccessor?: Accessor;
-    restoreExpandedNodesOnLoad?: boolean;
-    expandedState?: any;
- }
+   immutable?: boolean;
+   sealed?: boolean;
+   recordsBinding?: Prop<any[]>;
+   recordName: StringProp;
+   indexName: StringProp;
+   keyField?: string;
+   childrenField?: string;
+   expandedField?: string;
+   leafField?: string;
+   loadingField?: string;
+   loadedField?: string;
+   onLoadError?: (response: any) => void;
+   foldersFirst?: boolean;
+   hideRootNodes?: boolean;
+   restoreExpandedNodesOnLoad?: boolean;
+}
 
 export class TreeAdapter extends ArrayAdapter {
-    constructor(config: TreeAdapterConfig);
+   constructor(config: TreeAdapterConfig);
 }
