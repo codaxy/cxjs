@@ -5,8 +5,8 @@ interface TreeAdapterConfig {
    immutable?: boolean;
    sealed?: boolean;
    recordsBinding?: Prop<any[]>;
-   recordName: StringProp;
-   indexName: StringProp;
+   recordName?: StringProp;
+   indexName?: StringProp;
    keyField?: string;
    childrenField?: string;
    expandedField?: string;
