@@ -11,7 +11,7 @@ export class StructuredSelector {
 
    init(store: View);
 
-   create(memoize?: bool = true): Selector<Record>;
+   create(memoize: boolean = true): Selector<Record>;
 
    createStoreSelector(): (store: View) => Record;
 }
