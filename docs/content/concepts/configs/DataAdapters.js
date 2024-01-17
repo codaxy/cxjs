@@ -144,22 +144,10 @@ export const treeAdapterConfig = {
             A boolean value indicating whether folders should be displayed before leaves. Defaults to `true`.
         </Md></cx>
     },
-	isTreeAdapter: {
-        type: 'boolean',
-        description: <cx><Md>
-            A boolean value indicating whether the data adapter being used is a tree adapter. Default is `true`.
-        </Md></cx>
-    },
 	hideRootNodes: {
         type: 'boolean',
         description: <cx><Md>
             If `true`, root nodes will be hidden, and their children nodes will be displayed as the top-level nodes. Defaults to `false`.
-        </Md></cx>
-    },
-	childrenAccessor: {
-        type: 'object',
-        description: <cx><Md>
-            Configuration for accessing and modifying children data of the node.
         </Md></cx>
     },
 	restoreExpandedNodesOnLoad: {
@@ -168,10 +156,4 @@ export const treeAdapterConfig = {
             A boolean flag that determines whether the expanded state of the nodes should be restored when the data is loaded.
         </Md></cx>
     },
-	expandedState: {
-        type: 'object',
-        description: <cx><Md>
-            Object that stores the expanded state of the nodes.
-        </Md></cx>
-    }
 };
