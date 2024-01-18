@@ -117,10 +117,10 @@ export const RowReordering = <cx>
                 Drag and drop functionality is supported for rows in the `Grid`.
                 This includes options like rearranging rows within the same `Grid`,
                 transferring rows to another `Grid`, and placing nodes into subtrees
-                of other nodes in a `TreeGrid`.
+                of other nodes in a `TreeGrid`. Let's see an example for each option!
 
                 ### Rearranging rows
-                Here's an example of rearranging rows within the same `Grid`:
+                Try rearranging rows in this `Grid`:
 
                 <div class="widgets">
                     <Grid
@@ -194,13 +194,8 @@ export const RowReordering = <cx>
                                         if (record.index < e.target.insertionIndex) e.target.insertionIndex--;
                                     });
                                 }
-                        
-                                this.store.update(
-                                    target,
-                                    this.insertElement,
-                                    e.target.insertionIndex,
-                                    ...selection
-                                );
+
+                                this.store.update(target, this.insertElement, e.target.insertionIndex, ...selection);
                             }
                         }
                     `}
@@ -254,14 +249,15 @@ export const RowReordering = <cx>
             and access the records in the store to execute the necessary rearrangement.
 
             ### Transferring rows between two Grids
-            Take a look at [this](https://fiddle.cxjs.io/?f=IF2N9ClH) example.
+            Take a look at [this example](https://fiddle.cxjs.io/?f=IF2N9ClH).
 
-            ### Drag and drop in a tree hierarchy
-            When working with `TreeGrid`, a frequent scenario involves dealing with directory structures.
-
-            Try dragging files or folders into folders:
+            ### Drag and drop in tree hierarchy
 
             <CodeSplit>
+                When working with `TreeGrid`, a frequent scenario involves dealing with directory structures.
+
+                Try dragging files or folders into folders:
+
                 <div>
                     <Grid
                         records-bind="$page.data2"
@@ -424,11 +420,12 @@ export const RowReordering = <cx>
             In this case, we're not only dealing with drag and drop functionality, but
             with the whole tree structure. After generating the data and saving it in
             the `store`, the `Grid` will display all items. To enable drag and drop in
-            such hierarchy, we need to define `dragSource`, `onRowDropTest` (specifies
-            which record types can be dragged and dropped), `onRowDragOver` (in this
-            case, we use it to display a message below the `TreeGrid`), `onDragEnd`
-            (removes the message), and `onRowDrop` (this callback has access to the
-            `store`, source and target nodes, so that's where the tree update happens).
+            such hierarchy, we need to define `dragSource` (same as before), `onRowDropTest`
+            (specifies which record types can be dragged and dropped), `onRowDragOver`
+            (this callback checks whether dropping the dragged item is allowed, and controls
+            the displayed message below the `TreeGrid`), `onDragEnd` (removes the message),
+            and `onRowDrop` (this callback has access to the `store`, source and target
+            nodes, so that's where the tree update happens).
         </Md>
     </div>
 </cx>
