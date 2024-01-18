@@ -35,23 +35,23 @@ class PageController extends Controller {
         ];
     }
 
-    move(target, e) {
-        const selection = e.source.records.map((r) => r.data);
-        this.store.update(e.source.data.source, (array) =>
-            array.filter((a, i) => selection.indexOf(a) == -1)
+    move(e) {
+        const source = e.source.records.map((r) => r.data);
+        this.store.update("$page.data1", (array) =>
+            array.filter((a, i) => source.indexOf(a) == -1)
         );
 
-        if (e.source.data.source == target) {
-            e.source.records.forEach((record) => {
-                if (record.index < e.target.insertionIndex) e.target.insertionIndex--;
-            });
-        }
+        e.source.records.forEach((record) => {
+            if (record.index < e.target.insertionIndex) {
+                --e.target.insertionIndex;
+            }
+        });
 
         this.store.update(
-            target,
+            "$page.data1",
             this.insertElement,
             e.target.insertionIndex,
-            ...selection
+            ...source
         );
     }
 
@@ -64,10 +64,10 @@ class PageController extends Controller {
         const targetNode = e.target.record.data;
         if (
             targetNode.$leaf || // Prevent dropping into leaves
-            sourceNode.id === targetNode.id // Same source and target nodes
+            sourceNode.id == targetNode.id // Same source and target nodes
             /*
                 Consider additional checks to avoid dropping
-              higher-level parent folder into child folder
+                higher-level parent folder into child folder
             */
         ) {
             this.store.delete("$page.infoMsg");
@@ -99,9 +99,9 @@ class PageController extends Controller {
                     $children: nodeChildren
                 };
             },
-            (n) => n.name === targetNode.name,
+            (n) => n.name == targetNode.name,
             "$children",
-            (n) => n.id === sourceNode.id
+            (n) => n.id == sourceNode.id
         );
 
         this.store.set("$page.data2", newTree);
@@ -125,11 +125,7 @@ export const RowReordering = <cx>
                 <div class="widgets">
                     <Grid
                         records-bind="$page.data1"
-                        mod="tree"
                         style={{ width: "100%" }}
-                        dataAdapter={{
-                            type: TreeAdapter
-                        }}
                         columns={[
                             {
                                 header: "Name",
@@ -153,7 +149,7 @@ export const RowReordering = <cx>
                         }}
                         dragSource={{ data: { type: "record", source: "$page.data1" } }}
                         onDropTest={(e) => e.source.data.type == "record"}
-                        onDrop={(e, instance) => instance.controller.move("$page.data1", e)}
+                        onDrop={(e, instance) => instance.controller.move(e)}
                     />
                 </div>
 
@@ -174,7 +170,7 @@ export const RowReordering = <cx>
                                     $leaf: true
                                 })));
                             }
-                        
+
                             insertElement(records, insertIndex, record) {
                                 return [
                                     ...records.slice(0, insertIndex),
@@ -182,20 +178,25 @@ export const RowReordering = <cx>
                                     ...records.slice(insertIndex)
                                 ];
                             }
-                        
-                            move(target, e) {
-                                const selection = e.source.records.map((r) => r.data);
-                                this.store.update(e.source.data.source, (array) =>
-                                    array.filter((a, i) => selection.indexOf(a) == -1)
-                                );
-                        
-                                if (e.source.data.source == target) {
-                                    e.source.records.forEach((record) => {
-                                        if (record.index < e.target.insertionIndex) e.target.insertionIndex--;
-                                    });
-                                }
 
-                                this.store.update(target, this.insertElement, e.target.insertionIndex, ...selection);
+                            move(e) {
+                                const source = e.source.records.map((r) => r.data);
+                                this.store.update("data", (array) =>
+                                    array.filter((a, i) => source.indexOf(a) == -1)
+                                );
+
+                                e.source.records.forEach((record) => {
+                                    if (record.index < e.target.insertionIndex) {
+                                        --e.target.insertionIndex;
+                                    }
+                                });
+
+                                this.store.update(
+                                    "data",
+                                    this.insertElement,
+                                    e.target.insertionIndex,
+                                    ...source
+                                );
                             }
                         }
                     `}
@@ -203,11 +204,7 @@ export const RowReordering = <cx>
                     <CodeSnippet visible-expr="{$page.code1.tab}=='grid'" fiddle="8G59CxaS">{`
                         <Grid
                             records-bind="data"
-                            mod="tree"
                             style={{ width: "100%" }}
-                            dataAdapter={{
-                                type: TreeAdapter
-                            }}
                             columns={[
                                 {
                                     header: "Name",
@@ -231,7 +228,7 @@ export const RowReordering = <cx>
                             }}
                             dragSource={{ data: { type: "record", source: "data" } }}
                             onDropTest={(e) => e.source.data.type == "record"}
-                            onDrop={(e, instance) => instance.controller.move("data", e)}
+                            onDrop={(e, instance) => instance.controller.move(e)}
                         />
                     `}
                     </CodeSnippet>
@@ -249,7 +246,7 @@ export const RowReordering = <cx>
             and access the records in the store to execute the necessary rearrangement.
 
             ### Transferring rows between two Grids
-            Take a look at [this example](https://fiddle.cxjs.io/?f=IF2N9ClH).
+            This example is similar to the previous one. Take a look at it [here](https://fiddle.cxjs.io/?f=IF2N9ClH).
 
             ### Drag and drop in tree hierarchy
 
@@ -328,27 +325,27 @@ export const RowReordering = <cx>
                                 const targetNode = e.target.record.data;
                                 if (
                                     targetNode.$leaf || // Prevent dropping into leaves
-                                    sourceNode.id === targetNode.id // Same source and target nodes
+                                    sourceNode.id == targetNode.id // Same source and target nodes
                                     /*
                                         Consider additional checks to avoid dropping
-                                    higher-level parent folder into child folder
+                                        higher-level parent folder into child folder
                                     */
                                 ) {
-                                    this.store.delete("$page.infoMsg");
+                                    this.store.delete("infoMsg");
                                     return false;
                                 }
-                                this.store.set("$page.infoMsg", \`You are dragging over \${targetNode.name}.\`);
+                                this.store.set("infoMsg", \`You are dragging over \${targetNode.name}.\`);
                             }
-                        
+
                             onDragEnd() {
-                                this.store.delete("$page.infoMsg");
+                                this.store.delete("infoMsg");
                             }
-                        
+
                             onRowDrop(e) {
                                 const sourceNode = e.source.record.data;
                                 const targetNode = e.target.record.data;
                                 const data = this.store.get("data");
-                        
+
                                 const newTree = updateTree(
                                     data,
                                     (n) => {
@@ -357,17 +354,17 @@ export const RowReordering = <cx>
                                             ...sourceNode,
                                             id: ++this.id
                                         });
-                        
+
                                         return {
                                             ...n,
                                             $children: nodeChildren
                                         };
                                     },
-                                    (n) => n.name === targetNode.name,
+                                    (n) => n.name == targetNode.name,
                                     "$children",
-                                    (n) => n.id === sourceNode.id
+                                    (n) => n.id == sourceNode.id
                                 );
-                        
+
                                 this.store.set("data", newTree);
                             }
                         }
