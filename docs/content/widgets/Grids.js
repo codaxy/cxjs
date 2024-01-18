@@ -117,6 +117,7 @@ export const Grids = <cx>
         - [Buffering 5000 rows](~/examples/grid/buffering)
         - [Infinite scrolling](~/examples/grid/infinite-scrolling)
         - [Row Expanding](~/examples/grid/row-expanding)
+        - [Row Reordering (Drag & Drop)](~/examples/grid/row-reordering)
         - [Column Resizing](~/examples/grid/column-resizing)
         - [Column Reordering (Drag & Drop)](~/examples/grid/column-reordering)
         - [Fixed Columns](~/examples/grid/fixed-columns)

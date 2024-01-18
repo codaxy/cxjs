@@ -1,17 +1,15 @@
-import {HtmlElement, Tab, DragSource, DropZone, DragHandle, MsgBox, Repeater, Content} from 'cx/widgets';
-import {Md} from '../../components/Md';
-import {CodeSnippet} from '../../components/CodeSnippet';
-import {ConfigTable} from '../../components/ConfigTable';
-import {CodeSplit} from '../../components/CodeSplit';
-import {MethodTable} from '../../components/MethodTable';
-import {ImportPath} from 'docs/components/ImportPath';
+import { Tab, DragSource, DropZone, DragHandle, MsgBox, Repeater, Content } from 'cx/widgets';
+import { Md } from '../../components/Md';
+import { CodeSnippet } from '../../components/CodeSnippet';
+import { ConfigTable } from '../../components/ConfigTable';
+import { CodeSplit } from '../../components/CodeSplit';
+import { ImportPath } from 'docs/components/ImportPath';
 
 import dragSourceConfig from '../widgets/configs/DragSource';
 import dropZoneConfig from '../widgets/configs/DropZone';
 import dragDropEventConfig from '../widgets/configs/DragDropEvent';
 
 export function moveElement(array, sourceIndex, targetIndex) {
-
     if (targetIndex < 0)
         targetIndex += array.length;
 
@@ -33,11 +31,10 @@ export function moveElement(array, sourceIndex, targetIndex) {
     return res;
 }
 
-
 export const DragAndDrop = <cx>
     <Md>
         # Drag & Drop
-        <ImportPath path="import {DragSource, DropZone} from 'cx/widgets';"/>
+        <ImportPath path="import {DragSource, DropZone} from 'cx/widgets';" />
 
         <CodeSplit>
             Drag & drop functionality is provided through `DragSource` and `DropZone` widgets,
@@ -58,13 +55,13 @@ export const DragAndDrop = <cx>
             <div class="widgets">
                 <DragSource
                     style="width:80px;height:80px;background:LightSeaGreen;cursor:move"
-                    data={{text: 'B1', type: 'b1'}}
+                    data={{ text: 'B1', type: 'b1' }}
                 >
                     B1
                 </DragSource>
                 <DragSource
                     style="width:80px;height:80px;background:Coral;cursor:move"
-                    data={{text: 'B2', type: 'b2'}}
+                    data={{ text: 'B2', type: 'b2' }}
                     cloneStyle="border: 1px solid gray; padding: 10px; transform: scale(0.5)"
                 >
                     B2
@@ -73,8 +70,8 @@ export const DragAndDrop = <cx>
                     style="width:80px;height:80px;background:gold;opacity:0.3;transition: all 0.2s"
                     overStyle="background:lightgreen;opacity:1"
                     farStyle="opacity:1"
-                    onDropTest={({source}) => source.data.type == 'b1'}
-                    onDrop={({source}) => {
+                    onDropTest={({ source }) => source.data.type == 'b1'}
+                    onDrop={({ source }) => {
                         MsgBox.alert(`Dropped: ${source.data.text}.`);
                     }}
                     inflate={20}
@@ -83,7 +80,7 @@ export const DragAndDrop = <cx>
                 </DropZone>
             </div>
             <Content name="code">
-                <Tab value-bind="$page.code1.tab" mod="code" tab="index" text="Index" default/>
+                <Tab value-bind="$page.code1.tab" mod="code" tab="index" text="Index" default />
                 <CodeSnippet visible-expr="{$page.code1.tab}=='index'" fiddle="n2jBS1zV">{`
                     <DragSource
                         style="width:80px;height:80px;background:LightSeaGreen;cursor:move"
@@ -123,11 +120,10 @@ export const DragAndDrop = <cx>
         Drag handles are useful for dragging larger chunks of UI.
 
         <CodeSplit>
-
             <div class="widgets">
                 <DragSource
                     style="width: 180px;height:180px;background:moccasin;padding:15px"
-                    data={{type: 'b1', text: 'Box with a drag handle'}}
+                    data={{ type: 'b1', text: 'Box with a drag handle' }}
                     handled
                 >
                     <DragHandle style="background:LightSeaGreen;padding:5px;cursor:move;font-size:10px">
@@ -136,7 +132,7 @@ export const DragAndDrop = <cx>
                 </DragSource>
             </div>
             <Content name="code">
-                <Tab value-bind="$page.code2.tab" mod="code" tab="index" text="Index" default/>
+                <Tab value-bind="$page.code2.tab" mod="code" tab="index" text="Index" default />
                 <CodeSnippet visible-expr="{$page.code2.tab}=='index'">{`
                     <DragSource
                         style="width: 180px;height:180px;background:moccasin;padding:15px"
@@ -149,14 +145,11 @@ export const DragAndDrop = <cx>
                     </DragSource>
                 `}</CodeSnippet>
             </Content>
-
         </CodeSplit>
-
 
         ### Reordering
 
         <CodeSplit>
-
             Reordering allows users to define order within a list of items.
 
             The following example explains reordering of items positioned horizontally (e.g. tabs).
@@ -169,8 +162,8 @@ export const DragAndDrop = <cx>
                 <div>
                     <DropZone
                         mod="inline-block"
-                        onDropTest={({source}) => source.data.type == 'hbox'}
-                        onDrop={(e, {store}) => {
+                        onDropTest={({ source }) => source.data.type == 'hbox'}
+                        onDrop={(e, { store }) => {
                             store.update('items', moveElement, e.source.data.index, 0);
                         }}
                         matchWidth
@@ -182,7 +175,7 @@ export const DragAndDrop = <cx>
                     <Repeater
                         keyField="id"
                         records={{
-                            bind: 'items', defaultValue: Array.from({length: 7}, (_, i) => ({
+                            bind: 'items', defaultValue: Array.from({ length: 7 }, (_, i) => ({
                                 id: i + 1,
                                 text: `Item ${i + 1}`
                             }))
@@ -190,15 +183,15 @@ export const DragAndDrop = <cx>
                     >
                         <DragSource
                             style="display:inline-block; margin: 5px; background: #ddf; cursor: move"
-                            data={{index: {bind: "$index"}, type: 'hbox'}}
+                            data={{ index: { bind: "$index" }, type: 'hbox' }}
                             hideOnDrag
                         >
-                            <div text-bind="$record.text" style="padding:5px"/>
+                            <div text-bind="$record.text" style="padding:5px" />
                         </DragSource>
                         <DropZone
                             mod="inline-block"
-                            onDropTest={({source}) => source.data.type == 'hbox'}
-                            onDrop={(e, {store}) => {
+                            onDropTest={({ source }) => source.data.type == 'hbox'}
+                            onDrop={(e, { store }) => {
                                 store.update('items', moveElement, e.source.data.index, store.get('$index') + 1);
                             }}
                             matchWidth
@@ -211,7 +204,7 @@ export const DragAndDrop = <cx>
                 </div>
             </div>
             <Content name="code">
-                <Tab value-bind="$page.code3.tab" mod="code" tab="index" text="Index" default/>
+                <Tab value-bind="$page.code3.tab" mod="code" tab="index" text="Index" default />
                 <CodeSnippet visible-expr="{$page.code3.tab}=='index'" fiddle="UOWooZeW">{`
                     <DropZone
                         mod="inline-block"
@@ -262,9 +255,9 @@ export const DragAndDrop = <cx>
 
         Check out the following examples to learn more about drag & drop capabilites in CxJS.
 
+        * [Row Reordering in Grid](~/examples/grid/row-reordering)
         * [Trello Clone](https://fiddle.cxjs.io/?f=H9Bb4Kf2)
         * [Dashboards](https://github.com/codaxy/dashboards)
-        * [Grid to Grid D&D](https://fiddle.cxjs.io/?f=IF2N9ClH)
         * [Worldoscope](https://worldoscope.cxjs.io/new)
 
         ## Configuration
@@ -275,10 +268,8 @@ export const DragAndDrop = <cx>
             <Tab value-bind="$page.configTab" tab="drag-event" mod="line">DragDropEvent</Tab>
         </p>
 
-        <ConfigTable props={dragSourceConfig} visible-expr="{$page.configTab}=='drag-source'"/>
-        <ConfigTable props={dropZoneConfig} visible-expr="{$page.configTab}=='drop-zone'"/>
-        <ConfigTable props={dragDropEventConfig} visible-expr="{$page.configTab}=='drag-event'"/>
-
-
+        <ConfigTable props={dragSourceConfig} visible-expr="{$page.configTab}=='drag-source'" />
+        <ConfigTable props={dropZoneConfig} visible-expr="{$page.configTab}=='drop-zone'" />
+        <ConfigTable props={dragDropEventConfig} visible-expr="{$page.configTab}=='drag-event'" />
     </Md>
 </cx>;
