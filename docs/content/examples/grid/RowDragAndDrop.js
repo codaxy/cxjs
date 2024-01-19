@@ -108,10 +108,10 @@ class PageController extends Controller {
     }
 }
 
-export const RowReordering = <cx>
+export const RowDragAndDrop = <cx>
     <div controller={PageController}>
         <Md>
-            # Row Reordering
+            # Row Drag & Drop
 
             <CodeSplit>
                 Drag and drop functionality is supported for rows in the `Grid`.

@@ -323,8 +323,8 @@ export const docsNavTree = [
                   url: "~/examples/grid/row-expanding",
                },
                {
-                  text: "Row Reordering",
-                  url: "~/examples/grid/row-reordering",
+                  text: "Row Drag & Drop",
+                  url: "~/examples/grid/row-drag-and-drop",
                },
                {
                   text: "Buffering",

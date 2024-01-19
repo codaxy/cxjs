@@ -255,7 +255,7 @@ export const DragAndDrop = <cx>
 
         Check out the following examples to learn more about drag & drop capabilites in CxJS.
 
-        * [Row Reordering in Grid](~/examples/grid/row-reordering)
+        * [Row Drag & Drop in Grid](~/examples/grid/row-drag-and-drop)
         * [Trello Clone](https://fiddle.cxjs.io/?f=H9Bb4Kf2)
         * [Dashboards](https://github.com/codaxy/dashboards)
         * [Worldoscope](https://worldoscope.cxjs.io/new)
