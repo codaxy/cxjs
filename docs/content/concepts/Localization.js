@@ -88,8 +88,8 @@ export const LocalizationPage = <cx>
                 </FlexCol>
             </div>
             <Content name="code">
-                <Tab value-bind="$page.code.tab" mod="code" tab="controller" text="Controller" default/>
-                <Tab value-bind="$page.code.tab" mod="code" tab="widget" text="Widget"/>
+                <Tab value-bind="$page.code.tab" mod="code" tab="controller" text="Controller" default />
+                <Tab value-bind="$page.code.tab" mod="code" tab="widget" text="Widget" />
                 <CodeSnippet visible-expr="{$page.code.tab}=='controller'">{`
                 function loadCulture(culture) {
                     switch (culture) {
@@ -170,24 +170,28 @@ export const LocalizationPage = <cx>
 
         <CodeSplit>
             <MethodTable methods={[{
+                key: true,
                 signature: 'Culture.setCulture(cultureCode)',
                 description: <cx><Md>
                     Sets the current culture. Read more about available culture
                     codes [here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl).
                 </Md></cx>
             }, {
+                key: true,
                 signature: 'Culture.setDefaultCurrency(currencyCode)',
                 description: <cx><Md>
-                    Sets the default currency, which is otherwise `USD` by default.
-                    https://en.wikipedia.org/wiki/ISO_4217
+                    Sets the default currency, which is otherwise `USD` by default. Read
+                    more about currencies [here](https://en.wikipedia.org/wiki/ISO_4217).
                 </Md></cx>
             }, {
+                key: true,
                 signature: 'Culture.setNumberCulture(cultureCode)',
                 description: <cx><Md>
                     Sets the number culture. Read more about available culture
                     codes [here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl).
                 </Md></cx>
             }, {
+                key: true,
                 signature: 'Culture.setDateTimeCulture(cultureCode)',
                 description: <cx><Md>
                     Sets the datetime culture. Read more about available culture
@@ -202,9 +206,11 @@ export const LocalizationPage = <cx>
             }, {
                 signature: 'Culture.setDefaultDateEncoding(encoding)',
                 description: <cx><Md>
-                    Sets the function that will be used to encode dates for DateField, Calendar and other date/time related widgets.
-                    The default encoding simply invokes the `toISOString` method which converts local time into UTC time.
-                    Pass `encodeDateWithTimezoneOffset` to format dates in ISO 8601 format with timezone information preserved.
+                    Sets the function that will be used to encode dates for DateField, Calendar
+                    and other date/time related widgets. The default encoding simply invokes the
+                    `toISOString` method which converts local time into UTC time.
+                    Pass `encodeDateWithTimezoneOffset` to format dates in ISO 8601 format with
+                    timezone information preserved.
 
                     `Culture.setDefaultDateEncoding(encodeDateWithTimezoneOffset);`
                 </Md></cx>
