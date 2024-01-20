@@ -14,6 +14,7 @@ import configs from './configs/Grid';
 import groupingConfigs from './configs/GridGrouping';
 import columnConfigs from './configs/GridColumn';
 import columnHeaderConfigs from './configs/GridColumnHeader';
+import dragAndDropConfigs from './configs/GridDragAndDrop';
 
 class PageController extends Controller {
     onInit() {
@@ -128,15 +129,17 @@ export const Grids = <cx>
         ## Configuration
 
         <p>
-            <Tab value={{ bind: "$page.configTab", defaultValue: 'grid' }} tab="grid" mod="line">Grid</Tab>
+            <Tab value-bind="$page.configTab" tab="grid" mod="line" default>Grid</Tab>
             <Tab value-bind="$page.configTab" tab="column" mod="line">Column</Tab>
             <Tab value-bind="$page.configTab" tab="header" mod="line">Column Header</Tab>
             <Tab value-bind="$page.configTab" tab="grouping" mod="line">Grouping</Tab>
+            <Tab value-bind="$page.configTab" tab="dragAndDrop" mod="line">Drag & Drop</Tab>
         </p>
 
         <ConfigTable props={configs} visible-expr="{$page.configTab}=='grid'" />
         <ConfigTable props={columnConfigs} visible-expr="{$page.configTab}=='column'" />
         <ConfigTable props={columnHeaderConfigs} visible-expr="{$page.configTab}=='header'" />
         <ConfigTable props={groupingConfigs} visible-expr="{$page.configTab}=='grouping'" />
+        <ConfigTable props={dragAndDropConfigs} visible-expr="{$page.configTab}=='dragAndDrop'" />
     </Md>
 </cx>

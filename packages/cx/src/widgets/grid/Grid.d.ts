@@ -54,11 +54,11 @@ interface GridColumnDropEvent extends DragEvent {
 
 interface GridGroupingKey {
    [key: string]:
-      | Prop<any>
-      | {
-           value: Prop<any>;
-           direction: SortDirection;
-        };
+   | Prop<any>
+   | {
+      value: Prop<any>;
+      direction: SortDirection;
+   };
 }
 
 type GridColumnAlignment = "left" | "right" | "center";
@@ -404,4 +404,4 @@ interface GridCellEditInfo<T> extends GridCellInfo {
    newData: T;
 }
 
-export class Grid<T = unknown> extends Widget<GridProps<T>> {}
+export class Grid<T = unknown> extends Widget<GridProps<T>> { }
