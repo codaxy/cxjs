@@ -5,6 +5,7 @@ import { CodeSnippet } from "../../../components/CodeSnippet";
 import { Grid, Tab, TreeNode } from "cx/widgets";
 import { updateTree } from "cx/data";
 import { casual } from "../data/casual";
+import "./RowDragAndDrop.scss";
 
 class PageController extends Controller {
     onInit() {
@@ -25,6 +26,8 @@ class PageController extends Controller {
             { id: 6, name: "file_3.txt", $leaf: true }
         ]);
         this.id = this.store.get("$page.data2").length + 1; // Next available index
+        this.store.set("$page.infoMsg", "hidden");
+        this.store.set("$page.infoMsgVisible", false);
     }
 
     insertElement(records, insertIndex, record) {
@@ -70,14 +73,15 @@ class PageController extends Controller {
                 higher-level parent folder into child folder
             */
         ) {
-            this.store.delete("$page.infoMsg");
+            this.store.set("$page.infoMsgVisible", false);
             return false;
         }
         this.store.set("$page.infoMsg", `You are dragging over ${targetNode.name}.`);
+        this.store.set("$page.infoMsgVisible", true);
     }
 
     onDragEnd() {
-        this.store.delete("$page.infoMsg");
+        this.store.set("$page.infoMsgVisible", false);
     }
 
     onRowDrop(e) {
@@ -293,13 +297,17 @@ export const RowDragAndDrop = <cx>
                         onDragEnd={(_e, instance) => instance.controller.onDragEnd()}
                         onRowDrop={(e, instance) => instance.controller.onRowDrop(e)}
                     />
-                    <i text-tpl="{$page.infoMsg}"></i>
+                    <i text-tpl="{$page.infoMsg}" class={{
+                        "hidden": { expr: "!{$page.infoMsgVisible}" },
+                        "visible": { expr: "{$page.infoMsgVisible}" }
+                    }}></i>
                 </div>
 
                 <Content name="code">
                     <div>
                         <Tab value-bind="$page.code2.tab" tab="controller" mod="code" text="Controller" />
                         <Tab value-bind="$page.code2.tab" tab="grid" mod="code" text="Grid" default />
+                        <Tab value-bind="$page.code2.tab" tab="css" mod="code" text="CSS" />
                     </div>
 
                     <CodeSnippet visible-expr="{$page.code2.tab}=='controller'" fiddle="4MaG6oY5">{`
@@ -314,6 +322,8 @@ export const RowDragAndDrop = <cx>
                                     { id: 6, name: "file_3.txt", $leaf: true }
                                 ]);
                                 this.id = this.store.get("data").length + 1; // Next available index
+                                this.store.set("infoMsg", "hidden");
+                                this.store.set("infoMsgVisible", false);
                             }
 
                             onDropTest() {
@@ -331,14 +341,15 @@ export const RowDragAndDrop = <cx>
                                         higher-level parent folder into child folder
                                     */
                                 ) {
-                                    this.store.delete("infoMsg");
+                                    this.store.set("infoMsgVisible", false);
                                     return false;
                                 }
                                 this.store.set("infoMsg", \`You are dragging over \${targetNode.name}.\`);
+                                this.store.set("infoMsgVisible", true);
                             }
 
                             onDragEnd() {
-                                this.store.delete("infoMsg");
+                                this.store.set("infoMsgVisible", false);
                             }
 
                             onRowDrop(e) {
@@ -408,8 +419,22 @@ export const RowDragAndDrop = <cx>
                                 onDragEnd={(_e, instance) => instance.controller.onDragEnd()}
                                 onRowDrop={(e, instance) => instance.controller.onRowDrop(e)}
                             />
-                            <p text-tpl="{infoMsg}"></p>
+                            <i
+                                text-tpl="{infoMsg}"
+                                class={{
+                                    "hidden": { expr: "!{infoMsgVisible}" },
+                                    "visible": { expr: "{infoMsgVisible}" }
+                                }}
+                            ></i>
                         </div>
+                    `}</CodeSnippet>
+                    <CodeSnippet visible-expr="{$page.code2.tab}=='css'" fiddle="4MaG6oY5">{`
+                        .visible {
+                            visibility: visible;
+                        }
+                        .hidden {
+                            visibility: hidden;
+                        }
                     `}</CodeSnippet>
                 </Content>
             </CodeSplit>
