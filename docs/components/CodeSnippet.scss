@@ -11,7 +11,6 @@
 
       & > code {
          padding: 0 0 0 5px;
-         //padding: 5px;
          background: transparent;
          border-radius: 0;
       }
@@ -35,16 +34,20 @@
    }
 }
 
-.dxe-codesnippet-link {
+.dxe-codesnippet-actions {
    position: absolute;
    right: 10px;
    top: -33px;
+   display: flex;
+   gap: 15px;
+}
+
+.dxe-codesnippet-link {
    background: #00a4e8;
    padding: 4px 10px;
    text-decoration: none;
    color: #fff;
    border-radius: 2px;
-
    opacity: 1;
    transition: 0.2s;
 
@@ -56,6 +59,13 @@
       text-decoration: none;
       background: rgba(0, 162, 232, 0.9);
    }
+}
+
+.dxe-codesnippet-copy {
+   border: none;
+   background: none;
+   color: rgba(255, 255, 255, 0.9);
+   cursor: pointer;
 }
 
 .dxe-codesplit-right .dxb-codesnippet {

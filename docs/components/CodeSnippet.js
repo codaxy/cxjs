@@ -37,10 +37,26 @@ export class CodeSnippet extends HtmlElement {
 
       return (
          <div key={key} className={data.classNames}>
-            <pre className={`language-${this.lang}`}>{this.renderChildren(context, instance)}</pre>
-            {fiddleLink}
+            <pre className={`language-${this.lang}`}>
+               {this.renderChildren(context, instance)}
+            </pre>
+            <div className={this.CSS.element(this.baseClass, "actions")}>
+               <button
+                  className={this.CSS.element(this.baseClass, "copy")}
+                  onClick={() => this.copyToClipboard()}
+                  title="Copy code to clipboard"
+               >
+                  <i className="fa fa-clone"></i>{' '}
+                  Copy
+               </button>
+               {fiddleLink}
+            </div>
          </div>
       );
+   }
+
+   copyToClipboard() {
+      navigator.clipboard.writeText(this.code);
    }
 
    add(text) {
@@ -52,6 +68,9 @@ export class CodeSnippet extends HtmlElement {
          tag: "code",
          class: `language-${this.lang}`,
       });
+
+      // Store the code string without indent
+      this.code = removeCommonIndent(text);
    }
 }
 

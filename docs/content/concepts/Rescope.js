@@ -37,7 +37,7 @@ export const RescopePage = <cx>
                 <div class="widgets">
                     <Rescope bind="$page.company.specificTeam">
                         <Text tpl="{manager.name} ({manager.yoe} years of work experience)" />
-                        <br/>
+                        <br />
                         <Text tpl="- Leading the team of {size} people" />
                     </Rescope>
                 </div>
