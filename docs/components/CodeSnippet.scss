@@ -39,7 +39,7 @@
    right: 10px;
    top: -33px;
    display: flex;
-   gap: 15px;
+   gap: 10px;
 }
 
 .dxe-codesnippet-link {
@@ -62,10 +62,22 @@
 }
 
 .dxe-codesnippet-copy {
-   border: none;
+   padding: 6px 10px;
+   border: 1px solid transparent;
    background: none;
    color: rgba(255, 255, 255, 0.9);
    cursor: pointer;
+   transition: 0.3s;
+   border-radius: 2px;
+
+   &:hover {
+      background-color: rgba(200, 200, 200, 0.1);
+   }
+
+   &:active {
+      transition: 0s;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+   }
 }
 
 .dxe-codesplit-right .dxb-codesnippet {

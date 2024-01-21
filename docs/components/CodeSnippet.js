@@ -19,38 +19,41 @@ function lazyHighlight(text, lang) {
 
 export class CodeSnippet extends HtmlElement {
    render(context, instance, key) {
-      let { data } = instance,
-         fiddleLink;
+      let { data } = instance;
 
-      if (this.fiddle) {
-         fiddleLink = (
-            <a
-               href={`https://fiddle.cxjs.io/?f=${this.fiddle}`}
-               className={this.CSS.element(this.baseClass, "link")}
-               target="_blank"
-            >
-               <i className="fa fa-external-link"></i>
-               Cx Fiddle
-            </a>
-         );
-      }
+      const copyBtn = this.copy != false ? (
+         <button
+            className={this.CSS.element(this.baseClass, "copy")}
+            onClick={() => this.copyToClipboard()}
+            title="Copy code to clipboard"
+         >
+            <i className="fa fa-clone"></i>{' '}
+            Copy
+         </button>
+      ) : null;
+
+      const fiddleLink = this.fiddle ? (
+         <a
+            href={`https://fiddle.cxjs.io/?f=${this.fiddle}`}
+            className={this.CSS.element(this.baseClass, "link")}
+            target="_blank"
+         >
+            <i className="fa fa-external-link"></i>
+            Cx Fiddle
+         </a>
+      ) : null;
 
       return (
          <div key={key} className={data.classNames}>
             <pre className={`language-${this.lang}`}>
                {this.renderChildren(context, instance)}
             </pre>
-            <div className={this.CSS.element(this.baseClass, "actions")}>
-               <button
-                  className={this.CSS.element(this.baseClass, "copy")}
-                  onClick={() => this.copyToClipboard()}
-                  title="Copy code to clipboard"
-               >
-                  <i className="fa fa-clone"></i>{' '}
-                  Copy
-               </button>
-               {fiddleLink}
-            </div>
+            {(copyBtn || fiddleLink) &&
+               <div className={this.CSS.element(this.baseClass, "actions")}>
+                  {copyBtn}
+                  {fiddleLink}
+               </div>
+            }
          </div>
       );
    }
