@@ -130,7 +130,7 @@ export const Formatting = (
             <Md>
                 # Formatting
 
-                <ImportPath path="import { Format } from 'cx/util';"/>
+                <ImportPath path="import { Format } from 'cx/util';" />
 
                 Cx offers rich support for value formatting.
 
@@ -198,8 +198,8 @@ export const Formatting = (
                     </div>
 
                     <Content name="code">
-                        <Tab value-bind="$page.code1.tab" mod="code" tab="controller" text="Usage in controller" default/>
-                        <Tab value-bind="$page.code1.tab" mod="code" tab="index" text="Usage in widgets" default/>
+                        <Tab value-bind="$page.code1.tab" mod="code" tab="controller" text="Usage in controller" default />
+                        <Tab value-bind="$page.code1.tab" mod="code" tab="index" text="Usage in widgets" default />
 
                         <CodeSnippet visible-expr="{$page.code1.tab}=='controller'">{`
                             // Number formatting
@@ -298,17 +298,17 @@ export const Formatting = (
                 Use `|` to provide null text. Default null text is empty string.
 
                 ### Format Specifiers
-                <ConfigTable props={formats} sort={false} hideType header="Specifier"/>
+                <ConfigTable props={formats} sort={false} hideType header="Specifier" />
 
                 ### Culture Sensitive Formatting
-                <ImportPath path="import { enableCultureSensitiveFormatting } from 'cx/ui';"/>
+                <ImportPath path="import { enableCultureSensitiveFormatting } from 'cx/ui';" />
 
                 Date, currency and number formats are dependent on an external library and must be enabled
                 before use. This is slightly inconvenient but ensures small bundle sizes for applications that do
                 not use this feature.
 
                 <CodeSplit>
-                    <CodeSnippet>
+                    <CodeSnippet copy={false}>
                         enableCultureSensitiveFormatting();
                     </CodeSnippet>
                 </CodeSplit>
@@ -319,7 +319,7 @@ export const Formatting = (
 
                 <CodeSplit>
                     `Format.register` can be used to register formats which do not need any parameters.
-                    <CodeSnippet putInto="code">{`
+                    <CodeSnippet putInto="code" copy={false}>{`
                         Format.register('brackets', value => \`(\$\{value\})\`);
                         Format.value('test', 'brackets'); //'(test)'
                     `}</CodeSnippet>
@@ -327,7 +327,7 @@ export const Formatting = (
 
                 <CodeSplit>
                     `Format.registerFactory` can be used to define formats which take parameters.
-                    <CodeSnippet putInto="code">{`
+                    <CodeSnippet putInto="code" copy={false}>{`
                         Format.registerFactory('suffix', (format, suffix) => value => value.toString() + suffix);
                         Format.value(10, 'suffix; kg'); //'10 kg'
                     `}</CodeSnippet>

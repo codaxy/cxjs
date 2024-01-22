@@ -1,4 +1,4 @@
-import { HtmlElement } from "cx/widgets";
+import { HtmlElement, Toast } from "cx/widgets";
 import { removeCommonIndent } from "./removeCommonIndent";
 
 import { addLanguage, highlight } from "illuminate-js";
@@ -59,7 +59,28 @@ export class CodeSnippet extends HtmlElement {
    }
 
    copyToClipboard() {
-      navigator.clipboard.writeText(this.code);
+      navigator.clipboard.writeText(this.code).then(() => {
+         Toast.create({
+            message: "Copied to clipboard.",
+            placement: "bottom-right",
+            timeout: 2000,
+            style: {
+               fontSize: "1rem",
+               padding: "8px 14px"
+            }
+         }).open();
+      }).catch(() => {
+         Toast.create({
+            message: "Can't copy to clipboard!",
+            placement: "bottom-right",
+            timeout: 2000,
+            mod: "error",
+            style: {
+               fontSize: "1rem",
+               padding: "8px 14px"
+            }
+         }).open();
+      });
    }
 
    add(text) {

@@ -1,30 +1,12 @@
-import {HtmlElement, FlexBox, TextField, Link} from 'cx/widgets';
-import {Rescope, Controller} from 'cx/ui';
-import {Md} from '../../components/Md';
-import {CodeSplit} from '../../components/CodeSplit';
-import {CodeSnippet} from '../../components/CodeSnippet';
-import Example from './WelcomeExample';
-
-class PageController extends Controller {
-
-    init() {
-        this.generateBubbles();
-    }
-
-    generateBubbles() {
-        let bubbles = Array.from({length: 100}).map(() => ({
-            x: Math.random() * 1000,
-            y: Math.random() * 1000,
-            r: Math.random() * 20
-        }));
-        this.store.set('bubbles', bubbles)
-    }
-}
+import { TextField, Link, Content, Tab, FlexRow } from 'cx/widgets';
+import { Rescope } from 'cx/ui';
+import { Md } from '../../components/Md';
+import { CodeSplit } from '../../components/CodeSplit';
+import { CodeSnippet } from '../../components/CodeSnippet';
 
 export const Welcome = <cx>
     <Rescope bind="$page">
-        <Md controller={PageController}>
-
+        <Md>
             # Welcome to CxJS
 
             CxJS is a modern framework that helps you create web applications that are both data-oriented and
@@ -38,33 +20,32 @@ export const Welcome = <cx>
             CxJS simplifies development of complex user interfaces which requires components from many different
             sources.
             CxJS package includes:
-            <FlexBox>
+            <FlexRow spacing="xlarge">
                 <Md>
-                    * form components
-                    * form validation
-                    * grid (data-table) control
-                    * charts
-                    * navigational elements
-                    * tooltips
-                    * modal windows
-                    * overlays
+                    * Form components
+                    * Form validation
+                    * Grid (data-table) control
+                    * Charts
+                    * Navigational elements
+                    * Tooltips
+                    * Modal windows
+                    * Overlays
                 </Md>
                 <Md>
-                    * powerful data-binding
-                    * state management
-                    * client-side routing
-                    * complex layouts
-                    * theming support
-                    * culture dependent formatting
+                    * Powerful data-binding
+                    * State management
+                    * Client-side routing
+                    * Complex layouts
+                    * Theming support
+                    * Culture dependent formatting
                     * and more
                 </Md>
-            </FlexBox>
+            </FlexRow>
 
             CxJS helps developers and their development teams create business applications of any size with ease by
             reducing the complications of UI and browser faults.
 
             <CodeSplit>
-
                 Our start guide will show you the most important concepts and propel you on the right track to be
                 an effective CxJS developer. Fill out your name below to get started with CxJS.
 
@@ -72,10 +53,10 @@ export const Welcome = <cx>
                     <div ws style="width: 300px">
                         <h2>Welcome!</h2>
                         <p style="margin-bottom: 0;">What is your name?</p>
-                        <TextField value-bind="$page.name"/>
+                        <TextField value-bind="$page.name" />
                         <div visible-expr="!!{$page.name}">
                             <p>
-                                Hello <strong text-tpl="{$page.name}"/>!
+                                Hello <strong text-tpl="{$page.name}" />!
                             </p>
                             <p ws>
                                 Please visit our
@@ -86,27 +67,25 @@ export const Welcome = <cx>
                     </div>
                 </div>
 
-                <CodeSnippet putInto="code">{`
-                    <h2>Welcome!</h2>
-                    <p>
-                        What is your name? <TextField value-bind="$page.name"/>
-                    </p>
-                    <div visible-expr="!!{$page.name}">
+                <Content name="code">
+                    <Tab value-bind="code1.tab" mod="code" tab="code" text="Code" default />
+                    <CodeSnippet visible-expr="{code1.tab}=='code'">{`
+                        <h2>Welcome!</h2>
                         <p>
-                            Hello <strong text-tpl="{$page.name}"/>!
+                            What is your name? <TextField value-bind="$page.name"/>
                         </p>
-                        <p ws>
-                            Please visit our
-                            <Link href="~/intro/getting-started">Getting Started</Link>
-                            page to learn more about CxJS.
-                        </p>
-                    </div>
-                `}</CodeSnippet>
-
-                {/*<div putInto="code" style="padding: 20px; background: #f6f6f6">*/}
-                {/*<Example/>*/}
-                {/*</div>*/}
-
+                        <div visible-expr="!!{$page.name}">
+                            <p>
+                                Hello <strong text-tpl="{$page.name}"/>!
+                            </p>
+                            <p ws>
+                                Please visit our
+                                <Link href="~/intro/getting-started">Getting Started</Link>
+                                page to learn more about CxJS.
+                            </p>
+                        </div>
+                    `}</CodeSnippet>
+                </Content>
             </CodeSplit>
         </Md>
     </Rescope>

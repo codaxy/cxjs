@@ -26,7 +26,7 @@ export const Router = <cx>
 
         ## Url
 
-        <ImportPath path="import {Url} from 'cx/ui';"/>
+        <ImportPath path="import {Url} from 'cx/ui';" />
 
         The `Url` helper class offers methods for working with url paths.
 
@@ -62,45 +62,42 @@ export const Router = <cx>
                 description: <cx><Md>
                     Checks if the given path is local.
                 </Md></cx>
-            }]}/>
+            }]} />
             <Content name="code">
-                <Tab value-bind="$page.code1.tab" mod="code" tab="index" text="Routes" default/>
+                <Tab value-bind="$page.code1.tab" mod="code" tab="index" text="Routes" default />
                 <CodeSnippet visible-expr="{$page.code1.tab}=='index'">{`
-                Url.setBase('/docs/');
-                Url.setBaseFromScript('~/app.js');
-                Url.isLocal('/docs/'); //true
-                Url.isLocal('/app/'); //false
-                Url.resolve('~/page'); // /docs/page
-                Url.unresolve('/docs/page'); // ~/page
-                Url.unresolve('https://cxjs.io/docs/page'); // ~/page
-            `}
-                </CodeSnippet>
+                    Url.setBase('/docs/');
+                    Url.setBaseFromScript('~/app.js');
+                    Url.isLocal('/docs/'); // true
+                    Url.isLocal('/app/'); // false
+                    Url.resolve('~/page'); // /docs/page
+                    Url.unresolve('/docs/page'); // ~/page
+                    Url.unresolve('https://cxjs.io/docs/page'); // ~/page
+                `}</CodeSnippet>
             </Content>
         </CodeSplit>
 
         ## Route
-
-        <ImportPath path="import {Route} from 'cx/widgets';"/>
+        <ImportPath path="import {Route} from 'cx/widgets';" />
 
         The `Route` widget is a pure container element which renders only if current url matches the assigned route.
 
         <CodeSplit>
-            <ConfigTable props={routeConfigs}/>
+            <ConfigTable props={routeConfigs} />
             <Content name="code">
-                <Tab value-bind="$page.code2.tab" mod="code" tab="index" text="Index" default/>
+                <Tab value-bind="$page.code2.tab" mod="code" tab="index" text="Index" default />
                 <CodeSnippet visible-expr="{$page.code2.tab}=='index'">{`
-                <Route url-bind="url" route="~/about">
-                About
-                </Route>
-                <Route url-bind="url" route="~/intro" prefix>
-                Intro
+                    <Route url-bind="url" route="~/about">
+                    About
+                    </Route>
+                    <Route url-bind="url" route="~/intro" prefix>
+                    Intro
 
-                <Route url-bind="url" route="+/nested">
-                        Nested (~/intro/nested)
-                </Route>
-                </Route>
-            `}
-                </CodeSnippet>
+                    <Route url-bind="url" route="+/nested">
+                            Nested (~/intro/nested)
+                    </Route>
+                    </Route>
+                `}</CodeSnippet>
             </Content>
         </CodeSplit>
 
@@ -108,13 +105,12 @@ export const Router = <cx>
         [route-parser library](https://github.com/rcs/route-parser#what-can-i-use-in-my-routes).
 
         ## Redirect Routes
-
-        <ImportPath path="import {RedirectRoute} from 'cx/widgets';"/>
+        <ImportPath path="import {RedirectRoute} from 'cx/widgets';" />
 
         <CodeSplit>
             Redirect routes redirect to another page when matched.
             <Content name="code">
-                <Tab value-bind="$page.code3.tab" mod="code" tab="index" text="RedirectRoute" default/>
+                <Tab value-bind="$page.code3.tab" mod="code" tab="index" text="RedirectRoute" default />
                 <CodeSnippet visible-expr="{$page.code3.tab}=='index'">{`
                     <RedirectRoute url-bind="url" route="~/" redirect="~/intro/about"/>
                 `}</CodeSnippet>
@@ -126,13 +122,13 @@ export const Router = <cx>
 
         <CodeSplit>
             ## Sandbox
-            <ImportPath path="import {Sandbox} from 'cx/widgets';"/>
+            <ImportPath path="import {Sandbox} from 'cx/widgets';" />
 
             [Sandbox](/concepts/sandbox) component is primarily used to isolate data between different pages.
             Page data is preserved on navigation and it can be restored if the user goes back to the same page.
 
             <Content name="code">
-                <Tab value-bind="$page.code4.tab" mod="code" tab="index" text="Sandbox" default/>
+                <Tab value-bind="$page.code4.tab" mod="code" tab="index" text="Sandbox" default />
                 <CodeSnippet visible-expr="{$page.code4.tab}=='index'">{`
                     <Sandbox key-bind="url" storage-bind="pages">
                         <Route url-bind="url" route="~/about">
@@ -144,8 +140,7 @@ export const Router = <cx>
         </CodeSplit>
 
         ## History
-
-        <ImportPath path="import {History} from 'cx/ui';"/>
+        <ImportPath path="import {History} from 'cx/ui';" />
 
         The `History` class is used for working with HTML5 `pushState` navigation.
 
@@ -186,20 +181,19 @@ export const Router = <cx>
                     be a boolean value or a promise. The callback is executed only for the current page, unless `permanent`
                     argument is set to `true`. See the example below.
                 </Md></cx>
-            }]}/>
+            }]} />
             <Content name="code">
-                <Tab value-bind="$page.code5.tab" mod="code" tab="index" text="History" default/>
+                <Tab value-bind="$page.code5.tab" mod="code" tab="index" text="History" default />
                 <CodeSnippet visible-expr="{$page.code5.tab}=='index'">{`
-                History.connect(store, 'url');
+                    History.connect(store, 'url');
 
-                History.subscribe(url => {
-                    if (window.ga) {
-                        ga('set', 'page', url);
-                        ga('send', 'pageview');
-                    }
-                });
-            `}
-                </CodeSnippet>
+                    History.subscribe(url => {
+                        if (window.ga) {
+                            ga('set', 'page', url);
+                            ga('send', 'pageview');
+                        }
+                    });
+                `}</CodeSnippet>
             </Content>
         </CodeSplit>
 
@@ -213,7 +207,7 @@ export const Router = <cx>
             <div class="widgets">
                 <div>
                     <Button
-                        onClick={(e, {store}) => {
+                        onClick={(e, { store }) => {
                             History.addNavigateConfirmation(
                                 url => MsgBox
                                     .yesNo('Are you sure that you want to leave this page?')
@@ -230,8 +224,8 @@ export const Router = <cx>
                 </div>
             </div>
             <Content name="code">
-                <Tab value-bind="$page.code6.tab" mod="code" tab="index" text="Confirmation" default/>
-                <CodeSnippet visible-expr="{$page.code6.tab}=='index'"fiddle="Vb7zpMzq">{`
+                <Tab value-bind="$page.code6.tab" mod="code" tab="index" text="Confirmation" default />
+                <CodeSnippet visible-expr="{$page.code6.tab}=='index'" fiddle="Vb7zpMzq">{`
                     <Button
                         onClick={(e, {store}) => {
                             History.addNavigateConfirmation(
@@ -249,22 +243,18 @@ export const Router = <cx>
                     </p>
                 `}</CodeSnippet>
             </Content>
-
         </CodeSplit>
 
         ## Link
-
-        <ImportPath path="import {Link} from 'cx/widgets';"/>
+        <ImportPath path="import {Link} from 'cx/widgets';" />
 
         The `Link` widget is a replacement for anchor elements when `pushState` based navigation is used.
 
         <CodeSplit>
-            <ConfigTable props={linkConfigs}/>
-            <CodeSnippet putInto="code">{`
-            <Link href="~/about">About<Link>
-         `}
-            </CodeSnippet>
+            <ConfigTable props={linkConfigs} />
+            <CodeSnippet putInto="code" copy={false}>{`
+                <Link href="~/about">About<Link>
+            `}</CodeSnippet>
         </CodeSplit>
-
     </Md>
 </cx>;
