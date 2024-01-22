@@ -60,18 +60,16 @@ class PageController extends Controller {
         const newTree = updateTree(
             data,
             (n) => {
-                const nodeChildren = n.$children ?? [];
-                nodeChildren.push({
+                const nodeChildren = [...(n.$children ?? []), {
                     ...sourceNode,
                     id: this.id++
-                });
-
+                }];
                 return {
                     ...n,
                     $children: nodeChildren
                 };
             },
-            (n) => n.name == targetNode.name,
+            (n) => n.id == targetNode.id,
             "$children",
             (n) => n.id == sourceNode.id
         );
@@ -219,14 +217,14 @@ export const Store = <cx>
                                 name: 'Jane',
                                 disabled: true,
                                 todoList: [
-                                    { id: 1, text: 'Learn Cx', done: true }, 
+                                    { id: 1, text: 'Learn Cx', done: true },
                                     { id: 2, text: "Feed the cat", done: false },
                                     { id: 3, text: "Take a break", done: false }
                                 ],
                                 count: 0
                             });
                         }
-                    
+
                         greet() {
                             let name = this.store.get('$page.name')
                             MsgBox.alert(\`Hello, \${name}!\`);
@@ -296,7 +294,7 @@ export const Store = <cx>
                                 let {store} = instance;
                                 store.set('$page.disabled', !store.get('$page.disabled'));
                             }}
-                            text={computable('$page.disabled', (disabled) => disabled ? "Enable input" : "Disable input")}   
+                            text={computable('$page.disabled', (disabled) => disabled ? "Enable input" : "Disable input")}
                         />
                     </div>
                 `}
@@ -334,7 +332,7 @@ export const Store = <cx>
                             onClick={(e, {store}) => {
                                 store.toggle('$page.disabled');
                             }}
-                            text={computable('$page.disabled', (disabled) => disabled ? "Enable input" : "Disable input")}   
+                            text={computable('$page.disabled', (disabled) => disabled ? "Enable input" : "Disable input")}
                         />
                     </div>
                 `}
@@ -398,7 +396,7 @@ export const Store = <cx>
                         <TextField label="Origin" value-bind="$page.name" />
                         <TextField label="Destination" value-bind="$page.copyDestination" placeholder="click Copy" />
                         <Button onClick={(e, {store}) => {
-                            store.copy('$page.name', '$page.copyDestination');    
+                            store.copy('$page.name', '$page.copyDestination');
                         }}>Copy</Button>
                     </div>
                 `}
@@ -429,7 +427,7 @@ export const Store = <cx>
                         <TextField label="Origin" value-bind="$page.name" />
                         <TextField label="Destination" value-bind="$page.moveDestination" placeholder="click Move" />
                         <Button onClick={(e, {store}) => {
-                            store.move('$page.name', '$page.moveDestination'); 
+                            store.move('$page.name', '$page.moveDestination');
                         }}>Move</Button>
                     </div>
                 `}
@@ -474,7 +472,7 @@ export const Store = <cx>
                     <div layout={LabelsTopLayout}>
                         <NumberField label="Count" value-bind="$page.count" style="width: 50px"/>
                         <Button onClick={(e, {store}) => {
-                            store.update('$page.count', count => count + 1); 
+                            store.update('$page.count', count => count + 1);
                         }}>+1</Button>
                     </div>
                 `}
