@@ -1,20 +1,20 @@
 import { Content } from 'cx/ui';
 import { HtmlElement, Tab } from 'cx/widgets';
-import {Md} from '../../components/Md';
-import {CodeSplit} from '../../components/CodeSplit';
+import { Md } from '../../components/Md';
+import { CodeSplit } from '../../components/CodeSplit';
 
-import {CodeSnippet} from '../../components/CodeSnippet';
+import { CodeSnippet } from '../../components/CodeSnippet';
 
-import {Todo} from '../examples/todo/Todo';
+import { Todo } from '../examples/todo/Todo';
 
 export const StepByStep = <cx>
     <Md>
         # Tutorial
-        
+
         Cx is built using ES2015 JSX with webpack as a module bundling, building and
-        dev server option. This is also the preferred way, but not required, for 
-        developing Cx applications. In this step-by-step tutorial, we will show how to 
-        get started with Cx, by developing a simple **Todo manager** application, using  
+        dev server option. This is also the preferred way, but not required, for
+        developing Cx applications. In this step-by-step tutorial, we will show how to
+        get started with Cx, by developing a simple **Todo manager** application, using
         the same preferred tools.
 
         <CodeSplit>
@@ -104,7 +104,7 @@ export const StepByStep = <cx>
             as our application entry point.
 
             In this file, we're importing a few required objects from Cx modules. In order
-            to use plain HTML elements, such as `p` or `div`, within our widgets, we need to import `HtmlElement`. 
+            to use plain HTML elements, such as `p` or `div`, within our widgets, we need to import `HtmlElement`.
             The `store` instance we define a few lines below will hold the data model of
             our entire application&mdash;all UI bindings in our application will point to elements
             in this store tree.
@@ -126,16 +126,10 @@ export const StepByStep = <cx>
             later in this tutorial.
 
             <Content name="code">
-                <div>
-                    <Tab value={{bind:"$page.entryPoint.tab", defaultValue: "html"}} tab="html" mod="code" >
-                        <code>app/index.html</code>
-                    </Tab>
-                    <Tab value-bind="$page.entryPoint.tab" tab="js" mod="code">
-                        <code>app/index.js</code>
-                    </Tab>
-                </div>
+                <Tab value-bind="$page.entryPoint.tab" mod="code" tab="html" text="app/index.html" default />
+                <Tab value-bind="$page.entryPoint.tab" mod="code" tab="js" text="app/index.js" />
 
-                <CodeSnippet visible-expr="{$page.entryPoint.tab} === 'html'">{`
+                <CodeSnippet visible-expr="{$page.entryPoint.tab}=='html'">{`
                     <!DOCTYPE html>
                     <html>
                     <head>
@@ -147,7 +141,7 @@ export const StepByStep = <cx>
                     </html>
                 `}</CodeSnippet>
 
-                <CodeSnippet visible-expr="{$page.entryPoint.tab} === 'js'">{`
+                <CodeSnippet visible-expr="{$page.entryPoint.tab}=='js'">{`
                     import { startAppLoop } from 'cx/ui';
                     import { Store } from 'cx/data';
                     import { HtmlElement } from 'cx/widgets';
@@ -172,16 +166,13 @@ export const StepByStep = <cx>
             to load the stylesheet from the transformation of `app/index.scss` file.
             For this to work, we need to have this file defined. For now, we will create
             a minimal SCSS file that will just import the default Cx stylesheet.
-            Notice that we are importing two SCSS files, one containing the Sass variables, 
+            Notice that we are importing two SCSS files, one containing the Sass variables,
             and the other the actual styling. This enables easier style theming of Cx apps, which
             is explained in depth [here](~/concepts/css#themes).
 
             <Content name="code">
-                <div>
-                    <Tab value={"scss"} tab="scss" mod="code" >
-                        <code>app/index.scss</code>
-                    </Tab>
-                </div>
+                <Tab value={"scss"} mod="code" tab="scss" text="app/index.scss" default />
+
                 <CodeSnippet>{`
                     @import "~cx/src/variables";
                     @import "~cx/src/index";
@@ -206,11 +197,8 @@ export const StepByStep = <cx>
             </div>
 
             <Content name="code">
-                <div>
-                    <Tab value={"json"} tab="json" mod="code">
-                        <code>package.json</code>
-                    </Tab>
-                </div>
+                <Tab value={"json"} mod="code" tab="json" text="package.json" default />
+
                 <CodeSnippet>{`
                     ...
                     "description": "Getting started tutorial for Cx framework",
@@ -235,11 +223,8 @@ export const StepByStep = <cx>
             To achieve this, we will add this little snippet to our `app/index.js` file right after the
             `stop` variable declaration.
             <Content name="code">
-                <div>
-                    <Tab value={"app/index.js"} tab="app/index.js" mod="code" >
-                        <code>app/index.js</code>
-                    </Tab>
-                </div>
+                <Tab value={"js"} mod="code" tab="js" text="app/index.js" default />
+
                 <CodeSnippet>{`
                     ...
                     var stop;
@@ -299,7 +284,7 @@ export const StepByStep = <cx>
             A `Button` element is a Cx wrapper around HTML button input. By clicking on this particular button, the user
             will add the item from the text field to the list of the all Todo items, so we need to assign it the appropriate
             click handler. By setting its `onClick` attribute to a simple string value of `"onAdd"`, we're connecting
-            the button's click event to the method of the controller that was passed down to the button from the `div` above, 
+            the button's click event to the method of the controller that was passed down to the button from the `div` above,
             which we will explain shortly.
 
             To disable the button when the text field is empty, we bind its `disabled` property to
@@ -310,17 +295,17 @@ export const StepByStep = <cx>
             The last part of our Todo widget is the actual dynamic list of Todo items. Here, we use a `Repeater`
             component to iterate through all items of a collection like this one:
 
-            {`<pre>
-[{
-    id: 1,
-    text: 'Create GitHub project',
-    done: true
-}, {
-    id: 2,
-    text: 'Explain parts of the application',
-    done: false
-}]
-            </pre>`}
+            <CodeSnippet>{`
+                [{
+                    id: 1,
+                    text: 'Create GitHub project',
+                    done: true
+                }, {
+                    id: 2,
+                    text: 'Explain parts of the application',
+                    done: false
+                }]
+            `}</CodeSnippet>
 
             This collection will be present in the store under the name `$page.todos`, so we're binding repeater's
             `records` attribute accordingly. Repeater component will iterate through the collection,
@@ -341,9 +326,9 @@ export const StepByStep = <cx>
             the task is marked as done, and `$record.done` will change whenever the user changes the checkbox state.
             We're also binding CSS class name of the checkbox element like this:
 
-            {`<pre>
-{ "css-task-done": { bind: "$record.done "} }
-            </pre>`}
+            <CodeSnippet>{`
+                { "css-task-done": { bind: "$record.done "} }
+            `}</CodeSnippet>
 
             This means that the class name `css-task-done` will be applied to the checkbox element, only if the `$record.done`
             value is truthy. This is just a more verbose syntax of the same binding mechanism
@@ -357,11 +342,7 @@ export const StepByStep = <cx>
             button, since we don't need Cx styling applied to it (we will add our own styling to it later).
 
             <Content name="code">
-                <div>
-                    <Tab value={"app/todo/index.js"} tab="app/todo/index.js" mod="code">
-                        <code>app/todo/index.js</code>
-                    </Tab>
-                </div>
+                <Tab value={"js"} mod="code" tab="js" text="app/todo/index.js" default />
 
                 <CodeSnippet>{`
                     import { HtmlElement, Repeater, TextField, Checkbox, Button } from 'cx/widgets';
@@ -416,12 +397,12 @@ export const StepByStep = <cx>
             the following steps:
 
             - we define an `id` for the new item (we take the maximum `id` value from the existing records and
-                increment it by one);
+            increment it by one);
 
             - we're adding a new item to the `$page.todos` collection (with the new `id` and the `text` set
-                to the text field value read from the `$page.text` store value bound to it).
-                A new collection is created by concatenating this new item to the current list of items and
-                this new collection is set as the new value of `$page.todos` in the store;
+            to the text field value read from the `$page.text` store value bound to it).
+            A new collection is created by concatenating this new item to the current list of items and
+            this new collection is set as the new value of `$page.todos` in the store;
 
             - we clear the `$page.text` value, so that the text field is cleared.
 
@@ -438,18 +419,13 @@ export const StepByStep = <cx>
             functionality&mdash;it all works simply by means of data binding.
 
             <Content name="code">
-                <div>
-                    <Tab value={"app/todo/Controller.js"} tab="app/todo/Controller.js" mod="code">
-                        <code>app/todo/Controller.js</code>
-                    </Tab>
-                </div>
+                <Tab value={"js"} mod="code" tab="js" text="app/todo/Controller.js" default />
 
                 <CodeSnippet>{`
                     import { Controller } from 'cx/ui';
 
                     export default class extends Controller {
-                        init() {
-                            super.init();
+                        onInit() {
                             var items = this.store.get('$page.todos');
                             // Reset the list to default data if it's empty
                             if (!items || !items.length) {
@@ -481,7 +457,6 @@ export const StepByStep = <cx>
             </Content>
         </CodeSplit>
 
-
         ## Using Todo widget in our application
 
         <CodeSplit>
@@ -497,11 +472,8 @@ export const StepByStep = <cx>
             </div>
 
             <Content name="code">
-                <div>
-                    <Tab value={{bind:"$page.todo2.tab", defaultValue: "index"}} tab="index" mod="code" >
-                        <code>app/index.js</code>
-                    </Tab>
-                </div>
+                <Tab value-bind="$page.todo2.tab" mod="code" tab="index" text="app/index.js" default />
+
                 <CodeSnippet>{`
                     ...
                     import Todo from './todo';
@@ -518,11 +490,8 @@ export const StepByStep = <cx>
             [here](https://github.com/codaxy/cx-getting-started/blob/master/app/index.scss).
 
             <Content name="code">
-                <div>
-                    <Tab value={{bind:"$page.todo3.tab", defaultValue: "scss"}} tab="scss" mod="code" >
-                        <code>app/index.scss</code>
-                    </Tab>
-                </div>
+                <Tab value-bind="$page.todo3.tab" mod="code" tab="scss" text="app/index.scss" default />
+
                 <CodeSnippet>{`
                     @import "~cx/src/variables";
                     @import "~cx/src/index";
@@ -552,5 +521,5 @@ export const StepByStep = <cx>
                 `}</CodeSnippet>
             </Content>
         </CodeSplit>
-   </Md>
+    </Md>
 </cx>
