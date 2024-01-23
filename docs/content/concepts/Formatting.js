@@ -198,8 +198,8 @@ export const Formatting = (
                     </div>
 
                     <Content name="code">
-                        <Tab value-bind="$page.code1.tab" mod="code" tab="controller" text="Usage in controller" default />
-                        <Tab value-bind="$page.code1.tab" mod="code" tab="index" text="Usage in widgets" default />
+                        <Tab value-bind="$page.code1.tab" mod="code" tab="controller" text="Controller" default />
+                        <Tab value-bind="$page.code1.tab" mod="code" tab="index" text="Widgets" default />
 
                         <CodeSnippet visible-expr="{$page.code1.tab}=='controller'">{`
                             // Number formatting

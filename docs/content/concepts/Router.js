@@ -88,14 +88,13 @@ export const Router = <cx>
                 <Tab value-bind="$page.code2.tab" mod="code" tab="index" text="Index" default />
                 <CodeSnippet visible-expr="{$page.code2.tab}=='index'">{`
                     <Route url-bind="url" route="~/about">
-                    About
+                        About
                     </Route>
                     <Route url-bind="url" route="~/intro" prefix>
-                    Intro
-
-                    <Route url-bind="url" route="+/nested">
-                            Nested (~/intro/nested)
+                        Intro
                     </Route>
+                    <Route url-bind="url" route="+/nested">
+                        Nested (~/intro/nested)
                     </Route>
                 `}</CodeSnippet>
             </Content>
@@ -215,9 +214,8 @@ export const Router = <cx>
                             );
                             store.set('$page.confirmation', true);
                         }}
-                    >
-                        Add Confirmation
-                    </Button>
+                        text="Add Confirmation"
+                    />
                     <p ws visible-expr="!!{$page.confirmation}">
                         Good. Now try navigating to <a href="~/concepts/outer-layouts">some other page</a>.
                     </p>
@@ -235,9 +233,8 @@ export const Router = <cx>
                             );
                             store.set('$page.confirmation', true);
                         }}
-                    >
-                        Add Confirmation
-                    </Button>
+                        text="Add Confirmation"
+                    />
                     <p ws visible-expr="!!{$page.confirmation}">
                         Good. Now try navigating to <a href="~/concepts/outer-layouts">some other page</a>.
                     </p>

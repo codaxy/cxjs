@@ -92,7 +92,7 @@ export const RescopePage = <cx>
 
                 <Content name="code">
                     <Tab value-bind="$page.code2.tab" mod="code" tab="controller" text="Controller" />
-                    <Tab value-bind="$page.code2.tab" mod="code" tab="code" text="Rescope with data property" default />
+                    <Tab value-bind="$page.code2.tab" mod="code" tab="code" text="Rescope" default />
                     <CodeSnippet visible-expr="{$page.code2.tab}=='controller'" fiddle="lPu5dqRM">{`
                         onInit() {
                             this.store.set("company.address", "Company Address 1AB");
