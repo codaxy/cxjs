@@ -40,6 +40,35 @@
    top: -33px;
    display: flex;
    gap: 10px;
+
+   span {
+      visibility: visible;
+      white-space: nowrap;
+      background-color: black;
+      color: white;
+      text-align: center;
+      padding: 2px 0.5em;
+      border-radius: 5px;
+      vertical-align: middle;
+      font-size: 0.9em;
+      position: absolute;
+      z-index: 1;
+      bottom: 100%;
+      margin-bottom: 5px;
+      margin-left: 7px;
+   }
+
+   // Arrow pointing down
+   span::after {
+      content: " ";
+      position: absolute;
+      top: 95%;
+      left: 50%;
+      margin-left: -15px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: black transparent transparent transparent;
+   }
 }
 
 .dxe-codesnippet-link {

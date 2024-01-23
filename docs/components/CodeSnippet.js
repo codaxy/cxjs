@@ -1,4 +1,5 @@
-import { HtmlElement, Toast } from "cx/widgets";
+import { VDOM } from "cx/ui";
+import { HtmlElement } from "cx/widgets";
 import { removeCommonIndent } from "./removeCommonIndent";
 
 import { addLanguage, highlight } from "illuminate-js";
@@ -17,22 +18,54 @@ function lazyHighlight(text, lang) {
    };
 }
 
+class CopyButton extends VDOM.Component {
+   constructor(props) {
+      super(props);
+      this.state = { copied: false };
+   }
+
+   copyToClipboard() {
+      navigator.clipboard.writeText(this.props.code).then(() => {
+         this.setState({ copied: true });
+      }).catch(() => {
+         alert('Please press Ctrl/Cmd + C to copy.');
+      });
+   }
+
+   resetTooltipText() {
+      this.setState({ copied: false });
+   }
+
+   render() {
+      return (
+         <>
+            <button
+               className="dxe-codesnippet-copy"
+               onClick={this.copyToClipboard.bind(this)}
+               onMouseLeave={this.resetTooltipText.bind(this)}
+               title="Copy code to clipboard"
+            >
+               <div className="flex flex-row" style={{ alignItems: "center", gap: "0.4rem" }}>
+                  <i className="fa fa-clone"></i>{' '}
+                  Copy
+               </div>
+            </button>
+            <span
+               style={this.state.copied ?
+                  { transition: "0.3s", opacity: 1, visibility: "visible" } :
+                  { transition: "0.5s", opacity: 0, visibility: "hidden" }}>
+               Copied!
+            </span>
+         </>
+      );
+   }
+}
+
 export class CodeSnippet extends HtmlElement {
    render(context, instance, key) {
       let { data } = instance;
 
-      const copyBtn = this.copy != false ? (
-         <button
-            className={this.CSS.element(this.baseClass, "copy")}
-            onClick={this.copyToClipboard.bind(this)}
-            title="Copy code to clipboard"
-         >
-            <div className="flex flex-row" style={{ alignItems: "center", gap: "0.4rem" }}>
-               <i className="fa fa-clone"></i>{' '}
-               Copy
-            </div>
-         </button>
-      ) : null;
+      const copyBtn = this.copy != false ? <CopyButton code={this.code} /> : null;
 
       const fiddleLink = this.fiddle ? (
          <a
@@ -58,31 +91,6 @@ export class CodeSnippet extends HtmlElement {
             }
          </div>
       );
-   }
-
-   copyToClipboard() {
-      navigator.clipboard.writeText(this.code).then(() => {
-         Toast.create({
-            message: "Copied to clipboard.",
-            placement: "bottom-right",
-            timeout: 2000,
-            style: {
-               fontSize: "1rem",
-               padding: "8px 14px"
-            }
-         }).open();
-      }).catch(() => {
-         Toast.create({
-            message: "Can't copy to clipboard!",
-            placement: "bottom-right",
-            timeout: 2000,
-            mod: "error",
-            style: {
-               fontSize: "1rem",
-               padding: "8px 14px"
-            }
-         }).open();
-      });
    }
 
    add(text) {
