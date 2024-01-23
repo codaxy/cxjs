@@ -24,11 +24,13 @@ export class CodeSnippet extends HtmlElement {
       const copyBtn = this.copy != false ? (
          <button
             className={this.CSS.element(this.baseClass, "copy")}
-            onClick={() => this.copyToClipboard()}
+            onClick={this.copyToClipboard.bind(this)}
             title="Copy code to clipboard"
          >
-            <i className="fa fa-clone"></i>{' '}
-            Copy
+            <div className="flex flex-row" style={{ alignItems: "center", gap: "0.4rem" }}>
+               <i className="fa fa-clone"></i>{' '}
+               Copy
+            </div>
          </button>
       ) : null;
 
