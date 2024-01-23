@@ -1,4 +1,4 @@
-import {updateArray} from './updateArray';
+import { updateArray } from './updateArray';
 
 export function updateTree(array, updateCallback, itemFilter, childrenField, removeFilter) {
    return updateArray(array, item => {

@@ -124,10 +124,8 @@ export const StepByStep = <cx>
             later in this tutorial.
 
             <Content name="code">
-                <div>
-                    <Tab value-bind="$page.entryPoint.tab" tab="html" mod="code" text="app/index.html" default />
-                    <Tab value-bind="$page.entryPoint.tab" tab="js" mod="code" text="app/index.js" />
-                </div>
+                <Tab value-bind="$page.entryPoint.tab" tab="html" mod="code" text="app/index.html" default />
+                <Tab value-bind="$page.entryPoint.tab" tab="js" mod="code" text="app/index.js" />
 
                 <CodeSnippet visible-expr="{$page.entryPoint.tab}=='html'">{`
                     <!DOCTYPE html>
@@ -171,7 +169,7 @@ export const StepByStep = <cx>
             is explained in depth [here](~/concepts/css#themes).
 
             <Content name="code">
-                <Tab value={"scss"} tab="scss" mod="code" text="app/index.scss" />
+                <Tab value={"scss"} tab="scss" mod="code" text="app/index.scss" default />
 
                 <CodeSnippet>{`
                     @import "~cx/src/variables";
@@ -197,7 +195,7 @@ export const StepByStep = <cx>
             </div>
 
             <Content name="code">
-                <Tab value={"json"} tab="json" mod="code" text="package.json" />
+                <Tab value={"json"} tab="json" mod="code" text="package.json" default />
 
                 <CodeSnippet>{`
                     ...
@@ -222,8 +220,9 @@ export const StepByStep = <cx>
 
             To achieve this, we will add this little snippet to our `app/index.js` file right after the
             `stop` variable declaration.
+
             <Content name="code">
-                <Tab value={"app/index.js"} tab="app/index.js" mod="code" text="app/index.js" />
+                <Tab value={"js"} tab="js" mod="code" text="app/index.js" default />
 
                 <CodeSnippet>{`
                     ...
@@ -330,7 +329,7 @@ export const StepByStep = <cx>
             We're also binding CSS class name of the checkbox element like this:
 
             <CodeSnippet copy={false}>{`
-                {"css-task-done": {bind: "$record.done "} }
+                { "css-task-done": { bind: "$record.done" }}
             `}</CodeSnippet>
 
             This means that the class name `css-task-done` will be applied to the checkbox element, only if the `$record.done`
@@ -345,7 +344,7 @@ export const StepByStep = <cx>
             button, since we don't need Cx styling applied to it (we will add our own styling to it later).
 
             <Content name="code">
-                <Tab value={"app/todo/index.js"} tab="app/todo/index.js" mod="code" text="app/todo/index.js" />
+                <Tab value={"js"} tab="js" mod="code" text="app/todo/index.js" default />
 
                 <CodeSnippet>{`
                     import { HtmlElement, Repeater, TextField, Checkbox, Button } from 'cx/widgets';
@@ -423,18 +422,18 @@ export const StepByStep = <cx>
 
             <Content name="code">
                 <Tab
-                    value={"app/todo/Controller.js"}
-                    tab="app/todo/Controller.js"
+                    value={"js"}
+                    tab="js"
                     mod="code"
                     text="app/todo/Controller.js"
+                    default
                 />
 
                 <CodeSnippet>{`
                     import { Controller } from 'cx/ui';
 
                     export default class extends Controller {
-                        init() {
-                            super.init();
+                        onInit() {
                             var items = this.store.get('$page.todos');
                             // Reset the list to default data if it's empty
                             if (!items || !items.length) {
