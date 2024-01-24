@@ -5,6 +5,7 @@ export * from "./InlineEdit";
 export * from "./RowEditing";
 export * from "./FormEdit";
 export * from "./TreeGrid";
+export * from "./SearchingTreeGrid";
 export * from "./Pagination";
 export * from "./ComplexHeaders";
 export * from "./Buffering";

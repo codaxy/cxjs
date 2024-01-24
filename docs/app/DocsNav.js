@@ -339,6 +339,10 @@ export const docsNavTree = [
                   url: "~/examples/grid/tree-grid",
                },
                {
+                  text: "Searching Tree Grid",
+                  url: "~/examples/grid/searching-tree-grid",
+               },
+               {
                   text: "Stateful Tree Grid",
                   url: "~/examples/grid/stateful-tree-grid",
                },

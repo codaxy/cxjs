@@ -110,6 +110,7 @@ export const Grids = <cx>
                 <li><Link href="~/examples/grid/cell-editing" text="Cell Editing" /></li>
                 <li><Link href="~/examples/grid/inline-edit" text="Inline Editing" /></li>
                 <li><Link href="~/examples/grid/tree-grid" text="Tree Grid" /></li>
+                <li><Link href="~/examples/grid/searching-tree-grid" text="Searching Tree Grid" /></li>
                 <li><Link href="~/examples/grid/stateful-tree-grid" text="Stateful Tree Grid" /></li>
             </ul>
             <ul style="min-width: 150px; margin: 0;">
