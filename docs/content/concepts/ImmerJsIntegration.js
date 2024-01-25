@@ -1,13 +1,10 @@
-import { TextField } from "cx/widgets";
+import { Content, Tab } from "cx/widgets";
 import { CodeSnippet } from "../../components/CodeSnippet";
 import { CodeSplit } from '../../components/CodeSplit';
-import { ImportPath } from "../../components/ImportPath";
 import { Md } from '../../components/Md';
 
-
-
 export const ImmerJsIntegration = <cx>
-   <Md>
+    <Md>
         # Immer.js Integration
 
         CxJS requires all data to be immutable. Each change (`update`) operation is required to return a new object.
@@ -35,53 +32,54 @@ export const ImmerJsIntegration = <cx>
         Once this is implemented you can use the `mutate` method for updating data in the store.
 
         <CodeSplit>
-            <CodeSnippet>{`
-            // Controller.ts
+            <Content name="code">
+                <Tab value={"controller"} tab="controller" mod="code" text="Controller.ts" default />
 
-            export default class extends Controller<PageModel> {
-                // after
-                onAddTodo(text: string) {
-                    this.store.mutate(
-                        $page.todos,
-                        todos => {
-                            // it's ok to mutate data inside the mutate method
-                            todos.push({ id: uid(), text, completed: false });
-                            //it's not required to return anything
+                <CodeSnippet>{`
+                    export default class extends Controller<PageModel> {
+                        // Example 1: Before (immutable operation)
+                        onAddTodo(text: string) {
+                            this.store.update(
+                                $page.todos,
+                                todos => [...todos, { id: uid(), text, completed: false }]
+                            );
                         }
-                    );
-                }
 
-                // before (immutable operation)
-                onAddTodo(text: string) {
-                    this.store.update(
-                        $page.todos,
-                        todos => [...todos, { id: uid(), text, completed: false }]
-                    );
-                }
-
-                // after
-                onMarkComplete(id: string) {
-                    this.store.mutate(
-                        $page.todos,
-                        todos => {
-                            let todo = todos.find(t => t.id === id);
-                            todo.completed = true;
+                        // Example 1: After
+                        onAddTodo(text: string) {
+                            this.store.mutate(
+                                $page.todos,
+                                todos => {
+                                    // No issues with mutating data directly inside the mutate method
+                                    todos.push({ id: uid(), text, completed: false });
+                                    // It's not required to return anything
+                                }
+                            );
                         }
-                    );
-                }
 
-                // before
-                onMarkComplete(id: string) {
-                    this.store.update(
-                        $page.todos,
-                        updateArray,
-                        todo => ({ ...todo, completed: true }),
-                        todo => todo.id == id
-                    );
-                }
-            }
-            `}</CodeSnippet>
+                        // Example 2: Before
+                        onMarkComplete(id: string) {
+                            this.store.update(
+                                $page.todos,
+                                updateArray,
+                                todo => ({ ...todo, completed: true }),
+                                todo => todo.id == id
+                            );
+                        }
+
+                        // Example 2: After
+                        onMarkComplete(id: string) {
+                            this.store.mutate(
+                                $page.todos,
+                                todos => {
+                                    let todo = todos.find(t => t.id === id);
+                                    todo.completed = true;
+                                }
+                            );
+                        }
+                    }
+                `}</CodeSnippet>
+            </Content>
         </CodeSplit>
-   </Md>
+    </Md>
 </cx>
-
