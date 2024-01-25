@@ -1,6 +1,3 @@
-import * as Cx from "../core";
-//import {NumberCulture, DateTimeCulture} from 'intl-io';
-
 declare type DateEncoding = (date: Date) => any;
 
 export class Culture {

@@ -41,7 +41,6 @@ class PageController extends Controller {
 export const LocalizationPage = <cx>
     <Md>
         <CodeSplit>
-
             # Localization
 
             Cx support different culture specific number, currency and date formatting based on `Intl` helpers provided
@@ -87,84 +86,85 @@ export const LocalizationPage = <cx>
                     </FlexCol>
                 </FlexCol>
             </div>
+
             <Content name="code">
-                <Tab value-bind="$page.code.tab" mod="code" tab="controller" text="Controller" default />
-                <Tab value-bind="$page.code.tab" mod="code" tab="widget" text="Widget" />
-                <CodeSnippet visible-expr="{$page.code.tab}=='controller'">{`
-                function loadCulture(culture) {
-                    switch (culture) {
-                        case 'de-de':
-                            return import('cx/locale/de-de');
-                        default:
-                        case 'en-us':
-                            return import('cx/locale/en-us');
+                <Tab value-bind="$page.code1.tab" mod="code" tab="controller" text="Controller" default />
+                <Tab value-bind="$page.code1.tab" mod="code" tab="widget" text="Widget" />
+                <CodeSnippet visible-expr="{$page.code1.tab}=='controller'">{`
+                    function loadCulture(culture) {
+                        switch (culture) {
+                            case 'de-de':
+                                return import('cx/locale/de-de');
+                            default:
+                            case 'en-us':
+                                return import('cx/locale/en-us');
+                        }
                     }
-                }
 
-                function setCulture(culture, store) {
-                    store.set('$page.culture', culture);
-                    loadCulture(culture)
-                        .then(() => {
-                            Culture.setCulture(culture);
-                            store.notify(); // Force re-render
-                        });
-                }
-
-                class PageController extends Controller {
-                    onInit() {
-                        this.store.init('$page.number', 123456.78);
-                        this.store.init('$page.date', new Date().toISOString());
-                        this.store.init('$page.culture', 'en-us');
+                    function setCulture(culture, store) {
+                        store.set('$page.culture', culture);
+                        loadCulture(culture)
+                            .then(() => {
+                                Culture.setCulture(culture);
+                                store.notify(); // Force re-render
+                            });
                     }
-                }
+
+                    class PageController extends Controller {
+                        onInit() {
+                            this.store.init('$page.number', 123456.78);
+                            this.store.init('$page.date', new Date().toISOString());
+                            this.store.init('$page.culture', 'en-us');
+                        }
+                    }
                 `}</CodeSnippet>
-                <CodeSnippet visible-expr="{$page.code.tab}=='widget'">{`
-                <div class="widgets" controller={PageController}>
-                    <FlexCol vspacing="xlarge">
-                        <FlexRow hspacing="small">
-                            <Button
-                                pressed:expr="{$page.culture} === 'de-de'"
-                                onClick={(_e, { store }) => {
-                                    setCulture('de-de', store);
-                                }}
-                                text="de-de"
-                            />
-                            <Button
-                                pressed:expr="{$page.culture} === 'nl-nl'"
-                                onClick={(_e, { store }) => {
-                                    setCulture('nl-nl', store);
-                                }}
-                                text="nl-nl"
-                            />
-                            <Button
-                                pressed:expr="{$page.culture} === 'en-us'"
-                                onClick={(_e, { store }) => {
-                                    setCulture('en-us', store);
-                                }}
-                                text="en-us"
-                            />
-                            <Button
-                                pressed:expr="{$page.culture} === 'sr-latn-ba'"
-                                onClick={(_e, { store }) => {
-                                    setCulture('sr-latn-ba', store);
-                                }}
-                                text="sr-ba"
-                            />
-                        </FlexRow>
-                        <FlexCol vspacing="medium" align="center">
-                            <NumberField value-bind="$page.number" required />
-                            <NumberField value-bind="$page.number" required format="currency" />
-                            <DateField value-bind="$page.date" required readOnly />
-                            <Calendar value-bind="$page.date" />
+                <CodeSnippet visible-expr="{$page.code1.tab}=='widget'">{`
+                    <div class="widgets" controller={PageController}>
+                        <FlexCol vspacing="xlarge">
+                            <FlexRow hspacing="small">
+                                <Button
+                                    pressed:expr="{$page.culture} === 'de-de'"
+                                    onClick={(_e, { store }) => {
+                                        setCulture('de-de', store);
+                                    }}
+                                    text="de-de"
+                                />
+                                <Button
+                                    pressed:expr="{$page.culture} === 'nl-nl'"
+                                    onClick={(_e, { store }) => {
+                                        setCulture('nl-nl', store);
+                                    }}
+                                    text="nl-nl"
+                                />
+                                <Button
+                                    pressed:expr="{$page.culture} === 'en-us'"
+                                    onClick={(_e, { store }) => {
+                                        setCulture('en-us', store);
+                                    }}
+                                    text="en-us"
+                                />
+                                <Button
+                                    pressed:expr="{$page.culture} === 'sr-latn-ba'"
+                                    onClick={(_e, { store }) => {
+                                        setCulture('sr-latn-ba', store);
+                                    }}
+                                    text="sr-ba"
+                                />
+                            </FlexRow>
+                            <FlexCol vspacing="medium" align="center">
+                                <NumberField value-bind="$page.number" required />
+                                <NumberField value-bind="$page.number" required format="currency" />
+                                <DateField value-bind="$page.date" required readOnly />
+                                <Calendar value-bind="$page.date" />
+                            </FlexCol>
                         </FlexCol>
-                    </FlexCol>
-                </div>
+                    </div>
                 `}</CodeSnippet>
             </Content>
         </CodeSplit>
 
         ## Culture
-        <ImportPath path="import {Culture} from 'cx/ui';" />
+        <ImportPath path="import { Culture } from 'cx/ui';" />
 
         The `Culture` object provides methods for selecting UI cultures used for formatting and localizing messages.
 
@@ -215,6 +215,68 @@ export const LocalizationPage = <cx>
                     `Culture.setDefaultDateEncoding(encodeDateWithTimezoneOffset);`
                 </Md></cx>
             }]} />
+        </CodeSplit>
+
+        ### Mixing different cultures and currencies
+        You can use one culture for number formatting, another for date and time formatting, and a different
+        currency, all at the same time.
+
+        <CodeSplit>
+            <Content name="code">
+                <Tab value-bind="$page.code2.tab" mod="code" tab="controller" text="Controller" default />
+                <Tab value-bind="$page.code2.tab" mod="code" tab="widget" text="Widget" />
+
+                <CodeSnippet visible-expr="{$page.code2.tab}=='controller'">{`
+                    function setNumberCulture(culture, store) {
+                        store.set('$page.numberCulture', culture);
+                        loadCulture(culture)
+                            .then(() => {
+                                Culture.setNumberCulture(culture);
+                                store.notify(); // Force re-render
+                            });
+                    }
+
+                    function setDateTimeCulture(culture, store) {
+                        store.set('$page.dateTimeCulture', culture);
+                        loadCulture(culture)
+                            .then(() => {
+                                Culture.setDateTimeCulture(culture);
+                                store.notify(); // Force re-render
+                            });
+                    }
+
+                    function setDefaultCurrency(currencyCode, store) {
+                        store.set('$page.currencyCode', currencyCode);
+                        Culture.setDefaultCurrency(currencyCode);
+                        store.notify(); // Force re-render
+                    }
+                `}</CodeSnippet>
+                <CodeSnippet visible-expr="{$page.code2.tab}=='widget'">{`
+                    <Button
+                        pressed:expr="{$page.numberCulture} === 'sr-latn-ba'"
+                        onClick={(_e, { store }) => {
+                            setNumberCulture('sr-latn-ba', store);
+                        }}
+                        text="sr-ba"
+                    />
+
+                    <Button
+                        pressed:expr="{$page.dateTimeCulture} === 'en-uk'"
+                        onClick={(_e, { store }) => {
+                            setDateTimeCulture('en-uk', store);
+                        }}
+                        text="en-uk"
+                    />
+
+                    <Button
+                        pressed:expr="{$page.currencyCode} === 'EUR'"
+                        onClick={(_e, { store }) => {
+                            setDefaultCurrency('EUR', store);
+                        }}
+                        text="EUR"
+                    />
+                `}</CodeSnippet>
+            </Content>
         </CodeSplit>
 
         ## Localization

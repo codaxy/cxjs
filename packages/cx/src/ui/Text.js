@@ -1,4 +1,4 @@
-import {Widget} from './Widget';
+import { Widget } from './Widget';
 
 export class Text extends Widget {
    init() {
@@ -17,11 +17,9 @@ export class Text extends Widget {
       }, ...arguments);
    }
 
-   render(context, {data}, key) {
+   render(context, { data }, key) {
       return data.value != null ? data.value : '';
    }
-
-
 }
 
 Widget.alias('text', Text)
