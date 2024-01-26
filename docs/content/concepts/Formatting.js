@@ -198,8 +198,8 @@ export const Formatting = (
                     </div>
 
                     <Content name="code">
-                        <Tab value-bind="$page.code1.tab" mod="code" tab="controller" text="Usage in controller" />
-                        <Tab value-bind="$page.code1.tab" mod="code" tab="index" text="Usage in widgets" default />
+                        <Tab value-bind="$page.code1.tab" mod="code" tab="controller" text="Controller" default />
+                        <Tab value-bind="$page.code1.tab" mod="code" tab="index" text="Widgets" default />
 
                         <CodeSnippet visible-expr="{$page.code1.tab}=='controller'">{`
                             // Number formatting
@@ -308,7 +308,7 @@ export const Formatting = (
                 not use this feature.
 
                 <CodeSplit>
-                    <CodeSnippet>
+                    <CodeSnippet copy={false}>
                         enableCultureSensitiveFormatting();
                     </CodeSnippet>
                 </CodeSplit>
@@ -319,7 +319,7 @@ export const Formatting = (
 
                 <CodeSplit>
                     `Format.register` can be used to register formats which do not need any parameters.
-                    <CodeSnippet putInto="code">{`
+                    <CodeSnippet putInto="code" copy={false}>{`
                         Format.register('brackets', value => \`(\$\{value\})\`);
                         Format.value('test', 'brackets'); //'(test)'
                     `}</CodeSnippet>
@@ -327,7 +327,7 @@ export const Formatting = (
 
                 <CodeSplit>
                     `Format.registerFactory` can be used to define formats which take parameters.
-                    <CodeSnippet putInto="code">{`
+                    <CodeSnippet putInto="code" copy={false}>{`
                         Format.registerFactory('suffix', (format, suffix) => value => value.toString() + suffix);
                         Format.value(10, 'suffix; kg'); //'10 kg'
                     `}</CodeSnippet>

@@ -1,59 +1,49 @@
 import { Widget, VDOM } from 'cx/ui';
 
 class InputWithButton extends VDOM.Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = { copied: false };
     }
 
     copyToClipboard() {
-        // copy text from this.textInput to clipboard...
-        // select text
-        let range = document.createRange();
-        range.selectNodeContents(this.textInput);
-        let selection = window.getSelection();
-        selection.removeAllRanges();
-        selection.addRange(range);
-        try {
-            // copy selected text
-            document.execCommand('copy');
-            selection.removeAllRanges(); // deselect text
-            this.setState({copied: true}); // set tooltip text to "Copied"
-        } catch (err) {
-            alert('Please press CTRL/CMD+C to copy');
-        }
+        navigator.clipboard.writeText(this.props.path).then(() => {
+            this.setState({ copied: true }); // Sets tooltip text to "Copied"
+        }).catch(() => {
+            alert('Please press Ctrl/Cmd + C to copy.');
+        });
     }
 
     resetTooltipText() {
-        this.setState({copied: false});
+        this.setState({ copied: false });
     }
 
-    render(){
+    render() {
         return (
             <div className="dxb-importpath" >
-                <code ref={(input) => this.textInput = input} 
-                    onClick={::this.copyToClipboard}
-                    onMouseLeave={::this.resetTooltipText} >
+                <code ref={(input) => this.textInput = input}
+                    onClick={this.copyToClipboard.bind(this)}
+                    onMouseLeave={this.resetTooltipText.bind(this)} >
                     {this.props.path}
                     <i className="fa fa-copy" aria-hidden="true"></i>
                 </code>
-                <span aria-hidden="true" 
-                    style={this.state.copied ? 
-                        {transition: "visibility 0s, opacity 0.5s", visibility: "visible", opacity: 1} : 
-                        {opacity: 0, visibility: "hidden"}}>
-                        Copied
-                    </span>
-            </div>
+                <span aria-hidden="true"
+                    style={this.state.copied ?
+                        { transition: "visibility 0s, opacity 0.5s", visibility: "visible", opacity: 1 } :
+                        { opacity: 0, visibility: "hidden" }}>
+                    Copied
+                </span>
+            </div >
         );
     }
 }
 
 export class ImportPath extends Widget {
-    init(){
+    init() {
         super.init();
     }
 
-    render(context, instance, key){
+    render(context, instance, key) {
         return (
             <div key={key} >
                 <InputWithButton path={this.path} />

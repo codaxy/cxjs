@@ -1,4 +1,4 @@
-import { Button, HtmlElement, TextField, Checkbox, Select, LabeledContainer, PureContainer, Menu, Tab } from 'cx/widgets';
+import { Tab } from 'cx/widgets';
 import { ContentPlaceholder, Content, ContentPlaceholderScope } from 'cx/ui';
 import { Md } from 'docs/components/Md';
 import { CodeSplit } from 'docs/components/CodeSplit';
@@ -19,9 +19,7 @@ var AppLayout = <cx>
     </div>
 </cx>;
 
-
 export const OuterLayouts = <cx>
-
     <Md>
         # Outer Layouts
 
@@ -66,38 +64,43 @@ export const OuterLayouts = <cx>
             </div>
 
             <Content name="code">
-                <Tab value-bind="$page.code.tab" mod="code" tab="layout" text="Layout" default/>
-                <Tab value-bind="$page.code.tab" mod="code" tab="widget" text="Widget" default/>
+                <Tab value-bind="$page.code.tab" mod="code" tab="layout" text="Layout" default />
+                <Tab value-bind="$page.code.tab" mod="code" tab="widget" text="Widget" default />
                 <CodeSnippet visible-expr="{$page.code.tab}=='layout'" fiddle="BzPHusws">{`
-                var AppLayout = <cx>
-                    <div style={{height: '200px', width: '300px', display: 'flex', flexDirection: 'column', border: '1px solid black'}}>
-                        <header style={{background: "lightblue", padding: '5px'}}>App Header</header>
-                        <div style={{flex: 1, display: 'flex', flexDirection: 'row'}}>
-                            <aside style={{width: '70px', background: 'white', padding: '5px'}}>
-                            <ContentPlaceholder name="sidebar" />
-                            </aside>
-                            <main style={{flex: 1, padding: '5px'}}>
-                            <ContentPlaceholder /* name="body" *//>
-                            </main>
+                    var AppLayout = <cx>
+                        <div style={{
+                            height: '200px',
+                            width: '300px',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            border: '1px solid black'
+                        }}>
+                            <header style={{background: "lightblue", padding: '5px'}}>App Header</header>
+                            <div style={{flex: 1, display: 'flex', flexDirection: 'row'}}>
+                                <aside style={{width: '70px', background: 'white', padding: '5px'}}>
+                                <ContentPlaceholder name="sidebar" />
+                                </aside>
+                                <main style={{flex: 1, padding: '5px'}}>
+                                <ContentPlaceholder /* name="body" *//>
+                                </main>
+                            </div>
                         </div>
-                    </div>
-                </cx>;
+                    </cx>;
                 `}</CodeSnippet>
                 <CodeSnippet visible-expr="{$page.code.tab}=='widget'" fiddle="BzPHusws">{`
-                <div outerLayout={AppLayout}>
-                    <Content for="sidebar">
-                        Nav 1
-                    </Content>
-                    Main 1
-                </div>
-                
-                <div outerLayout={AppLayout}>
-                    <Content for="sidebar">
-                        Nav 2
-                    </Content>
-                    Main 2
-                </div>
-
+                    <div outerLayout={AppLayout}>
+                        <Content for="sidebar">
+                            Nav 1
+                        </Content>
+                        Main 1
+                    </div>
+                    
+                    <div outerLayout={AppLayout}>
+                        <Content for="sidebar">
+                            Nav 2
+                        </Content>
+                        Main 2
+                    </div>
                 `}</CodeSnippet>
             </Content>
         </CodeSplit>
@@ -105,7 +108,7 @@ export const OuterLayouts = <cx>
         Instead of using the `Content` widget, alternatively, you can define `putInto` or `contentFor` attribute for any Cx widget or HTML element to specify the name of the content placeholder that should render it.
 
         <CodeSplit>
-            <CodeSnippet>{`
+            <CodeSnippet copy={false}>{`
                 <div outerLayout={AppLayout}>
                     <div putInto="sidebar">
                        Nav 3
@@ -118,6 +121,4 @@ export const OuterLayouts = <cx>
         When using outer layouts, the content is rendered inside out. A layout can contain other layouts, which
         enables better code reuse.
     </Md>
-
 </cx>;
-
