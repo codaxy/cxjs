@@ -22,7 +22,7 @@ export const ImmerJsIntegration = <cx>
         Once installed you should enable Immer in CxJS stores. This should be done on application startup.
 
         <CodeSplit>
-            <CodeSnippet>{`
+            <CodeSnippet copy={false}>{`
                 import { enableImmerMutate } from "cx-immer";
 
                 enableImmerMutate();

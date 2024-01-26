@@ -68,7 +68,7 @@ export const OuterLayouts = <cx>
                 <Tab value-bind="$page.code.tab" mod="code" tab="widget" text="Widget" default />
 
                 <CodeSnippet visible-expr="{$page.code.tab}=='layout'" fiddle="BzPHusws">{`
-                    var AppLayout = <cx>
+                    const AppLayout = <cx>
                         <div style={{height: '200px', width: '300px', display: 'flex', flexDirection: 'column', border: '1px solid black'}}>
                             <header style={{background: "lightblue", padding: '5px'}}>App Header</header>
                             <div style={{flex: 1, display: 'flex', flexDirection: 'row'}}>
@@ -104,7 +104,7 @@ export const OuterLayouts = <cx>
         for any Cx widget or HTML element to specify the name of the content placeholder that should render it.
 
         <CodeSplit>
-            <CodeSnippet>{`
+            <CodeSnippet copy={false}>{`
                 <div outerLayout={AppLayout}>
                     <div putInto="sidebar">
                        Nav 3

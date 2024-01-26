@@ -1,16 +1,16 @@
-import {HtmlElement, Grid, LookupField, Tab} from 'cx/widgets';
-import {Content, Controller} from 'cx/ui';
-import {Format} from 'cx/util';
-import {Md} from '../../../components/Md';
-import {CodeSplit} from '../../../components/CodeSplit';
-import {CodeSnippet} from '../../../components/CodeSnippet';
+import { Grid, Tab } from 'cx/widgets';
+import { Content, Controller } from 'cx/ui';
+import { Format } from 'cx/util';
+import { Md } from '../../../components/Md';
+import { CodeSplit } from '../../../components/CodeSplit';
+import { CodeSnippet } from '../../../components/CodeSnippet';
 
-import {casual} from '../data/casual';
+import { casual } from '../data/casual';
 import plural from 'plural';
 
 class PageController extends Controller {
     onInit() {
-        //init grid data
+        // Init grid data
         this.store.set('$page.records', Array.from({length: 100}).map((v, i) => ({
             id: i + 1,
             fullName: casual.full_name,
@@ -26,7 +26,6 @@ export const Grouping = <cx>
     <Md controller={PageController}>
         <CodeSplit>
             # Grouping
-
             An example of a grid control with grouping.
 
             <Grid
@@ -86,27 +85,26 @@ export const Grouping = <cx>
                     format: 'n;0'
                 }]}
             />
-            
+
             <Content name="code">
-                <div>
+                <div style={{ maxWidth: "50%" }}>
                     <Tab value-bind="$page.code.tab" tab="controller" mod="code" text="Controller" />
                     <Tab value-bind="$page.code.tab" tab="grid" mod="code" text="Grid" default/>
                     <Tab value-bind="$page.code.tab" tab="columns" mod="code" text="Columns" />
                 </div>
                 <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="0Ztcob5B">{`
-
                     class PageController extends Controller {
-                    onInit() {
-                        //init grid data
-                        this.store.set('$page.records', Array.from({length: 100}).map((v, i)=>({
-                            id: i + 1,
-                            fullName: casual.full_name,
-                            continent: casual.continent,
-                            browser: casual.browser,
-                            os: casual.operating_system,
-                            visits: casual.integer(1, 100)
-                        })));
-                    }
+                        onInit() {
+                            // Init grid data
+                            this.store.set('$page.records', Array.from({length: 100}).map((v, i)=>({
+                                id: i + 1,
+                                fullName: casual.full_name,
+                                continent: casual.continent,
+                                browser: casual.browser,
+                                os: casual.operating_system,
+                                visits: casual.integer(1, 100)
+                            })));
+                        }
                     }
                 `}</CodeSnippet>
                 <CodeSnippet visible-expr="{$page.code.tab}=='grid'" fiddle="0Ztcob5B">{`

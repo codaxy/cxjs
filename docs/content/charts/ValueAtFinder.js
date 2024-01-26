@@ -1,12 +1,12 @@
-import {HtmlElement, Repeater, Grid, Content, Tab} from 'cx/widgets';
-import {Controller} from 'cx/ui';
-import {Svg, Rectangle} from 'cx/svg';
-import {Chart, NumericAxis, MouseTracker, Gridlines, Marker, MarkerLine, ColorMap, LineGraph, ValueAtFinder, LegendEntry, Legend} from 'cx/charts';
-import {Md} from '../../components/Md';
-import {CodeSplit} from '../../components/CodeSplit';
-import {CodeSnippet} from '../../components/CodeSnippet';
-import {ConfigTable} from '../../components/ConfigTable';
-import {ImportPath} from 'docs/components/ImportPath';
+import { Repeater, Grid, Content, Tab } from 'cx/widgets';
+import { Controller } from 'cx/ui';
+import { Svg } from 'cx/svg';
+import { Chart, NumericAxis, MouseTracker, Gridlines, Marker, MarkerLine, ColorMap, LineGraph, ValueAtFinder, LegendEntry, Legend } from 'cx/charts';
+import { Md } from '../../components/Md';
+import { CodeSplit } from '../../components/CodeSplit';
+import { CodeSnippet } from '../../components/CodeSnippet';
+import { ConfigTable } from '../../components/ConfigTable';
+import { ImportPath } from 'docs/components/ImportPath';
 
 import configs from './configs/ValueAtFinder';
 
@@ -35,7 +35,6 @@ class ChartController extends Controller {
 export const ValueAtFinderPage = <cx>
     <Md>
         # ValueAtFinder
-
         <ImportPath path="import {ValueAtFinder} from 'cx/charts';"/>
 
         <CodeSplit>
@@ -105,9 +104,11 @@ export const ValueAtFinderPage = <cx>
                 <Legend/>
             </div>
             <Content name="code">
-                <Tab value-bind="$page.code.tab" mod="code" tab="controller" text="Controller"/>
-                <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Index" default/>
-                <Tab value-bind="$page.code.tab" mod="code" tab="columns" text="Columns"/>
+                <div style={{ maxWidth: "60%" }}>
+                    <Tab value-bind="$page.code.tab" mod="code" tab="controller" text="Controller"/>
+                    <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Index" default/>
+                    <Tab value-bind="$page.code.tab" mod="code" tab="columns" text="Columns"/>
+                </div>
 
                 <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="hqzog4YJ">{`
                     class ChartController extends Controller {
