@@ -1,4 +1,4 @@
-import { Button, NumberField, DateField, Calendar, Tab, FlexRow, FlexCol } from 'cx/widgets';
+import { NumberField, DateField, Calendar, Tab, FlexRow, FlexCol, LookupField } from 'cx/widgets';
 import { Culture, Controller, Content } from 'cx/ui';
 import { Md } from '../../components/Md';
 import { CodeSplit } from '../../components/CodeSplit';
@@ -7,7 +7,8 @@ import { ImportPath } from "../../components/ImportPath";
 import { MethodTable } from "../../components/MethodTable";
 
 function loadCulture(culture) {
-    // Code-splitting - it's mandatory to use string constants so webpack can know how to prepare packages
+    // Code-splitting - it's mandatory to use string
+    // constants so webpack can know how to prepare packages
     switch (culture) {
         case 'de-de':
             return import('cx/locale/de-de');
@@ -28,7 +29,6 @@ function loadCulture(culture) {
 }
 
 function setCulture(culture, store) {
-    store.set('$page.culture', culture);
     loadCulture(culture)
         .then(() => {
             Culture.setCulture(culture);
@@ -40,7 +40,18 @@ class PageController extends Controller {
     onInit() {
         this.store.init('$page.number', 123456.78);
         this.store.init('$page.date', new Date().toISOString());
-        this.store.init('$page.culture', 'en-us');
+
+        this.store.set("$page.cultures", [
+            { id: 0, text: 'DE-DE' }, { id: 1, text: 'EN-US' }, { id: 2, text: 'ES-ES' },
+            { id: 3, text: 'FR-FR' }, { id: 4, text: 'NL-NL' }, { id: 5, text: 'PT-PT' },
+            { id: 6, text: 'SR-LATN-BA' }
+        ]);
+        this.store.set('$page.culture', { id: 1, text: 'EN-US' });
+
+        this.addTrigger('change-culture', ['$page.culture.text'], (text) => {
+            // Set culture based on the LookupField selection
+            setCulture(text.toLowerCase(), this.store);
+        });
     }
 }
 
@@ -55,54 +66,12 @@ export const LocalizationPage = <cx>
             <div class="widgets" controller={PageController}>
                 <FlexCol vspacing="xlarge">
                     <FlexRow hspacing="small">
-                        <Button
-                            pressed-expr="{$page.culture} === 'de-de'"
-                            onClick={(_e, { store }) => {
-                                setCulture('de-de', store);
-                            }}
-                            text="de-de"
-                        />
-                        <Button
-                            pressed-expr="{$page.culture} === 'en-us'"
-                            onClick={(_e, { store }) => {
-                                setCulture('en-us', store);
-                            }}
-                            text="en-us"
-                        />
-                        <Button
-                            pressed-expr="{$page.culture} === 'es-es'"
-                            onClick={(_e, { store }) => {
-                                setCulture('es-es', store);
-                            }}
-                            text="es-es"
-                        />
-                        <Button
-                            pressed-expr="{$page.culture} === 'fr-fr'"
-                            onClick={(_e, { store }) => {
-                                setCulture('fr-fr', store);
-                            }}
-                            text="fr-fr"
-                        />
-                        <Button
-                            pressed-expr="{$page.culture} === 'nl-nl'"
-                            onClick={(_e, { store }) => {
-                                setCulture('nl-nl', store);
-                            }}
-                            text="nl-nl"
-                        />
-                        <Button
-                            pressed-expr="{$page.culture} === 'pt-pt'"
-                            onClick={(_e, { store }) => {
-                                setCulture('pt-pt', store);
-                            }}
-                            text="pt-pt"
-                        />
-                        <Button
-                            pressed-expr="{$page.culture} === 'sr-latn-ba'"
-                            onClick={(_e, { store }) => {
-                                setCulture('sr-latn-ba', store);
-                            }}
-                            text="sr-ba"
+                        <LookupField
+                            label="Select a culture:"
+                            value-bind="$page.culture.id"
+                            text-bind="$page.culture.text"
+                            options-bind="$page.cultures"
+                            required
                         />
                     </FlexRow>
                     <FlexCol vspacing="medium" align="center">
@@ -117,6 +86,7 @@ export const LocalizationPage = <cx>
             <Content name="code">
                 <Tab value-bind="$page.code1.tab" mod="code" tab="controller" text="Controller" default />
                 <Tab value-bind="$page.code1.tab" mod="code" tab="widget" text="Widget" />
+
                 <CodeSnippet visible-expr="{$page.code1.tab}=='controller'">{`
                     function loadCulture(culture) {
                         // Code-splitting - it's mandatory to use string
@@ -141,7 +111,6 @@ export const LocalizationPage = <cx>
                     }
 
                     function setCulture(culture, store) {
-                        store.set('$page.culture', culture);
                         loadCulture(culture)
                             .then(() => {
                                 Culture.setCulture(culture);
@@ -153,7 +122,18 @@ export const LocalizationPage = <cx>
                         onInit() {
                             this.store.init('$page.number', 123456.78);
                             this.store.init('$page.date', new Date().toISOString());
-                            this.store.init('$page.culture', 'en-us');
+
+                            this.store.set("$page.cultures", [
+                                { id: 0, text: 'DE-DE' }, { id: 1, text: 'EN-US' }, { id: 2, text: 'ES-ES' },
+                                { id: 3, text: 'FR-FR' }, { id: 4, text: 'NL-NL' }, { id: 5, text: 'PT-PT' },
+                                { id: 6, text: 'SR-LATN-BA' }
+                            ]);
+                            this.store.set('$page.culture', { id: 1, text: 'EN-US' });
+
+                            this.addTrigger('change-culture', ['$page.culture.text'], (text) => {
+                                // Set culture based one the LookupField selection
+                                setCulture(text.toLowerCase(), this.store);
+                            });
                         }
                     }
                 `}</CodeSnippet>
@@ -161,54 +141,12 @@ export const LocalizationPage = <cx>
                     <div class="widgets" controller={PageController}>
                         <FlexCol vspacing="xlarge">
                             <FlexRow hspacing="small">
-                                <Button
-                                    pressed-expr="{$page.culture} === 'de-de'"
-                                    onClick={(_e, { store }) => {
-                                        setCulture('de-de', store);
-                                    }}
-                                    text="de-de"
-                                />
-                                <Button
-                                    pressed-expr="{$page.culture} === 'en-us'"
-                                    onClick={(_e, { store }) => {
-                                        setCulture('en-us', store);
-                                    }}
-                                    text="en-us"
-                                />
-                                <Button
-                                    pressed-expr="{$page.culture} === 'es-es'"
-                                    onClick={(_e, { store }) => {
-                                        setCulture('es-es', store);
-                                    }}
-                                    text="es-es"
-                                />
-                                <Button
-                                    pressed-expr="{$page.culture} === 'fr-fr'"
-                                    onClick={(_e, { store }) => {
-                                        setCulture('fr-fr', store);
-                                    }}
-                                    text="fr-fr"
-                                />
-                                <Button
-                                    pressed-expr="{$page.culture} === 'nl-nl'"
-                                    onClick={(_e, { store }) => {
-                                        setCulture('nl-nl', store);
-                                    }}
-                                    text="nl-nl"
-                                />
-                                <Button
-                                    pressed-expr="{$page.culture} === 'pt-pt'"
-                                    onClick={(_e, { store }) => {
-                                        setCulture('pt-pt', store);
-                                    }}
-                                    text="pt-pt"
-                                />
-                                <Button
-                                    pressed-expr="{$page.culture} === 'sr-latn-ba'"
-                                    onClick={(_e, { store }) => {
-                                        setCulture('sr-latn-ba', store);
-                                    }}
-                                    text="sr-ba"
+                                <LookupField
+                                    label="Select a culture:"
+                                    value-bind="$page.culture.id"
+                                    text-bind="$page.culture.text"
+                                    options-bind="$page.cultures"
+                                    required
                                 />
                             </FlexRow>
                             <FlexCol vspacing="medium" align="center">
