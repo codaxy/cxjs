@@ -11,8 +11,14 @@ function loadCulture(culture) {
     switch (culture) {
         case 'de-de':
             return import('cx/locale/de-de');
+        case 'es-es':
+            return import('cx/locale/es-es');
+        case 'fr-fr':
+            return import('cx/locale/fr-fr');
         case 'nl-nl':
             return import('cx/locale/nl-nl');
+        case 'pt-pt':
+            return import('cx/locale/pt-pt');
         case 'sr-latn-ba':
             return import('cx/locale/sr-latn-ba');
         default:
@@ -50,28 +56,49 @@ export const LocalizationPage = <cx>
                 <FlexCol vspacing="xlarge">
                     <FlexRow hspacing="small">
                         <Button
-                            pressed:expr="{$page.culture} === 'de-de'"
+                            pressed-expr="{$page.culture} === 'de-de'"
                             onClick={(_e, { store }) => {
                                 setCulture('de-de', store);
                             }}
                             text="de-de"
                         />
                         <Button
-                            pressed:expr="{$page.culture} === 'nl-nl'"
-                            onClick={(_e, { store }) => {
-                                setCulture('nl-nl', store);
-                            }}
-                            text="nl-nl"
-                        />
-                        <Button
-                            pressed:expr="{$page.culture} === 'en-us'"
+                            pressed-expr="{$page.culture} === 'en-us'"
                             onClick={(_e, { store }) => {
                                 setCulture('en-us', store);
                             }}
                             text="en-us"
                         />
                         <Button
-                            pressed:expr="{$page.culture} === 'sr-latn-ba'"
+                            pressed-expr="{$page.culture} === 'es-es'"
+                            onClick={(_e, { store }) => {
+                                setCulture('es-es', store);
+                            }}
+                            text="es-es"
+                        />
+                        <Button
+                            pressed-expr="{$page.culture} === 'fr-fr'"
+                            onClick={(_e, { store }) => {
+                                setCulture('fr-fr', store);
+                            }}
+                            text="fr-fr"
+                        />
+                        <Button
+                            pressed-expr="{$page.culture} === 'nl-nl'"
+                            onClick={(_e, { store }) => {
+                                setCulture('nl-nl', store);
+                            }}
+                            text="nl-nl"
+                        />
+                        <Button
+                            pressed-expr="{$page.culture} === 'pt-pt'"
+                            onClick={(_e, { store }) => {
+                                setCulture('pt-pt', store);
+                            }}
+                            text="pt-pt"
+                        />
+                        <Button
+                            pressed-expr="{$page.culture} === 'sr-latn-ba'"
                             onClick={(_e, { store }) => {
                                 setCulture('sr-latn-ba', store);
                             }}
@@ -92,9 +119,21 @@ export const LocalizationPage = <cx>
                 <Tab value-bind="$page.code1.tab" mod="code" tab="widget" text="Widget" />
                 <CodeSnippet visible-expr="{$page.code1.tab}=='controller'">{`
                     function loadCulture(culture) {
+                        // Code-splitting - it's mandatory to use string
+                        // constants so webpack can know how to prepare packages
                         switch (culture) {
                             case 'de-de':
                                 return import('cx/locale/de-de');
+                            case 'es-es':
+                                return import('cx/locale/es-es');
+                            case 'fr-fr':
+                                return import('cx/locale/fr-fr');
+                            case 'nl-nl':
+                                return import('cx/locale/nl-nl');
+                            case 'pt-pt':
+                                return import('cx/locale/pt-pt');
+                            case 'sr-latn-ba':
+                                return import('cx/locale/sr-latn-ba');
                             default:
                             case 'en-us':
                                 return import('cx/locale/en-us');
@@ -123,28 +162,49 @@ export const LocalizationPage = <cx>
                         <FlexCol vspacing="xlarge">
                             <FlexRow hspacing="small">
                                 <Button
-                                    pressed:expr="{$page.culture} === 'de-de'"
+                                    pressed-expr="{$page.culture} === 'de-de'"
                                     onClick={(_e, { store }) => {
                                         setCulture('de-de', store);
                                     }}
                                     text="de-de"
                                 />
                                 <Button
-                                    pressed:expr="{$page.culture} === 'nl-nl'"
-                                    onClick={(_e, { store }) => {
-                                        setCulture('nl-nl', store);
-                                    }}
-                                    text="nl-nl"
-                                />
-                                <Button
-                                    pressed:expr="{$page.culture} === 'en-us'"
+                                    pressed-expr="{$page.culture} === 'en-us'"
                                     onClick={(_e, { store }) => {
                                         setCulture('en-us', store);
                                     }}
                                     text="en-us"
                                 />
                                 <Button
-                                    pressed:expr="{$page.culture} === 'sr-latn-ba'"
+                                    pressed-expr="{$page.culture} === 'es-es'"
+                                    onClick={(_e, { store }) => {
+                                        setCulture('es-es', store);
+                                    }}
+                                    text="es-es"
+                                />
+                                <Button
+                                    pressed-expr="{$page.culture} === 'fr-fr'"
+                                    onClick={(_e, { store }) => {
+                                        setCulture('fr-fr', store);
+                                    }}
+                                    text="fr-fr"
+                                />
+                                <Button
+                                    pressed-expr="{$page.culture} === 'nl-nl'"
+                                    onClick={(_e, { store }) => {
+                                        setCulture('nl-nl', store);
+                                    }}
+                                    text="nl-nl"
+                                />
+                                <Button
+                                    pressed-expr="{$page.culture} === 'pt-pt'"
+                                    onClick={(_e, { store }) => {
+                                        setCulture('pt-pt', store);
+                                    }}
+                                    text="pt-pt"
+                                />
+                                <Button
+                                    pressed-expr="{$page.culture} === 'sr-latn-ba'"
                                     onClick={(_e, { store }) => {
                                         setCulture('sr-latn-ba', store);
                                     }}
@@ -253,7 +313,7 @@ export const LocalizationPage = <cx>
                 `}</CodeSnippet>
                 <CodeSnippet visible-expr="{$page.code2.tab}=='widget'">{`
                     <Button
-                        pressed:expr="{$page.numberCulture} === 'sr-latn-ba'"
+                        pressed-expr="{$page.numberCulture} === 'sr-latn-ba'"
                         onClick={(_e, { store }) => {
                             setNumberCulture('sr-latn-ba', store);
                         }}
@@ -261,15 +321,15 @@ export const LocalizationPage = <cx>
                     />
 
                     <Button
-                        pressed:expr="{$page.dateTimeCulture} === 'en-uk'"
+                        pressed-expr="{$page.dateTimeCulture} === 'en-us'"
                         onClick={(_e, { store }) => {
-                            setDateTimeCulture('en-uk', store);
+                            setDateTimeCulture('en-us', store);
                         }}
-                        text="en-uk"
+                        text="en-us"
                     />
 
                     <Button
-                        pressed:expr="{$page.currencyCode} === 'EUR'"
+                        pressed-expr="{$page.currencyCode} === 'EUR'"
                         onClick={(_e, { store }) => {
                             setDefaultCurrency('EUR', store);
                         }}

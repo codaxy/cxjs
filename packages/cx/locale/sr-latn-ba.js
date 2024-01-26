@@ -6,14 +6,14 @@ var c = 'sr-latn-ba';
 Localization.localize(c, 'cx/widgets/Field', {
    requiredText: 'Ovo polje je obavezno.',
    validatingText: 'Validacija je u toku...',
-   validationExceptionText: 'Došlo je do problema prilikom validacije podataka. Provjerite log za više detalja'
+   validationExceptionText: 'Došlo je do problema prilikom validacije podataka. Provjerite log za više detalja.'
 });
 
 // LookupField
 Localization.localize(c, 'cx/widgets/LookupField', {
    loadingText: 'Učitavanje...',
    queryErrorText: 'Došlo je do greške kod pribavljanja podataka za prikaz.',
-   noResultsText: 'Rezultati nisu pronađeni',
+   noResultsText: 'Rezultati nisu pronađeni.',
    minQueryLengthMessageText: 'Unesite najmanje {0} karakter(a).'
 });
 
@@ -24,12 +24,14 @@ const calendarErrorMessages = {
    minValueErrorText: 'Izabrani datum je raniji od {0:d}',
    minExclusiveErrorText: 'Izabrani datum bi trebao biti kasniji od {0:d}',
 };
+
 // Calendar
 Localization.localize(c, 'cx/widgets/Calendar', {
    ...calendarErrorMessages,
    todayButtonText: 'Danas',
    startWithMonday: true
 });
+
 // MonthPicker
 Localization.localize(c, 'cx/widgets/MonthPicker', calendarErrorMessages);
 
@@ -38,8 +40,10 @@ const dateFieldErrorMessages = {
    ...calendarErrorMessages,
    inputErrorText: 'Neispravan datum.'
 };
+
 // MonthField
 Localization.localize(c, 'cx/widgets/MonthField', dateFieldErrorMessages);
+
 // DateField
 Localization.localize(c, 'cx/widgets/DateField', dateFieldErrorMessages);
 
