@@ -1,3 +1,4 @@
+export * from "./Filtering";
 export * from "./MultipleSelection";
 export * from "./DynamicGrouping";
 export * from "./Grouping";
