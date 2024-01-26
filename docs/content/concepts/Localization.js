@@ -1,5 +1,5 @@
-import { NumberField, DateField, Calendar, Tab, FlexRow, FlexCol, LookupField } from 'cx/widgets';
-import { Culture, Controller, Content } from 'cx/ui';
+import { NumberField, DateField, Calendar, Tab, FlexCol, LookupField } from 'cx/widgets';
+import { Culture, Controller, Content, LabelsLeftLayout } from 'cx/ui';
 import { Md } from '../../components/Md';
 import { CodeSplit } from '../../components/CodeSplit';
 import { CodeSnippet } from '../../components/CodeSnippet';
@@ -36,22 +36,35 @@ function setCulture(culture, store) {
         });
 }
 
+function setCurrency(currencyCode, store) {
+    Culture.setDefaultCurrency(currencyCode);
+    store.notify(); // Force re-render
+}
+
 class PageController extends Controller {
     onInit() {
         this.store.init('$page.number', 123456.78);
         this.store.init('$page.date', new Date().toISOString());
 
+        // Cultures
         this.store.set("$page.cultures", [
             { id: 0, text: 'DE-DE' }, { id: 1, text: 'EN-US' }, { id: 2, text: 'ES-ES' },
             { id: 3, text: 'FR-FR' }, { id: 4, text: 'NL-NL' }, { id: 5, text: 'PT-PT' },
             { id: 6, text: 'SR-LATN-BA' }
         ]);
-        this.store.set('$page.culture', { id: 1, text: 'EN-US' });
-
-        this.addTrigger('change-culture', ['$page.culture.text'], (text) => {
-            // Set culture based on the LookupField selection
+        this.store.set("$page.culture", { id: 1, text: 'EN-US' });
+        this.addTrigger("change-culture", ["$page.culture.text"], (text) => {
             setCulture(text.toLowerCase(), this.store);
         });
+
+        // Currencies
+        this.store.set("$page.currencies", [
+            { id: 0, text: 'EUR' }, { id: 1, text: 'USD' }, { id: 2, text: 'GBP' }, { id: 3, text: 'BAM' }
+        ]);
+        this.store.set("$page.currency", { id: 1, text: 'USD' });
+        this.addTrigger("change-currency", ["$page.currency.text"], (text) =>
+            setCurrency(text, this.store)
+        );
     }
 }
 
@@ -64,8 +77,8 @@ export const LocalizationPage = <cx>
             by modern browsers. Besides that, Cx offers translation of standard messages to any language.
 
             <div class="widgets" controller={PageController}>
-                <FlexCol vspacing="xlarge">
-                    <FlexRow hspacing="small">
+                <FlexCol vspacing="large">
+                    <LabelsLeftLayout>
                         <LookupField
                             label="Select a culture:"
                             value-bind="$page.culture.id"
@@ -73,7 +86,14 @@ export const LocalizationPage = <cx>
                             options-bind="$page.cultures"
                             required
                         />
-                    </FlexRow>
+                        <LookupField
+                            label="Select a currency:"
+                            value-bind="$page.currency.id"
+                            text-bind="$page.currency.text"
+                            options-bind="$page.currencies"
+                            required
+                        />
+                    </LabelsLeftLayout>
                     <FlexCol vspacing="medium" align="center">
                         <NumberField value-bind="$page.number" required />
                         <NumberField value-bind="$page.number" required format="currency" />
@@ -118,29 +138,42 @@ export const LocalizationPage = <cx>
                             });
                     }
 
+                    function setCurrency(currencyCode, store) {
+                        Culture.setDefaultCurrency(currencyCode);
+                        store.notify(); // Force re-render
+                    }
+
                     class PageController extends Controller {
                         onInit() {
                             this.store.init('$page.number', 123456.78);
                             this.store.init('$page.date', new Date().toISOString());
 
+                            // Cultures
                             this.store.set("$page.cultures", [
                                 { id: 0, text: 'DE-DE' }, { id: 1, text: 'EN-US' }, { id: 2, text: 'ES-ES' },
                                 { id: 3, text: 'FR-FR' }, { id: 4, text: 'NL-NL' }, { id: 5, text: 'PT-PT' },
                                 { id: 6, text: 'SR-LATN-BA' }
                             ]);
-                            this.store.set('$page.culture', { id: 1, text: 'EN-US' });
-
-                            this.addTrigger('change-culture', ['$page.culture.text'], (text) => {
-                                // Set culture based one the LookupField selection
+                            this.store.set("$page.culture", { id: 1, text: 'EN-US' });
+                            this.addTrigger("change-culture", ["$page.culture.text"], (text) => {
                                 setCulture(text.toLowerCase(), this.store);
                             });
+
+                            // Currencies
+                            this.store.set("$page.currencies", [
+                                { id: 0, text: 'EUR' }, { id: 1, text: 'USD' }, { id: 2, text: 'GBP' }, { id: 3, text: 'BAM' }
+                            ]);
+                            this.store.set("$page.currency", { id: 1, text: 'USD' });
+                            this.addTrigger("change-currency", ["$page.currency.text"], (text) =>
+                                setCurrency(text, this.store)
+                            );
                         }
                     }
                 `}</CodeSnippet>
                 <CodeSnippet visible-expr="{$page.code1.tab}=='widget'">{`
                     <div class="widgets" controller={PageController}>
-                        <FlexCol vspacing="xlarge">
-                            <FlexRow hspacing="small">
+                        <FlexCol vspacing="large">
+                            <LabelsLeftLayout>
                                 <LookupField
                                     label="Select a culture:"
                                     value-bind="$page.culture.id"
@@ -148,7 +181,14 @@ export const LocalizationPage = <cx>
                                     options-bind="$page.cultures"
                                     required
                                 />
-                            </FlexRow>
+                                <LookupField
+                                    label="Select a currency:"
+                                    value-bind="$page.currency.id"
+                                    text-bind="$page.currency.text"
+                                    options-bind="$page.currencies"
+                                    required
+                                />
+                            </LabelsLeftLayout>
                             <FlexCol vspacing="medium" align="center">
                                 <NumberField value-bind="$page.number" required />
                                 <NumberField value-bind="$page.number" required format="currency" />
