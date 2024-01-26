@@ -1,10 +1,8 @@
 import { Content } from 'cx/ui';
-import { HtmlElement, Tab } from 'cx/widgets';
+import { Tab } from 'cx/widgets';
 import { Md } from '../../components/Md';
 import { CodeSplit } from '../../components/CodeSplit';
-
 import { CodeSnippet } from '../../components/CodeSnippet';
-
 import { Todo } from '../examples/todo/Todo';
 
 export const StepByStep = <cx>
@@ -22,7 +20,7 @@ export const StepByStep = <cx>
             [here](https://github.com/codaxy/cx-getting-started).
 
             <Content name="code">
-                <CodeSnippet>{`
+                <CodeSnippet copy={false}>{`
                     git clone https://github.com/codaxy/cx-getting-started
                 `}</CodeSnippet>
             </Content>
@@ -46,7 +44,7 @@ export const StepByStep = <cx>
             up to date.
 
             <Content name="code">
-                <CodeSnippet>{`
+                <CodeSnippet copy={false}>{`
                     git version
                     node --version
                     npm --version
@@ -68,7 +66,7 @@ export const StepByStep = <cx>
             Alternatevly, if you already cloned the project from github, just run the `npm install` command
             without any other parameters.
             <Content name="code">
-                <CodeSnippet>{`
+                <CodeSnippet copy={false}>{`
                     mkdir cx-getting-started && cd cx-getting-started
 
                     npm init
@@ -126,8 +124,8 @@ export const StepByStep = <cx>
             later in this tutorial.
 
             <Content name="code">
-                <Tab value-bind="$page.entryPoint.tab" mod="code" tab="html" text="app/index.html" default />
-                <Tab value-bind="$page.entryPoint.tab" mod="code" tab="js" text="app/index.js" />
+                <Tab value-bind="$page.entryPoint.tab" tab="html" mod="code" text="app/index.html" default />
+                <Tab value-bind="$page.entryPoint.tab" tab="js" mod="code" text="app/index.js" />
 
                 <CodeSnippet visible-expr="{$page.entryPoint.tab}=='html'">{`
                     <!DOCTYPE html>
@@ -171,7 +169,7 @@ export const StepByStep = <cx>
             is explained in depth [here](~/concepts/css#themes).
 
             <Content name="code">
-                <Tab value={"scss"} mod="code" tab="scss" text="app/index.scss" default />
+                <Tab value={"scss"} tab="scss" mod="code" text="app/index.scss" default />
 
                 <CodeSnippet>{`
                     @import "~cx/src/variables";
@@ -197,7 +195,7 @@ export const StepByStep = <cx>
             </div>
 
             <Content name="code">
-                <Tab value={"json"} mod="code" tab="json" text="package.json" default />
+                <Tab value={"json"} tab="json" mod="code" text="package.json" default />
 
                 <CodeSnippet>{`
                     ...
@@ -222,24 +220,25 @@ export const StepByStep = <cx>
 
             To achieve this, we will add this little snippet to our `app/index.js` file right after the
             `stop` variable declaration.
+
             <Content name="code">
-                <Tab value={"js"} mod="code" tab="js" text="app/index.js" default />
+                <Tab value={"js"} tab="js" mod="code" text="app/index.js" default />
 
                 <CodeSnippet>{`
                     ...
                     var stop;
                     if (module.hot) {
-                        // accept itself
+                        // Accept itself
                         module.hot.accept();
 
-                        // remember data on dispose
+                        // Remember data on dispose
                         module.hot.dispose(function (data) {
                             data.state = store.getData();
                             if (stop)
                                 stop();
                         });
 
-                        // apply data on hot replace
+                        // Apply data on hot replace
                         if (module.hot.data)
                             store.load(module.hot.data);
                     }
@@ -295,16 +294,19 @@ export const StepByStep = <cx>
             The last part of our Todo widget is the actual dynamic list of Todo items. Here, we use a `Repeater`
             component to iterate through all items of a collection like this one:
 
-            <CodeSnippet>{`
-                [{
-                    id: 1,
-                    text: 'Create GitHub project',
-                    done: true
-                }, {
-                    id: 2,
-                    text: 'Explain parts of the application',
-                    done: false
-                }]
+            <CodeSnippet copy={false}>{`
+                [
+                    {
+                        id: 1,
+                        text: 'Create GitHub project',
+                        done: true
+                    },
+                    {
+                        id: 2,
+                        text: 'Explain parts of the application',
+                        done: false
+                    }
+                ]
             `}</CodeSnippet>
 
             This collection will be present in the store under the name `$page.todos`, so we're binding repeater's
@@ -326,8 +328,8 @@ export const StepByStep = <cx>
             the task is marked as done, and `$record.done` will change whenever the user changes the checkbox state.
             We're also binding CSS class name of the checkbox element like this:
 
-            <CodeSnippet>{`
-                { "css-task-done": { bind: "$record.done "} }
+            <CodeSnippet copy={false}>{`
+                { "css-task-done": { bind: "$record.done" }}
             `}</CodeSnippet>
 
             This means that the class name `css-task-done` will be applied to the checkbox element, only if the `$record.done`
@@ -342,7 +344,7 @@ export const StepByStep = <cx>
             button, since we don't need Cx styling applied to it (we will add our own styling to it later).
 
             <Content name="code">
-                <Tab value={"js"} mod="code" tab="js" text="app/todo/index.js" default />
+                <Tab value={"js"} tab="js" mod="code" text="app/todo/index.js" default />
 
                 <CodeSnippet>{`
                     import { HtmlElement, Repeater, TextField, Checkbox, Button } from 'cx/widgets';
@@ -419,7 +421,13 @@ export const StepByStep = <cx>
             functionality&mdash;it all works simply by means of data binding.
 
             <Content name="code">
-                <Tab value={"js"} mod="code" tab="js" text="app/todo/Controller.js" default />
+                <Tab
+                    value={"js"}
+                    tab="js"
+                    mod="code"
+                    text="app/todo/Controller.js"
+                    default
+                />
 
                 <CodeSnippet>{`
                     import { Controller } from 'cx/ui';
@@ -472,9 +480,9 @@ export const StepByStep = <cx>
             </div>
 
             <Content name="code">
-                <Tab value-bind="$page.todo2.tab" mod="code" tab="index" text="app/index.js" default />
+                <Tab value-bind="$page.todo2.tab" tab="index" mod="code" text="app/index.js" default />
 
-                <CodeSnippet>{`
+                <CodeSnippet copy={false}>{`
                     ...
                     import Todo from './todo';
                     ...
@@ -490,7 +498,7 @@ export const StepByStep = <cx>
             [here](https://github.com/codaxy/cx-getting-started/blob/master/app/index.scss).
 
             <Content name="code">
-                <Tab value-bind="$page.todo3.tab" mod="code" tab="scss" text="app/index.scss" default />
+                <Tab value-bind="$page.todo3.tab" tab="scss" mod="code" text="app/index.scss" default />
 
                 <CodeSnippet>{`
                     @import "~cx/src/variables";
@@ -516,7 +524,7 @@ export const StepByStep = <cx>
             ready-to-use design, consistent folder structure, etc.) already set up.
 
             <Content name="code">
-                <CodeSnippet>{`
+                <CodeSnippet copy={false}>{`
                     git clone https://github.com/codaxy/cx-starter-kit
                 `}</CodeSnippet>
             </Content>

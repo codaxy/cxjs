@@ -304,7 +304,7 @@ export const LocalizationPage = <cx>
                 </Md></cx>
             }]} />
 
-            <CodeSnippet putInto="code">{`
+            <CodeSnippet putInto="code" copy={false}>{`
                 // Register widget for localization
                 Localization.registerPrototype('cx/widgets/TextField', TextField);
 

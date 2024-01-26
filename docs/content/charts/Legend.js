@@ -23,9 +23,7 @@ class PageController extends Controller {
 export const LegendPage = <cx>
     <Md>
         <CodeSplit>
-
             # Legend
-
             <ImportPath path="import { Legend, LegendEntry } from 'cx/charts';" />
 
             The `Legend` widget is used to display an index of elements displayed on the chart.
@@ -93,9 +91,11 @@ export const LegendPage = <cx>
             </div>
 
             <Content name="code">
-                <Tab value-bind="$page.code.tab" mod="code" tab="controller" text="Controller" />
-                <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Index" default/>
-                <Tab value-bind="$page.code.tab" mod="code" tab="columns" text="Columns" />
+                <div style={{ maxWidth: "60%" }}>
+                    <Tab value-bind="$page.code.tab" mod="code" tab="controller" text="Controller" />
+                    <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Index" default/>
+                    <Tab value-bind="$page.code.tab" mod="code" tab="columns" text="Columns" />
+                </div>
 
                 <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="c2Y0MiBY">{`
                     class PageController extends Controller {
