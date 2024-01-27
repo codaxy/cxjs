@@ -18,42 +18,19 @@ class PageController extends Controller {
             }))
         );
 
-        const data = this.generateData();
-        this.store.set("$page.data", data);
-        this.store.init("$page.filter", {
-            name: null,
-            phone: null,
-            city: null
-        });
+        this.store.set("$page.data", this.generateData());
 
+        // Allow filtering by name, phone, and city
         this.addTrigger(
             "filter",
-            ["$page.filter"],
-            (filter) => {
-                if (!(filter.name || filter.phone || filter.city)) {
+            ["$page.search"],
+            (search) => {
+                if (!search) {
                     this.store.set("$page.filteredData", this.store.get("$page.data"));
                     return;
                 }
-
-                var filtered = flattenTree(this.store.get("$page.data"));
-
-                if (filter.name) {
-                    var checks = filter.name.split(" ").map((w) => new RegExp(w, "gi"));
-                    filtered = filtered.filter((x) =>
-                        checks.every((ex) => x.fullName.match(ex))
-                    );
-                }
-
-                if (filter.phone) {
-                    filtered = filtered.filter(
-                        (x) => x.phone.indexOf(filter.phone) != -1
-                    );
-                }
-
-                if (filter.city) {
-                    filtered = filtered.filter((x) => x.city.indexOf(filter.city) != -1);
-                }
-
+                const tree = this.store.get("$page.data");
+                const filtered = filterTree(tree, search.toLowerCase());
                 this.store.set("$page.filteredData", filtered);
             },
             true
@@ -132,28 +109,36 @@ class PageController extends Controller {
     }
 }
 
-function flattenTree(treeData) {
-    // Using DFS to flatten the tree
-    if (!treeData) return [];
-    var list = [];
+function isMatch(node, search) {
+    return (
+        node.fullName.toLowerCase().includes(search) ||
+        node.phone.toLowerCase().includes(search) ||
+        node.city.toLowerCase().includes(search)
+    );
+}
 
-    for (const child of treeData) {
-        if (child.$leaf) {
-            list.push({
-                ...child,
-                $level: 0
-            });
+function filterTree(tree, search) {
+    if (!tree) return [];
+    var level = [];
+
+    for (const node of tree) {
+        if (node.$leaf) {
+            if (isMatch(node, search)) {
+                level.push(node);
+            }
         } else {
-            list.push({
-                ...child,
-                $level: 0,
-                $children: undefined
-            });
-            list = list.concat(flattenTree(child.$children));
+            // Node is not a leaf, so we need to filter its subtree
+            const children = filterTree(node.$children, search);
+            if (children.length > 0 || isMatch(node, search)) {
+                level.push({
+                    ...node,
+                    $children: children
+                });
+            }
         }
     }
 
-    return list;
+    return level;
 }
 
 export const SearchingAndFiltering = <cx>
@@ -161,10 +146,10 @@ export const SearchingAndFiltering = <cx>
         <Md>
             # Searching and Filtering
 
-            When it comes to `Grid`, it is common to require a functionality for filtering records.
-            One way to accomplish that is by specifying `filterParams` and `onCreateFilter`.
-
             <CodeSplit>
+                When it comes to `Grid`, it is common to require a functionality for filtering records.
+                One way to accomplish that is by specifying `filterParams` and `onCreateFilter`.
+
                 <div>
                     <div style="margin: 20px 0 10px 0">
                         <TextField
@@ -192,7 +177,7 @@ export const SearchingAndFiltering = <cx>
                                 predicate(record.city);
                         }}
                         scrollable
-                        style={{ height: "300px" }}
+                        style={{ height: "320px" }}
                     />
                 </div>
 
@@ -223,7 +208,6 @@ export const SearchingAndFiltering = <cx>
                             icon="search"
                             placeholder="Search..."
                         />
-
                         <Grid
                             records-bind="$page.employees"
                             columns={[
@@ -242,29 +226,40 @@ export const SearchingAndFiltering = <cx>
                                     predicate(record.city);
                             }}
                             scrollable
-                            style={{ height: "300px" }}
+                            style={{ height: "320px" }}
                         />
                     `}</CodeSnippet>
                 </Content>
             </CodeSplit>
 
             ## Searching Tree Grid
-            `Tree Grid` supports searching. Let's have a look at the example:
+            `Tree Grid` also supports searching. While traversing the tree, we need
+            to separate two cases: leaf nodes and non-leaf nodes. Leaf nodes can be
+            checked immediately and added to the result if they match the filter.
+            For non-leaf nodes, we must check their children too.
 
             <CodeSplit>
                 <div class="widgets">
+                    <div style="margin-bottom: 10px; width: 100%">
+                        <TextField
+                            value-bind="$page.search"
+                            icon="search"
+                            placeholder="Search..."
+                        />
+                    </div>
+
                     <Grid
                         records-bind="$page.filteredData"
-                        style={{ width: "100%" }}
+                        style={{ width: "100%", height: "300px" }}
                         mod="tree"
                         dataAdapter={{
                             type: TreeAdapter
                         }}
-                        emptyText="No data for specified filter criteria."
+                        emptyText="No data for the specified filter."
                         columns={[
                             {
                                 field: "fullName",
-                                header1: "Name",
+                                header: "Name",
                                 items: (
                                     <cx>
                                         <TreeNode
@@ -275,43 +270,14 @@ export const SearchingAndFiltering = <cx>
                                             text-bind="$record.fullName"
                                         />
                                     </cx>
-                                ),
-                                header2: {
-                                    allowSorting: false,
-                                    items: (
-                                        <TextField
-                                            value-bind="$page.filter.name"
-                                            reactOn="enter blur"
-                                            style="width:100%"
-                                        />
-                                    )
-                                }
+                                )
                             },
                             {
-                                header1: "Phone",
-                                header2: {
-                                    items: (
-                                        <TextField
-                                            value-bind="$page.filter.phone"
-                                            reactOn="enter blur"
-                                            style="width:100%"
-                                        />
-                                    )
-                                },
+                                header: "Phone",
                                 field: "phone"
                             },
                             {
-                                header1: "City",
-                                header2: {
-                                    allowSorting: false,
-                                    items: (
-                                        <TextField
-                                            value-bind="$page.filter.city"
-                                            reactOn="enter blur"
-                                            style="width:100%"
-                                        />
-                                    )
-                                },
+                                header: "City",
                                 field: "city"
                             }
                         ]}
@@ -319,71 +285,103 @@ export const SearchingAndFiltering = <cx>
                 </div>
 
                 <Content name="code">
-                    <Tab value-bind="$page.code.tab" tab="code" mod="code" text="Searching Tree Grid" default />
+                    <Tab value-bind="$page.code2.tab" tab="controller" mod="code" text="Controller" default />
+                    <Tab value-bind="$page.code2.tab" tab="grid" mod="code" text="Grid" />
 
-                    <CodeSnippet visible-expr="{$page.code.tab}=='code'" fiddle="rCf5Khho">{`
+                    <CodeSnippet visible-expr="{$page.code2.tab}=='controller'" fiddle="rCf5Khho">{`
+                        this.store.set("$page.data", this.generateData());
+
                         // Allow filtering by name, phone, and city
-                        this.store.init("$page.filter", {
-                            name: null,
-                            phone: null,
-                            city: null
-                        });
                         this.addTrigger(
                             "filter",
-                            ["$page.filter"],
-                            (filter) => {
-                                if (!(filter.name || filter.phone || filter.city)) {
+                            ["$page.search"],
+                            (search) => {
+                                if (!search) {
                                     this.store.set("$page.filteredData", this.store.get("$page.data"));
                                     return;
                                 }
-                                // First, flatten the tree, then filter it
-                                var filtered = flattenTree(this.store.get("$page.data"));
-                                if (filter.name) {
-                                    var checks = filter.name.split(" ").map((w) => new RegExp(w, "gi"));
-                                    filtered = filtered.filter((x) =>
-                                        checks.every((ex) => x.fullName.match(ex))
-                                    );
-                                }
-                                if (filter.phone) {
-                                    filtered = filtered.filter(
-                                        (x) => x.phone.indexOf(filter.phone) != -1
-                                    );
-                                }
-                                if (filter.city) {
-                                    filtered = filtered.filter((x) => x.city.indexOf(filter.city) != -1);
-                                }
+                                const tree = this.store.get("$page.data");
+                                const filtered = filterTree(tree, search.toLowerCase());
                                 this.store.set("$page.filteredData", filtered);
                             },
                             true
                         );
-                        function flattenTree(treeData) {
-                            if (!treeData) return [];
-                            var list = [];
-                            for (const child of treeData) {
-                                if (child.$leaf) {
-                                    list.push({
-                                        ...child,
-                                        $level: 0
-                                    });
+
+                        function isMatch(node, search) {
+                            return (
+                                node.fullName.toLowerCase().includes(search) ||
+                                node.phone.toLowerCase().includes(search) ||
+                                node.city.toLowerCase().includes(search)
+                            );
+                        }
+
+                        function filterTree(tree, search) {
+                            if (!tree) return [];
+                            var level = [];
+
+                            for (const node of tree) {
+                                if (node.$leaf) {
+                                    if (isMatch(node, search)) {
+                                        level.push(node);
+                                    }
                                 } else {
-                                    list.push({
-                                        ...child,
-                                        $level: 0,
-                                        $children: undefined
-                                    });
-                                    list = list.concat(flattenTree(child.$children));
+                                    // Node is not a leaf, so we need to filter its subtree
+                                    const children = filterTree(node.$children, search);
+                                    if (children.length > 0 || isMatch(node, search)) {
+                                        level.push({
+                                            ...node,
+                                            $children: children
+                                        });
+                                    }
                                 }
                             }
-                            return list;
+
+                            return level;
                         }
+                    `}</CodeSnippet>
+                    <CodeSnippet visible-expr="{$page.code2.tab}=='grid'" fiddle="rCf5Khho">{`
+                        <TextField
+                            value-bind="$page.search"
+                            icon="search"
+                            placeholder="Search..."
+                        />
+                        <Grid
+                            records-bind="$page.filteredData"
+                            style={{ width: "100%", height: "300px" }}
+                            mod="tree"
+                            dataAdapter={{
+                                type: TreeAdapter
+                            }}
+                            emptyText="No data for the specified filter."
+                            columns={[
+                                {
+                                    field: "fullName",
+                                    header: "Name",
+                                    items: (
+                                        <cx>
+                                            <TreeNode
+                                                expanded-bind="$record.$expanded"
+                                                leaf-bind="$record.$leaf"
+                                                level-bind="$record.$level"
+                                                loading-bind="$record.$loading"
+                                                text-bind="$record.fullName"
+                                            />
+                                        </cx>
+                                    )
+                                },
+                                {
+                                    header: "Phone",
+                                    field: "phone"
+                                },
+                                {
+                                    header: "City",
+                                    field: "city"
+                                }
+                            ]}
+                        />
                     `}</CodeSnippet>
                 </Content>
             </CodeSplit>
-
-            To achieve the desired outcome, we utilised a `Grid` with a tree structure.
-            We enabled filtering based on certain parameters and traversed the entire tree.
-            While traversing, we flattened our tree to make filtering easier. Finally, we
-            applied filters and updated data presented in the `Tree Grid`.
         </Md>
     </div>
 </cx >
