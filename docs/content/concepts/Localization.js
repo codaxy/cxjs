@@ -1,4 +1,4 @@
-import { NumberField, DateField, Calendar, Tab, FlexCol, LookupField } from 'cx/widgets';
+import { NumberField, DateField, Calendar, Tab, FlexCol, LookupField, FlexRow } from 'cx/widgets';
 import { Culture, Controller, Content, LabelsLeftLayout } from 'cx/ui';
 import { Md } from '../../components/Md';
 import { CodeSplit } from '../../components/CodeSplit';
@@ -53,13 +53,14 @@ class PageController extends Controller {
             { id: 6, text: 'SR-LATN-BA' }
         ]);
         this.store.set("$page.culture", { id: 1, text: 'EN-US' });
-        this.addTrigger("change-culture", ["$page.culture.text"], (text) => {
-            setCulture(text.toLowerCase(), this.store);
-        });
+        this.addTrigger("change-culture", ["$page.culture.text"], (text) =>
+            setCulture(text.toLowerCase(), this.store)
+        );
 
         // Currencies
         this.store.set("$page.currencies", [
-            { id: 0, text: 'EUR' }, { id: 1, text: 'USD' }, { id: 2, text: 'GBP' }, { id: 3, text: 'BAM' }
+            { id: 0, text: 'EUR' }, { id: 1, text: 'USD' },
+            { id: 2, text: 'GBP' }, { id: 3, text: 'BAM' }
         ]);
         this.store.set("$page.currency", { id: 1, text: 'USD' });
         this.addTrigger("change-currency", ["$page.currency.text"], (text) =>
@@ -73,8 +74,8 @@ export const LocalizationPage = <cx>
         <CodeSplit>
             # Localization
 
-            Cx support different culture specific number, currency and date formatting based on `Intl` helpers provided
-            by modern browsers. Besides that, Cx offers translation of standard messages to any language.
+            Cx supports different culture-specific number, currency and date formatting based on `Intl` helpers
+            provided by modern browsers. Besides that, Cx offers translation of standard messages to any language.
 
             <div class="widgets" controller={PageController}>
                 <FlexCol vspacing="large">
@@ -95,10 +96,14 @@ export const LocalizationPage = <cx>
                         />
                     </LabelsLeftLayout>
                     <FlexCol vspacing="medium" align="center">
-                        <NumberField value-bind="$page.number" required />
-                        <NumberField value-bind="$page.number" required format="currency" />
-                        <DateField value-bind="$page.date" required readOnly />
-                        <Calendar value-bind="$page.date" />
+                        <FlexRow hspacing="xlarge">
+                            <FlexCol vspacing="medium">
+                                <NumberField value-bind="$page.number" required />
+                                <NumberField value-bind="$page.number" required format="currency" />
+                                <DateField value-bind="$page.date" required readOnly />
+                            </FlexCol>
+                            <Calendar value-bind="$page.date" />
+                        </FlexRow>
                     </FlexCol>
                 </FlexCol>
             </div>
@@ -155,13 +160,14 @@ export const LocalizationPage = <cx>
                                 { id: 6, text: 'SR-LATN-BA' }
                             ]);
                             this.store.set("$page.culture", { id: 1, text: 'EN-US' });
-                            this.addTrigger("change-culture", ["$page.culture.text"], (text) => {
-                                setCulture(text.toLowerCase(), this.store);
-                            });
+                            this.addTrigger("change-culture", ["$page.culture.text"], (text) =>
+                                setCulture(text.toLowerCase(), this.store)
+                            );
 
                             // Currencies
                             this.store.set("$page.currencies", [
-                                { id: 0, text: 'EUR' }, { id: 1, text: 'USD' }, { id: 2, text: 'GBP' }, { id: 3, text: 'BAM' }
+                                { id: 0, text: 'EUR' }, { id: 1, text: 'USD' },
+                                { id: 2, text: 'GBP' }, { id: 3, text: 'BAM' }
                             ]);
                             this.store.set("$page.currency", { id: 1, text: 'USD' });
                             this.addTrigger("change-currency", ["$page.currency.text"], (text) =>
@@ -190,10 +196,14 @@ export const LocalizationPage = <cx>
                                 />
                             </LabelsLeftLayout>
                             <FlexCol vspacing="medium" align="center">
-                                <NumberField value-bind="$page.number" required />
-                                <NumberField value-bind="$page.number" required format="currency" />
-                                <DateField value-bind="$page.date" required readOnly />
-                                <Calendar value-bind="$page.date" />
+                                <FlexRow hspacing="xlarge">
+                                    <FlexCol vspacing="medium">
+                                        <NumberField value-bind="$page.number" required />
+                                        <NumberField value-bind="$page.number" required format="currency" />
+                                        <DateField value-bind="$page.date" required readOnly />
+                                    </FlexCol>
+                                    <Calendar value-bind="$page.date" />
+                                </FlexRow>
                             </FlexCol>
                         </FlexCol>
                     </div>
@@ -204,7 +214,9 @@ export const LocalizationPage = <cx>
         ## Culture
         <ImportPath path="import { Culture } from 'cx/ui';" />
 
-        The `Culture` object provides methods for selecting UI cultures used for formatting and localizing messages.
+        The `Culture` object provides methods for selecting UI cultures used for formatting and localizing
+        messages. It is even possible to combine different cultures at the same time, one for number
+        formatting and another for datetime formatting, using the methods described below.
 
         <CodeSplit>
             <MethodTable methods={[{
@@ -255,70 +267,8 @@ export const LocalizationPage = <cx>
             }]} />
         </CodeSplit>
 
-        ### Mixing different cultures and currencies
-        You can use one culture for number formatting, another for date and time formatting, and a different
-        currency, all at the same time.
-
-        <CodeSplit>
-            <Content name="code">
-                <Tab value-bind="$page.code2.tab" mod="code" tab="controller" text="Controller" default />
-                <Tab value-bind="$page.code2.tab" mod="code" tab="widget" text="Widget" />
-
-                <CodeSnippet visible-expr="{$page.code2.tab}=='controller'">{`
-                    function setNumberCulture(culture, store) {
-                        store.set('$page.numberCulture', culture);
-                        loadCulture(culture)
-                            .then(() => {
-                                Culture.setNumberCulture(culture);
-                                store.notify(); // Force re-render
-                            });
-                    }
-
-                    function setDateTimeCulture(culture, store) {
-                        store.set('$page.dateTimeCulture', culture);
-                        loadCulture(culture)
-                            .then(() => {
-                                Culture.setDateTimeCulture(culture);
-                                store.notify(); // Force re-render
-                            });
-                    }
-
-                    function setDefaultCurrency(currencyCode, store) {
-                        store.set('$page.currencyCode', currencyCode);
-                        Culture.setDefaultCurrency(currencyCode);
-                        store.notify(); // Force re-render
-                    }
-                `}</CodeSnippet>
-                <CodeSnippet visible-expr="{$page.code2.tab}=='widget'">{`
-                    <Button
-                        pressed-expr="{$page.numberCulture} === 'sr-latn-ba'"
-                        onClick={(_e, { store }) => {
-                            setNumberCulture('sr-latn-ba', store);
-                        }}
-                        text="sr-ba"
-                    />
-
-                    <Button
-                        pressed-expr="{$page.dateTimeCulture} === 'en-us'"
-                        onClick={(_e, { store }) => {
-                            setDateTimeCulture('en-us', store);
-                        }}
-                        text="en-us"
-                    />
-
-                    <Button
-                        pressed-expr="{$page.currencyCode} === 'EUR'"
-                        onClick={(_e, { store }) => {
-                            setDefaultCurrency('EUR', store);
-                        }}
-                        text="EUR"
-                    />
-                `}</CodeSnippet>
-            </Content>
-        </CodeSplit>
-
         ## Localization
-        <ImportPath path="import {Localization} from 'cx/ui';" />
+        <ImportPath path="import { Localization } from 'cx/ui';" />
 
         The `Localization` object offers methods for providing errors messages and other texts that appear in widgets
         in different languages.
