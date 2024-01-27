@@ -242,7 +242,7 @@ export default {
         type: 'object',
         description: <cx><Md>
             Parameters which will be passed to the `onCreateFilter` callback.
-            Take a look at the example [here](~/examples/grid/filtering).
+            Take a look at the example [here](~/examples/grid/searching-and-filtering).
         </Md></cx>
     },
     onCreateFilter: {
@@ -250,7 +250,7 @@ export default {
         description: <cx><Md>
             Callback function used to create a filter. The function accepts `filterParams` as
             an argument and it should return a predicate function used to filter the records.
-            Take a look at the example [here](~/examples/grid/filtering).
+            Take a look at the example [here](~/examples/grid/searching-and-filtering).
         </Md></cx>
     },
     onCreateIsRecordSelectable: {

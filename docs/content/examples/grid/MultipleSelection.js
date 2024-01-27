@@ -88,7 +88,7 @@ export const MultipleSelection = <cx>
             />
 
             See also:
-            - [Filtering](~/examples/grid/filtering)
+            - [Searching and Filtering](~/examples/grid/searching-and-filtering)
             - [Selection](~/concepts/selections)
 
             <Content name="code">

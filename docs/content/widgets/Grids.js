@@ -101,7 +101,7 @@ export const Grids = <cx>
 
         <div class="flex-row" style="column-gap: 4rem; flex-wrap: wrap; margin: 0; padding-top: 15px; padding-right: 30px;">
             <ul style="min-width: 150px; margin: 0;">
-                <li><Link href="~/examples/grid/filtering" text="Filtering" /></li>
+                <li><Link href="~/examples/grid/searching-and-filtering" text="Searching and Filtering" /></li>
                 <li><Link href="~/examples/grid/pagination" text="Pagination" /></li>
                 <li><Link href="~/examples/grid/multiple-selection" text="Multiple selection" /></li>
                 <li><Link href="~/examples/grid/grouping" text="Grouping" /></li>
