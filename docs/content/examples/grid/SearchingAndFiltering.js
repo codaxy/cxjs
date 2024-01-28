@@ -150,8 +150,8 @@ export const SearchingAndFiltering = <cx>
                 When it comes to `Grid`, it is common to require a functionality for filtering records.
                 One way to accomplish that is by specifying `filterParams` and `onCreateFilter`.
 
-                <div>
-                    <div style="margin: 20px 0 10px 0">
+                <div class="widgets">
+                    <div style="margin-bottom: 10px; width: 100%">
                         <TextField
                             value-bind="$page.search"
                             icon="search"
@@ -177,7 +177,7 @@ export const SearchingAndFiltering = <cx>
                                 predicate(record.city);
                         }}
                         scrollable
-                        style={{ height: "320px" }}
+                        style={{ width: "100%", height: "315px" }}
                     />
                 </div>
 
@@ -226,7 +226,7 @@ export const SearchingAndFiltering = <cx>
                                     predicate(record.city);
                             }}
                             scrollable
-                            style={{ height: "320px" }}
+                            style={{ height: "315px" }}
                         />
                     `}</CodeSnippet>
                 </Content>
