@@ -11,7 +11,6 @@ import {
     Tab
 } from 'cx/widgets';
 import {
-    ContentPlaceholder,
     Controller,
     LabelsLeftLayout,
     LabelsTopLayoutCell,
@@ -38,21 +37,6 @@ class FetchController extends Controller {
     }
 }
 
-var AppLayout = <cx>
-    <div style={{ height: '200px', width: '300px', display: 'flex', flexDirection: 'column', border: '1px solid black' }}>
-        <header style={{ background: "lightblue", padding: '5px' }}>App Header</header>
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'row' }}>
-            <aside style={{ width: '70px', background: 'white', padding: '5px' }}>
-                <ContentPlaceholder name="sidebar" />
-            </aside>
-            <main style={{ flex: 1, padding: '5px' }}>
-                <ContentPlaceholder /* name="body" */ />
-            </main>
-        </div>
-    </div>
-</cx>;
-
-
 export const InnerLayouts = <cx>
     <Md>
         # Inner Layouts
@@ -68,7 +52,6 @@ export const InnerLayouts = <cx>
         order as they are specified.
 
         <CodeSplit>
-
             Some widgets consist of multiple parts, such as form fields. If there is no layout,
             the parts will be laid down in the same order how they are defined in the `render` method.
             For a form field, the label will be displayed first and the input will follow.
@@ -103,7 +86,6 @@ export const InnerLayouts = <cx>
         inputs and other content go into the second column.
 
         <CodeSplit>
-
             <div class="widgets">
                 <div layout={LabelsLeftLayout}>
                     First some text.
@@ -193,7 +175,6 @@ export const InnerLayouts = <cx>
         </CodeSplit>
 
         ### Vertical Mode
-
         `LabelsTopLayout` can also be used in `vertical` mode where each field takes one row.
 
         <CodeSplit>
@@ -225,7 +206,6 @@ export const InnerLayouts = <cx>
         </CodeSplit>
 
         ### Multiple Columns
-
         `LabelsTopLayout` can render fields in multiple `columns`.
 
         <CodeSplit>
@@ -263,7 +243,6 @@ export const InnerLayouts = <cx>
         Use `LabelsTopLayoutCell` to achieve complex layouts in which some fields span across multiple columns or rows.
 
         <CodeSplit>
-
             <div class="widgets">
                 <LabelsTopLayout columns={2} mod="fixed" style="width: 300px">
                     <TextField label="Field1" value-bind="$page.field1" style="width: 100%" />
@@ -422,7 +401,6 @@ export const InnerLayouts = <cx>
         same layout.
 
         ## Outer Layouts
-
         For defining global application layouts, check out the [Outer Layouts](~/concepts/outer-layouts) page.
     </Md>
 </cx>;
