@@ -64,24 +64,19 @@ export const OuterLayouts = <cx>
             </div>
 
             <Content name="code">
-                <Tab value-bind="$page.code.tab" mod="code" tab="layout" text="Layout" default />
+                <Tab value-bind="$page.code.tab" mod="code" tab="layout" text="Layout" />
                 <Tab value-bind="$page.code.tab" mod="code" tab="widget" text="Widget" default />
+
                 <CodeSnippet visible-expr="{$page.code.tab}=='layout'" fiddle="BzPHusws">{`
-                    var AppLayout = <cx>
-                        <div style={{
-                            height: '200px',
-                            width: '300px',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            border: '1px solid black'
-                        }}>
+                    const AppLayout = <cx>
+                        <div style={{height: '200px', width: '300px', display: 'flex', flexDirection: 'column', border: '1px solid black'}}>
                             <header style={{background: "lightblue", padding: '5px'}}>App Header</header>
                             <div style={{flex: 1, display: 'flex', flexDirection: 'row'}}>
                                 <aside style={{width: '70px', background: 'white', padding: '5px'}}>
-                                <ContentPlaceholder name="sidebar" />
+                                    <ContentPlaceholder name="sidebar" />
                                 </aside>
                                 <main style={{flex: 1, padding: '5px'}}>
-                                <ContentPlaceholder /* name="body" *//>
+                                    <ContentPlaceholder /* name="body" *//>
                                 </main>
                             </div>
                         </div>
@@ -105,7 +100,8 @@ export const OuterLayouts = <cx>
             </Content>
         </CodeSplit>
 
-        Instead of using the `Content` widget, alternatively, you can define `putInto` or `contentFor` attribute for any Cx widget or HTML element to specify the name of the content placeholder that should render it.
+        Instead of using the `Content` widget, alternatively, you can define `putInto` or `contentFor` attribute
+        for any Cx widget or HTML element to specify the name of the content placeholder that should render it.
 
         <CodeSplit>
             <CodeSnippet copy={false}>{`
