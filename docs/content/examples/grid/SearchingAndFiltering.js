@@ -5,6 +5,7 @@ import { CodeSnippet } from "../../../components/CodeSnippet";
 import { Grid, Tab, TextField, TreeNode } from "cx/widgets";
 import { casual } from "../data/casual";
 import { getSearchQueryPredicate } from "cx/util";
+import { findTreeNode } from "cx/data";
 
 class PageController extends Controller {
     onInit() {
@@ -19,22 +20,6 @@ class PageController extends Controller {
         );
 
         this.store.set("$page.data", this.generateData());
-
-        // Allow filtering by name, phone, and city
-        this.addTrigger(
-            "filter",
-            ["$page.treeSearch"],
-            (search) => {
-                if (!search) {
-                    this.store.set("$page.filteredData", this.store.get("$page.data"));
-                    return;
-                }
-                const tree = this.store.get("$page.data");
-                const filtered = filterTree(tree, search.toLowerCase());
-                this.store.set("$page.filteredData", filtered);
-            },
-            true
-        );
     }
 
     generateData() {
@@ -57,15 +42,25 @@ class PageController extends Controller {
                         $children: [
                             {
                                 id: 3,
-                                fullName: "Sam Rempel",
-                                phone: "298-482-1184",
-                                city: "Port Lenna",
-                                $leaf: true
+                                fullName: "Mark Bishop",
+                                phone: "476-182-0113",
+                                city: "Puerto Nuevo",
+                                $leaf: false,
+                                $expanded: true,
+                                $children: [
+                                    {
+                                        id: 4,
+                                        fullName: "Sam Rempel",
+                                        phone: "298-482-1184",
+                                        city: "Port Lenna",
+                                        $leaf: true
+                                    }
+                                ]
                             }
                         ]
                     },
                     {
-                        id: 4,
+                        id: 5,
                         fullName: "Luke Jacobson",
                         phone: "492-200-5819",
                         city: "Sydneyland",
@@ -75,14 +70,14 @@ class PageController extends Controller {
                 ]
             },
             {
-                id: 5,
+                id: 6,
                 fullName: "Kamil Oberlauf",
                 phone: "459-320-1290",
                 city: "Bonnstadt",
                 $leaf: true
             },
             {
-                id: 6,
+                id: 7,
                 fullName: "Pavan Chernis",
                 phone: "958-327-5723",
                 city: "Sabovlet",
@@ -90,7 +85,7 @@ class PageController extends Controller {
                 $expanded: true,
                 $children: [
                     {
-                        id: 7,
+                        id: 8,
                         fullName: "Samantha-Lucy Robertson",
                         phone: "432-698-7712",
                         city: "Jacksonville",
@@ -99,7 +94,7 @@ class PageController extends Controller {
                 ]
             },
             {
-                id: 8,
+                id: 9,
                 fullName: "Simona Pavetic",
                 phone: "593-221-2079",
                 city: "Kaufborgen",
@@ -115,30 +110,6 @@ function isMatch(node, search) {
         node.phone.toLowerCase().includes(search) ||
         node.city.toLowerCase().includes(search)
     );
-}
-
-function filterTree(tree, search) {
-    if (!tree) return [];
-    var level = [];
-
-    for (const node of tree) {
-        if (node.$leaf) {
-            if (isMatch(node, search)) {
-                level.push(node);
-            }
-        } else {
-            // Node is not a leaf, so we need to filter its subtree
-            const children = filterTree(node.$children, search);
-            if (children.length > 0 || isMatch(node, search)) {
-                level.push({
-                    ...node,
-                    $children: children
-                });
-            }
-        }
-    }
-
-    return level;
 }
 
 export const SearchingAndFiltering = <cx>
@@ -233,10 +204,10 @@ export const SearchingAndFiltering = <cx>
             </CodeSplit>
 
             ## Searching Tree Grid
-            `Tree Grid` also supports searching. While traversing the tree, we need
-            to separate two cases: leaf nodes and non-leaf nodes. Leaf nodes can be
-            checked immediately and added to the result if they match the filter.
-            For non-leaf nodes, we must check their children too.
+            `Tree Grid` also supports searching, but we need to separate two cases: leaf
+            nodes and non-leaf nodes. Leaf nodes are checked immediately to see if they
+            match the search query, whereas for non-leaf nodes, the match could be found
+            in one of the nodes further down the tree.
 
             <CodeSplit>
                 <div class="widgets">
@@ -249,8 +220,9 @@ export const SearchingAndFiltering = <cx>
                     </div>
 
                     <Grid
-                        records-bind="$page.filteredData"
+                        records-bind="$page.data"
                         style={{ width: "100%", height: "300px" }}
+                        scrollable
                         mod="tree"
                         dataAdapter={{
                             type: TreeAdapter
@@ -281,31 +253,41 @@ export const SearchingAndFiltering = <cx>
                                 field: "city"
                             }
                         ]}
+                        filterParams-bind="$page.treeSearch"
+                        onCreateFilter={(search) => {
+                            if (!search) return () => true;
+                            search = search.toLowerCase();
+
+                            return (node) => {
+                                if (isMatch(node, search)) return true;
+                                if (node.$leaf) return false;
+                                const result = findTreeNode(
+                                    node.$children,
+                                    (subNode) => isMatch(subNode, search),
+                                    "$children"
+                                );
+                                return result ? true : false;
+                            }
+                        }}
                     />
                 </div>
 
                 <Content name="code">
-                    <Tab value-bind="$page.code2.tab" tab="controller" mod="code" text="Controller" default />
-                    <Tab value-bind="$page.code2.tab" tab="grid" mod="code" text="Grid" />
+                    <Tab value-bind="$page.code2.tab" tab="controller" mod="code" text="Controller" />
+                    <Tab value-bind="$page.code2.tab" tab="grid" mod="code" text="Grid" default />
 
                     <CodeSnippet visible-expr="{$page.code2.tab}=='controller'" fiddle="rCf5Khho">{`
-                        this.store.set("$page.data", this.generateData());
+                        class PageController extends Controller {
+                            onInit() {
+                                this.store.set("$page.data", this.generateData());
+                            }
 
-                        // Allow filtering by name, phone, and city
-                        this.addTrigger(
-                            "filter",
-                            ["$page.treeSearch"],
-                            (search) => {
-                                if (!search) {
-                                    this.store.set("$page.filteredData", this.store.get("$page.data"));
-                                    return;
-                                }
-                                const tree = this.store.get("$page.data");
-                                const filtered = filterTree(tree, search.toLowerCase());
-                                this.store.set("$page.filteredData", filtered);
-                            },
-                            true
-                        );
+                            generateData() {
+                                return [
+                                    // ...
+                                ];
+                            }
+                        }
 
                         function isMatch(node, search) {
                             return (
@@ -313,30 +295,6 @@ export const SearchingAndFiltering = <cx>
                                 node.phone.toLowerCase().includes(search) ||
                                 node.city.toLowerCase().includes(search)
                             );
-                        }
-
-                        function filterTree(tree, search) {
-                            if (!tree) return [];
-                            var level = [];
-
-                            for (const node of tree) {
-                                if (node.$leaf) {
-                                    if (isMatch(node, search)) {
-                                        level.push(node);
-                                    }
-                                } else {
-                                    // Node is not a leaf, so we need to filter its subtree
-                                    const children = filterTree(node.$children, search);
-                                    if (children.length > 0 || isMatch(node, search)) {
-                                        level.push({
-                                            ...node,
-                                            $children: children
-                                        });
-                                    }
-                                }
-                            }
-
-                            return level;
                         }
                     `}</CodeSnippet>
                     <CodeSnippet visible-expr="{$page.code2.tab}=='grid'" fiddle="rCf5Khho">{`
@@ -346,8 +304,9 @@ export const SearchingAndFiltering = <cx>
                             placeholder="Search..."
                         />
                         <Grid
-                            records-bind="$page.filteredData"
+                            records-bind="$page.data"
                             style={{ width: "100%", height: "300px" }}
+                            scrollable
                             mod="tree"
                             dataAdapter={{
                                 type: TreeAdapter
@@ -378,10 +337,31 @@ export const SearchingAndFiltering = <cx>
                                     field: "city"
                                 }
                             ]}
+                            filterParams-bind="$page.treeSearch"
+                            onCreateFilter={(search) => {
+                                if (!search) return () => true;
+                                search = search.toLowerCase();
+
+                                return (node) => {
+                                    if (isMatch(node, search)) return true; // Found a match
+                                    if (node.$leaf) return false;
+                                    // Look for a match in the subtree
+                                    const result = findTreeNode(
+                                        node.$children,
+                                        (subNode) => isMatch(subNode, search),
+                                        "$children"
+                                    );
+                                    return result ? true : false;
+                                }
+                            }}
                         />
                     `}</CodeSnippet>
                 </Content>
             </CodeSplit>
+
+            **Disclaimer**: This solution works by using `onCreateFilter` which calls our
+            search function **for each node** in the tree. That could cause performance
+            issues when working with very large trees.
         </Md>
     </div>
 </cx >
