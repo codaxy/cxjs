@@ -23,7 +23,7 @@ class PageController extends Controller {
         // Allow filtering by name, phone, and city
         this.addTrigger(
             "filter",
-            ["$page.search"],
+            ["$page.treeSearch"],
             (search) => {
                 if (!search) {
                     this.store.set("$page.filteredData", this.store.get("$page.data"));
@@ -242,7 +242,7 @@ export const SearchingAndFiltering = <cx>
                 <div class="widgets">
                     <div style="margin-bottom: 10px; width: 100%">
                         <TextField
-                            value-bind="$page.search"
+                            value-bind="$page.treeSearch"
                             icon="search"
                             placeholder="Search..."
                         />
@@ -294,7 +294,7 @@ export const SearchingAndFiltering = <cx>
                         // Allow filtering by name, phone, and city
                         this.addTrigger(
                             "filter",
-                            ["$page.search"],
+                            ["$page.treeSearch"],
                             (search) => {
                                 if (!search) {
                                     this.store.set("$page.filteredData", this.store.get("$page.data"));
@@ -341,7 +341,7 @@ export const SearchingAndFiltering = <cx>
                     `}</CodeSnippet>
                     <CodeSnippet visible-expr="{$page.code2.tab}=='grid'" fiddle="rCf5Khho">{`
                         <TextField
-                            value-bind="$page.search"
+                            value-bind="$page.treeSearch"
                             icon="search"
                             placeholder="Search..."
                         />
