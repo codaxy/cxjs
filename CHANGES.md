@@ -2,6 +2,8 @@
 
 <!--- ## Unreleased -->
 
+## `cx@24.1.3`
+
 **Features**
 
 -  Support tooltips and additional configuration on field icons
