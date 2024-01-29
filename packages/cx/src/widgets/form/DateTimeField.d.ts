@@ -47,8 +47,8 @@ export interface DateTimeFieldProps extends FieldProps {
    /** Error message used to indicate wrong user input, e.g. invalid date entered. */
    inputErrorText?: string;
 
-   /** Name of the icon to be put on the left side of the input. */
-   icon?: string;
+   /** Name or configuration of the icon to be put on the left side of the input.  */
+   icon?: Cx.StringProp | Cx.Record;
 
    /** Set to false to hide the clear button. It can be used interchangeably with the hideClear property. Default value is true. */
    showClear?: boolean;

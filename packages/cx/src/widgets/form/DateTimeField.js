@@ -45,7 +45,7 @@ export class DateTimeField extends Field {
             icon: undefined,
             autoOpen: undefined,
          },
-         ...arguments
+         ...arguments,
       );
    }
 
@@ -149,6 +149,7 @@ export class DateTimeField extends Field {
             }}
             label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
             help={this.helpPlacement && getContent(this.renderHelp(context, instance, "help"))}
+            icon={getContent(this.renderIcon(context, instance, "icon"))}
          />
       );
    }
@@ -283,7 +284,7 @@ class DateTimeInput extends VDOM.Component {
    }
 
    render() {
-      let { instance, label, help } = this.props;
+      let { instance, label, help, icon: iconVDOM } = this.props;
       let { data, widget, state } = instance;
       let { CSS, baseClass, suppressErrorsUntilVisited } = widget;
 
@@ -314,12 +315,8 @@ class DateTimeInput extends VDOM.Component {
             );
       }
 
-      if (data.icon) {
-         icon = (
-            <div className={CSS.element(baseClass, "left-icon")}>
-               {Icon.render(data.icon, { className: CSS.element(baseClass, "icon") })}
-            </div>
-         );
+      if (iconVDOM) {
+         icon = <div className={CSS.element(baseClass, "left-icon")}>{iconVDOM}</div>;
       }
 
       let dropdown = false;
@@ -345,7 +342,7 @@ class DateTimeInput extends VDOM.Component {
                   icon: !!icon,
                   empty: empty && !data.placeholder,
                   error: data.error && (state.visited || !suppressErrorsUntilVisited || !empty),
-               })
+               }),
             )}
             style={data.style}
             onMouseDown={this.onMouseDown.bind(this)}

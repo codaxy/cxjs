@@ -56,7 +56,7 @@ export class LookupField extends Field {
             filterParams: { structured: true },
          },
          additionalAttributes,
-         ...arguments
+         ...arguments,
       );
    }
 
@@ -155,14 +155,14 @@ export class LookupField extends Field {
             for (let i = 0; i < data.selectedKeys.length; i++) if (map[i]) data.records.push(map[i]);
          } else if (isArray(data.records))
             data.selectedKeys.push(
-               ...data.records.map(($value) => this.keyBindings.map((b) => Binding.get(b.local).value({ $value })))
+               ...data.records.map(($value) => this.keyBindings.map((b) => Binding.get(b.local).value({ $value }))),
             );
       } else {
          let dataViewData = store.getData();
          data.selectedKeys.push(this.keyBindings.map((b) => Binding.get(b.local).value(dataViewData)));
          if (!this.text && isArray(data.options)) {
             let option = data.options.find(($option) =>
-               areKeysEqual(getOptionKey(this.keyBindings, { $option }), data.selectedKeys[0])
+               areKeysEqual(getOptionKey(this.keyBindings, { $option }), data.selectedKeys[0]),
             );
             data.text = (option && option[this.optionTextField]) || "";
          }
@@ -185,6 +185,7 @@ export class LookupField extends Field {
             label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
             help={this.helpPlacement && getContent(this.renderHelp(context, instance, "help"))}
             forceUpdate={context.forceUpdate}
+            icon={this.renderIcon(context, instance, "icon")}
          />
       );
    }
@@ -360,13 +361,13 @@ class LookupComponent extends VDOM.Component {
                   type: SelectionDelegate,
                   delegate: (data) =>
                      this.props.instance.data.selectedKeys.find((x) =>
-                        areKeysEqual(x, this.getOptionKey({ $option: data }))
+                        areKeysEqual(x, this.getOptionKey({ $option: data })),
                      ) != null,
                }}
             >
                {this.props.itemConfig}
             </List>
-         </cx>
+         </cx>,
       );
 
       let dropdown = {
@@ -515,11 +516,11 @@ class LookupComponent extends VDOM.Component {
    }
 
    render() {
-      let { instance, label, help } = this.props;
+      let { instance, label, help, icon: iconVDOM } = this.props;
       let { data, widget, state } = instance;
       let { CSS, baseClass, suppressErrorsUntilVisited } = widget;
 
-      let icon = data.icon && (
+      let icon = iconVDOM && (
          <div
             key="icon"
             className={CSS.element(baseClass, "left-icon")}
@@ -530,9 +531,7 @@ class LookupComponent extends VDOM.Component {
                e.preventDefault();
             }}
          >
-            {Icon.render(data.icon, {
-               className: CSS.element(baseClass, "icon"),
-            })}
+            {iconVDOM}
          </div>
       );
 
@@ -623,7 +622,7 @@ class LookupComponent extends VDOM.Component {
       let states = {
          visited: state.visited,
          focus: this.state.focus || this.state.dropdownOpen,
-         icon: !!data.icon,
+         icon: !!iconVDOM,
          empty: !data.placeholder && data.empty,
          error: data.error && (state.visited || !suppressErrorsUntilVisited || !data.empty),
       };
@@ -896,7 +895,7 @@ class LookupComponent extends VDOM.Component {
             {
                dropdownOpen: false,
             },
-            () => keepFocus && this.dom.input.focus()
+            () => keepFocus && this.dom.input.focus(),
          );
 
          this.props.instance.setState({
@@ -919,7 +918,7 @@ class LookupComponent extends VDOM.Component {
             },
             () => {
                if (this.dom.dropdown) this.dom.dropdown.focus();
-            }
+            },
          );
       }
    }
@@ -1009,7 +1008,7 @@ class LookupComponent extends VDOM.Component {
                      },
                      () => {
                         if (widget.infinite) this.onListScroll();
-                     }
+                     },
                   );
                })
                .catch((err) => {
@@ -1062,7 +1061,7 @@ class LookupComponent extends VDOM.Component {
                },
                () => {
                   this.onListScroll();
-               }
+               },
             );
          })
          .catch((err) => {

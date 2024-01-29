@@ -39,7 +39,7 @@ export class TextField extends Field {
             icon: undefined,
             trim: undefined,
          },
-         ...arguments
+         ...arguments,
       );
    }
 
@@ -51,6 +51,7 @@ export class TextField extends Field {
             data={instance.data}
             label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
             help={this.helpPlacement && getContent(this.renderHelp(context, instance, "help"))}
+            icon={this.renderIcon(context, instance, "icon")}
          />
       );
    }
@@ -95,17 +96,17 @@ class Input extends VDOM.Component {
    }
 
    render() {
-      let { instance, data, label, help } = this.props;
+      let { instance, data, label, help, icon: iconVDOM } = this.props;
       let { widget, state } = instance;
       let { CSS, baseClass, suppressErrorsUntilVisited } = widget;
 
-      let icon = data.icon && (
+      let icon = iconVDOM && (
          <div
             className={CSS.element(baseClass, "left-icon")}
             onMouseDown={preventDefault}
             onClick={(e) => this.onChange(e, "enter")}
          >
-            {Icon.render(data.icon, { className: CSS.element(baseClass, "icon") })}
+            {iconVDOM}
          </div>
       );
 
@@ -141,7 +142,7 @@ class Input extends VDOM.Component {
                   clear: insideButton != null,
                   empty: empty && !data.placeholder,
                   error: data.error && (state.visited || !suppressErrorsUntilVisited || !empty),
-               })
+               }),
             )}
             style={data.style}
             onMouseDown={stopPropagation}
