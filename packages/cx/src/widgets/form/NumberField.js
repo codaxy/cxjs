@@ -11,7 +11,6 @@ import {
    tooltipParentDidMount,
 } from "../overlay/tooltip-ops";
 import { stopPropagation } from "../../util/eventCallbacks";
-import { Icon } from "../Icon";
 import { Localization } from "../../ui/Localization";
 import ClearIcon from "../icons/clear";
 import { isString } from "../../util/isString";
@@ -46,7 +45,7 @@ export class NumberField extends Field {
             scale: undefined,
             offset: undefined,
          },
-         ...arguments
+         ...arguments,
       );
    }
 
@@ -110,6 +109,7 @@ export class NumberField extends Field {
             instance={instance}
             label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
             help={this.helpPlacement && getContent(this.renderHelp(context, instance, "help"))}
+            icon={this.renderIcon(context, instance, "icon")}
          />
       );
    }
@@ -151,15 +151,11 @@ class Input extends VDOM.Component {
    }
 
    render() {
-      let { data, instance, label, help } = this.props;
+      let { data, instance, label, help, icon: iconVDOM } = this.props;
       let { widget, state } = instance;
       let { CSS, baseClass, suppressErrorsUntilVisited } = widget;
 
-      let icon = data.icon && (
-         <div className={CSS.element(baseClass, "left-icon")}>
-            {Icon.render(data.icon, { className: CSS.element(baseClass, "icon") })}
-         </div>
-      );
+      let icon = iconVDOM && <div className={CSS.element(baseClass, "left-icon")}>{iconVDOM}</div>;
 
       let insideButton;
       if (!data.readOnly && !data.disabled) {
@@ -190,7 +186,7 @@ class Input extends VDOM.Component {
                   icon: !!icon,
                   empty: empty && !data.placeholder,
                   error: data.error && (state.visited || !suppressErrorsUntilVisited || !empty),
-               })
+               }),
             )}
             style={data.style}
             onMouseDown={stopPropagation}

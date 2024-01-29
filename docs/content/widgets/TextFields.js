@@ -1,5 +1,5 @@
 import { Content, LabelsLeftLayout } from 'cx/ui';
-import { Tab, TextField } from 'cx/widgets';
+import { MsgBox, Tab, TextField } from 'cx/widgets';
 import { CodeSnippet } from '../../components/CodeSnippet';
 import { CodeSplit } from '../../components/CodeSplit';
 import { ConfigTable } from '../../components/ConfigTable';
@@ -31,7 +31,15 @@ export const TextFields = <cx>
                     <TextField label="Min/Max Length" value-bind="$page.text" minLength={3} maxLength={8} />
                     <TextField label="Styled" value-bind="$page.text"
                         inputStyle={{ border: '1px solid green' }}
-                        icon="search"
+                        icon={{
+                            name: "search",
+                            style: "pointer-events: all; cursor: pointer;",
+                            onClick: (e) => {
+                                e.stopPropagation();
+                                MsgBox.alert("Icon clicked.");
+                            },
+                            tooltip: "This tooltip is displayed only over the icon."
+                        }}
                         showClear />
                     <TextField label="View" value-bind="$page.text" mode="view" tooltip="Tooltips are shown in view mode too." />
                     <TextField label="EmptyText" value-bind="$page.text" mode="view" emptyText="N/A" />
@@ -53,7 +61,15 @@ export const TextFields = <cx>
                     <TextField label="Min/Max Length" value-bind="$page.text" minLength={3} maxLength={8}/>
                     <TextField label="Styled" value-bind="$page.text"
                         inputStyle={{border: '1px solid green'}}
-                        icon="search"
+                        icon={{
+                            name: "search",
+                            style: "pointer-events: all; cursor: pointer;",
+                            onClick: (e) => {
+                                e.stopPropagation();
+                                MsgBox.alert("Icon clicked.");
+                            },
+                            tooltip: "This tooltip is displayed only over the icon."
+                        }}
                         showClear />
                     <TextField label="View" value-bind="$page.text" mode="view" tooltip="Tooltips are shown in view mode too."/>
                     <TextField label="EmptyText" value-bind="$page.text" mode="view" emptyText="N/A"/>

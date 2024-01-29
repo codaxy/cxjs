@@ -63,7 +63,7 @@ export class MonthField extends Field {
             maxExclusive: undefined,
             icon: undefined,
          },
-         ...arguments
+         ...arguments,
       );
    }
 
@@ -163,6 +163,7 @@ export class MonthField extends Field {
             }}
             label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
             help={this.helpPlacement && getContent(this.renderHelp(context, instance, "help"))}
+            icon={this.renderIcon(context, instance, "icon")}
          />
       );
    }
@@ -261,7 +262,7 @@ class MonthInput extends VDOM.Component {
    }
 
    render() {
-      var { instance, label, help, data } = this.props;
+      var { instance, label, help, data, icon: iconVDOM } = this.props;
       var { widget, state } = instance;
       var { CSS, baseClass, suppressErrorsUntilVisited } = widget;
 
@@ -294,12 +295,8 @@ class MonthInput extends VDOM.Component {
             );
       }
 
-      if (data.icon) {
-         icon = (
-            <div className={CSS.element(baseClass, "left-icon")}>
-               {Icon.render(data.icon, { className: CSS.element(baseClass, "icon") })}
-            </div>
-         );
+      if (iconVDOM) {
+         icon = <div className={CSS.element(baseClass, "left-icon")}>{iconVDOM}</div>;
       }
 
       var dropdown = false;
@@ -325,7 +322,7 @@ class MonthInput extends VDOM.Component {
                   icon: !!icon,
                   empty: empty && !data.placeholder,
                   error: data.error && (state.visited || !suppressErrorsUntilVisited || !empty),
-               })
+               }),
             )}
             style={data.style}
             onMouseDown={this.onMouseDown.bind(this)}

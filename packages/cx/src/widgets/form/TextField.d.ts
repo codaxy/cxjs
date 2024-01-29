@@ -63,8 +63,8 @@ export interface TextFieldProps extends FieldProps {
    /** Regular expression used to validate the user's input. */
    validationRegExp?: RegExp;
 
-   /** Name of the icon to be put on the left side of the input. */
-   icon?: Cx.StringProp;
+   /** Name or configuration of the icon to be put on the left side of the input.  */
+   icon?: Cx.StringProp | Cx.Record;
 
    /** If trackFocus is set, this value will be set when the field receives or loses focus. */
    focused?: Cx.BooleanProp;

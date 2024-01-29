@@ -15,6 +15,7 @@ import { tooltipMouseLeave, tooltipMouseMove } from "../overlay/tooltip-ops";
 import { coalesce } from "../../util/coalesce";
 import { isUndefined } from "../../util/isUndefined";
 import { shallowEquals } from "../../util/shallowEquals";
+import { FieldIcon } from "./FieldIcon";
 
 export class Field extends PureContainer {
    declareData() {
@@ -36,11 +37,16 @@ export class Field extends PureContainer {
             tabIndex: undefined,
             validationParams: { structured: true },
          },
-         ...arguments
+         ...arguments,
       );
    }
 
    init() {
+      this.inputStyle = parseStyle(this.inputStyle);
+      super.init();
+   }
+
+   initComponents(context, instance) {
       if (this.validationMode == "tooltip" && isUndefined(this.errorTooltip)) {
          this.errorTooltip = {
             text: { bind: "$error" },
@@ -92,15 +98,20 @@ export class Field extends PureContainer {
          this.label = Label.create(labelConfig);
       }
 
-      this.inputStyle = parseStyle(this.inputStyle);
+      if (this.icon != null) {
+         let iconConfig = {
+            className: this.CSS.element(this.baseClass, "icon"),
+         };
+         if (isSelector(this.icon)) iconConfig.name = this.icon;
+         else Object.assign(iconConfig, this.icon);
 
-      super.init();
-   }
+         this.icon = FieldIcon.create(iconConfig);
+      }
 
-   initComponents(context, instance) {
       return super.initComponents(...arguments, {
          label: this.label,
          help: this.help,
+         icon: this.icon,
       });
    }
 
@@ -148,22 +159,22 @@ export class Field extends PureContainer {
       data.disabled = coalesce(
          context.parentStrict ? context.parentDisabled : null,
          data._disabled,
-         context.parentDisabled
+         context.parentDisabled,
       );
       data.readOnly = coalesce(
          context.parentStrict ? context.parentReadOnly : null,
          data._readOnly,
-         context.parentReadOnly
+         context.parentReadOnly,
       );
       data.viewMode = coalesce(
          context.parentStrict ? context.parentViewMode : null,
          data._viewMode,
-         context.parentViewMode
+         context.parentViewMode,
       );
       data.tabOnEnterKey = coalesce(
          context.parentStrict ? context.parentTabOnEnterKey : null,
          data._tabOnEnterKey,
-         context.parentTabOnEnterKey
+         context.parentTabOnEnterKey,
       );
       data.visited = coalesce(context.parentStrict ? context.parentVisited : null, data.visited, context.parentVisited);
 
@@ -310,6 +321,10 @@ export class Field extends PureContainer {
 
    renderHelp(context, instance, key) {
       if (instance.components.help) return getContent(instance.components.help.render(context, key));
+   }
+
+   renderIcon(context, instance, key) {
+      if (instance.components.icon) return getContent(instance.components.icon.render(context, key));
    }
 
    formatValue(context, { data }) {

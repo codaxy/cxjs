@@ -124,13 +124,13 @@ interface LookupFieldProps extends FieldProps {
    /** Mesasge to be displayed to the user if the entered search query is too short. */
    minQueryLengthMessageText?: string;
 
-   /** Name of the icon to be put on the left side of the input. */
-   icon?: Cx.StringProp;
+   /** Name or configuration of the icon to be put on the left side of the input.  */
+   icon?: Cx.StringProp | Cx.Record;
 
    /** Query function. */
    onQuery?: (
       query: string | { query: string; page: number; pageSize: number },
-      instance: Instance
+      instance: Instance,
    ) => Cx.Record[] | Promise<Cx.Record>;
 
    /** Set to true to sort dropdown options. */
