@@ -2,7 +2,7 @@
 # Manual changes might be lost - proceed with caution!
 
 __metadata:
-  version: 8
+  version: 6
   cacheKey: 10c0
 
 "@ampproject/remapping@npm:^2.2.0":
@@ -250,16 +250,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/helper-function-name@npm:^7.21.0":
-  version: 7.21.0
-  resolution: "@babel/helper-function-name@npm:7.21.0"
-  dependencies:
-    "@babel/template": "npm:^7.20.7"
-    "@babel/types": "npm:^7.21.0"
-  checksum: 5b4387afd34cd98a3a7f24f42250a5db6f7192a46e57bdbc151dc311b6299ceac151c5236018469af193dfb887b0b7ef8fe7ed89459cd05f00d69b3710c17498
-  languageName: node
-  linkType: hard
-
 "@babel/helper-function-name@npm:^7.22.5, @babel/helper-function-name@npm:^7.23.0":
   version: 7.23.0
   resolution: "@babel/helper-function-name@npm:7.23.0"
@@ -267,15 +257,6 @@ __metadata:
     "@babel/template": "npm:^7.22.15"
     "@babel/types": "npm:^7.23.0"
   checksum: d771dd1f3222b120518176733c52b7cadac1c256ff49b1889dbbe5e3fed81db855b8cc4e40d949c9d3eae0e795e8229c1c8c24c0e83f27cfa6ee3766696c6428
-  languageName: node
-  linkType: hard
-
-"@babel/helper-hoist-variables@npm:^7.18.6":
-  version: 7.18.6
-  resolution: "@babel/helper-hoist-variables@npm:7.18.6"
-  dependencies:
-    "@babel/types": "npm:^7.18.6"
-  checksum: 830aa7ca663b0d2a025513ab50a9a10adb2a37d8cf3ba40bb74b8ac14d45fbc3d08c37b1889b10d36558edfbd34ff914909118ae156c2f0915f2057901b90eff
   languageName: node
   linkType: hard
 
@@ -537,7 +518,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/parser@npm:^7.1.0, @babel/parser@npm:^7.14.7, @babel/parser@npm:^7.20.7, @babel/parser@npm:^7.21.5, @babel/parser@npm:^7.21.8":
+"@babel/parser@npm:^7.1.0, @babel/parser@npm:^7.14.7, @babel/parser@npm:^7.20.7, @babel/parser@npm:^7.21.8":
   version: 7.21.8
   resolution: "@babel/parser@npm:7.21.8"
   bin:
@@ -552,6 +533,15 @@ __metadata:
   bin:
     parser: ./bin/babel-parser.js
   checksum: 6f76cd5ccae1fa9bcab3525b0865c6222e9c1d22f87abc69f28c5c7b2c8816a13361f5bd06bddbd5faf903f7320a8feba02545c981468acec45d12a03db7755e
+  languageName: node
+  linkType: hard
+
+"@babel/parser@npm:^7.23.9":
+  version: 7.23.9
+  resolution: "@babel/parser@npm:7.23.9"
+  bin:
+    parser: ./bin/babel-parser.js
+  checksum: 8/e7cd4960ac8671774e13803349da88d512f9292d7baa952173260d3e8f15620a28a3701f14f709d769209022f9e7b79965256b8be204fc550cfe783cdcabe7c7
   languageName: node
   linkType: hard
 
@@ -1665,43 +1655,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/traverse@npm:^7.13.0, @babel/traverse@npm:^7.23.7":
-  version: 7.23.7
-  resolution: "@babel/traverse@npm:7.23.7"
+"@babel/traverse@npm:^7.13.0, @babel/traverse@npm:^7.21.5, @babel/traverse@npm:^7.23.7":
+  version: 7.23.9
+  resolution: "@babel/traverse@npm:7.23.9"
   dependencies:
-    "@babel/code-frame": "npm:^7.23.5"
-    "@babel/generator": "npm:^7.23.6"
-    "@babel/helper-environment-visitor": "npm:^7.22.20"
-    "@babel/helper-function-name": "npm:^7.23.0"
-    "@babel/helper-hoist-variables": "npm:^7.22.5"
-    "@babel/helper-split-export-declaration": "npm:^7.22.6"
-    "@babel/parser": "npm:^7.23.6"
-    "@babel/types": "npm:^7.23.6"
-    debug: "npm:^4.3.1"
-    globals: "npm:^11.1.0"
-  checksum: e32fceb4249beec2bde83968ddffe17444221c1ee5cd18c543a2feaf94e3ca83f2a4dfbc2dcca87cf226e0105973e0fe3717063a21e982a9de9945615ab3f3f5
+    "@babel/code-frame": ^7.23.5
+    "@babel/generator": ^7.23.6
+    "@babel/helper-environment-visitor": ^7.22.20
+    "@babel/helper-function-name": ^7.23.0
+    "@babel/helper-hoist-variables": ^7.22.5
+    "@babel/helper-split-export-declaration": ^7.22.6
+    "@babel/parser": ^7.23.9
+    "@babel/types": ^7.23.9
+    debug: ^4.3.1
+    globals: ^11.1.0
+  checksum: 8/a932f7aa850e158c00c97aad22f639d48c72805c687290f6a73e30c5c4957c07f5d28310c9bf59648e2980fe6c9d16adeb2ff92a9ca0f97fa75739c1328fc6c3
   languageName: node
   linkType: hard
 
-"@babel/traverse@npm:^7.21.5":
-  version: 7.21.5
-  resolution: "@babel/traverse@npm:7.21.5"
-  dependencies:
-    "@babel/code-frame": "npm:^7.21.4"
-    "@babel/generator": "npm:^7.21.5"
-    "@babel/helper-environment-visitor": "npm:^7.21.5"
-    "@babel/helper-function-name": "npm:^7.21.0"
-    "@babel/helper-hoist-variables": "npm:^7.18.6"
-    "@babel/helper-split-export-declaration": "npm:^7.18.6"
-    "@babel/parser": "npm:^7.21.5"
-    "@babel/types": "npm:^7.21.5"
-    debug: "npm:^4.1.0"
-    globals: "npm:^11.1.0"
-  checksum: 1b126b71b98aaff01ec1f0f0389d08beb6eda3d0b71878af4c6cf386686933a076d969240f270c6a01910d8036a1fb9013d53bd5c136b9b24025204a4dc48d03
-  languageName: node
-  linkType: hard
-
-"@babel/types@npm:^7.0.0, @babel/types@npm:^7.18.6, @babel/types@npm:^7.20.7, @babel/types@npm:^7.21.0, @babel/types@npm:^7.21.4, @babel/types@npm:^7.21.5, @babel/types@npm:^7.3.0, @babel/types@npm:^7.3.3, @babel/types@npm:^7.4.4":
+"@babel/types@npm:^7.0.0, @babel/types@npm:^7.18.6, @babel/types@npm:^7.20.7, @babel/types@npm:^7.21.4, @babel/types@npm:^7.21.5, @babel/types@npm:^7.3.0, @babel/types@npm:^7.3.3, @babel/types@npm:^7.4.4":
   version: 7.21.5
   resolution: "@babel/types@npm:7.21.5"
   dependencies:
@@ -1720,6 +1692,17 @@ __metadata:
     "@babel/helper-validator-identifier": "npm:^7.22.20"
     to-fast-properties: "npm:^2.0.0"
   checksum: 42cefce8a68bd09bb5828b4764aa5586c53c60128ac2ac012e23858e1c179347a4aac9c66fc577994fbf57595227611c5ec8270bf0cfc94ff033bbfac0550b70
+  languageName: node
+  linkType: hard
+
+"@babel/types@npm:^7.23.9":
+  version: 7.23.9
+  resolution: "@babel/types@npm:7.23.9"
+  dependencies:
+    "@babel/helper-string-parser": ^7.23.4
+    "@babel/helper-validator-identifier": ^7.22.20
+    to-fast-properties: ^2.0.0
+  checksum: 8/0a9b008e9bfc89beb8c185e620fa0f8ed6c771f1e1b2e01e1596870969096fec7793898a1d64a035176abf1dd13e2668ee30bf699f2d92c210a8128f4b151e65
   languageName: node
   linkType: hard
 
@@ -3124,10 +3107,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "babel-plugin-transform-cx-imports@workspace:packages/babel-plugin-transform-cx-imports"
   dependencies:
-    "@babel/core": "npm:^7.23.7"
-    "@babel/plugin-syntax-jsx": "npm:^7.23.3"
-    "@babel/preset-env": "npm:^7.23.7"
-    mocha: "npm:^10.2.0"
+    "@babel/core": ^7.23.7
+    "@babel/plugin-syntax-jsx": ^7.23.3
+    "@babel/preset-env": ^7.23.7
+    mocha: ^10.2.0
   peerDependencies:
     "@babel/core": ^7.0.0-0
   languageName: unknown
@@ -3148,10 +3131,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "babel-plugin-transform-cx-jsx@workspace:packages/babel-plugin-transform-cx-jsx"
   dependencies:
-    "@babel/core": "npm:^7.23.7"
-    "@babel/plugin-syntax-jsx": "npm:^7.23.3"
-    "@babel/preset-env": "npm:^7.23.7"
-    mocha: "npm:^10.2.0"
+    "@babel/core": ^7.23.7
+    "@babel/plugin-syntax-jsx": ^7.23.3
+    "@babel/preset-env": ^7.23.7
+    mocha: ^10.2.0
   peerDependencies:
     "@babel/core": ^7.0.0
   languageName: unknown
@@ -3179,14 +3162,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-preset-cx-env@npm:^24.0.0, babel-preset-cx-env@workspace:packages/babel-preset-cx-env":
+"babel-preset-cx-env@^24.0.0, babel-preset-cx-env@workspace:packages/babel-preset-cx-env":
   version: 0.0.0-use.local
   resolution: "babel-preset-cx-env@workspace:packages/babel-preset-cx-env"
   dependencies:
-    "@babel/plugin-proposal-function-bind": "npm:^7.23.3"
-    "@babel/plugin-transform-react-jsx": "npm:^7.23.4"
-    babel-plugin-transform-cx-imports: "npm:^21.3.0"
-    babel-plugin-transform-cx-jsx: "npm:^21.3.0"
+    "@babel/plugin-proposal-function-bind": ^7.23.3
+    "@babel/plugin-transform-react-jsx": ^7.23.4
+    babel-plugin-transform-cx-imports: ^21.3.0
+    babel-plugin-transform-cx-jsx: ^21.3.0
   peerDependencies:
     "@babel/core": ^7.0.0-0
     "@babel/preset-env": ^7.0.0-0
@@ -3239,46 +3222,46 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "benchmark@workspace:benchmark"
   dependencies:
-    "@babel/core": "npm:^7.23.7"
-    "@babel/preset-env": "npm:^7.23.7"
-    "@babel/preset-typescript": "npm:^7.23.3"
-    "@types/node": "npm:^20.10.6"
-    "@types/react": "npm:^18.2.46"
-    babel-loader: "npm:^9.1.3"
-    babel-plugin-transform-cx-imports: "npm:^21.3.0"
-    babel-plugin-transform-cx-jsx: "npm:^21.3.0"
-    babel-preset-cx-env: "npm:^24.0.0"
-    casual: "npm:^1.6.2"
-    copy-webpack-plugin: "npm:^11.0.0"
-    core-js: "npm:^3.35.0"
-    css-loader: "npm:^6.8.1"
-    cx: "npm:^23.12.3"
-    cx-react: "npm:^17.10.0"
-    file-loader: "npm:^6.2.0"
-    html-webpack-plugin: "npm:^5.6.0"
-    if-loader: "npm:^1.0.2"
-    inline-manifest-webpack-plugin: "npm:^4.0.2"
-    intl: "npm:^1.2.5"
-    json-loader: "npm:^0.5.7"
-    mini-css-extract-plugin: "npm:^2.7.6"
-    modify-babel-preset: "npm:^3.2.1"
-    react: "npm:^18.2.0"
-    react-dev-utils: "npm:^12.0.1"
-    react-dom: "npm:^18.2.0"
-    sass: "npm:^1.69.7"
-    sass-loader: "npm:^13.3.3"
-    serve: "npm:^14.2.1"
-    style-loader: "npm:^3.3.3"
-    svg-url-loader: "npm:^8.0.0"
-    url-loader: "npm:^4.1.1"
-    webpack: "npm:^5.89.0"
-    webpack-bundle-analyzer: "npm:^4.10.1"
-    webpack-cleanup-plugin: "npm:^0.5.1"
-    webpack-cli: "npm:^5.1.4"
-    webpack-combine-loaders: "npm:^2.0.4"
-    webpack-dev-server: "npm:^4.15.1"
-    webpack-merge: "npm:^5.10.0"
-    whatwg-fetch: "npm:^3.6.20"
+    "@babel/core": ^7.23.7
+    "@babel/preset-env": ^7.23.7
+    "@babel/preset-typescript": ^7.23.3
+    "@types/node": ^20.10.6
+    "@types/react": ^18.2.46
+    babel-loader: ^9.1.3
+    babel-plugin-transform-cx-imports: ^21.3.0
+    babel-plugin-transform-cx-jsx: ^21.3.0
+    babel-preset-cx-env: ^24.0.0
+    casual: ^1.6.2
+    copy-webpack-plugin: ^11.0.0
+    core-js: ^3.35.0
+    css-loader: ^6.8.1
+    cx: ^23.12.3
+    cx-react: ^17.10.0
+    file-loader: ^6.2.0
+    html-webpack-plugin: ^5.6.0
+    if-loader: ^1.0.2
+    inline-manifest-webpack-plugin: ^4.0.2
+    intl: ^1.2.5
+    json-loader: ^0.5.7
+    mini-css-extract-plugin: ^2.7.6
+    modify-babel-preset: ^3.2.1
+    react: ^18.2.0
+    react-dev-utils: ^12.0.1
+    react-dom: ^18.2.0
+    sass: ^1.69.7
+    sass-loader: ^13.3.3
+    serve: ^14.2.1
+    style-loader: ^3.3.3
+    svg-url-loader: ^8.0.0
+    url-loader: ^4.1.1
+    webpack: ^5.89.0
+    webpack-bundle-analyzer: ^4.10.1
+    webpack-cleanup-plugin: ^0.5.1
+    webpack-cli: ^5.1.4
+    webpack-combine-loaders: ^2.0.4
+    webpack-dev-server: ^4.15.1
+    webpack-merge: ^5.10.0
+    whatwg-fetch: ^3.6.20
   languageName: unknown
   linkType: soft
 
@@ -4001,7 +3984,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "create-cx-app@workspace:packages/create-cx-app"
   dependencies:
-    cx-cli: "npm:23.12.1"
+    cx-cli: 23.12.1
   bin:
     create-cx-app: index.js
   languageName: unknown
@@ -4083,33 +4066,33 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "cx-build-tools@workspace:packages/cx-build-tools"
   dependencies:
-    "@babel/core": "npm:^7.23.7"
-    "@babel/preset-env": "npm:^7.23.7"
-    "@rollup/plugin-babel": "npm:^6.0.4"
-    babel-preset-cx-env: "npm:^24.0.0"
-    prettier: "npm:^3.1.1"
-    rollup: "npm:^4.9.2"
-    rollup-plugin-prettier: "npm:^4.1.1"
-    sass: "npm:^1.69.7"
+    "@babel/core": ^7.23.7
+    "@babel/preset-env": ^7.23.7
+    "@rollup/plugin-babel": ^6.0.4
+    babel-preset-cx-env: ^24.0.0
+    prettier: ^3.1.1
+    rollup: ^4.9.2
+    rollup-plugin-prettier: ^4.1.1
+    sass: ^1.69.7
   languageName: unknown
   linkType: soft
 
-"cx-cli@npm:23.12.1, cx-cli@workspace:packages/cx-cli":
+"cx-cli@23.12.1, cx-cli@workspace:packages/cx-cli":
   version: 0.0.0-use.local
   resolution: "cx-cli@workspace:packages/cx-cli"
   dependencies:
-    adm-zip: "npm:^0.5.10"
-    chalk: "npm:^4.1.2"
-    cli-select: "npm:^1.1.2"
-    commander: "npm:^10.0.1"
-    copy-dir: "npm:^1.3.0"
-    request: "npm:^2.88.2"
+    adm-zip: ^0.5.10
+    chalk: ^4.1.2
+    cli-select: ^1.1.2
+    commander: ^10.0.1
+    copy-dir: ^1.3.0
+    request: ^2.88.2
   bin:
     cx: index.js
   languageName: unknown
   linkType: soft
 
-"cx-immer@npm:^22.3.0, cx-immer@workspace:packages/cx-immer":
+"cx-immer@^22.3.0, cx-immer@workspace:packages/cx-immer":
   version: 0.0.0-use.local
   resolution: "cx-immer@workspace:packages/cx-immer"
   peerDependencies:
@@ -4117,7 +4100,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"cx-react@npm:^17.10.0, cx-react@npm:^17.4.1, cx-react@workspace:packages/cx-react":
+"cx-react@^17.10.0, cx-react@^17.4.1, cx-react@workspace:packages/cx-react":
   version: 0.0.0-use.local
   resolution: "cx-react@workspace:packages/cx-react"
   peerDependencies:
@@ -4134,37 +4117,37 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"cx-theme-aquamarine@npm:^18.7.3, cx-theme-aquamarine@workspace:packages/cx-theme-aquamarine":
+"cx-theme-aquamarine@^18.7.3, cx-theme-aquamarine@workspace:packages/cx-theme-aquamarine":
   version: 0.0.0-use.local
   resolution: "cx-theme-aquamarine@workspace:packages/cx-theme-aquamarine"
   languageName: unknown
   linkType: soft
 
-"cx-theme-dark@npm:^18.7.1, cx-theme-dark@workspace:packages/cx-theme-dark":
+"cx-theme-dark@^18.7.1, cx-theme-dark@workspace:packages/cx-theme-dark":
   version: 0.0.0-use.local
   resolution: "cx-theme-dark@workspace:packages/cx-theme-dark"
   languageName: unknown
   linkType: soft
 
-"cx-theme-frost@npm:^18.7.1, cx-theme-frost@workspace:packages/cx-theme-frost":
+"cx-theme-frost@^18.7.1, cx-theme-frost@workspace:packages/cx-theme-frost":
   version: 0.0.0-use.local
   resolution: "cx-theme-frost@workspace:packages/cx-theme-frost"
   languageName: unknown
   linkType: soft
 
-"cx-theme-material-dark@npm:^20.1.0, cx-theme-material-dark@workspace:packages/cx-theme-material-dark":
+"cx-theme-material-dark@^20.1.0, cx-theme-material-dark@workspace:packages/cx-theme-material-dark":
   version: 0.0.0-use.local
   resolution: "cx-theme-material-dark@workspace:packages/cx-theme-material-dark"
   languageName: unknown
   linkType: soft
 
-"cx-theme-material@npm:^18.7.0, cx-theme-material@workspace:packages/cx-theme-material":
+"cx-theme-material@^18.7.0, cx-theme-material@workspace:packages/cx-theme-material":
   version: 0.0.0-use.local
   resolution: "cx-theme-material@workspace:packages/cx-theme-material"
   languageName: unknown
   linkType: soft
 
-"cx-theme-space-blue@npm:^20.1.0, cx-theme-space-blue@workspace:packages/cx-theme-space-blue":
+"cx-theme-space-blue@^20.1.0, cx-theme-space-blue@workspace:packages/cx-theme-space-blue":
   version: 0.0.0-use.local
   resolution: "cx-theme-space-blue@workspace:packages/cx-theme-space-blue"
   languageName: unknown
@@ -4188,9 +4171,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "cx@workspace:packages/cx"
   dependencies:
-    intl-io: "npm:^0.3.0"
-    react-test-renderer: "npm:^18.2.0"
-    route-parser: "npm:^0.0.5"
+    intl-io: ^0.3.0
+    react-test-renderer: ^18.2.0
+    route-parser: ^0.0.5
   peerDependencies:
     "@types/react": "*"
     react: "*"
@@ -4202,17 +4185,17 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "cxjs@workspace:."
   dependencies:
-    "@babel/core": "npm:^7.23.7"
-    "@babel/plugin-transform-react-jsx": "npm:^7.23.4"
-    "@babel/preset-env": "npm:^7.23.7"
-    "@babel/register": "npm:^7.23.7"
-    "@types/react": "npm:^18.2.46"
-    babel-jest: "npm:29.7.0"
-    env-test: "npm:^1.0.0"
-    mocha: "npm:^10.2.0"
-    prettier: "npm:^3.1.1"
-    react: "npm:^18.2.0"
-    react-dom: "npm:^18.2.0"
+    "@babel/core": ^7.23.7
+    "@babel/plugin-transform-react-jsx": ^7.23.4
+    "@babel/preset-env": ^7.23.7
+    "@babel/register": ^7.23.7
+    "@types/react": ^18.2.46
+    babel-jest: 29.7.0
+    env-test: ^1.0.0
+    mocha: ^10.2.0
+    prettier: ^3.1.1
+    react: ^18.2.0
+    react-dom: ^18.2.0
   languageName: unknown
   linkType: soft
 
@@ -4450,48 +4433,48 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "docs@workspace:docs"
   dependencies:
-    "@babel/core": "npm:^7.23.7"
-    "@babel/preset-env": "npm:^7.23.7"
-    "@babel/preset-typescript": "npm:^7.23.3"
-    "@types/node": "npm:^20.10.6"
-    "@types/react": "npm:^18.2.46"
-    babel-loader: "npm:^9.1.3"
-    babel-plugin-transform-cx-imports: "npm:^21.3.0"
-    babel-plugin-transform-cx-jsx: "npm:^21.3.0"
-    babel-preset-cx-env: "npm:^24.0.0"
-    casual: "npm:^1.6.2"
-    clean-webpack-plugin: "npm:^4.0.0"
-    copy-webpack-plugin: "npm:^11.0.0"
-    core-js: "npm:^3.35.0"
-    css-loader: "npm:^6.8.1"
-    cx: "npm:^23.12.3"
-    cx-react: "npm:^17.10.0"
-    file-loader: "npm:^6.2.0"
-    html-webpack-plugin: "npm:^5.6.0"
-    if-loader: "npm:^1.0.2"
-    illuminate-js: "npm:^1.0.0-alpha.2"
-    inline-manifest-webpack-plugin: "npm:^4.0.2"
-    intl: "npm:^1.2.5"
-    json-loader: "npm:^0.5.7"
-    marked: "npm:^4.3.0"
-    mini-css-extract-plugin: "npm:^2.7.6"
-    modify-babel-preset: "npm:^3.2.1"
-    react: "npm:^18.2.0"
-    react-dev-utils: "npm:^12.0.1"
-    react-dom: "npm:^18.2.0"
-    sass: "npm:^1.69.7"
-    sass-loader: "npm:^13.3.3"
-    style-loader: "npm:^3.3.3"
-    svg-url-loader: "npm:^8.0.0"
-    url-loader: "npm:^4.1.1"
-    webpack: "npm:^5.89.0"
-    webpack-bundle-analyzer: "npm:^4.10.1"
-    webpack-cleanup-plugin: "npm:^0.5.1"
-    webpack-cli: "npm:^5.1.4"
-    webpack-combine-loaders: "npm:^2.0.4"
-    webpack-dev-server: "npm:^4.15.1"
-    webpack-merge: "npm:^5.10.0"
-    whatwg-fetch: "npm:^3.6.20"
+    "@babel/core": ^7.23.7
+    "@babel/preset-env": ^7.23.7
+    "@babel/preset-typescript": ^7.23.3
+    "@types/node": ^20.10.6
+    "@types/react": ^18.2.46
+    babel-loader: ^9.1.3
+    babel-plugin-transform-cx-imports: ^21.3.0
+    babel-plugin-transform-cx-jsx: ^21.3.0
+    babel-preset-cx-env: ^24.0.0
+    casual: ^1.6.2
+    clean-webpack-plugin: ^4.0.0
+    copy-webpack-plugin: ^11.0.0
+    core-js: ^3.35.0
+    css-loader: ^6.8.1
+    cx: ^23.12.3
+    cx-react: ^17.10.0
+    file-loader: ^6.2.0
+    html-webpack-plugin: ^5.6.0
+    if-loader: ^1.0.2
+    illuminate-js: ^1.0.0-alpha.2
+    inline-manifest-webpack-plugin: ^4.0.2
+    intl: ^1.2.5
+    json-loader: ^0.5.7
+    marked: ^4.3.0
+    mini-css-extract-plugin: ^2.7.6
+    modify-babel-preset: ^3.2.1
+    react: ^18.2.0
+    react-dev-utils: ^12.0.1
+    react-dom: ^18.2.0
+    sass: ^1.69.7
+    sass-loader: ^13.3.3
+    style-loader: ^3.3.3
+    svg-url-loader: ^8.0.0
+    url-loader: ^4.1.1
+    webpack: ^5.89.0
+    webpack-bundle-analyzer: ^4.10.1
+    webpack-cleanup-plugin: ^0.5.1
+    webpack-cli: ^5.1.4
+    webpack-combine-loaders: ^2.0.4
+    webpack-dev-server: ^4.15.1
+    webpack-merge: ^5.10.0
+    whatwg-fetch: ^3.6.20
   languageName: unknown
   linkType: soft
 
@@ -4981,57 +4964,57 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "fiddle@workspace:fiddle"
   dependencies:
-    "@babel/core": "npm:^7.23.7"
-    "@babel/preset-env": "npm:^7.23.7"
-    "@babel/preset-typescript": "npm:^7.23.3"
-    "@babel/register": "npm:^7.23.7"
-    "@babel/runtime": "npm:^7.23.7"
-    "@babel/runtime-corejs2": "npm:^7.23.7"
-    "@babel/runtime-corejs3": "npm:^7.23.7"
-    "@types/node": "npm:^20.10.6"
-    "@types/react": "npm:^18.2.46"
-    assert: "npm:^2.1.0"
-    babel-loader: "npm:^9.1.3"
-    babel-plugin-transform-cx-imports: "npm:^21.3.0"
-    babel-plugin-transform-cx-jsx: "npm:^21.3.0"
-    babel-preset-cx-env: "npm:^24.0.0"
-    buffer: "npm:^6.0.3"
-    casual: "npm:^1.6.2"
-    codemirror: "npm:^5.65.16"
-    copy-webpack-plugin: "npm:^11.0.0"
-    core-js: "npm:^3.35.0"
-    css-loader: "npm:^6.8.1"
-    cx: "npm:^23.12.3"
-    cx-react: "npm:^17.4.1"
-    deep-equal: "npm:^2.2.3"
-    deepmerge: "npm:^4.3.1"
-    file-loader: "npm:^6.2.0"
-    html-webpack-plugin: "npm:^5.6.0"
-    if-loader: "npm:^1.0.2"
-    inline-manifest-webpack-plugin: "npm:^4.0.2"
-    json-loader: "npm:^0.5.7"
-    mini-css-extract-plugin: "npm:^2.7.6"
-    modify-babel-preset: "npm:^3.2.1"
-    path-browserify: "npm:^1.0.1"
-    prettier: "npm:^3.1.1"
-    process: "npm:^0.11.10"
-    query-string: "npm:^8.1.0"
-    react: "npm:^18.2.0"
-    react-dom: "npm:^18.2.0"
-    sass: "npm:^1.69.7"
-    sass-loader: "npm:^13.3.3"
-    style-loader: "npm:^3.3.3"
-    svg-url-loader: "npm:^8.0.0"
-    url-loader: "npm:^4.1.1"
-    webpack: "npm:^5.89.0"
-    webpack-bundle-analyzer: "npm:^4.10.1"
-    webpack-cleanup-plugin: "npm:^0.5.1"
-    webpack-cli: "npm:^5.1.4"
-    webpack-combine-loaders: "npm:^2.0.4"
-    webpack-dev-server: "npm:^4.15.1"
-    webpack-md5-hash: "npm:^0.0.6"
-    webpack-merge: "npm:^5.10.0"
-    whatwg-fetch: "npm:^3.6.20"
+    "@babel/core": ^7.23.7
+    "@babel/preset-env": ^7.23.7
+    "@babel/preset-typescript": ^7.23.3
+    "@babel/register": ^7.23.7
+    "@babel/runtime": ^7.23.7
+    "@babel/runtime-corejs2": ^7.23.7
+    "@babel/runtime-corejs3": ^7.23.7
+    "@types/node": ^20.10.6
+    "@types/react": ^18.2.46
+    assert: ^2.1.0
+    babel-loader: ^9.1.3
+    babel-plugin-transform-cx-imports: ^21.3.0
+    babel-plugin-transform-cx-jsx: ^21.3.0
+    babel-preset-cx-env: ^24.0.0
+    buffer: ^6.0.3
+    casual: ^1.6.2
+    codemirror: ^5.65.16
+    copy-webpack-plugin: ^11.0.0
+    core-js: ^3.35.0
+    css-loader: ^6.8.1
+    cx: ^23.12.3
+    cx-react: ^17.4.1
+    deep-equal: ^2.2.3
+    deepmerge: ^4.3.1
+    file-loader: ^6.2.0
+    html-webpack-plugin: ^5.6.0
+    if-loader: ^1.0.2
+    inline-manifest-webpack-plugin: ^4.0.2
+    json-loader: ^0.5.7
+    mini-css-extract-plugin: ^2.7.6
+    modify-babel-preset: ^3.2.1
+    path-browserify: ^1.0.1
+    prettier: ^3.1.1
+    process: ^0.11.10
+    query-string: ^8.1.0
+    react: ^18.2.0
+    react-dom: ^18.2.0
+    sass: ^1.69.7
+    sass-loader: ^13.3.3
+    style-loader: ^3.3.3
+    svg-url-loader: ^8.0.0
+    url-loader: ^4.1.1
+    webpack: ^5.89.0
+    webpack-bundle-analyzer: ^4.10.1
+    webpack-cleanup-plugin: ^0.5.1
+    webpack-cli: ^5.1.4
+    webpack-combine-loaders: ^2.0.4
+    webpack-dev-server: ^4.15.1
+    webpack-md5-hash: ^0.0.6
+    webpack-merge: ^5.10.0
+    whatwg-fetch: ^3.6.20
   languageName: unknown
   linkType: soft
 
@@ -5300,9 +5283,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fsevents@patch:fsevents@npm%3A^2.3.2#optional!builtin<compat/fsevents>, fsevents@patch:fsevents@npm%3A~2.3.2#optional!builtin<compat/fsevents>":
+"fsevents@patch:fsevents@npm%3A^2.3.2#~builtin<compat/fsevents>, fsevents@patch:fsevents@npm%3A~2.3.2#~builtin<compat/fsevents>":
   version: 2.3.3
-  resolution: "fsevents@patch:fsevents@npm%3A2.3.3#optional!builtin<compat/fsevents>::version=2.3.3&hash=df0bf1"
+  resolution: "fsevents@patch:fsevents@npm%3A2.3.3#~builtin<compat/fsevents>::version=2.3.3&hash=df0bf1"
   dependencies:
     node-gyp: "npm:latest"
   conditions: os=darwin
@@ -5334,53 +5317,53 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "gallery@workspace:gallery"
   dependencies:
-    "@babel/core": "npm:^7.23.7"
-    "@babel/preset-env": "npm:^7.23.7"
-    "@babel/preset-typescript": "npm:^7.23.3"
-    "@types/node": "npm:^20.10.6"
-    "@types/react": "npm:^18.2.46"
-    babel-loader: "npm:^9.1.3"
-    babel-plugin-transform-cx-imports: "npm:^21.3.0"
-    babel-plugin-transform-cx-jsx: "npm:^21.3.0"
-    babel-preset-cx-env: "npm:^24.0.0"
-    casual: "npm:^1.6.2"
-    clean-webpack-plugin: "npm:^4.0.0"
-    copy-webpack-plugin: "npm:^11.0.0"
-    core-js: "npm:^3.35.0"
-    css-loader: "npm:^6.8.1"
-    cx: "npm:^23.12.3"
-    cx-react: "npm:^17.10.0"
-    cx-theme-aquamarine: "npm:^18.7.3"
-    cx-theme-dark: "npm:^18.7.1"
-    cx-theme-frost: "npm:^18.7.1"
-    cx-theme-material: "npm:^18.7.0"
-    cx-theme-material-dark: "npm:^20.1.0"
-    cx-theme-space-blue: "npm:^20.1.0"
-    file-loader: "npm:^6.2.0"
-    html-webpack-plugin: "npm:^5.6.0"
-    if-loader: "npm:^1.0.2"
-    intl: "npm:^1.2.5"
-    json-loader: "npm:^0.5.7"
-    mini-css-extract-plugin: "npm:^2.7.6"
-    modify-babel-preset: "npm:^3.2.1"
-    plural: "npm:^1.1.0"
-    react: "npm:^18.2.0"
-    react-dev-utils: "npm:^12.0.1"
-    react-dom: "npm:^18.2.0"
-    sass: "npm:^1.69.7"
-    sass-loader: "npm:^13.3.3"
-    style-loader: "npm:^3.3.3"
-    svg-url-loader: "npm:^8.0.0"
-    ts-loader: "npm:^9.5.1"
-    typescript: "npm:^5.3.3"
-    url-loader: "npm:^4.1.1"
-    webpack: "npm:^5.89.0"
-    webpack-bundle-analyzer: "npm:^4.10.1"
-    webpack-cli: "npm:^5.1.4"
-    webpack-combine-loaders: "npm:^2.0.4"
-    webpack-dev-server: "npm:^4.15.1"
-    webpack-merge: "npm:^5.10.0"
-    whatwg-fetch: "npm:^3.6.20"
+    "@babel/core": ^7.23.7
+    "@babel/preset-env": ^7.23.7
+    "@babel/preset-typescript": ^7.23.3
+    "@types/node": ^20.10.6
+    "@types/react": ^18.2.46
+    babel-loader: ^9.1.3
+    babel-plugin-transform-cx-imports: ^21.3.0
+    babel-plugin-transform-cx-jsx: ^21.3.0
+    babel-preset-cx-env: ^24.0.0
+    casual: ^1.6.2
+    clean-webpack-plugin: ^4.0.0
+    copy-webpack-plugin: ^11.0.0
+    core-js: ^3.35.0
+    css-loader: ^6.8.1
+    cx: ^23.12.3
+    cx-react: ^17.10.0
+    cx-theme-aquamarine: ^18.7.3
+    cx-theme-dark: ^18.7.1
+    cx-theme-frost: ^18.7.1
+    cx-theme-material: ^18.7.0
+    cx-theme-material-dark: ^20.1.0
+    cx-theme-space-blue: ^20.1.0
+    file-loader: ^6.2.0
+    html-webpack-plugin: ^5.6.0
+    if-loader: ^1.0.2
+    intl: ^1.2.5
+    json-loader: ^0.5.7
+    mini-css-extract-plugin: ^2.7.6
+    modify-babel-preset: ^3.2.1
+    plural: ^1.1.0
+    react: ^18.2.0
+    react-dev-utils: ^12.0.1
+    react-dom: ^18.2.0
+    sass: ^1.69.7
+    sass-loader: ^13.3.3
+    style-loader: ^3.3.3
+    svg-url-loader: ^8.0.0
+    ts-loader: ^9.5.1
+    typescript: ^5.3.3
+    url-loader: ^4.1.1
+    webpack: ^5.89.0
+    webpack-bundle-analyzer: ^4.10.1
+    webpack-cli: ^5.1.4
+    webpack-combine-loaders: ^2.0.4
+    webpack-dev-server: ^4.15.1
+    webpack-merge: ^5.10.0
+    whatwg-fetch: ^3.6.20
   languageName: unknown
   linkType: soft
 
@@ -6752,50 +6735,50 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "litmus@workspace:litmus"
   dependencies:
-    "@babel/core": "npm:^7.23.7"
-    "@babel/preset-env": "npm:^7.23.7"
-    "@babel/preset-typescript": "npm:^7.23.3"
-    "@types/node": "npm:^20.10.6"
-    "@types/react": "npm:^18.2.46"
-    babel-loader: "npm:^9.1.3"
-    babel-plugin-transform-cx-imports: "npm:^21.3.0"
-    babel-plugin-transform-cx-jsx: "npm:^21.3.0"
-    babel-preset-cx-env: "npm:^24.0.0"
-    casual: "npm:^1.6.2"
-    copy-webpack-plugin: "npm:^11.0.0"
-    core-js: "npm:^3.35.0"
-    css-loader: "npm:^6.8.1"
-    cx: "npm:^23.12.3"
-    cx-immer: "npm:^22.3.0"
-    cx-react: "npm:^17.10.0"
-    file-loader: "npm:^6.2.0"
-    html-webpack-plugin: "npm:^5.6.0"
-    if-loader: "npm:^1.0.2"
-    immer: "npm:^10.0.3"
-    inline-manifest-webpack-plugin: "npm:^4.0.2"
-    intl: "npm:^1.2.5"
-    json-loader: "npm:^0.5.7"
-    mini-css-extract-plugin: "npm:^2.7.6"
-    modify-babel-preset: "npm:^3.2.1"
-    process: "npm:^0.11.10"
-    react: "npm:^18.2.0"
-    react-dev-utils: "npm:^12.0.1"
-    react-dom: "npm:^18.2.0"
-    sass: "npm:^1.69.7"
-    sass-loader: "npm:^13.3.3"
-    style-loader: "npm:^3.3.3"
-    svg-url-loader: "npm:^8.0.0"
-    ts-loader: "npm:^9.5.1"
-    typescript: "npm:^5.3.3"
-    url-loader: "npm:^4.1.1"
-    webpack: "npm:^5.89.0"
-    webpack-bundle-analyzer: "npm:^4.10.1"
-    webpack-cleanup-plugin: "npm:^0.5.1"
-    webpack-cli: "npm:^5.1.4"
-    webpack-combine-loaders: "npm:^2.0.4"
-    webpack-dev-server: "npm:^4.15.1"
-    webpack-merge: "npm:^5.10.0"
-    whatwg-fetch: "npm:^3.6.20"
+    "@babel/core": ^7.23.7
+    "@babel/preset-env": ^7.23.7
+    "@babel/preset-typescript": ^7.23.3
+    "@types/node": ^20.10.6
+    "@types/react": ^18.2.46
+    babel-loader: ^9.1.3
+    babel-plugin-transform-cx-imports: ^21.3.0
+    babel-plugin-transform-cx-jsx: ^21.3.0
+    babel-preset-cx-env: ^24.0.0
+    casual: ^1.6.2
+    copy-webpack-plugin: ^11.0.0
+    core-js: ^3.35.0
+    css-loader: ^6.8.1
+    cx: ^23.12.3
+    cx-immer: ^22.3.0
+    cx-react: ^17.10.0
+    file-loader: ^6.2.0
+    html-webpack-plugin: ^5.6.0
+    if-loader: ^1.0.2
+    immer: ^10.0.3
+    inline-manifest-webpack-plugin: ^4.0.2
+    intl: ^1.2.5
+    json-loader: ^0.5.7
+    mini-css-extract-plugin: ^2.7.6
+    modify-babel-preset: ^3.2.1
+    process: ^0.11.10
+    react: ^18.2.0
+    react-dev-utils: ^12.0.1
+    react-dom: ^18.2.0
+    sass: ^1.69.7
+    sass-loader: ^13.3.3
+    style-loader: ^3.3.3
+    svg-url-loader: ^8.0.0
+    ts-loader: ^9.5.1
+    typescript: ^5.3.3
+    url-loader: ^4.1.1
+    webpack: ^5.89.0
+    webpack-bundle-analyzer: ^4.10.1
+    webpack-cleanup-plugin: ^0.5.1
+    webpack-cli: ^5.1.4
+    webpack-combine-loaders: ^2.0.4
+    webpack-dev-server: ^4.15.1
+    webpack-merge: ^5.10.0
+    whatwg-fetch: ^3.6.20
   languageName: unknown
   linkType: soft
 
@@ -8572,16 +8555,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"resolve@patch:resolve@npm%3A^1.14.2#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.20.0#optional!builtin<compat/resolve>":
+"resolve@patch:resolve@npm%3A^1.14.2#~builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.20.0#~builtin<compat/resolve>":
   version: 1.22.8
-  resolution: "resolve@patch:resolve@npm%3A1.22.8#optional!builtin<compat/resolve>::version=1.22.8&hash=c3c19d"
+  resolution: "resolve@patch:resolve@npm%3A1.22.8#~builtin<compat/resolve>::version=1.22.8&hash=c3c19d"
   dependencies:
     is-core-module: "npm:^2.13.0"
     path-parse: "npm:^1.0.7"
     supports-preserve-symlinks-flag: "npm:^1.0.0"
   bin:
     resolve: bin/resolve
-  checksum: 0446f024439cd2e50c6c8fa8ba77eaa8370b4180f401a96abf3d1ebc770ac51c1955e12764cde449fde3fff480a61f84388e3505ecdbab778f4bef5f8212c729
+  checksum: 8/5479b7d431cacd5185f8db64bfcb7286ae5e31eb299f4c4f404ad8aa6098b77599563ac4257cb2c37a42f59dfc06a1bec2bcf283bb448f319e37f0feb9a09847
   languageName: node
   linkType: hard
 
@@ -9627,13 +9610,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A^5.3.3#optional!builtin<compat/typescript>":
+"typescript@patch:typescript@^5.3.3#~builtin<compat/typescript>":
   version: 5.3.3
-  resolution: "typescript@patch:typescript@npm%3A5.3.3#optional!builtin<compat/typescript>::version=5.3.3&hash=e012d7"
+  resolution: "typescript@patch:typescript@npm%3A5.3.3#~builtin<compat/typescript>::version=5.3.3&hash=e012d7"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 1d0a5f4ce496c42caa9a30e659c467c5686eae15d54b027ee7866744952547f1be1262f2d40de911618c242b510029d51d43ff605dba8fb740ec85ca2d3f9500
+  checksum: 8/4e604a9e107ce0c23b16a2f8d79d0531d4d8fe9ebbb7a8c395c66998c39892f0e0a071ef0b0d4e66420a8ec2b8d6cfd9cdb29ba24f25b37cba072e9282376df9
   languageName: node
   linkType: hard
 
