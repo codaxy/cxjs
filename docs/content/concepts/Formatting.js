@@ -1,4 +1,4 @@
-import { Content, Tab, NumberField, LabeledContainer, DateField } from 'cx/widgets';
+import { Content, Tab, NumberField, LabeledContainer, DateField, TextField } from 'cx/widgets';
 import { Md } from '../../components/Md';
 import { CodeSplit } from '../../components/CodeSplit';
 import { CodeSnippet } from '../../components/CodeSnippet';
@@ -21,8 +21,6 @@ const formats = {
             `n;decimalPrecision`
 
             `n;minPrecision;maxPrecision`
-
-
         </Md></cx>
     }, currency: {
         description: <cx><Md>
@@ -119,6 +117,7 @@ const formats = {
 class FormattingController extends Controller {
     onInit() {
         this.store.set("$page.value", 3.14159);
+        this.store.set("$page.person.name", "John");
         this.store.set("$page.person.dateOfBirth", new Date());
         this.store.set("$page.person.height", 180);
     }
@@ -129,7 +128,6 @@ export const Formatting = (
         <div controller={FormattingController}>
             <Md>
                 # Formatting
-
                 <ImportPath path="import { Format } from 'cx/util';" />
 
                 Cx offers rich support for value formatting.
@@ -187,18 +185,21 @@ export const Formatting = (
                                 </LabeledContainer>
                             </LabelsTopLayout>
                             <hr />
-                            <LabelsTopLayout columns={1}>
-                                <NumberField
-                                    value-bind="$page.person.height"
-                                    label="Enter your height in cm"
-                                />
-                                <div text-tpl="Your height is: {$page.person.height:suffix; cm|N/A}" />
+                            <LabelsTopLayout columns={2} style="margin-top: -10px">
+                                <LabelsTopLayout columns={1}>
+                                    <TextField value-bind="$page.person.name" label="Enter your name" maxLength={20} />
+                                    <div text-tpl='{[fmt({$page.person.name}, "prefix;Hi :suffix;. Nice to meet you!")]}' />
+                                </LabelsTopLayout>
+                                <LabelsTopLayout columns={1}>
+                                    <NumberField value-bind="$page.person.height" label="Enter your height in cm" />
+                                    <div text-tpl="Your height is {$page.person.height:suffix; cm.|N/A.}" />
+                                </LabelsTopLayout>
                             </LabelsTopLayout>
                         </div>
                     </div>
 
                     <Content name="code">
-                        <Tab value-bind="$page.code1.tab" mod="code" tab="controller" text="Controller" default />
+                        <Tab value-bind="$page.code1.tab" mod="code" tab="controller" text="Controller" />
                         <Tab value-bind="$page.code1.tab" mod="code" tab="index" text="Widgets" default />
 
                         <CodeSnippet visible-expr="{$page.code1.tab}=='controller'">{`
@@ -277,12 +278,15 @@ export const Formatting = (
                                     </LabeledContainer>
                                 </LabelsTopLayout>
                                 <hr />
-                                <LabelsTopLayout columns={1}>
-                                    <NumberField
-                                        value-bind="$page.person.height"
-                                        label="Enter your height in cm"
-                                    />
-                                    <div text-tpl="Your height is: {$page.person.height:suffix; cm|N/A}" />
+                                <LabelsTopLayout columns={2} style="margin-top: -10px">
+                                    <LabelsTopLayout columns={1}>
+                                        <TextField value-bind="$page.person.name" label="Enter your name" maxLength={20} />
+                                        <div text-tpl='{[fmt({$page.person.name}, "prefix;Hi :suffix;. Nice to meet you!")]}' />
+                                    </LabelsTopLayout>
+                                    <LabelsTopLayout columns={1}>
+                                        <NumberField value-bind="$page.person.height" label="Enter your height in cm" />
+                                        <div text-tpl="Your height is {$page.person.height:suffix; cm.|N/A.}" />
+                                    </LabelsTopLayout>
                                 </LabelsTopLayout>
                             </div>
                         `}</CodeSnippet>
