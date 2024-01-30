@@ -149,13 +149,13 @@ export default {
         </Md></cx>
     },
     icon: {
-        type: 'string',
+        type: 'string/object',
         description: <cx><Md>
             Name or configuration of the icon to be put on the left side of the input.
         </Md></cx>
     },
     showClear: {
-        type: 'string/object',
+        type: 'boolean',
         description: <cx><Md>
             Set to `false` to hide the clear button. It can be used interchangeably with the `hideClear` property.
             Default value is `true`.
