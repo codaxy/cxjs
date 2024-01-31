@@ -23,6 +23,18 @@ const formats = {
             `n;decimalPrecision`
 
             `n;minPrecision;maxPrecision`
+
+            `n;minPrecision;maxPrecision;+`
+            Displays a plus sign for positive numbers.
+
+            `n;minPrecision;maxPrecision;c`
+            Used for compact number formatting, e.g. `105000` will be formatted as `105K`.
+
+            `n;minPrecision;maxPrecision;a`
+            Displays number in accounting format.
+
+            `n;minPrecision;maxPrecision;+ca`
+            Combines three previous formats.
         </Md></cx>
     }, currency: {
         key: true,
@@ -118,22 +130,6 @@ const formats = {
             `ellipsis;maxLength;position`
 
             `position` defines ellipsis position and can be either `start`, `end` or `middle`. Default position is `end`.
-        </Md></cx>
-    },
-    "+": {
-        description: <cx><Md>
-            Displays a plus sign for positive numbers.
-        </Md></cx>
-    },
-    "c": {
-        key: true,
-        description: <cx><Md>
-            Used for compact number formatting, e.g. `105000` will be formatted as `105K`.
-        </Md></cx>
-    },
-    "a": {
-        description: <cx><Md>
-            Displays number in accounting format.
         </Md></cx>
     }
 };
