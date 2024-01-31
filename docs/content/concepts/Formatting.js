@@ -8,12 +8,14 @@ import { Controller, LabelsTopLayout } from 'cx/ui';
 
 const formats = {
     "string": {
+        key: true,
         alias: 's',
         description: <cx><Md>
             Default format. Convert any value to string using the `toString()` method.
         </Md></cx>
     },
     "number": {
+        key: true,
         alias: "n",
         description: <cx><Md>
             Number formatting.
@@ -23,6 +25,7 @@ const formats = {
             `n;minPrecision;maxPrecision`
         </Md></cx>
     }, currency: {
+        key: true,
         description: <cx><Md>
             Currency formatting. Formatting is done using the
             [`Intl.NumberFormat`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat)
@@ -35,6 +38,7 @@ const formats = {
         </Md></cx>
     },
     percentage: {
+        key: true,
         alias: 'p',
         description: <cx><Md>
             Percentage. Please note that the given number will be multiplied with 100.
@@ -47,12 +51,14 @@ const formats = {
         </Md></cx>
     },
     "date": {
+        key: true,
         alias: 'd',
         description: <cx><Md>
             Short date format.
         </Md></cx>
     },
     "time": {
+        key: true,
         alias: 't',
         description: <cx><Md>
             Time of the day formatting.
@@ -89,11 +95,13 @@ const formats = {
         </Md></cx>
     },
     "lowercase": {
+        key: true,
         description: <cx><Md>
             Converts text to the lower case.
         </Md></cx>
     },
     "uppercase": {
+        key: true,
         description: <cx><Md>
             Converts text to the upper case.
         </Md></cx>
@@ -112,6 +120,22 @@ const formats = {
             `position` defines ellipsis position and can be either `start`, `end` or `middle`. Default position is `end`.
         </Md></cx>
     },
+    "+": {
+        description: <cx><Md>
+            Displays a plus sign for positive numbers.
+        </Md></cx>
+    },
+    "c": {
+        key: true,
+        description: <cx><Md>
+            Used for compact number formatting, e.g. `105000` will be formatted as `105K`.
+        </Md></cx>
+    },
+    "a": {
+        description: <cx><Md>
+            Displays number in accounting format.
+        </Md></cx>
+    }
 };
 
 class FormattingController extends Controller {
@@ -302,7 +326,7 @@ export const Formatting = (
                 Use `|` to provide null text. Default null text is empty string.
 
                 ### Format Specifiers
-                <ConfigTable props={formats} sort={false} hideType header="Specifier" />
+                <ConfigTable props={formats} hideType header="Specifier" />
 
                 ### Culture Sensitive Formatting
                 <ImportPath path="import { enableCultureSensitiveFormatting } from 'cx/ui';" />
@@ -318,7 +342,6 @@ export const Formatting = (
                 </CodeSplit>
 
                 ### Custom Formats
-
                 Custom formats may be defined using `Format.register` and `Format.registerFactory` methods.
 
                 <CodeSplit>
