@@ -272,6 +272,10 @@ export const docsNavTree = [
          {
             text: "Grid",
             children: [
+               {
+                  text: "Searching and Filtering",
+                  url: "~/examples/grid/searching-and-filtering"
+               },
                { text: "Pagination", url: "~/examples/grid/pagination" },
                {
                   text: "Multiple Selection",
