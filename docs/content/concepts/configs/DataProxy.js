@@ -1,9 +1,9 @@
-import {Md} from '../../../components/Md';
+import { Md } from '../../../components/Md';
 import pureContainer from '../../widgets/configs/PureContainer';
 
 export default {
     ...pureContainer,
-    
+
     data: {
         key: true,
         type: 'object',
