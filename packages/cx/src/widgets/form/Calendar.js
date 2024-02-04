@@ -336,12 +336,20 @@ export class CalendarCmp extends VDOM.Component {
    }
 
    handleFocusOut() {
+      this.setState({
+         cursor: zeroTime(new Date())
+      });
       let { instance } = this.props;
       let { widget } = instance;
       if (widget.onFocusOut) instance.invoke("onFocusOut", null, instance);
    }
 
    handleMouseLeave(e) {
+      if (!this.state.focus) {
+         this.setState({
+            cursor: zeroTime(new Date())
+         });
+      }
       tooltipMouseLeave(e, ...getFieldTooltip(this.props.instance));
       this.setState({
          hover: false,
@@ -363,7 +371,7 @@ export class CalendarCmp extends VDOM.Component {
    }
 
    componentDidMount() {
-      //calendar doesn't bring up keyboard so it's ok to focus it even on mobile
+      // Calendar doesn't bring up keyboard so it's ok to focus it even on mobile
       if (this.props.instance.widget.autoFocus) this.el.focus();
 
       tooltipParentDidMount(this.el, ...getFieldTooltip(this.props.instance));
