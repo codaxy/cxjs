@@ -90,5 +90,12 @@ export default {
         description: <cx><Md>
             Set to `true` to focus the input field instead of the picker first.
         </Md></cx>
+    },
+    onParseInput: {
+        type: 'function',
+        description: <cx><Md>
+            Callback used for parsing custom input, e.g. *'today'*.
+            Returns `Date` object.
+        </Md></cx>
     }
 };
