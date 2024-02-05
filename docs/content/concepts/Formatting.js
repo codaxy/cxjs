@@ -51,7 +51,7 @@ export const Formatting = (
                                     <div text-tpl="{$page.value:currency;EUR;0}" />
                                 </LabeledContainer>
                                 <LabeledContainer label="Accounting format">
-                                    <div text-tpl="{$page.value:currency;USD;1;2;a}" />
+                                    <div text-tpl="{$page.value:currency;USD;1;2;+ac}" />
                                 </LabeledContainer>
                                 <LabeledContainer label="Percentage">
                                     <div text-tpl="{$page.value:p;0;2;}" />
@@ -148,7 +148,7 @@ export const Formatting = (
                                         <div text-tpl="{$page.value:currency;EUR;0}" />
                                     </LabeledContainer>
                                     <LabeledContainer label="Accounting format">
-                                        <div text-tpl="{$page.value:currency;USD;1;2;a}" />
+                                        <div text-tpl="{$page.value:currency;USD;1;2;+ac}" />
                                     </LabeledContainer>
                                     <LabeledContainer label="Percentage">
                                         <div text-tpl="{$page.value:p;0;2;}" />

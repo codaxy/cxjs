@@ -39,8 +39,17 @@ export default {
 
             `currency;currencyCode;minPrecision;maxPrecision`
 
+            `currency;currencyCode;minPrecision;maxPrecision;+`
+            Displays a plus sign for positive numbers.
+
             `currency;currencyCode;minPrecision;maxPrecision;a`
             Accounting format.
+
+            `currency;currencyCode;minPrecision;maxPrecision;c`
+            Used for compact number formatting, e.g. **105000** will be formatted as **105K**.
+
+            `currency;currencyCode;minPrecision;maxPrecision;+ac`
+            Combines previous formats.
         </Md></cx>
     },
     percentage: {
