@@ -5,134 +5,7 @@ import { CodeSnippet } from '../../components/CodeSnippet';
 import { ConfigTable } from '../../components/ConfigTable';
 import { ImportPath } from '../../components/ImportPath';
 import { Controller, LabelsTopLayout } from 'cx/ui';
-
-const formats = {
-    "string": {
-        key: true,
-        alias: 's',
-        description: <cx><Md>
-            Default format. Convert any value to string using the `toString()` method.
-        </Md></cx>
-    },
-    "number": {
-        key: true,
-        alias: "n",
-        description: <cx><Md>
-            Number formatting.
-
-            `n;decimalPrecision`
-
-            `n;minPrecision;maxPrecision`
-
-            `n;minPrecision;maxPrecision;+`
-            Displays a plus sign for positive numbers.
-
-            `n;minPrecision;maxPrecision;c`
-            Used for compact number formatting, e.g. `105000` will be formatted as `105K`.
-
-            `n;minPrecision;maxPrecision;a`
-            Displays number in accounting format.
-
-            `n;minPrecision;maxPrecision;+ca`
-            Combines three previous formats.
-        </Md></cx>
-    }, currency: {
-        key: true,
-        description: <cx><Md>
-            Currency formatting. Formatting is done using the
-            [`Intl.NumberFormat`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat)
-            class provided
-            by the browser. It's required to use a polyfill if your browser doesn't support `Intl` (e.g. older versions of Safari).
-
-            `currency;currencyCode;decimalPrecision`
-
-            `currency;currencyCode;minPrec;maxPrec`
-        </Md></cx>
-    },
-    percentage: {
-        key: true,
-        alias: 'p',
-        description: <cx><Md>
-            Percentage. Please note that the given number will be multiplied with 100.
-        </Md></cx>
-    },
-    "percentSign": {
-        alias: 'ps',
-        description: <cx><Md>
-            Percentage sign. Only percentage sign will be appended to the give number.
-        </Md></cx>
-    },
-    "date": {
-        key: true,
-        alias: 'd',
-        description: <cx><Md>
-            Short date format.
-        </Md></cx>
-    },
-    "time": {
-        key: true,
-        alias: 't',
-        description: <cx><Md>
-            Time of the day formatting.
-        </Md></cx>
-    },
-    "datetime": {
-        description: <cx><Md>
-            Options are used for custom date formatting.
-
-            `datetime;options`
-
-            Please check out the [intl-io](https://github.com/mstijak/intl-io) project for more info.
-        </Md></cx>
-    },
-    "wrap": {
-        description: <cx><Md>
-            Wraps the given value with into the provided prefix and suffix strings.
-
-            `wrap;prefix;suffix`
-        </Md></cx>
-    },
-    "prefix": {
-        description: <cx><Md>
-            Prefixes the given value with the provided text.
-
-            `prefix;text`
-        </Md></cx>
-    },
-    "suffix": {
-        description: <cx><Md>
-            Appends the provided text to the given value.
-
-            `suffix;text`
-        </Md></cx>
-    },
-    "lowercase": {
-        key: true,
-        description: <cx><Md>
-            Converts text to the lower case.
-        </Md></cx>
-    },
-    "uppercase": {
-        key: true,
-        description: <cx><Md>
-            Converts text to the upper case.
-        </Md></cx>
-    },
-    "urlencode": {
-        description: <cx><Md>
-            Encodes the given value using the `encodeURIComponent` function. Useful in URL templates.
-        </Md></cx>
-    },
-    "ellipsis": {
-        description: <cx><Md>
-            Shortens long texts.
-
-            `ellipsis;maxLength;position`
-
-            `position` defines ellipsis position and can be either `start`, `end` or `middle`. Default position is `end`.
-        </Md></cx>
-    }
-};
+import configs from "./configs/Formatting";
 
 class FormattingController extends Controller {
     onInit() {
@@ -165,6 +38,9 @@ export const Formatting = (
                                 <LabeledContainer label="Max two decimals">
                                     <div text-tpl="{$page.value:n;0;2}" />
                                 </LabeledContainer>
+                                <LabeledContainer label="Compact (1M, 1k)">
+                                    <div text-tpl="{$page.value:n;0;4;c}" />
+                                </LabeledContainer>
                                 <LabeledContainer label="Currency (default)">
                                     <div text-tpl="{$page.value:currency}" />
                                 </LabeledContainer>
@@ -174,14 +50,14 @@ export const Formatting = (
                                 <LabeledContainer label="Currency EUR, no decimals">
                                     <div text-tpl="{$page.value:currency;EUR;0}" />
                                 </LabeledContainer>
+                                <LabeledContainer label="Accounting format">
+                                    <div text-tpl="{$page.value:currency;USD;1;2;+ac}" />
+                                </LabeledContainer>
                                 <LabeledContainer label="Percentage">
                                     <div text-tpl="{$page.value:p;0;2;}" />
                                 </LabeledContainer>
                                 <LabeledContainer label="Percentage sign">
                                     <div text-tpl="{$page.value:ps;0;2;}" />
-                                </LabeledContainer>
-                                <LabeledContainer label="Compact (1M, 1k)">
-                                    <div text-tpl="{$page.value:n;0;4;c}" />
                                 </LabeledContainer>
                             </LabelsTopLayout>
                             <hr />
@@ -228,6 +104,7 @@ export const Formatting = (
                             Format.value(3.29, 'n;0'); // No decimals - "3"
                             Format.value(3.14159, 'n;1;3'); // Min 1, max 3 decimals - "3.142"
                             Format.value(462.31, 'currency;EUR;1'); // Currency EUR, one decimal - "€462.3"
+                            Format.value(-5, 'currency;USD;1;2;a'); // Accounting format - "($5.0)"
                             Format.value(30.258, 'ps;0;2'); // Percentage sign, max 2 decimals - "30.26%"
 
                             // Date formatting
@@ -258,6 +135,9 @@ export const Formatting = (
                                     <LabeledContainer label="Max two decimals">
                                         <div text-tpl="{$page.value:n;0;2}" />
                                     </LabeledContainer>
+                                    <LabeledContainer label="Compact (1M, 1k)">
+                                        <div text-tpl="{$page.value:n;0;4;c}" />
+                                    </LabeledContainer>
                                     <LabeledContainer label="Currency (default)">
                                         <div text-tpl="{$page.value:currency}" />
                                     </LabeledContainer>
@@ -267,14 +147,14 @@ export const Formatting = (
                                     <LabeledContainer label="Currency EUR, no decimals">
                                         <div text-tpl="{$page.value:currency;EUR;0}" />
                                     </LabeledContainer>
+                                    <LabeledContainer label="Accounting format">
+                                        <div text-tpl="{$page.value:currency;USD;1;2;+ac}" />
+                                    </LabeledContainer>
                                     <LabeledContainer label="Percentage">
                                         <div text-tpl="{$page.value:p;0;2;}" />
                                     </LabeledContainer>
                                     <LabeledContainer label="Percentage sign">
                                         <div text-tpl="{$page.value:ps;0;2;}" />
-                                    </LabeledContainer>
-                                    <LabeledContainer label="Compact (1M, 1k)">
-                                        <div text-tpl="{$page.value:n;0;4;c}" />
                                     </LabeledContainer>
                                 </LabelsTopLayout>
                                 <hr />
@@ -322,7 +202,7 @@ export const Formatting = (
                 Use `|` to provide null text. Default null text is empty string.
 
                 ### Format Specifiers
-                <ConfigTable props={formats} hideType header="Specifier" />
+                <ConfigTable props={configs} hideType header="Specifier" />
 
                 ### Culture Sensitive Formatting
                 <ImportPath path="import { enableCultureSensitiveFormatting } from 'cx/ui';" />
