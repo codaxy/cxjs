@@ -27,6 +27,7 @@ import {
 } from "../overlay/tooltip-ops";
 import { Field, getFieldTooltip } from "./Field";
 import { MonthPicker } from "./MonthPicker";
+import { getActiveElement } from "../../util/getActiveElement";
 
 export class MonthField extends Field {
    declareData() {
@@ -345,8 +346,8 @@ class MonthInput extends VDOM.Component {
                readOnly={data.readOnly}
                tabIndex={data.tabIndex}
                placeholder={data.placeholder}
-               onInput={(e) => this.onChange(e, "input")}
-               onChange={(e) => this.onChange(e, "change")}
+               onInput={(e) => this.onChange(e.target.value, "input")}
+               onChange={(e) => this.onChange(e.target.value, "change")}
                onKeyDown={(e) => this.onKeyDown(e)}
                onBlur={(e) => {
                   this.onBlur(e);
@@ -400,7 +401,7 @@ class MonthInput extends VDOM.Component {
       switch (e.keyCode) {
          case KeyCode.enter:
             e.stopPropagation();
-            this.onChange(e, "enter");
+            this.onChange(e.target.value, "enter");
             break;
 
          case KeyCode.esc:
@@ -432,7 +433,7 @@ class MonthInput extends VDOM.Component {
          this.setState({
             focus: false,
          });
-      this.onChange(e, "blur");
+      this.onChange(e.target.value, "blur");
    }
 
    closeDropdown(e, callback) {
@@ -487,16 +488,19 @@ class MonthInput extends VDOM.Component {
    }
 
    componentWillUnmount() {
+      if (this.input == getActiveElement()) {
+         this.onChange(this.input.value, "blur");
+      }
       tooltipParentWillUnmount(this.props.instance);
    }
 
-   onChange(e, eventType) {
+   onChange(inputValue, eventType) {
       var { instance } = this.props;
       var { widget } = instance;
 
       if (widget.reactOn.indexOf(eventType) == -1) return;
 
-      var parts = e.target.value.split("-");
+      var parts = inputValue.split("-");
       var date1 = widget.parseDate(parts[0]);
       var date2 = widget.parseDate(parts[1]) || date1;
 
