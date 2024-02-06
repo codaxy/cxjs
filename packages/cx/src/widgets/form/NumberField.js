@@ -17,6 +17,7 @@ import ClearIcon from "../icons/clear";
 import { isString } from "../../util/isString";
 import { isNumber } from "../../util/isNumber";
 import { isDefined } from "../../util/isDefined";
+import { getActiveElement } from "../../util/getActiveElement";
 
 import { enableCultureSensitiveFormatting } from "../../ui/Format";
 import { KeyCode } from "../../util/KeyCode";
@@ -252,6 +253,9 @@ class Input extends VDOM.Component {
    }
 
    componentWillUnmount() {
+      if (this.input == getActiveElement()) {
+         this.onChange({ target: { value: this.input.value } }, "blur");
+      }
       tooltipParentWillUnmount(this.props.instance);
    }
 
@@ -413,12 +417,12 @@ class Input extends VDOM.Component {
          let decimalSeparator = this.getDecimalSeparator(fmt) || Format.value(1.1, "n;1")[1];
 
          let formatted = Format.value(value, fmt);
-         //re-parse to avoid differences between formatted value and value in the store
+         // Re-parse to avoid differences between formatted value and value in the store
 
          value = widget.parseValue(formatted, instance) * data.scale + data.offset;
 
-         //allow users to type numbers like 100.0003 or -0.05 without interruptions
-         //if the last typed in character is zero or dot (decimal separator) skip processing it
+         // Allow users to type numbers like 100.0003 or -0.05 without interruptions
+         // If the last typed character is zero or dot (decimal separator), skip processing it
          if (
             change == "change" &&
             this.input.selectionStart == this.input.selectionEnd &&
@@ -430,7 +434,7 @@ class Input extends VDOM.Component {
             return;
 
          if (change != "blur") {
-            //format, but keep the correct cursor position
+            // Format, but keep the correct cursor position
             let preCursorText = this.getPreCursorDigits(this.input.value, this.input.selectionStart, decimalSeparator);
             this.input.value = formatted;
             this.updateCursorPosition(preCursorText);
