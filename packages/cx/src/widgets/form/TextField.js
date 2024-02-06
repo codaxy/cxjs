@@ -223,7 +223,7 @@ class Input extends VDOM.Component {
    }
 
    componentWillUnmount() {
-      if (this.input == getActiveElement()) this.onChanged(this.input.value, "blur");
+      if (this.input == getActiveElement()) this.onChange(this.input.value, "blur");
       tooltipParentWillUnmount(this.props.instance);
    }
 
@@ -245,8 +245,8 @@ class Input extends VDOM.Component {
 
    UNSAFE_componentWillReceiveProps(props) {
       let { data } = props;
-      //the second check is required for debouncing, sometimes the value in the store lags after the input
-      //and update may be caused by some other property, i.e. visited
+      // The second check is required for debouncing, sometimes the value in the store lags after the input
+      // and update may be caused by some other property, i.e. visited
       if (data.value != this.input.value && data.value != this.props.data.value) this.input.value = data.value || "";
       tooltipParentWillReceiveProps(this.input, ...getFieldTooltip(props.instance));
    }
