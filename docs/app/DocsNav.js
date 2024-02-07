@@ -69,6 +69,7 @@ export const docsNavTree = [
                { text: "Charts", url: "~/concepts/charts" },
                { text: "Drag & Drop", url: "~/concepts/drag-and-drop" },
                { text: "Data Adapters", url: "~/concepts/data-adapters" },
+               { text: "Keyboard Shortcuts", url: "~/concepts/keyboard-shortcuts" },
                { text: "Typed Models", url: "~/concepts/typed-models" },
                { text: "Immer.js Integration", url: "~/concepts/immer-js-integration" },
             ],
