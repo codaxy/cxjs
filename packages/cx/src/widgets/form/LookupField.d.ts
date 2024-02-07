@@ -8,7 +8,7 @@ export interface LookupBinding {
    key?: boolean;
 }
 
-interface LookupFieldProps extends FieldProps {
+interface LookupFieldProps<T = unknown> extends FieldProps {
    /** Defaults to `false`. Set to `true` to enable multiple selection. */
    multiple?: Cx.BooleanProp;
 
@@ -31,7 +31,7 @@ interface LookupFieldProps extends FieldProps {
    placeholder?: Cx.StringProp;
 
    /** A list of available options. */
-   options?: Cx.RecordsProp;
+   options?: Cx.Prop<T[]>;
 
    /**
     * Set to `true` to hide the clear button. It can be used interchangeably with the `showClear` property.
@@ -130,10 +130,7 @@ interface LookupFieldProps extends FieldProps {
    /** Query function. */
    onQuery?:
       | string
-      | ((
-           query: string | { query: string; page: number; pageSize: number },
-           instance: Instance
-        ) => Cx.Record[] | Promise<Cx.Record>);
+      | ((query: string | { query: string; page: number; pageSize: number }, instance: Instance) => T[] | Promise<T[]>);
 
    /** Set to true to sort dropdown options. */
    sort?: boolean;
@@ -167,10 +164,10 @@ interface LookupFieldProps extends FieldProps {
    filterParams?: Cx.StructuredProp;
 
    /** Callback to create a filter function for given filter params. */
-   onCreateVisibleOptionsFilter?: (filterParams: any, instance?: Instance) => (record: Record) => boolean;
+   onCreateVisibleOptionsFilter?: (filterParams: any, instance?: Instance) => (record: T) => boolean;
 
    /** Used in multiple selection lookups in combination with records, to construct the display text out of multiple fields or when additional formatting is needed. */
-   onGetRecordDisplayText?: (record: any, instance?: Instance) => string;
+   onGetRecordDisplayText?: (record: T, instance?: Instance) => string;
 }
 
-export class LookupField extends Cx.Widget<LookupFieldProps> {}
+export class LookupField<T = unknown> extends Cx.Widget<LookupFieldProps<T>> {}
