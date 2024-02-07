@@ -128,10 +128,12 @@ interface LookupFieldProps extends FieldProps {
    icon?: Cx.StringProp | Cx.Record;
 
    /** Query function. */
-   onQuery?: (
-      query: string | { query: string; page: number; pageSize: number },
-      instance: Instance,
-   ) => Cx.Record[] | Promise<Cx.Record>;
+   onQuery?:
+      | string
+      | ((
+           query: string | { query: string; page: number; pageSize: number },
+           instance: Instance
+        ) => Cx.Record[] | Promise<Cx.Record>);
 
    /** Set to true to sort dropdown options. */
    sort?: boolean;
