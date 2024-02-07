@@ -12,12 +12,12 @@ import configs from './configs/ColorMap';
 
 class PageController extends Controller {
     onInit() {
-        this.store.set('$page.series', Array.from({length: 5}, (_, i) => {
+        this.store.set('$page.series', Array.from({ length: 5 }, (_, i) => {
             var y = 100 + Math.random() * 200;
             return {
                 name: 'Series ' + (i + 1),
                 active: true,
-                points: Array.from({length: 26}, (_, x) => ({
+                points: Array.from({ length: 26 }, (_, x) => ({
                     x: x * 4,
                     y: (y = y + Math.random() * 100 - 50)
                 }))
@@ -29,10 +29,8 @@ class PageController extends Controller {
 export const ColorMapPage = <cx>
     <Md>
         <CodeSplit>
-
             # ColorMap
-
-            <ImportPath path="import {ColorMap} from 'cx/charts';"/>
+            <ImportPath path="import {ColorMap} from 'cx/charts';" />
 
             The `ColorMap` widget is used to assign a different color to each chart element (e.g. LineGraph) from the
             standard color palette.
@@ -45,74 +43,73 @@ export const ColorMapPage = <cx>
                 <Svg style="width:600px; height:400px;">
                     <Chart offset="20 -10 -40 40"
                         axes={{
-                            x: {type: NumericAxis},
-                            y: {type: NumericAxis, vertical: true}
+                            x: { type: NumericAxis },
+                            y: { type: NumericAxis, vertical: true }
                         }}>
-                        <Gridlines/>
+                        <Gridlines />
                         <ColorMap />
 
                         <Repeater records-bind="$page.series">
                             <LineGraph name-bind="$record.name"
                                 active-bind="$record.active"
                                 data-bind="$record.points"
-                                colorMap="lines"/>
+                                colorMap="lines" />
                         </Repeater>
                     </Chart>
                 </Svg>
                 <Legend />
             </div>
             <Content name="code">
-                <Tab value-bind="$page.code.tab" mod="code" tab="controller" text="Controller"/>
-                <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Index" default/>
+                <Tab value-bind="$page.code.tab" mod="code" tab="controller" text="Controller" />
+                <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Index" default />
 
                 <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="8FQsfb9B">{`
-                        class PageController extends Controller {
-                            onInit() {
-                                this.store.set('$page.series', Array.from({length: 5}, (_, i) => {
-                                    var y = 100 + Math.random() * 200;
-                                    return {
-                                        name: 'Series ' + (i + 1),
-                                        active: true,
-                                        points: Array.from({length: 26}, (_, x)=>({
-                                            x: x * 4,
-                                            y: (y = y + Math.random() * 100 - 50)
-                                        }))
-                                    }
-                                }));
-                            }
+                    class PageController extends Controller {
+                        onInit() {
+                            this.store.set('$page.series', Array.from({length: 5}, (_, i) => {
+                                var y = 100 + Math.random() * 200;
+                                return {
+                                    name: 'Series ' + (i + 1),
+                                    active: true,
+                                    points: Array.from({length: 26}, (_, x) => ({
+                                        x: x * 4,
+                                        y: (y = y + Math.random() * 100 - 50)
+                                    }))
+                                }
+                            }));
                         }
-                    `}</CodeSnippet>
+                    }
+                `}</CodeSnippet>
                 <CodeSnippet visible-expr="{$page.code.tab}=='index'" fiddle="8FQsfb9B">{`
-                        <div class="widgets" controller={PageController}>
-                            <Svg style="width:600px; height:400px;">
-                                <Chart offset="20 -10 -40 40"
-                                    axes={{
-                                        x: {type: NumericAxis},
-                                        y: {type: NumericAxis, vertical: true}
-                                    }}>
-                                    <Gridlines/>
-                                    <ColorMap />
-                                    <Repeater records-bind="$page.series">
-                                        <LineGraph name-bind="$record.name"
-                                                active-bind="$record.active"
-                                                data-bind="$record.points"
-                                                colorMap="lines" />
-                                    </Repeater>
-                                </Chart>
-                            </Svg>
-                            <Legend />
-                        </div>
-                    `}</CodeSnippet>
+                    <div class="widgets" controller={PageController}>
+                        <Svg style="width:600px; height:400px;">
+                            <Chart offset="20 -10 -40 40"
+                                axes={{
+                                    x: {type: NumericAxis},
+                                    y: {type: NumericAxis, vertical: true}
+                                }}>
+                                <Gridlines />
+                                <ColorMap />
+                                <Repeater records-bind="$page.series">
+                                    <LineGraph name-bind="$record.name"
+                                            active-bind="$record.active"
+                                            data-bind="$record.points"
+                                            colorMap="lines" />
+                                </Repeater>
+                            </Chart>
+                        </Svg>
+                        <Legend />
+                    </div>
+                `}</CodeSnippet>
             </Content>
         </CodeSplit>
 
         > Please note that `ColorMap` widget must be placed above the elements that use it.
 
-        > To isolate overlapping color maps, use the `ColorMapScope` widget.
+        > To isolate overlapping color maps, use the `ColorMap.Scope` widget.
+        Take a look at the example [here](https://fiddle.cxjs.io/?f=G9ASyXWo).
 
         ## Configuration
-
-        <ConfigTable props={configs}/>
-
+        <ConfigTable props={configs} />
     </Md>
 </cx>
