@@ -86,9 +86,16 @@ export const KeyboardShortcuts = (
                 `registerKeyboardShortcut` method accepts two arguments: **key** (one specific key or a combination
                 of keys, e.g. `Shift + A`), and a **callback** that is called when matching keyboard shortcut is pressed.
 
-                > One thing worth mentioning is that you should unregister keyboard listeners when they're no longer
-                needed. Good places to do that include controller's `onDestroy` method and component's
-                `componentWillUnmount` method.
+                When **key** argument denotes a specific key, it's passed as a number (from the `KeyCode` enum).
+                Otherwise, it's passed as an object containing these fields:
+                - `keyCode` (**required**): a number from the `KeyCode` enum, e.g. `KeyCode.enter`
+                - `ctrlKey` (optional): a boolean value representing whether the **control** key is part of the shortcut
+                - `shiftKey` (optional): a boolean value representing whether the **shift** key is part of the shortcut
+                - `altKey` (optional): a boolean value representing whether the **alt** key is part of the shortcut
+
+                > One thing worth mentioning is that you should **unregister** keyboard listeners when they're no longer
+                needed, to prevent memory leaks and unexpected behavior. Good places to do that include controller's
+                `onDestroy` method and component's `componentWillUnmount` method.
             </Md>
         </div>
     </cx>
