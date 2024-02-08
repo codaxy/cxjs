@@ -20,6 +20,7 @@ export * from './DragAndDrop';
 export * from './TypedModels';
 export * from './ImmerJsIntegration';
 export * from './DataAdapters';
+export * from './KeyboardShortcuts';
 
 import { bumpVersion } from '../version';
 
