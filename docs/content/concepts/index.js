@@ -21,6 +21,7 @@ export * from './TypedModels';
 export * from './ImmerJsIntegration';
 export * from './DataAdapters';
 export * from './KeyboardShortcuts';
+export * from './CreatingComponents';
 
 import { bumpVersion } from '../version';
 

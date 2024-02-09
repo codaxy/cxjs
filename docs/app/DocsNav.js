@@ -72,6 +72,7 @@ export const docsNavTree = [
                { text: "Keyboard Shortcuts", url: "~/concepts/keyboard-shortcuts" },
                { text: "Typed Models", url: "~/concepts/typed-models" },
                { text: "Immer.js Integration", url: "~/concepts/immer-js-integration" },
+               { text: "Creating components", url: "~/concepts/creating-components" }
             ],
          },
       ],
