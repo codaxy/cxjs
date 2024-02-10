@@ -54,11 +54,11 @@ interface GridColumnDropEvent extends DragEvent {
 
 interface GridGroupingKey {
    [key: string]:
-   | Prop<any>
-   | {
-      value: Prop<any>;
-      direction: SortDirection;
-   };
+      | Prop<any>
+      | {
+           value: Prop<any>;
+           direction: SortDirection;
+        };
 }
 
 type GridColumnAlignment = "left" | "right" | "center";
@@ -298,6 +298,9 @@ interface GridProps<T = unknown> extends StyledContainerProps {
    /** Parameters that affect filtering. */
    filterParams?: StructuredProp;
 
+   /** Callback function to be executed when a row is right-clicked.  */
+   onRowContextMenu?: string | ((e: React.SyntheticEvent<any>, instance: Instance) => void);
+
    /** Callback to create a filter function for given filter params. */
    onCreateFilter?: (filterParams: any, instance?: Instance) => (record: T) => boolean;
 
@@ -316,7 +319,7 @@ interface GridProps<T = unknown> extends StyledContainerProps {
          sortField?: string;
          sortDirection?: string;
       },
-      instance?: Instance
+      instance?: Instance,
    ) => FetchRecordsResult | Promise<FetchRecordsResult>;
 
    /** Callback function to be executed when a row is double-clicked. */
@@ -349,7 +352,7 @@ interface GridProps<T = unknown> extends StyledContainerProps {
    /** Callback to create a function that can be used to check whether a record is selectable. */
    onCreateIsRecordSelectable?: (
       params: any,
-      instance: Instance
+      instance: Instance,
    ) => (record: T, options?: { range?: boolean; toggle?: boolean }) => boolean;
 
    /** Parameters whose change will cause scroll to be reset. */
@@ -404,4 +407,4 @@ interface GridCellEditInfo<T> extends GridCellInfo {
    newData: T;
 }
 
-export class Grid<T = unknown> extends Widget<GridProps<T>> { }
+export class Grid<T = unknown> extends Widget<GridProps<T>> {}
