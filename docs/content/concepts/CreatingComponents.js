@@ -2,7 +2,7 @@ import { Md } from "../../components/Md";
 import { Content, Tab } from "cx/widgets";
 import { CodeSplit } from "../../components/CodeSplit";
 import { CodeSnippet } from "../../components/CodeSnippet";
-import { VDOM, Widget } from "../../../packages/cx/src/ui/Widget";
+import { Widget } from "../../../packages/cx/src/ui/Widget";
 
 class Square extends Widget {
     declareData() {
@@ -16,31 +16,21 @@ class Square extends Widget {
         );
     }
 
-    render(_context, { data }, key) {
-        const { red, green, blue } = data;
-        return <SquareCmp
-            key={key}
-            red={red}
-            green={green}
-            blue={blue}
-        />;
-    }
-}
+    onInit(_context, instance) {
+        const { red, green, blue } = this;
 
-class SquareCmp extends VDOM.Component {
-    constructor(props) {
-        super(props);
-
-        const { red, green, blue } = props;
-        this.state = {
-            color: (red && green && blue) ?
-                this.getColorFromRgb(red, green, blue) : this.getRandomColor()
-        };
+        if (red && green && blue) {
+            // Set the initial color based on the props
+            instance.setState({ color: this.getColorFromRgb(red, green, blue) });
+        } else {
+            instance.setState({ color: this.getRandomColor() });
+        }
     }
 
     getRandomColor() {
         const getRandomRgbValue = () => (
-            Math.floor(Math.random() * 200) // Not 256 because we wouldn't see a white square
+            Math.floor(Math.random() * 200)
+            // Not 256 because we wouldn't see a white square
         );
 
         return this.getColorFromRgb(getRandomRgbValue(), getRandomRgbValue(), getRandomRgbValue());
@@ -50,24 +40,25 @@ class SquareCmp extends VDOM.Component {
         return `rgb(${red}, ${green}, ${blue})`;
     }
 
-    handleClick(e) {
+    handleClick(e, instance) {
         e.preventDefault();
-        this.setState({ color: this.getRandomColor() });
+        instance.setState({ color: this.getRandomColor() });
     }
 
-    render() {
+    render(_context, instance, key) {
         return (
             <div
+                key={key}
                 style={{
                     width: "80px",
                     height: "80px",
-                    backgroundColor: this.state.color,
+                    backgroundColor: instance.state.color,
                     padding: 10,
                     cursor: "pointer"
                 }}
-                onClick={(e) => this.handleClick(e)}
+                onClick={(e) => this.handleClick(e, instance)}
             />
-        )
+        );
     }
 }
 
@@ -102,33 +93,21 @@ export const CreatingComponents = <cx>
                             );
                         }
 
-                        render(_context, { data }, key) {
-                            const { red, green, blue } = data;
-                            return <SquareCmp
-                                key={key}
-                                red={red}
-                                green={green}
-                                blue={blue}
-                            />;
-                        }
-                    }
+                        onInit(_context, instance) {
+                            const { red, green, blue } = this;
 
-                    Widget.alias("square", Square);
-
-                    class SquareCmp extends VDOM.Component {
-                        constructor(props) {
-                            super(props);
-
-                            const { red, green, blue } = props;
-                            this.state = {
-                                color: (red && green && blue) ?
-                                    this.getColorFromRgb(red, green, blue) : this.getRandomColor()
-                            };
+                            if (red && green && blue) {
+                                // Set the initial color based on the props
+                                instance.setState({ color: this.getColorFromRgb(red, green, blue) });
+                            } else {
+                                instance.setState({ color: this.getRandomColor() });
+                            }
                         }
 
                         getRandomColor() {
                             const getRandomRgbValue = () => (
-                                Math.floor(Math.random() * 200) // Not 256 because we wouldn't see a white square
+                                Math.floor(Math.random() * 200)
+                                // Not 256 because we wouldn't see a white square
                             );
 
                             return this.getColorFromRgb(getRandomRgbValue(), getRandomRgbValue(), getRandomRgbValue());
@@ -138,26 +117,29 @@ export const CreatingComponents = <cx>
                             return \`rgb(\${red}, \${green}, \${blue})\`;
                         }
 
-                        handleClick(e) {
+                        handleClick(e, instance) {
                             e.preventDefault();
-                            this.setState({color: this.getRandomColor() });
+                            instance.setState({color: this.getRandomColor() });
                         }
 
-                        render() {
+                        render(_context, instance, key) {
                             return (
                                 <div
+                                    key={key}
                                     style={{
                                         width: "80px",
                                         height: "80px",
-                                        backgroundColor: this.state.color,
+                                        backgroundColor: instance.state.color,
                                         padding: 10,
                                         cursor: "pointer"
                                     }}
-                                    onClick={(e) => this.handleClick(e)}
+                                    onClick={(e) => this.handleClick(e, instance)}
                                 />
-                            )
+                            );
                         }
                     }
+
+                    Widget.alias("square", Square);
                 `}</CodeSnippet>
                 <CodeSnippet visible-expr="{$page.code1.tab}=='usage'">{`
                     // With props
@@ -176,6 +158,8 @@ export const CreatingComponents = <cx>
         component classes, e.g. `Widget` or `Field`, based on the functionality and purpose of the
         component you're building.
 
+        ## Concepts
+
         ### `declareData()`
 
         This method is often used in custom components to declare the expected properties
@@ -183,12 +167,16 @@ export const CreatingComponents = <cx>
         is used to specify the expected data fields `red`, `green`, and `blue`. These fields correspond
         to the RGB values determining the inital color of the square, if specified.
 
+        ### `onInit()`
+
+        This is a lifecycle method that is called when the widget is initialized, before it is rendered
+        for the first time. In our `Square` component, we use it to set the initial color of the square.
+
         ### `render()`
 
-        The `render()` method is a fundamental part of CxJS components. It defines how the component
-        should be rendered based on its current state and props. In the `Square` component, the
-        `render()` method is responsible for rendering the actual `SquareCmp` JSX component. It
-        extracts properties from the component's data and passes them down to `SquareCmp`.
+        The `render()` method is a fundamental part of CxJS components. It defines how a component
+        should be rendered based on its current state and props. In the `Square` component, it renders
+        a fixed-size square whose color depends on the state.
 
         ### `Widget.alias()`
 
@@ -197,13 +185,17 @@ export const CreatingComponents = <cx>
         ### `VDOM.Component`
 
         `VDOM.Component` is the base class for CxJS components that use **virtual DOM** (**VDOM**) for
-        rendering. In the `SquareCmp` class, we extend `VDOM.Component` to create a new component
-        class that can manage its own state and lifecycle methods.
+        rendering.
 
-        In our case, the state holds square's current color. We set the state in the constructor
+        In our case, the state holds square's current color. We set the state in the `onInit()` method
         depending on the passed props. If the initial color is provided using the RGB props, we call
         `getColorFromRgb()` method to set the color. Otherwise, we invoke `getRandomColor()` to assign
         a random color. `render()` method renders a square and assigns an `onClick()` event callback
         that updates the state (color) and causes a re-render.
+
+        ## Using React components in CxJS applications
+        Similarly to creating new components, we can use existing React components in our CxJS apps.
+        Take a look at [this example](https://github.com/ognjenst/cxjs-widget-mask-field) to learn more
+        about it.
     </Md>
 </cx>
