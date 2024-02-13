@@ -47,8 +47,24 @@ export const CxComponent = <cx>
         representation. This VDOM is then seamlessly integrated into React's rendering
         process.
 
-        4. Finally, we can import widgets that we want to use, and use them within `cx`
-        tags.
+        <CodeSplit>
+            4. Finally, we can import widgets that we want to use, and use them within `cx`
+            tags.
+
+            <Content name="code">
+                <Tab value="example" tab="example" text="Example" mod="code" default />
+
+                <CodeSnippet>{`
+                    export const ReactApp = () => {
+                        return (
+                            <cx>
+                                <TextField label-"Name" value-bind="$page.name" />
+                            </cx>
+                        );
+                    }
+                `}</CodeSnippet>
+            </Content>
+        </CodeSplit>
 
         > Keep in mind that CxJS widgets need to be enclosed within `cx` tags, like in
         the example above. Everything outside is React code and would produce different
