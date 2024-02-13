@@ -24,4 +24,4 @@ export class Selection extends Component {
    isInstanceSelected(instance: Instance): boolean;
 }
 
-export class SimpleSelection extends Selection {}
+export class SimpleSelection extends Selection { }

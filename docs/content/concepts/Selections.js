@@ -1,5 +1,5 @@
 import { Repeater, Checkbox, Select, Option, Grid, Content, Tab } from 'cx/widgets';
-import { Controller, PropertySelection, KeySelection } from 'cx/ui';
+import { Controller, PropertySelection, KeySelection, SimpleSelection } from 'cx/ui';
 import { Svg, Rectangle } from 'cx/svg';
 import { Chart, Gridlines, ScatterGraph, NumericAxis } from 'cx/charts';
 import { Md } from 'docs/components/Md';
@@ -23,7 +23,7 @@ export const Selections = <cx>
     <Md controller={PageController}>
         <CodeSplit>
             # Selections
-            <ImportPath path="import { PropertySelection, KeySelection } from 'cx/ui';"/>
+            <ImportPath path="import { PropertySelection, KeySelection, SimpleSelection } from 'cx/ui';" />
 
             Some widgets allow the user to select one or more objects presented to them. If
             only one object can be selected at a time, that's called *single selection mode*. If multiple objects can
@@ -33,50 +33,51 @@ export const Selections = <cx>
             be handled and `Cx` offers commonly used methods out of the box.
 
             <Content name="code">
-                <Tab value-bind="$page.code.tab" tab="controller" mod="code" text="Controller"/>
-                <Tab value-bind="$page.code.tab" tab="chart" mod="code" text="Chart" default/>
-               <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="eINrAOlQ">{`
-               class PageController extends Controller {
-                  onInit() {
-                     this.store.set('$page.bubbles', Array.from({length: 15}).map((v, i)=>({
-                        name: \`Bubble \${i+1}\`,
-                        x: Math.random() * 100,
-                        y: Math.random() * 100,
-                        d: Math.random() * 40,
-                        selected: i % 2 == 0
-                     })));
-                  }
-               }
-            `}</CodeSnippet>
-            <CodeSnippet visible-expr="{$page.code.tab}=='chart'" fiddle="eINrAOlQ">{`
-                <div class="widgets" controller={PageController}>
-                    <Svg style={{ width: "400px", height: "400px" }}>
-                        <Chart anchors="0 1 1 0" offset="25 -25 -40 50" axes={NumericAxis.XY()}>
-                            <Rectangle
-                                anchors="0 1 1 0"
-                                style={{ fill: "rgba(100, 100, 100, 0.1)" }}
-                            />
-                            <Gridlines />
-                            <ScatterGraph
-                                data-bind="$page.bubbles"
-                                selection={{ type: PropertySelection, multiple: true }}
-                                sizeField="d"
-                                colorIndex={0}
-                            />
-                        </Chart>
-                    </Svg>
-                    <div>
-                        <Repeater records-bind="$page.bubbles">
-                            <div>
-                                <Checkbox
-                                    checked-bind="$record.selected"
-                                    text-bind="$record.name"
+                <Tab value-bind="$page.code.tab" tab="controller" mod="code" text="Controller" />
+                <Tab value-bind="$page.code.tab" tab="chart" mod="code" text="Chart" default />
+
+                <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="eINrAOlQ">{`
+                    class PageController extends Controller {
+                        onInit() {
+                            this.store.set('$page.bubbles', Array.from({length: 15}).map((v, i)=>({
+                                name: \`Bubble \${i+1}\`,
+                                x: Math.random() * 100,
+                                y: Math.random() * 100,
+                                d: Math.random() * 40,
+                                selected: i % 2 == 0
+                            })));
+                        }
+                    }
+                `}</CodeSnippet>
+                <CodeSnippet visible-expr="{$page.code.tab}=='chart'" fiddle="eINrAOlQ">{`
+                    <div class="widgets" controller={PageController}>
+                        <Svg style={{ width: "400px", height: "400px" }}>
+                            <Chart anchors="0 1 1 0" offset="25 -25 -40 50" axes={NumericAxis.XY()}>
+                                <Rectangle
+                                    anchors="0 1 1 0"
+                                    style={{ fill: "rgba(100, 100, 100, 0.1)" }}
                                 />
-                            </div>
-                        </Repeater>
+                                <Gridlines />
+                                <ScatterGraph
+                                    data-bind="$page.bubbles"
+                                    selection={{ type: PropertySelection, multiple: true }}
+                                    sizeField="d"
+                                    colorIndex={0}
+                                />
+                            </Chart>
+                        </Svg>
+                        <div>
+                            <Repeater records-bind="$page.bubbles">
+                                <div>
+                                    <Checkbox
+                                        checked-bind="$record.selected"
+                                        text-bind="$record.name"
+                                    />
+                                </div>
+                            </Repeater>
+                        </div>
                     </div>
-                </div>
-            `}</CodeSnippet>
+                `}</CodeSnippet>
             </Content>
         </CodeSplit>
 
@@ -86,8 +87,7 @@ export const Selections = <cx>
         Usually, `selected` property is used.
 
         This mode is easy to understand with a list of checkboxes. Each checkbox determines whether a corresponding
-        record
-        is selected or not.
+        record is selected or not.
 
         <CodeSplit>
             <div class="widgets" controller={PageController}>
@@ -136,25 +136,25 @@ export const Selections = <cx>
         <CodeSplit>
             <div class="widgets">
                 <Grid records-bind="$page.bubbles"
-                      style={{width: "400px"}}
-                      columns={[
-                          {header: 'Name', field: 'name'},
-                          {header: 'X', field: 'x', format: 'n;2', align: "right"},
-                          {header: 'Y', field: 'y', format: 'n;2', align: "right"},
-                          {header: 'R', field: 'r', format: 'n;2', align: "right"}
-                      ]}
-                      selection={{type: KeySelection, keyField: 'name', bind: '$page.selection'}}
+                    style={{ width: "400px" }}
+                    columns={[
+                        { header: 'Name', field: 'name' },
+                        { header: 'X', field: 'x', format: 'n;2', align: "right" },
+                        { header: 'Y', field: 'y', format: 'n;2', align: "right" },
+                        { header: 'D', field: 'd', format: 'n;2', align: "right" }
+                    ]}
+                    selection={{ type: KeySelection, keyField: 'name', bind: '$page.selection' }}
                 />
                 <div>
                     <Select value-bind="$page.selection">
-                        <Repeater records-bind="$page.bubbles"> 
-                            <Option value-bind="$record.name" text-bind="$record.name"/>
+                        <Repeater records-bind="$page.bubbles">
+                            <Option value-bind="$record.name" text-bind="$record.name" />
                         </Repeater>
                     </Select>
                 </div>
             </div>
             <Content name="code">
-                <Tab value-bind="$page.code1.tab" mod="code" tab="index" text="Index" default/>
+                <Tab value-bind="$page.code1.tab" mod="code" tab="index" text="Index" default />
                 <CodeSnippet visible-expr="{$page.code1.tab}=='index'" fiddle="j8o4HZQV">{`
                     <Grid records-bind="$page.bubbles"
                             style={{width: "400px"}}
@@ -185,5 +185,7 @@ export const Selections = <cx>
         Use `bind` property to define where selected keys will be stored.
 
         Use `multiple` property to decide if multiple selection is allowed or not.
+
+        ## SimpleSelection
     </Md>
 </cx>;
