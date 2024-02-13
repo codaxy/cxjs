@@ -1,4 +1,4 @@
-import { Repeater, Checkbox, Select, Option, Grid, Content, Tab } from 'cx/widgets';
+import { Repeater, Checkbox, Select, Option, Grid, Content, Tab, Text } from 'cx/widgets';
 import { Controller, PropertySelection, KeySelection, SimpleSelection } from 'cx/ui';
 import { Svg, Rectangle } from 'cx/svg';
 import { Chart, Gridlines, ScatterGraph, NumericAxis } from 'cx/charts';
@@ -69,10 +69,10 @@ export const Selections = <cx>
             </div>
 
             <Content name="code">
-                <Tab value-bind="$page.code.tab" tab="controller" mod="code" text="Controller" />
-                <Tab value-bind="$page.code.tab" tab="chart" mod="code" text="Chart" default />
+                <Tab value-bind="$page.code1.tab" tab="controller" mod="code" text="Controller" />
+                <Tab value-bind="$page.code1.tab" tab="chart" mod="code" text="Chart" default />
 
-                <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="eINrAOlQ">{`
+                <CodeSnippet visible-expr="{$page.code1.tab}=='controller'" fiddle="eINrAOlQ">{`
                     class PageController extends Controller {
                         onInit() {
                             this.store.set('$page.bubbles', Array.from({length: 15}).map((v, i)=>({
@@ -85,7 +85,7 @@ export const Selections = <cx>
                         }
                     }
                 `}</CodeSnippet>
-                <CodeSnippet visible-expr="{$page.code.tab}=='chart'" fiddle="eINrAOlQ">{`
+                <CodeSnippet visible-expr="{$page.code1.tab}=='chart'" fiddle="eINrAOlQ">{`
                     <div class="widgets" controller={PageController}>
                         <Svg style={{ width: "400px", height: "400px" }}>
                             <Chart anchors="0 1 1 0" offset="25 -25 -40 50" axes={NumericAxis.XY()}>
@@ -153,9 +153,9 @@ export const Selections = <cx>
             </div>
 
             <Content name="code">
-                <Tab value-bind="$page.code1.tab" mod="code" tab="index" text="Index" default />
+                <Tab value-bind="$page.code2.tab" mod="code" tab="index" text="Index" default />
 
-                <CodeSnippet visible-expr="{$page.code1.tab}=='index'" fiddle="j8o4HZQV">{`
+                <CodeSnippet visible-expr="{$page.code2.tab}=='index'" fiddle="j8o4HZQV">{`
                     <Grid records-bind="$page.bubbles"
                             style={{width: "400px"}}
                             columns={[
@@ -186,6 +186,56 @@ export const Selections = <cx>
 
         Use `multiple` property to decide if multiple selection is allowed or not.
 
-        ## SimpleSelection
+        ## Simple Selection
+
+        Simple selection is the simplest selection mode. It allows single selection only.
+
+        <CodeSplit>
+            <div class="widgets">
+                <Grid records-bind="$page.bubbles"
+                    style={{ width: "400px" }}
+                    columns={[
+                        { header: 'Name', field: 'name' },
+                        { header: 'X', field: 'x', format: 'n;2', align: "right" },
+                        { header: 'Y', field: 'y', format: 'n;2', align: "right" },
+                        { header: 'D', field: 'd', format: 'n;2', align: "right" }
+                    ]}
+                    selection={{ type: SimpleSelection, bind: '$page.simpleSelection' }}
+                />
+                <div>
+                    <Text tpl="Select a bubble" if-expr="!{$page.simpleSelection}" />
+                    <Text
+                        tpl="Selected bubble: {$page.simpleSelection.name}"
+                        if-expr="{$page.simpleSelection}"
+                    />
+                </div>
+            </div>
+
+            <Content name="code">
+                <Tab value-bind="$page.code3.tab" mod="code" tab="index" text="Index" default />
+
+                <CodeSnippet visible-expr="{$page.code3.tab}=='index'" fiddle="Tgt43PBJ">{`
+                    <Grid records-bind="$page.bubbles"
+                        style={{ width: "400px" }}
+                        columns={[
+                            { header: 'Name', field: 'name' },
+                            { header: 'X', field: 'x', format: 'n;2', align: "right" },
+                            { header: 'Y', field: 'y', format: 'n;2', align: "right" },
+                            { header: 'D', field: 'd', format: 'n;2', align: "right" }
+                        ]}
+                        selection={{ type: SimpleSelection, bind: '$page.simpleSelection' }}
+                    />
+                    <div>
+                        <Text tpl="Select a bubble" if-expr="!{$page.simpleSelection}" />
+                        <Text
+                            tpl="Selected bubble: {$page.simpleSelection.name}"
+                            if-expr="{$page.simpleSelection}"
+                        />
+                    </div>
+                `}</CodeSnippet>
+            </Content>
+        </CodeSplit>
+
+        Use `bind` property to define where selected objects will be stored.
     </Md>
 </cx>;
