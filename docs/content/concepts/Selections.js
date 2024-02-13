@@ -21,16 +21,52 @@ class PageController extends Controller {
 
 export const Selections = <cx>
     <Md controller={PageController}>
+        # Selections
+        <ImportPath path="import { PropertySelection, KeySelection, SimpleSelection } from 'cx/ui';" />
+
+        Some widgets allow the user to select one or more objects presented to them. If
+        only one object can be selected at a time, that's called *single selection mode*. If multiple objects can
+        be selected, it's referred to as *multiple selection mode*.
+
+        The question here is what happens after the user selects something? There are multiple ways a selection can
+        be handled and `Cx` offers commonly used methods out of the box.
+
+        ## Property Selection
+
+        In this mode, selection is handled by setting a designated selection property to be either `true` or `false`.
+        Usually, `selected` property is used.
+
+        This mode is easy to understand with a list of checkboxes. Each checkbox determines whether a corresponding
+        record is selected or not.
+
         <CodeSplit>
-            # Selections
-            <ImportPath path="import { PropertySelection, KeySelection, SimpleSelection } from 'cx/ui';" />
-
-            Some widgets allow the user to select one or more objects presented to them. If
-            only one object can be selected at a time, that's called *single selection mode*. If multiple objects can
-            be selected, it's referred to as *multiple selection mode*.
-
-            The question here is what happens after the user selects something? There are multiple ways a selection can
-            be handled and `Cx` offers commonly used methods out of the box.
+            <div class="widgets" controller={PageController}>
+                <Svg style={{ width: "400px", height: "400px" }}>
+                    <Chart anchors="0 1 1 0" offset="25 -25 -40 50" axes={NumericAxis.XY()}>
+                        <Rectangle
+                            anchors="0 1 1 0"
+                            style={{ fill: "rgba(100, 100, 100, 0.1)" }}
+                        />
+                        <Gridlines />
+                        <ScatterGraph
+                            data-bind="$page.bubbles"
+                            selection={{ type: PropertySelection, multiple: true }}
+                            sizeField="d"
+                            colorIndex={0}
+                        />
+                    </Chart>
+                </Svg>
+                <div>
+                    <Repeater records-bind="$page.bubbles">
+                        <div>
+                            <Checkbox
+                                checked-bind="$record.selected"
+                                text-bind="$record.name"
+                            />
+                        </div>
+                    </Repeater>
+                </div>
+            </div>
 
             <Content name="code">
                 <Tab value-bind="$page.code.tab" tab="controller" mod="code" text="Controller" />
@@ -81,44 +117,6 @@ export const Selections = <cx>
             </Content>
         </CodeSplit>
 
-        ## Property Selection
-
-        In this mode, selection is handled by setting a designated selection property to be either `true` or `false`.
-        Usually, `selected` property is used.
-
-        This mode is easy to understand with a list of checkboxes. Each checkbox determines whether a corresponding
-        record is selected or not.
-
-        <CodeSplit>
-            <div class="widgets" controller={PageController}>
-                <Svg style={{ width: "400px", height: "400px" }}>
-                    <Chart anchors="0 1 1 0" offset="25 -25 -40 50" axes={NumericAxis.XY()}>
-                        <Rectangle
-                            anchors="0 1 1 0"
-                            style={{ fill: "rgba(100, 100, 100, 0.1)" }}
-                        />
-                        <Gridlines />
-                        <ScatterGraph
-                            data-bind="$page.bubbles"
-                            selection={{ type: PropertySelection, multiple: true }}
-                            sizeField="d"
-                            colorIndex={0}
-                        />
-                    </Chart>
-                </Svg>
-                <div>
-                    <Repeater records-bind="$page.bubbles">
-                        <div>
-                            <Checkbox
-                                checked-bind="$record.selected"
-                                text-bind="$record.name"
-                            />
-                        </div>
-                    </Repeater>
-                </div>
-            </div>
-        </CodeSplit>
-
         The `Ctrl` key can be used to toggle bubble selection.
 
         Alternatively, the `toggle` property can be set to `true` and selection will behave same as if the `Ctrl` key is pressed all
@@ -153,8 +151,10 @@ export const Selections = <cx>
                     </Select>
                 </div>
             </div>
+
             <Content name="code">
                 <Tab value-bind="$page.code1.tab" mod="code" tab="index" text="Index" default />
+
                 <CodeSnippet visible-expr="{$page.code1.tab}=='index'" fiddle="j8o4HZQV">{`
                     <Grid records-bind="$page.bubbles"
                             style={{width: "400px"}}
