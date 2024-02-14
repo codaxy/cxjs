@@ -1,4 +1,4 @@
-import {Md} from '../../../components/Md';
+import { Md } from '../../../components/Md';
 
 import pureContainer from './PureContainer';
 

@@ -131,11 +131,11 @@ export const docsNavTree = [
                   url: "~/widgets/labeled-containers",
                },
                { text: "FieldGroup", url: "~/widgets/field-groups" },
-               { text: "Validator", url: "~/widgets/validators" },
                {
                   text: "ValidationGroup",
                   url: "~/widgets/validation-groups",
                },
+               { text: "Validator", url: "~/widgets/validators" },
             ],
          },
          {
