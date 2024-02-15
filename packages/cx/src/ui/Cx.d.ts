@@ -1,6 +1,6 @@
 import * as React from 'react';
-import {View} from "../data/View";
-import {Instance} from "./Instance";
+import { View } from "../data/View";
+import { Instance } from "./Instance";
 
 interface CxProps {
    widget?: Cx.Config,
@@ -15,4 +15,4 @@ interface CxProps {
    onError?: (error: Error, instance: Instance, info: any) => void
 }
 
-export class Cx extends React.Component<CxProps, any> {}
+export class Cx extends React.Component<CxProps, any> { }
