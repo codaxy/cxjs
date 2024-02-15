@@ -1,6 +1,6 @@
 import * as Cx from '../../core';
 
-import {Selection} from './Selection'
+import { Selection } from './Selection'
 
 interface KeySelectionConfig {
    bind?: string;
