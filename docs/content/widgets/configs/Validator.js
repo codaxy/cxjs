@@ -1,13 +1,11 @@
-import {Md} from '../../../components/Md';
-
+import { Md } from '../../../components/Md';
 
 export default {
-
     value: {
+        key: true,
         type: 'string/number/object',
         description: <cx><Md>
             Value to be validated. This can a simple binding, an expression or a structured selector containing multiple values.
         </Md></cx>
     },
-
 };
