@@ -7,10 +7,10 @@
   "keywords": [
     "swc-plugin"
   ],
-  "main": "swc-transform-cx-jsx.wasm",
+  "main": "swc-plugin-transform-cx-jsx.wasm",
   "homepage": "https://cxjs.io",
   "scripts": {
     "prepublishOnly": "cargo build-wasi --release",
-    "publish": "cargo publish --release && cp target/wasm32-wasi/release/swc-transform-cx-jsx.wasm ."
+    "publish": "cargo publish --release && cp target/wasm32-wasi/release/swc-plugin-transform-cx-jsx.wasm ."
   }
 }
