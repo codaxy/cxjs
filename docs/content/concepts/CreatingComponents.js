@@ -1,5 +1,5 @@
 import { Md } from "../../components/Md";
-import { Content, Tab } from "cx/widgets";
+import { Content, FlexCol, Slider, Tab } from "cx/widgets";
 import { CodeSplit } from "../../components/CodeSplit";
 import { CodeSnippet } from "../../components/CodeSnippet";
 import { Widget } from "../../../packages/cx/src/ui/Widget";
@@ -8,55 +8,30 @@ class Square extends Widget {
     declareData() {
         super.declareData(
             {
-                red: undefined,
-                green: undefined,
-                blue: undefined
+                red: 0,
+                green: 0,
+                blue: 0
             },
             ...arguments
         );
-    }
-
-    onInit(_context, instance) {
-        const { red, green, blue } = this;
-
-        if (red && green && blue) {
-            // Set the initial color based on the props
-            instance.setState({ color: this.getColorFromRgb(red, green, blue) });
-        } else {
-            instance.setState({ color: this.getRandomColor() });
-        }
-    }
-
-    getRandomColor() {
-        const getRandomRgbValue = () => (
-            Math.floor(Math.random() * 200)
-            // Not 256 because we wouldn't see a white square
-        );
-
-        return this.getColorFromRgb(getRandomRgbValue(), getRandomRgbValue(), getRandomRgbValue());
     }
 
     getColorFromRgb(red, green, blue) {
         return `rgb(${red}, ${green}, ${blue})`;
     }
 
-    handleClick(e, instance) {
-        e.preventDefault();
-        instance.setState({ color: this.getRandomColor() });
-    }
-
-    render(_context, instance, key) {
+    render(_context, { data }, key) {
         return (
             <div
                 key={key}
                 style={{
-                    width: "80px",
-                    height: "80px",
-                    backgroundColor: instance.state.color,
+                    width: "100px",
+                    height: "100px",
+                    backgroundColor: this.getColorFromRgb(
+                        data.red, data.green, data.blue
+                    ),
                     padding: 10,
-                    cursor: "pointer"
                 }}
-                onClick={(e) => this.handleClick(e, instance)}
             />
         );
     }
@@ -68,12 +43,19 @@ export const CreatingComponents = <cx>
 
         Although CxJS contains a large set of built-in components, you might sometimes need to create
         a custom CxJS component for your use case. In this guide, we'll go over the steps to create
-        a simple custom component, `Square`, that changes its background color when clicked.
+        a simple custom component, `Square`, whose color is set through **binding**. Sliders will
+        update the color in the `store`, and that will cause our component to re-render.
+
+        Try moving the sliders below and see how the color changes.
 
         <CodeSplit>
             <div class="widgets">
-                <Square red={100} green={150} blue={255} />
-                <Square />
+                <FlexCol>
+                    <Slider label="Red" value-bind="$page.red" minValue={0} maxValue={255} />
+                    <Slider label="Green" value-bind="$page.green" minValue={0} maxValue={255} />
+                    <Slider label="Blue" value-bind="$page.blue" minValue={0} maxValue={255} />
+                </FlexCol>
+                <Square red-bind="$page.red" green-bind="$page.green" blue-bind="$page.blue" />
             </div>
 
             <Content name="code">
@@ -85,55 +67,30 @@ export const CreatingComponents = <cx>
                         declareData() {
                             super.declareData(
                                 {
-                                    red: undefined,
-                                    green: undefined,
-                                    blue: undefined
+                                    red: 0,
+                                    green: 0,
+                                    blue: 0
                                 },
                                 ...arguments
                             );
-                        }
-
-                        onInit(_context, instance) {
-                            const { red, green, blue } = this;
-
-                            if (red && green && blue) {
-                                // Set the initial color based on the props
-                                instance.setState({ color: this.getColorFromRgb(red, green, blue) });
-                            } else {
-                                instance.setState({ color: this.getRandomColor() });
-                            }
-                        }
-
-                        getRandomColor() {
-                            const getRandomRgbValue = () => (
-                                Math.floor(Math.random() * 200)
-                                // Not 256 because we wouldn't see a white square
-                            );
-
-                            return this.getColorFromRgb(getRandomRgbValue(), getRandomRgbValue(), getRandomRgbValue());
                         }
 
                         getColorFromRgb(red, green, blue) {
                             return \`rgb(\${red}, \${green}, \${blue})\`;
                         }
 
-                        handleClick(e, instance) {
-                            e.preventDefault();
-                            instance.setState({color: this.getRandomColor() });
-                        }
-
-                        render(_context, instance, key) {
+                        render(_context, { data }, key) {
                             return (
                                 <div
                                     key={key}
                                     style={{
-                                        width: "80px",
-                                        height: "80px",
-                                        backgroundColor: instance.state.color,
+                                        width: "100px",
+                                        height: "100px",
+                                        backgroundColor: this.getColorFromRgb(
+                                            data.red, data.green, data.blue
+                                        ),
                                         padding: 10,
-                                        cursor: "pointer"
                                     }}
-                                    onClick={(e) => this.handleClick(e, instance)}
                                 />
                             );
                         }
@@ -142,11 +99,12 @@ export const CreatingComponents = <cx>
                     Widget.alias("square", Square);
                 `}</CodeSnippet>
                 <CodeSnippet visible-expr="{$page.code1.tab}=='usage'">{`
-                    // With props
-                    <Square red={100} green={150} blue={255} />
-
-                    // Without props
-                    <Square />
+                    <FlexCol>
+                        <Slider label="Red" value-bind="$page.red" minValue={0} maxValue={255} />
+                        <Slider label="Green" value-bind="$page.green" minValue={0} maxValue={255} />
+                        <Slider label="Blue" value-bind="$page.blue" minValue={0} maxValue={255} />
+                    </FlexCol>
+                    <Square red-bind="$page.red" green-bind="$page.green" blue-bind="$page.blue" />
                 `}</CodeSnippet>
             </Content>
         </CodeSplit>
@@ -169,14 +127,15 @@ export const CreatingComponents = <cx>
 
         ### `onInit()`
 
-        This is a lifecycle method that is called when the widget is initialized, before it is rendered
-        for the first time. In our `Square` component, we use it to set the initial color of the square.
+        This is a lifecycle method that is called **once** when the widget is initialized, **before** it
+        is rendered for the first time. We don't use it in our `Square` component as it's fairly simple,
+        but it is usually used for setting the initial state.
 
         ### `render()`
 
         The `render()` method is a fundamental part of CxJS components. It defines how a component
         should be rendered based on its current state and props. In the `Square` component, it renders
-        a fixed-size square whose color depends on the state.
+        a fixed-size square whose color depends on the binded values.
 
         ### `Widget.alias()`
 
@@ -186,12 +145,6 @@ export const CreatingComponents = <cx>
 
         `VDOM.Component` is the base class for CxJS components that use **virtual DOM** (**VDOM**) for
         rendering.
-
-        In our case, the state holds square's current color. We set the state in the `onInit()` method
-        depending on the passed props. If the initial color is provided using the RGB props, we call
-        `getColorFromRgb()` method to set the color. Otherwise, we invoke `getRandomColor()` to assign
-        a random color. `render()` method renders a square and assigns an `onClick()` event callback
-        that updates the state (color) and causes a re-render.
 
         ## Using React components in CxJS applications
         Similarly to creating new components, we can use existing React components in our CxJS apps.
