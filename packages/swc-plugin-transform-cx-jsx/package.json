@@ -1,5 +1,5 @@
 {
-  "name": "@swc/plugin-transform-cx-jsx",
+  "name": "swc-plugin-transform-cx-jsx",
   "version": "0.2.1",
   "description": "SWC plugin for CxJS transformation",
   "author": "gygasync <gygasync@gmail.com>",
