@@ -1,16 +1,16 @@
 {
-  "name": "@swc/transform-cxjs",
-  "version": "0.1.0",
-  "description": "SWC plugin for CXJS transformation",
+  "name": "@swc/plugin-transform-cx-jsx",
+  "version": "0.2.1",
+  "description": "SWC plugin for CxJS transformation",
   "author": "gygasync <gygasync@gmail.com>",
   "license": "ISC",
   "keywords": [
     "swc-plugin"
   ],
-  "main": "target/wasm32-wasi/release/swc-transform-cx-jsx.wasm",
+  "main": "swc-transform-cx-jsx.wasm",
+  "homepage": "https://cxjs.io",
   "scripts": {
     "prepublishOnly": "cargo build-wasi --release",
     "publish": "cargo publish --release && cp target/wasm32-wasi/release/swc-transform-cx-jsx.wasm ."
-  },
-  "files": []
+  }
 }
