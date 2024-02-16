@@ -1,6 +1,6 @@
 [package]
 name = "swc_transform_cx_jsx"
-version = "0.1.0"
+version = "0.2.1"
 edition = "2021"
 repository = "https://github.com/gygasync/swc-transform-cx-jsx"
 license = "MIT OR Apache-2.0"
