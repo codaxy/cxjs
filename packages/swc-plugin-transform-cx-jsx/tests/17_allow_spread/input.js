@@ -1,0 +1,3 @@
+<cx>
+  <Component {...test} />
+</cx>;

@@ -1,0 +1,6 @@
+({
+    "$type": Component, 
+    "jsxSpread": [
+        test
+    ]
+})
