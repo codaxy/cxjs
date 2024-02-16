@@ -31,7 +31,6 @@ swc_ecma_ast = "0.112.2"
 swc_ecma_utils = "0.127.3"
 swc_ecma_visit = "0.98.2"
 swc_plugin_macro = "0.9.16"
-tracing = { version = "0.1.37", features = ["release_max_level_off"] }
 serde_json = "1"
 swc_ecma_parser = "0.143.3"
 swc_ecma_transforms_testing = "0.140.3"
