@@ -26,6 +26,7 @@ import { stopPropagation } from "../../util/eventCallbacks";
 import { Format } from "../../util/Format";
 import { TimeList } from "./TimeList";
 import { autoFocus } from "../autoFocus";
+import { getActiveElement } from "../../util";
 
 export class DateTimeField extends Field {
    declareData() {
@@ -362,8 +363,8 @@ class DateTimeInput extends VDOM.Component {
                tabIndex={data.tabIndex}
                placeholder={data.placeholder}
                {...data.inputAttrs}
-               onInput={(e) => this.onChange(e, "input")}
-               onChange={(e) => this.onChange(e, "change")}
+               onInput={(e) => this.onChange(e.target.value, "input")}
+               onChange={(e) => this.onChange(e.target.value, "change")}
                onKeyDown={(e) => this.onKeyDown(e)}
                onBlur={(e) => {
                   this.onBlur(e);
@@ -421,7 +422,7 @@ class DateTimeInput extends VDOM.Component {
 
       switch (e.keyCode) {
          case KeyCode.enter:
-            this.onChange(e, "enter");
+            this.onChange(e.target.value, "enter");
             break;
 
          case KeyCode.esc:
@@ -453,7 +454,7 @@ class DateTimeInput extends VDOM.Component {
          this.setState({
             focus: false,
          });
-      this.onChange(e, "blur");
+      this.onChange(e.target.value, "blur");
    }
 
    closeDropdown(e, callback) {
@@ -509,10 +510,13 @@ class DateTimeInput extends VDOM.Component {
    }
 
    componentWillUnmount() {
+      if (this.input == getActiveElement()) {
+         this.onChange(this.input.value, "blur");
+      }
       tooltipParentWillUnmount(this.props.instance);
    }
 
-   onChange(e, eventType) {
+   onChange(inputValue, eventType) {
       let { instance, data } = this.props;
       let { widget } = instance;
 
@@ -522,7 +526,7 @@ class DateTimeInput extends VDOM.Component {
 
       if (eventType == "enter") instance.setState({ visited: true });
 
-      this.setValue(e.target.value, data.value);
+      this.setValue(inputValue, data.value);
    }
 
    setValue(text, baseValue) {

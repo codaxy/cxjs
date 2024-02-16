@@ -21,6 +21,7 @@ import DropdownIcon from "../icons/drop-down";
 import ClearIcon from "../icons/clear";
 import { Localization } from "../../ui/Localization";
 import { isDefined } from "../../util/isDefined";
+import { getActiveElement } from "../../util/getActiveElement";
 
 export class ColorField extends Field {
    declareData() {
@@ -219,8 +220,8 @@ class ColorInput extends VDOM.Component {
                tabIndex={data.tabIndex}
                placeholder={data.placeholder}
                {...data.inputAttrs}
-               onInput={(e) => this.onChange(e, "input")}
-               onChange={(e) => this.onChange(e, "change")}
+               onInput={(e) => this.onChange(e.target.value, "input")}
+               onChange={(e) => this.onChange(e.target.value, "change")}
                onKeyDown={(e) => this.onKeyDown(e)}
                onBlur={(e) => {
                   this.onBlur(e);
@@ -274,7 +275,7 @@ class ColorInput extends VDOM.Component {
       switch (e.keyCode) {
          case KeyCode.enter:
             e.stopPropagation();
-            this.onChange(e, "enter");
+            this.onChange(e.target.value, "enter");
             break;
 
          case KeyCode.esc:
@@ -304,7 +305,7 @@ class ColorInput extends VDOM.Component {
          this.setState({
             focus: false,
          });
-      this.onChange(e, "blur");
+      this.onChange(e.target.value, "blur");
    }
 
    closeDropdown(e, callback) {
@@ -352,6 +353,9 @@ class ColorInput extends VDOM.Component {
    }
 
    componentWillUnmount() {
+      if (this.input == getActiveElement()) {
+         this.onChange(this.input.value, "blur");
+      }
       tooltipParentWillUnmount(this.props.instance);
    }
 
@@ -365,23 +369,24 @@ class ColorInput extends VDOM.Component {
       e.preventDefault();
    }
 
-   onChange(e, eventType) {
+   onChange(inputValue, eventType) {
       let { instance, data } = this.props;
       let { widget } = instance;
 
-      if (eventType == "blur") instance.setState({ visited: true });
+      if (eventType == "blur") {
+         instance.setState({ visited: true });
+      }
 
-      let text = e.target.value;
       let isValid;
       try {
-         parseColor(text);
+         parseColor(inputValue);
          isValid = true;
       } catch (e) {
          isValid = false;
       }
 
       if (eventType == "blur" || eventType == "enter") {
-         let value = text || widget.emptyValue;
+         let value = inputValue || widget.emptyValue;
          if (isValid && value !== data.value) instance.set("value", value);
 
          instance.setState({

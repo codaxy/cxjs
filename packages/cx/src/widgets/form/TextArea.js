@@ -11,6 +11,7 @@ import {
 import { stopPropagation } from "../../util/eventCallbacks";
 import { KeyCode } from "../../util/KeyCode";
 import { autoFocus } from "../autoFocus";
+import { getActiveElement } from "../../util/getActiveElement";
 
 export class TextArea extends TextField {
    declareData() {
@@ -93,10 +94,10 @@ class Input extends VDOM.Component {
                tabIndex={data.tabIndex}
                placeholder={data.placeholder}
                {...data.inputAttrs}
-               onInput={(e) => this.onChange(e, "input")}
-               onChange={(e) => this.onChange(e, "change")}
+               onInput={(e) => this.onChange(e.target.value, "input")}
+               onChange={(e) => this.onChange(e.target.value, "change")}
                onBlur={(e) => {
-                  this.onChange(e, "blur");
+                  this.onChange(e.target.value, "blur");
                }}
                onFocus={(e) => this.onFocus()}
                onClick={stopPropagation}
@@ -111,6 +112,9 @@ class Input extends VDOM.Component {
    }
 
    componentWillUnmount() {
+      if (this.input == getActiveElement()) {
+         this.onChange(this.input.value, "blur");
+      }
       tooltipParentWillUnmount(this.props.instance);
    }
 
@@ -144,7 +148,7 @@ class Input extends VDOM.Component {
       tooltipParentWillReceiveProps(this.input, ...getFieldTooltip(instance));
    }
 
-   onChange(e, change) {
+   onChange(inputValue, change) {
       let { instance, data } = this.props;
       let { widget } = instance;
 
@@ -158,12 +162,12 @@ class Input extends VDOM.Component {
 
       if (data.required) {
          instance.setState({
-            empty: !e.target.value,
+            empty: !inputValue,
          });
       }
 
       if (instance.widget.reactOn.indexOf(change) != -1) {
-         let value = e.target.value || widget.emptyValue;
+         let value = inputValue || widget.emptyValue;
          instance.set("value", value);
       }
    }
