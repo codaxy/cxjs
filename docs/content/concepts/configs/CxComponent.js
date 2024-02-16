@@ -3,7 +3,7 @@ import { Md } from '../../../components/Md';
 export default {
     widget: {
         key: true,
-        type: 'widget',
+        type: 'any',
         description: <cx><Md>
             A widget that we want to render.
         </Md></cx>
@@ -17,14 +17,14 @@ export default {
     },
     instance: {
         key: true,
-        type: 'instance',
+        type: 'Instance',
         description: <cx><Md>
-            Instance.
+            Instance of the widget.
         </Md></cx>
     },
     parentInstance: {
         key: true,
-        type: 'instance',
+        type: 'Instance',
         description: <cx><Md>
             Instance of the parent.
         </Md></cx>
