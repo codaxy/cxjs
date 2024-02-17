@@ -25,7 +25,7 @@ use swc_core::{
     },
 };
 use swc_ecma_ast::{Callee, ImportPhase};
-use swc_ecma_parser::{EsConfig, Syntax};
+use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 
 pub struct TransformVisitor {
     imports: HashMap<String, HashSet<String>>,
@@ -793,11 +793,12 @@ pub fn process_transform(program: Program, _metadata: TransformPluginProgramMeta
 }
 
 #[testing::fixture("tests/**/input.js")]
+#[testing::fixture("tests/**/input.tsx")]
 fn exec(input: PathBuf) {
     let output = input.with_file_name("output.js");
     test_fixture(
-        Syntax::Es(EsConfig {
-            jsx: true,
+        Syntax::Typescript(TsConfig {
+            tsx: true,
             ..Default::default()
         }),
         &|_| {
