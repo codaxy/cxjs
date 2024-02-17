@@ -1,0 +1,16 @@
+{
+  "name": "swc-plugin-transform-cx-imports",
+  "version": "0.1.0",
+  "description": "SWC plugin for CXJS transformation",
+  "author": "gygasync <gygasync@gmail.com>",
+  "license": "ISC",
+  "keywords": [
+    "swc-plugin"
+  ],
+  "main": "swc_plugin_transform_cx_imports.wasm",
+  "scripts": {
+    "prepublishOnly": "cargo build-wasi --release",
+    "publish": "cargo publish --release && cp target/wasm32-wasi/release/swc_plugin_transform_cx_imports.wasm ."
+  },
+  "files": []
+}
