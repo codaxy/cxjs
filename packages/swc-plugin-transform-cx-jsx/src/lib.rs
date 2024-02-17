@@ -4,15 +4,13 @@ use std::path::PathBuf;
 
 use lazy_static::lazy_static;
 use regex::Regex;
-use swc_common::util::take::Take;
 use swc_core::common::{Mark, DUMMY_SP};
 use swc_core::ecma::ast::{
-    ArrayLit, BlockStmt, BlockStmtOrExpr, CallExpr, Expr, ExprOrSpread, ExprStmt, FnExpr, Function,
-    Ident, ImportDecl, ImportNamedSpecifier, ImportSpecifier, JSXAttr, JSXAttrName,
-    JSXAttrOrSpread, JSXAttrValue, JSXClosingElement, JSXElement, JSXElementChild, JSXElementName,
-    JSXExpr, JSXExprContainer, JSXOpeningElement, JSXText, KeyValueProp, Lit, MemberExpr,
-    MemberProp, Module, ModuleDecl, ModuleItem, Null, ObjectLit, Param, Prop, PropName,
-    PropOrSpread, Stmt, Str,
+    ArrayLit, BlockStmtOrExpr, CallExpr, Expr, ExprOrSpread, Ident, ImportDecl,
+    ImportNamedSpecifier, ImportSpecifier, JSXAttr, JSXAttrName, JSXAttrOrSpread, JSXAttrValue,
+    JSXClosingElement, JSXElement, JSXElementChild, JSXElementName, JSXExpr, JSXExprContainer,
+    JSXOpeningElement, JSXText, KeyValueProp, Lit, MemberExpr, MemberProp, Module, ModuleDecl,
+    ModuleItem, Null, ObjectLit, Prop, PropName, PropOrSpread, Str,
 };
 use swc_core::ecma::transforms::base::resolver;
 use swc_core::plugin::{plugin_transform, proxies::TransformPluginProgramMetadata};
@@ -25,7 +23,7 @@ use swc_core::{
     },
 };
 use swc_ecma_ast::{Callee, ImportPhase};
-use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
+use swc_ecma_parser::{Syntax, TsConfig};
 
 pub struct TransformVisitor {
     imports: HashMap<String, HashSet<String>>,
@@ -714,73 +712,6 @@ impl VisitMut for TransformVisitor {
             }));
             module.body.push(new_item);
         })
-        // module.body.push(value)
-
-        // module.body.iter_mut().for_each(|m| match m {
-        //     ModuleItem::ModuleDecl(module_decl) => match module_decl {
-        //         ModuleDecl::Import(import_decl) => {
-        //             import_decl.specifiers.iter_mut().for_each(|spec| {
-        //                 let key = import_decl.src.value.to_string();
-        //                 match spec {
-        //                     ImportSpecifier::Named(named_spec) => {
-        //                         let value = named_spec.local.sym.to_string();
-        //                         self.insert_import(key.as_str(), value.as_str());
-        //                     }
-        //                     _ => {}
-        //                 };
-        //                 // self.insert_import(, value)
-        //             });
-
-        //         }
-        //         _ => {}
-        //     },
-        //     _ => {}
-        // });
-
-        // let unchanged_module_items = module
-        //     .body
-        //     .iter()
-        //     .filter(|m| match m {
-        //         ModuleItem::ModuleDecl(module_decl) => match module_decl {
-        //             ModuleDecl::Import(_) => false,
-        //             _ => true,
-        //         },
-        //         _ => true,
-        //     })
-        //     .map(|i| i.to_owned())
-        //     .collect::<Vec<_>>();
-
-        // let mut new_imports = self
-        //     .imports
-        //     .iter_mut()
-        //     .map(|i| {
-        //         ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
-        //             span: DUMMY_SP,
-        //             specifiers: i
-        //                 .1
-        //                 .iter()
-        //                 .map(|s| {
-        //                     ImportSpecifier::Named(ImportNamedSpecifier {
-        //                         span: DUMMY_SP,
-        //                         local: Ident {
-        //                             span: DUMMY_SP,
-        //                             optional: false,
-        //                             sym: s.to_owned().into(),
-        //                         },
-        //                         imported: None,
-        //                         is_type_only: false,
-        //                     })
-        //                 })
-        //                 .collect::<Vec<_>>(),
-        //             src: Box::new(Str::from(i.0.to_owned())),
-        //             type_only: false,
-        //             asserts: None,
-        //         }))
-        //     })
-        //     .collect::<Vec<_>>();
-
-        // new_imports.extend(unchanged_module_items);
-        // module.body = new_imports;
     }
 }
 
@@ -792,6 +723,7 @@ pub fn process_transform(program: Program, _metadata: TransformPluginProgramMeta
     }))
 }
 
+#[cfg(test)]
 #[testing::fixture("tests/**/input.js")]
 #[testing::fixture("tests/**/input.tsx")]
 fn exec(input: PathBuf) {
