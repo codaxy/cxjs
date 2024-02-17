@@ -4,6 +4,7 @@ use std::path::PathBuf;
 
 use lazy_static::lazy_static;
 use regex::Regex;
+use swc_common::util::take::Take;
 use swc_core::common::{Mark, DUMMY_SP};
 use swc_core::ecma::ast::{
     ArrayLit, BlockStmt, BlockStmtOrExpr, CallExpr, Expr, ExprOrSpread, ExprStmt, FnExpr, Function,
@@ -23,7 +24,7 @@ use swc_core::{
         visit::{as_folder, FoldWith, VisitMut, VisitMutWith},
     },
 };
-use swc_ecma_ast::ImportPhase;
+use swc_ecma_ast::{Callee, ImportPhase};
 use swc_ecma_parser::{EsConfig, Syntax};
 
 pub struct TransformVisitor {
@@ -197,7 +198,7 @@ impl TransformVisitor {
                     if tag_first_char.to_lowercase() == tag_first_char {
                         // HtmlElement
                         let html_element_sym = "HtmlElement";
-                        self.insert_import("cx/widgets", html_element_sym);
+                        self.insert_import("cx/src/widgets/HtmlElement.js", html_element_sym);
                         let html_element = create_key_value_prop(
                             String::from("$type"),
                             Box::from(Expr::Ident(Ident {
@@ -530,15 +531,15 @@ impl TransformVisitor {
                 if preserve_whitespace {
                     return Some(child.to_owned());
                 } else {
-                    
                     let inner_text = jsx_text.value.to_string();
-                    let result = WHITESPACE_REGEX
-                        .replace_all(inner_text.as_str(), "&nbsp;")
-                        .into_owned();
 
-                    if result.is_empty() {
+                    if inner_text.trim().is_empty() {
                         return None;
                     }
+                    let result = WHITESPACE_REGEX
+                        .replace_all(inner_text.as_str(), " ")
+                        .into_owned();
+
                     return Some(JSXElementChild::JSXText(JSXText {
                         span: DUMMY_SP,
                         value: result.clone().into(),
@@ -601,7 +602,10 @@ impl VisitMut for TransformVisitor {
                                     type_args: None,
                                 });
 
-                                self.insert_import("cx/ui", "createFunctionalComponent");
+                                self.insert_import(
+                                    "cx/src/ui/createFunctionalComponent.js",
+                                    "createFunctionalComponent",
+                                );
                             }
                         }
                     }
@@ -619,6 +623,66 @@ impl VisitMut for TransformVisitor {
                 }
             }
         }
+    }
+
+    fn visit_mut_call_expr(&mut self, expr: &mut CallExpr) {
+        match expr.callee.to_owned() {
+            Callee::Expr(callee_expr) => {
+                if let Expr::Ident(identifier_option) = *callee_expr {
+                    if (identifier_option.sym.as_str() == "createFunctionalComponent") {
+                        if expr.args.len() == 1 && expr.args[0].expr.is_arrow() {
+                            let mut arrow_expr = expr.args[0].expr.as_arrow().unwrap();
+
+                            match *arrow_expr.body.to_owned() {
+                                BlockStmtOrExpr::Expr(internal_expr) => {
+                                    match *internal_expr.to_owned() {
+                                        Expr::Paren(paren_expr) => match *paren_expr.expr {
+                                            Expr::JSXElement(ref jsx_el) => {
+                                                if let JSXElementName::Ident(ident) =
+                                                    jsx_el.to_owned().opening.name
+                                                {
+                                                    let tag_name = ident.sym.to_string();
+                                                    if tag_name == "cx" || tag_name == "Cx" {
+                                                        let transformed_create_func_component =
+                                                            self.transform_cx_element(
+                                                                &mut Expr::from(jsx_el.to_owned()),
+                                                            );
+
+                                                        let mut new_arrow_expr = arrow_expr.clone();
+
+                                                        new_arrow_expr.body = Box::new(
+                                                            BlockStmtOrExpr::Expr(Box::new(
+                                                                transformed_create_func_component,
+                                                            )),
+                                                        );
+
+                                                        let mut new_call_ex = expr.clone();
+                                                        new_call_ex.args = vec![ExprOrSpread {
+                                                            spread: None,
+                                                            expr: Box::new(Expr::Arrow(
+                                                                new_arrow_expr,
+                                                            )),
+                                                        }];
+
+                                                        *expr = CallExpr::from(new_call_ex);
+                                                    }
+                                                }
+                                            }
+                                            _ => {}
+                                        },
+                                        _ => {}
+                                    }
+                                }
+                                _ => {}
+                            }
+                        }
+                    }
+                }
+            }
+            _ => {}
+        }
+
+        expr.visit_mut_children_with(self);
     }
 
     fn visit_mut_module(&mut self, module: &mut Module) {
@@ -646,7 +710,7 @@ impl VisitMut for TransformVisitor {
                 src: Box::new(Str::from(import.0.to_owned())),
                 type_only: false,
                 with: None,
-                phase: ImportPhase::Evaluation
+                phase: ImportPhase::Evaluation,
             }));
             module.body.push(new_item);
         })
@@ -746,6 +810,6 @@ fn exec(input: PathBuf) {
         }, // This works but i do not know how and why
         &input,
         &output,
-        Default::default()
+        Default::default(),
     )
 }
