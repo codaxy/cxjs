@@ -1,25 +1,15 @@
+use std::collections::{HashMap, HashSet};
+
 use lazy_static::lazy_static;
 use regex::Regex;
-use std::{
-    borrow::Borrow,
-    collections::{HashMap, HashSet},
-    fs,
-    hash::Hash,
-    path::PathBuf,
-};
 
-use serde::de::value::Error;
-use swc_common::{chain, util::take::Take, Mark, DUMMY_SP};
-use swc_core::{ecma::transforms::base::resolver, plugin::proxies::TransformPluginProgramMetadata};
+use swc_common::{util::take::Take, DUMMY_SP};
+use swc_core::plugin::{plugin_transform, proxies::TransformPluginProgramMetadata};
 use swc_ecma_ast::{
-    Ident, ImportDecl, ImportNamedSpecifier, ImportPhase, ImportSpecifier, ModuleDecl,
-    ModuleExportName, ModuleItem, Program, Str,
+    ImportDecl, ImportPhase, ImportSpecifier, ModuleDecl, ModuleExportName, ModuleItem, Program,
+    Str,
 };
-use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
-use swc_ecma_transforms_testing::test_fixture;
-use swc_ecma_utils::ident;
 use swc_ecma_visit::{as_folder, FoldWith, VisitMut, VisitMutWith};
-use swc_plugin_macro::plugin_transform;
 
 lazy_static! {
     static ref QUOTES_REGEX: Regex = Regex::new(r#""|'"#).unwrap();
@@ -42,7 +32,7 @@ impl TransformVisitor {
         match self.manifest.get(&import_key) {
             Some(value) => {
                 let mut changes = false;
-                if (self.sass) {
+                if self.sass {
                     match value.get("scss") {
                         Some(scss_import) => {
                             let new_import_src = format!("cx/{}", scss_import);
@@ -53,7 +43,7 @@ impl TransformVisitor {
                     }
                 }
 
-                if (self.use_src) {
+                if self.use_src {
                     match value.get("js") {
                         Some(js_import) => {
                             let new_import_src = format!("cx/{}", js_import);
@@ -85,8 +75,8 @@ impl VisitMut for TransformVisitor {
                     n.specifiers.to_owned().into_iter().for_each(|specifier| {
                         match specifier.to_owned() {
                             ImportSpecifier::Named(named_specifier) => {
-                                let mut component_name: &str;
-                                let x = match named_specifier.imported {
+                                let component_name: &str;
+                                match named_specifier.imported {
                                     Some(ref imp) => {
                                         match imp {
                                             ModuleExportName::Ident(ident) => {
@@ -170,7 +160,7 @@ impl VisitMut for TransformVisitor {
         let new_scss_imports = self
             .scss_imports
             .iter()
-            .map(|(src)| {
+            .map(|src| {
                 ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
                     span: DUMMY_SP,
                     type_only: false,
@@ -213,7 +203,7 @@ pub fn process_transform(program: Program, _metadata: TransformPluginProgramMeta
     }
 
     let mut use_src = false;
-    let mut sass = false;
+    let sass = false;
 
     let config_string = config_string_opt.unwrap().to_string();
 
@@ -259,25 +249,30 @@ pub fn process_transform(program: Program, _metadata: TransformPluginProgramMeta
     }))
 }
 
+#[cfg(test)]
 #[testing::fixture("tests/**/input.js")]
 #[testing::fixture("tests/**/input.tsx")]
-fn exec(input: PathBuf) {
+fn exec(input: std::path::PathBuf) {
     let output = input.with_file_name("output.js");
-    let mainfest_content = fs::read_to_string("tests/manifest.json");
+    let mainfest_content = std::fs::read_to_string("tests/manifest.json");
 
     match mainfest_content {
         Ok(value) => {
             let manifest: HashMap<String, HashMap<String, String>> =
                 serde_json::from_str(value.as_str()).unwrap();
 
-            test_fixture(
-                Syntax::Typescript(TsConfig {
+            swc_core::ecma::transforms::testing::test_fixture(
+                swc_ecma_parser::Syntax::Typescript(swc_ecma_parser::TsConfig {
                     tsx: true,
                     ..Default::default()
                 }),
                 &|_| {
-                    chain!(
-                        resolver(Mark::new(), Mark::new(), true),
+                    swc_common::chain!(
+                        swc_core::ecma::transforms::base::resolver(
+                            Default::default(),
+                            Default::default(),
+                            true
+                        ),
                         as_folder(TransformVisitor {
                             imports: HashSet::new(),
                             scss_imports: HashSet::new(),
