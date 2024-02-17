@@ -22,12 +22,10 @@ strip = "symbols"
 [dependencies]
 lazy_static = "1.4.0"
 regex = "1.10.3"
-serde = { version = "1.0.130", features = ["derive"] }
-swc_common = { version = "0.33.17", features = ["concurrent"] }
+serde = { version = "1.0.130"}
+swc_common = { version = "0.33.17"}
 swc_core = { version = "0.90.6", features = ["ecma_plugin_transform"] }
 swc_ecma_ast = "0.112.2"
-swc_ecma_utils = "0.127.3"
-swc_ecma_visit = "0.98.2"
 serde_json = "1"
 swc_ecma_parser = "0.143.3"
 

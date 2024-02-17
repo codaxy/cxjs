@@ -1,10 +1,9 @@
 use std::borrow::BorrowMut;
 use std::collections::{HashMap, HashSet};
-use std::path::PathBuf;
 
 use lazy_static::lazy_static;
 use regex::Regex;
-use swc_core::common::{Mark, DUMMY_SP};
+use swc_core::common::DUMMY_SP;
 use swc_core::ecma::ast::{
     ArrayLit, BlockStmtOrExpr, CallExpr, Expr, ExprOrSpread, Ident, ImportDecl,
     ImportNamedSpecifier, ImportSpecifier, JSXAttr, JSXAttrName, JSXAttrOrSpread, JSXAttrValue,
@@ -12,18 +11,12 @@ use swc_core::ecma::ast::{
     JSXOpeningElement, JSXText, KeyValueProp, Lit, MemberExpr, MemberProp, Module, ModuleDecl,
     ModuleItem, Null, ObjectLit, Prop, PropName, PropOrSpread, Str,
 };
-use swc_core::ecma::transforms::base::resolver;
-use swc_core::plugin::{plugin_transform, proxies::TransformPluginProgramMetadata};
-use swc_core::{
-    common::chain,
-    ecma::{
-        ast::Program,
-        transforms::testing::{test, test_fixture},
-        visit::{as_folder, FoldWith, VisitMut, VisitMutWith},
-    },
+use swc_core::ecma::{
+    ast::Program,
+    visit::{as_folder, FoldWith, VisitMut, VisitMutWith},
 };
+use swc_core::plugin::{plugin_transform, proxies::TransformPluginProgramMetadata};
 use swc_ecma_ast::{Callee, ImportPhase};
-use swc_ecma_parser::{Syntax, TsConfig};
 
 pub struct TransformVisitor {
     imports: HashMap<String, HashSet<String>>,
@@ -161,7 +154,7 @@ impl TransformVisitor {
                             return Expr::JSXElement(Box::new(element));
                         }
 
-                        return match (transformed_children.len()) {
+                        return match transformed_children.len() {
                             0 => NULL_LIT_EXPR.to_owned(),
                             1 => {
                                 let only_child = transformed_children[0].borrow_mut();
@@ -171,7 +164,7 @@ impl TransformVisitor {
                                         Expr::JSXElement(jsx_el.to_owned())
                                     }
                                     JSXElementChild::JSXFragment(jsx_fragment) => {
-                                        Expr::JSXFragment((jsx_fragment.to_owned()))
+                                        Expr::JSXFragment(jsx_fragment.to_owned())
                                     }
                                     JSXElementChild::JSXText(jsx_text) => {
                                         Expr::Lit(Lit::from(jsx_text.clone()))
@@ -208,7 +201,7 @@ impl TransformVisitor {
 
                         attrs.push(html_element);
 
-                        if let JSXElementName::Ident(ident) = opening.name {
+                        if let JSXElementName::Ident(_) = opening.name {
                             let tag = create_key_value_prop(
                                 String::from("tag"),
                                 Box::from(Expr::Lit(Lit::Str(tag_name.into()))),
@@ -393,7 +386,7 @@ impl TransformVisitor {
                             Prop::Getter(_) => attrs.push(obj_props.to_owned()),
                             Prop::Setter(_) => attrs.push(obj_props.to_owned()),
                             Prop::Shorthand(_) => attrs.push(obj_props.to_owned()),
-                            Prop::Method(method) => attrs.push(obj_props.to_owned()),
+                            Prop::Method(_) => attrs.push(obj_props.to_owned()),
                             _ => {
                                 println!("EXPR OBJ PROPS");
                                 todo!("EXPR OBJ PROPS")
@@ -492,13 +485,13 @@ impl TransformVisitor {
     }
 
     fn bind_cx_expr_tpl_object(&mut self, instr: &str, value: Box<Expr>) -> Expr {
-        let mut local_value: Box<Expr> = value.clone();
+        let local_value: Box<Expr> = value.clone();
         if instr == "expr" && false {
             todo!("fat arrows")
         } // TODO: Fat arrows
 
         let identifiers = obj_key_identifier(instr);
-        let mut key: PropName;
+        let key: PropName;
 
         // TODO: Make this a lot cleaner
         if identifiers.0.is_some() {
@@ -580,7 +573,7 @@ impl VisitMut for TransformVisitor {
                         if let JSXElementName::Ident(ident) = jsx_el.opening.name.to_owned() {
                             let tag_name = ident.sym.to_string();
                             if tag_name == "cx" || tag_name == "Cx" {
-                                let mut old_expr = arrow_fn_expr;
+                                let old_expr = arrow_fn_expr;
                                 old_expr.body = Box::new(BlockStmtOrExpr::Expr(Box::new(
                                     self.transform_cx_element(&mut Expr::JSXElement(jsx_el)),
                                 )));
@@ -627,9 +620,9 @@ impl VisitMut for TransformVisitor {
         match expr.callee.to_owned() {
             Callee::Expr(callee_expr) => {
                 if let Expr::Ident(identifier_option) = *callee_expr {
-                    if (identifier_option.sym.as_str() == "createFunctionalComponent") {
+                    if identifier_option.sym.as_str() == "createFunctionalComponent" {
                         if expr.args.len() == 1 && expr.args[0].expr.is_arrow() {
-                            let mut arrow_expr = expr.args[0].expr.as_arrow().unwrap();
+                            let arrow_expr = expr.args[0].expr.as_arrow().unwrap();
 
                             match *arrow_expr.body.to_owned() {
                                 BlockStmtOrExpr::Expr(internal_expr) => {
@@ -717,7 +710,6 @@ impl VisitMut for TransformVisitor {
 
 #[plugin_transform]
 pub fn process_transform(program: Program, _metadata: TransformPluginProgramMetadata) -> Program {
-    std::env::set_var("RUST_BACKTRACE", "1");
     program.fold_with(&mut as_folder(TransformVisitor {
         imports: HashMap::new(),
     }))
@@ -726,21 +718,25 @@ pub fn process_transform(program: Program, _metadata: TransformPluginProgramMeta
 #[cfg(test)]
 #[testing::fixture("tests/**/input.js")]
 #[testing::fixture("tests/**/input.tsx")]
-fn exec(input: PathBuf) {
+fn exec(input: std::path::PathBuf) {
     let output = input.with_file_name("output.js");
-    test_fixture(
-        Syntax::Typescript(TsConfig {
+    swc_core::ecma::transforms::testing::test_fixture(
+        swc_ecma_parser::Syntax::Typescript(swc_ecma_parser::TsConfig {
             tsx: true,
             ..Default::default()
         }),
         &|_| {
-            chain!(
-                resolver(Mark::new(), Mark::new(), true),
+            swc_common::chain!(
+                swc_core::ecma::transforms::base::resolver(
+                    swc_common::Mark::new(),
+                    swc_common::Mark::new(),
+                    true
+                ),
                 as_folder(TransformVisitor {
                     imports: HashMap::new()
                 })
             )
-        }, // This works but i do not know how and why
+        },
         &input,
         &output,
         Default::default(),
