@@ -2,6 +2,18 @@
 
 <!--- ## Unreleased -->
 
+## `cx@24.2.0`
+
+**Features**
+
+-  Documentation updates and additions
+-  Currency formatting features
+-  Field configurations and enhancements
+-  Localization examples and updates
+-  Row reordering, drag-and-drop for CodeSnippet
+-  Configuration props for data views
+-  Copy button tooltip and display enhancements
+
 ## `cx@24.1.3`
 
 **Features**

@@ -72,7 +72,8 @@ export const docsNavTree = [
                { text: "Keyboard Shortcuts", url: "~/concepts/keyboard-shortcuts" },
                { text: "Typed Models", url: "~/concepts/typed-models" },
                { text: "Immer.js Integration", url: "~/concepts/immer-js-integration" },
-               { text: "Creating Components", url: "~/concepts/creating-components" }
+               { text: "Creating Components", url: "~/concepts/creating-components" },
+               { text: "Cx Component", url: "~/concepts/cx-component" },
             ],
          },
       ],
@@ -132,11 +133,11 @@ export const docsNavTree = [
                   url: "~/widgets/labeled-containers",
                },
                { text: "FieldGroup", url: "~/widgets/field-groups" },
-               { text: "Validator", url: "~/widgets/validators" },
                {
                   text: "ValidationGroup",
                   url: "~/widgets/validation-groups",
                },
+               { text: "Validator", url: "~/widgets/validators" },
             ],
          },
          {
@@ -276,7 +277,7 @@ export const docsNavTree = [
             children: [
                {
                   text: "Searching and Filtering",
-                  url: "~/examples/grid/searching-and-filtering"
+                  url: "~/examples/grid/searching-and-filtering",
                },
                { text: "Pagination", url: "~/examples/grid/pagination" },
                {

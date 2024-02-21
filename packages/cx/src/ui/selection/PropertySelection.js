@@ -1,9 +1,7 @@
-import {Selection} from './Selection';
+import { Selection } from './Selection';
 
 export class PropertySelection extends Selection {
-
-   selectMultiple(store, records, indexes, {toggle, add} = {}) {
-
+   selectMultiple(store, records, indexes, { toggle, add } = {}) {
       if (this.toggle)
          toggle = true;
 

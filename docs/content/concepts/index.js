@@ -22,6 +22,7 @@ export * from './ImmerJsIntegration';
 export * from './DataAdapters';
 export * from './KeyboardShortcuts';
 export * from './CreatingComponents';
+export * from './CxComponent';
 
 import { bumpVersion } from '../version';
 

@@ -1,0 +1,3 @@
+<cx>
+  <Component.Nested />
+</cx>;

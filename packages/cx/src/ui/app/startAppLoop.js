@@ -1,6 +1,6 @@
-import {Widget, VDOM} from '../Widget';
-import {Store} from '../../data/Store';
-import {Cx} from '../Cx';
+import { Widget, VDOM } from '../Widget';
+import { Store } from '../../data/Store';
+import { Cx } from '../Cx';
 
 export function startAppLoop(parentDOMElement, storeOrInstance, widget, options = {}) {
 
