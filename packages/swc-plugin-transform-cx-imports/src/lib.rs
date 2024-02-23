@@ -254,9 +254,9 @@ pub fn process_transform(program: Program, _metadata: TransformPluginProgramMeta
 #[testing::fixture("tests/**/input.tsx")]
 fn exec(input: std::path::PathBuf) {
     let output = input.with_file_name("output.js");
-    let mainfest_content = std::fs::read_to_string("tests/manifest.json");
+    let manifest_content = std::fs::read_to_string("tests/manifest.json");
 
-    match mainfest_content {
+    match manifest_content {
         Ok(value) => {
             let manifest: HashMap<String, HashMap<String, String>> =
                 serde_json::from_str(value.as_str()).unwrap();
