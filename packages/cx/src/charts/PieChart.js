@@ -7,6 +7,7 @@ import { tooltipMouseMove, tooltipMouseLeave } from "../widgets/overlay/tooltip-
 import { isNumber } from "../util/isNumber";
 import { shallowEquals } from "../util/shallowEquals";
 import { withHoverSync } from "../ui/HoverSync";
+import { isUndefined } from "../util";
 
 export class PieChart extends BoundedObject {
    declareData() {
@@ -102,7 +103,7 @@ class PieCalculator {
    }
 }
 
-function createSvgArc(x, y, r0, r, startAngle, endAngle) {
+function createSvgArc_old(x, y, r0, r, startAngle, endAngle) {
    if (startAngle > endAngle) {
       var s = startAngle;
       startAngle = endAngle;
@@ -148,6 +149,107 @@ function createSvgArc(x, y, r0, r, startAngle, endAngle) {
    return result.join(" ");
 }
 
+function createSvgArc(x, y, r0 = 0, r, startAngleRadian, endAngleRadian, br = 0) {
+   if (startAngleRadian > endAngleRadian) {
+      var s = startAngleRadian;
+      startAngleRadian = endAngleRadian;
+      endAngleRadian = s;
+   }
+
+   let path = [];
+   // limit br size based on r and r0
+   if (br > (r - r0) / 2) br = (r - r0) / 2;
+
+   let largeArc = endAngleRadian - startAngleRadian > Math.PI ? 1 : 0;
+
+   if (br > 0) {
+      let innerBr = br;
+      let innerSmallArcAngle = Math.asin(br / (r0 + br));
+      if (innerSmallArcAngle > (endAngleRadian - startAngleRadian) / 2) {
+         innerSmallArcAngle = (endAngleRadian - startAngleRadian) / 2;
+         let sin = Math.sin(innerSmallArcAngle);
+         // correct br according to newly calculated border radius angle
+         innerBr = (r0 * sin) / (1 - sin);
+      }
+      let innerHip = Math.cos(innerSmallArcAngle) * (r0 + innerBr);
+
+      let innerSmallArc1XFrom = x + Math.cos(endAngleRadian) * innerHip;
+      let innerSmallArc1YFrom = y - Math.sin(endAngleRadian) * innerHip;
+
+      path = [move(innerSmallArc1XFrom, innerSmallArc1YFrom)];
+
+      let innerSmallArc1XTo = x + Math.cos(endAngleRadian - innerSmallArcAngle) * r0;
+      let innerSmallArc1YTo = y - Math.sin(endAngleRadian - innerSmallArcAngle) * r0;
+
+      path.push(arc(innerBr, innerBr, 0, 0, 0, innerSmallArc1XTo, innerSmallArc1YTo));
+
+      if (r0) {
+         let innerArcXTo = x + Math.cos(startAngleRadian + innerSmallArcAngle) * r0;
+         let innerArcYTo = y - Math.sin(startAngleRadian + innerSmallArcAngle) * r0;
+         path.push(arc(r0, r0, 0, largeArc, 1, innerArcXTo, innerArcYTo));
+      }
+
+      let innerSmallArc2XTo = x + Math.cos(startAngleRadian) * innerHip;
+      let innerSmallArc2YTo = y - Math.sin(startAngleRadian) * innerHip;
+      path.push(arc(innerBr, innerBr, 0, 0, 0, innerSmallArc2XTo, innerSmallArc2YTo));
+
+      let outerBr = br;
+      let outerSmallArcAngle = Math.asin(br / (r - br));
+      if (outerSmallArcAngle > (endAngleRadian - startAngleRadian) / 2) {
+         outerSmallArcAngle = (endAngleRadian - startAngleRadian) / 2;
+         let sin = Math.sin(outerSmallArcAngle);
+         // correct br according to newly calculated border radius angle
+         outerBr = (r * sin) / (1 + sin);
+      }
+      let outerHip = Math.cos(outerSmallArcAngle) * (r - outerBr);
+
+      let smArc1XFrom = x + Math.cos(startAngleRadian) * outerHip;
+      let smArc1YFrom = y - Math.sin(startAngleRadian) * outerHip;
+
+      let smArc1XTo = x + Math.cos(startAngleRadian + outerSmallArcAngle) * r;
+      let smArc1YTo = y - Math.sin(startAngleRadian + outerSmallArcAngle) * r;
+
+      let lgArcXTo = x + Math.cos(endAngleRadian - outerSmallArcAngle) * r;
+      let lgArcYTo = y - Math.sin(endAngleRadian - outerSmallArcAngle) * r;
+
+      let smArc2XTo = x + Math.cos(endAngleRadian) * outerHip;
+      let smArc2YTo = y - Math.sin(endAngleRadian) * outerHip;
+
+      path.push(
+         line(smArc1XFrom, smArc1YFrom),
+         arc(outerBr, outerBr, 0, 0, 0, smArc1XTo, smArc1YTo),
+         arc(r, r, 0, largeArc, 0, lgArcXTo, lgArcYTo),
+         arc(outerBr, outerBr, 0, 0, 0, smArc2XTo, smArc2YTo)
+      );
+   } else {
+      if (r0 > 0) {
+         let startX = x + Math.cos(endAngleRadian) * r0;
+         let startY = y - Math.sin(endAngleRadian) * r0;
+         path.push(move(startX, startY));
+
+         let innerArcToX = x + Math.cos(startAngleRadian) * r0;
+         let innerArcToY = y - Math.sin(startAngleRadian) * r0;
+
+         path.push(arc(r0, r0, 0, largeArc, 1, innerArcToX, innerArcToY));
+      } else {
+         let startX = x;
+         let startY = y;
+         path.push(move(startX, startY));
+      }
+
+      let lineToX = x + Math.cos(startAngleRadian) * r;
+      let lineToY = y - Math.sin(startAngleRadian) * r;
+      path.push(line(lineToX, lineToY));
+
+      let arcToX = x + Math.cos(endAngleRadian) * r;
+      let arcToY = y - Math.sin(endAngleRadian) * r;
+      path.push(arc(r, r, 0, largeArc, 0, arcToX, arcToY));
+   }
+
+   path.push(z());
+   return path.join(" ");
+}
+
 PieChart.prototype.anchors = "0 1 1 0";
 PieChart.prototype.angle = 360;
 
@@ -176,6 +278,8 @@ export class PieSlice extends Container {
          stack: undefined,
          legend: undefined,
          hoverId: undefined,
+         br: undefined,
+         old: undefined,
       });
    }
 
@@ -307,14 +411,24 @@ export class PieSlice extends Container {
                hover,
             };
 
-            var d = createSvgArc(
-               segment.ox,
-               segment.oy,
-               data.r0 * segment.radiusMultiplier,
-               data.r * segment.radiusMultiplier,
-               segment.startAngle,
-               segment.endAngle
-            );
+            var d = !isUndefined(data.old)
+               ? createSvgArc_old(
+                    segment.ox,
+                    segment.oy,
+                    data.r0 * segment.radiusMultiplier,
+                    data.r * segment.radiusMultiplier,
+                    segment.startAngle,
+                    segment.endAngle
+                 )
+               : createSvgArc(
+                    segment.ox,
+                    segment.oy,
+                    data.r0 * segment.radiusMultiplier,
+                    data.r * segment.radiusMultiplier,
+                    segment.startAngle,
+                    segment.endAngle,
+                    data.br
+                 );
 
             return (
                <g key={key} className={data.classNames}>
@@ -350,6 +464,22 @@ export class PieSlice extends Container {
          e.preventDefault();
       }
    }
+}
+
+function move(x, y) {
+   return `M ${x} ${y}`;
+}
+
+function line(x, y) {
+   return `L ${x} ${y}`;
+}
+
+function z() {
+   return "Z";
+}
+
+function arc(rx, ry, xRotation, largeArc, sweep, x, y) {
+   return `A ${rx} ${ry} ${xRotation} ${largeArc} ${sweep} ${x} ${y}`;
 }
 
 PieSlice.prototype.offset = 0;
