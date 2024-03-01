@@ -41,50 +41,8 @@ export const PieCharts = (
                               active-bind="$record.active"
                               colorMap="pie"
                               r={80}
-                              r0={40}
-                              // offset={5}
-                              tooltip={{
-                                 text: {
-                                    tpl: "Item {$index}: {$record.value:n;2}",
-                                 },
-                                 trackMouse: true,
-                                 globalMouseTracking: true,
-                                 destroyDelay: 50,
-                                 createDelay: 0,
-                                 animate: false,
-                              }}
-                              innerPointRadius={80}
-                              outerPointRadius={90}
-                              name-bind="$record.name"
-                              selection={{
-                                 type: KeySelection,
-                                 bind: "$page.selection",
-                                 records: { bind: "$page.points" },
-                                 record: { bind: "$record" },
-                                 index: { bind: "$index" },
-                                 keyField: "id",
-                              }}
-                              old={true}
-                           >
-                              <Line style="stroke:gray" />
-                              <Rectangle anchors="1 1 1 1" offset="-10 20 10 -20" style="fill:white">
-                                 <Text tpl="{$record.value:n;1}" dy="0.4em" ta="middle" />
-                              </Rectangle>
-                           </PieSlice>
-                        </Repeater>
-                     </PieChart>
-                  </Svg>
-                  <Svg style="width:600px; height:400px;">
-                     <ColorMap />
-                     <PieChart angle={360}>
-                        <Repeater records-bind="$page.points">
-                           <PieSlice
-                              value-bind="$record.value"
-                              active-bind="$record.active"
-                              colorMap="pie"
-                              r={80}
-                              r0={70}
-                              // offset={1}
+                              r0={60}
+                              offset={1}
                               br={10}
                               tooltip={{
                                  text: {
