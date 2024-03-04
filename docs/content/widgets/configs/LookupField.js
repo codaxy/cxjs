@@ -234,4 +234,11 @@ export default {
             Callback is invoked on every `filterParams` change, if latter is specified.
         </Md></cx>
     },
+
+    onGetRecordDisplayText: {
+        type: "function",
+        description: <cx><Md>
+            Used in multiple selection lookups in combination with records, to construct the display text out of multiple fields or when additional formatting is needed.
+        </Md></cx>
+    }
 };
