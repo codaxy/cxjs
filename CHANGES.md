@@ -2,6 +2,10 @@
 
 <!--- ## Unreleased -->
 
+## `cx@24.3.0`
+
+-  Support specifying `borderRadius` on `PieChart` slices.
+
 ## `cx@24.2.0`
 
 **Features**
