@@ -215,6 +215,7 @@ Widget.alias("pie-slice");
 export class PieSlice extends Container {
    init() {
       this.selection = Selection.create(this.selection);
+      if (this.borderRadius) this.br = this.borderRadius;
       super.init();
    }
 

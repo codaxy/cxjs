@@ -30,7 +30,7 @@ export const PieCharts = (
             Pie charts are commonly used to compare parts to the whole. In Cx, pie charts are implemented using
             `PieChart` and `PieSlice`.
             <div class="widgets" controller={PageController}>
-               {/* <Legend /> */}
+               <Legend />
                <div>
                   <Svg style="width:600px; height:400px;">
                      <ColorMap />
@@ -41,9 +41,9 @@ export const PieCharts = (
                               active-bind="$record.active"
                               colorMap="pie"
                               r={80}
-                              r0={60}
+                              r0={20}
                               offset={1}
-                              br={10}
+                              br={5}
                               tooltip={{
                                  text: {
                                     tpl: "Item {$index}: {$record.value:n;2}",
@@ -66,10 +66,10 @@ export const PieCharts = (
                                  keyField: "id",
                               }}
                            >
-                              {/* <Line style="stroke:gray" /> */}
-                              {/* <Rectangle anchors='1 1 1 1' offset="-10 20 10 -20" style="fill:white">
+                              <Line style="stroke:gray" />
+                              <Rectangle anchors='1 1 1 1' offset="-10 20 10 -20" style="fill:white">
                                  <Text tpl="{$record.value:n;1}" dy="0.4em" ta="middle" />
-                              </Rectangle> */}
+                              </Rectangle>
                            </PieSlice>
                         </Repeater>
                      </PieChart>
@@ -140,8 +140,11 @@ export const PieCharts = (
             `}</CodeSnippet>
             </Content>
          </CodeSplit>
-         ## Examples * [Multi-level](~/examples/charts/pie/multi-level) * [Labels](~/charts/pie-labels) ## `PieChart`
-         Configuration
+         ## Examples
+
+         * [Multi-level](~/examples/charts/pie/multi-level)
+         * [Labels](~/charts/pie-labels)
+         ## `PieChart` Configuration
          <ConfigTable props={pieConfigs} />
          ## `PieSlice` Configuration
          <ConfigTable props={sliceConfigs} />

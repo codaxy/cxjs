@@ -75,6 +75,9 @@ interface PieSliceProps extends Cx.StyledContainerProps {
 
    /** A value used to uniquely identify the record within the hover sync group. */
    hoverId?: Cx.StringProp;
+
+   /** Border radius of the slice. Default is 0. */
+   borderRadius?: Cx.NumberProp;
 }
 
 export class PieSlice extends Cx.Widget<PieSliceProps> {}
