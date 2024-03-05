@@ -14,14 +14,16 @@ export class PieChart extends BoundedObject {
          angle: undefined,
          startAngle: 0,
          clockwise: undefined,
-         gap: 0,
+         // gap: 0,
+         innerGapAngle: 0,
+         outerGapAngle: 0,
       });
    }
 
    explore(context, instance) {
       if (!instance.pie) instance.pie = new PieCalculator();
       var { data } = instance;
-      instance.pie.reset(data.angle, data.startAngle, data.clockwise, data.gap);
+      instance.pie.reset(data.angle, data.startAngle, data.clockwise, data.innerGapAngle, data.outerGapAngle);
 
       context.push("pie", instance.pie);
       super.explore(context, instance);
@@ -46,18 +48,24 @@ export class PieChart extends BoundedObject {
 PieChart.prototype.anchors = "0 1 1 0";
 
 class PieCalculator {
-   reset(angle, startAngle, clockwise, gap) {
+   reset(angle, startAngle, clockwise, innerGapAngle, outerGapAngle) {
       this.angleTotal = (angle / 180) * Math.PI;
       this.startAngle = (startAngle / 180) * Math.PI;
       this.clockwise = clockwise;
-      this.gap = gap;
+      // this.gap = gap;
+      this.innerGapAngle = (innerGapAngle / 180) * Math.PI;
+      this.outerGapAngle = (outerGapAngle / 180) * Math.PI;
       this.stacks = {};
    }
 
    acknowledge(stack, value) {
       var s = this.stacks[stack];
-      if (!s) s = this.stacks[stack] = { total: 0 };
-      if (value > 0) s.total += value;
+      if (!s) s = this.stacks[stack] = { total: 0, totalInnerGapAngle: 0, totalOuterGapAngle: 0 };
+      if (value > 0) {
+         s.total += value;
+         s.totalInnerGapAngle += this.innerGapAngle;
+         s.totalOuterGapAngle += this.outerGapAngle;
+      }
    }
 
    hash() {
@@ -66,38 +74,50 @@ class PieCalculator {
          startAngle: this.startAngle,
          clockwise: this.clockwise,
          stacks: Object.keys(this.stacks)
-            .map((s) => `${this.stacks[s].angleFactor}`)
+            .map((s) => `${this.stacks[s].innerAngleFactor}_${this.stacks[s].outerAngleFactor}`)
             .join(":"),
          cx: this.cx,
          cy: this.cy,
          R: this.R,
-         gap: this.gap,
+         // gap: this.gap,
+         innerGapAngle: this.innerGapAngle,
+         outerGapAngle: this.outerGapAngle,
       };
    }
 
    measure(rect) {
-      for (var s in this.stacks) {
-         var stack = this.stacks[s];
-         stack.angleFactor = stack.total > 0 ? this.angleTotal / stack.total : 0;
-         stack.lastAngle = this.startAngle;
+      for (let s in this.stacks) {
+         let stack = this.stacks[s];
+         stack.innerAngleFactor = stack.total > 0 ? (this.angleTotal - stack.totalInnerGapAngle) / stack.total : 0;
+         stack.outerAngleFactor = stack.total > 0 ? (this.angleTotal - stack.totalOuterGapAngle) / stack.total : 0;
+         stack.lastInnerAngle = this.startAngle;
+         stack.lastOuterAngle = this.startAngle;
       }
       this.cx = (rect.l + rect.r) / 2;
       this.cy = (rect.t + rect.b) / 2;
       this.R = Math.max(0, Math.min(rect.width(), rect.height())) / 2;
    }
 
-   map(stack, value) {
-      var s = this.stacks[stack];
-      var angle = value * s.angleFactor;
-      var startAngle = s.lastAngle;
+   map(stack, value, innerGapAngle, outerGapAngle) {
+      debugger;
+      let s = this.stacks[stack];
 
-      if (!this.clockwise) s.lastAngle += angle;
-      else s.lastAngle -= angle;
+      let innerAngle = value * s.innerAngleFactor;
+      let outerAngle = value * s.outerAngleFactor;
+      let startInnerAngle = s.lastInnerAngle + innerGapAngle / 2;
+      let startOuterAngle = s.lastOuterAngle + outerGapAngle / 2;
+      let endInnerAngle = !this.clockwise ? startInnerAngle + innerAngle : startInnerAngle - innerAngle;
+      let endOuterAngle = !this.clockwise ? startOuterAngle + outerAngle : startOuterAngle - outerAngle;
+
+      s.lastInnerAngle += endInnerAngle + innerGapAngle / 2;
+      s.lastOuterAngle += endOuterAngle + outerGapAngle / 2;
 
       return {
-         startAngle,
-         endAngle: s.lastAngle,
-         midAngle: (startAngle + s.lastAngle) / 2,
+         startInnerAngle,
+         endInnerAngle,
+         midAngle: (startOuterAngle + endOuterAngle) / 2,
+         startOuterAngle,
+         endOuterAngle,
          cx: this.cx,
          cy: this.cy,
          R: this.R,
@@ -105,26 +125,38 @@ class PieCalculator {
    }
 }
 
-function createSvgArc(x, y, r0, r, startAngle, endAngle, gap = 0) {
-   if (gap && (!r0 || gap > r0 / 2)) r0 = gap * 2;
+function createSvgArc(x, y, r0, r, startInnerAngle, endInnerAngle, startOuterAngle, endOuterAngle) {
+   console.log("startInnerAngle", startInnerAngle);
+   console.log("endInnerAngle", endInnerAngle);
+   console.log("startOuterAngle", startOuterAngle);
+   console.log("endOuterAngle", endOuterAngle);
 
-   if (startAngle > endAngle) {
-      var s = startAngle;
-      startAngle = endAngle;
-      endAngle = s;
+   if (startInnerAngle > endInnerAngle) {
+      let s = startInnerAngle;
+      startInnerAngle = endInnerAngle;
+      endInnerAngle = s;
+   }
+   if (startOuterAngle > endOuterAngle) {
+      let s = startOuterAngle;
+      startOuterAngle = endOuterAngle;
+      endOuterAngle = s;
    }
 
-   if (endAngle - startAngle >= 2 * Math.PI - 0.0001) endAngle = startAngle + 2 * Math.PI - 0.0001;
+   // console.log("Total inner angle radian: ", endInnerAngle - startInnerAngle);
+   // console.log("Total inner angle: ", ((endInnerAngle - startInnerAngle) / Math.PI) * 180);
+   // console.log("Total outer angle radian: ", endOuterAngle - startOuterAngle);
+   // console.log("Total outer angle: ", ((endOuterAngle - startOuterAngle) / Math.PI) * 180);
+
+   if (endInnerAngle - startInnerAngle >= 2 * Math.PI - 0.0001) endInnerAngle = startInnerAngle + 2 * Math.PI - 0.0001;
+   if (endOuterAngle - startOuterAngle >= 2 * Math.PI - 0.0001) endOuterAngle = startOuterAngle + 2 * Math.PI - 0.0001;
 
    var result = [];
 
    var startX, startY;
 
    if (r0 > 0) {
-      let innerGapAngle = Math.asin(gap / (2 * r0));
-
-      startX = x + Math.cos(endAngle - innerGapAngle) * r0;
-      startY = y - Math.sin(endAngle - innerGapAngle) * r0;
+      startX = x + Math.cos(endInnerAngle) * r0;
+      startY = y - Math.sin(endInnerAngle) * r0;
       result.push("M", startX, startY);
 
       result.push(
@@ -132,10 +164,10 @@ function createSvgArc(x, y, r0, r, startAngle, endAngle, gap = 0) {
          r0,
          r0,
          0,
-         endAngle - startAngle - 2 * innerGapAngle <= Math.PI ? 0 : 1,
+         endInnerAngle - startInnerAngle <= Math.PI ? 0 : 1,
          1,
-         x + Math.cos(startAngle + innerGapAngle) * r0,
-         y - Math.sin(startAngle + innerGapAngle) * r0
+         x + Math.cos(startInnerAngle) * r0,
+         y - Math.sin(startInnerAngle) * r0
       );
    } else {
       startX = x;
@@ -143,20 +175,18 @@ function createSvgArc(x, y, r0, r, startAngle, endAngle, gap = 0) {
       result.push("M", startX, startY);
    }
 
-   // if gap is defined, outerGapAngle will be different from 0 and affect start and end angles
-   let outerGapAngle = Math.asin(gap / (2 * r));
    result.push(
       "L",
-      x + Math.cos(startAngle + outerGapAngle) * r,
-      y - Math.sin(startAngle + outerGapAngle) * r,
+      x + Math.cos(startOuterAngle) * r,
+      y - Math.sin(startOuterAngle) * r,
       "A",
       r,
       r,
       0,
-      endAngle - startAngle - 2 * outerGapAngle <= Math.PI ? 0 : 1,
+      endOuterAngle - startOuterAngle <= Math.PI ? 0 : 1,
       0,
-      x + Math.cos(endAngle - outerGapAngle) * r,
-      y - Math.sin(endAngle - outerGapAngle) * r,
+      x + Math.cos(endOuterAngle) * r,
+      y - Math.sin(endOuterAngle) * r,
       "L",
       startX,
       startY
@@ -231,13 +261,15 @@ export class PieSlice extends Container {
       }
 
       if (instance.valid && data.active) {
-         let seg = pie.map(data.stack, data.value);
+         let seg = pie.map(data.stack, data.value, instance.pie.innerGapAngle, instance.pie.outerGapAngle);
 
          if (
             !segment ||
             instance.shouldUpdate ||
-            seg.startAngle != segment.startAngle ||
-            seg.endAngle != segment.endAngle ||
+            seg.startInnerAngle != segment.startInnerAngle ||
+            seg.endInnerAngle != segment.endInnerAngle ||
+            seg.startOuterAngle != segment.startOuterAngle ||
+            seg.endOuterAngle != segment.endOuterAngle ||
             pie.shouldUpdate
          ) {
             if (data.offset > 0) {
@@ -328,9 +360,11 @@ export class PieSlice extends Container {
                segment.oy,
                data.r0 * segment.radiusMultiplier,
                data.r * segment.radiusMultiplier,
-               segment.startAngle,
-               segment.endAngle,
-               pie.gap
+               segment.startInnerAngle,
+               segment.endInnerAngle,
+               segment.startOuterAngle,
+               segment.endOuterAngle
+               // pie.gap
             );
 
             return (

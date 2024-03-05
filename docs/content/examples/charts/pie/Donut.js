@@ -9,14 +9,25 @@ import {CodeSnippet} from 'docs/components/CodeSnippet';
 class PageController extends Controller {
    init() {
       super.init();
-      this.store.init("$page.gap", 5);
-      this.store.init("$page.r0", 50);
+      this.store.init("$page.outerGapAngle", 4.98);
+      this.store.init("$page.innerGapAngle", 6.64);
+      this.store.init("$page.r0", 60);
 
-      this.store.set('$page.points', Array.from({length: 7}, (_, i) => ({
-        id: i,
-        name: 'Item ' + (i+1),
-        value: 100 + (Math.random() - 0.5) * 30,
-     })));
+
+      this.store.set('$page.points', [{
+        id: 1,
+        name: 'Item 1',
+        value: 10
+      },{
+        id: 2,
+        name: 'Item 2',
+        value: 30
+      }]);
+    //   this.store.set('$page.points', Array.from({length: 2}, (_, i) => ({
+    //     id: i,
+    //     name: 'Item ' + (i+1),
+    //     value:  (Math.random() - 0.5 * i) * 60,
+    //  })));
    }
 }
 
@@ -31,7 +42,7 @@ export const Donut = <cx>
             <FlexRow>
                 <Svg style="width:550px; height:400px;">
                     <ColorMap />
-                    <PieChart angle={360} gap-bind='$page.gap'>
+                    <PieChart angle={360} innerGapAngle-bind='$page.innerGapAngle' outerGapAngle-bind='$page.outerGapAngle'>
                         <Repeater records-bind="$page.points">
                             <PieSlice
                                 value-bind="$record.value"
@@ -41,7 +52,7 @@ export const Donut = <cx>
                                 r0-bind='$page.r0'
                                 tooltip={{
                                     text: {
-                                        tpl: "Item {$index}: {$record.value:n;2}",
+                                        tpl: "Item {$record.name}: {$record.value:n;2}",
                                     },
                                     trackMouse: true,
                                     globalMouseTracking: true,
@@ -69,9 +80,9 @@ export const Donut = <cx>
                         </Repeater>
                     </PieChart>
                 </Svg>
-                <FlexCol justify='space-around'>
+                {/* <FlexCol justify='space-around'>
                     <Legend vertical />
-                </FlexCol>
+                </FlexCol> */}
             </FlexRow>
 
             <LabelsTopLayout mod='stretch' style='margin-left: 40px'>
