@@ -752,19 +752,17 @@ export class Grid extends Container {
                );
             }
 
-            headerRows.push(
-               <tbody key={"h" + key + lineIndex} className={CSS.element(baseClass, "header")}>
-                  {result.map((h, i) => (
-                     <tr key={i}>{h}</tr>
-                  ))}
-               </tbody>,
-            );
+            headerRows.push(...result.map((h, i) => <tr key={`${lineIndex}-${i}`}>{h}</tr>));
          }
       });
 
       if (headerRows.length == 0) return null;
 
-      return headerRows;
+      return (
+         <tbody key={"h" + key} className={CSS.element(baseClass, "header")}>
+            {headerRows}
+         </tbody>
+      );
    }
 
    onHeaderMouseMove(e, column, columnInstance, gridInstance, headerLine) {
