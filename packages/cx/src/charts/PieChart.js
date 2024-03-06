@@ -12,18 +12,18 @@ export class PieChart extends BoundedObject {
    declareData() {
       super.declareData(...arguments, {
          angle: undefined,
-         startAngle: 0,
+         startAngle: undefined,
          clockwise: undefined,
-         // gap: 0,
-         innerGapAngle: 0,
-         outerGapAngle: 0,
+         gap: undefined,
+         // innerGapAngle: 0,
+         // outerGapAngle: 0,
       });
    }
 
    explore(context, instance) {
       if (!instance.pie) instance.pie = new PieCalculator();
       var { data } = instance;
-      instance.pie.reset(data.angle, data.startAngle, data.clockwise, data.innerGapAngle, data.outerGapAngle);
+      instance.pie.reset(data.angle, data.startAngle, data.clockwise, data.r, data.r0, data.gap);
 
       context.push("pie", instance.pie);
       super.explore(context, instance);
@@ -48,13 +48,15 @@ export class PieChart extends BoundedObject {
 PieChart.prototype.anchors = "0 1 1 0";
 
 class PieCalculator {
-   reset(angle, startAngle, clockwise, innerGapAngle, outerGapAngle) {
+   reset(angle, startAngle, clockwise, r, r0, gap) {
       this.angleTotal = (angle / 180) * Math.PI;
       this.startAngle = (startAngle / 180) * Math.PI;
       this.clockwise = clockwise;
-      // this.gap = gap;
-      this.innerGapAngle = (innerGapAngle / 180) * Math.PI;
-      this.outerGapAngle = (outerGapAngle / 180) * Math.PI;
+      this.gap = gap;
+      // debugger;
+      // this.innerGapAngle = r0 > 0 ? Math.asin(gap / (2 * r0)) : 0;
+      // this.outerGapAngle = Math.asin(gap / (2 * r));
+      // this.outerGapAngle = (outerGapAngle / 180) * Math.PI;
       this.stacks = {};
    }
 
@@ -86,6 +88,7 @@ class PieCalculator {
    }
 
    measure(rect) {
+      debugger;
       for (let s in this.stacks) {
          let stack = this.stacks[s];
          stack.innerAngleFactor = stack.total > 0 ? (this.angleTotal - stack.totalInnerGapAngle) / stack.total : 0;
@@ -99,7 +102,6 @@ class PieCalculator {
    }
 
    map(stack, value, innerGapAngle, outerGapAngle) {
-      debugger;
       let s = this.stacks[stack];
 
       let innerAngle = value * s.innerAngleFactor;
@@ -415,5 +417,7 @@ PieSlice.prototype.legendAction = "auto";
 PieSlice.prototype.legendShape = "circle";
 PieSlice.prototype.hoverChannel = "default";
 PieSlice.prototype.styled = true;
+PieSlice.prototype.gap = 0;
+PieSlice.prototype.startAngle = 0;
 
 Widget.alias("pie-chart", PieChart);
