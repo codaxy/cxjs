@@ -128,7 +128,7 @@ if (production) {
       },
       devServer: {
          //contentBase: "/docs",
-         hot: true,
+         //hot: true,
          port: 8065,
          //noInfo: false,
          //inline: true,
@@ -147,7 +147,7 @@ var common = {
          //'cx-react': path.resolve(path.join(__dirname, '../packages/cx-inferno')),
          //'cx-react': path.resolve(path.join(__dirname, '../packages/cx-preact')),
          "cx-react-css-transition-group": path.resolve(
-            path.join(__dirname, "../packages/cx-react-css-transition-group")
+            path.join(__dirname, "../packages/cx-react-css-transition-group"),
          ),
          docs: __dirname,
       },
