@@ -16,6 +16,7 @@ export * from "./Marker";
 export * from "./MarkerLine";
 export * from "./Range";
 export * from "./Gridlines";
+export * from "./Swimlanes";
 
 export * from "./LineGraph";
 export * from "./ColumnGraph";
