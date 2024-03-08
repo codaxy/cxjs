@@ -524,7 +524,7 @@ export class Grid extends Container {
 
                let headerCell = findFirstChild(
                   headerTBody,
-                  (el) => el.tagName == "TH" && el.dataset?.uniqueColId == uniqueColId,
+                  (el) => el.tagName == "TH" && el.dataset && el.dataset.uniqueColId == uniqueColId,
                );
                let scrollAreaEl = headerTBody.parentElement.parentElement;
                let gridEl = scrollAreaEl.parentElement;
@@ -1333,68 +1333,79 @@ class GridComponent extends VDOM.Component {
          mod["draggable"] = draggable;
          mod["non-draggable"] = !draggable;
 
-         let wrap = (children) => (
-            <GridRowComponent
-               key={key}
-               className={CSS.state(mod)}
-               store={store}
-               dragSource={dragSource}
-               instance={row}
-               grid={instance}
-               record={record}
-               parent={this}
-               cursorIndex={index}
-               selected={row.selected}
-               isBeingDragged={dragged}
-               isDraggedOver={mod.over}
-               cursor={mod.cursor}
-               cursorCellIndex={index == cursor && cursorCellIndex}
-               cellEdit={index == cursor && cursorCellIndex != null && cellEdit}
-               shouldUpdate={row.shouldUpdate}
-               dimensionsVersion={dimensionsVersion}
-               fixed={fixed}
-            >
-               {children.content.map(({ key, data, content }, line) => (
-                  <tr key={key} className={data.classNames} style={data.style}>
-                     {content.map(({ key, data, content, uniqueColumnId }, cellIndex) => {
-                        if (Boolean(data.fixed) !== fixed) return null;
-                        let cellected =
-                           index == cursor && cellIndex == cursorCellIndex && widget.cellEditable && line == 0;
-                        let className = cellected
-                           ? CSS.expand(data.classNames, CSS.state("cellected"))
-                           : data.classNames;
-                        if (cellected && cellEdit) {
-                           let column = visibleColumns[cursorCellIndex];
-                           if (column && column.editor && data.editable)
-                              return this.renderCellEditor(key, CSS, baseClass, row, column);
-                        }
-                        let width = colWidth[uniqueColumnId];
-                        let style = data.style;
-                        if (width) {
-                           style = {
-                              ...style,
-                              maxWidth: `${width}px`,
-                           };
-                        }
+         let wrap = (children) => {
+            let skipCells = {};
+            return (
+               <GridRowComponent
+                  key={key}
+                  className={CSS.state(mod)}
+                  store={store}
+                  dragSource={dragSource}
+                  instance={row}
+                  grid={instance}
+                  record={record}
+                  parent={this}
+                  cursorIndex={index}
+                  selected={row.selected}
+                  isBeingDragged={dragged}
+                  isDraggedOver={mod.over}
+                  cursor={mod.cursor}
+                  cursorCellIndex={index == cursor && cursorCellIndex}
+                  cellEdit={index == cursor && cursorCellIndex != null && cellEdit}
+                  shouldUpdate={row.shouldUpdate}
+                  dimensionsVersion={dimensionsVersion}
+                  fixed={fixed}
+               >
+                  {children.content.map(({ key, data, content }, line) => (
+                     <tr key={key} className={data.classNames} style={data.style}>
+                        {content.map(({ key, data, content, uniqueColumnId }, cellIndex) => {
+                           if (Boolean(data.fixed) !== fixed) return null;
+                           let cellected =
+                              index == cursor && cellIndex == cursorCellIndex && widget.cellEditable && line == 0;
+                           let className = cellected
+                              ? CSS.expand(data.classNames, CSS.state("cellected"))
+                              : data.classNames;
+                           if (cellected && cellEdit) {
+                              let column = visibleColumns[cursorCellIndex];
+                              if (column && column.editor && data.editable)
+                                 return this.renderCellEditor(key, CSS, baseClass, row, column);
+                           }
+                           let width = colWidth[uniqueColumnId];
+                           let style = data.style;
+                           if (width) {
+                              style = {
+                                 ...style,
+                                 maxWidth: `${width}px`,
+                              };
+                           }
 
-                        if (cellWrap) content = cellWrap(content);
+                           if (skipCells[`${line}-${cellIndex}`]) return null;
 
-                        return (
-                           <td
-                              key={key}
-                              className={className}
-                              style={style}
-                              colSpan={data.colSpan}
-                              rowSpan={data.rowSpan}
-                           >
-                              {content}
-                           </td>
-                        );
-                     })}
-                  </tr>
-               ))}
-            </GridRowComponent>
-         );
+                           if (data.colSpan > 1 || data.rowSpan > 1) {
+                              for (let r = line; r < line + (data.rowSpan ?? 1); r++)
+                                 for (let c = cellIndex; c < cellIndex + (data.colSpan ?? 1); c++)
+                                    skipCells[`${r}-${c}`] = true;
+                           }
+
+                           if (cellWrap) content = cellWrap(content);
+
+                           return (
+                              <td
+                                 key={key}
+                                 className={className}
+                                 style={style}
+                                 colSpan={data.colSpan}
+                                 rowSpan={data.rowSpan}
+                              >
+                                 {content}
+                              </td>
+                           );
+                        })}
+                     </tr>
+                  ))}
+               </GridRowComponent>
+            );
+         };
 
          if (!standalone) return wrap(record.vdom);
 
