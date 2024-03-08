@@ -22,11 +22,10 @@ export const SwimlanesPage = (
                   <Chart
                      axes={{
                         x: <NumericAxis />,
-                        y: <NumericAxis vertical />,
+                        y: <NumericAxis vertical min={0} max={10} minLabelDistance={20} />,
                      }}
                   >
-                     <Rectangle fill="white" />
-                     <Swimlanes />
+                     <Swimlanes size={0.5} step={1} />
                   </Chart>
                </Svg>
             </div>

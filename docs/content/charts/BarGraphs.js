@@ -41,7 +41,7 @@ export const BarGraphs = (
                         y: { type: CategoryAxis, vertical: true },
                      }}
                   >
-                     <Swimlanes />
+                     <Swimlanes size={0.6} />
                      <BarGraph
                         data-bind="$page.points"
                         colorIndex={0}

@@ -1,7 +1,12 @@
-@mixin cx-swimlanes($name: "swimlanes", $besm: $cx-besm) {
+@mixin cx-swimlanes($name: "swimlanes", $besm: $cx-besm, $lane-color: $cx-default-swimlanes-lane-background-color) {
    $block: map-get($besm, block);
    $element: map-get($besm, element);
    $state: map-get($besm, state);
+
+   .#{$element}#{$name}-lane {
+      fill: $lane-color;
+      stroke: none;
+   }
 }
 
 @if (cx-should-include("cx/charts/Swimlanes")) {

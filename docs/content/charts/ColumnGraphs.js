@@ -55,7 +55,7 @@ export const ColumnGraphs = (
                         },
                      }}
                   >
-                     <Swimlanes />
+                     <Swimlanes vertical size={0.6} />
                      <ColumnGraph
                         data-bind="$page.points"
                         colorIndex={0}
