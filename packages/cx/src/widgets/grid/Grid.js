@@ -608,15 +608,16 @@ export class Grid extends Container {
       if (!header) return null;
 
       let skip = {};
+      let lineIndex = 0;
 
-      header.children.forEach((line, lineIndex) => {
+      header.children.forEach((line) => {
          let empty = [true, true, true];
          let result = [[], [], []];
 
          line.children.forEach((hdinst, colIndex) => {
             let hdwidget = hdinst.widget;
             for (let l = 0; l < 3; l++) {
-               let colKey = `${lineIndex}-${colIndex}-${l}`;
+               let colKey = `${lineIndex + l}-${colIndex}`;
 
                if (skip[colKey]) continue;
 
@@ -689,7 +690,7 @@ export class Grid extends Container {
 
                      for (let r = 0; r < header.data.rowSpan; r++)
                         for (let c = 0; c < header.data.colSpan; c++)
-                           skip[`${lineIndex}-${colIndex + c}-${l + r}`] = true;
+                           skip[`${lineIndex + l + r}-${colIndex + c}`] = true;
                   }
 
                   if ((hdwidget.resizable || header.data.resizable) && header.data.colSpan < 2) {
@@ -744,6 +745,7 @@ export class Grid extends Container {
          });
 
          result = result.filter((_, i) => !empty[i]);
+         lineIndex += result.length;
 
          if (result[0]) {
             if (fixed && !fixedColumns) {
