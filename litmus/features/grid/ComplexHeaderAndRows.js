@@ -203,11 +203,6 @@ export default (
                      field: "asset.isin",
                      sortable: true,
                   },
-                  {},
-                  {},
-                  {},
-                  {},
-                  {},
                   {
                      header: {
                         text: "Frais externes",
@@ -217,9 +212,6 @@ export default (
                      format: "n;2",
                      header2: "CHF",
                   },
-                  {},
-                  {},
-                  {},
                ],
             },
          }}
