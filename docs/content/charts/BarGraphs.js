@@ -1,12 +1,12 @@
-import { Content, Tab } from "cx/widgets";
-import { Controller, KeySelection } from "cx/ui";
+import { BarGraph, CategoryAxis, Chart, Gridlines, Legend, NumericAxis } from "cx/charts";
 import { Svg } from "cx/svg";
-import { Swimlanes, NumericAxis, CategoryAxis, Chart, BarGraph, Legend, Gridlines } from "cx/charts";
-import { Md } from "docs/components/Md";
-import { CodeSplit } from "docs/components/CodeSplit";
+import { Controller, KeySelection } from "cx/ui";
+import { Content, Tab } from "cx/widgets";
 import { CodeSnippet } from "docs/components/CodeSnippet";
+import { CodeSplit } from "docs/components/CodeSplit";
 import { ConfigTable } from "docs/components/ConfigTable";
 import { ImportPath } from "docs/components/ImportPath";
+import { Md } from "docs/components/Md";
 import { casual } from "docs/content/examples/data/casual";
 import configs from "./configs/BarGraph";
 
@@ -41,7 +41,7 @@ export const BarGraphs = (
                         y: { type: CategoryAxis, vertical: true },
                      }}
                   >
-                     <Swimlanes size={0.6} />
+                     <Gridlines />
                      <BarGraph
                         data-bind="$page.points"
                         colorIndex={0}
