@@ -1,6 +1,6 @@
 {
   "name": "swc-plugin-transform-cx-jsx",
-  "version": "0.2.1",
+  "version": "0.2.3",
   "description": "SWC plugin for CxJS transformation",
   "author": "gygasync <gygasync@gmail.com>",
   "license": "ISC",

@@ -1,6 +1,6 @@
 [package]
 name = "swc_plugin_transform_cx_jsx"
-version = "0.2.2"
+version = "0.2.3"
 edition = "2021"
 license = "MIT OR Apache-2.0"
 description = "Plugin for swc.rs that transforms cxjs.io"
