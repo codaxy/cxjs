@@ -18,6 +18,24 @@ interface SwimlanesProps extends BoundedObjectProps {
 
    /** Base CSS class to be applied to the element. Defaults to `swimlanes`. */
    baseClass?: string;
+
+   /** Represents a swimlane size. */
+   size?: number;
+
+   /**
+    * Represents a swimlane step. Define a step on which a swimlane will be rendered. (eg. step 2 will render
+    * every second swimlane in the chart.)
+    */
+   step?: number;
+
+   /** Switch to vertical swimlanes. */
+   vertical?: boolean;
+
+   /**The laneOffset property adjusts the positioning of lane elements, enhancing their alignment and readability. */
+   laneOffset?: number;
+
+   /** Style object applied to the swimlanes. */
+   laneStyle?: StyleProp;
 }
 
 export class Swimlanes extends Cx.Widget<SwimlanesProps> {}
