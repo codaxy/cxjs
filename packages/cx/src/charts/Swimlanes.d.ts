@@ -29,13 +29,13 @@ interface SwimlanesProps extends BoundedObjectProps {
    step?: number;
 
    /** Switch to vertical swimlanes. */
-   vertical: boolean;
+   vertical?: boolean;
 
    /**The laneOffset property adjusts the positioning of lane elements, enhancing their alignment and readability. */
-   laneOffset: number;
+   laneOffset?: number;
 
    /** Style object applied to the swimlanes. */
-   laneStyle: StyleProp;
+   laneStyle?: StyleProp;
 }
 
 export class Swimlanes extends Cx.Widget<SwimlanesProps> {}
