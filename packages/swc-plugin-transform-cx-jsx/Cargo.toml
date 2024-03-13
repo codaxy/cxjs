@@ -1,9 +1,9 @@
 [package]
-name = "swc_plugin_transform_cx_jsx"
-version = "0.2.3"
+name = "swc-plugin-transform-cx-jsx"
+version = "24.3.3"
 edition = "2021"
-license = "MIT OR Apache-2.0"
-description = "Plugin for swc.rs that transforms cxjs.io"
+license = "SEE LICENSE IN LICENSE.md"
+description = "Transpile JSX into Cx config objects."
 
 [lib]
 crate-type = ["cdylib", "rlib"]
@@ -28,6 +28,7 @@ swc_core = { version = "0.90.6", features = ["ecma_plugin_transform"] }
 swc_ecma_ast = "0.112.2"
 serde_json = "1"
 swc_ecma_parser = "0.143.3"
+wasm-bindgen = "0.2"
 
 [dev-dependencies]
 testing = "0.35.18"
