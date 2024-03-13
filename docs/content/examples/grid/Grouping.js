@@ -11,13 +11,18 @@ import plural from 'plural';
 class PageController extends Controller {
     onInit() {
         // Init grid data
-        this.store.set('$page.records', Array.from({length: 100}).map((v, i) => ({
+        let records = Array.from({length: 100}).map((v, i) => ({
             id: i + 1,
             fullName: casual.full_name,
             continent: casual.continent,
             browser: casual.browser,
             os: casual.operating_system,
             visits: casual.integer(1, 100)
+        }));
+        let totalVisits = records.reduce((acc, r) => acc + r.visits, 0);
+        this.store.set('$page.records', records.map(r => ({
+            ...r,
+            visitsShare: totalVisits != 0 ? r.visits / totalVisits : 0
         })));
     }
 }
@@ -83,6 +88,21 @@ export const Grouping = <cx>
                     aggregate: "sum",
                     align: "right",
                     format: 'n;0'
+                },
+                {
+                    header: 'Visits Share',
+                    field: 'visitsShare',
+                    sortable: true,
+                    align: "right",
+                    format: 'p;2',
+                    aggregate: 'sum',
+                    caption: {
+                        value: {
+                            bind: '$group.visitsShare',
+                        },
+                        format: 'p;1',
+                        style: { expr: '{$group.visitsShare} >= 0.15 ? "color: green" : {$group.visitsShare} < 0.1 ? "color: red" : null' }
+                    }
                 }]}
             />
 
@@ -96,13 +116,18 @@ export const Grouping = <cx>
                     class PageController extends Controller {
                         onInit() {
                             // Init grid data
-                            this.store.set('$page.records', Array.from({length: 100}).map((v, i)=>({
+                            let records = Array.from({ length: 100 }).map((v, i) => ({
                                 id: i + 1,
                                 fullName: casual.full_name,
                                 continent: casual.continent,
                                 browser: casual.browser,
                                 os: casual.operating_system,
                                 visits: casual.integer(1, 100)
+                            }));
+                            let totalVisits = records.reduce((acc, r) => acc + r.visits, 0);
+                            this.store.set('$page.records', records.map(r => ({
+                                ...r,
+                                visitsShare: totalVisits != 0 ? r.visits / totalVisits : 0
                             })));
                         }
                     }
@@ -117,7 +142,7 @@ export const Grouping = <cx>
                             { showFooter: true },
                             {
                                 key: {
-                                    name: {bind: '$record.continent'}
+                                    name: { bind: '$record.continent' }
                                 },
                                 showCaption: true
                             }
@@ -168,14 +193,26 @@ export const Grouping = <cx>
                         aggregate: "sum",
                         align: "right",
                         format: 'n;0'
+                    },
+                    {
+                        header: 'Visits Share',
+                        field: 'visitsShare',
+                        sortable: true,
+                        align: "right",
+                        format: 'p;2',
+                        aggregate: 'sum',
+                        caption: {
+                            value: {
+                                bind: '$group.visitsShare',
+                            },
+                            format: 'p;1',
+                            style: { expr: '{$group.visitsShare} >= 0.15 ? "color: green" : {$group.visitsShare} < 0.1 ? "color: red" : null' }
+                        }
                     }]
                     `}
                 </CodeSnippet>
             </Content>
-
-
         </CodeSplit>
-
     </Md>
 </cx>;
 
