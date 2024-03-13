@@ -2,28 +2,13 @@
   "name": "swc-plugin-transform-cx-imports",
   "version": "24.3.3",
   "description": "Rewrite Cx imports for simplicity and optimal output size.",
-  "repository": "https://github.com/codaxy/cxjs",
   "author": "Codaxy",
-  "license": "SEE LICENSE IN LICENSE.md",
-  "main": "swc_plugin_transform_cx_imports.js",
+  "license": "ISC",
+  "main": "swc_plugin_transform_cx_imports.wasm",
+  "homepage": "https://cxjs.io",
   "scripts": {
     "test": "cargo test",
     "prepublishOnly": "cargo build-wasi --release"
-  },
-  "files": [
-    "swc_plugin_transform_cx_imports_bg.wasm",
-    "swc_plugin_transform_cx_imports.js",
-    "swc_plugin_transform_cx_imports_bg.js",
-    "swc_plugin_transform_cx_imports.d.ts"
-  ],
-  "module": "swc_plugin_transform_cx_imports.js",
-  "types": "swc_plugin_transform_cx_imports.d.ts",
-  "sideEffects": [
-    "./swc_plugin_transform_cx_imports.js",
-    "./snippets/*"
-  ],
-  "directories": {
-    "test": "tests"
   },
   "keywords": [
     "swc-plugin",
