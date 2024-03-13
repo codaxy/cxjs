@@ -2,7 +2,10 @@
   "name": "swc-plugin-transform-cx-imports",
   "version": "24.3.3",
   "description": "Rewrite Cx imports for simplicity and optimal output size.",
-  "repository": "https://github.com/codaxy/cxjs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codaxy/cxjs.git"
+  },
   "author": "Codaxy",
   "license": "SEE LICENSE IN LICENSE.md",
   "main": "swc_plugin_transform_cx_imports.js",
@@ -22,9 +25,6 @@
     "./swc_plugin_transform_cx_imports.js",
     "./snippets/*"
   ],
-  "directories": {
-    "test": "tests"
-  },
   "keywords": [
     "swc-plugin",
     "swc",
@@ -32,5 +32,9 @@
     "es2016",
     "cx",
     "jsx"
-  ]
+  ],
+  "bugs": {
+    "url": "https://github.com/codaxy/cxjs/issues"
+  },
+  "homepage": "https://github.com/codaxy/cxjs#readme"
 }
