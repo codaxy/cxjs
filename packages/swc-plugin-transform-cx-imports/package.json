@@ -3,7 +3,7 @@
   "version": "24.3.3",
   "description": "Rewrite Cx imports for simplicity and optimal output size.",
   "author": "Codaxy",
-  "license": "ISC",
+  "license": "SEE LICENSE IN LICENSE.md",
   "main": "swc_plugin_transform_cx_imports.wasm",
   "homepage": "https://cxjs.io",
   "scripts": {
