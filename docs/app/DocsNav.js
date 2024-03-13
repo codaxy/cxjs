@@ -221,6 +221,7 @@ export const docsNavTree = [
                { text: "Legend", url: "~/charts/legend" },
                { text: "PieLabels", url: "~/charts/pie-labels" },
                { text: "Gridlines", url: "~/charts/gridlines" },
+               { text: "Swimlanes", url: "~/charts/swimlanes" },
                { text: "MouseTracker", url: "~/charts/mouse-tracker" },
                { text: "PointReducer", url: "~/charts/point-reducers" },
                { text: "ValueAtFinder", url: "~/charts/value-at-finder" },

@@ -372,13 +372,12 @@ impl TransformVisitor {
                     .for_each(|obj_props| match obj_props.to_owned() {
                         PropOrSpread::Prop(prop) => match *prop {
                             Prop::KeyValue(key_value) => {
-                                let prop_name = self.get_prop_name(&key_value);
                                 let value =
                                     self.transform_cx_element(&mut key_value.to_owned().value);
 
                                 attrs.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(
                                     KeyValueProp {
-                                        key: PropName::Str(prop_name.into()),
+                                        key: key_value.key,
                                         value: Box::new(value),
                                     },
                                 ))))
