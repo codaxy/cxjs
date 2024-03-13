@@ -157,15 +157,15 @@ export class Grid extends Container {
             )
                row.hasResizableColumns = true;
 
-            if (c.aggregate && (c.aggregateField || isDefined(c.aggregateValue))) {
+            if (c.aggregate && c.aggregateAlias && (c.aggregateField || isDefined(c.aggregateValue))) {
                aggregates[c.aggregateAlias] = {
                   value: isDefined(c.aggregateValue)
                      ? c.aggregateValue
                      : isDefined(c.value)
-                       ? c.value
-                       : c.aggregateField
-                         ? { bind: this.recordName + "." + c.aggregateField }
-                         : null,
+                     ? c.value
+                     : c.aggregateField
+                     ? { bind: this.recordName + "." + c.aggregateField }
+                     : null,
                   weight:
                      c.weight != null
                         ? c.weight
@@ -881,15 +881,22 @@ export class Grid extends Container {
                let v,
                   c = ci.widget,
                   colSpan,
-                  pad;
+                  pad,
+                  cls = "",
+                  style = null;
                if (c.caption) {
                   if (c.caption.children)
                      v = <Cx widget={c.caption.children} store={store} parentInstance={instance} subscribe />;
-                  else v = c.caption.value(data);
+                  else {
+                     v = c.caption.value(data);
+                     let fmt = c.caption.format(data);
+                     if (fmt) v = Format.value(v, fmt);
+                  }
                   pad = c.caption.pad;
                   colSpan = c.caption.colSpan;
                   empty = false;
-
+                  cls = CSS.expand(c.caption.class(data)) || "";
+                  style = parseStyle(c.caption.style(data));
                   if (c.caption.expand) {
                      colSpan = 1;
                      for (
@@ -903,19 +910,19 @@ export class Grid extends Container {
                   }
 
                   if (colSpan > 1) skip = colSpan - 1;
-               } else if (c.aggregate && c.aggregateField && c.caption !== false) {
+               } else if (c.aggregate && c.aggregateAlias && c.caption !== false) {
                   empty = false;
-                  v = group[c.aggregateField];
+                  v = group[c.aggregateAlias];
                   if (isString(ci.data.format)) v = Format.value(v, ci.data.format);
                }
 
-               let cls = "";
+               if (cls) cls += " ";
                if (c.align) cls += CSS.state("aligned-" + c.align);
 
                if (pad !== false) cls += (cls ? " " : "") + CSS.state("pad");
 
                return (
-                  <td key={i} className={cls} colSpan={colSpan}>
+                  <td key={i} className={cls} colSpan={colSpan} style={style}>
                      {v}
                   </td>
                );
@@ -986,9 +993,9 @@ export class Grid extends Container {
                }
 
                if (colSpan > 1) skip = colSpan - 1;
-            } else if (c.aggregate && c.aggregateField && c.footer !== false) {
+            } else if (c.aggregate && c.aggregateAlias && c.footer !== false) {
                empty = false;
-               v = group[c.aggregateField];
+               v = group[c.aggregateAlias];
                if (isString(ci.data.format)) v = Format.value(v, ci.data.format);
             }
 
@@ -3089,7 +3096,12 @@ class GridColumnHeader extends Widget {
          if (children) {
             delete this.caption.items;
             this.caption.children = Widget.create(children);
-         } else this.caption.value = getSelector(this.caption.value);
+         } else {
+            this.caption.value = getSelector(this.caption.value);
+            this.caption.class = getSelector(this.caption.class);
+            this.caption.style = getSelector(this.caption.style);
+            this.caption.format = getSelector(this.caption.format);
+         }
       }
 
       super.init();
