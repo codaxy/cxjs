@@ -1,9 +1,12 @@
 [package]
 name = "swc-plugin-transform-cx-jsx"
-version = "24.3.3"
+version = "24.3.4"
 edition = "2021"
 license = "SEE LICENSE IN LICENSE.md"
 description = "Transpile JSX into Cx config objects."
+author = "Codaxy"
+keywords = [ "swc-plugin", "swc", "es2015", "es2016", "cx", "jsx"]
+repository = "https://github.com/codaxy/cxjs"
 
 [lib]
 crate-type = ["cdylib", "rlib"]
