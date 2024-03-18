@@ -391,7 +391,7 @@ impl TransformVisitor {
                                 todo!("EXPR OBJ PROPS")
                             }
                         },
-                        PropOrSpread::Spread(_) => {}
+                        PropOrSpread::Spread(_) => attrs.push(obj_props.to_owned()),
                     });
 
                 return Expr::Object(ObjectLit {
