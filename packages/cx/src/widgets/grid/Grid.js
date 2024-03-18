@@ -162,10 +162,10 @@ export class Grid extends Container {
                   value: isDefined(c.aggregateValue)
                      ? c.aggregateValue
                      : isDefined(c.value)
-                     ? c.value
-                     : c.aggregateField
-                     ? { bind: this.recordName + "." + c.aggregateField }
-                     : null,
+                       ? c.value
+                       : c.aggregateField
+                         ? { bind: this.recordName + "." + c.aggregateField }
+                         : null,
                   weight:
                      c.weight != null
                         ? c.weight
@@ -524,7 +524,7 @@ export class Grid extends Container {
 
                let headerCell = findFirstChild(
                   headerTBody,
-                  (el) => el.tagName == "TH" && el.dataset?.uniqueColId == uniqueColId,
+                  (el) => el.tagName == "TH" && el.dataset && el.dataset.uniqueColId == uniqueColId,
                );
                let scrollAreaEl = headerTBody.parentElement.parentElement;
                let gridEl = scrollAreaEl.parentElement;
@@ -1245,6 +1245,7 @@ class GridComponent extends VDOM.Component {
          cursorCellIndex: 0,
          focused: widget.focused,
          dropInsertionIndex: null,
+         dropNextToTheRowAbove: null,
          start: 0,
          end: end,
       };
@@ -1591,7 +1592,25 @@ class GridComponent extends VDOM.Component {
                </tr>
             </tbody>
          );
-         children.splice(this.state.dropInsertionIndex, 0, dragInsertionRow);
+
+         let index = 0;
+         while (index < children.length && children[index]?.props?.record?.type != "data") index++;
+
+         let count = 0;
+         while (count < this.state.dropInsertionIndex) {
+            if (children[index]?.props?.record?.type == "data") count++;
+            index++;
+         }
+
+         let savedIndexPos = index;
+
+         if (!this.state.dropNextToTheRowAbove)
+            while (index < children.length && children[index]?.props?.record?.type != "data") index++;
+
+         // do not allow insertion after the last group footer
+         if (savedIndexPos < index && index == children.length) index = savedIndexPos;
+
+         children.splice(index, 0, dragInsertionRow);
       }
 
       let content = [],
@@ -1978,12 +1997,13 @@ class GridComponent extends VDOM.Component {
          let { instance } = this.props;
          let { widget } = instance;
          let { start } = this.getBufferStartEnd();
-         let { dropInsertionIndex, dropTarget } = this.state;
+         let { dropInsertionIndex, dropTarget, dropNextToTheRowAbove } = this.state;
          if (dropTarget == "grid" && widget.onDrop && dropInsertionIndex != null) {
             e.target = {
                insertionIndex: start + dropInsertionIndex,
                recordBefore: this.getRecordAt(start + dropInsertionIndex - 1),
                recordAfter: this.getRecordAt(start + dropInsertionIndex),
+               dropNextToTheRowAbove,
             };
             instance.invoke("onDrop", e, instance);
          } else if (dropTarget == "row") {
@@ -2097,6 +2117,7 @@ class GridComponent extends VDOM.Component {
       let cy = ev.cursor.clientY - parentOffset.top;
 
       let rowOverIndex = null;
+      let nextToTheRowAbove = false;
 
       while (s < e) {
          m = Math.floor((s + e) / 2);
@@ -2135,8 +2156,10 @@ class GridComponent extends VDOM.Component {
                }
             }
 
-            if (cy > (b.bottom + b.top) / 2) s = e = m + 1;
-            else s = e = m;
+            if (cy > (b.bottom + b.top) / 2) {
+               s = e = m + 1;
+               nextToTheRowAbove = true;
+            } else s = e = m;
          }
       }
 
@@ -2154,6 +2177,7 @@ class GridComponent extends VDOM.Component {
          else if (rowOverIndex != this.state.dropInsertionIndex || this.state.dropTarget != "row") {
             this.setState({
                dropInsertionIndex: rowOverIndex,
+               dropNextToTheRowAbove: false,
                dropItemHeight: ev.source.height - 1,
                dropTarget: "row",
             });
@@ -2172,6 +2196,7 @@ class GridComponent extends VDOM.Component {
          else if (s != this.state.dropInsertionIndex || this.state.dropTarget != "grid") {
             this.setState({
                dropInsertionIndex: s,
+               dropNextToTheRowAbove: nextToTheRowAbove,
                dropItemHeight: ev.source.height - 1,
                dropTarget: "grid",
             });
@@ -2180,6 +2205,7 @@ class GridComponent extends VDOM.Component {
       if (cancel) {
          this.setState({
             dropInsertionIndex: null,
+            dropNextToTheRowAbove: null,
             dropTarget: null,
          });
       }
@@ -2188,6 +2214,7 @@ class GridComponent extends VDOM.Component {
    onDragLeave(e) {
       this.setState({
          dropInsertionIndex: null,
+         dropNextToTheRowAbove: null,
          dropTarget: null,
       });
    }
