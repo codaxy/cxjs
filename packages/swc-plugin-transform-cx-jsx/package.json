@@ -8,6 +8,7 @@
    "homepage": "https://cxjs.io",
    "scripts": {
       "test": "cargo test",
+      "build": "wasm-pack build",
       "prepublishOnly": "cargo build-wasi --release"
    },
    "keywords": [
