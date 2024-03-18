@@ -13,7 +13,7 @@ import sliceConfigs from "./configs/PieSlice";
 class PageController extends Controller {
    onInit() {
       var value = 10;
-      this.store.set('$page.points', Array.from({ length: 7 }, (_, i) => ({
+      this.store.set('$page.points', Array.from({ length: 10 }, (_, i) => ({
          id: i,
          name: "Item " + (i + 1),
          value: value = Math.abs((value + (Math.random() - 0.5) * 30)),
@@ -34,16 +34,16 @@ export const PieCharts = (
                <div>
                   <Svg style="width:600px; height:400px;">
                      <ColorMap />
-                     <PieChart angle={360}>
+                     <PieChart angle={360} gap={10}>
                         <Repeater records-bind="$page.points">
                            <PieSlice
                               value-bind="$record.value"
                               active-bind="$record.active"
                               colorMap="pie"
-                              r={80}
-                              r0={20}
-                              offset={1}
-                              br={5}
+                              r={120}
+                              r0={80}
+                              percentageRadius={false}
+                              //br={5}
                               tooltip={{
                                  text: {
                                     tpl: "Item {$index}: {$record.value:n;2}",
@@ -66,10 +66,7 @@ export const PieCharts = (
                                  keyField: "id",
                               }}
                            >
-                              <Line style="stroke:gray" />
-                              <Rectangle anchors='1 1 1 1' offset="-10 20 10 -20" style="fill:white">
-                                 <Text tpl="{$record.value:n;1}" dy="0.4em" ta="middle" />
-                              </Rectangle>
+
                            </PieSlice>
                         </Repeater>
                      </PieChart>
