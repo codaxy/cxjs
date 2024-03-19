@@ -1324,6 +1324,7 @@ class GridComponent extends VDOM.Component {
             dragged: isDragged,
             cursor: widget.selectable && index == cursor,
             over: dropTarget == "row" && dropInsertionIndex === index,
+            alternate: index % 2 == 1,
          };
 
          if (isRecordSelectable) {
