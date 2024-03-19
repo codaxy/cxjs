@@ -108,6 +108,7 @@ interface GridColumnConfig {
    aggregate?: "min" | "max" | "count" | "sum" | "distinct" | "avg";
    aggregateAlias?: string;
    aggregateField?: string;
+   aggregateValue?: string;
    caption?: StringProp;
    class?: ClassProp;
    className?: ClassProp;
