@@ -20,19 +20,19 @@ interface SwimlanesProps extends BoundedObjectProps {
    baseClass?: string;
 
    /** Represents a swimlane size. */
-   size?: number;
+   size?: Cx.NumberProp;
 
    /**
     * Represents a swimlane step. Define a step on which a swimlane will be rendered. (eg. step 2 will render
     * every second swimlane in the chart.)
     */
-   step?: number;
+   step?: Cx.NumberProp;
 
    /** Switch to vertical swimlanes. */
    vertical?: boolean;
 
    /**The laneOffset property adjusts the positioning of lane elements, enhancing their alignment and readability. */
-   laneOffset?: number;
+   laneOffset?: Cx.NumberProp;
 
    /** Style object applied to the swimlanes. */
    laneStyle?: StyleProp;

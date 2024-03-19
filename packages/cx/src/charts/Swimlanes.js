@@ -33,6 +33,8 @@ export class Swimlanes extends BoundedObject {
       let { bounds } = data;
       let { CSS, baseClass } = this;
 
+      if (data.step < 0) return;
+
       let axis = this.vertical ? xAxis : yAxis;
 
       if (!axis) return null;
