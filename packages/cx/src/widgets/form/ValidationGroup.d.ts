@@ -35,7 +35,7 @@ export interface ValidationGroupProps extends Cx.PureContainerProps {
    strict?: Cx.BooleanProp;
 
    /** Set to `true` to add red asterisk for all required fields inside the group. */
-   asterisk?: boolean;
+   asterisk?: Cx.BooleanProp;
 }
 
 export class ValidationGroup extends Cx.Widget<ValidationGroupProps> {}
