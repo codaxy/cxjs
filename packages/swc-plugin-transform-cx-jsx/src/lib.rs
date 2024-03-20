@@ -351,13 +351,11 @@ impl TransformVisitor {
             Expr::Array(array) => {
                 let mut elems: Vec<Option<ExprOrSpread>> = vec![];
 
-                array.elems.iter_mut().for_each(|el| match el {
-                    Some(expr_or_spread) => elems.push(Some(ExprOrSpread {
-                        spread: None,
-                        expr: Box::new(self.transform_cx_element(&mut *expr_or_spread.expr)),
-                    })),
-                    None => {}
-                });
+                array
+                    .elems
+                    .iter_mut()
+                    .filter(|el| el.is_some())
+                    .for_each(|el| elems.push(el.to_owned()));
 
                 return Expr::Array(ArrayLit {
                     span: DUMMY_SP,

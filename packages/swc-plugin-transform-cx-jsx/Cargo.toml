@@ -1,6 +1,6 @@
 [package]
 name = "swc-plugin-transform-cx-jsx"
-version = "24.3.5"
+version = "24.3.6"
 edition = "2021"
 license = "SEE LICENSE IN LICENSE.md"
 description = "Transpile JSX into Cx config objects."
