@@ -17,6 +17,7 @@ import {
    StructuredProp,
    StyledContainerProps,
    StyleProp,
+   UnknownProp,
    Widget,
 } from "../../core";
 import { DataAdapterRecord } from "../../ui/adapter/DataAdapter";
@@ -108,7 +109,7 @@ interface GridColumnConfig {
    aggregate?: "min" | "max" | "count" | "sum" | "distinct" | "avg";
    aggregateAlias?: string;
    aggregateField?: string;
-   aggregateValue?: StringProp;
+   aggregateValue?: UnknownProp;
    caption?: StringProp;
    class?: ClassProp;
    className?: ClassProp;
