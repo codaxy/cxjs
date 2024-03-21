@@ -351,13 +351,11 @@ impl TransformVisitor {
             Expr::Array(array) => {
                 let mut elems: Vec<Option<ExprOrSpread>> = vec![];
 
-                array.elems.iter_mut().for_each(|el| match el {
-                    Some(expr_or_spread) => elems.push(Some(ExprOrSpread {
-                        spread: None,
-                        expr: Box::new(self.transform_cx_element(&mut *expr_or_spread.expr)),
-                    })),
-                    None => {}
-                });
+                array
+                    .elems
+                    .iter_mut()
+                    .filter(|el| el.is_some())
+                    .for_each(|el| elems.push(el.to_owned()));
 
                 return Expr::Array(ArrayLit {
                     span: DUMMY_SP,
@@ -562,6 +560,23 @@ impl TransformVisitor {
 }
 
 impl VisitMut for TransformVisitor {
+    fn visit_mut_jsx_element(&mut self, el: &mut JSXElement) {
+        if let JSXElementName::Ident(ident) = &mut el.opening.name {
+            let tag_name = ident.sym.to_string();
+            if tag_name == "cx" || tag_name == "Cx" {
+                let tr = self
+                    .transform_cx_element(&mut Expr::JSXElement(Box::new(el.to_owned())))
+                    .jsx_element();
+
+                if tr.is_some() {
+                    *el = *tr.unwrap();
+                }
+            }
+        }
+
+        el.visit_mut_children_with(self);
+    }
+
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         if let Expr::Arrow(arrow_fn_expr) = expr {
             if let BlockStmtOrExpr::Expr(body_expr) = *arrow_fn_expr.to_owned().body {
@@ -606,6 +621,7 @@ impl VisitMut for TransformVisitor {
         expr.visit_mut_children_with(self);
 
         if let Expr::JSXElement(jsx_el) = expr {
+            println!("Visiting expr");
             if let JSXElementName::Ident(ident) = &mut jsx_el.opening.name {
                 let tag_name = ident.sym.to_string();
                 if tag_name == "cx" || tag_name == "Cx" {
