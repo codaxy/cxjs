@@ -621,7 +621,6 @@ impl VisitMut for TransformVisitor {
         expr.visit_mut_children_with(self);
 
         if let Expr::JSXElement(jsx_el) = expr {
-            println!("Visiting expr");
             if let JSXElementName::Ident(ident) = &mut jsx_el.opening.name {
                 let tag_name = ident.sym.to_string();
                 if tag_name == "cx" || tag_name == "Cx" {
