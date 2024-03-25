@@ -1594,19 +1594,25 @@ class GridComponent extends VDOM.Component {
             </tbody>
          );
 
+         let dataRecordClass = CSS.element(baseClass, "data");
+
+         let isDataRecord = widget.buffered
+            ? (item) => item.props?.instance?.data?.class == dataRecordClass
+            : (item) => item.props?.record?.type;
+
          let index = 0;
-         while (index < children.length && children[index]?.props?.record?.type != "data") index++;
+         while (index < children.length && !isDataRecord(children[index])) index++;
 
          let count = 0;
          while (index < children.length && count < this.state.dropInsertionIndex) {
-            if (children[index]?.props?.record?.type == "data") count++;
+            if (isDataRecord(children[index])) count++;
             index++;
          }
 
          let savedIndexPos = index;
 
          if (!this.state.dropNextToTheRowAbove)
-            while (index < children.length && children[index]?.props?.record?.type != "data") index++;
+            while (index < children.length && !isDataRecord(children[index])) index++;
 
          // do not allow insertion after the last group footer
          if (savedIndexPos < index && index == children.length) index = savedIndexPos;
@@ -2002,15 +2008,15 @@ class GridComponent extends VDOM.Component {
          if (dropTarget == "grid" && widget.onDrop && dropInsertionIndex != null) {
             e.target = {
                insertionIndex: start + dropInsertionIndex,
-               recordBefore: this.getRecordAt(start + dropInsertionIndex - 1),
-               recordAfter: this.getRecordAt(start + dropInsertionIndex),
+               recordBefore: this.getDataRecordAt(start + dropInsertionIndex - 1),
+               recordAfter: this.getDataRecordAt(start + dropInsertionIndex),
                dropNextToTheRowAbove,
             };
             instance.invoke("onDrop", e, instance);
          } else if (dropTarget == "row") {
             e.target = {
                index: start + dropInsertionIndex,
-               record: this.getRecordAt(start + dropInsertionIndex),
+               record: this.getDataRecordAt(start + dropInsertionIndex),
             };
             instance.invoke("onRowDrop", e, instance);
          } else if (dropTarget == "column" && widget.onColumnDrop) {
@@ -2728,6 +2734,13 @@ class GridComponent extends VDOM.Component {
       }
 
       widget.selection.selectMultiple(instance.store, selection, indexes, options);
+   }
+
+   getDataRecordAt(index) {
+      let { records } = this.props.instance;
+      if (!records) return this.getRecordAt(index);
+      let dataRecords = records.filter((r) => r.type == "data");
+      return dataRecords[index];
    }
 
    getRecordAt(cursor) {

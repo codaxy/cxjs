@@ -1,5 +1,5 @@
-import { Grid, HtmlElement, LookupField, Select } from "cx/widgets";
-import { Controller } from "cx/ui";
+import { Checkbox, Grid, HtmlElement, LookupField, Select } from "cx/widgets";
+import { ContentResolver, Controller } from "cx/ui";
 import { Format } from "cx/util";
 import { casual } from "../../casual";
 
@@ -42,66 +42,77 @@ export default (
          <p style="margin-bottom: 10px">
             Group by:
             <LookupField records:bind="$page.grouping" options:bind="$page.groupableFields" multiple={true} />
+            <Checkbox value:bind="$page.buffered" text="Buffered" style="margin-left: 20px" />
          </p>
-         <Grid
-            records:bind="$page.records"
-            style={{ width: "100%" }}
-            groupingParams:bind="$page.grouping"
-            onGetGrouping={(groupingParams) => [
-               { key: {}, showFooter: true },
-               ...(groupingParams || []).map((x) => x.id),
-            ]}
-            columns={[
-               {
-                  header: "Name",
-                  field: "fullName",
-                  sortable: true,
-                  aggregate: "count",
-                  footer: {
-                     expr: '({$group.$level} > 1 ? {$group.$name:s|TOTAL} + " - " : "") + {$group.fullName} + " " + {$group.fullName:plural;item}',
-                  },
-               },
-               {
-                  header: "Continent",
-                  field: "continent",
-                  sortable: true,
-                  aggregate: "distinct",
-                  aggregateAlias: "continents",
-                  footer: {
-                     tpl: "{$group.continents} {$group.continents:plural;continent}",
-                  },
-               },
-               {
-                  header: "Browser",
-                  field: "browser",
-                  sortable: true,
-                  aggregate: "distinct",
-                  aggregateAlias: "browsers",
-                  footer: {
-                     tpl: "{$group.browsers} {$group.browsers:plural;browser}",
-                  },
-               },
-               {
-                  header: "OS",
-                  field: "os",
-                  sortable: true,
-                  aggregate: "distinct",
-                  aggregateAlias: "oss",
-                  footer: { tpl: "{$group.oss} {$group.oss:plural;OS}" },
-               },
-               {
-                  header: "Visits",
-                  field: "visits",
-                  sortable: true,
-                  aggregate: "sum",
-                  align: "right",
-               },
-            ]}
-            dragSource={{ data: { type: "column", source: "activeColumns" } }}
-            onDropTest={(e, { store }) => {
-               return e.source.data.type == "column";
-            }}
-            onDrop={(e, { store }) => move(store, "activeColumns", e)}
+         <ContentResolver
+            params={{ buffered: { bind: "$page.buffered" } }}
+            onResolve={({ buffered }) => (
+               <cx>
+                  <Grid
+                     buffered={buffered}
+                     records:bind="$page.records"
+                     style={{ width: "100%" }}
+                     groupingParams:bind="$page.grouping"
+                     onGetGrouping={(groupingParams) => [
+                        { key: {}, showFooter: true },
+                        ...(groupingParams || []).map((x) => x.id),
+                     ]}
+                     columns={[
+                        {
+                           header: "Name",
+                           field: "fullName",
+                           sortable: true,
+                           aggregate: "count",
+                           footer: {
+                              expr: '({$group.$level} > 1 ? {$group.$name:s|TOTAL} + " - " : "") + {$group.fullName} + " " + {$group.fullName:plural;item}',
+                           },
+                        },
+                        {
+                           header: "Continent",
+                           field: "continent",
+                           sortable: true,
+                           aggregate: "distinct",
+                           aggregateAlias: "continents",
+                           footer: {
+                              tpl: "{$group.continents} {$group.continents:plural;continent}",
+                           },
+                        },
+                        {
+                           header: "Browser",
+                           field: "browser",
+                           sortable: true,
+                           aggregate: "distinct",
+                           aggregateAlias: "browsers",
+                           footer: {
+                              tpl: "{$group.browsers} {$group.browsers:plural;browser}",
+                           },
+                        },
+                        {
+                           header: "OS",
+                           field: "os",
+                           sortable: true,
+                           aggregate: "distinct",
+                           aggregateAlias: "oss",
+                           footer: { tpl: "{$group.oss} {$group.oss:plural;OS}" },
+                        },
+                        {
+                           header: "Visits",
+                           field: "visits",
+                           sortable: true,
+                           aggregate: "sum",
+                           align: "right",
+                        },
+                     ]}
+                     dragSource={{ data: { type: "column", source: "activeColumns" } }}
+                     onDropTest={(e, { store }) => {
+                        return e.source.data.type == "column";
+                     }}
+                     onDrop={(e, { store }) => {
+                        console.log("DROPPED", e);
+                     }}
+                  />
+               </cx>
+            )}
          />
       </div>
    </cx>
