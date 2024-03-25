@@ -1598,7 +1598,7 @@ class GridComponent extends VDOM.Component {
          while (index < children.length && children[index]?.props?.record?.type != "data") index++;
 
          let count = 0;
-         while (count < this.state.dropInsertionIndex) {
+         while (index < children.length && count < this.state.dropInsertionIndex) {
             if (children[index]?.props?.record?.type == "data") count++;
             index++;
          }
