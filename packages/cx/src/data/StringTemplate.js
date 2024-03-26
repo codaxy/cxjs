@@ -6,9 +6,8 @@ function plus(str) {
    return str.length ? str + " + " : str;
 }
 
-let tplCache = {};
-
 export function stringTemplate(str) {
+   let tplCache = getTplCache();
    let expr = tplCache[str];
    if (expr) return expr;
 
@@ -80,6 +79,14 @@ export const StringTemplate = {
    },
 };
 
+let tplCache = {};
+
+let getTplCache = () => tplCache;
+
 export function invalidateStringTemplateCache() {
    tplCache = {};
+}
+
+export function setGetStringTemplateCacheCallback(callback) {
+   getTplCache = callback;
 }

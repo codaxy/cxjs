@@ -21,3 +21,27 @@ export class Culture {
 
    static setDefaultDateEncoding(encoding: DateEncoding): void;
 }
+
+export interface CultureSpecs {
+   culture?: string;
+   numberCulture?: string;
+   dateCulture?: string;
+   defaultCurrency?: string;
+   dateEncoding?: DateEncoding;
+}
+
+export interface CultureInfo {
+   culture: string;
+   numberCulture?: string;
+   dateCulture?: string;
+   defaultCurrency: string;
+   dateEncoding: DateEncoding;
+}
+
+export function createCulture(cultureSpecs: CultureSpecs): CultureInfo;
+
+export function pushCulture(cultureSpecs: CultureInfo): void;
+
+export function popCulture(): CultureInfo;
+
+export function getCurrentCultureCache(): any;
