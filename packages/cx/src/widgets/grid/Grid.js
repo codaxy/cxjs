@@ -43,6 +43,7 @@ import { unfocusElement } from "../../ui/FocusManager";
 import { tooltipMouseMove, tooltipMouseLeave } from "../overlay/tooltip-ops";
 import { Container } from "../../ui/Container";
 import { findFirstChild } from "../../util/DOM";
+import { Binding } from "../../data/Binding";
 
 export class Grid extends Container {
    declareData(...args) {
@@ -910,9 +911,9 @@ export class Grid extends Container {
                   }
 
                   if (colSpan > 1) skip = colSpan - 1;
-               } else if (c.aggregate && c.aggregateAlias && c.caption !== false) {
+               } else if (c.aggregate && c.aggregateAliasGetter && c.caption !== false) {
                   empty = false;
-                  v = group[c.aggregateAlias];
+                  v = c.aggregateAliasGetter(group);
                   if (isString(ci.data.format)) v = Format.value(v, ci.data.format);
                }
 
@@ -993,9 +994,9 @@ export class Grid extends Container {
                }
 
                if (colSpan > 1) skip = colSpan - 1;
-            } else if (c.aggregate && c.aggregateAlias && c.footer !== false) {
+            } else if (c.aggregate && c.aggregateAliasGetter && c.footer !== false) {
                empty = false;
-               v = group[c.aggregateAlias];
+               v = c.aggregateAliasGetter(group);
                if (isString(ci.data.format)) v = Format.value(v, ci.data.format);
             }
 
@@ -1597,8 +1598,8 @@ class GridComponent extends VDOM.Component {
          let dataRecordClass = CSS.element(baseClass, "data");
 
          let isDataRecord = widget.buffered
-            ? (item) => item.props?.instance?.data?.class == dataRecordClass
-            : (item) => item.props?.record?.type;
+            ? (item) => item?.props?.instance?.data?.class == dataRecordClass
+            : (item) => item?.props?.record?.type;
 
          let index = 0;
          while (index < children.length && !isDataRecord(children[index])) index++;
@@ -3110,6 +3111,7 @@ class GridColumnHeader extends Widget {
       if (!this.aggregateField && this.field) this.aggregateField = this.field;
 
       if (!this.aggregateAlias) this.aggregateAlias = this.aggregateField;
+      if (this.aggregateAlias) this.aggregateAliasGetter = Binding.get(this.aggregateAlias).value;
 
       if (this.footer && isSelector(this.footer))
          this.footer = {

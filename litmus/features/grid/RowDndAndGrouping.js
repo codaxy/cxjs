@@ -16,8 +16,12 @@ class PageController extends Controller {
          "$page.records",
          Array.from({ length: 10 }).map((v, i) => ({
             id: i + 1,
-            fullName: casual.full_name,
-            continent: casual.continent,
+            person: {
+               fullName: casual.full_name,
+            },
+            details: {
+               continent: casual.continent,
+            },
             browser: casual.browser,
             os: casual.operating_system,
             visits: casual.integer(1, 100),
@@ -25,7 +29,7 @@ class PageController extends Controller {
       );
 
       this.store.set("$page.groupableFields", [
-         { id: "continent", text: "Continent" },
+         { id: "details.continent", text: "Continent" },
          { id: "browser", text: "Browser" },
          { id: "os", text: "Operating System" },
       ]);
@@ -60,16 +64,17 @@ export default (
                      columns={[
                         {
                            header: "Name",
-                           field: "fullName",
+                           field: "person.fullName",
+                           aggregateValue: 2,
                            sortable: true,
-                           aggregate: "count",
-                           footer: {
-                              expr: '({$group.$level} > 1 ? {$group.$name:s|TOTAL} + " - " : "") + {$group.fullName} + " " + {$group.fullName:plural;item}',
-                           },
+                           aggregate: "sum",
+                           // footer: {
+                           //    expr: '({$group.$level} > 1 ? {$group.$name:s|TOTAL} + " - " : "") + {$group.person.fullName} + " " + {$group.person.fullName:plural;item}',
+                           // },
                         },
                         {
                            header: "Continent",
-                           field: "continent",
+                           field: "details.continent",
                            sortable: true,
                            aggregate: "distinct",
                            aggregateAlias: "continents",
