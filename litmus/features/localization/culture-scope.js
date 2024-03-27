@@ -8,7 +8,7 @@ import {
    PrivateStore,
    bind,
 } from "cx/ui";
-import { Button } from "cx/widgets";
+import { Button, Grid } from "cx/widgets";
 
 enableCultureSensitiveFormatting();
 
@@ -89,15 +89,22 @@ export default (
          <div style="font-weight: bold; font-size: 14px; margin-top: 10px">Root Level</div>
          <div text-tpl="Date: {today:dt}" />
          <div text-tpl="Number: {number:n;4}" />
+         <div style="font-weight: bold; font-size: 14px; margin-top: 5px">Grid</div>
+         <Grid records={[{ abc: 10000 }]} columns={[{ field: "abc", header: "Value", format: "n;2" }]} />
 
          <CultureScope culture-bind="culture">
-            <div style="font-weight: bold; font-size: 14px; margin-top: 10px">Culture Scope</div>
+            <div style="font-weight: bold; font-size: 14px; margin-top: 20px">Culture Scope</div>
             <div text-tpl="Date: {today:dt}" />
             <div text-tpl="Number: {number:n;4}" />
+            <div style="font-weight: bold; font-size: 14px; margin-top: 5px">Grid</div>
+            <Grid records={[{ abc: 10000 }]} columns={[{ field: "abc", header: "Value", format: "n;2" }]} />
+
             <CultureScope culture="it-CH" numberCulture-bind="culture">
-               <div style="font-weight: bold; font-size: 14px; margin-top: 10px">IT-CH</div>
+               <div style="font-weight: bold; font-size: 14px; margin-top: 20px">IT-CH</div>
                <div text-tpl="Date: {today:dt}" />
                <div text-tpl="Number: {number:n;4}" />
+               <div style="font-weight: bold; font-size: 14px; margin-top: 5px">Grid</div>
+               <Grid records={[{ abc: 10000 }]} columns={[{ field: "abc", header: "Value", format: "n;2" }]} />
             </CultureScope>
             <PrivateStore
                detached
@@ -106,9 +113,11 @@ export default (
                   number: bind("number"),
                }}
             >
-               <div style="font-weight: bold; font-size: 14px; margin-top: 10px">Private Store (inherit)</div>
+               <div style="font-weight: bold; font-size: 14px; margin-top: 20px">Private Store (inherit)</div>
                <div text-tpl="Date: {today:dt}" />
                <div text-tpl="Number: {number:n;4}" />
+               <div style="font-weight: bold; font-size: 14px; margin-top: 5px">Grid</div>
+               <Grid records={[{ abc: 10000 }]} columns={[{ field: "abc", header: "Value", format: "n;2" }]} />
             </PrivateStore>
          </CultureScope>
       </div>
