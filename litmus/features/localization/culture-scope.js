@@ -5,6 +5,8 @@ import {
    popCulture,
    pushCulture,
    CultureScope,
+   PrivateStore,
+   bind,
 } from "cx/ui";
 import { Button } from "cx/widgets";
 
@@ -84,16 +86,30 @@ export default (
          <Button onClick="onSetSerbian">Srpski</Button>
          <Button onClick="onSetGerman">German</Button>
 
+         <div style="font-weight: bold; font-size: 14px; margin-top: 10px">Root Level</div>
          <div text-tpl="Date: {today:dt}" />
          <div text-tpl="Number: {number:n;4}" />
 
          <CultureScope culture-bind="culture">
+            <div style="font-weight: bold; font-size: 14px; margin-top: 10px">Culture Scope</div>
             <div text-tpl="Date: {today:dt}" />
             <div text-tpl="Number: {number:n;4}" />
             <CultureScope culture="it-CH" numberCulture-bind="culture">
+               <div style="font-weight: bold; font-size: 14px; margin-top: 10px">IT-CH</div>
                <div text-tpl="Date: {today:dt}" />
                <div text-tpl="Number: {number:n;4}" />
             </CultureScope>
+            <PrivateStore
+               detached
+               data={{
+                  today: bind("today"),
+                  number: bind("number"),
+               }}
+            >
+               <div style="font-weight: bold; font-size: 14px; margin-top: 10px">Private Store (inherit)</div>
+               <div text-tpl="Date: {today:dt}" />
+               <div text-tpl="Number: {number:n;4}" />
+            </PrivateStore>
          </CultureScope>
       </div>
    </cx>

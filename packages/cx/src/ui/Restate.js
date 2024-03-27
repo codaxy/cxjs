@@ -70,6 +70,8 @@ export class Restate extends PureContainer {
    explore(context, instance) {
       if (!instance.subStore) this.initSubStore(context, instance);
       if (instance.subStore.parentDataCheck()) instance.markShouldUpdate();
+      instance.cultureInfo = context.cultureInfo;
+      if (instance.cache("cultureInfo", instance.culture)) instance.markShouldUpdate();
       super.explore(context, instance);
    }
 
@@ -96,6 +98,7 @@ export class Restate extends PureContainer {
             deferredUntilIdle={instance.data.deferredUntilIdle}
             idleTimeout={instance.data.idleTimeout}
             immediate={this.immediate}
+            cultureInfo={instance.cultureInfo}
          />
       );
    }

@@ -7,6 +7,7 @@ import { isBatchingUpdates, notifyBatchedUpdateStarting, notifyBatchedUpdateComp
 import { shallowEquals } from "../util/shallowEquals";
 import { PureContainer } from "./PureContainer";
 import { onIdleCallback } from "../util/onIdleCallback";
+import { popCulture, pushCulture } from "./Culture";
 
 export class Cx extends VDOM.Component {
    constructor(props) {
@@ -50,14 +51,12 @@ export class Cx extends VDOM.Component {
    }
 
    UNSAFE_componentWillReceiveProps(props) {
-
       let newStore = props.instance ? props.instance.store : props.store ? props.store : props.parentInstance.store;
 
       if (newStore != this.store) {
          this.store = newStore;
          if (this.unsubscribe) this.unsubscribe();
-         if (props.subscribe)
-            this.unsubscribe = this.store.subscribe(this.update.bind(this));
+         if (props.subscribe) this.unsubscribe = this.store.subscribe(this.update.bind(this));
       }
 
       if (props.subscribe) {
@@ -94,6 +93,7 @@ export class Cx extends VDOM.Component {
             buster={++this.renderCount}
             contentFactory={this.props.contentFactory}
             forceUpdate={this.forceUpdateCallback}
+            cultureInfo={this.props.cultureInfo}
          />
       );
    }
@@ -142,7 +142,7 @@ export class Cx extends VDOM.Component {
          },
          {
             timeout: this.props.idleTimeout || 30000,
-         }
+         },
       );
    }
 
@@ -163,7 +163,8 @@ export class Cx extends VDOM.Component {
          props.instance !== this.props.instance ||
          props.widget !== this.props.widget ||
          props.store !== this.props.store ||
-         props.parentInstance !== this.props.parentInstance
+         props.parentInstance !== this.props.parentInstance ||
+         props.cultureInfo !== this.props.cultureInfo
       );
    }
 
@@ -172,8 +173,6 @@ export class Cx extends VDOM.Component {
       this.props.onError(error, this.getInstance(), info);
    }
 }
-
-let currentInstance = null;
 
 class CxContext extends VDOM.Component {
    constructor(props) {
@@ -200,23 +199,29 @@ class CxContext extends VDOM.Component {
 
       this.props.flags.preparing = true;
 
-      do {
-         context = new RenderingContext(options);
-         context.forceUpdate = this.props.forceUpdate;
-         this.props.flags.dirty = false;
-         instance.assignedRenderList = context.getRootRenderList();
-         visible = instance.scheduleExploreIfVisible(context);
-         if (visible) {
-            while (!context.exploreStack.empty()) {
-               let inst = context.exploreStack.pop();
-               //console.log("EXPLORE", inst.widget.constructor.name, inst.widget.tag, inst.widget.widgetId);
-               inst.explore(context);
+      if (this.props.cultureInfo) pushCulture(this.props.cultureInfo);
+
+      try {
+         do {
+            context = new RenderingContext(options);
+            context.forceUpdate = this.props.forceUpdate;
+            this.props.flags.dirty = false;
+            instance.assignedRenderList = context.getRootRenderList();
+            visible = instance.scheduleExploreIfVisible(context);
+            if (visible) {
+               while (!context.exploreStack.empty()) {
+                  let inst = context.exploreStack.pop();
+                  //console.log("EXPLORE", inst.widget.constructor.name, inst.widget.tag, inst.widget.widgetId);
+                  inst.explore(context);
+               }
+            } else if (instance.destroyTracked) {
+               instance.destroy();
+               break;
             }
-         } else if (instance.destroyTracked) {
-            instance.destroy();
-            break;
-         }
-      } while (this.props.flags.dirty && ++count <= 3 && Widget.optimizePrepare && now() - this.timings.start < 8);
+         } while (this.props.flags.dirty && ++count <= 3 && Widget.optimizePrepare && now() - this.timings.start < 8);
+      } finally {
+         if (this.props.cultureInfo) popCulture();
+      }
 
       if (visible) {
          this.timings.afterExplore = now();
@@ -267,15 +272,8 @@ class CxContext extends VDOM.Component {
       this.renderCount++;
 
       if (process.env.NODE_ENV !== "production") {
-         let {
-            start,
-            beforeVDOMRender,
-            afterVDOMRender,
-            afterPrepare,
-            afterExplore,
-            afterRender,
-            afterCleanup,
-         } = this.timings;
+         let { start, beforeVDOMRender, afterVDOMRender, afterPrepare, afterExplore, afterRender, afterCleanup } =
+            this.timings;
 
          Timing.log(
             vdomRenderFlag,
@@ -283,7 +281,7 @@ class CxContext extends VDOM.Component {
             "cx",
             (beforeVDOMRender - start + afterCleanup - afterVDOMRender).toFixed(2) + "ms",
             "vdom",
-            (afterVDOMRender - beforeVDOMRender).toFixed(2) + "ms"
+            (afterVDOMRender - beforeVDOMRender).toFixed(2) + "ms",
          );
 
          Timing.log(
@@ -301,7 +299,7 @@ class CxContext extends VDOM.Component {
             "vdom",
             (afterVDOMRender - beforeVDOMRender).toFixed(1),
             "cleanup",
-            (afterCleanup - afterVDOMRender).toFixed(1)
+            (afterCleanup - afterVDOMRender).toFixed(1),
          );
       }
    }

@@ -38,10 +38,12 @@ export class CultureScope extends PureContainer {
       let { culture } = instance;
       pushCulture(culture);
       if (this.items.length == 0 && this.initialItems) this.add(this.initialItems);
+      context.push("cultureInfo", culture);
       super.explore(context, instance);
    }
 
    exploreCleanup(context, instance) {
+      context.pop("cultureInfo");
       popCulture();
    }
 }
