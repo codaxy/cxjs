@@ -77,7 +77,7 @@ interface LineGraphProps extends Cx.WidgetProps {
    baseClass?: string;
 
    /** Name of the property which holds the y0 value. Default value is `false`, which means y0 value is not read from the data array. */
-   y0Field?: string;
+   y0Field?: string | false;
 
    /** Name of the legend to be used. Default is `legend`. */
    legend?: string;

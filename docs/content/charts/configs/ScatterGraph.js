@@ -43,7 +43,7 @@ export default {
 
    sizeField: {
       key: true,
-      type: 'string',
+      type: 'string | false',
       description: <cx><Md>
          Name of the property which holds the size value. Do not set if `size` is used.
       </Md></cx>
