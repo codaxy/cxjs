@@ -55,35 +55,35 @@ interface DropZoneProps extends Cx.StyledContainerProps {
     * instance
     Return value is written into dragDropEvent.result and can be passed
     to the source's onDragEnd callback. */
-   onDrop?: (event?: DragEvent, instance?: Instance) => any;
+   onDrop?: string | ((event?: DragEvent, instance?: Instance) => any);
 
    /** A callback method used to test if dragged item (source) is compatible
     with the drop zone. */
-   onDropTest?: (event?: DragEvent, instance?: Instance) => boolean;
+   onDropTest?: string | ((event?: DragEvent, instance?: Instance) => boolean);
 
    /** A callback method invoked when the dragged item gets close to the drop zone.
     See also `nearDistance`. */
-   onDragNear?: (event?: DragEvent, instance?: Instance) => void;
+   onDragNear?: string | ((event?: DragEvent, instance?: Instance) => void);
 
    /** A callback method invoked when the dragged item is dragged away. */
-   onDragAway?: (event?: DragEvent, instance?: Instance) => void;
+   onDragAway?: string | ((event?: DragEvent, instance?: Instance) => void);
 
    /** A callback method invoked when the dragged item is dragged over the drop zone.
     The callback is called for each `mousemove` or `touchmove` event. */
-   onDragOver?: (event?: DragEvent, instance?: Instance) => void;
+   onDragOver?: string | ((event?: DragEvent, instance?: Instance) => void);
 
    /** A callback method invoked when the dragged item is dragged over the drop zone
     for the first time. */
-   onDragEnter?: (event?: DragEvent, instance?: Instance) => void;
+   onDragEnter?: string | ((event?: DragEvent, instance?: Instance) => void);
 
    /** A callback method invoked when the dragged item leaves the drop zone area. */
-   onDragLeave?: (event?: DragEvent, instance?: Instance) => void;
+   onDragLeave?: string | ((event?: DragEvent, instance?: Instance) => void);
 
    /** A callback method invoked when at the beginning of the drag & drop operation. */
-   onDragStart?: (event?: DragEvent, instance?: Instance) => void;
+   onDragStart?: string | ((event?: DragEvent, instance?: Instance) => void);
 
    /** A callback method invoked when at the end of the drag & drop operation. */
-   onDragEnd?: (event?: DragEvent, instance?: Instance) => void;
+   onDragEnd?: string | ((event?: DragEvent, instance?: Instance) => void);
 
    /** Match height of the item being dragged */
    matchHeight?: boolean;
