@@ -284,18 +284,18 @@ interface GridProps<T = unknown> extends StyledContainerProps {
    rowStyle?: StyleProp;
 
    // drag-drop handlers
-   onDrop?: (e: GridDragEvent, instance: Instance) => void;
-   onDropTest?: (e: DragEvent, instance: Instance) => boolean;
-   onDragStart?: (e: DragEvent, instance: Instance) => void;
-   onDragEnd?: (e: DragEvent, instance: Instance) => void;
-   onDragOver?: (e: GridDragEvent, instance: Instance) => void | boolean;
+   onDrop?: string | ((e: GridDragEvent, instance: Instance) => void);
+   onDropTest?: string | ((e: DragEvent, instance: Instance) => boolean);
+   onDragStart?: string | ((e: DragEvent, instance: Instance) => void);
+   onDragEnd?: string | ((e: DragEvent, instance: Instance) => void);
+   onDragOver?: string | ((e: GridDragEvent, instance: Instance) => void | boolean);
 
-   onRowDropTest?: (e: DragEvent, instance: Instance) => boolean;
-   onRowDragOver?: (e: GridRowDragEvent, instance: Instance) => void | boolean;
-   onRowDrop?: (e: GridRowDragEvent, instance: Instance) => void | boolean;
+   onRowDropTest?: string | ((e: DragEvent, instance: Instance) => boolean);
+   onRowDragOver?: string | ((e: GridRowDragEvent, instance: Instance) => void | boolean);
+   onRowDrop?: string | ((e: GridRowDragEvent, instance: Instance) => void | boolean);
 
-   onColumnDrop?: (e: GridColumnDropEvent, instance: Instance) => void;
-   onColumnDropTest?: (e: DragEvent, instance: Instance) => boolean;
+   onColumnDrop?: string | ((e: GridColumnDropEvent, instance: Instance) => void);
+   onColumnDropTest?: string | ((e: DragEvent, instance: Instance) => boolean);
 
    /** Parameters that affect filtering. */
    filterParams?: StructuredProp;
