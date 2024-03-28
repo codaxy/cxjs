@@ -42,6 +42,10 @@ export function createCulture(cultureSpecs: CultureSpecs): CultureInfo;
 
 export function pushCulture(cultureSpecs: CultureInfo): void;
 
-export function popCulture(): CultureInfo;
+export function popCulture(cultureSpecs?: CultureInfo): CultureInfo;
 
 export function getCurrentCultureCache(): any;
+
+export function getCurrentCulture(): CultureInfo;
+
+export function getDefaultCulture(): CultureInfo;

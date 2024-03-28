@@ -7,7 +7,7 @@ import { isBatchingUpdates, notifyBatchedUpdateStarting, notifyBatchedUpdateComp
 import { shallowEquals } from "../util/shallowEquals";
 import { PureContainer } from "./PureContainer";
 import { onIdleCallback } from "../util/onIdleCallback";
-import { popCulture, pushCulture } from "./Culture";
+import { getCurrentCulture, pushCulture, popCulture } from "./Culture";
 
 export class Cx extends VDOM.Component {
    constructor(props) {
@@ -85,6 +85,8 @@ export class Cx extends VDOM.Component {
    render() {
       if (this.props.deferredUntilIdle && this.state.deferToken < this.deferCounter) return null;
 
+      let cultureInfo = this.props.cultureInfo ?? getCurrentCulture();
+
       return (
          <CxContext
             instance={this.getInstance()}
@@ -93,7 +95,7 @@ export class Cx extends VDOM.Component {
             buster={++this.renderCount}
             contentFactory={this.props.contentFactory}
             forceUpdate={this.forceUpdateCallback}
-            cultureInfo={this.props.cultureInfo}
+            cultureInfo={cultureInfo}
          />
       );
    }
@@ -219,32 +221,32 @@ class CxContext extends VDOM.Component {
                break;
             }
          } while (this.props.flags.dirty && ++count <= 3 && Widget.optimizePrepare && now() - this.timings.start < 8);
-      } finally {
-         if (this.props.cultureInfo) popCulture();
-      }
 
-      if (visible) {
-         this.timings.afterExplore = now();
+         if (visible) {
+            this.timings.afterExplore = now();
 
-         for (let i = 0; i < context.prepareList.length; i++) context.prepareList[i].prepare(context);
-         this.timings.afterPrepare = now();
+            for (let i = 0; i < context.prepareList.length; i++) context.prepareList[i].prepare(context);
+            this.timings.afterPrepare = now();
 
-         //walk in reverse order so children get rendered first
-         let renderList = context.getRootRenderList();
-         while (renderList) {
-            for (let i = renderList.data.length - 1; i >= 0; i--) {
-               renderList.data[i].render(context);
+            //walk in reverse order so children get rendered first
+            let renderList = context.getRootRenderList();
+            while (renderList) {
+               for (let i = renderList.data.length - 1; i >= 0; i--) {
+                  renderList.data[i].render(context);
+               }
+               renderList = renderList.right;
             }
-            renderList = renderList.right;
-         }
 
-         this.content = getContent(instance.vdom);
-         if (contentFactory) this.content = contentFactory({ children: this.content });
-         this.timings.afterRender = now();
-         for (let i = 0; i < context.cleanupList.length; i++) context.cleanupList[i].cleanup(context);
-      } else {
-         this.content = null;
-         this.timings.afterExplore = this.timings.afterPrepare = this.timings.afterRender = now();
+            this.content = getContent(instance.vdom);
+            if (contentFactory) this.content = contentFactory({ children: this.content });
+            this.timings.afterRender = now();
+            for (let i = 0; i < context.cleanupList.length; i++) context.cleanupList[i].cleanup(context);
+         } else {
+            this.content = null;
+            this.timings.afterExplore = this.timings.afterPrepare = this.timings.afterRender = now();
+         }
+      } finally {
+         if (this.props.cultureInfo) popCulture(this.props.cultureInfo);
       }
 
       this.timings.beforeVDOMRender = now();

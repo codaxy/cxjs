@@ -26,7 +26,6 @@ export * from "./DataProxy";
 export * from "./keyboardShortcuts";
 export * from "./StructuredInstanceDataAccessor";
 export * from "./HoverSync";
-export * from "./CultureScope";
 
 export * from "./createFunctionalComponent";
 export * from "./flattenProps";

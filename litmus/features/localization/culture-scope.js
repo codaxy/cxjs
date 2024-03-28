@@ -1,67 +1,25 @@
-import {
-   PureContainer,
-   createCulture,
-   enableCultureSensitiveFormatting,
-   popCulture,
-   pushCulture,
-   CultureScope,
-   PrivateStore,
-   bind,
-} from "cx/ui";
+import { PrivateStore, bind, enableCultureSensitiveFormatting, createCulture, Content, ContentResolver } from "cx/ui";
 import { Button, Grid } from "cx/widgets";
 
 enableCultureSensitiveFormatting();
 
-// class CultureScope extends PureContainer {
-//    init() {
-//       this.initialItems = this.items ?? this.children;
-//       delete this.items;
-//       delete this.children;
-//       super.init();
-//    }
-
-//    declareData(...args) {
-//       super.declareData(...args, {
-//          culture: undefined,
-//          numberCulture: undefined,
-//          dateTimeCulture: undefined,
-//          defaultCurrency: undefined,
-//       });
-//    }
-
-//    prepareData(context, instance) {
-//       super.prepareData(context, instance);
-//       this.clear();
-//       let { data } = instance;
-
-//       if (this.onCreateCulture) instance.culture = instance.invoke("onCreateCulture", data, instance);
-//       else
-//          instance.culture = createCulture({
-//             culture: data.culture,
-//             numberCulture: data.numberCulture,
-//             dateTimeCulture: data.dateTimeCulture,
-//             defaultCurrency: data.defaultCurrency,
-//             dateEncoding: this.dateEncoding,
-//          });
-//    }
-
-//    explore(context, instance) {
-//       let { culture } = instance;
-//       pushCulture(culture);
-//       if (this.items.length == 0 && this.initialItems) this.add(this.initialItems);
-//       super.explore(context, instance);
-//    }
-
-//    exploreCleanup(context, instance) {
-//       popCulture();
-//    }
-// }
-
-// CultureScope.prototype.culture = null;
-// CultureScope.prototype.numberCulture = null;
-// CultureScope.prototype.dateTimeCulture = null;
-// CultureScope.prototype.defaultCurrency = null;
-// CultureScope.prototype.dateEncoding = null;
+const CultureScope = ({ culture, numberCulture, dateCulture, children, data }) => (
+   <cx>
+      <ContentResolver
+         params={{ culture, numberCulture, dateCulture }}
+         onResolve={(params) => {
+            let cultureInfo = createCulture(params);
+            return (
+               <cx>
+                  <PrivateStore culture={cultureInfo} detached data={data}>
+                     {children}
+                  </PrivateStore>
+               </cx>
+            );
+         }}
+      />
+   </cx>
+);
 
 export default (
    <cx>
@@ -89,22 +47,44 @@ export default (
          <div style="font-weight: bold; font-size: 14px; margin-top: 10px">Root Level</div>
          <div text-tpl="Date: {today:dt}" />
          <div text-tpl="Number: {number:n;4}" />
-         <div style="font-weight: bold; font-size: 14px; margin-top: 5px">Grid</div>
-         <Grid records={[{ abc: 10000 }]} columns={[{ field: "abc", header: "Value", format: "n;2" }]} />
+         <Grid
+            records={[{ abc: 10000, date: Date.now() }]}
+            border
+            columns={[
+               { field: "abc", header: "Value", format: "n;2" },
+               { field: "date", header: "Date", format: "dt" },
+            ]}
+         />
 
-         <CultureScope culture-bind="culture">
+         <CultureScope culture-bind="culture" data={{ number: bind("number"), today: bind("today") }}>
             <div style="font-weight: bold; font-size: 14px; margin-top: 20px">Culture Scope</div>
             <div text-tpl="Date: {today:dt}" />
             <div text-tpl="Number: {number:n;4}" />
-            <div style="font-weight: bold; font-size: 14px; margin-top: 5px">Grid</div>
-            <Grid records={[{ abc: 10000 }]} columns={[{ field: "abc", header: "Value", format: "n;2" }]} />
+            <Grid
+               records={[{ abc: 10000, date: Date.now() }]}
+               border
+               columns={[
+                  { field: "abc", header: "Value", format: "n;2" },
+                  { field: "date", header: "Date", format: "dt" },
+               ]}
+            />
 
-            <CultureScope culture="it-CH" numberCulture-bind="culture">
-               <div style="font-weight: bold; font-size: 14px; margin-top: 20px">IT-CH</div>
+            <CultureScope
+               culture="it-CH"
+               numberCulture-bind="culture"
+               data={{ number: bind("number"), today: bind("today") }}
+            >
+               <div style="font-weight: bold; font-size: 14px; margin-top: 20px">Nested Culture: IT-CH</div>
                <div text-tpl="Date: {today:dt}" />
                <div text-tpl="Number: {number:n;4}" />
-               <div style="font-weight: bold; font-size: 14px; margin-top: 5px">Grid</div>
-               <Grid records={[{ abc: 10000 }]} columns={[{ field: "abc", header: "Value", format: "n;2" }]} />
+               <Grid
+                  records={[{ abc: 10000, date: Date.now() }]}
+                  border
+                  columns={[
+                     { field: "abc", header: "Value", format: "n;2" },
+                     { field: "date", header: "Date", format: "dt" },
+                  ]}
+               />
             </CultureScope>
             <PrivateStore
                detached
@@ -116,8 +96,14 @@ export default (
                <div style="font-weight: bold; font-size: 14px; margin-top: 20px">Private Store (inherit)</div>
                <div text-tpl="Date: {today:dt}" />
                <div text-tpl="Number: {number:n;4}" />
-               <div style="font-weight: bold; font-size: 14px; margin-top: 5px">Grid</div>
-               <Grid records={[{ abc: 10000 }]} columns={[{ field: "abc", header: "Value", format: "n;2" }]} />
+               <Grid
+                  records={[{ abc: 10000, date: Date.now() }]}
+                  border
+                  columns={[
+                     { field: "abc", header: "Value", format: "n;2" },
+                     { field: "date", header: "Date", format: "dt" },
+                  ]}
+               />
             </PrivateStore>
          </CultureScope>
       </div>

@@ -27,7 +27,6 @@ export * from "./keyboardShortcuts";
 export * from "./createFunctionalComponent";
 export * from "./StructuredInstanceDataAccessor";
 export * from "./HoverSync";
-export * from "./CultureScope";
 
 export * from "./selection/index";
 export * from "./layout/index";

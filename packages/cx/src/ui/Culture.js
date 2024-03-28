@@ -23,16 +23,16 @@ let stack = [
    },
 ];
 
-function getRootCultureSpecs() {
+export function getDefaultCulture() {
    return stack[0];
 }
 
-function getCurrentCultureSpecs() {
+export function getCurrentCulture() {
    return stack[stack.length - 1];
 }
 
 export function getCurrentCultureCache() {
-   return getCurrentCultureSpecs().cache;
+   return getCurrentCulture().cache;
 }
 
 export function pushCulture(cultureInfo) {
@@ -40,7 +40,7 @@ export function pushCulture(cultureInfo) {
 }
 
 export function createCulture(cultureSpecs) {
-   let current = getCurrentCultureSpecs();
+   let current = getCurrentCulture();
    let info = {
       culture: current.culture,
       dateEncoding: current.dateEncoding,
@@ -54,14 +54,21 @@ export function createCulture(cultureSpecs) {
    return info;
 }
 
-export function popCulture() {
+export function popCulture(cultureSpecs) {
    if (stack.length == 1) throw new Error("Cannot pop the last culture object.");
-   return stack.pop();
+   if (cultureSpecs && stack[stack.length - 1] !== cultureSpecs) {
+      console.warn("Popped culture object does not match the current one.");
+   }
+   try {
+      return stack.pop();
+   } finally {
+      console.log(stack);
+   }
 }
 
 export class Culture {
    static setCulture(cultureCode) {
-      let cultureSpecs = getRootCultureSpecs();
+      let cultureSpecs = getDefaultCulture();
       cultureSpecs.culture = cultureCode;
       cultureSpecs.cache = {};
       Localization.setCulture(cultureCode);
@@ -69,27 +76,27 @@ export class Culture {
    }
 
    static setNumberCulture(cultureCode) {
-      let cultureSpecs = getRootCultureSpecs();
+      let cultureSpecs = getDefaultCulture();
       cultureSpecs.numberCulture = cultureCode;
       delete cultureSpecs.cache.numberCulture;
       this.invalidateCache();
    }
 
    static setDateTimeCulture(cultureCode) {
-      let cultureSpecs = getRootCultureSpecs();
+      let cultureSpecs = getDefaultCulture();
       cultureSpecs.dateTimeCulture = cultureCode;
       delete cultureSpecs.cache.dateTimeCulture;
       this.invalidateCache();
    }
 
    static setDefaultCurrency(currencyCode) {
-      let cultureSpecs = getRootCultureSpecs();
+      let cultureSpecs = getDefaultCulture();
       cultureSpecs.defaultCurrency = currencyCode;
       this.invalidateCache();
    }
 
    static setDefaultDateEncoding(encoding) {
-      let cultureSpecs = getRootCultureSpecs();
+      let cultureSpecs = getDefaultCulture();
       cultureSpecs.dateEncoding = encoding;
       this.invalidateCache();
    }
@@ -101,31 +108,31 @@ export class Culture {
    }
 
    static get defaultCurrency() {
-      return getCurrentCultureSpecs().defaultCurrency;
+      return getCurrentCulture().defaultCurrency;
    }
 
    static get culture() {
-      return getCurrentCultureSpecs().culture;
+      return getCurrentCulture().culture;
    }
 
    static getNumberCulture() {
-      let { cache, numberCulture, culture } = getCurrentCultureSpecs();
+      let { cache, numberCulture, culture } = getCurrentCulture();
       if (!cache.numberCulture) cache.numberCulture = new NumberCulture(numberCulture ?? culture);
       return cache.numberCulture;
    }
 
    static getDateTimeCulture() {
-      let { cache, dateTimeCulture, culture } = getCurrentCultureSpecs();
+      let { cache, dateTimeCulture, culture } = getCurrentCulture();
       if (!cache.dateTimeCulture) cache.dateTimeCulture = new DateTimeCulture(dateTimeCulture ?? culture);
       return cache.dateTimeCulture;
    }
 
    static getDefaultDateEncoding() {
-      return getCurrentCultureSpecs().dateEncoding;
+      return getCurrentCulture().dateEncoding;
    }
 
    static getComparer(options) {
-      let { culture } = getCurrentCultureSpecs();
+      let { culture } = getCurrentCulture();
       if (typeof Intl.Collator != "undefined") return new Intl.Collator(culture, options).compare;
       return defaultCompare;
    }
