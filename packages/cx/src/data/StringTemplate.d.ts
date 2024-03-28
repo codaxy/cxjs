@@ -1,9 +1,8 @@
-import {Selector} from '../core';
+import { Selector } from "../core";
 
 export function stringTemplate(str: string): Selector<string>;
 
 export class StringTemplate {
-
    static get(str: string): Selector<string>;
 
    static compile(str: string): Selector<string>;
@@ -11,4 +10,6 @@ export class StringTemplate {
    static format(format: string, ...args): string;
 }
 
-export function invalidateStringTemplateCache();
+export function invalidateStringTemplateCache(): void;
+
+export function setGetStringTemplateCacheCallback(callback: () => {}): void;

@@ -1,6 +1,8 @@
-import { Culture } from "./Culture";
-import { Format as Fmt, resolveMinMaxFractionDigits } from "../util/Format";
+import { Culture, getCurrentCultureCache } from "./Culture";
+import { Format as Fmt, resolveMinMaxFractionDigits, setGetFormatCacheCallback } from "../util/Format";
 import { GlobalCacheIdentifier } from "../util/GlobalCacheIdentifier";
+import { setGetExpressionCacheCallback } from "../data/Expression";
+import { setGetStringTemplateCacheCallback } from "../data/StringTemplate";
 
 export const Format = Fmt;
 
@@ -81,6 +83,24 @@ export function enableCultureSensitiveFormatting() {
       let culture = Culture.getDateTimeCulture();
       let formatter = culture.getFormatter(format);
       return (value) => formatter.format(new Date(value));
+   });
+
+   setGetFormatCacheCallback(() => {
+      let cache = getCurrentCultureCache();
+      if (!cache.formatCache) cache.formatCache = {};
+      return cache.formatCache;
+   });
+
+   setGetExpressionCacheCallback(() => {
+      let cache = getCurrentCultureCache();
+      if (!cache.exprCache) cache.exprCache = {};
+      return cache.exprCache;
+   });
+
+   setGetStringTemplateCacheCallback(() => {
+      let cache = getCurrentCultureCache();
+      if (!cache.strTplCache) cache.strTplCache = {};
+      return cache.strTplCache;
    });
 
    GlobalCacheIdentifier.change();

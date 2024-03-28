@@ -1,5 +1,6 @@
 import { Instance } from "./Instance";
 import * as Cx from "../core";
+import { CultureInfo } from "./Culture";
 
 interface RestateProps extends Cx.PureContainerProps {
    data?: Cx.StructuredProp;
@@ -12,6 +13,8 @@ interface RestateProps extends Cx.PureContainerProps {
    immediate?: boolean;
 
    onError?: (err: Error, instance: Instance) => void;
+
+   culture?: CultureInfo;
 }
 
 export class Restate extends Cx.Widget<RestateProps> {}

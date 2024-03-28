@@ -110,7 +110,8 @@ import "./index.scss";
 //import Demo from "./features/slider/SliderPreventDefault";
 //import Demo from "./features/validator/index";
 //import Demo from "./bugs/1075-complex-column-resizing";
-import Demo from "./features/grid/RowDndAndGrouping";
+//import Demo from "./features/grid/RowDndAndGrouping";
+import Demo from "./features/localization/culture-scope";
 
 let store = (window.store = new Store());
 

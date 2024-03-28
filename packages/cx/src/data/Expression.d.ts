@@ -1,9 +1,8 @@
-import {Selector} from '../core';
+import { Selector } from "../core";
 
-export function expression(str: string) : Selector<any>;
+export function expression(str: string): Selector<any>;
 
 export class Expression {
-
    static get(str: string): Selector<any>;
 
    static compile(str: string): Selector<any>;
@@ -13,4 +12,6 @@ export class Expression {
    static expandFatArrows: boolean;
 }
 
-export function invalidateExpressionCache();
+export function invalidateExpressionCache(): void;
+
+export function setGetExpressionCacheCallback(callback: () => {}): void;
