@@ -2,6 +2,18 @@
 
 <!--- ## Unreleased -->
 
+## `cx@24.3.3`
+
+**Features**
+
+-  Swimlanes widget
+-  Allow aggregates via aggregateAlias inside Grid
+
+**Fixes**
+
+-  Fix getCursorPos properly resolves position within iframes in Firefox
+-  Fix drag and drop withing iframes
+
 ## `cx@24.3.0`
 
 -  Support specifying `borderRadius` on `PieChart` slices.

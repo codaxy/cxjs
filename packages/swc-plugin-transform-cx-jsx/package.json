@@ -1,16 +1,22 @@
 {
-  "name": "swc-plugin-transform-cx-jsx",
-  "version": "0.2.3",
-  "description": "SWC plugin for CxJS transformation",
-  "author": "gygasync <gygasync@gmail.com>",
-  "license": "ISC",
-  "keywords": [
-    "swc-plugin"
-  ],
-  "main": "swc_plugin_transform_cx_jsx.wasm",
-  "homepage": "https://cxjs.io",
-  "scripts": {
-    "prepublishOnly": "cargo build-wasi --release",
-    "publish": "cargo publish --release && cp target/wasm32-wasi/release/swc_plugin_transform_cx_jsx.wasm ."
-  }
+   "name": "swc-plugin-transform-cx-jsx",
+   "version": "24.3.7",
+   "description": "Transpile JSX into Cx config objects.",
+   "author": "Codaxy",
+   "license": "SEE LICENSE IN LICENSE.md",
+   "main": "swc_plugin_transform_cx_jsx.wasm",
+   "homepage": "https://cxjs.io",
+   "scripts": {
+      "test": "cargo test",
+      "build": "wasm-pack build",
+      "prepublishOnly": "cargo build-wasi --release"
+   },
+   "keywords": [
+      "swc-plugin",
+      "swc",
+      "es2015",
+      "es2016",
+      "cx",
+      "jsx"
+   ]
 }

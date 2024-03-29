@@ -70,7 +70,8 @@
       "babel-jest": "29.7.0",
       "env-test": "^1.0.0",
       "mocha": "^10.2.0",
-      "prettier": "^3.1.1"
+      "prettier": "^3.1.1",
+      "webpack-dev-server": "^5.0.2"
    },
    "resolutions": {
       "@babel/helper-define-polyfill-provider": "^0.1.5"

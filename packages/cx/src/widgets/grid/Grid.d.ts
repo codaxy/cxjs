@@ -17,6 +17,7 @@ import {
    StructuredProp,
    StyledContainerProps,
    StyleProp,
+   UnknownProp,
    Widget,
 } from "../../core";
 import { DataAdapterRecord } from "../../ui/adapter/DataAdapter";
@@ -108,6 +109,7 @@ interface GridColumnConfig {
    aggregate?: "min" | "max" | "count" | "sum" | "distinct" | "avg";
    aggregateAlias?: string;
    aggregateField?: string;
+   aggregateValue?: UnknownProp;
    caption?: StringProp;
    class?: ClassProp;
    className?: ClassProp;
@@ -282,18 +284,18 @@ interface GridProps<T = unknown> extends StyledContainerProps {
    rowStyle?: StyleProp;
 
    // drag-drop handlers
-   onDrop?: (e: GridDragEvent, instance: Instance) => void;
-   onDropTest?: (e: DragEvent, instance: Instance) => boolean;
-   onDragStart?: (e: DragEvent, instance: Instance) => void;
-   onDragEnd?: (e: DragEvent, instance: Instance) => void;
-   onDragOver?: (e: GridDragEvent, instance: Instance) => void | boolean;
+   onDrop?: string | ((e: GridDragEvent, instance: Instance) => void);
+   onDropTest?: string | ((e: DragEvent, instance: Instance) => boolean);
+   onDragStart?: string | ((e: DragEvent, instance: Instance) => void);
+   onDragEnd?: string | ((e: DragEvent, instance: Instance) => void);
+   onDragOver?: string | ((e: GridDragEvent, instance: Instance) => void | boolean);
 
-   onRowDropTest?: (e: DragEvent, instance: Instance) => boolean;
-   onRowDragOver?: (e: GridRowDragEvent, instance: Instance) => void | boolean;
-   onRowDrop?: (e: GridRowDragEvent, instance: Instance) => void | boolean;
+   onRowDropTest?: string | ((e: DragEvent, instance: Instance) => boolean);
+   onRowDragOver?: string | ((e: GridRowDragEvent, instance: Instance) => void | boolean);
+   onRowDrop?: string | ((e: GridRowDragEvent, instance: Instance) => void | boolean);
 
-   onColumnDrop?: (e: GridColumnDropEvent, instance: Instance) => void;
-   onColumnDropTest?: (e: DragEvent, instance: Instance) => boolean;
+   onColumnDrop?: string | ((e: GridColumnDropEvent, instance: Instance) => void);
+   onColumnDropTest?: string | ((e: DragEvent, instance: Instance) => boolean);
 
    /** Parameters that affect filtering. */
    filterParams?: StructuredProp;
@@ -319,7 +321,7 @@ interface GridProps<T = unknown> extends StyledContainerProps {
          sortField?: string;
          sortDirection?: string;
       },
-      instance?: Instance,
+      instance?: Instance
    ) => FetchRecordsResult | Promise<FetchRecordsResult>;
 
    /** Callback function to be executed when a row is double-clicked. */
@@ -352,7 +354,7 @@ interface GridProps<T = unknown> extends StyledContainerProps {
    /** Callback to create a function that can be used to check whether a record is selectable. */
    onCreateIsRecordSelectable?: (
       params: any,
-      instance: Instance,
+      instance: Instance
    ) => (record: T, options?: { range?: boolean; toggle?: boolean }) => boolean;
 
    /** Parameters whose change will cause scroll to be reset. */

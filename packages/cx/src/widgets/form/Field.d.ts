@@ -59,7 +59,7 @@ export interface FieldProps extends Cx.StyledContainerProps {
    requiredText?: string;
 
    /** Append asterisk to the label to indicate a required field. */
-   asterisk?: boolean;
+   asterisk?: Cx.BooleanProp;
 
    /** Text displayed to the user to indicate that server-side validation is in progress. */
    validatingText?: string;

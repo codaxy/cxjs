@@ -5,7 +5,6 @@ const webpack = require("webpack"),
    path = require("path"),
    CopyWebpackPlugin = require("copy-webpack-plugin"),
    { CleanWebpackPlugin } = require("clean-webpack-plugin"),
-   //ScriptExtHtmlWebpackPlugin = require("script-ext-html-webpack-plugin"),
    babelConfig = require("./babel-config"),
    gtm = require("../misc/tracking/gtm.js"),
    reactScriptsProd = require("../misc/reactScripts"),
@@ -64,13 +63,6 @@ if (production) {
                },
             ],
          }),
-         //  new ScriptExtHtmlWebpackPlugin({
-         //     //async: /\!(app|vendor).js$/,
-         //     prefetch: {
-         //        test: /\.js$/,
-         //        chunks: "async",
-         //     },
-         //  }),
          new CleanWebpackPlugin(),
       ],
 
@@ -99,10 +91,7 @@ if (production) {
          ],
       },
       entry: {
-         app: [
-            //"react-dev-utils/webpackHotDevClient",
-            __dirname + "/index.js",
-         ],
+         app: [__dirname + "/index.js"],
       },
       optimization: {
          moduleIds: "named",
@@ -113,7 +102,6 @@ if (production) {
                "if-loader": "development",
             },
          }),
-         new webpack.HotModuleReplacementPlugin(),
          new webpack.ProvidePlugin({
             process: "process/browser",
             Buffer: ["buffer", "Buffer"],
@@ -127,11 +115,7 @@ if (production) {
          hints: false,
       },
       devServer: {
-         //contentBase: "/docs",
-         //hot: true,
          port: 8065,
-         //noInfo: false,
-         //inline: true,
          historyApiFallback: true,
       },
    };
@@ -179,11 +163,7 @@ var common = {
       ],
    },
    entry: {
-      app: [
-         //path.resolve(__dirname, "../misc/babelHelpers"),
-         path.join(__dirname, "polyfill"),
-         path.join(__dirname, "/index"),
-      ],
+      app: [path.join(__dirname, "polyfill"), path.join(__dirname, "/index")],
    },
    output: {
       path: __dirname,
@@ -204,7 +184,6 @@ var common = {
             removeComments: true,
          },
       }),
-      //new InlineManifestWebpackPlugin("manifest"),
    ],
 
    optimization: {
