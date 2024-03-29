@@ -10,6 +10,7 @@ export * from "./BarGraphs";
 export * from "./Bars";
 export * from "./Columns";
 export * from "./Markers";
+export * from "./RangeMarkers";
 export * from "./Ranges";
 export * from "./MarkerLines";
 export * from "./Gridlines";
