@@ -6,20 +6,21 @@ import { CodeSnippet } from "docs/components/CodeSnippet";
 import { CodeSplit } from "docs/components/CodeSplit";
 import { ImportPath } from "docs/components/ImportPath";
 import { Md } from "docs/components/Md";
-import "./RangeMarkers.scss";
 
 var categories = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 class PageController extends Controller {
    init() {
       super.init();
-      var v1 = 100;
+      var v1 = 200;
       this.store.set(
          "$points",
          Array.from({ length: categories.length }, (_, i) => ({
             x: categories[i],
             v1: (v1 = v1 + (Math.random() - 0.5) * 30),
-            v2: v1 + 50 + Math.random() * 100,
+            max: v1 + 30 * Math.random(),
+            min: v1 - 30 * Math.random(),
+            optimal: v1 - 10 * Math.random() + 5,
          })),
       );
    }
@@ -37,55 +38,42 @@ export const RangeMarkers = (
                      offset="20 -20 -40 40"
                      axes={{
                         x: { type: CategoryAxis },
-                        y: { type: NumericAxis, vertical: true, snapToTicks: 0 },
+                        y: { type: NumericAxis, vertical: true },
                      }}
                   >
                      <Gridlines />
                      <Repeater records-bind="$points" recordAlias="$point">
                         <Column
                            colorIndex:expr="{$index}"
-                           width={0.7}
+                           size={0.7}
                            offset={0}
                            x:bind="$point.x"
                            y:bind="$point.v1"
                            tooltip:tpl="{$point.x} {$point.v1:n}"
                         />
-                        <Column
-                           colorIndex:expr="{$index}+2"
-                           width={0.7}
-                           offset={0}
-                           x:bind="$point.x"
-                           y0:bind="$point.v1"
-                           y:bind="$point.v2"
-                           tooltip="X2"
-                        ></Column>
-                        <Marker
-                           x:bind="$point.x"
-                           y:bind="$point.v1"
-                           xOffset={0}
-                           size={15}
-                           colorIndex:expr="{$index}"
-                           style="cursor:move;"
-                           draggableY
-                        >
-                           <Rectangle
-                              anchors="0 1 0 0"
-                              offset="-30 10 -10 -10"
-                              style="fill:rgba(255, 255, 255, 0.8);stroke:#ccc"
-                           >
-                              <Text tpl="{$point.v1:n;0}" ta="middle" dy="0.4em" />
-                           </Rectangle>
-                        </Marker>
                         <RangeMarker
                            x-bind="$point.x"
-                           y-bind="$point.v2"
-                           // name={serie.name}
-                           style={{
-                              fill: "none",
-                           }}
-                           // rangeType={serie.rangeType ?? "min"}
-                           active-bind="$page.showReds"
-                           styles="stroke: blue; fill: none"
+                           y-bind="$point.max"
+                           lineStyle="stroke: blue;"
+                           size={0.7}
+                           inflate={3}
+                           shape="max"
+                        />
+                        <RangeMarker
+                           x-bind="$point.x"
+                           y-bind="$point.min"
+                           lineStyle="stroke: red;"
+                           size={0.7}
+                           inflate={3}
+                           shape="min"
+                        />
+                        <RangeMarker
+                           x-bind="$point.x"
+                           y-bind="$point.optimal"
+                           lineStyle="stroke: green;"
+                           size={0.7}
+                           inflate={3}
+                           shape="line"
                         />
                      </Repeater>
                   </Chart>

@@ -1,25 +1,27 @@
 import { BoundedObject } from "../svg/BoundedObject";
 import { Rect } from "../svg/util/Rect";
 import { Widget } from "../ui/Widget";
+import { parseStyle } from "../util/parseStyle";
 
 export class RangeMarker extends BoundedObject {
-   init() {
-      super.init();
-   }
-
    declareData() {
       super.declareData(...arguments, {
          x: undefined,
          y: undefined,
-         data: undefined,
-         name: undefined,
-         rangeType: undefined,
-         width: undefined,
-         height: undefined,
+         shape: undefined,
          vertical: undefined,
-         markerClass: undefined,
          size: undefined,
+         laneOffset: undefined,
+         lineStyle: { structured: true },
+         lineClass: { structured: true },
+         capSize: undefined,
+         inflate: undefined,
       });
+   }
+
+   init() {
+      this.lineStyle = parseStyle(this.lineStyle);
+      super.init();
    }
 
    prepareData(context, instance) {
@@ -29,26 +31,51 @@ export class RangeMarker extends BoundedObject {
       super.prepareData(context, instance);
    }
 
+   explore(context, instance) {
+      let { data, xAxis, yAxis } = instance;
+
+      if (this.affectsAxes) {
+         if (xAxis && data.x != null) xAxis.acknowledge(data.x, 0, 0);
+         if (yAxis && data.y != null) yAxis.acknowledge(data.y, 0, 0);
+      }
+
+      super.explore(context, instance);
+   }
+
    calculateBounds(context, instance) {
       let { data, xAxis, yAxis } = instance;
 
-      let x, y;
+      let l, r, t, b;
 
       if (data.x == null || data.y == null) {
-         let bounds = super.calculateBounds(context, instance);
-         x = (bounds.l + bounds.r) / 2;
-         y = (bounds.t + bounds.b) / 2;
+         return super.calculateBounds(context, instance);
       }
 
-      if (data.x != null) x = xAxis.map(data.x);
-
-      if (data.y != null) y = yAxis.map(data.y);
+      if (!this.vertical) {
+         l = xAxis.map(data.x, data.laneOffset - data.size / 2) - data.inflate;
+         r = xAxis.map(data.x, data.laneOffset + data.size / 2) + data.inflate;
+         t = b = yAxis.map(data.y);
+         if (data.shape == "max") {
+            b += data.capSize;
+         } else if (data.shape == "min") {
+            t -= data.capSize;
+         }
+      } else {
+         l = r = xAxis.map(data.x);
+         t = yAxis.map(data.y, data.laneOffset - data.size / 2);
+         b = yAxis.map(data.y, data.laneOffset + data.size / 2);
+         if (data.shape == "max") {
+            l -= data.capSize;
+         } else if (data.shape == "min") {
+            r += data.capSize;
+         }
+      }
 
       return new Rect({
-         l: x - data.size / 2,
-         r: x + data.size / 2,
-         t: y - data.size / 2,
-         b: y + data.size / 2,
+         l,
+         r,
+         t,
+         b,
       });
    }
 
@@ -57,69 +84,48 @@ export class RangeMarker extends BoundedObject {
    }
 
    render(context, instance, key) {
-      var { data, xAxis, yAxis, store } = instance;
+      var { data } = instance;
       let { CSS, baseClass } = this;
-      let { bounds, rangeType } = data;
-
-      let cx = (bounds.l + bounds.r) / 2;
-      let cy = (bounds.t + bounds.b) / 2;
+      let { bounds, shape } = data;
 
       let path = "";
-      path += `M ${bounds.r} ${cy - 5} `;
-      path += `L ${bounds.l} ${cy - 5}`;
+
+      if (this.vertical) {
+         switch (data.shape) {
+            default:
+            case "line":
+               path += `M ${bounds.r} ${bounds.t} `;
+               path += `L ${bounds.l} ${bounds.t}`;
+               break;
+         }
+      } else {
+         switch (data.shape) {
+            default:
+            case "line":
+               path += `M ${bounds.r} ${bounds.t} `;
+               path += `L ${bounds.l} ${bounds.t}`;
+               break;
+            case "max":
+               path += `M ${bounds.l} ${bounds.b} `;
+               path += `L ${bounds.l} ${bounds.t}`;
+               path += `L ${bounds.r} ${bounds.t}`;
+               path += `L ${bounds.r} ${bounds.b}`;
+               break;
+            case "min":
+               path += `M ${bounds.l} ${bounds.t} `;
+               path += `L ${bounds.l} ${bounds.b}`;
+               path += `L ${bounds.r} ${bounds.b}`;
+               path += `L ${bounds.r} ${bounds.t}`;
+               break;
+         }
+      }
 
       return (
-         <g key={key}>
-            <path d={path} stroke="red" />
+         <g key={key} class={data.classNames} style={data.style}>
+            <path d={path} class={CSS.expand(CSS.element(baseClass, "path"), data.lineClass)} style={data.lineStyle} />
+            {this.renderChildren(context, instance)}
          </g>
       );
-   }
-
-   maxRangeMarker(cx, cy, vertical, height, width, props, options) {
-      var d = "";
-
-      if (vertical) {
-         d += `M ${cx - width * 2} ${cy - height}`;
-         d += `L ${cx} ${cy - height}`;
-         d += `L ${cx} ${cy + height}`;
-         d += `L ${cx - width * 2} ${cy + height}`;
-      } else {
-         d += `M ${cx - width / 2} ${cy + height}`;
-         d += `L ${cx - width / 2} ${cy}`;
-         d += `L ${cx + width / 2} ${cy}`;
-         d += `L ${cx + width / 2} ${cy + height}`;
-      }
-
-      return <path {...props} d={d} />;
-   }
-
-   minRangeMarker(cx, cy, vertical, height, width, props, options) {
-      var d = "";
-      if (vertical) {
-         d += `M ${cx + width * 2} ${cy - height}`;
-         d += `L ${cx} ${cy - height}`;
-         d += `L ${cx} ${cy + height}`;
-         d += `L ${cx + width * 2} ${cy + height}`;
-      } else {
-         d += `M ${cx - width / 2} ${cy - height}`;
-         d += `L ${cx - width / 2} ${cy}`;
-         d += `L ${cx + width / 2} ${cy}`;
-         d += `L ${cx + width / 2} ${cy - height}`;
-      }
-
-      return <path {...props} d={d} />;
-   }
-
-   optimalRangeMarker(cx, cy, vertical, height, width, props, options) {
-      var d = "";
-      if (vertical) {
-         d += `M ${cx} ${cy - height}`;
-         d += `L ${cx} ${cy + height}`;
-      } else {
-         d += `M ${cx - width / 2} ${cy - height}`;
-         d += `L ${cx + width / 2} ${cy - height}`;
-      }
-      return <path {...props} d={d} />;
    }
 }
 
@@ -131,10 +137,12 @@ RangeMarker.prototype.xField = "x";
 RangeMarker.prototype.yField = "y";
 
 RangeMarker.prototype.styled = true;
-RangeMarker.prototype.rangeType = "max";
-RangeMarker.prototype.width = 80;
-RangeMarker.prototype.height = 10;
-RangeMarker.prototype.vertical = true;
-RangeMarker.prototype.size = 5;
+RangeMarker.prototype.shape = "line";
+RangeMarker.prototype.vertical = false;
+RangeMarker.prototype.size = 1;
+RangeMarker.prototype.laneOffset = 0;
+RangeMarker.prototype.capSize = 5;
+RangeMarker.prototype.inflate = 0;
+RangeMarker.prototype.affectsAxes = true;
 
 Widget.alias("range-marker", RangeMarker);
