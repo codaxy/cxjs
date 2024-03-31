@@ -1,9 +1,9 @@
 [package]
-name = "swc_plugin_transform_cx_imports"
-version = "0.1.0"
+name = "swc-plugin-transform-cx-imports"
+version = "24.3.3"
 edition = "2021"
-license = "MIT OR Apache-2.0"
-description = "Plugin for swc.rs that transforms cxjs.io"
+license = "SEE LICENSE IN LICENSE.md"
+description = "Rewrite Cx imports for simplicity and optimal output size."
 
 [lib]
 crate-type = ["cdylib", "rlib"]
@@ -30,6 +30,7 @@ swc_ecma_utils = "0.127.3"
 swc_ecma_visit = "0.98.2"
 serde_json = "1"
 swc_ecma_parser = "0.143.3"
+wasm-bindgen = "0.2"
 
 [dev-dependencies]
 testing = "0.35.18"

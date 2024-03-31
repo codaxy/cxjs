@@ -5,6 +5,7 @@ import { isArray } from "../../util/isArray";
 import { isDefined } from "../../util/isDefined";
 import { getComparer } from "../../data/comparer";
 import { Culture } from "../Culture";
+import { isObject } from "../../util/isObject";
 
 export class GroupAdapter extends ArrayAdapter {
    init() {
@@ -49,13 +50,7 @@ export class GroupAdapter extends ArrayAdapter {
       results.forEach((gr) => {
          keys.push(gr.key);
 
-         let key = keys
-            .map((key) =>
-               Object.keys(key)
-                  .map((k) => key[k])
-                  .join(":")
-            )
-            .join("|");
+         let key = keys.map(serializeKey).join("|");
 
          let $group = {
             ...gr.key,
@@ -128,7 +123,7 @@ export class GroupAdapter extends ArrayAdapter {
                g.comparer = getComparer(
                   groupSorters,
                   (x) => x.key,
-                  this.sortOptions ? Culture.getComparer(this.sortOptions) : null
+                  this.sortOptions ? Culture.getComparer(this.sortOptions) : null,
                );
          });
       } else throw new Error("Invalid grouping provided.");
@@ -136,3 +131,11 @@ export class GroupAdapter extends ArrayAdapter {
 }
 
 GroupAdapter.prototype.groupName = "$group";
+
+function serializeKey(data) {
+   if (isObject(data))
+      return Object.keys(data)
+         .map((k) => serializeKey(data[k]))
+         .join(":");
+   return data?.toString() ?? "";
+}

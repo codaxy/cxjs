@@ -13,8 +13,7 @@ import { isFunction } from "../util/isFunction";
    let e = Expression.compile('_.min({data})');
  */
 
-let expCache = {},
-   helpers = {},
+let helpers = {},
    helperNames = [],
    helperValues = [],
    expFatArrows = null;
@@ -85,7 +84,8 @@ function getExpr(expr) {
 export function expression(str) {
    if (isFunction(str)) return getExpr(str);
 
-   let r = expCache[str];
+   let cache = getExpressionCache();
+   let r = cache[str];
    if (r) return r;
 
    let quote = false;
@@ -177,10 +177,10 @@ export function expression(str) {
          Format,
          Format.value,
          ...formats,
-         ...helperValues
+         ...helperValues,
       );
       let selector = computable(...keys.map((k) => args[k]), compute);
-      expCache[str] = selector;
+      cache[str] = selector;
       return selector;
    } catch (err) {
       throw new Error(`Failed to parse expression: '${str}'. Error: ${err.message}`);
@@ -209,4 +209,12 @@ export function plugFatArrowExpansion(impl) {
 
 export function invalidateExpressionCache() {
    expCache = {};
+}
+
+let expCache = {};
+
+let getExpressionCache = () => expCache;
+
+export function setGetExpressionCacheCallback(callback) {
+   getExpressionCache = callback;
 }

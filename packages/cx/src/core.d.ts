@@ -72,6 +72,7 @@ declare namespace Cx {
    type ClassProp = Prop<string> | StructuredProp;
    type RecordsProp = Prop<Record[]>;
    type SortersProp = Prop<Sorter[]>;
+   type UnknownProp = Prop<unknown>;
 
    type RecordAlias = string | { toString(): string };
 
