@@ -4,13 +4,7 @@ import { GlobalCacheIdentifier } from "../util/GlobalCacheIdentifier";
 import { invalidateExpressionCache } from "../data/Expression";
 import { invalidateStringTemplateCache } from "../data/StringTemplate";
 import { defaultCompare } from "../data/defaultCompare";
-
-// let culture = "en";
-// let numberCulture = null;
-// let dateTimeCulture = null;
-// let cache = {};
-// let defaultCurrency = "USD";
-// let dateEncoding = (date) => date.toISOString();
+import { Console } from "../util/Console";
 
 let stack = [
    {
@@ -57,13 +51,9 @@ export function createCulture(cultureSpecs) {
 export function popCulture(cultureSpecs) {
    if (stack.length == 1) throw new Error("Cannot pop the last culture object.");
    if (cultureSpecs && stack[stack.length - 1] !== cultureSpecs) {
-      console.warn("Popped culture object does not match the current one.");
+      Console.warn("Popped culture object does not match the current one.");
    }
-   try {
-      return stack.pop();
-   } finally {
-      console.log(stack);
-   }
+   return stack.pop();
 }
 
 export class Culture {
