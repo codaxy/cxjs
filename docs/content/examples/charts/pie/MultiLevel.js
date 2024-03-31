@@ -33,14 +33,14 @@ export const MultiLevel = <cx>
          <div class="widgets" controller={PageController}>
             <Legend />
                <Svg style="width:400px; height:400px;">
-                  <PieChart angle={360}>
+                  <PieChart angle={360} gap={5}>
                      <Repeater records-bind="$page.points">
                         <PieSlice value-bind='$record.v'
                               active-bind='$record.active'
                               colorIndex-expr='{$index} * 3 % 16'
                               r={55}
                               r0={20}
-                              offset={3}
+                              //offset={3}
                               name-tpl="Item {$index}"
                               selection={{
                                  type: KeySelection,
