@@ -32,4 +32,4 @@ interface RangeMarkerProps extends Cx.StyledContainerProps {
    inflate?: Cx.NumberProp;
 }
 
-export class ScatterGraph extends Cx.Widget<ScatterGraphProps> {}
+export class RangeMarkerProps extends Cx.Widget<RangeMarkerProps> {}
