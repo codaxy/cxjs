@@ -20,6 +20,7 @@ export * from "./ScatterGraph";
 export * from "./BubbleGraph";
 export * from "./shapes";
 export * from "./MouseTracker";
+export * from "./RangeMarker";
 
 export * from "./axis/index";
 export * from "./helpers/index";

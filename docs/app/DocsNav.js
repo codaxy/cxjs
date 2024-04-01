@@ -207,6 +207,7 @@ export const docsNavTree = [
                { text: "Column", url: "~/charts/columns" },
                { text: "Bar", url: "~/charts/bars" },
                { text: "Marker", url: "~/charts/markers" },
+               { text: "RangeMarker", url: "~/charts/range-markers" },
                { text: "MarkerLine", url: "~/charts/marker-lines" },
                { text: "Range", url: "~/charts/ranges" },
             ],
