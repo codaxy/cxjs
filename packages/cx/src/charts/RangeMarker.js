@@ -62,8 +62,8 @@ export class RangeMarker extends BoundedObject {
          }
       } else {
          l = r = xAxis.map(data.x);
-         t = yAxis.map(data.y, data.laneOffset - data.size / 2);
-         b = yAxis.map(data.y, data.laneOffset + data.size / 2);
+         t = yAxis.map(data.y, data.laneOffset - data.size / 2) + data.inflate;
+         b = yAxis.map(data.y, data.laneOffset + data.size / 2) - data.inflate;
          if (data.shape == "max") {
             l -= data.capSize;
          } else if (data.shape == "min") {
@@ -89,17 +89,28 @@ export class RangeMarker extends BoundedObject {
       let { bounds, shape } = data;
 
       let path = "";
-
       if (this.vertical) {
-         switch (data.shape) {
+         switch (shape) {
             default:
             case "line":
                path += `M ${bounds.r} ${bounds.t} `;
+               path += `L ${bounds.r} ${bounds.b}`;
+               break;
+            case "max":
+               path += `M ${bounds.l} ${bounds.t} `;
+               path += `L ${bounds.r} ${bounds.t}`;
+               path += `L ${bounds.r} ${bounds.b}`;
+               path += `L ${bounds.l} ${bounds.b}`;
+               break;
+            case "min":
+               path += `M ${bounds.r} ${bounds.t} `;
                path += `L ${bounds.l} ${bounds.t}`;
+               path += `L ${bounds.l} ${bounds.b}`;
+               path += `L ${bounds.r} ${bounds.b}`;
                break;
          }
       } else {
-         switch (data.shape) {
+         switch (shape) {
             default:
             case "line":
                path += `M ${bounds.r} ${bounds.t} `;
@@ -133,10 +144,6 @@ RangeMarker.prototype.baseClass = "rangemarker";
 RangeMarker.prototype.xAxis = "x";
 RangeMarker.prototype.yAxis = "y";
 
-RangeMarker.prototype.xField = "x";
-RangeMarker.prototype.yField = "y";
-
-RangeMarker.prototype.styled = true;
 RangeMarker.prototype.shape = "line";
 RangeMarker.prototype.vertical = false;
 RangeMarker.prototype.size = 1;
