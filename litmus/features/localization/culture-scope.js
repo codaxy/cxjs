@@ -3,10 +3,10 @@ import { Button, Grid } from "cx/widgets";
 
 enableCultureSensitiveFormatting();
 
-const CultureScope = ({ culture, numberCulture, dateCulture, children, data }) => (
+const CultureScope = ({ culture, numberCulture, dateTimeCulture, children, data }) => (
    <cx>
       <ContentResolver
-         params={{ culture, numberCulture, dateCulture }}
+         params={{ culture, numberCulture, dateTimeCulture }}
          onResolve={(params) => {
             let cultureInfo = createCulture(params);
             return (

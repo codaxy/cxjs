@@ -25,7 +25,7 @@ export class Culture {
 export interface CultureSpecs {
    culture?: string;
    numberCulture?: string;
-   dateCulture?: string;
+   dateTimeCulture?: string;
    defaultCurrency?: string;
    dateEncoding?: DateEncoding;
 }
@@ -33,7 +33,7 @@ export interface CultureSpecs {
 export interface CultureInfo {
    culture: string;
    numberCulture?: string;
-   dateCulture?: string;
+   dateTimeCulture?: string;
    defaultCurrency: string;
    dateEncoding: DateEncoding;
 }
