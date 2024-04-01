@@ -7,12 +7,12 @@
    "license": "MIT",
    "main": "index.js",
    "dependencies": {
-      "@babel/plugin-syntax-jsx": "^7.23.3"
+      "@babel/plugin-syntax-jsx": "^7.24.1"
    },
    "devDependencies": {
-      "@babel/core": "^7.24.0",
-      "@babel/preset-env": "^7.24.0",
-      "mocha": "^10.2.0"
+      "@babel/core": "^7.24.3",
+      "@babel/preset-env": "^7.24.3",
+      "mocha": "^10.3.0"
    },
    "peerDependencies": {
       "@babel/core": "^7.0.0-0"
