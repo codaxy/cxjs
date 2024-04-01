@@ -1,8 +1,6 @@
-import { inflate } from "zlib";
 import * as Cx from "../core";
-import { PropertySelection, KeySelection } from "../ui/selection";
 
-interface ScatterGraphProps extends Cx.StyledContainerProps {
+interface RangeMarkerProps extends Cx.StyledContainerProps {
    /** The `x` value binding or expression. */
    x?: Cx.NumberProp;
 
