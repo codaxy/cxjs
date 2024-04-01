@@ -14,7 +14,7 @@ var categories = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep",
 class PageController extends Controller {
    init() {
       super.init();
-      var v1 = 200;
+      var v1 = 50;
       this.store.set(
          "$points",
          Array.from({ length: categories.length }, (_, i) => ({
@@ -47,7 +47,7 @@ export const RangeMarkers = (
                      <Gridlines />
                      <Repeater records-bind="$points" recordAlias="$point">
                         <Column
-                           colorIndex:expr="{$index}"
+                           colorIndex={12}
                            size={0.7}
                            offset={0}
                            x-bind="$point.v1"
@@ -92,7 +92,7 @@ export const RangeMarkers = (
                      <Gridlines />
                      <Repeater records-bind="$points" recordAlias="$point">
                         <Bar
-                           colorIndex:expr="{$index}"
+                        colorIndex={13}
                            size={0.7}
                            offset={0}
                            x-bind="$point.v2"
@@ -166,7 +166,7 @@ export const RangeMarkers = (
                            <Gridlines />
                            <Repeater records-bind="$points" recordAlias="$point">
                               <Column
-                                 colorIndex:expr="{$index}"
+                                 colorIndex={12}
                                  size={0.7}
                                  offset={0}
                                  x:bind="$point.v1"
@@ -211,7 +211,7 @@ export const RangeMarkers = (
                            <Gridlines />
                            <Repeater records-bind="$points" recordAlias="$point">
                               <Bar
-                                 colorIndex:expr="{$index}"
+                                 colorIndex={13}
                                  size={0.7}
                                  offset={0}
                                  x:bind="$point.v2"
