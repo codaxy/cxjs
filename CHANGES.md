@@ -2,6 +2,25 @@
 
 <!--- ## Unreleased -->
 
+## `cx@24.4.2`
+
+**Fixes**
+
+-  Addressed a bug where RangeMarkers were not functioning correctly when used alongside SWC.
+
+## `cx@24.4.1`
+
+**Features**
+
+-  Enhanced dropInsertionIndex positioning within the grid
+-  Introduced CultureScope widget
+-  Introduced RangeMarker widget
+-  Added functionality for adjusting pie chart gaps
+
+**Fixes**
+
+-  Types for ColumnGraph and LineGraph
+
 ## `cx@24.3.3`
 
 **Features**
