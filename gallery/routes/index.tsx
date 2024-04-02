@@ -17,6 +17,7 @@ let themes = {
    "~/material-dark": "Material Dark",
    "~/space-blue": "Space Blue",
    "~/dark": "Dark",
+   "~/packed-dark": "Packed Dark",
 };
 
 export default (
@@ -49,7 +50,7 @@ export default (
                   redirect={computable(
                      "$themeRoute.remainder",
                      "$route.theme",
-                     (remainder, theme) => `~/${theme || "aquamarine"}${remainder || "/button/states"}`
+                     (remainder, theme) => `~/${theme || "aquamarine"}${remainder || "/button/states"}`,
                   )}
                />
             </Route>
@@ -75,7 +76,7 @@ export default (
                <ThemeLoader theme={bind("$themeRoute.theme")}>
                   <main class="main" layout={FirstVisibleChildLayout}>
                      {list.map((cat) =>
-                        cat.items?.map((item) => <SandboxedAsyncRoute route={item.route} content={item.content} />)
+                        cat.items?.map((item) => <SandboxedAsyncRoute route={item.route} content={item.content} />),
                      )}
                      <Section title="Page Not Found" mod="card">
                         This page doesn't exists. Please check your URL.

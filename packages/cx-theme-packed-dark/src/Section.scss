@@ -1,0 +1,19 @@
+@if (cx-included("cx/widgets/Section")) {
+   .#{$element}section-header {
+      margin: 0 1.25rem;
+      padding: 1.25rem 0 0 0;
+      border-bottom: none;
+   }
+
+   .#{$element}section-body {
+      .#{$state}pad > & {
+         padding: 1rem 1.25rem 1.25rem;
+      }
+   }
+
+   .#{$element}section-footer {
+      margin: 0 1.25rem;
+      padding: 0 0 1rem 0;
+      border-top: null;
+   }
+}

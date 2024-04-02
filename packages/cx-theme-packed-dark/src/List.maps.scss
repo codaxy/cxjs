@@ -1,0 +1,27 @@
+$cx-list: cx-deep-map-merge(
+   $cx-list,
+   (
+      default: (
+         scrollbar-width: thin,
+      ),
+   )
+);
+
+// LIST ITEM
+$cx-list-item: cx-deep-map-merge(
+   $cx-list-item,
+   (
+      hover: (
+         background-color: $cx-default-highlight-color,
+      ),
+      cursor: (
+         background-color: $cx-default-highlight-color,
+      ),
+      selected: (
+         background-color: $cx-default-border-color,
+      ),
+      selected-cursor: (
+         background-color: $cx-default-border-color,
+      ),
+   )
+);

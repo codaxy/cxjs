@@ -38,4 +38,10 @@ export default {
             Set to `true` to disable moving the window by dragging the header.
         </Md></cx>
     },
+    pad: {
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to add default padding to the window body.
+        </Md></cx>
+    },
 };

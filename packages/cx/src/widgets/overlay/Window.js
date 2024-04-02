@@ -95,6 +95,7 @@ Window.prototype.resizable = false;
 Window.prototype.fixed = false;
 Window.prototype.autoFocus = true;
 Window.prototype.focusable = true;
+Window.prototype.pad = false;
 
 Widget.alias("window", Window);
 Localization.registerPrototype("cx/widgets/Window", Window);
@@ -148,7 +149,7 @@ class WindowComponent extends OverlayComponent {
             ref={(c) => {
                this.bodyEl = c;
             }}
-            className={CSS.expand(CSS.element(widget.baseClass, "body"), data.bodyClass)}
+            className={CSS.expand(CSS.element(widget.baseClass, "body", { pad: widget.pad }), data.bodyClass)}
             style={data.bodyStyle}
          >
             {this.props.children}

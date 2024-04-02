@@ -77,10 +77,25 @@
       box-sizing: border-box;
       flex: auto;
 
-      @include cx-add-state-rules($body-state-style-map, default);
+      $padding: cx-get-state-rule($body-state-style-map, default, "padding");
+
+      $noPad: cx-deep-map-merge(
+         $body-state-style-map,
+         (
+            default: (
+               padding: null,
+            ),
+         )
+      );
+
+      @include cx-add-state-rules($noPad, default);
+
+      &.#{$state}pad {
+         padding: $padding;
+      }
 
       .#{$mod}alert & {
-         padding: 40px;
+         padding: 2.5rem;
          text-align: center;
       }
    }
