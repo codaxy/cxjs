@@ -1,6 +1,6 @@
 import { BoundedObject } from "../svg/BoundedObject";
 import { Rect } from "../svg/util/Rect";
-import { Widget } from "../ui/Widget";
+import { Widget, VDOM } from "../ui/Widget";
 import { parseStyle } from "../util/parseStyle";
 
 export class RangeMarker extends BoundedObject {
