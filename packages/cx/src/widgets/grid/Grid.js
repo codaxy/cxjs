@@ -1972,12 +1972,12 @@ class GridComponent extends VDOM.Component {
       this.componentDidUpdate();
       let { instance } = this.props;
       let { widget } = instance;
-      if (widget.scrollable)
+      if (widget.scrollable) {
+         //update fixed header/footer on resize
          this.offResize = ResizeManager.trackElement(this.dom.scroller, () => {
-            //ignore changes if the element is not visible on the page
-            if (this.dom.scroller.offsetWidth == 0) return;
-            //update fixed header/footer
             requestAnimationFrame(() => {
+               //ignore changes if the element is not visible on the page
+               if (!this.dom.scroller?.offsetWidth) return;
                this.componentDidUpdate();
                instance.setState({
                   dimensionsVersion: instance.state.dimensionsVersion + 1,
@@ -1985,6 +1985,7 @@ class GridComponent extends VDOM.Component {
                });
             });
          });
+      }
       if (widget.pipeKeyDown) instance.invoke("pipeKeyDown", this.handleKeyDown.bind(this), instance);
       this.unregisterDropZone = registerDropZone(this);
       if (widget.infinite) this.ensureData(0, 0);
@@ -2340,6 +2341,7 @@ class GridComponent extends VDOM.Component {
       }
 
       if (widget.scrollable) {
+         if (!this.dom.scroller) debugger;
          this.scrollWidth = this.dom.scroller.offsetWidth - this.dom.scroller.clientWidth;
 
          let resized = false,
