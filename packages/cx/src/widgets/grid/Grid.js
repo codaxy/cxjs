@@ -2341,7 +2341,6 @@ class GridComponent extends VDOM.Component {
       }
 
       if (widget.scrollable) {
-         if (!this.dom.scroller) debugger;
          this.scrollWidth = this.dom.scroller.offsetWidth - this.dom.scroller.clientWidth;
 
          let resized = false,
