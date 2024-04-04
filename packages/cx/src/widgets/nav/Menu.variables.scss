@@ -11,8 +11,13 @@ $cx-menu-padding-options: (
    xlarge: $cx-default-padding-extra-large 2 * $cx-default-padding-extra-large,
 ) !default;
 
-$cx-dependencies: map-merge($cx-dependencies, (
-   'cx/widgets/Menu': 'cx/widgets/MenuItem',
-   'cx/widgets/MenuItem': 'cx/widgets/Dropdown',
-   'cx/widgets/SubMenu': 'cx/widgets/MenuItem'
-));
+$cx-menu-list-item: () !default;
+
+$cx-dependencies: map-merge(
+   $cx-dependencies,
+   (
+      "cx/widgets/Menu": "cx/widgets/MenuItem",
+      "cx/widgets/MenuItem": "cx/widgets/Dropdown",
+      "cx/widgets/SubMenu": "cx/widgets/MenuItem",
+   )
+);

@@ -4,6 +4,12 @@ $cx-default-font-size: 12px !default;
 
 $cx-default-color: rgb(226, 227, 229) !default;
 
+$cx-default-padding-extra-small: 1px !default;
+$cx-default-padding-small: 2px !default;
+$cx-default-padding-medium: 4px !default;
+$cx-default-padding-large: 6px !default;
+$cx-default-padding-extra-large: 8px !default;
+
 $cx-default-background-color: rgb(44, 44, 44) !default;
 $cx-default-background-color-light: lighten($cx-default-background-color, 3) !default;
 $cx-default-background-color-dark: darken($cx-default-background-color, 2) !default;
@@ -39,8 +45,6 @@ $cx-default-checkbox-color: rgba($cx-default-color, 0.7) !default;
 $cx-default-radio-size: 16px !default;
 $cx-default-radio-color: rgba($cx-default-color, 0.7) !default;
 
-$cx-default-dropdown-background-color: $cx-default-background-color-dark !default;
-
 // slider
 $cx-default-slider-axis-background-color: $cx-default-border-color !default;
 $cx-default-slider-range-background-color: #024f70 !default;
@@ -67,7 +71,7 @@ $cx-default-grid-header-background-color: lighten($cx-default-background-color-l
 $cx-default-grid-header-border-color: lighten($cx-default-border-color, 3) !default;
 
 // MENU
-// $cx-default-menu-item-padding: 10px !default;
+//$cx-default-menu-item-padding: 5px !default;
 $cx-default-menu-separator-color: darken($cx-default-border-color, 4) !default;
 
 // TOOLTIP
@@ -114,6 +118,7 @@ $cx-default-palette-stroke-whiten: 10% !default;
 
 @import "Tab.variables.scss";
 @import "Window.variables.scss";
+@import "Dropdown.variables.scss";
 
 // Default values
 @import "~cx/src/variables";
@@ -122,13 +127,15 @@ $cx-default-palette-stroke-whiten: 10% !default;
 @import "List.maps.scss";
 @import "Tab.maps.scss";
 @import "Section.maps.scss";
+@import "Menu.maps.scss";
+@import "Dropdown.maps.scss";
 
 // FORM
 $cx-input-state-style-map: cx-deep-map-merge(
    $cx-input-state-style-map,
    (
       focus: (
-         border-color: $cx-default-highlight-color,
+         border-color: $cx-default-border-color,
          box-shadow: 0 0 2px $cx-default-highlight-color,
       ),
       disabled: (
@@ -137,7 +144,14 @@ $cx-input-state-style-map: cx-deep-map-merge(
    )
 );
 
-$cx-std-field-state-style-map: cx-deep-map-merge($cx-input-state-style-map, ());
+$cx-std-field-state-style-map: cx-deep-map-merge(
+   $cx-input-state-style-map,
+   (
+      default: (
+         background-color: rgb(15, 16, 17),
+      ),
+   )
+);
 
 // calendar
 $cx-calendar-state-style-map: cx-deep-map-merge(

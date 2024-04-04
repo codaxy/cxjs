@@ -12,10 +12,10 @@ $cx-list-item: cx-deep-map-merge(
    $cx-list-item,
    (
       hover: (
-         background-color: $cx-default-highlight-color,
+         background-color: rgba(white, 0.05),
       ),
       cursor: (
-         background-color: $cx-default-highlight-color,
+         background-color: rgba(white, 0.05),
       ),
       selected: (
          background-color: $cx-default-border-color,
