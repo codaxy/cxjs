@@ -98,13 +98,13 @@ class PieCalculator {
          }
          while (stack.gap > 0) {
             for (let index = 0; index < stack.r0s.length; index++)
-               gapAngleTotal += Math.asin(stack.gap / stack.r0s[index] / 2);
+               gapAngleTotal += 2 * Math.asin(stack.gap / stack.r0s[index] / 2);
 
             for (let index = 0; index < stack.r0ps.length; index++)
-               gapAngleTotal += Math.asin(stack.gap / ((stack.r0ps[index] * this.R) / 100) / 2);
+               gapAngleTotal += 2 * Math.asin(stack.gap / ((stack.r0ps[index] * this.R) / 100) / 2);
 
             if (gapAngleTotal < 0.25 * this.angleTotal) break;
-            stack.gap = stack.gap * 0.9;
+            stack.gap = stack.gap * 0.95;
             gapAngleTotal = 0;
          }
          if (gapAngleTotal == 0) stack.gap = 0;
@@ -124,7 +124,7 @@ class PieCalculator {
       let angle = value * s.angleFactor;
       let startAngle = s.lastAngle;
       let clockFactor = this.clockwise ? -1 : 1;
-      let gapAngle = r0 > 0 && s.gap > 0 ? Math.asin(s.gap / r0 / 2) : 0;
+      let gapAngle = r0 > 0 && s.gap > 0 ? 2 * Math.asin(s.gap / r0 / 2) : 0;
       s.lastAngle += clockFactor * (angle + gapAngle);
       let endAngle = startAngle + clockFactor * angle + gapAngle;
 
@@ -163,7 +163,7 @@ function createSvgArc(cx, cy, r0 = 0, r, startAngle, endAngle, br = 0, gap = 0) 
          if (innerSmallArcAngle > (endAngle - startAngle) / 2) {
             innerSmallArcAngle = (endAngle - startAngle) / 2;
             let sin = Math.sin(innerSmallArcAngle);
-            innerBr = (r0 * sin - gap2) / (1 - sin);
+            innerBr = Math.max((r0 * sin - gap2) / (1 - sin), 0);
          }
 
          let innerHipDiagonal = (r0 + innerBr) * Math.cos(innerSmallArcAngle);
@@ -214,7 +214,7 @@ function createSvgArc(cx, cy, r0 = 0, r, startAngle, endAngle, br = 0, gap = 0) 
       if (outerSmallArcAngle > (endAngle - startAngle) / 2) {
          outerSmallArcAngle = (endAngle - startAngle) / 2;
          let sin = Math.sin(outerSmallArcAngle);
-         outerBr = (r * sin - gap2) / (1 + sin);
+         outerBr = Math.max((r * sin - gap2) / (1 + sin), 0);
       }
 
       let outerHipDiagonal = Math.cos(outerSmallArcAngle) * (r - outerBr);
