@@ -21,7 +21,7 @@ export class GridRow extends ValidationGroup {
             this.items.push(
                GridRowLine.create(this["line" + i], {
                   recordName: this.recordName,
-               })
+               }),
             );
       }
       super.init();
@@ -71,7 +71,7 @@ export class GridRowComponent extends VDOM.Component {
    }
 
    render() {
-      let { className, dragSource, instance, record } = this.props;
+      let { className, dragSource, instance, record, useTrTag, children } = this.props;
       let { data, widget } = instance;
       let { CSS } = widget;
       let move, up, keyDown, leave;
@@ -87,25 +87,25 @@ export class GridRowComponent extends VDOM.Component {
 
       if (widget.onRowClick) keyDown = this.onKeyDown;
 
-      return (
-         <tbody
-            className={CSS.expand(data.classNames, className, this.state && this.state.hover && CSS.state("hover"))}
-            style={data.style}
-            onClick={this.onClick}
-            onDoubleClick={this.onDoubleClick}
-            onTouchStart={this.onMouseDown}
-            onMouseDown={this.onMouseDown}
-            onTouchMove={move}
-            onMouseMove={move}
-            onMouseLeave={leave}
-            onTouchEnd={up}
-            onMouseUp={up}
-            onKeyDown={keyDown}
-            onContextMenu={this.onRowContextMenu}
-            data-record-key={record.key}
-         >
-            {this.props.children}
-         </tbody>
+      return VDOM.createElement(
+         useTrTag ? "tr" : "tbody",
+         {
+            className: CSS.expand(data.classNames, className, this.state && this.state.hover && CSS.state("hover")),
+            style: data.style,
+            onClick: this.onClick,
+            onDoubleClick: this.onDoubleClick,
+            onTouchStart: this.onMouseDown,
+            onMouseDown: this.onMouseDown,
+            onTouchMove: move,
+            onMouseMove: move,
+            onMouseLeave: leave,
+            onTouchEnd: up,
+            onMouseUp: up,
+            onKeyDown: keyDown,
+            onContextMenu: this.onRowContextMenu,
+            "data-record-key": record.key,
+         },
+         children,
       );
    }
 

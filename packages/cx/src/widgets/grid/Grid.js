@@ -1229,6 +1229,7 @@ Grid.prototype.preciseMeasurements = false;
 Grid.prototype.hoverChannel = "default";
 Grid.prototype.focusable = null; // automatically resolved
 Grid.prototype.allowsFileDrops = false;
+Grid.prototype.nonWrappedRows = false;
 
 Widget.alias("grid", Grid);
 Localization.registerPrototype("cx/widgets/Grid", Grid);
@@ -1312,7 +1313,7 @@ class GridComponent extends VDOM.Component {
    createRowRenderer(cellWrap) {
       let { instance, data } = this.props;
       let { widget, isRecordSelectable, visibleColumns, isRecordDraggable } = instance;
-      let { CSS, baseClass } = widget;
+      let { CSS, baseClass, nonWrappedRows } = widget;
       let { dragSource } = data;
       let { dragged, cursor, cursorCellIndex, cellEdit, dropInsertionIndex, dropTarget } = this.state;
       let { colWidth, dimensionsVersion } = instance.state;
@@ -1361,46 +1362,43 @@ class GridComponent extends VDOM.Component {
                shouldUpdate={row.shouldUpdate}
                dimensionsVersion={dimensionsVersion}
                fixed={fixed}
+               useTrTag={nonWrappedRows}
             >
-               {children.content.map(({ key, data, content }, line) => (
-                  <tr key={key} className={data.classNames} style={data.style}>
-                     {content.map(({ key, data, content, uniqueColumnId }, cellIndex) => {
-                        if (Boolean(data.fixed) !== fixed) return null;
-                        let cellected =
-                           index == cursor && cellIndex == cursorCellIndex && widget.cellEditable && line == 0;
-                        let className = cellected
-                           ? CSS.expand(data.classNames, CSS.state("cellected"))
-                           : data.classNames;
-                        if (cellected && cellEdit) {
-                           let column = visibleColumns[cursorCellIndex];
-                           if (column && column.editor && data.editable)
-                              return this.renderCellEditor(key, CSS, baseClass, row, column);
-                        }
-                        let width = colWidth[uniqueColumnId];
-                        let style = data.style;
-                        if (width) {
-                           style = {
-                              ...style,
-                              maxWidth: `${width}px`,
-                           };
-                        }
+               {children.content.map(({ key, data, content }, line) => {
+                  var cells = content.map(({ key, data, content, uniqueColumnId }, cellIndex) => {
+                     if (Boolean(data.fixed) !== fixed) return null;
+                     let cellected =
+                        index == cursor && cellIndex == cursorCellIndex && widget.cellEditable && line == 0;
+                     let className = cellected ? CSS.expand(data.classNames, CSS.state("cellected")) : data.classNames;
+                     if (cellected && cellEdit) {
+                        let column = visibleColumns[cursorCellIndex];
+                        if (column && column.editor && data.editable)
+                           return this.renderCellEditor(key, CSS, baseClass, row, column);
+                     }
+                     let width = colWidth[uniqueColumnId];
+                     let style = data.style;
+                     if (width) {
+                        style = {
+                           ...style,
+                           maxWidth: `${width}px`,
+                        };
+                     }
 
-                        if (cellWrap) content = cellWrap(content);
+                     if (cellWrap) content = cellWrap(content);
 
-                        return (
-                           <td
-                              key={key}
-                              className={className}
-                              style={style}
-                              colSpan={data.colSpan}
-                              rowSpan={data.rowSpan}
-                           >
-                              {content}
-                           </td>
-                        );
-                     })}
-                  </tr>
-               ))}
+                     return (
+                        <td key={key} className={className} style={style} colSpan={data.colSpan} rowSpan={data.rowSpan}>
+                           {content}
+                        </td>
+                     );
+                  });
+                  if (nonWrappedRows) return cells;
+                  return (
+                     <tr key={key} className={data.classNames} style={data.style}>
+                        {cells}
+                     </tr>
+                  );
+               })}
             </GridRowComponent>
          );
 
