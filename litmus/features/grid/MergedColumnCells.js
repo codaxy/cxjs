@@ -44,7 +44,6 @@ export default (
                { showFooter: true },
                { showFooter: false, showCaption: true, key: { name: { bind: "$record.continent" } } },
             ]}
-            nonWrappedRows
             columns={[
                {
                   header: "Name",
@@ -56,6 +55,7 @@ export default (
                      expand: true,
                      value: { tpl: "{$group.name}" },
                   },
+                  merged: true,
                },
                {
                   header: "Continent",
@@ -68,6 +68,7 @@ export default (
                   field: "browser",
                   sortable: true,
                   aggregate: "count",
+                  merged: true,
                },
                {
                   header: "OS",

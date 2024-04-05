@@ -14,13 +14,13 @@ export class GridCell extends PureContainer {
          colSpan: undefined,
          rowSpan: undefined,
          editable: undefined,
-         fixed: undefined
+         fixed: undefined,
+         merged: undefined,
       });
    }
 
    init() {
-      if (!this.value && this.field)
-         this.value = { bind: this.recordName + "." + this.field };
+      if (!this.value && this.field) this.value = { bind: this.recordName + "." + this.field };
 
       if (isUndefined(this.editable)) this.editable = !!this.editor;
 
@@ -36,8 +36,9 @@ export class GridCell extends PureContainer {
          this.CSS.state({
             pad: data.pad,
             editable: data.editable,
-            ["aligned-" + this.align]: this.align
-         })
+            ["aligned-" + this.align]: this.align,
+            merged: data.merged,
+         }),
       );
 
       data.style = this.CSS.parseStyle(data.style);
@@ -47,8 +48,7 @@ export class GridCell extends PureContainer {
       let { data } = instance;
       let content;
 
-      if (this.items.length > 0)
-         content = this.renderChildren(context, instance);
+      if (this.items.length > 0) content = this.renderChildren(context, instance);
       else {
          content = data.value;
          if (data.format) content = Format.value(content, data.format);
@@ -60,7 +60,8 @@ export class GridCell extends PureContainer {
          instance,
          data,
          key,
-         uniqueColumnId: this.uniqueColumnId
+         uniqueColumnId: this.uniqueColumnId,
+         merged: data.merged,
       };
    }
 }
@@ -68,3 +69,4 @@ export class GridCell extends PureContainer {
 GridCell.prototype.pad = true;
 GridCell.prototype.styled = true;
 GridCell.prototype.fixed = false;
+GridCell.prototype.merged = false;

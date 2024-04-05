@@ -113,7 +113,7 @@ import "./index.scss";
 //import Demo from "./features/grid/RowDndAndGrouping";
 //import Demo from "./features/localization/culture-scope";
 //import Demo from "./bugs/large_and_small_values_inside_pie_charts_with_gaps";
-import Demo from "./features/grid/AutomergedColumns";
+import Demo from "./features/grid/MergedColumnCells";
 
 let store = (window.store = new Store());
 

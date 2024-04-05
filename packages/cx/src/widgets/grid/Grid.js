@@ -128,6 +128,8 @@ export class Grid extends Container {
 
       row.hasSortableColumns = false;
       row.hasResizableColumns = false;
+      row.hasMergedCells = false;
+
       let aggregates = {};
       let showFooter = false;
       let lines = [];
@@ -148,6 +150,8 @@ export class Grid extends Container {
       row.header.items.forEach((line) => {
          line.items.forEach((c) => {
             if (c.sortable) row.hasSortableColumns = true;
+
+            if (c.merged) row.hasMergedCells = true;
 
             if (
                c.resizable ||
@@ -1054,9 +1058,7 @@ export class Grid extends Container {
 
       for (let i = 0; i < records.length; i++) {
          record = records[i];
-         if (record.type == "data") {
-            record.vdom = record.row.render(context, record.key);
-         }
+         if (record.type == "data") record.vdom = record.row.render(context, record.key);
 
          if (record.type == "group-header") {
             record.vdom = [];
@@ -1229,7 +1231,6 @@ Grid.prototype.preciseMeasurements = false;
 Grid.prototype.hoverChannel = "default";
 Grid.prototype.focusable = null; // automatically resolved
 Grid.prototype.allowsFileDrops = false;
-Grid.prototype.nonWrappedRows = false;
 
 Widget.alias("grid", Grid);
 Localization.registerPrototype("cx/widgets/Grid", Grid);
@@ -1312,13 +1313,14 @@ class GridComponent extends VDOM.Component {
 
    createRowRenderer(cellWrap) {
       let { instance, data } = this.props;
-      let { widget, isRecordSelectable, visibleColumns, isRecordDraggable } = instance;
-      let { CSS, baseClass, nonWrappedRows } = widget;
+      let { widget, isRecordSelectable, visibleColumns, isRecordDraggable, row } = instance;
+      let { CSS, baseClass } = widget;
       let { dragSource } = data;
       let { dragged, cursor, cursorCellIndex, cellEdit, dropInsertionIndex, dropTarget } = this.state;
       let { colWidth, dimensionsVersion } = instance.state;
+      let { hasMergedCells } = row;
 
-      return (record, index, standalone, fixed) => {
+      return (record, index, standalone, fixed, isFirstDataRow) => {
          let { store, key, row } = record;
          let isDragged = dragged && (row.selected || record == dragged);
          let mod = {
@@ -1362,11 +1364,12 @@ class GridComponent extends VDOM.Component {
                shouldUpdate={row.shouldUpdate}
                dimensionsVersion={dimensionsVersion}
                fixed={fixed}
-               useTrTag={nonWrappedRows}
+               useTrTag={hasMergedCells}
             >
                {children.content.map(({ key, data, content }, line) => {
-                  var cells = content.map(({ key, data, content, uniqueColumnId }, cellIndex) => {
+                  var cells = content.map(({ key, data, content, uniqueColumnId, merged }, cellIndex) => {
                      if (Boolean(data.fixed) !== fixed) return null;
+                     if (merged && !isFirstDataRow) return null;
                      let cellected =
                         index == cursor && cellIndex == cursorCellIndex && widget.cellEditable && line == 0;
                      let className = cellected ? CSS.expand(data.classNames, CSS.state("cellected")) : data.classNames;
@@ -1387,12 +1390,18 @@ class GridComponent extends VDOM.Component {
                      if (cellWrap) content = cellWrap(content);
 
                      return (
-                        <td key={key} className={className} style={style} colSpan={data.colSpan} rowSpan={data.rowSpan}>
+                        <td
+                           key={key}
+                           className={className}
+                           style={style}
+                           colSpan={data.colSpan}
+                           rowSpan={merged ? 1000 : data.rowSpan}
+                        >
                            {content}
                         </td>
                      );
                   });
-                  if (nonWrappedRows) return cells;
+                  if (hasMergedCells) return cells;
                   return (
                      <tr key={key} className={data.classNames} style={data.style}>
                         {cells}
@@ -1446,8 +1455,8 @@ class GridComponent extends VDOM.Component {
 
       let renderRow = this.createRowRenderer(cellWrap);
 
-      let addRow = (record, index, standalone) => {
-         children.push(renderRow(record, index, standalone, false));
+      let addRow = (record, index, standalone, isFirstDataRow) => {
+         children.push(renderRow(record, index, standalone, false, isFirstDataRow));
          if (hasFixedColumns) fixedChildren.push(renderRow(record, index, standalone, true));
 
          //avoid re-rendering on cursor change
@@ -1568,10 +1577,13 @@ class GridComponent extends VDOM.Component {
          });
          instance.recordInstanceCache.sweep();
       } else {
+         let isFirstDataRow = true;
          instance.records.forEach((record, i) => {
             if (record.type == "data") {
-               addRow(record, i);
+               addRow(record, i, false, isFirstDataRow);
+               isFirstDataRow = false;
             } else {
+               isFirstDataRow = true;
                children.push(record.vdom);
                if (hasFixedColumns) fixedChildren.push(record.fixedVdom);
             }

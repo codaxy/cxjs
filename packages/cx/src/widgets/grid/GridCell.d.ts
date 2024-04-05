@@ -24,6 +24,12 @@ interface GridCellProps extends Cx.PureContainerProps {
 
    /** Indicate if a cell is editable or not. Default value is true. */
    editable?: boolean;
+
+   /** Indicate that the all cells in the column should be merged together.
+    * This is an experimental features that might not work well with other
+    * grid related features such as multi-line rows, buffered rendering, etc.
+    * This is used for for displaying notes that are related to all rows or a group of rows. */
+   merged?: Cx.BooleanProp;
 }
 
 export class GridCell extends Cx.Widget<GridCellProps> {}
