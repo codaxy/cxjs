@@ -15,7 +15,7 @@ export class GridCell extends PureContainer {
          rowSpan: undefined,
          editable: undefined,
          fixed: undefined,
-         merged: undefined,
+         mergeCells: undefined,
       });
    }
 
@@ -37,7 +37,7 @@ export class GridCell extends PureContainer {
             pad: data.pad,
             editable: data.editable,
             ["aligned-" + this.align]: this.align,
-            merged: data.merged,
+            mergable: data.merged,
          }),
       );
 
@@ -61,7 +61,6 @@ export class GridCell extends PureContainer {
          data,
          key,
          uniqueColumnId: this.uniqueColumnId,
-         merged: data.merged,
       };
    }
 }

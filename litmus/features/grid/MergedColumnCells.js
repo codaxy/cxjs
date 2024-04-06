@@ -46,6 +46,27 @@ export default (
             ]}
             columns={[
                {
+                  header: "Continent",
+                  field: "continent",
+                  sortable: true,
+                  aggregate: "count",
+                  mergeCells: "same-value",
+               },
+               {
+                  header: "Browser",
+                  field: "browser",
+                  sortable: true,
+                  aggregate: "count",
+                  mergeCells: "same-value",
+               },
+               {
+                  header: "OS",
+                  field: "os",
+                  sortable: true,
+                  aggregate: "count",
+                  mergeCells: "same-value",
+               },
+               {
                   header: "Name",
                   field: "fullName",
                   sortable: true,
@@ -55,26 +76,6 @@ export default (
                      expand: true,
                      value: { tpl: "{$group.name}" },
                   },
-                  merged: true,
-               },
-               {
-                  header: "Continent",
-                  field: "continent",
-                  sortable: true,
-                  aggregate: "count",
-               },
-               {
-                  header: "Browser",
-                  field: "browser",
-                  sortable: true,
-                  aggregate: "count",
-                  merged: true,
-               },
-               {
-                  header: "OS",
-                  field: "os",
-                  sortable: true,
-                  aggregate: "count",
                },
                {
                   header: "Visits",
@@ -82,6 +83,10 @@ export default (
                   sortable: true,
                   align: "right",
                   aggregate: "sum",
+               },
+               {
+                  header: "Notes",
+                  mergeCells: "always",
                },
             ]}
             selection={{

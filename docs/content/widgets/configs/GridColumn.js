@@ -133,13 +133,14 @@ export default {
             Options for data sorting. See [Intl.Collator options](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Collator) for more info.
         </Md></cx>
     },
-    merged: {
-        type: 'boolean',
+    mergeCells: {
+        type: 'false | "same-value" | "always"',
         description: <cx><Md>
-            Indicate that the all cells in the column should be merged together.
-            This is an experimental features that might not work well with other
+            Indicate that the adjacent cells in the column should be merged together.
+            If set to `same-value`, only cells with the same value will be merged.
+            If set to `always`, all cells within the group will be merged.
+            This is an experimental feature that might not work well with other
             grid related features such as multi-line rows, buffered rendering, etc.
-            This is used for for displaying notes that are related to all rows or a group of rows.
         </Md></cx>
     },
 };

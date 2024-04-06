@@ -129,6 +129,7 @@ export class Grid extends Container {
       row.hasSortableColumns = false;
       row.hasResizableColumns = false;
       row.hasMergedCells = false;
+      row.mergedColumns = [];
 
       let aggregates = {};
       let showFooter = false;
@@ -148,10 +149,17 @@ export class Grid extends Container {
       });
 
       row.header.items.forEach((line) => {
-         line.items.forEach((c) => {
+         line.items.forEach((c, index) => {
             if (c.sortable) row.hasSortableColumns = true;
 
-            if (c.merged) row.hasMergedCells = true;
+            if (c.mergeCells) {
+               if (row.header.items.length > 1)
+                  Console.warn("Merged columns are only supported in grids in which rows have only one line of cells.");
+               else {
+                  row.hasMergedCells = true;
+                  row.mergedColumns.push({ uniqueColumnId: c.uniqueColumnId, index, mode: c.mergeCells });
+               }
+            }
 
             if (
                c.resizable ||
@@ -1320,7 +1328,7 @@ class GridComponent extends VDOM.Component {
       let { colWidth, dimensionsVersion } = instance.state;
       let { hasMergedCells } = row;
 
-      return (record, index, standalone, fixed, isFirstDataRow) => {
+      return (record, index, standalone, fixed) => {
          let { store, key, row } = record;
          let isDragged = dragged && (row.selected || record == dragged);
          let mod = {
@@ -1367,9 +1375,9 @@ class GridComponent extends VDOM.Component {
                useTrTag={hasMergedCells}
             >
                {children.content.map(({ key, data, content }, line) => {
-                  var cells = content.map(({ key, data, content, uniqueColumnId, merged }, cellIndex) => {
+                  var cells = content.map(({ key, data, content, uniqueColumnId, merged, mergeRowSpan }, cellIndex) => {
                      if (Boolean(data.fixed) !== fixed) return null;
-                     if (merged && !isFirstDataRow) return null;
+                     if (merged) return null;
                      let cellected =
                         index == cursor && cellIndex == cursorCellIndex && widget.cellEditable && line == 0;
                      let className = cellected ? CSS.expand(data.classNames, CSS.state("cellected")) : data.classNames;
@@ -1395,7 +1403,7 @@ class GridComponent extends VDOM.Component {
                            className={className}
                            style={style}
                            colSpan={data.colSpan}
-                           rowSpan={merged ? 1000 : data.rowSpan}
+                           rowSpan={mergeRowSpan ?? data.rowSpan}
                         >
                            {content}
                         </td>
@@ -1455,8 +1463,8 @@ class GridComponent extends VDOM.Component {
 
       let renderRow = this.createRowRenderer(cellWrap);
 
-      let addRow = (record, index, standalone, isFirstDataRow) => {
-         children.push(renderRow(record, index, standalone, false, isFirstDataRow));
+      let addRow = (record, index, standalone) => {
+         children.push(renderRow(record, index, standalone, false));
          if (hasFixedColumns) fixedChildren.push(renderRow(record, index, standalone, true));
 
          //avoid re-rendering on cursor change
@@ -1577,13 +1585,53 @@ class GridComponent extends VDOM.Component {
          });
          instance.recordInstanceCache.sweep();
       } else {
-         let isFirstDataRow = true;
+         let { row } = instance;
+         let { hasMergedCells, mergedColumns } = row;
+         if (hasMergedCells) {
+            // merge adjacent cells with the same value in columns that are marked as merged
+            let rowSpan = {};
+            let getCellRenderInfo = (vdom, cellIndex) => vdom.content[0]?.content[cellIndex];
+            for (let index = instance.records.length - 1; index >= 0; index--) {
+               let row = instance.records[index];
+               let prevRow = instance.records[index - 1];
+               if (row.type == "data") {
+                  let stopMerge = false;
+                  for (let mi = 0; mi < mergedColumns.length; mi++) {
+                     let mergedCol = mergedColumns[mi];
+                     let cellInfo = getCellRenderInfo(row.vdom, mergedCol.index);
+                     cellInfo.merged = false;
+                     delete cellInfo.mergeRowSpan;
+                     if (prevRow?.type == "data") {
+                        let shouldMerge = false;
+                        switch (mergedCol.mode) {
+                           case "always":
+                              shouldMerge = true;
+                              break;
+                           case "same-value":
+                              let prevCellInfo = getCellRenderInfo(prevRow.vdom, mergedCol.index);
+                              shouldMerge = !stopMerge && cellInfo.data.value === prevCellInfo.data.value;
+                              break;
+                        }
+
+                        if (shouldMerge) {
+                           cellInfo.merged = true;
+                           rowSpan[mergedCol.uniqueColumnId] = (rowSpan[mergedCol.uniqueColumnId] ?? 1) + 1;
+                        } else {
+                           if (mergedCol.mode == "same-value") stopMerge = true;
+                        }
+                     }
+                     if (!cellInfo.merged && rowSpan[mergedCol.uniqueColumnId] > 1) {
+                        cellInfo.mergeRowSpan = rowSpan[mergedCol.uniqueColumnId];
+                        rowSpan[mergedCol.uniqueColumnId] = 1;
+                     }
+                  }
+               } else rowSpan = {};
+            }
+         }
+
          instance.records.forEach((record, i) => {
-            if (record.type == "data") {
-               addRow(record, i, false, isFirstDataRow);
-               isFirstDataRow = false;
-            } else {
-               isFirstDataRow = true;
+            if (record.type == "data") addRow(record, i, false);
+            else {
                children.push(record.vdom);
                if (hasFixedColumns) fixedChildren.push(record.fixedVdom);
             }
