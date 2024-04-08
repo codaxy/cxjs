@@ -128,8 +128,7 @@ let formatFactory = {
    zeroPad: function (part0, length) {
       return (value) => {
          let s = String(value);
-         while (s.length < length) s = "0" + s;
-         return s;
+         return s.padStart(length, "0");
       };
    },
 };
