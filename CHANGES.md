@@ -2,6 +2,19 @@
 
 <!--- ## Unreleased -->
 
+## `cx@24.4.4`
+
+**Features**
+
+-  Introducing the new `zeropad` format.
+
+## `cx@24.4.3`
+
+**Fixes**
+
+-  Corrected distortion in pie-chart shapes caused by mathematical errors.
+-  Resolved grid resize issues by implementing element existence checks prior to resizing.
+
 ## `cx@24.4.2`
 
 **Fixes**
