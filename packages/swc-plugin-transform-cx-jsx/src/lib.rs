@@ -351,13 +351,11 @@ impl TransformVisitor {
             Expr::Array(array) => {
                 let mut elems: Vec<Option<ExprOrSpread>> = vec![];
 
-                array.elems.iter_mut().for_each(|el| match el {
-                    Some(expr_or_spread) => elems.push(Some(ExprOrSpread {
-                        spread: None,
-                        expr: Box::new(self.transform_cx_element(&mut *expr_or_spread.expr)),
-                    })),
-                    None => {}
-                });
+                array
+                    .elems
+                    .iter_mut()
+                    .filter(|el| el.is_some())
+                    .for_each(|el| elems.push(el.to_owned()));
 
                 return Expr::Array(ArrayLit {
                     span: DUMMY_SP,
@@ -372,13 +370,12 @@ impl TransformVisitor {
                     .for_each(|obj_props| match obj_props.to_owned() {
                         PropOrSpread::Prop(prop) => match *prop {
                             Prop::KeyValue(key_value) => {
-                                let prop_name = self.get_prop_name(&key_value);
                                 let value =
                                     self.transform_cx_element(&mut key_value.to_owned().value);
 
                                 attrs.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(
                                     KeyValueProp {
-                                        key: PropName::Str(prop_name.into()),
+                                        key: key_value.key,
                                         value: Box::new(value),
                                     },
                                 ))))
@@ -392,7 +389,7 @@ impl TransformVisitor {
                                 todo!("EXPR OBJ PROPS")
                             }
                         },
-                        PropOrSpread::Spread(_) => {}
+                        PropOrSpread::Spread(_) => attrs.push(obj_props.to_owned()),
                     });
 
                 return Expr::Object(ObjectLit {
@@ -563,6 +560,23 @@ impl TransformVisitor {
 }
 
 impl VisitMut for TransformVisitor {
+    fn visit_mut_jsx_element(&mut self, el: &mut JSXElement) {
+        if let JSXElementName::Ident(ident) = &mut el.opening.name {
+            let tag_name = ident.sym.to_string();
+            if tag_name == "cx" || tag_name == "Cx" {
+                let tr = self
+                    .transform_cx_element(&mut Expr::JSXElement(Box::new(el.to_owned())))
+                    .jsx_element();
+
+                if tr.is_some() {
+                    *el = *tr.unwrap();
+                }
+            }
+        }
+
+        el.visit_mut_children_with(self);
+    }
+
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         if let Expr::Arrow(arrow_fn_expr) = expr {
             if let BlockStmtOrExpr::Expr(body_expr) = *arrow_fn_expr.to_owned().body {

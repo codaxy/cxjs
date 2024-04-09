@@ -11,6 +11,9 @@ interface PieChartProps extends BoundedObjectProps {
 
    /** When set to `true`, stacks are rendered in clock wise direction. */
    clockwise?: Cx.BooleanProp;
+
+   /** Gap between slices in pixels. Default is `0` which means there is no gap. */
+   gap?: Cx.NumberProp;
 }
 
 export class PieChart extends Cx.Widget<PieChartProps> {}
@@ -78,6 +81,9 @@ interface PieSliceProps extends Cx.StyledContainerProps {
 
    /** Border radius of the slice. Default is 0. */
    borderRadius?: Cx.NumberProp;
+
+   /** Border radius of the slice. Default is 0. */
+   br?: Cx.NumberProp;
 }
 
 export class PieSlice extends Cx.Widget<PieSliceProps> {}

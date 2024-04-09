@@ -335,7 +335,7 @@
       -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
       background-color: cx-get-state-rule($data-state-style-map, default, background-color);
 
-      &:nth-child(odd) {
+      &.#{$state}alternate {
          @include cx-add-state-rules($data-state-style-map, alternate);
       }
 

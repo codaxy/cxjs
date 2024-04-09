@@ -10,6 +10,7 @@ export class Label extends HtmlElement {
          required: undefined,
          disabled: undefined,
          htmlFor: undefined,
+         asterisk: undefined,
       });
    }
 
@@ -34,7 +35,7 @@ export class Label extends HtmlElement {
          context.parentDisabled
       );
 
-      data.asterisk = context.parentAsterisk || this.asterisk;
+      data.asterisk = context.parentAsterisk || data.asterisk;
 
       if (instance.cache("disabled", data.disabled) || instance.cache("asterisk", data.asterisk)) {
          instance.markShouldUpdate(context);
