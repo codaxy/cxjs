@@ -113,9 +113,10 @@ import Demo from "./features/grid/ComplexHeaderAndRows";
 //import Demo from "./bugs/1075-complex-column-resizing";
 //import Demo from "./features/grid/RowDndAndGrouping";
 //import Demo from "./features/localization/culture-scope";
-// import Demo from "./bugs/large_and_small_values_inside_pie_charts_with_gaps";
+//import Demo from "./bugs/large_and_small_values_inside_pie_charts_with_gaps";
+//import Demo from "./features/grid/MergedColumnCells";
 //import Demo from "./features/formats/zeroPadFormat";
-import Demo from "./bugs/window_dissmisses_on_dropdown_dismiss";
+//import Demo from "./bugs/window_dissmisses_on_dropdown_dismiss";
 
 let store = (window.store = new Store());
 

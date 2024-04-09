@@ -169,13 +169,14 @@ export default (
                      rowSpan: 2,
                   },
                   {
-                     header: { text: "Frais internes" },
+                     header: { text: "Frais internes", rowSpan: 2 },
                      field: "fees.internalFees.value",
                      align: "right",
                      format: "n;2",
+                     rowSpan: 2,
                   },
                   {
-                     header: { text: "C/E", rowSpan: 3 },
+                     header: { text: "C/E", rowSpan: 2 },
                      field: "kne",
                      value: { expr: "{$record.kne} ? 'yes' : 'no'" },
                      style: "vertical-align: top",

@@ -139,6 +139,8 @@ interface GridColumnConfig {
    /** Options for data sorting. See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Collator */
    sortOptions?: CollatorOptions;
    colSpan?: NumberProp;
+
+   mergeCells?: Prop<null | false | "same-value" | "always">;
 }
 
 interface GridRowLineConfig {
@@ -321,7 +323,7 @@ interface GridProps<T = unknown> extends StyledContainerProps {
          sortField?: string;
          sortDirection?: string;
       },
-      instance?: Instance
+      instance?: Instance,
    ) => FetchRecordsResult | Promise<FetchRecordsResult>;
 
    /** Callback function to be executed when a row is double-clicked. */
@@ -354,7 +356,7 @@ interface GridProps<T = unknown> extends StyledContainerProps {
    /** Callback to create a function that can be used to check whether a record is selectable. */
    onCreateIsRecordSelectable?: (
       params: any,
-      instance: Instance
+      instance: Instance,
    ) => (record: T, options?: { range?: boolean; toggle?: boolean }) => boolean;
 
    /** Parameters whose change will cause scroll to be reset. */

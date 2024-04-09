@@ -128,6 +128,9 @@ export class Grid extends Container {
 
       row.hasSortableColumns = false;
       row.hasResizableColumns = false;
+      row.hasMergedCells = false;
+      row.mergedColumns = [];
+
       let aggregates = {};
       let showFooter = false;
       let lines = [];
@@ -146,8 +149,17 @@ export class Grid extends Container {
       });
 
       row.header.items.forEach((line) => {
-         line.items.forEach((c) => {
+         line.items.forEach((c, index) => {
             if (c.sortable) row.hasSortableColumns = true;
+
+            if (c.mergeCells) {
+               if (row.header.items.length > 1)
+                  Console.warn("Merged columns are only supported in grids in which rows have only one line of cells.");
+               else {
+                  row.hasMergedCells = true;
+                  row.mergedColumns.push({ uniqueColumnId: c.uniqueColumnId, index, mode: c.mergeCells });
+               }
+            }
 
             if (
                c.resizable ||
@@ -1056,9 +1068,7 @@ export class Grid extends Container {
 
       for (let i = 0; i < records.length; i++) {
          record = records[i];
-         if (record.type == "data") {
-            record.vdom = record.row.render(context, record.key);
-         }
+         if (record.type == "data") record.vdom = record.row.render(context, record.key);
 
          if (record.type == "group-header") {
             record.vdom = [];
@@ -1313,11 +1323,12 @@ class GridComponent extends VDOM.Component {
 
    createRowRenderer(cellWrap) {
       let { instance, data } = this.props;
-      let { widget, isRecordSelectable, visibleColumns, isRecordDraggable } = instance;
+      let { widget, isRecordSelectable, visibleColumns, isRecordDraggable, row } = instance;
       let { CSS, baseClass } = widget;
       let { dragSource } = data;
       let { dragged, cursor, cursorCellIndex, cellEdit, dropInsertionIndex, dropTarget } = this.state;
       let { colWidth, dimensionsVersion } = instance.state;
+      let { hasMergedCells } = row;
 
       return (record, index, standalone, fixed) => {
          let { store, key, row } = record;
@@ -1365,54 +1376,58 @@ class GridComponent extends VDOM.Component {
                   shouldUpdate={row.shouldUpdate}
                   dimensionsVersion={dimensionsVersion}
                   fixed={fixed}
+                  useTrTag={hasMergedCells}
                >
-                  {children.content.map(({ key, data, content }, line) => (
+                  {children.content.map(({ key, data, content }, line) => {
+                  var cells = content.map(({ key, data, content, uniqueColumnId, merged, mergeRowSpan }, cellIndex) => {
+                     if (Boolean(data.fixed) !== fixed) return null;
+                     if (merged) return null;
+                     let cellected =
+                        index == cursor && cellIndex == cursorCellIndex && widget.cellEditable && line == 0;
+                     let className = cellected ? CSS.expand(data.classNames, CSS.state("cellected")) : data.classNames;
+                     if (cellected && cellEdit) {
+                        let column = visibleColumns[cursorCellIndex];
+                        if (column && column.editor && data.editable)
+                           return this.renderCellEditor(key, CSS, baseClass, row, column);
+                     }
+                     let width = colWidth[uniqueColumnId];
+                     let style = data.style;
+                     if (width) {
+                        style = {
+                           ...style,
+                           maxWidth: `${width}px`,
+                        };
+                     }
+
+                     if (skipCells[`${line}-${cellIndex}`]) return null;
+
+                     if (data.colSpan > 1 || data.rowSpan > 1) {
+                        for (let r = line; r < line + (data.rowSpan ?? 1); r++)
+                           for (let c = cellIndex; c < cellIndex + (data.colSpan ?? 1); c++)
+                              skipCells[`${r}-${c}`] = true;
+                     }
+
+                        if (cellWrap) content = cellWrap(content);
+
+                        return (
+                           <td
+                              key={key}
+                              className={className}
+                              style={style}
+                              colSpan={data.colSpan}
+                              rowSpan={mergeRowSpan ?? data.rowSpan}
+                           >
+                              {content}
+                           </td>
+                        );
+                     });
+                  if (hasMergedCells) return cells;
+                  return (
                      <tr key={key} className={data.classNames} style={data.style}>
-                        {content.map(({ key, data, content, uniqueColumnId }, cellIndex) => {
-                           if (Boolean(data.fixed) !== fixed) return null;
-                           let cellected =
-                              index == cursor && cellIndex == cursorCellIndex && widget.cellEditable && line == 0;
-                           let className = cellected
-                              ? CSS.expand(data.classNames, CSS.state("cellected"))
-                              : data.classNames;
-                           if (cellected && cellEdit) {
-                              let column = visibleColumns[cursorCellIndex];
-                              if (column && column.editor && data.editable)
-                                 return this.renderCellEditor(key, CSS, baseClass, row, column);
-                           }
-                           let width = colWidth[uniqueColumnId];
-                           let style = data.style;
-                           if (width) {
-                              style = {
-                                 ...style,
-                                 maxWidth: `${width}px`,
-                              };
-                           }
-
-                           if (skipCells[`${line}-${cellIndex}`]) return null;
-
-                           if (data.colSpan > 1 || data.rowSpan > 1) {
-                              for (let r = line; r < line + (data.rowSpan ?? 1); r++)
-                                 for (let c = cellIndex; c < cellIndex + (data.colSpan ?? 1); c++)
-                                    skipCells[`${r}-${c}`] = true;
-                           }
-
-                           if (cellWrap) content = cellWrap(content);
-
-                           return (
-                              <td
-                                 key={key}
-                                 className={className}
-                                 style={style}
-                                 colSpan={data.colSpan}
-                                 rowSpan={data.rowSpan}
-                              >
-                                 {content}
-                              </td>
-                           );
-                        })}
-                     </tr>
-                  ))}
+                        {cells}
+                        </tr>
+                     );
+               })}
                </GridRowComponent>
             );
          };
@@ -1583,10 +1598,53 @@ class GridComponent extends VDOM.Component {
          });
          instance.recordInstanceCache.sweep();
       } else {
+         let { row } = instance;
+         let { hasMergedCells, mergedColumns } = row;
+         if (hasMergedCells) {
+            // merge adjacent cells with the same value in columns that are marked as merged
+            let rowSpan = {};
+            let getCellRenderInfo = (vdom, cellIndex) => vdom.content[0]?.content[cellIndex];
+            for (let index = instance.records.length - 1; index >= 0; index--) {
+               let row = instance.records[index];
+               let prevRow = instance.records[index - 1];
+               if (row.type == "data") {
+                  let stopMerge = false;
+                  for (let mi = 0; mi < mergedColumns.length; mi++) {
+                     let mergedCol = mergedColumns[mi];
+                     let cellInfo = getCellRenderInfo(row.vdom, mergedCol.index);
+                     cellInfo.merged = false;
+                     delete cellInfo.mergeRowSpan;
+                     if (prevRow?.type == "data") {
+                        let shouldMerge = false;
+                        switch (mergedCol.mode) {
+                           case "always":
+                              shouldMerge = true;
+                              break;
+                           case "same-value":
+                              let prevCellInfo = getCellRenderInfo(prevRow.vdom, mergedCol.index);
+                              shouldMerge = !stopMerge && cellInfo.data.value === prevCellInfo.data.value;
+                              break;
+                        }
+
+                        if (shouldMerge) {
+                           cellInfo.merged = true;
+                           rowSpan[mergedCol.uniqueColumnId] = (rowSpan[mergedCol.uniqueColumnId] ?? 1) + 1;
+                        } else {
+                           if (mergedCol.mode == "same-value") stopMerge = true;
+                        }
+                     }
+                     if (!cellInfo.merged && rowSpan[mergedCol.uniqueColumnId] > 1) {
+                        cellInfo.mergeRowSpan = rowSpan[mergedCol.uniqueColumnId];
+                        rowSpan[mergedCol.uniqueColumnId] = 1;
+                     }
+                  }
+               } else rowSpan = {};
+            }
+         }
+
          instance.records.forEach((record, i) => {
-            if (record.type == "data") {
-               addRow(record, i);
-            } else {
+            if (record.type == "data") addRow(record, i, false);
+            else {
                children.push(record.vdom);
                if (hasFixedColumns) fixedChildren.push(record.fixedVdom);
             }
