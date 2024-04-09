@@ -98,6 +98,7 @@ import "./index.scss";
 // import Demo from "./bugs/Repeater";
 //import Demo from "./features/month-field/encoding";
 //import Demo from "./bugs/AsyncValidator";
+import Demo from "./features/grid/ComplexHeaderAndRows";
 
 //import Demo from "./features/charts/pie/labels";
 //import Demo from "./bugs/BlurBug";
@@ -113,7 +114,9 @@ import "./index.scss";
 //import Demo from "./features/grid/RowDndAndGrouping";
 //import Demo from "./features/localization/culture-scope";
 //import Demo from "./bugs/large_and_small_values_inside_pie_charts_with_gaps";
-import Demo from "./features/grid/MergedColumnCells";
+//import Demo from "./features/grid/MergedColumnCells";
+//import Demo from "./features/formats/zeroPadFormat";
+//import Demo from "./bugs/window_dissmisses_on_dropdown_dismiss";
 
 let store = (window.store = new Store());
 

@@ -621,15 +621,16 @@ export class Grid extends Container {
       if (!header) return null;
 
       let skip = {};
+      let lineIndex = 0;
 
-      header.children.forEach((line, lineIndex) => {
+      header.children.forEach((line) => {
          let empty = [true, true, true];
          let result = [[], [], []];
 
          line.children.forEach((hdinst, colIndex) => {
             let hdwidget = hdinst.widget;
             for (let l = 0; l < 3; l++) {
-               let colKey = `${lineIndex}-${colIndex}-${l}`;
+               let colKey = `${lineIndex + l}-${colIndex}`;
 
                if (skip[colKey]) continue;
 
@@ -702,7 +703,7 @@ export class Grid extends Container {
 
                      for (let r = 0; r < header.data.rowSpan; r++)
                         for (let c = 0; c < header.data.colSpan; c++)
-                           skip[`${lineIndex}-${colIndex + c}-${l + r}`] = true;
+                           skip[`${lineIndex + l + r}-${colIndex + c}`] = true;
                   }
 
                   if ((hdwidget.resizable || header.data.resizable) && header.data.colSpan < 2) {
@@ -757,6 +758,7 @@ export class Grid extends Container {
          });
 
          result = result.filter((_, i) => !empty[i]);
+         lineIndex += result.length;
 
          if (result[0]) {
             if (fixed && !fixedColumns) {
@@ -1352,29 +1354,31 @@ class GridComponent extends VDOM.Component {
          mod["draggable"] = draggable;
          mod["non-draggable"] = !draggable;
 
-         let wrap = (children) => (
-            <GridRowComponent
-               key={key}
-               className={CSS.state(mod)}
-               store={store}
-               dragSource={dragSource}
-               instance={row}
-               grid={instance}
-               record={record}
-               parent={this}
-               cursorIndex={index}
-               selected={row.selected}
-               isBeingDragged={dragged}
-               isDraggedOver={mod.over}
-               cursor={mod.cursor}
-               cursorCellIndex={index == cursor && cursorCellIndex}
-               cellEdit={index == cursor && cursorCellIndex != null && cellEdit}
-               shouldUpdate={row.shouldUpdate}
-               dimensionsVersion={dimensionsVersion}
-               fixed={fixed}
-               useTrTag={hasMergedCells}
-            >
-               {children.content.map(({ key, data, content }, line) => {
+         let wrap = (children) => {
+            let skipCells = {};
+            return (
+               <GridRowComponent
+                  key={key}
+                  className={CSS.state(mod)}
+                  store={store}
+                  dragSource={dragSource}
+                  instance={row}
+                  grid={instance}
+                  record={record}
+                  parent={this}
+                  cursorIndex={index}
+                  selected={row.selected}
+                  isBeingDragged={dragged}
+                  isDraggedOver={mod.over}
+                  cursor={mod.cursor}
+                  cursorCellIndex={index == cursor && cursorCellIndex}
+                  cellEdit={index == cursor && cursorCellIndex != null && cellEdit}
+                  shouldUpdate={row.shouldUpdate}
+                  dimensionsVersion={dimensionsVersion}
+                  fixed={fixed}
+                  useTrTag={hasMergedCells}
+               >
+                  {children.content.map(({ key, data, content }, line) => {
                   var cells = content.map(({ key, data, content, uniqueColumnId, merged, mergeRowSpan }, cellIndex) => {
                      if (Boolean(data.fixed) !== fixed) return null;
                      if (merged) return null;
@@ -1395,29 +1399,38 @@ class GridComponent extends VDOM.Component {
                         };
                      }
 
-                     if (cellWrap) content = cellWrap(content);
+                     if (skipCells[`${line}-${cellIndex}`]) return null;
 
-                     return (
-                        <td
-                           key={key}
-                           className={className}
-                           style={style}
-                           colSpan={data.colSpan}
-                           rowSpan={mergeRowSpan ?? data.rowSpan}
-                        >
-                           {content}
-                        </td>
-                     );
-                  });
+                     if (data.colSpan > 1 || data.rowSpan > 1) {
+                        for (let r = line; r < line + (data.rowSpan ?? 1); r++)
+                           for (let c = cellIndex; c < cellIndex + (data.colSpan ?? 1); c++)
+                              skipCells[`${r}-${c}`] = true;
+                     }
+
+                        if (cellWrap) content = cellWrap(content);
+
+                        return (
+                           <td
+                              key={key}
+                              className={className}
+                              style={style}
+                              colSpan={data.colSpan}
+                              rowSpan={mergeRowSpan ?? data.rowSpan}
+                           >
+                              {content}
+                           </td>
+                        );
+                     });
                   if (hasMergedCells) return cells;
                   return (
                      <tr key={key} className={data.classNames} style={data.style}>
                         {cells}
-                     </tr>
-                  );
+                        </tr>
+                     );
                })}
-            </GridRowComponent>
-         );
+               </GridRowComponent>
+            );
+         };
 
          if (!standalone) return wrap(record.vdom);
 

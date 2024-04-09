@@ -124,6 +124,13 @@ let formatFactory = {
             };
       }
    },
+
+   zeroPad: function (part0, length) {
+      return (value) => {
+         let s = String(value);
+         return s.padStart(length, "0");
+      };
+   },
 };
 
 formatFactory.s = formatFactory.str = formatFactory.string;
@@ -134,6 +141,7 @@ formatFactory.ps = formatFactory.percentageSign;
 formatFactory.d = formatFactory.date;
 formatFactory.t = formatFactory.time;
 formatFactory.dt = formatFactory.datetime;
+formatFactory.zeropad = formatFactory.zeroPad;
 
 function buildFormatter(format) {
    let formatter = defaultFormatter,
