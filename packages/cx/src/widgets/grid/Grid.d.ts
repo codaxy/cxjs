@@ -110,7 +110,7 @@ interface GridColumnConfig {
    aggregateAlias?: string;
    aggregateField?: string;
    aggregateValue?: UnknownProp;
-   caption?: StringProp;
+   caption?: StringProp | false;
    class?: ClassProp;
    className?: ClassProp;
    draggable?: boolean;
@@ -323,7 +323,7 @@ interface GridProps<T = unknown> extends StyledContainerProps {
          sortField?: string;
          sortDirection?: string;
       },
-      instance?: Instance,
+      instance?: Instance
    ) => FetchRecordsResult | Promise<FetchRecordsResult>;
 
    /** Callback function to be executed when a row is double-clicked. */
@@ -356,7 +356,7 @@ interface GridProps<T = unknown> extends StyledContainerProps {
    /** Callback to create a function that can be used to check whether a record is selectable. */
    onCreateIsRecordSelectable?: (
       params: any,
-      instance: Instance,
+      instance: Instance
    ) => (record: T, options?: { range?: boolean; toggle?: boolean }) => boolean;
 
    /** Parameters whose change will cause scroll to be reset. */
