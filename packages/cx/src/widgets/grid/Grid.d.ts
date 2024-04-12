@@ -96,6 +96,24 @@ interface GridColumnHeaderConfig {
    resizable?: boolean;
 }
 
+interface GridColumnFooterConfig {
+   value?: Prop<any>;
+   format?: StringProp;
+   style?: StyleProp;
+   class?: StyleProp;
+   expand?: boolean;
+}
+
+interface GridColumnCaptionConfig {
+   value?: Prop<any>;
+   format?: StringProp;
+   style?: StyleProp;
+   class?: StyleProp;
+   children?: React.ReactNode;
+   items?: React.ReactNode;
+   expand?: boolean;
+}
+
 interface GridColumnConfig {
    align?: GridColumnAlignment;
    field?: string;
@@ -110,13 +128,13 @@ interface GridColumnConfig {
    aggregateAlias?: string;
    aggregateField?: string;
    aggregateValue?: UnknownProp;
-   caption?: StringProp | false;
+   caption?: GridColumnCaptionConfig | StringProp | false;
    class?: ClassProp;
    className?: ClassProp;
    draggable?: boolean;
    editable?: boolean;
    editor?: React.ReactNode;
-   footer?: StringProp | false;
+   footer?: GridColumnFooterConfig | StringProp | false;
    items?: React.ReactNode;
    children?: React.ReactNode;
    key?: string;
