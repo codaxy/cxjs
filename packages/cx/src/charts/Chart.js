@@ -1,14 +1,12 @@
-import { Widget, VDOM, getContent } from '../ui/Widget';
-import { BoundedObject } from '../svg/BoundedObject';
-import { Axis } from './axis/Axis';
+import { Widget, VDOM, getContent } from "../ui/Widget";
+import { BoundedObject } from "../svg/BoundedObject";
+import { Axis } from "./axis/Axis";
 
 export class Chart extends BoundedObject {
-
    init() {
       super.init();
 
-      if (!this.axes)
-         this.axes = {};
+      if (!this.axes) this.axes = {};
 
       for (let axis in this.axes) {
          this.axes[axis] = Axis.create(this.axes[axis]);
@@ -16,10 +14,9 @@ export class Chart extends BoundedObject {
    }
 
    explore(context, instance) {
-
       instance.calculators = { ...context.axes };
 
-      context.push('axes', instance.calculators);
+      context.push("axes", instance.calculators);
       instance.axes = {};
 
       //axes need to be registered before children to be processed first
@@ -35,16 +32,20 @@ export class Chart extends BoundedObject {
    }
 
    exploreCleanup(context, instance) {
-      context.pop('axes');
+      context.pop("axes");
+
+      for (let axis in instance.axes) {
+         instance.axes[axis].widget.reportData(context, instance.axes[axis]);
+      }
    }
 
    prepare(context, instance) {
-      context.push('axes', instance.calculators);
+      context.push("axes", instance.calculators);
       super.prepare(context, instance);
    }
 
    prepareCleanup(context, instance) {
-      context.pop('axes');
+      context.pop("axes");
       super.prepareCleanup(context, instance);
    }
 
@@ -56,22 +57,19 @@ export class Chart extends BoundedObject {
 
       let result = [];
 
-      if (!this.axesOnTop)
-         result.push(axes);
+      if (!this.axesOnTop) result.push(axes);
 
       result.push(this.renderChildren(context, instance));
 
-      if (this.axesOnTop)
-         result.push(axes);
+      if (this.axesOnTop) result.push(axes);
 
       return result;
    }
 }
 
-Chart.prototype.anchors = '0 1 1 0';
+Chart.prototype.anchors = "0 1 1 0";
 Chart.prototype.styled = true;
 Chart.prototype.isPureContainer = true;
 Chart.prototype.axesOnTop = false;
 
-Widget.alias('chart', Chart);
-
+Widget.alias("chart", Chart);

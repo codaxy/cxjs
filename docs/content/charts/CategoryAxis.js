@@ -80,6 +80,7 @@ export const CategoryAxisPage = <cx>
         ## Examples
 
         * [Complex Labels](~/examples/charts/axis/complex-labels)
+        * [Calculated Height](~/examples/charts/axis/calculated-height)
 
         ## Configuration
 

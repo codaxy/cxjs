@@ -365,6 +365,10 @@ export const docsNavTree = [
                   url: "~/examples/charts/axis/complex-labels",
                },
                {
+                  text: "Calculated Height",
+                  url: "~/examples/charts/axis/calculated-height",
+               },
+               {
                   text: "Stacked Line Chart",
                   url: "~/examples/charts/line/stacked",
                },

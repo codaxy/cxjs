@@ -36,5 +36,11 @@ export default {
             `minSize` can be used to add fake entries up to the specified number, so
             everything looks normal.
         </Md></cx>
+    },
+    categoryCount: {
+        type: 'number',
+        description: <cx><Md>
+            Output value that can be used to calculate chart dimensions based on discovered category values.
+        </Md></cx>
     }
 };

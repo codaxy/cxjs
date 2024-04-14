@@ -40,7 +40,7 @@ export class Axis extends BoundedObject {
             tickStyle: undefined,
             tickClass: undefined,
          },
-         ...arguments
+         ...arguments,
       );
    }
 
@@ -53,6 +53,8 @@ export class Axis extends BoundedObject {
    report(context, instance) {
       return instance.calculator;
    }
+
+   reportData(context, instance) {}
 
    renderTicksAndLabels(context, instance, valueFormatter) {
       if (this.hidden) return false;
@@ -141,7 +143,7 @@ export class Axis extends BoundedObject {
                      transform={transform}
                   >
                      {this.renderLabels(lines, x, this.labelDy, this.labelDx, offsetClass)}
-                  </text>
+                  </text>,
                );
             });
          });
@@ -189,7 +191,7 @@ export class Axis extends BoundedObject {
          result.push(
             <tspan key={-2} className={offsetClass} dy={dy}>
                _
-            </tspan>
+            </tspan>,
          );
       }
 
@@ -204,7 +206,7 @@ export class Axis extends BoundedObject {
                dx={dx}
             >
                {p.text}
-            </tspan>
+            </tspan>,
          );
       });
       return result;
