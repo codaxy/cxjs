@@ -38,6 +38,8 @@ export class Legend extends HtmlElement {
       instance.legends = context.legends;
 
       context.addLegendEntry = (legendName, entry) => {
+         if (!legendName) return;
+
          //case when all legends are scoped and new entry is added outside the scope
          if (!context.legends) return;
 
@@ -83,7 +85,7 @@ export class Legend extends HtmlElement {
                         {this.renderShape(e, instance.data.shape)}
                         {e.name}
                      </div>
-                  ))
+                  )),
                )}
             </div>
          );

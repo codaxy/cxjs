@@ -60,8 +60,8 @@ interface ColumnBarGraphBaseProps extends Cx.WidgetProps {
 
    colorIndexField?: boolean;
 
-   /** Name of the legend to be used. Default is `legend`. */
-   legend?: string;
+   /** Name of the legend to be used. Default is `legend`. Set to `false` to hide the legend entry. */
+   legend?: string | false;
 
    legendAction?: string;
    legendShape?: string;
