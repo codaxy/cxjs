@@ -162,7 +162,8 @@ class DropZoneComponent extends VDOM.Component {
       let over = rect.left <= clientX && clientX < rect.right && rect.top <= clientY && clientY < rect.bottom;
 
       return {
-         over: over && distance,
+         over:
+            over && Math.abs(clientX - (rect.left + rect.right) / 2) + Math.abs(clientY - (rect.top + rect.bottom) / 2),
          near: nearDistance && (over || distance < nearDistance),
       };
    }
