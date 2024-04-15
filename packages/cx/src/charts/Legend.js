@@ -25,6 +25,7 @@ export class Legend extends HtmlElement {
       switch (attrName) {
          case "shapeSize":
          case "svgSize":
+         case "shape":
             return false;
 
          default:
