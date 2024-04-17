@@ -21,6 +21,7 @@ export * from "./BubbleGraph";
 export * from "./shapes";
 export * from "./MouseTracker";
 export * from "./RangeMarker";
+export * from "./Swimlane";
 
 export * from "./axis/index";
 export * from "./helpers/index";
