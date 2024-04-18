@@ -86,6 +86,8 @@ interface ListProps<T = unknown> extends StyledContainerProps {
 
    onItemClick?: string | ((e: React.SyntheticEvent<any>, instance: Instance) => void);
 
+   onItemDoubleClick?: string | ((e: React.SyntheticEvent<any>, instance: Instance) => void);
+
    pipeKeyDown?: string | PipeKeyDownCallback;
 
    keyField?: string;
