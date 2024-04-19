@@ -89,7 +89,7 @@ import "./index.scss";
 //import Demo from "./features/time-list";
 //import Demo from "./features/debounce/NumberField";
 //import Demo from "./features/uploadButton"
-// import Demo from "./bugs/GroupCaptionBug";
+import Demo from "./bugs/GroupCaptionBug";
 //import Demo from "./bugs/invokeParentMethod";
 //import Demo from "./bugs/742";
 //import Demo from "./bugs/656";
@@ -98,7 +98,7 @@ import "./index.scss";
 // import Demo from "./bugs/Repeater";
 //import Demo from "./features/month-field/encoding";
 //import Demo from "./bugs/AsyncValidator";
-import Demo from "./features/grid/ComplexHeaderAndRows";
+// import Demo from "./features/grid/ComplexHeaderAndRows";
 
 //import Demo from "./features/charts/pie/labels";
 //import Demo from "./bugs/BlurBug";
