@@ -910,8 +910,8 @@ export class Grid extends Container {
                   pad = c.caption.pad;
                   colSpan = c.caption.colSpan;
                   empty = false;
-                  if (c.caption.class) cls = CSS.expand(c.caption.class(data)) || "";
-                  if (c.caption.style) style = parseStyle(c.caption.style(data));
+                  cls = CSS.expand(c.caption.class(data)) || "";
+                  style = parseStyle(c.caption.style(data));
                   if (c.caption.expand) {
                      colSpan = 1;
                      for (
@@ -1379,7 +1379,7 @@ class GridComponent extends VDOM.Component {
                   useTrTag={hasMergedCells}
                >
                   {children.content.map(({ key, data, content }, line) => {
-                     var cells = content.map(
+                     let cells = content.map(
                         ({ key, data, content, uniqueColumnId, merged, mergeRowSpan }, cellIndex) => {
                            if (Boolean(data.fixed) !== fixed) return null;
                            if (merged) return null;
@@ -3217,10 +3217,10 @@ class GridColumnHeader extends Widget {
             this.caption.children = Widget.create(children);
          } else {
             this.caption.value = getSelector(this.caption.value);
-            this.caption.class = getSelector(this.caption.class);
-            this.caption.style = getSelector(this.caption.style);
             this.caption.format = getSelector(this.caption.format);
          }
+         this.caption.class = getSelector(this.caption.class);
+         this.caption.style = getSelector(this.caption.style);
       }
 
       super.init();
