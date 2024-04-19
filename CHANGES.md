@@ -2,6 +2,46 @@
 
 <!--- ## Unreleased -->
 
+## `cx@24.4.8`
+
+**Features**
+
+-  Set caption style and class even when caption is defined as items/children.
+
+**Fixes**
+
+-  Fix grid grouping text property description.
+
+## `cx@24.4.7`
+
+**Features**
+
+-  Improve selection of dropzone based on distance to the center.
+-  Allow grid column caption to be specified as false.
+-  Support dynamic chart height based on the number of categories.
+
+**Fixes**
+
+-  Avoid rendering shape prop.
+-  Fix grid rendering when column caption is defined via items only.
+
+## `cx@24.4.6`
+
+**Features**
+
+-  Allow grid column caption to be specified as false.
+-  Support dynamic chart height based on the number of categories.
+
+**Fixes**
+
+-  Fix grid rendering when column caption is defined via items only.
+
+## `cx@24.4.5`
+
+**Features**
+
+-  Introduce new feature for grid: merging cells.
+
 ## `cx@24.4.4`
 
 **Features**
