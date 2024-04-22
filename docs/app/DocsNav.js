@@ -223,6 +223,7 @@ export const docsNavTree = [
                { text: "PieLabels", url: "~/charts/pie-labels" },
                { text: "Gridlines", url: "~/charts/gridlines" },
                { text: "Swimlanes", url: "~/charts/swimlanes" },
+               { text: "Swimlane", url: "~/charts/swimlane" },
                { text: "MouseTracker", url: "~/charts/mouse-tracker" },
                { text: "PointReducer", url: "~/charts/point-reducers" },
                { text: "ValueAtFinder", url: "~/charts/value-at-finder" },

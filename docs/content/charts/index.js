@@ -15,6 +15,7 @@ export * from "./Ranges";
 export * from "./MarkerLines";
 export * from "./Gridlines";
 export * from "./Swimlanes";
+export * from "./Swimlane";
 export * from "./Legend";
 export * from "./ColorMap";
 
