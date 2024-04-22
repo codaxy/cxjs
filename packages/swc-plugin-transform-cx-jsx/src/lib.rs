@@ -720,6 +720,18 @@ impl VisitMut for TransformVisitor {
             module.body.push(new_item);
         })
     }
+
+    fn visit_mut_import_decl(&mut self, import_decl: &mut ImportDecl) {
+        import_decl.visit_mut_children_with(self);
+
+        let src = import_decl.src.to_owned();
+        if src.value.ends_with("..") {
+            let mut new_src = src.value.to_string();
+            new_src.push('/');
+
+            import_decl.src = Box::new(Str::from(new_src));
+        }
+    }
 }
 
 #[plugin_transform]

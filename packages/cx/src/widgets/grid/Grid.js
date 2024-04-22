@@ -1379,55 +1379,59 @@ class GridComponent extends VDOM.Component {
                   useTrTag={hasMergedCells}
                >
                   {children.content.map(({ key, data, content }, line) => {
-                  var cells = content.map(({ key, data, content, uniqueColumnId, merged, mergeRowSpan }, cellIndex) => {
-                     if (Boolean(data.fixed) !== fixed) return null;
-                     if (merged) return null;
-                     let cellected =
-                        index == cursor && cellIndex == cursorCellIndex && widget.cellEditable && line == 0;
-                     let className = cellected ? CSS.expand(data.classNames, CSS.state("cellected")) : data.classNames;
-                     if (cellected && cellEdit) {
-                        let column = visibleColumns[cursorCellIndex];
-                        if (column && column.editor && data.editable)
-                           return this.renderCellEditor(key, CSS, baseClass, row, column);
-                     }
-                     let width = colWidth[uniqueColumnId];
-                     let style = data.style;
-                     if (width) {
-                        style = {
-                           ...style,
-                           maxWidth: `${width}px`,
-                        };
-                     }
+                     let cells = content.map(
+                        ({ key, data, content, uniqueColumnId, merged, mergeRowSpan }, cellIndex) => {
+                           if (Boolean(data.fixed) !== fixed) return null;
+                           if (merged) return null;
+                           let cellected =
+                              index == cursor && cellIndex == cursorCellIndex && widget.cellEditable && line == 0;
+                           let className = cellected
+                              ? CSS.expand(data.classNames, CSS.state("cellected"))
+                              : data.classNames;
+                           if (cellected && cellEdit) {
+                              let column = visibleColumns[cursorCellIndex];
+                              if (column && column.editor && data.editable)
+                                 return this.renderCellEditor(key, CSS, baseClass, row, column);
+                           }
+                           let width = colWidth[uniqueColumnId];
+                           let style = data.style;
+                           if (width) {
+                              style = {
+                                 ...style,
+                                 maxWidth: `${width}px`,
+                              };
+                           }
 
-                     if (skipCells[`${line}-${cellIndex}`]) return null;
+                           if (skipCells[`${line}-${cellIndex}`]) return null;
 
-                     if (data.colSpan > 1 || data.rowSpan > 1) {
-                        for (let r = line; r < line + (data.rowSpan ?? 1); r++)
-                           for (let c = cellIndex; c < cellIndex + (data.colSpan ?? 1); c++)
-                              skipCells[`${r}-${c}`] = true;
-                     }
+                           if (data.colSpan > 1 || data.rowSpan > 1) {
+                              for (let r = line; r < line + (data.rowSpan ?? 1); r++)
+                                 for (let c = cellIndex; c < cellIndex + (data.colSpan ?? 1); c++)
+                                    skipCells[`${r}-${c}`] = true;
+                           }
 
-                        if (cellWrap) content = cellWrap(content);
+                           if (cellWrap) content = cellWrap(content);
 
-                        return (
-                           <td
-                              key={key}
-                              className={className}
-                              style={style}
-                              colSpan={data.colSpan}
-                              rowSpan={mergeRowSpan ?? data.rowSpan}
-                           >
-                              {content}
-                           </td>
-                        );
-                     });
-                  if (hasMergedCells) return cells;
-                  return (
-                     <tr key={key} className={data.classNames} style={data.style}>
-                        {cells}
+                           return (
+                              <td
+                                 key={key}
+                                 className={className}
+                                 style={style}
+                                 colSpan={data.colSpan}
+                                 rowSpan={mergeRowSpan ?? data.rowSpan}
+                              >
+                                 {content}
+                              </td>
+                           );
+                        },
+                     );
+                     if (hasMergedCells) return cells;
+                     return (
+                        <tr key={key} className={data.classNames} style={data.style}>
+                           {cells}
                         </tr>
                      );
-               })}
+                  })}
                </GridRowComponent>
             );
          };
@@ -3213,10 +3217,10 @@ class GridColumnHeader extends Widget {
             this.caption.children = Widget.create(children);
          } else {
             this.caption.value = getSelector(this.caption.value);
-            this.caption.class = getSelector(this.caption.class);
-            this.caption.style = getSelector(this.caption.style);
             this.caption.format = getSelector(this.caption.format);
          }
+         this.caption.class = getSelector(this.caption.class);
+         this.caption.style = getSelector(this.caption.style);
       }
 
       super.init();

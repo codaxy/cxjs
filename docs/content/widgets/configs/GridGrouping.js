@@ -50,7 +50,7 @@ export default {
     text: {
         type: 'string',
         description: <cx><Md>
-            A selector used to calculate text which can be used in totals as `$group.text`.
+            A selector used to calculate text which can be used in totals as `$group.$name`.
         </Md></cx>
     },
     aggregates: {
