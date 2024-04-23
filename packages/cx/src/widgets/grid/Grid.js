@@ -835,9 +835,13 @@ export class Grid extends Container {
       let comparer = column.comparer;
       let sortOptions = column.sortOptions;
 
-      if (header && header.allowSorting && column.sortable && (field || value)) {
+      if (header && header.allowSorting && column.sortable && (field || value || data.sortField)) {
          let direction = "ASC";
-         if (data.sorters && (data.sorters[0].field == (field || data.sortField) || data.sorters[0].value == value)) {
+         if (
+            isNonEmptyArray(data.sorters) &&
+            ((!!data.sorters[0].field && data.sorters[0].field == (field || data.sortField)) ||
+               (!!value && data.sorters[0].value == value))
+         ) {
             if (data.sorters[0].direction == "ASC") direction = "DESC";
             else if (this.clearableSort && data.sorters[0].direction == "DESC") direction = null;
          }
