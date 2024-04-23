@@ -1,7 +1,7 @@
 import { BoundedObject } from "../svg/BoundedObject";
 import { parseStyle } from "../util/parseStyle";
 import { VDOM } from "../ui/Widget";
-import { Rect } from "../svg";
+import { Rect } from "../svg/util/Rect";
 
 export class Swimlane extends BoundedObject {
    init() {
