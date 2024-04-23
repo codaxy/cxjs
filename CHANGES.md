@@ -2,6 +2,12 @@
 
 <!--- ## Unreleased -->
 
+## `cx@24.4.9`
+
+**Features**
+
+-  Swimlane component
+
 ## `cx@24.4.8`
 
 **Features**
