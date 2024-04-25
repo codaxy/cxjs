@@ -90,8 +90,11 @@ export class LineGraph extends Widget {
             active: data.active,
             colorIndex: data.colorIndex,
             disabled: data.disabled,
-            //selected: this.selection.isInstanceSelected(instance),
-            style: parseStyle(data.style || data.lineStyle),
+            style: {
+               ...parseStyle(data.style),
+               ...parseStyle(data.areaStyle),
+               ...parseStyle(data.lineStyle),
+            },
             shape: this.legendShape,
             onClick: (e) => {
                this.onLegendClick(e, instance);
