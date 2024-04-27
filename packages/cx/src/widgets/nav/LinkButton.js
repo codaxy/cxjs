@@ -17,6 +17,7 @@ export class LinkButton extends Button {
          {
             href: undefined,
             url: undefined,
+            target: undefined,
             active: undefined,
             activeClass: undefined,
             activeStyle: undefined,
