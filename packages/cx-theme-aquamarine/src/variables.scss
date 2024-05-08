@@ -145,6 +145,8 @@ $cx-default-window-header-font-size: 18px !default;
 $cx-default-window-header-color: $cx-theme-primary-text-color !default;
 $cx-default-window-header-background-color: $cx-default-background-color !default;
 
+$cx-default-window-body-padding: 10px 20px 10px 20px !default;
+
 //TOAST
 $cx-default-toast-box-shadow: $cx-theme-box-shadow-elevated !default;
 $cx-default-toast-padding: 2 * $cx-default-box-padding 2 * $cx-default-box-padding !default;
@@ -825,7 +827,7 @@ $cx-grid-header-state-style-map: cx-deep-map-merge(
       hover: (
          //color: rgba($cx-default-grid-header-color, 0.45),
          background-color: darken($cx-default-grid-header-background-color, 3)
-            //border-color: $cx-default-grid-header-border-color,,,,
+            //border-color: $cx-default-grid-header-border-color,,,,,
       ),
       sorted: (
          color: $cx-theme-primary-text-color,
@@ -945,7 +947,7 @@ $cx-textarea-state-style-map: cx-deep-map-merge(
       ),
       focus: (
          box-shadow: 0px 1px 2px rgba($cx-theme-primary-color, 0.5)
-            // background-color: rgba($cx-default-color, 0.015),,,,
+            // background-color: rgba($cx-default-color, 0.015),,,,,
       ),
       hover: (
          // background-color: rgba($cx-default-color, 0.009)

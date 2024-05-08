@@ -44,7 +44,6 @@ export default (
             visible={{ bind: "contact.visible", defaultValue: false }}
             center
             styles="width:500px;max-width: 90vw"
-            pad
          >
             <div layout={{ type: LabelsLeftLayout, mod: "stretch" }}>
                <TextField label="Name" value={bind("$page.contact.name")} style={{ width: "100%" }} />
@@ -70,7 +69,6 @@ export default (
             center
             styles="width:500px;max-width: 90vw"
             visible={{ bind: "backdrop.visible" }}
-            pad
          >
             <p>Windows with backdrop can be closed by clicking anywhere outside the window.</p>
          </Window>

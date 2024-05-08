@@ -32,7 +32,7 @@ export const Windows = <cx>
                     draggable
                     closeOnEscape
                 >
-                    <div style={{ padding: "20px" }} layout={{ type: LabelsLeftLayout, mod: 'stretch' }}>
+                    <div layout={{ type: LabelsLeftLayout, mod: 'stretch' }}>
                         <TextField label="Name" value-bind="$page.contact.name" style={{ width: '100%' }} tooltip="A Tooltip" />
                         <TextField label="Email" value-bind="$page.contact.email" style={{ width: '100%' }} />
                         <TextArea label="Message" value-bind="$page.contact.message" rows={10} style={{ width: '100%' }} />
