@@ -76,6 +76,7 @@ $cx-dependencies: map-merge(
       "cx/widgets/Dropdown": "cx/widgets/Overlay",
       "cx/widgets/Window": "cx/widgets/Overlay",
       "cx/widgets/Tooltip": "cx/widgets/Dropdown",
+      "cx/widgets/enableMsgBoxAlerts": "cx/widgets/MsgBox",
       "cx/widgets/MsgBox": "cx/widgets/Window" "cx/widgets/FlexRow",
       "cx/widgets/Toast": "cx/widgets/Overlay",
    )
