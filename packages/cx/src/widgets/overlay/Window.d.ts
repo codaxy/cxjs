@@ -34,6 +34,9 @@ interface WindowProps extends OverlayProps {
 
    /** Set to `true` to disable moving the window by dragging the header. */
    fixed?: boolean;
+
+   /** Set to `true` to add default padding to the window body. */
+   pad?: boolean;
 }
 
 export class Window extends Cx.Widget<WindowProps> {}

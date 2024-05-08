@@ -1,0 +1,17 @@
+{
+   "name": "cx-theme-packed-dark",
+   "version": "24.4.1",
+   "description": "Packed dark theme CSS styles for Cx applications",
+   "main": "./dist/index.js",
+   "author": "Codaxy",
+   "license": "SEE LICENSE.md",
+   "scripts": {
+      "build": "node build"
+   },
+   "files": [
+      "README.md",
+      "LICENSE.md",
+      "src",
+      "dist"
+   ]
+}

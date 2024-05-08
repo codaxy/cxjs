@@ -25,6 +25,9 @@ function importTheme(theme) {
 
       case "space-blue":
          return import(/* webpackChunkName: 'space-blue' */ "../themes/space-blue");
+
+      case "packed-dark":
+         return import(/* webpackChunkName: 'packed-dark' */ "../themes/packed-dark");
    }
 }
 
