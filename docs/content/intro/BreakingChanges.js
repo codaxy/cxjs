@@ -13,6 +13,37 @@ export const BreakingChanges = <cx>
             This page will provide information about breaking changes and how to migrate your applications to the latest
             versions of the framework.
 
+            ## 24.5.1
+
+            ### Default Window body padding
+
+            The Window body now have a default padding. Previously, a few options were used to add padding such as
+            `bodyStyle`, `bodyClass`, or adding margin/padding to the inner content.
+            All these options lead to problems with layout consistency across different themes.
+
+            If you want to revert to the old behavior, you can set the `pad` property to `false` on the prototype of the Window widget.
+            This will effectively remove the default padding from the Window body, unless `pad` is explicitly set to `true` on the Window.
+
+            <CodeSplit>
+                <CodeSnippet copy={false}>{`
+                    import { Window } from 'cx/widgets';
+                    Window.prototype.pad = false;
+                `}</CodeSnippet>
+            </CodeSplit>
+
+            Alternatively, you can reset the Sass variable to remove default padding, before importing the CxJS variables.
+
+            <CodeSplit>
+                <CodeSnippet copy={false}>{`
+                    $cx-default-window-body-padding: 0;
+
+                    @import '~cx/src/variables';
+                `}</CodeSnippet>
+            </CodeSplit>
+
+            However, the best way forward would be to go through your codebase and remove `bodyStyle`, `bodyClass` values, or padding/margins used for this purpose
+            within the window content.
+
             ## 23.2.0
 
             ### Dropped support for Internet Explorer

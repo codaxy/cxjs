@@ -95,7 +95,7 @@ Window.prototype.resizable = false;
 Window.prototype.fixed = false;
 Window.prototype.autoFocus = true;
 Window.prototype.focusable = true;
-Window.prototype.pad = false;
+Window.prototype.pad = true;
 
 Widget.alias("window", Window);
 Localization.registerPrototype("cx/widgets/Window", Window);

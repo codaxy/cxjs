@@ -2,6 +2,12 @@
 
 <!--- ## Unreleased -->
 
+## `cx@24.5.1`
+
+**Features**
+
+-  `Window.pad` option. See [https://docs.cxjs.io/intro/breaking-changes#24-5-1](Breaking changes).
+
 ## `cx@24.4.9`
 
 **Features**
