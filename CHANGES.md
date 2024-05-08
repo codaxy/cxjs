@@ -6,7 +6,7 @@
 
 **Features**
 
--  `Window.pad` option. See [https://docs.cxjs.io/intro/breaking-changes#24-5-1](Breaking changes).
+-  `Window.pad` option. See [Breaking changes](https://docs.cxjs.io/intro/breaking-changes#24-5-1).
 
 ## `cx@24.4.9`
 
