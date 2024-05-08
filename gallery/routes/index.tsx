@@ -17,8 +17,12 @@ let themes = {
    "~/material-dark": "Material Dark",
    "~/space-blue": "Space Blue",
    "~/dark": "Dark",
-   "~/packed-dark": "Packed Dark",
 };
+
+if (process.env.NODE_ENV == "development") {
+   // not ready for prime time
+   themes["~/packed-dark"] = "Packed Dark";
+}
 
 export default (
    <cx>
