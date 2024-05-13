@@ -14,7 +14,7 @@ npm install cx-theme-space-blue
 Import theme's JavaScript.
 
 ```
-import { applyThemeOverrides } "cx-theme-space-blue";
+import { applyThemeOverrides } from "cx-theme-space-blue";
 ...
 applyThemeOverrides();
 ```
