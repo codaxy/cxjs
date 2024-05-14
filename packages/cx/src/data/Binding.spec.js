@@ -1,5 +1,6 @@
 import { Binding } from "./Binding";
 import assert from "assert";
+import { createAccessorModelProxy } from "./createAccessorModelProxy";
 
 describe("Binding", function () {
    describe("#get()", function () {
@@ -12,6 +13,13 @@ describe("Binding", function () {
       it("allows non-standard property identifiers", function () {
          var state = { person: { "@schema": "Person" } };
          var b = Binding.get("person.@schema");
+         assert.equal(b.path, "person.@schema");
+         assert.equal(b.value(state), "Person");
+      });
+
+      it("properly resolves accessor models", function () {
+         var state = { person: { schema: "Person" } };
+         var b = Binding.get(createAccessorModelProxy("person.schema"));
          assert.equal(b.value(state), "Person");
       });
    });
