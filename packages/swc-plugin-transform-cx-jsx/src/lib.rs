@@ -724,10 +724,16 @@ impl VisitMut for TransformVisitor {
     fn visit_mut_import_decl(&mut self, import_decl: &mut ImportDecl) {
         import_decl.visit_mut_children_with(self);
 
-        let src = import_decl.src.to_owned();
-        if src.value.ends_with("..") {
-            let mut new_src = src.value.to_string();
+        if import_decl.src.value.ends_with("..") {
+            let mut new_src = import_decl.src.value.to_string();
             new_src.push('/');
+
+            import_decl.src = Box::new(Str::from(new_src));
+        }
+        // . imports do not work so we add the /index
+        if import_decl.src.value.ends_with(".") {
+            let mut new_src = import_decl.src.value.to_string();
+            new_src.insert_str(new_src.len(), "/index");
 
             import_decl.src = Box::new(Str::from(new_src));
         }
