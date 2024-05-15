@@ -731,6 +731,13 @@ impl VisitMut for TransformVisitor {
 
             import_decl.src = Box::new(Str::from(new_src));
         }
+        // . imports do not work so we add the /index
+        if src.value.ends_with(".") {
+            let mut new_src = src.value.to_string();
+            new_src.insert_str(new_src.len(), "/index");
+
+            import_decl.src = Box::new(Str::from(new_src));
+        }
     }
 }
 
