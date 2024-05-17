@@ -118,8 +118,7 @@ export class GroupAdapter extends ArrayAdapter {
                });
             }
             g.grouper = new Grouper(key, { ...this.aggregates, ...g.aggregates }, (r) => r.store.getData(), g.text);
-            g.comparer = null;
-            if (groupSorters.length > 0)
+            if (g.comparer == null && groupSorters.length > 0)
                g.comparer = getComparer(
                   groupSorters,
                   (x) => x.key,

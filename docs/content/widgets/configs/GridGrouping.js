@@ -72,5 +72,11 @@ export default {
                 All calculated values will be available under the \`$group\` object, e.g. \`$group.total\`.
             `}</Md>
         </cx>
+    },
+    comparer: {
+        type: 'function',
+        description: <cx><Md>
+            A function used to compare values between groups to determine their order.
+        </Md></cx>
     }
 };

@@ -31,7 +31,7 @@ export const Grouping = <cx>
     <Md controller={PageController}>
         <CodeSplit>
             # Grouping
-            An example of a grid control with grouping.
+            An example of a grid control with grouping. Groups with the highest visits share appear first.
 
             <Grid
                 records-bind='$page.records'
@@ -44,7 +44,8 @@ export const Grouping = <cx>
                         key: {
                             name: {bind: '$record.continent'}
                         },
-                        showCaption: true
+                        showCaption: true,
+                        comparer: (g1, g2) => g2.aggregates.visitsShare - g1.aggregates.visitsShare,
                     }
                 ]}
                 columns={[{
@@ -144,7 +145,8 @@ export const Grouping = <cx>
                                 key: {
                                     name: { bind: '$record.continent' }
                                 },
-                                showCaption: true
+                                showCaption: true,
+                                comparer: (g1, g2) => g2.aggregates.visitsShare - g1.aggregates.visitsShare,
                             }
                         ]}
                         columns={allColumns}
