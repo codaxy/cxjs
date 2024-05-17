@@ -22,14 +22,11 @@ import {
 } from "../../core";
 import { DataAdapterRecord } from "../../ui/adapter/DataAdapter";
 
-type FetchRecordsResult = Record[] | { records: Record[]; lastPage?: boolean; totalRecordCount?: number };
+type FetchRecordsResult = T[] | { records: T[]; lastPage?: boolean; totalRecordCount?: number };
 
-interface MappedGridRecord<T = unknown> {
-   data: T;
-   index: number;
-   key: string | number;
-   store: View;
-   type: "data" | "group-header" | "group-footer";
+interface MappedGridRecord<T = unknown> extends DataAdapterRecord<T> {
+   row: Instance;
+   vdom: unknown;
 }
 
 interface GridDragEvent<T> extends DragEvent {

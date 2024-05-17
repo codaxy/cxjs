@@ -2,15 +2,22 @@ import * as Cx from "../../core";
 import { Instance } from "../Instance";
 import { View } from "../../data/View";
 import { RenderingContext } from "../RenderingContext";
-import { MappedGridRecord } from "../../widgets";
 
-export class DataAdapter {
+export interface DataAdapterRecord<T> {
+   data: T;
+   index: number;
+   key: string | number;
+   store: View;
+   type: "data" | "group-header" | "group-footer";
+}
+
+export class DataAdapter<T = unknown> {
    getRecords(
       context?: RenderingContext,
       instance?: Instance,
-      records?: Cx.Record[],
+      records?: T[],
       parentStore?: View,
-   ): MappedGridRecord[];
+   ): DataAdapterRecord<T>[];
 
    setFilter(filterFn: (data: any) => boolean): void;
 
