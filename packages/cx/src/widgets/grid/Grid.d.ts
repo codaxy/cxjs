@@ -24,23 +24,26 @@ import { DataAdapterRecord } from "../../ui/adapter/DataAdapter";
 
 type FetchRecordsResult = Record[] | { records: Record[]; lastPage?: boolean; totalRecordCount?: number };
 
-interface MappedGridRecord {
-   data: Record;
+interface MappedGridRecord<T = unknown> {
+   data: T;
+   index: number;
+   key: string | number;
    store: View;
+   type: "data" | "group-header" | "group-footer";
 }
 
-interface GridDragEvent extends DragEvent {
+interface GridDragEvent<T> extends DragEvent {
    target: {
-      recordBefore: MappedGridRecord;
-      recordAfter: MappedGridRecord;
+      recordBefore: MappedGridRecord<T>;
+      recordAfter: MappedGridRecord<T>;
       insertionIndex: number;
       totalRecordCount: number;
    };
 }
 
-interface GridRowDragEvent extends DragEvent {
+interface GridRowDragEvent<T> extends DragEvent {
    target: {
-      record: MappedGridRecord;
+      record: MappedGridRecord<T>;
       index: number;
    };
 }
@@ -62,9 +65,17 @@ interface GridGroupingKey {
         };
 }
 
+interface GroupingResult<T> {
+   key: any;
+   aggregates: any;
+   name: string;
+   indexes: number[];
+   records: MappedGridRecord<T>[];
+}
+
 type GridColumnAlignment = "left" | "right" | "center";
 
-interface GridGroupingConfig {
+interface GridGroupingConfig<T> {
    key: GridGroupingKey;
    aggregates?: StructuredProp;
    showCaption?: boolean;
@@ -73,7 +84,7 @@ interface GridGroupingConfig {
    caption?: StringProp;
    name?: StringProp;
    text?: StringProp;
-   comparer?: (a: any, b: any) => number;
+   comparer?: (a: GroupingResult<T>, b: GroupingResult<T>) => number;
 }
 
 // TODO: Check Column config
@@ -229,7 +240,7 @@ interface GridProps<T = unknown> extends StyledContainerProps {
    selection?: Config;
 
    /** An array of grouping level definitions. Check allowed grouping level properties in the section below. */
-   grouping?: GridGroupingConfig[];
+   grouping?: GridGroupingConfig<T>[];
 
    /** Params for grouping. Whenever params change grouping is recalculated using the onGetGrouping callback. */
    groupingParams?: Config;
@@ -305,15 +316,15 @@ interface GridProps<T = unknown> extends StyledContainerProps {
    rowStyle?: StyleProp;
 
    // drag-drop handlers
-   onDrop?: string | ((e: GridDragEvent, instance: Instance) => void);
+   onDrop?: string | ((e: GridDragEvent<T>, instance: Instance) => void);
    onDropTest?: string | ((e: DragEvent, instance: Instance) => boolean);
    onDragStart?: string | ((e: DragEvent, instance: Instance) => void);
    onDragEnd?: string | ((e: DragEvent, instance: Instance) => void);
-   onDragOver?: string | ((e: GridDragEvent, instance: Instance) => void | boolean);
+   onDragOver?: string | ((e: GridDragEvent<T>, instance: Instance) => void | boolean);
 
    onRowDropTest?: string | ((e: DragEvent, instance: Instance) => boolean);
-   onRowDragOver?: string | ((e: GridRowDragEvent, instance: Instance) => void | boolean);
-   onRowDrop?: string | ((e: GridRowDragEvent, instance: Instance) => void | boolean);
+   onRowDragOver?: string | ((e: GridRowDragEvent<T>, instance: Instance) => void | boolean);
+   onRowDrop?: string | ((e: GridRowDragEvent<T>, instance: Instance) => void | boolean);
 
    onColumnDrop?: string | ((e: GridColumnDropEvent, instance: Instance) => void);
    onColumnDropTest?: string | ((e: DragEvent, instance: Instance) => boolean);
@@ -394,7 +405,7 @@ interface GridProps<T = unknown> extends StyledContainerProps {
    focusable?: boolean;
 
    /** Callback function to retrieve grouping data. */
-   onGetGrouping?: (params: any, instance: Instance) => GridGroupingConfig[];
+   onGetGrouping?: (params: any, instance: Instance) => GridGroupingConfig<T>[];
 
    /** Callback function to dynamically calculate columns.  */
    onGetColumns?: (params: any, instance: Instance) => GridColumnConfig[] | GridRowConfig;
