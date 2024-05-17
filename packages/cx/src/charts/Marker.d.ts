@@ -1,88 +1,96 @@
-import * as Cx from '../core';
-import { BoundedObject, BoundedObjectProps } from '../svg/BoundedObject';
+import * as Cx from "../core";
+import { BoundedObject, BoundedObjectProps } from "../svg/BoundedObject";
 
 interface MarkerProps extends BoundedObjectProps {
-
    /** The `x` value binding or expression. */
-   x?: Cx.Prop<string | number>,
-   
+   x?: Cx.Prop<string | number>;
+
    /** The `y` value binding or expression. */
-   y?:  Cx.Prop<string | number>,
+   y?: Cx.Prop<string | number>;
 
    /** Used to indicate if the data should affect axis span. */
-   affectsAxes?: Cx.BooleanProp,
+   affectsAxes?: Cx.BooleanProp;
 
    /** Shape kind. `circle`, `square`, `triangle`, etc. */
-   shape?: Cx.StringProp,
+   shape?: Cx.StringProp;
 
-   disabled?: Cx.BooleanProp,
+   disabled?: Cx.BooleanProp;
 
    /** Index of a color from the standard palette of colors. 0-15. */
-   colorIndex?: Cx.Prop<string | number>,
+   colorIndex?: Cx.Prop<string | number>;
 
    /** Used to automatically assign a color based on the `name` and the contextual `ColorMap` widget. */
-   colorMap?: Cx.StringProp,
+   colorMap?: Cx.StringProp;
 
    /** Name used to resolve the color. If not provided, `name` is used instead. */
-   colorName?: Cx.StringProp,
+   colorName?: Cx.StringProp;
 
-   legendColorIndex?: Cx.NumberProp,
+   legendColorIndex?: Cx.NumberProp;
 
    /** Name of the item as it will appear in the legend. */
-   name?: Cx.StringProp,
+   name?: Cx.StringProp;
 
    /** Used to indicate if an item is active or not. Inactive items are shown only in the legend. */
-   active?: Cx.BooleanProp,
+   active?: Cx.BooleanProp;
 
-   xOffset?: number,
-   yOffset?: number,
+   xOffset?: number;
+   yOffset?: number;
 
    /** Size of the shape in pixels. */
-   size?: Cx.NumberProp,
+   size?: Cx.NumberProp;
 
-   /** 
+   /**
     * Name of the horizontal axis. The value should match one of the horizontal axes set
     * in the `axes` configuration of the parent `Chart` component. Default value is `x`.
     */
-   xAxis?: string,
+   xAxis?: string;
 
-   /** 
+   /**
     * Name of the vertical axis. The value should match one of the vertical axes set
     *  in the `axes` configuration if the parent `Chart` component. Default value is `y`.
     */
-   yAxis?: string,
-   
+   yAxis?: string;
+
    /** Base CSS class to be applied to the element. Defaults to `marker`. */
-   baseClass?: string,
+   baseClass?: string;
 
    /** Set to `true` to make the shape draggable along the X axis. */
-   draggableX?: boolean,
+   draggableX?: boolean;
 
    /** Set to `true` to make the shape draggable along the Y axis. */
-   draggableY?: boolean,
+   draggableY?: boolean;
 
    /** Set to `true` to make the shape draggable along the X and Y axis. */
-   draggable?: boolean,
+   draggable?: boolean;
 
    /** Constrain the marker position to min/max values of the X axis during drag operations. */
-   constrainX?: boolean,
+   constrainX?: boolean;
 
    /** Constrain the marker position to min/max values of the Y axis during drag operations. */
-   constrainY?: boolean,
+   constrainY?: boolean;
 
    /** When set to `true`, it is equivalent to setting `constrainX` and `constrainY` to true. */
-   constrain?: boolean,
+   constrain?: boolean;
 
    /** Name of the legend to be used. Default is `legend`. */
-   legend?: string,
+   legend?: string;
 
-   legendAction?: string,
+   legendAction?: string;
 
    /** Tooltip configuration. For more info see Tooltips. */
-   tooltip?: Cx.StringProp | Cx.StructuredProp
+   tooltip?: Cx.StringProp | Cx.StructuredProp;
 
    /** Set to true to hide the marker. The marker will still participate in axis range calculations. */
-   hidden?: boolean
+   hidden?: boolean;
+
+   /** Indicate that markers should be stacked horizontally. Default value is `false`. */
+   stackedX?: Cx.BooleanProp;
+
+   /** Indicate that markers should be stacked vertically. Default value is `false`. */
+   stackedY?: Cx.BooleanProp;
+
+   /** Name of the stack. If multiple stacks are used, each should have a unique name. Default value is `stack`. */
+   stack?: Cx.StringProp;
 }
 
 export class Marker extends Cx.Widget<MarkerProps> {}

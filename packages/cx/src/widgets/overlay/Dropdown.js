@@ -69,7 +69,7 @@ export class Dropdown extends Overlay {
 
       if (instance.parentPositionChangeEvent)
          component.offParentPositionChange = instance.parentPositionChangeEvent.subscribe(
-            component.updateDropdownPosition
+            component.updateDropdownPosition,
          );
    }
 
@@ -165,8 +165,8 @@ export class Dropdown extends Overlay {
       if (!initialScreenPosition) initialScreenPosition = component.initialScreenPosition = parentBounds;
 
       if (
-         Math.abs(parentBounds.top - initialScreenPosition.top) > this.closeOnScrollDistance ||
-         Math.abs(parentBounds.left - initialScreenPosition.left) > this.closeOnScrollDistance
+         (!this.trackMouseY && Math.abs(parentBounds.top - initialScreenPosition.top) > this.closeOnScrollDistance) ||
+         (!this.trackMouseX && Math.abs(parentBounds.left - initialScreenPosition.left) > this.closeOnScrollDistance)
       )
          this.dismissAfterScroll({ parentBounds, initialScreenPosition }, instance, component);
 
@@ -537,7 +537,7 @@ export class Dropdown extends Overlay {
       if (this.arrow) {
          result.push(
             <div key="arrow-border" className={CSS.element(baseClass, "arrow-border")}></div>,
-            <div key="arrow-back" className={CSS.element(baseClass, "arrow-fill")}></div>
+            <div key="arrow-back" className={CSS.element(baseClass, "arrow-fill")}></div>,
          );
       }
       return result;

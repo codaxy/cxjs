@@ -45,7 +45,7 @@ export class NumericAxis extends Axis {
          normalized,
          inverted,
          lowerDeadZone,
-         upperDeadZone
+         upperDeadZone,
       );
    }
 
@@ -100,7 +100,7 @@ class NumericScale {
       normalized,
       inverted,
       lowerDeadZone,
-      upperDeadZone
+      upperDeadZone,
    ) {
       this.min = min;
       this.max = max;
@@ -152,7 +152,7 @@ class NumericScale {
          maxPadding: this.scale.maxPadding,
       };
       r.stacks = Object.keys(this.stacks)
-         .map((s) => this.stacks[s].info.join(","))
+         .map((s) => this.stacks[s].info?.join(","))
          .join(":");
       return r;
    }
@@ -311,7 +311,7 @@ class NumericScale {
       }
       this.scale = bestScale;
       this.tickSizes = bestTicks.filter(
-         (ts) => ts >= this.minTickStep && ts * Math.abs(bestScale.factor) >= this.minTickDistance
+         (ts) => ts >= this.minTickStep && ts * Math.abs(bestScale.factor) >= this.minTickDistance,
       );
       if (this.tickSizes.length > 0) {
          let max = this.tickSizes[this.tickSizes.length - 1];
