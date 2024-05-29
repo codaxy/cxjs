@@ -2,6 +2,12 @@
 
 <!--- ## Unreleased -->
 
+## `cx@24.5.2`
+
+**Features**
+
+-  New formats: `capitalize` and `titleCase`.
+
 ## `cx@24.5.1`
 
 **Features**
