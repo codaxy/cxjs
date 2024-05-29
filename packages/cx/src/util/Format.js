@@ -131,6 +131,22 @@ let formatFactory = {
          return s.padStart(length, "0");
       };
    },
+
+   capitalize: function () {
+      return (value) => {
+         let s = String(value);
+         return s.charAt(0).toUpperCase() + s.substring(1);
+      };
+   },
+
+   titleCase: function () {
+      return (value) => {
+         let s = String(value);
+         return s.replace(/\w\S*/g, function (txt) {
+            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+         });
+      };
+   },
 };
 
 formatFactory.s = formatFactory.str = formatFactory.string;
@@ -142,6 +158,8 @@ formatFactory.d = formatFactory.date;
 formatFactory.t = formatFactory.time;
 formatFactory.dt = formatFactory.datetime;
 formatFactory.zeropad = formatFactory.zeroPad;
+formatFactory.capitalize = formatFactory.capitalize;
+formatFactory.titlecase = formatFactory.titleCase;
 
 function buildFormatter(format) {
    let formatter = defaultFormatter,
