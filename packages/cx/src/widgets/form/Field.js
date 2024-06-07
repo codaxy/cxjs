@@ -130,7 +130,7 @@ export class Field extends PureContainer {
       data._readOnly = data.readOnly;
       data._viewMode = data.mode === "view" || data.viewMode;
       data._tabOnEnterKey = data.tabOnEnterKey;
-      data.validationValue = this.multiple ? data.records ?? data.values : data.value;
+      data.validationValue = this.getValidationValue(data);
       instance.parentDisabled = context.parentDisabled;
       instance.parentReadOnly = context.parentReadOnly;
       instance.parentViewMode = context.parentViewMode;
@@ -244,6 +244,10 @@ export class Field extends PureContainer {
    validateRequired(context, instance) {
       let { data } = instance;
       if (this.isEmpty(data)) return this.requiredText;
+   }
+
+   getValidationValue(data) {
+      return data.value;
    }
 
    validate(context, instance) {

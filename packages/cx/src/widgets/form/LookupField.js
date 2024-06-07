@@ -201,6 +201,11 @@ export class LookupField extends Field {
       return super.isEmpty(data);
    }
 
+   getValidationValue(data) {
+      if (this.multiple) return data.records ?? data.values;
+      return super.getValidationValue(data);
+   }
+
    formatValue(context, instance) {
       if (!this.multiple) return super.formatValue(context, instance);
 
