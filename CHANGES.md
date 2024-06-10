@@ -2,6 +2,12 @@
 
 <!--- ## Unreleased -->
 
+## `cx@24.6.1`
+
+**Fixes**
+
+-  Fix on validate arguments for multiple lookups
+
 ## `cx@24.5.2`
 
 **Features**
