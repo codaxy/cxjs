@@ -130,6 +130,7 @@ export class Field extends PureContainer {
       data._readOnly = data.readOnly;
       data._viewMode = data.mode === "view" || data.viewMode;
       data._tabOnEnterKey = data.tabOnEnterKey;
+      data.validationValue = this.getValidationValue(data);
       instance.parentDisabled = context.parentDisabled;
       instance.parentReadOnly = context.parentReadOnly;
       instance.parentViewMode = context.parentViewMode;
@@ -245,6 +246,10 @@ export class Field extends PureContainer {
       if (this.isEmpty(data)) return this.requiredText;
    }
 
+   getValidationValue(data) {
+      return data.value;
+   }
+
    validate(context, instance) {
       let { data, state } = instance;
       state = state || {};
@@ -256,7 +261,7 @@ export class Field extends PureContainer {
          else if (state.validating && !empty) data.error = this.validatingText;
          else if (
             state.validationError &&
-            data.value === state.lastValidatedValue &&
+            data.validationValue === state.lastValidatedValue &&
             shallowEquals(data.validationParams, state.lastValidationParams)
          )
             data.error = state.validationError;
@@ -269,15 +274,15 @@ export class Field extends PureContainer {
          !data.error &&
          this.onValidate &&
          (!state.previouslyValidated ||
-            data.value != state.lastValidatedValue ||
+            data.validationValue != state.lastValidatedValue ||
             data.validationParams != state.lastValidationParams)
       ) {
-         let result = instance.invoke("onValidate", data.value, instance, data.validationParams);
+         let result = instance.invoke("onValidate", data.validationValue, instance, data.validationParams);
          if (isPromise(result)) {
             data.error = this.validatingText;
             instance.setState({
                validating: true,
-               lastValidatedValue: data.value,
+               lastValidatedValue: data.validationValue,
                previouslyValidated: true,
                lastValidationParams: data.validationParams,
             });
@@ -285,7 +290,7 @@ export class Field extends PureContainer {
                .then((r) => {
                   let { data, state } = instance;
                   let error =
-                     data.value == state.lastValidatedValue &&
+                     data.validationValue == state.lastValidatedValue &&
                      shallowEquals(data.validationParams, state.lastValidationParams)
                         ? r
                         : this.validatingText; //parameters changed, this will be revalidated

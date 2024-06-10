@@ -89,7 +89,7 @@ import "./index.scss";
 //import Demo from "./features/time-list";
 //import Demo from "./features/debounce/NumberField";
 //import Demo from "./features/uploadButton"
-import Demo from "./bugs/GroupCaptionBug";
+// import Demo from "./bugs/GroupCaptionBug";
 //import Demo from "./bugs/invokeParentMethod";
 //import Demo from "./bugs/742";
 //import Demo from "./bugs/656";
@@ -117,7 +117,8 @@ import Demo from "./bugs/GroupCaptionBug";
 //import Demo from "./features/grid/MergedColumnCells";
 //import Demo from "./features/formats/zeroPadFormat";
 //import Demo from "./bugs/window_dissmisses_on_dropdown_dismiss";
-import Demo from "./bugs/grid-grouping-incorrect-text-prop-description";
+// import Demo from "./bugs/grid-grouping-incorrect-text-prop-description";
+import Demo from "./bugs/MultipleLookupFieldValidation";
 
 let store = (window.store = new Store());
 
