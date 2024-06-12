@@ -193,9 +193,9 @@ export const BreakingChanges = <cx>
 
             In `package.json`, update the following packages:
 
-            - `"babel-core"` => `"@babel/core": "^7.2.2"`,
-            - `"babel-preset-env"` => `"@babel/preset-env": "^7.2.3"`
-            - `"babel-polyfill"` => `"@babel/polyfill": "^7.2.5"`
+            - `"babel-core"` =&gt; `"@babel/core": "^7.2.2"`,
+            - `"babel-preset-env"` =&gt; `"@babel/preset-env": "^7.2.3"`
+            - `"babel-polyfill"` =&gt; `"@babel/polyfill": "^7.2.5"`
 
             In `babel.config`, replace `useBuiltIns: true` with `useBuiltIns: 'usage'`.
 
@@ -462,8 +462,8 @@ export const BreakingChanges = <cx>
             If `cx-core` reference is used in `.scss` files, replace it with `cx`.
 
             ```
-            @import "~cx/src/variables"; //cx-core => cx
-            @import "~cx/src/index"; //cx-core => cx
+            @import "~cx/src/variables"; //cx-core =&gt; cx
+            @import "~cx/src/index"; //cx-core =&gt; cx
             ```
 
             After you're done, please upgrade all Cx related packages to the latest version.
