@@ -146,8 +146,7 @@
          @include cx-add-state-rules($cx-calendar-day-state-style-map, default); // maybe different map
          user-select: none;
          overflow-y: auto;
-         height: 16em;
-         width: 16em;
+         height: 18em;
       }
 
       &-option {
