@@ -22,15 +22,16 @@ export class SnapPointFinder extends PointReducer {
 
    onMap(acc, x, y, name, p) {
       let d = null;
-      let cx = this.convert(x);
+      let cx = this.convertX(x);
+      let cy = this.convertY(y);
 
       if (acc.cursorX != null && cx != null) d = (d || 0) + Math.pow(Math.abs(cx - acc.cursorX), 2);
 
-      if (acc.cursorY != null && y != null) d = (d || 0) + Math.pow(Math.abs(y - acc.cursorY), 2);
+      if (acc.cursorY != null && cy != null) d = (d || 0) + Math.pow(Math.abs(cy - acc.cursorY), 2);
 
       if (d != null && d < acc.dist) {
          acc.dist = d;
-         acc.snapX = cx;
+         acc.snapX = x;
          acc.snapY = y;
          acc.snapRecord = p;
       }
@@ -44,4 +45,5 @@ export class SnapPointFinder extends PointReducer {
 }
 
 SnapPointFinder.prototype.maxDistance = 50;
-SnapPointFinder.prototype.convert = (x) => x;
+SnapPointFinder.prototype.convertX = (x) => x;
+SnapPointFinder.prototype.convertY = (y) => y;

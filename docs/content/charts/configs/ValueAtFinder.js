@@ -13,7 +13,7 @@ export default {
         key: true,
         type: 'number',
         description: <cx><Md>
-            Probe position.
+            X axis probe position.
         </Md></cx>
     },
 
@@ -29,7 +29,7 @@ export default {
         key: true,
         type: 'function',
         description: <cx><Md>
-            A function used to convert x values (such as dates) into numeric format.
+            A function used to convert x values (such as dates) into numeric format. Must be defined for proper functioning with `TimeAxis`.
         </Md></cx>
     }
 };

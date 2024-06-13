@@ -29,7 +29,7 @@ class PageController extends Controller {
       let d = new Date();
       this.store.set(
          "$page.points",
-         Array.from({ length: 5 }, (_, i) => ({
+         Array.from({ length: 50 }, (_, i) => ({
             x: new Date(d.setDate(d.getDate() + 1)).toISOString(),
             y: i % 20 == 3 ? null : (y1 = y1 + (Math.random() - 0.5) * 30),
             y2: (y2 = y2 + (Math.random() - 0.5) * 30),
@@ -83,11 +83,11 @@ export default (
                   <SnapPointFinder
                      cursorX:bind="tracker.x"
                      snapX:bind="tracker.snapX"
-                     convert={(x) => {
+                     convertX={(x) => {
                         return x && new Date(x).getTime();
                      }}
                      // for this to work properly with TimeAxis we have to specify large enough maxDistance
-                     maxDistance={86400000}
+                     maxDistance={Infinity}
                   >
                      <MinMaxFinder minY:bind="min" maxY:bind="max">
                         <Gridlines />
