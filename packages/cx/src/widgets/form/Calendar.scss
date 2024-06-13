@@ -91,8 +91,8 @@
          }
       }
 
-      td:first-child,
-      td:last-child {
+      td:not(.cxe-calendar-year-option):first-child,
+      td:not(.cxe-calendar-year-option):last-child {
          display: none;
          pointer-events: none;
       }
@@ -135,6 +135,33 @@
       font-size: $icon-size;
       line-height: $icon-size;
       user-select: none;
+   }
+
+   .#{$element}#{$name}-year {
+      &-name {
+         cursor: pointer;
+      }
+
+      &-dropdown {
+         @include cx-add-state-rules($cx-calendar-day-state-style-map, default); // maybe different map
+         user-select: none;
+         overflow-y: auto;
+         height: 18em;
+         width: 18em;
+      }
+
+      &-option {
+         padding: 5px;
+         cursor: pointer;
+
+         &.active {
+            @include cx-add-state-rules($cx-calendar-day-state-style-map, today); // maybe different map
+         }
+
+         &:hover {
+            @include cx-add-state-rules($cx-calendar-day-state-style-map, hover); // maybe different map
+         }
+      }
    }
 
    .#{$element}#{$name}-icon-prev-year {

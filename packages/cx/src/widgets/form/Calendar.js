@@ -1,26 +1,26 @@
-import { Widget, VDOM } from "../../ui/Widget";
-import { Field, getFieldTooltip } from "./Field";
-import { Culture } from "../../ui/Culture";
-import { FocusManager, oneFocusOut, offFocusOut } from "../../ui/FocusManager";
 import { StringTemplate } from "../../data/StringTemplate";
-import { zeroTime } from "../../util/date/zeroTime";
+import { Culture } from "../../ui/Culture";
+import { FocusManager, offFocusOut, oneFocusOut } from "../../ui/FocusManager";
+import "../../ui/Format";
+import { Localization } from "../../ui/Localization";
+import { VDOM, Widget } from "../../ui/Widget";
+import { KeyCode } from "../../util/KeyCode";
 import { dateDiff } from "../../util/date/dateDiff";
 import { lowerBoundCheck } from "../../util/date/lowerBoundCheck";
-import { upperBoundCheck } from "../../util/date/upperBoundCheck";
+import { monthStart } from "../../util/date/monthStart";
 import { sameDate } from "../../util/date/sameDate";
+import { upperBoundCheck } from "../../util/date/upperBoundCheck";
+import { zeroTime } from "../../util/date/zeroTime";
+import DropdownIcon from "../icons/drop-down";
+import ForwardIcon from "../icons/forward";
 import {
+   tooltipMouseLeave,
+   tooltipMouseMove,
+   tooltipParentDidMount,
    tooltipParentWillReceiveProps,
    tooltipParentWillUnmount,
-   tooltipMouseMove,
-   tooltipMouseLeave,
-   tooltipParentDidMount,
 } from "../overlay/tooltip-ops";
-import { KeyCode } from "../../util/KeyCode";
-import { Localization } from "../../ui/Localization";
-import ForwardIcon from "../icons/forward";
-import DropdownIcon from "../icons/drop-down";
-import "../../ui/Format";
-import { monthStart } from "../../util/date/monthStart";
+import { Field, getFieldTooltip } from "./Field";
 
 export class Calendar extends Field {
    declareData() {
@@ -37,7 +37,7 @@ export class Calendar extends Field {
             focusable: undefined,
             dayData: undefined,
          },
-         ...arguments
+         ...arguments,
       );
    }
 
@@ -175,8 +175,10 @@ export class CalendarCmp extends VDOM.Component {
             hover: false,
             focus: false,
             cursor: zeroTime(data.date || refDate),
+            showYearDropdown: false,
+            showCalendar: true,
          },
-         this.getPage(refDate)
+         this.getPage(refDate),
       );
 
       this.handleMouseMove = this.handleMouseMove.bind(this);
@@ -385,6 +387,78 @@ export class CalendarCmp extends VDOM.Component {
       tooltipParentWillUnmount(this.props.instance);
    }
 
+   toggleYearDropdown() {
+      this.setState({
+         showYearDropdown: !this.state.showYearDropdown,
+         showCalendar: this.state.showYearDropdown,
+      });
+   }
+
+   handleYearSelect(e, year) {
+      e.preventDefault();
+      e.stopPropagation();
+      let refDate = new Date(this.state.refDate);
+      refDate.setFullYear(year);
+      this.setState({
+         ...this.getPage(refDate),
+         refDate,
+         showYearDropdown: false,
+         showCalendar: true,
+      });
+   }
+
+   renderYearDropdown() {
+      let years = [];
+      let currentYear = new Date().getFullYear();
+      let refYear = new Date(this.state.refDate).getFullYear();
+      for (let i = currentYear - 100; i <= currentYear + 100; i++) {
+         years.push(i);
+      }
+
+      let rows = [];
+      for (let i = 0; i < years.length; i += 3) {
+         rows.push(years.slice(i, i + 3));
+      }
+      return (
+         <div
+            className={this.props.instance.widget.CSS.element(this.props.instance.widget.baseClass, "year-dropdown")}
+            ref={(el) => {
+               if (el) {
+                  el.addEventListener("wheel", (e) => {
+                     e.stopPropagation();
+                  });
+
+                  let activeYear = el.querySelector(".active");
+                  if (activeYear) activeYear.scrollIntoView({ block: "center", behavior: "instant" });
+               }
+            }}
+         >
+            <table>
+               <tbody>
+                  {rows.map((row, rowIndex) => (
+                     <tr key={rowIndex}>
+                        {row.map((year) => (
+                           <td
+                              key={year}
+                              className={
+                                 this.props.instance.widget.CSS.element(
+                                    this.props.instance.widget.baseClass,
+                                    "year-option",
+                                 ) + (year === refYear ? " active" : "")
+                              }
+                              onMouseDown={(e) => this.handleYearSelect(e, year)}
+                           >
+                              {year}
+                           </td>
+                        ))}
+                     </tr>
+                  ))}
+               </tbody>
+            </table>
+         </div>
+      );
+   }
+
    render() {
       let { data, widget } = this.props.instance;
       let { CSS, baseClass, disabledDaysOfWeek, startWithMonday } = widget;
@@ -414,7 +488,7 @@ export class CalendarCmp extends VDOM.Component {
                   today: widget.highlightToday && sameDate(date, today),
                }),
                dayInfo.className,
-               CSS.mod(dayInfo.mod)
+               CSS.mod(dayInfo.mod),
             );
             let dateInst = new Date(date);
             days.push(
@@ -429,7 +503,7 @@ export class CalendarCmp extends VDOM.Component {
                   onMouseDown={unselectable ? null : this.handleMouseDown}
                >
                   {date.getDate()}
-               </td>
+               </td>,
             );
             date.setDate(date.getDate() + 1);
          }
@@ -438,7 +512,7 @@ export class CalendarCmp extends VDOM.Component {
                <td />
                {days}
                <td />
-            </tr>
+            </tr>,
          );
       }
 
@@ -469,40 +543,47 @@ export class CalendarCmp extends VDOM.Component {
             onFocus={(e) => this.handleFocus(e)}
             onBlur={(e) => this.handleBlur(e)}
          >
-            <table>
-               <thead>
-                  <tr key="h" className={CSS.element(baseClass, "header")}>
-                     <td />
-                     <td onClick={(e) => this.move(e, "y", -1)}>
-                        <ForwardIcon className={CSS.element(baseClass, "icon-prev-year")} />
-                     </td>
-                     <td onClick={(e) => this.move(e, "m", -1)}>
-                        <DropdownIcon className={CSS.element(baseClass, "icon-prev-month")} />
-                     </td>
-                     <th className={CSS.element(baseClass, "display")} colSpan="3">
-                        {monthNames[month]}
-                        <br />
-                        {year}
-                     </th>
-                     <td onClick={(e) => this.move(e, "m", +1)}>
-                        <DropdownIcon className={CSS.element(baseClass, "icon-next-month")} />
-                     </td>
-                     <td onClick={(e) => this.move(e, "y", +1)}>
-                        <ForwardIcon className={CSS.element(baseClass, "icon-next-year")} />
-                     </td>
-                     <td />
-                  </tr>
-                  <tr key="d" className={CSS.element(baseClass, "day-names")}>
-                     <td />
-                     {dayNames.map((name, i) => (
-                        <th key={i}>{name}</th>
-                     ))}
-                     <td />
-                  </tr>
-               </thead>
-               <tbody>{weeks}</tbody>
-            </table>
-            {widget.showTodayButton && (
+            {this.state.showCalendar && (
+               <table>
+                  <thead>
+                     <tr key="h" className={CSS.element(baseClass, "header")}>
+                        <td />
+                        <td onClick={(e) => this.move(e, "y", -1)}>
+                           <ForwardIcon className={CSS.element(baseClass, "icon-prev-year")} />
+                        </td>
+                        <td onClick={(e) => this.move(e, "m", -1)}>
+                           <DropdownIcon className={CSS.element(baseClass, "icon-prev-month")} />
+                        </td>
+                        <th className={CSS.element(baseClass, "display")} colSpan="3">
+                           {monthNames[month]}
+                           <br />
+                           <span
+                              onClick={() => this.toggleYearDropdown()}
+                              className={CSS.element(baseClass, "year-name")}
+                           >
+                              {year}
+                           </span>
+                        </th>
+                        <td onClick={(e) => this.move(e, "m", +1)}>
+                           <DropdownIcon className={CSS.element(baseClass, "icon-next-month")} />
+                        </td>
+                        <td onClick={(e) => this.move(e, "y", +1)}>
+                           <ForwardIcon className={CSS.element(baseClass, "icon-next-year")} />
+                        </td>
+                        <td />
+                     </tr>
+                     <tr key="d" className={CSS.element(baseClass, "day-names")}>
+                        <td />
+                        {dayNames.map((name, i) => (
+                           <th key={i}>{name}</th>
+                        ))}
+                        <td />
+                     </tr>
+                  </thead>
+                  <tbody>{weeks}</tbody>
+               </table>
+            )}
+            {this.state.showCalendar && widget.showTodayButton && (
                <div className={CSS.element(baseClass, "toolbar")}>
                   <button
                      className={CSS.expand(CSS.element(baseClass, "today-button"), CSS.block("button", "hollow"))}
@@ -517,6 +598,8 @@ export class CalendarCmp extends VDOM.Component {
                   </button>
                </div>
             )}
+
+            {this.state.showYearDropdown && this.renderYearDropdown()}
          </div>
       );
    }
