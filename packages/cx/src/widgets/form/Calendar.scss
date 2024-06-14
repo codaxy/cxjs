@@ -16,6 +16,7 @@
       display: inline-block;
       vertical-align: middle;
       width: 18em;
+      overflow-y: auto;
       box-sizing: border-box;
 
       &:hover {
@@ -145,15 +146,17 @@
       &-dropdown {
          @include cx-add-state-rules($cx-calendar-day-state-style-map, default); // maybe different map
          user-select: none;
-         overflow-y: auto;
-         height: 18em;
+         overflow-y: scroll;
+         width: 100%;
+         max-height: 24em;
+         height: auto;
       }
 
       &-option {
          padding: 5px;
          cursor: pointer;
 
-         &.active {
+         &.cxs-active {
             @include cx-add-state-rules($cx-calendar-day-state-style-map, today); // maybe different map
          }
 

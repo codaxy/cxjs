@@ -408,6 +408,11 @@ export class CalendarCmp extends VDOM.Component {
    }
 
    renderYearDropdown() {
+      let { data } = this.props.instance;
+      let minYear = data.minValue?.getFullYear();
+      let maxYear = data.maxValue?.getFullYear();
+      let { CSS } = this.props.instance.widget;
+
       let years = [];
       let currentYear = new Date().getFullYear();
       let refYear = new Date(this.state.refDate).getFullYear();
@@ -421,14 +426,14 @@ export class CalendarCmp extends VDOM.Component {
       }
       return (
          <div
-            className={this.props.instance.widget.CSS.element(this.props.instance.widget.baseClass, "year-dropdown")}
+            className={CSS.element(this.props.instance.widget.baseClass, "year-dropdown")}
             ref={(el) => {
                if (el) {
                   el.addEventListener("wheel", (e) => {
                      e.stopPropagation();
                   });
 
-                  let activeYear = el.querySelector(".active");
+                  let activeYear = el.querySelector(".cxs-active");
                   if (activeYear) activeYear.scrollIntoView({ block: "center", behavior: "instant" });
                }
             }}
@@ -440,12 +445,10 @@ export class CalendarCmp extends VDOM.Component {
                         {row.map((year) => (
                            <td
                               key={year}
-                              className={
-                                 this.props.instance.widget.CSS.element(
-                                    this.props.instance.widget.baseClass,
-                                    "year-option",
-                                 ) + (year === refYear ? " active" : "")
-                              }
+                              className={CSS.element(this.props.instance.widget.baseClass, "year-option", {
+                                 unselectable: (minYear && year < minYear) || (maxYear && year > maxYear),
+                                 active: year === refYear,
+                              })}
                               onMouseDown={(e) => this.handleYearSelect(e, year)}
                            >
                               {year}
