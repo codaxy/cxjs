@@ -368,6 +368,7 @@ export class CalendarCmp extends VDOM.Component {
       if (this.props.instance.widget.autoFocus) this.el.focus();
 
       tooltipParentDidMount(this.el, ...getFieldTooltip(this.props.instance));
+      this.el.addEventListener("wheel", (e) => this.handleWheel(e));
    }
 
    UNSAFE_componentWillReceiveProps(props) {
@@ -539,7 +540,7 @@ export class CalendarCmp extends VDOM.Component {
             onMouseMove={(e) => tooltipMouseMove(e, ...getFieldTooltip(this.props.instance))}
             onMouseLeave={(e) => this.handleMouseLeave(e)}
             onMouseEnter={(e) => this.handleMouseEnter(e)}
-            onWheel={(e) => this.handleWheel(e)}
+            // onWheel={(e) => this.handleWheel(e)}
             onFocus={(e) => this.handleFocus(e)}
             onBlur={(e) => this.handleBlur(e)}
          >
