@@ -175,8 +175,7 @@ export class CalendarCmp extends VDOM.Component {
             hover: false,
             focus: false,
             cursor: zeroTime(data.date || refDate),
-            showYearDropdown: false,
-            showCalendar: true,
+            activeView: "calendar",
          },
          this.getPage(refDate),
       );
@@ -389,8 +388,7 @@ export class CalendarCmp extends VDOM.Component {
 
    toggleYearDropdown() {
       this.setState({
-         showYearDropdown: !this.state.showYearDropdown,
-         showCalendar: this.state.showYearDropdown,
+         activeView: this.state.activeView === "calendar" ? "year-selection" : "calendar",
       });
    }
 
@@ -402,12 +400,11 @@ export class CalendarCmp extends VDOM.Component {
       this.setState({
          ...this.getPage(refDate),
          refDate,
-         showYearDropdown: false,
-         showCalendar: true,
+         activeView: "calendar",
       });
    }
 
-   renderYearDropdown() {
+   renderYearSelection() {
       let { data } = this.props.instance;
       let minYear = data.minValue?.getFullYear();
       let maxYear = data.maxValue?.getFullYear();
@@ -426,7 +423,7 @@ export class CalendarCmp extends VDOM.Component {
       }
       return (
          <div
-            className={CSS.element(this.props.instance.widget.baseClass, "year-dropdown")}
+            className={CSS.element(this.props.instance.widget.baseClass, "year-selection")}
             ref={(el) => {
                if (el) {
                   el.addEventListener("wheel", (e) => {
@@ -546,7 +543,7 @@ export class CalendarCmp extends VDOM.Component {
             onFocus={(e) => this.handleFocus(e)}
             onBlur={(e) => this.handleBlur(e)}
          >
-            {this.state.showCalendar && (
+            {this.state.activeView == "calendar" && (
                <table>
                   <thead>
                      <tr key="h" className={CSS.element(baseClass, "header")}>
@@ -586,7 +583,7 @@ export class CalendarCmp extends VDOM.Component {
                   <tbody>{weeks}</tbody>
                </table>
             )}
-            {this.state.showCalendar && widget.showTodayButton && (
+            {this.state.activeView == "calendar" && widget.showTodayButton && (
                <div className={CSS.element(baseClass, "toolbar")}>
                   <button
                      className={CSS.expand(CSS.element(baseClass, "today-button"), CSS.block("button", "hollow"))}
@@ -602,7 +599,7 @@ export class CalendarCmp extends VDOM.Component {
                </div>
             )}
 
-            {this.state.showYearDropdown && this.renderYearDropdown()}
+            {this.state.activeView == "year-selection" && this.renderYearSelection()}
          </div>
       );
    }
