@@ -2,6 +2,12 @@
 
 <!--- ## Unreleased -->
 
+## `cx@24.6.2`
+
+**Features**
+
+-  Add SnapPointFinder convertX and convertY functions
+
 ## `cx@24.6.1`
 
 **Fixes**

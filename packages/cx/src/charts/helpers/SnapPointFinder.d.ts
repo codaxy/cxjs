@@ -9,16 +9,22 @@ interface SnapPointFinderProps extends PointReducerProps {
    cursorY?: Cx.NumberProp;
 
    /* A binding used to receive the x value of the nearest point.*/
-   snapX?: Cx.Prop<any>;
+   snapX?: Cx.NumberProp | Cx.StringProp;
 
    /* A binding used to receive the y value of the nearest point. */
-   snapY?: Cx.Prop<any>;
+   snapY?: Cx.NumberProp | Cx.StringProp;
 
    /* A binding used to receive the record prop */
    snapRecord?: Cx.Prop<Cx.Record>;
 
-   /* Maximum distance between cursor and the snap point. */
+   /* Maximum distance between cursor and the snap point. Default value is 50. Adjust accordingly for large distances, e.g. set to Infinity when using TimeAxis */
    maxDistance?: number;
+
+   /* A function used to convert x values into numeric format. Commonly used with dates. */
+   convertX?: (value: number | string) => number;
+
+   /* A function used to convert y values into numeric format. Commonly used with dates. */
+   convertY?: (value: number | string) => number;
 }
 
 export class SnapPointFinder extends Cx.Widget<SnapPointFinderProps> {}

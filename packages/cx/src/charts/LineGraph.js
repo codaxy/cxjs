@@ -65,7 +65,7 @@ export class LineGraph extends Widget {
                         context.pointReducer(x, p[this.y0Field], data.name, p, data, index);
                   }
                }
-               if (context.pointReducer) context.pointReducer(x, p[this.yField], data.name, p, data, index);
+               if (context.pointReducer) context.pointReducer(x, p[this.yField], data.name, p, data.data, index);
             });
          }
       }
