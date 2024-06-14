@@ -27,7 +27,7 @@ export class ColumnGraph extends ColumnBarGraphBase {
                yAxis.acknowledge(y);
             }
 
-            if (context.pointReducer) context.pointReducer(x, y, data.name, p, data, index);
+            if (context.pointReducer) context.pointReducer(x, y, data.name, p, data.data, index);
          });
       }
    }

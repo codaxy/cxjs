@@ -118,7 +118,8 @@ import "./index.scss";
 //import Demo from "./features/formats/zeroPadFormat";
 //import Demo from "./bugs/window_dissmisses_on_dropdown_dismiss";
 // import Demo from "./bugs/grid-grouping-incorrect-text-prop-description";
-import Demo from "./bugs/MultipleLookupFieldValidation";
+// import Demo from "./bugs/MultipleLookupFieldValidation";
+import Demo from "./features/tracking";
 
 let store = (window.store = new Store());
 
