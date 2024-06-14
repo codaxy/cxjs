@@ -388,7 +388,7 @@ export class CalendarCmp extends VDOM.Component {
 
    toggleYearDropdown() {
       this.setState({
-         activeView: this.state.activeView === "calendar" ? "year-selection" : "calendar",
+         activeView: this.state.activeView === "calendar" ? "year-picker" : "calendar",
       });
    }
 
@@ -404,7 +404,7 @@ export class CalendarCmp extends VDOM.Component {
       });
    }
 
-   renderYearSelection() {
+   renderYearPicker() {
       let { data } = this.props.instance;
       let minYear = data.minValue?.getFullYear();
       let maxYear = data.maxValue?.getFullYear();
@@ -423,7 +423,7 @@ export class CalendarCmp extends VDOM.Component {
       }
       return (
          <div
-            className={CSS.element(this.props.instance.widget.baseClass, "year-selection")}
+            className={CSS.element(this.props.instance.widget.baseClass, "year-picker")}
             ref={(el) => {
                if (el) {
                   el.addEventListener("wheel", (e) => {
@@ -599,7 +599,7 @@ export class CalendarCmp extends VDOM.Component {
                </div>
             )}
 
-            {this.state.activeView == "year-selection" && this.renderYearSelection()}
+            {this.state.activeView == "year-picker" && this.renderYearPicker()}
          </div>
       );
    }
