@@ -144,7 +144,6 @@
       }
 
       &-picker {
-         @include cx-add-state-rules($cx-calendar-day-state-style-map, default); // maybe different map
          user-select: none;
          overflow-y: scroll;
          width: 100%;
@@ -153,15 +152,19 @@
       }
 
       &-option {
-         padding: 5px;
          cursor: pointer;
+         @include cx-add-state-rules($cx-calendar-day-state-style-map, default);
 
-         &.cxs-active {
-            @include cx-add-state-rules($cx-calendar-day-state-style-map, today); // maybe different map
+         &.#{$state}active {
+            @include cx-add-state-rules($cx-calendar-day-state-style-map, today);
          }
 
          &:hover {
-            @include cx-add-state-rules($cx-calendar-day-state-style-map, hover); // maybe different map
+            @include cx-add-state-rules($cx-calendar-day-state-style-map, hover);
+         }
+
+         &.#{$state}selected {
+            @include cx-add-state-rules($cx-calendar-day-state-style-map, selected);
          }
       }
    }
