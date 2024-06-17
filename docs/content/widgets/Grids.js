@@ -54,7 +54,7 @@ export const Grids = <cx>
                         { header: 'Continent', field: 'continent', sortable: true, resizable: true },
                         { header: 'Browser', field: 'browser', sortable: true, resizable: true },
                         { header: 'OS', field: 'os', sortable: true, resizable: true },
-                        { header: 'Visits', field: 'visits', sortable: true, align: 'right', resizable: true }
+                        { header: 'Visits', field: 'visits', sortable: true, align: 'right', resizable: true, primarySortDirection: 'DESC' }
                     ]}
                     selection={{ type: KeySelection, bind: '$page.selection', multiple: true }}
                 />
@@ -88,7 +88,7 @@ export const Grids = <cx>
                             { header: 'Continent', field: 'continent', sortable: true },
                             { header: 'Browser', field: 'browser', sortable: true },
                             { header: 'OS', field: 'os', sortable: true },
-                            { header: 'Visits', field: 'visits', sortable: true }
+                            { header: 'Visits', field: 'visits', sortable: true, primarySortDirection: 'DESC' }
                         ]}
                         selection={{type: KeySelection, bind:'$page.selection'}}
                     />
