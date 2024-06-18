@@ -143,4 +143,10 @@ export default {
             grid related features such as multi-line rows, buffered rendering, etc.
         </Md></cx>
     },
+    primarySortDirection: {
+        type: '"ASC" | "DESC"',
+        description: <cx><Md>
+            Specify whether first click on header should apply ascending or descending order. Default is `ASC`;
+        </Md></cx>
+    }
 };

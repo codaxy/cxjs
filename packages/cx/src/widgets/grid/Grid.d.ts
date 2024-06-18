@@ -168,6 +168,7 @@ interface GridColumnConfig {
    colSpan?: NumberProp;
 
    mergeCells?: Prop<null | false | "same-value" | "always">;
+   primarySortDirection?: "ASC" | "DESC";
 }
 
 interface GridRowLineConfig {

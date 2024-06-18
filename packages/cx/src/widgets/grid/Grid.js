@@ -836,14 +836,16 @@ export class Grid extends Container {
       let sortOptions = column.sortOptions;
 
       if (header && header.allowSorting && column.sortable && (field || value || data.sortField)) {
-         let direction = "ASC";
+         let direction = column.primarySortDirection ?? "ASC";
          if (
             isNonEmptyArray(data.sorters) &&
             ((!!data.sorters[0].field && data.sorters[0].field == (field || data.sortField)) ||
                (!!value && data.sorters[0].value == value))
          ) {
-            if (data.sorters[0].direction == "ASC") direction = "DESC";
-            else if (this.clearableSort && data.sorters[0].direction == "DESC") direction = null;
+            if (data.sorters[0].direction == "ASC" && (!this.clearableSort || direction == "ASC")) direction = "DESC";
+            else if (data.sorters[0].direction == "DESC" && (!this.clearableSort || direction == "DESC"))
+               direction = "ASC";
+            else direction = null;
          }
 
          let sorters = direction
