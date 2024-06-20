@@ -203,6 +203,7 @@ class Input extends VDOM.Component {
    }
 
    onClearClick(e) {
+      this.input.value = ""; // prevent onChange call with old text value on blur or component unmount
       this.props.instance.set("value", this.props.instance.widget.emptyValue, { immediate: true });
    }
 
