@@ -9,10 +9,10 @@ interface SnapPointFinderProps extends PointReducerProps {
    cursorY?: Cx.NumberProp;
 
    /* A binding used to receive the x value of the nearest point.*/
-   snapX?: Cx.NumberProp | Cx.StringProp;
+   snapX?: Cx.Bind | Cx.AccessorChain<number> | Cx.AccessorChain<string>;
 
    /* A binding used to receive the y value of the nearest point. */
-   snapY?: Cx.NumberProp | Cx.StringProp;
+   snapY?: Cx.Bind | Cx.AccessorChain<number> | Cx.AccessorChain<string>;
 
    /* A binding used to receive the record prop */
    snapRecord?: Cx.Prop<Cx.Record>;
