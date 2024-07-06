@@ -1,13 +1,13 @@
 {
    "name": "cx-react",
-   "version": "17.10.1",
+   "version": "24.7.0",
    "description": "React based rendering for CxJS applications.",
    "main": "index.js",
    "author": "Codaxy",
    "license": "MIT",
    "homepage": "https://github.com/codaxy/cxjs",
    "peerDependencies": {
-      "react": "*",
-      "react-dom": "*"
+      "react": ">=18",
+      "react-dom": ">=18"
    }
 }
