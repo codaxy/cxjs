@@ -1,8 +1,25 @@
 var React = require("react"),
-   ReactDOM = require("react-dom/client");
+   {
+      unstable_batchedUpdates,
+      render,
+      findDOMNode,
+      createPortal,
+      unstable_renderSubtreeIntoContainer,
+      hydrate,
+   } = require("react-dom"),
+   { createRoot, hydrateRoot } = require("react-dom/client");
 
 var vdom = React;
-vdom.DOM = ReactDOM;
+vdom.DOM = {
+   unstable_batchedUpdates,
+   render,
+   findDOMNode,
+   createPortal,
+   createRoot,
+   hydrateRoot,
+   hydrate,
+   unstable_renderSubtreeIntoContainer,
+};
 
 module.exports = {
    VDOM: vdom,

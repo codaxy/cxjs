@@ -40,16 +40,16 @@ export function startAppLoop(parentDOMElement, storeOrInstance, widget, options 
 
       stopped = true;
 
-      if (!options.destroyDelay) destroy(parentDOMElement, options);
+      if (!options.destroyDelay) destroy(parentDOMElement, options, root);
       else {
          setTimeout(() => {
-            destroy(parentDOMElement, options);
+            destroy(parentDOMElement, options, root);
          }, options.destroyDelay);
       }
    };
 }
 
-function destroy(parentDOMElement, options) {
+function destroy(parentDOMElement, options, root) {
    if (root) root.unmount();
    else VDOM.DOM.unmountComponentAtNode(parentDOMElement);
 
