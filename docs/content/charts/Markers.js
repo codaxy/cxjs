@@ -53,7 +53,10 @@ export const Markers = <cx>
                             y-bind="$point.y"
                             tooltip-tpl="Red ({$point.x:n;0}, {$point.y:n;0})"
                             style={{fillOpacity: 0.5}}
-                            draggableX draggableY
+                            draggableX
+                            draggableY
+                            shape="rect"
+                            rx="3"
                      />
                   </Repeater>
                   <Repeater records-bind="$page.blues" recordAlias="$point">
@@ -66,13 +69,15 @@ export const Markers = <cx>
                             y-bind="$point.y"
                             tooltip-tpl="Blue ({$point.x:n;0}, {$point.y:n;0})"
                             style={{fillOpacity: 0.5}}
-                            draggableX draggableY/>
+                            draggableX
+                            draggableY
+                        />
                   </Repeater>
                </Chart>
             </Svg>
             <Legend vertical />
          </div>
-            
+
          <Content name="code">
             <Tab value-bind="$page.code.tab" mod="code" tab="controller" text="Controller"/>
             <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Index" default/>
@@ -112,7 +117,10 @@ export const Markers = <cx>
                               y-bind="$point.y"
                               tooltip-tpl="Red ({$point.x:n;0}, {$point.y:n;0})"
                               style={{fillOpacity: 0.5}}
-                              draggableX draggableY
+                              draggableX
+                              draggableY
+                              shape="rect"
+                              rx="3"
                         />
                      </Repeater>
                      <Repeater records-bind="$page.blues" recordAlias="$point">
@@ -125,7 +133,9 @@ export const Markers = <cx>
                               y-bind="$point.y"
                               tooltip-tpl="Blue ({$point.x:n;0}, {$point.y:n;0})"
                               style={{fillOpacity: 0.5}}
-                              draggableX draggableY/>
+                              draggableX
+                              draggableY
+                          />
                      </Repeater>
                   </Chart>
                </Svg>

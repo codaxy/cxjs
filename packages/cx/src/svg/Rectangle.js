@@ -2,12 +2,13 @@ import {Widget, VDOM} from '../ui/Widget';
 import {TextualBoundedObject} from './TextualBoundedObject';
 
 export class Rectangle extends TextualBoundedObject {
-
    declareData() {
       super.declareData(...arguments, {
          colorIndex: undefined,
          fill: undefined,
-         stroke: undefined
+         stroke: undefined,
+         rx: undefined,
+         ry: undefined,
       })
    }
 
@@ -25,6 +26,8 @@ export class Rectangle extends TextualBoundedObject {
                style={data.style}
                fill={data.fill}
                stroke={data.stroke}
+               rx={data.rx}
+               ry={data.ry}
          />
          {this.renderChildren(context, instance)}
       </g>;
@@ -33,5 +36,7 @@ export class Rectangle extends TextualBoundedObject {
 
 Rectangle.prototype.baseClass = 'rectangle';
 Rectangle.prototype.anchors = '0 1 1 0';
+Rectangle.prototype.rx = undefined;
+Rectangle.prototype.ry = undefined;
 
 Widget.alias('rectangle', Rectangle);

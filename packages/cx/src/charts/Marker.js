@@ -49,6 +49,8 @@ export class Marker extends BoundedObject {
          stack: undefined,
          stackedX: undefined,
          stackedY: undefined,
+         rx: undefined,
+         ry: undefined
       });
    }
 
@@ -272,6 +274,12 @@ class MarkerComponent extends VDOM.Component {
             widget.handleClick(e, instance);
          },
       };
+
+      if (shape == "rect" || shape == "square" || shape == "bar" || shape == "column") {
+         shapeProps.rx = data.rx;
+         shapeProps.ry = data.ry;
+      }
+
       if (widget.tooltip) {
          shapeProps.ref = (c) => {
             this.el = c;

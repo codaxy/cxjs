@@ -116,6 +116,17 @@ export default {
         description: <cx><Md>
            Indicate that markers should be stacked vertically. Default value is `false`.
         </Md></cx>
-     }
-
+     },
+     rx: {
+        type: 'string/number',
+        description: <cx><Md>
+           Applies to rectangular shapes. The horizontal corner radius of the rect. Defaults to `ry` if `ry` is specified.
+        </Md></cx>
+     },
+     ry: {
+        type: 'string/number',
+        description: <cx><Md>
+           Applies to rectangular shapes. The vertical corner radius of the rect. Defaults to `rx` if `rx` is specified.
+        </Md></cx>
+     },
 };
