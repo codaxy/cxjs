@@ -23,6 +23,8 @@ export class LegendEntry extends HtmlElement {
          name: undefined,
          active: true,
          size: undefined,
+         rx: undefined,
+         ry: undefined
       });
    }
 
@@ -102,6 +104,8 @@ export class LegendEntry extends HtmlElement {
             {shape(this.svgSize / 2, this.svgSize / 2, entry.size, {
                style: entry.style,
                className: className,
+               rx: entry.rx,
+               ry: entry.ry
             })}
          </svg>
       );

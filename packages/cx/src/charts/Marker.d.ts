@@ -91,6 +91,20 @@ interface MarkerProps extends BoundedObjectProps {
 
    /** Name of the stack. If multiple stacks are used, each should have a unique name. Default value is `stack`. */
    stack?: Cx.StringProp;
+
+   /**
+    * Applies to rectangular shapes. The horizontal corner radius of the rect. Defaults to ry if ry is specified.
+    * Value type: <length>|<percentage>;
+    * If unit is not specified, it defaults to `px`.
+    */
+   rx?: Cx.StringProp | Cx.NumberProp;
+
+   /**
+    * Applies to rectangular shapes. The vertical corner radius of the rect. Defaults to rx if rx is specified.
+    * Value type: <length>|<percentage>;
+    * If unit is not specified, it defaults to `px`.
+    */
+   ry?: Cx.StringProp | Cx.NumberProp;
 }
 
 export class Marker extends Cx.Widget<MarkerProps> {}

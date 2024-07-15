@@ -1,7 +1,7 @@
 import * as Cx from '../core';
 
 interface LegendEntryProps extends Cx.HtmlElementProps {
-   
+
    /** Indicate that entry is selected. */
    selected?: Cx.BooleanProp,
 
@@ -28,11 +28,25 @@ interface LegendEntryProps extends Cx.HtmlElementProps {
 
    /** Base CSS class to be applied to the element. No class is applied by default. */
    baseClass?: string,
-   
+
    legendAction?: string,
 
    /** Size of the svg shape container in pixels. Default value is 20. */
-   svgSize?: number
+   svgSize?: number;
+
+   /**
+    * Applies to rectangular shapes. The horizontal corner radius of the rect. Defaults to ry if ry is specified.
+    * Value type: <length>|<percentage>;
+    * If unit is not specified, it defaults to `px`.
+    */
+   rx?: Cx.StringProp | Cx.NumberProp;
+
+   /**
+    * Applies to rectangular shapes. The vertical corner radius of the rect. Defaults to rx if rx is specified.
+    * Value type: <length>|<percentage>;
+    * If unit is not specified, it defaults to `px`.
+    */
+   ry?: Cx.StringProp | Cx.NumberProp;
 }
 
 export class LegendEntry extends Cx.Widget<LegendEntryProps> {}
