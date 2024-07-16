@@ -15,8 +15,8 @@ export class ArrayElementView extends AugmentedViewBase {
    }
 
    getExtraKeyBinding(key) {
-      if (key == this.recordAlias) return this.recordBinding;
-      if (key.startsWith(this.recordAlias) && key[this.recordAlias.length] == ".") return this.recordBinding;
+      if (!key.startsWith(this.recordAlias)) return null;
+      if (key.length == this.recordAlias.length || key[this.recordAlias.length] == ".") return this.recordBinding;
       return null;
    }
 
