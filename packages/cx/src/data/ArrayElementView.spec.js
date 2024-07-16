@@ -41,7 +41,7 @@ describe("ArrayElementView", function () {
       assert.equal(record, letters[1]);
    });
 
-   it.only("aliases allow nesting", function () {
+   it("aliases allow nesting", function () {
       let letters = [{ letter: "A" }, { letter: "B" }];
       let store = new Store({ data: { letters } });
       let elementView = new ArrayElementView({
@@ -56,7 +56,6 @@ describe("ArrayElementView", function () {
       assert.equal(elementView.get("$iter.index.letter"), 1);
 
       elementView.set("$iter.letter.letter", "C");
-      console.log(store.getData());
       assert.equal(store.get("letters.1.letter"), "C");
    });
 

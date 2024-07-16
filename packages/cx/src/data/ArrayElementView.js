@@ -7,23 +7,21 @@ export class ArrayElementView extends AugmentedViewBase {
       super(config);
       this.hasNestedAliases =
          this.recordAlias.indexOf(".") >= 0 || this.indexAlias.indexOf(".") >= 0 || this.lengthAlias.indexOf(".") >= 0;
+      this.recordBinding = Binding.get(this.recordAlias);
       if (this.hasNestedAliases) {
-         this.recordBinding = Binding.get(this.recordAlias);
          this.indexBinding = Binding.get(this.indexAlias);
          this.lengthAlias = Binding.get(this.lengthAlias);
       }
    }
 
-   isExtraKey(key) {
-      if (!this.hasNestedAliases) return key == this.recordAlias || key == this.indexAlias || key == this.lengthAlias;
-      return (
-         key == this.recordBinding.parts[0] || key == this.indexBinding.parts[0] || key == this.lengthAlias.parts[0]
-      );
+   getExtraKeyBinding(key) {
+      if (key == this.recordAlias) return this.recordBinding;
+      if (key.startsWith(this.recordAlias) && key[this.recordAlias.length] == ".") return this.recordBinding;
+      return null;
    }
 
    deleteExtraKeyValue(key) {
-      if (this.hasNestedAliases ? key != this.recordBinding.parts[0] : key != this.recordAlias)
-         throw new Error(`Field ${key} cannot be deleted.`);
+      if (key != this.recordAlias) throw new Error(`Field ${key} cannot be deleted.`);
       const array = this.arrayAccessor.get(this.store.getData());
       if (!array) return false;
       const newArray = [...array.slice(0, this.itemIndex), ...array.slice(this.itemIndex + 1)];
@@ -31,8 +29,7 @@ export class ArrayElementView extends AugmentedViewBase {
    }
 
    setExtraKeyValue(key, value) {
-      if (this.hasNestedAliases ? key != this.recordBinding.parts[0] : key != this.recordAlias)
-         throw new Error(`Field ${key} is read-only.`);
+      if (key != this.recordAlias) throw new Error(`Field ${key} is read-only.`);
       const array = this.arrayAccessor.get(this.store.getData());
       if (!array || value === array[this.itemIndex]) return false;
       const newArray = [...array.slice(0, this.itemIndex), value, ...array.slice(this.itemIndex + 1)];
