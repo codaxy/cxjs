@@ -41,6 +41,24 @@ describe("ArrayElementView", function () {
       assert.equal(record, letters[1]);
    });
 
+   it("aliases allow nesting", function () {
+      let letters = [{ letter: "A" }, { letter: "B" }];
+      let store = new Store({ data: { letters } });
+      let elementView = new ArrayElementView({
+         store,
+         itemIndex: 1,
+         arrayAccessor: getAccessor({ bind: "letters" }),
+         recordAlias: "$iter.letter",
+         indexAlias: "$iter.index.letter",
+      });
+      let record = elementView.get("$iter.letter");
+      assert.equal(record, letters[1]);
+      assert.equal(elementView.get("$iter.index.letter"), 1);
+
+      elementView.set("$iter.letter.letter", "C");
+      assert.equal(store.get("letters.1.letter"), "C");
+   });
+
    it("when immutable preserves the parent data object", function () {
       let letters = [{ letter: "A" }, { letter: "B" }];
       let store = new Store({ data: { letters } });

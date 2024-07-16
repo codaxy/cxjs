@@ -269,18 +269,20 @@ describe("DataProxy", () => {
 
    it("controllers set on the DataProxy can see calculated values", () => {
       let value;
-      let widget = Widget.create(<cx>
-         <DataProxy
-            data={{
-               $value: 5
-            }}
-            controller={{
-               onInit() {
-                  value = this.store.get("$value")
-               },
-            }}
-         />
-      </cx>);
+      let widget = Widget.create(
+         <cx>
+            <DataProxy
+               data={{
+                  $value: 5,
+               }}
+               controller={{
+                  onInit() {
+                     value = this.store.get("$value");
+                  },
+               }}
+            />
+         </cx>,
+      );
 
       let store = new Store();
 
@@ -320,16 +322,17 @@ describe("DataProxy", () => {
 
       let tree = component.toJSON();
 
-      assert.deepEqual(tree, [{
-         type: "span",
-         props: {},
-         children: ["initial"],
-      }, {
-         type: "span",
-         props: {},
-         children: null,
-      }]);
+      assert.deepEqual(tree, [
+         {
+            type: "span",
+            props: {},
+            children: ["initial"],
+         },
+         {
+            type: "span",
+            props: {},
+            children: null,
+         },
+      ]);
    });
-
-
 });
