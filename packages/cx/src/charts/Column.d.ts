@@ -19,7 +19,8 @@ interface ColumnProps extends ColumnBarBaseProps {
    /** Selection configuration. */
    selection?: Config;
 
-   tooltip?: Cx.StringProp;
+   /** Tooltip configuration. For more info see Tooltips. */
+   tooltip?: Cx.StringProp | Cx.StructuredProp;
 
    /** Minimum column size in pixels. Useful for indicating very small values. Default value is 0.5. */
    minPixelHeight?: number;
