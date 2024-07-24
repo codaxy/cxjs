@@ -179,7 +179,9 @@ export const ColumnGraphs = (
                </CodeSnippet>
             </Content>
          </CodeSplit>
-         ## Examples: * [Timeline](~/examples/charts/bar/timeline) ## Configuration
+         ## Examples:
+         * [Timeline](~/examples/charts/bar/timeline)
+         ## Configuration
          <ConfigTable props={configs} />
       </Md>
    </cx>
