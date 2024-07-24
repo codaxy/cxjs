@@ -1,6 +1,5 @@
 import * as Cx from "../core";
 import { ColumnBarBaseProps } from "./ColumnBarBase";
-import { Selection } from "../ui/selection";
 
 interface ColumnProps extends ColumnBarBaseProps {
    /** Column base value. Default value is `0`. */
@@ -17,7 +16,9 @@ interface ColumnProps extends ColumnBarBaseProps {
 
    width?: number;
 
-   selection?: Selection;
+   /** Selection configuration. */
+   selection?: Config;
+
    tooltip?: Cx.StringProp;
 
    /** Minimum column size in pixels. Useful for indicating very small values. Default value is 0.5. */
