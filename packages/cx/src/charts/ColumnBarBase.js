@@ -30,6 +30,7 @@ export class ColumnBarBase extends PureContainer {
          offset: undefined,
          hoverId: undefined,
          borderRadius: undefined,
+         hidden: undefined,
       });
    }
 
@@ -120,30 +121,32 @@ export class ColumnBarBase extends PureContainer {
 
             return (
                <g className={data.classNames} key={key}>
-                  <rect
-                     className={this.CSS.element(this.baseClass, "rect", stateMods)}
-                     style={data.style}
-                     x={bounds.l}
-                     y={bounds.t}
-                     width={Math.max(0.0001, bounds.width())}
-                     height={Math.max(0.0001, bounds.height())}
-                     rx={data.borderRadius}
-                     onMouseMove={(e) => {
-                        onMouseMove(e, instance);
-                        tooltipMouseMove(e, instance, this.tooltip);
-                     }}
-                     onMouseLeave={(e) => {
-                        onMouseLeave(e, instance);
-                        tooltipMouseLeave(e, instance, this.tooltip);
-                     }}
-                     onClick={(e) => {
-                        this.handleClick(e, instance);
-                     }}
-                  />
+                  {!data.hidden && (
+                     <rect
+                        className={this.CSS.element(this.baseClass, "rect", stateMods)}
+                        style={data.style}
+                        x={bounds.l}
+                        y={bounds.t}
+                        width={bounds.width()}
+                        height={bounds.height()}
+                        rx={data.borderRadius}
+                        onMouseMove={(e) => {
+                           onMouseMove(e, instance);
+                           tooltipMouseMove(e, instance, this.tooltip);
+                        }}
+                        onMouseLeave={(e) => {
+                           onMouseLeave(e, instance);
+                           tooltipMouseLeave(e, instance, this.tooltip);
+                        }}
+                        onClick={(e) => {
+                           this.handleClick(e, instance);
+                        }}
+                     />
+                  )}
                   {this.renderChildren(context, instance)}
                </g>
             );
-         }
+         },
       );
    }
 
@@ -170,3 +173,4 @@ ColumnBarBase.prototype.legendShape = "rect";
 ColumnBarBase.prototype.styled = true;
 ColumnBarBase.prototype.hoverChannel = "default";
 ColumnBarBase.prototype.borderRadius = 0;
+ColumnBarBase.prototype.hidden = false;

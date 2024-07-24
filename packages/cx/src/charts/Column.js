@@ -62,7 +62,7 @@ export class Column extends ColumnBarBase {
       var y2 = data.stacked ? instance.yAxis.stack(data.stack, data.x, data.y) : instance.yAxis.map(data.y);
 
       if (Math.abs(y2 - y1) < this.minPixelHeight) {
-         if (y1 <= y2) y2 = y1 + this.minPixelHeight;
+         if (y1 < y2) y2 = y1 + this.minPixelHeight;
          else y2 = y1 - this.minPixelHeight;
       }
 
