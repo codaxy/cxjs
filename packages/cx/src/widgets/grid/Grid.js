@@ -859,7 +859,7 @@ export class Grid extends Container {
               ]
             : null;
 
-         field = sorters ? field : null;
+         if (sorters == null) field = null;
 
          instance.set("sorters", sorters);
          instance.set("sortField", field);
