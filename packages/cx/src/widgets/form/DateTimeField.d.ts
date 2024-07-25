@@ -81,6 +81,9 @@ export interface DateTimeFieldProps extends FieldProps {
 
    /** Set to true to enable seconds segment in the picker. */
    showSeconds?: boolean;
+
+   /** Additional configuration to be passed to the dropdown, such as `style`, `positioning`, etc. */
+   dropdownOptions?: Cx.Config;
 }
 
 export class DateTimeField extends Cx.Widget<DateTimeFieldProps> {}

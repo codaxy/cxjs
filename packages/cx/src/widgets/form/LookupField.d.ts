@@ -168,6 +168,9 @@ interface LookupFieldProps<T = unknown> extends FieldProps {
 
    /** Used in multiple selection lookups in combination with records, to construct the display text out of multiple fields or when additional formatting is needed. */
    onGetRecordDisplayText?: (record: T, instance?: Instance) => string;
+
+   /** Additional configuration to be passed to the dropdown, such as `style`, `positioning`, etc. */
+   dropdownOptions?: Cx.Config;
 }
 
 export class LookupField<T = unknown> extends Cx.Widget<LookupFieldProps<T>> {}
