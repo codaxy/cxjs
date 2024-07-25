@@ -657,7 +657,6 @@ export class Grid extends Container {
 
                   if (hdwidget.sortable && header.widget.allowSorting) {
                      mods.push("sortable");
-
                      if (data.sorters && data.sorters[0].field == (hdwidget.sortField || hdwidget.field)) {
                         mods.push("sorted-" + data.sorters[0].direction.toLowerCase());
                         sortIcon = <DropDownIcon className={CSS.element(baseClass, "column-sort-icon")} />;
@@ -859,6 +858,8 @@ export class Grid extends Container {
                  },
               ]
             : null;
+
+         if (sorters == null) field = null;
 
          instance.set("sorters", sorters);
          instance.set("sortField", field);
