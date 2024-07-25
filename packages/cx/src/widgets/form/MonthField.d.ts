@@ -87,6 +87,9 @@ interface MonthFieldProps extends FieldProps {
     * See also Culture.setDefaultDateEncoding.
     */
    encoding?: (date: Date) => any;
+
+   /** Additional configuration to be passed to the dropdown, such as `style`, `positioning`, etc. */
+   dropdownOptions?: Cx.Config;
 }
 
 export class MonthField extends Cx.Widget<MonthFieldProps> {}
