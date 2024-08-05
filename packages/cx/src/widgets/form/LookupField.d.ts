@@ -121,7 +121,7 @@ interface LookupFieldProps<T = unknown> extends FieldProps {
    /** Close the dropdown after selection. Default is `true`. */
    closeOnSelect?: boolean;
 
-   /** Mesasge to be displayed to the user if the entered search query is too short. */
+   /** Message to be displayed to the user if the entered search query is too short. */
    minQueryLengthMessageText?: string;
 
    /** Name or configuration of the icon to be put on the left side of the input.  */
