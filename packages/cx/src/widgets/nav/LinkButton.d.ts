@@ -26,6 +26,9 @@ export interface LinkButtonProps extends ButtonProps {
 
    /** Additional CSS class to aplied when the link is inactive. */
    inactiveClass?: Cx.StyleProp;
+
+   /** Where to display the linked URL, as the name for a browsing context (a tab, window, or <iframe>) */
+   target?: Cx.Prop<"_self" | "_blank" | "_parent" | "_top" | (string & {})>;
 }
 
 export class LinkButton extends Cx.Widget<LinkButtonProps> {}
