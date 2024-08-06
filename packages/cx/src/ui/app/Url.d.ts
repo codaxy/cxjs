@@ -17,5 +17,5 @@ export class Url {
 
    static getBaseFromScriptSrc(src: string, scriptPath: string): string;
 
-   static setBaseFromScript(scriptPath: string | RegeExp);
+   static setBaseFromScript(scriptPath: string | RegExp);
 }
