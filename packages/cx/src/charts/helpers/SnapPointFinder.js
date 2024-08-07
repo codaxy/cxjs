@@ -13,8 +13,8 @@ export class SnapPointFinder extends PointReducer {
    }
 
    onInitAccumulator(acc, { data }) {
-      acc.cursorX = data.cursorX;
-      acc.cursorY = data.cursorY;
+      acc.cursorX = this.convertX(data.cursorX);
+      acc.cursorY = this.convertY(data.cursorY);
       acc.dist = data.maxDistance > 0 ? Math.pow(data.maxDistance, 2) : Number.POSITIVE_INFINITY;
       acc.snapX = null;
       acc.snapY = null;
