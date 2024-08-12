@@ -48,5 +48,6 @@ export * from "./coalesce";
 export * from "./dummyCallback";
 export * from "./calculateNaturalElementHeight";
 export * from "./isTextInputElement";
+export * from "./capitalize";
 
 export * from "./TraversalStack";
