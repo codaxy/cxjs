@@ -120,7 +120,8 @@ import "./index.scss";
 // import Demo from "./bugs/grid-grouping-incorrect-text-prop-description";
 // import Demo from "./features/calendar/year-selection";
 // import Demo from "./features/charts/column/ColumnGraphVSColumnZeroHeight";
-import Demo from "./bugs/grid-clearable-sort";
+// import Demo from "./bugs/grid-clearable-sort";
+import Demo from "./bugs/PropertySelectionWithAccessorChain";
 
 let store = (window.store = new Store());
 
