@@ -12,18 +12,28 @@ export class SnapPointFinder extends PointReducer {
       });
    }
 
-   onInitAccumulator(acc, { data }) {
-      acc.cursorX = this.convertX(data.cursorX);
-      acc.cursorY = this.convertY(data.cursorY);
+   explore(context, instance) {
+      instance.xAxis = context.axes[this.xAxis];
+      instance.yAxis = context.axes[this.yAxis];
+      super.explore(context, instance);
+   }
+
+   onInitAccumulator(acc, { data, xAxis, yAxis }) {
+      acc.cursorX = data.cursorX != null ? xAxis?.map(this.convertX(data.cursorX)) : null;
+      acc.cursorY = data.cursorY != null ? yAxis?.map(this.convertY(data.cursorY)) : null;
       acc.dist = data.maxDistance > 0 ? Math.pow(data.maxDistance, 2) : Number.POSITIVE_INFINITY;
       acc.snapX = null;
       acc.snapY = null;
+      acc.xAxis = xAxis;
+      acc.yAxis = yAxis;
    }
 
    onMap(acc, x, y, name, p) {
+      let { xAxis, yAxis } = acc;
+
       let d = null;
-      let cx = this.convertX(x);
-      let cy = this.convertY(y);
+      let cx = x != null ? xAxis?.map(this.convertX(x)) : null;
+      let cy = y != null ? yAxis?.map(this.convertY(y)) : null;
 
       if (acc.cursorX != null && cx != null) d = (d || 0) + Math.pow(Math.abs(cx - acc.cursorX), 2);
 
@@ -47,3 +57,5 @@ export class SnapPointFinder extends PointReducer {
 SnapPointFinder.prototype.maxDistance = 50;
 SnapPointFinder.prototype.convertX = (x) => x;
 SnapPointFinder.prototype.convertY = (y) => y;
+SnapPointFinder.prototype.xAxis = "x";
+SnapPointFinder.prototype.yAxis = "y";

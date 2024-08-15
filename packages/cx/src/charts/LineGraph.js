@@ -61,11 +61,8 @@ export class LineGraph extends Widget {
                   instance.yAxis.acknowledge(p[this.yField]);
                   if (data.area) {
                      if (!this.hiddenBase) instance.yAxis.acknowledge(this.y0Field ? p[this.y0Field] : data.y0);
-                     if (context.pointReducer && this.y0Field)
-                        context.pointReducer(x, p[this.y0Field], data.name, p, data, index);
                   }
                }
-               if (context.pointReducer) context.pointReducer(x, p[this.yField], data.name, p, data.data, index);
             });
          }
       }
@@ -100,6 +97,16 @@ export class LineGraph extends Widget {
                this.onLegendClick(e, instance);
             },
          });
+      }
+
+      if (data.active) {
+         if (context.pointReducer && isArray(data.data)) {
+            data.data.forEach((p, index) => {
+               if (data.area && this.y0Field)
+                  context.pointReducer(p[this.xField], p[this.y0Field], data.name, p, data, index);
+               context.pointReducer(p[this.xField], p[this.yField], data.name, p, data.data, index);
+            });
+         }
       }
 
       instance.lineSpans = this.calculateLineSpans(context, instance);

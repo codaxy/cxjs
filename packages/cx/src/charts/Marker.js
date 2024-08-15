@@ -50,7 +50,7 @@ export class Marker extends BoundedObject {
          stackedX: undefined,
          stackedY: undefined,
          rx: undefined,
-         ry: undefined
+         ry: undefined,
       });
    }
 
@@ -113,9 +113,6 @@ export class Marker extends BoundedObject {
                else yAxis.acknowledge(data.y, 0, this.yOffset);
             }
          }
-
-         if (context.pointReducer) context.pointReducer(data.x, data.y, data.name, data);
-
          super.explore(context, instance);
       }
    }
@@ -132,6 +129,8 @@ export class Marker extends BoundedObject {
          if (xAxis && xAxis.shouldUpdate) instance.markShouldUpdate(context);
 
          if (yAxis && yAxis.shouldUpdate) instance.markShouldUpdate(context);
+
+         if (context.pointReducer) context.pointReducer(data.x, data.y, data.name, data);
       }
 
       super.prepare(context, instance);
