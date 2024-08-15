@@ -35,9 +35,7 @@ export class ColumnGraph extends ColumnBarGraphBase {
       let { data } = instance;
       if (context.pointReducer && isArray(data.data)) {
          data.data.forEach((p, index) => {
-            var x = p[this.xField];
-            var y = p[this.yField];
-            context.pointReducer(x, y, data.name, p, data.data, index);
+            context.pointReducer(p[this.xField], p[this.yField], data.name, p, data.data, index);
          });
       }
    }
