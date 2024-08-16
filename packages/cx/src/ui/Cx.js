@@ -220,14 +220,19 @@ class CxContext extends VDOM.Component {
                instance.destroy();
                break;
             }
+
+            if (this.props.flags.dirty && ++count <= 3 && Widget.optimizePrepare && now() - this.timings.start < 8)
+               continue;
+
+            if (visible) {
+               this.timings.afterExplore = now();
+
+               for (let i = 0; i < context.prepareList.length; i++) context.prepareList[i].prepare(context);
+               this.timings.afterPrepare = now();
+            }
          } while (this.props.flags.dirty && ++count <= 3 && Widget.optimizePrepare && now() - this.timings.start < 8);
 
          if (visible) {
-            this.timings.afterExplore = now();
-
-            for (let i = 0; i < context.prepareList.length; i++) context.prepareList[i].prepare(context);
-            this.timings.afterPrepare = now();
-
             //walk in reverse order so children get rendered first
             let renderList = context.getRootRenderList();
             while (renderList) {
