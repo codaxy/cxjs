@@ -7,6 +7,7 @@ import {
    tooltipParentWillUnmount,
    tooltipParentWillReceiveProps,
    tooltipParentDidMount,
+   tooltipParentDidUpdate,
 } from "../widgets/overlay/tooltip-ops";
 import { captureMouseOrTouch, getCursorPos } from "../widgets/overlay/captureMouse";
 import { closest } from "../util/DOM";
@@ -302,5 +303,9 @@ class MarkerComponent extends VDOM.Component {
    }
    componentDidMount() {
       tooltipParentDidMount(this.el, this.props.instance, this.props.instance.widget.tooltip);
+   }
+
+   componentDidUpdate() {
+      tooltipParentDidUpdate(this.el, this.props.instance, this.props.instance.widget.tooltip);
    }
 }

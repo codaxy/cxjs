@@ -7,3 +7,5 @@ export function tooltipParentDidMount(element, parentInstance, tooltip, options)
 export function tooltipParentWillReceiveProps(element, parentInstance, tooltip, options);
 
 export function tooltipParentWillUnmount(parentInstance);
+
+export function tooltipParentDidUpdate(element, parentInstance, tooltip);

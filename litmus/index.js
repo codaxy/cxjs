@@ -27,7 +27,7 @@ import "./index.scss";
 //import Demo from './features/logo';
 //import Demo from './features/svg/rects';
 //import Demo from './features/destroy';
-//import Demo from './features/tracking';
+import Demo from "./features/tracking/columns";
 //import Demo from './features/caching/IsolatedBoxes';
 //import Demo from './features/context-menu';
 //import Demo from "./features/charts/time-axis/LocalTime";
@@ -121,7 +121,7 @@ import "./index.scss";
 // import Demo from "./features/calendar/year-selection";
 // import Demo from "./features/charts/column/ColumnGraphVSColumnZeroHeight";
 // import Demo from "./bugs/grid-clearable-sort";
-import Demo from "./bugs/PropertySelectionWithAccessorChain";
+//import Demo from "./bugs/PropertySelectionWithAccessorChain";
 
 let store = (window.store = new Store());
 

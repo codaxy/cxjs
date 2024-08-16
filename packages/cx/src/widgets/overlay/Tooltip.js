@@ -277,6 +277,11 @@ function tooltipParentWillUnmount(parentInstance) {
    }
 }
 
+function tooltipParentDidUpdate(element, parentInstance, tooltip) {
+   let instance = getTooltipInstance(element, parentInstance, tooltip);
+   if (instance.tooltipComponent) instance.widget.updateDropdownPosition(instance, instance.tooltipComponent);
+}
+
 export function enableTooltips() {
    wireTooltipOps({
       tooltipMouseMove,
@@ -284,5 +289,6 @@ export function enableTooltips() {
       tooltipParentDidMount,
       tooltipParentWillReceiveProps,
       tooltipParentWillUnmount,
+      tooltipParentDidUpdate,
    });
 }
