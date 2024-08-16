@@ -121,12 +121,14 @@ export class Axis extends BoundedObject {
                t.push(`M ${x1} ${y1} L ${x2} ${y2}`);
 
                var x, y;
+               let labelOffset = this.alternateLabelOffset && i % 2 == 1 ? this.alternateLabelOffset : this.labelOffset;
+
                if (this.secondary) {
-                  x = this.vertical ? bounds.r + this.labelOffset : s;
-                  y = this.vertical ? s : bounds.t - this.labelOffset;
+                  x = this.vertical ? bounds.r + labelOffset : s;
+                  y = this.vertical ? s : bounds.t - labelOffset;
                } else {
-                  x = this.vertical ? bounds.l - this.labelOffset : s;
-                  y = this.vertical ? s : bounds.b + this.labelOffset;
+                  x = this.vertical ? bounds.l - labelOffset : s;
+                  y = this.vertical ? s : bounds.b + labelOffset;
                }
 
                var transform = data.labelRotation ? `rotate(${data.labelRotation} ${x} ${y})` : null;
@@ -242,6 +244,7 @@ Axis.prototype.minTickDistance = 25;
 Axis.prototype.minLabelDistanceVertical = 40;
 Axis.prototype.minLabelDistanceHorizontal = 50;
 Axis.prototype.labelOffset = 10;
+Axis.prototype.alternateLabelOffset = 0;
 Axis.prototype.labelRotation = 0;
 Axis.prototype.labelAnchor = "auto";
 Axis.prototype.labelDx = "auto";

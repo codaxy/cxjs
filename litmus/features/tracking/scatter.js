@@ -61,30 +61,29 @@ class PageController extends Controller {
 export default (
    <cx>
       <div class="widgets" controller={PageController}>
-         <Svg style="width:600px; height:400px;">
+         <Svg style="width:400px; height:400px;">
             <Chart
-               offset="20 -40 -60 50"
+               offset="20 -40 -60 90"
                axes={{
                   x: {
                      type: CategoryAxis,
                      tickSize: 0,
-                     // onCreateLabelFormatter: (context: any, instance: Instance) => {
-                     // 	let i = 0;
+                     //  onCreateLabelFormatter: (context, instance) => {
+                     //     let i = 0;
 
-                     // 	let map = instance.store.get($page.chartValuesMap);
-                     // 	return (formattedValue: string, value: string) => {
-                     // 		if (i++ % 2 == 1) return [];
-
-                     // 		let text = map?.metro?.[value];
-                     // 		return [{ text: `${text?.substring(0, 18)}...` }];
-                     // 	};
-                     // },
+                     //     return (formattedValue, value) => {
+                     //        if (i++ % 2 == 1) return [{}, { text: value }];
+                     //        return [{ text: value }];
+                     //     };
+                     //  },
                      labelOffset: 5,
+                     alternateLabelOffset: 22,
                   },
                   y: {
                      type: NumericAxis,
                      vertical: true,
                      format: "n;0;1",
+                     alternateLabelOffset: 40,
                   },
                }}
             >
