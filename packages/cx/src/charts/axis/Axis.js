@@ -121,7 +121,8 @@ export class Axis extends BoundedObject {
                t.push(`M ${x1} ${y1} L ${x2} ${y2}`);
 
                var x, y;
-               let labelOffset = this.alternateLabelOffset && i % 2 == 1 ? this.alternateLabelOffset : this.labelOffset;
+               let labelOffset =
+                  this.alternateLabelOffset != null && i % 2 == 1 ? this.alternateLabelOffset : this.labelOffset;
 
                if (this.secondary) {
                   x = this.vertical ? bounds.r + labelOffset : s;
@@ -246,7 +247,7 @@ Axis.prototype.minTickDistance = 25;
 Axis.prototype.minLabelDistanceVertical = 40;
 Axis.prototype.minLabelDistanceHorizontal = 50;
 Axis.prototype.labelOffset = 10;
-Axis.prototype.alternateLabelOffset = 0;
+Axis.prototype.alternateLabelOffset = null;
 Axis.prototype.labelRotation = 0;
 Axis.prototype.labelAnchor = "auto";
 Axis.prototype.labelDx = "auto";
