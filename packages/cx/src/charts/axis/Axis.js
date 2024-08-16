@@ -121,17 +121,22 @@ export class Axis extends BoundedObject {
                t.push(`M ${x1} ${y1} L ${x2} ${y2}`);
 
                var x, y;
+               let labelOffset =
+                  this.alternateLabelOffset != null && i % 2 == 1 ? this.alternateLabelOffset : this.labelOffset;
+
                if (this.secondary) {
-                  x = this.vertical ? bounds.r + this.labelOffset : s;
-                  y = this.vertical ? s : bounds.t - this.labelOffset;
+                  x = this.vertical ? bounds.r + labelOffset : s;
+                  y = this.vertical ? s : bounds.t - labelOffset;
                } else {
-                  x = this.vertical ? bounds.l - this.labelOffset : s;
-                  y = this.vertical ? s : bounds.b + this.labelOffset;
+                  x = this.vertical ? bounds.l - labelOffset : s;
+                  y = this.vertical ? s : bounds.b + labelOffset;
                }
 
                var transform = data.labelRotation ? `rotate(${data.labelRotation} ${x} ${y})` : null;
                var formattedValue = valueFormatter(v);
-               var lines = labelFormatter ? labelFormatter(formattedValue, v) : this.wrapLines(formattedValue);
+               var lines = labelFormatter
+                  ? labelFormatter(formattedValue, v, { tickIndex: si, serieIndex: i })
+                  : this.wrapLines(formattedValue);
                res.push(
                   <text
                      key={`label-${si}-${i}`}
@@ -242,6 +247,7 @@ Axis.prototype.minTickDistance = 25;
 Axis.prototype.minLabelDistanceVertical = 40;
 Axis.prototype.minLabelDistanceHorizontal = 50;
 Axis.prototype.labelOffset = 10;
+Axis.prototype.alternateLabelOffset = null;
 Axis.prototype.labelRotation = 0;
 Axis.prototype.labelAnchor = "auto";
 Axis.prototype.labelDx = "auto";

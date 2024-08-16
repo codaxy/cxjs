@@ -89,8 +89,12 @@ export interface AxisProps extends BoundedObjectProps {
       | string
       | ((
            context: any,
-           instance: Instance
-        ) => (formattedValue: string, value: any) => { text: string; style?: any; className?: string }[]);
+           instance: Instance,
+        ) => (
+           formattedValue: string,
+           value: any,
+           { tickIndex, serieIndex }: { tickIndex: number; serieIndex: number },
+        ) => { text: string; style?: any; className?: string }[]);
 }
 
 export class Axis extends BoundedObject {}

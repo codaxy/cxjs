@@ -26,8 +26,16 @@ export class ColumnGraph extends ColumnBarGraphBase {
                if (!this.hiddenBase) yAxis.acknowledge(y0);
                yAxis.acknowledge(y);
             }
+         });
+      }
+   }
 
-            if (context.pointReducer) context.pointReducer(x, y, data.name, p, data.data, index);
+   prepare(context, instance) {
+      super.prepare(context, instance);
+      let { data } = instance;
+      if (context.pointReducer && isArray(data.data)) {
+         data.data.forEach((p, index) => {
+            context.pointReducer(p[this.xField], p[this.yField], data.name, p, data.data, index);
          });
       }
    }

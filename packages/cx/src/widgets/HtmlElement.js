@@ -6,6 +6,7 @@ import {
    tooltipMouseLeave,
    tooltipParentWillReceiveProps,
    tooltipParentDidMount,
+   tooltipParentDidUpdate,
 } from "./overlay/tooltip-ops";
 import { Url } from "../ui/app/Url";
 import { debug } from "../util/Debug";
@@ -41,7 +42,7 @@ export class HtmlElement extends Container {
          data: {
             structured: true,
          },
-         autoFocus: undefined
+         autoFocus: undefined,
       };
 
       let name;
@@ -168,7 +169,7 @@ export class HtmlElement extends Container {
             key: key,
          },
          data.attrs,
-         events
+         events,
       );
 
       if (data.classNames) props.className = data.classNames;
@@ -250,6 +251,7 @@ class ContainerComponent extends VDOM.Component {
    }
 
    componentDidUpdate() {
+      tooltipParentDidUpdate(this.el, this.props.instance, this.props.instance.widget.tooltip);
       autoFocus(this.el, this);
    }
 }

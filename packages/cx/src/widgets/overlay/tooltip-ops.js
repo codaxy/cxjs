@@ -20,6 +20,10 @@ export function tooltipParentWillUnmount(parentInstance) {
    return impl && impl.tooltipParentWillUnmount.apply(impl, arguments);
 }
 
+export function tooltipParentDidUpdate(element, parentInstance, tooltip) {
+   return impl && impl.tooltipParentDidUpdate.apply(impl, arguments);
+}
+
 export function wireTooltipOps(ops) {
    impl = ops;
 }

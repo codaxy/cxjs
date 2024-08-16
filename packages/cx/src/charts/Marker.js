@@ -7,6 +7,7 @@ import {
    tooltipParentWillUnmount,
    tooltipParentWillReceiveProps,
    tooltipParentDidMount,
+   tooltipParentDidUpdate,
 } from "../widgets/overlay/tooltip-ops";
 import { captureMouseOrTouch, getCursorPos } from "../widgets/overlay/captureMouse";
 import { closest } from "../util/DOM";
@@ -50,7 +51,7 @@ export class Marker extends BoundedObject {
          stackedX: undefined,
          stackedY: undefined,
          rx: undefined,
-         ry: undefined
+         ry: undefined,
       });
    }
 
@@ -113,9 +114,6 @@ export class Marker extends BoundedObject {
                else yAxis.acknowledge(data.y, 0, this.yOffset);
             }
          }
-
-         if (context.pointReducer) context.pointReducer(data.x, data.y, data.name, data);
-
          super.explore(context, instance);
       }
    }
@@ -132,6 +130,8 @@ export class Marker extends BoundedObject {
          if (xAxis && xAxis.shouldUpdate) instance.markShouldUpdate(context);
 
          if (yAxis && yAxis.shouldUpdate) instance.markShouldUpdate(context);
+
+         if (context.pointReducer) context.pointReducer(data.x, data.y, data.name, data);
       }
 
       super.prepare(context, instance);
@@ -303,5 +303,9 @@ class MarkerComponent extends VDOM.Component {
    }
    componentDidMount() {
       tooltipParentDidMount(this.el, this.props.instance, this.props.instance.widget.tooltip);
+   }
+
+   componentDidUpdate() {
+      tooltipParentDidUpdate(this.el, this.props.instance, this.props.instance.widget.tooltip);
    }
 }
