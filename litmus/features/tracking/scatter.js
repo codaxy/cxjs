@@ -63,19 +63,11 @@ export default (
       <div class="widgets" controller={PageController}>
          <Svg style="width:400px; height:400px;">
             <Chart
-               offset="20 -40 -60 90"
+               offset="20 -40 -60 50"
                axes={{
                   x: {
                      type: CategoryAxis,
                      tickSize: 0,
-                     //  onCreateLabelFormatter: (context, instance) => {
-                     //     let i = 0;
-
-                     //     return (formattedValue, value) => {
-                     //        if (i++ % 2 == 1) return [{}, { text: value }];
-                     //        return [{ text: value }];
-                     //     };
-                     //  },
                      labelOffset: 5,
                      alternateLabelOffset: 22,
                   },
@@ -83,7 +75,12 @@ export default (
                      type: NumericAxis,
                      vertical: true,
                      format: "n;0;1",
-                     alternateLabelOffset: 40,
+                     onCreateLabelFormatter: (context, instance) => {
+                        return (formattedValue, value, { serieIndex: i }) => {
+                           if (i++ % 2 == 1) return [];
+                           return [{ text: value }];
+                        };
+                     },
                   },
                }}
             >

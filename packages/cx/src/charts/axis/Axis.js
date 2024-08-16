@@ -133,7 +133,9 @@ export class Axis extends BoundedObject {
 
                var transform = data.labelRotation ? `rotate(${data.labelRotation} ${x} ${y})` : null;
                var formattedValue = valueFormatter(v);
-               var lines = labelFormatter ? labelFormatter(formattedValue, v) : this.wrapLines(formattedValue);
+               var lines = labelFormatter
+                  ? labelFormatter(formattedValue, v, { tickIndex: si, serieIndex: i })
+                  : this.wrapLines(formattedValue);
                res.push(
                   <text
                      key={`label-${si}-${i}`}
