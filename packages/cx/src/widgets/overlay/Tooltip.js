@@ -279,7 +279,7 @@ function tooltipParentWillUnmount(parentInstance) {
 
 function tooltipParentDidUpdate(element, parentInstance, tooltip) {
    let instance = getTooltipInstance(element, parentInstance, tooltip);
-   if (instance && instance.tooltipComponent)
+   if (instance && instance.visible && instance.data.alwaysVisible && instance.tooltipComponent)
       instance.widget.updateDropdownPosition(instance, instance.tooltipComponent);
 }
 

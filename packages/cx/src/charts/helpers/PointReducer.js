@@ -23,6 +23,10 @@ export class PointReducer extends PureContainer {
             if (parentPointReducer) parentPointReducer(x, y, name, data, array, index);
          };
          instance.write = () => {
+            if (!instance.accumulatorReset) {
+               instance.resetAccumulator();
+               instance.accumulatorReset = true;
+            }
             if (this.onReduce) instance.invoke("onReduce", accumulator, instance);
          };
       }
