@@ -95,6 +95,9 @@ export interface AxisProps extends BoundedObjectProps {
            value: any,
            { tickIndex, serieIndex }: { tickIndex: number; serieIndex: number },
         ) => { text: string; style?: any; className?: string }[]);
+
+   /** Distance between the even labels and the axis. */
+   alternateLabelOffset?: number | string;
 }
 
 export class Axis extends BoundedObject {}
