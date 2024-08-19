@@ -89,11 +89,11 @@ export default (
                <MouseTracker x-bind="chartInfo.cursor.x" y-bind="chartInfo.cursor.y">
                   <SnapPointFinder
                      cursorX-bind="chartInfo.cursor.x"
-                     //cursorY-bind="chartInfo.cursor.y"
+                     cursorY-bind="chartInfo.cursor.y"
                      snapRecord-bind="chartInfo.rec"
                      snapX-bind="chartInfo.snapX"
                      snapY-bind="chartInfo.index"
-                     maxDistance={1000}
+                     maxDistance={50}
                   >
                      <ScatterGraph
                         data-bind="$page.chartData"

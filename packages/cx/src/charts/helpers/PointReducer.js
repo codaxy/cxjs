@@ -4,7 +4,6 @@ export class PointReducer extends PureContainer {
    explore(context, instance) {
       let parentPointReducer = context.pointReducer;
       instance.parentPointTracker = parentPointReducer;
-      instance.accumulatorReset = false;
 
       if (!instance.pointReducer) {
          let onMap = this.onMap && instance.getCallback("onMap");
@@ -15,22 +14,15 @@ export class PointReducer extends PureContainer {
          };
 
          instance.pointReducer = (x, y, name, data, array, index) => {
-            if (!instance.accumulatorReset) {
-               instance.resetAccumulator();
-               instance.accumulatorReset = true;
-            }
             onMap(accumulator, x, y, name, data, array, index);
             if (parentPointReducer) parentPointReducer(x, y, name, data, array, index);
          };
          instance.write = () => {
-            if (!instance.accumulatorReset) {
-               instance.resetAccumulator();
-               instance.accumulatorReset = true;
-            }
             if (this.onReduce) instance.invoke("onReduce", accumulator, instance);
          };
       }
 
+      instance.resetAccumulator();
       context.push("pointReducer", instance.pointReducer);
 
       super.explore(context, instance);

@@ -27,7 +27,7 @@ import "./index.scss";
 //import Demo from './features/logo';
 //import Demo from './features/svg/rects';
 //import Demo from './features/destroy';
-// import Demo from "./features/tracking";
+//import Demo from "./features/tracking";
 //import Demo from './features/caching/IsolatedBoxes';
 //import Demo from './features/context-menu';
 //import Demo from "./features/charts/time-axis/LocalTime";
