@@ -42,5 +42,7 @@ export default {
         description: <cx><Md>
             Output value that can be used to calculate chart dimensions based on discovered category values.
         </Md></cx>
-    }
+    },
+    minLabelDistanceVertical: false,
+    minLabelDistanceHorizontal: false,
 };

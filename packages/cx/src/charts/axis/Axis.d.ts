@@ -15,12 +15,19 @@ export interface AxisProps extends BoundedObjectProps {
    /** When set to `true`, rendering of visual elements of the axis, such as ticks and labels, is skipped, but their function is preserved. */
    hidden?: boolean;
 
+   /** Size of the axis tick line. Defaults to 3. */
    tickSize?: number;
+
+   /** The smallest distance between two ticks on the axis. Defaults to 25. */
    minTickDistance?: number;
+
+   /** The smallest distance between two labels on the vertical axis. Defaults to 40. */
    minLabelDistanceVertical?: number;
+
+   /** The smallest distance between two labels on the horizontal axis. Defaults to 50.  */
    minLabelDistanceHorizontal?: number;
 
-   /** Distance between labels and the axis. */
+   /** Distance between labels and the axis. Defaults to 10. */
    labelOffset?: number | string;
 
    /** Label rotation angle in degrees. */

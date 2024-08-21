@@ -25,13 +25,13 @@ export const SwimlanePage = (
        <Md controller={PageController}>
           # Swimlane
           <ImportPath path="import {Swimlane} from 'cx/charts';" />
-          The Swimlane widget is used to make swimlane charts where each swimlane has unique properties or additional content inside.
+          The `Swimlane` widget is used to make swimlane charts where each swimlane has unique properties or additional content inside.
           <CodeSplit>
              <div class="widgets" >
                 <Svg style="width:500px; height:400px;">
                   <Chart offset="20 -20 -120 40" axes={{
                         x: { type: CategoryAxis, labelRotation: -90, labelDy: '0.4em', labelAnchor: "end" },
-                        y: { type: NumericAxis, vertical: true } 
+                        y: { type: NumericAxis, vertical: true }
                   }}>
                      <Repeater records-bind="$page.points" recordAlias="$point">
                            <Swimlane size={0.8} x-bind="$point.category" vertical/>
@@ -58,7 +58,7 @@ export const SwimlanePage = (
                      <Svg style="width:500px; height:400px;">
                         <Chart offset="20 -20 -120 40" axes={{
                               x: { type: CategoryAxis, labelRotation: -90, labelDy: '0.4em', labelAnchor: "end" },
-                              y: { type: NumericAxis, vertical: true } 
+                              y: { type: NumericAxis, vertical: true }
                         }}>
                            <Repeater records-bind="$page.points" recordAlias="$point">
                                  <Swimlane size={0.8} x-bind="$point.category" vertical/>
