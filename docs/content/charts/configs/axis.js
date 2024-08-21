@@ -29,7 +29,7 @@ export default {
         key: true,
         type: 'number/string',
         description: <cx><Md>
-            Distance between labels and the axis.
+            Distance between labels and the axis. Defaults to `10`.
         </Md></cx>
     },
     labelRotation: {
@@ -160,4 +160,34 @@ export default {
             Additional CSS class to be applied to the axis labels.
         </Md></cx>
     },
+    alternateLabelOffset: {
+        type: 'number/string',
+        description: <cx><Md>
+            Distance between the even labels and the axis.
+        </Md></cx>
+    },
+    tickSize: {
+        type: 'number/string',
+        description: <cx><Md>
+            Size of the axis tick line. Defaults to `3`.
+        </Md></cx>
+    },
+    minTickDistance: {
+        type: 'number/string',
+        description: <cx><Md>
+            The smallest distance between two ticks on the axis. Defaults to `25`.
+        </Md></cx>
+    },
+    minLabelDistanceVertical: {
+        type: 'number/string',
+        description: <cx><Md>
+            The smallest distance between two labels on the vertical axis. Defaults to `40`.
+        </Md></cx>
+    },
+    minLabelDistanceHorizontal: {
+        type: 'number/string',
+        description: <cx><Md>
+            The smallest distance between two labels on the horizontal axis. Defaults to `50`.
+        </Md></cx>
+    }
 };
