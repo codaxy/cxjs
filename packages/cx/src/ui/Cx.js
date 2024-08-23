@@ -221,7 +221,6 @@ class CxContext extends VDOM.Component {
                }
             } else if (instance.destroyTracked) {
                instance.destroy();
-               break;
             }
 
             if (this.props.flags.dirty && count <= 3 && Widget.optimizePrepare && now() - this.timings.start < 8) {
