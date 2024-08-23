@@ -191,7 +191,8 @@ class CxContext extends VDOM.Component {
       let { instance, options, contentFactory } = props;
       let count = 0,
          visible,
-         context;
+         context,
+         forceContinue;
 
       //should not be tracked by parents for destroy
       if (!instance.detached)
@@ -205,6 +206,8 @@ class CxContext extends VDOM.Component {
 
       try {
          do {
+            count++;
+            forceContinue = false;
             context = new RenderingContext(options);
             context.forceUpdate = this.props.forceUpdate;
             this.props.flags.dirty = false;
@@ -221,8 +224,10 @@ class CxContext extends VDOM.Component {
                break;
             }
 
-            if (this.props.flags.dirty && ++count <= 3 && Widget.optimizePrepare && now() - this.timings.start < 8)
+            if (this.props.flags.dirty && count <= 3 && Widget.optimizePrepare && now() - this.timings.start < 8) {
+               forceContinue = true;
                continue;
+            }
 
             if (visible) {
                this.timings.afterExplore = now();
@@ -230,7 +235,10 @@ class CxContext extends VDOM.Component {
                for (let i = 0; i < context.prepareList.length; i++) context.prepareList[i].prepare(context);
                this.timings.afterPrepare = now();
             }
-         } while (this.props.flags.dirty && ++count <= 3 && Widget.optimizePrepare && now() - this.timings.start < 8);
+         } while (
+            forceContinue ||
+            (this.props.flags.dirty && count <= 3 && Widget.optimizePrepare && now() - this.timings.start < 8)
+         );
 
          if (visible) {
             //walk in reverse order so children get rendered first
