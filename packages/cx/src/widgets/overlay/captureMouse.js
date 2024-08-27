@@ -29,7 +29,7 @@ export function captureMouse2(e, { onMouseMove, onMouseUp, onDblClick, captureDa
 
    function doubleClick(e) {
       try {
-         onDblClick(e);
+         onDblClick && onDblClick(e);
       } finally {
          tear();
       }
