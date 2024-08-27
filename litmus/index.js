@@ -122,7 +122,8 @@ import "./index.scss";
 // import Demo from "./features/charts/column/ColumnGraphVSColumnZeroHeight";
 // import Demo from "./bugs/grid-clearable-sort";
 //import Demo from "./bugs/PropertySelectionWithAccessorChain";
-import Demo from "./features/tracking/scatter";
+// import Demo from "./features/tracking/scatter";
+import Demo from "./features/tooltips/FlyweightTooltipTracker";
 
 let store = (window.store = new Store());
 
