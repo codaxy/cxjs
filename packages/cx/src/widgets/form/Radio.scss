@@ -63,12 +63,10 @@
    .#{$element}#{$name}-input {
       width: $size;
       height: $size;
-
       top: calc(50% - #{$size * 0.5});
       left: 0;
       display: inline-block;
       position: absolute;
-      border-radius: 50%;
       //overflow: hidden;
       opacity: 1;
 
@@ -78,6 +76,7 @@
          $input: false,
          $overrides: (
             default: (
+               border-radius: 50%,
                padding: 0,
                margin: 0 !important,
             )

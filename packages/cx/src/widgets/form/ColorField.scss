@@ -60,7 +60,7 @@
 
    .#{$element}#{$name}-left-icon {
       box-sizing: border-box;
-      opacity: 1;
+
       @include cx-checker-background();
 
       @include cxe-field-button(
@@ -69,6 +69,7 @@
             $left-icon-state-style-map,
             (
                default: (
+                  opacity: 1,
                   cursor: pointer,
                ),
             )
