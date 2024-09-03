@@ -14,6 +14,7 @@ let stack = [
       cache: {},
       defaultCurrency: "USD",
       dateEncoding: (date) => date.toISOString(),
+      timezone: null,
    },
 ];
 
@@ -85,6 +86,12 @@ export class Culture {
       this.invalidateCache();
    }
 
+   static setDefaultTimezone(timezone) {
+      let cultureSpecs = getDefaultCulture();
+      cultureSpecs.timezone = timezone;
+      this.invalidateCache();
+   }
+
    static setDefaultDateEncoding(encoding) {
       let cultureSpecs = getDefaultCulture();
       cultureSpecs.dateEncoding = encoding;
@@ -112,8 +119,11 @@ export class Culture {
    }
 
    static getDateTimeCulture() {
-      let { cache, dateTimeCulture, culture } = getCurrentCulture();
-      if (!cache.dateTimeCulture) cache.dateTimeCulture = new DateTimeCulture(dateTimeCulture ?? culture);
+      let { cache, dateTimeCulture, culture, timezone } = getCurrentCulture();
+      if (!cache.dateTimeCulture)
+         cache.dateTimeCulture = new DateTimeCulture(dateTimeCulture ?? culture, {
+            defaultTimezone: timezone,
+         });
       return cache.dateTimeCulture;
    }
 

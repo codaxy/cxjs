@@ -11,13 +11,13 @@
    $mod: map-get($besm, mod);
 
    .#{$block}calendar {
-      @include cx-add-state-rules($state-style-map, "default");
-
       display: inline-block;
       vertical-align: middle;
       width: 18em;
       overflow-y: auto;
       box-sizing: border-box;
+
+      @include cx-add-state-rules($state-style-map, "default");
 
       &:hover {
          @include cx-add-state-rules($state-style-map, "hover");
@@ -53,8 +53,8 @@
       }
 
       tbody td {
-         @include cx-add-state-rules($cx-calendar-day-state-style-map, default);
          user-select: none;
+         @include cx-add-state-rules($cx-calendar-day-state-style-map, default);
       }
 
       .#{$element}#{$name}-header {

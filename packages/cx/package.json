@@ -1,6 +1,6 @@
 {
    "name": "cx",
-   "version": "24.8.6",
+   "version": "24.8.7",
    "description": "Advanced JavaScript UI framework for admin and dashboard applications with ready to use grid, form and chart components.",
    "main": "index.js",
    "jsnext:main": "src/index.js",
@@ -14,7 +14,7 @@
    },
    "homepage": "https://cxjs.io",
    "dependencies": {
-      "intl-io": "^0.3.0",
+      "intl-io": "^0.4.3",
       "route-parser": "^0.0.5"
    },
    "peerDependencies": {

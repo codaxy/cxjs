@@ -5,6 +5,8 @@ export class Culture {
 
    static setDefaultCurrency(currencyCode: string): void;
 
+   static setDefaultTimezone(timezone: string): void;
+
    static readonly defaultCurrency: string;
 
    static readonly culture: string;
@@ -28,6 +30,7 @@ export interface CultureSpecs {
    dateTimeCulture?: string;
    defaultCurrency?: string;
    dateEncoding?: DateEncoding;
+   timezone?: string;
 }
 
 export interface CultureInfo {
@@ -36,6 +39,7 @@ export interface CultureInfo {
    dateTimeCulture?: string;
    defaultCurrency: string;
    dateEncoding: DateEncoding;
+   timezone?: string;
 }
 
 export function createCulture(cultureSpecs: CultureSpecs): CultureInfo;
