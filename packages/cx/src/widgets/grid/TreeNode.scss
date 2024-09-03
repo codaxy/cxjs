@@ -12,12 +12,11 @@
 
    .#{$block}#{$name} {
       padding-left: $handle-size + $icon-size * 0.25;
+      position: relative;
 
       &.#{$state}icon {
          padding-left: $handle-size + $icon-size + $icon-size * 0.25;
       }
-
-      position: relative;
 
       @for $i from 1 through 20 {
          &.#{$state}level-#{$i} {

@@ -6,8 +6,8 @@
    "author": "Codaxy",
    "license": "SEE LICENSE.md",
    "dependencies": {
-      "@babel/plugin-proposal-function-bind": "^7.24.1",
-      "@babel/plugin-transform-react-jsx": "^7.23.4",
+      "@babel/plugin-proposal-function-bind": "^7.24.7",
+      "@babel/plugin-transform-react-jsx": "^7.25.2",
       "babel-plugin-transform-cx-imports": "^21.3.0",
       "babel-plugin-transform-cx-jsx": "^21.3.0"
    },

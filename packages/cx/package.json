@@ -14,7 +14,7 @@
    },
    "homepage": "https://cxjs.io",
    "dependencies": {
-      "intl-io": "^0.3.0",
+      "intl-io": "^0.4.1",
       "route-parser": "^0.0.5"
    },
    "peerDependencies": {

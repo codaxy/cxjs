@@ -10,7 +10,11 @@
       linear-gradient(-45deg, $color 25%, transparent 25%), linear-gradient(45deg, transparent 75%, $color 75%),
       linear-gradient(-45deg, transparent 75%, $color 75%);
    background-size: 2 * $tile-size 2 * $tile-size;
-   background-position: 0 0, 0 $tile-size, $tile-size -#{$tile-size}, -#{$tile-size} 0px;
+   background-position:
+      0 0,
+      0 $tile-size,
+      $tile-size -#{$tile-size},
+      -#{$tile-size} 0px;
 }
 
 @mixin cx-colorpicker(
@@ -35,10 +39,10 @@
          )
       );
 
-      @include cx-add-state-rules($styles, default);
-
       display: inline-flex;
       flex-direction: column;
+
+      @include cx-add-state-rules($styles, default);
 
       @media screen and (min-width: 500px) {
          flex-direction: row;
@@ -73,7 +77,8 @@
       position: relative;
       touch-action: none;
 
-      background: -webkit-linear-gradient(
+      background:
+         -webkit-linear-gradient(
             top,
             hsl(0, 0%, 100%) 0%,
             hsla(0, 0%, 100%, 0) 50%,
@@ -81,7 +86,8 @@
             hsl(0, 0%, 0%) 100%
          ),
          -webkit-linear-gradient(left, hsl(0, 0%, 50%) 0%, hsla(0, 0%, 50%, 0) 100%);
-      background: -moz-linear-gradient(
+      background:
+         -moz-linear-gradient(
             top,
             hsl(0, 0%, 100%) 0%,
             hsla(0, 0%, 100%, 0) 50%,
@@ -89,7 +95,8 @@
             hsl(0, 0%, 0%) 100%
          ),
          -moz-linear-gradient(left, hsl(0, 0%, 50%) 0%, hsla(0, 0%, 50%, 0) 100%);
-      background: -ms-linear-gradient(
+      background:
+         -ms-linear-gradient(
             top,
             hsl(0, 0%, 100%) 0%,
             hsla(0, 0%, 100%, 0) 50%,
@@ -97,7 +104,8 @@
             hsl(0, 0%, 0%) 100%
          ),
          -ms-linear-gradient(left, hsl(0, 0%, 50%) 0%, hsla(0, 0%, 50%, 0) 100%);
-      background: -o-linear-gradient(
+      background:
+         -o-linear-gradient(
             top,
             hsl(0, 0%, 100%) 0%,
             hsla(0, 0%, 100%, 0) 50%,

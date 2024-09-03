@@ -10,6 +10,8 @@
       padding: 0;
       list-style: none;
 
+      @include cx-add-state-rules($state-style-map, default);
+
       &.#{$state}horizontal {
          white-space: nowrap;
 
@@ -31,8 +33,6 @@
             display: block;
          }
       }
-
-      @include cx-add-state-rules($state-style-map, default);
 
       .#{$element}#{$name}-item {
          & > hr {

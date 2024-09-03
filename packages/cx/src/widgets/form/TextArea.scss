@@ -1,6 +1,5 @@
-
 @mixin cx-textarea(
-   $name: 'textarea',
+   $name: "textarea",
    $state-style-map: $cx-textarea-state-style-map,
    $placeholder: $cx-input-placeholder,
    $empty-text: $cx-empty-text,
@@ -14,27 +13,16 @@
    $state: map-get($besm, state);
    $mod: map-get($besm, mod);
 
-
    .#{$block}#{$name} {
-      @include cxb-field(
-         $besm,
-         $state-style-map,
-         $input: false
-      );
       line-height: 0;
       width: $width;
+      @include cxb-field($besm, $state-style-map, $input: false);
    }
 
    .#{$element}#{$name}-input {
-      @include cxe-field-input(
-         $besm,
-         $state-style-map,
-         $placeholder: $placeholder,
-         $input: false
-      );
-
       width: 100%;
       height: 100%;
+      @include cxe-field-input($besm, $state-style-map, $placeholder: $placeholder, $input: false);
    }
 
    .#{$element}#{$name}-tool {
@@ -50,11 +38,6 @@
    }
 }
 
-@if (cx-should-include('cx/widgets/TextArea')) {
+@if (cx-should-include("cx/widgets/TextArea")) {
    @include cx-textarea;
 }
-
-
-
-
-

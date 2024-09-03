@@ -9,12 +9,12 @@ $transition: 0.3s;
    cursor: pointer;
    user-select: none;
    border-radius: $button-size * 0.125;
+   display: flex;
+   align-items: center;
+
    &:active {
       transition: 0;
    }
-
-   display: flex;
-   align-items: center;
 }
 
 @mixin line {
@@ -110,8 +110,12 @@ $transition: 0.3s;
          //set transform origin
          -webkit-transform-origin: 50% 50%;
          transform-origin: 50% 50%;
-         transition: top 0.3s 0.6s ease, -webkit-transform 0.3s ease;
-         transition: top 0.3s 0.6s ease, transform 0.3s ease;
+         transition:
+            top 0.3s 0.6s ease,
+            -webkit-transform 0.3s ease;
+         transition:
+            top 0.3s 0.6s ease,
+            transform 0.3s ease;
       }
    }
 }
@@ -123,8 +127,12 @@ $transition: 0.3s;
 
       &:before,
       &:after {
-         transition: top 0.3s ease, -webkit-transform 0.3s 0.5s ease; //delay the formation of the x till the minus is formed
-         transition: top 0.3s ease, transform 0.3s 0.5s ease; //delay the formation of the x till the minus is formed
+         transition:
+            top 0.3s ease,
+            -webkit-transform 0.3s 0.5s ease; //delay the formation of the x till the minus is formed
+         transition:
+            top 0.3s ease,
+            transform 0.3s 0.5s ease; //delay the formation of the x till the minus is formed
          top: 0;
          width: $button-size;
       }

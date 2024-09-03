@@ -8,15 +8,14 @@
       padding: 0 !important;
       margin: 0 !important;
       border-radius: 0 !important;
+      overflow-x: auto;
+      overflow-y: hidden;
 
       & > code {
          padding: 0 0 0 5px;
          background: transparent;
          border-radius: 0;
       }
-
-      overflow-x: auto;
-      overflow-y: hidden;
 
       &::-webkit-scrollbar-track {
          background-color: transparent;

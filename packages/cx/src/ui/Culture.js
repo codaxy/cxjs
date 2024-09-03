@@ -14,6 +14,7 @@ let stack = [
       cache: {},
       defaultCurrency: "USD",
       dateEncoding: (date) => date.toISOString(),
+      timezone: null,
    },
 ];
 

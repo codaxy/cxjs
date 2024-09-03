@@ -28,6 +28,7 @@ export interface CultureSpecs {
    dateTimeCulture?: string;
    defaultCurrency?: string;
    dateEncoding?: DateEncoding;
+   timezone?: string;
 }
 
 export interface CultureInfo {
