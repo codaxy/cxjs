@@ -166,7 +166,7 @@ export function getTooltipInstance(e, parentInstance, tooltip, options = {}) {
    if (
       tooltipInstance &&
       (tooltipInstance.widget.relatedElement != target ||
-         tooltipInstance.config != tooltip ||
+         !shallowEquals(tooltipInstance.config, tooltip) ||
          tooltipInstance.store.store != parentInstance.store)
    ) {
       if (tooltipInstance.dismissTooltip) tooltipInstance.dismissTooltip();
@@ -189,6 +189,7 @@ export function getTooltipInstance(e, parentInstance, tooltip, options = {}) {
       });
       tooltipInstance = parentInstance.tooltips[name] = parentInstance.getDetachedChild(tooltipWidget, name, store);
       tooltipInstance.config = tooltip;
+      tooltipInstance.tooltipName = name;
 
       if (tooltip.alwaysVisible || tooltip.trackMouse || tooltip.trackMouseX || tooltip.trackMouseY) {
          tooltipInstance.init(new RenderingContext());
@@ -219,6 +220,8 @@ function tooltipMouseMove(e, parentInstance, tooltip, options = {}) {
          dismiss();
       });
       instance.dismissTooltip = () => {
+         if (instance.parent.tooltips[instance.tooltipName] === instance)
+            delete instance.parent.tooltips[instance.tooltipName];
          unsubscribeDismiss();
          dismiss();
       };
@@ -244,7 +247,9 @@ function tooltipMouseMove(e, parentInstance, tooltip, options = {}) {
 
 function tooltipMouseLeave(e, parentInstance, tooltip, options) {
    let instance = getTooltipInstance(e, parentInstance, tooltip, options);
-   if (instance) {
+
+   // do not process leave events twice even if called multiple times
+   if (instance && instance.mouseOverTarget) {
       instance.mouseOverTarget = false;
       instance.widget.handleMouseLeavesParent(instance);
    }
