@@ -123,7 +123,8 @@ import "./index.scss";
 // import Demo from "./bugs/grid-clearable-sort";
 //import Demo from "./bugs/PropertySelectionWithAccessorChain";
 // import Demo from "./features/tracking/scatter";
-import Demo from "./features/tooltips/FlyweightTooltipTracker";
+//import Demo from "./features/tooltips/FlyweightTooltipTracker";
+import Demo from "./bugs/infinite-update-loop";
 
 let store = (window.store = new Store());
 

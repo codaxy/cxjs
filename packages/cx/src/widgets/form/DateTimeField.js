@@ -510,7 +510,7 @@ class DateTimeInput extends VDOM.Component {
    }
 
    componentWillUnmount() {
-      if (this.input == getActiveElement()) {
+      if (this.input == getActiveElement() && this.input.value != this.props.data.formatted) {
          this.onChange(this.input.value, "blur");
       }
       tooltipParentWillUnmount(this.props.instance);

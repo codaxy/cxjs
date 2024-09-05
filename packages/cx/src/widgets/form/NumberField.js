@@ -249,7 +249,7 @@ class Input extends VDOM.Component {
    }
 
    componentWillUnmount() {
-      if (this.input == getActiveElement()) {
+      if (this.input == getActiveElement() && this.input.value != this.props.data.formatted) {
          this.onChange({ target: { value: this.input.value } }, "blur");
       }
       tooltipParentWillUnmount(this.props.instance);
