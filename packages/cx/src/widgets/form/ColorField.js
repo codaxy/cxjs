@@ -35,7 +35,7 @@ export class ColorField extends Field {
             required: undefined,
             format: undefined,
          },
-         ...arguments
+         ...arguments,
       );
    }
 
@@ -199,7 +199,7 @@ class ColorInput extends VDOM.Component {
                   icon: true,
                   empty: empty && !data.placeholder,
                   error: data.error && (state.visited || !suppressErrorsUntilVisited || !empty),
-               })
+               }),
             )}
             style={data.style}
             onMouseDown={this.onMouseDown.bind(this)}
@@ -353,7 +353,7 @@ class ColorInput extends VDOM.Component {
    }
 
    componentWillUnmount() {
-      if (this.input == getActiveElement()) {
+      if (this.input == getActiveElement() && this.input.value != this.props.data.value) {
          this.onChange(this.input.value, "blur");
       }
       tooltipParentWillUnmount(this.props.instance);
