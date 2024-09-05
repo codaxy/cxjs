@@ -264,6 +264,10 @@ export const docsNavTree = [
                   text: "Lookup Options Grouping",
                   url: "~/examples/form/lookup-options-grouping",
                },
+               {
+                  text: "Multi File Upload",
+                  url: "~/examples/form/multi-file-upload",
+               },
             ],
          },
          {
