@@ -36,7 +36,7 @@ class PageController extends Controller {
         this.store.set("$page.form.uploadInProgress", true);
 		try {
             let files = this.store.get("$page.form.files");
-            let response = await uploadFilesWithProgress("https://api.cxjs.io/uploads", files, (progress) => {
+            let response = await uploadFilesWithProgress("https://api.cxjs.io/uploads", files.map(f => f.file), (progress) => {
                 store.set('$page.form.progress', progress);
             });
             this.store.delete('$page.form.files');
@@ -92,7 +92,7 @@ export const MultiFileUpload = <cx>
 
         <CodeSplit>
 
-            The following example demonstrates how to use the `UploadButton` component to handle multiple file uploads.
+            The following example demonstrates how to use the `UploadButton` component to handle multiple file upload.
 
             By default, `UploadButton` automatically uploads each file as soon as it is selected, utilizing the `XMLHttpRequest` object.
             When multiple files are selected, each file is sent in a separate request.
@@ -101,7 +101,7 @@ export const MultiFileUpload = <cx>
             This enables the button to load files into memory without initiating the upload, giving you full control over the upload logic.
 
             In this example, `XMLHttpRequest` is used for uploading files, as it provides better support for progress tracking.
-            Although `Fetch` could be used, its progress tracking capabilities are still somewhat limited.
+            Although `fetch` could be used, its progress tracking capabilities are still somewhat limited.
 
             Selected files will appear in the table with validation applied, highlighting any invalid entries based on file size (&gt;= 1MB) or type (non images).
 
