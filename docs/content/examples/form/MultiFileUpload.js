@@ -1,4 +1,4 @@
-import { append } from 'cx/src/data/ops';
+import { append } from 'cx/data';
 import { Controller, bind, computable } from 'cx/ui';
 import { Button, Content, Grid, MsgBox, ProgressBar, Repeater, Tab, UploadButton, ValidationGroup, Validator } from 'cx/widgets';
 import { CodeSnippet } from '../../../components/CodeSnippet';
@@ -112,7 +112,7 @@ export const MultiFileUpload = <cx>
                         <Validator value-bind='$page.form.files' onValidate={(files) => files?.some(f => f.invalid) && "Only images with size less or equal to 1 MB are allowed." } />
                         <UploadButton
                             text="Choose files"
-                            url="~/api/accounts/logos"
+                            url="#"
                             multiple
                             onUploadStarting="onUploadStarting"
                             style='width: fit-content'
@@ -181,7 +181,7 @@ export const MultiFileUpload = <cx>
                 <Tab value-bind="$page.code.tab" mod="code" tab="controller" text="Controller" />
                 <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Index" default/>
 
-                <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="mB8pDfIq">{`
+                <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="ckOhwsQS">{`
                     class PageController extends Controller {
                         onUploadStarting(xhr, instance, file, formData) {
                             let invalidSize = file.size > 1e6;
@@ -261,13 +261,13 @@ export const MultiFileUpload = <cx>
                         });
                     }
                 `}</CodeSnippet>
-                <CodeSnippet visible-expr="{$page.code.tab}=='index'" fiddle="mB8pDfIq">{`
+                <CodeSnippet visible-expr="{$page.code.tab}=='index'" fiddle="ckOhwsQS">{`
                     <ValidationGroup invalid-bind='$page.form.invalid' errors-bind="$page.form.errors">
                         <Validator value-bind='$page.form.files.length' onValidate={(val = 0) => val < 1 && "Cannot submit empty form." } />
                         <Validator value-bind='$page.form.files' onValidate={(files) => files?.some(f => f.invalid) && "Only images with size less or equal to 1 MB are allowed." } />
                         <UploadButton
                             text="Choose files"
-                            url="~/api/accounts/logos"
+                            url="#"
                             multiple
                             onUploadStarting="onUploadStarting"
                             style='width: fit-content'
