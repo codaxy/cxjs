@@ -1,6 +1,6 @@
-@mixin cxb-highlighedsearchtext(
-   $name: "highlighedsearchtext",
-   $styles: $cx-highlighedsearchtext-style-map,
+@mixin cxb-highlightedsearchtext(
+   $name: "highlightedsearchtext",
+   $styles: $cx-highlightedsearchtext-style-map,
    $besm: $cx-besm
 ) {
    $block: map-get($besm, block);
@@ -14,5 +14,5 @@
 }
 
 @if (cx-should-include("cx/widgets/HighlightedSearchText")) {
-   @include cxb-highlighedsearchtext();
+   @include cxb-highlightedsearchtext();
 }

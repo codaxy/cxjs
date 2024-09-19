@@ -33,4 +33,4 @@ export class HighlightedSearchText extends Widget {
 }
 
 HighlightedSearchText.prototype.styled = true;
-HighlightedSearchText.prototype.baseClass = "highlighedsearchtext";
+HighlightedSearchText.prototype.baseClass = "highlightedsearchtext";
