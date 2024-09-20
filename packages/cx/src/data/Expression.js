@@ -3,8 +3,8 @@ import { Format } from "../util/Format";
 import { Binding } from "./Binding";
 
 import { quoteStr } from "../util/quote";
-import { isDigit } from "../util/isDigit";
 import { isFunction } from "../util/isFunction";
+import { isValidIdentifierName } from "../util/isValidIdentifierName";
 
 /*
    Helper usage example
@@ -98,7 +98,8 @@ export function expression(str) {
 
    let args = {};
    let formats = [];
-   let subExpr = 0;
+   let subExprCount = 0;
+   let invalidNameCount = 0;
 
    for (let i = 0; i < str.length; i++) {
       let c = str[i];
@@ -132,9 +133,9 @@ export function expression(str) {
                      }
                   }
                   let argName = binding.replace(/\./g, "_");
-                  if (isDigit(argName[0])) argName = "$" + argName;
+                  if (!isValidIdentifierName(argName)) argName = "inv" + ++invalidNameCount;
                   if (percentExpression || (binding[0] == "[" && binding[binding.length - 1] == "]")) {
-                     argName = `expr${++subExpr}`;
+                     argName = `expr${++subExprCount}`;
                      args[argName] = expression(percentExpression ? binding : binding.substring(1, binding.length - 1));
                   } else args[argName] = binding;
                   if (format) {

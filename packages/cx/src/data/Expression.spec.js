@@ -131,6 +131,16 @@ describe("Expression", function () {
          assert.equal(e({ text: "CxJS" }), "Hello CxJS");
       });
 
+      it("allows using dashes inside names", function () {
+         var e = Expression.compile("{framework-name}");
+         assert.equal(e({ "framework-name": "CxJS" }), "CxJS");
+      });
+
+      it("allows using spaces and other characters inside names", function () {
+         var e = Expression.compile("{inv@lid js ident1fier}");
+         assert.equal(e({ "inv@lid js ident1fier": "CxJS" }), "CxJS");
+      });
+
       // it('are properly memoized with proxies', function () {
       //    let inv = 0;
       //    var e = Expression.get(d => { inv++; return d.a + d.b}).memoize();
