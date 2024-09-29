@@ -98,7 +98,7 @@ export class Legend extends HtmlElement {
                   onMouseLeave={onMouseLeave}
                >
                   {this.renderShape(e, shape)}
-                  <div>{e.name}</div>
+                  <div>{e.displayText || e.name}</div>
                </div>
             )),
          );

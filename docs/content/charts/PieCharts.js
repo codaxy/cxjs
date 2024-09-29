@@ -72,6 +72,7 @@ export const PieCharts = (
                                     innerPointRadius={80}
                                     outerPointRadius={90}
                                     name-bind="$record.name"
+                                    legendDisplayText-tpl="{$record.name} ({$record.value:n;1})"
                                     selection={{
                                         type: KeySelection,
                                         bind: "$page.selection",
@@ -207,6 +208,7 @@ export const PieCharts = (
                                 innerPointRadius={80}
                                 outerPointRadius={90}
                                 name-bind="$record.name"
+                                legendDisplayText-tpl="{$record.name} ({$record.value:n;1})"
                                 selection={{
                                     type: KeySelection,
                                     bind: "$page.selection",

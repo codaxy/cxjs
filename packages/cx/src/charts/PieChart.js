@@ -312,6 +312,7 @@ export class PieSlice extends Container {
          legend: undefined,
          hoverId: undefined,
          br: undefined,
+         legendDisplayText: undefined,
       });
    }
 
@@ -405,6 +406,7 @@ export class PieSlice extends Container {
             hoverId: data.hoverId,
             hoverChannel: this.hoverChannel,
             hoverSync: instance.hoverSync,
+            displayText: data.legendDisplayText,
             onClick: (e) => {
                this.onLegendClick(e, instance);
             },

@@ -67,6 +67,9 @@ interface PieSliceProps extends Cx.StyledContainerProps {
 
    legendAction?: string;
 
+   /** Text to be displayed in the legend. The default is copying the `name` value.  */
+   legendDisplayText?: Cx.StringProp;
+
    /** Tooltip configuration. For more info see Tooltips. */
    tooltip?: Cx.StringProp | Cx.StructuredProp;
 

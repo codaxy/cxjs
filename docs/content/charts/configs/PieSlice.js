@@ -43,6 +43,12 @@ export default {
             Name of the item as it will appear in the legend.
       </Md></cx>
     },
+    legendDisplayText: {
+        type: 'string',
+        description: <cx><Md>
+            Text to be displayed in the legend. The default is copying the `name` value.
+      </Md></cx>
+    },
     legend: {
         key: false,
         type: 'string | false',
