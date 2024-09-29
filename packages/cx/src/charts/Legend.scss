@@ -1,35 +1,33 @@
-
-@mixin cx-legend(
-   $name: 'legend',
-   $besm: $cx-besm
-) {
+@mixin cx-legend($name: "legend", $besm: $cx-besm) {
    $block: map-get($besm, block);
    $element: map-get($besm, element);
    $state: map-get($besm, state);
 
    .#{$block}#{$name} {
-      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 5px 10px;
+   }
+
+   .#{$block}#{$name}.#{$state}vertical {
+      flex-direction: column;
    }
 
    .#{$element}#{$name}-entry {
-      display: inline-block;
-      padding: 5px 5px 5px 30px;
+      display: flex;
+      align-items: center;
+      padding: 5px;
+      gap: 5px;
       font-size: smaller;
       position: relative;
-      margin: 5px;
       box-sizing: border-box;
       cursor: pointer;
-
-      .#{$block}#{$name}.#{$state}vertical & {
-         display: block;
-         text-align: left;
-      }
    }
 
    .#{$element}#{$name}-svg {
-      position: absolute;
-      left: 5px;
-      top: 50%;
+      flex-shrink: 0;
    }
 
    .#{$element}#{$name}-shape {
@@ -37,6 +35,6 @@
    }
 }
 
-@if (cx-should-include('cx/charts/Legend')) {
+@if (cx-should-include("cx/charts/Legend")) {
    @include cx-legend();
 }

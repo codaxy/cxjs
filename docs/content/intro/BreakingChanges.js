@@ -13,6 +13,13 @@ export const BreakingChanges = <cx>
             This page will provide information about breaking changes and how to migrate your applications to the latest
             versions of the framework.
 
+            ## 24.10.0
+
+            ### Legend and LegendEntry rendering
+
+            Legend and LegendEntry components have been refactored to use the flexbox layout. This change might affect the appearance
+            if you have custom styles applied to these components.
+
             ## 24.5.1
 
             ### Default Window body padding

@@ -67,6 +67,7 @@ export const LegendPage = <cx>
                       columns={[
                           { field: 'name', pad: false, header: "Item", items: <cx>
                               <LegendEntry name-bind="$record.name"
+                                           text-bind="$record.name"
                                            colorMap="pie"
                                            active-bind='$record.active'
                                            selection={{
@@ -79,7 +80,7 @@ export const LegendPage = <cx>
                                            }}
                                            size={10}
                                            shape='circle'/>
-                              <Text bind="$record.name" />
+
                             </cx>},
                           { field: 'value', header: 'Value', format: "n;2", align: "right" }
                       ]}
@@ -151,13 +152,13 @@ export const LegendPage = <cx>
                 </CodeSnippet>
                 <CodeSnippet  visible-expr="{$page.code.tab}=='columns'" fiddle="c2Y0MiBY">{`
                     let columns = [
-                        { 
-                            field: 'name', 
-                            pad: false, 
-                            header: "Item", 
+                        {
+                            field: 'name',
+                            pad: false,
+                            header: "Item",
                             items: (
                                 <cx>
-                                    <LegendEntry 
+                                    <LegendEntry
                                         name-bind="$record.name"
                                         colorMap="pie"
                                         active-bind='$record.active'
@@ -181,8 +182,8 @@ export const LegendPage = <cx>
             </Content>
         </CodeSplit>
 
-        **Note on `Legend`:** If multiple charts are rendered on the same page, use `Legend.Scope` to prevent Legends from interfering with one another, 
-        as shown in this [example](https://cxjs.io/fiddle/?f=gs69CxgF). 
+        **Note on `Legend`:** If multiple charts are rendered on the same page, use `Legend.Scope` to prevent Legends from interfering with one another,
+        as shown in this [example](https://cxjs.io/fiddle/?f=gs69CxgF).
 
         ## `Legend` Configuration
 
