@@ -124,8 +124,8 @@ import "./index.scss";
 //import Demo from "./bugs/PropertySelectionWithAccessorChain";
 // import Demo from "./features/tracking/scatter";
 //import Demo from "./features/tooltips/FlyweightTooltipTracker";
-//import Demo from "./bugs/infinite-update-loop";
-import Demo from "./features/charts/legend/LegendOptions";
+// import Demo from "./bugs/infinite-update-loop";
+import Demo from "./bugs/TimeAxis";
 
 let store = (window.store = new Store());
 
