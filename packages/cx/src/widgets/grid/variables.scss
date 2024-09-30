@@ -44,6 +44,7 @@ $cx-default-grid-data-background-color: transparent !default;
 $cx-default-grid-data-alternate-background-color: null !default;
 $cx-default-grid-data-border-color: $cx-default-grid-border-color !default;
 $cx-default-grid-data-padding: 5px !default;
+$cx-default-grid-caption-gap: 15px !default;
 
 $cx-grid-data-state-style-map: cx-deep-map-merge(
    $cx-list-item,
@@ -61,6 +62,50 @@ $cx-grid-data-state-style-map: cx-deep-map-merge(
       ),
    )
 ) !default;
+
+$cx-grid-group-caption-level-style-map: (
+   level-1: (
+      font-weight: bold,
+      font-size: 115%,
+   ),
+   level-2: (
+      font-weight: bold,
+      font-size: 130%,
+      border-bottom: 1px solid grey,
+   ),
+   level-3: (
+      font-weight: bold,
+      font-size: 145%,
+      border-bottom: 1px solid grey,
+   ),
+   level-4: (
+      font-weight: bold,
+      font-size: 160%,
+      border-bottom: 1px solid grey,
+   ),
+);
+
+$cx-grid-group-footer-level-style-map: (
+   level-1: (
+      font-weight: bold,
+      border-top: 1px solid $cx-default-grid-border-color,
+   ),
+   level-2: (
+      font-weight: bold,
+      font-size: 110%,
+      border-top: 1px solid grey,
+   ),
+   level-3: (
+      font-weight: bold,
+      font-size: 120%,
+      border-top: 1px solid grey,
+   ),
+   level-4: (
+      font-weight: bold,
+      font-size: 130%,
+      border-top: 1px solid grey,
+   ),
+);
 
 // pagination
 $cx-grid-pagination-default-border-width: $cx-default-border-width !default;
