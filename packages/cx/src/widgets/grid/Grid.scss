@@ -464,7 +464,7 @@
    }
 
    @for $i from 1 through 4 {
-      .#{$element}#{$name}-group-caption.#{$state}level-#{$i} {
+      .#{$element}#{$name}-group-caption.#{$state}level-#{$i} td {
          @include cx-add-state-rules($cx-grid-group-caption-level-style-map, level-#{$i});
       }
    }
@@ -479,7 +479,7 @@
    }
 
    @for $i from 1 through 4 {
-      .#{$element}#{$name}-group-footer.#{$state}level-#{$i} {
+      .#{$element}#{$name}-group-footer.#{$state}level-#{$i} td {
          @include cx-add-state-rules($cx-grid-group-footer-level-style-map, level-#{$i});
       }
    }
