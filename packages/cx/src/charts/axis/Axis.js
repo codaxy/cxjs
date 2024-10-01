@@ -56,13 +56,13 @@ export class Axis extends BoundedObject {
 
    reportData(context, instance) {}
 
-   renderTicksAndLabels(context, instance, valueFormatter) {
+   renderTicksAndLabels(context, instance, valueFormatter, minLabelDistance) {
       if (this.hidden) return false;
 
       var { data, calculator, labelFormatter } = instance;
       var { bounds } = data;
       let { CSS, baseClass } = this;
-      var size = calculator.findTickSize(this.minLabelDistance);
+      var size = calculator.findTickSize(minLabelDistance);
 
       var labelClass = CSS.expand(CSS.element(baseClass, "label"), data.labelClass);
       var offsetClass = CSS.element(baseClass, "label-offset");

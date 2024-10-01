@@ -114,9 +114,11 @@ export default (
                               x: {
                                  type: TimeAxis,
                                  tickSize: 5,
-                                 format,
+                                 //format,
                                  labelAnchor: "middle",
                                  labelDx: -1,
+                                 useLabelDistanceFormatOverrides: true,
+                                 //format: "datetime;yyyy MMM dd HH mm ss n",
                                  ...axisParams,
                               },
                               y: {
@@ -310,6 +312,11 @@ const dataMap = {
          date: "08-31-2024",
          predicted: 9.43,
          actual: 11.04,
+      },
+      {
+         date: "09-02-2024",
+         predicted: 11.39,
+         actual: 12.9,
       },
    ],
    weekly: [

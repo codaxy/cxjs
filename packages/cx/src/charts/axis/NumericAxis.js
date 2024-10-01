@@ -59,7 +59,7 @@ export class NumericAxis extends Axis {
 
       return (
          <g key={key} className={data.classNames} style={data.style}>
-            {this.renderTicksAndLabels(context, instance, formatter)}
+            {this.renderTicksAndLabels(context, instance, formatter, this.minLabelDistance)}
          </g>
       );
    }
