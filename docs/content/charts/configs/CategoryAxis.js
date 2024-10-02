@@ -45,4 +45,10 @@ export default {
     },
     minLabelDistanceVertical: false,
     minLabelDistanceHorizontal: false,
+    useGridlineTicks: {
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to show ticks aligned with gridlines instead of labels. Default is `false`.
+        </Md></cx>
+    },
 };

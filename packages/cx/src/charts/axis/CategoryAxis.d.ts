@@ -19,6 +19,9 @@ interface CategoryAxisProps extends AxisProps {
 
    /** Output value that can be used to calculate chart dimensions based on discovered category values. */
    categoryCount?: Binding | Cx.AccessorChain<number> | Cx.GetSet<number>;
+
+   /** Set to true to show ticks aligned with gridlines instead of labels. Default is false. */
+   useGridlineTicks?: boolean;
 }
 
 export class CategoryAxis extends Cx.Widget<CategoryAxisProps> {}
