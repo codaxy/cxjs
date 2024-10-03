@@ -69,7 +69,7 @@ export class TimeAxis extends Axis {
          this.minTickUnit,
          lowerDeadZone,
          upperDeadZone,
-         this.decode
+         this.decode,
       );
    }
 
@@ -149,7 +149,7 @@ class TimeScale {
       minTickUnit,
       lowerDeadZone,
       upperDeadZone,
-      decode
+      decode,
    ) {
       this.dateCache = {};
       this.min = min != null ? this.decodeValue(min) : null;
@@ -312,7 +312,7 @@ class TimeScale {
          switch (measure) {
             case "second":
             case "minute":
-            case "hours":
+            case "hour":
             case "day":
             default:
                let minOffset = this.getTimezoneOffset(minDate);
