@@ -18,6 +18,9 @@ export interface AxisProps extends BoundedObjectProps {
    /** Size of the axis tick line. Defaults to 3. */
    tickSize?: number;
 
+   /** Distance between ticks and the axis. Default is 0. Use negative values for offset to make ticks appear on both sides of the axis. */
+   tickOffset?: number;
+
    /** The smallest distance between two ticks on the axis. Defaults to 25. */
    minTickDistance?: number;
 

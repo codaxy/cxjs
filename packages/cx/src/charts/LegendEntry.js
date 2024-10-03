@@ -69,7 +69,15 @@ export class LegendEntry extends Container {
       let { data } = instance;
       let content = !isUndefined(this.text) ? data.text : this.renderChildren(context, instance);
       return (
-         <div key={key} className={data.classNames} style={data.style}>
+         <div
+            key={key}
+            className={data.classNames}
+            style={data.style}
+            onMouseDown={stopPropagation}
+            onClick={(e) => {
+               this.handleClick(e, instance);
+            }}
+         >
             {this.renderShape(instance)}
             {content != null && <div>{content}</div>}
          </div>

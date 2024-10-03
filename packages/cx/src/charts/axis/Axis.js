@@ -71,7 +71,8 @@ export class Axis extends BoundedObject {
          y1,
          x2,
          y2,
-         tickSize = this.tickSize;
+         tickSize = this.tickSize,
+         tickOffset = this.tickOffset;
 
       if (this.vertical) {
          x1 = x2 = this.secondary ? bounds.r : bounds.l;
@@ -107,18 +108,18 @@ export class Axis extends BoundedObject {
                var s = calculator.map(v);
 
                if (this.secondary) {
-                  x1 = this.vertical ? bounds.r : s;
-                  y1 = this.vertical ? s : bounds.t;
-                  x2 = this.vertical ? bounds.r + tickSize : s;
-                  y2 = this.vertical ? s : bounds.t - tickSize;
+                  x1 = this.vertical ? bounds.r + tickOffset : s;
+                  y1 = this.vertical ? s : bounds.t - tickOffset;
+                  x2 = this.vertical ? bounds.r + tickOffset + tickSize : s;
+                  y2 = this.vertical ? s : bounds.t - tickOffset - tickSize;
                } else {
-                  x1 = this.vertical ? bounds.l : s;
-                  y1 = this.vertical ? s : bounds.b;
-                  x2 = this.vertical ? bounds.l - tickSize : s;
-                  y2 = this.vertical ? s : bounds.b + tickSize;
+                  x1 = this.vertical ? bounds.l - tickOffset : s;
+                  y1 = this.vertical ? s : bounds.b + tickOffset;
+                  x2 = this.vertical ? bounds.l - tickOffset - tickSize : s;
+                  y2 = this.vertical ? s : bounds.b + tickOffset + tickSize;
                }
 
-               t.push(`M ${x1} ${y1} L ${x2} ${y2}`);
+               if (!this.useGridlineTicks) t.push(`M ${x1} ${y1} L ${x2} ${y2}`);
 
                var x, y;
                let labelOffset =
@@ -155,6 +156,24 @@ export class Axis extends BoundedObject {
       }
 
       if (!data.hideTicks) {
+         if (this.useGridlineTicks) {
+            let gridlines = calculator.mapGridlines();
+            gridlines.forEach((s, i) => {
+               if (this.secondary) {
+                  x1 = this.vertical ? bounds.r + tickOffset : s;
+                  y1 = this.vertical ? s : bounds.t - tickOffset;
+                  x2 = this.vertical ? bounds.r + tickOffset + tickSize : s;
+                  y2 = this.vertical ? s : bounds.t - tickOffset - tickSize;
+               } else {
+                  x1 = this.vertical ? bounds.l - tickOffset : s;
+                  y1 = this.vertical ? s : bounds.b + tickOffset;
+                  x2 = this.vertical ? bounds.l - tickOffset - tickSize : s;
+                  y2 = this.vertical ? s : bounds.b + tickOffset + tickSize;
+               }
+               t.push(`M ${x1} ${y1} L ${x2} ${y2}`);
+            });
+         }
+
          res[1] = (
             <path
                key="ticks"
@@ -243,6 +262,7 @@ Axis.prototype.hideTicks = false;
 Axis.prototype.hideLine = false;
 
 Axis.prototype.tickSize = 3;
+Axis.prototype.tickOffset = 0;
 Axis.prototype.minTickDistance = 25;
 Axis.prototype.minLabelDistanceVertical = 40;
 Axis.prototype.minLabelDistanceHorizontal = 50;

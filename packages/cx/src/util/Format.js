@@ -133,6 +133,13 @@ let formatFactory = {
       };
    },
 
+   leftPad: function (part0, length, char) {
+      return (value) => {
+         let s = String(value);
+         return s.padStart(length, char ?? " ");
+      };
+   },
+
    capitalize: function () {
       return (value) => {
          let s = String(value);
@@ -159,6 +166,7 @@ formatFactory.d = formatFactory.date;
 formatFactory.t = formatFactory.time;
 formatFactory.dt = formatFactory.datetime;
 formatFactory.zeropad = formatFactory.zeroPad;
+formatFactory.leftpad = formatFactory.leftPad;
 formatFactory.capitalize = formatFactory.capitalize;
 formatFactory.titlecase = formatFactory.titleCase;
 

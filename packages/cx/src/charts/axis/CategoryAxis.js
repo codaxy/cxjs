@@ -22,7 +22,7 @@ export class CategoryAxis extends Axis {
    explore(context, instance) {
       super.explore(context, instance);
       var { values, names, inverted, uniform, minSize } = instance.data;
-      instance.calculator.reset(inverted, uniform, values, names, minSize);
+      instance.calculator.reset(inverted, uniform, values, names, minSize, this.minTickDistance, this.minLabelDistance);
    }
 
    reportData(context, instance) {
@@ -55,11 +55,14 @@ CategoryAxis.prototype.labelAnchor = "auto";
 CategoryAxis.prototype.labelDx = "auto";
 CategoryAxis.prototype.labelDy = "auto";
 CategoryAxis.prototype.minSize = 1;
+CategoryAxis.prototype.minLabelDistanceHorizontal = 0;
+CategoryAxis.prototype.minLabelDistanceVertical = 0;
+CategoryAxis.prototype.minTickDistance = 0;
 
 Axis.alias("category", CategoryAxis);
 
 class CategoryScale {
-   reset(inverted, uniform, values, names, minSize) {
+   reset(inverted, uniform, values, names, minSize, minTickDistance, minLabelDistance) {
       this.padding = 0.5;
       delete this.min;
       delete this.max;
@@ -72,6 +75,8 @@ class CategoryScale {
       this.uniform = uniform;
       this.valueStacks = {};
       this.names = {};
+      this.minTickDistance = minTickDistance;
+      this.minLabelDistance = minLabelDistance;
 
       if (values) {
          if (isArray(values)) values.forEach((v) => this.acknowledge(v));
@@ -123,6 +128,20 @@ class CategoryScale {
       } else {
          this.factor = (sign * (this.b - this.a)) / (this.max - this.min + 2 * this.padding);
          this.origin = (this.a * (1 + sign)) / 2 + (this.b * (1 - sign)) / 2; //a || b
+      }
+
+      this.tickSizes = [];
+      let tickMultiplier = [1, 2, 5];
+      let absFactor = Math.abs(this.factor);
+      for (let base = 1; base < 10000 && this.tickSizes.length < 2; base *= 10) {
+         for (let m of tickMultiplier) {
+            if (base * m * absFactor >= this.minTickDistance && this.tickSizes.length == 0)
+               this.tickSizes.push(base * m);
+            if (base * m * absFactor >= this.minLabelDistance) {
+               this.tickSizes.push(base * m);
+               break;
+            }
+         }
       }
    }
 
@@ -193,20 +212,24 @@ class CategoryScale {
    }
 
    findTickSize(minPxDist) {
+      for (let tickSize of this.tickSizes) if (tickSize * Math.abs(this.factor) >= minPxDist) return tickSize;
       return 1;
    }
 
    getTickSizes() {
-      return [1];
+      return this.tickSizes;
    }
 
    getTicks(tickSizes) {
-      return tickSizes.map((size) => this.valueList);
+      return tickSizes.map((size) => this.valueList.filter((_, i) => i % size == 0));
    }
 
    mapGridlines() {
-      return Array.from({ length: this.valueList.length + 1 }).map(
-         (_, index) => this.origin + (index - 0.5 - this.min + this.padding) * this.factor,
-      );
+      let result = [];
+      if (this.tickSizes.length == 0) return result;
+      let step = this.tickSizes[0];
+      for (let index = this.min; index <= this.max + 1; index += step)
+         result.push(this.origin + (index - 0.5 - this.min + this.padding) * this.factor);
+      return result;
    }
 }

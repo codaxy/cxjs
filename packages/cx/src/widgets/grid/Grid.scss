@@ -458,72 +458,29 @@
 
       &:not(:first-child) {
          td {
-            padding-top: 15px;
-         }
-      }
-
-      &.#{$state}level-2 {
-         font-size: 130%;
-
-         td {
-            border-bottom: 1px solid grey;
-         }
-      }
-
-      &.#{$state}level-3 {
-         font-size: 145%;
-
-         td {
-            border-bottom: 1px solid grey;
-         }
-      }
-
-      &.#{$state}level-4 {
-         font-size: 160%;
-
-         td {
-            border-bottom: 1px solid grey;
+            padding-top: $cx-default-grid-caption-gap;
          }
       }
    }
 
+   @for $i from 1 through 4 {
+      .#{$element}#{$name}-group-caption.#{$state}level-#{$i} td {
+         @include cx-add-state-rules($cx-grid-group-caption-level-style-map, level-#{$i});
+      }
+   }
+
    .#{$element}#{$name}-group-footer {
-      font-weight: bold;
-
       td {
-         border-top: 1px solid $cx-default-grid-border-color;
          box-sizing: border-box;
-
          &.#{$state}pad {
             padding: cx-get-state-rule($data-state-style-map, default, padding);
          }
       }
+   }
 
-      &.#{$state}level-2 {
-         font-weight: bold;
-         font-size: 110%;
-
-         td {
-            border-top: 1px solid grey;
-         }
-      }
-
-      &.#{$state}level-3 {
-         font-weight: bold;
-         font-size: 120%;
-
-         td {
-            border-top: 1px solid grey;
-         }
-      }
-
-      &.#{$state}level-4 {
-         font-weight: bold;
-         font-size: 130%;
-
-         td {
-            border-top: 1px solid grey;
-         }
+   @for $i from 1 through 4 {
+      .#{$element}#{$name}-group-footer.#{$state}level-#{$i} td {
+         @include cx-add-state-rules($cx-grid-group-footer-level-style-map, level-#{$i});
       }
    }
 

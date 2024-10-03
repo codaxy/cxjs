@@ -126,11 +126,11 @@ class PieCalculator {
       let clockFactor = this.clockwise ? -1 : 1;
       let gapAngle = r0 > 0 && s.gap > 0 ? 2 * Math.asin(s.gap / r0 / 2) : 0;
       s.lastAngle += clockFactor * (angle + gapAngle);
-      let endAngle = startAngle + clockFactor * angle + gapAngle;
+      let endAngle = startAngle + clockFactor * (angle + gapAngle);
 
       return {
          startAngle,
-         endAngle: startAngle + clockFactor * angle + gapAngle,
+         endAngle: startAngle + clockFactor * (angle + gapAngle),
          angle,
          midAngle: (startAngle + endAngle) / 2,
          gap: s.gap,

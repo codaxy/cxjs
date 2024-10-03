@@ -137,8 +137,8 @@ describe("Expression", function () {
       });
 
       it("allows using spaces and other characters inside names", function () {
-         var e = Expression.compile("{inv@lid js ident1fier}");
-         assert.equal(e({ "inv@lid js ident1fier": "CxJS" }), "CxJS");
+         var e = Expression.compile("{1nv@lid js ident1fier}");
+         assert.equal(e({ "1nv@lid js ident1fier": "CxJS" }), "CxJS");
       });
 
       // it('are properly memoized with proxies', function () {
