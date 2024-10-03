@@ -320,81 +320,7 @@ class TimeScale {
       return date.getTimezoneOffset() * 60 * 1000;
    }
 
-   getScale(tickSizes, measure) {
-      let { min, max, upperDeadZone, lowerDeadZone } = this;
-
-      let smin = min;
-      let smax = max;
-
-      if (isNumber(this.snapToTicks) && measure && tickSizes && 0 <= this.snapToTicks && tickSizes.length > 0) {
-         let tickSize = tickSizes[Math.min(tickSizes.length - 1, this.snapToTicks)];
-
-         let minDate = new Date(min);
-         let maxDate = new Date(max);
-
-         switch (measure) {
-            case "second":
-            case "minute":
-            case "hours":
-            case "day":
-            default:
-               let minOffset = this.getTimezoneOffset(minDate);
-               let maxOffset = this.getTimezoneOffset(maxDate);
-               let mondayOffset = 4 * miliSeconds.day; //new Date(0).getDay() => 4
-               smin = Math.floor((smin - minOffset - mondayOffset) / tickSize) * tickSize + minOffset + mondayOffset;
-               smax = Math.ceil((smax - maxOffset - mondayOffset) / tickSize) * tickSize + maxOffset + mondayOffset;
-               break;
-
-            case "month":
-               tickSize /= miliSeconds.month;
-               let minMonth = monthNumber(minDate);
-               let maxMonth = monthNumber(maxDate);
-               minMonth = Math.floor(minMonth / tickSize) * tickSize;
-               maxMonth = Math.ceil(maxMonth / tickSize) * tickSize;
-               smin = new Date(Math.floor(minMonth / 12), minMonth % 12, 1).getTime();
-               smax = new Date(Math.floor(maxMonth / 12), maxMonth % 12, 1).getTime();
-               break;
-
-            case "year":
-               tickSize /= miliSeconds.year;
-               let minYear = yearNumber(minDate);
-               let maxYear = yearNumber(maxDate);
-               minYear = Math.floor(minYear / tickSize) * tickSize;
-               maxYear = Math.ceil(maxYear / tickSize) * tickSize;
-               smin = new Date(minYear, 0, 1).getTime();
-               smax = new Date(maxYear, 0, 1).getTime();
-               break;
-         }
-      } else {
-         if (this.minValue == min) smin = this.minValuePadded;
-         if (this.maxValue == max) smax = this.maxValuePadded;
-      }
-
-      //padding should be activated only if using min/max obtained from the data
-      let minPadding = this.minValue === min ? Math.max(0, smin - this.minValuePadded) : 0;
-      let maxPadding = this.maxValue === max ? Math.max(0, this.maxValuePadded - smax) : 0;
-
-      let factor = smin < smax ? Math.abs(this.b - this.a) / (smax - smin + minPadding + maxPadding) : 0;
-      if (factor > 0 && (upperDeadZone > 0 || lowerDeadZone > 0)) {
-         smin -= lowerDeadZone / factor;
-         smax += upperDeadZone / factor;
-         minPadding = this.minValuePadded != null ? Math.max(0, smin - this.minValuePadded) : 0;
-         maxPadding = this.maxValuePadded != null ? Math.max(0, this.maxValuePadded - smax) : 0;
-         factor = smin < smax ? Math.abs(this.b - this.a) / (smax - smin + minPadding + maxPadding) : 0;
-      }
-
-      let sign = this.b > this.a ? 1 : -1;
-
-      return {
-         factor: sign * (this.inverted ? -factor : factor),
-         min: smin,
-         max: smax,
-         minPadding,
-         maxPadding,
-      };
-   }
-
-   getScale2(tickSize, measure) {
+   getScale(tickSize, measure) {
       let { min, max, upperDeadZone, lowerDeadZone } = this;
 
       let smin = min;
@@ -533,7 +459,7 @@ class TimeScale {
             for (let d = 0; d < divs.length; d++) {
                if (useSnapToTicks && d < Math.min(divs.length - 1, this.snapToTicks)) continue;
                let tickSize = divs[d] * unitSize;
-               let scale = this.getScale2(useSnapToTicks ? tickSize : null, unit);
+               let scale = this.getScale(useSnapToTicks ? tickSize : null, unit);
                let format = this.format ?? this.getFormat(unit, scale);
                let minLabelDistance = this.minLabelDistanceFormatOverride[format] ?? this.minLabelDistance;
                let labelDistance = tickSize * Math.abs(scale.factor);
