@@ -212,7 +212,7 @@ class CategoryScale {
    }
 
    findTickSize(minPxDist) {
-      for (let tickSize of this.tickSizes) if (tickSize * this.factor >= minPxDist) return tickSize;
+      for (let tickSize of this.tickSizes) if (tickSize * Math.abs(this.factor) >= minPxDist) return tickSize;
       return 1;
    }
 
