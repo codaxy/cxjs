@@ -33,5 +33,18 @@ export default {
         description: <cx><Md>
             Value format. If left empty, the format is selected based on the domain range.
         </Md></cx>
+    },
+    useLabelDistanceFormatOverrides: {
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to apply precise label distances from `minLabelDistanceFormatOverride` based on the resolved label format.
+        </Md></cx>
+    },
+    minLabelDistanceFormatOverride: {
+        type: 'object',
+        description: <cx><Md>
+            Mapping of formats to label distances, i.e. `&#123; "datetime;YYYYMM": 80 &#125;`.
+            Set `useLabelDistanceFormatOverrides` to `true` to apply these overrides.
+        </Md></cx>
     }
 };

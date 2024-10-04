@@ -101,7 +101,7 @@ export class Axis extends BoundedObject {
       }
 
       var t = [];
-      if (size > 0 && !data.hideLabels) {
+      if (!!size && !data.hideLabels) {
          var ticks = calculator.getTicks([size]);
          ticks.forEach((serie, si) => {
             serie.forEach((v, i) => {

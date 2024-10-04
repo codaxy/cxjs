@@ -1,4 +1,4 @@
-import { Chart, LineGraph, NumericAxis, TimeAxis } from "cx/charts";
+import { Chart, Gridlines, LineGraph, NumericAxis, TimeAxis } from "cx/charts";
 import { Svg } from "cx/svg";
 import { Controller, enableCultureSensitiveFormatting, LabelsTopLayout } from "cx/ui";
 import { ContentResolver, LookupField, NumberField, Resizer } from "cx/widgets";
@@ -130,6 +130,7 @@ export default (
                               },
                            }}
                         >
+                           <Gridlines />
                            <LineGraph
                               name="Predicted"
                               data-bind="$page.data"
