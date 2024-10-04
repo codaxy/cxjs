@@ -333,7 +333,7 @@ class TimeScale {
          switch (measure) {
             case "second":
             case "minute":
-            case "hours":
+            case "hour":
             case "day":
             default:
                let minOffset = this.getTimezoneOffset(minDate);
