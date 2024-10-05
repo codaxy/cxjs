@@ -88,7 +88,7 @@ describe("ContentPlaceholder", () => {
          <Cx store={store} subscribe immediate>
             <div>
                <header>
-                  <ContentPlaceholder name="headers" />
+                  <ContentPlaceholder name="headers" allowMultiple />
                </header>
                <main>
                   <h2 putInto="headers">Header1</h2>

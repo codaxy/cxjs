@@ -30,24 +30,40 @@ export class ContentPlaceholder extends PureContainer {
 
    prepare(context, instance) {
       let { content } = instance;
-      if (instance.cache("content", content) || (content && content.shouldUpdate)) instance.markShouldUpdate(context);
+      if (this.allowMultiple) {
+         let contentId = "";
+         let shouldUpdate = false;
+         if (content) {
+            for (let i = 0; i < content.length; i++) {
+               let c = content[i];
+               contentId += c.id + "+";
+               shouldUpdate = shouldUpdate || c.shouldUpdate;
+            }
+         }
+         if (instance.cache("content", contentId) || shouldUpdate) instance.markShouldUpdate(context);
+      } else if (instance.cache("content", content) || (content && content.shouldUpdate))
+         instance.markShouldUpdate(context);
    }
 
    setContent(context, instance, content) {
-      instance.content = content;
+      if (this.allowMultiple) {
+         if (instance.content == null) instance.content = [];
+         instance.content.push(content);
+      } else instance.content = content;
       content.contentPlaceholder = instance;
    }
 
    render(context, instance, key) {
       const { content } = instance;
-      if (content) return content.contentVDOM;
-
-      return super.render(context, instance, key);
+      if (!content) return super.render(context, instance, key);
+      if (this.allowMultiple) return content.map((x) => x.contentVDOM);
+      return content.contentVDOM;
    }
 }
 
 ContentPlaceholder.prototype.name = "body";
 ContentPlaceholder.prototype.scoped = false;
+ContentPlaceholder.prototype.allowMultiple = false;
 
 Widget.alias("content-placeholder", ContentPlaceholder);
 
