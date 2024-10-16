@@ -3,7 +3,7 @@ import { VDOM } from "../Widget";
 import { HtmlElement } from "../../widgets/HtmlElement";
 import { Store } from "../../data/Store";
 import { Controller } from "../Controller";
-import { ContentPlaceholder } from "./ContentPlaceholder";
+import { ContentPlaceholder, ContentPlaceholderScope } from "./ContentPlaceholder";
 
 import renderer from "react-test-renderer";
 import assert from "assert";
@@ -123,6 +123,126 @@ describe("ContentPlaceholder", () => {
                type: "main",
                props: {},
                children: null,
+            },
+         ],
+      });
+   });
+
+   it("allows putting multiple entries inside when content is defined before and after the placeholder", () => {
+      let store = new Store();
+      const component = renderer.create(
+         <Cx store={store} subscribe immediate>
+            <div>
+               <PureContainer>
+                  <h2 putInto="headers">Header1</h2>
+                  <h2 putInto="headers">Header2</h2>
+               </PureContainer>
+               <header>
+                  <ContentPlaceholder name="headers" allowMultiple />
+               </header>
+               <PureContainer>
+                  <h2 putInto="headers">Header3</h2>
+                  <h2 putInto="headers">Header4</h2>
+               </PureContainer>
+            </div>
+         </Cx>,
+      );
+
+      let tree = component.toJSON();
+      assert.deepEqual(tree, {
+         type: "div",
+         props: {},
+         children: [
+            {
+               type: "header",
+               props: {},
+               children: [
+                  {
+                     type: "h2",
+                     props: {},
+                     children: ["Header1"],
+                  },
+                  {
+                     type: "h2",
+                     props: {},
+                     children: ["Header2"],
+                  },
+                  {
+                     type: "h2",
+                     props: {},
+                     children: ["Header3"],
+                  },
+                  {
+                     type: "h2",
+                     props: {},
+                     children: ["Header4"],
+                  },
+               ],
+            },
+         ],
+      });
+   });
+
+   it("allows putting multiple entries into separate placeholders using content placeholder scopes", () => {
+      let store = new Store();
+      const component = renderer.create(
+         <Cx store={store} subscribe immediate>
+            <div>
+               <ContentPlaceholderScope name="headers">
+                  <h2 putInto="headers">Header1</h2>
+                  <h2 putInto="headers">Header2</h2>
+                  <header>
+                     <ContentPlaceholder name="headers" allowMultiple />
+                  </header>
+               </ContentPlaceholderScope>
+
+               <ContentPlaceholderScope name="headers">
+                  <header>
+                     <ContentPlaceholder name="headers" allowMultiple />
+                  </header>
+                  <h2 putInto="headers">Header3</h2>
+                  <h2 putInto="headers">Header4</h2>
+               </ContentPlaceholderScope>
+            </div>
+         </Cx>,
+      );
+
+      let tree = component.toJSON();
+      assert.deepEqual(tree, {
+         type: "div",
+         props: {},
+         children: [
+            {
+               type: "header",
+               props: {},
+               children: [
+                  {
+                     type: "h2",
+                     props: {},
+                     children: ["Header1"],
+                  },
+                  {
+                     type: "h2",
+                     props: {},
+                     children: ["Header2"],
+                  },
+               ],
+            },
+            {
+               type: "header",
+               props: {},
+               children: [
+                  {
+                     type: "h2",
+                     props: {},
+                     children: ["Header3"],
+                  },
+                  {
+                     type: "h2",
+                     props: {},
+                     children: ["Header4"],
+                  },
+               ],
             },
          ],
       });
