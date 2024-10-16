@@ -13,8 +13,12 @@ export class PointReducer extends PureContainer {
             if (this.onInitAccumulator) instance.invoke("onInitAccumulator", accumulator, instance);
          };
 
+         let pointFilter = null;
+         if (this.onCreatePointFilter) pointFilter = instance.invoke("onCreatePointFilter", instance);
+
          instance.pointReducer = (x, y, name, data, array, index) => {
-            onMap(accumulator, x, y, name, data, array, index);
+            if (!pointFilter || pointFilter(x, y, name, data, array, index))
+               onMap(accumulator, x, y, name, data, array, index);
             if (parentPointReducer) parentPointReducer(x, y, name, data, array, index);
          };
          instance.write = () => {

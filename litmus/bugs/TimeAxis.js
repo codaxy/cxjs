@@ -326,26 +326,26 @@ const dataMap = {
          predicted: 31.88,
          actual: 36.57,
       },
-      {
-         date: "08-04-2024",
-         predicted: 77.68,
-         actual: 87.3,
-      },
-      {
-         date: "08-11-2024",
-         predicted: 77.91,
-         actual: 87.2,
-      },
-      {
-         date: "08-18-2024",
-         predicted: 77.53,
-         actual: 87.09,
-      },
-      {
-         date: "08-25-2024",
-         predicted: 76.39,
-         actual: 86.62,
-      },
+      // {
+      //    date: "08-04-2024",
+      //    predicted: 77.68,
+      //    actual: 87.3,
+      // },
+      // {
+      //    date: "08-11-2024",
+      //    predicted: 77.91,
+      //    actual: 87.2,
+      // },
+      // {
+      //    date: "08-18-2024",
+      //    predicted: 77.53,
+      //    actual: 87.09,
+      // },
+      // {
+      //    date: "08-25-2024",
+      //    predicted: 76.39,
+      //    actual: 86.62,
+      // },
    ],
    monthly: [
       {

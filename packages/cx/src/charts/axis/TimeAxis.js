@@ -320,7 +320,7 @@ class TimeScale {
       return date.getTimezoneOffset() * 60 * 1000;
    }
 
-   getScale(tickSize, measure) {
+   getScale(tickSize, measure, minRange = 1000) {
       let { min, max, upperDeadZone, lowerDeadZone } = this;
 
       let smin = min;
@@ -366,6 +366,12 @@ class TimeScale {
       } else {
          if (this.minValue == min) smin = this.minValuePadded;
          if (this.maxValue == max) smax = this.maxValuePadded;
+      }
+
+      if (smax - smin < minRange) {
+         let delta = (minRange - (smax - smin)) / 2;
+         smin -= delta;
+         smax += delta;
       }
 
       //padding should be activated only if using min/max obtained from the data
@@ -420,7 +426,7 @@ class TimeScale {
    }
 
    findTickSize(minPxDist) {
-      return this.tickSizes.find(({ size }) => size * Math.abs(this.scale.factor) >= minPxDist);
+      return this.tickSizes.find(({ size, noLabels }) => !noLabels && size * Math.abs(this.scale.factor) >= minPxDist);
    }
 
    getTickSizes() {
@@ -429,6 +435,8 @@ class TimeScale {
 
    calculateTicks() {
       let minReached = false;
+
+      let minRange = 1000;
 
       for (let unit in miliSeconds) {
          if (!minReached) {
@@ -458,7 +466,7 @@ class TimeScale {
             for (let d = 0; d < divs.length; d++) {
                //if (useSnapToTicks && d < Math.min(divs.length - 1, this.snapToTicks)) continue;
                let tickSize = divs[d] * unitSize;
-               let scale = this.getScale(null, unit);
+               let scale = this.getScale(null, unit, tickSize);
                let format = this.format ?? this.getFormat(unit, scale);
                let minLabelDistance = this.minLabelDistanceFormatOverride[format] ?? this.minLabelDistance;
                let labelDistance = tickSize * Math.abs(scale.factor);
@@ -468,6 +476,7 @@ class TimeScale {
                   bestLabelDistance = labelDistance;
                   bestFormat = format;
                   bestMinLabelDistance = minLabelDistance;
+                  minRange = tickSize;
                }
             }
          }
@@ -516,10 +525,10 @@ class TimeScale {
             }
          }
          if (bestMinorTickSize != Infinity) {
-            this.tickSizes.unshift({ size: bestMinorTickSize, measure: lowerTickUnit });
+            this.tickSizes.unshift({ size: bestMinorTickSize, measure: lowerTickUnit, noLabels: true });
             if (this.tickSizes.length > 1) {
                let labelStep = this.tickSizes[1].size;
-               let lowerScale = this.getScale(null, lowerTickUnit);
+               let lowerScale = this.getScale(null, lowerTickUnit, minRange);
                if (lowerScale.max - lowerScale.min >= labelStep) this.scale = lowerScale;
             }
          }
@@ -527,7 +536,7 @@ class TimeScale {
 
       if (isNumber(this.snapToTicks) && this.snapToTicks >= 0) {
          let tickSize = this.tickSizes[Math.min(this.tickSizes.length - 1, this.snapToTicks)];
-         this.scale = this.getScale(tickSize.size, tickSize.measure);
+         this.scale = this.getScale(tickSize.size, tickSize.measure, minRange);
       }
    }
 
