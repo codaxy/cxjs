@@ -1,6 +1,7 @@
 import { Widget } from "../Widget";
 import { PureContainer } from "../PureContainer";
 import { isString } from "../../util/isString";
+import { isNonEmptyArray } from "../../util/isNonEmptyArray";
 
 export class ContentPlaceholder extends PureContainer {
    declareData() {
@@ -13,12 +14,23 @@ export class ContentPlaceholder extends PureContainer {
       instance.content = null;
       let { data } = instance;
 
-      const content = context.content && context.content[data.name];
-      if (content && !this.scoped) this.setContent(context, instance, content);
-      else
+      if (this.allowMultiple) {
+         const contentList = context.contentList && context.contentList[data.name];
+         if (isNonEmptyArray(contentList) && !this.scoped)
+            for (let i = 0; i < contentList.length; i++) this.setContent(context, instance, contentList[i]);
+
+         // in multi mode register a callback to allow for more entries to be added
          context.pushNamedValue("contentPlaceholder", data.name, (content) => {
             this.setContent(context, instance, content);
          });
+      } else {
+         const content = context.content && context.content[data.name];
+         if (content && !this.scoped) this.setContent(context, instance, content);
+         else
+            context.pushNamedValue("contentPlaceholder", data.name, (content) => {
+               this.setContent(context, instance, content);
+            });
+      }
 
       if (this.scoped)
          instance.unregisterContentPlaceholder = () => {
@@ -78,6 +90,7 @@ export class ContentPlaceholderScope extends PureContainer {
       this.name.forEach((name) => {
          context.pushNamedValue("contentPlaceholder", name, null);
          context.pushNamedValue("content", name, null);
+         context.pushNamedValue("contentList", name, []);
       });
       super.explore(context, instance);
    }
@@ -86,6 +99,7 @@ export class ContentPlaceholderScope extends PureContainer {
       this.name.forEach((name) => {
          context.popNamedValue("contentPlaceholder", name);
          context.popNamedValue("content", name);
+         context.popNamedValue("contentList", name);
       });
    }
 }

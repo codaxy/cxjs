@@ -117,8 +117,8 @@ export class Instance {
          ins = ins.widget.isContent
             ? ins.contentPlaceholder
             : ins.parent.outerLayout === ins
-            ? ins.parent.parent
-            : ins.parent;
+              ? ins.parent.parent
+              : ins.parent;
       }
       renderList.reverse();
    }
@@ -205,6 +205,10 @@ export class Instance {
          else {
             this.renderList = this.renderList.insertLeft();
             context.pushNamedValue("content", this.widget.putInto, this);
+            if (!context.contentList) context.contentList = {};
+            let list = context.contentList[this.widget.putInto];
+            if (!list) list = context.contentList[this.widget.putInto] = [];
+            list.push(this);
          }
       }
 
@@ -375,8 +379,8 @@ export class Instance {
                validatedDebounce(
                   (value) => this.doSet(prop, value),
                   () => this.dataSelector(this.store)[prop],
-                  p.debounce
-               )
+                  p.debounce,
+               ),
             );
             this.set(prop, value, options);
             return true;
@@ -385,7 +389,7 @@ export class Instance {
          if (p.throttle) {
             this.definePropertySetter(
                prop,
-               throttle((value) => this.doSet(prop, value), p.throttle)
+               throttle((value) => this.doSet(prop, value), p.throttle),
             );
             this.set(prop, value, options);
             return true;
@@ -441,13 +445,13 @@ export class Instance {
 
       if (!config.set)
          throw new Error(
-            `Cannot change nested data value for ${key} as it's read-only. Either define it as a binding or define a set function.`
+            `Cannot change nested data value for ${key} as it's read-only. Either define it as a binding or define a set function.`,
          );
       if (isString(config.set)) this.getControllerMethod(config.set)(value, this);
       else if (isFunction(config.set)) config.set(value, this);
       else
          throw new Error(
-            `Cannot change nested data value for ${key} the defined setter is neither a function nor a controller method.`
+            `Cannot change nested data value for ${key} the defined setter is neither a function nor a controller method.`,
          );
 
       return true;
@@ -510,7 +514,7 @@ export class Instance {
    getControllerMethod(methodName) {
       if (!this.controller)
          throw new Error(
-            `Cannot invoke controller method "${methodName}" as controller is not assigned to the widget.`
+            `Cannot invoke controller method "${methodName}" as controller is not assigned to the widget.`,
          );
 
       let at = this;
@@ -518,7 +522,7 @@ export class Instance {
 
       if (!at || !at.controller || !at.controller[methodName])
          throw new Error(
-            `Cannot invoke controller method "${methodName}". The method cannot be found in any of the assigned controllers.`
+            `Cannot invoke controller method "${methodName}". The method cannot be found in any of the assigned controllers.`,
          );
 
       return at.controller[methodName].bind(at.controller);
