@@ -344,4 +344,8 @@ class NumericScale {
       for (let i = start; i <= end; i++) result.push(this.map(i * size));
       return result;
    }
+
+   book() {
+      Console.warn("NumericAxis does not support the autoSize flag for column and bar graphs.");
+   }
 }

@@ -4,6 +4,7 @@ import { Stack } from "./Stack";
 import { Format } from "../../ui/Format";
 import { isNumber } from "../../util/isNumber";
 import { zeroTime } from "../../util/date/zeroTime";
+import { Console } from "../../util/Console";
 
 Format.registerFactory("yearOrMonth", (format) => {
    let year = Format.parse("datetime;yyyy");
@@ -511,6 +512,9 @@ class TimeScale {
             break;
       }
 
+      if (lowerTickUnit && this.minTickUnit && miliSeconds[lowerTickUnit] < miliSeconds[this.minTickUnit])
+         lowerTickUnit = this.minTickUnit == this.tickMeasure ? null : this.minTickUnit;
+
       if (lowerTickUnit != null && this.scale) {
          let bestMinorTickSize = Infinity;
          let divisions = this.tickDivisions[lowerTickUnit];
@@ -567,6 +571,7 @@ class TimeScale {
             minDate = new Date(this.scale.min - this.scale.minPadding);
             maxDate = new Date(this.scale.max + this.scale.maxPadding);
             let date = zeroTime(minDate);
+            while (date.getTime() < minDate.getTime()) date.setDate(date.getDate() + 1);
             if (measure == "week") {
                //start on monday
                while (date.getDay() != 1) {
@@ -597,5 +602,9 @@ class TimeScale {
    mapGridlines() {
       if (this.tickSizes.length == 0) return [];
       return this.getTicks([this.tickSizes[0]])[0].map((x) => this.map(x));
+   }
+
+   book() {
+      Console.warn("TimeAxis does not support the autoSize flag for column and bar graphs.");
    }
 }
