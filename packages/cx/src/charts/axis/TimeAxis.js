@@ -534,7 +534,7 @@ class TimeScale {
          }
       }
 
-      if (isNumber(this.snapToTicks) && this.snapToTicks >= 0) {
+      if (isNumber(this.snapToTicks) && this.snapToTicks >= 0 && this.tickSizes.length > 0) {
          let tickSize = this.tickSizes[Math.min(this.tickSizes.length - 1, this.snapToTicks)];
          this.scale = this.getScale(tickSize.size, tickSize.measure, minRange);
       }
