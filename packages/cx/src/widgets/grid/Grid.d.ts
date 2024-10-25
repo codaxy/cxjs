@@ -22,7 +22,7 @@ import {
 } from "../../core";
 import { DataAdapterRecord } from "../../ui/adapter/DataAdapter";
 
-type FetchRecordsResult = T[] | { records: T[]; lastPage?: boolean; totalRecordCount?: number };
+type FetchRecordsResult<T> = T[] | { records: T[]; lastPage?: boolean; totalRecordCount?: number };
 
 interface MappedGridRecord<T = unknown> extends DataAdapterRecord<T> {
    row: Instance;
@@ -352,7 +352,7 @@ interface GridProps<T = unknown> extends StyledContainerProps {
          sortDirection?: string;
       },
       instance?: Instance,
-   ) => FetchRecordsResult | Promise<FetchRecordsResult>;
+   ) => FetchRecordsResult<T> | Promise<FetchRecordsResult<T>>;
 
    /** Callback function to be executed when a row is double-clicked. */
    onRowDoubleClick?: string | ((e: React.SyntheticEvent<any>, instance: Instance) => void);
@@ -370,10 +370,10 @@ interface GridProps<T = unknown> extends StyledContainerProps {
    cellEditable?: boolean;
 
    /** A callback function which is executed before a cell editor is initialized. Return false from the callback to prevent the cell from going into the edit mode. */
-   onBeforeCellEdit?: string | ((change: GridCellBeforeEditInfo, record: DataAdapterRecord) => any);
+   onBeforeCellEdit?: string | ((change: GridCellBeforeEditInfo, record: DataAdapterRecord<T>) => any);
 
    /** A callback function which is executed after a cell has been successfully edited. */
-   onCellEdited?: string | ((change: GridCellEditInfo<T>, record: DataAdapterRecord) => void);
+   onCellEdited?: string | ((change: GridCellEditInfo<T>, record: DataAdapterRecord<T>) => void);
 
    /** A callback function which is executed after a column has been resized. */
    onColumnResize?: (data: { width: number; column: Record }, instance: Instance) => void;
@@ -416,7 +416,7 @@ interface GridProps<T = unknown> extends StyledContainerProps {
     * Accepts new records as a first argument.
     * If onCreateFilter callback is defined, filtered records can be retrieved using this callback.
     */
-   onTrackMappedRecords?: string | ((records: T[], instance: Instance) => void);
+   onTrackMappedRecords?: string | ((records: DataAdapterRecord<T>[], instance: Instance) => void);
 
    /** Callback to create a function that can be used to check whether a record is draggable. */
    onCreateIsRecordDraggable?: (params: any, instance: Instance) => (record: T) => boolean;
