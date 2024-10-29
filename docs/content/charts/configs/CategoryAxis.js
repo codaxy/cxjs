@@ -51,4 +51,10 @@ export default {
             Set to `true` to show ticks aligned with gridlines instead of labels. Default is `false`.
         </Md></cx>
     },
+    format: {
+        type: 'string',
+        description: <cx><Md>
+           Additional label formatting. No format is set by default, values appear as is. Useful when values are not strings or string values that are too long.
+        </Md></cx>
+    },
 };

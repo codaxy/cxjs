@@ -2,6 +2,7 @@ import { Axis } from "./Axis";
 import { VDOM } from "../../ui/Widget";
 import { isUndefined } from "../../util/isUndefined";
 import { isArray } from "../../util/isArray";
+import { Format } from "../../util/Format";
 
 export class CategoryAxis extends Axis {
    declareData() {
@@ -12,6 +13,7 @@ export class CategoryAxis extends Axis {
          values: undefined,
          minSize: undefined,
          categoryCount: undefined,
+         format: undefined,
       });
    }
 
@@ -34,11 +36,15 @@ export class CategoryAxis extends Axis {
 
       if (!data.bounds.valid()) return null;
 
-      var formatter = (v) => calculator.names[v] || v;
-
+      let labelGetter = (v) => calculator.names[v] ?? v;
+      let labelFormatter = labelGetter;
+      if (data.format) {
+         let formatter = Format.parse(data.format);
+         labelFormatter = (v) => formatter(labelGetter(v));
+      }
       return (
          <g key={key} className={data.classNames} style={data.style}>
-            {this.renderTicksAndLabels(context, instance, formatter)}
+            {this.renderTicksAndLabels(context, instance, labelFormatter)}
          </g>
       );
    }

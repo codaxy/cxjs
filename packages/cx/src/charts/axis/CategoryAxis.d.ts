@@ -22,6 +22,9 @@ interface CategoryAxisProps extends AxisProps {
 
    /** Set to true to show ticks aligned with gridlines instead of labels. Default is false. */
    useGridlineTicks?: boolean;
+
+   /** Additional label formatting. No format is set by default, values appear as is. Useful when values are not strings or string values that are too long.*/
+   format?: Cx.StringProp;
 }
 
 export class CategoryAxis extends Cx.Widget<CategoryAxisProps> {}
