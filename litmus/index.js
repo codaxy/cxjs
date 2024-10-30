@@ -125,7 +125,8 @@ import "./index.scss";
 // import Demo from "./features/tracking/scatter";
 //import Demo from "./features/tooltips/FlyweightTooltipTracker";
 // import Demo from "./bugs/infinite-update-loop";
-import Demo from "./bugs/TimeAxis";
+// import Demo from "./bugs/TimeAxis";
+import Demo from "./bugs/HighlightedTextSearchBug";
 
 let store = (window.store = new Store());
 
