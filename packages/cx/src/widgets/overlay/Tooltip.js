@@ -224,15 +224,22 @@ function tooltipMouseMove(e, parentInstance, tooltip, options = {}) {
             delete instance.parent.tooltips[instance.tooltipName];
          unsubscribeDismiss();
          dismiss();
+         instance.dismissTooltip = null;
       };
       setTimeout(() => {
          let { relatedElement } = instance.widget;
-         if (!canceled && instance.mouseOverTarget && relatedElement.ownerDocument.body.contains(relatedElement)) {
+         if (
+            !canceled &&
+            (instance.mouseOverTarget || instance.data.alwaysVisible) &&
+            relatedElement.ownerDocument.body.contains(relatedElement)
+         ) {
             dismiss = instance.widget.open(instance, {
                onPipeUpdate: (cb) => {
                   instance.update = cb;
                },
             });
+         } else {
+            instance.dismissTooltip = null;
          }
       }, instance.widget.createDelay);
    } else {
