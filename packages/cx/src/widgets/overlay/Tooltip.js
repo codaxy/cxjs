@@ -228,11 +228,7 @@ function tooltipMouseMove(e, parentInstance, tooltip, options = {}) {
       };
       setTimeout(() => {
          let { relatedElement } = instance.widget;
-         if (
-            !canceled &&
-            (instance.mouseOverTarget || instance.data.alwaysVisible) &&
-            relatedElement.ownerDocument.body.contains(relatedElement)
-         ) {
+         if (!canceled && instance.mouseOverTarget && relatedElement.ownerDocument.body.contains(relatedElement)) {
             dismiss = instance.widget.open(instance, {
                onPipeUpdate: (cb) => {
                   instance.update = cb;
