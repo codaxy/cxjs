@@ -35,7 +35,7 @@ import "./index.scss";
 //import Demo from "./features/grid/header-tool";
 //import Demo from "./features/grid/column-reorder";
 //import Demo from "./features/grid/GridBuffering";
-//import Demo from './features/grid/RowEditing';
+// import Demo from "./features/grid/RowEditing";
 //import Demo from './features/grid/MultiLine';
 //import Demo from './features/grid/FixedFooterNoGrouping';
 //import Demo from "./features/grid/CellEditing";
@@ -126,7 +126,8 @@ import "./index.scss";
 //import Demo from "./features/tooltips/FlyweightTooltipTracker";
 // import Demo from "./bugs/infinite-update-loop";
 // import Demo from "./bugs/TimeAxis";
-import Demo from "./bugs/HighlightedTextSearchBug";
+// import Demo from "./bugs/HighlightedTextSearchBug";
+import Demo from "./bugs/GridScrollUponButtonClickIssue";
 
 let store = (window.store = new Store());
 
