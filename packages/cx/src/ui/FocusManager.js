@@ -161,10 +161,10 @@ export function unfocusElement(target = null, unfocusParentOverlay = true) {
    //find the closest focusable parent of the target element and focus it instead
    let focusableParent = closestParent(
       target,
-      (el) => isFocusable(el) && (!unfocusParentOverlay || el.dataset?.focusableOverlayContainer)
+      (el) => isFocusable(el) && (!unfocusParentOverlay || el.dataset?.focusableOverlayContainer),
    );
 
-   if (focusableParent && focusableParent !== document.body) focusableParent.focus();
+   if (focusableParent && focusableParent !== document.body) focusableParent.focus({ preventScroll: true });
    else activeElement.blur();
 
    FocusManager.nudge();
