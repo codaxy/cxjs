@@ -1,5 +1,6 @@
 import { Expression } from "./Expression";
 import assert from "assert";
+import { stringTemplate } from "./StringTemplate";
 
 describe("Expression", function () {
    describe("#compile()", function () {
@@ -139,6 +140,13 @@ describe("Expression", function () {
       it("allows using spaces and other characters inside names", function () {
          var e = Expression.compile("{1nv@lid js ident1fier}");
          assert.equal(e({ "1nv@lid js ident1fier": "CxJS" }), "CxJS");
+      });
+
+      it("allows string templates in nested expressions", () => {
+         Expression.registerHelper("tpl", stringTemplate);
+
+         var e = Expression.compile("%{tpl('{0:n;2} {1:p;2:wrap;(;)}', {value}, {percentage})}");
+         assert.equal(e({ value: 1, p: 0.02 }), "1.00 (2.00%)");
       });
 
       // it('are properly memoized with proxies', function () {
