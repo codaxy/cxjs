@@ -1,9 +1,9 @@
-import { createLoacalStorageRef } from "cx/hooks";
+import { createLocalStorageRef } from "cx/hooks";
 import { TextField } from "cx/widgets";
 import { createFunctionalComponent } from "cx/ui";
 
 const View = createFunctionalComponent(() => {
-   let ref = createLoacalStorageRef("test");
+   let ref = createLocalStorageRef("test");
 
    return (
       <cx>
@@ -19,4 +19,4 @@ export default (
    <cx>
       <View />
    </cx>
-)
+);
