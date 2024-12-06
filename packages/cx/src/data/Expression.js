@@ -105,19 +105,18 @@ export function expression(str) {
       let c = str[i];
       switch (c) {
          case "{":
-            if (curlyBrackets > 0) curlyBrackets++;
-            else {
-               if (!quote && termStart < 0 && (str[i + 1] != "{" || str[i - 1] == "%")) {
-                  termStart = i + 1;
-                  curlyBrackets = 1;
-                  percentExpression = str[i - 1] == "%";
-                  if (percentExpression) fb.pop(); //%
-               } else if (str[i - 1] != "{") fb.push(c);
-            }
+            if (curlyBrackets > 0 && !quote) curlyBrackets++;
+            else if (!quote && termStart < 0 && (str[i + 1] != "{" || str[i - 1] == "%")) {
+               termStart = i + 1;
+               curlyBrackets = 1;
+               percentExpression = str[i - 1] == "%";
+               if (percentExpression) fb.pop(); //%
+            } else if (termStart < 0 && (quote || str[i - 1] != "{")) fb.push(c);
             break;
 
          case "}":
             if (termStart >= 0) {
+               if (quote) continue;
                if (--curlyBrackets == 0) {
                   let term = str.substring(termStart, i);
                   let formatStart = 0;
@@ -151,11 +150,11 @@ export function expression(str) {
 
          case '"':
          case "'":
-            if (curlyBrackets == 0) {
-               if (!quote) quote = c;
-               else if (str[i - 1] != "\\" && quote == c) quote = false;
-               fb.push(c);
-            }
+            if (!quote) quote = c;
+            else if (str[i - 1] != "\\" && quote == c) quote = false;
+
+            if (curlyBrackets == 0) fb.push(c);
+
             break;
 
          default:
@@ -174,12 +173,13 @@ export function expression(str) {
    let keys = Object.keys(args);
 
    try {
-      let compute = new Function("fmt", ...formats.map((f, i) => "fmt" + i), ...keys, ...helperNames, body).bind(
+      let compute = new Function("fmt", ...formats.map((f, i) => "fmt" + i), ...helperNames, ...keys, body).bind(
          Format,
          Format.value,
          ...formats,
          ...helperValues,
       );
+
       let selector = computable(...keys.map((k) => args[k]), compute);
       cache[str] = selector;
       return selector;
