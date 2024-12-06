@@ -10,6 +10,7 @@ import {
    Prop,
    SortDirection,
 } from "../core";
+import { DataAdapterRecord } from "./adapter";
 import { Instance } from "./Instance";
 
 interface RepeaterProps<T = unknown> extends PureContainerProps {
@@ -45,7 +46,7 @@ interface RepeaterProps<T = unknown> extends PureContainerProps {
     * Accepts new records as a first argument.
     * If onCreateFilter callback is defined, filtered records can be retrieved using this callback.
     */
-   onTrackMappedRecords?: string | ((records: T[], instance: Instance) => void);
+   onTrackMappedRecords?: string | ((records: DataAdapterRecord<T>[], instance: Instance) => void);
 
    /** Options for data sorting. See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Collator */
    sortOptions?: CollatorOptions;
