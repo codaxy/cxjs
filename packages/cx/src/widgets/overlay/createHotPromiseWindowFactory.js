@@ -36,10 +36,14 @@ export function createHotPromiseWindowFactoryWithProps(module, factory) {
             dismiss = window.open(store);
          }
          unsubscribe = subscriberList?.subscribe((updatedFactory) => {
-            reloading = true;
             factory = updatedFactory;
-            rerun();
-            reloading = false;
+            setTimeout(() => {
+               // timeout is required for proper module initialization
+               // sometimes elements are defined in the lower part of the module and if the function is run immediately, it will fail
+               reloading = true;
+               rerun();
+               reloading = false;
+            }, 10);
          });
          rerun();
       });
