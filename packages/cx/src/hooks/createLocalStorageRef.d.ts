@@ -1,3 +1,3 @@
 import { Ref } from "../data";
 
-export function createLoacalStorageRef(key: string): Ref<any>;
+export function createLocalStorageRef(key: string): Ref<any>;
