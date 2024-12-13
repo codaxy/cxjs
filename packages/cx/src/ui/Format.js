@@ -3,6 +3,7 @@ import { Format as Fmt, resolveMinMaxFractionDigits, setGetFormatCacheCallback }
 import { GlobalCacheIdentifier } from "../util/GlobalCacheIdentifier";
 import { setGetExpressionCacheCallback } from "../data/Expression";
 import { setGetStringTemplateCacheCallback } from "../data/StringTemplate";
+import { parseDateInvariant } from "../util";
 
 export const Format = Fmt;
 
@@ -70,19 +71,19 @@ export function enableCultureSensitiveFormatting() {
    Fmt.registerFactory(["date", "d"], (fmt, format = "yyyyMMdd") => {
       let culture = Culture.getDateTimeCulture();
       let formatter = culture.getFormatter(format);
-      return (value) => formatter.format(new Date(value));
+      return (value) => formatter.format(parseDateInvariant(value));
    });
 
    Fmt.registerFactory(["time", "t"], (fmt, format = "hhmmss") => {
       let culture = Culture.getDateTimeCulture();
       let formatter = culture.getFormatter(format);
-      return (value) => formatter.format(new Date(value));
+      return (value) => formatter.format(parseDateInvariant(value));
    });
 
    Fmt.registerFactory(["datetime", "dt"], (fmt, format = "yyyyMd hhmm") => {
       let culture = Culture.getDateTimeCulture();
       let formatter = culture.getFormatter(format);
-      return (value) => formatter.format(new Date(value));
+      return (value) => formatter.format(parseDateInvariant(value));
    });
 
    setGetFormatCacheCallback(() => {
