@@ -5,6 +5,7 @@ import { WheelComponent } from "./Wheel";
 import { oneFocusOut, offFocusOut } from "../../ui/FocusManager";
 
 import { enableCultureSensitiveFormatting } from "../../ui/Format";
+import { parseDateInvariant } from "../../util";
 enableCultureSensitiveFormatting();
 
 export class DateTimePicker extends Widget {
@@ -37,7 +38,7 @@ DateTimePicker.prototype.showSeconds = false;
 class DateTimePickerComponent extends VDOM.Component {
    constructor(props) {
       super(props);
-      let date = props.data.value ? new Date(props.data.value) : new Date();
+      let date = props.data.value ? parseDateInvariant(props.data.value) : new Date();
       if (isNaN(date.getTime())) date = new Date();
       this.state = {
          date: date,
@@ -67,7 +68,7 @@ class DateTimePickerComponent extends VDOM.Component {
    }
 
    UNSAFE_componentWillReceiveProps(props) {
-      let date = props.data.value ? new Date(props.data.value) : new Date();
+      let date = props.data.value ? parseDateInvariant(props.data.value) : new Date();
       if (isNaN(date.getTime())) date = new Date();
       this.setState({ date });
    }
@@ -160,7 +161,7 @@ class DateTimePickerComponent extends VDOM.Component {
                         (state) => ({
                            date: this.setDateComponent(this.state.date, "year", newIndex + 1970),
                         }),
-                        this.handleChange
+                        this.handleChange,
                      );
                   }}
                   onPipeKeyDown={(kd) => {
@@ -186,7 +187,7 @@ class DateTimePickerComponent extends VDOM.Component {
                         (state) => ({
                            date: this.setDateComponent(this.state.date, "month", newIndex),
                         }),
-                        this.handleChange
+                        this.handleChange,
                      );
                   }}
                   onPipeKeyDown={(kd) => {
@@ -214,7 +215,7 @@ class DateTimePickerComponent extends VDOM.Component {
                         (state) => ({
                            date: this.setDateComponent(this.state.date, "date", newIndex + 1),
                         }),
-                        this.handleChange
+                        this.handleChange,
                      );
                   }}
                   onPipeKeyDown={(kd) => {
@@ -240,7 +241,7 @@ class DateTimePickerComponent extends VDOM.Component {
                         (state) => ({
                            date: this.setDateComponent(this.state.date, "hours", newIndex),
                         }),
-                        this.handleChange
+                        this.handleChange,
                      );
                   }}
                   onPipeKeyDown={(kd) => {
@@ -266,7 +267,7 @@ class DateTimePickerComponent extends VDOM.Component {
                         (state) => ({
                            date: this.setDateComponent(this.state.date, "minutes", newIndex),
                         }),
-                        this.handleChange
+                        this.handleChange,
                      );
                   }}
                   onPipeKeyDown={(kd) => {
@@ -292,7 +293,7 @@ class DateTimePickerComponent extends VDOM.Component {
                         (state) => ({
                            date: this.setDateComponent(this.state.date, "seconds", newIndex),
                         }),
-                        this.handleChange
+                        this.handleChange,
                      );
                   }}
                   onPipeKeyDown={(kd) => {

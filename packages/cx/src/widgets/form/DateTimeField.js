@@ -26,6 +26,7 @@ import { stopPropagation } from "../../util/eventCallbacks";
 import { Format } from "../../util/Format";
 import { TimeList } from "./TimeList";
 import { autoFocus } from "../autoFocus";
+import { parseDateInvariant } from "../../util";
 
 export class DateTimeField extends Field {
    declareData() {
@@ -45,7 +46,7 @@ export class DateTimeField extends Field {
             icon: undefined,
             autoOpen: undefined,
          },
-         ...arguments
+         ...arguments,
       );
    }
 
@@ -76,7 +77,9 @@ export class DateTimeField extends Field {
       let { data } = instance;
 
       if (data.value) {
-         let date = new Date(data.value);
+         let date = parseDateInvariant(data.value);
+         //  let date = new Date(data.value);
+
          if (isNaN(date.getTime())) data.formatted = String(data.value);
          else {
             // handle utc edge cases
@@ -86,11 +89,11 @@ export class DateTimeField extends Field {
          data.date = date;
       } else data.formatted = "";
 
-      if (data.refDate) data.refDate = zeroTime(new Date(data.refDate));
+      if (data.refDate) data.refDate = zeroTime(parseDateInvariant(data.refDate));
 
-      if (data.maxValue) data.maxValue = new Date(data.maxValue);
+      if (data.maxValue) data.maxValue = parseDateInvariant(data.maxValue);
 
-      if (data.minValue) data.minValue = new Date(data.minValue);
+      if (data.minValue) data.minValue = parseDateInvariant(data.minValue);
 
       if (this.segment == "date") {
          if (data.minValue) data.minValue = zeroTime(data.minValue);
@@ -345,7 +348,7 @@ class DateTimeInput extends VDOM.Component {
                   icon: !!icon,
                   empty: empty && !data.placeholder,
                   error: data.error && (state.visited || !suppressErrorsUntilVisited || !empty),
-               })
+               }),
             )}
             style={data.style}
             onMouseDown={this.onMouseDown.bind(this)}
@@ -539,7 +542,7 @@ class DateTimeInput extends VDOM.Component {
       });
 
       if (!isNaN(date)) {
-         let mixed = new Date(baseValue);
+         let mixed = parseDateInvariant(baseValue);
          if (date && baseValue && !isNaN(mixed) && widget.partial) {
             switch (widget.segment) {
                case "date":

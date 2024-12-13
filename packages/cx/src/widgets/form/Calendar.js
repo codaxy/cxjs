@@ -1,26 +1,27 @@
-import { Widget, VDOM } from "../../ui/Widget";
-import { Field, getFieldTooltip } from "./Field";
-import { Culture } from "../../ui/Culture";
-import { FocusManager, oneFocusOut, offFocusOut } from "../../ui/FocusManager";
 import { StringTemplate } from "../../data/StringTemplate";
-import { zeroTime } from "../../util/date/zeroTime";
+import { Culture } from "../../ui/Culture";
+import { FocusManager, offFocusOut, oneFocusOut } from "../../ui/FocusManager";
+import "../../ui/Format";
+import { Localization } from "../../ui/Localization";
+import { VDOM, Widget } from "../../ui/Widget";
+import { parseDateInvariant } from "../../util";
+import { KeyCode } from "../../util/KeyCode";
 import { dateDiff } from "../../util/date/dateDiff";
 import { lowerBoundCheck } from "../../util/date/lowerBoundCheck";
-import { upperBoundCheck } from "../../util/date/upperBoundCheck";
+import { monthStart } from "../../util/date/monthStart";
 import { sameDate } from "../../util/date/sameDate";
+import { upperBoundCheck } from "../../util/date/upperBoundCheck";
+import { zeroTime } from "../../util/date/zeroTime";
+import DropdownIcon from "../icons/drop-down";
+import ForwardIcon from "../icons/forward";
 import {
+   tooltipMouseLeave,
+   tooltipMouseMove,
+   tooltipParentDidMount,
    tooltipParentWillReceiveProps,
    tooltipParentWillUnmount,
-   tooltipMouseMove,
-   tooltipMouseLeave,
-   tooltipParentDidMount,
 } from "../overlay/tooltip-ops";
-import { KeyCode } from "../../util/KeyCode";
-import { Localization } from "../../ui/Localization";
-import ForwardIcon from "../icons/forward";
-import DropdownIcon from "../icons/drop-down";
-import "../../ui/Format";
-import { monthStart } from "../../util/date/monthStart";
+import { Field, getFieldTooltip } from "./Field";
 
 export class Calendar extends Field {
    declareData() {
@@ -37,7 +38,7 @@ export class Calendar extends Field {
             focusable: undefined,
             dayData: undefined,
          },
-         ...arguments
+         ...arguments,
       );
    }
 
@@ -53,17 +54,17 @@ export class Calendar extends Field {
       };
 
       if (data.value) {
-         let d = new Date(data.value);
+         let d = parseDateInvariant(data.value);
          if (!isNaN(d.getTime())) {
             data.date = zeroTime(d);
          }
       }
 
-      if (data.refDate) data.refDate = zeroTime(new Date(data.refDate));
+      if (data.refDate) data.refDate = zeroTime(parseDateInvariant(data.refDate));
 
-      if (data.maxValue) data.maxValue = zeroTime(new Date(data.maxValue));
+      if (data.maxValue) data.maxValue = zeroTime(parseDateInvariant(data.maxValue));
 
-      if (data.minValue) data.minValue = zeroTime(new Date(data.minValue));
+      if (data.minValue) data.minValue = zeroTime(parseDateInvariant(data.minValue));
 
       super.prepareData(...arguments);
    }
@@ -92,7 +93,7 @@ export class Calendar extends Field {
          }
 
          if (data.dayData) {
-            let date = new Date(data.value);
+            let date = parseDateInvariant(data.value);
             let info = data.dayData[date.toDateString()];
             if (info && info.disabled) data.error = this.disabledDaysOfWeekErrorText;
          }
@@ -117,7 +118,7 @@ export class Calendar extends Field {
       if (this.onBeforeSelect && instance.invoke("onBeforeSelect", e, instance, date) === false) return;
 
       if (widget.partial) {
-         let mixed = new Date(data.value);
+         let mixed = parseDateInvariant(data.value);
          if (data.value && !isNaN(mixed)) {
             mixed.setFullYear(date.getFullYear());
             mixed.setMonth(date.getMonth());
@@ -176,7 +177,7 @@ export class CalendarCmp extends VDOM.Component {
             focus: false,
             cursor: zeroTime(data.date || refDate),
          },
-         this.getPage(refDate)
+         this.getPage(refDate),
       );
 
       this.handleMouseMove = this.handleMouseMove.bind(this);
@@ -414,7 +415,7 @@ export class CalendarCmp extends VDOM.Component {
                   today: widget.highlightToday && sameDate(date, today),
                }),
                dayInfo.className,
-               CSS.mod(dayInfo.mod)
+               CSS.mod(dayInfo.mod),
             );
             let dateInst = new Date(date);
             days.push(
@@ -429,7 +430,7 @@ export class CalendarCmp extends VDOM.Component {
                   onMouseDown={unselectable ? null : this.handleMouseDown}
                >
                   {date.getDate()}
-               </td>
+               </td>,
             );
             date.setDate(date.getDate() + 1);
          }
@@ -438,7 +439,7 @@ export class CalendarCmp extends VDOM.Component {
                <td />
                {days}
                <td />
-            </tr>
+            </tr>,
          );
       }
 
