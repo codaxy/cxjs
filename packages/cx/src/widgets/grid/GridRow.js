@@ -76,12 +76,12 @@ export class GridRowComponent extends VDOM.Component {
       let { CSS } = widget;
       let move, up, keyDown, leave;
 
-      if (dragSource || data.hoverId) {
+      if (dragSource || data.hoverId != null) {
          move = this.onMouseMove;
          up = ddMouseUp;
       }
 
-      if (data.hoverId) {
+      if (data.hoverId != null) {
          leave = this.onMouseLeave;
       }
 
