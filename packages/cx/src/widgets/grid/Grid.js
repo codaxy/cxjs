@@ -539,6 +539,13 @@ export class Grid extends Container {
                   headerTBody,
                   (el) => el.tagName == "TH" && el.dataset && el.dataset.uniqueColId == uniqueColId,
                );
+               if (headerCell == null) {
+                  // if we use fixed columns, rhs resizer of the last fixed column is within regular columns header tbody
+                  headerCell = findFirstChild(
+                     headerTBody.parentElement.parentElement.parentElement,
+                     (el) => el.tagName == "TH" && el.dataset && el.dataset.uniqueColId == uniqueColId,
+                  );
+               }
                let scrollAreaEl = headerTBody.parentElement.parentElement;
                let gridEl = scrollAreaEl.parentElement;
                let initialWidth = headerCell.offsetWidth;
