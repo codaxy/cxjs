@@ -22,6 +22,8 @@ export class Culture {
    static getDefaultDateEncoding(): DateEncoding;
 
    static setDefaultDateEncoding(encoding: DateEncoding): void;
+
+   static invalidateCache(): void;
 }
 
 export interface CultureSpecs {
