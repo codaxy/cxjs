@@ -532,15 +532,16 @@ export class Grid extends Container {
                if (e.buttons != 1) return;
                let resizeOverlayEl = document.createElement("div");
 
-               let headerTBody = e.target.parentElement.parentElement.parentElement;
+               let gridEl =
+                  e.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
                let uniqueColId = e.currentTarget.dataset.uniqueColId;
 
+               // if we use fixed columns, rhs resizer of the last fixed column is within regular columns header tbody
                let headerCell = findFirstChild(
-                  headerTBody,
+                  gridEl,
                   (el) => el.tagName == "TH" && el.dataset && el.dataset.uniqueColId == uniqueColId,
                );
-               let scrollAreaEl = headerTBody.parentElement.parentElement;
-               let gridEl = scrollAreaEl.parentElement;
+
                let initialWidth = headerCell.offsetWidth;
                let initialPosition = getCursorPos(e);
                resizeOverlayEl.className = CSS.element(baseClass, "resize-overlay");
