@@ -58,20 +58,20 @@
       ]
    },
    "dependencies": {
-      "@types/react": "^18.3.5",
+      "@types/react": "^18.3.14",
       "react": "^18.3.1",
       "react-dom": "^18.3.1"
    },
    "devDependencies": {
-      "@babel/core": "^7.25.2",
-      "@babel/plugin-transform-react-jsx": "^7.25.2",
-      "@babel/preset-env": "^7.25.4",
-      "@babel/register": "^7.24.6",
+      "@babel/core": "^7.26.0",
+      "@babel/plugin-transform-react-jsx": "^7.25.9",
+      "@babel/preset-env": "^7.26.0",
+      "@babel/register": "^7.25.9",
       "babel-jest": "29.7.0",
       "env-test": "^1.0.0",
-      "mocha": "^10.7.3",
+      "mocha": "^10.8.2",
       "prettier": "^3.3.3",
-      "webpack-dev-server": "^5.0.4"
+      "webpack-dev-server": "^5.1.0"
    },
    "resolutions": {
       "@babel/helper-define-polyfill-provider": "^0.1.5"

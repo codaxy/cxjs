@@ -127,7 +127,8 @@ import Demo from "./features/grid/DockedColumns";
 // import Demo from "./bugs/infinite-update-loop";
 // import Demo from "./bugs/TimeAxis";
 // import Demo from "./bugs/HighlightedTextSearchBug";
-// import Demo from "./bugs/GridScrollUponButtonClickIssue";
+//import Demo from "./bugs/GridScrollUponButtonClickIssue";
+import Demo from "./dev/createHotPromiseWindowFactory";
 
 let store = (window.store = new Store());
 

@@ -82,7 +82,13 @@ export class Window extends Overlay {
       var header = this.renderHeader(context, instance, "header");
       var footer = this.renderFooter(context, instance, "footer");
       return (
-         <WindowComponent key={key} instance={instance} header={header} footer={footer}>
+         <WindowComponent
+            key={key}
+            instance={instance}
+            header={header}
+            footer={footer}
+            subscribeToBeforeDismiss={context.options.subscribeToBeforeDismiss}
+         >
             {this.renderContents(context, instance)}
          </WindowComponent>
       );
