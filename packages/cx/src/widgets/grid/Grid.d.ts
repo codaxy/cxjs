@@ -397,7 +397,7 @@ interface GridProps<T = unknown> extends StyledContainerProps {
    hoverChannel?: string;
 
    /** A value used to uniquely identify the record within the hover sync group. */
-   rowHoverId?: StringProp;
+   rowHoverId?: Prop<string | number>;
 
    /** Set to true or false to explicitly define if grid is allowed to receive focus. */
    focusable?: boolean;

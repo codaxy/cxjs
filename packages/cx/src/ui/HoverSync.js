@@ -20,7 +20,7 @@ export class HoverSync extends PureContainer {
          report: (channel, hoverId, active) => {
             let ch = channels[channel];
             if (!ch) return;
-            let state = active && hoverId;
+            let state = active && hoverId != null;
             if (ch.state !== state && (ch.state === hoverId || active)) {
                ch.state = state;
                ch.subscribers.notify(state);
@@ -135,9 +135,9 @@ export class HoverSyncElement extends Container {
                   onMouseLeave,
                   onMouseMove,
                },
-               children
+               children,
             );
-         }
+         },
       );
    }
 }
