@@ -1,5 +1,4 @@
 /.idea
-.vscode
 
 .yarn/*
 !.yarn/patches
