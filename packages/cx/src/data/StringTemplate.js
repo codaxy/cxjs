@@ -20,8 +20,7 @@ export function stringTemplate(str) {
       percentSign;
 
    for (let i = 0; i < str.length; i++) {
-      let c = str[i];
-      switch (c) {
+      switch (str[i]) {
          case "{":
             if (termStart < 0) {
                if (str[i + 1] == "{" && str[i - 1] != "%") {
@@ -33,6 +32,7 @@ export function stringTemplate(str) {
                   percentSign = str[i - 1] == "%";
                   if (i > quoteStart) expr = plus(expr) + quoteStr(str.substring(quoteStart, percentSign ? i - 1 : i));
                   bracketsOpen = 1;
+                  quoteStart = i; // for the case where the brackets are not closed
                }
             } else bracketsOpen++;
             break;

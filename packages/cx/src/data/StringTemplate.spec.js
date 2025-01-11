@@ -47,6 +47,11 @@ describe("StringTemplate", function () {
          };
          assert.equal(e(state), "Hello {Jim}");
       });
+
+      it("open brackets are ignored", function () {
+         var e = StringTemplate.compile("B { A");
+         assert.equal(e({}), "B { A");
+      });
    });
 
    describe("supports formatting", function () {
