@@ -4,7 +4,7 @@ import { isNumber } from "../util/isNumber";
 import { isUndefined } from "../util/isUndefined";
 import { isArray } from "../util/isArray";
 import { capitalize } from "./capitalize";
-import { parseDateInvariant } from "./date";
+import { parseDateInvariant } from "./date/parseDateInvariant";
 
 //Culture dependent formatters are defined in the ui package.
 
