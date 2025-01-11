@@ -3,7 +3,6 @@ import { HtmlElement } from "../HtmlElement";
 import { Field, getFieldTooltip } from "./Field";
 import {
    tooltipParentWillReceiveProps,
-   tooltipParentWillUnmount,
    tooltipMouseMove,
    tooltipMouseLeave,
    tooltipParentDidMount,
@@ -11,7 +10,6 @@ import {
 import { stopPropagation, preventDefault } from "../../util/eventCallbacks";
 import DropdownIcon from "../icons/drop-down";
 import ClearIcon from "../icons/clear";
-import { Icon } from "../Icon";
 import { Localization } from "../../ui/Localization";
 import { isString } from "../../util/isString";
 import { isDefined } from "../../util/isDefined";
@@ -29,7 +27,7 @@ export class Select extends Field {
             placeholder: undefined,
             icon: undefined,
          },
-         ...arguments
+         ...arguments,
       );
    }
 
@@ -48,6 +46,7 @@ export class Select extends Field {
             select={(v) => this.select(v, instance)}
             label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
             help={this.helpPlacement && getContent(this.renderHelp(context, instance, "help"))}
+            icon={this.renderIcon(context, instance, "icon")}
          >
             {this.renderChildren(context, instance)}
          </SelectComponent>
@@ -95,15 +94,11 @@ class SelectComponent extends VDOM.Component {
    }
 
    render() {
-      let { multiple, select, instance, label, help } = this.props;
+      let { multiple, select, instance, label, help, icon: iconVDOM } = this.props;
       let { data, widget, state } = instance;
       let { CSS, baseClass } = widget;
 
-      let icon = data.icon && (
-         <div className={CSS.element(baseClass, "left-icon")}>
-            {Icon.render(data.icon, { className: CSS.element(baseClass, "icon") })}
-         </div>
-      );
+      let icon = iconVDOM && <div className={CSS.element(baseClass, "left-icon")}>{iconVDOM}</div>;
 
       let insideButton,
          readOnly = data.disabled || data.readOnly;
@@ -148,11 +143,11 @@ class SelectComponent extends VDOM.Component {
                data.classNames,
                CSS.state({
                   visited: state.visited,
-                  icon: data.icon,
+                  icon: !!iconVDOM,
                   focus: this.state.focus,
                   error: state.visited && data.error,
                   empty: data.empty && !data.placeholder,
-               })
+               }),
             )}
             style={data.style}
             onMouseDown={stopPropagation}
@@ -252,7 +247,7 @@ export class Option extends HtmlElement {
             selected: undefined,
             text: undefined,
          },
-         ...arguments
+         ...arguments,
       );
    }
 

@@ -20,6 +20,7 @@ module.exports = (production) => ({
          "cx-theme-aquamarine": p("../packages/cx-theme-aquamarine"),
          "cx-theme-material-dark": p("../packages/cx-theme-material-dark"),
          "cx-theme-space-blue": p("../packages/cx-theme-space-blue"),
+         "cx-theme-packed-dark": p("../packages/cx-theme-packed-dark"),
          //uncomment the line below to alias cx-react to cx-preact or some other React replacement library
          //'cx-react': 'cx-preact',
       },

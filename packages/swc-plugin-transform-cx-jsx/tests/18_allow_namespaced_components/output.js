@@ -1,0 +1,3 @@
+({
+    "$type": Component.Nested
+})

@@ -3,8 +3,7 @@ import { Binding } from "./Binding";
 
 export class AugmentedViewBase extends View {
    getData() {
-      if (this.meta.version === this.cache.version && this.sealed)
-         return this.cache.result;
+      if (this.meta.version === this.cache.version && this.sealed) return this.cache.result;
       let parentStoreData = this.store.getData();
       let result = this.getBaseData(parentStoreData);
       this.embedAugmentData(result, parentStoreData);
@@ -27,6 +26,12 @@ export class AugmentedViewBase extends View {
       throw new Error("abstract");
    }
 
+   // Stores which need to support nested aliases should override this method
+   getExtraKeyBinding(key) {
+      let binding = Binding.get(key);
+      return this.isExtraKey(binding.parts[0]) ? Binding.get(binding.parts[0]) : null;
+   }
+
    setExtraKeyValue(key, value) {
       throw new Error("abstract");
    }
@@ -36,29 +41,32 @@ export class AugmentedViewBase extends View {
    }
 
    setItem(path, value) {
-      let binding = Binding.get(path);
-      if (this.isExtraKey(binding.parts[0])) {
-         let bindingRoot = binding.parts[0];
+      let extraKeyBinding = this.getExtraKeyBinding(path);
+      if (extraKeyBinding) {
+         let binding = Binding.get(path);
          let newValue = value;
-         if (binding.parts.length > 1) {
+         if (binding.parts.length > extraKeyBinding.parts.length) {
             let data = {};
             this.embedAugmentData(data, this.store.getData());
-            newValue = binding.set(data, value)[bindingRoot];
+            let binding = Binding.get(path);
+            data = binding.set(data, value);
+            newValue = extraKeyBinding.value(data);
          }
-         return this.setExtraKeyValue(bindingRoot, newValue);
+         return this.setExtraKeyValue(extraKeyBinding.path, newValue);
       }
       return super.setItem(path, value);
    }
 
    deleteItem(path) {
-      let binding = Binding.get(path);
-      if (this.isExtraKey(binding.parts[0])) {
-         let bindingRoot = binding.parts[0];
-         if (binding.parts.length == 1) return this.deleteExtraKeyValue(bindingRoot);
+      let extraKeyBinding = this.getExtraKeyBinding(path);
+      if (extraKeyBinding) {
+         if (path == extraKeyBinding.path) return this.deleteExtraKeyValue(extraKeyBinding.path);
          let data = {};
          this.embedAugmentData(data, this.store.getData());
-         let newValue = binding.delete(data)[bindingRoot];
-         return this.setExtraKeyValue(bindingRoot, newValue);
+         let binding = Binding.get(path);
+         data = binding.delete(data);
+         let newValue = extraKeyBinding.value(data);
+         return this.setExtraKeyValue(extraKeyBinding.path, newValue);
       }
       return super.deleteItem(path);
    }

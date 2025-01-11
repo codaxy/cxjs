@@ -1,4 +1,4 @@
-import { HtmlElement, Button, enableMsgBoxAlerts } from 'cx/widgets';
+import { Button, Content, Tab, enableMsgBoxAlerts } from 'cx/widgets';
 import { Rescope } from 'cx/ui';
 import { Md } from '../../components/Md';
 import { CodeSplit } from '../../components/CodeSplit';
@@ -12,6 +12,44 @@ export const BreakingChanges = <cx>
             Sometimes we are forced to introduce breaking changes to the framework.
             This page will provide information about breaking changes and how to migrate your applications to the latest
             versions of the framework.
+
+            ## 24.10.0
+
+            ### Legend and LegendEntry rendering
+
+            Legend and LegendEntry components have been refactored to use the flexbox layout. This change might affect the appearance
+            if you have custom styles applied to these components.
+
+            ## 24.5.1
+
+            ### Default Window body padding
+
+            The Window body now have a default padding. Previously, a few options were used to add padding such as
+            `bodyStyle`, `bodyClass`, or adding margin/padding to the inner content.
+            All these options lead to problems with layout consistency across different themes.
+
+            If you want to revert to the old behavior, you can set the `pad` property to `false` on the prototype of the Window widget.
+            This will effectively remove the default padding from the Window body, unless `pad` is explicitly set to `true` on the Window.
+
+            <CodeSplit>
+                <CodeSnippet copy={false}>{`
+                    import { Window } from 'cx/widgets';
+                    Window.prototype.pad = false;
+                `}</CodeSnippet>
+            </CodeSplit>
+
+            Alternatively, you can reset the Sass variable to remove default padding, before importing the CxJS variables.
+
+            <CodeSplit>
+                <CodeSnippet copy={false}>{`
+                    $cx-default-window-body-padding: 0;
+
+                    @import '~cx/src/variables';
+                `}</CodeSnippet>
+            </CodeSplit>
+
+            However, the best way forward would be to go through your codebase and remove `bodyStyle`, `bodyClass` values, or padding/margins used for this purpose
+            within the window content.
 
             ## 23.2.0
 
@@ -33,23 +71,23 @@ export const BreakingChanges = <cx>
             1. remove `node-sass` from `package.json`
             2. install `sass`
             3. make the following changes in the root `index.scss` file:
-                - add `@use 'sass:math';` at the top of the file
-                - replace `cx-divide` function, after it's been imported
+            - add `@use 'sass:math';` at the top of the file
+            - replace `cx-divide` function, after it's been imported
 
-                <CodeSplit><CodeSnippet>
-                {`
-                @use 'sass:math';
+            <CodeSplit>
+                <CodeSnippet copy={false}>{`
+                    @use 'sass:math';
 
-                # define variables
-                ...
+                    # define variables
+                    ...
 
-                @import '~cx/src/variables';
+                    @import '~cx/src/variables';
 
-                @function cx-divide($a, $b) {
-                    @return math.div($a, $b);
-                }
-                `}
-                </CodeSnippet></CodeSplit>
+                    @function cx-divide($a, $b) {
+                        @return math.div($a, $b);
+                    }
+                `}</CodeSnippet>
+            </CodeSplit>
 
             Voila, your project now compiles CSS using `sass`. No more annoying `node-sass` issues.
 
@@ -75,23 +113,26 @@ export const BreakingChanges = <cx>
             You can set this up in your `babel-config.js` file:
 
             <CodeSplit>
-                <CodeSnippet>{`
-{
-    presets: [
-        ["babel-preset-cx-env", {
-            cx: {
-                jsx: {
-                    trimWhitespace: true,
-                    trimWhitespaceExceptions: ['Md', 'CodeSnippet', 'CodeSplit']
-                },
-                imports: {
-                    useSrc: true
-                }
-            }
-        }]
-    ]
-}
-                `}</CodeSnippet>
+                <Content name="code">
+                    <Tab value-bind="$page.babelConfig.tab" mod="code" tab="code" text="babel-config.js" default />
+                    <CodeSnippet visible-expr="{$page.babelConfig.tab}=='code'">{`
+                        {
+                            presets: [
+                                ["babel-preset-cx-env", {
+                                    cx: {
+                                        jsx: {
+                                            trimWhitespace: true,
+                                            trimWhitespaceExceptions: ['Md', 'CodeSnippet', 'CodeSplit']
+                                        },
+                                        imports: {
+                                            useSrc: true
+                                        }
+                                    }
+                                }]
+                            ]
+                        }
+                    `}</CodeSnippet>
+                </Content>
             </CodeSplit>
 
             For more information, check the NPM page for [babel-plugin-transform-cx-jsx](https://www.npmjs.com/package/babel-plugin-transform-cx-jsx).
@@ -107,8 +148,7 @@ export const BreakingChanges = <cx>
             in one of the parent instances, as the name suggests.
             This can cause the code to break if, for example, `invokeParentMethod` was used in one of the inline event handlers:
             <CodeSplit>
-                <CodeSnippet>
-                    {`
+                <CodeSnippet copy={false}>{`
                     <div controller={{
                         onSubmit(val) {
                             console.log('val', val)
@@ -118,27 +158,25 @@ export const BreakingChanges = <cx>
                             onClick={(e, instance) => {
                                 let controller = instance.controller;
                                 // This will cause an error:
-                                // Uncaught Error: Cannot invoke controller method "onSubmit" as controller is not assigned to the widget.
+                                // Uncaught Error: Cannot invoke controller
+                                // method "onSubmit" as controller is not assigned to the widget.
                                 controller.invokeParentMethod('onSubmit', 1);
                             }}
                             text="Submit"
                         />
                     </div>
-                `}
-                </CodeSnippet>
+                `}</CodeSnippet>
             </CodeSplit>
 
             To fix this, make the following change in the `onClick` handler:
             <CodeSplit>
-                <CodeSnippet>
-                    {`
+                <CodeSnippet copy={false}>{`
                     onClick={(e, instance) => {
                         let controller = instance.controller;
-                        // use invokeMethod instead of invokeParentMethod
+                        // Use invokeMethod instead of invokeParentMethod
                         controller.invokeMethod('onSubmit', 1);
                     }}
-                `}
-                </CodeSnippet>
+                `}</CodeSnippet>
             </CodeSplit>
 
             [`invokeMethod`](~/concepts/controllers#-code-invokemethod-code-) has the same behaviour as the previous implementation of `invokeParentMethod`, hence it can be used as a fail-safe replacement for
@@ -151,7 +189,6 @@ export const BreakingChanges = <cx>
             `DateTimeField` now expects regular formats, e.g. `datetime;yyyyMMMdd` (previously only `yyyyMMMdd` part was required).
             This change enables non-standard, custom formats to be used.
 
-
             ## 19.1.0
 
             ### Babel 7
@@ -163,9 +200,9 @@ export const BreakingChanges = <cx>
 
             In `package.json`, update the following packages:
 
-            - `"babel-core"` => `"@babel/core": "^7.2.2"`,
-            - `"babel-preset-env"` => `"@babel/preset-env": "^7.2.3"`
-            - `"babel-polyfill"` => `"@babel/polyfill": "^7.2.5"`
+            - `"babel-core"` =&gt; `"@babel/core": "^7.2.2"`,
+            - `"babel-preset-env"` =&gt; `"@babel/preset-env": "^7.2.3"`
+            - `"babel-polyfill"` =&gt; `"@babel/polyfill": "^7.2.5"`
 
             In `babel.config`, replace `useBuiltIns: true` with `useBuiltIns: 'usage'`.
 
@@ -184,20 +221,21 @@ export const BreakingChanges = <cx>
 
             Replace
             <CodeSplit>
-                <CodeSnippet>
-                    test: /\.js$/,
+                <CodeSnippet copy={false}>{`
+                    test: /\\.js$/,
                     loader: 'babel-loader',
-                </CodeSnippet>
+                `}</CodeSnippet>
             </CodeSplit>
             with:
             <CodeSplit>
-                <CodeSnippet>
-                    test: /\.(js|ts|tsx)$/,
+                <CodeSnippet copy={false}>{`
+                    test: /\\.(js|ts|tsx)$/,
                     loader: 'babel-loader',
-                </CodeSnippet>
+                `}</CodeSnippet>
             </CodeSplit>
 
-            You can now mix `.js`, `.ts` and `.tsx` files. However, some of the [JSX in TS related quirks still apply](https://github.com/codaxy/cx-typescript-boilerplate).
+            You can now mix `.js`, `.ts` and `.tsx` files. However,
+            some of the [JSX in TS related quirks still apply](https://github.com/codaxy/cx-typescript-boilerplate).
 
             ## 18.12.0
 
@@ -209,7 +247,7 @@ export const BreakingChanges = <cx>
             For example, let's take a simple Tab component.
 
             <CodeSplit>
-                <CodeSnippet>{`
+                <CodeSnippet copy={false}>{`
                     const TabCmp = ({ prop1, children }) => <cx>
                        <div class="tab">
                           {children}
@@ -222,7 +260,7 @@ export const BreakingChanges = <cx>
             it would be applied on all top-level elements.
 
             <CodeSplit>
-                <CodeSnippet>{`
+                <CodeSnippet copy={false}>{`
                     <TabCmp visible-expr="{tab} == 'tab1'">
                         Tab1 Content
                     </TabCmp>
@@ -232,7 +270,7 @@ export const BreakingChanges = <cx>
             This example above would expand to:
 
             <CodeSplit>
-                <CodeSnippet>{`
+                <CodeSnippet copy={false}>{`
                     <div visible-expr="{tab} == 'tab1'" class="tab">
                         Tab1 Content
                     </div>
@@ -243,7 +281,7 @@ export const BreakingChanges = <cx>
             are applied on the wrapper element.
 
             <CodeSplit>
-                <CodeSnippet>{`
+                <CodeSnippet copy={false}>{`
                     <PureContainer visible-expr="{tab} == 'tab1'">
                         <div class="tab">
                             Tab1 Content
@@ -268,7 +306,7 @@ export const BreakingChanges = <cx>
             package.
 
             <CodeSplit>
-                <CodeSnippet>
+                <CodeSnippet copy={false}>
                     npm install babel-preset-env --saveDev
                     yarn add babel-preset-env --dev
                 </CodeSnippet>
@@ -298,7 +336,6 @@ export const BreakingChanges = <cx>
             after the application launch.
 
             <CodeSplit>
-
                 In order to enable CxJS based confirmation dialogs, use the `enableMsgBoxAlerts` method.
                 Otherwise, the browser default `prompt` dialog will appear.
 
@@ -307,14 +344,14 @@ export const BreakingChanges = <cx>
                         mod="danger"
                         text={{ bind: "$page.showDialogText", defaultValue: "Click Here" }}
                         confirm="Would you like to use CxJS based dialogs?"
-                        onClick={(e, { store }) => {
+                        onClick={(_e, { store }) => {
                             enableMsgBoxAlerts();
                             store.set('$page.showDialogText', "Click Here Again");
                         }}
                     />
                 </div>
 
-                <CodeSnippet putInto="code">{`
+                <CodeSnippet putInto="code" copy={false}>{`
                     <Button
                         mod="danger"
                         text={{ bind: "$page.showDialogText", defaultValue: "Click Here" }}
@@ -329,11 +366,11 @@ export const BreakingChanges = <cx>
                 To enable the confirmation function on application startup, use the following snippet:
 
                 <CodeSplit>
-                    <CodeSnippet>{`
-                    import {enableMsgBoxAlerts} from 'cx/widgets';
+                    <CodeSnippet copy={false}>{`
+                        import {enableMsgBoxAlerts} from 'cx/widgets';
 
-                    enableMsgBoxAlerts();
-                `}</CodeSnippet>
+                        enableMsgBoxAlerts();
+                    `}</CodeSnippet>
                 </CodeSplit>
             </CodeSplit>
 
@@ -343,13 +380,13 @@ export const BreakingChanges = <cx>
             tooltips first need to be enabled using the `enableTooltips` method.
 
             <CodeSplit>
-                <CodeSnippet>
+                <CodeSnippet copy={false}>
                     {`<div tooltip="Some tooltip" />`}
                 </CodeSnippet>
 
                 Use the following code to enable tooltips:
 
-                <CodeSnippet>{`
+                <CodeSnippet copy={false}>{`
                 import {enableTooltips} from 'cx/widgets';
 
                 enableTooltips();
@@ -363,7 +400,7 @@ export const BreakingChanges = <cx>
             otherwise it needs to be enabled using the `enableCultureSensitiveFormatting` method.
 
             <CodeSplit>
-                <CodeSnippet>{`
+                <CodeSnippet copy={false}>{`
                 import {enableCultureSensitiveFormatting} from 'cx/ui';
 
                 enableCultureSensitiveFormatting();
@@ -377,14 +414,14 @@ export const BreakingChanges = <cx>
             versions of Safari, like in the following example.
 
             <CodeSplit>
-                <CodeSnippet>
+                <CodeSnippet copy={false}>
                     {`<div text:expr="{data}.filter(a=>a.value > 10).join(', ')" />`}
                 </CodeSnippet>
 
                 Code from the snippet above will not work in IE anymore because fat arrow expansion is now optional and
                 needs to be enabled using the `enableFatArrowExpansion` method.
 
-                <CodeSnippet>{`
+                <CodeSnippet copy={false}>{`
                 import {enableFatArrowExpansion} from 'cx/data';
 
                 enableFatArrowExpansion();
@@ -398,7 +435,7 @@ export const BreakingChanges = <cx>
             you may use `enableAllInternalDependencies` and everything will be as it was in previous versions.
 
             <CodeSplit>
-                <CodeSnippet>{`
+                <CodeSnippet copy={false}>{`
                 import {enableAllInternalDependencies} from 'cx/widgets';
 
                 enableAllInternalDependencies();
@@ -432,8 +469,8 @@ export const BreakingChanges = <cx>
             If `cx-core` reference is used in `.scss` files, replace it with `cx`.
 
             ```
-            @import "~cx/src/variables"; //cx-core => cx
-            @import "~cx/src/index"; //cx-core => cx
+            @import "~cx/src/variables"; //cx-core =&gt; cx
+            @import "~cx/src/index"; //cx-core =&gt; cx
             ```
 
             After you're done, please upgrade all Cx related packages to the latest version.

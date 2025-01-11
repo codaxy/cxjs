@@ -44,7 +44,7 @@ export const PickAuthProviderPage = <cx>
       <p>Please select one of the listed identification providers:</p>
 
       <Menu style="width: 200px;display:inline-block;">
-         <Repeater records:bind="login.providers" recordName="$provider">
+         <Repeater records-bind="login.providers" recordName="$provider">
             <a class:tpl="cxb-loginbutton" href:bind="$provider.url">
                <img src:tpl="~/assets/signin/{$provider.id}.png" />
                Sign in with <Text bind="$provider.name" />

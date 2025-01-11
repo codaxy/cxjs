@@ -1,6 +1,6 @@
 {
    "name": "cx",
-   "version": "23.5.3",
+   "version": "24.11.4",
    "description": "Advanced JavaScript UI framework for admin and dashboard applications with ready to use grid, form and chart components.",
    "main": "index.js",
    "jsnext:main": "src/index.js",
@@ -14,7 +14,7 @@
    },
    "homepage": "https://cxjs.io",
    "dependencies": {
-      "intl-io": "^0.3.0",
+      "intl-io": "^0.4.3",
       "route-parser": "^0.0.5"
    },
    "peerDependencies": {
@@ -27,6 +27,6 @@
       "url": "git@github.com:codaxy/cxjs.git"
    },
    "devDependencies": {
-      "react-test-renderer": "^18.2.0"
+      "react-test-renderer": "^18.3.1"
    }
 }

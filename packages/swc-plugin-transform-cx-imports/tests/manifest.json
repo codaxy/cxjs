@@ -1,0 +1,1373 @@
+{
+    "ui/computable": {
+      "js": "src/data/computable.js"
+    },
+    "widgets/Widget": {
+      "js": "src/ui/Widget.js"
+    },
+    "widgets/StaticText": {
+      "js": "src/ui/StaticText.js"
+    },
+    "widgets/Text": {
+      "js": "src/ui/Text.js"
+    },
+    "widgets/PureContainer": {
+      "js": "src/ui/PureContainer.js"
+    },
+    "widgets/Content": {
+      "js": "src/ui/layout/Content.js"
+    },
+    "widgets/ContentPlaceholder": {
+      "js": "src/ui/layout/ContentPlaceholder.js"
+    },
+    "widgets/ContentPlaceholderScope": {
+      "js": "src/ui/layout/ContentPlaceholder.js"
+    },
+    "widgets/ContentResolver": {
+      "js": "src/ui/ContentResolver.js"
+    },
+    "widgets/Rescope": {
+      "js": "src/ui/Rescope.js"
+    },
+    "widgets/Repeater": {
+      "js": "src/ui/Repeater.js"
+    },
+    "widgets/IsolatedScope": {
+      "js": "src/ui/IsolatedScope.js"
+    },
+    "widgets/DetachedScope": {
+      "js": "src/ui/DetachedScope.js"
+    },
+    "widgets/Restate": {
+      "js": "src/ui/Restate.js"
+    },
+    "widgets/PrivateStore": {
+      "js": "src/ui/Restate.js"
+    },
+    "widgets/DataProxy": {
+      "js": "src/ui/DataProxy.js"
+    },
+    "util/expandFatArrows": {
+      "js": "src/util/expandFatArrows.js"
+    },
+    "util/debug": {
+      "js": "src/util/Debug.js"
+    },
+    "util/Debug": {
+      "js": "src/util/Debug.js"
+    },
+    "util/renderFlag": {
+      "js": "src/util/Debug.js"
+    },
+    "util/prepareFlag": {
+      "js": "src/util/Debug.js"
+    },
+    "util/processDataFlag": {
+      "js": "src/util/Debug.js"
+    },
+    "util/cleanupFlag": {
+      "js": "src/util/Debug.js"
+    },
+    "util/menuFlag": {
+      "js": "src/util/Debug.js"
+    },
+    "util/focusFlag": {
+      "js": "src/util/Debug.js"
+    },
+    "util/internalFlag": {
+      "js": "src/util/Debug.js"
+    },
+    "util/shouldUpdateFlag": {
+      "js": "src/util/Debug.js"
+    },
+    "util/appDataFlag": {
+      "js": "src/util/Debug.js"
+    },
+    "util/tooltipsFlag": {
+      "js": "src/util/Debug.js"
+    },
+    "util/deprecatedFlag": {
+      "js": "src/util/Debug.js"
+    },
+    "util/destroyFlag": {
+      "js": "src/util/Debug.js"
+    },
+    "util/Console": {
+      "js": "src/util/Console.js"
+    },
+    "util/findFirst": {
+      "js": "src/util/DOM.js"
+    },
+    "util/findFirstChild": {
+      "js": "src/util/DOM.js"
+    },
+    "util/closest": {
+      "js": "src/util/DOM.js"
+    },
+    "util/closestParent": {
+      "js": "src/util/DOM.js"
+    },
+    "util/isFocused": {
+      "js": "src/util/DOM.js"
+    },
+    "util/isFocusedDeep": {
+      "js": "src/util/DOM.js"
+    },
+    "util/isFocusable": {
+      "js": "src/util/DOM.js"
+    },
+    "util/getFocusedElement": {
+      "js": "src/util/DOM.js"
+    },
+    "util/isDescendant": {
+      "js": "src/util/DOM.js"
+    },
+    "util/isSelfOrDescendant": {
+      "js": "src/util/DOM.js"
+    },
+    "util/innerTextTrim": {
+      "js": "src/util/innerTextTrim.js"
+    },
+    "util/Format": {
+      "js": "src/util/Format.js"
+    },
+    "util/resolveMinMaxFractionDigits": {
+      "js": "src/util/Format.js"
+    },
+    "util/trimFractionZeros": {
+      "js": "src/util/Format.js"
+    },
+    "util/GlobalCacheIdentifier": {
+      "js": "src/util/GlobalCacheIdentifier.js"
+    },
+    "util/isDigit": {
+      "js": "src/util/isDigit.js"
+    },
+    "util/isTouchDevice": {
+      "js": "src/util/isTouchDevice.js"
+    },
+    "util/isPromise": {
+      "js": "src/util/isPromise.js"
+    },
+    "util/KeyCode": {
+      "js": "src/util/KeyCode.js"
+    },
+    "util/parseStyle": {
+      "js": "src/util/parseStyle.js"
+    },
+    "util/shallowEquals": {
+      "js": "src/util/shallowEquals.js"
+    },
+    "util/appLoopFlag": {
+      "js": "src/util/Timing.js"
+    },
+    "util/vdomRenderFlag": {
+      "js": "src/util/Timing.js"
+    },
+    "util/now": {
+      "js": "src/util/Timing.js"
+    },
+    "util/Timing": {
+      "js": "src/util/Timing.js"
+    },
+    "util/getVendorPrefix": {
+      "js": "src/util/getVendorPrefix.js"
+    },
+    "util/quoteStr": {
+      "js": "src/util/quote.js"
+    },
+    "util/stopPropagation": {
+      "js": "src/util/eventCallbacks.js"
+    },
+    "util/preventDefault": {
+      "js": "src/util/eventCallbacks.js"
+    },
+    "ui/Controller": {
+      "js": "src/ui/Controller.js"
+    },
+    "ui/Container": {
+      "js": "src/ui/Container.js"
+    },
+    "ui/Repeater": {
+      "js": "src/ui/Repeater.js"
+    },
+    "ui/Rescope": {
+      "js": "src/ui/Rescope.js"
+    },
+    "util/scrollElementIntoView": {
+      "js": "src/util/scrollElementIntoView.js"
+    },
+    "ui/StaticText": {
+      "js": "src/ui/StaticText.js"
+    },
+    "ui/PureContainer": {
+      "js": "src/ui/PureContainer.js"
+    },
+    "ui/VDOM": {
+      "js": "src/ui/Widget.js"
+    },
+    "ui/Widget": {
+      "js": "src/ui/Widget.js"
+    },
+    "ui/contentAppend": {
+      "js": "src/ui/Widget.js"
+    },
+    "ui/getContentArray": {
+      "js": "src/ui/Widget.js"
+    },
+    "ui/getContent": {
+      "js": "src/ui/Widget.js"
+    },
+    "ui/Text": {
+      "js": "src/ui/Text.js"
+    },
+    "ui/CSSHelper": {
+      "js": "src/ui/CSSHelper.js"
+    },
+    "ui/CSS": {
+      "js": "src/ui/CSS.js"
+    },
+    "ui/FocusManager": {
+      "js": "src/ui/FocusManager.js"
+    },
+    "ui/oneFocusOut": {
+      "js": "src/ui/FocusManager.js"
+    },
+    "ui/offFocusOut": {
+      "js": "src/ui/FocusManager.js"
+    },
+    "ui/preventFocus": {
+      "js": "src/ui/FocusManager.js"
+    },
+    "ui/preventFocusOnTouch": {
+      "js": "src/ui/FocusManager.js"
+    },
+    "ui/unfocusElement": {
+      "js": "src/ui/FocusManager.js"
+    },
+    "ui/ZIndexManager": {
+      "js": "src/ui/ZIndexManager.js"
+    },
+    "ui/Format": {
+      "js": "src/ui/Format.js"
+    },
+    "ui/enableCultureSensitiveFormatting": {
+      "js": "src/ui/Format.js"
+    },
+    "ui/ResizeManager": {
+      "js": "src/ui/ResizeManager.js"
+    },
+    "ui/Culture": {
+      "js": "src/ui/Culture.js"
+    },
+    "ui/Localization": {
+      "js": "src/ui/Localization.js"
+    },
+    "ui/RenderingContext": {
+      "js": "src/ui/RenderingContext.js"
+    },
+    "ui/Cx": {
+      "js": "src/ui/Cx.js"
+    },
+    "ui/ContentResolver": {
+      "js": "src/ui/ContentResolver.js"
+    },
+    "ui/Instance": {
+      "js": "src/ui/Instance.js"
+    },
+    "ui/InstanceCache": {
+      "js": "src/ui/Instance.js"
+    },
+    "data/Binding": {
+      "js": "src/data/Binding.js"
+    },
+    "data/isBinding": {
+      "js": "src/data/Binding.js"
+    },
+    "data/SubscribableView": {
+      "js": "src/data/SubscribableView.js"
+    },
+    "data/expression": {
+      "js": "src/data/Expression.js"
+    },
+    "data/Expression": {
+      "js": "src/data/Expression.js"
+    },
+    "data/plugFatArrowExpansion": {
+      "js": "src/data/Expression.js"
+    },
+    "data/invalidateExpressionCache": {
+      "js": "src/data/Expression.js"
+    },
+    "data/Store": {
+      "js": "src/data/Store.js"
+    },
+    "data/View": {
+      "js": "src/data/View.js"
+    },
+    "data/ExposedRecordView": {
+      "js": "src/data/ExposedRecordView.js"
+    },
+    "data/stringTemplate": {
+      "js": "src/data/StringTemplate.js"
+    },
+    "data/StringTemplate": {
+      "js": "src/data/StringTemplate.js"
+    },
+    "data/invalidateStringTemplateCache": {
+      "js": "src/data/StringTemplate.js"
+    },
+    "data/ExposedValueView": {
+      "js": "src/data/ExposedValueView.js"
+    },
+    "data/ReadOnlyDataView": {
+      "js": "src/data/ReadOnlyDataView.js"
+    },
+    "data/ZoomIntoPropertyView": {
+      "js": "src/data/ZoomIntoPropertyView.js"
+    },
+    "data/computable": {
+      "js": "src/data/computable.js"
+    },
+    "data/StructuredSelector": {
+      "js": "src/data/StructuredSelector.js"
+    },
+    "data/getSelector": {
+      "js": "src/data/getSelector.js"
+    },
+    "data/isSelector": {
+      "js": "src/data/isSelector.js"
+    },
+    "data/Grouper": {
+      "js": "src/data/Grouper.js"
+    },
+    "data/getComparer": {
+      "js": "src/data/comparer.js"
+    },
+    "data/indexSorter": {
+      "js": "src/data/comparer.js"
+    },
+    "data/sorter": {
+      "js": "src/data/comparer.js"
+    },
+    "data/enableFatArrowExpansion": {
+      "js": "src/data/enableFatArrowExpansion.js"
+    },
+    "data/Ref": {
+      "js": "src/data/Ref.js"
+    },
+    "svg/BoundedObject": {
+      "js": "src/svg/BoundedObject.js"
+    },
+    "svg/TextualBoundedObject": {
+      "js": "src/svg/TextualBoundedObject.js"
+    },
+    "svg/Svg": {
+      "js": "src/svg/Svg.js",
+      "scss": "src/svg/Svg.scss"
+    },
+    "svg/Rectangle": {
+      "js": "src/svg/Rectangle.js"
+    },
+    "svg/ClipRect": {
+      "js": "src/svg/ClipRect.js"
+    },
+    "svg/Ellipse": {
+      "js": "src/svg/Ellipse.js"
+    },
+    "svg/Line": {
+      "js": "src/svg/Line.js"
+    },
+    "svg/Text": {
+      "js": "src/svg/Text.js"
+    },
+    "svg/NonOverlappingRect": {
+      "js": "src/svg/NonOverlappingRect.js"
+    },
+    "svg/NonOverlappingRectGroup": {
+      "js": "src/svg/NonOverlappingRectGroup.js"
+    },
+    "widgets/cx": {
+      "js": "src/widgets/cx.js"
+    },
+    "widgets/react": {
+      "js": "src/widgets/cx.js"
+    },
+    "widgets/DocumentTitle": {
+      "js": "src/widgets/DocumentTitle.js"
+    },
+    "widgets/Button": {
+      "js": "src/widgets/Button.js",
+      "scss": "src/widgets/Button.scss"
+    },
+    "widgets/urlAttributes": {
+      "js": "src/widgets/HtmlElement.js"
+    },
+    "widgets/HtmlElement": {
+      "js": "src/widgets/HtmlElement.js"
+    },
+    "widgets/List": {
+      "js": "src/widgets/List.js",
+      "scss": "src/widgets/List.scss"
+    },
+    "widgets/CxCredit": {
+      "js": "src/widgets/CxCredit.js",
+      "scss": "src/widgets/CxCredit.scss"
+    },
+    "widgets/Sandbox": {
+      "js": "src/widgets/Sandbox.js"
+    },
+    "widgets/Heading": {
+      "js": "src/widgets/Heading.js",
+      "scss": "src/widgets/Heading.scss"
+    },
+    "widgets/Section": {
+      "js": "src/widgets/Section.js",
+      "scss": "src/widgets/Section.scss"
+    },
+    "widgets/FlexBox": {
+      "js": "src/widgets/FlexBox.js",
+      "scss": "src/widgets/FlexBox.scss"
+    },
+    "widgets/FlexRow": {
+      "js": "src/widgets/FlexBox.js",
+      "scss": "src/widgets/FlexBox.scss"
+    },
+    "widgets/FlexCol": {
+      "js": "src/widgets/FlexBox.js",
+      "scss": "src/widgets/FlexBox.scss"
+    },
+    "widgets/Icon": {
+      "js": "src/widgets/Icon.js",
+      "scss": "src/widgets/Icon.scss"
+    },
+    "widgets/ProgressBar": {
+      "js": "src/widgets/ProgressBar.js",
+      "scss": "src/widgets/ProgressBar.scss"
+    },
+    "widgets/Resizer": {
+      "js": "src/widgets/Resizer.js",
+      "scss": "src/widgets/Resizer.scss"
+    },
+    "widgets/HighlightedSearchText": {
+      "js": "src/widgets/HighlightedSearchText.js",
+      "scss": "src/widgets/HighlightedSearchText.scss"
+    },
+    "widgets/autoFocus": {
+      "js": "src/widgets/autoFocus.js"
+    },
+    "widgets/DataAdapter": {
+      "js": "src/ui/adapter/DataAdapter.js"
+    },
+    "widgets/ArrayAdapter": {
+      "js": "src/ui/adapter/ArrayAdapter.js"
+    },
+    "widgets/GroupAdapter": {
+      "js": "src/ui/adapter/GroupAdapter.js"
+    },
+    "widgets/TreeAdapter": {
+      "js": "src/ui/adapter/TreeAdapter.js"
+    },
+    "hooks/useStore": {
+      "js": "src/hooks/store.js"
+    },
+    "hooks/useStoreMethods": {
+      "js": "src/hooks/store.js"
+    },
+    "hooks/ref": {
+      "js": "src/hooks/store.js"
+    },
+    "hooks/useEffect": {
+      "js": "src/hooks/useEffect.js"
+    },
+    "hooks/useCleanup": {
+      "js": "src/hooks/useEffect.js"
+    },
+    "hooks/useInterval": {
+      "js": "src/hooks/useInterval.js"
+    },
+    "hooks/addExploreCallback": {
+      "js": "src/hooks/useTrigger.js"
+    },
+    "hooks/useTrigger": {
+      "js": "src/hooks/useTrigger.js"
+    },
+    "hooks/createLoacalStorageRef": {
+      "js": "src/hooks/createLocalStorageRef.js"
+    },
+    "hooks/useState": {
+      "js": "src/hooks/useState.js"
+    },
+    "hooks/resolveCallback": {
+      "js": "src/hooks/resolveCallback.js"
+    },
+    "hooks/invokeCallback": {
+      "js": "src/hooks/invokeCallback.js"
+    },
+    "charts/Chart": {
+      "js": "src/charts/Chart.js"
+    },
+    "charts/PieChart": {
+      "js": "src/charts/PieChart.js",
+      "scss": "src/charts/PieChart.scss"
+    },
+    "charts/PieSlice": {
+      "js": "src/charts/PieChart.js",
+      "scss": "src/charts/PieChart.scss"
+    },
+    "charts/PieLabelsContainer": {
+      "js": "src/charts/PieLabelsContainer.js"
+    },
+    "charts/PieLabel": {
+      "js": "src/charts/PieLabel.js"
+    },
+    "charts/Pie": {
+      "js": "src/charts/Pie.js"
+    },
+    "charts/Column": {
+      "js": "src/charts/Column.js",
+      "scss": "src/charts/Column.scss"
+    },
+    "charts/Bar": {
+      "js": "src/charts/Bar.js",
+      "scss": "src/charts/Bar.scss"
+    },
+    "charts/Legend": {
+      "js": "src/charts/Legend.js",
+      "scss": "src/charts/Legend.scss"
+    },
+    "charts/LegendScope": {
+      "js": "src/charts/Legend.js",
+      "scss": "src/charts/Legend.scss"
+    },
+    "charts/MarkerLine": {
+      "js": "src/charts/MarkerLine.js",
+      "scss": "src/charts/MarkerLine.scss"
+    },
+    "charts/Marker": {
+      "js": "src/charts/Marker.js",
+      "scss": "src/charts/Marker.scss"
+    },
+    "charts/Gridlines": {
+      "js": "src/charts/Gridlines.js",
+      "scss": "src/charts/Gridlines.scss"
+    },
+    "charts/Range": {
+      "js": "src/charts/Range.js",
+      "scss": "src/charts/Range.scss"
+    },
+    "charts/ColorMap": {
+      "js": "src/charts/ColorMap.js"
+    },
+    "charts/ColorMapScope": {
+      "js": "src/charts/ColorMap.js"
+    },
+    "charts/ColorIndex": {
+      "js": "src/charts/ColorMap.js"
+    },
+    "charts/LineGraph": {
+      "js": "src/charts/LineGraph.js",
+      "scss": "src/charts/LineGraph.scss"
+    },
+    "charts/ColumnGraph": {
+      "js": "src/charts/ColumnGraph.js",
+      "scss": "src/charts/ColumnGraph.scss"
+    },
+    "charts/BarGraph": {
+      "js": "src/charts/BarGraph.js",
+      "scss": "src/charts/BarGraph.scss"
+    },
+    "charts/BubbleGraph": {
+      "js": "src/charts/BubbleGraph.js",
+      "scss": "src/charts/BubbleGraph.scss"
+    },
+    "charts/ScatterGraph": {
+      "js": "src/charts/ScatterGraph.js",
+      "scss": "src/charts/ScatterGraph.scss"
+    },
+    "charts/MouseTracker": {
+      "js": "src/charts/MouseTracker.js"
+    },
+    "charts/LegendEntry": {
+      "js": "src/charts/LegendEntry.js",
+      "scss": "src/charts/LegendEntry.scss"
+    },
+    "util/enableTouchEventDetection": {
+      "js": "src/util/isTouchEvent.js"
+    },
+    "util/isTouchEvent": {
+      "js": "src/util/isTouchEvent.js"
+    },
+    "util/browserSupportsPassiveEventHandlers": {
+      "js": "src/util/browserSupportsPassiveEventHandlers.js"
+    },
+    "util/escapeSpecialRegexCharacters": {
+      "js": "src/util/escapeSpecialRegexCharacters.js"
+    },
+    "util/debounce": {
+      "js": "src/util/debounce.js"
+    },
+    "util/getSearchQueryPredicate": {
+      "js": "src/util/getSearchQueryPredicate.js"
+    },
+    "util/getSearchQueryHighlighter": {
+      "js": "src/util/getSearchQueryPredicate.js"
+    },
+    "util/throttle": {
+      "js": "src/util/throttle.js"
+    },
+    "util/SubscriberList": {
+      "js": "src/util/SubscriberList.js"
+    },
+    "util/findScrollableParent": {
+      "js": "src/util/findScrollableParent.js"
+    },
+    "util/getScrollerBoundingClientRect": {
+      "js": "src/util/getScrollerBoundingClientRect.js"
+    },
+    "util/isNonEmptyArray": {
+      "js": "src/util/isNonEmptyArray.js"
+    },
+    "util/isObject": {
+      "js": "src/util/isObject.js"
+    },
+    "util/isArray": {
+      "js": "src/util/isArray.js"
+    },
+    "util/isNumber": {
+      "js": "src/util/isNumber.js"
+    },
+    "util/isString": {
+      "js": "src/util/isString.js"
+    },
+    "util/isFunction": {
+      "js": "src/util/isFunction.js"
+    },
+    "util/isUndefined": {
+      "js": "src/util/isUndefined.js"
+    },
+    "util/isDefined": {
+      "js": "src/util/isDefined.js"
+    },
+    "util/routeAppend": {
+      "js": "src/util/routeAppend.js"
+    },
+    "util/reverseSlice": {
+      "js": "src/util/reverseSlice.js"
+    },
+    "ui/batchUpdates": {
+      "js": "src/ui/batchUpdates.js"
+    },
+    "ui/isBatchingUpdates": {
+      "js": "src/ui/batchUpdates.js"
+    },
+    "ui/notifyBatchedUpdateStarting": {
+      "js": "src/ui/batchUpdates.js"
+    },
+    "ui/notifyBatchedUpdateCompleted": {
+      "js": "src/ui/batchUpdates.js"
+    },
+    "ui/batchUpdatesAndNotify": {
+      "js": "src/ui/batchUpdates.js"
+    },
+    "ui/IsolatedScope": {
+      "js": "src/ui/IsolatedScope.js"
+    },
+    "ui/DetachedScope": {
+      "js": "src/ui/DetachedScope.js"
+    },
+    "ui/Restate": {
+      "js": "src/ui/Restate.js"
+    },
+    "ui/PrivateStore": {
+      "js": "src/ui/Restate.js"
+    },
+    "util/getTopLevelBoundingClientRect": {
+      "js": "src/util/getTopLevelBoundingClientRect.js"
+    },
+    "ui/DataProxy": {
+      "js": "src/ui/DataProxy.js"
+    },
+    "ui/executeKeyboardShortcuts": {
+      "js": "src/ui/keyboardShortcuts.js"
+    },
+    "ui/registerKeyboardShortcut": {
+      "js": "src/ui/keyboardShortcuts.js"
+    },
+    "ui/StructuredInstanceDataAccessor": {
+      "js": "src/ui/StructuredInstanceDataAccessor.js"
+    },
+    "ui/HoverSync": {
+      "js": "src/ui/HoverSync.js"
+    },
+    "ui/withHoverSync": {
+      "js": "src/ui/HoverSync.js"
+    },
+    "ui/HoverSyncElement": {
+      "js": "src/ui/HoverSync.js"
+    },
+    "ui/createFunctionalComponent": {
+      "js": "src/ui/createFunctionalComponent.js"
+    },
+    "ui/getCurrentInstance": {
+      "js": "src/ui/createFunctionalComponent.js"
+    },
+    "ui/flattenProps": {
+      "js": "src/ui/flattenProps.js"
+    },
+    "ui/bind": {
+      "js": "src/ui/bind.js"
+    },
+    "ui/expr": {
+      "js": "src/ui/expr.js"
+    },
+    "ui/tpl": {
+      "js": "src/ui/tpl.js"
+    },
+    "data/ArrayRef": {
+      "js": "src/data/ArrayRef.js"
+    },
+    "data/StoreProxy": {
+      "js": "src/data/StoreProxy.js"
+    },
+    "data/AugmentedViewBase": {
+      "js": "src/data/AugmentedViewBase.js"
+    },
+    "data/ArrayElementView": {
+      "js": "src/data/ArrayElementView.js"
+    },
+    "data/getAccessor": {
+      "js": "src/data/getAccessor.js"
+    },
+    "data/defaultCompare": {
+      "js": "src/data/defaultCompare.js"
+    },
+    "data/NestedDataView": {
+      "js": "src/data/NestedDataView.js"
+    },
+    "data/createAccessorModelProxy": {
+      "js": "src/data/createAccessorModelProxy.js"
+    },
+    "data/isAccessorChain": {
+      "js": "src/data/createAccessorModelProxy.js"
+    },
+    "widgets/enableAllInternalDependencies": {
+      "js": "src/widgets/enableAllInternalDependencies.js"
+    },
+    "charts/registerShape": {
+      "js": "src/charts/shapes.js"
+    },
+    "charts/getShape": {
+      "js": "src/charts/shapes.js"
+    },
+    "charts/getAvailableShapes": {
+      "js": "src/charts/shapes.js"
+    },
+    "charts/circle": {
+      "js": "src/charts/shapes.js"
+    },
+    "charts/square": {
+      "js": "src/charts/shapes.js"
+    },
+    "charts/bar": {
+      "js": "src/charts/shapes.js"
+    },
+    "charts/column": {
+      "js": "src/charts/shapes.js"
+    },
+    "charts/line": {
+      "js": "src/charts/shapes.js"
+    },
+    "charts/vline": {
+      "js": "src/charts/shapes.js"
+    },
+    "charts/triangle": {
+      "js": "src/charts/shapes.js"
+    },
+    "util/getParentFrameBoundingClientRect": {
+      "js": "src/util/getParentFrameBoundingClientRect.js"
+    },
+    "util/getActiveElement": {
+      "js": "src/util/getActiveElement.js"
+    },
+    "util/onIdleCallback": {
+      "js": "src/util/onIdleCallback.js"
+    },
+    "util/validatedDebounce": {
+      "js": "src/util/validatedDebounce.js"
+    },
+    "util/addEventListenerWithOptions": {
+      "js": "src/util/addEventListenerWithOptions.js"
+    },
+    "util/coalesce": {
+      "js": "src/util/coalesce.js"
+    },
+    "util/dummyCallback": {
+      "js": "src/util/dummyCallback.js"
+    },
+    "util/calculateNaturalElementHeight": {
+      "js": "src/util/calculateNaturalElementHeight.js"
+    },
+    "util/Component": {
+      "js": "src/util/Component.js"
+    },
+    "util/createComponentFactory": {
+      "js": "src/util/Component.js"
+    },
+    "util/isComponentFactory": {
+      "js": "src/util/Component.js"
+    },
+    "util/isTextInputElement": {
+      "js": "src/util/isTextInputElement.js"
+    },
+    "util/TraversalStack": {
+      "js": "src/util/TraversalStack.js"
+    },
+    "util/parseColor": {
+      "js": "src/util/color/parseColor.js"
+    },
+    "util/parseHexColor": {
+      "js": "src/util/color/parseColor.js"
+    },
+    "util/parseRgbColor": {
+      "js": "src/util/color/parseColor.js"
+    },
+    "util/parseHslColor": {
+      "js": "src/util/color/parseColor.js"
+    },
+    "util/hslToRgb": {
+      "js": "src/util/color/hslToRgb.js"
+    },
+    "util/rgbToHex": {
+      "js": "src/util/color/rgbToHex.js"
+    },
+    "util/dateDiff": {
+      "js": "src/util/date/dateDiff.js"
+    },
+    "util/rgbToHsl": {
+      "js": "src/util/color/rgbToHsl.js"
+    },
+    "util/monthStart": {
+      "js": "src/util/date/monthStart.js"
+    },
+    "util/zeroTime": {
+      "js": "src/util/date/zeroTime.js"
+    },
+    "util/upperBoundCheck": {
+      "js": "src/util/date/upperBoundCheck.js"
+    },
+    "ui/exploreChildren": {
+      "js": "src/ui/layout/exploreChildren.js"
+    },
+    "ui/ArrayAdapter": {
+      "js": "src/ui/adapter/ArrayAdapter.js"
+    },
+    "ui/UseParentLayout": {
+      "js": "src/ui/layout/UseParentLayout.js"
+    },
+    "util/lowerBoundCheck": {
+      "js": "src/util/date/lowerBoundCheck.js"
+    },
+    "data/StoreRef": {
+      "js": "src/data/StoreRef.js"
+    },
+    "data/createStructuredSelector": {
+      "js": "src/data/createStructuredSelector.js"
+    },
+    "data/AggregateFunction": {
+      "js": "src/data/AggregateFunction.js"
+    },
+    "data/append": {
+      "js": "src/data/ops/append.js"
+    },
+    "data/filter": {
+      "js": "src/data/ops/filter.js"
+    },
+    "data/merge": {
+      "js": "src/data/ops/merge.js"
+    },
+    "data/updateTree": {
+      "js": "src/data/ops/updateTree.js"
+    },
+    "data/removeTreeNodes": {
+      "js": "src/data/ops/removeTreeNodes.js"
+    },
+    "data/updateArray": {
+      "js": "src/data/ops/updateArray.js"
+    },
+    "data/findTreeNode": {
+      "js": "src/data/ops/findTreeNode.js"
+    },
+    "data/insertElement": {
+      "js": "src/data/ops/insertElement.js"
+    },
+    "data/findTreePath": {
+      "js": "src/data/ops/findTreePath.js"
+    },
+    "svg/Rect": {
+      "js": "src/svg/util/Rect.js"
+    },
+    "data/diffArrays": {
+      "js": "src/data/diff/diffArrays.js"
+    },
+    "data/moveElement": {
+      "js": "src/data/ops/moveElement.js"
+    },
+    "widgets/tooltipMouseMove": {
+      "js": "src/widgets/overlay/tooltip-ops.js"
+    },
+    "widgets/tooltipMouseLeave": {
+      "js": "src/widgets/overlay/tooltip-ops.js"
+    },
+    "widgets/tooltipParentDidMount": {
+      "js": "src/widgets/overlay/tooltip-ops.js"
+    },
+    "widgets/tooltipParentWillReceiveProps": {
+      "js": "src/widgets/overlay/tooltip-ops.js"
+    },
+    "widgets/tooltipParentWillUnmount": {
+      "js": "src/widgets/overlay/tooltip-ops.js"
+    },
+    "widgets/wireTooltipOps": {
+      "js": "src/widgets/overlay/tooltip-ops.js"
+    },
+    "widgets/alert": {
+      "js": "src/widgets/overlay/alerts.js"
+    },
+    "widgets/yesNo": {
+      "js": "src/widgets/overlay/alerts.js"
+    },
+    "widgets/registerAlertImpl": {
+      "js": "src/widgets/overlay/alerts.js"
+    },
+    "widgets/registerIcon": {
+      "js": "src/widgets/icons/registry.js"
+    },
+    "widgets/unregisterIcon": {
+      "js": "src/widgets/icons/registry.js"
+    },
+    "widgets/renderIcon": {
+      "js": "src/widgets/icons/registry.js"
+    },
+    "widgets/clearIcons": {
+      "js": "src/widgets/icons/registry.js"
+    },
+    "widgets/registerIconFactory": {
+      "js": "src/widgets/icons/registry.js"
+    },
+    "widgets/restoreDefaultIcons": {
+      "js": "src/widgets/icons/registry.js"
+    },
+    "widgets/captureMouse2": {
+      "js": "src/widgets/overlay/captureMouse.js",
+      "scss": "src/widgets/overlay/captureMouse.scss"
+    },
+    "widgets/captureMouseOrTouch2": {
+      "js": "src/widgets/overlay/captureMouse.js",
+      "scss": "src/widgets/overlay/captureMouse.scss"
+    },
+    "widgets/captureMouse": {
+      "js": "src/widgets/overlay/captureMouse.js",
+      "scss": "src/widgets/overlay/captureMouse.scss"
+    },
+    "widgets/captureMouseOrTouch": {
+      "js": "src/widgets/overlay/captureMouse.js",
+      "scss": "src/widgets/overlay/captureMouse.scss"
+    },
+    "widgets/getCursorPos": {
+      "js": "src/widgets/overlay/captureMouse.js",
+      "scss": "src/widgets/overlay/captureMouse.scss"
+    },
+    "widgets/Tooltip": {
+      "js": "src/widgets/overlay/Tooltip.js",
+      "scss": "src/widgets/overlay/Tooltip.scss"
+    },
+    "widgets/getTooltipInstance": {
+      "js": "src/widgets/overlay/Tooltip.js",
+      "scss": "src/widgets/overlay/Tooltip.scss"
+    },
+    "widgets/enableTooltips": {
+      "js": "src/widgets/overlay/Tooltip.js",
+      "scss": "src/widgets/overlay/Tooltip.scss"
+    },
+    "widgets/Dropdown": {
+      "js": "src/widgets/overlay/Dropdown.js",
+      "scss": "src/widgets/overlay/Dropdown.scss"
+    },
+    "widgets/Window": {
+      "js": "src/widgets/overlay/Window.js",
+      "scss": "src/widgets/overlay/Window.scss"
+    },
+    "widgets/Overlay": {
+      "js": "src/widgets/overlay/Overlay.js",
+      "scss": "src/widgets/overlay/Overlay.scss"
+    },
+    "widgets/OverlayComponent": {
+      "js": "src/widgets/overlay/Overlay.js",
+      "scss": "src/widgets/overlay/Overlay.scss"
+    },
+    "charts/Axis": {
+      "js": "src/charts/axis/Axis.js",
+      "scss": "src/charts/axis/Axis.scss"
+    },
+    "charts/ColumnBarBase": {
+      "js": "src/charts/ColumnBarBase.js"
+    },
+    "charts/ColumnBarGraphBase": {
+      "js": "src/charts/ColumnBarGraphBase.js"
+    },
+    "util/maxDate": {
+      "js": "src/util/date/maxDate.js"
+    },
+    "util/minDate": {
+      "js": "src/util/date/minDate.js"
+    },
+    "util/sameDate": {
+      "js": "src/util/date/sameDate.js"
+    },
+    "util/encodeDateWithTimezoneOffset": {
+      "js": "src/util/date/encodeDateWithTimezoneOffset.js"
+    },
+    "ui/Selection": {
+      "js": "src/ui/selection/Selection.js"
+    },
+    "ui/SimpleSelection": {
+      "js": "src/ui/selection/Selection.js"
+    },
+    "ui/PropertySelection": {
+      "js": "src/ui/selection/PropertySelection.js"
+    },
+    "ui/startAppLoop": {
+      "js": "src/ui/app/startAppLoop.js"
+    },
+    "ui/startHotAppLoop": {
+      "js": "src/ui/app/startHotAppLoop.js"
+    },
+    "ui/KeySelection": {
+      "js": "src/ui/selection/KeySelection.js"
+    },
+    "ui/History": {
+      "js": "src/ui/app/History.js"
+    },
+    "ui/FirstVisibleChildLayout": {
+      "js": "src/ui/layout/FirstVisibleChildLayout.js"
+    },
+    "ui/LabelsTopLayout": {
+      "js": "src/ui/layout/LabelsTopLayout.js",
+      "scss": "src/ui/layout/LabelsTopLayout.scss"
+    },
+    "ui/LabelsTopLayoutCell": {
+      "js": "src/ui/layout/LabelsTopLayout.js",
+      "scss": "src/ui/layout/LabelsTopLayout.scss"
+    },
+    "ui/LabelsLeftLayout": {
+      "js": "src/ui/layout/LabelsLeftLayout.js",
+      "scss": "src/ui/layout/LabelsLeftLayout.scss"
+    },
+    "ui/Content": {
+      "js": "src/ui/layout/Content.js"
+    },
+    "ui/ContentPlaceholder": {
+      "js": "src/ui/layout/ContentPlaceholder.js"
+    },
+    "ui/ContentPlaceholderScope": {
+      "js": "src/ui/layout/ContentPlaceholder.js"
+    },
+    "ui/DataAdapter": {
+      "js": "src/ui/adapter/DataAdapter.js"
+    },
+    "ui/GroupAdapter": {
+      "js": "src/ui/adapter/GroupAdapter.js"
+    },
+    "ui/Url": {
+      "js": "src/ui/app/Url.js"
+    },
+    "ui/TreeAdapter": {
+      "js": "src/ui/adapter/TreeAdapter.js"
+    },
+    "widgets/MsgBox": {
+      "js": "src/widgets/overlay/MsgBox.js"
+    },
+    "widgets/enableMsgBoxAlerts": {
+      "js": "src/widgets/overlay/MsgBox.js"
+    },
+    "widgets/Toast": {
+      "js": "src/widgets/overlay/Toast.js",
+      "scss": "src/widgets/overlay/Toast.scss"
+    },
+    "widgets/ContextMenu": {
+      "js": "src/widgets/overlay/ContextMenu.js"
+    },
+    "widgets/openContextMenu": {
+      "js": "src/widgets/overlay/ContextMenu.js"
+    },
+    "widgets/Route": {
+      "js": "src/widgets/nav/Route.js"
+    },
+    "widgets/FlyweightTooltipTracker": {
+      "js": "src/widgets/overlay/FlyweightTooltipTracker.js"
+    },
+    "widgets/RedirectRoute": {
+      "js": "src/widgets/nav/RedirectRoute.js"
+    },
+    "widgets/Tab": {
+      "js": "src/widgets/nav/Tab.js",
+      "scss": "src/widgets/nav/Tab.scss"
+    },
+    "widgets/Link": {
+      "js": "src/widgets/nav/Link.js",
+      "scss": "src/widgets/nav/Link.scss"
+    },
+    "widgets/LinkButton": {
+      "js": "src/widgets/nav/LinkButton.js"
+    },
+    "widgets/Menu": {
+      "js": "src/widgets/nav/Menu.js",
+      "scss": "src/widgets/nav/Menu.scss"
+    },
+    "widgets/MenuItem": {
+      "js": "src/widgets/nav/MenuItem.js",
+      "scss": "src/widgets/nav/MenuItem.scss"
+    },
+    "widgets/TreeNode": {
+      "js": "src/widgets/grid/TreeNode.js",
+      "scss": "src/widgets/grid/TreeNode.scss"
+    },
+    "widgets/Grid": {
+      "js": "src/widgets/grid/Grid.js",
+      "scss": "src/widgets/grid/Grid.scss"
+    },
+    "widgets/MenuSpacer": {
+      "js": "src/widgets/nav/MenuSpacer.js"
+    },
+    "widgets/Submenu": {
+      "js": "src/widgets/nav/Submenu.js"
+    },
+    "widgets/Scroller": {
+      "js": "src/widgets/nav/Scroller.js",
+      "scss": "src/widgets/nav/Scroller.scss"
+    },
+    "widgets/HScrollerComponent": {
+      "js": "src/widgets/nav/Scroller.js",
+      "scss": "src/widgets/nav/Scroller.scss"
+    },
+    "widgets/HScroller": {
+      "js": "src/widgets/nav/Scroller.js",
+      "scss": "src/widgets/nav/Scroller.scss"
+    },
+    "widgets/VScroller": {
+      "js": "src/widgets/nav/Scroller.js",
+      "scss": "src/widgets/nav/Scroller.scss"
+    },
+    "widgets/Pagination": {
+      "js": "src/widgets/grid/Pagination.js",
+      "scss": "src/widgets/grid/Pagination.scss"
+    },
+    "widgets/DragSource": {
+      "js": "src/widgets/drag-drop/DragSource.js",
+      "scss": "src/widgets/drag-drop/DragSource.scss"
+    },
+    "widgets/DropZone": {
+      "js": "src/widgets/drag-drop/DropZone.js",
+      "scss": "src/widgets/drag-drop/DropZone.scss"
+    },
+    "widgets/DragHandle": {
+      "js": "src/widgets/drag-drop/DragHandle.js",
+      "scss": "src/widgets/drag-drop/DragHandle.scss"
+    },
+    "charts/TimeAxis": {
+      "js": "src/charts/axis/TimeAxis.js",
+      "scss": "src/charts/axis/TimeAxis.scss"
+    },
+    "charts/CategoryAxis": {
+      "js": "src/charts/axis/CategoryAxis.js",
+      "scss": "src/charts/axis/CategoryAxis.scss"
+    },
+    "charts/NumericAxis": {
+      "js": "src/charts/axis/NumericAxis.js",
+      "scss": "src/charts/axis/NumericAxis.scss"
+    },
+    "charts/SnapPointFinder": {
+      "js": "src/charts/helpers/SnapPointFinder.js"
+    },
+    "charts/MinMaxFinder": {
+      "js": "src/charts/helpers/MinMaxFinder.js"
+    },
+    "charts/PointReducer": {
+      "js": "src/charts/helpers/PointReducer.js"
+    },
+    "charts/ValueAtFinder": {
+      "js": "src/charts/helpers/ValueAtFinder.js"
+    },
+    "widgets/registerDropZone": {
+      "js": "src/widgets/drag-drop/ops.js"
+    },
+    "widgets/initiateDragDrop": {
+      "js": "src/widgets/drag-drop/ops.js"
+    },
+    "widgets/ddMouseDown": {
+      "js": "src/widgets/drag-drop/ops.js"
+    },
+    "widgets/ddMouseUp": {
+      "js": "src/widgets/drag-drop/ops.js"
+    },
+    "widgets/ddDetect": {
+      "js": "src/widgets/drag-drop/ops.js"
+    },
+    "widgets/ddHandle": {
+      "js": "src/widgets/drag-drop/ops.js"
+    },
+    "widgets/isDragHandleEvent": {
+      "js": "src/widgets/drag-drop/ops.js"
+    },
+    "widgets/DragDropContext": {
+      "js": "src/widgets/drag-drop/ops.js"
+    },
+    "widgets/Checkbox": {
+      "js": "src/widgets/form/Checkbox.js",
+      "scss": "src/widgets/form/Checkbox.scss"
+    },
+    "widgets/Calendar": {
+      "js": "src/widgets/form/Calendar.js",
+      "scss": "src/widgets/form/Calendar.scss"
+    },
+    "widgets/CalendarCmp": {
+      "js": "src/widgets/form/Calendar.js",
+      "scss": "src/widgets/form/Calendar.scss"
+    },
+    "widgets/TextField": {
+      "js": "src/widgets/form/TextField.js",
+      "scss": "src/widgets/form/TextField.scss"
+    },
+    "widgets/Field": {
+      "js": "src/widgets/form/Field.js",
+      "scss": "src/widgets/form/Field.scss"
+    },
+    "widgets/getFieldTooltip": {
+      "js": "src/widgets/form/Field.js",
+      "scss": "src/widgets/form/Field.scss"
+    },
+    "widgets/Select": {
+      "js": "src/widgets/form/Select.js",
+      "scss": "src/widgets/form/Select.scss"
+    },
+    "widgets/Option": {
+      "js": "src/widgets/form/Select.js",
+      "scss": "src/widgets/form/Select.scss"
+    },
+    "widgets/Radio": {
+      "js": "src/widgets/form/Radio.js",
+      "scss": "src/widgets/form/Radio.scss"
+    },
+    "widgets/NumberField": {
+      "js": "src/widgets/form/NumberField.js",
+      "scss": "src/widgets/form/NumberField.scss"
+    },
+    "widgets/TextArea": {
+      "js": "src/widgets/form/TextArea.js",
+      "scss": "src/widgets/form/TextArea.scss"
+    },
+    "widgets/LookupField": {
+      "js": "src/widgets/form/LookupField.js",
+      "scss": "src/widgets/form/LookupField.scss"
+    },
+    "widgets/LabeledContainer": {
+      "js": "src/widgets/form/LabeledContainer.js"
+    },
+    "widgets/ValidationError": {
+      "js": "src/widgets/form/ValidationError.js",
+      "scss": "src/widgets/form/ValidationError.scss"
+    },
+    "widgets/ValidationGroup": {
+      "js": "src/widgets/form/ValidationGroup.js"
+    },
+    "widgets/FieldGroup": {
+      "js": "src/widgets/form/FieldGroup.js"
+    },
+    "widgets/MonthPicker": {
+      "js": "src/widgets/form/MonthPicker.js",
+      "scss": "src/widgets/form/MonthPicker.scss"
+    },
+    "widgets/MonthPickerComponent": {
+      "js": "src/widgets/form/MonthPicker.js",
+      "scss": "src/widgets/form/MonthPicker.scss"
+    },
+    "widgets/ColorPicker": {
+      "js": "src/widgets/form/ColorPicker.js",
+      "scss": "src/widgets/form/ColorPicker.scss"
+    },
+    "widgets/ColorField": {
+      "js": "src/widgets/form/ColorField.js",
+      "scss": "src/widgets/form/ColorField.scss"
+    },
+    "widgets/MonthField": {
+      "js": "src/widgets/form/MonthField.js",
+      "scss": "src/widgets/form/MonthField.scss"
+    },
+    "widgets/UploadButton": {
+      "js": "src/widgets/form/UploadButton.js",
+      "scss": "src/widgets/form/UploadButton.scss"
+    },
+    "widgets/Slider": {
+      "js": "src/widgets/form/Slider.js",
+      "scss": "src/widgets/form/Slider.scss"
+    },
+    "widgets/Switch": {
+      "js": "src/widgets/form/Switch.js",
+      "scss": "src/widgets/form/Switch.scss"
+    },
+    "widgets/HelpText": {
+      "js": "src/widgets/form/HelpText.js",
+      "scss": "src/widgets/form/HelpText.scss"
+    },
+    "widgets/Wheel": {
+      "js": "src/widgets/form/Wheel.js",
+      "scss": "src/widgets/form/Wheel.scss"
+    },
+    "widgets/WheelComponent": {
+      "js": "src/widgets/form/Wheel.js",
+      "scss": "src/widgets/form/Wheel.scss"
+    },
+    "widgets/DateTimePicker": {
+      "js": "src/widgets/form/DateTimePicker.js",
+      "scss": "src/widgets/form/DateTimePicker.scss"
+    },
+    "widgets/DateTimeField": {
+      "js": "src/widgets/form/DateTimeField.js",
+      "scss": "src/widgets/form/DateTimeField.scss"
+    },
+    "widgets/DateField": {
+      "js": "src/widgets/form/DateField.js"
+    },
+    "widgets/TimeField": {
+      "js": "src/widgets/form/TimeField.js"
+    },
+    "widgets/Validator": {
+      "js": "src/widgets/form/Validator.js"
+    },
+    "widgets/GridRow": {
+      "js": "src/widgets/grid/GridRow.js"
+    },
+    "widgets/GridRowComponent": {
+      "js": "src/widgets/grid/GridRow.js"
+    },
+    "widgets/GridCellEditor": {
+      "js": "src/widgets/grid/GridCellEditor.js"
+    },
+    "charts/Stack": {
+      "js": "src/charts/axis/Stack.js"
+    },
+    "widgets/Label": {
+      "js": "src/widgets/form/Label.js",
+      "scss": "src/widgets/form/Label.scss"
+    },
+    "widgets/TimeList": {
+      "js": "src/widgets/form/TimeList.js"
+    },
+    "widgets/GridRowLine": {
+      "js": "src/widgets/grid/GridRowLine.js"
+    },
+    "widgets/GridCell": {
+      "js": "src/widgets/grid/GridCell.js"
+    }
+  }

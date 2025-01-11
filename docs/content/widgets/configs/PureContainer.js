@@ -25,7 +25,7 @@ export default {
    plainText: {
       type: 'boolean',
       description: <cx><Md>
-         Set to `true` to avoid converting inner strings to templates. Default `false`.
+         Set to `true` to avoid converting inner strings to templates. Default is `false`.
       </Md></cx>
    },
    items: {

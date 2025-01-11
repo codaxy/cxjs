@@ -24,11 +24,14 @@ const calendarErrorMessages = {
    minValueErrorText: 'Wählen Sie {0:d} oder später.',
    minExclusiveErrorText: 'Wählen Sie ein Datum nach dem {0:d}.',
 };
+
 // Calendar
 Localization.localize(c, 'cx/widgets/Calendar', {
    ...calendarErrorMessages,
-   todayButtonText: 'Heute'
+   todayButtonText: 'Heute',
+   startWithMonday: true
 });
+
 // MonthPicker
 Localization.localize(c, 'cx/widgets/MonthPicker', calendarErrorMessages);
 
@@ -37,8 +40,10 @@ const dateFieldErrorMessages = {
    ...calendarErrorMessages,
    inputErrorText: 'Ungültiges Datum eingegeben.'
 };
+
 // MonthField
 Localization.localize(c, 'cx/widgets/MonthField', dateFieldErrorMessages);
+
 // DateField
 Localization.localize(c, 'cx/widgets/DateField', dateFieldErrorMessages);
 

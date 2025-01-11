@@ -16,8 +16,8 @@ export class HighlightedSearchText extends Widget {
       let { text, chunks, query, classNames, style } = data;
 
       if (!chunks && text && query) {
-         let highligher = getSearchQueryHighlighter(query, { cache: true });
-         chunks = highligher(text);
+         let highlighter = getSearchQueryHighlighter(query, { cache: true });
+         chunks = highlighter(text);
       }
 
       if (!chunks) return text;
@@ -33,4 +33,4 @@ export class HighlightedSearchText extends Widget {
 }
 
 HighlightedSearchText.prototype.styled = true;
-HighlightedSearchText.prototype.baseClass = "highlighedsearchtext";
+HighlightedSearchText.prototype.baseClass = "highlightedsearchtext";

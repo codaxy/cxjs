@@ -1,0 +1,43 @@
+[package]
+name = "swc-plugin-transform-cx-jsx"
+version = "24.5.1"
+edition = "2021"
+license = "SEE LICENSE IN LICENSE.md"
+description = "Transpile JSX into Cx config objects."
+author = "Codaxy"
+keywords = [ "swc-plugin", "swc", "es2015", "es2016", "cx", "jsx"]
+repository = "https://github.com/codaxy/cxjs"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[profile.release]
+# This removes more dead code
+codegen-units = 1
+lto = true
+# Optimize for size
+# Optimize for performance, this is default so you don't need to specify it
+# opt-level = "z"
+
+# Strip debug symbols
+strip = "symbols"
+
+[dependencies]
+lazy_static = "1.4.0"
+regex = "1.10.3"
+serde = { version = "1.0.130"}
+swc_common = { version = "0.33.17"}
+swc_core = { version = "0.90.6", features = ["ecma_plugin_transform"] }
+swc_ecma_ast = "0.112.2"
+serde_json = "1"
+swc_ecma_parser = "0.143.3"
+wasm-bindgen = "0.2"
+
+[dev-dependencies]
+testing = "0.35.18"
+
+
+
+# .cargo/config defines few alias to build plugin.
+# cargo build-wasi generates wasm-wasi32 binary
+# cargo build-wasm32 generates wasm32-unknown-unknown binary.

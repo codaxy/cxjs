@@ -18,7 +18,7 @@ export default {
         type: 'number',
         description: <cx><Md>
             Outer pie radius in percents of the maximum available radius. If `percentageRadius` flag is set to false, then
-            the value represents the radius in pixels. Default is 50.
+            the value represents the radius in pixels. Default is `50`.
       </Md></cx>
     },
     offset: {
@@ -33,7 +33,7 @@ export default {
         type: 'number',
         description: <cx><Md>
             Inner pie radius in percents of the maximum available radius. If `percentageRadius` flag is set to false, then
-            the value represents the radius in pixels. Default is 0.
+            the value represents the radius in pixels. Default is `0`.
       </Md></cx>
     },
     name: {
@@ -43,11 +43,17 @@ export default {
             Name of the item as it will appear in the legend.
       </Md></cx>
     },
-    legend: {
-        key: false,
+    legendDisplayText: {
         type: 'string',
         description: <cx><Md>
-            Name of the legend to be used. Default is `legend`.
+            Text to be displayed in the legend. The default is copying the `name` value.
+      </Md></cx>
+    },
+    legend: {
+        key: false,
+        type: 'string | false',
+        description: <cx><Md>
+            Name of the legend to be used. Default is `legend`. Set to `false` to hide legend entry for this item.
       </Md></cx>
     },
     stack: {
@@ -77,5 +83,14 @@ export default {
         description: <cx><Md>
             A value used to uniquely identify the record within the hover sync group. See [HoverSync](~/charts/hover-sync).
         </Md></cx>
-    }
+    },
+
+    borderRadius: {
+        key: true,
+        alias: 'br',
+        type: 'number',
+        description: <cx><Md>
+            Border radius of the slice. Default is `0`.
+        </Md></cx>
+    },
 };

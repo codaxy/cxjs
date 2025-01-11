@@ -1,0 +1,8 @@
+$cx-dropdown-styles: cx-deep-map-merge(
+   $cx-dropdown-styles,
+   (
+      border-color: $cx-default-window-border-color,
+      border-style: solid,
+      border-width: 1px,
+   )
+);

@@ -1,0 +1,7 @@
+({
+    "$type": Component, 
+    "children": 
+    [
+        true
+    ]
+})

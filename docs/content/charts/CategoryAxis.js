@@ -77,6 +77,11 @@ export const CategoryAxisPage = <cx>
             </Content>
         </CodeSplit>
 
+        ## Examples
+
+        * [Complex Labels](~/examples/charts/axis/complex-labels)
+        * [Calculated Height](~/examples/charts/axis/calculated-height)
+
         ## Configuration
 
         <ConfigTable props={configs}/>

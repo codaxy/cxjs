@@ -1,6 +1,11 @@
 /.idea
-.vscode
-.yarn
+
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
 
 node_modules
 *.hot-update.js

@@ -1,13 +1,12 @@
 import { PureContainer } from "./PureContainer";
 import { Store } from "../data/Store";
 import { Cx } from "./Cx";
-import { isString } from "../util/isString";
 import { VDOM } from "./VDOM";
-import { isFunction } from "../util/isFunction";
 import { isObject } from "../util/isObject";
 import { isUndefined } from "../util/isUndefined";
 import { Binding } from "../data/Binding";
 import { StructuredSelector } from "../data/StructuredSelector";
+import { getCurrentCulture } from "./Culture";
 
 let persistenceCache = {};
 
@@ -70,6 +69,8 @@ export class Restate extends PureContainer {
    explore(context, instance) {
       if (!instance.subStore) this.initSubStore(context, instance);
       if (instance.subStore.parentDataCheck()) instance.markShouldUpdate();
+      instance.cultureInfo = this.culture ?? getCurrentCulture();
+      if (instance.cache("cultureInfo", instance.culture)) instance.markShouldUpdate();
       super.explore(context, instance);
    }
 
@@ -95,6 +96,8 @@ export class Restate extends PureContainer {
             onError={this.onError}
             deferredUntilIdle={instance.data.deferredUntilIdle}
             idleTimeout={instance.data.idleTimeout}
+            immediate={this.immediate}
+            cultureInfo={instance.cultureInfo}
          />
       );
    }
@@ -102,6 +105,8 @@ export class Restate extends PureContainer {
 
 Restate.prototype.detached = false;
 Restate.prototype.waitForIdle = false;
+Restate.prototype.immediate = false;
+Restate.prototype.culture = null;
 
 export const PrivateStore = Restate;
 

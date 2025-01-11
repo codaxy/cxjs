@@ -7,6 +7,7 @@ import {
    tooltipParentWillUnmount,
    tooltipParentWillReceiveProps,
    tooltipParentDidMount,
+   tooltipParentDidUpdate,
 } from "../widgets/overlay/tooltip-ops";
 import { captureMouseOrTouch, getCursorPos } from "../widgets/overlay/captureMouse";
 import { closest } from "../util/DOM";
@@ -46,6 +47,11 @@ export class Marker extends BoundedObject {
          legendColorIndex: undefined,
          name: undefined,
          active: true,
+         stack: undefined,
+         stackedX: undefined,
+         stackedY: undefined,
+         rx: undefined,
+         ry: undefined,
       });
    }
 
@@ -78,9 +84,9 @@ export class Marker extends BoundedObject {
          y = (bounds.t + bounds.b) / 2;
       }
 
-      if (data.x != null) x = xAxis.map(data.x);
+      if (data.x != null) x = data.stackedX ? xAxis.stack(data.stack, data.y, data.x) : xAxis.map(data.x);
 
-      if (data.y != null) y = yAxis.map(data.y);
+      if (data.y != null) y = data.stackedY ? yAxis.stack(data.stack, data.x, data.y) : yAxis.map(data.y);
 
       return new Rect({
          l: x - data.size / 2,
@@ -98,13 +104,16 @@ export class Marker extends BoundedObject {
 
       if (data.active) {
          if (this.affectsAxes) {
-            if (xAxis && data.x != null) xAxis.acknowledge(data.x, 0, this.xOffset);
+            if (xAxis && data.x != null) {
+               if (data.stackedX) xAxis.stacknowledge(data.stack, data.y, data.x);
+               else xAxis.acknowledge(data.x, 0, this.xOffset);
+            }
 
-            if (yAxis && data.y != null) yAxis.acknowledge(data.y, 0, this.yOffset);
+            if (yAxis && data.y != null) {
+               if (data.stackedY) yAxis.stacknowledge(data.stack, data.x, data.y);
+               else yAxis.acknowledge(data.y, 0, this.yOffset);
+            }
          }
-
-         if (context.pointReducer) context.pointReducer(data.x, data.y, data.name, data);
-
          super.explore(context, instance);
       }
    }
@@ -121,6 +130,8 @@ export class Marker extends BoundedObject {
          if (xAxis && xAxis.shouldUpdate) instance.markShouldUpdate(context);
 
          if (yAxis && yAxis.shouldUpdate) instance.markShouldUpdate(context);
+
+         if (context.pointReducer) context.pointReducer(data.x, data.y, data.name, data);
       }
 
       super.prepare(context, instance);
@@ -171,7 +182,7 @@ export class Marker extends BoundedObject {
                },
                null,
                { svgEl, el: e.target },
-               e.target.style.cursor
+               e.target.style.cursor,
             );
       } else {
          if (!this.selection.isDummy) this.selection.selectInstance(instance);
@@ -221,6 +232,9 @@ Marker.prototype.shape = "circle";
 Marker.prototype.styled = true;
 Marker.prototype.hidden = false;
 Marker.prototype.affectsAxes = true;
+Marker.prototype.stackedY = false;
+Marker.prototype.stackedX = false;
+Marker.prototype.stack = "stack";
 
 BoundedObject.alias("marker", Marker);
 
@@ -260,6 +274,12 @@ class MarkerComponent extends VDOM.Component {
             widget.handleClick(e, instance);
          },
       };
+
+      if (shape == "rect" || shape == "square" || shape == "bar" || shape == "column") {
+         shapeProps.rx = data.rx;
+         shapeProps.ry = data.ry;
+      }
+
       if (widget.tooltip) {
          shapeProps.ref = (c) => {
             this.el = c;
@@ -283,5 +303,9 @@ class MarkerComponent extends VDOM.Component {
    }
    componentDidMount() {
       tooltipParentDidMount(this.el, this.props.instance, this.props.instance.widget.tooltip);
+   }
+
+   componentDidUpdate() {
+      tooltipParentDidUpdate(this.el, this.props.instance, this.props.instance.widget.tooltip);
    }
 }

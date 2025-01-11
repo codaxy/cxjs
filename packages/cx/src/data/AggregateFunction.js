@@ -22,20 +22,21 @@ export class AggregateFunction {
    static max() {
       return new Max();
    }
+
+   static last() {
+      return new LastValue();
+   }
 }
 
 class Sum {
    process(value) {
       this.empty = false;
-      if (!isNaN(value))
-         this.result += value;
-      else
-         this.invalid = true;
+      if (!isNaN(value)) this.result += value;
+      else this.invalid = true;
    }
 
    getResult() {
-      if (this.invalid)
-         return null;
+      if (this.invalid) return null;
       return this.result;
    }
 }
@@ -49,14 +50,11 @@ class Avg {
       if (!isNaN(value) && !isNaN(count)) {
          this.result += value * count;
          this.count += count;
-      }
-      else
-         this.invalid = true;
+      } else this.invalid = true;
    }
 
    getResult() {
-      if (this.empty || this.invalid || this.count == 0)
-         return null;
+      if (this.empty || this.invalid || this.count == 0) return null;
       return this.result / this.count;
    }
 }
@@ -67,8 +65,7 @@ Avg.prototype.empty = true;
 
 class Count {
    process(value) {
-      if (value != null)
-         this.result++;
+      if (value != null) this.result++;
    }
 
    getResult() {
@@ -78,23 +75,20 @@ class Count {
 
 Count.prototype.result = 0;
 
-
 class Distinct {
    constructor() {
       this.values = {};
    }
 
    process(value) {
-      if (value == null || this.values[value])
-         return;
+      if (value == null || this.values[value]) return;
       this.values[value] = true;
       this.empty = false;
       this.result++;
    }
 
    getResult() {
-      if (this.empty || this.invalid)
-         return null;
+      if (this.empty || this.invalid) return null;
       return this.result;
    }
 }
@@ -105,19 +99,14 @@ Distinct.prototype.empty = true;
 class Max {
    process(value) {
       if (!isNaN(value)) {
-         if (this.empty)
-            this.result = value;
-         else if (value > this.result)
-            this.result = value;
+         if (this.empty) this.result = value;
+         else if (value > this.result) this.result = value;
          this.empty = false;
-      }
-      else if (value != null)
-         this.invalid = true;
+      } else if (value != null) this.invalid = true;
    }
 
    getResult() {
-      if (this.empty || this.invalid)
-         return null;
+      if (this.empty || this.invalid) return null;
       return this.result;
    }
 }
@@ -128,22 +117,29 @@ Max.prototype.empty = true;
 class Min {
    process(value) {
       if (!isNaN(value)) {
-         if (this.empty)
-            this.result = value;
-         else if (value < this.result)
-            this.result = value;
+         if (this.empty) this.result = value;
+         else if (value < this.result) this.result = value;
          this.empty = false;
-      }
-      else if (value != null)
-         this.invalid = true;
+      } else if (value != null) this.invalid = true;
    }
 
    getResult() {
-      if (this.empty || this.invalid)
-         return null;
+      if (this.empty || this.invalid) return null;
       return this.result;
    }
 }
 
 Min.prototype.result = 0;
 Min.prototype.empty = true;
+
+class LastValue {
+   process(value) {
+      this.result = value;
+   }
+
+   getResult() {
+      return this.result;
+   }
+}
+
+LastValue.prototype.result = null;

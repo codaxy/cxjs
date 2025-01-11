@@ -15,12 +15,22 @@ export interface AxisProps extends BoundedObjectProps {
    /** When set to `true`, rendering of visual elements of the axis, such as ticks and labels, is skipped, but their function is preserved. */
    hidden?: boolean;
 
+   /** Size of the axis tick line. Defaults to 3. */
    tickSize?: number;
+
+   /** Distance between ticks and the axis. Default is 0. Use negative values for offset to make ticks appear on both sides of the axis. */
+   tickOffset?: number;
+
+   /** The smallest distance between two ticks on the axis. Defaults to 25. */
    minTickDistance?: number;
+
+   /** The smallest distance between two labels on the vertical axis. Defaults to 40. */
    minLabelDistanceVertical?: number;
+
+   /** The smallest distance between two labels on the horizontal axis. Defaults to 50.  */
    minLabelDistanceHorizontal?: number;
 
-   /** Distance between labels and the axis. */
+   /** Distance between labels and the axis. Defaults to 10. */
    labelOffset?: number | string;
 
    /** Label rotation angle in degrees. */
@@ -45,6 +55,12 @@ export interface AxisProps extends BoundedObjectProps {
     * `-0.5` will make labels vertically centered.
     */
    labelLineCountDyFactor?: number | string;
+
+   /**
+    * Used for vertical adjustment of multi-line labels. Default value is 1 which means
+    * that labels are stacked without any space between them. Value of 1.4 will add 40% of the label height as a space between labels.
+    */
+   labelLineHeight?: number | string;
 
    /** If `labelWrap` is on, this number is used as a measure to split labels into multiple lines. Default value is `10`. */
    labelMaxLineLength?: number;
@@ -77,6 +93,21 @@ export interface AxisProps extends BoundedObjectProps {
    labelClass?: Cx.ClassProp;
 
    onMeasured?: (info: any, instance: Instance) => void;
+
+   /** A function used to create a formatter function for axis labels. See Complex Labels example in the CxJS documentation for more info. */
+   onCreateLabelFormatter?:
+      | string
+      | ((
+           context: any,
+           instance: Instance,
+        ) => (
+           formattedValue: string,
+           value: any,
+           { tickIndex, serieIndex }: { tickIndex: number; serieIndex: number },
+        ) => { text: string; style?: any; className?: string }[]);
+
+   /** Distance between the even labels and the axis. */
+   alternateLabelOffset?: number | string;
 }
 
 export class Axis extends BoundedObject {}

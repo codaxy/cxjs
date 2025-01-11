@@ -39,7 +39,7 @@ export class LineGraph extends Widget {
    }
 
    explore(context, instance) {
-      var { data } = instance;
+      let { data } = instance;
 
       instance.colorMap = data.colorMap && context.getColorMap && context.getColorMap(data.colorMap);
 
@@ -61,18 +61,15 @@ export class LineGraph extends Widget {
                   instance.yAxis.acknowledge(p[this.yField]);
                   if (data.area) {
                      if (!this.hiddenBase) instance.yAxis.acknowledge(this.y0Field ? p[this.y0Field] : data.y0);
-                     if (context.pointReducer && this.y0Field)
-                        context.pointReducer(x, p[this.y0Field], data.name, p, data, index);
                   }
                }
-               if (context.pointReducer) context.pointReducer(x, p[this.yField], data.name, p, data, index);
             });
          }
       }
    }
 
    prepare(context, instance) {
-      var { data, colorMap } = instance;
+      let { data, colorMap } = instance;
 
       if (colorMap && data.colorName) {
          data.colorIndex = colorMap.map(data.colorName);
@@ -84,38 +81,53 @@ export class LineGraph extends Widget {
             instance.markShouldUpdate(context);
       }
 
-      if (data.name && context.addLegendEntry)
+      if (data.name && context.addLegendEntry) {
          context.addLegendEntry(this.legend, {
             name: data.name,
             active: data.active,
             colorIndex: data.colorIndex,
             disabled: data.disabled,
-            //selected: this.selection.isInstanceSelected(instance),
-            style: parseStyle(data.style || data.lineStyle),
+            style: {
+               ...parseStyle(data.style),
+               ...parseStyle(data.areaStyle),
+               ...parseStyle(data.lineStyle),
+            },
             shape: this.legendShape,
             onClick: (e) => {
                this.onLegendClick(e, instance);
             },
          });
+      }
+
+      if (data.active) {
+         if (context.pointReducer && isArray(data.data)) {
+            data.data.forEach((p, index) => {
+               if (data.area && this.y0Field)
+                  context.pointReducer(p[this.xField], p[this.y0Field], data.name, p, data, index);
+               context.pointReducer(p[this.xField], p[this.yField], data.name, p, data.data, index);
+            });
+         }
+      }
+
+      instance.lineSpans = this.calculateLineSpans(context, instance);
    }
 
    onLegendClick(e, instance) {
-      var allActions = this.legendAction == "auto";
-      var { data } = instance;
+      let allActions = this.legendAction == "auto";
+      let { data } = instance;
       if (allActions || this.legendAction == "toggle") instance.set("active", !data.active);
    }
 
-   render(context, instance, key) {
-      var { data, xAxis, yAxis } = instance;
+   calculateLineSpans(context, instance) {
+      let { data, xAxis, yAxis } = instance;
+      let spans = [];
+      let span = [];
 
       if (!data.active) return null;
 
-      var spans = [];
-      var span = [];
-
       isArray(data.data) &&
          data.data.forEach((p) => {
-            var ax = p[this.xField],
+            let ax = p[this.xField],
                ay = p[this.yField],
                ay0 = this.y0Field ? p[this.y0Field] : data.y0,
                x,
@@ -136,16 +148,23 @@ export class LineGraph extends Widget {
          });
 
       if (span.length > 0) spans.push(span);
+      return spans;
+   }
 
-      var stateMods = {
+   render(context, instance, key) {
+      let { data, lineSpans } = instance;
+
+      if (!lineSpans) return null;
+
+      let stateMods = {
          ["color-" + data.colorIndex]: data.colorIndex != null,
       };
 
-      var line, area;
+      let line, area;
 
       if (data.line) {
          let linePath = "";
-         spans.forEach((span) => {
+         lineSpans.forEach((span) => {
             span.forEach((p, i) => {
                linePath += i == 0 ? " M " : " L ";
                linePath += p.x + " " + p.y;
@@ -163,7 +182,7 @@ export class LineGraph extends Widget {
 
       if (data.area) {
          let areaPath = "";
-         spans.forEach((span) => {
+         lineSpans.forEach((span) => {
             let closePath = "";
             span.forEach((p, i) => {
                areaPath += i == 0 ? " M " : " L ";

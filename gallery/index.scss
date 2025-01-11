@@ -22,10 +22,12 @@
    background: var(--master-sidebar-background);
    color: var(--master-sidebar-color);
 
-   .cxb-link.cxs-active, .cxb-link:hover {
+   .cxb-link.cxs-active,
+   .cxb-link:hover {
       color: var(--master-sidebar-active-color);
    }
 }
 
-
-
+p:last-child {
+   margin-bottom: 0;
+}

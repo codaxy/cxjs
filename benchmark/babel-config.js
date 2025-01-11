@@ -2,20 +2,17 @@ module.exports = function (production) {
    let config = {
       cacheDirectory: true,
       cacheIdentifier: "v14",
-      plugins: [
-         ["@babel/plugin-proposal-private-methods", { loose: false }],
-         ["@babel/plugin-proposal-private-property-in-object", { loose: false }],
-      ],
+      plugins: [],
       presets: [
          [
             "cx-env",
             {
                targets: {
-                  chrome: 50,
-                  ie: 11,
-                  firefox: 30,
-                  edge: 12,
-                  safari: 9,
+                  chrome: 90,
+                  //ie: 11,
+                  //firefox: 30,
+                  //edge: 12,
+                  //safari: 9,
                },
                modules: false,
                loose: true,
@@ -30,11 +27,6 @@ module.exports = function (production) {
          ],
       ],
    };
-
-   // if (production)
-   //    config.presets.push(['babili', {
-   //       mangle: false
-   //    }]);
 
    return config;
 };

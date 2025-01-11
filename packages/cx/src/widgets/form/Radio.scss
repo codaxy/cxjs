@@ -21,8 +21,8 @@
    );
 
    .#{$block}#{$name} {
-      @include cxb-field($besm, $outer-styles, $input: false, $box: true);
       min-width: $size;
+      @include cxb-field($besm, $outer-styles, $input: false, $box: true);
    }
 
    .#{$element}#{$name}-radio {
@@ -61,28 +61,27 @@
 
    //non-native implementation
    .#{$element}#{$name}-input {
+      width: $size;
+      height: $size;
+      top: calc(50% - #{$size * 0.5});
+      left: 0;
+      display: inline-block;
+      position: absolute;
+      //overflow: hidden;
+      opacity: 1;
+
       @include cxe-field-input(
          $besm,
          $state-style-map,
          $input: false,
          $overrides: (
             default: (
+               border-radius: 50%,
                padding: 0,
                margin: 0 !important,
             )
          )
       );
-
-      width: $size;
-      height: $size;
-
-      top: calc(50% - #{$size * 0.5});
-      left: 0;
-      display: inline-block;
-      position: absolute;
-      border-radius: 50%;
-      //overflow: hidden;
-      opacity: 1;
 
       &.#{$state}checked {
          @include cx-add-state-rules($state-style-map, checked);

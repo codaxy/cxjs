@@ -36,6 +36,14 @@ export default {
         </Md></cx>
     },
 
+    borderRadius: {
+        key: true,
+        type: 'number',
+        description: <cx><Md>
+            Border radius of the column/bar. Default is `0`.
+        </Md></cx>
+    },
+
     size: {
         key: true,
         type: 'number',
@@ -57,7 +65,7 @@ export default {
         key: true,
         type: 'boolean',
         description: <cx><Md>
-            Set to true to auto-calculate size and offset. Available only if the x axis is a category axis.
+            Set to `true` to auto-calculate size and offset. Available only if the x axis is a category axis.
         </Md></cx>
     },
 

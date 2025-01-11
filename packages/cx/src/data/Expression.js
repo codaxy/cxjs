@@ -3,8 +3,8 @@ import { Format } from "../util/Format";
 import { Binding } from "./Binding";
 
 import { quoteStr } from "../util/quote";
-import { isDigit } from "../util/isDigit";
 import { isFunction } from "../util/isFunction";
+import { isValidIdentifierName } from "../util/isValidIdentifierName";
 
 /*
    Helper usage example
@@ -13,8 +13,7 @@ import { isFunction } from "../util/isFunction";
    let e = Expression.compile('_.min({data})');
  */
 
-let expCache = {},
-   helpers = {},
+let helpers = {},
    helperNames = [],
    helperValues = [],
    expFatArrows = null;
@@ -85,7 +84,8 @@ function getExpr(expr) {
 export function expression(str) {
    if (isFunction(str)) return getExpr(str);
 
-   let r = expCache[str];
+   let cache = getExpressionCache();
+   let r = cache[str];
    if (r) return r;
 
    let quote = false;
@@ -98,25 +98,25 @@ export function expression(str) {
 
    let args = {};
    let formats = [];
-   let subExpr = 0;
+   let subExprCount = 0;
+   let invalidNameCount = 0;
 
    for (let i = 0; i < str.length; i++) {
       let c = str[i];
       switch (c) {
          case "{":
-            if (curlyBrackets > 0) curlyBrackets++;
-            else {
-               if (!quote && termStart < 0 && (str[i + 1] != "{" || str[i - 1] == "%")) {
-                  termStart = i + 1;
-                  curlyBrackets = 1;
-                  percentExpression = str[i - 1] == "%";
-                  if (percentExpression) fb.pop(); //%
-               } else if (str[i - 1] != "{") fb.push(c);
-            }
+            if (curlyBrackets > 0 && !quote) curlyBrackets++;
+            else if (!quote && termStart < 0 && (str[i + 1] != "{" || str[i - 1] == "%")) {
+               termStart = i + 1;
+               curlyBrackets = 1;
+               percentExpression = str[i - 1] == "%";
+               if (percentExpression) fb.pop(); //%
+            } else if (termStart < 0 && (quote || str[i - 1] != "{")) fb.push(c);
             break;
 
          case "}":
             if (termStart >= 0) {
+               if (quote) continue;
                if (--curlyBrackets == 0) {
                   let term = str.substring(termStart, i);
                   let formatStart = 0;
@@ -132,9 +132,9 @@ export function expression(str) {
                      }
                   }
                   let argName = binding.replace(/\./g, "_");
-                  if (isDigit(argName[0])) argName = "$" + argName;
+                  if (!isValidIdentifierName(argName)) argName = "inv" + ++invalidNameCount;
                   if (percentExpression || (binding[0] == "[" && binding[binding.length - 1] == "]")) {
-                     argName = `expr${++subExpr}`;
+                     argName = `expr${++subExprCount}`;
                      args[argName] = expression(percentExpression ? binding : binding.substring(1, binding.length - 1));
                   } else args[argName] = binding;
                   if (format) {
@@ -150,11 +150,11 @@ export function expression(str) {
 
          case '"':
          case "'":
-            if (curlyBrackets == 0) {
-               if (!quote) quote = c;
-               else if (str[i - 1] != "\\" && quote == c) quote = false;
-               fb.push(c);
-            }
+            if (!quote) quote = c;
+            else if (str[i - 1] != "\\" && quote == c) quote = false;
+
+            if (curlyBrackets == 0) fb.push(c);
+
             break;
 
          default:
@@ -173,13 +173,15 @@ export function expression(str) {
    let keys = Object.keys(args);
 
    try {
-      let compute = new Function(...formats.map((f, i) => "fmt" + i), ...keys, ...helperNames, body).bind(
+      let compute = new Function("fmt", ...formats.map((f, i) => "fmt" + i), ...helperNames, ...keys, body).bind(
          Format,
+         Format.value,
          ...formats,
-         ...helperValues
+         ...helperValues,
       );
+
       let selector = computable(...keys.map((k) => args[k]), compute);
-      expCache[str] = selector;
+      cache[str] = selector;
       return selector;
    } catch (err) {
       throw new Error(`Failed to parse expression: '${str}'. Error: ${err.message}`);
@@ -208,4 +210,12 @@ export function plugFatArrowExpansion(impl) {
 
 export function invalidateExpressionCache() {
    expCache = {};
+}
+
+let expCache = {};
+
+let getExpressionCache = () => expCache;
+
+export function setGetExpressionCacheCallback(callback) {
+   getExpressionCache = callback;
 }

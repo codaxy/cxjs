@@ -11,27 +11,31 @@ import {
    PointReducer,
    MinMaxFinder,
    SnapPointFinder,
-   ValueAtFinder
+   ValueAtFinder,
+   TimeAxis,
 } from "cx/charts";
-import {Line, Rectangle, Svg, Text} from "cx/svg";
-import {Controller, KeySelection, Repeater} from "cx/ui";
-import {HtmlElement, enableTooltips} from "cx/widgets";
+import { Line, Rectangle, Svg, Text } from "cx/svg";
+import { Controller, KeySelection, Repeater } from "cx/ui";
+import { HtmlElement, enableTooltips } from "cx/widgets";
 
 enableTooltips();
 
 class PageController extends Controller {
    init() {
       super.init();
-      var y1 = 150, y2 = 250;
+      var y1 = 150,
+         y2 = 250;
+
+      let d = new Date();
       this.store.set(
          "$page.points",
-         Array.from({length: 101}, (_, i) => ({
-            x: i * 4,
-            y: i % 20 == 3 ? null : y1 = y1 + (Math.random() - 0.5) * 30,
-            y2: y2 = y2 + (Math.random() - 0.5) * 30,
+         Array.from({ length: 50 }, (_, i) => ({
+            x: new Date(d.setDate(d.getDate() + 1)).toISOString(),
+            y: i % 20 == 3 ? null : (y1 = y1 + (Math.random() - 0.5) * 30),
+            y2: (y2 = y2 + (Math.random() - 0.5) * 30),
             y2l: y2 - 50,
-            y2h: y2 + 50
-         }))
+            y2h: y2 + 50,
+         })),
       );
    }
 }
@@ -42,12 +46,10 @@ export default (
          <Svg style="width:600px; height:400px;">
             <Chart
                offset="20 -10 -40 40"
-               axes={
-                  {
-                     x: {type: NumericAxis},
-                     y: {type: NumericAxis, vertical: true}
-                  }
-               }
+               axes={{
+                  x: { type: TimeAxis, format: "d" },
+                  y: { type: NumericAxis, vertical: true },
+               }}
             >
                <MouseTracker
                   x:bind="tracker.x"
@@ -56,34 +58,39 @@ export default (
                      trackMouse: true,
                      destroyDelay: 50,
                      createDelay: 5,
-                     items: <cx>
-                        <table>
-                           <tbody>
-                           <tr>
-                              <td>
-                                 <LegendEntry name="Line 1" text="Line 1" colorIndex={0}/>
-                              </td>
-                              <td text:tpl="{tracker.line1y:n;2}"/>
-
-
-                           </tr>
-                           <tr>
-                              <td>
-                                 <LegendEntry name="Line 2" text="Line 2" colorIndex={8}/>
-                              </td>
-                              <td text:tpl="{tracker.line2y:n;2}"/>
-                           </tr>
-                           </tbody>
-                        </table>
-                     </cx>
+                     items: (
+                        <cx>
+                           <table>
+                              <tbody>
+                                 <tr>
+                                    <td>
+                                       <LegendEntry name="Line 1" text="Line 1" colorIndex={0} />
+                                    </td>
+                                    <td text:tpl="{tracker.line1y:n;2}" />
+                                 </tr>
+                                 <tr>
+                                    <td>
+                                       <LegendEntry name="Line 2" text="Line 2" colorIndex={8} />
+                                    </td>
+                                    <td text:tpl="{tracker.line2y:n;2}" />
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </cx>
+                     ),
                   }}
                >
-                  <SnapPointFinder cursorX:bind="tracker.x" snapX:bind="tracker.snapX">
-                     <MinMaxFinder
-                        minY:bind="min"
-                        maxY:bind="max"
-                     >
-                        <Gridlines/>
+                  <SnapPointFinder
+                     cursorX:bind="tracker.x"
+                     snapX:bind="tracker.snapX"
+                     convertX={(x) => {
+                        return x && new Date(x).getTime();
+                     }}
+                     // for this to work properly with TimeAxis we have to specify large enough maxDistance
+                     maxDistance={Infinity}
+                  >
+                     <MinMaxFinder minY:bind="min" maxY:bind="max">
+                        <Gridlines />
 
                         <LineGraph
                            data:bind="$page.points"
@@ -95,7 +102,13 @@ export default (
                            area
                         />
 
-                        <ValueAtFinder at:bind="tracker.snapX" value:bind="tracker.line1y">
+                        <ValueAtFinder
+                           at:bind="tracker.snapX"
+                           value:bind="tracker.line1y"
+                           convert={(x) => {
+                              return x && new Date(x).getTime();
+                           }}
+                        >
                            <LineGraph
                               name="Line 1"
                               data:bind="$page.points"
@@ -104,7 +117,13 @@ export default (
                               active:bind="$page.line1"
                            />
                         </ValueAtFinder>
-                        <ValueAtFinder at:bind="tracker.snapX" value:bind="tracker.line2y">
+                        <ValueAtFinder
+                           at:bind="tracker.snapX"
+                           value:bind="tracker.line2y"
+                           convert={(x) => {
+                              return x && new Date(x).getTime();
+                           }}
+                        >
                            <LineGraph
                               name="Line 2"
                               data:bind="$page.points"
@@ -114,25 +133,18 @@ export default (
                            />
                         </ValueAtFinder>
                         {/*<MarkerLine x:bind="tracker.x"/>*/}
-                        <MarkerLine x:bind="tracker.snapX"/>
-                        <MarkerLine
-                           y:bind="tracker.y"
-                        />
-                        <MarkerLine
-                           y:bind="max"
-                        />
-                        <MarkerLine
-                           y:bind="min"
-                        />
-                        <Marker x:bind="tracker.snapX" y:bind="tracker.line1y" colorIndex={0} size={10}/>
-                        <Marker x:bind="tracker.snapX" y:bind="tracker.line2y" colorIndex={8} size={10}/>
+                        <MarkerLine x:bind="tracker.snapX" />
+                        <MarkerLine y:bind="tracker.y" />
+                        <MarkerLine y:bind="max" />
+                        <MarkerLine y:bind="min" />
+                        <Marker x:bind="tracker.snapX" y:bind="tracker.line1y" colorIndex={0} size={10} />
+                        <Marker x:bind="tracker.snapX" y:bind="tracker.line2y" colorIndex={8} size={10} />
                      </MinMaxFinder>
                   </SnapPointFinder>
                </MouseTracker>
-
             </Chart>
          </Svg>
-         <Legend/>
+         <Legend />
       </div>
    </cx>
 );

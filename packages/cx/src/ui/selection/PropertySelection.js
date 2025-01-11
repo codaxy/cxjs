@@ -1,16 +1,16 @@
-import {Selection} from './Selection';
+import { isAccessorChain } from "../../../src/data/createAccessorModelProxy";
+import { Selection } from "./Selection";
 
 export class PropertySelection extends Selection {
+   selectMultiple(store, records, indexes, { toggle, add } = {}) {
+      if (this.toggle) toggle = true;
 
-   selectMultiple(store, records, indexes, {toggle, add} = {}) {
+      if (!this.records) return false;
 
-      if (this.toggle)
-         toggle = true;
+      let path = isAccessorChain(this.records) ? this.records.toString() : this.records.bind;
+      if (!path) return false;
 
-      if (!this.records || !this.records.bind)
-         return false;
-
-      let array = store.get(this.records.bind);
+      let array = store.get(path);
       let newArray = [...array];
       let dirty = false;
 
@@ -28,14 +28,12 @@ export class PropertySelection extends Selection {
       records.forEach((record, i) => {
          let index = indexes[i];
          let rec = newArray[index];
-         if (array[index] !== record)
-            throw new Error('Stale data.');
+         if (array[index] !== record) throw new Error("Stale data.");
 
          let value = rec[this.selectedField];
          let newValue = add ? true : toggle ? !value : true;
 
-         if (value == newValue)
-            return;
+         if (value == newValue) return;
 
          let newRec = Object.assign({}, rec);
          newRec[this.selectedField] = newValue;
@@ -43,8 +41,7 @@ export class PropertySelection extends Selection {
          dirty = true;
       });
 
-      if (dirty)
-         store.set(this.records.bind, newArray);
+      if (dirty) store.set(path, newArray);
    }
 
    isSelected(store, record, index) {
@@ -52,7 +49,7 @@ export class PropertySelection extends Selection {
    }
 }
 
-PropertySelection.prototype.selectedField = 'selected';
+PropertySelection.prototype.selectedField = "selected";
 PropertySelection.prototype.multiple = false;
 
-Selection.alias('property', PropertySelection);
+Selection.alias("property", PropertySelection);

@@ -18,19 +18,22 @@ export class FlyweightTooltipTracker extends Widget {
 
    handleMouseMove(e, instance) {
       if (!this.onGetTooltip) return;
-      if (instance.lastTarget != e.target) {
-         instance.lastTarget = e.target;
-         let tooltip = null;
-         instance.parentEl = closest(e.target, (element) => {
-            tooltip = instance.invoke("onGetTooltip", element, instance);
-            if (tooltip) return true;
-         });
+      let parentEl, tooltip;
+      if (instance.lastTarget == e.target) return;
+
+      instance.lastTarget = e.target;
+      parentEl = closest(e.target, (element) => {
+         tooltip = instance.invoke("onGetTooltip", element, instance);
+         if (tooltip) return true;
+      });
+
+      if (!parentEl) tooltipMouseLeave(e, instance, instance.tooltip, { target: instance.parentEl });
+      else {
          instance.tooltip = tooltip;
-      }
-      if (!instance.parentEl) tooltipMouseMove(e, instance, null);
-      else
+         instance.parentEl = parentEl;
          tooltipMouseMove(e, instance, instance.tooltip, {
-            target: instance.parentEl,
+            target: parentEl,
          });
+      }
    }
 }

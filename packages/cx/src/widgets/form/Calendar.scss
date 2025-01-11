@@ -11,12 +11,13 @@
    $mod: map-get($besm, mod);
 
    .#{$block}calendar {
-      @include cx-add-state-rules($state-style-map, "default");
-
       display: inline-block;
       vertical-align: middle;
       width: 18em;
+      overflow-y: auto;
       box-sizing: border-box;
+
+      @include cx-add-state-rules($state-style-map, "default");
 
       &:hover {
          @include cx-add-state-rules($state-style-map, "hover");
@@ -52,8 +53,8 @@
       }
 
       tbody td {
-         @include cx-add-state-rules($cx-calendar-day-state-style-map, default);
          user-select: none;
+         @include cx-add-state-rules($cx-calendar-day-state-style-map, default);
       }
 
       .#{$element}#{$name}-header {
@@ -91,8 +92,8 @@
          }
       }
 
-      td:first-child,
-      td:last-child {
+      td:not(.cxe-calendar-year-option):first-child,
+      td:not(.cxe-calendar-year-option):last-child {
          display: none;
          pointer-events: none;
       }
@@ -135,6 +136,37 @@
       font-size: $icon-size;
       line-height: $icon-size;
       user-select: none;
+   }
+
+   .#{$element}#{$name}-year {
+      &-name {
+         cursor: pointer;
+      }
+
+      &-picker {
+         user-select: none;
+         overflow-y: scroll;
+         width: 100%;
+         max-height: 24em;
+         height: auto;
+      }
+
+      &-option {
+         cursor: pointer;
+         @include cx-add-state-rules($cx-calendar-day-state-style-map, default);
+
+         &.#{$state}active {
+            @include cx-add-state-rules($cx-calendar-day-state-style-map, today);
+         }
+
+         &:hover {
+            @include cx-add-state-rules($cx-calendar-day-state-style-map, hover);
+         }
+
+         &.#{$state}selected {
+            @include cx-add-state-rules($cx-calendar-day-state-style-map, selected);
+         }
+      }
    }
 
    .#{$element}#{$name}-icon-prev-year {

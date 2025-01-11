@@ -29,7 +29,7 @@ export default {
         key: true,
         type: 'number/string',
         description: <cx><Md>
-            Distance between labels and the axis.
+            Distance between labels and the axis. Defaults to `10`.
         </Md></cx>
     },
     labelRotation: {
@@ -95,6 +95,14 @@ export default {
             labels vertically centered.
         </Md></cx>
     },
+    labelLineHeight: {
+        key: true,
+        type: 'number',
+        description: <cx><Md>
+            Used for vertical adjustment of multi-line labels. Default value is 1 which means
+            that labels are stacked without any space between them. Value of 1.4 will add 40% of the label height as a space between labels.
+        </Md></cx>
+    },
     hideLabels: {
         key: true,
         type: 'boolean',
@@ -152,4 +160,40 @@ export default {
             Additional CSS class to be applied to the axis labels.
         </Md></cx>
     },
+    alternateLabelOffset: {
+        type: 'number/string',
+        description: <cx><Md>
+            Distance between the even labels and the axis.
+        </Md></cx>
+    },
+    tickSize: {
+        type: 'number',
+        description: <cx><Md>
+            Size of the axis tick line. Defaults to `3`.
+        </Md></cx>
+    },
+    tickOffset: {
+        type: 'number/string',
+        description: <cx><Md>
+            Distance between ticks and the axis. Default is `0``. Use negative values for offset to make ticks appear on both sides of the axis.
+        </Md></cx>
+    },
+    minTickDistance: {
+        type: 'number',
+        description: <cx><Md>
+            The smallest distance between two ticks on the axis. Defaults to `25`.
+        </Md></cx>
+    },
+    minLabelDistanceVertical: {
+        type: 'number',
+        description: <cx><Md>
+            The smallest distance between two labels on the vertical axis. Defaults to `40`.
+        </Md></cx>
+    },
+    minLabelDistanceHorizontal: {
+        type: 'number',
+        description: <cx><Md>
+            The smallest distance between two labels on the horizontal axis. Defaults to `50`.
+        </Md></cx>
+    }
 };

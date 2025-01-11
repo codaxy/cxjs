@@ -24,11 +24,14 @@ const calendarErrorMessages = {
    minValueErrorText: 'Selecione {0:d} ou posterior.',
    minExclusiveErrorText: 'Selecione uma data após {0:d}.',
 };
+
 // Calendar
 Localization.localize(c, 'cx/widgets/Calendar', {
    ...calendarErrorMessages,
-   todayButtonText: 'Hoje'
+   todayButtonText: 'Hoje',
+   startWithMonday: false
 });
+
 // MonthPicker
 Localization.localize(c, 'cx/widgets/MonthPicker', calendarErrorMessages);
 
@@ -37,8 +40,10 @@ const dateFieldErrorMessages = {
    ...calendarErrorMessages,
    inputErrorText: 'Data inválida inserida.'
 };
+
 // MonthField
 Localization.localize(c, 'cx/widgets/MonthField', dateFieldErrorMessages);
+
 // DateField
 Localization.localize(c, 'cx/widgets/DateField', dateFieldErrorMessages);
 
@@ -61,4 +66,10 @@ Localization.localize(c, 'cx/widgets/TextField', {
 // UploadButton
 Localization.localize(c, 'cx/widgets/UploadButton', {
    validationErrorText: 'O upload está em andamento.'
+});
+
+// MsgBox
+Localization.localize(c, 'cx/widgets/MsgBox', {
+   yesText: "Sim",
+   noText: "Não"
 });

@@ -3,10 +3,24 @@ import { HtmlElement } from "../widgets/HtmlElement";
 import { PureContainer } from "../ui/PureContainer";
 import { getShape } from "./shapes";
 import { isUndefined } from "../util/isUndefined";
-import { isArray } from "../util/isArray";
+import { isNonEmptyArray } from "../util/isNonEmptyArray";
+import { parseStyle } from "../util/parseStyle";
 import { withHoverSync } from "../ui/HoverSync";
 
 export class Legend extends HtmlElement {
+   declareData() {
+      super.declareData(...arguments, {
+         shape: undefined,
+         entryStyle: { structured: true },
+         entryClass: { structured: true },
+      });
+   }
+
+   init() {
+      this.entryStyle = parseStyle(this.entryStyle);
+      super.init();
+   }
+
    prepareData(context, instance) {
       let { data } = instance;
       data.stateMods = Object.assign(data.stateMods || {}, {
@@ -15,16 +29,13 @@ export class Legend extends HtmlElement {
       super.prepareData(context, instance);
    }
 
-   declareData() {
-      super.declareData(...arguments, {
-         shape: undefined,
-      });
-   }
-
    isValidHtmlAttribute(attrName) {
       switch (attrName) {
          case "shapeSize":
          case "svgSize":
+         case "shape":
+         case "entryStyle":
+         case "entryClass":
             return false;
 
          default:
@@ -38,6 +49,8 @@ export class Legend extends HtmlElement {
       instance.legends = context.legends;
 
       context.addLegendEntry = (legendName, entry) => {
+         if (!legendName) return;
+
          //case when all legends are scoped and new entry is added outside the scope
          if (!context.legends) return;
 
@@ -63,29 +76,31 @@ export class Legend extends HtmlElement {
       let entries = instance.legends[this.name] && instance.legends[this.name].entries,
          list;
 
-      if (isArray(entries) && entries.length > 0) {
-         list = (
-            <div key="wrap" className={CSS.element(this.baseClass, "wrap")}>
-               {entries.map((e, i) =>
-                  withHoverSync(i, e.hoverSync, e.hoverChannel, e.hoverId, ({ onMouseMove, onMouseLeave, hover }) => (
-                     <div
-                        key={i}
-                        className={CSS.element(this.baseClass, "entry", {
-                           "color-root": true,
-                           hover,
-                           disabled: e.disabled,
-                           selected: e.selected,
-                        })}
-                        onClick={e.onClick}
-                        onMouseMove={onMouseMove}
-                        onMouseLeave={onMouseLeave}
-                     >
-                        {this.renderShape(e, instance.data.shape)}
-                        {e.name}
-                     </div>
-                  ))
-               )}
-            </div>
+      let { entryClass, entryStyle, shape } = instance.data;
+
+      if (isNonEmptyArray(entries)) {
+         list = entries.map((e, i) =>
+            withHoverSync(i, e.hoverSync, e.hoverChannel, e.hoverId, ({ onMouseMove, onMouseLeave, hover }) => (
+               <div
+                  key={i}
+                  className={CSS.expand(
+                     CSS.element(this.baseClass, "entry", {
+                        "color-root": true,
+                        hover,
+                        disabled: e.disabled,
+                        selected: e.selected,
+                     }),
+                     entryClass,
+                  )}
+                  style={entryStyle}
+                  onClick={e.onClick}
+                  onMouseMove={onMouseMove}
+                  onMouseLeave={onMouseLeave}
+               >
+                  {this.renderShape(e, shape)}
+                  <div>{e.displayText || e.name}</div>
+               </div>
+            )),
          );
       }
 
@@ -98,18 +113,22 @@ export class Legend extends HtmlElement {
       });
       const shape = getShape(legendEntriesShape || entry.shape || "square");
 
+      // if the entry has a custom fill or stroke set, use it for both values
+      let style = { ...entry.style };
+      style.fill = style.fill ?? style.stroke;
+      style.stroke = style.stroke ?? style.fill;
+
       return (
          <svg
             className={this.CSS.element(this.baseClass, "svg")}
             style={{
                width: `${this.svgSize}px`,
                height: `${this.svgSize}px`,
-               marginTop: `${-this.svgSize / 2}px`,
             }}
          >
             {shape(this.svgSize / 2, this.svgSize / 2, entry.shapeSize || this.shapeSize, {
-               style: entry.style,
-               className: className,
+               style,
+               className,
             })}
          </svg>
       );

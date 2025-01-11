@@ -1,6 +1,6 @@
 @mixin cx-menuitem(
    $name: "menuitem",
-   $state-style-map: $cx-list-item,
+   $state-style-map: cx-deep-map-merge($cx-list-item, $cx-menu-list-item),
    $icon-size: $cx-default-icon-size,
    $besm: $cx-besm
 ) {

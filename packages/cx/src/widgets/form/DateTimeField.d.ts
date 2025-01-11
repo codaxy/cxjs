@@ -47,8 +47,8 @@ export interface DateTimeFieldProps extends FieldProps {
    /** Error message used to indicate wrong user input, e.g. invalid date entered. */
    inputErrorText?: string;
 
-   /** Name of the icon to be put on the left side of the input. */
-   icon?: string;
+   /** Name or configuration of the icon to be put on the left side of the input.  */
+   icon?: Cx.StringProp | Cx.Record;
 
    /** Set to false to hide the clear button. It can be used interchangeably with the hideClear property. Default value is true. */
    showClear?: boolean;
@@ -81,6 +81,9 @@ export interface DateTimeFieldProps extends FieldProps {
 
    /** Set to true to enable seconds segment in the picker. */
    showSeconds?: boolean;
+
+   /** Additional configuration to be passed to the dropdown, such as `style`, `positioning`, etc. */
+   dropdownOptions?: Cx.Config;
 }
 
 export class DateTimeField extends Cx.Widget<DateTimeFieldProps> {}

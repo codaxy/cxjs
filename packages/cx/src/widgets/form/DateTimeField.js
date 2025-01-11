@@ -26,6 +26,7 @@ import { stopPropagation } from "../../util/eventCallbacks";
 import { Format } from "../../util/Format";
 import { TimeList } from "./TimeList";
 import { autoFocus } from "../autoFocus";
+import { getActiveElement } from "../../util";
 import { parseDateInvariant } from "../../util";
 
 export class DateTimeField extends Field {
@@ -152,6 +153,7 @@ export class DateTimeField extends Field {
             }}
             label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
             help={this.helpPlacement && getContent(this.renderHelp(context, instance, "help"))}
+            icon={getContent(this.renderIcon(context, instance, "icon"))}
          />
       );
    }
@@ -286,7 +288,7 @@ class DateTimeInput extends VDOM.Component {
    }
 
    render() {
-      let { instance, label, help } = this.props;
+      let { instance, label, help, icon: iconVDOM } = this.props;
       let { data, widget, state } = instance;
       let { CSS, baseClass, suppressErrorsUntilVisited } = widget;
 
@@ -317,12 +319,8 @@ class DateTimeInput extends VDOM.Component {
             );
       }
 
-      if (data.icon) {
-         icon = (
-            <div className={CSS.element(baseClass, "left-icon")}>
-               {Icon.render(data.icon, { className: CSS.element(baseClass, "icon") })}
-            </div>
-         );
+      if (iconVDOM) {
+         icon = <div className={CSS.element(baseClass, "left-icon")}>{iconVDOM}</div>;
       }
 
       let dropdown = false;
@@ -368,8 +366,8 @@ class DateTimeInput extends VDOM.Component {
                tabIndex={data.tabIndex}
                placeholder={data.placeholder}
                {...data.inputAttrs}
-               onInput={(e) => this.onChange(e, "input")}
-               onChange={(e) => this.onChange(e, "change")}
+               onInput={(e) => this.onChange(e.target.value, "input")}
+               onChange={(e) => this.onChange(e.target.value, "change")}
                onKeyDown={(e) => this.onKeyDown(e)}
                onBlur={(e) => {
                   this.onBlur(e);
@@ -427,7 +425,7 @@ class DateTimeInput extends VDOM.Component {
 
       switch (e.keyCode) {
          case KeyCode.enter:
-            this.onChange(e, "enter");
+            this.onChange(e.target.value, "enter");
             break;
 
          case KeyCode.esc:
@@ -459,7 +457,7 @@ class DateTimeInput extends VDOM.Component {
          this.setState({
             focus: false,
          });
-      this.onChange(e, "blur");
+      this.onChange(e.target.value, "blur");
    }
 
    closeDropdown(e, callback) {
@@ -515,10 +513,13 @@ class DateTimeInput extends VDOM.Component {
    }
 
    componentWillUnmount() {
+      if (this.input == getActiveElement() && this.input.value != this.props.data.formatted) {
+         this.onChange(this.input.value, "blur");
+      }
       tooltipParentWillUnmount(this.props.instance);
    }
 
-   onChange(e, eventType) {
+   onChange(inputValue, eventType) {
       let { instance, data } = this.props;
       let { widget } = instance;
 
@@ -528,7 +529,7 @@ class DateTimeInput extends VDOM.Component {
 
       if (eventType == "enter") instance.setState({ visited: true });
 
-      this.setValue(e.target.value, data.value);
+      this.setValue(inputValue, data.value);
    }
 
    setValue(text, baseValue) {

@@ -18,9 +18,9 @@ export default {
     },
     legend: {
         key: false,
-        type: 'string',
+        type: 'string | false',
         description: <cx><Md>
-            Name of the legend to be used. Default is `legend`.
+            Name of the legend to be used. Default is `legend`. Set to `false` to hide legend entry for this item.
         </Md></cx>
     },
     colorIndex: {

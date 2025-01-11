@@ -63,6 +63,12 @@ interface MonthPickerProps extends FieldProps {
    /** Minimum exclusive value error text. */
    minExclusiveErrorText?: string,
 
+   /** The function that will be used to convert Date objects before writing data to the store.
+    * Default implementation is Date.toISOString.
+    * See also Culture.setDefaultDateEncoding.
+    */
+   encoding?: (date: Date) => any;
+
 }
 
 export class MonthPicker extends Cx.Widget<MonthPickerProps> {}

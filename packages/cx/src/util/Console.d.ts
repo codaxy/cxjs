@@ -1,9 +1,4 @@
-
 export class Console {
-
-   static log();
-
-   static warn();
-
+   static log(...args: unknown[]): void;
+   static warn(...args: unknown[]): void;
 }
-

@@ -34,7 +34,7 @@ export default {
         </Md></cx>
     },
     y0Field: {
-        type: 'string',
+        type: 'string | false',
         key: true,
         description: <cx><Md>
             Name of the property which holds the y0 value. Default value is `false`, which means y0 value is not read

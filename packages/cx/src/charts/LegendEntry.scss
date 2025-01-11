@@ -1,24 +1,20 @@
-
-@mixin cx-legendentry(
-   $name: 'legendentry',
-   $besm: $cx-besm
-) {
+@mixin cx-legendentry($name: "legendentry", $besm: $cx-besm) {
    $block: map-get($besm, block);
    $element: map-get($besm, element);
    $state: map-get($besm, state);
 
    .#{$block}#{$name} {
-      display: inline-block;
-      padding: 5px 0 5px 30px;
+      display: inline-flex;
+      align-items: center;
+      padding: 5px;
+      gap: 5px;
       position: relative;
       box-sizing: border-box;
       cursor: pointer;
    }
 
    .#{$element}#{$name}-svg {
-      position: absolute;
-      left: 5px;
-      top: 50%;
+      flex-shrink: 0;
    }
 
    .#{$element}#{$name}-shape {
@@ -26,6 +22,6 @@
    }
 }
 
-@if (cx-should-include('cx/charts/LegendEntry')) {
+@if (cx-should-include("cx/charts/LegendEntry")) {
    @include cx-legendentry();
 }

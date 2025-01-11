@@ -1,9 +1,10 @@
-import { isArray } from "../util/isArray";
-import { isNumber } from "../util/isNumber";
-import { isUndefined } from "../util/isUndefined";
-import { parseDateInvariant } from "./date";
 import { debug } from "./Debug";
 import { GlobalCacheIdentifier } from "./GlobalCacheIdentifier";
+import { isNumber } from "../util/isNumber";
+import { isUndefined } from "../util/isUndefined";
+import { isArray } from "../util/isArray";
+import { capitalize } from "./capitalize";
+import { parseDateInvariant } from "./date";
 
 //Culture dependent formatters are defined in the ui package.
 
@@ -125,6 +126,36 @@ let formatFactory = {
             };
       }
    },
+
+   zeroPad: function (part0, length) {
+      return (value) => {
+         let s = String(value);
+         return s.padStart(length, "0");
+      };
+   },
+
+   leftPad: function (part0, length, char) {
+      return (value) => {
+         let s = String(value);
+         return s.padStart(length, char ?? " ");
+      };
+   },
+
+   capitalize: function () {
+      return (value) => {
+         let s = String(value);
+         return capitalize(s);
+      };
+   },
+
+   titleCase: function () {
+      return (value) => {
+         let s = String(value);
+         return s.replace(/\w\S*/g, function (word) {
+            return capitalize(word.toLowerCase());
+         });
+      };
+   },
 };
 
 formatFactory.s = formatFactory.str = formatFactory.string;
@@ -135,6 +166,10 @@ formatFactory.ps = formatFactory.percentageSign;
 formatFactory.d = formatFactory.date;
 formatFactory.t = formatFactory.time;
 formatFactory.dt = formatFactory.datetime;
+formatFactory.zeropad = formatFactory.zeroPad;
+formatFactory.leftpad = formatFactory.leftPad;
+formatFactory.capitalize = formatFactory.capitalize;
+formatFactory.titlecase = formatFactory.titleCase;
 
 function buildFormatter(format) {
    let formatter = defaultFormatter,
@@ -162,7 +197,7 @@ let format = {
    cache: {},
 };
 
-function getFormatCache() {
+function getDefaultFormatCache() {
    if (format.cacheIdentifier != GlobalCacheIdentifier.get()) {
       format = {
          cache: {},
@@ -170,6 +205,12 @@ function getFormatCache() {
       };
    }
    return format.cache;
+}
+
+let getFormatCache = getDefaultFormatCache;
+
+export function setGetFormatCacheCallback(callback) {
+   getFormatCache = callback;
 }
 
 function getFormatter(format) {

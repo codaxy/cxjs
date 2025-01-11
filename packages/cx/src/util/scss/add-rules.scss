@@ -15,25 +15,24 @@
       @each $key, $new-value in $override-style-map {
          $old-value: map-get($state-style-map, $key);
          @if ($old-value != null) {
-            $new-value: map-merge($old-value, $new-value)
+            $new-value: map-merge($old-value, $new-value);
          }
-         $result: map-merge($result, ($key: $new-value));
+         $result: map-merge(
+            $result,
+            (
+               $key: $new-value,
+            )
+         );
       }
    }
 
    @return $result;
 }
 
-
-@function cx-get-state-rule(
-   $state-style-map,
-   $key,
-   $rule,
-   $default: null) {
+@function cx-get-state-rule($state-style-map, $key, $rule, $default: null) {
    $result: map-get(map-get($state-style-map, $key), $rule);
    @if ($result != null) {
       @return $result;
    }
    @return $default;
 }
-

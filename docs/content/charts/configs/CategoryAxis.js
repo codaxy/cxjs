@@ -36,5 +36,25 @@ export default {
             `minSize` can be used to add fake entries up to the specified number, so
             everything looks normal.
         </Md></cx>
-    }
+    },
+    categoryCount: {
+        type: 'number',
+        description: <cx><Md>
+            Output value that can be used to calculate chart dimensions based on discovered category values.
+        </Md></cx>
+    },
+    minLabelDistanceVertical: false,
+    minLabelDistanceHorizontal: false,
+    useGridlineTicks: {
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to show ticks aligned with gridlines instead of labels. Default is `false`.
+        </Md></cx>
+    },
+    format: {
+        type: 'string',
+        description: <cx><Md>
+           Additional label formatting. No format is set by default, values appear as is. Useful when values are not strings or string values that are too long.
+        </Md></cx>
+    },
 };

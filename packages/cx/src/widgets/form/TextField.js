@@ -15,6 +15,7 @@ import { Localization } from "../../ui/Localization";
 import ClearIcon from "../icons/clear";
 import { autoFocus } from "../autoFocus";
 import { isString } from "../../util/isString";
+import { getActiveElement } from "../../util/getActiveElement";
 
 export class TextField extends Field {
    init() {
@@ -39,7 +40,7 @@ export class TextField extends Field {
             icon: undefined,
             trim: undefined,
          },
-         ...arguments
+         ...arguments,
       );
    }
 
@@ -51,6 +52,7 @@ export class TextField extends Field {
             data={instance.data}
             label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
             help={this.helpPlacement && getContent(this.renderHelp(context, instance, "help"))}
+            icon={this.renderIcon(context, instance, "icon")}
          />
       );
    }
@@ -95,17 +97,17 @@ class Input extends VDOM.Component {
    }
 
    render() {
-      let { instance, data, label, help } = this.props;
+      let { instance, data, label, help, icon: iconVDOM } = this.props;
       let { widget, state } = instance;
       let { CSS, baseClass, suppressErrorsUntilVisited } = widget;
 
-      let icon = data.icon && (
+      let icon = iconVDOM && (
          <div
             className={CSS.element(baseClass, "left-icon")}
             onMouseDown={preventDefault}
-            onClick={(e) => this.onChange(e, "enter")}
+            onClick={(e) => this.onChange(e.target.value, "enter")}
          >
-            {Icon.render(data.icon, { className: CSS.element(baseClass, "icon") })}
+            {iconVDOM}
          </div>
       );
 
@@ -141,7 +143,7 @@ class Input extends VDOM.Component {
                   clear: insideButton != null,
                   empty: empty && !data.placeholder,
                   error: data.error && (state.visited || !suppressErrorsUntilVisited || !empty),
-               })
+               }),
             )}
             style={data.style}
             onMouseDown={stopPropagation}
@@ -163,8 +165,8 @@ class Input extends VDOM.Component {
                {...data.inputAttrs}
                onMouseMove={this.onMouseMove.bind(this)}
                onMouseLeave={this.onMouseLeave.bind(this)}
-               onInput={(e) => this.onChange(e, "input")}
-               onChange={(e) => this.onChange(e, "change")}
+               onInput={(e) => this.onChange(e.target.value, "input")}
+               onChange={(e) => this.onChange(e.target.value, "change")}
                onKeyDown={this.onKeyDown.bind(this)}
                onFocus={this.onFocus.bind(this)}
                onBlur={this.onBlur.bind(this)}
@@ -197,10 +199,11 @@ class Input extends VDOM.Component {
          });
          this.props.instance.set("focused", false);
       }
-      this.onChange(e, "blur");
+      this.onChange(e.target.value, "blur");
    }
 
    onClearClick(e) {
+      this.input.value = ""; // prevent onChange call with old text value on blur or component unmount
       this.props.instance.set("value", this.props.instance.widget.emptyValue, { immediate: true });
    }
 
@@ -222,6 +225,8 @@ class Input extends VDOM.Component {
    }
 
    componentWillUnmount() {
+      if (this.input == getActiveElement() && this.input.value != this.props.data.value)
+         this.onChange(this.input.value, "blur");
       tooltipParentWillUnmount(this.props.instance);
    }
 
@@ -231,7 +236,7 @@ class Input extends VDOM.Component {
 
       switch (e.keyCode) {
          case KeyCode.enter:
-            this.onChange(e, "enter");
+            this.onChange(e.target.value, "enter");
             break;
 
          case KeyCode.left:
@@ -243,13 +248,13 @@ class Input extends VDOM.Component {
 
    UNSAFE_componentWillReceiveProps(props) {
       let { data } = props;
-      //the second check is required for debouncing, sometimes the value in the store lags after the input
-      //and update may be caused by some other property, i.e. visited
+      // The second check is required for debouncing, sometimes the value in the store lags after the input
+      // and update may be caused by some other property, i.e. visited
       if (data.value != this.input.value && data.value != this.props.data.value) this.input.value = data.value || "";
       tooltipParentWillReceiveProps(this.input, ...getFieldTooltip(props.instance));
    }
 
-   onChange(e, change) {
+   onChange(textValue, change) {
       let { instance, data } = this.props;
 
       let immediate = change == "blur" || change == "enter";
@@ -261,7 +266,7 @@ class Input extends VDOM.Component {
       let { widget } = instance;
 
       if (widget.reactOn.indexOf(change) != -1) {
-         let text = this.trimmed(e.target.value);
+         let text = this.trimmed(textValue);
          if (data.maxLength != null && text.length > data.maxLength) {
             text = text.substring(0, data.maxLength);
             this.input.value = text;

@@ -140,7 +140,7 @@ export const FormEdit = <cx>
 
 
             <Content name="code">
-                <Tab value-bind="$page.code.tab" tab="controller" mod="code"  text='Controller' default />
+                <Tab value-bind="$page.code.tab" tab="controller" mod="code" text='Controller' default />
                 <Tab value-bind="$page.code.tab" tab="grid" mod="code" text='Grid' />
                 <Tab value-bind="$page.code.tab" tab="form" mod="code" text='Form' />
                 <CodeSnippet fiddle="xPjUX9Ad" visible-expr="{$page.code.tab} == 'controller'">{`

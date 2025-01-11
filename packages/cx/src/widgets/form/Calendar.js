@@ -176,6 +176,7 @@ export class CalendarCmp extends VDOM.Component {
             hover: false,
             focus: false,
             cursor: zeroTime(data.date || refDate),
+            activeView: "calendar",
          },
          this.getPage(refDate),
       );
@@ -368,6 +369,7 @@ export class CalendarCmp extends VDOM.Component {
       if (this.props.instance.widget.autoFocus) this.el.focus();
 
       tooltipParentDidMount(this.el, ...getFieldTooltip(this.props.instance));
+      this.el.addEventListener("wheel", (e) => this.handleWheel(e));
    }
 
    UNSAFE_componentWillReceiveProps(props) {
@@ -384,6 +386,85 @@ export class CalendarCmp extends VDOM.Component {
    componentWillUnmount() {
       offFocusOut(this);
       tooltipParentWillUnmount(this.props.instance);
+   }
+
+   showYearDropdown() {
+      this.setState({
+         activeView: "year-picker",
+         yearPickerHeight: this.el.firstChild.offsetHeight,
+      });
+   }
+
+   handleYearSelect(e, year) {
+      e.preventDefault();
+      e.stopPropagation();
+      let refDate = new Date(this.state.refDate);
+      refDate.setFullYear(year);
+      this.setState({
+         ...this.getPage(refDate),
+         refDate,
+         activeView: "calendar",
+      });
+   }
+
+   renderYearPicker() {
+      let { data, widget } = this.props.instance;
+      let minYear = data.minValue?.getFullYear();
+      let maxYear = data.maxValue?.getFullYear();
+      let { CSS } = this.props.instance.widget;
+
+      let years = [];
+      let currentYear = new Date().getFullYear();
+      let midYear = currentYear - (currentYear % 5);
+      let refYear = new Date(this.state.refDate).getFullYear();
+      for (let i = midYear - 100; i <= midYear + 100; i++) {
+         years.push(i);
+      }
+
+      let rows = [];
+      for (let i = 0; i < years.length; i += 5) {
+         rows.push(years.slice(i, i + 5));
+      }
+      return (
+         <div
+            className={CSS.element(widget.baseClass, "year-picker")}
+            style={{
+               height: this.state.yearPickerHeight,
+            }}
+            ref={(el) => {
+               if (el) {
+                  el.addEventListener("wheel", (e) => {
+                     e.stopPropagation();
+                  });
+
+                  let activeYear = el.querySelector("." + CSS.state("selected"));
+                  if (activeYear) activeYear.scrollIntoView({ block: "center", behavior: "instant" });
+               }
+            }}
+         >
+            <table>
+               <tbody>
+                  {rows.map((row, rowIndex) => (
+                     <tr key={rowIndex}>
+                        {row.map((year) => (
+                           <td
+                              key={year}
+                              className={CSS.element(this.props.instance.widget.baseClass, "year-option", {
+                                 unselectable: (minYear && year < minYear) || (maxYear && year > maxYear),
+                                 selected: year === refYear,
+                                 active: year === currentYear,
+                              })}
+                              onClick={(e) => this.handleYearSelect(e, year)}
+                           >
+                              {year}
+                           </td>
+                        ))}
+                     </tr>
+                  ))}
+               </tbody>
+            </table>
+         </div>
+      );
    }
 
    render() {
@@ -466,44 +547,51 @@ export class CalendarCmp extends VDOM.Component {
             onMouseMove={(e) => tooltipMouseMove(e, ...getFieldTooltip(this.props.instance))}
             onMouseLeave={(e) => this.handleMouseLeave(e)}
             onMouseEnter={(e) => this.handleMouseEnter(e)}
-            onWheel={(e) => this.handleWheel(e)}
+            // onWheel={(e) => this.handleWheel(e)}
             onFocus={(e) => this.handleFocus(e)}
             onBlur={(e) => this.handleBlur(e)}
          >
-            <table>
-               <thead>
-                  <tr key="h" className={CSS.element(baseClass, "header")}>
-                     <td />
-                     <td onClick={(e) => this.move(e, "y", -1)}>
-                        <ForwardIcon className={CSS.element(baseClass, "icon-prev-year")} />
-                     </td>
-                     <td onClick={(e) => this.move(e, "m", -1)}>
-                        <DropdownIcon className={CSS.element(baseClass, "icon-prev-month")} />
-                     </td>
-                     <th className={CSS.element(baseClass, "display")} colSpan="3">
-                        {monthNames[month]}
-                        <br />
-                        {year}
-                     </th>
-                     <td onClick={(e) => this.move(e, "m", +1)}>
-                        <DropdownIcon className={CSS.element(baseClass, "icon-next-month")} />
-                     </td>
-                     <td onClick={(e) => this.move(e, "y", +1)}>
-                        <ForwardIcon className={CSS.element(baseClass, "icon-next-year")} />
-                     </td>
-                     <td />
-                  </tr>
-                  <tr key="d" className={CSS.element(baseClass, "day-names")}>
-                     <td />
-                     {dayNames.map((name, i) => (
-                        <th key={i}>{name}</th>
-                     ))}
-                     <td />
-                  </tr>
-               </thead>
-               <tbody>{weeks}</tbody>
-            </table>
-            {widget.showTodayButton && (
+            {this.state.activeView == "calendar" && (
+               <table>
+                  <thead>
+                     <tr key="h" className={CSS.element(baseClass, "header")}>
+                        <td />
+                        <td onClick={(e) => this.move(e, "y", -1)}>
+                           <ForwardIcon className={CSS.element(baseClass, "icon-prev-year")} />
+                        </td>
+                        <td onClick={(e) => this.move(e, "m", -1)}>
+                           <DropdownIcon className={CSS.element(baseClass, "icon-prev-month")} />
+                        </td>
+                        <th className={CSS.element(baseClass, "display")} colSpan="3">
+                           {monthNames[month]}
+                           <br />
+                           <span
+                              onClick={() => this.showYearDropdown()}
+                              className={CSS.element(baseClass, "year-name")}
+                           >
+                              {year}
+                           </span>
+                        </th>
+                        <td onClick={(e) => this.move(e, "m", +1)}>
+                           <DropdownIcon className={CSS.element(baseClass, "icon-next-month")} />
+                        </td>
+                        <td onClick={(e) => this.move(e, "y", +1)}>
+                           <ForwardIcon className={CSS.element(baseClass, "icon-next-year")} />
+                        </td>
+                        <td />
+                     </tr>
+                     <tr key="d" className={CSS.element(baseClass, "day-names")}>
+                        <td />
+                        {dayNames.map((name, i) => (
+                           <th key={i}>{name}</th>
+                        ))}
+                        <td />
+                     </tr>
+                  </thead>
+                  <tbody>{weeks}</tbody>
+               </table>
+            )}
+            {this.state.activeView == "calendar" && widget.showTodayButton && (
                <div className={CSS.element(baseClass, "toolbar")}>
                   <button
                      className={CSS.expand(CSS.element(baseClass, "today-button"), CSS.block("button", "hollow"))}
@@ -518,6 +606,8 @@ export class CalendarCmp extends VDOM.Component {
                   </button>
                </div>
             )}
+
+            {this.state.activeView == "year-picker" && this.renderYearPicker()}
          </div>
       );
    }

@@ -17,29 +17,30 @@ import {
    StructuredProp,
    StyledContainerProps,
    StyleProp,
+   UnknownProp,
    Widget,
 } from "../../core";
 import { DataAdapterRecord } from "../../ui/adapter/DataAdapter";
 
-type FetchRecordsResult = Record[] | { records: Record[]; lastPage?: boolean; totalRecordCount?: number };
+type FetchRecordsResult<T> = T[] | { records: T[]; lastPage?: boolean; totalRecordCount?: number };
 
-interface MappedGridRecord {
-   data: Record;
-   store: View;
+interface MappedGridRecord<T = unknown> extends DataAdapterRecord<T> {
+   row: Instance;
+   vdom: unknown;
 }
 
-interface GridDragEvent extends DragEvent {
+interface GridDragEvent<T> extends DragEvent {
    target: {
-      recordBefore: MappedGridRecord;
-      recordAfter: MappedGridRecord;
+      recordBefore: MappedGridRecord<T>;
+      recordAfter: MappedGridRecord<T>;
       insertionIndex: number;
       totalRecordCount: number;
    };
 }
 
-interface GridRowDragEvent extends DragEvent {
+interface GridRowDragEvent<T> extends DragEvent {
    target: {
-      record: MappedGridRecord;
+      record: MappedGridRecord<T>;
       index: number;
    };
 }
@@ -61,9 +62,17 @@ interface GridGroupingKey {
         };
 }
 
+interface GroupingResult<T> {
+   key: any;
+   aggregates: any;
+   name: string;
+   indexes: number[];
+   records: MappedGridRecord<T>[];
+}
+
 type GridColumnAlignment = "left" | "right" | "center";
 
-interface GridGroupingConfig {
+interface GridGroupingConfig<T> {
    key: GridGroupingKey;
    aggregates?: StructuredProp;
    showCaption?: boolean;
@@ -72,6 +81,7 @@ interface GridGroupingConfig {
    caption?: StringProp;
    name?: StringProp;
    text?: StringProp;
+   comparer?: (a: GroupingResult<T>, b: GroupingResult<T>) => number;
 }
 
 // TODO: Check Column config
@@ -95,6 +105,24 @@ interface GridColumnHeaderConfig {
    resizable?: boolean;
 }
 
+interface GridColumnFooterConfig {
+   value?: Prop<any>;
+   format?: StringProp;
+   style?: StyleProp;
+   class?: StyleProp;
+   expand?: boolean;
+}
+
+interface GridColumnCaptionConfig {
+   value?: Prop<any>;
+   format?: StringProp;
+   style?: StyleProp;
+   class?: StyleProp;
+   children?: React.ReactNode;
+   items?: React.ReactNode;
+   expand?: boolean;
+}
+
 interface GridColumnConfig {
    align?: GridColumnAlignment;
    field?: string;
@@ -108,13 +136,14 @@ interface GridColumnConfig {
    aggregate?: "min" | "max" | "count" | "sum" | "distinct" | "avg";
    aggregateAlias?: string;
    aggregateField?: string;
-   caption?: StringProp;
+   aggregateValue?: UnknownProp;
+   caption?: GridColumnCaptionConfig | StringProp | false;
    class?: ClassProp;
    className?: ClassProp;
    draggable?: boolean;
    editable?: boolean;
    editor?: React.ReactNode;
-   footer?: StringProp | false;
+   footer?: GridColumnFooterConfig | StringProp | false;
    items?: React.ReactNode;
    children?: React.ReactNode;
    key?: string;
@@ -136,6 +165,10 @@ interface GridColumnConfig {
 
    /** Options for data sorting. See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Collator */
    sortOptions?: CollatorOptions;
+   colSpan?: NumberProp;
+
+   mergeCells?: Prop<null | false | "same-value" | "always">;
+   primarySortDirection?: "ASC" | "DESC";
 }
 
 interface GridRowLineConfig {
@@ -155,9 +188,9 @@ interface GridRowConfig {
    mod?: StringProp | Prop<string[]> | StructuredProp;
 }
 
-interface GridProps extends StyledContainerProps {
+interface GridProps<T = unknown> extends StyledContainerProps {
    /** An array of records to be displayed in the grid. */
-   records?: Prop<Record[]>;
+   records?: Prop<T[]>;
 
    /** Set to true to add a vertical scroll and a fixed header to the grid. */
    scrollable?: boolean;
@@ -205,7 +238,7 @@ interface GridProps extends StyledContainerProps {
    selection?: Config;
 
    /** An array of grouping level definitions. Check allowed grouping level properties in the section below. */
-   grouping?: GridGroupingConfig[];
+   grouping?: GridGroupingConfig<T>[];
 
    /** Params for grouping. Whenever params change grouping is recalculated using the onGetGrouping callback. */
    groupingParams?: Config;
@@ -281,24 +314,27 @@ interface GridProps extends StyledContainerProps {
    rowStyle?: StyleProp;
 
    // drag-drop handlers
-   onDrop?: (e: GridDragEvent, instance: Instance) => void;
-   onDropTest?: (e: DragEvent, instance: Instance) => boolean;
-   onDragStart?: (e: DragEvent, instance: Instance) => void;
-   onDragEnd?: (e: DragEvent, instance: Instance) => void;
-   onDragOver?: (e: GridDragEvent, instance: Instance) => void | boolean;
+   onDrop?: string | ((e: GridDragEvent<T>, instance: Instance) => void);
+   onDropTest?: string | ((e: DragEvent, instance: Instance) => boolean);
+   onDragStart?: string | ((e: DragEvent, instance: Instance) => void);
+   onDragEnd?: string | ((e: DragEvent, instance: Instance) => void);
+   onDragOver?: string | ((e: GridDragEvent<T>, instance: Instance) => void | boolean);
 
-   onRowDropTest?: (e: DragEvent, instance: Instance) => boolean;
-   onRowDragOver?: (e: GridRowDragEvent, instance: Instance) => void | boolean;
-   onRowDrop?: (e: GridRowDragEvent, instance: Instance) => void | boolean;
+   onRowDropTest?: string | ((e: DragEvent, instance: Instance) => boolean);
+   onRowDragOver?: string | ((e: GridRowDragEvent<T>, instance: Instance) => void | boolean);
+   onRowDrop?: string | ((e: GridRowDragEvent<T>, instance: Instance) => void | boolean);
 
-   onColumnDrop?: (e: GridColumnDropEvent, instance: Instance) => void;
-   onColumnDropTest?: (e: DragEvent, instance: Instance) => boolean;
+   onColumnDrop?: string | ((e: GridColumnDropEvent, instance: Instance) => void);
+   onColumnDropTest?: string | ((e: DragEvent, instance: Instance) => boolean);
 
    /** Parameters that affect filtering. */
    filterParams?: StructuredProp;
 
+   /** Callback function to be executed when a row is right-clicked.  */
+   onRowContextMenu?: string | ((e: React.SyntheticEvent<any>, instance: Instance) => void);
+
    /** Callback to create a filter function for given filter params. */
-   onCreateFilter?: (filterParams: any, instance?: Instance) => (record: Record) => boolean;
+   onCreateFilter?: (filterParams: any, instance?: Instance) => (record: T) => boolean;
 
    /** Enable infinite scrolling */
    infinite?: boolean;
@@ -315,8 +351,8 @@ interface GridProps extends StyledContainerProps {
          sortField?: string;
          sortDirection?: string;
       },
-      instance?: Instance
-   ) => FetchRecordsResult | Promise<FetchRecordsResult>;
+      instance?: Instance,
+   ) => FetchRecordsResult<T> | Promise<FetchRecordsResult<T>>;
 
    /** Callback function to be executed when a row is double-clicked. */
    onRowDoubleClick?: string | ((e: React.SyntheticEvent<any>, instance: Instance) => void);
@@ -334,10 +370,10 @@ interface GridProps extends StyledContainerProps {
    cellEditable?: boolean;
 
    /** A callback function which is executed before a cell editor is initialized. Return false from the callback to prevent the cell from going into the edit mode. */
-   onBeforeCellEdit?: string | ((change: GridCellBeforeEditInfo, record: DataAdapterRecord) => any);
+   onBeforeCellEdit?: string | ((change: GridCellBeforeEditInfo, record: DataAdapterRecord<T>) => any);
 
    /** A callback function which is executed after a cell has been successfully edited. */
-   onCellEdited?: string | ((change: GridCellEditInfo, record: DataAdapterRecord) => void);
+   onCellEdited?: string | ((change: GridCellEditInfo<T>, record: DataAdapterRecord<T>) => void);
 
    /** A callback function which is executed after a column has been resized. */
    onColumnResize?: (data: { width: number; column: Record }, instance: Instance) => void;
@@ -348,8 +384,8 @@ interface GridProps extends StyledContainerProps {
    /** Callback to create a function that can be used to check whether a record is selectable. */
    onCreateIsRecordSelectable?: (
       params: any,
-      instance: Instance
-   ) => (record: Record, options?: { range?: boolean; toggle?: boolean }) => boolean;
+      instance: Instance,
+   ) => (record: T, options?: { range?: boolean; toggle?: boolean }) => boolean;
 
    /** Parameters whose change will cause scroll to be reset. */
    scrollResetParams?: StructuredProp;
@@ -361,13 +397,13 @@ interface GridProps extends StyledContainerProps {
    hoverChannel?: string;
 
    /** A value used to uniquely identify the record within the hover sync group. */
-   rowHoverId?: StringProp;
+   rowHoverId?: Prop<string | number>;
 
    /** Set to true or false to explicitly define if grid is allowed to receive focus. */
    focusable?: boolean;
 
    /** Callback function to retrieve grouping data. */
-   onGetGrouping?: (params: any, instance: Instance) => GridGroupingConfig[];
+   onGetGrouping?: (params: any, instance: Instance) => GridGroupingConfig<T>[];
 
    /** Callback function to dynamically calculate columns.  */
    onGetColumns?: (params: any, instance: Instance) => GridColumnConfig[] | GridRowConfig;
@@ -380,10 +416,13 @@ interface GridProps extends StyledContainerProps {
     * Accepts new records as a first argument.
     * If onCreateFilter callback is defined, filtered records can be retrieved using this callback.
     */
-   onTrackMappedRecords?: string | ((records: Record[], instance: Instance) => void);
+   onTrackMappedRecords?: string | ((records: DataAdapterRecord<T>[], instance: Instance) => void);
 
    /** Callback to create a function that can be used to check whether a record is draggable. */
-   onCreateIsRecordDraggable?: (params: any, instance: Instance) => (record: Record) => boolean;
+   onCreateIsRecordDraggable?: (params: any, instance: Instance) => (record: T) => boolean;
+
+   /** Callback function to get grid component and instance references on component init. */
+   onRef?: string | ((element: any, instance: Instance) => void);
 }
 
 interface GridCellInfo {
@@ -395,9 +434,9 @@ interface GridCellBeforeEditInfo extends GridCellInfo {
    data: any;
 }
 
-interface GridCellEditInfo extends GridCellInfo {
-   oldData: any;
-   newData: any;
+interface GridCellEditInfo<T> extends GridCellInfo {
+   oldData: T;
+   newData: T;
 }
 
-export class Grid extends Widget<GridProps> {}
+export class Grid<T = unknown> extends Widget<GridProps<T>> {}

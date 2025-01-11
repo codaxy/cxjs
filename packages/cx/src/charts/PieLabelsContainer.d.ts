@@ -1,3 +1,6 @@
-import { BoundedObjectProps } from "../svg/BoundedObject";
+import { Widget } from "cx/src/core";
+import { BoundedObject, BoundedObjectProps } from "../svg/BoundedObject";
 
-export class PieLabelsContainer extends BoundedObjectProps {}
+interface PieLabelsContainerProps extends BoundedObjectProps {}
+
+export class PieLabelsContainer extends Widget<PieLabelsContainerProps> {}

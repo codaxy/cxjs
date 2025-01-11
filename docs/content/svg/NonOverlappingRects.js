@@ -58,7 +58,7 @@ export const NonOverlappingRects = <cx>
                                     draggableY
                                 >
                                     <NonOverlappingRect offset="-15 25 0 -25" anchors="0 0.5 0 0.5">
-                                        <Rectangle style="fill: white; stroke: red; stroke-width: 0.5" anchors="0 1 1 0">
+                                        <Rectangle style="fill: white; stroke: red; stroke-width: 0.5" anchors="0 1 1 0" rx="3">
                                             <Text value-tpl="{$point.x:n;0}, {$point.y:n;0}" textAnchor="middle" style="font-size: 10px" dy="0.35em" />
                                         </Rectangle>
                                     </NonOverlappingRect>
@@ -69,14 +69,12 @@ export const NonOverlappingRects = <cx>
                 </Svg>
             </div>
 
-
-
             <Content name="code">
                 <div>
-                    <Tab value-bind="$page.code.tab" tab="controller" mod="code"  text='Controller'/>
-                    <Tab value-bind="$page.code.tab" tab="chart" mod="code"   text='Chart' default/>
+                    <Tab value-bind="$page.code.tab" tab="controller" mod="code" text='Controller' />
+                    <Tab value-bind="$page.code.tab" tab="chart" mod="code" text='Chart' default />
                 </div>
-                <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="dAzljo79">{`
+                <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="2wbQB6uV">{`
                 class PageController extends Controller {
                     onInit() {
                         this.store.set(
@@ -89,7 +87,7 @@ export const NonOverlappingRects = <cx>
                     }
                 }
             `}</CodeSnippet>
-            <CodeSnippet visible-expr="{$page.code.tab}=='chart'" fiddle="dAzljo79">{`
+            <CodeSnippet visible-expr="{$page.code.tab}=='chart'" fiddle="2wbQB6uV">{`
                 <div class="widgets" controller={PageController}>
                     <Svg style="width:500px; height:450px;">
                         <Chart
@@ -112,7 +110,7 @@ export const NonOverlappingRects = <cx>
                                         draggableY
                                     >
                                         <NonOverlappingRect offset="-15 25 0 -25" anchors="0 0.5 0 0.5">
-                                            <Rectangle style="fill: white; stroke: red; stroke-width: 0.5" anchors="0 1 1 0">
+                                            <Rectangle style="fill: white; stroke: red; stroke-width: 0.5" anchors="0 1 1 0" rx="3">
                                                 <Text value-tpl="{$point.x:n;0}, {$point.y:n;0}" textAnchor="middle" style="font-size: 10px" dy="0.35em" />
                                             </Rectangle>
                                         </NonOverlappingRect>
@@ -132,4 +130,3 @@ export const NonOverlappingRects = <cx>
 
     </Md>
 </cx>
-

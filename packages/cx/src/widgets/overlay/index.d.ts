@@ -8,3 +8,4 @@ export * from "./Toast";
 export * from "./captureMouse";
 export * from "./ContextMenu";
 export * from "./FlyweightTooltipTracker";
+export * from "./createHotPromiseWindowFactory";

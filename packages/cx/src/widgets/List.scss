@@ -1,8 +1,4 @@
-
-@mixin cx-list(
-   $name: 'list',
-   $besm: $cx-besm
-) {
+@mixin cx-list($name: "list", $besm: $cx-besm) {
    $block: map-get($besm, block);
    $element: map-get($besm, element);
    $state: map-get($besm, state);
@@ -39,11 +35,11 @@
       margin: 0;
       border: 0 solid $cx-default-border-color;
 
+      @include cx-add-state-rules($cx-list-item, default);
+
       &.#{$state}pad {
          padding: $cx-default-list-item-padding;
       }
-
-      @include cx-add-state-rules($cx-list-item, default);
 
       .#{$state}selectable > & {
          cursor: pointer;
@@ -56,7 +52,8 @@
       &.#{$state}cursor {
          @include cx-add-state-rules($cx-list-item, hover);
 
-         .#{$block}#{$name}.#{$state}focused > &, .#{$block}#{$name}:focus > & {
+         .#{$block}#{$name}.#{$state}focused > &,
+         .#{$block}#{$name}:focus > & {
             @include cx-add-state-rules($cx-list-item, cursor);
 
             &:active {
@@ -66,13 +63,14 @@
       }
 
       &.#{$state}selected {
-          @include cx-add-state-rules($cx-list-item, selected);
+         @include cx-add-state-rules($cx-list-item, selected);
 
          &.#{$state}cursor {
             @include cx-add-state-rules($cx-list-item, selected-hover);
 
-            .#{$block}#{$name}.#{$state}focused > &, .#{$block}#{$name}:focus > & {
-                @include cx-add-state-rules($cx-list-item, selected-cursor);
+            .#{$block}#{$name}.#{$state}focused > &,
+            .#{$block}#{$name}:focus > & {
+               @include cx-add-state-rules($cx-list-item, selected-cursor);
             }
          }
       }
@@ -88,6 +86,6 @@
    }
 }
 
-@if (cx-should-include('cx/widgets/List')) {
+@if (cx-should-include("cx/widgets/List")) {
    @include cx-list();
 }

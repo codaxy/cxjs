@@ -11,6 +11,9 @@ interface PieChartProps extends BoundedObjectProps {
 
    /** When set to `true`, stacks are rendered in clock wise direction. */
    clockwise?: Cx.BooleanProp;
+
+   /** Gap between slices in pixels. Default is `0` which means there is no gap. */
+   gap?: Cx.NumberProp;
 }
 
 export class PieChart extends Cx.Widget<PieChartProps> {}
@@ -64,6 +67,9 @@ interface PieSliceProps extends Cx.StyledContainerProps {
 
    legendAction?: string;
 
+   /** Text to be displayed in the legend. The default is copying the `name` value.  */
+   legendDisplayText?: Cx.StringProp;
+
    /** Tooltip configuration. For more info see Tooltips. */
    tooltip?: Cx.StringProp | Cx.StructuredProp;
 
@@ -75,6 +81,12 @@ interface PieSliceProps extends Cx.StyledContainerProps {
 
    /** A value used to uniquely identify the record within the hover sync group. */
    hoverId?: Cx.StringProp;
+
+   /** Border radius of the slice. Default is 0. */
+   borderRadius?: Cx.NumberProp;
+
+   /** Border radius of the slice. Default is 0. */
+   br?: Cx.NumberProp;
 }
 
 export class PieSlice extends Cx.Widget<PieSliceProps> {}

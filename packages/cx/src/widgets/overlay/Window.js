@@ -82,7 +82,13 @@ export class Window extends Overlay {
       var header = this.renderHeader(context, instance, "header");
       var footer = this.renderFooter(context, instance, "footer");
       return (
-         <WindowComponent key={key} instance={instance} header={header} footer={footer}>
+         <WindowComponent
+            key={key}
+            instance={instance}
+            header={header}
+            footer={footer}
+            subscribeToBeforeDismiss={context.options.subscribeToBeforeDismiss}
+         >
             {this.renderContents(context, instance)}
          </WindowComponent>
       );
@@ -95,6 +101,7 @@ Window.prototype.resizable = false;
 Window.prototype.fixed = false;
 Window.prototype.autoFocus = true;
 Window.prototype.focusable = true;
+Window.prototype.pad = true;
 
 Widget.alias("window", Window);
 Localization.registerPrototype("cx/widgets/Window", Window);
@@ -148,7 +155,7 @@ class WindowComponent extends OverlayComponent {
             ref={(c) => {
                this.bodyEl = c;
             }}
-            className={CSS.expand(CSS.element(widget.baseClass, "body"), data.bodyClass)}
+            className={CSS.expand(CSS.element(widget.baseClass, "body", { pad: widget.pad }), data.bodyClass)}
             style={data.bodyStyle}
          >
             {this.props.children}
@@ -168,7 +175,7 @@ class WindowComponent extends OverlayComponent {
       super.onFocusIn();
       if (!this.state.active) {
          if (this.containerEl.contains(document.activeElement)) this.setZIndex(ZIndexManager.next());
-         this.setState({ active: true, });
+         this.setState({ active: true });
       }
    }
 

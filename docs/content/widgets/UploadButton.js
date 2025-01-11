@@ -52,6 +52,11 @@ export const UploadButtonPage = <cx>
                     Upload
                 </UploadButton>
             </div>
+
+            ## Examples:
+
+            * [Multi file upload](~/examples/form/multi-file-upload)
+
             <Content name="code">
                 <Tab value-bind="$page.code.tab" mod="code" tab="controller" text="Controller"/>
                 <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Index" default/>

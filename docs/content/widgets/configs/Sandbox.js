@@ -1,4 +1,4 @@
-import {Md} from '../../../components/Md';
+import { Md } from '../../../components/Md';
 
 export default {
    storage: {
@@ -19,8 +19,15 @@ export default {
    recordName: {
       type: 'string',
       key: true,
+      alias: 'recordAlias',
       description: <cx><Md>
          Name used to expose local data. Defaults to `$page`.
+      </Md></cx>
+   },
+   immutable: {
+      type: 'boolean',
+      description: <cx><Md>
+         Indicate that the data in the parent store should **not** be mutated. Defaults to `false`.
       </Md></cx>
    }
 };

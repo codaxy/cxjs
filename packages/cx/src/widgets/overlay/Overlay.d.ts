@@ -1,4 +1,5 @@
 import * as Cx from "../../core";
+import { View } from "../../data";
 import { Instance } from "../../ui/Instance";
 
 export interface OverlayProps extends Cx.StyledContainerProps {
@@ -66,4 +67,7 @@ export interface OverlayProps extends Cx.StyledContainerProps {
    closeOnEscape?: boolean;
 }
 
-export class Overlay extends Cx.Widget<OverlayProps> {}
+export class Overlay extends Cx.Widget<OverlayProps> {
+   /** Opens the overlay. Returns a dismiss function. */
+   open(store: View | Instance): () => void;
+}

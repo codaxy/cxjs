@@ -1,13 +1,15 @@
 import { DateTimeCulture } from "intl-io";
 import { StringTemplate } from "../../data/StringTemplate";
+import { Culture } from "../../ui";
 import { Cx } from "../../ui/Cx";
 import { Localization } from "../../ui/Localization";
 import { VDOM, Widget, getContent } from "../../ui/Widget";
-import { parseDateInvariant } from "../../util";
 import { Console } from "../../util/Console";
 import { Format } from "../../util/Format";
 import { KeyCode } from "../../util/KeyCode";
 import { dateDiff } from "../../util/date/dateDiff";
+import { Cx } from "../../ui/Cx";
+import { parseDateInvariant } from "../../util";
 import { monthStart } from "../../util/date/monthStart";
 import { stopPropagation } from "../../util/eventCallbacks";
 import { isDefined } from "../../util/isDefined";
@@ -27,6 +29,7 @@ import {
 } from "../overlay/tooltip-ops";
 import { Field, getFieldTooltip } from "./Field";
 import { MonthPicker } from "./MonthPicker";
+import { getActiveElement } from "../../util/getActiveElement";
 
 export class MonthField extends Field {
    declareData() {
@@ -163,6 +166,7 @@ export class MonthField extends Field {
             }}
             label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
             help={this.helpPlacement && getContent(this.renderHelp(context, instance, "help"))}
+            icon={this.renderIcon(context, instance, "icon")}
          />
       );
    }
@@ -179,16 +183,18 @@ export class MonthField extends Field {
    }
 
    handleSelect(instance, date1, date2) {
+      let { widget } = instance;
+      let encode = widget.encoding || Culture.getDefaultDateEncoding();
       instance.setState({
          inputError: false,
       });
       if (this.range) {
-         let d1 = date1 ? date1.toISOString() : this.emptyValue;
-         let d2 = date2 ? date2.toISOString() : this.emptyValue;
+         let d1 = date1 ? encode(date1) : this.emptyValue;
+         let d2 = date2 ? encode(date2) : this.emptyValue;
          instance.set("from", d1);
          instance.set("to", d2);
       } else {
-         let value = date1 ? date1.toISOString() : this.emptyValue;
+         let value = date1 ? encode(date1) : this.emptyValue;
          instance.set("value", value);
       }
    }
@@ -238,6 +244,7 @@ class MonthInput extends VDOM.Component {
          items: {
             type: MonthPicker,
             ...this.props.monthPicker,
+            encoding: widget.encoding,
             autoFocus: true,
             onFocusOut: (e) => {
                this.closeDropdown(e);
@@ -258,7 +265,7 @@ class MonthInput extends VDOM.Component {
    }
 
    render() {
-      var { instance, label, help, data } = this.props;
+      var { instance, label, help, data, icon: iconVDOM } = this.props;
       var { widget, state } = instance;
       var { CSS, baseClass, suppressErrorsUntilVisited } = widget;
 
@@ -291,12 +298,8 @@ class MonthInput extends VDOM.Component {
             );
       }
 
-      if (data.icon) {
-         icon = (
-            <div className={CSS.element(baseClass, "left-icon")}>
-               {Icon.render(data.icon, { className: CSS.element(baseClass, "icon") })}
-            </div>
-         );
+      if (iconVDOM) {
+         icon = <div className={CSS.element(baseClass, "left-icon")}>{iconVDOM}</div>;
       }
 
       var dropdown = false;
@@ -342,8 +345,8 @@ class MonthInput extends VDOM.Component {
                readOnly={data.readOnly}
                tabIndex={data.tabIndex}
                placeholder={data.placeholder}
-               onInput={(e) => this.onChange(e, "input")}
-               onChange={(e) => this.onChange(e, "change")}
+               onInput={(e) => this.onChange(e.target.value, "input")}
+               onChange={(e) => this.onChange(e.target.value, "change")}
                onKeyDown={(e) => this.onKeyDown(e)}
                onBlur={(e) => {
                   this.onBlur(e);
@@ -397,7 +400,7 @@ class MonthInput extends VDOM.Component {
       switch (e.keyCode) {
          case KeyCode.enter:
             e.stopPropagation();
-            this.onChange(e, "enter");
+            this.onChange(e.target.value, "enter");
             break;
 
          case KeyCode.esc:
@@ -429,7 +432,7 @@ class MonthInput extends VDOM.Component {
          this.setState({
             focus: false,
          });
-      this.onChange(e, "blur");
+      this.onChange(e.target.value, "blur");
    }
 
    closeDropdown(e, callback) {
@@ -484,16 +487,19 @@ class MonthInput extends VDOM.Component {
    }
 
    componentWillUnmount() {
+      if (this.input == getActiveElement() && this.input.value != this.props.data.formatted) {
+         this.onChange(this.input.value, "blur");
+      }
       tooltipParentWillUnmount(this.props.instance);
    }
 
-   onChange(e, eventType) {
+   onChange(inputValue, eventType) {
       var { instance } = this.props;
       var { widget } = instance;
 
       if (widget.reactOn.indexOf(eventType) == -1) return;
 
-      var parts = e.target.value.split("-");
+      var parts = inputValue.split("-");
       var date1 = widget.parseDate(parts[0]);
       var date2 = widget.parseDate(parts[1]) || date1;
 

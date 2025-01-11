@@ -1,4 +1,4 @@
-import { Content, HtmlElement, Tab } from 'cx/widgets';
+import { Content, Tab } from 'cx/widgets';
 import { Controller } from 'cx/ui';
 import { Svg } from 'cx/svg';
 import { Gridlines, NumericAxis, Chart, LineGraph, Legend } from 'cx/charts';
@@ -7,13 +7,10 @@ import { CodeSplit } from '../../components/CodeSplit';
 import { CodeSnippet } from '../../components/CodeSnippet';
 import { ConfigTable } from '../../components/ConfigTable';
 import { ImportPath } from 'docs/components/ImportPath';
-
-
 import configs from './configs/LineGraph';
 
 class PageController extends Controller {
-    init() {
-        super.init();
+    onInit() {
         var y1 = 250, y2 = 350;
         this.store.set('$page.points', Array.from({ length: 101 }, (_, i) => ({
             x: i * 4,
@@ -24,7 +21,6 @@ class PageController extends Controller {
         })));
     }
 }
-
 
 export const LineGraphs = <cx>
     <Md>
@@ -48,13 +44,12 @@ export const LineGraphs = <cx>
                 <Legend />
             </div>
             <Content name="code">
-            <Tab value-bind="$page.code.tab" mod="code" tab="controller" text="Controller"/>
-            <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Index" default/>
+                <Tab value-bind="$page.code.tab" mod="code" tab="controller" text="Controller" />
+                <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Index" default />
 
                 <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="g33HXn2r">{`
                 class PageController extends Controller {
-                    init() {
-                        super.init();
+                    onInit() {
                         var y1 = 150, y2 = 250;
                         this.store.set(
                                 '$page.points', 
@@ -71,15 +66,15 @@ export const LineGraphs = <cx>
             `}</CodeSnippet>
                 <CodeSnippet visible-expr="{$page.code.tab}=='index'" fiddle="g33HXn2r">{`
                 <div class="widgets" controller={PageController}>
-                <Svg style="width:600px; height:400px;">
-                    <Chart offset="20 -10 -40 40" axes={{ x: { type: NumericAxis }, y: { type: NumericAxis, vertical: true } }}>
-                        <Gridlines/>
-                        <LineGraph data-bind="$page.points" colorIndex={8} yField="y2h" y0Field="y2l" active-bind="$page.line2" line={false} area/>
-                        <LineGraph name="Line 1" data-bind="$page.points" colorIndex={0} area active-bind="$page.line1"/>
-                        <LineGraph name="Line 2" data-bind="$page.points" colorIndex={8} yField="y2" active-bind="$page.line2"/>
-                    </Chart>
-                </Svg>
-                <Legend />
+                    <Svg style="width:600px; height:400px;">
+                        <Chart offset="20 -10 -40 40" axes={{ x: { type: NumericAxis }, y: { type: NumericAxis, vertical: true } }}>
+                            <Gridlines/>
+                            <LineGraph data-bind="$page.points" colorIndex={8} yField="y2h" y0Field="y2l" active-bind="$page.line2" line={false} area/>
+                            <LineGraph name="Line 1" data-bind="$page.points" colorIndex={0} area active-bind="$page.line1"/>
+                            <LineGraph name="Line 2" data-bind="$page.points" colorIndex={8} yField="y2" active-bind="$page.line2"/>
+                        </Chart>
+                    </Svg>
+                    <Legend />
                 </div>
             `}</CodeSnippet>
             </Content>
@@ -95,4 +90,3 @@ export const LineGraphs = <cx>
 
     </Md>
 </cx>
-

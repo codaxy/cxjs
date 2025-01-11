@@ -8,7 +8,7 @@ export interface LookupBinding {
    key?: boolean;
 }
 
-interface LookupFieldProps extends FieldProps {
+interface LookupFieldProps<TOption = unknown, TRecord = unknown> extends FieldProps {
    /** Defaults to `false`. Set to `true` to enable multiple selection. */
    multiple?: Cx.BooleanProp;
 
@@ -16,10 +16,10 @@ interface LookupFieldProps extends FieldProps {
    value?: Cx.Prop<number | string>;
 
    /** A list of selected ids. Used only if `multiple` is set to `true`. */
-   values?: Cx.Prop<any[]>;
+   values?: Cx.Prop<(number | string)[]>;
 
    /** A list of selected records. Used only if `multiple` is set to `true`. */
-   records?: Cx.RecordsProp;
+   records?: Cx.Prop<TRecord[]>;
 
    /** Text associated with the selection. Used only if `multiple` is set to `false`. */
    text?: Cx.StringProp;
@@ -31,7 +31,7 @@ interface LookupFieldProps extends FieldProps {
    placeholder?: Cx.StringProp;
 
    /** A list of available options. */
-   options?: Cx.RecordsProp;
+   options?: Cx.Prop<TOption[]>;
 
    /**
     * Set to `true` to hide the clear button. It can be used interchangeably with the `showClear` property.
@@ -121,17 +121,19 @@ interface LookupFieldProps extends FieldProps {
    /** Close the dropdown after selection. Default is `true`. */
    closeOnSelect?: boolean;
 
-   /** Mesasge to be displayed to the user if the entered search query is too short. */
+   /** Message to be displayed to the user if the entered search query is too short. */
    minQueryLengthMessageText?: string;
 
-   /** Name of the icon to be put on the left side of the input. */
-   icon?: Cx.StringProp;
+   /** Name or configuration of the icon to be put on the left side of the input.  */
+   icon?: Cx.StringProp | Cx.Record;
 
    /** Query function. */
-   onQuery?: (
-      query: string | { query: string; page: number; pageSize: number },
-      instance: Instance
-   ) => Cx.Record[] | Promise<Cx.Record>;
+   onQuery?:
+      | string
+      | ((
+           query: string | { query: string; page: number; pageSize: number },
+           instance: Instance,
+        ) => TOption[] | Promise<TOption[]>);
 
    /** Set to true to sort dropdown options. */
    sort?: boolean;
@@ -165,7 +167,13 @@ interface LookupFieldProps extends FieldProps {
    filterParams?: Cx.StructuredProp;
 
    /** Callback to create a filter function for given filter params. */
-   onCreateVisibleOptionsFilter?: (filterParams: any, instance?: Instance) => (record: Record) => boolean;
+   onCreateVisibleOptionsFilter?: (filterParams: any, instance?: Instance) => (option: TOption) => boolean;
+
+   /** Used in multiple selection lookups in combination with records, to construct the display text out of multiple fields or when additional formatting is needed. */
+   onGetRecordDisplayText?: (record: TRecord, instance?: Instance) => string;
+
+   /** Additional configuration to be passed to the dropdown, such as `style`, `positioning`, etc. */
+   dropdownOptions?: Cx.Config;
 }
 
-export class LookupField extends Cx.Widget<LookupFieldProps> {}
+export class LookupField<TOption = unknown, TRecord = unknown> extends Cx.Widget<LookupFieldProps<TOption, TRecord>> {}

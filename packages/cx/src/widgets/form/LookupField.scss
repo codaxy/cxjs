@@ -20,12 +20,12 @@
    $border-radius-offset: round(cx-get-state-rule($tag-state-style-map, default, border-radius) * 0.25);
 
    .#{$block}#{$name} {
-      @include cxb-field($besm, $state-style-map, $input: false);
       cursor: pointer;
       width: $width;
-
       font: cx-get-state-rule($state-style-map, default, "font");
       font-size: cx-get-state-rule($state-style-map, default, "font-size");
+
+      @include cxb-field($besm, $state-style-map, $input: false);
 
       &.#{$state}multiple {
          min-width: $cx-default-input-width;
@@ -49,14 +49,14 @@
          $input: false,
          $overrides: (
             default: (
+               height: 100%,
+               text-overflow: null,
                padding: cx-top($padding)
                   cx-calc(cx-right($padding), $cx-default-clear-size, $cx-default-input-tag-spacing) cx-bottom($padding)
                   cx-left($padding),
             )
          )
       );
-
-      height: 100%;
 
       .#{$state}multiple > & {
          padding: 0 cx-calc(cx-right($padding), $cx-default-clear-size, $cx-default-input-tag-spacing)
@@ -190,8 +190,8 @@
       @include cxe-field-button($besm, $tool-state-style-map);
 
       .#{$state}disabled > & {
-         @include cx-add-state-rules($state-style-map, disabled);
          border-width: 0;
+         @include cx-add-state-rules($state-style-map, disabled);
       }
       .#{$state}focus > & {
          @include cx-add-state-rules($tool-state-style-map, focus);

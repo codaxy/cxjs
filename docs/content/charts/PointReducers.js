@@ -1,19 +1,18 @@
-import {Content, HtmlElement, Repeater, Tab} from 'cx/widgets';
-import {Controller} from 'cx/ui';
-import {Svg, Rectangle} from 'cx/svg';
-import {Chart, NumericAxis, MouseTracker, Gridlines, Marker, MarkerLine, PointReducer} from 'cx/charts';
-import {Md} from '../../components/Md';
-import {CodeSplit} from '../../components/CodeSplit';
-import {CodeSnippet} from '../../components/CodeSnippet';
-import {ConfigTable} from '../../components/ConfigTable';
-import {ImportPath} from 'docs/components/ImportPath';
-
+import { Content, Repeater, Tab } from 'cx/widgets';
+import { Controller } from 'cx/ui';
+import { Svg } from 'cx/svg';
+import { Chart, NumericAxis, Gridlines, Marker, MarkerLine, PointReducer } from 'cx/charts';
+import { Md } from '../../components/Md';
+import { CodeSplit } from '../../components/CodeSplit';
+import { CodeSnippet } from '../../components/CodeSnippet';
+import { ConfigTable } from '../../components/ConfigTable';
+import { ImportPath } from 'docs/components/ImportPath';
 
 import configs from './configs/PointReducer';
 
 class PageController extends Controller {
     onInit() {
-        this.store.set('$page.points', Array.from({length: 30}, (_, i) => ({
+        this.store.set('$page.points', Array.from({ length: 30 }, (_, i) => ({
             x: Math.random() * 300,
             y: Math.random() * 300,
             size: 10 + Math.random() * 30,
@@ -25,18 +24,16 @@ class PageController extends Controller {
 export const PointReducers = <cx>
     <Md>
         # PointReducer
-
-        <ImportPath path="import {PointReducer} from 'cx/charts';"/>
+        <ImportPath path="import {PointReducer} from 'cx/charts';" />
 
         <CodeSplit>
-
             The `PointReducer` widget is used to calculate values based on points displayed on the chart.
 
             <div class="widgets" controller={PageController}>
                 <Svg style="width:600px;height:600px;" margin="30 30 30 30">
                     <Chart axes={{
-                        x: <NumericAxis min={0} max={300}/>,
-                        y: <NumericAxis min={0} max={300} vertical/>,
+                        x: <NumericAxis min={0} max={300} />,
+                        y: <NumericAxis min={0} max={300} vertical />,
                     }}>
                         <Gridlines />
                         <PointReducer
@@ -50,7 +47,7 @@ export const PointReducers = <cx>
                                 acc.sumY += y * p.size;
                                 acc.sumSize += p.size;
                             }}
-                            onReduce={(acc, {store}) => {
+                            onReduce={(acc, { store }) => {
                                 if (acc.sumSize > 0) {
                                     store.set('$page.avgX', acc.sumX / acc.sumSize);
                                     store.set('$page.avgY', acc.sumY / acc.sumSize);
@@ -62,21 +59,19 @@ export const PointReducers = <cx>
                                     size-bind="$point.size"
                                     x-bind="$point.x"
                                     y-bind="$point.y"
-                                    style={{fillOpacity: 0.5}}
+                                    style={{ fillOpacity: 0.5 }}
                                     draggableX draggableY
                                 />
                             </Repeater>
 
                             <MarkerLine x-bind="$page.avgX" />
                             <MarkerLine y-bind="$page.avgY" />
-
                         </PointReducer>
-
                     </Chart>
                 </Svg>
             </div>
             <Content name="code">
-                <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Index" default/>
+                <Tab value-bind="$page.code.tab" mod="code" tab="index" text="Index" default />
                 <CodeSnippet fiddle="Yit7I9BN">{`
                     <Svg style="width:600px;height:600px;" margin="30 30 30 30">
                         <Chart axes={{
@@ -114,9 +109,7 @@ export const PointReducers = <cx>
 
                                 <MarkerLine x-bind="$page.avgX" />
                                 <MarkerLine y-bind="$page.avgY" />
-
                             </PointReducer>
-
                         </Chart>
                     </Svg>
                 `}</CodeSnippet>
@@ -131,9 +124,6 @@ export const PointReducers = <cx>
         </CodeSplit>
 
         ## Configuration
-
-        <ConfigTable props={configs}/>
-
+        <ConfigTable props={configs} />
     </Md>
 </cx>
-

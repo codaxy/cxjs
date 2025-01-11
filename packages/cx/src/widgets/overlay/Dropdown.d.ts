@@ -7,6 +7,7 @@ export interface DropdownProps extends OverlayProps {
 
    offset?: number;
    matchWidth?: boolean;
+   matchMaxWidth?: boolean;
    placementOrder?: string;
    constrain?: boolean;
    positioning?: string;

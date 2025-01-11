@@ -1,6 +1,6 @@
 interface Aggregator {
    process(value: number, weight?: number);
-   getResult(): number
+   getResult(): number;
 }
 
 export class AggregateFunction {
@@ -15,4 +15,6 @@ export class AggregateFunction {
    static min(): Aggregator;
 
    static max(): Aggregator;
+
+   static last(): Aggregator;
 }

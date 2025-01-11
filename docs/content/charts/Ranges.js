@@ -1,20 +1,16 @@
-import { Content, HtmlElement, Tab } from 'cx/widgets';
+import { Content, Tab } from 'cx/widgets';
 import { Controller } from 'cx/ui';
 import { Svg, Text } from 'cx/svg';
 import { Gridlines, Range, Marker, NumericAxis, Chart, LineGraph, Legend } from 'cx/charts';
-import {Md} from '../../components/Md';
-import {CodeSplit} from '../../components/CodeSplit';
-import {CodeSnippet} from '../../components/CodeSnippet';
-import {ConfigTable} from '../../components/ConfigTable';
-import {ImportPath} from 'docs/components/ImportPath';
-
-
-
+import { Md } from '../../components/Md';
+import { CodeSplit } from '../../components/CodeSplit';
+import { CodeSnippet } from '../../components/CodeSnippet';
+import { ConfigTable } from '../../components/ConfigTable';
+import { ImportPath } from 'docs/components/ImportPath';
 import configs from './configs/Range';
 
 class PageController extends Controller {
-   init() {
-      super.init();
+   onInit() {
       var y = 200;
       this.store.set('$page.points', Array.from({length: 101}, (_, i) => ({
          x: i * 4,
@@ -25,7 +21,6 @@ class PageController extends Controller {
       this.store.set('$page.p2', { x: 250, y: 350 });
    }
 }
-
 
 export const Ranges = <cx>
    <Md>
@@ -61,8 +56,7 @@ export const Ranges = <cx>
             
             <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="gFt6i4Vb">{`
                class PageController extends Controller {
-                  init() {
-                     super.init();
+                  onInit() {
                      var y = 100;
                      this.store.set('$page.points', Array.from({length: 101}, (_, i) => ({
                         x: i * 4,
@@ -108,4 +102,3 @@ export const Ranges = <cx>
 
    </Md>
 </cx>
-

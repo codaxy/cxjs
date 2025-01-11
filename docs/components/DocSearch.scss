@@ -1,14 +1,13 @@
 .cxb-docsearch {
    display: inline-block;
    position: relative;
+   height: 30px;
+   margin-bottom: 6px;
+   vertical-align: bottom;
 
    &:focus-within {
       color: gray;
    }
-
-   height: 30px;
-   margin-bottom: 6px;
-   vertical-align: bottom;
 }
 
 .DocSearch-Container {

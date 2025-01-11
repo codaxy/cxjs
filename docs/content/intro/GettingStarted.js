@@ -1,9 +1,7 @@
-import {HtmlElement, Checkbox, TextField, Text, Tab, Content} from 'cx/widgets';
-import {Md} from '../../components/Md';
-import {CodeSplit} from '../../components/CodeSplit';
-import {CodeSnippet} from '../../components/CodeSnippet';
-import {ConfigTable} from '../../components/ConfigTable';
-
+import { Checkbox, TextField, Tab, Content } from 'cx/widgets';
+import { Md } from '../../components/Md';
+import { CodeSplit } from '../../components/CodeSplit';
+import { CodeSnippet } from '../../components/CodeSnippet';
 
 export const GettingStarted = <cx>
     <Md>
@@ -38,16 +36,16 @@ export const GettingStarted = <cx>
             <div class="widgets">
                 <div>
                     <Checkbox value-bind="enabled">Enable</Checkbox>
-                    <br/>
-                    <TextField value-bind="text" disabled-expr="!{enabled}"/>
+                    <br />
+                    <TextField value-bind="text" disabled-expr="!{enabled}" />
                 </div>
             </div>
             <Content name="code">
                 <div>
-                    <Tab value-bind="$page.code.tab" mod="code" tab="code" text="Code" default/>
+                    <Tab value-bind="$page.code.tab" mod="code" tab="code" text="Code" default />
                 </div>
 
-            <CodeSnippet fiddle="HkcFZwXT" visible-expr="{$page.code.tab}=='code'">{`
+                <CodeSnippet fiddle="HkcFZwXT" visible-expr="{$page.code.tab}=='code'">{`
                 <div>
                     <Checkbox value-bind="enabled">Enable</Checkbox>
                     <br/>
@@ -57,8 +55,7 @@ export const GettingStarted = <cx>
             </Content>
         </CodeSplit>
 
-
-        Looking at the source code on the right of your screen, you will see an example of how CxJS works. The user will
+        Looking at the source code, you will see an example of how CxJS works. The user will
         be able to freely combine widgets with plain HTML and use special attributes to connect the data. Data changes
         are applied automatically, so it saves you the hassle of writing code required for updating the page.
 
@@ -82,13 +79,15 @@ export const GettingStarted = <cx>
         - [Menu](~/widgets/menus)
         - [Tabs](~/widgets/tabs)
 
-
         ## Advanced Concepts
 
         In order to put all the pieces together, get familiar with the concepts listed below:
 
         - [Controllers](~/concepts/controllers)
-        - [Data Views](~/concepts/data-views)
+        - [Repeater](~/concepts/repeater)
+        - [Rescope](~/concepts/rescope)
+        - [Sandbox](~/concepts/sandbox)
+        - [Data Proxy](~/concepts/data-proxy)
         - [Layouts](~/concepts/layout)
         - [Selection](~/concepts/selections)
         - [Formatting](~/concepts/formatting)
@@ -127,8 +126,7 @@ export const GettingStarted = <cx>
         You are now ready to start a new project with CxJS.
 
         - [Command Line Interface](~/intro/command-line) - quickly generate new applications using Cx CLI
-        - [Step by Step Tutorial](~/intro/step-by-step) - step-by-step tutorial on creating new CxJS application. You will also
-        configure both [webpack](https://webpack.js.org/) and [Babel](https://babeljs.io/) along the way
+        - [Step by Step Tutorial](~/intro/step-by-step) - step-by-step tutorial on creating a new CxJS application.
+        You will also configure both [webpack](https://webpack.js.org/) and [Babel](https://babeljs.io/) along the way
     </Md>
 </cx>
-

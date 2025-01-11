@@ -7,12 +7,14 @@ import {
    CollatorOptions,
    Widget,
    PureContainerProps,
-   Record,
+   Prop,
+   SortDirection,
 } from "../core";
+import { DataAdapterRecord } from "./adapter";
 import { Instance } from "./Instance";
 
-interface RepeaterProps extends PureContainerProps {
-   records: RecordsProp;
+interface RepeaterProps<T = unknown> extends PureContainerProps {
+   records: Prop<T[]>;
    recordName?: RecordAlias;
    recordAlias?: RecordAlias;
    indexName?: RecordAlias;
@@ -31,13 +33,20 @@ interface RepeaterProps extends PureContainerProps {
    sortField?: StringProp;
 
    /** A binding used to store the sort direction. Available only if `sorters` are not used. Possible values are `"ASC"` and `"DESC"`. Defaults to `"ASC"`. */
-   sortDirection?: StringProp;
+   sortDirection?: Prop<SortDirection>;
 
    /** Parameters that affect filtering */
    filterParams?: StructuredProp;
 
    /** Callback to create a filter function for given filter params. */
-   onCreateFilter?: (filterParams: any, instance: Instance) => (record: Record) => boolean;
+   onCreateFilter?: (filterParams: any, instance: Instance) => (record: T) => boolean;
+
+   /**
+    * Callback function to track and retrieve displayed records.
+    * Accepts new records as a first argument.
+    * If onCreateFilter callback is defined, filtered records can be retrieved using this callback.
+    */
+   onTrackMappedRecords?: string | ((records: DataAdapterRecord<T>[], instance: Instance) => void);
 
    /** Options for data sorting. See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Collator */
    sortOptions?: CollatorOptions;
@@ -49,4 +58,4 @@ interface RepeaterProps extends PureContainerProps {
    dataAdapter?: any;
 }
 
-export class Repeater extends Widget<RepeaterProps> {}
+export class Repeater<T = unknown> extends Widget<RepeaterProps<T>> {}

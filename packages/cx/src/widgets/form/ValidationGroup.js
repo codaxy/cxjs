@@ -18,6 +18,7 @@ export class ValidationGroup extends PureContainer {
          isolated: undefined,
          visited: undefined,
          strict: undefined,
+         asterisk: undefined,
       });
    }
 
@@ -34,6 +35,7 @@ export class ValidationGroup extends PureContainer {
       context.push("parentViewMode", coalesce(instance.data.viewMode, context.parentViewMode));
       context.push("parentTabOnEnterKey", coalesce(instance.data.tabOnEnterKey, context.parentTabOnEnterKey));
       context.push("parentVisited", coalesce(instance.data.visited, context.parentVisited));
+      context.push("parentAsterisk", coalesce(instance.data.asterisk, context.parentAsterisk));
       context.push("validation", instance.validation);
 
       super.explore(context, instance);
@@ -47,6 +49,7 @@ export class ValidationGroup extends PureContainer {
       context.pop("parentViewMode");
       context.pop("parentTabOnEnterKey");
       context.pop("parentStrict");
+      context.pop("parentAsterisk");
 
       instance.valid = instance.validation.errors.length == 0;
       if (!instance.valid && !this.isolated && context.validation)

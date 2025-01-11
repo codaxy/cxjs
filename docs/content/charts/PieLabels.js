@@ -1,7 +1,7 @@
 import { ColorMap, Legend, PieChart, PieLabel, PieLabelsContainer, PieSlice } from 'cx/charts';
 import { Line, Rectangle, Svg, Text } from 'cx/svg';
 import { Content, Controller, KeySelection, LabelsTopLayout, Repeater } from 'cx/ui';
-import { Slider, Tab } from 'cx/widgets';
+import { Slider, Switch, Tab } from 'cx/widgets';
 import { CodeSnippet } from 'docs/components/CodeSnippet';
 import { CodeSplit } from 'docs/components/CodeSplit';
 import { ConfigTable } from 'docs/components/ConfigTable';
@@ -12,186 +12,177 @@ import pieConfigs from './configs/PieLabel';
 const fiddleCode = 'vkbZc5Cw';
 
 class PageController extends Controller {
-   onInit() {
-      super.init();
-      this.store.init("count", 10);
-      this.store.init('distance', 85);
+    onInit() {
+        this.store.init("$page.count", 10);
+        this.store.init('$page.distance', 60);
 
-      this.addTrigger(
-         "points",
-         ["count"],
-         (count) => {
-            this.store.set(
-               "points",
-               Array.from({ length: count }, (_, i) => ({
-                  id: i,
-                  name: "Item " + (i + 1),
-                  value: Math.random() * 30,
-                  active: true,
-               }))
-            );
-         },
-         true
-      );
-   }
+        this.addTrigger(
+            "points",
+            ["$page.count"],
+            (count) => {
+                this.store.set(
+                    "$page.points",
+                    Array.from({ length: count }, (_, i) => ({
+                        id: i,
+                        name: "Item " + (i + 1),
+                        value: Math.random() * 30,
+                        active: true,
+                    }))
+                );
+            },
+            true
+        );
+    }
 }
 
 export const PieLabels = <cx>
-   <Md>
-      <CodeSplit>
-         # Pie Labels
+    <Md>
+        <CodeSplit>
+            # Pie Labels
 
-         <ImportPath path="import { PieLabelsContainer, PieLabel } from 'cx/charts';" />
+            <ImportPath path="import { PieLabelsContainer, PieLabel } from 'cx/charts';" />
 
-         `PieLabel`s are used to display values of each pie slice. They will automatically adjust position to accommodate for a large number of values.
-         `PieLabel`s must be used inside of a `PieLabelsContainer` component.
+            `PieLabel`s are used to display values of each pie slice. They will automatically adjust position to accommodate for a large number of values.
+            `PieLabel`s must be used inside of a `PieLabelsContainer` component.
 
+            Use the `offset` property to define the bounding box of the label. Use the `distance` property to adjust the distance of the label from the pie chart.
+            Text within can be centered, or auto-aligned to the left or right side if `autoTextAnchor` is set to `true`. In that case
+            `anchors` have to be set `0.5 1 0.5 0` and `margin` can be used add extra space between the label and the lead line.
+
+            <div class="widgets" controller={PageController} style="padding: 20px; display: block">
+                <Legend />
+                <div>
+                    <Svg style="height:400px">
+                        <ColorMap />
+                        <PieLabelsContainer>
+                            <PieChart margin="0 80 0 80" gap={2}>
+                                <Repeater records-bind="$page.points">
+                                    <PieSlice
+                                        value-bind="$record.value"
+                                        active-bind="$record.active"
+                                        colorMap="pie"
+                                        r={60}
+                                        r0={20}
+                                        borderRadius={3}
+                                        tooltip={{
+                                            text: {
+                                                tpl: "Item {$index}: {$record.value:n;2}",
+                                            },
+                                            trackMouse: true,
+                                            globalMouseTracking: true,
+                                            destroyDelay: 50,
+                                            createDelay: 0,
+                                            animate: false,
+                                        }}
+                                        innerPointRadius={60}
+                                        outerPointRadius={70}
+                                        name-bind="$record.name"
+                                        selection={{
+                                            type: KeySelection,
+                                            bind: "selection",
+                                            records: { bind: "$page.points" },
+                                            record: { bind: "$record" },
+                                            index: { bind: "$index" },
+                                            keyField: "id",
+                                        }}
+                                    >
+                                        <Line style="stroke:gray" />
+
+                                        <PieLabel anchors="1 1 1 1" offset="-12 50 12 -50" distance-bind="$page.distance" lineStroke="gray">
+                                            <Rectangle style="stroke: rgba(0, 0, 0, 0.1); fill: none" visible-expr="!{$page.autoAlignLabels}" />
+                                            <Text visible-expr="!{$page.autoAlignLabels}" tpl="{$record.name} ({$record.value:n;1})" dy="0.37em" textAnchor="middle" />
+                                            <Text visible-expr="!!{$page.autoAlignLabels}" tpl="{$record.name} ({$record.value:n;1})" dy="0.37em" autoTextAnchor anchors="0.5 1 0.5 0" margin="0 5 0 5" />
+                                        </PieLabel>
+                                    </PieSlice>
+                                </Repeater>
+                            </PieChart>
+                        </PieLabelsContainer>
+                    </Svg>
+                    <LabelsTopLayout columns={3}>
+                        <Slider
+                            value-bind="$page.count"
+                            help-tpl="{count} points"
+                            increment={1}
+                            step={1}
+                            minValue={1}
+                            maxValue={50}
+                            label="Points"
+                        />
+                        <Slider
+                            value-bind="$page.distance"
+                            help-tpl="{distance:n;0}px"
+                            minValue={0}
+                            maxValue={500}
+                            label="Distance"
+                        />
+                        <Switch value-bind="$page.autoAlignLabels" label="Auto-align Labels" />
+                    </LabelsTopLayout>
+                </div>
+            </div>
+
+
+            <Content name="code">
+                <Tab value-bind="$page.code.tab" tab="controller" mod="code" text='Controller' />
+                <Tab value-bind="$page.code.tab" tab="chart" mod="code" text="Chart" default />
+
+                <CodeSnippet fiddle={fiddleCode} visible-expr="{$page.code.tab}=='chart'">{`
          <div class="widgets" controller={PageController} style="padding: 20px">
-         <Legend />
-         <div>
-            <Svg style="width:600px; height:400px;">
-               <ColorMap />
-               <PieLabelsContainer>
-                  <PieChart angle={360}>
-                     <Repeater records-bind="points">
-                        <PieSlice
-                           value-bind="$record.value"
-                           active-bind="$record.active"
-                           colorMap="pie"
-                           r={60}
-                           r0={20}
-                           offset={5}
-                           tooltip={{
-                              text: {
-                                 tpl: "Item {$index}: {$record.value:n;2}",
-                              },
-                              trackMouse: true,
-                              globalMouseTracking: true,
-                              destroyDelay: 50,
-                              createDelay: 0,
-                              animate: false,
-                           }}
-                           innerPointRadius={60}
-                           outerPointRadius={70}
-                           name-bind="$record.name"
-                           selection={{
-                              type: KeySelection,
-                              bind: "selection",
-                              records: { bind: "points" },
-                              record: { bind: "$record" },
-                              index: { bind: "$index" },
-                              keyField: "id",
-                           }}
-                        >
-                           <Line style="stroke:gray" />
-                           <Rectangle
-                              visible={false}
-                              anchors="1 1 1 1"
-                              offset="-10 30 10 -30"
-                              style="fill:white; stroke:red"
+            <Legend />
+            <div>
+               <Svg style="width:600px; height:400px;">
+                  <ColorMap />
+                  <PieLabelsContainer>
+                     <PieChart gap={2}>
+                        <Repeater records-bind="points">
+                           <PieSlice
+                              value-bind="$record.value"
+                              active-bind="$record.active"
+                              colorMap="pie"
+                              r={60}
+                              r0={20}
+                              offset={5}
+                              tooltip={{
+                                 text: {
+                                    tpl: "Item {$index}: {$record.value:n;2}",
+                                 },
+                                 trackMouse: true,
+                                 globalMouseTracking: true,
+                                 destroyDelay: 50,
+                                 createDelay: 0,
+                                 animate: false,
+                              }}
+                              innerPointRadius={60}
+                              outerPointRadius={70}
+                              name-bind="$record.name"
+                              selection={{
+                                 type: KeySelection,
+                                 bind: "selection",
+                                 records: { bind: "points" },
+                                 record: { bind: "$record" },
+                                 index: { bind: "$index" },
+                                 keyField: "id",
+                              }}
                            >
-                              <Text tpl="{$record.value:n;1}" dy="0.4em" ta="middle" />
-                           </Rectangle>
-
-                           <PieLabel anchors="1 1 1 1" offset="-10 25 10 -25" distance-bind="distance" lineStroke="gray">
-                              <Text tpl="{$record.value:n;1}" dy="0.4em" ta="middle" />
-                           </PieLabel>
-                        </PieSlice>
-                     </Repeater>
-                  </PieChart>
-               </PieLabelsContainer>
-            </Svg>
-            <LabelsTopLayout>
-               <Slider
-                  value-bind="count"
-                  help-tpl="{count} points"
-                  increment={1}
-                  step={1}
-                  minValue={1}
-                  maxValue={50}
-                  label="Points"
-               />
-               <Slider
-                  value={{ bind: "distance", defaultValue: 100 }}
-                  help-tpl="{distance:n;0}px"
-                  minValue={0}
-                  maxValue={500}
-                  label="Distance"
-               />
-            </LabelsTopLayout>
+                              <Line style="stroke:gray" />
+                              <PieLabel anchors="1 1 1 1" offset="-12 50 12 -50" distance-bind="distance" lineStroke="gray">
+                                 <Rectangle style="stroke: rgba(0, 0, 0, 0.1); fill: none" visible-expr="!{autoAlignLabels}"/>
+                                 <Text visible-expr="!{autoAlignLabels}" tpl="{$record.name} ({$record.value:n;1})" dy="0.37em" textAnchor="middle" />
+                                 <Text visible-expr="!!{autoAlignLabels}" tpl="{$record.name} ({$record.value:n;1})" dy="0.37em"  autoTextAnchor anchors="0.5 1 0.5 0" margin="0 5 0 5" />
+                              </PieLabel>
+                           </PieSlice>
+                        </Repeater>
+                     </PieChart>
+                  </PieLabelsContainer>
+               </Svg>
+            </div>
          </div>
-      </div>
-
-
-      <Content name="code">
-         <Tab value-bind="$page.code.tab" tab="controller" mod="code" text='Controller' />
-         <Tab value-bind="$page.code.tab" tab="chart" mod="code" text="Chart" default />
-
-      <CodeSnippet fiddle={fiddleCode}  visible-expr="{$page.code.tab}=='chart'">{`
-         <div class="widgets" controller={PageController} style="padding: 20px">
-         <Legend />
-         <div>
-            <Svg style="width:600px; height:400px;">
-               <ColorMap />
-               <PieLabelsContainer>
-                  <PieChart angle={360}>
-                     <Repeater records-bind="points">
-                        <PieSlice
-                           value-bind="$record.value"
-                           active-bind="$record.active"
-                           colorMap="pie"
-                           r={60}
-                           r0={20}
-                           offset={5}
-                           tooltip={{
-                              text: {
-                                 tpl: "Item {$index}: {$record.value:n;2}",
-                              },
-                              trackMouse: true,
-                              globalMouseTracking: true,
-                              destroyDelay: 50,
-                              createDelay: 0,
-                              animate: false,
-                           }}
-                           innerPointRadius={60}
-                           outerPointRadius={70}
-                           name:bind="$record.name"
-                           selection={{
-                              type: KeySelection,
-                              bind: "selection",
-                              records: { bind: "points" },
-                              record: { bind: "$record" },
-                              index: { bind: "$index" },
-                              keyField: "id",
-                           }}
-                        >
-                           <Line style="stroke:gray" />
-                           <Rectangle
-                              visible={false}
-                              anchors="1 1 1 1"
-                              offset="-10 30 10 -30"
-                              style="fill:white; stroke:red"
-                           >
-                              <Text tpl="{$record.value:n;1}" dy="0.4em" ta="middle" />
-                           </Rectangle>
-
-                           <PieLabel anchors="1 1 1 1" offset="-10 25 10 -25" distance-bind="distance"  lineStroke="gray">
-                              <Text tpl="{$record.value:n;1}" dy="0.4em" ta="middle" />
-                           </PieLabel>
-                        </PieSlice>
-                     </Repeater>
-                  </PieChart>
-               </PieLabelsContainer>
-            </Svg>
-         </div>
-      </div>
          `}</CodeSnippet>
 
-         <CodeSnippet fiddle={fiddleCode}  visible-expr="{$page.code.tab}=='controller'">{`
+                <CodeSnippet fiddle={fiddleCode} visible-expr="{$page.code.tab}=='controller'">{`
          class PageController extends Controller {
             onInit() {
                this.store.init("count", 10);
-               this.store.init('distance', 85);
+               this.store.init('distance', 60);
 
                this.addTrigger(
                   "points",
@@ -210,15 +201,13 @@ export const PieLabels = <cx>
                   true
                );
          }`}</CodeSnippet>
-      </Content>
+            </Content>
 
+        </CodeSplit>
 
-      </CodeSplit>
+        ## Configuration
 
-      ## Configuration
+        <ConfigTable props={pieConfigs} />
 
-      <ConfigTable props={pieConfigs} />
-
-   </Md>
+    </Md>
 </cx>
-

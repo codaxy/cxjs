@@ -3,6 +3,8 @@ import { Record, AccessorChain, Bind } from "../core";
 export class Binding<V = any> {
    constructor(path: string);
 
+   readonly path: string;
+
    set(state: Record, value: V): Record;
 
    delete(state: Record): Record;

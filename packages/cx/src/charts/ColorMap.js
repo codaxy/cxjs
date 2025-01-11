@@ -1,5 +1,5 @@
-import {Widget} from '../ui/Widget';
-import {PureContainer} from '../ui/PureContainer';
+import { Widget } from '../ui/Widget';
+import { PureContainer } from '../ui/PureContainer';
 
 export class ColorMap extends Widget {
    declareData() {
@@ -21,7 +21,7 @@ export class ColorMap extends Widget {
             let cache = this.onGetCache ? instance.invoke("onGetCache") : {};
             map = cache[colorMap];
             if (!map) {
-               let {data} = instance;
+               let { data } = instance;
                map = context.colorMaps[colorMap] = cache[colorMap] = new ColorIndex({
                   offset: data.offset,
                   step: data.step,
@@ -67,7 +67,7 @@ ColorMap.Scope = ColorMapScope;
 Widget.alias('color-map', ColorMap);
 
 export class ColorIndex {
-   constructor({offset, step, size}) {
+   constructor({ offset, step, size }) {
       this.colorMap = {};
       this.dirty = true;
       this.offset = offset;
@@ -83,7 +83,6 @@ export class ColorIndex {
    }
 
    map(name) {
-
       if (this.dirty) {
          this.dirty = false;
          if (!this.step) {
@@ -94,6 +93,5 @@ export class ColorIndex {
 
       let index = this.colorMap[name] || 0;
       return Math.round(this.offset + this.step * index + this.size) % this.size;
-
    }
 }

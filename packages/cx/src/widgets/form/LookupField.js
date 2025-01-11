@@ -56,7 +56,7 @@ export class LookupField extends Field {
             filterParams: { structured: true },
          },
          additionalAttributes,
-         ...arguments
+         ...arguments,
       );
    }
 
@@ -79,7 +79,7 @@ export class LookupField extends Field {
          }
 
          if (this.text) {
-            if (isAccessorChain(this.text)) this.value = bind(this.text);
+            if (isAccessorChain(this.text)) this.text = bind(this.text);
             if (this.text.bind)
                b.push({
                   local: this.text.bind,
@@ -155,14 +155,14 @@ export class LookupField extends Field {
             for (let i = 0; i < data.selectedKeys.length; i++) if (map[i]) data.records.push(map[i]);
          } else if (isArray(data.records))
             data.selectedKeys.push(
-               ...data.records.map(($value) => this.keyBindings.map((b) => Binding.get(b.local).value({ $value })))
+               ...data.records.map(($value) => this.keyBindings.map((b) => Binding.get(b.local).value({ $value }))),
             );
       } else {
          let dataViewData = store.getData();
          data.selectedKeys.push(this.keyBindings.map((b) => Binding.get(b.local).value(dataViewData)));
          if (!this.text && isArray(data.options)) {
             let option = data.options.find(($option) =>
-               areKeysEqual(getOptionKey(this.keyBindings, { $option }), data.selectedKeys[0])
+               areKeysEqual(getOptionKey(this.keyBindings, { $option }), data.selectedKeys[0]),
             );
             data.text = (option && option[this.optionTextField]) || "";
          }
@@ -185,6 +185,7 @@ export class LookupField extends Field {
             label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
             help={this.helpPlacement && getContent(this.renderHelp(context, instance, "help"))}
             forceUpdate={context.forceUpdate}
+            icon={this.renderIcon(context, instance, "icon")}
          />
       );
    }
@@ -200,12 +201,20 @@ export class LookupField extends Field {
       return super.isEmpty(data);
    }
 
+   getValidationValue(data) {
+      if (this.multiple) return data.records ?? data.values;
+      return super.getValidationValue(data);
+   }
+
    formatValue(context, instance) {
       if (!this.multiple) return super.formatValue(context, instance);
 
       let { records, values, options } = instance.data;
-      if (isArray(records))
-         return records.map((record) => record[this.valueTextField] || record[this.valueIdField]).join(", ");
+      if (isArray(records)) {
+         let valueTextFormatter =
+            this.onGetRecordDisplayText ?? ((record) => record[this.valueTextField] || record[this.valueIdField]);
+         return records.map((record) => valueTextFormatter(record, instance));
+      }
 
       if (isArray(values)) {
          if (isArray(options))
@@ -254,6 +263,7 @@ LookupField.prototype.submitOnDropdownEnterKey = false;
 LookupField.prototype.pageSize = 100;
 LookupField.prototype.infinite = false;
 LookupField.prototype.quickSelectAll = false;
+LookupField.prototype.onGetRecordDisplayText = null;
 
 Localization.registerPrototype("cx/widgets/LookupField", LookupField);
 
@@ -266,7 +276,7 @@ function getOptionKey(bindings, data) {
 function areKeysEqual(key1, key2) {
    if (!key1 || !key2 || key1.length != key2.length) return false;
 
-   for (let i = 0; i < key1.length; i++) if (key1[i] != key2[i]) return false;
+   for (let i = 0; i < key1.length; i++) if (key1[i] !== key2[i]) return false;
 
    return true;
 }
@@ -356,13 +366,13 @@ class LookupComponent extends VDOM.Component {
                   type: SelectionDelegate,
                   delegate: (data) =>
                      this.props.instance.data.selectedKeys.find((x) =>
-                        areKeysEqual(x, this.getOptionKey({ $option: data }))
+                        areKeysEqual(x, this.getOptionKey({ $option: data })),
                      ) != null,
                }}
             >
                {this.props.itemConfig}
             </List>
-         </cx>
+         </cx>,
       );
 
       let dropdown = {
@@ -511,11 +521,11 @@ class LookupComponent extends VDOM.Component {
    }
 
    render() {
-      let { instance, label, help } = this.props;
+      let { instance, label, help, icon: iconVDOM } = this.props;
       let { data, widget, state } = instance;
       let { CSS, baseClass, suppressErrorsUntilVisited } = widget;
 
-      let icon = data.icon && (
+      let icon = iconVDOM && (
          <div
             key="icon"
             className={CSS.element(baseClass, "left-icon")}
@@ -526,9 +536,7 @@ class LookupComponent extends VDOM.Component {
                e.preventDefault();
             }}
          >
-            {Icon.render(data.icon, {
-               className: CSS.element(baseClass, "icon"),
-            })}
+            {iconVDOM}
          </div>
       );
 
@@ -586,6 +594,7 @@ class LookupComponent extends VDOM.Component {
       if (this.props.multiple) {
          let readOnly = data.disabled || data.readOnly;
          if (isNonEmptyArray(data.records)) {
+            let valueTextFormatter = widget.onGetRecordDisplayText ?? ((record) => record[widget.valueTextField]);
             text = data.records.map((v, i) => (
                <div
                   key={i}
@@ -593,7 +602,7 @@ class LookupComponent extends VDOM.Component {
                      readonly: readOnly,
                   })}
                >
-                  <span className={CSS.element(baseClass, "tag-value")}>{v[widget.valueTextField]}</span>
+                  <span className={CSS.element(baseClass, "tag-value")}>{valueTextFormatter(v, instance)}</span>
                   {!readOnly && (
                      <div
                         className={CSS.element(baseClass, "tag-clear")}
@@ -618,7 +627,7 @@ class LookupComponent extends VDOM.Component {
       let states = {
          visited: state.visited,
          focus: this.state.focus || this.state.dropdownOpen,
-         icon: !!data.icon,
+         icon: !!iconVDOM,
          empty: !data.placeholder && data.empty,
          error: data.error && (state.visited || !suppressErrorsUntilVisited || !data.empty),
       };
@@ -891,7 +900,7 @@ class LookupComponent extends VDOM.Component {
             {
                dropdownOpen: false,
             },
-            () => keepFocus && this.dom.input.focus()
+            () => keepFocus && this.dom.input.focus(),
          );
 
          this.props.instance.setState({
@@ -914,7 +923,7 @@ class LookupComponent extends VDOM.Component {
             },
             () => {
                if (this.dom.dropdown) this.dom.dropdown.focus();
-            }
+            },
          );
       }
    }
@@ -1004,7 +1013,7 @@ class LookupComponent extends VDOM.Component {
                      },
                      () => {
                         if (widget.infinite) this.onListScroll();
-                     }
+                     },
                   );
                })
                .catch((err) => {
@@ -1057,7 +1066,7 @@ class LookupComponent extends VDOM.Component {
                },
                () => {
                   this.onListScroll();
-               }
+               },
             );
          })
          .catch((err) => {

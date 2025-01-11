@@ -26,6 +26,7 @@ export function getSearchQueryHighlighter(query, options) {
    if (highlighterCache[query]) return highlighterCache[query];
 
    let result = (query) => {
+      query = new String(query);
       let chunks = [query];
       for (let i = 0; i < regexes.length; i++) {
          let newChunks = [];

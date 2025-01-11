@@ -6,7 +6,6 @@ export default {
       this.unregister = registerKeyboardShortcut(KeyCode.esc, (e) => {
          e.stopPropagation();
          //this.store.set("search.visible", true);
-         document.getElementById("docsearch").focus();
       });
    },
 

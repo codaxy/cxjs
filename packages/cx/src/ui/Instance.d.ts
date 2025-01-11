@@ -11,6 +11,7 @@ export class Instance<ViewModel = any, Controller = any> {
    id: string;
    controller: Controller;
    parentOptions: any;
+   children?: Instance[];
 
    constructor(widget: Widget, key: string | number, parent?: Instance, store?: View);
 
@@ -56,6 +57,8 @@ export class Instance<ViewModel = any, Controller = any> {
    getJsxEventProps(): Cx.Config;
 
    nestedDataSet(key: string, value: any, dataConfig: Cx.Config): boolean;
+
+   invokeControllerMethod(methodName: string, ...args: any[]);
 }
 
 export class InstanceCache {
