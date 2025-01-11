@@ -5,12 +5,13 @@ import { Format } from "../../ui/Format";
 import { isNumber } from "../../util/isNumber";
 import { zeroTime } from "../../util/date/zeroTime";
 import { Console } from "../../util/Console";
+import { parseDateInvariant } from "../../util";
 
 Format.registerFactory("yearOrMonth", (format) => {
    let year = Format.parse("datetime;yyyy");
    let month = Format.parse("datetime;MMM");
    return function (date) {
-      let d = new Date(date);
+      let d = parseDateInvariant(date);
       if (d.getMonth() == 0) return year(d);
       else return month(d);
    };
@@ -20,7 +21,7 @@ Format.registerFactory("monthOrDay", (format) => {
    let month = Format.parse("datetime;MMM");
    let day = Format.parse("datetime;dd");
    return function (date) {
-      let d = new Date(date);
+      let d = parseDateInvariant(date);
       if (d.getDate() == 1) return month(d);
       else return day(d);
    };
@@ -34,7 +35,7 @@ export class TimeAxis extends Axis {
 
       if (this.deadZone) {
          this.lowerDeadZone = this.deadZone;
-         pperDeadZone = this.deadZone;
+         this.upperDeadZone = this.deadZone;
       }
 
       this.minLabelDistanceFormatOverride = {
@@ -145,7 +146,7 @@ function yearNumber(date) {
    return monthNumber(date) / 12;
 }
 
-const miliSeconds = {
+const milliSeconds = {
    second: 1000,
    minute: 60 * 1000,
    hour: 3600 * 1000,
@@ -203,12 +204,12 @@ class TimeScale {
             let v = this.dateCache[date];
             if (!v) {
                if (this.decode) date = this.decode(date);
-               v = this.dateCache[date] = Date.parse(date);
+               v = this.dateCache[date] = parseDateInvariant(date).getTime();
             }
             return v;
 
          case "number":
-            return date;
+            return parseDateInvariant(date).getTime();
       }
    }
 
@@ -339,13 +340,13 @@ class TimeScale {
             default:
                let minOffset = this.getTimezoneOffset(minDate);
                let maxOffset = this.getTimezoneOffset(maxDate);
-               let mondayOffset = 4 * miliSeconds.day; //new Date(0).getDay() => 4
+               let mondayOffset = 4 * milliSeconds.day; //new Date(0).getDay() => 4
                smin = Math.floor((smin - minOffset - mondayOffset) / tickSize) * tickSize + minOffset + mondayOffset;
                smax = Math.ceil((smax - maxOffset - mondayOffset) / tickSize) * tickSize + maxOffset + mondayOffset;
                break;
 
             case "month":
-               tickSize /= miliSeconds.month;
+               tickSize /= milliSeconds.month;
                let minMonth = monthNumber(minDate);
                let maxMonth = monthNumber(maxDate);
                minMonth = Math.floor(minMonth / tickSize) * tickSize;
@@ -355,7 +356,7 @@ class TimeScale {
                break;
 
             case "year":
-               tickSize /= miliSeconds.year;
+               tickSize /= milliSeconds.year;
                let minYear = yearNumber(minDate);
                let maxYear = yearNumber(maxDate);
                minYear = Math.floor(minYear / tickSize) * tickSize;
@@ -439,13 +440,13 @@ class TimeScale {
 
       let minRange = 1000;
 
-      for (let unit in miliSeconds) {
+      for (let unit in milliSeconds) {
          if (!minReached) {
             if (unit == this.minTickUnit) minReached = true;
             else continue;
          }
 
-         let unitSize = miliSeconds[unit];
+         let unitSize = milliSeconds[unit];
          let divisions = this.tickDivisions[unit];
 
          if (this.tickSizes.length > 0) {
@@ -512,13 +513,13 @@ class TimeScale {
             break;
       }
 
-      if (lowerTickUnit && this.minTickUnit && miliSeconds[lowerTickUnit] < miliSeconds[this.minTickUnit])
+      if (lowerTickUnit && this.minTickUnit && milliSeconds[lowerTickUnit] < milliSeconds[this.minTickUnit])
          lowerTickUnit = this.minTickUnit == this.tickMeasure ? null : this.minTickUnit;
 
       if (lowerTickUnit != null && this.scale) {
          let bestMinorTickSize = Infinity;
          let divisions = this.tickDivisions[lowerTickUnit];
-         let unitSize = miliSeconds[lowerTickUnit];
+         let unitSize = milliSeconds[lowerTickUnit];
          for (let i = 0; i < divisions.length; i++) {
             let divs = divisions[i];
             for (let d = 0; d < divs.length; d++) {
@@ -552,14 +553,14 @@ class TimeScale {
             minDate,
             maxDate;
          if (measure == "year") {
-            size /= miliSeconds.year;
+            size /= milliSeconds.year;
             minDate = new Date(this.scale.min - this.scale.minPadding);
             maxDate = new Date(this.scale.max + this.scale.maxPadding);
             start = Math.ceil(yearNumber(minDate) / size) * size;
             end = Math.floor(yearNumber(maxDate) / size) * size;
             for (let i = start; i <= end; i += size) result.push(new Date(i, 0, 1).getTime());
          } else if (measure == "month") {
-            size /= miliSeconds.month;
+            size /= milliSeconds.month;
             minDate = new Date(this.scale.min - this.scale.minPadding);
             maxDate = new Date(this.scale.max + this.scale.maxPadding);
             start = Math.ceil(monthNumber(minDate) / size) * size;
@@ -567,7 +568,7 @@ class TimeScale {
             for (let i = start; i <= end; i += size) result.push(new Date(Math.floor(i / 12), i % 12, 1).getTime());
          } else if (measure == "day" || measure == "week") {
             let multiplier = measure == "week" ? 7 : 1;
-            size /= miliSeconds.day;
+            size /= milliSeconds.day;
             minDate = new Date(this.scale.min - this.scale.minPadding);
             maxDate = new Date(this.scale.max + this.scale.maxPadding);
             let date = zeroTime(minDate);
@@ -585,7 +586,7 @@ class TimeScale {
             }
          } else {
             let minOffset = this.getTimezoneOffset(new Date(this.scale.min - this.scale.minPadding));
-            let mondayOffset = 4 * miliSeconds.day;
+            let mondayOffset = 4 * milliSeconds.day;
             let date =
                Math.ceil((this.scale.min - this.scale.minPadding - minOffset - mondayOffset) / size) * size +
                minOffset +

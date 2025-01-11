@@ -4,6 +4,7 @@ import { FocusManager, offFocusOut, oneFocusOut } from "../../ui/FocusManager";
 import "../../ui/Format";
 import { Localization } from "../../ui/Localization";
 import { VDOM, Widget } from "../../ui/Widget";
+import { parseDateInvariant } from "../../util";
 import { KeyCode } from "../../util/KeyCode";
 import { dateDiff } from "../../util/date/dateDiff";
 import { lowerBoundCheck } from "../../util/date/lowerBoundCheck";
@@ -53,17 +54,17 @@ export class Calendar extends Field {
       };
 
       if (data.value) {
-         let d = new Date(data.value);
+         let d = parseDateInvariant(data.value);
          if (!isNaN(d.getTime())) {
             data.date = zeroTime(d);
          }
       }
 
-      if (data.refDate) data.refDate = zeroTime(new Date(data.refDate));
+      if (data.refDate) data.refDate = zeroTime(parseDateInvariant(data.refDate));
 
-      if (data.maxValue) data.maxValue = zeroTime(new Date(data.maxValue));
+      if (data.maxValue) data.maxValue = zeroTime(parseDateInvariant(data.maxValue));
 
-      if (data.minValue) data.minValue = zeroTime(new Date(data.minValue));
+      if (data.minValue) data.minValue = zeroTime(parseDateInvariant(data.minValue));
 
       super.prepareData(...arguments);
    }
@@ -92,7 +93,7 @@ export class Calendar extends Field {
          }
 
          if (data.dayData) {
-            let date = new Date(data.value);
+            let date = parseDateInvariant(data.value);
             let info = data.dayData[date.toDateString()];
             if (info && info.disabled) data.error = this.disabledDaysOfWeekErrorText;
          }
@@ -117,7 +118,7 @@ export class Calendar extends Field {
       if (this.onBeforeSelect && instance.invoke("onBeforeSelect", e, instance, date) === false) return;
 
       if (widget.partial) {
-         let mixed = new Date(data.value);
+         let mixed = parseDateInvariant(data.value);
          if (data.value && !isNaN(mixed)) {
             mixed.setFullYear(date.getFullYear());
             mixed.setMonth(date.getMonth());

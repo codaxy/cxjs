@@ -26,6 +26,7 @@ import { isTouchEvent } from "../../util/isTouchEvent";
 import { getCursorPos } from "../overlay/captureMouse";
 
 import { enableCultureSensitiveFormatting } from "../../ui/Format";
+import { parseDateInvariant } from "../../util";
 enableCultureSensitiveFormatting();
 
 export class MonthPicker extends Field {
@@ -59,7 +60,7 @@ export class MonthPicker extends Field {
             maxValue: undefined,
             maxExclusive: undefined,
          },
-         ...arguments
+         ...arguments,
       );
    }
 
@@ -72,19 +73,19 @@ export class MonthPicker extends Field {
          disabled: data.disabled,
       };
 
-      if (!this.range && data.value) data.date = monthStart(new Date(data.value));
+      if (!this.range && data.value) data.date = monthStart(parseDateInvariant(data.value));
 
       if (this.range) {
-         if (data.from) data.from = monthStart(new Date(data.from));
+         if (data.from) data.from = monthStart(parseDateInvariant(data.from));
 
-         if (data.to) data.to = monthStart(new Date(data.to));
+         if (data.to) data.to = monthStart(parseDateInvariant(data.to));
       }
 
-      if (data.refDate) data.refDate = monthStart(new Date(data.refDate));
+      if (data.refDate) data.refDate = monthStart(parseDateInvariant(data.refDate));
 
-      if (data.maxValue) data.maxValue = monthStart(new Date(data.maxValue));
+      if (data.maxValue) data.maxValue = monthStart(parseDateInvariant(data.maxValue));
 
-      if (data.minValue) data.minValue = monthStart(new Date(data.minValue));
+      if (data.minValue) data.minValue = monthStart(parseDateInvariant(data.minValue));
 
       super.prepareData(...arguments);
    }
@@ -272,7 +273,7 @@ export class MonthPickerComponent extends VDOM.Component {
                      cursorQuarter: (cursorQuarter + 3) % 4,
                      cursorYear: cursorQuarter == 0 ? cursorYear - 1 : cursorYear,
                   },
-                  { ensureVisible: true }
+                  { ensureVisible: true },
                );
             else if (column == "M")
                if (cursorMonth > 3) this.moveCursor(e, { cursorMonth: cursorMonth - 3 }, { ensureVisible: true });
@@ -280,7 +281,7 @@ export class MonthPickerComponent extends VDOM.Component {
                   this.moveCursor(
                      e,
                      { cursorMonth: cursorMonth + 9, cursorYear: cursorYear - 1 },
-                     { ensureVisible: true }
+                     { ensureVisible: true },
                   );
             break;
 
@@ -293,7 +294,7 @@ export class MonthPickerComponent extends VDOM.Component {
                      cursorQuarter: (cursorQuarter + 1) % 4,
                      cursorYear: cursorQuarter == 3 ? cursorYear + 1 : cursorYear,
                   },
-                  { ensureVisible: true }
+                  { ensureVisible: true },
                );
             else if (column == "M")
                if (cursorMonth < 10) this.moveCursor(e, { cursorMonth: cursorMonth + 3 }, { ensureVisible: true });
@@ -301,7 +302,7 @@ export class MonthPickerComponent extends VDOM.Component {
                   this.moveCursor(
                      e,
                      { cursorMonth: cursorMonth - 9, cursorYear: cursorYear + 1 },
-                     { ensureVisible: true }
+                     { ensureVisible: true },
                   );
             break;
 
@@ -470,7 +471,7 @@ export class MonthPickerComponent extends VDOM.Component {
                      onMouseUp={this.handleMouseUp}
                   >
                      {y}
-                  </th>
+                  </th>,
                );
 
             for (let i = 0; i < 3; i++) {
@@ -500,7 +501,7 @@ export class MonthPickerComponent extends VDOM.Component {
                      onTouchEnd={this.handleMouseUp}
                   >
                      {monthNames[m - 1].substr(0, 3)}
-                  </td>
+                  </td>,
                );
             }
             row.push(
@@ -519,7 +520,7 @@ export class MonthPickerComponent extends VDOM.Component {
                   onMouseUp={this.handleMouseUp}
                >
                   {`Q${q + 1}`}
-               </th>
+               </th>,
             );
             rows.push(row);
          }
@@ -568,7 +569,7 @@ export class MonthPickerComponent extends VDOM.Component {
       let visibleItems = ceil5(Math.ceil(this.dom.el.offsetHeight / this.state.yearHeight));
       let start = Math.max(
          startYear,
-         startYear + floor5(Math.floor(this.dom.el.scrollTop / this.state.yearHeight)) - visibleItems
+         startYear + floor5(Math.floor(this.dom.el.scrollTop / this.state.yearHeight)) - visibleItems,
       );
       if (start != this.state.start && start + bufferSize <= endYear) {
          this.setState({
@@ -606,7 +607,7 @@ export class MonthPickerComponent extends VDOM.Component {
             this.dom.el.scrollTop =
                (this.state.cursorYear - startYear + yearCount / 2) * this.state.yearHeight -
                this.dom.el.offsetHeight / 2;
-         }
+         },
       );
    }
 

@@ -110,7 +110,7 @@ import Demo from "./features/grid/DockedColumns";
 // import Demo from "./features/calendar";
 //import Demo from "./features/slider/SliderPreventDefault";
 //import Demo from "./features/validator/index";
-//import Demo from "./bugs/1075-complex-column-resizing";
+//// import Demo from "./bugs/1075-complex-column-resizing";
 //import Demo from "./features/grid/RowDndAndGrouping";
 //import Demo from "./features/localization/culture-scope";
 //import Demo from "./bugs/large_and_small_values_inside_pie_charts_with_gaps";
@@ -128,7 +128,8 @@ import Demo from "./features/grid/DockedColumns";
 // import Demo from "./bugs/TimeAxis";
 // import Demo from "./bugs/HighlightedTextSearchBug";
 //import Demo from "./bugs/GridScrollUponButtonClickIssue";
-import Demo from "./dev/createHotPromiseWindowFactory";
+//import Demo from "./dev/createHotPromiseWindowFactory";
+import Demo from "./features/date/invariantParseDate";
 
 let store = (window.store = new Store());
 
