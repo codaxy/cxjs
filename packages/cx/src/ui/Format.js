@@ -3,7 +3,6 @@ import { Format as Fmt, resolveMinMaxFractionDigits, setGetFormatCacheCallback }
 import { setGetExpressionCacheCallback } from "../data/Expression";
 import { setGetStringTemplateCacheCallback } from "../data/StringTemplate";
 import { parseDateInvariant } from "../util";
-import { Format as Fmt, resolveMinMaxFractionDigits } from "../util/Format";
 import { GlobalCacheIdentifier } from "../util/GlobalCacheIdentifier";
 
 export const Format = Fmt;
