@@ -40,6 +40,18 @@ describe("Expression", function () {
          let state = {};
          assert.equal(e(state), '"');
       });
+
+      it("properly encodes quotes #3", function () {
+         let e = Expression.compile('"\\\\\\""');
+         let state = {};
+         assert.equal(e(state), '\\"');
+      });
+
+      it("properly encodes quotes #4", function () {
+         let e = Expression.compile('"\\\\"');
+         let state = {};
+         assert.equal(e(state), "\\");
+      });
    });
 
    describe("allow subexpressions", function () {

@@ -18,6 +18,11 @@ describe("StringTemplate", function () {
          assert.equal(e({}), 'It\'s "working"!');
       });
 
+      it("allows \\ before a binding", function () {
+         var e = StringTemplate.compile("t\\{person.name}");
+         assert.equal(e({ person: { name: "Ogi" } }), "t\\Ogi");
+      });
+
       it("supports multi-line strings", function () {
          var e = StringTemplate.compile("a\nb");
          assert.equal(e(), "a\nb");
@@ -73,6 +78,18 @@ describe("StringTemplate", function () {
       it("of null values", function () {
          var e = StringTemplate.compile("{str|N/A}");
          assert.equal(e({ str: null }), "N/A");
+      });
+   });
+
+   describe("properly handles backslashes", function () {
+      it("in a string", function () {
+         var e = StringTemplate.compile("a\\b");
+         assert.equal(e(), "a\\b");
+      });
+
+      it.only("before a special character", function () {
+         var e = StringTemplate.compile("\\t");
+         assert.equal(e(), "\\t");
       });
    });
 

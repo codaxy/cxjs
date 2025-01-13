@@ -151,7 +151,15 @@ export function expression(str) {
          case '"':
          case "'":
             if (!quote) quote = c;
-            else if (str[i - 1] != "\\" && quote == c) quote = false;
+            else if (quote == c) {
+               let at = i - 1;
+               let slashCount = 0;
+               while (at >= 0 && str[at] === "\\") {
+                  slashCount++;
+                  at--;
+               }
+               if (slashCount % 2 == 0) quote = false;
+            }
 
             if (curlyBrackets == 0) fb.push(c);
 
