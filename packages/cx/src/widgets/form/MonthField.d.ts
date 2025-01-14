@@ -90,6 +90,10 @@ interface MonthFieldProps extends FieldProps {
 
    /** Additional configuration to be passed to the dropdown, such as `style`, `positioning`, etc. */
    dropdownOptions?: Cx.Config;
+
+   /** A boolean flag that determines whether the `to` date is included in the range.
+    * When set to true the value stored in the to field would be the last day of the month, i.e. `2024-12-31`. */
+   inclusiveTo?: boolean;
 }
 
 export class MonthField extends Cx.Widget<MonthFieldProps> {}

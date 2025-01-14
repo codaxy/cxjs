@@ -14,7 +14,6 @@ import { stopPropagation } from "../../util/eventCallbacks";
 import { isDefined } from "../../util/isDefined";
 import { isTouchDevice } from "../../util/isTouchDevice";
 import { isTouchEvent } from "../../util/isTouchEvent";
-import { Icon } from "../Icon";
 import { autoFocus } from "../autoFocus";
 import ClearIcon from "../icons/clear";
 import DropdownIcon from "../icons/drop-down";
@@ -99,7 +98,7 @@ export class MonthField extends Field {
       } else if (this.range && data.from && data.to) {
          data.from = parseDateInvariant(data.from);
          data.to = parseDateInvariant(data.to);
-         data.to.setDate(data.to.getDate() - 1);
+         if (!this.inclusiveTo) data.to.setDate(data.to.getDate() - 1);
          let fromStr = this.culture.format(data.from, formatOptions);
          let toStr = this.culture.format(data.to, formatOptions);
          if (fromStr != toStr) data.formatted = fromStr + " - " + toStr;
@@ -189,7 +188,12 @@ export class MonthField extends Field {
       });
       if (this.range) {
          let d1 = date1 ? encode(date1) : this.emptyValue;
-         let d2 = date2 ? encode(date2) : this.emptyValue;
+         let toDate = date2;
+         if (date2 && this.inclusiveTo) {
+            toDate = new Date(date2);
+            toDate.setDate(toDate.getDate() - 1);
+         }
+         let d2 = toDate ? encode(toDate) : this.emptyValue;
          instance.set("from", d1);
          instance.set("to", d2);
       } else {
@@ -211,6 +215,7 @@ MonthField.prototype.showClear = true;
 MonthField.prototype.alwaysShowClear = false;
 MonthField.prototype.range = false;
 MonthField.prototype.reactOn = "enter blur";
+MonthField.prototype.inclusiveTo = false;
 
 Localization.registerPrototype("cx/widgets/MonthField", MonthField);
 
@@ -244,6 +249,7 @@ class MonthInput extends VDOM.Component {
             type: MonthPicker,
             ...this.props.monthPicker,
             encoding: widget.encoding,
+            inclusiveTo: widget.inclusiveTo,
             autoFocus: true,
             onFocusOut: (e) => {
                this.closeDropdown(e);

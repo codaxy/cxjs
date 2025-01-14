@@ -78,7 +78,10 @@ export class MonthPicker extends Field {
       if (this.range) {
          if (data.from) data.from = monthStart(parseDateInvariant(data.from));
 
-         if (data.to) data.to = monthStart(parseDateInvariant(data.to));
+         if (data.to) {
+            data.to = monthStart(parseDateInvariant(data.to));
+            if (this.inclusiveTo) data.to.setDate(data.to.getDate() + 1);
+         }
       }
 
       if (data.refDate) data.refDate = monthStart(parseDateInvariant(data.refDate));
@@ -136,7 +139,9 @@ export class MonthPicker extends Field {
 
       if (this.range) {
          instance.set("from", encode(date1));
-         instance.set("to", encode(date2));
+         let toDate = new Date(date2);
+         if (this.inclusiveTo) toDate.setDate(toDate.getDate() - 1);
+         instance.set("to", encode(toDate));
       } else instance.set("value", encode(date1));
 
       if (this.onSelect) instance.invoke("onSelect", instance, date1, date2);
@@ -154,6 +159,8 @@ MonthPicker.prototype.maxValueErrorText = "Select {0:d} or before.";
 MonthPicker.prototype.maxExclusiveErrorText = "Select a date before {0:d}.";
 MonthPicker.prototype.minValueErrorText = "Select {0:d} or later.";
 MonthPicker.prototype.minExclusiveErrorText = "Select a date after {0:d}.";
+MonthPicker.prototype.inclusiveTo = false;
+
 Localization.registerPrototype("cx/widgets/MonthPicker", MonthPicker);
 
 Widget.alias("month-picker", MonthPicker);

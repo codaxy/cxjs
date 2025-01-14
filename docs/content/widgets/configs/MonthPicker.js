@@ -51,5 +51,13 @@ export default {
         description: <cx><Md>
             Base CSS class to be applied on the field. Defaults to `monthpicker`.
         </Md></cx>
+    },
+
+    inclusiveTo: {
+        type: 'boolean',
+        description: <cx><Md>
+            A boolean flag that determines whether the `to` date is included in the range.
+            When set to `true` the value stored in the `to` field would be the last day of the month, i.e. `2024-12-31`.
+        </Md></cx>
     }
 };

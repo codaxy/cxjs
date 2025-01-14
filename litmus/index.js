@@ -85,7 +85,7 @@ import "./index.scss";
 //import Demo from "./bugs/697";
 //import Demo from "./bugs/674";
 //import Demo from "./bugs/884";
-import Demo from "./features/grid/DockedColumns";
+//import Demo from "./features/grid/DockedColumns";
 //import Demo from "./features/time-list";
 //import Demo from "./features/debounce/NumberField";
 //import Demo from "./features/uploadButton"
@@ -96,7 +96,7 @@ import Demo from "./features/grid/DockedColumns";
 //import Demo from "./bugs/RestateFirstVisibleChild";
 //import Demo from "./bugs/TooltipDisable";
 // import Demo from "./bugs/Repeater";
-//import Demo from "./features/month-field/encoding";
+
 //import Demo from "./bugs/AsyncValidator";
 // import Demo from "./features/grid/ComplexHeaderAndRows";
 
@@ -129,7 +129,8 @@ import Demo from "./features/grid/DockedColumns";
 // import Demo from "./bugs/HighlightedTextSearchBug";
 //import Demo from "./bugs/GridScrollUponButtonClickIssue";
 //import Demo from "./dev/createHotPromiseWindowFactory";
-import Demo from "./features/date/invariantParseDate";
+//import Demo from "./features/date/invariantParseDate";
+import Demo from "./features/month-field/encoding";
 
 let store = (window.store = new Store());
 

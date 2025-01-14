@@ -1,67 +1,66 @@
-import * as Cx from '../../core';
-import { FieldProps } from './Field';
+import * as Cx from "../../core";
+import { FieldProps } from "./Field";
 
 interface MonthPickerProps extends FieldProps {
-
    /** Set to `true` to allow range select. */
-   range?: Cx.BooleanProp,
+   range?: Cx.BooleanProp;
 
-   /** 
+   /**
     * Start of the selected month range. This should be a Date object or a valid date string consumable by Date.parse function.
     * Used only if `range` is set to `true`.
     */
-   from?: Cx.Prop< string | Date >,
+   from?: Cx.Prop<string | Date>;
 
-   /** 
+   /**
     * End of the selected month range. This should be a Date object or a valid date string consumable by Date.parse function.
-    * Used only if `range` is set to `true`. 
+    * Used only if `range` is set to `true`.
     */
-   to?: Cx.Prop< string | Date >,
+   to?: Cx.Prop<string | Date>;
 
-   /** 
+   /**
     * Selected month date. This should be a Date object or a valid date string consumable by Date.parse function.
     * Used only if `range` is set to `false` (default).
     */
-   value?: Cx.Prop< string | Date >,
+   value?: Cx.Prop<string | Date>;
 
    /** View reference date. If no date is selected, this date is used to determine which month to show in the calendar. */
-   refDate?: Cx.Prop< string | Date >,
+   refDate?: Cx.Prop<string | Date>;
 
    /** Minimum date value. This should be a Date object or a valid date string consumable by Date.parse function. */
-   minValue?: Cx.Prop< string | Date >,
+   minValue?: Cx.Prop<string | Date>;
 
    /** Set to `true` to disallow the `minValue`. Default value is `false`. */
-   minExclusive?: Cx.BooleanProp,
+   minExclusive?: Cx.BooleanProp;
 
    /** Maximum date value. This should be a Date object or a valid date string consumable by Date.parse function. */
-   maxValue?: Cx.Prop< string | Date >,
-   
+   maxValue?: Cx.Prop<string | Date>;
+
    /** Set to `true` to disallow the `maxValue`. Default value is `false`. */
-   maxExclusive?: Cx.BooleanProp,
-   
+   maxExclusive?: Cx.BooleanProp;
+
    /** Base CSS class to be applied on the field. Defaults to `monthfield`. */
-   baseClass?: string,
-   
+   baseClass?: string;
+
    /** Minimum year available in the range. */
-   startYear?: number,
+   startYear?: number;
 
    /** Max year available in the range. */
-   endYear?: number,
+   endYear?: number;
 
    /** Number of years to be rendered in each render chunk. */
-   bufferSize?: number,
+   bufferSize?: number;
 
    /** Maximum value error text. */
-   maxValueErrorText?: string,
+   maxValueErrorText?: string;
 
    /** Maximum exclusive value error text. */
-   maxExclusiveErrorText?: string,
+   maxExclusiveErrorText?: string;
 
    /** Minimum value error text. */
-   minValueErrorText?: string,
+   minValueErrorText?: string;
 
    /** Minimum exclusive value error text. */
-   minExclusiveErrorText?: string,
+   minExclusiveErrorText?: string;
 
    /** The function that will be used to convert Date objects before writing data to the store.
     * Default implementation is Date.toISOString.
@@ -69,6 +68,9 @@ interface MonthPickerProps extends FieldProps {
     */
    encoding?: (date: Date) => any;
 
+   /** A boolean flag that determines whether the `to` date is included in the range.
+    * When set to true the value stored in the to field would be the last day of the month, i.e. `2024-12-31`. */
+   inclusiveTo?: boolean;
 }
 
 export class MonthPicker extends Cx.Widget<MonthPickerProps> {}

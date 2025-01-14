@@ -2,6 +2,14 @@
 
 <!--- ## Unreleased -->
 
+## `cx@25.1`
+
+**Features**
+
+-  Date only (2025-01-01) strings are now parsed as local time, instead of UTC.
+-  `encodeDate` function can be used to format date objects as date only strings, i.e. 2025-01-01. This function can be set as `encoding` for the `DateField`, `MonthField`, `Calendar`, and `MonthPicker` components.
+-  `MonthField` and `MonthPicker` now include a flag `inclusiveTo` which allow month ranges to end with the last day of the month, instead of the first day of the next month.
+
 ## `cx@24.6.2`
 
 **Features**
