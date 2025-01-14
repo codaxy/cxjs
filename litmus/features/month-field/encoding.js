@@ -1,6 +1,6 @@
 import { LabelsLeftLayout } from "cx/ui";
 import { encodeDate, encodeDateWithTimezoneOffset } from "cx/util";
-import { LabeledContainer, MonthField } from "cx/widgets";
+import { LabeledContainer, MonthField, MonthPicker } from "cx/widgets";
 
 export default () => (
    <cx>
@@ -37,6 +37,13 @@ export default () => (
 
             <LabeledContainer label="Inclusive End">
                <MonthField
+                  range
+                  from-bind="$page.inclusive.from"
+                  to-bind="$page.inclusive.to"
+                  encoding={encodeDate}
+                  inclusiveTo
+               />
+               <MonthPicker
                   range
                   from-bind="$page.inclusive.from"
                   to-bind="$page.inclusive.to"

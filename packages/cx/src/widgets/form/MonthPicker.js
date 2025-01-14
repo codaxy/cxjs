@@ -79,8 +79,9 @@ export class MonthPicker extends Field {
          if (data.from) data.from = monthStart(parseDateInvariant(data.from));
 
          if (data.to) {
-            data.to = monthStart(parseDateInvariant(data.to));
-            if (this.inclusiveTo) data.to.setDate(data.to.getDate() + 1);
+            let date = parseDateInvariant(data.to);
+            if (this.inclusiveTo) date.setDate(date.getDate() + 1);
+            data.to = monthStart(date);
          }
       }
 
