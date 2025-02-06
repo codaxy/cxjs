@@ -60,7 +60,7 @@ export function stringTemplate(str) {
       }
    }
 
-   if (quoteStart < str.length) expr = plus(expr) + quoteStr(str.substring(quoteStart));
+   if (quoteStart < str.length || expr.length == 0) expr = plus(expr) + quoteStr(str.substring(quoteStart));
 
    return (tplCache[str] = expression(expr));
 }

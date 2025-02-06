@@ -13,6 +13,11 @@ describe("StringTemplate", function () {
          assert.equal(e(state), "Hello Jim");
       });
 
+      it("allows empty strings", function () {
+         let e = StringTemplate.compile("");
+         assert.equal(e(), "");
+      });
+
       it("properly encodes ' and \"", function () {
          var e = StringTemplate.compile('It\'s "working"!');
          assert.equal(e({}), 'It\'s "working"!');
@@ -87,7 +92,7 @@ describe("StringTemplate", function () {
          assert.equal(e(), "a\\b");
       });
 
-      it.only("before a special character", function () {
+      it("before a special character", function () {
          var e = StringTemplate.compile("\\t");
          assert.equal(e(), "\\t");
       });
