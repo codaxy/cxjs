@@ -344,6 +344,7 @@
          border-top: 1px solid cx-get-state-rule($data-state-style-map, default, border-color);
          line-height: cx-get-state-rule($data-state-style-map, default, line-height);
          font-weight: cx-get-state-rule($data-state-style-map, default, font-weight);
+         font-size: cx-get-state-rule($data-state-style-map, default, font-size);
 
          &:empty::before {
             content: "-";
