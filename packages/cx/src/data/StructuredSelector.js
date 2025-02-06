@@ -8,6 +8,7 @@ import { isUndefined } from "../util/isUndefined";
 import { isDefined } from "../util/isDefined";
 import { isArray } from "../util/isArray";
 import { isAccessorChain } from "./createAccessorModelProxy";
+import { isString } from "../util/isString";
 
 function defaultValue(pv) {
    if (typeof pv == "object" && pv && pv.structured) return pv.defaultValue;
@@ -47,7 +48,7 @@ function getSelectorConfig(props, values, nameMap) {
          } else if (v.get) {
             functions[p] = v.get;
             constant = false;
-         } else if (v.tpl) {
+         } else if (isString(v.tpl)) {
             functions[p] = StringTemplate.get(v.tpl);
             constant = false;
          } else if (pv && typeof pv == "object" && pv.structured) {

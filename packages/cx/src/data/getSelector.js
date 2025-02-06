@@ -5,6 +5,7 @@ import { isArray } from "../util/isArray";
 import { createStructuredSelector } from "./createStructuredSelector";
 import { isSelector } from "./isSelector";
 import { isAccessorChain } from "./createAccessorModelProxy";
+import { isString } from "../util/isString";
 
 var undefinedF = () => undefined;
 var nullF = () => null;
@@ -23,7 +24,7 @@ export function getSelector(config) {
          //toString converts accessor chains to binding paths
          if (config.bind) return Binding.get(config.bind.toString()).value;
 
-         if (config.tpl) return StringTemplate.get(config.tpl);
+         if (isString(config.tpl)) return StringTemplate.get(config.tpl);
 
          if (config.expr) return Expression.get(config.expr);
 
