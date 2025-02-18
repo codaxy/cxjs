@@ -130,7 +130,8 @@ import "./index.scss";
 //import Demo from "./bugs/GridScrollUponButtonClickIssue";
 //import Demo from "./dev/createHotPromiseWindowFactory";
 //import Demo from "./features/date/invariantParseDate";
-import Demo from "./features/month-field/encoding";
+// import Demo from "./features/month-field/encoding";
+import Demo from "./bugs/TouchTooltips";
 
 let store = (window.store = new Store());
 
