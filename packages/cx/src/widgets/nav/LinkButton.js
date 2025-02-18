@@ -8,7 +8,7 @@ import { parseStyle } from "../../util/parseStyle";
 export class LinkButton extends Button {
    init() {
       this.activeStyle = parseStyle(this.activeStyle);
-      this.inacativeStyle = parseStyle(this.inactiveStyle);
+      this.inactiveStyle = parseStyle(this.inactiveStyle);
       super.init();
    }
 
@@ -22,9 +22,9 @@ export class LinkButton extends Button {
             activeClass: undefined,
             activeStyle: undefined,
             inactiveClass: undefined,
-            inactiveStyle: undefined
+            inactiveStyle: undefined,
          },
-         ...arguments
+         ...arguments,
       );
    }
 
