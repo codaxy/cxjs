@@ -226,6 +226,7 @@ function tooltipMouseMove(e, parentInstance, tooltip, options = {}) {
          dismiss();
          instance.dismissTooltip = null;
       };
+      instance.lastClickTime = Date.now();
       setTimeout(() => {
          let { relatedElement } = instance.widget;
          if (!canceled && instance.mouseOverTarget && relatedElement.ownerDocument.body.contains(relatedElement)) {
@@ -240,8 +241,12 @@ function tooltipMouseMove(e, parentInstance, tooltip, options = {}) {
       }, instance.widget.createDelay);
    } else {
       if (isTouchEvent() && instance.widget.touchBehavior == "toggle") {
-         instance.dismissTooltip();
-         instance.dismissTooltip = null;
+         // ios fires mousemove events after touchend
+         if (Date.now() - (instance.lastClickTime ?? 0) > 50) {
+            instance.lastClickTime = Date.now();
+            instance.dismissTooltip();
+            instance.dismissTooltip = null;
+         }
       } else if (dirty && instance.update) instance.update();
    }
 
