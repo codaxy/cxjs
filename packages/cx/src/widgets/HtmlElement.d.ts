@@ -1,4 +1,5 @@
 import * as Cx from "../core";
+import { Instance } from "../ui/Instance";
 
 interface HtmlElementProps extends Cx.HtmlElementProps {
    /** HTML to be injected into the element. */
