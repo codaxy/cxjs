@@ -21,6 +21,9 @@ interface HtmlElementProps extends Cx.HtmlElementProps {
    /** Allow any prop if HtmlElement is used directly.
     * e.g. `<HtmlElement tag="form" onSubmit="submit" />`*/
    [key: string]: any;
+
+   /** Callback function called when the element is mounted in the DOM. Provides reference to the element and the component instance. */
+   onRef?: string | ((element: any, instance: Instance) => void);
 }
 
 export class HtmlElement extends Cx.Widget<HtmlElementProps> {}
