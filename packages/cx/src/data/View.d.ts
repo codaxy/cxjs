@@ -65,7 +65,7 @@ export class View<D = any> implements ViewMethods<D> {
 
    set(path: Path, value: any): boolean;
    set(changes: Record): boolean;
-   set<V>(path: AccessorChain<V>, value: V | any): boolean;
+   set<V>(path: AccessorChain<V>, value: V): boolean;
 
    /**
     * Copies the value stored under the `from` path and saves it under the `to` path.
