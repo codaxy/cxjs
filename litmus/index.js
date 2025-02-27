@@ -131,7 +131,7 @@ import "./index.scss";
 //import Demo from "./dev/createHotPromiseWindowFactory";
 //import Demo from "./features/date/invariantParseDate";
 // import Demo from "./features/month-field/encoding";
-import Demo from "./bugs/TouchTooltips";
+import Demo from "./features/typescript/AccessorChainMethods";
 
 let store = (window.store = new Store());
 

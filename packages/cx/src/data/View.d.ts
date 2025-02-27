@@ -1,4 +1,4 @@
-import { Record, AccessorChain } from "../core";
+import { AccessorChain } from "../core";
 import { Binding } from "./Binding";
 import { Ref } from "./Ref";
 
@@ -14,20 +14,22 @@ export interface ViewConfig {
    sealed?: boolean;
 }
 
-export interface ViewMethods<D = Record> {
+export interface ViewMethods<D = Record<string, any>> {
    getData(): D;
 
    init(path: Path, value: any): boolean;
    init<V>(path: AccessorChain<V>, value: V): boolean;
 
    set(path: Path, value: any): boolean;
-   set(changes: Record): boolean;
+   set<T extends Record<string, any>>(changes: T): boolean;
    set<V>(path: AccessorChain<V>, value: V): boolean;
 
    get(path: Path): any;
    get(paths: Path[]): any[];
    get(...paths: Path[]): any[];
    get<V>(path: AccessorChain<V>): V;
+   get<T extends any[]>(...paths: { [K in keyof T]: AccessorChain<T[K]> }): T;
+   get<T extends any[]>(paths: { [K in keyof T]: AccessorChain<T[K]> }): T;
 
    /**
     * Removes data from the Store.
@@ -38,19 +40,29 @@ export interface ViewMethods<D = Record> {
    delete(paths: Path[]): boolean;
    delete(...paths: Path[]): boolean;
    delete<V>(path: AccessorChain<V>): boolean;
+   delete<T extends any[]>(...paths: { [K in keyof T]: AccessorChain<T[K]> }): boolean;
+   delete<T extends any[]>(paths: { [K in keyof T]: AccessorChain<T[K]> }): boolean;
 
    toggle(path: Path): boolean;
 
    update(updateFn: (currentValue: D, ...args) => D, ...args): boolean;
    update(path: Path, updateFn: (currentValue: any, ...args) => any, ...args): boolean;
-   update<V>(path: AccessorChain<V>, updateFn: (currentValue: V, ...args) => V, ...args): boolean;
+   update<V, A extends any[]>(
+      path: AccessorChain<V>,
+      updateFn: (currentValue: V, ...args: A) => V,
+      ...args: A
+   ): boolean;
 
    /**
     *  Mutates the content of the store using Immer
     */
    mutate(updateFn: (currentValue: D, ...args) => D, ...args): boolean;
    mutate(path: Path, updateFn: (currentValue: any, ...args) => any, ...args): boolean;
-   mutate<V>(path: AccessorChain<V>, updateFn: (currentValue: V, ...args) => V, ...args): boolean;
+   mutate<V, A extends any[]>(
+      path: AccessorChain<V>,
+      updateFn: (currentValue: V, ...args: A) => void,
+      ...args: A
+   ): boolean;
 
    ref<T = any>(path: string | AccessorChain<T>, defaultValue?: T): Ref<T>;
 }
@@ -64,7 +76,7 @@ export class View<D = any> implements ViewMethods<D> {
    init<V>(path: AccessorChain<V>, value: V): boolean;
 
    set(path: Path, value: any): boolean;
-   set(changes: Record): boolean;
+   set<T extends Record<string, any>>(changes: T): boolean;
    set<V>(path: AccessorChain<V>, value: V): boolean;
 
    /**
@@ -87,6 +99,8 @@ export class View<D = any> implements ViewMethods<D> {
    delete(paths: Path[]): boolean;
    delete(...paths: Path[]): boolean;
    delete<V>(path: AccessorChain<V>): boolean;
+   delete<T extends any[]>(...paths: { [K in keyof T]: AccessorChain<T[K]> }): boolean;
+   delete<T extends any[]>(paths: { [K in keyof T]: AccessorChain<T[K]> }): boolean;
 
    clear(): void;
 
@@ -94,17 +108,27 @@ export class View<D = any> implements ViewMethods<D> {
    get(paths: Path[]): any;
    get(...paths: Path[]): any;
    get<V>(path: AccessorChain<V>): V;
+   get<T extends any[]>(...paths: { [K in keyof T]: AccessorChain<T[K]> }): T;
+   get<T extends any[]>(paths: { [K in keyof T]: AccessorChain<T[K]> }): T;
 
    toggle(path: Path): boolean;
    toggle(path: AccessorChain<boolean>): boolean;
 
    update(updateFn: (currentValue: D, ...args) => any, ...args): boolean;
    update(path: Path, updateFn: (currentValue: any, ...args) => any, ...args): boolean;
-   update<V>(path: AccessorChain<V>, updateFn: (currentValue: V, ...args) => V, ...args): boolean;
+   update<V, A extends any[]>(
+      path: AccessorChain<V>,
+      updateFn: (currentValue: V, ...args: A) => V,
+      ...args: A
+   ): boolean;
 
    mutate(updateFn: (currentValue: D, ...args) => void, ...args): boolean;
    mutate(path: Path, updateFn: (currentValue: any, ...args) => void, ...args): boolean;
-   mutate<V>(path: AccessorChain<V>, updateFn: (currentValue: V, ...args) => void, ...args): boolean;
+   mutate<V, A extends any[]>(
+      path: AccessorChain<V>,
+      updateFn: (currentValue: V, ...args: A) => void,
+      ...args: A
+   ): boolean;
 
    /**
     * `batch` method can be used to perform multiple Store operations silently
@@ -121,7 +145,7 @@ export class View<D = any> implements ViewMethods<D> {
 
    subscribe(callback: (changes?) => void): () => void;
 
-   load(data: Record): boolean;
+   load(data: Record<string, any>): boolean;
 
    dispatch(action): void;
 
