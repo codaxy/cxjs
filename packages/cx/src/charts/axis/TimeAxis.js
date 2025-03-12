@@ -4,12 +4,13 @@ import { Stack } from "./Stack";
 import { Format } from "../../ui/Format";
 import { isNumber } from "../../util/isNumber";
 import { zeroTime } from "../../util/date/zeroTime";
+import { parseDateInvariant } from "../../util";
 
 Format.registerFactory("yearOrMonth", (format) => {
    let year = Format.parse("datetime;yyyy");
    let month = Format.parse("datetime;MMM");
    return function (date) {
-      let d = new Date(date);
+      let d = parseDateInvariant(date);
       if (d.getMonth() == 0) return year(d);
       else return month(d);
    };
@@ -19,7 +20,7 @@ Format.registerFactory("monthOrDay", (format) => {
    let month = Format.parse("datetime;MMM");
    let day = Format.parse("datetime;dd");
    return function (date) {
-      let d = new Date(date);
+      let d = parseDateInvariant(date);
       if (d.getDate() == 1) return month(d);
       else return day(d);
    };
@@ -69,7 +70,7 @@ export class TimeAxis extends Axis {
          this.minTickUnit,
          lowerDeadZone,
          upperDeadZone,
-         this.decode
+         this.decode,
       );
    }
 
@@ -149,7 +150,7 @@ class TimeScale {
       minTickUnit,
       lowerDeadZone,
       upperDeadZone,
-      decode
+      decode,
    ) {
       this.dateCache = {};
       this.min = min != null ? this.decodeValue(min) : null;
@@ -180,12 +181,12 @@ class TimeScale {
             let v = this.dateCache[date];
             if (!v) {
                if (this.decode) date = this.decode(date);
-               v = this.dateCache[date] = Date.parse(date);
+               v = this.dateCache[date] = parseDateInvariant(date).getTime();
             }
             return v;
 
          case "number":
-            return date;
+            return parseDateInvariant(date).getTime();
       }
    }
 

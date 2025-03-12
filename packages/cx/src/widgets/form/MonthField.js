@@ -13,7 +13,6 @@ import { stopPropagation } from "../../util/eventCallbacks";
 import { isDefined } from "../../util/isDefined";
 import { isTouchDevice } from "../../util/isTouchDevice";
 import { isTouchEvent } from "../../util/isTouchEvent";
-import { Icon } from "../Icon";
 import { autoFocus } from "../autoFocus";
 import ClearIcon from "../icons/clear";
 import DropdownIcon from "../icons/drop-down";
@@ -28,6 +27,7 @@ import {
 import { Field, getFieldTooltip } from "./Field";
 import { MonthPicker } from "./MonthPicker";
 import { getActiveElement } from "../../util/getActiveElement";
+import { parseDateInvariant } from "../../util";
 
 export class MonthField extends Field {
    declareData() {
@@ -93,11 +93,11 @@ export class MonthField extends Field {
       };
 
       if (!this.range && data.value) {
-         data.date = new Date(data.value);
+         data.date = parseDateInvariant(data.value);
          data.formatted = this.culture.format(data.date, formatOptions);
       } else if (this.range && data.from && data.to) {
-         data.from = new Date(data.from);
-         data.to = new Date(data.to);
+         data.from = parseDateInvariant(data.from);
+         data.to = parseDateInvariant(data.to);
          data.to.setDate(data.to.getDate() - 1);
          let fromStr = this.culture.format(data.from, formatOptions);
          let toStr = this.culture.format(data.to, formatOptions);
@@ -105,11 +105,11 @@ export class MonthField extends Field {
          else data.formatted = fromStr;
       }
 
-      if (data.refDate) data.refDate = monthStart(new Date(data.refDate));
+      if (data.refDate) data.refDate = monthStart(parseDateInvariant(data.refDate));
 
-      if (data.maxValue) data.maxValue = monthStart(new Date(data.maxValue));
+      if (data.maxValue) data.maxValue = monthStart(parseDateInvariant(data.maxValue));
 
-      if (data.minValue) data.minValue = monthStart(new Date(data.minValue));
+      if (data.minValue) data.minValue = monthStart(parseDateInvariant(data.minValue));
 
       instance.lastDropdown = context.lastDropdown;
    }
