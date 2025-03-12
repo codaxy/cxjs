@@ -21,7 +21,7 @@ export class ColorPicker extends Field {
             value: this.emptyValue,
             format: undefined,
          },
-         ...arguments
+         ...arguments,
       );
    }
 
@@ -76,7 +76,12 @@ class ColorPickerComponent extends VDOM.Component {
 
    UNSAFE_componentWillReceiveProps(props) {
       let { data } = props.instance;
-      let color = this.parse(data.value);
+      let color;
+      try {
+         color = this.parse(data.value);
+      } catch {
+         color = this.parse(null);
+      }
       if (color.r != this.state.r || color.g != this.state.g || color.b != this.state.b || color.a != this.state.a)
          this.setState(color);
    }
@@ -123,7 +128,7 @@ class ColorPickerComponent extends VDOM.Component {
       let pixelPicker;
 
       let alphaGradient = `${getVendorPrefix(
-         "css"
+         "css",
       )}linear-gradient(left, hsla(${h},${s}%,${l}%,0) 0%, hsla(${h},${s}%,${l}%,1) 100%)`;
 
       if (window.EyeDropper) {
