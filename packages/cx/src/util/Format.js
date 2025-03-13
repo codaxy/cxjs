@@ -1,12 +1,7 @@
-import { debug } from "./Debug";
-import { GlobalCacheIdentifier } from "./GlobalCacheIdentifier";
+import { isArray } from "../util/isArray";
 import { isNumber } from "../util/isNumber";
 import { isUndefined } from "../util/isUndefined";
-import { isArray } from "../util/isArray";
 import { capitalize } from "./capitalize";
-import { isArray } from "../util/isArray";
-import { isNumber } from "../util/isNumber";
-import { isUndefined } from "../util/isUndefined";
 import { parseDateInvariant } from "./date";
 import { debug } from "./Debug";
 import { GlobalCacheIdentifier } from "./GlobalCacheIdentifier";
