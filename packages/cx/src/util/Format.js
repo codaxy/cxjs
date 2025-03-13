@@ -4,6 +4,12 @@ import { isNumber } from "../util/isNumber";
 import { isUndefined } from "../util/isUndefined";
 import { isArray } from "../util/isArray";
 import { capitalize } from "./capitalize";
+import { isArray } from "../util/isArray";
+import { isNumber } from "../util/isNumber";
+import { isUndefined } from "../util/isUndefined";
+import { parseDateInvariant } from "./date";
+import { debug } from "./Debug";
+import { GlobalCacheIdentifier } from "./GlobalCacheIdentifier";
 
 //Culture dependent formatters are defined in the ui package.
 
@@ -75,14 +81,14 @@ let formatFactory = {
 
    date: function () {
       return (value) => {
-         let date = new Date(value);
+         let date = parseDateInvariant(value);
          return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
       };
    },
 
    time: function () {
       return (value) => {
-         let date = new Date(value);
+         let date = parseDateInvariant(value);
          let h = date.getHours() >= 10 ? date.getHours() : "0" + date.getHours();
          let m = date.getMinutes() >= 10 ? date.getMinutes() : "0" + date.getMinutes();
          return `${h}:${m}`;
