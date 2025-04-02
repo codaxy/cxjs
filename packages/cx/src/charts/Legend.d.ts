@@ -20,22 +20,22 @@ interface LegendProps extends Cx.HtmlElementProps {
    shape?: Cx.StringProp;
 
    /** CSS style that will be applied to the legend entry. */
-   entryStyle: Cx.StyleProp;
+   entryStyle?: Cx.StyleProp;
 
    /** CSS class that will be applied to the legend entry. */
-   entryClass: Cx.ClassProp;
+   entryClass?: Cx.ClassProp;
 
    /** CSS style that will be applied to the legend entry value segment. */
-   valueStyle: Cx.StyleProp;
+   valueStyle?: Cx.StyleProp;
 
    /** CSS class that will be applied to the legend entry value segment. */
-   valueClass: Cx.ClassProp;
+   valueClass?: Cx.ClassProp;
 
    /** Set to true to show values. Mostly used for PieChart legends. */
-   showValues: Cx.BooleanProp;
+   showValues?: Cx.BooleanProp;
 
    /** Format used for values, i.e. n;2 or currency. The default value is s.*/
-   valueFormat: string;
+   valueFormat?: string;
 }
 
 export class Legend extends Cx.Widget<LegendProps> {
