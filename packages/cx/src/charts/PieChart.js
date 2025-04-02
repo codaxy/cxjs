@@ -407,6 +407,7 @@ export class PieSlice extends Container {
             hoverChannel: this.hoverChannel,
             hoverSync: instance.hoverSync,
             displayText: data.legendDisplayText,
+            value: data.value,
             onClick: (e) => {
                this.onLegendClick(e, instance);
             },
