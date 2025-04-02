@@ -33,6 +33,14 @@
    .#{$element}#{$name}-shape {
       fill: rgba(128, 128, 128, 0.1);
    }
+
+   .#{$element}#{$name}-value {
+      order: 3;
+   }
+
+   .#{$element}#{$name}-entry-text {
+      order: 2;
+   }
 }
 
 @if (cx-should-include("cx/charts/Legend")) {

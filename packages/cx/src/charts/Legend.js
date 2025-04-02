@@ -6,6 +6,7 @@ import { isUndefined } from "../util/isUndefined";
 import { isNonEmptyArray } from "../util/isNonEmptyArray";
 import { parseStyle } from "../util/parseStyle";
 import { withHoverSync } from "../ui/HoverSync";
+import { Format } from "../util/Format";
 
 export class Legend extends HtmlElement {
    declareData() {
@@ -13,11 +14,15 @@ export class Legend extends HtmlElement {
          shape: undefined,
          entryStyle: { structured: true },
          entryClass: { structured: true },
+         valueStyle: { structured: true },
+         valueClass: { structured: true },
+         showValues: undefined,
       });
    }
 
    init() {
       this.entryStyle = parseStyle(this.entryStyle);
+      this.valueStyle = parseStyle(this.valueStyle);
       super.init();
    }
 
@@ -36,6 +41,10 @@ export class Legend extends HtmlElement {
          case "shape":
          case "entryStyle":
          case "entryClass":
+         case "valueStyle":
+         case "valueClass":
+         case "showValues":
+         case "valueFormat":
             return false;
 
          default:
@@ -76,7 +85,11 @@ export class Legend extends HtmlElement {
       let entries = instance.legends[this.name] && instance.legends[this.name].entries,
          list;
 
-      let { entryClass, entryStyle, shape } = instance.data;
+      let { entryClass, entryStyle, shape, valueClass, valueStyle } = instance.data;
+      let valueFormatter = Format.parse(this.valueFormat);
+
+      let valueClasses = this.showValues ? CSS.expand(CSS.element(this.baseClass, "value"), valueClass) : null;
+      let entryTextClass = CSS.element(this.baseClass, "entry-text");
 
       if (isNonEmptyArray(entries)) {
          list = entries.map((e, i) =>
@@ -98,7 +111,12 @@ export class Legend extends HtmlElement {
                   onMouseLeave={onMouseLeave}
                >
                   {this.renderShape(e, shape)}
-                  <div>{e.displayText || e.name}</div>
+                  <div className={entryTextClass}>{e.displayText || e.name}</div>
+                  {this.showValues && (
+                     <div className={valueClasses} style={valueStyle}>
+                        {valueFormatter(e.value)}
+                     </div>
+                  )}
                </div>
             )),
          );
@@ -142,6 +160,8 @@ Legend.prototype.memoize = false;
 Legend.prototype.shapeSize = 18;
 Legend.prototype.shape = null;
 Legend.prototype.svgSize = 20;
+Legend.prototype.showValues = false;
+Legend.prototype.valueFormat = "s";
 
 Widget.alias("legend", Legend);
 
