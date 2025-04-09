@@ -132,8 +132,12 @@ export class RangeMarker extends BoundedObject {
       }
 
       return (
-         <g key={key} class={data.classNames} style={data.style}>
-            <path d={path} class={CSS.expand(CSS.element(baseClass, "path"), data.lineClass)} style={data.lineStyle} />
+         <g key={key} className={data.classNames} style={data.style}>
+            <path
+               d={path}
+               className={CSS.expand(CSS.element(baseClass, "path"), data.lineClass)}
+               style={data.lineStyle}
+            />
             {this.renderChildren(context, instance)}
          </g>
       );
