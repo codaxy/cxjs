@@ -18,11 +18,14 @@ interface TimeAxisProps extends AxisProps {
    minLabelDistance?: number;
    minTickUnit?: string;
 
-   /** Set to true to apply precise label distances from minLabelDistanceFormatOverride based on the resolved label format.  */
+   /** Set to true to apply precise label distances from minLabelDistanceFormatOverride based on the resolved label format. */
    useLabelDistanceFormatOverrides?: boolean;
 
    /** Mapping of formats to label distances, i.e. { "datetime;YYYYMM": 80 } */
    minLabelDistanceFormatOverride?: Record<string, number>;
+
+   /** Axis labels format string override. */
+   format?: string;
 }
 
 export class TimeAxis extends Cx.Widget<TimeAxisProps> {}
