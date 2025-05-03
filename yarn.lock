@@ -3456,7 +3456,7 @@ __metadata:
     copy-webpack-plugin: "npm:^12.0.2"
     core-js: "npm:^3.39.0"
     css-loader: "npm:^7.1.2"
-    cx: "npm:^24.8.7"
+    cx: "npm:^25.4.1"
     cx-react: "npm:^24.7.1"
     file-loader: "npm:^6.2.0"
     html-webpack-plugin: "npm:^5.6.3"
@@ -4418,11 +4418,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"cx-immer@npm:^22.3.0, cx-immer@workspace:packages/cx-immer":
+"cx-immer@npm:^25.5.0, cx-immer@workspace:packages/cx-immer":
   version: 0.0.0-use.local
   resolution: "cx-immer@workspace:packages/cx-immer"
   peerDependencies:
-    immer: "*"
+    immer: ">=10"
   languageName: unknown
   linkType: soft
 
@@ -4485,7 +4485,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"cx@npm:^24.8.7, cx@workspace:packages/cx":
+"cx@npm:^25.4.1, cx@workspace:packages/cx":
   version: 0.0.0-use.local
   resolution: "cx@workspace:packages/cx"
   dependencies:
@@ -4797,7 +4797,7 @@ __metadata:
     copy-webpack-plugin: "npm:^12.0.2"
     core-js: "npm:^3.39.0"
     css-loader: "npm:^7.1.2"
-    cx: "npm:^24.8.7"
+    cx: "npm:^25.4.1"
     cx-react: "npm:^24.7.1"
     file-loader: "npm:^6.2.0"
     html-webpack-plugin: "npm:^5.6.3"
@@ -5382,7 +5382,7 @@ __metadata:
     copy-webpack-plugin: "npm:^12.0.2"
     core-js: "npm:^3.39.0"
     css-loader: "npm:^7.1.2"
-    cx: "npm:^24.8.7"
+    cx: "npm:^25.4.1"
     cx-react: "npm:^24.7.1"
     deep-equal: "npm:^2.2.3"
     deepmerge: "npm:^4.3.1"
@@ -5729,7 +5729,7 @@ __metadata:
     copy-webpack-plugin: "npm:^12.0.2"
     core-js: "npm:^3.39.0"
     css-loader: "npm:^7.1.2"
-    cx: "npm:^24.8.7"
+    cx: "npm:^25.4.1"
     cx-react: "npm:^24.7.1"
     cx-theme-aquamarine: "npm:^18.7.3"
     cx-theme-dark: "npm:^18.7.1"
@@ -7214,8 +7214,8 @@ __metadata:
     copy-webpack-plugin: "npm:^12.0.2"
     core-js: "npm:^3.39.0"
     css-loader: "npm:^7.1.2"
-    cx: "npm:^24.8.7"
-    cx-immer: "npm:^22.3.0"
+    cx: "npm:^25.4.1"
+    cx-immer: "npm:^25.5.0"
     cx-react: "npm:^24.7.1"
     file-loader: "npm:^6.2.0"
     html-webpack-plugin: "npm:^5.6.3"

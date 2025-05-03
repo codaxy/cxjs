@@ -10,7 +10,7 @@
    "dependencies": {
       "casual": "^1.6.2",
       "core-js": "^3.39.0",
-      "cx": "^24.8.7",
+      "cx": "^25.4.1",
       "cx-react": "^24.7.1",
       "illuminate-js": "^1.0.0-alpha.2",
       "intl": "^1.2.5",

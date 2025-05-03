@@ -1,6 +1,6 @@
 import { enableImmerMutate } from "cx-immer";
 import { createAccessorModelProxy } from "cx/src/data/createAccessorModelProxy";
-import { expr, Instance, KeySelection, Repeater } from "cx/ui";
+import { bind, expr, Instance, KeySelection, Repeater } from "cx/ui";
 import { Button, List, TextField } from "cx/widgets";
 
 enableImmerMutate();
@@ -45,7 +45,7 @@ export default (
             <Repeater records={m.records}>
                <div>
                   <div text={expr($record, (r) => `Item ${r.id} - ${r.text}`)} />
-                  <TextField value={{ bind: $record.text }} />
+                  <TextField value={bind($record.text)} />
                </div>
             </Repeater>
          </div>

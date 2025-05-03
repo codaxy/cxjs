@@ -102,7 +102,7 @@ import "./index.scss";
 
 //import Demo from "./features/charts/pie/labels";
 //import Demo from "./bugs/BlurBug";
-//import Demo from "./features/immer";
+import Demo from "./features/immer";
 // import Demo from "./bugs/971";
 // import Demo from "./bugs/LookupFieldListItemFocus";
 //import Demo from "./bugs/SliderValue";
@@ -131,7 +131,7 @@ import "./index.scss";
 //import Demo from "./dev/createHotPromiseWindowFactory";
 //import Demo from "./features/date/invariantParseDate";
 // import Demo from "./features/month-field/encoding";
-import Demo from "./features/typescript/AccessorChainMethods";
+//import Demo from "./features/typescript/AccessorChainMethods";
 
 let store = (window.store = new Store());
 
