@@ -190,9 +190,9 @@ export function getTooltipInstance(e, parentInstance, tooltip, options = {}) {
       tooltipInstance = parentInstance.tooltips[name] = parentInstance.getDetachedChild(tooltipWidget, name, store);
       tooltipInstance.config = tooltip;
       tooltipInstance.tooltipName = name;
+      tooltipInstance.init(new RenderingContext());
 
       if (tooltip.alwaysVisible || tooltip.trackMouse || tooltip.trackMouseX || tooltip.trackMouseY) {
-         tooltipInstance.init(new RenderingContext());
          tooltipInstance.data = tooltipInstance.dataSelector(store);
       }
    }
