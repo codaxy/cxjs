@@ -478,17 +478,17 @@ export class Instance {
    }
 
    getChild(context, widget, key, store) {
-      return this.getInstanceCache().getChild(widget, store || this.store, key);
+      return this.getInstanceCache().getChild(widget, store ?? this.store, key);
    }
 
    getDetachedChild(widget, key, store) {
-      let child = new Instance(widget, key, this, store || this.store);
+      let child = new Instance(widget, key, this, store ?? this.store);
       child.detached = true;
       return child;
    }
 
    prepareRenderCleanupChild(widget, store, keyPrefix, options) {
-      return widget.prepareRenderCleanup(store || this.store, options, keyPrefix, this);
+      return widget.prepareRenderCleanup(store ?? this.store, options, keyPrefix, this);
    }
 
    getJsxEventProps() {
@@ -563,10 +563,9 @@ export class InstanceCache {
          instance.widget !== widget ||
          (!instance.visible && (instance.widget.controller || instance.widget.onInit))
       ) {
-         instance = new Instance(widget, k, this.parent);
+         instance = new Instance(widget, k, this.parent, parentStore);
          this.children[k] = instance;
-      }
-      if (instance.parentStore !== parentStore) {
+      } else if (instance.parentStore !== parentStore) {
          instance.setParentStore(parentStore);
       }
 

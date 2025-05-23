@@ -16,7 +16,7 @@ export class Sandbox extends PureContainer {
 
    initInstance(context, instance) {
       instance.store = new ExposedValueView({
-         store: instance.store,
+         store: instance.parentStore,
          containerBinding: this.storageBinding,
          key: null,
          recordName: this.recordName,
@@ -40,10 +40,10 @@ export class Sandbox extends PureContainer {
    }
 
    prepareData(context, instance) {
-      var { store, data } = instance;
+      var { parentStore, data } = instance;
       if (store.getKey() !== data.key) {
          instance.store = new ExposedValueView({
-            store: store,
+            store: parentStore,
             containerBinding: this.storageBinding,
             key: data.key,
             recordName: this.recordName,

@@ -14,7 +14,7 @@ export class Rescope extends PureContainer {
 
    initInstance(context, instance) {
       instance.store = new ZoomIntoPropertyView({
-         store: instance.store,
+         store: instance.parentStore,
          binding: this.binding,
          rootName: this.rootName,
          nestedData: isObject(this.data)
