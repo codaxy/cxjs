@@ -108,12 +108,7 @@ export class Widget extends Component {
       if (this.styled) this.prepareCSS(context, instance);
    }
 
-   initInstance(context, instance) {
-      // override methods can set initialize the store if it is different to the parent one
-      if (!instance.store) instance.store = instance.parentStore;
-
-      if (this.onInit) this.onInit(context, instance);
-   }
+   initInstance(context, instance) {}
 
    initState(context, instance) {}
 

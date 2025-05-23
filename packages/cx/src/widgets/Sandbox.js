@@ -40,18 +40,17 @@ export class Sandbox extends PureContainer {
    }
 
    prepareData(context, instance) {
-      var { parentStore, data } = instance;
+      var { store, data } = instance;
       if (store.getKey() !== data.key) {
+         //when navigating to a page using the same widget tree as the previous page
+         //everything needs to be reinstantiated, e.g. user/1 => user/2
          instance.store = new ExposedValueView({
-            store: parentStore,
+            store: store,
             containerBinding: this.storageBinding,
             key: data.key,
             recordName: this.recordName,
             immutable: this.immutable,
          });
-
-         //when navigating to a page using the same widget tree as the previous page
-         //everything needs to be reinstantiated, e.g. user/1 => user/2
          instance.clearChildrenCache();
       }
       super.prepareData(context, instance);

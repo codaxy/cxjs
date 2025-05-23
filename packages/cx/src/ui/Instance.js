@@ -22,7 +22,9 @@ export class Instance {
       this.id = String(++instanceId);
       this.cached = {};
       this.parent = parent;
-      this.parentStore = parentStore;
+      this.parentStore = parentStore ?? parent?.store;
+
+      if (this.parentStore == null) throw new Error("Cannot create instance without a parent store.");
    }
 
    setParentStore(parentStore) {
@@ -47,6 +49,11 @@ export class Instance {
 
       // init instance might change the store, so this must go before the controller initialization
       this.widget.initInstance(context, this);
+
+      // initInstance can set the store, otherwise use parent store
+      if (!this.store) this.store = this.parentStore;
+      if (this.widget.onInit) this.widget.onInit(context, this);
+
       this.widget.initState(context, this);
 
       if (this.widget.controller)
