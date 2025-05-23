@@ -15,7 +15,7 @@ export class Instance<ViewModel = any, Controller = any> {
 
    constructor(widget: Widget, key: string | number, parent?: Instance, store?: View);
 
-   setStore(store: View): void;
+   setParentStore(parentStore: View): void;
 
    init(context: RenderingContext): void;
 

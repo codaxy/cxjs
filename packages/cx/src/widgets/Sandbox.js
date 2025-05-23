@@ -22,9 +22,11 @@ export class Sandbox extends PureContainer {
          recordName: this.recordName,
          immutable: this.immutable,
       });
-      instance.setStore = (store) => {
-         instance.store.setStore(store);
-      };
+      super.initInstance(context, instance);
+   }
+
+   applyParentStore(instance) {
+      instance.store.setStore(instance.parentStore);
    }
 
    declareData() {
@@ -33,7 +35,7 @@ export class Sandbox extends PureContainer {
             storage: undefined,
             key: undefined,
          },
-         ...arguments
+         ...arguments,
       );
    }
 

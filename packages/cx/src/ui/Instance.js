@@ -16,32 +16,36 @@ import { isAccessorChain } from "../data/createAccessorModelProxy";
 let instanceId = 1000;
 
 export class Instance {
-   constructor(widget, key, parent, store) {
+   constructor(widget, key, parent, parentStore) {
       this.widget = widget;
       this.key = key;
       this.id = String(++instanceId);
       this.cached = {};
       this.parent = parent;
-      this.store = store;
+      this.parentStore = parentStore;
    }
 
-   setStore(store) {
-      this.store = store;
+   setParentStore(parentStore) {
+      this.parentStore = parentStore;
+      this.widget.applyParentStore(this);
    }
 
    init(context) {
-      //widget is initialized when first instance is initialized
+      // widget is initialized when the first instance is initialized
       if (!this.widget.initialized) {
          this.widget.init(context);
+
+         // init default values
+         this.widget.selector.init(this.parentStore);
+
          this.widget.initialized = true;
       }
 
       if (!this.dataSelector) {
-         this.widget.selector.init(this.store);
          this.dataSelector = this.widget.selector.createStoreSelector();
       }
 
-      //init instance might change the store, so it must go before the controller
+      // init instance might change the store, so this must go before the controller initialization
       this.widget.initInstance(context, this);
       this.widget.initState(context, this);
 
@@ -550,7 +554,7 @@ export class InstanceCache {
       this.keyPrefix = keyPrefix != null ? keyPrefix + "-" : "";
    }
 
-   getChild(widget, store, key) {
+   getChild(widget, parentStore, key) {
       let k = this.keyPrefix + (key != null ? key : widget.vdomKey || widget.widgetId);
       let instance = this.children[k];
 
@@ -562,9 +566,8 @@ export class InstanceCache {
          instance = new Instance(widget, k, this.parent);
          this.children[k] = instance;
       }
-      if (instance.store !== store) {
-         instance.setStore(store);
-         if (instance.cached) delete instance.cached.rawData; // force prepareData to execute again
+      if (instance.parentStore !== parentStore) {
+         instance.setParentStore(parentStore);
       }
 
       return instance;

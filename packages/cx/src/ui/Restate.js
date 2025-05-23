@@ -54,16 +54,15 @@ export class Restate extends PureContainer {
          onSet: (path, value) => instance.nestedDataSet(path, value, this.data),
       });
 
-      instance.setStore = (store) => {
-         instance.store = store;
-         instance.subStore.setStore(store);
-      };
-
       if (cacheKey) {
          instance.subscribeOnDestroy(() => {
             persistenceCache[cacheKey] = instance.subStore.getData();
          });
       }
+   }
+
+   applyParentStore(instance) {
+      if (instance.subStore) instance.subStore.setStore(instance.parentStore);
    }
 
    explore(context, instance) {
@@ -159,5 +158,10 @@ class RestateStore extends Store {
    doNotify() {
       if (!this.detached) this.store.notify();
       super.doNotify();
+   }
+
+   // override the default implementation to avoid meta overwrites
+   setStore(store) {
+      this.store = store;
    }
 }

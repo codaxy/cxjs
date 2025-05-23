@@ -17,11 +17,15 @@ export class Rescope extends PureContainer {
          store: instance.store,
          binding: this.binding,
          rootName: this.rootName,
-         nestedData: isObject(this.data) ? new StructuredInstanceDataAccessor({ instance, data: this.data, useParentStore: true }) : null,
+         nestedData: isObject(this.data)
+            ? new StructuredInstanceDataAccessor({ instance, data: this.data, useParentStore: true })
+            : null,
       });
-      instance.setStore = (store) => {
-         instance.store.setStore(store);
-      };
+      super.initInstance(context, instance);
+   }
+
+   applyParentStore(instance) {
+      instance.store.setStore(instance.parentStore);
    }
 }
 

@@ -72,7 +72,7 @@ export class Cx extends VDOM.Component {
       if (this.props.instance) return this.props.instance;
 
       if (this.instance && this.instance.widget === this.widget) {
-         if (this.instance.store != this.store) this.instance.setStore(this.store);
+         if (this.instance.parentStore != this.store) this.instance.setParentStore(this.store);
          return this.instance;
       }
 
