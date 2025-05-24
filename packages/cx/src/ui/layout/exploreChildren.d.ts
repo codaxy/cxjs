@@ -1,7 +1,6 @@
-import * as Cx from '../../core';
-import {RenderingContext} from '../RenderingContext';
-import {View} from '../../data/View';
-import {Instance} from '../Instance';
+import { View } from "../../data/View";
+import { Instance } from "../Instance";
+import { RenderingContext } from "../RenderingContext";
 
 export function exploreChildren(
    context: RenderingContext,
@@ -10,6 +9,4 @@ export function exploreChildren(
    previousResult: Instance[],
    key?: string,
    store?: View,
-   beforeCallback?: () => void,
-   afterCallback?: () => void
-) : Instance[];
+): Instance[];

@@ -139,7 +139,7 @@ export class Widget extends Component {
       instance.store = instance.parentStore;
 
       // check when this is actually needed, perhaps this is needed only for tables and repeated elements
-      if (instance.cached) delete instance.cached.rawData; // force prepareData to execute again
+      // if (instance.cached) delete instance.cached.rawData; // force prepareData to execute again
    }
 
    static resetCounter() {

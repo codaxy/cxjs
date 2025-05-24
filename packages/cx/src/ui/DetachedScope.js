@@ -1,31 +1,29 @@
-import {PureContainer} from "./PureContainer";
-import {SubscribableView} from '../data/SubscribableView';
-import {getSelector} from '../data/getSelector';
-import {Cx} from './Cx';
-import {VDOM} from './Widget';
-import {IsolatedScope} from './IsolatedScope';
+import { PureContainer } from "./PureContainer";
+import { SubscribableView } from "../data/SubscribableView";
+import { getSelector } from "../data/getSelector";
+import { Cx } from "./Cx";
+import { VDOM } from "./Widget";
+import { IsolatedScope } from "./IsolatedScope";
 
 export class DetachedScope extends IsolatedScope {
-
    declareData() {
       return super.declareData(...arguments, {
-         exclusiveData: {structured: true}
-      })
+         exclusiveData: { structured: true },
+      });
    }
 
    init() {
-      if (typeof this.exclusive === 'string')
-         this.exclusiveData = {bind: this.exclusive};
+      if (typeof this.exclusive === "string") this.exclusiveData = { bind: this.exclusive };
       if (Array.isArray(this.exclusive)) {
          this.exclusiveData = {};
          this.exclusive.forEach((x, i) => {
-            this.exclusiveData[String(i)] = {bind: x}
+            this.exclusiveData[String(i)] = { bind: x };
          });
       }
 
       this.container = PureContainer.create({
          type: PureContainer,
-         items: this.children || this.items
+         items: this.children || this.items,
       });
       delete this.items;
       delete this.children;
@@ -33,7 +31,7 @@ export class DetachedScope extends IsolatedScope {
       if (this.name)
          this.options = {
             ...this.options,
-            name: this.name
+            name: this.name,
          };
 
       super.init();
@@ -42,39 +40,45 @@ export class DetachedScope extends IsolatedScope {
    initInstance(context, instance) {
       instance.subStore = new ContainmentStore({
          store: instance.store,
-         selector: getSelector(this.exclusiveData || this.data)
+         selector: getSelector(this.exclusiveData || this.data),
       });
    }
 
+   applyParentStore(instance) {
+      instance.store = instance.parentStore;
+      instance.subStore.setStore(instance.parentStore);
+   }
+
    render(context, instance, key) {
-      return <Cx
-         key={key}
-         widget={this.container}
-         store={instance.subStore}
-         parentInstance={instance}
-         subscribe
-         options={this.options}
-         onError={this.onError}
-      />
+      return (
+         <Cx
+            key={key}
+            widget={this.container}
+            store={instance.subStore}
+            parentInstance={instance}
+            subscribe
+            options={this.options}
+            onError={this.onError}
+         />
+      );
    }
 }
 
 class ContainmentStore extends SubscribableView {
-
    getData() {
       return this.store.getData();
    }
 
    setItem(...args) {
-      return this.wrapper(()=>{
+      return this.wrapper(() => {
          this.store.setItem(...args);
-      })
+      });
    }
 
    deleteItem(...args) {
-      return this.wrapper(()=>{
+      return this.wrapper(() => {
          this.store.deleteItem(...args);
-      })
+      });
    }
 
    wrapper(callback) {

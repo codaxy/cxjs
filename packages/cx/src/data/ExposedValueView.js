@@ -1,10 +1,14 @@
-import {View} from './View';
-import {Binding} from './Binding';
+import { View } from "./View";
+import { Binding } from "./Binding";
 
 export class ExposedValueView extends View {
-
    getData() {
-      if (this.sealed && this.meta.version === this.cache.version && this.cache.key === this.key)
+      if (
+         this.sealed &&
+         this.meta.version === this.cache.version &&
+         this.cache.key === this.key &&
+         this.meta == this.store.meta
+      )
          return this.cache.result;
 
       let data = this.store.getData();
@@ -13,8 +17,9 @@ export class ExposedValueView extends View {
 
       this.cache.version = this.meta.version;
       this.cache.key = this.key;
-      this.cache.result = this.sealed || this.immutable || this.store.sealed ? {...data} : data;
+      this.cache.result = this.sealed || this.immutable || this.store.sealed ? { ...data } : data;
       this.cache.result[this.recordName] = record;
+      this.meta = this.store.meta;
       return this.cache.result;
    }
 
@@ -27,11 +32,10 @@ export class ExposedValueView extends View {
    }
 
    setItem(path, value) {
-      if (path == this.recordName || path.indexOf(this.recordName + '.') == 0) {
+      if (path == this.recordName || path.indexOf(this.recordName + ".") == 0) {
          var data = this.getData();
          var d = Binding.get(path).set(data, value);
-         if (d === data)
-            return false;
+         if (d === data) return false;
          var container = this.containerBinding.value(d);
          var record = d[this.recordName];
          var newContainer = Object.assign({}, container);
@@ -47,17 +51,14 @@ export class ExposedValueView extends View {
       if (path == this.recordName) {
          data = this.getData();
          container = this.containerBinding.value(data);
-         if (!container || !container.hasOwnProperty(path))
-            return false;
+         if (!container || !container.hasOwnProperty(path)) return false;
          newContainer = Object.assign({}, container);
          delete newContainer[this.key];
          this.store.set(this.containerBinding.path, newContainer);
-      }
-      else if (path.indexOf(this.recordName + '.') == 0) {
+      } else if (path.indexOf(this.recordName + ".") == 0) {
          data = this.getData();
          var d = Binding.get(path).delete(data);
-         if (d === data)
-            return false;
+         if (d === data) return false;
          container = this.containerBinding.value(d);
          var record = d[this.recordName];
          newContainer = Object.assign({}, container);

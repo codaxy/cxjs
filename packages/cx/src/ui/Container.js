@@ -34,19 +34,8 @@ export class Container extends Widget {
       super.init(context);
    }
 
-   getChildStore(context, instance) {
-      return instance.store;
-   }
-
    exploreItems(context, instance, items) {
-      instance.children = exploreChildren(
-         context,
-         instance,
-         items,
-         instance.cached.children,
-         null,
-         this.getChildStore(context, instance),
-      );
+      instance.children = exploreChildren(context, instance, items, instance.cached.children, null, instance.store);
       if (instance.cache("children", instance.children)) instance.markShouldUpdate(context);
    }
 
