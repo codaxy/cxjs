@@ -17,7 +17,7 @@ export class Repeater extends Container {
                structured: true,
             },
          },
-         ...arguments
+         ...arguments,
       );
    }
 
@@ -52,6 +52,13 @@ export class Repeater extends Container {
 
    initInstance(context, instance) {
       this.dataAdapter.initInstance(context, instance);
+   }
+
+   applyParentStore(instance) {
+      super.applyParentStore(instance);
+
+      // force prepareData to execute again and propagate the store change to the records
+      if (instance.cached) delete instance.cached.rawData;
    }
 
    prepareData(context, instance) {
