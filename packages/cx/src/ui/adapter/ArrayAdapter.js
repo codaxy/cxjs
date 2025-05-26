@@ -5,7 +5,7 @@ import { isArray } from "../../util/isArray";
 import { ArrayElementView } from "../../data/ArrayElementView";
 import { getAccessor } from "../../data/getAccessor";
 import { Culture } from "../Culture";
-import { isDefined } from "../../util";
+import { isDefined, isObject } from "../../util";
 
 export class ArrayAdapter extends DataAdapter {
    init() {
@@ -92,7 +92,7 @@ export class ArrayAdapter extends DataAdapter {
 
       // cache by the key or by data reference
       if (key != null) instance.cacheByKey[key] = recordStore;
-      else instance.recordStoreCache.set(data, recordStore);
+      else if (isObject(data)) instance.recordStoreCache.set(data, recordStore);
 
       return {
          store: recordStore,
