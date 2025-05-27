@@ -9,34 +9,21 @@ export class DataProxy extends PureContainer {
 
       if (this.alias) this.data[this.alias] = this.value;
 
-      //not sure why nesting is needed, commenting for now
-      // this.container = PureContainer.create({
-      //    type: PureContainer,
-      //    items: this.children || this.items,
-      //    layout: this.layout,
-      //    controller: this.controller,
-      //    outerLayout: this.outerLayout,
-      //    ws: this.ws,
-      // });
-      // this.children = [this.container];
-      // delete this.items;
-      // delete this.controller;
-      // delete this.outerLayout;
-      // this.layout = UseParentLayout;
       super.init();
    }
 
    initInstance(context, instance) {
       instance.store = new NestedDataView({
-         store: instance.store,
+         store: instance.parentStore,
          nestedData: new StructuredInstanceDataAccessor({ instance, data: this.data, useParentStore: true }),
          immutable: this.immutable,
          sealed: this.sealed,
       });
+      super.initInstance(context, instance);
+   }
 
-      instance.setStore = (store) => {
-         instance.store.setStore(store);
-      };
+   applyParentStore(instance) {
+      instance.store.setStore(instance.parentStore);
    }
 }
 

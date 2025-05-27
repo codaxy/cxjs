@@ -1,38 +1,33 @@
-import {contentAppend, Widget} from './Widget';
-import {StaticText} from './StaticText';
-import {Text} from './Text';
-import {innerTextTrim} from '../util/innerTextTrim';
-import {isString} from '../util/isString';
-import {isArray} from '../util/isArray';
-import {exploreChildren} from "./layout/exploreChildren";
+import { contentAppend, Widget } from "./Widget";
+import { StaticText } from "./StaticText";
+import { Text } from "./Text";
+import { innerTextTrim } from "../util/innerTextTrim";
+import { isString } from "../util/isString";
+import { isArray } from "../util/isArray";
+import { exploreChildren } from "./layout/exploreChildren";
 
 export class Container extends Widget {
-
    init(context) {
-      if (typeof this.ws !== 'undefined')
-         this.preserveWhitespace = this.ws;
+      if (typeof this.ws !== "undefined") this.preserveWhitespace = this.ws;
 
-      if (this.preserveWhitespace)
-         this.trimWhitespace = false;
+      if (this.preserveWhitespace) this.trimWhitespace = false;
 
       let items = this.items || this.children || [];
       delete this.children;
       this.items = [];
 
       if (this.layout) {
-         let layout = Widget.create({type: this.layout, items});
+         let layout = Widget.create({ type: this.layout, items });
          layout.init(context);
          this.layout = null;
          if (layout.noLayout) {
             this.useParentLayout = true;
             this.add(items);
-         }
-         else {
+         } else {
             this.add(layout);
             this.layout = layout;
          }
-      }
-      else {
+      } else {
          this.add(items);
       }
 
@@ -40,9 +35,8 @@ export class Container extends Widget {
    }
 
    exploreItems(context, instance, items) {
-      instance.children = exploreChildren(context, instance, items, instance.cached.children);
-      if (instance.cache('children', instance.children))
-         instance.markShouldUpdate(context);
+      instance.children = exploreChildren(context, instance, items, instance.cached.children, null, instance.store);
+      if (instance.cache("children", instance.children)) instance.markShouldUpdate(context);
    }
 
    explore(context, instance) {
@@ -55,12 +49,10 @@ export class Container extends Widget {
    }
 
    renderChildren(context, instance) {
-
       let preserveComplexContent = this.useParentLayout;
 
       function append(result, r) {
-         if (r == null)
-            return;
+         if (r == null) return;
 
          //react element
          if (!r.hasOwnProperty("content")) {
@@ -68,17 +60,13 @@ export class Container extends Widget {
             return;
          }
 
-         if (r.useParentLayout)
-            return r.content.forEach(x => append(result, x));
+         if (r.useParentLayout) return r.content.forEach((x) => append(result, x));
 
          if (r.atomic || preserveComplexContent) {
             result.push(r);
-         }
-         else {
+         } else {
             let first = true;
-            for (let k in r)
-               if (contentAppend(result, r[k], !first))
-                  first = false;
+            for (let k in r) if (contentAppend(result, r[k], !first)) first = false;
          }
       }
 
@@ -90,35 +78,27 @@ export class Container extends Widget {
       if (this.useParentLayout)
          return {
             useParentLayout: true,
-            content: result
+            content: result,
          };
 
       return result;
    }
 
    clear() {
-      if (this.layout)
-         this.layout.clear();
-      else
-         this.items = [];
+      if (this.layout) this.layout.clear();
+      else this.items = [];
    }
 
    add(...args) {
-      if (this.layout)
-         return this.layout.add(...args);
+      if (this.layout) return this.layout.add(...args);
 
-      args.forEach(a => {
-         if (!a)
-            return;
-         if (isArray(a))
-            a.forEach(c => this.add(c));
+      args.forEach((a) => {
+         if (!a) return;
+         if (isArray(a)) a.forEach((c) => this.add(c));
          else if (isString(a)) {
-            if (this.trimWhitespace)
-               a = innerTextTrim(a);
-            if (a)
-               this.addText(a);
-         } else if (a.isComponent)
-            this.items.push(this.wrapItem(a));
+            if (this.trimWhitespace) a = innerTextTrim(a);
+            if (a) this.addText(a);
+         } else if (a.isComponent) this.items.push(this.wrapItem(a));
          else {
             this.add(Widget.create(a, this.itemDefaults));
          }
@@ -130,51 +110,42 @@ export class Container extends Widget {
    }
 
    addText(text) {
-      if (this.plainText || text.indexOf('{') == -1 || text.indexOf('}') == -1)
-         this.add(Widget.create(StaticText, {text: text}));
-      else
-         this.add(Widget.create(Text, {text: {tpl: text}}));
+      if (this.plainText || text.indexOf("{") == -1 || text.indexOf("}") == -1)
+         this.add(Widget.create(StaticText, { text: text }));
+      else this.add(Widget.create(Text, { text: { tpl: text } }));
    }
 
    find(filter, options) {
+      if (!options) options = {};
 
-      if (!options)
-         options = {};
-
-      if (!filter || !this.items)
-         return [];
+      if (!filter || !this.items) return [];
 
       let alias = filter;
 
-      if (isString(filter))
-         filter = (w) => w.componentAlias == alias;
+      if (isString(filter)) filter = (w) => w.componentAlias == alias;
 
-      if (filter.isComponentType)
-         filter = (w) => w instanceof alias;
+      if (filter.isComponentType) filter = (w) => w instanceof alias;
 
       let results = [];
 
       for (let i = 0; i < this.items.length; i++) {
          let w = this.items[i];
 
-         if (!w.initialized)
-            w.init();
+         if (!w.initialized) w.init();
 
          if (filter(w)) {
             results.push(w);
-            if (options.first)
-               break;
+            if (options.first) break;
          }
 
-         if (w.find)
-            results.push(...w.find(filter, options))
+         if (w.find) results.push(...w.find(filter, options));
       }
 
       return results;
    }
 
    findFirst(filter, options) {
-      return this.find(filter, {...options, first: true})[0];
+      return this.find(filter, { ...options, first: true })[0];
    }
 }
 

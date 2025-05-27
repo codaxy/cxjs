@@ -82,7 +82,7 @@ export class List extends Widget {
             emptyText: undefined,
             tabIndex: undefined,
          },
-         ...arguments
+         ...arguments,
       );
    }
 
@@ -110,6 +110,13 @@ export class List extends Widget {
       });
 
       super.prepareData(context, instance);
+   }
+
+   applyParentStore(instance) {
+      super.applyParentStore(instance);
+
+      // force prepareData to execute again and propagate the store change to the records
+      if (instance.cached) delete instance.cached.rawData;
    }
 
    explore(context, instance, data) {
@@ -239,7 +246,7 @@ class ListComponent extends VDOM.Component {
             (event) => {
                instance.invoke("onScroll", event, instance);
             },
-            { passive: true }
+            { passive: true },
          );
       }
 

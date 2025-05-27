@@ -23,11 +23,11 @@ export class Cx extends VDOM.Component {
             this.parentInstance = props.parentInstance;
             this.store = props.store || this.parentInstance.store;
          } else {
-            this.parentInstance = new Instance(this.widget, 0);
+            this.parentInstance = new Instance(this.widget, 0, null, props.store);
             this.store = props.store;
          }
 
-         if (!this.store) throw new Error("Cx component requires store.");
+         if (!this.store) throw new Error("Cx component requires a store.");
       }
 
       this.state = {
@@ -72,7 +72,7 @@ export class Cx extends VDOM.Component {
       if (this.props.instance) return this.props.instance;
 
       if (this.instance && this.instance.widget === this.widget) {
-         if (this.instance.store != this.store) this.instance.setStore(this.store);
+         if (this.instance.parentStore != this.store) this.instance.setParentStore(this.store);
          return this.instance;
       }
 

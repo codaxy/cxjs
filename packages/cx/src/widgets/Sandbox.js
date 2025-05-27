@@ -16,15 +16,17 @@ export class Sandbox extends PureContainer {
 
    initInstance(context, instance) {
       instance.store = new ExposedValueView({
-         store: instance.store,
+         store: instance.parentStore,
          containerBinding: this.storageBinding,
          key: null,
          recordName: this.recordName,
          immutable: this.immutable,
       });
-      instance.setStore = (store) => {
-         instance.store.setStore(store);
-      };
+      super.initInstance(context, instance);
+   }
+
+   applyParentStore(instance) {
+      instance.store.setStore(instance.parentStore);
    }
 
    declareData() {
@@ -33,13 +35,15 @@ export class Sandbox extends PureContainer {
             storage: undefined,
             key: undefined,
          },
-         ...arguments
+         ...arguments,
       );
    }
 
    prepareData(context, instance) {
       var { store, data } = instance;
       if (store.getKey() !== data.key) {
+         //when navigating to a page using the same widget tree as the previous page
+         //everything needs to be reinstantiated, e.g. user/1 => user/2
          instance.store = new ExposedValueView({
             store: store,
             containerBinding: this.storageBinding,
@@ -47,9 +51,6 @@ export class Sandbox extends PureContainer {
             recordName: this.recordName,
             immutable: this.immutable,
          });
-
-         //when navigating to a page using the same widget tree as the previous page
-         //everything needs to be reinstantiated, e.g. user/1 => user/2
          instance.clearChildrenCache();
       }
       super.prepareData(context, instance);

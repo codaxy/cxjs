@@ -16,33 +16,44 @@ import { isAccessorChain } from "../data/createAccessorModelProxy";
 let instanceId = 1000;
 
 export class Instance {
-   constructor(widget, key, parent, store) {
+   constructor(widget, key, parent, parentStore) {
       this.widget = widget;
       this.key = key;
       this.id = String(++instanceId);
       this.cached = {};
       this.parent = parent;
-      this.store = store;
+      this.parentStore = parentStore ?? parent?.store;
+
+      if (this.parentStore == null) throw new Error("Cannot create instance without a parent store.");
    }
 
-   setStore(store) {
-      this.store = store;
+   setParentStore(parentStore) {
+      this.parentStore = parentStore;
+      this.widget.applyParentStore(this);
    }
 
    init(context) {
-      //widget is initialized when first instance is initialized
+      // widget is initialized when the first instance is initialized
       if (!this.widget.initialized) {
          this.widget.init(context);
+
+         // init default values
+         this.widget.selector.init(this.parentStore);
+
          this.widget.initialized = true;
       }
 
       if (!this.dataSelector) {
-         this.widget.selector.init(this.store);
          this.dataSelector = this.widget.selector.createStoreSelector();
       }
 
-      //init instance might change the store, so it must go before the controller
+      // init instance might change the store, so this must go before the controller initialization
       this.widget.initInstance(context, this);
+
+      // initInstance can set the store, otherwise use parent store
+      if (!this.store) this.store = this.parentStore;
+      if (this.widget.onInit) this.widget.onInit(context, this);
+
       this.widget.initState(context, this);
 
       if (this.widget.controller)
@@ -474,17 +485,17 @@ export class Instance {
    }
 
    getChild(context, widget, key, store) {
-      return this.getInstanceCache().getChild(widget, store || this.store, key);
+      return this.getInstanceCache().getChild(widget, store ?? this.store, key);
    }
 
    getDetachedChild(widget, key, store) {
-      let child = new Instance(widget, key, this, store || this.store);
+      let child = new Instance(widget, key, this, store ?? this.store);
       child.detached = true;
       return child;
    }
 
    prepareRenderCleanupChild(widget, store, keyPrefix, options) {
-      return widget.prepareRenderCleanup(store || this.store, options, keyPrefix, this);
+      return widget.prepareRenderCleanup(store ?? this.store, options, keyPrefix, this);
    }
 
    getJsxEventProps() {
@@ -550,7 +561,7 @@ export class InstanceCache {
       this.keyPrefix = keyPrefix != null ? keyPrefix + "-" : "";
    }
 
-   getChild(widget, store, key) {
+   getChild(widget, parentStore, key) {
       let k = this.keyPrefix + (key != null ? key : widget.vdomKey || widget.widgetId);
       let instance = this.children[k];
 
@@ -559,12 +570,10 @@ export class InstanceCache {
          instance.widget !== widget ||
          (!instance.visible && (instance.widget.controller || instance.widget.onInit))
       ) {
-         instance = new Instance(widget, k, this.parent);
+         instance = new Instance(widget, k, this.parent, parentStore);
          this.children[k] = instance;
-      }
-      if (instance.store !== store) {
-         instance.setStore(store);
-         if (instance.cached) delete instance.cached.rawData; // force prepareData to execute again
+      } else if (instance.parentStore !== parentStore) {
+         instance.setParentStore(parentStore);
       }
 
       return instance;

@@ -5,7 +5,7 @@ import { isArray } from "../../util/isArray";
 import { ArrayElementView } from "../../data/ArrayElementView";
 import { getAccessor } from "../../data/getAccessor";
 import { Culture } from "../Culture";
-import { isDefined } from "../../util";
+import { isDefined, isObject } from "../../util";
 
 export class ArrayAdapter extends DataAdapter {
    init() {
@@ -17,7 +17,11 @@ export class ArrayAdapter extends DataAdapter {
    }
 
    initInstance(context, instance) {
-      if (!instance.recordStoreCache) instance.recordStoreCache = new WeakMap();
+      if (!instance.recordStoreCache) {
+         instance.recordStoreCache = new WeakMap();
+         instance.cacheByKey = {};
+      }
+
       if (!instance.recordsAccessor && this.recordsAccessor) {
          instance.recordsAccessor = this.recordsAccessor.bindInstance
             ? this.recordsAccessor.bindInstance(instance)
@@ -51,7 +55,8 @@ export class ArrayAdapter extends DataAdapter {
    }
 
    mapRecord(context, instance, data, parentStore, recordsAccessor, index) {
-      let recordStore = instance.recordStoreCache.get(data);
+      let key = this.cacheByKeyField && this.keyField ? data[this.keyField] : null;
+      let recordStore = key != null ? instance.cacheByKey[key] : instance.recordStoreCache.get(data);
 
       if (recordsAccessor) {
          if (!recordStore)
@@ -81,10 +86,13 @@ export class ArrayAdapter extends DataAdapter {
             });
          else {
             recordStore.setStore(parentStore);
+            recordStore.setData(data);
          }
       }
 
-      if (typeof data == "object") instance.recordStoreCache.set(data, recordStore);
+      // cache by the key or by data reference
+      if (key != null) instance.cacheByKey[key] = recordStore;
+      else if (isObject(data)) instance.recordStoreCache.set(data, recordStore);
 
       return {
          store: recordStore,
@@ -124,7 +132,7 @@ export class ArrayAdapter extends DataAdapter {
                   s.comparer = this.getComparer(isDefined(s.sortOptions) ? s.sortOptions : this.sortOptions);
                return s;
             }),
-            dataAccessor
+            dataAccessor,
          );
       } else {
          this.sorter = null;
@@ -138,5 +146,7 @@ export class ArrayAdapter extends DataAdapter {
 
 ArrayAdapter.prototype.immutable = false;
 ArrayAdapter.prototype.sealed = false;
+ArrayAdapter.prototype.keyField = null;
+ArrayAdapter.prototype.cacheByKeyField = true;
 
 ArrayAdapter.autoInit = true;

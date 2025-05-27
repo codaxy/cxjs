@@ -10,7 +10,7 @@ export class TreeAdapter extends ArrayAdapter {
       if (this.restoreExpandedNodesOnLoad) {
          if (!this.keyField)
             throw new Error(
-               "Stateful tree adapter requires keyField property to be specified on either Grid or data adapter."
+               "Stateful tree adapter requires keyField property to be specified on either Grid or data adapter.",
             );
 
          this.expandedState = {
@@ -60,7 +60,7 @@ export class TreeAdapter extends ArrayAdapter {
                   instance,
                   data[this.childrenField],
                   store,
-                  this.childrenAccessor
+                  this.childrenAccessor,
                );
                this.processList(context, instance, level + 1, record.key + ":", childNodes, result);
             } else if (this.load && !data[this.loadedField] && !data[this.loadingField]) {
@@ -98,3 +98,4 @@ TreeAdapter.prototype.loadedField = "$loaded";
 TreeAdapter.prototype.foldersFirst = true;
 TreeAdapter.prototype.isTreeAdapter = true;
 TreeAdapter.prototype.hideRootNodes = false;
+TreeAdapter.prototype.cacheByKeyField = false;

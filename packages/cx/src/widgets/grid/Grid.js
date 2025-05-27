@@ -112,6 +112,13 @@ export class Grid extends Container {
          };
    }
 
+   applyParentStore(instance) {
+      super.applyParentStore(instance);
+
+      // force prepareData to execute again and propagate the store change to the records
+      if (instance.cached) delete instance.cached.rawData;
+   }
+
    createRowTemplate(context, columnParams, instance, groupingData) {
       var row = this.row || {};
       let columns = this.columns;
