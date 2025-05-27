@@ -9,20 +9,6 @@ export class DataProxy extends PureContainer {
 
       if (this.alias) this.data[this.alias] = this.value;
 
-      // nesting is required to avoid resetting the store on every render and recalculating the data
-      this.container = PureContainer.create({
-         type: PureContainer,
-         items: this.children || this.items,
-         layout: this.layout,
-         controller: this.controller,
-         outerLayout: this.outerLayout,
-         ws: this.ws,
-      });
-      this.children = [this.container];
-      delete this.items;
-      delete this.controller;
-      delete this.outerLayout;
-      this.layout = UseParentLayout;
       super.init();
    }
 
