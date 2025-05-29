@@ -24,7 +24,7 @@ export class Checkbox extends Field {
             required: undefined,
             viewText: undefined,
          },
-         ...arguments
+         ...arguments,
       );
    }
 
@@ -34,7 +34,10 @@ export class Checkbox extends Field {
          <label
             key={key}
             className={data.classNames}
-            onMouseDown={stopPropagation}
+            onMouseDown={(e) => {
+               e.stopPropagation();
+               if (this.unfocusable) e.preventDefault();
+            }}
             onMouseMove={(e) => tooltipMouseMove(e, ...getFieldTooltip(instance))}
             onMouseLeave={(e) => tooltipMouseLeave(e, ...getFieldTooltip(instance))}
             onClick={(e) => {
