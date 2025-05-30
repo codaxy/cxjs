@@ -103,7 +103,7 @@ export class LineGraph extends Widget {
          if (context.pointReducer && isArray(data.data)) {
             data.data.forEach((p, index) => {
                if (data.area && this.y0Field)
-                  context.pointReducer(p[this.xField], p[this.y0Field], data.name, p, data, index);
+                  context.pointReducer(p[this.xField], p[this.y0Field], data.name, p, data.data, index);
                context.pointReducer(p[this.xField], p[this.yField], data.name, p, data.data, index);
             });
          }
