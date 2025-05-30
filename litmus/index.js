@@ -102,7 +102,7 @@ import "./index.scss";
 
 //import Demo from "./features/charts/pie/labels";
 //import Demo from "./bugs/BlurBug";
-import Demo from "./features/immer";
+// import Demo from "./features/immer";
 // import Demo from "./bugs/971";
 // import Demo from "./bugs/LookupFieldListItemFocus";
 //import Demo from "./bugs/SliderValue";
@@ -132,6 +132,8 @@ import Demo from "./features/immer";
 //import Demo from "./features/date/invariantParseDate";
 // import Demo from "./features/month-field/encoding";
 //import Demo from "./features/typescript/AccessorChainMethods";
+// import Demo from "./features/grid/CellEditing";
+import Demo from "./features/charts/PointReducer";
 
 let store = (window.store = new Store());
 
