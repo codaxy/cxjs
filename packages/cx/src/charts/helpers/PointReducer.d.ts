@@ -19,8 +19,6 @@ export interface PointReducerProps extends Cx.PureContainerProps {
       filterParams: any,
       instance: Instance,
    ) => (x: number, y: number, name: string, data: any, array?: any[], index?: number) => boolean;
-
-   filterParams?: Cx.StructuredProp;
 }
 
 export class PointReducer extends Cx.Widget<PointReducerProps> {}
