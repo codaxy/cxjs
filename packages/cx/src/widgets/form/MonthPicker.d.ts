@@ -1,4 +1,5 @@
 import * as Cx from "../../core";
+import { Instance } from "../../ui";
 import { FieldProps } from "./Field";
 
 interface MonthPickerProps extends FieldProps {
@@ -71,6 +72,12 @@ interface MonthPickerProps extends FieldProps {
    /** A boolean flag that determines whether the `to` date is included in the range.
     * When set to true the value stored in the to field would be the last day of the month, i.e. `2024-12-31`. */
    inclusiveTo?: boolean;
+
+   /** Callback function that is called before writing data to the store. Return false to short-circuit updating the state. */
+   onBeforeSelect: (e: Event, instance: Instance, dateFrom?: Date, dateTo?: Date) => boolean;
+
+   /** Callback function that is called after value or date range has changed */
+   onSelect: (instance: Instance, dateFrom?: Date, dateTo?: Date) => void;
 }
 
 export class MonthPicker extends Cx.Widget<MonthPickerProps> {}
