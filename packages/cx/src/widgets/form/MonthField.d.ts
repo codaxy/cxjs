@@ -94,6 +94,11 @@ interface MonthFieldProps extends FieldProps {
    /** A boolean flag that determines whether the `to` date is included in the range.
     * When set to true the value stored in the to field would be the last day of the month, i.e. `2024-12-31`. */
    inclusiveTo?: boolean;
+
+   /** Optional configuration options for the MonthPicker component rendered within the dropdown.
+    * You can pass any valid additional MonthPicker props here, such as `startYear`, `endYear`, etc.
+    * Refer to the MonthPicker component documentation for a full list of supported options. */
+   monthPickerOptions?: Cx.Config;
 }
 
 export class MonthField extends Cx.Widget<MonthFieldProps> {}

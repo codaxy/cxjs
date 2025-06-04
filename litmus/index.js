@@ -131,9 +131,11 @@ import "./index.scss";
 //import Demo from "./dev/createHotPromiseWindowFactory";
 //import Demo from "./features/date/invariantParseDate";
 // import Demo from "./features/month-field/encoding";
+// import Demo from "./features/month-field/startEndYear";
+import Demo from "./features/month-field/withMonthPickerOptions";
 //import Demo from "./features/typescript/AccessorChainMethods";
 // import Demo from "./features/grid/CellEditing";
-import Demo from "./features/charts/PointReducer";
+// import Demo from "./features/charts/PointReducer";
 
 let store = (window.store = new Store());
 
