@@ -193,7 +193,7 @@ export class MonthPickerComponent extends VDOM.Component {
          cursorQuarter: cursor.getMonth() / 3,
          column: "M",
          start: widget.startYear,
-         end: widget.startYear + widget.bufferSize,
+         end: Math.min(widget.startYear + widget.bufferSize, widget.endYear),
       };
 
       this.handleMouseDown = this.handleMouseDown.bind(this);

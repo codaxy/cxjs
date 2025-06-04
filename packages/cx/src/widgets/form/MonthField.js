@@ -149,6 +149,7 @@ export class MonthField extends Field {
             data={instance.data}
             instance={instance}
             monthPicker={{
+               ...this.monthPickerOptions,
                value: this.value,
                from: this.from,
                to: this.to,
