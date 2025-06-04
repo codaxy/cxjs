@@ -78,6 +78,12 @@ interface MonthPickerProps extends FieldProps {
 
    /** Callback function that is called after value or date range has changed */
    onSelect: (instance: Instance, dateFrom?: Date, dateTo?: Date) => void;
+
+   /**
+    * Optional parameter to hide the quarters period section on the picker.
+    * When true, the quarters section will not render.
+    */
+   hideQuarters?: boolean;
 }
 
 export class MonthPicker extends Cx.Widget<MonthPickerProps> {}
