@@ -166,8 +166,12 @@ export class LineGraph extends Widget {
          let linePath = "";
          lineSpans.forEach((span) => {
             span.forEach((p, i) => {
-               linePath += i == 0 ? " M " : " L ";
-               linePath += p.x + " " + p.y;
+               linePath +=
+                  i == 0
+                     ? " M " + p.x + " " + p.y
+                     : !this.smooth
+                       ? " L " + p.x + " " + p.y
+                       : this.getCurvePathSegment(p, i, span);
             });
          });
 
@@ -187,7 +191,7 @@ export class LineGraph extends Widget {
             span.forEach((p, i) => {
                areaPath += i == 0 ? " M " : " L ";
                areaPath += p.x + " " + p.y;
-               if (data.area) closePath = `L ${p.x} ${p.y0} ` + closePath;
+               closePath = `L ${p.x} ${p.y0} ` + closePath;
             });
             areaPath += closePath;
             areaPath += `L ${span[0].x} ${span[0].y}`;
@@ -207,6 +211,44 @@ export class LineGraph extends Widget {
             {area}
          </g>
       );
+   }
+
+   getControlPoint(currentPoint, previousPoint, nextPoint, reverse) {
+      // When 'current' is the first or last point of the array
+      // 'previous' or 'next' don't exist.
+      // Replace with 'current'
+      const p = previousPoint || currentPoint;
+      const n = nextPoint || currentPoint;
+      // The smoothing ratio
+      const smoothing = 0.1;
+
+      // Properties of the opposed-line
+      let { angle, length } = this.getLineInfo(p, n);
+      // If is end-control-point, add PI to the angle to go backward
+      angle = angle + (reverse ? Math.PI : 0);
+      length = length * smoothing;
+      // The control point position is relative to the current point
+      const x = currentPoint.x + Math.cos(angle) * length;
+      const y = currentPoint.y + Math.sin(angle) * length;
+      return [x, y];
+   }
+
+   getCurvePathSegment(point, i, points) {
+      // start control point
+      const [cpsX, cpsY] = this.getControlPoint(points[i - 1], points[i - 2], point);
+      // end control point
+      const [cpeX, cpeY] = this.getControlPoint(point, points[i - 1], points[i + 1], true);
+      return ` C ${cpsX} ${cpsY}, ${cpeX} ${cpeY}, ${point.x} ${point.y}`;
+   }
+
+   getLineInfo(p1, p2) {
+      const lengthX = p2.x - p1.x;
+      const lengthY = p2.y - p1.y;
+
+      return {
+         length: Math.sqrt(Math.pow(lengthX, 2) + Math.pow(lengthY, 2)),
+         angle: Math.atan2(lengthY, lengthX),
+      };
    }
 }
 
