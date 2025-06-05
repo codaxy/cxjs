@@ -154,6 +154,7 @@ MonthPicker.prototype.range = false;
 MonthPicker.prototype.startYear = 1980;
 MonthPicker.prototype.endYear = 2030;
 MonthPicker.prototype.bufferSize = 15;
+MonthPicker.prototype.hideQuarters = false;
 
 // Localization
 MonthPicker.prototype.maxValueErrorText = "Select {0:d} or before.";
@@ -427,8 +428,9 @@ export class MonthPickerComponent extends VDOM.Component {
    }
 
    render() {
-      let { data, widget } = this.props.instance;
-      let { CSS, baseClass, startYear, endYear } = widget;
+      let { instance } = this.props;
+      let { data, widget } = instance;
+      let { CSS, baseClass, startYear, endYear, hideQuarters } = widget;
 
       let years = [];
 
@@ -512,24 +514,26 @@ export class MonthPickerComponent extends VDOM.Component {
                   </td>,
                );
             }
-            row.push(
-               <th
-                  key={`q${q}`}
-                  className={CSS.state({
-                     cursor:
-                        showCursor &&
-                        this.state.column == "Q" &&
-                        y == this.state.cursorYear &&
-                        q == this.state.cursorQuarter,
-                  })}
-                  data-point={`Y-${y}-Q-${q}`}
-                  onMouseEnter={this.handleMouseEnter}
-                  onMouseDown={this.handleMouseDown}
-                  onMouseUp={this.handleMouseUp}
-               >
-                  {`Q${q + 1}`}
-               </th>,
-            );
+
+            if (!hideQuarters)
+               row.push(
+                  <th
+                     key={`q${q}`}
+                     className={CSS.state({
+                        cursor:
+                           showCursor &&
+                           this.state.column == "Q" &&
+                           y == this.state.cursorYear &&
+                           q == this.state.cursorQuarter,
+                     })}
+                     data-point={`Y-${y}-Q-${q}`}
+                     onMouseEnter={this.handleMouseEnter}
+                     onMouseDown={this.handleMouseDown}
+                     onMouseUp={this.handleMouseUp}
+                  >
+                     {`Q${q + 1}`}
+                  </th>,
+               );
             rows.push(row);
          }
          years.push(rows);
