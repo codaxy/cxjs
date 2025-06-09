@@ -27,6 +27,8 @@ export class LineGraph extends Widget {
          active: true,
          stack: undefined,
          stacked: undefined,
+         smooth: undefined,
+         smoothingRatio: undefined,
       });
    }
 
@@ -34,6 +36,11 @@ export class LineGraph extends Widget {
       let { data } = instance;
 
       if (data.name && !data.colorName) data.colorName = data.name;
+
+      if (data.smooth && data.smoothingRatio != null) {
+         if (data.smoothingRatio < 0) data.smoothingRatio = 0;
+         if (data.smoothingRatio > 0.4) data.smoothingRatio = 0.4;
+      }
 
       super.prepareData(context, instance);
    }
@@ -168,10 +175,10 @@ export class LineGraph extends Widget {
             span.forEach((p, i) => {
                linePath +=
                   i == 0
-                     ? " M " + p.x + " " + p.y
-                     : !this.smooth
-                       ? " L " + p.x + " " + p.y
-                       : this.getCurvePathSegment(p, i, span);
+                     ? "M " + p.x + " " + p.y
+                     : !data.smooth
+                       ? "L " + p.x + " " + p.y
+                       : this.getCurvePathSegment(p, i, span, data.smoothingRatio);
             });
          });
 
@@ -189,7 +196,7 @@ export class LineGraph extends Widget {
          lineSpans.forEach((span) => {
             let closePath = "";
             span.forEach((p, i) => {
-               areaPath += i == 0 ? " M " : " L ";
+               areaPath += i == 0 ? "M " : "L ";
                areaPath += p.x + " " + p.y;
                closePath = `L ${p.x} ${p.y0} ` + closePath;
             });
@@ -213,31 +220,30 @@ export class LineGraph extends Widget {
       );
    }
 
-   getControlPoint(currentPoint, previousPoint, nextPoint, reverse) {
+   getControlPoint(currentPoint, previousPoint, nextPoint, smoothingRatio, reverse) {
       // When 'current' is the first or last point of the array
       // 'previous' or 'next' don't exist.
       // Replace with 'current'
+
       const p = previousPoint || currentPoint;
       const n = nextPoint || currentPoint;
-      // The smoothing ratio
-      const smoothing = 0.1;
 
       // Properties of the opposed-line
       let { angle, length } = this.getLineInfo(p, n);
       // If is end-control-point, add PI to the angle to go backward
       angle = angle + (reverse ? Math.PI : 0);
-      length = length * smoothing;
+      length = length * smoothingRatio;
       // The control point position is relative to the current point
       const x = currentPoint.x + Math.cos(angle) * length;
       const y = currentPoint.y + Math.sin(angle) * length;
       return [x, y];
    }
 
-   getCurvePathSegment(point, i, points) {
+   getCurvePathSegment(point, i, points, smoothingRatio) {
       // start control point
-      const [cpsX, cpsY] = this.getControlPoint(points[i - 1], points[i - 2], point);
+      const [cpsX, cpsY] = this.getControlPoint(points[i - 1], points[i - 2], point, smoothingRatio);
       // end control point
-      const [cpeX, cpeY] = this.getControlPoint(point, points[i - 1], points[i + 1], true);
+      const [cpeX, cpeY] = this.getControlPoint(point, points[i - 1], points[i + 1], smoothingRatio, true);
       return ` C ${cpsX} ${cpsY}, ${cpeX} ${cpeY}, ${point.x} ${point.y}`;
    }
 
@@ -268,5 +274,8 @@ LineGraph.prototype.legendAction = "auto";
 LineGraph.prototype.legendShape = "rect";
 LineGraph.prototype.stack = "stack";
 LineGraph.prototype.hiddenBase = false;
+
+LineGraph.prototype.smooth = false;
+LineGraph.prototype.smoothingRatio = 0.05;
 
 Widget.alias("line-graph", LineGraph);
