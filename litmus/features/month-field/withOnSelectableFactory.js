@@ -29,7 +29,7 @@ export default () => (
                   minValue={new Date(2020, 1, 1)}
                   monthPickerOptions={{
                      startYear: 2015,
-                     onCreateIsMonthDateSelectable: ({ store }) => {
+                     onCreateIsMonthDateSelectable: (params, { store }) => {
                         return (monthDate) => {
                            return isValidDate(monthDate);
                         };

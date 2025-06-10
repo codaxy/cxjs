@@ -93,7 +93,11 @@ export class MonthPicker extends Field {
       if (data.minValue) data.minValue = monthStart(parseDateInvariant(data.minValue));
 
       if (this.onCreateIsMonthDateSelectable) {
-         instance.isMonthDateSelectable = instance.invoke("onCreateIsMonthDateSelectable", instance);
+         instance.isMonthDateSelectable = instance.invoke(
+            "onCreateIsMonthDateSelectable",
+            data.validationParams,
+            instance,
+         );
       }
 
       super.prepareData(...arguments);

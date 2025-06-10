@@ -91,7 +91,7 @@ interface MonthPickerProps extends FieldProps {
     *
     * Note: Use the `onValidate` callback for validation purposes.
     */
-   onCreateIsMonthDateSelectable?: (instance: Instance) => (monthDate: Date) => boolean;
+   onCreateIsMonthDateSelectable?: (validationParams: Cx.Config, instance: Instance) => (monthDate: Date) => boolean;
 }
 
 export class MonthPicker extends Cx.Widget<MonthPickerProps> {}
