@@ -57,6 +57,10 @@
          color: lightgray;
       }
 
+      th.#{$state}unselectable {
+         @include cx-add-state-rules($cx-list-item, disabled);
+      }
+
       .#{$element}#{$name}-year {
          font-size: 120%;
          color: gray;

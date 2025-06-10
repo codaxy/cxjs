@@ -68,7 +68,8 @@ export class MonthPicker extends Field {
       super.init();
    }
 
-   prepareData(context, { data }) {
+   prepareData(context, instance) {
+      let { data } = instance;
       data.stateMods = {
          disabled: data.disabled,
       };
@@ -90,6 +91,10 @@ export class MonthPicker extends Field {
       if (data.maxValue) data.maxValue = monthStart(parseDateInvariant(data.maxValue));
 
       if (data.minValue) data.minValue = monthStart(parseDateInvariant(data.minValue));
+
+      if (this.onCreateIsMonthDateSelectable) {
+         instance.isMonthDateSelectable = instance.invoke("onCreateIsMonthDateSelectable", instance);
+      }
 
       super.prepareData(...arguments);
    }
@@ -129,12 +134,13 @@ export class MonthPicker extends Field {
    }
 
    handleSelect(e, instance, date1, date2) {
-      let { data, widget } = instance;
+      let { data, widget, isMonthDateSelectable } = instance;
       let encode = widget.encoding || Culture.getDefaultDateEncoding();
 
       if (data.disabled) return;
 
-      if (!validationCheck(date1, data)) return;
+      if (isMonthDateSelectable && !isMonthDateSelectable(date1)) return;
+      if (!dateSelectableCheck(date1, data)) return;
 
       if (this.onBeforeSelect && instance.invoke("onBeforeSelect", e, instance, date1, date2) === false) return;
 
@@ -167,7 +173,7 @@ Localization.registerPrototype("cx/widgets/MonthPicker", MonthPicker);
 
 Widget.alias("month-picker", MonthPicker);
 
-const validationCheck = (date, data) => {
+const dateSelectableCheck = (date, data) => {
    if (data.maxValue && !upperBoundCheck(date, data.maxValue, data.maxExclusive)) return false;
 
    if (data.minValue && !lowerBoundCheck(date, data.minValue, data.minExclusive)) return false;
@@ -429,7 +435,7 @@ export class MonthPickerComponent extends VDOM.Component {
 
    render() {
       let { instance } = this.props;
-      let { data, widget } = instance;
+      let { data, widget, isMonthDateSelectable } = instance;
       let { CSS, baseClass, startYear, endYear, hideQuarters } = widget;
 
       let years = [];
@@ -464,29 +470,48 @@ export class MonthPickerComponent extends VDOM.Component {
       let showCursor = this.state.hover || this.state.focused;
 
       for (let y = start; y <= end; y++) {
+         let selectableMonths = 0b111111111111;
+         // Loop through the months in a year to check if all months are unselectable
+         for (let i = 0; i < 12; i++) {
+            if (
+               (isMonthDateSelectable && !isMonthDateSelectable(new Date(y, i, 1))) ||
+               !dateSelectableCheck(new Date(y, i, 1), data)
+            ) {
+               // Set month as unselectable at specified bit
+               selectableMonths &= ~(1 << i);
+            }
+         }
+
+         // All bits are 0 - all months are unselectable
+         const unselectableYear = selectableMonths === 0;
+
          let rows = [];
          for (let q = 0; q < 4; q++) {
             let row = [];
-            if (q == 0)
+            if (q == 0) {
                row.push(
                   <th
                      key="year"
                      rowSpan={4}
                      data-point={`Y-${y}`}
-                     className={CSS.element(baseClass, "year", {
-                        cursor: showCursor && this.state.column == "Y" && y == this.state.cursorYear,
-                     })}
-                     onMouseEnter={this.handleMouseEnter}
-                     onMouseDown={this.handleMouseDown}
-                     onMouseUp={this.handleMouseUp}
+                     className={CSS.expand(
+                        CSS.element(baseClass, "year", {
+                           cursor: showCursor && this.state.column == "Y" && y == this.state.cursorYear,
+                        }),
+                        CSS.state({ unselectable: unselectableYear }),
+                     )}
+                     onMouseEnter={unselectableYear ? null : this.handleMouseEnter}
+                     onMouseDown={unselectableYear ? null : this.handleMouseDown}
+                     onMouseUp={unselectableYear ? null : this.handleMouseUp}
                   >
                      {y}
                   </th>,
                );
+            }
 
             for (let i = 0; i < 3; i++) {
                let m = q * 3 + i + 1;
-               let unselectable = !validationCheck(new Date(y, m - 1, 1), data);
+               const unselectableMonth = (selectableMonths & (1 << (m - 1))) === 0;
                let mno = y * 12 + m - 1;
                let handle = true; //isTouchDevice(); //mno === from || mno === to - 1;
                row.push(
@@ -500,14 +525,14 @@ export class MonthPickerComponent extends VDOM.Component {
                            m == this.state.cursorMonth,
                         handle,
                         selected: mno >= from && mno < to,
-                        unselectable,
+                        unselectable: unselectableMonth,
                      })}
                      data-point={`Y-${y}-M-${m}`}
-                     onMouseEnter={unselectable ? null : this.handleMouseEnter}
-                     onMouseDown={unselectable ? null : this.handleMouseDown}
-                     onMouseUp={unselectable ? null : this.handleMouseUp}
-                     onTouchStart={unselectable ? null : this.handleMouseDown}
-                     onTouchMove={unselectable ? null : this.handleTouchMove}
+                     onMouseEnter={unselectableMonth ? null : this.handleMouseEnter}
+                     onMouseDown={unselectableMonth ? null : this.handleMouseDown}
+                     onMouseUp={unselectableMonth ? null : this.handleMouseUp}
+                     onTouchStart={unselectableMonth ? null : this.handleMouseDown}
+                     onTouchMove={unselectableMonth ? null : this.handleTouchMove}
                      onTouchEnd={this.handleMouseUp}
                   >
                      {monthNames[m - 1].substr(0, 3)}
@@ -515,7 +540,17 @@ export class MonthPickerComponent extends VDOM.Component {
                );
             }
 
-            if (!hideQuarters)
+            if (!hideQuarters) {
+               let unselectableQuarter = true;
+               const start = q * 3;
+               for (let i = start; i < start + 3; i++) {
+                  if ((selectableMonths & (1 << i)) !== 0) {
+                     // found a selectable month in a quarter
+                     unselectableQuarter = false;
+                     break;
+                  }
+               }
+
                row.push(
                   <th
                      key={`q${q}`}
@@ -525,15 +560,18 @@ export class MonthPickerComponent extends VDOM.Component {
                            this.state.column == "Q" &&
                            y == this.state.cursorYear &&
                            q == this.state.cursorQuarter,
+                        unselectable: unselectableQuarter,
                      })}
                      data-point={`Y-${y}-Q-${q}`}
-                     onMouseEnter={this.handleMouseEnter}
-                     onMouseDown={this.handleMouseDown}
-                     onMouseUp={this.handleMouseUp}
+                     onMouseEnter={unselectableQuarter ? null : this.handleMouseEnter}
+                     onMouseDown={unselectableQuarter ? null : this.handleMouseDown}
+                     onMouseUp={unselectableQuarter ? null : this.handleMouseUp}
                   >
                      {`Q${q + 1}`}
                   </th>,
                );
+            }
+
             rows.push(row);
          }
          years.push(rows);
