@@ -139,6 +139,9 @@ export class MonthField extends Field {
             else if (d == 0 && data.minExclusive)
                data.error = StringTemplate.format(this.minExclusiveErrorText, data.minValue);
          }
+
+         if (!this.handleValidateDate(instance, data.date))
+            data.error = StringTemplate.format(this.invalidDateErrorText, data.date);
       }
    }
 
@@ -162,6 +165,7 @@ export class MonthField extends Field {
                maxExclusiveErrorText: this.maxExclusiveErrorText,
                minValueErrorText: this.minValueErrorText,
                minExclusiveErrorText: this.minExclusiveErrorText,
+               onValidateDate: this.onValidateDate,
             }}
             label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
             help={this.helpPlacement && getContent(this.renderHelp(context, instance, "help"))}
@@ -202,6 +206,11 @@ export class MonthField extends Field {
          instance.set("value", value);
       }
    }
+
+   handleValidateDate(instance, date) {
+      if (this.onValidateDate) return instance.invoke("onValidateDate", instance, date);
+      return true;
+   }
 }
 
 MonthField.prototype.baseClass = "monthfield";
@@ -210,6 +219,7 @@ MonthField.prototype.maxExclusiveErrorText = "Select a date before {0:d}.";
 MonthField.prototype.minValueErrorText = "Select {0:d} or later.";
 MonthField.prototype.minExclusiveErrorText = "Select a date after {0:d}.";
 MonthField.prototype.inputErrorText = "Invalid date entered";
+MonthField.prototype.invalidDateErrorText = "Invalid date entered {0:d}.";
 MonthField.prototype.suppressErrorsUntilVisited = true;
 MonthField.prototype.icon = "calendar";
 MonthField.prototype.showClear = true;

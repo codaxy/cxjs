@@ -1,4 +1,5 @@
 import * as Cx from "../../core";
+import { Instance } from "../../ui";
 import { FieldProps } from "./Field";
 
 interface MonthFieldProps extends FieldProps {
@@ -68,6 +69,9 @@ interface MonthFieldProps extends FieldProps {
    /** Invalid input error text. */
    inputErrorText?: string;
 
+   /** Error text shown when a date is marked as invalid by the `onValidateDate` callback. */
+   invalidDateErrorText?: string;
+
    /** Name or configuration of the icon to be put on the left side of the input.  */
    icon?: Cx.StringProp | Cx.Record;
 
@@ -99,6 +103,12 @@ interface MonthFieldProps extends FieldProps {
     * You can pass any valid additional MonthPicker props here, such as `startYear`, `endYear`, etc.
     * Refer to the MonthPicker component documentation for a full list of supported options. */
    monthPickerOptions?: Cx.Config;
+
+   /**
+    * Callback function that is called for each date being evaluated, allowing dynamic validation logic.
+    * Return `false` to mark the date as invalid, otherwise, return `true`.
+    */
+   onValidateDate?: (instance: Instance, date: Date) => boolean;
 }
 
 export class MonthField extends Cx.Widget<MonthFieldProps> {}

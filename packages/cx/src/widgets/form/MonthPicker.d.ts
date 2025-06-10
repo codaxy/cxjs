@@ -63,6 +63,9 @@ interface MonthPickerProps extends FieldProps {
    /** Minimum exclusive value error text. */
    minExclusiveErrorText?: string;
 
+   /** Error text shown when a date is marked as invalid by the `onValidateDate` callback. */
+   invalidDateErrorText?: string;
+
    /** The function that will be used to convert Date objects before writing data to the store.
     * Default implementation is Date.toISOString.
     * See also Culture.setDefaultDateEncoding.
@@ -79,11 +82,13 @@ interface MonthPickerProps extends FieldProps {
    /** Callback function that is called after value or date range has changed */
    onSelect: (instance: Instance, dateFrom?: Date, dateTo?: Date) => void;
 
-   /**
-    * Optional parameter to hide the quarters period section on the picker.
-    * When true, the quarters section will not render.
-    */
+   /** Optional parameter to hide the quarters period section on the picker.
+    * When true, the quarters section will not render. */
    hideQuarters?: boolean;
+
+   /** Callback function that is called for each date being evaluated, allowing dynamic validation logic.
+    * Return `false` to mark the date as invalid, otherwise, return `true`. */
+   onValidateDate?: (instance: Instance, date: Date) => boolean;
 }
 
 export class MonthPicker extends Cx.Widget<MonthPickerProps> {}
