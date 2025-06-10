@@ -1,11 +1,11 @@
-import { Chart, Gridlines, Legend, LineGraph, Marker, MarkerLine, NumericAxis, PointReducer } from "cx/charts";
-import { Svg, Text } from "cx/svg";
+import { Chart, Gridlines, Legend, LineGraph, Marker, NumericAxis } from "cx/charts";
+import { Svg } from "cx/svg";
 import { Controller, LabelsLeftLayout, Repeater } from "cx/ui";
 import { PureContainer, Slider, Switch } from "cx/widgets";
 
 class PageController extends Controller {
    onInit() {
-      this.store.init("$page.pointsCount", 100);
+      this.store.init("$page.pointsCount", 30);
       this.store.init("$page.smoothingRatio", 0.05);
 
       let y1 = 250;
@@ -33,14 +33,13 @@ class PageController extends Controller {
 
             this.store.set("$page.points2", smoothed);
             this.store.set("$page.points3", smoothed2);
+
+            console.log("points:", data);
+            console.log("points2:", smoothed);
+            console.log("points3:", smoothed2);
          },
          true,
       );
-
-      //   const data = [150, 230, 224, 218, 135, 147, 260].map((v, i) => ({
-      //      x: i,
-      //      y: v,
-      //   }));
    }
 }
 
@@ -84,9 +83,10 @@ export default (
                <Gridlines />
                <LineGraph
                   name="Line 1"
+                  yField="y2"
                   data-bind="$page.points"
-                  colorIndex={0}
-                  area
+                  colorIndex={8}
+                  //area
                   active-bind="$page.line1"
                   smooth-bind="$page.smooth"
                   smoothingRatio-bind="$page.smoothingRatio"
@@ -94,7 +94,7 @@ export default (
                <LineGraph
                   name="Line 2"
                   data-bind="$page.points2"
-                  colorIndex={8}
+                  colorIndex={0}
                   smooth-bind="$page.smooth"
                   smoothingRatio-bind="$page.smoothingRatio"
                   active-bind="$page.line2"
@@ -107,12 +107,23 @@ export default (
                   smoothingRatio-bind="$page.smoothingRatio"
                   active-bind="$page.line3"
                />
+               <LineGraph
+                  data-bind="$page.points"
+                  colorIndex={8}
+                  yField="y2h"
+                  y0Field="y2l"
+                  active-bind="$page.line1"
+                  line={false}
+                  area
+                  smooth-bind="$page.smooth"
+                  smoothingRatio-bind="$page.smoothingRatio"
+               />
                <PureContainer visible-bind="$page.showMarkers">
                   <Repeater records-bind="$page.points">
-                     <Marker x-bind="$record.x" y-bind="$record.y" size={5} shape="circle" colorIndex={0} />
+                     <Marker x-bind="$record.x" y-bind="$record.y2" size={5} shape="circle" colorIndex={8} />
                   </Repeater>
                   <Repeater records-bind="$page.points2">
-                     <Marker x-bind="$record.x" y-bind="$record.y" size={5} shape="circle" colorIndex={8} />
+                     <Marker x-bind="$record.x" y-bind="$record.y" size={5} shape="circle" colorIndex={0} />
                   </Repeater>
                   <Repeater records-bind="$page.points3">
                      <Marker x-bind="$record.x" y-bind="$record.y" size={5} shape="circle" colorIndex={12} />
