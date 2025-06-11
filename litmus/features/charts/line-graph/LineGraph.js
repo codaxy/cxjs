@@ -34,7 +34,62 @@ class PageController extends Controller {
 
 export default (
    <cx>
-      <div class="widgets" style="padding-left: 30px" controller={PageController}>
+      <div class="widgets" style="padding-left: 30px; width: 45%" controller={PageController}>
+         <Legend />
+         <Svg style="width:800px; height:520px;">
+            <Chart
+               offset="20 -10 -40 40"
+               axes={{
+                  x: { type: NumericAxis, lineStyle: "stroke: transparent" },
+                  y: { type: NumericAxis, vertical: true },
+               }}
+            >
+               <Gridlines />
+               <LineGraph
+                  data-bind="$page.points"
+                  colorIndex={8}
+                  yField="y2h"
+                  y0Field="y2l"
+                  active-bind="$page.line1"
+                  area-bind="$page.showArea"
+                  line={false}
+                  smooth-bind="$page.smooth"
+                  smoothingRatio-bind="$page.smoothingRatio"
+                  name="Line 1"
+               />
+               <LineGraph
+                  data-bind="$page.points"
+                  colorIndex={8}
+                  yField="y2"
+                  active-bind="$page.line1"
+                  line
+                  visible-bind="$page.showLine"
+                  smooth-bind="$page.smooth"
+                  smoothingRatio-bind="$page.smoothingRatio"
+                  name="Line 1"
+               />
+
+               <LineGraph
+                  data-bind="$page.points"
+                  colorIndex={0}
+                  active-bind="$page.line2"
+                  area-bind="$page.showArea"
+                  line-bind="$page.showLine"
+                  smooth-bind="$page.smooth"
+                  smoothingRatio-bind="$page.smoothingRatio"
+                  name="Line 2"
+               />
+               <PureContainer visible-bind="$page.showMarkers">
+                  <Repeater records-bind="$page.points">
+                     <Marker x-bind="$record.x" y-bind="$record.y2" size={4} shape="circle" colorIndex={8} />
+                  </Repeater>
+                  <Repeater records-bind="$page.points">
+                     <Marker x-bind="$record.x" y-bind="$record.y" size={4} shape="circle" colorIndex={0} />
+                  </Repeater>
+               </PureContainer>
+            </Chart>
+         </Svg>
+
          <div
             style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 30px; width: 400px"
             layout={{ type: LabelsLeftLayout, columns: 2 }}
@@ -63,59 +118,6 @@ export default (
             />
             <Switch label="Show markers" value-bind="$page.showMarkers" />
          </div>
-
-         <Svg style="width:800px; height:520px;">
-            <Chart
-               offset="20 -10 -40 40"
-               axes={{
-                  x: { type: NumericAxis, lineStyle: "stroke: transparent" },
-                  y: { type: NumericAxis, vertical: true },
-               }}
-            >
-               <Gridlines />
-               <LineGraph
-                  data-bind="$page.points"
-                  colorIndex={8}
-                  yField="y2h"
-                  y0Field="y2l"
-                  active-bind="$page.line1"
-                  area
-                  line={false}
-                  visible-bind="$page.showArea"
-                  smooth-bind="$page.smooth"
-                  smoothingRatio-bind="$page.smoothingRatio"
-               />
-               <LineGraph
-                  data-bind="$page.points"
-                  colorIndex={8}
-                  yField="y2"
-                  active-bind="$page.line1"
-                  line
-                  visible-bind="$page.showLine"
-                  smooth-bind="$page.smooth"
-                  smoothingRatio-bind="$page.smoothingRatio"
-               />
-
-               <LineGraph
-                  data-bind="$page.points"
-                  colorIndex={0}
-                  active-bind="$page.line2"
-                  area-bind="$page.showArea"
-                  line-bind="$page.showLine"
-                  smooth-bind="$page.smooth"
-                  smoothingRatio-bind="$page.smoothingRatio"
-               />
-               <PureContainer visible-bind="$page.showMarkers">
-                  <Repeater records-bind="$page.points">
-                     <Marker x-bind="$record.x" y-bind="$record.y2" size={4} shape="circle" colorIndex={8} />
-                  </Repeater>
-                  <Repeater records-bind="$page.points">
-                     <Marker x-bind="$record.x" y-bind="$record.y" size={4} shape="circle" colorIndex={0} />
-                  </Repeater>
-               </PureContainer>
-            </Chart>
-         </Svg>
-         <Legend />
       </div>
    </cx>
 );
