@@ -4489,7 +4489,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "cx@workspace:packages/cx"
   dependencies:
-    intl-io: "npm:^0.4.3"
+    intl-io: "npm:^0.4.4"
     react-test-renderer: "npm:^18.3.1"
     route-parser: "npm:^0.0.5"
   peerDependencies:
@@ -6478,10 +6478,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"intl-io@npm:^0.4.3":
-  version: 0.4.3
-  resolution: "intl-io@npm:0.4.3"
-  checksum: 10/e14e42ce43379300daf241fb7a0fb781393a191f7724bc4df2214f343eea0f57581aee04220873a9acba068573c12010a30bfe953c5f2bc57e59af4d4e27a75b
+"intl-io@npm:^0.4.4":
+  version: 0.4.4
+  resolution: "intl-io@npm:0.4.4"
+  checksum: 10/6b1cc2d2078f8e9f751bebaa341951d2989333a7e57ef98e06005a18c7b437bb9f3db1a56e666e0bac5586bac27fcd78d505aaea40f0a06ec4861160b0fc6149
   languageName: node
   linkType: hard
 
