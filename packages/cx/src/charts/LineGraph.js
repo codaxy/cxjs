@@ -168,17 +168,19 @@ export class LineGraph extends Widget {
       };
 
       let line, area;
+      const r = data.smoothingRatio;
 
       let linePath = "";
       if (data.line) {
          lineSpans.forEach((span) => {
             span.forEach((p, i) => {
-               linePath +=
+               let segment =
                   i == 0
-                     ? "M " + p.x + " " + p.y
-                     : !data.smooth
-                       ? "L " + p.x + " " + p.y
-                       : this.getCurvePathSegment(p, i, span, data.smoothingRatio, "y");
+                     ? `M ${p.x} ${p.y}`
+                     : !data.smooth || span.length < 2
+                       ? `L ${p.x} ${p.y}`
+                       : this.getCurvedPathSegment(p, span, i - 1, i - 2, i - 1, i + 1, r);
+               linePath += segment;
             });
          });
 
@@ -191,59 +193,40 @@ export class LineGraph extends Widget {
          );
       }
 
-      //   lineSpans = [
-      //      [
-      //         {
-      //            x: 40,
-      //            y: 135,
-      //            y0: 500,
-      //         },
-      //         {
-      //            x: 415,
-      //            y: 140,
-      //            y0: 510,
-      //         },
-      //         {
-      //            x: 790,
-      //            y: 95,
-      //            y0: 465,
-      //         },
-      //      ],
-      //   ];
-
       if (data.area) {
          let areaPath = "";
          lineSpans.forEach((span) => {
             let closePath = "";
             span.forEach((p, i) => {
-               areaPath +=
-                  i == 0
-                     ? `M ${p.x} ${p.y}`
-                     : !data.smooth
-                       ? `L ${p.x} ${p.y}`
-                       : this.getCurvePathSegment(p, i, span, data.smoothingRatio, "y");
+               let segment = "";
+               if (i == 0) {
+                  segment = `M ${p.x} ${p.y}`;
 
-               //   closePath =
-               //      (!data.smooth || i == span.length - 1
-               //         ? `L ${p.x} ${p.y0} `
-               //         : this.getCurvePathSegment(p, i, span, data.smoothingRatio, "y0")) + closePath;
+                  // closing point
+                  closePath =
+                     !data.smooth || span.length < 2
+                        ? `L ${p.x} ${p.y0}`
+                        : this.getCurvedPathSegment(p, span, i + 1, i + 2, i + 1, i - 1, r, "y0");
+               } else {
+                  if (!data.smooth) {
+                     segment = `L ${p.x} ${p.y}`;
+                     closePath = `L ${p.x} ${p.y0}` + closePath;
+                  } else {
+                     segment = this.getCurvedPathSegment(p, span, i - 1, i - 2, i - 1, i + 1, r, "y");
+
+                     // closing point
+                     if (i < span.length - 1) {
+                        closePath = this.getCurvedPathSegment(p, span, i + 1, i + 2, i + 1, i - 1, r, "y0") + closePath;
+                     }
+                  }
+               }
+               areaPath += segment;
             });
 
             areaPath += `L ${span[span.length - 1].x} ${span[span.length - 1].y0}`;
-
-            span = span.reverse();
-            // Bottom path (reverse)
-            for (let i = 1; i < span.length; i++) {
-               const p = span[i];
-               areaPath += !data.smooth
-                  ? `L ${p.x} ${p.y0}`
-                  : this.getCurvePathSegment(p, i, span, data.smoothingRatio, "y0");
-            }
+            areaPath += closePath;
 
             areaPath += "Z";
-
-            // areaPath += closePath;
-            // areaPath += `L ${span[0].x} ${span[0].y}`;
          });
 
          area = (
@@ -263,41 +246,27 @@ export class LineGraph extends Widget {
       );
    }
 
-   getControlPoint({ currPoint, prevPoint, nextPoint, smoothingRatio, reverse, yField = "y" }) {
+   getCurvedPathSegment(p, points, i1, i2, j1, j2, r, yField = "y") {
+      const [sx, sy] = this.getControlPoint({ cp: points[i1], pp: points[i2], r, np: p, yField });
+      const [ex, ey] = this.getControlPoint({ cp: p, pp: points[j1], np: points[j2], r, reverse: true, yField });
+
+      return `C ${sx} ${sy}, ${ex} ${ey}, ${p.x} ${p[yField]}`;
+   }
+
+   getControlPoint({ cp, pp, np, r, reverse, yField = "y" }) {
       // When 'current' is the first or last point of the array 'previous' or 'next' don't exist. Replace with 'current'.
-      const p = prevPoint || currPoint;
-      const n = nextPoint || currPoint;
+      const p = pp || cp;
+      const n = np || cp;
 
       // Properties of the opposed-line
       let { angle, length } = this.getLineInfo(p.x, p[yField], n.x, n[yField]);
       // If it is end-control-point, add PI to the angle to go backward
       angle = angle + (reverse ? Math.PI : 0);
-      length = length * smoothingRatio;
+      length = length * r;
       // The control point position is relative to the current point
-      const x = currPoint.x + Math.cos(angle) * length;
-      const y = currPoint[yField] + Math.sin(angle) * length;
+      const x = cp.x + Math.cos(angle) * length;
+      const y = cp[yField] + Math.sin(angle) * length;
       return [x, y];
-   }
-
-   getCurvePathSegment(point, i, points, smoothingRatio, yField = "y") {
-      // start control point
-      const [cpsX, cpsY] = this.getControlPoint({
-         currPoint: points[i - 1],
-         prevPoint: points[i - 2],
-         nextPoint: point,
-         smoothingRatio,
-         yField,
-      });
-      // end control point
-      const [cpeX, cpeY] = this.getControlPoint({
-         currPoint: point,
-         prevPoint: points[i - 1],
-         nextPoint: points[i + 1],
-         smoothingRatio,
-         reverse: true,
-         yField,
-      });
-      return ` C ${cpsX} ${cpsY}, ${cpeX} ${cpeY}, ${point.x} ${point[yField]}`;
    }
 
    getLineInfo(p1x, p1y, p2x, p2y) {

@@ -6,14 +6,17 @@ import { PureContainer, Slider, Switch } from "cx/widgets";
 class PageController extends Controller {
    onInit() {
       this.store.init("$page.pointsCount", 30);
-      this.store.init("$page.smoothingRatio", 0.05);
+      this.store.init("$page.showArea", true);
+      this.store.init("$page.showLine", true);
+      this.store.init("$page.smooth", true);
+      this.store.init("$page.smoothingRatio", 0.1);
 
-      let y1 = 250;
-      let y2 = 350;
       this.addTrigger(
          "on-count-change",
          ["$page.pointsCount"],
          (cnt) => {
+            let y1 = 150;
+            let y2 = 350;
             const data = Array.from({ length: cnt }, (_, i) => ({
                x: i * 4,
                y: i % 20 == 3 ? null : (y1 = y1 + (Math.random() - 0.5) * 100),
@@ -23,20 +26,6 @@ class PageController extends Controller {
             }));
 
             this.store.set("$page.points", data);
-
-            const smoothed = data.map((p) => ({
-               x: p.x,
-               y: p.y != null ? p.y + 100 : null,
-            }));
-
-            const smoothed2 = smoothed.filter((s) => s.y != null).map((s) => ({ ...s, y: s.y + 100 }));
-
-            this.store.set("$page.points2", smoothed);
-            this.store.set("$page.points3", smoothed2);
-
-            console.log("points:", data);
-            console.log("points2:", smoothed);
-            console.log("points3:", smoothed2);
          },
          true,
       );
@@ -45,21 +34,23 @@ class PageController extends Controller {
 
 export default (
    <cx>
-      <div class="widgets" style="padding: 50px" controller={PageController}>
+      <div class="widgets" style="padding-left: 30px" controller={PageController}>
          <div
             style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 30px; width: 400px"
             layout={{ type: LabelsLeftLayout, columns: 2 }}
          >
             <Slider
                label="Points count"
-               maxValue={500}
+               maxValue={200}
                minValue={1}
                step={1}
                value={{ bind: "$page.pointsCount", debounce: 150 }}
                help-tpl="{$page.pointsCount} points"
             />
 
-            <Switch label="Show markers" value-bind="$page.showMarkers" />
+            <Switch label="Area" value-bind="$page.showArea" />
+            <Switch label="Line" value-bind="$page.showLine" />
+
             <Switch label="Smooth" value-bind="$page.smooth" />
             <Slider
                label="Smoothing ratio"
@@ -70,9 +61,10 @@ export default (
                step={0.01}
                help-tpl="{$page.smoothingRatio:n;0;2}"
             />
+            <Switch label="Show markers" value-bind="$page.showMarkers" />
          </div>
 
-         <Svg style="width:800px; height:600px;">
+         <Svg style="width:800px; height:520px;">
             <Chart
                offset="20 -10 -40 40"
                axes={{
@@ -82,51 +74,43 @@ export default (
             >
                <Gridlines />
                <LineGraph
-                  name="Line 1"
-                  yField="y2"
-                  data-bind="$page.points"
-                  colorIndex={8}
-                  //area
-                  active-bind="$page.line1"
-                  smooth-bind="$page.smooth"
-                  smoothingRatio-bind="$page.smoothingRatio"
-               />
-               <LineGraph
-                  name="Line 2"
-                  data-bind="$page.points2"
-                  colorIndex={0}
-                  smooth-bind="$page.smooth"
-                  smoothingRatio-bind="$page.smoothingRatio"
-                  active-bind="$page.line2"
-               />
-               <LineGraph
-                  name="Line 3"
-                  data-bind="$page.points3"
-                  colorIndex={12}
-                  smooth-bind="$page.smooth"
-                  smoothingRatio-bind="$page.smoothingRatio"
-                  active-bind="$page.line3"
-               />
-               <LineGraph
                   data-bind="$page.points"
                   colorIndex={8}
                   yField="y2h"
                   y0Field="y2l"
                   active-bind="$page.line1"
-                  line={false}
                   area
+                  line={false}
+                  visible-bind="$page.showArea"
+                  smooth-bind="$page.smooth"
+                  smoothingRatio-bind="$page.smoothingRatio"
+               />
+               <LineGraph
+                  data-bind="$page.points"
+                  colorIndex={8}
+                  yField="y2"
+                  active-bind="$page.line1"
+                  line
+                  visible-bind="$page.showLine"
+                  smooth-bind="$page.smooth"
+                  smoothingRatio-bind="$page.smoothingRatio"
+               />
+
+               <LineGraph
+                  data-bind="$page.points"
+                  colorIndex={0}
+                  active-bind="$page.line2"
+                  area-bind="$page.showArea"
+                  line-bind="$page.showLine"
                   smooth-bind="$page.smooth"
                   smoothingRatio-bind="$page.smoothingRatio"
                />
                <PureContainer visible-bind="$page.showMarkers">
                   <Repeater records-bind="$page.points">
-                     <Marker x-bind="$record.x" y-bind="$record.y2" size={5} shape="circle" colorIndex={8} />
+                     <Marker x-bind="$record.x" y-bind="$record.y2" size={4} shape="circle" colorIndex={8} />
                   </Repeater>
-                  <Repeater records-bind="$page.points2">
-                     <Marker x-bind="$record.x" y-bind="$record.y" size={5} shape="circle" colorIndex={0} />
-                  </Repeater>
-                  <Repeater records-bind="$page.points3">
-                     <Marker x-bind="$record.x" y-bind="$record.y" size={5} shape="circle" colorIndex={12} />
+                  <Repeater records-bind="$page.points">
+                     <Marker x-bind="$record.x" y-bind="$record.y" size={4} shape="circle" colorIndex={0} />
                   </Repeater>
                </PureContainer>
             </Chart>
