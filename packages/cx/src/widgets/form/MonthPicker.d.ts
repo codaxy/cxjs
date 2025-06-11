@@ -84,6 +84,14 @@ interface MonthPickerProps extends FieldProps {
     * When true, the quarters section will not render.
     */
    hideQuarters?: boolean;
+
+   /**
+    * Callback to create a function that determines if a date is selectable.
+    * Return `false` on factory method to disable specific month, quarter or a whole year.
+    *
+    * Note: Use the `onValidate` callback for validation purposes.
+    */
+   onCreateIsMonthDateSelectable?: (validationParams: Cx.Config, instance: Instance) => (monthDate: Date) => boolean;
 }
 
 export class MonthPicker extends Cx.Widget<MonthPickerProps> {}
