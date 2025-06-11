@@ -85,7 +85,7 @@ export default {
         type: "boolean",
         key: true,
         description: <cx><Md>
-            et to `true` to draw smoothed lines between data points using cubic Bézier curve.
+            Set to `true` to draw smoothed lines between data points using cubic Bézier curve.
             When enabled, the graph uses control points calculated from neighboring values to create smooth transitions between data points.
         </Md></cx>
     },

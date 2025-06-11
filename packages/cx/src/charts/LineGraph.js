@@ -174,13 +174,12 @@ export class LineGraph extends Widget {
       if (data.line) {
          lineSpans.forEach((span) => {
             span.forEach((p, i) => {
-               let segment =
+               linePath +=
                   i == 0
                      ? `M ${p.x} ${p.y}`
                      : !data.smooth || span.length < 2
                        ? `L ${p.x} ${p.y}`
                        : this.getCurvedPathSegment(p, span, i - 1, i - 2, i - 1, i + 1, r);
-               linePath += segment;
             });
          });
 
@@ -215,9 +214,8 @@ export class LineGraph extends Widget {
                      segment = this.getCurvedPathSegment(p, span, i - 1, i - 2, i - 1, i + 1, r, "y");
 
                      // closing point
-                     if (i < span.length - 1) {
+                     if (i < span.length - 1)
                         closePath = this.getCurvedPathSegment(p, span, i + 1, i + 2, i + 1, i - 1, r, "y0") + closePath;
-                     }
                   }
                }
                areaPath += segment;
@@ -225,7 +223,6 @@ export class LineGraph extends Widget {
 
             areaPath += `L ${span[span.length - 1].x} ${span[span.length - 1].y0}`;
             areaPath += closePath;
-
             areaPath += "Z";
          });
 
