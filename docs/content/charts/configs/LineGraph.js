@@ -80,5 +80,21 @@ export default {
         description: <cx><Md>
             Additional styles to be applied to the area below the line.
         </Md></cx>
-    }
+    },
+    smooth: {
+        type: "boolean",
+        key: true,
+        description: <cx><Md>
+            Set to `true` to draw smoothed lines between data points using cubic Bézier curve.
+            When enabled, the graph uses control points calculated from neighboring values to create smooth transitions between data points.
+        </Md></cx>
+    },
+    smoothingRatio: {
+        type: 'number',
+        description: <cx><Md>
+            Controls the intensity of the smoothing effect applied to Bézier curves when `smooth` is enabled.
+            Accepts a number between `0` (straight lines) and `0.4` (maximum smoothing).
+            Values outside this range are automatically clamped. Default value is `0.05`.
+        </Md></cx>
+   }
 };

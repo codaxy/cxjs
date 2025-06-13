@@ -87,6 +87,15 @@ interface LineGraphProps extends Cx.WidgetProps {
 
    /** Set to true to avoid forcing the vertical axis to accommodate y0 values. */
    hiddenBase?: boolean;
+
+   /** Set to `true` to draw smoothed lines between data points using cubic Bézier curve.
+    * When enabled, the graph uses control points calculated from neighboring values to create smooth transitions between data points. */
+   smooth?: boolean;
+
+   /** Controls the intensity of the smoothing effect applied to Bézier curves when `smooth` is enabled.
+    * Accepts a number between `0` (straight lines) and `0.4` (maximum smoothing).
+    * Values outside this range are automatically clamped. Default value is `0.05`. */
+   smoothingRatio?: number;
 }
 
 export class LineGraph extends Cx.Widget<LineGraphProps> {}
