@@ -137,7 +137,7 @@ import "./index.scss";
 //import Demo from "./features/typescript/AccessorChainMethods";
 // import Demo from "./features/grid/CellEditing";
 // import Demo from "./features/charts/PointReducer";
-import Demo from "./features/charts/line-graph/LineGraph";
+import Demo from "./features/charts/line-graph/LineGraphAreaBug";
 
 let store = (window.store = new Store());
 
