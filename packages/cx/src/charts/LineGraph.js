@@ -27,6 +27,8 @@ export class LineGraph extends Widget {
          active: true,
          stack: undefined,
          stacked: undefined,
+         smooth: undefined,
+         smoothingRatio: undefined,
       });
    }
 
@@ -34,6 +36,11 @@ export class LineGraph extends Widget {
       let { data } = instance;
 
       if (data.name && !data.colorName) data.colorName = data.name;
+
+      if (data.smooth && data.smoothingRatio != null) {
+         if (data.smoothingRatio < 0) data.smoothingRatio = 0;
+         if (data.smoothingRatio > 0.4) data.smoothingRatio = 0.4;
+      }
 
       super.prepareData(context, instance);
    }
@@ -161,13 +168,18 @@ export class LineGraph extends Widget {
       };
 
       let line, area;
+      const r = data.smoothingRatio;
 
+      let linePath = "";
       if (data.line) {
-         let linePath = "";
          lineSpans.forEach((span) => {
             span.forEach((p, i) => {
-               linePath += i == 0 ? " M " : " L ";
-               linePath += p.x + " " + p.y;
+               linePath +=
+                  i == 0
+                     ? `M ${p.x} ${p.y}`
+                     : !data.smooth || span.length < 2
+                       ? `L ${p.x} ${p.y}`
+                       : this.getCurvedPathSegment(p, span, i - 1, i - 2, i - 1, i + 1, r);
             });
          });
 
@@ -185,13 +197,35 @@ export class LineGraph extends Widget {
          lineSpans.forEach((span) => {
             let closePath = "";
             span.forEach((p, i) => {
-               areaPath += i == 0 ? " M " : " L ";
-               areaPath += p.x + " " + p.y;
-               if (data.area) closePath = `L ${p.x} ${p.y0} ` + closePath;
+               let segment = "";
+               if (i == 0) {
+                  segment = `M ${p.x} ${p.y}`;
+
+                  // closing point
+                  closePath =
+                     !data.smooth || span.length < 2
+                        ? `L ${p.x} ${p.y0}`
+                        : this.getCurvedPathSegment(p, span, i + 1, i + 2, i + 1, i - 1, r, "y0");
+               } else {
+                  if (!data.smooth) {
+                     segment = `L ${p.x} ${p.y}`;
+                     closePath = `L ${p.x} ${p.y0}` + closePath;
+                  } else {
+                     segment = this.getCurvedPathSegment(p, span, i - 1, i - 2, i - 1, i + 1, r, "y");
+
+                     // closing point
+                     if (i < span.length - 1)
+                        closePath = this.getCurvedPathSegment(p, span, i + 1, i + 2, i + 1, i - 1, r, "y0") + closePath;
+                  }
+               }
+               areaPath += segment;
             });
+
+            areaPath += `L ${span[span.length - 1].x} ${span[span.length - 1].y0}`;
             areaPath += closePath;
-            areaPath += `L ${span[0].x} ${span[0].y}`;
+            areaPath += "Z";
          });
+
          area = (
             <path
                className={this.CSS.element(this.baseClass, "area", stateMods)}
@@ -207,6 +241,39 @@ export class LineGraph extends Widget {
             {area}
          </g>
       );
+   }
+
+   getCurvedPathSegment(p, points, i1, i2, j1, j2, r, yField = "y") {
+      const [sx, sy] = this.getControlPoint({ cp: points[i1], pp: points[i2], r, np: p, yField });
+      const [ex, ey] = this.getControlPoint({ cp: p, pp: points[j1], np: points[j2], r, reverse: true, yField });
+
+      return `C ${sx} ${sy}, ${ex} ${ey}, ${p.x} ${p[yField]}`;
+   }
+
+   getControlPoint({ cp, pp, np, r, reverse, yField = "y" }) {
+      // When 'current' is the first or last point of the array 'previous' or 'next' don't exist. Replace with 'current'.
+      const p = pp || cp;
+      const n = np || cp;
+
+      // Properties of the opposed-line
+      let { angle, length } = this.getLineInfo(p.x, p[yField], n.x, n[yField]);
+      // If it is end-control-point, add PI to the angle to go backward
+      angle = angle + (reverse ? Math.PI : 0);
+      length = length * r;
+      // The control point position is relative to the current point
+      const x = cp.x + Math.cos(angle) * length;
+      const y = cp[yField] + Math.sin(angle) * length;
+      return [x, y];
+   }
+
+   getLineInfo(p1x, p1y, p2x, p2y) {
+      const lengthX = p2x - p1x;
+      const lengthY = p2y - p1y;
+
+      return {
+         length: Math.sqrt(Math.pow(lengthX, 2) + Math.pow(lengthY, 2)),
+         angle: Math.atan2(lengthY, lengthX),
+      };
    }
 }
 
@@ -226,5 +293,8 @@ LineGraph.prototype.legendAction = "auto";
 LineGraph.prototype.legendShape = "rect";
 LineGraph.prototype.stack = "stack";
 LineGraph.prototype.hiddenBase = false;
+
+LineGraph.prototype.smooth = false;
+LineGraph.prototype.smoothingRatio = 0.05;
 
 Widget.alias("line-graph", LineGraph);
