@@ -29,5 +29,11 @@ export default {
       description: <cx><Md>
          Indicate that the data in the parent store should **not** be mutated. Defaults to `false`.
       </Md></cx>
+   },
+   sealed: {
+      type: 'boolean',
+      description: <cx><Md>
+         Indicate that the data in the store should **not** be mutated by child stores. Defaults to `false`.
+      </Md></cx>
    }
 };

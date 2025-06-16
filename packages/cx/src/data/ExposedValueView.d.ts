@@ -1,6 +1,6 @@
-import {View, ViewConfig} from './View';
+import { View, ViewConfig } from "./View";
 
-import { Binding } from './Binding';
+import { Binding } from "./Binding";
 
 interface ExposedValueViewConfig extends ViewConfig {
    containerBinding: Binding;

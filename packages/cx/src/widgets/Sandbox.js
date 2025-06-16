@@ -50,6 +50,7 @@ export class Sandbox extends PureContainer {
             key: data.key,
             recordName: this.recordName,
             immutable: this.immutable,
+            sealed: this.sealed,
          });
          instance.clearChildrenCache();
       }
@@ -59,5 +60,6 @@ export class Sandbox extends PureContainer {
 
 Sandbox.prototype.recordName = "$page";
 Sandbox.prototype.immutable = false;
+Sandbox.prototype.sealed = false;
 
 Widget.alias("sandbox", Sandbox);
