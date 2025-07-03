@@ -44,6 +44,7 @@ import { tooltipMouseMove, tooltipMouseLeave } from "../overlay/tooltip-ops";
 import { Container } from "../../ui/Container";
 import { findFirstChild } from "../../util/DOM";
 import { Binding } from "../../data/Binding";
+import { SortDirection } from './SortDirection';
 
 export class Grid extends Container {
    declareData(...args) {
@@ -182,16 +183,16 @@ export class Grid extends Container {
                   value: isDefined(c.aggregateValue)
                      ? c.aggregateValue
                      : isDefined(c.value)
-                       ? c.value
-                       : c.aggregateField
-                         ? { bind: this.recordName + "." + c.aggregateField }
-                         : null,
+                        ? c.value
+                        : c.aggregateField
+                           ? { bind: this.recordName + "." + c.aggregateField }
+                           : null,
                   weight:
                      c.weight != null
                         ? c.weight
                         : c.weightField && {
-                             bind: this.recordName + "." + c.weightField,
-                          },
+                           bind: this.recordName + "." + c.weightField,
+                        },
                   type: c.aggregate,
                };
             } else if (c.footer && !showFooter) {
@@ -295,10 +296,10 @@ export class Grid extends Container {
          data.sorters = [sorter];
       }
 
-      if (!isNonEmptyArray(data.sorters) && this.defaultSortField) {
+      if (!isNonEmptyArray(data.sorters) && this.defaultSortField && (this.defaultSortDirection != SortDirection.NO_SORT && this.clearableSort)) {
          let sorter = {
             field: this.defaultSortField,
-            direction: this.defaultSortDirection || "ASC",
+            direction: this.defaultSortDirection || SortDirection.ASC,
          };
          sortField = this.defaultSortField;
          data.sorters = [sorter];
@@ -553,9 +554,8 @@ export class Grid extends Container {
                let initialPosition = getCursorPos(e);
                resizeOverlayEl.className = CSS.element(baseClass, "resize-overlay");
                resizeOverlayEl.style.width = `${initialWidth}px`;
-               resizeOverlayEl.style.left = `${
-                  headerCell.getBoundingClientRect().left - gridEl.getBoundingClientRect().left
-               }px`;
+               resizeOverlayEl.style.left = `${headerCell.getBoundingClientRect().left - gridEl.getBoundingClientRect().left
+                  }px`;
                gridEl.appendChild(resizeOverlayEl);
                captureMouse2(e, {
                   onMouseMove: (e) => {
@@ -817,7 +817,7 @@ export class Grid extends Container {
                   widget: () => <div className={CSS.element(baseClass, "col-header-drag-clone")}>{data.text}</div>,
                },
             },
-            () => {},
+            () => { },
          );
       }
    }
@@ -843,28 +843,32 @@ export class Grid extends Container {
       let sortOptions = column.sortOptions;
 
       if (header && header.allowSorting && column.sortable && (field || value || data.sortField)) {
-         let direction = column.primarySortDirection ?? "ASC";
-         if (
-            isNonEmptyArray(data.sorters) &&
+         let direction = column.primarySortDirection ?? SortDirection.ASC;
+         let isSorterActive = isNonEmptyArray(data.sorters) &&
             ((!!data.sorters[0].field && data.sorters[0].field == (field || data.sortField)) ||
-               (!!value && data.sorters[0].value == value))
-         ) {
-            if (data.sorters[0].direction == "ASC" && (!this.clearableSort || direction == "ASC")) direction = "DESC";
-            else if (data.sorters[0].direction == "DESC" && (!this.clearableSort || direction == "DESC"))
-               direction = "ASC";
-            else direction = null;
+               (!!value && data.sorters[0].value == value));
+
+         if (isSorterActive) {
+            if (data.sorters[0].direction == SortDirection.ASC && (!this.clearableSort || direction == SortDirection.ASC))
+               direction = SortDirection.DESC;
+            else if (data.sorters[0].direction == SortDirection.DESC && (!this.clearableSort || direction == SortDirection.DESC))
+               direction = SortDirection.ASC;
+            else
+               direction = null;
+
+            this.defaultSortDirection = direction == null ? SortDirection.NO_SORT : direction;
          }
 
          let sorters = direction
             ? [
-                 {
-                    field,
-                    direction,
-                    value,
-                    comparer,
-                    sortOptions,
-                 },
-              ]
+               {
+                  field,
+                  direction,
+                  value,
+                  comparer,
+                  sortOptions,
+               },
+            ]
             : null;
 
          if (sorters == null) field = null;
@@ -1315,8 +1319,8 @@ class GridComponent extends VDOM.Component {
                   style={
                      this.rowHeight > 0
                         ? {
-                             height: this.rowHeight + 1,
-                          }
+                           height: this.rowHeight + 1,
+                        }
                         : null
                   }
                >
@@ -2726,7 +2730,7 @@ class GridComponent extends VDOM.Component {
                            hscroll = true;
                            item =
                               item.firstChild.children[
-                                 this.state.cursorCellIndex - this.props.instance.fixedColumnCount
+                              this.state.cursorCellIndex - this.props.instance.fixedColumnCount
                               ];
                         } else {
                            let fixedItem = this.dom.fixedTable.querySelector(`tbody[data-record-key="${record.key}"]`);
