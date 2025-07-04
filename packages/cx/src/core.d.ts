@@ -178,7 +178,7 @@ declare namespace Cx {
       onContextMenu?: string | ((event: MouseEvent, instance: any) => void);
    }
 
-   type SortDirection = "ASC" | "DESC";
+   type SortDirection = "ASC" | "DESC" | "NO_SORT";
 
    interface Sorter {
       field?: string;
