@@ -168,7 +168,7 @@ interface GridColumnConfig {
    colSpan?: NumberProp;
 
    mergeCells?: Prop<null | false | "same-value" | "always">;
-   primarySortDirection?: "ASC" | "DESC" | "NO_SORT";
+   primarySortDirection?: "ASC" | "DESC";
 }
 
 interface GridRowLineConfig {
@@ -211,7 +211,7 @@ interface GridProps<T = unknown> extends StyledContainerProps {
    defaultSortField?: string;
 
    /** Default sort direction. */
-   defaultSortDirection?: "ASC" | "DESC" | "NO_SORT";
+   defaultSortDirection?: "ASC" | "DESC";
 
    /** Set to true to add vertical gridlines. */
    vlines?: boolean;
