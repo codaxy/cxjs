@@ -3,7 +3,7 @@ import { BoundedObject, BoundedObjectProps } from "../svg/BoundedObject";
 
 interface MarkerProps extends BoundedObjectProps {
    /** The `x` value binding or expression. */
-   x?: Cx.Prop<string | number>;
+   x?: Cx.Prop<string | number | Date>;
 
    /** The `y` value binding or expression. */
    y?: Cx.Prop<string | number>;
