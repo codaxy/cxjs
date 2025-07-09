@@ -501,11 +501,39 @@ class LookupComponent extends VDOM.Component {
    }
 
    onListScroll() {
+      let { widget } = this.props.instance;
+
+      if (this.loading) return; 
+
       if (!this.dom.list) return;
-      var el = this.dom.list;
-      if (el.scrollTop > el.scrollHeight - 2 * el.offsetHeight) {
-         this.loadAdditionalOptionPages();
+      let el = this.dom.list;
+
+      if (el.scrollTop + el.offsetHeight < el.scrollHeight - 2 * el.offsetHeight) {
+         return;
       }
+
+      // If fetchAll mode, load next slice incrementaly
+      if (widget.fetchAll && this.filteredResults) {
+         const nextPageSize = this.renderedCount + widget.pageSize;
+
+         if (this.renderedCount >= this.filteredResults.length) {
+            return;
+         }
+
+         this.loading = true;
+         let nextOptions = this.filteredResults.slice(0, Math.min(nextPageSize, this.filteredResults.length));
+
+         this.setState(
+            { options: nextOptions },
+            () => {
+               this.renderedCount = nextOptions.length;
+               this.loading = false;
+            }
+         );
+         return;
+      }
+
+      this.loadAdditionalOptionPages();
    }
 
    onDropdownFocus(e) {
@@ -940,8 +968,7 @@ class LookupComponent extends VDOM.Component {
       let { widget, data } = instance;
 
       this.lastQuery = q;
-
-      //do not make duplicate queries if fetchAll is enabled
+     //do not make duplicate queries if fetchAll is enabled
       if (widget.fetchAll && this.state.status == "loading") return;
 
       if (this.queryTimeoutId) clearTimeout(this.queryTimeoutId);
@@ -981,10 +1008,10 @@ class LookupComponent extends VDOM.Component {
             let params = !widget.infinite
                ? query
                : {
-                    query,
-                    page: 1,
-                    pageSize,
-                 };
+                  query,
+                  page: 1,
+                  pageSize,
+               };
 
             if (!result) result = instance.invoke("onQuery", params, instance);
 
@@ -992,7 +1019,7 @@ class LookupComponent extends VDOM.Component {
 
             Promise.resolve(result)
                .then((results) => {
-                  //discard results which do not belong to the last query
+                 //discard results which do not belong to the last query
                   if (queryId !== this.lastQueryId) return;
 
                   if (!isArray(results)) results = [];
@@ -1001,17 +1028,23 @@ class LookupComponent extends VDOM.Component {
                      if (cacheAll) this.cachedResult = results;
                      else this.tmpCachedResult = results;
 
-                     results = widget.filterOptions(this.props.instance, results, this.lastQuery);
+                     this.filteredResults = widget.filterOptions(this.props.instance, results, this.lastQuery);
+                     
+                     if (widget.infinite) {
+                        results = this.filteredResults.slice(0, pageSize);
+                     } else {
+                        results = this.filteredResults;
+                     }
                   }
-
                   this.setState(
                      {
                         page: 1,
                         query,
                         options: results,
-                        status: "loaded",
+                        status: "loaded"
                      },
                      () => {
+                        this.renderedCount = results.length;
                         if (widget.infinite) this.onListScroll();
                      },
                   );
@@ -1023,6 +1056,7 @@ class LookupComponent extends VDOM.Component {
          }, queryDelay);
       }
    }
+
 
    loadAdditionalOptionPages() {
       let { instance } = this.props;
