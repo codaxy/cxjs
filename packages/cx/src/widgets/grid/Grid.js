@@ -102,6 +102,7 @@ export class Grid extends Container {
          colWidth: {},
          lockedColWidth: {},
          dimensionsVersion: 0,
+         disableDefaultSort: false
       };
       instance.v = 0;
       if (this.infinite)
@@ -182,16 +183,16 @@ export class Grid extends Container {
                   value: isDefined(c.aggregateValue)
                      ? c.aggregateValue
                      : isDefined(c.value)
-                       ? c.value
-                       : c.aggregateField
-                         ? { bind: this.recordName + "." + c.aggregateField }
-                         : null,
+                        ? c.value
+                        : c.aggregateField
+                           ? { bind: this.recordName + "." + c.aggregateField }
+                           : null,
                   weight:
                      c.weight != null
                         ? c.weight
                         : c.weightField && {
-                             bind: this.recordName + "." + c.weightField,
-                          },
+                           bind: this.recordName + "." + c.weightField,
+                        },
                   type: c.aggregate,
                };
             } else if (c.footer && !showFooter) {
@@ -295,7 +296,8 @@ export class Grid extends Container {
          data.sorters = [sorter];
       }
 
-      if (!isNonEmptyArray(data.sorters) && this.defaultSortField) {
+      let skipDefaultSorting = this.clearableSort && instance.state.disableDefaultSort;
+      if (!skipDefaultSorting && !isNonEmptyArray(data.sorters) && this.defaultSortField) {
          let sorter = {
             field: this.defaultSortField,
             direction: this.defaultSortDirection || "ASC",
@@ -553,9 +555,8 @@ export class Grid extends Container {
                let initialPosition = getCursorPos(e);
                resizeOverlayEl.className = CSS.element(baseClass, "resize-overlay");
                resizeOverlayEl.style.width = `${initialWidth}px`;
-               resizeOverlayEl.style.left = `${
-                  headerCell.getBoundingClientRect().left - gridEl.getBoundingClientRect().left
-               }px`;
+               resizeOverlayEl.style.left = `${headerCell.getBoundingClientRect().left - gridEl.getBoundingClientRect().left
+                  }px`;
                gridEl.appendChild(resizeOverlayEl);
                captureMouse2(e, {
                   onMouseMove: (e) => {
@@ -817,7 +818,7 @@ export class Grid extends Container {
                   widget: () => <div className={CSS.element(baseClass, "col-header-drag-clone")}>{data.text}</div>,
                },
             },
-            () => {},
+            () => { },
          );
       }
    }
@@ -852,19 +853,22 @@ export class Grid extends Container {
             if (data.sorters[0].direction == "ASC" && (!this.clearableSort || direction == "ASC")) direction = "DESC";
             else if (data.sorters[0].direction == "DESC" && (!this.clearableSort || direction == "DESC"))
                direction = "ASC";
-            else direction = null;
+            else {
+               direction = null;
+               instance.state.disableDefaultSort = true;
+            }
          }
 
          let sorters = direction
             ? [
-                 {
-                    field,
-                    direction,
-                    value,
-                    comparer,
-                    sortOptions,
-                 },
-              ]
+               {
+                  field,
+                  direction,
+                  value,
+                  comparer,
+                  sortOptions,
+               },
+            ]
             : null;
 
          if (sorters == null) field = null;
@@ -1315,8 +1319,8 @@ class GridComponent extends VDOM.Component {
                   style={
                      this.rowHeight > 0
                         ? {
-                             height: this.rowHeight + 1,
-                          }
+                           height: this.rowHeight + 1,
+                        }
                         : null
                   }
                >
@@ -2726,7 +2730,7 @@ class GridComponent extends VDOM.Component {
                            hscroll = true;
                            item =
                               item.firstChild.children[
-                                 this.state.cursorCellIndex - this.props.instance.fixedColumnCount
+                              this.state.cursorCellIndex - this.props.instance.fixedColumnCount
                               ];
                         } else {
                            let fixedItem = this.dom.fixedTable.querySelector(`tbody[data-record-key="${record.key}"]`);
