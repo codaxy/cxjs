@@ -94,7 +94,6 @@ export class Grid extends Container {
       if (!this.selection.isDummy || this.onRowClick || this.onRowDoubleClick) this.selectable = true;
       if (this.focusable == null) this.focusable = !this.selection.isDummy || this.cellEditable;
 
-      this.allowClearSort = false;
       super.init();
    }
 
@@ -103,6 +102,7 @@ export class Grid extends Container {
          colWidth: {},
          lockedColWidth: {},
          dimensionsVersion: 0,
+         disableDefaultSort: false
       };
       instance.v = 0;
       if (this.infinite)
@@ -296,8 +296,8 @@ export class Grid extends Container {
          data.sorters = [sorter];
       }
 
-      let skipSorting = this.clearableSort && this.allowClearSort;
-      if (!skipSorting && !isNonEmptyArray(data.sorters) && this.defaultSortField) {
+      let skipDefaultSorting = this.clearableSort && instance.state.disableDefaultSort;
+      if (!skipDefaultSorting && !isNonEmptyArray(data.sorters) && this.defaultSortField) {
          let sorter = {
             field: this.defaultSortField,
             direction: this.defaultSortDirection || "ASC",
@@ -855,7 +855,7 @@ export class Grid extends Container {
                direction = "ASC";
             else {
                direction = null;
-               this.allowClearSort = true;
+               instance.state.disableDefaultSort = true;
             }
          }
 
