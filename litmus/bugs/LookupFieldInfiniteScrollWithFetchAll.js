@@ -1,5 +1,5 @@
 import { Controller, LabelsLeftLayout } from "cx/ui";
-import { HtmlElement, LookupField, TextField, Checkbox, Button } from "cx/widgets";
+import { HtmlElement, LookupField, TextField, Checkbox, Button, Repeater } from "cx/widgets";
 import { casual } from "../casual"
 
 class PageController extends Controller {
@@ -16,7 +16,6 @@ class PageController extends Controller {
         }
         var regex = new RegExp(query, "gi");
         let filteredList = this.cityDb.filter(x => x.text.match(regex));
-        let data = filteredList.slice((page - 1) * pageSize, page * pageSize);
         return new Promise(resolve => {
             setTimeout(() => {
                 if (instance.widget.fetchAll) {
@@ -43,6 +42,7 @@ export default (
                     readOnly
                 />
                 <LookupField
+                    records:bind="$page.selectedItems1"
                     label="Infinite Lookup and fetch all"
                     onQuery="onQuery"
                     infinite
@@ -50,18 +50,21 @@ export default (
                     multiple
                 />
                 <LookupField
+                    records:bind="$page.selectedItems2"
                     label="Infinite Lookup"
                     onQuery="onQuery"
                     infinite
                     multiple
                 />
                 <LookupField
+                    records:bind="$page.selectedItems3"
                     label="Fetch all"
                     onQuery="onQuery"
                     fetchAll
                     multiple
                 />
                 <LookupField
+                    records:bind="$page.selectedItems4"
                     label="Fetch all, infinite scroll and cache all"
                     onQuery="onQuery"
                     infinite

@@ -169,6 +169,8 @@ export class LookupField extends Field {
       }
 
       instance.lastDropdown = context.lastDropdown;
+      instance.renderedCount = 0;
+      instance.loading = false;
 
       super.prepareData(context, instance);
    }
@@ -501,9 +503,10 @@ class LookupComponent extends VDOM.Component {
    }
 
    onListScroll() {
-      let { widget } = this.props.instance;
+      let { instance } = this.props;
+      let { widget } = instance;
 
-      if (this.loading) return; 
+      if (instance.loading) return;
 
       if (!this.dom.list) return;
       let el = this.dom.list;
@@ -514,22 +517,19 @@ class LookupComponent extends VDOM.Component {
 
       // If fetchAll mode, load next slice incrementaly
       if (widget.fetchAll && this.filteredResults) {
-         const nextPageSize = this.renderedCount + widget.pageSize;
+         const nextPageSize = this.props.instance.renderedCount + widget.pageSize;
 
-         if (this.renderedCount >= this.filteredResults.length) {
-            return;
-         }
+         if (instance.renderedCount >= this.filteredResults.length) return;
 
-         this.loading = true;
-         let nextOptions = this.filteredResults.slice(0, Math.min(nextPageSize, this.filteredResults.length));
-
+         instance.loading = true;
+         let nextForDisplay = this.filteredResults.slice(0, Math.min(nextPageSize, this.filteredResults.length));
+         instance.renderedCount = nextForDisplay.length;
          this.setState(
-            { options: nextOptions },
-            () => {
-               this.renderedCount = nextOptions.length;
-               this.loading = false;
+            {
+               options: nextForDisplay,
             }
          );
+         instance.loading = false;
          return;
       }
 
@@ -968,7 +968,7 @@ class LookupComponent extends VDOM.Component {
       let { widget, data } = instance;
 
       this.lastQuery = q;
-     //do not make duplicate queries if fetchAll is enabled
+      //do not make duplicate queries if fetchAll is enabled
       if (widget.fetchAll && this.state.status == "loading") return;
 
       if (this.queryTimeoutId) clearTimeout(this.queryTimeoutId);
@@ -1019,7 +1019,7 @@ class LookupComponent extends VDOM.Component {
 
             Promise.resolve(result)
                .then((results) => {
-                 //discard results which do not belong to the last query
+                  //discard results which do not belong to the last query
                   if (queryId !== this.lastQueryId) return;
 
                   if (!isArray(results)) results = [];
@@ -1029,13 +1029,14 @@ class LookupComponent extends VDOM.Component {
                      else this.tmpCachedResult = results;
 
                      this.filteredResults = widget.filterOptions(this.props.instance, results, this.lastQuery);
-                     
+
                      if (widget.infinite) {
                         results = this.filteredResults.slice(0, pageSize);
                      } else {
                         results = this.filteredResults;
                      }
                   }
+                  instance.renderedCount = results.length;
                   this.setState(
                      {
                         page: 1,
@@ -1044,7 +1045,7 @@ class LookupComponent extends VDOM.Component {
                         status: "loaded"
                      },
                      () => {
-                        this.renderedCount = results.length;
+
                         if (widget.infinite) this.onListScroll();
                      },
                   );
