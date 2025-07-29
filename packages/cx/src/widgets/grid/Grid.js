@@ -2602,6 +2602,7 @@ class GridComponent extends VDOM.Component {
                instance.buffer.totalRecordCount = 0;
                instance.buffer.page = 1;
                this.prevFetchRecordsState = null;
+               this.loading = false;
             }
          }
 
