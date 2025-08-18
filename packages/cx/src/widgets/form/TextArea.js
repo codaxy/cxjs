@@ -96,9 +96,7 @@ class Input extends VDOM.Component {
                {...data.inputAttrs}
                onInput={(e) => this.onChange(e.target.value, "input")}
                onChange={(e) => this.onChange(e.target.value, "change")}
-               onBlur={(e) => {
-                  this.onChange(e.target.value, "blur");
-               }}
+               onBlur={(e) => this.onBlur(e)}
                onFocus={(e) => this.onFocus()}
                onClick={stopPropagation}
                onKeyDown={(e) => this.onKeyDown(e)}
@@ -179,7 +177,18 @@ class Input extends VDOM.Component {
          this.setState({
             focus: true,
          });
+
+         instance.set("focused", true);
       }
+   }
+
+   onBlur(e) {
+      const { instance } = this.props;
+      if (instance.widget.trackFocus) {
+         instance.set("focused", false);
+      }
+
+      this.onChange(e.target.value, "blur");
    }
 }
 
