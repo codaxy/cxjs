@@ -1,0 +1,13 @@
+{
+   "compilerOptions": {
+      "jsx": "react-jsx",
+      //"jsxFactory": "cx",
+      "jsxImportSource": "cx",
+      "module": "esnext",
+      "moduleResolution": "bundler",
+      "esModuleInterop": true,
+      "allowJs": true,
+      "types": ["node"],
+      "outDir": "dist"
+   }
+}

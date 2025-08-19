@@ -1,0 +1,38 @@
+{
+   "name": "ts-minimal",
+   "private": true,
+   "version": "1.0.0",
+   "scripts": {
+      "start": "webpack-dev-server --open"
+   },
+   "dependencies": {
+      "cx": "^25.4.1",
+      "cx-react": "^24.7.1",
+      "react": "^18.3.1",
+      "react-dev-utils": "^12.0.1",
+      "react-dom": "^18.3.1"
+   },
+   "devDependencies": {
+      "@types/node": "^22.10.1",
+      "@types/react": "^18.3.14",
+      "copy-webpack-plugin": "^12.0.2",
+      "css-loader": "^7.1.2",
+      "file-loader": "^6.2.0",
+      "html-webpack-plugin": "^5.6.3",
+      "mini-css-extract-plugin": "^2.9.2",
+      "sass": "^1.77.8",
+      "sass-loader": "^16.0.1",
+      "style-loader": "^4.0.0",
+      "svg-url-loader": "^8.0.0",
+      "ts-loader": "^9.5.1",
+      "typescript": "^5.7.2",
+      "url-loader": "^4.1.1",
+      "webpack": "^5.97.1",
+      "webpack-bundle-analyzer": "^4.10.2",
+      "webpack-cleanup-plugin": "^0.5.1",
+      "webpack-cli": "^5.1.4",
+      "webpack-combine-loaders": "^2.0.4",
+      "webpack-dev-server": "^5.1.0",
+      "webpack-merge": "^6.0.1"
+   }
+}

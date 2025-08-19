@@ -47,7 +47,8 @@
       "gallery",
       "litmus",
       "benchmark",
-      "fiddle"
+      "fiddle",
+      "ts-minimal"
    ],
    "jest": {
       "transform": {
