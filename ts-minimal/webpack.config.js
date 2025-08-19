@@ -1,5 +1,6 @@
 const webpack = require("webpack"),
    HtmlWebpackPlugin = require("html-webpack-plugin"),
+   MiniCssExtractPlugin = require("mini-css-extract-plugin"),
    { merge } = require("webpack-merge"),
    path = require("path");
 
@@ -62,10 +63,6 @@ let common = {
 let specific;
 
 if (production) {
-   let sass = new ExtractTextPlugin({
-      filename: "app.css",
-      allChunks: true,
-   });
    specific = {
       mode: "production",
       target: ["web", "es5"], //IE 11
@@ -73,11 +70,11 @@ if (production) {
          rules: [
             {
                test: /\.scss$/,
-               loaders: sass.extract(["css-loader", "sass-loader"]),
+               use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
             },
             {
                test: /\.css$/,
-               loaders: sass.extract(["css-loader"]),
+               use: [MiniCssExtractPlugin.loader, "css-loader"],
             },
          ],
       },
@@ -87,17 +84,9 @@ if (production) {
             "process.env.NODE_ENV": JSON.stringify("production"),
          }),
 
-         new webpack.optimize.UglifyJsPlugin({
-            compress: true,
-            mangle: false,
-            beautify: true,
+         new MiniCssExtractPlugin({
+            filename: "app.css",
          }),
-
-         // new BabiliPlugin({ mangle: false }),
-
-         //new webpack.optimize.ModuleConcatenationPlugin(),
-         sass,
-         new BundleAnalyzerPlugin(),
       ],
 
       output: {

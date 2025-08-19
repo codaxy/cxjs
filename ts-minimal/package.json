@@ -3,7 +3,8 @@
    "private": true,
    "version": "1.0.0",
    "scripts": {
-      "start": "webpack-dev-server --open"
+      "start": "webpack-dev-server --open",
+      "build": "webpack"
    },
    "dependencies": {
       "cx": "^25.4.1",

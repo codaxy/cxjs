@@ -4,8 +4,8 @@ import { HtmlElement } from "./widgets";
 export function jsx(typeName, props, key) {
    if (isArray(typeName)) return typeName;
 
-   if (isFunction(typeName) && isUndefined(props))
-      return createFunctionalComponent((config) => typeName(flattenProps(config)));
+   // if (isFunction(typeName) && isUndefined(props))
+   //    return createFunctionalComponent((config) => typeName(flattenProps(config)));
 
    if (typeName.type || typeName.$type) return typeName;
 

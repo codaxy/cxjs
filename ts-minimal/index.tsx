@@ -19,7 +19,7 @@ startHotAppLoop(
    module,
    document.getElementById("app"),
    store,
-   <div>
+   <div test>
       <h1>TypeScript Minimal Example</h1>
       <p>This is a minimal example of a Cx application using TypeScript.</p>
       <p>Check the console for debug information.</p>
