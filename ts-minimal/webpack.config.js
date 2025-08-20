@@ -24,6 +24,10 @@ let common = {
             test: /\.(ts|tsx)$/,
             include: /(ts-minimal)/,
             loader: "ts-loader",
+            options: {
+               colors: false,
+               logLevel: 'info'
+            }
          },
       ],
    },

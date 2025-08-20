@@ -2,6 +2,8 @@ export = Cx;
 export as namespace Cx;
 
 import * as React from "react";
+import { Instance } from "./ui/Instance";
+import { RenderingContext } from "./ui/RenderingContext";
 
 declare namespace Cx {
    type Bind = {
@@ -168,14 +170,14 @@ declare namespace Cx {
       /** Tooltip configuration. */
       tooltip?: StringProp | StructuredProp;
 
-      onMouseDown?: string | ((event: MouseEvent, instance: any) => void);
-      onMouseMove?: string | ((event: MouseEvent, instance: any) => void);
-      onMouseUp?: string | ((event: MouseEvent, instance: any) => void);
-      onTouchStart?: string | ((event: TouchEvent, instance: any) => void);
-      onTouchMove?: string | ((event: TouchEvent, instance: any) => void);
-      onTouchEnd?: string | ((event: TouchEvent, instance: any) => void);
-      onClick?: string | ((event: MouseEvent, instance: any) => void);
-      onContextMenu?: string | ((event: MouseEvent, instance: any) => void);
+      // onMouseDown?: string | ((event: MouseEvent, instance: any) => void);
+      // onMouseMove?: string | ((event: MouseEvent, instance: any) => void);
+      // onMouseUp?: string | ((event: MouseEvent, instance: any) => void);
+      // onTouchStart?: string | ((event: TouchEvent, instance: any) => void);
+      // onTouchMove?: string | ((event: TouchEvent, instance: any) => void);
+      // onTouchEnd?: string | ((event: TouchEvent, instance: any) => void);
+      // onClick?: string | ((event: MouseEvent, instance: any) => void);
+      // onContextMenu?: string | ((event: MouseEvent, instance: any) => void);
    }
 
    type SortDirection = "ASC" | "DESC";
@@ -196,115 +198,114 @@ declare namespace Cx {
    }
 
    class Widget<P extends WidgetProps> {
-      props: P;
-      state: any;
-      context: any;
-      refs: any;
-
       constructor(props: P);
 
-      render();
+      render(context: RenderingContext, instance: Instance, key: string): React.ReactNode;
 
-      setState(state: any);
+      explore?(context: RenderingContext, instance: Instance): void;
+      prepare?(context: RenderingContext, instance: Instance): void;
+      cleanup?(context: RenderingContext, instance: Instance): void;
+      exploreCleanup?(context: RenderingContext, instance: Instance): void;
+      prepareCleanup?(context: RenderingContext, instance: Instance): void;
 
-      forceUpdate();
+      declareData(...args: object[]): void;
 
       static create(typeAlias?: any, config?: Cx.Config, more?: Cx.Config): any;
    }
 }
 
-declare global {
-   namespace JSX {
-      interface IntrinsicElements {
-         cx: any;
-      }
+// declare global {
+//    namespace JSX {
+//       interface IntrinsicElements {
+//          cx: any;
+//       }
 
-      interface IntrinsicAttributes {
-         /** Inner layout used to display children inside the widget. */
-         layout?: any;
+//       interface IntrinsicAttributes {
+//          /** Inner layout used to display children inside the widget. */
+//          layout?: any;
 
-         /** Outer (wrapper) layout used to display the widget in. */
-         outerLayout?: any;
+//          /** Outer (wrapper) layout used to display the widget in. */
+//          outerLayout?: any;
 
-         /** Name of the ContentPlaceholder that should be used to display the widget. */
-         putInto?: string;
+//          /** Name of the ContentPlaceholder that should be used to display the widget. */
+//          putInto?: string;
 
-         /** Name of the ContentPlaceholder that should be used to display the widget. */
-         contentFor?: string;
+//          /** Name of the ContentPlaceholder that should be used to display the widget. */
+//          contentFor?: string;
 
-         /** Controller. */
-         controller?: any;
+//          /** Controller. */
+//          controller?: any;
 
-         /** Visibility of the widget. Defaults to `true`. */
-         visible?: Cx.BooleanProp;
+//          /** Visibility of the widget. Defaults to `true`. */
+//          visible?: Cx.BooleanProp;
 
-         /** Visibility of the widget. Defaults to `true`. */
-         if?: Cx.BooleanProp;
+//          /** Visibility of the widget. Defaults to `true`. */
+//          if?: Cx.BooleanProp;
 
-         /** Appearance modifier. For example, mod="big" will add the CSS class `.cxm-big` to the block element. */
-         mod?: Cx.StringProp | Cx.Prop<string[]> | Cx.StructuredProp;
+//          /** Appearance modifier. For example, mod="big" will add the CSS class `.cxm-big` to the block element. */
+//          mod?: Cx.StringProp | Cx.Prop<string[]> | Cx.StructuredProp;
 
-         /** Cache render output. Default is `true`. */
-         memoize?: Cx.BooleanProp;
+//          /** Cache render output. Default is `true`. */
+//          memoize?: Cx.BooleanProp;
 
-         /** Tooltip configuration. */
-         tooltip?: Cx.StringProp | Cx.StructuredProp;
-      }
-   }
+//          /** Tooltip configuration. */
+//          tooltip?: Cx.StringProp | Cx.StructuredProp;
+//       }
+//    }
 
-   interface JSON {
-      /* JSON doesn't support symbol keys, and number keys
-       * are coerced to strings, even in arrays */
+//    interface JSON {
+//       /* JSON doesn't support symbol keys, and number keys
+//        * are coerced to strings, even in arrays */
 
-      /**
-       * Converts a JavaScript Object Notation (JSON) string into an object.
-       * @param text A valid JSON string.
-       * @param reviver A function that transforms the results. This function is called for each member of the object.
-       * If a member contains nested objects, the nested objects are transformed before the parent object is.
-       */
-      parse(text: string, reviver?: (this: unknown, key: string, value: unknown) => unknown): unknown;
+//       /**
+//        * Converts a JavaScript Object Notation (JSON) string into an object.
+//        * @param text A valid JSON string.
+//        * @param reviver A function that transforms the results. This function is called for each member of the object.
+//        * If a member contains nested objects, the nested objects are transformed before the parent object is.
+//        */
+//       parse(text: string, reviver?: (this: unknown, key: string, value: unknown) => unknown): unknown;
 
-      /**
-       * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
-       * @param value A JavaScript value, usually an object or array, to be converted.
-       * @param replacer A function that transforms the results.
-       * @param space Adds indentation, white space, and line break characters to the return-value JSON text to make it easier to read.
-       */
-      stringify(
-         text: unknown,
-         replacer?: (this: unknown, key: string, value: unknown) => unknown,
-         space?: string | number,
-      ): string;
-   }
+//       /**
+//        * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
+//        * @param value A JavaScript value, usually an object or array, to be converted.
+//        * @param replacer A function that transforms the results.
+//        * @param space Adds indentation, white space, and line break characters to the return-value JSON text to make it easier to read.
+//        */
+//       stringify(
+//          text: unknown,
+//          replacer?: (this: unknown, key: string, value: unknown) => unknown,
+//          space?: string | number,
+//       ): string;
+//    }
 
-   interface ArrayConstructor {
-      isArray(a: unknown): a is unknown[];
-   }
+//    interface ArrayConstructor {
+//       isArray(a: unknown): a is unknown[];
+//    }
 
-   interface Body {
-      json(): Promise<unknown>;
-   }
-}
+//    interface Body {
+//       json(): Promise<unknown>;
+//    }
+// }
 
-declare module "react" {
-   interface ClassAttributes<T> extends Cx.PureContainerProps {
-      class?: Cx.ClassProp;
-      styles?: Cx.StyleProp;
-      text?: Cx.StringProp | Cx.NumberProp;
-      innerText?: Cx.StringProp;
-      html?: Cx.StringProp;
-      innerHtml?: Cx.StringProp;
-      tooltip?: Cx.StringProp | Cx.StructuredProp;
-   }
-   namespace React {
-      interface ImgHTMLAttributes<T> extends HTMLAttributes<T> {
-         alt?: Cx.StringProp | undefined;
-         src?: Cx.StringProp | undefined;
-      }
-   }
+// declare module "react" {
+//    interface ClassAttributes<T> extends Cx.PureContainerProps {
+//       class?: Cx.ClassProp;
+//       styles?: Cx.StyleProp;
+//       text?: Cx.StringProp | Cx.NumberProp;
+//       innerText?: Cx.StringProp;
+//       html?: Cx.StringProp;
+//       innerHtml?: Cx.StringProp;
+//       tooltip?: Cx.StringProp | Cx.StructuredProp;
+//    }
+//    namespace React {
+//       interface ImgHTMLAttributes<T> extends HTMLAttributes<T> {
+//          alt?: Cx.StringProp | undefined;
+//          src?: Cx.StringProp | undefined;
+//       }
+//    }
 
-   //this doesn't work, however, it would be nice if it does
-   // interface EventHandler<E extends React.SyntheticEvent<any>> {
-   //    (event: E, instance?: any): void;
-   // }
-}
+//    //this doesn't work, however, it would be nice if it does
+//    // interface EventHandler<E extends React.SyntheticEvent<any>> {
+//    //    (event: E, instance?: any): void;
+//    // }
+// }

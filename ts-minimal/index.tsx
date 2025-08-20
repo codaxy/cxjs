@@ -1,8 +1,9 @@
-import { Widget, startAppLoop, History, startHotAppLoop, bind } from "cx/ui";
+import { Widget, startAppLoop, History, startHotAppLoop, bind, Controller } from "cx/ui";
 //import { HtmlElement } from 'cx/widgets';
 import { Timing, Debug } from "cx/util";
 import { Store } from "cx/data";
 import { TextField } from "cx/widgets";
+import { TestWidget } from "./TestWidget";
 
 let store = new Store();
 
@@ -19,11 +20,22 @@ startHotAppLoop(
    module,
    document.getElementById("app"),
    store,
-   <div test>
+   <div
+      onMouseMove={(e, instance) => {
+         console.log("Mouse moved", e, instance);
+      }}
+      controller={{
+         onInit() {
+            console.log("Controller initialized");
+         },
+      }}
+   >
       <h1>TypeScript Minimal Example</h1>
       <p>This is a minimal example of a Cx application using TypeScript.</p>
       <p>Check the console for debug information.</p>
       <TextField value={bind("nesto")} />
       <TextField value={bind("nesto")} />
+      <div text={bind("nesto")} style="color: red" />
+      <TestWidget />
    </div>,
 );
