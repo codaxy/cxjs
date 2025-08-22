@@ -1,3 +1,5 @@
+/** @jsxImportSource react */
+
 import { Widget, VDOM, getContent } from "../../ui/Widget";
 import { Field, getFieldTooltip } from "./Field";
 import {

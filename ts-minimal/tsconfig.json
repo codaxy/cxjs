@@ -2,7 +2,7 @@
    "compilerOptions": {
       "jsx": "react-jsx",
       //"jsxFactory": "cx",
-      "jsxImportSource": "cx",
+      "jsxImportSource": "cxts",
       "module": "esnext",
       "moduleResolution": "bundler",
       "esModuleInterop": true,

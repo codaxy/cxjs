@@ -5,8 +5,10 @@ module.exports = {
       [
          "@babel/preset-env",
          {
-            loose: true,
             modules: false,
+            targets: {
+               chrome: "79"
+            }
          },
       ],
    ],

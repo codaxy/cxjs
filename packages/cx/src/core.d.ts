@@ -208,7 +208,7 @@ declare namespace Cx {
       exploreCleanup?(context: RenderingContext, instance: Instance): void;
       prepareCleanup?(context: RenderingContext, instance: Instance): void;
 
-      declareData(...args: object[]): void;
+      declareData?(...args: object[]): void;
 
       static create(typeAlias?: any, config?: Cx.Config, more?: Cx.Config): any;
    }

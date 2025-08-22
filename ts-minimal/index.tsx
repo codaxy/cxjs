@@ -1,8 +1,8 @@
-import { Widget, startAppLoop, History, startHotAppLoop, bind, Controller } from "cx/ui";
+import { Widget, startAppLoop, History, startHotAppLoop, bind, Controller } from "cxts/ui";
 //import { HtmlElement } from 'cx/widgets';
-import { Timing, Debug } from "cx/util";
-import { Store } from "cx/data";
-import { TextField } from "cx/widgets";
+import { Timing, Debug } from "cxts/util";
+import { Store } from "cxts/data";
+import { TextField } from "cxts/src/widgets/form/TextField";
 import { TestWidget } from "./TestWidget";
 
 let store = new Store();

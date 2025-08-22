@@ -1,7 +1,6 @@
 /** @jsxImportSource react */
 
-import { RenderingContext, Instance } from "cx/ui";
-import { Widget } from "cx/widgets";
+import { RenderingContext, Instance, Widget } from "cxts/ui";
 
 interface TestWidgetProps {}
 

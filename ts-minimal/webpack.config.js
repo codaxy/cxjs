@@ -21,13 +21,13 @@ let common = {
             loader: "json-loader",
          },
          {
-            test: /\.(ts|tsx)$/,
-            include: /(ts-minimal)/,
+            test: /\.(js|jsx|ts|tsx)$/,
+            //include: /(ts-minimal)/,
             loader: "ts-loader",
             options: {
                colors: false,
-               logLevel: 'info'
-            }
+               logLevel: "info",
+            },
          },
       ],
    },
@@ -69,7 +69,7 @@ let specific;
 if (production) {
    specific = {
       mode: "production",
-      target: ["web", "es5"], //IE 11
+      target: ["web", "es2015"], // Modern browsers for better tree-shaking
       module: {
          rules: [
             {
@@ -96,6 +96,11 @@ if (production) {
       output: {
          path: path.join(__dirname, "dist"),
          publicPath: ".",
+      },
+
+      optimization: {
+         usedExports: true,
+         sideEffects: false,
       },
    };
 } else {
