@@ -139,7 +139,8 @@ import "./index.scss";
 //import Demo from "./features/grid/CellEditing";
 // import Demo from "./features/charts/PointReducer";
 // import Demo from "./features/charts/line-graph/LineGraph";
-import Demo from "./bugs/GridDefaultSortFieldClearableSortIssue";
+// import Demo from "./bugs/GridDefaultSortFieldClearableSortIssue";
+import Demo from "./bugs/GridFixedColumnsFixedHeaderColumnsPosition";
 let store = (window.store = new Store());
 
 Widget.resetCounter();
