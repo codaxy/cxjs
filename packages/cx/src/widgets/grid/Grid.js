@@ -2512,6 +2512,7 @@ class GridComponent extends VDOM.Component {
                }
 
                if (this.dom.fixedScroller) this.dom.fixedFooter.style.left = `${this.dom.fixedScroller.offsetWidth}px`;
+               else if (this.dom.fixedFooter.style.left != null) this.dom.fixedFooter.style.left = null;
             }
 
             this.dom.scroller.style.marginBottom = `${footerHeight}px`;

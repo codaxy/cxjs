@@ -32,7 +32,7 @@ export default () => (
                onGetColumns={(showFirstCol) => {
                   let cols = showFirstCol ? [{ header: "Name", field: "fullName", fixed: true }] : [];
                   cols.push(
-                     { header: "Continent", field: "continent" },
+                     { header: "Continent", field: "continent", footer: "abc" },
                      { header: "Browser", field: "browser" },
                      { header: "OS", field: "os" },
                      {
@@ -47,6 +47,7 @@ export default () => (
 
                   return cols;
                }}
+               fixedFooter
                selection={{ type: KeySelection, bind: "$page.selection", multiple: true }}
             />
          </div>
