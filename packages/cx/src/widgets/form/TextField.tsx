@@ -41,22 +41,22 @@ export class TextField extends Field {
       super.init();
    }
 
-   public declareData(): void {
-      super.declareData();
-
-      // TextField specific data properties
-      const textFieldData = {
-         value: this.emptyValue,
-         disabled: undefined,
-         readOnly: undefined,
-         enabled: undefined,
-         placeholder: undefined,
-         required: undefined,
-         minLength: undefined,
-         maxLength: undefined,
-         icon: undefined,
-         trim: undefined,
-      };
+   public declareData(...args: any[]): void {
+      super.declareData(
+         {
+            value: this.emptyValue,
+            disabled: undefined,
+            readOnly: undefined,
+            enabled: undefined,
+            placeholder: undefined,
+            required: undefined,
+            minLength: undefined,
+            maxLength: undefined,
+            icon: undefined,
+            trim: undefined,
+         },
+         ...args,
+      );
    }
 
    public renderInput(context: any, instance: any, key?: any): any {

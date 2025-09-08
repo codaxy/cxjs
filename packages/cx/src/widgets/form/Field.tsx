@@ -46,28 +46,27 @@ export class Field extends PureContainer {
    public helpSpacer?: string;
    public trackFocus?: boolean;
 
-   public declareData(): void {
-      super.declareData();
-
-      // Field-specific data properties (handled differently in legacy code)
-      const fieldData = {
-         label: undefined,
-         labelWidth: undefined,
-         mode: undefined,
-         viewMode: undefined,
-         id: undefined,
-         error: undefined,
-         inputStyle: { structured: true },
-         inputClass: { structured: true },
-         inputAttrs: { structured: true },
-         emptyText: undefined,
-         visited: undefined,
-         autoFocus: undefined,
-         tabOnEnterKey: undefined,
-         tabIndex: undefined,
-         validationParams: { structured: true },
-      };
-      // Legacy field data handling would go here
+   public declareData(...args: any[]): void {
+      super.declareData(
+         {
+            label: undefined,
+            labelWidth: undefined,
+            mode: undefined,
+            viewMode: undefined,
+            id: undefined,
+            error: undefined,
+            inputStyle: { structured: true },
+            inputClass: { structured: true },
+            inputAttrs: { structured: true },
+            emptyText: undefined,
+            visited: undefined,
+            autoFocus: undefined,
+            tabOnEnterKey: undefined,
+            tabIndex: undefined,
+            validationParams: { structured: true },
+         },
+         ...args,
+      );
    }
 
    public init(): void {

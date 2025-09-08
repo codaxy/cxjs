@@ -25,7 +25,7 @@ startHotAppLoop(
    store,
    <div
       onMouseMove={(e, instance) => {
-         console.log("Mouse moved", e, instance);
+         // console.log("Mouse moved", e, instance);
       }}
       controller={{
          onInit() {
@@ -35,8 +35,10 @@ startHotAppLoop(
    >
       <h1>TypeScript Minimal Example</h1>
       <p>This is a minimal example of a Cx application using TypeScript.</p>
-      <p>Check the console for debug information.</p>
+      <p>Check the console for1 debug information.</p>
       <TextField value={bind("nesto")} />
+      <TextField value={bind("nesto")} />
+
       <div text={bind("nesto")} style="color: red" />
    </div>,
 );

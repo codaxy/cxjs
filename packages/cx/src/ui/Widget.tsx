@@ -100,7 +100,7 @@ export class Widget extends Component {
       }
    }
 
-   declareData() {
+   declareData(...args) {
       let options: any = {};
 
       if (this.styled) options.class = options.className = options.style = { structured: true };
@@ -113,7 +113,7 @@ export class Widget extends Component {
          ...options,
       };
 
-      // Object.assign(props, ...arguments);
+      Object.assign(props, ...args);
       this.selector = new StructuredSelector({ props: props, values: this });
       this.nameMap = this.selector.nameMap;
    }
