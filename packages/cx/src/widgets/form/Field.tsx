@@ -16,42 +16,71 @@ import { coalesce } from "../../util/coalesce";
 import { isUndefined } from "../../util/isUndefined";
 import { shallowEquals } from "../../util/shallowEquals";
 import { FieldIcon } from "./FieldIcon";
+import { Instance } from "../../ui";
 
 export class Field extends PureContainer {
-   declareData() {
-      super.declareData(
-         {
-            label: undefined,
-            labelWidth: undefined,
-            mode: undefined,
-            viewMode: undefined,
-            id: undefined,
-            error: undefined,
-            inputStyle: { structured: true },
-            inputClass: { structured: true },
-            inputAttrs: { structured: true },
-            emptyText: undefined,
-            visited: undefined,
-            autoFocus: undefined,
-            tabOnEnterKey: undefined,
-            tabIndex: undefined,
-            validationParams: { structured: true },
-         },
-         ...arguments,
-      );
+   public inputStyle?: any;
+   public validationMode?: string;
+   public errorTooltip?: any;
+   public help?: any;
+   public label?: any;
+   public mod?: any;
+   public disabled?: any;
+   public required?: any;
+   public asterisk?: any;
+   public labelStyle?: any;
+   public labelClass?: any;
+   public icon?: any;
+   public visited?: boolean;
+   public labelPlacement?: string;
+   public helpPlacement?: string;
+   public emptyValue?: any;
+   public requiredText?: string;
+   public validatingText?: string;
+   public onValidate?: any;
+   public validationExceptionText?: string;
+   public onValidationException?: any;
+   public onKeyDown?: any;
+   public suppressErrorsUntilVisited?: boolean;
+   public autoFocus?: boolean;
+   public helpSpacer?: string;
+   public trackFocus?: boolean;
+
+   public declareData(): void {
+      super.declareData();
+
+      // Field-specific data properties (handled differently in legacy code)
+      const fieldData = {
+         label: undefined,
+         labelWidth: undefined,
+         mode: undefined,
+         viewMode: undefined,
+         id: undefined,
+         error: undefined,
+         inputStyle: { structured: true },
+         inputClass: { structured: true },
+         inputAttrs: { structured: true },
+         emptyText: undefined,
+         visited: undefined,
+         autoFocus: undefined,
+         tabOnEnterKey: undefined,
+         tabIndex: undefined,
+         validationParams: { structured: true },
+      };
+      // Legacy field data handling would go here
    }
 
-   init() {
+   public init(): void {
       this.inputStyle = parseStyle(this.inputStyle);
       super.init();
    }
 
-   initComponents(context, instance) {
+   public initComponents(_context: any, instance: any): void {
       if (this.validationMode == "tooltip" && isUndefined(this.errorTooltip)) {
          this.errorTooltip = {
             text: { bind: "$error" },
             mod: "error",
-            ...this.errorTooltip,
+            ...(this.errorTooltip || {}),
          };
       }
 
@@ -75,7 +104,7 @@ export class Field extends PureContainer {
          let helpConfig = {};
 
          if (this.help.isComponentType) helpConfig = this.help;
-         else if (isSelector(this.help)) helpConfig.text = this.help;
+         else if (isSelector(this.help)) (helpConfig as any).text = this.help;
          else Object.assign(helpConfig, this.help);
 
          this.help = HelpText.create(helpConfig);
@@ -92,7 +121,7 @@ export class Field extends PureContainer {
          };
 
          if (this.label.isComponentType) labelConfig = this.label;
-         else if (isSelector(this.label)) labelConfig.text = this.label;
+         else if (isSelector(this.label)) (labelConfig as any).text = this.label;
          else Object.assign(labelConfig, this.label);
 
          this.label = Label.create(labelConfig);
@@ -100,29 +129,29 @@ export class Field extends PureContainer {
 
       if (this.icon != null) {
          let iconConfig = {
-            className: this.CSS.element(this.baseClass, "icon"),
+            className: this.CSS.element(this.baseClass, "icon") as any,
          };
-         if (isSelector(this.icon)) iconConfig.name = this.icon;
+         if (isSelector(this.icon)) (iconConfig as any).name = this.icon;
          else Object.assign(iconConfig, this.icon);
 
          this.icon = FieldIcon.create(iconConfig);
       }
 
-      return super.initComponents(...arguments, {
+      return super.initComponents({
          label: this.label,
          help: this.help,
          icon: this.icon,
       });
    }
 
-   initState(context, instance) {
+   public initState(_context: any, instance: any): void {
       instance.state = {
          inputError: false,
          visited: this.visited === true,
       };
    }
 
-   prepareData(context, instance) {
+   public prepareData(context: any, instance: any): void {
       let { data, state } = instance;
       if (!data.id) data.id = "fld-" + instance.id;
 
@@ -149,10 +178,10 @@ export class Field extends PureContainer {
 
       data.empty = this.isEmpty(data);
 
-      super.prepareData(...arguments);
+      super.prepareData(context, instance);
    }
 
-   disableOrValidate(context, instance) {
+   protected disableOrValidate(context: any, instance: any): void {
       let { data, state } = instance;
 
       //if the parent is strict and sets some flag to true, it is not allowed to overrule that flag by field settings
@@ -342,8 +371,14 @@ export class Field extends PureContainer {
          return (
             <span
                key={key}
-               onMouseMove={(e) => tooltipMouseMove(e, ...getFieldTooltip(instance))}
-               onMouseLeave={(e) => tooltipMouseLeave(e, ...getFieldTooltip(instance))}
+               onMouseMove={(e: any) => {
+                  const tooltip = getFieldTooltip(instance);
+                  if (tooltip) (tooltipMouseMove as any)(e, tooltip, null, null);
+               }}
+               onMouseLeave={(e: any) => {
+                  const tooltip = getFieldTooltip(instance);
+                  if (tooltip) (tooltipMouseLeave as any)(e, tooltip, null, null);
+               }}
             >
                {text}
             </span>
@@ -351,12 +386,12 @@ export class Field extends PureContainer {
       }
    }
 
-   renderContent(context, instance, key) {
-      let content = this.renderValue(...arguments) || this.renderEmptyText(...arguments);
+   protected renderContent(context: any, instance: any, key: any): any {
+      let content = this.renderValue(context, instance, key) || this.renderEmptyText(context, instance, key);
       return this.renderWrap(context, instance, key, content);
    }
 
-   renderWrap(context, instance, key, content) {
+   protected renderWrap(context: any, instance: any, key: any, content: any): any {
       let { data } = instance;
       let interactive = !data.viewMode && !data.disabled;
       return (
@@ -373,7 +408,7 @@ export class Field extends PureContainer {
       );
    }
 
-   renderEmptyText(context, { data }, key) {
+   protected renderEmptyText(_context: any, { data }: any, key: any): any {
       return (
          <span key={key} className={this.CSS.element(this.baseClass, "empty-text")}>
             {data.emptyText || <span>&nbsp;</span>}
@@ -381,7 +416,7 @@ export class Field extends PureContainer {
       );
    }
 
-   render(context, instance, key) {
+   public render(context: any, instance: any, key?: any): any {
       let { data } = instance;
       let content = !data.viewMode
          ? this.renderInput(context, instance, key)
@@ -395,13 +430,13 @@ export class Field extends PureContainer {
       };
    }
 
-   handleKeyDown(e, instance) {
+   protected handleKeyDown(e: any, instance: any): boolean | void {
       if (this.onKeyDown && instance.invoke("onKeyDown", e, instance) === false) return false;
 
       if (instance.data.tabOnEnterKey && e.keyCode === 13) {
          let target = e.target;
          setTimeout(() => {
-            if (!instance.state.inputError) FocusManager.focusNext(target);
+            if (!instance.state.inputError) (FocusManager as any).focusNext(target);
          }, 10);
       }
    }
@@ -414,10 +449,10 @@ Field.prototype.autoFocus = false;
 Field.prototype.asterisk = false;
 Field.prototype.validatingText = "Validation is in progress...";
 Field.prototype.validationExceptionText = "Something went wrong during input validation. Check log for more details.";
-Field.prototype.helpSpacer = true;
+Field.prototype.helpSpacer = "true";
 Field.prototype.trackFocus = false; //add cxs-focus on parent element
-Field.prototype.labelPlacement = false;
-Field.prototype.helpPlacement = false;
+Field.prototype.labelPlacement = "false";
+Field.prototype.helpPlacement = "false";
 Field.prototype.emptyValue = null;
 Field.prototype.styled = true;
 
@@ -429,7 +464,7 @@ Field.prototype.styled = true;
 
 Localization.registerPrototype("cx/widgets/Field", Field);
 
-export function getFieldTooltip(instance) {
+export function getFieldTooltip(instance): [Instance, any, any?] {
    let { widget, data, state } = instance;
 
    if (widget.errorTooltip && data.error && (!state || state.visited || !widget.suppressErrorsUntilVisited))

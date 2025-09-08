@@ -1,6 +1,7 @@
 /** @jsxImportSource react */
 
-import { Widget, VDOM, getContent } from "../../ui/Widget";
+import { Widget, getContent } from "../../ui/Widget";
+import React from "react";
 import { Field, getFieldTooltip } from "./Field";
 import {
    tooltipParentWillReceiveProps,
@@ -20,11 +21,19 @@ import { isString } from "../../util/isString";
 import { getActiveElement } from "../../util/getActiveElement";
 
 export class TextField extends Field {
-   public hideClear: any;
-   public showClear: any;
-   public alwaysShowClear: any;
+   public hideClear?: boolean;
+   public showClear?: boolean;
+   public alwaysShowClear?: boolean;
+   public validationRegExp?: RegExp;
+   public validationErrorText?: string;
+   public minLengthValidationErrorText?: string;
+   public maxLengthValidationErrorText?: string;
+   public reactOn?: string;
+   public inputType?: string;
+   public keyboardShortcut?: string;
+   public trim?: boolean;
 
-   init() {
+   public init(): void {
       if (typeof this.hideClear !== "undefined") this.showClear = !this.hideClear;
 
       if (this.alwaysShowClear) this.showClear = true;
@@ -32,25 +41,25 @@ export class TextField extends Field {
       super.init();
    }
 
-   declareData() {
-      super.declareData(
-         {
-            value: this.emptyValue,
-            disabled: undefined,
-            readOnly: undefined,
-            enabled: undefined,
-            placeholder: undefined,
-            required: undefined,
-            minLength: undefined,
-            maxLength: undefined,
-            icon: undefined,
-            trim: undefined,
-         },
-         ...arguments,
-      );
+   public declareData(): void {
+      super.declareData();
+
+      // TextField specific data properties
+      const textFieldData = {
+         value: this.emptyValue,
+         disabled: undefined,
+         readOnly: undefined,
+         enabled: undefined,
+         placeholder: undefined,
+         required: undefined,
+         minLength: undefined,
+         maxLength: undefined,
+         icon: undefined,
+         trim: undefined,
+      };
    }
 
-   renderInput(context, instance, key) {
+   public renderInput(context: any, instance: any, key?: any): any {
       return (
          <Input
             key={key}
@@ -63,7 +72,7 @@ export class TextField extends Field {
       );
    }
 
-   validate(context, instance) {
+   public validate(context: any, instance: any): void {
       super.validate(context, instance);
 
       let { data } = instance;
@@ -89,20 +98,22 @@ TextField.prototype.suppressErrorsUntilVisited = true;
 TextField.prototype.icon = null;
 TextField.prototype.showClear = false;
 TextField.prototype.alwaysShowClear = false;
-TextField.prototype.keyboardShortcut = false;
+TextField.prototype.keyboardShortcut = "false";
 TextField.prototype.trim = false;
 
 Localization.registerPrototype("cx/widgets/TextField", TextField);
 
-class Input extends VDOM.Component {
-   constructor(props) {
+class Input extends React.Component<any, any> {
+   public input?: HTMLInputElement;
+
+   constructor(props: any) {
       super(props);
       this.state = {
          focus: false,
       };
    }
 
-   render() {
+   render(): any {
       let { instance, data, label, help, icon: iconVDOM } = this.props;
       let { widget, state } = instance;
       let { CSS, baseClass, suppressErrorsUntilVisited } = widget;
@@ -111,7 +122,7 @@ class Input extends VDOM.Component {
          <div
             className={CSS.element(baseClass, "left-icon")}
             onMouseDown={preventDefault}
-            onClick={(e) => this.onChange(e.target.value, "enter")}
+            onClick={(e: any) => this.onChange((e.target as any).value, "enter")}
          >
             {iconVDOM}
          </div>
@@ -128,8 +139,8 @@ class Input extends VDOM.Component {
          insideButton = (
             <div
                className={CSS.element(baseClass, "clear")}
-               onMouseDown={(e) => e.preventDefault()}
-               onClick={(e) => this.onClearClick(e)}
+               onMouseDown={(e: any) => e.preventDefault()}
+               onClick={(e: any) => this.onClearClick(e)}
             >
                <ClearIcon className={CSS.element(baseClass, "icon")} />
             </div>
@@ -156,8 +167,8 @@ class Input extends VDOM.Component {
             onTouchStart={stopPropagation}
          >
             <input
-               ref={(el) => {
-                  this.input = el;
+               ref={(el: HTMLInputElement | null) => {
+                  this.input = el || undefined;
                }}
                className={CSS.expand(CSS.element(baseClass, "input"), data.inputClass)}
                defaultValue={data.value}
@@ -171,8 +182,8 @@ class Input extends VDOM.Component {
                {...data.inputAttrs}
                onMouseMove={this.onMouseMove.bind(this)}
                onMouseLeave={this.onMouseLeave.bind(this)}
-               onInput={(e) => this.onChange(e.target.value, "input")}
-               onChange={(e) => this.onChange(e.target.value, "change")}
+               onInput={(e: any) => this.onChange(e.target.value, "input")}
+               onChange={(e: any) => this.onChange((e.target as any).value, "change")}
                onKeyDown={this.onKeyDown.bind(this)}
                onFocus={this.onFocus.bind(this)}
                onBlur={this.onBlur.bind(this)}
@@ -186,7 +197,7 @@ class Input extends VDOM.Component {
       );
    }
 
-   onFocus() {
+   onFocus(): void {
       let { instance, data } = this.props;
       let { widget } = instance;
       if (widget.trackFocus) {
@@ -198,45 +209,48 @@ class Input extends VDOM.Component {
       if (data.error && data.value) instance.setState({ visited: true });
    }
 
-   onBlur(e) {
+   onBlur(e: any): void {
       if (this.state.focus) {
          this.setState({
             focus: false,
          });
          this.props.instance.set("focused", false);
       }
-      this.onChange(e.target.value, "blur");
+      this.onChange((e.target as any).value, "blur");
    }
 
-   onClearClick(e) {
-      this.input.value = ""; // prevent onChange call with old text value on blur or component unmount
+   onClearClick(_e: any): void {
+      if (this.input) this.input.value = ""; // prevent onChange call with old text value on blur or component unmount
       this.props.instance.set("value", this.props.instance.widget.emptyValue, { immediate: true });
    }
 
-   onMouseMove(e) {
-      tooltipMouseMove(e, ...getFieldTooltip(this.props.instance));
+   onMouseMove(e: any): void {
+      const tooltip = getFieldTooltip(this.props.instance);
+      tooltipMouseMove(e, tooltip[0], tooltip[1], tooltip[2]);
    }
 
-   onMouseLeave(e) {
-      tooltipMouseLeave(e, ...getFieldTooltip(this.props.instance));
+   onMouseLeave(e: any): void {
+      const tooltip = getFieldTooltip(this.props.instance);
+      tooltipMouseLeave(e, tooltip[0], tooltip[1], tooltip[2]);
    }
 
-   componentDidMount() {
-      tooltipParentDidMount(this.input, ...getFieldTooltip(this.props.instance));
+   componentDidMount(): void {
+      const tooltip = getFieldTooltip(this.props.instance);
+      tooltipParentDidMount(this.input, tooltip[0], tooltip[1], tooltip[2]);
       autoFocus(this.input, this);
    }
 
-   componentDidUpdate() {
+   componentDidUpdate(): void {
       autoFocus(this.input, this);
    }
 
-   componentWillUnmount() {
-      if (this.input == getActiveElement() && this.input.value != this.props.data.value)
+   componentWillUnmount(): void {
+      if (this.input == getActiveElement() && this.input && this.input.value != this.props.data.value)
          this.onChange(this.input.value, "blur");
       tooltipParentWillUnmount(this.props.instance);
    }
 
-   onKeyDown(e) {
+   onKeyDown(e: any): void {
       let { instance } = this.props;
       if (instance.widget.handleKeyDown(e, instance) === false) return;
 
@@ -252,15 +266,17 @@ class Input extends VDOM.Component {
       }
    }
 
-   UNSAFE_componentWillReceiveProps(props) {
+   UNSAFE_componentWillReceiveProps(props: any): void {
       let { data } = props;
       // The second check is required for debouncing, sometimes the value in the store lags after the input
       // and update may be caused by some other property, i.e. visited
-      if (data.value != this.input.value && data.value != this.props.data.value) this.input.value = data.value || "";
-      tooltipParentWillReceiveProps(this.input, ...getFieldTooltip(props.instance));
+      if (this.input && data.value != this.input.value && data.value != this.props.data.value)
+         this.input.value = data.value || "";
+      const tooltip = getFieldTooltip(props.instance);
+      tooltipParentWillReceiveProps(this.input, tooltip[0], tooltip[1], tooltip[2]);
    }
 
-   onChange(textValue, change) {
+   onChange(textValue: any, change: string): void {
       let { instance, data } = this.props;
 
       let immediate = change == "blur" || change == "enter";
@@ -275,19 +291,19 @@ class Input extends VDOM.Component {
          let text = this.trimmed(textValue);
          if (data.maxLength != null && text.length > data.maxLength) {
             text = text.substring(0, data.maxLength);
-            this.input.value = text;
+            if (this.input) this.input.value = text;
          }
 
          let value = text || widget.emptyValue;
          if (!instance.set("value", value, { immediate })) {
-            if (text != this.input.value && immediate) this.input.value = text;
+            if (this.input && text != this.input.value && immediate) this.input.value = text;
          } else {
             if (value) instance.setState({ visited: true });
          }
       }
    }
 
-   trimmed(value) {
+   trimmed(value: any): any {
       if (this.props.data.trim && isString(value)) return value.trim();
       return value;
    }

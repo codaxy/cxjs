@@ -2,34 +2,40 @@ import { CSSHelper } from "./CSSHelper";
 import { parseStyle } from "../util/parseStyle";
 import { isArray } from "../util/isArray";
 
-function push(list, item) {
-   if (!item) return list;
+function push(list: any[] | undefined, item: any): any[] {
+   if (!item) return list || [];
    if (!list) list = [];
    list.push(item);
    return list;
 }
 
-function pushMore(list, itemArray) {
-   if (!itemArray || itemArray.length == 0) return list;
+function pushMore(list: any[] | undefined, itemArray: any[]): any[] {
+   if (!itemArray || itemArray.length == 0) return list || [];
    if (!list) list = [];
    list.push.apply(list, itemArray);
    return list;
 }
 
-function pushMap(list, itemArray, mapF) {
+function pushMap(list: any[] | undefined, itemArray: any[] | undefined, mapF: (item: any) => any): any[] | undefined {
    return itemArray ? pushMore(list, itemArray.map(mapF)) : list;
 }
 
-function join(list) {
+function join(list: any[] | undefined): string | null {
    return list ? list.join(" ") : null;
 }
 
 export class CSS {
-   static resolve() {
-      let list, type, arg, i, key;
+   public static classPrefix: string;
 
-      for (i = 0; i < arguments.length; i++) {
-         arg = arguments[i];
+   static resolve(...args: any[]): any[] {
+      let list: any[] | undefined = undefined,
+         type: string,
+         arg: any,
+         i: number,
+         key: string;
+
+      for (i = 0; i < args.length; i++) {
+         arg = args[i];
          if (arg) {
             type = typeof arg;
             if (type == "string") list = push(list, arg);
@@ -39,37 +45,37 @@ export class CSS {
             }
          }
       }
-      return list;
+      return list || [];
    }
 
-   static block(baseClass, styleModifiers, stateModifiers) {
-      let list;
+   static block(baseClass: string, styleModifiers: any, stateModifiers: any): string | null {
+      let list: any[] | undefined;
       if (baseClass) list = push(list, this.classPrefix + "b-" + baseClass);
       list = pushMap(list, this.resolve(styleModifiers), (m) => this.classPrefix + "m-" + m);
       list = pushMap(list, this.resolve(stateModifiers), (m) => this.classPrefix + "s-" + m);
       return join(list);
    }
 
-   static element(baseClass, elementClass, stateModifiers) {
-      let list;
+   static element(baseClass: string, elementClass: string, stateModifiers: any): string | null {
+      let list: any[] | undefined;
       if (baseClass && elementClass) list = push(list, this.classPrefix + "e-" + baseClass + "-" + elementClass);
       list = pushMap(list, this.resolve(stateModifiers), (m) => this.classPrefix + "s-" + m);
       return join(list);
    }
 
-   static state(stateModifiers) {
-      return join(pushMap(null, this.resolve(stateModifiers), (m) => this.classPrefix + "s-" + m));
+   static state(stateModifiers: any): string | null {
+      return join(pushMap(undefined, this.resolve(stateModifiers), (m) => this.classPrefix + "s-" + m));
    }
 
-   static mod(mods) {
-      return join(pushMap(null, this.resolve(mods), (m) => this.classPrefix + "m-" + m));
+   static mod(mods: any): string | null {
+      return join(pushMap(undefined, this.resolve(mods), (m) => this.classPrefix + "m-" + m));
    }
 
-   static expand() {
-      return join(this.resolve(...arguments));
+   static expand(...args: any[]): string | null {
+      return join(this.resolve(...args));
    }
 
-   static parseStyle(str) {
+   static parseStyle(str: string): any {
       return parseStyle(str);
    }
 }
