@@ -7,7 +7,18 @@ import { isArray } from "../util/isArray";
 import { exploreChildren } from "./layout/exploreChildren";
 
 export class Container extends Widget {
-   init(context) {
+   public ws?: boolean;
+   public preserveWhitespace?: boolean;
+   public trimWhitespace?: boolean;
+   public items?: any[];
+   public children?: any[];
+   public layout?: any;
+   public useParentLayout?: boolean;
+   public itemDefaults?: any;
+   public plainText?: boolean;
+
+   public init(context?: any): void {
+      super.init();
       if (typeof this.ws !== "undefined") this.preserveWhitespace = this.ws;
 
       if (this.preserveWhitespace) this.trimWhitespace = false;
@@ -17,7 +28,7 @@ export class Container extends Widget {
       this.items = [];
 
       if (this.layout) {
-         let layout = Widget.create({ type: this.layout, items });
+         let layout = Widget.create({ type: this.layout, items }, {});
          layout.init(context);
          this.layout = null;
          if (layout.noLayout) {
@@ -31,27 +42,26 @@ export class Container extends Widget {
          this.add(items);
       }
 
-      super.init(context);
    }
 
-   exploreItems(context, instance, items) {
+   protected exploreItems(context: any, instance: any, items: any[]): void {
       instance.children = exploreChildren(context, instance, items, instance.cached.children, null, instance.store);
       if (instance.cache("children", instance.children)) instance.markShouldUpdate(context);
    }
 
-   explore(context, instance) {
+   public explore(context: any, instance: any): void {
       super.explore(context, instance);
       this.exploreItems(context, instance, this.items);
    }
 
-   render(context, instance) {
+   public render(context: any, instance: any): any {
       return this.renderChildren(context, instance);
    }
 
-   renderChildren(context, instance) {
+   protected renderChildren(_context: any, instance: any): any {
       let preserveComplexContent = this.useParentLayout;
 
-      function append(result, r) {
+      function append(result: any[], r: any): void {
          if (r == null) return;
 
          //react element
@@ -60,7 +70,7 @@ export class Container extends Widget {
             return;
          }
 
-         if (r.useParentLayout) return r.content.forEach((x) => append(result, x));
+         if (r.useParentLayout) return r.content.forEach((x: any) => append(result, x));
 
          if (r.atomic || preserveComplexContent) {
             result.push(r);
@@ -84,12 +94,12 @@ export class Container extends Widget {
       return result;
    }
 
-   clear() {
+   public clear(): void {
       if (this.layout) this.layout.clear();
       else this.items = [];
    }
 
-   add(...args) {
+   public add(...args: any[]): void {
       if (this.layout) return this.layout.add(...args);
 
       args.forEach((a) => {
@@ -100,31 +110,31 @@ export class Container extends Widget {
             if (a) this.addText(a);
          } else if (a.isComponent) this.items.push(this.wrapItem(a));
          else {
-            this.add(Widget.create(a, this.itemDefaults));
+            this.add(Widget.create(a, this.itemDefaults, {}));
          }
       });
    }
 
-   wrapItem(item) {
+   protected wrapItem(item: any): any {
       return item;
    }
 
-   addText(text) {
+   protected addText(text: string): void {
       if (this.plainText || text.indexOf("{") == -1 || text.indexOf("}") == -1)
-         this.add(Widget.create(StaticText, { text: text }));
-      else this.add(Widget.create(Text, { text: { tpl: text } }));
+         this.add(Widget.create(StaticText, { text: text }, {}));
+      else this.add(Widget.create(Text, { text: { tpl: text } }, {}));
    }
 
-   find(filter, options) {
+   public find(filter: any, options?: any): any[] {
       if (!options) options = {};
 
       if (!filter || !this.items) return [];
 
       let alias = filter;
 
-      if (isString(filter)) filter = (w) => w.componentAlias == alias;
+      if (isString(filter)) filter = (w: any) => w.componentAlias == alias;
 
-      if (filter.isComponentType) filter = (w) => w instanceof alias;
+      if (filter.isComponentType) filter = (w: any) => w instanceof alias;
 
       let results = [];
 
@@ -144,7 +154,7 @@ export class Container extends Widget {
       return results;
    }
 
-   findFirst(filter, options) {
+   public findFirst(filter: any, options?: any): any {
       return this.find(filter, { ...options, first: true })[0];
    }
 }
