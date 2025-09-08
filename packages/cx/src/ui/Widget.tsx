@@ -8,8 +8,8 @@ import { isDefined } from "../util/isDefined";
 import { isArray } from "../util/isArray";
 import { Console } from "../util/Console";
 
-import { VDOM } from "./VDOM";
-export { VDOM };
+import { VDOM as vdom } from "./VDOM";
+export const VDOM = vdom;
 
 let widgetId = 100;
 
