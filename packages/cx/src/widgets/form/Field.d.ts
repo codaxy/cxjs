@@ -110,3 +110,5 @@ export interface FieldProps extends Cx.StyledContainerProps {
 }
 
 export class Field extends Cx.Widget<FieldProps> {}
+
+export function getFieldTooltip(instance: Instance): [any, any];

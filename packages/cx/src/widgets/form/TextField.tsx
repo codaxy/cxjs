@@ -20,6 +20,10 @@ import { isString } from "../../util/isString";
 import { getActiveElement } from "../../util/getActiveElement";
 
 export class TextField extends Field {
+   public hideClear: any;
+   public showClear: any;
+   public alwaysShowClear: any;
+
    init() {
       if (typeof this.hideClear !== "undefined") this.showClear = !this.hideClear;
 
