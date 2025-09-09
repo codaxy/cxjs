@@ -1,3 +1,4 @@
+import * as React from "react";
 import { Widget, VDOM, getContent } from "../../ui/Widget";
 import { Cx } from "../../ui/Cx";
 import { Field, getFieldTooltip } from "./Field";
@@ -23,8 +24,37 @@ import { Localization } from "../../ui/Localization";
 import { isDefined } from "../../util/isDefined";
 import { getActiveElement } from "../../util/getActiveElement";
 
+interface ColorInputProps {
+   key?: string;
+   instance: any;
+   data: any;
+   picker: {
+      value: any;
+      format: any;
+   };
+   label?: any;
+   help?: any;
+}
+
+interface ColorInputState {
+   dropdownOpen: boolean;
+   focus: boolean;
+}
+
 export class ColorField extends Field {
-   declareData() {
+   emptyValue: any;
+   hideClear: boolean;
+   showClear: boolean;
+   alwaysShowClear: boolean;
+   value: any;
+   format: string;
+   labelPlacement: any;
+   helpPlacement: any;
+   baseClass: string;
+   suppressErrorsUntilVisited: boolean;
+   dropdownOptions: any;
+
+   declareData(...args: any[]) {
       super.declareData(
          {
             value: this.emptyValue,
@@ -35,7 +65,7 @@ export class ColorField extends Field {
             required: undefined,
             format: undefined,
          },
-         ...arguments,
+         ...args,
       );
    }
 
@@ -47,7 +77,7 @@ export class ColorField extends Field {
       super.init();
    }
 
-   prepareData(context, instance) {
+   prepareData(context: any, instance: any) {
       let { data } = instance;
       data.stateMods = [
          data.stateMods,
@@ -59,7 +89,7 @@ export class ColorField extends Field {
       super.prepareData(context, instance);
    }
 
-   renderInput(context, instance, key) {
+   renderInput(context: any, instance: any, key: string) {
       return (
          <ColorInput
             key={key}
@@ -85,8 +115,15 @@ ColorField.prototype.alwaysShowClear = false;
 Widget.alias("color-field", ColorField);
 Localization.registerPrototype("cx/widgets/ColorField", ColorField);
 
-class ColorInput extends VDOM.Component {
-   constructor(props) {
+class ColorInput extends VDOM.Component<ColorInputProps, ColorInputState> {
+   data: any;
+   dropdown?: any;
+   input: HTMLInputElement;
+   openDropdownOnFocus: boolean;
+   scrollableParents?: Element[];
+   updateDropdownPosition: () => void;
+
+   constructor(props: ColorInputProps) {
       super(props);
       let { data } = this.props;
       this.data = data;
@@ -94,6 +131,7 @@ class ColorInput extends VDOM.Component {
          dropdownOpen: false,
          focus: false,
       };
+      this.updateDropdownPosition = () => {};
    }
 
    getDropdown() {
@@ -118,7 +156,7 @@ class ColorInput extends VDOM.Component {
             onColorClick: (e) => {
                e.stopPropagation();
                e.preventDefault();
-               let touch = isTouchEvent(e);
+               let touch = isTouchEvent();
                this.closeDropdown(e, () => {
                   if (!touch) this.input.focus();
                });
@@ -209,7 +247,7 @@ class ColorInput extends VDOM.Component {
             <input
                id={data.id}
                ref={(el) => {
-                  this.input = el;
+                  this.input = el!;
                }}
                type="text"
                className={CSS.expand(CSS.element(baseClass, "input"), data.inputClass)}
@@ -220,8 +258,8 @@ class ColorInput extends VDOM.Component {
                tabIndex={data.tabIndex}
                placeholder={data.placeholder}
                {...data.inputAttrs}
-               onInput={(e) => this.onChange(e.target.value, "input")}
-               onChange={(e) => this.onChange(e.target.value, "change")}
+               onInput={(e) => this.onChange((e.target as HTMLInputElement).value, "input")}
+               onChange={(e) => this.onChange((e.target as HTMLInputElement).value, "change")}
                onKeyDown={(e) => this.onKeyDown(e)}
                onBlur={(e) => {
                   this.onBlur(e);
@@ -229,8 +267,14 @@ class ColorInput extends VDOM.Component {
                onFocus={(e) => {
                   this.onFocus(e);
                }}
-               onMouseMove={(e) => tooltipMouseMove(e, ...getFieldTooltip(instance))}
-               onMouseLeave={(e) => tooltipMouseLeave(e, ...getFieldTooltip(instance))}
+               onMouseMove={(e) => {
+                  const tooltip = getFieldTooltip(instance);
+                  tooltipMouseMove(e, tooltip[0], tooltip[1]);
+               }}
+               onMouseLeave={(e) => {
+                  const tooltip = getFieldTooltip(instance);
+                  tooltipMouseLeave(e, tooltip[0], tooltip[1]);
+               }}
             />
             {well}
             {insideButton}
@@ -241,7 +285,7 @@ class ColorInput extends VDOM.Component {
       );
    }
 
-   onMouseDown(e) {
+   onMouseDown(e: React.MouseEvent) {
       e.stopPropagation();
       if (this.state.dropdownOpen) this.closeDropdown(e);
       else {
@@ -256,7 +300,7 @@ class ColorInput extends VDOM.Component {
       }
    }
 
-   onFocus(e) {
+   onFocus(e: React.FocusEvent) {
       if (this.openDropdownOnFocus) this.openDropdown(e);
 
       let { instance } = this.props;
@@ -268,14 +312,14 @@ class ColorInput extends VDOM.Component {
       }
    }
 
-   onKeyDown(e) {
+   onKeyDown(e: React.KeyboardEvent) {
       let { instance } = this.props;
       if (instance.widget.handleKeyDown(e, instance) === false) return;
 
       switch (e.keyCode) {
          case KeyCode.enter:
             e.stopPropagation();
-            this.onChange(e.target.value, "enter");
+            this.onChange((e.target as HTMLInputElement).value, "enter");
             break;
 
          case KeyCode.esc:
@@ -300,15 +344,15 @@ class ColorInput extends VDOM.Component {
       }
    }
 
-   onBlur(e) {
+   onBlur(e: React.FocusEvent) {
       if (this.state.focus)
          this.setState({
             focus: false,
          });
-      this.onChange(e.target.value, "blur");
+      this.onChange((e.target as HTMLInputElement).value, "blur");
    }
 
-   closeDropdown(e, callback) {
+   closeDropdown(e?: any, callback?: () => void) {
       if (this.state.dropdownOpen) {
          if (this.scrollableParents)
             this.scrollableParents.forEach((el) => {
@@ -319,7 +363,7 @@ class ColorInput extends VDOM.Component {
       } else if (callback) callback();
    }
 
-   openDropdown(e) {
+   openDropdown(e: any) {
       let { data } = this.props;
       this.openDropdownOnFocus = false;
 
@@ -328,11 +372,11 @@ class ColorInput extends VDOM.Component {
       }
    }
 
-   trim(value) {
+   trim(value: string) {
       return value.replace(/\s/g, "");
    }
 
-   UNSAFE_componentWillReceiveProps(props) {
+   UNSAFE_componentWillReceiveProps(props: ColorInputProps) {
       let { data, instance } = props;
       let { state } = instance;
       let nv = this.trim(data.value || "");
@@ -344,11 +388,13 @@ class ColorInput extends VDOM.Component {
       }
       this.data = data;
 
-      tooltipParentWillReceiveProps(this.input, ...getFieldTooltip(instance));
+      const tooltip1 = getFieldTooltip(instance);
+      tooltipParentWillReceiveProps(this.input, tooltip1[0], tooltip1[1]);
    }
 
    componentDidMount() {
-      tooltipParentDidMount(this.input, ...getFieldTooltip(this.props.instance));
+      const tooltip2 = getFieldTooltip(this.props.instance);
+      tooltipParentDidMount(this.input, tooltip2[0], tooltip2[1]);
       if (this.props.instance.widget.autoFocus && !isTouchDevice()) this.input.focus();
    }
 
@@ -359,7 +405,7 @@ class ColorInput extends VDOM.Component {
       tooltipParentWillUnmount(this.props.instance);
    }
 
-   onClearClick(e) {
+   onClearClick(e: React.MouseEvent) {
       let { instance } = this.props;
       instance.set("value", instance.widget.emptyValue);
       instance.setState({
@@ -369,7 +415,7 @@ class ColorInput extends VDOM.Component {
       e.preventDefault();
    }
 
-   onChange(inputValue, eventType) {
+   onChange(inputValue: string, eventType: string) {
       let { instance, data } = this.props;
       let { widget } = instance;
 

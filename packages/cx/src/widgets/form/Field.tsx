@@ -150,7 +150,7 @@ export class Field extends PureContainer {
       };
    }
 
-   public prepareData(context: any, instance: any): void {
+   public prepareData(context: any, instance: any, ...args: any[]): void {
       let { data, state } = instance;
       if (!data.id) data.id = "fld-" + instance.id;
 
