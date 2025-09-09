@@ -1,3 +1,5 @@
+@use "sass:map";
+
 @mixin cxb-field($besm, $state-style-map, $input: true, $box: false, $width: null) {
    position: relative;
    display: inline-block;
@@ -37,7 +39,7 @@
       height: cx-get-state-rule($state-style-map, default, "height");
    }
 
-   $state: map-get($besm, state);
+   $state: map.get($besm, state);
 
    &.#{$state}view-mode {
       line-height: $line-height;
@@ -49,7 +51,7 @@
 }
 
 @mixin cxe-field-input($besm, $state-style-map, $overrides: null, $placeholder: null, $width: 100%, $input: true) {
-   $state: map-get($besm, state);
+   $state: map.get($besm, state);
 
    $styles: cx-deep-map-merge($state-style-map, $overrides);
 

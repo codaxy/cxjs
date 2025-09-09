@@ -1,3 +1,5 @@
+@use "sass:map";
+
 @keyframes cx-tooltip-enter-animation {
    from {
       transform: scale(0.9);
@@ -26,9 +28,9 @@
    $name: 'tooltip',
    $besm: $cx-besm
 ) {
-   $block: map-get($besm, block);
-   $element: map-get($besm, element);
-   $state: map-get($besm, state);
+   $block: map.get($besm, block);
+   $element: map.get($besm, element);
+   $state: map.get($besm, state);
    $mod: map_get($besm, mod);
 
    .#{$block}#{$name} {

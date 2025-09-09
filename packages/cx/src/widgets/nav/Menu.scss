@@ -1,8 +1,10 @@
+@use "sass:map";
+
 @mixin cx-menu($name: "menu", $state-style-map: $cx-menu-state-style-map, $besm: $cx-besm) {
-   $block: map-get($besm, block);
-   $element: map-get($besm, element);
-   $state: map-get($besm, state);
-   $mod: map-get($besm, mod);
+   $block: map.get($besm, block);
+   $element: map.get($besm, element);
+   $state: map.get($besm, state);
+   $mod: map.get($besm, mod);
 
    .#{$block}#{$name} {
       box-sizing: border-box;
@@ -38,7 +40,7 @@
          & > hr {
             border: none;
             border-top: 1px solid $cx-default-menu-separator-color;
-            margin: map-get($cx-menu-padding-options, medium);
+            margin: map.get($cx-menu-padding-options, medium);
          }
 
          &.#{$state}hidden {

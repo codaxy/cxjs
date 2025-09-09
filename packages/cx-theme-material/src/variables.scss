@@ -1,4 +1,6 @@
 /* prettier-ignore */
+@use "sass:map";
+
 //THEME SPECIFIC VARIABLES
 // pick theme color scheme
 $primary-color-blue: #2196f3 !default;
@@ -360,7 +362,7 @@ $cx-button-mods: cx-deep-map-merge(
          ),
          hover:
             map-merge(
-               map-get($cx-list-item, hover),
+               map.get($cx-list-item, hover),
                (
                   box-shadow: none,
                   border-color: transparent,
@@ -387,7 +389,7 @@ $cx-button-mods: cx-deep-map-merge(
          ),
          hover:
             map-merge(
-               map-get($cx-list-item, hover),
+               map.get($cx-list-item, hover),
                (
                   box-shadow: none,
                   border-color: transparent,

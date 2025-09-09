@@ -1,11 +1,13 @@
+@use "sass:map";
+
 $cx-call-once-data: () !default;
 
 @function cx-call-once($name) {
-   $result: map_get($cx-call-once-data, $name);
-   $cx-call-once-data: map_merge($cx-call-once-data, ($name: true)) !global;
+   $result: map.get($cx-call-once-data, $name);
+   $cx-call-once-data: map.merge($cx-call-once-data, ($name: true)) !global;
    @return $result != true;
 }
 
 @function cx-called-once($name) {
-   @return map_get($cx-call-once-data, $name);
+   @return map.get($cx-call-once-data, $name);
 }

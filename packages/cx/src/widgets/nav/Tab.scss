@@ -1,15 +1,16 @@
 
 @import "cover";
+@use "sass:map";
 
 @mixin cx-tab(
    $name: 'tab',
    $state-style-map: $cx-tab-state-style-map,
    $besm: $cx-besm
 ) {
-   $block: map-get($besm, block);
-   $element: map-get($besm, element);
-   $state: map-get($besm, state);
-   $mod: map-get($besm, mod);
+   $block: map.get($besm, block);
+   $element: map.get($besm, element);
+   $state: map.get($besm, state);
+   $mod: map.get($besm, mod);
 
    .#{$block}#{$name} {
       box-sizing: border-box;

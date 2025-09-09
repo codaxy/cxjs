@@ -1,9 +1,10 @@
 @import "~cx/src/index";
+@use "sass:map";
 
-$block: map-get($cx-besm, block);
-$element: map-get($cx-besm, element);
-$state: map-get($cx-besm, state);
-$mod: map-get($cx-besm, mod);
+$block: map.get($cx-besm, block);
+$element: map.get($cx-besm, element);
+$state: map.get($cx-besm, state);
+$mod: map.get($cx-besm, mod);
 
 // SECTION
 @if (cx-included('cx/widgets/Section')) {
