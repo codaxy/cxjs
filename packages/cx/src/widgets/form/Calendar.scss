@@ -1,4 +1,5 @@
 @use "sass:map";
+@use "sass:color";
 
 @mixin cx-calendar(
    $name: "calendar",
@@ -118,7 +119,7 @@
       &.#{$state}disabled {
          background-color: transparent;
          border-color: transparent;
-         color: darken(#fff, 18);
+         color: color.adjust(#fff, $lightness: -18%);
          pointer-events: none;
          opacity: 0.9;
       }
