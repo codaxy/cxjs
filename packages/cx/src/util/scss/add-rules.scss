@@ -17,9 +17,9 @@
       @each $key, $new-value in $override-style-map {
          $old-value: map.get($state-style-map, $key);
          @if ($old-value != null) {
-            $new-value: map-merge($old-value, $new-value);
+            $new-value: map.merge($old-value, $new-value);
          }
-         $result: map-merge(
+         $result: map.merge(
             $result,
             (
                $key: $new-value,

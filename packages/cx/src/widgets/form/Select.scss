@@ -1,6 +1,6 @@
-@import "../overlay/Dropdown";
-
 @use "sass:map";
+
+@import "../overlay/Dropdown";
 
 @mixin cx-select(
    $name: "select",

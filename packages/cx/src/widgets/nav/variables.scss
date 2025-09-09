@@ -1,3 +1,5 @@
+@use "sass:map";
+
 // COVER
 $cx-default-cover-border-color: $cx-default-border-color !default;
 $cx-default-cover-background-color: white !default;
@@ -16,7 +18,7 @@ $cx-link-state-style-map: (
 // TAB
 @import "Tab.variables";
 
-$cx-dependencies: map-merge(
+$cx-dependencies: map.merge(
    $cx-dependencies,
    (
       "cx/widgets/HScroller": "cx/widgets/Scroller",

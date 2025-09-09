@@ -1,3 +1,5 @@
+@use "sass:map";
+
 // TOOLTIP
 $cx-tooltip-background-color: white !default;
 $cx-tooltip-border-color: #d5d5d5 !default;
@@ -69,7 +71,7 @@ $cx-toast-mods: (
 // WINDOW
 @import "Window.variables";
 
-$cx-dependencies: map-merge(
+$cx-dependencies: map.merge(
    $cx-dependencies,
    (
       "cx/widgets/Overlay": "cx/widgets/captureMouse",
