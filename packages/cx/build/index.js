@@ -24,7 +24,7 @@ const entries = [
    {
       name: "ui",
       options: {
-         input: cxSrc("ui/index.js"),
+         input: cxSrc("ui/index.ts"),
       },
       output: {},
    },

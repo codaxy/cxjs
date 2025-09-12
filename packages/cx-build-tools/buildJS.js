@@ -2,6 +2,7 @@ let rollup = require("rollup"),
    path = require("path"),
    fs = require("fs"),
    babel = require("@rollup/plugin-babel"),
+   { nodeResolve } = require("@rollup/plugin-node-resolve"),
    babelConfig = require("./babel.config"),
    importAlias = require("./importAlias"),
    manifestRecorder = require("./manifestRecorder"),
@@ -41,10 +42,14 @@ module.exports = function build(srcPath, distPath, entries, paths, externals) {
       );
 
       options.plugins.push(
+         nodeResolve({
+            extensions: ['.js', '.jsx', '.ts', '.tsx']
+         }),
          babel({
             babelHelpers: "bundled",
             presets: babelConfig.presets,
             plugins: [...babelConfig.plugins, manifestRecorder(manifest, paths, src("."))],
+            extensions: ['.js', '.jsx', '.ts', '.tsx']
          }),
          importAlias({
             paths: paths,

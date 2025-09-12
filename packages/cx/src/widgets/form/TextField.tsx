@@ -1,7 +1,4 @@
-/** @jsxImportSource react */
-
 import { Widget, getContent } from "../../ui/Widget";
-import React from "react";
 import { Field, getFieldTooltip } from "./Field";
 import {
    tooltipParentWillReceiveProps,
@@ -19,6 +16,7 @@ import ClearIcon from "../icons/clear";
 import { autoFocus } from "../autoFocus";
 import { isString } from "../../util/isString";
 import { getActiveElement } from "../../util/getActiveElement";
+import { VDOM } from "cx-react";
 
 export class TextField extends Field {
    public hideClear?: boolean;
@@ -103,7 +101,7 @@ TextField.prototype.trim = false;
 
 Localization.registerPrototype("cx/widgets/TextField", TextField);
 
-class Input extends React.Component<any, any> {
+class Input extends VDOM.Component<any, any> {
    public input?: HTMLInputElement;
 
    constructor(props: any) {

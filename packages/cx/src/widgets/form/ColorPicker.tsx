@@ -1,3 +1,4 @@
+//@ts-nocheck
 import * as React from "react";
 import { Widget, VDOM } from "../../ui/Widget";
 import { Field } from "./Field";

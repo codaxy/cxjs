@@ -9,5 +9,6 @@
       "allowJs": true,
       "types": ["node"],
       "outDir": "dist"
-   }
+   },
+   "exclude": ["**.spec.**"]
 }

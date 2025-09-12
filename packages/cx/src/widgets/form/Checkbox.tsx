@@ -1,6 +1,6 @@
 /** @jsxImportSource react */
 
-import { Widget, VDOM, getContent } from "../../ui/Widget";
+import { Widget, getContent } from "../../ui/Widget";
 import { Field, getFieldTooltip } from "./Field";
 import { tooltipMouseMove, tooltipMouseLeave } from "../overlay/tooltip-ops";
 import { stopPropagation } from "../../util/eventCallbacks";
@@ -9,6 +9,7 @@ import CheckIcon from "../icons/check";
 import SquareIcon from "../icons/square";
 import { Instance } from "../../ui/Instance";
 import * as React from "react";
+import { VDOM } from "cx-react";
 
 export class Checkbox extends Field {
    public checked?: any;
@@ -168,7 +169,7 @@ interface CheckboxCmpState {
    value: any;
 }
 
-class CheckboxCmp extends React.Component<CheckboxCmpProps, CheckboxCmpState> {
+class CheckboxCmp extends VDOM.Component<CheckboxCmpProps, CheckboxCmpState> {
    constructor(props: CheckboxCmpProps) {
       super(props);
       this.state = {
