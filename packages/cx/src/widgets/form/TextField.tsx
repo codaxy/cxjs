@@ -1,5 +1,46 @@
 import { Widget, getContent } from "../../ui/Widget";
 import { Field, getFieldTooltip } from "./Field";
+
+export interface TextFieldProps {
+   value?: any;
+   placeholder?: string;
+   disabled?: boolean;
+   readOnly?: boolean;
+   required?: boolean;
+   minLength?: number;
+   maxLength?: number;
+   validationRegExp?: RegExp;
+   validationErrorText?: string;
+   minLengthValidationErrorText?: string;
+   maxLengthValidationErrorText?: string;
+   reactOn?: string;
+   inputType?: string;
+   keyboardShortcut?: string;
+   trim?: boolean;
+   hideClear?: boolean;
+   showClear?: boolean;
+   alwaysShowClear?: boolean;
+   icon?: any;
+   inputStyle?: any;
+   inputClass?: any;
+   inputAttrs?: any;
+   emptyValue?: any;
+   help?: any;
+   label?: any;
+   style?: any;
+   className?: string;
+   id?: string;
+   enabled?: boolean;
+   visible?: boolean;
+   if?: any;
+   controller?: any;
+   onKeyDown?: any;
+   onChange?: any;
+   onInput?: any;
+   onFocus?: any;
+   onBlur?: any;
+}
+
 import {
    tooltipParentWillReceiveProps,
    tooltipParentWillUnmount,
@@ -18,7 +59,7 @@ import { isString } from "../../util/isString";
 import { getActiveElement } from "../../util/getActiveElement";
 import { VDOM } from "cx-react";
 
-export class TextField extends Field {
+export class TextField extends Field implements TextFieldProps {
    public hideClear?: boolean;
    public showClear?: boolean;
    public alwaysShowClear?: boolean;

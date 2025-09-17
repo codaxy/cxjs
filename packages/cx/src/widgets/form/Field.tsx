@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { VDOM, getContent } from "../../ui/Widget";
 import { PureContainer } from "../../ui/PureContainer";
 import { ValidationError } from "./ValidationError";

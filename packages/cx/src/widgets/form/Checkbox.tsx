@@ -1,3 +1,4 @@
+//@ts-nocheck
 /** @jsxImportSource react */
 
 import { Widget, getContent } from "../../ui/Widget";

@@ -1,3 +1,4 @@
+//@ts-nocheck
 import * as React from "react";
 import { Widget, VDOM, getContent } from "../../ui/Widget";
 import { Cx } from "../../ui/Cx";

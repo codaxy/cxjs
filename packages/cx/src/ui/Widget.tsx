@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Component } from "../util/Component";
 import { CSSHelper } from "./CSSHelper";
 import "./CSS";

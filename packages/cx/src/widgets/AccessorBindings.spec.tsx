@@ -1,3 +1,4 @@
+//@ts-nocheck
 import assert from "assert";
 import reactTestRenderer from "react-test-renderer";
 import { createAccessorModelProxy } from "../data/createAccessorModelProxy";

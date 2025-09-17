@@ -9,7 +9,7 @@ const entries = [
    {
       name: "util",
       options: {
-         input: cxSrc("util/index.js"),
+         input: cxSrc("util/index.ts"),
       },
       output: {},
    },
@@ -17,7 +17,7 @@ const entries = [
       name: "data",
 
       options: {
-         input: cxSrc("data/index.js"),
+         input: cxSrc("data/index.ts"),
       },
       output: {},
    },
@@ -31,28 +31,28 @@ const entries = [
    {
       name: "widgets",
       options: {
-         input: cxSrc("widgets/index.js"),
+         input: cxSrc("widgets/index.ts"),
       },
       output: {},
    },
    {
       name: "svg",
       options: {
-         input: cxSrc("svg/index.js"),
+         input: cxSrc("svg/index.ts"),
       },
       output: {},
    },
    {
       name: "charts",
       options: {
-         input: cxSrc("charts/index.js"),
+         input: cxSrc("charts/index.ts"),
       },
       output: {},
    },
    {
       name: "hooks",
       options: {
-         input: cxSrc("hooks/index.js"),
+         input: cxSrc("hooks/index.ts"),
       },
       output: {},
    },
@@ -86,15 +86,15 @@ const externalPaths = {
                cxSrc("widgets/index.scss"),
                cxSrc("ui/index.scss"),
             ],
-            resolvePath("../dist/widgets.css")
+            resolvePath("../dist/widgets.css"),
          ),
          buildSCSS(
             [cxSrc("variables.scss"), resolvePath("../../cx-build-tools/divide.scss"), cxSrc("charts/index.scss")],
-            resolvePath("../dist/charts.css")
+            resolvePath("../dist/charts.css"),
          ),
          buildSCSS(
             [cxSrc("variables.scss"), resolvePath("../../cx-build-tools/divide.scss"), cxSrc("svg/index.scss")],
-            resolvePath("../dist/svg.css")
+            resolvePath("../dist/svg.css"),
          ),
       ]);
    } catch (err) {

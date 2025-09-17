@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 import { createAccessorModelProxy } from "./createAccessorModelProxy";
 import assert from "assert";
 

@@ -1,34 +1,6 @@
 //@ts-nocheck
-import * as React from "react";
 import { Widget, VDOM } from "../../ui/Widget";
 import { Field } from "./Field";
-
-interface ColorState {
-   r: number;
-   g: number;
-   b: number;
-   h: number;
-   s: number;
-   l: number;
-   a: number;
-}
-
-interface ColorPickerComponentProps {
-   key?: string;
-   instance: any;
-}
-
-interface EyeDropper {
-   open(): Promise<{ sRGBHex: string }>;
-}
-
-declare global {
-   interface Window {
-      EyeDropper?: {
-         new (): EyeDropper;
-      };
-   }
-}
 import { captureMouseOrTouch, getCursorPos } from "../overlay/captureMouse";
 import { hslToRgb } from "../../util/color/hslToRgb";
 import { rgbToHsl } from "../../util/color/rgbToHsl";
@@ -44,26 +16,21 @@ import PixelPickerIcon from "../icons/pixel-picker";
 //TODO: Resolve alpha input problems
 
 export class ColorPicker extends Field {
-   reportOn: string;
-   format: string;
-   emptyValue: any;
-   onColorClick?: any;
-
-   declareData(...args: any[]) {
+   declareData() {
       super.declareData(
          {
             value: this.emptyValue,
             format: undefined,
          },
-         ...args,
+         ...arguments,
       );
    }
 
-   renderInput(context: any, instance: any, key: string) {
+   renderInput(context, instance, key) {
       return <ColorPickerComponent key={key} instance={instance} />;
    }
 
-   handleEvent(eventType: string, instance: any, color: ColorState) {
+   handleEvent(eventType, instance, color) {
       let { data } = instance;
       if (this.reportOn.indexOf(eventType) != -1) {
          let value;
@@ -96,10 +63,8 @@ ColorPicker.prototype.format = "rgba";
 
 Widget.alias("color-picker", ColorPicker);
 
-class ColorPickerComponent extends VDOM.Component<ColorPickerComponentProps, ColorState> {
-   data: any;
-
-   constructor(props: ColorPickerComponentProps) {
+class ColorPickerComponent extends VDOM.Component {
+   constructor(props) {
       super(props);
       this.data = props.instance.data;
       try {
@@ -110,7 +75,7 @@ class ColorPickerComponent extends VDOM.Component<ColorPickerComponentProps, Col
       }
    }
 
-   UNSAFE_componentWillReceiveProps(props: ColorPickerComponentProps) {
+   UNSAFE_componentWillReceiveProps(props) {
       let { data } = props.instance;
       let color;
       try {
@@ -122,7 +87,7 @@ class ColorPickerComponent extends VDOM.Component<ColorPickerComponentProps, Col
          this.setState(color);
    }
 
-   parse(color: string | null): ColorState {
+   parse(color) {
       let c = parseColor(color);
       if (c == null) {
          c = {
@@ -172,7 +137,7 @@ class ColorPickerComponent extends VDOM.Component<ColorPickerComponentProps, Col
             <div
                className={CSS.element(baseClass, "pixel-picker")}
                onClick={(e) => {
-                  const eyeDropper = new window.EyeDropper!();
+                  const eyeDropper = new EyeDropper();
                   eyeDropper
                      .open()
                      .then((result) => {
@@ -369,21 +334,21 @@ class ColorPickerComponent extends VDOM.Component<ColorPickerComponentProps, Col
       );
    }
 
-   onColorClick(e: React.MouseEvent) {
+   onColorClick(e) {
       let { instance } = this.props;
       let { widget } = instance;
 
       if (widget.onColorClick) instance.invoke("onColorClick", e, instance);
    }
 
-   onHueSelect(e: React.MouseEvent | React.TouchEvent) {
+   onHueSelect(e) {
       e.preventDefault();
       e.stopPropagation();
 
-      let el = e.currentTarget as HTMLElement;
+      let el = e.currentTarget;
       let bounds = el.getBoundingClientRect();
 
-      let move = (e: any) => {
+      let move = (e) => {
          let pos = getCursorPos(e);
          let x = Math.max(0, Math.min(1, (pos.clientX + 1 - bounds.left) / el.offsetWidth));
          this.setColorProp({
@@ -395,14 +360,14 @@ class ColorPickerComponent extends VDOM.Component<ColorPickerComponentProps, Col
       move(e);
    }
 
-   onAlphaSelect(e: React.MouseEvent | React.TouchEvent) {
+   onAlphaSelect(e) {
       e.preventDefault();
       e.stopPropagation();
 
-      let el = e.currentTarget as HTMLElement;
+      let el = e.currentTarget;
       let bounds = getTopLevelBoundingClientRect(el);
 
-      let move = (e: any) => {
+      let move = (e) => {
          let pos = getCursorPos(e);
          let x = Math.max(0, Math.min(1, (pos.clientX + 1 - bounds.left) / el.offsetWidth));
          this.setColorProp({
@@ -414,14 +379,14 @@ class ColorPickerComponent extends VDOM.Component<ColorPickerComponentProps, Col
       move(e);
    }
 
-   onSLSelect(e: React.MouseEvent | React.TouchEvent) {
+   onSLSelect(e) {
       e.preventDefault();
       e.stopPropagation();
 
-      let el = e.currentTarget as HTMLElement;
+      let el = e.currentTarget;
       let bounds = getTopLevelBoundingClientRect(el);
 
-      let move = (e: any) => {
+      let move = (e) => {
          let pos = getCursorPos(e);
          let x = Math.max(0, Math.min(1, (pos.clientX + 1 - bounds.left) / el.offsetWidth));
          let y = Math.max(0, Math.min(1, (pos.clientY + 1 - bounds.top) / el.offsetWidth));
@@ -437,11 +402,11 @@ class ColorPickerComponent extends VDOM.Component<ColorPickerComponentProps, Col
       move(e);
    }
 
-   fix255(v: number): number {
+   fix255(v) {
       return Math.max(0, Math.min(255, Math.round(v)));
    }
 
-   setColorProp(props: string | Partial<ColorState>, value?: number) {
+   setColorProp(props, value) {
       if (isString(props)) {
          props = {
             [props]: value,
@@ -501,14 +466,14 @@ class ColorPickerComponent extends VDOM.Component<ColorPickerComponentProps, Col
       });
    }
 
-   onNumberChange(e: React.ChangeEvent<HTMLInputElement>, prop: keyof ColorState) {
+   onNumberChange(e, prop) {
       e.preventDefault();
       e.stopPropagation();
-      let number = parseFloat((e.target as HTMLInputElement).value || "0");
+      let number = parseFloat(e.target.value || "0");
       this.setColorProp(prop, number);
    }
 
-   onWheel(e: React.WheelEvent, prop: keyof ColorState, delta: number) {
+   onWheel(e, prop, delta) {
       e.preventDefault();
       e.stopPropagation();
       let factor = e.deltaY < 0 ? 1 : -1;
