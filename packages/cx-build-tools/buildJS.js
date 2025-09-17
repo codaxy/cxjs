@@ -1,5 +1,4 @@
 let rollup = require("rollup"),
-   path = require("path"),
    fs = require("fs"),
    babel = require("@rollup/plugin-babel"),
    { nodeResolve } = require("@rollup/plugin-node-resolve"),
