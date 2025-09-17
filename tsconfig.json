@@ -10,13 +10,11 @@
       "allowSyntheticDefaultImports": true,
       "esModuleInterop": true,
       "forceConsistentCasingInFileNames": true,
-      "strict": false,
       "skipLibCheck": true,
       "baseUrl": ".",
       "paths": {
          "cx": ["./packages/cx/src"],
          "cx/*": ["./packages/cx/src/*"],
-         "cx-react": ["./packages/cx-react"],
          "cx-immer": ["./packages/cx-immer"]
       }
    },
