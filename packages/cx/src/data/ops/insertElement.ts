@@ -1,4 +1,3 @@
-//@ts-nocheck
-export function insertElement(array, index, ...args) {
-   return [...array.slice(0, index), ...args, ...array.slice(index)];
+export function insertElement<T>(array: T[], index: number, ...elements: T[]): T[] {
+   return [...array.slice(0, index), ...elements, ...array.slice(index)];
 }
