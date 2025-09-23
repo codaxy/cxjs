@@ -1,46 +1,71 @@
-//@ts-nocheck
-import {Console} from './Console';
+import { Console } from './Console';
 
-let activeFlags = {
+export type DebugFlag =
+   | 'render'
+   | 'prepare'
+   | 'process-data'
+   | 'cleanup'
+   | 'menu'
+   | 'focus'
+   | 'internal'
+   | 'should-update'
+   | 'app-data'
+   | 'tooltips'
+   | 'deprecated'
+   | 'destroy'
+   | string; // Allow custom flags
+
+interface DebugFlags {
+   [flag: string]: boolean;
+}
+
+let activeFlags: DebugFlags = {
    deprecated: true
 };
 
-export function debug(flag) {
+export function debug(flag: DebugFlag, ...args: any[]): void {
    if (process.env.NODE_ENV !== "production") {
       if (!activeFlags[flag])
          return;
 
-      Console.log(...arguments);
+      Console.log(flag + ':', ...args);
    }
 }
 
 export const Debug = {
-
-   enable: function(flag) {
+   enable(flag: DebugFlag): void {
       if (process.env.NODE_ENV !== "production") {
          activeFlags[flag] = true;
       }
    },
 
-   disable: function(flag) {
+   disable(flag: DebugFlag): void {
       if (process.env.NODE_ENV !== "production") {
          activeFlags[flag] = false;
       }
    },
 
+   isEnabled(flag: DebugFlag): boolean {
+      return process.env.NODE_ENV !== "production" && !!activeFlags[flag];
+   },
+
+   getActiveFlags(): Readonly<DebugFlags> {
+      return { ...activeFlags };
+   },
+
    log: debug
 };
 
-export const renderFlag = 'render';
-export const prepareFlag = 'prepare';
-export const processDataFlag = 'process-data';
-export const cleanupFlag = 'cleanup';
-export const menuFlag = 'menu';
-export const focusFlag = 'focus';
-export const internalFlag = 'internal';
-export const shouldUpdateFlag = 'should-update';
-export const appDataFlag = 'app-data';
-export const tooltipsFlag = 'tooltips';
-export const deprecatedFlag = 'deprecated';
-export const destroyFlag = 'destroy';
+export const renderFlag: DebugFlag = 'render';
+export const prepareFlag: DebugFlag = 'prepare';
+export const processDataFlag: DebugFlag = 'process-data';
+export const cleanupFlag: DebugFlag = 'cleanup';
+export const menuFlag: DebugFlag = 'menu';
+export const focusFlag: DebugFlag = 'focus';
+export const internalFlag: DebugFlag = 'internal';
+export const shouldUpdateFlag: DebugFlag = 'should-update';
+export const appDataFlag: DebugFlag = 'app-data';
+export const tooltipsFlag: DebugFlag = 'tooltips';
+export const deprecatedFlag: DebugFlag = 'deprecated';
+export const destroyFlag: DebugFlag = 'destroy';
 

@@ -28,6 +28,8 @@
       "url": "git@github.com:codaxy/cxjs.git"
    },
    "devDependencies": {
+      "@types/jest": "^30.0.0",
+      "@types/mocha": "^10.0.10",
       "react-test-renderer": "^18.3.1"
    }
 }

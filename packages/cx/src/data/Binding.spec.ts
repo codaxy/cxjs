@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { Binding } from "./Binding";
 import assert from "assert";
 import { createAccessorModelProxy } from "./createAccessorModelProxy";

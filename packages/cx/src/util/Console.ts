@@ -1,11 +1,10 @@
-//@ts-nocheck
 export const Console = {
-   log: function () {
+   log: (...args: any[]): void => {
       if (typeof window != 'undefined' && window.console)
          console.log(...args);
    },
 
-   warn: function () {
+   warn: (...args: any[]): void => {
       if (typeof window != 'undefined' && window.console)
          console.warn(...args);
    }

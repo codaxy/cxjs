@@ -1,11 +1,26 @@
-//@ts-nocheck
+import { isObject } from "cx/util";
+
+interface AccessorChainMethods {
+   toString(): string;
+   valueOf(): string;
+   nameOf(): string;
+}
+
+type AccessorChainMap<M> = { [prop in keyof M]: AccessorChain<M[prop]> };
+
+type AccessorChain<M> = {
+   toString(): string;
+   valueOf(): string;
+   nameOf(): string;
+} & Omit<AccessorChainMap<M>, keyof AccessorChainMethods>;
+
 const emptyFn = () => {};
 
-export function createAccessorModelProxy(chain = "") {
-   let lastOp = null;
+export function createAccessorModelProxy<M>(chain: string = ""): AccessorChain<M> {
+   let lastOp: string | null = null;
 
    const proxy = new Proxy(emptyFn, {
-      get: (_, name) => {
+      get: (_, name: string | symbol) => {
          if (typeof name !== "string") return proxy;
 
          switch (name) {
@@ -25,7 +40,7 @@ export function createAccessorModelProxy(chain = "") {
          return createAccessorModelProxy(newChain);
       },
 
-      apply() {
+      apply(): string {
          switch (lastOp) {
             case "nameOf":
                const lastDotIndex = chain.lastIndexOf(".");
@@ -36,9 +51,11 @@ export function createAccessorModelProxy(chain = "") {
          }
       },
    });
-   return proxy;
+   return proxy as unknown as AccessorChain<M>;
 }
 
-export function isAccessorChain(value) {
-   return value != null && !!value.isAccessorChain;
+export function isAccessorChain<M>(value: unknown): value is AccessorChain<M> {
+   return value != null && isObject(value) && "isAccessorChain" in value && !!value.isAccessorChain;
 }
+
+export { AccessorChain, AccessorChainMap, AccessorChainMethods };
