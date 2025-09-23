@@ -1,6 +1,9 @@
-//@ts-nocheck
 import { updateTree } from "./updateTree";
 
-export function removeTreeNodes(array, criteria, childrenField = "$children") {
+export function removeTreeNodes<T extends Record<string, any>>(
+   array: T[] | undefined,
+   criteria: (node: T) => boolean,
+   childrenField: keyof T = "$children" as keyof T,
+): T[] | undefined {
    return updateTree(array, null, () => false, childrenField, criteria);
 }

@@ -1,15 +1,17 @@
-//@ts-nocheck
-export function findTreeNode(array, criteria, childrenField = '$children') {
-   if (!Array.isArray(array))
-      return false;
+export function findTreeNode<T extends Record<string, any>>(
+   array: T[],
+   criteria: (node: T) => boolean,
+   childrenField: keyof T = "$children" as keyof T,
+): T | false {
+   if (!Array.isArray(array)) return false;
 
-   for (let i = 0; i < array.length; i++) {
-      if (criteria(array[i]))
-         return array[i];
+   for (const node of array) {
+      if (criteria(node)) return node;
 
-      let child = findTreeNode(array[i][childrenField], criteria, childrenField);
-      if (child)
-         return child;
+      const children = node[childrenField] as T[];
+
+      const found = findTreeNode(children, criteria, childrenField);
+      if (found) return found;
    }
 
    return false;

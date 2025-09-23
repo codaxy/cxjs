@@ -1,26 +1,34 @@
-//@ts-nocheck
-import { updateArray } from './updateArray';
+import { updateArray } from "./updateArray";
 
-export function updateTree(array, updateCallback, itemFilter, childrenField, removeFilter) {
-   return updateArray(array, item => {
-      if (!itemFilter || itemFilter(item))
-         item = updateCallback(item);
+export function updateTree<T extends Record<string, any>>(
+   array: T[] | undefined,
+   updateCallback: (item: T) => T,
+   itemFilter: ((item: T) => boolean) | null,
+   childrenField: keyof T,
+   removeFilter?: (item: T) => boolean,
+): T[] | undefined {
+   return updateArray(
+      array,
+      (item: T) => {
+         if (!itemFilter || itemFilter(item)) {
+            item = updateCallback(item);
+         }
 
-      let children = item[childrenField];
-      if (!Array.isArray(children))
+         const children = item[childrenField];
+
+         if (!Array.isArray(children)) {
+            return item;
+         }
+
+         const updatedChildren = updateTree(children, updateCallback, itemFilter, childrenField, removeFilter);
+
+         if (updatedChildren != children) {
+            return { ...item, [childrenField]: updatedChildren };
+         }
+
          return item;
-
-      let updatedChildren = updateTree(
-         children,
-         updateCallback,
-         itemFilter,
-         childrenField,
-         removeFilter
-      );
-
-      if (updatedChildren != children)
-         return { ...item, [childrenField]: updatedChildren };
-
-      return item;
-   }, null, removeFilter);
+      },
+      null,
+      removeFilter,
+   );
 }

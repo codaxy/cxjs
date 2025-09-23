@@ -1,42 +1,49 @@
-//@ts-nocheck
-import {isUndefined} from "../../util/isUndefined";
+import { isUndefined } from "../../util/isUndefined";
 
-export function diffArrays(oldArray, newArray, keyFn) {
-   if (!keyFn)
-      keyFn = e => e;
+type KeyFn<T> = (item: T) => any;
 
-   var map = new Map();
+interface DiffResult<T> {
+   added: T[];
+   changed: { before: T; after: T }[];
+   unchanged: T[];
+   removed: T[];
+}
 
-   for (let i = 0; i < oldArray.length; i++)
-      map.set(keyFn(oldArray[i]), oldArray[i]);
+export function diffArrays<T>(oldArray: T[], newArray: T[], keyFn: KeyFn<T> = (e) => e): DiffResult<T> {
+   const map = new Map<any, T>();
 
-   var added = [],
-      changed = [],
-      unchanged = [];
+   oldArray.forEach((item) => {
+      const key = keyFn(item);
+      map.set(key, item);
+   });
 
-   for (let i = 0; i < newArray.length; i++) {
-      let el = newArray[i];
-      let k = keyFn(el);
-      let old = map.get(k);
-      if (isUndefined(old))
-         added.push(el);
-      else {
-         map.delete(k);
-         if (el == old)
-            unchanged.push(el);
-         else changed.push({
-            before: old,
-            after: el
-         });
+   const added: T[] = [];
+   const changed: { before: T; after: T }[] = [];
+   const unchanged: T[] = [];
+
+   newArray.forEach((item) => {
+      const key = keyFn(item);
+      const oldItem = map.get(key);
+
+      if (isUndefined(oldItem)) {
+         added.push(item);
+      } else {
+         map.delete(key);
+
+         if (item === oldItem) {
+            unchanged.push(item);
+         } else {
+            changed.push({ before: oldItem, after: item });
+         }
       }
-   }
+   });
 
-   var removed = Array.from(map.values());
+   const removed = Array.from(map.values());
 
    return {
       added,
       changed,
       unchanged,
-      removed
-   }
+      removed,
+   };
 }

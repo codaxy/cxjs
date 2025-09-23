@@ -1,2 +1,1 @@
-//@ts-nocheck
-export * from './diffArrays';
+export * from "./diffArrays";

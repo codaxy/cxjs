@@ -1,13 +1,19 @@
-//@ts-nocheck
-export function findTreePath(array, criteria, childrenField = "$children", currentPath = []) {
+export function findTreePath<T extends Record<string, any>>(
+   array: T[] | undefined,
+   criteria: (node: T) => boolean,
+   childrenField: keyof T = "$children" as keyof T,
+   currentPath: T[] = [],
+): T[] | false {
    if (!Array.isArray(array)) return false;
 
-   for (let i = 0; i < array.length; i++) {
-      currentPath.push(array[i]);
+   for (const node of array) {
+      currentPath.push(node);
 
-      if (criteria(array[i])) return currentPath;
+      if (criteria(node)) return [...currentPath];
 
-      let childPath = findTreePath(array[i][childrenField], criteria, childrenField, currentPath);
+      const children = node[childrenField] as T[] | undefined;
+
+      const childPath = findTreePath(children, criteria, childrenField, currentPath);
       if (childPath) return childPath;
 
       currentPath.pop();
