@@ -9,7 +9,7 @@ use swc_ecma_ast::{
     ImportDecl, ImportPhase, ImportSpecifier, ModuleDecl, ModuleExportName, ModuleItem, Program,
     Str,
 };
-use swc_ecma_visit::{as_folder, FoldWith, VisitMut, VisitMutWith};
+use swc_ecma_visit::{visit_mut_pass, VisitMut, VisitMutWith};
 
 lazy_static! {
     static ref QUOTES_REGEX: Regex = Regex::new(r#""|'"#).unwrap();
@@ -194,9 +194,12 @@ impl VisitMut for TransformVisitor {
 }
 
 #[plugin_transform]
-pub fn process_transform(program: Program, _metadata: TransformPluginProgramMetadata) -> Program {
+pub fn process_transform(
+    mut program: Program,
+    metadata: TransformPluginProgramMetadata,
+) -> Program {
     let manifest: HashMap<String, HashMap<String, String>>;
-    let config_string_opt = _metadata.get_transform_plugin_config();
+    let config_string_opt = metadata.get_transform_plugin_config();
 
     if config_string_opt.is_none() {
         panic!("Unable to deserialize the config.")
@@ -240,13 +243,15 @@ pub fn process_transform(program: Program, _metadata: TransformPluginProgramMeta
         Err(err) => panic!("Could not read manifest. {}", err),
     }
 
-    program.fold_with(&mut as_folder(TransformVisitor {
+    program.visit_mut_with(&mut visit_mut_pass(TransformVisitor {
         imports: HashSet::new(),
         scss_imports: HashSet::new(),
         manifest,
         use_src,
         sass,
-    }))
+    }));
+
+    program
 }
 
 #[cfg(test)]
@@ -262,24 +267,21 @@ fn exec(input: std::path::PathBuf) {
                 serde_json::from_str(value.as_str()).unwrap();
 
             swc_core::ecma::transforms::testing::test_fixture(
-                swc_ecma_parser::Syntax::Typescript(swc_ecma_parser::TsConfig {
-                    tsx: true,
-                    ..Default::default()
-                }),
+                swc_ecma_parser::Syntax::Typescript(Default::default()),
                 &|_| {
-                    swc_common::chain!(
+                    (
                         swc_core::ecma::transforms::base::resolver(
                             Default::default(),
                             Default::default(),
-                            true
+                            true,
                         ),
-                        as_folder(TransformVisitor {
+                        visit_mut_pass(TransformVisitor {
                             imports: HashSet::new(),
                             scss_imports: HashSet::new(),
                             manifest: manifest.to_owned(),
                             use_src: true,
-                            sass: false
-                        })
+                            sass: false,
+                        }),
                     )
                 },
                 &input,
