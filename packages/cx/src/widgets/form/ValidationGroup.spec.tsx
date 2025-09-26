@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { Cx } from "../../ui/Cx";
 import { VDOM } from "../../ui/VDOM";
 import { Store } from "../../data/Store";

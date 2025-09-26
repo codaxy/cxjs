@@ -1,4 +1,3 @@
-//@ts-nocheck
 import {Cx} from '../Cx';
 import {VDOM} from '../Widget';
 import {HtmlElement} from '../../widgets/HtmlElement';

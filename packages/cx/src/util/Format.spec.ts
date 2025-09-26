@@ -1,6 +1,5 @@
-//@ts-nocheck
-import {Format} from './Format';
 import assert from 'assert';
+import { Format } from './Format';
 
 describe('Format', function () {
    describe('n,number ', function () {

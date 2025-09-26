@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { HtmlElement } from "../widgets/HtmlElement";
 import { Cx } from "./Cx";
 import { Restate } from "./Restate";
@@ -8,7 +7,6 @@ import renderer from "react-test-renderer";
 import assert from "assert";
 import { Controller } from "./Controller";
 import { bind } from "./bind";
-import { FirstVisibleChild } from "./layout/FirstVisibleChildLayout";
 import { FirstVisibleChildLayout } from "./layout/FirstVisibleChildLayout";
 
 describe("Restate", () => {

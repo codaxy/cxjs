@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { Cx } from '../ui/Cx';
 import { VDOM } from '../ui/Widget';
 import { HtmlElement } from './HtmlElement';
@@ -12,7 +11,7 @@ describe('HtmlElement', () => {
    it('renders textual content provided through the text property', () => {
 
       let widget = <cx>
-         <div text:bind="text" />
+         <div text-bind="text" />
       </cx>;
 
       let store = new Store({

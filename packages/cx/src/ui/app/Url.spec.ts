@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { Url } from "./Url";
 import Route from "route-parser";
 

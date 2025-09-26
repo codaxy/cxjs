@@ -1,5 +1,4 @@
-//@ts-nocheck
-import {TraversalStack} from './TraversalStack';
+import { TraversalStack } from './TraversalStack';
 
 import assert from 'assert';
 

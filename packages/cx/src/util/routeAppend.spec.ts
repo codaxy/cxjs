@@ -1,4 +1,3 @@
-//@ts-nocheck
 import {routeAppend} from './routeAppend';
 
 import assert from 'assert';

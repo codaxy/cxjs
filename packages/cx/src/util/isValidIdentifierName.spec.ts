@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { isValidIdentifierName } from "./isValidIdentifierName";
 import assert from "assert";
 

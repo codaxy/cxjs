@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { RenderingContext } from "../RenderingContext";
 import { Instance } from "../Instance";
 import { TreeAdapter } from "./TreeAdapter";

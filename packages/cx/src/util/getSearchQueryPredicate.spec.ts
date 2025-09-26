@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { getSearchQueryPredicate, getSearchQueryHighlighter } from "./getSearchQueryPredicate";
 
 import assert from "assert";
