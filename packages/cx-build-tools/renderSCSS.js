@@ -21,7 +21,7 @@ module.exports = async function renderSCSS(paths) {
                },
             },
          ],
-         silenceDeprecations: ["import", "global-builtins"],
+         silenceDeprecations: ["import", "global-builtin"],
       });
 
       return result;

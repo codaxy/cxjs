@@ -3329,7 +3329,7 @@ __metadata:
     copy-webpack-plugin: "npm:^12.0.2"
     core-js: "npm:^3.39.0"
     css-loader: "npm:^7.1.2"
-    cx: "npm:^25.4.1"
+    cx: "npm:^25.9.0"
     cx-react: "npm:^24.7.1"
     file-loader: "npm:^6.2.0"
     html-webpack-plugin: "npm:^5.6.3"
@@ -4234,7 +4234,23 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"cx@npm:^25.4.1":
+"cx@npm:^25.10.0, cx@workspace:packages/cx":
+  version: 0.0.0-use.local
+  resolution: "cx@workspace:packages/cx"
+  dependencies:
+    "@types/jest": "npm:^30.0.0"
+    "@types/mocha": "npm:^10.0.10"
+    intl-io: "npm:^0.4.4"
+    react-test-renderer: "npm:^18.3.1"
+    route-parser: "npm:^0.0.5"
+  peerDependencies:
+    "@types/react": "*"
+    react: "*"
+    react-dom: "*"
+  languageName: unknown
+  linkType: soft
+
+"cx@npm:^25.9.0":
   version: 25.9.0
   resolution: "cx@npm:25.9.0"
   dependencies:
@@ -4265,22 +4281,6 @@ __metadata:
     react: "npm:^18.3.1"
     react-dom: "npm:^18.3.1"
     webpack-dev-server: "npm:^5.1.0"
-  languageName: unknown
-  linkType: soft
-
-"cxts@npm:^25.4.1, cxts@workspace:packages/cx":
-  version: 0.0.0-use.local
-  resolution: "cxts@workspace:packages/cx"
-  dependencies:
-    "@types/jest": "npm:^30.0.0"
-    "@types/mocha": "npm:^10.0.10"
-    intl-io: "npm:^0.4.4"
-    react-test-renderer: "npm:^18.3.1"
-    route-parser: "npm:^0.0.5"
-  peerDependencies:
-    "@types/react": "*"
-    react: "*"
-    react-dom: "*"
   languageName: unknown
   linkType: soft
 
@@ -4550,7 +4550,7 @@ __metadata:
     copy-webpack-plugin: "npm:^12.0.2"
     core-js: "npm:^3.39.0"
     css-loader: "npm:^7.1.2"
-    cx: "npm:^25.4.1"
+    cx: "npm:^25.9.0"
     cx-react: "npm:^24.7.1"
     file-loader: "npm:^6.2.0"
     html-webpack-plugin: "npm:^5.6.3"
@@ -5142,7 +5142,7 @@ __metadata:
     copy-webpack-plugin: "npm:^12.0.2"
     core-js: "npm:^3.39.0"
     css-loader: "npm:^7.1.2"
-    cx: "npm:^25.4.1"
+    cx: "npm:^25.9.0"
     cx-react: "npm:^24.7.1"
     deep-equal: "npm:^2.2.3"
     deepmerge: "npm:^4.3.1"
@@ -5473,7 +5473,7 @@ __metadata:
     copy-webpack-plugin: "npm:^12.0.2"
     core-js: "npm:^3.39.0"
     css-loader: "npm:^7.1.2"
-    cx: "npm:^25.4.1"
+    cx: "npm:^25.10.0"
     cx-react: "npm:^24.7.1"
     cx-theme-aquamarine: "npm:^18.7.3"
     cx-theme-dark: "npm:^18.7.1"
@@ -6973,7 +6973,7 @@ __metadata:
     copy-webpack-plugin: "npm:^12.0.2"
     core-js: "npm:^3.39.0"
     css-loader: "npm:^7.1.2"
-    cx: "npm:^25.4.1"
+    cx: "npm:^25.9.0"
     cx-immer: "npm:^25.5.0"
     cx-react: "npm:^24.7.1"
     file-loader: "npm:^6.2.0"
@@ -9910,8 +9910,8 @@ __metadata:
     "@types/react": "npm:^18.3.14"
     copy-webpack-plugin: "npm:^12.0.2"
     css-loader: "npm:^7.1.2"
+    cx: "npm:^25.10.0"
     cx-react: "npm:^24.7.1"
-    cxts: "npm:^25.4.1"
     file-loader: "npm:^6.2.0"
     html-webpack-plugin: "npm:^5.6.3"
     mini-css-extract-plugin: "npm:^2.9.2"
