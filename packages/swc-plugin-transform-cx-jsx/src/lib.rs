@@ -3,20 +3,19 @@ use std::collections::{HashMap, HashSet};
 
 use lazy_static::lazy_static;
 use regex::Regex;
-use swc_core::common::DUMMY_SP;
+use swc_common::{SyntaxContext, DUMMY_SP};
+use swc_core::ecma::ast::Program;
 use swc_core::ecma::ast::{
-    ArrayLit, BlockStmtOrExpr, CallExpr, Expr, ExprOrSpread, Ident, ImportDecl,
+    ArrayLit, BlockStmtOrExpr, CallExpr, Expr, ExprOrSpread, Ident, IdentName, ImportDecl,
     ImportNamedSpecifier, ImportSpecifier, JSXAttr, JSXAttrName, JSXAttrOrSpread, JSXAttrValue,
     JSXClosingElement, JSXElement, JSXElementChild, JSXElementName, JSXExpr, JSXExprContainer,
     JSXOpeningElement, JSXText, KeyValueProp, Lit, MemberExpr, MemberProp, Module, ModuleDecl,
     ModuleItem, Null, ObjectLit, Prop, PropName, PropOrSpread, Str,
 };
-use swc_core::ecma::{
-    ast::Program,
-    visit::{as_folder, FoldWith, VisitMut, VisitMutWith},
-};
 use swc_core::plugin::{plugin_transform, proxies::TransformPluginProgramMetadata};
 use swc_ecma_ast::{Callee, ImportPhase};
+use swc_ecma_parser::TsSyntax;
+use swc_ecma_visit::{visit_mut_pass, VisitMut, VisitMutWith};
 
 pub struct TransformVisitor {
     imports: HashMap<String, HashSet<String>>,
@@ -40,6 +39,7 @@ fn obj_key_identifier(name: &str) -> (Option<Str>, Option<Ident>) {
             span: DUMMY_SP,
             sym: name.into(),
             optional: false,
+            ctxt: SyntaxContext::empty(),
         });
     }
 
@@ -123,15 +123,14 @@ impl TransformVisitor {
                                     )),
                                 };
 
-                                let ident = Ident {
+                                let ident_name = IdentName {
                                     span: DUMMY_SP,
                                     sym: "items".into(),
-                                    optional: false,
                                 };
 
                                 let items_attr = JSXAttr {
                                     span: DUMMY_SP,
-                                    name: JSXAttrName::Ident(ident),
+                                    name: JSXAttrName::Ident(ident_name),
                                     value: Some(JSXAttrValue::JSXExprContainer(items_container)),
                                 };
 
@@ -196,6 +195,7 @@ impl TransformVisitor {
                                 span: DUMMY_SP,
                                 sym: html_element_sym.into(),
                                 optional: false,
+                                ctxt: SyntaxContext::empty(),
                             })),
                         );
 
@@ -461,8 +461,14 @@ impl TransformVisitor {
                         let (_, ident) = obj_key_identifier(&matches[1]);
 
                         if ident.is_some() {
+                            let unwrapped_ident = ident.unwrap();
+                            let ident_name = IdentName {
+                                span: unwrapped_ident.span,
+                                sym: unwrapped_ident.sym,
+                            };
+
                             return Prop::KeyValue(KeyValueProp {
-                                key: PropName::Ident(ident.unwrap()),
+                                key: PropName::Ident(ident_name),
                                 value: Box::new(self.bind_cx_expr_tpl_object(&matches[2], value)),
                             });
                         } else {
@@ -494,7 +500,12 @@ impl TransformVisitor {
         if identifiers.0.is_some() {
             key = PropName::Str(identifiers.0.unwrap());
         } else {
-            key = PropName::Ident(identifiers.1.unwrap());
+            let unwrapped_ident = identifiers.1.unwrap();
+            let ident_name = IdentName {
+                span: unwrapped_ident.span,
+                sym: unwrapped_ident.sym,
+            };
+            key = PropName::Ident(ident_name);
         }
 
         let prop = Prop::KeyValue(KeyValueProp {
@@ -598,8 +609,10 @@ impl VisitMut for TransformVisitor {
                                             span: DUMMY_SP,
                                             sym: "createFunctionalComponent".into(),
                                             optional: false,
+                                            ctxt: SyntaxContext::empty(),
                                         }),
                                     )),
+                                    ctxt: SyntaxContext::empty(),
                                     args: vec![ExprOrSpread {
                                         expr: Box::new(Expr::Arrow(old_expr.to_owned())),
                                         spread: None,
@@ -706,6 +719,7 @@ impl VisitMut for TransformVisitor {
                                 span: DUMMY_SP,
                                 sym: i.to_owned().into(),
                                 optional: false,
+                                ctxt: SyntaxContext::empty(),
                             },
                             imported: None,
                             is_type_only: false,
@@ -741,10 +755,15 @@ impl VisitMut for TransformVisitor {
 }
 
 #[plugin_transform]
-pub fn process_transform(program: Program, _metadata: TransformPluginProgramMetadata) -> Program {
-    program.fold_with(&mut as_folder(TransformVisitor {
+pub fn process_transform(
+    mut program: Program,
+    _metadata: TransformPluginProgramMetadata,
+) -> Program {
+    program.visit_mut_with(&mut visit_mut_pass(TransformVisitor {
         imports: HashMap::new(),
-    }))
+    }));
+
+    program
 }
 
 #[cfg(test)]
@@ -753,20 +772,20 @@ pub fn process_transform(program: Program, _metadata: TransformPluginProgramMeta
 fn exec(input: std::path::PathBuf) {
     let output = input.with_file_name("output.js");
     swc_core::ecma::transforms::testing::test_fixture(
-        swc_ecma_parser::Syntax::Typescript(swc_ecma_parser::TsConfig {
+        swc_ecma_parser::Syntax::Typescript(TsSyntax {
             tsx: true,
             ..Default::default()
         }),
         &|_| {
-            swc_common::chain!(
+            (
                 swc_core::ecma::transforms::base::resolver(
                     swc_common::Mark::new(),
                     swc_common::Mark::new(),
-                    true
+                    true,
                 ),
-                as_folder(TransformVisitor {
-                    imports: HashMap::new()
-                })
+                visit_mut_pass(TransformVisitor {
+                    imports: HashMap::new(),
+                }),
             )
         },
         &input,
