@@ -24,14 +24,14 @@ module.exports = (production) => ({
          //uncomment the line below to alias cx-react to cx-preact or some other React replacement library
          //'cx-react': 'cx-preact',
       },
-      extensions: [".js", ".ts", ".tsx", ".json"],
+      extensions: [".ts", ".js", ".tsx", ".json"],
    },
 
    module: {
       rules: [
          {
-            test: /\.tsx?$/,
-            include: /gallery/,
+            test: /\.(ts|tsx)?$/,
+            //include: /gallery/,
             use: [
                {
                   loader: "babel-loader",
