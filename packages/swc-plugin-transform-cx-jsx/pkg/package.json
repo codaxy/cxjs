@@ -1,6 +1,6 @@
 {
    "name": "swc-plugin-transform-cx-jsx",
-   "version": "24.9.0",
+   "version": "25.9.0",
    "description": "Transpile JSX into Cx config objects.",
    "repository": {
       "type": "git",
@@ -12,8 +12,7 @@
    "homepage": "https://cxjs.io",
  "scripts": {
       "test": "cargo test",
-      "build": "cargo build --release --target wasm32-wasip1",
-      "prepublishOnly": "cargo build-wasi --release"
+      "build": "cargo build --release --target wasm32-wasip1"
    },
    "files": [
       "swc_plugin_transform_cx_jsx_bg.wasm",
