@@ -1,6 +1,6 @@
 {
    "name": "swc-plugin-transform-cx-imports",
-   "version": "25.9.0",
+   "version": "25.9.1",
    "description": "Rewrite Cx imports for simplicity and optimal output size.",
    "repository": {
       "type": "git",
@@ -18,7 +18,9 @@
       "swc_plugin_transform_cx_imports_bg.wasm",
       "swc_plugin_transform_cx_imports.js",
       "swc_plugin_transform_cx_imports_bg.js",
-      "swc_plugin_transform_cx_imports.d.ts"
+      "swc_plugin_transform_cx_imports.d.ts",
+      "LICENSE.md",
+      "README.md"
    ],
    "module": "swc_plugin_transform_cx_imports.js",
    "types": "swc_plugin_transform_cx_imports.d.ts",
