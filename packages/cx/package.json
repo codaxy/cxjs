@@ -1,6 +1,6 @@
 {
-   "name": "cxts",
-   "version": "25.8.0",
+   "name": "cx",
+   "version": "25.10.0",
    "description": "Advanced JavaScript UI framework for admin and dashboard applications with ready to use grid, form and chart components.",
    "main": "index.js",
    "jsnext:main": "src/index.js",

@@ -1,20 +1,19 @@
 {
-  "compilerOptions": {
-    "target": "es6",
-    "jsx": "react",
-    "allowJs": true,
-    "moduleResolution": "node",
-    "module": "esnext",
-    "sourceMap": false,
-    "jsxFactory": "cx",
-    "baseUrl": ".",
-    "paths": {
-      "cx": [ "../packages/cx/src" ],
-      "cx-react": [ "../packages/cx-react" ]
-    },
-    "outDir": "./build/"
-  },
-  "exclude": [
-    "node_modules", "dist"
-  ]
+   "compilerOptions": {
+      "target": "es6",
+      "jsx": "react-jsx",
+      //"jsxFactory": "cx",
+      "jsxImportSource": "cx",
+      "allowJs": true,
+      "moduleResolution": "node",
+      "module": "esnext",
+      "sourceMap": false,
+      "baseUrl": ".",
+      "paths": {
+         "cx": ["../packages/cx/src"],
+         "cx-react": ["../packages/cx-react"]
+      },
+      "outDir": "./build/"
+   },
+   "exclude": ["node_modules", "dist"]
 }
