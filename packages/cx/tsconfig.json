@@ -1,0 +1,23 @@
+{
+   "compilerOptions": {
+      "target": "es2017",
+      "jsx": "react-jsx",
+      "jsxImportSource": "@lib",
+      "allowJs": true,
+      "moduleResolution": "node",
+      "module": "esnext",
+      "lib": ["dom", "dom.iterable", "es6"],
+      "allowSyntheticDefaultImports": true,
+      "esModuleInterop": true,
+      "forceConsistentCasingInFileNames": true,
+      "skipLibCheck": true,
+      "baseUrl": ".",
+      "paths": {
+         "@lib/jsx-runtime": ["./jsx-runtime.js"]
+      },
+      "outDir": "./build",
+      "rootDir": "./src",
+      "declaration": true
+   },
+   "exclude": ["dist", "build"]
+}

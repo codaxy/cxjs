@@ -2,11 +2,18 @@
    "name": "cx",
    "version": "25.10.0",
    "description": "Advanced JavaScript UI framework for admin and dashboard applications with ready to use grid, form and chart components.",
-   "main": "index.js",
-   "jsnext:main": "src/index.js",
+   "exports": {
+      "widgets": "./build/src/widgets/index.js",
+      "data": "./build/src/data/index.js",
+      "ui": "./build/src/ui/index.js",
+      "hooks": "./build/src/hooks/index.js",
+      "svg": "./build/src/svg/index.js",
+      "charts": "./build/src/svg/charts"
+   },
    "sideEffects": false,
    "scripts": {
-      "build": "node build/index"
+      "build": "node build/index",
+      "build2": "tsc"
    },
    "author": "Codaxy",
    "license": "MIT",
@@ -30,6 +37,7 @@
    "devDependencies": {
       "@types/jest": "^30.0.0",
       "@types/mocha": "^10.0.10",
-      "react-test-renderer": "^18.3.1"
+      "react-test-renderer": "^18.3.1",
+      "typescript": "^5.9.3"
    }
 }
