@@ -1,7 +1,10 @@
-//@ts-nocheck
-let passiveEventsSupported = null;
+let passiveEventsSupported: boolean | null = null;
 
-export function browserSupportsPassiveEventHandlers() {
+/**
+ * Checks if the browser supports passive event handlers.
+ * @returns {boolean}
+ */
+export function browserSupportsPassiveEventHandlers(): boolean {
    if (passiveEventsSupported == null) {
       try {
          passiveEventsSupported = false;

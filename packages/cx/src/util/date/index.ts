@@ -1,4 +1,3 @@
-//@ts-nocheck
 export * from "./dateDiff";
 export * from "./zeroTime";
 export * from "./monthStart";

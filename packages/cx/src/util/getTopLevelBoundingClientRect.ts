@@ -1,7 +1,6 @@
-//@ts-nocheck
 import {getParentFrameBoundingClientRect} from "./getParentFrameBoundingClientRect";
 
-export function getTopLevelBoundingClientRect(el) {
+export function getTopLevelBoundingClientRect(el: Element): { left: number, right: number, top: number, bottom: number } {
    let bounds = el.getBoundingClientRect();
    let offset = getParentFrameBoundingClientRect(el);
    return {

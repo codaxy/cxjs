@@ -1,8 +1,7 @@
-//@ts-nocheck
 import {getParentFrameBoundingClientRect} from "./getParentFrameBoundingClientRect";
 import {getTopLevelBoundingClientRect} from "./getTopLevelBoundingClientRect";
 
-export function getScrollerBoundingClientRect(scrollEl, topLevel = false) {
+export function getScrollerBoundingClientRect(scrollEl: Element, topLevel: boolean = false): ClientRect {
    if (scrollEl == scrollEl.ownerDocument.body || scrollEl == scrollEl.ownerDocument.documentElement) {
       if (topLevel)
          return getParentFrameBoundingClientRect(scrollEl.ownerDocument.body);

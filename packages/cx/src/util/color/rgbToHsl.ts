@@ -1,5 +1,11 @@
-//@ts-nocheck
-export function rgbToHsl(r, g, b) {
+/**
+ *
+ * @param r
+ * @param g
+ * @param b
+ * @returns {array}
+ */
+export function rgbToHsl(r: number, g: number, b: number): [number, number, number] {
    r /= 255;
    g /= 255;
    b /= 255;

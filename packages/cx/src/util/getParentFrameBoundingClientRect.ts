@@ -1,5 +1,4 @@
-//@ts-nocheck
-export function getParentFrameBoundingClientRect(el) {
+export function getParentFrameBoundingClientRect(el: Element): ClientRect {
    // if the ownerDocument is null, the element itself is the document
    let ownerDocument = el.ownerDocument || el;
    if (ownerDocument != document) {

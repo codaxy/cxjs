@@ -1,4 +1,3 @@
-//@ts-nocheck
-export function isArray(a) {
-   return Array.isArray(a);
+export function isArray<T>(x: T): x is Array<T> {
+   return Array.isArray(x);
 }

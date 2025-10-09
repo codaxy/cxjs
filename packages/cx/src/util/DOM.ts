@@ -1,7 +1,14 @@
-//@ts-nocheck
 import {isNumber} from '../util/isNumber';
 
-export function findFirst(el, condition) {
+type ElementFilter = (el: Element, condition: (el: Element) => boolean) => Element | null;
+
+/**
+ * Returns first child element, or the parent element itself, that satisfies the `condition` function.
+ * @param el
+ * @param condition
+ * @returns {Element}
+ */
+export function findFirst(el: Element, condition: (el: Element) => boolean): Element | null {
    if (condition(el))
       return el;
 
@@ -15,7 +22,7 @@ export function findFirst(el, condition) {
    return null;
 }
 
-export function findFirstChild(el, condition) {
+export function findFirstChild(el: Element, condition: (el: Element) => boolean): Element | null {
    var children = el.childNodes;
    if (children)
       for (var i = 0; i < children.length; i++) {
@@ -26,7 +33,7 @@ export function findFirstChild(el, condition) {
    return null;
 }
 
-export function closest(el, condition) {
+export function closest(el: Element, condition: (el: Element) => boolean): Element | null {
    while (el) {
       if (condition(el))
          return el;
@@ -35,21 +42,21 @@ export function closest(el, condition) {
    return null;
 }
 
-export function closestParent(el, condition) {
+export function closestParent(el: Element, condition: (el: Element) => boolean): Element | null {
    return el && closest(el.parentNode, condition);
 }
 
-export function isFocused(el) {
+export function isFocused(el: Element): boolean {
    return document.activeElement == el;
 }
 
-export function isFocusedDeep(el) {
+export function isFocusedDeep(el: Element): boolean {
    return document.activeElement == el || (document.activeElement && el.contains(document.activeElement));
 }
 
 const focusableWithoutTabIndex = ['INPUT', 'SELECT', 'TEXTAREA', 'A', 'BUTTON'];
 
-export function isFocusable(el) {
+export function isFocusable(el: Element): boolean {
    var firstPass = el && isNumber(el.tabIndex) && el.tabIndex >= 0;
    if (!firstPass)
       return false;
@@ -60,14 +67,18 @@ export function isFocusable(el) {
    return el.hasAttribute('tabindex');
 }
 
-export function getFocusedElement() {
+/**
+ * Returns focused element.
+ * @returns {Element}
+ */
+export function getFocusedElement(): Element {
    return document.activeElement;
 }
 
-export function isDescendant(el, descEl) {
+export function isDescendant(el: Element, descEl: Element): boolean {
    return el.contains(descEl);
 }
 
-export function isSelfOrDescendant(el, descEl) {
+export function isSelfOrDescendant(el: Element, descEl: Element): boolean {
    return el == descEl || el.contains(descEl);
 }

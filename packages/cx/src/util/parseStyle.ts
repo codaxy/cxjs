@@ -1,5 +1,10 @@
-//@ts-nocheck
-export function parseStyle(str) {
+interface Config {
+   [prop: string]: any;
+}
+
+export function parseStyle(str: string): Config;
+export function parseStyle(str: any): any;
+export function parseStyle(str: any): any {
    if (typeof str != "string") return str;
 
    var style = {},

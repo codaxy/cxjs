@@ -1,7 +1,13 @@
-//@ts-nocheck
 //shamelessly taken from https://davidwalsh.name/vendor-prefix
 
-var getPrefixes = function () {
+interface Prefixes {
+   dom: string;
+   lowercase: string;
+   css: string;
+   js: string;
+}
+
+var getPrefixes = function (): Prefixes {
    var styles = window.getComputedStyle(document.documentElement, ''),
       pre = (Array.prototype.slice
             .call(styles)
@@ -17,9 +23,9 @@ var getPrefixes = function () {
    };
 }
 
-var prefixes;
+var prefixes: Prefixes | undefined;
 
-export function getVendorPrefix(type) {
+export function getVendorPrefix(type: 'dom' | 'lowercase' | 'css' | 'js'): string {
    if (!prefixes)
       prefixes = getPrefixes();
 

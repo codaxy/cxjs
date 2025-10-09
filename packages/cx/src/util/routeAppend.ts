@@ -1,5 +1,4 @@
-//@ts-nocheck
-export function routeAppend(base, path) {
+export function routeAppend(base: string, path: string): string {
    let result = base;
    if (path) {
       if (path[0] == '/') {

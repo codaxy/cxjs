@@ -1,7 +1,6 @@
-//@ts-nocheck
 import {isArray} from './isArray';
 
-export function shallowEquals(v1, v2) {
+export function shallowEquals(v1: any, v2: any): boolean {
 
    if (v1 === v2)
       return true;

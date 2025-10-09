@@ -1,15 +1,14 @@
-//@ts-nocheck
 import {Console} from './Console';
 
 export const appLoopFlag = 'app-loop';
 export const vdomRenderFlag = 'vdom-render';
 
-let counter = {};
-let activeFlags = {};
+let counter: { [key: string]: number } = {};
+let activeFlags: { [key: string]: boolean } = {};
 
-let nowImpl = () => Date.now();
+let nowImpl: () => number = () => Date.now();
 
-export function now() {
+export function now(): number {
    if (process.env.NODE_ENV !== "production") {
       return nowImpl();
    } else {
@@ -17,19 +16,19 @@ export function now() {
    }
 }
 
-function enable(flag) {
+function enable(flag: string): void {
    if (process.env.NODE_ENV !== "production") {
       activeFlags[flag] = true;
    }
 }
 
-function disable(flag) {
+function disable(flag: string): void {
    if (process.env.NODE_ENV !== "production") {
       activeFlags[flag] = false;
    }
 }
 
-function count(flag) {
+function count(flag: string): number {
    if (process.env.NODE_ENV !== "production") {
       if (!activeFlags[flag])
          return;
@@ -37,7 +36,7 @@ function count(flag) {
    }
 }
 
-function log(flag) {
+function log(flag: string, ...args: any[]): void {
    if (process.env.NODE_ENV !== "production") {
       if (!activeFlags[flag])
          return;

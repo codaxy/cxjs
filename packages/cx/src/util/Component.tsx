@@ -2,16 +2,24 @@ import { isString } from "./isString";
 import { isFunction } from "./isFunction";
 import { isArray } from "./isArray";
 
+interface Config {
+   [prop: string]: any;
+}
+
+interface DecoratorFactory<T> {
+   (t: T): T;
+}
+
 const componentAlias = {};
 
 export class Component {
    public static namespace: string;
    public static isComponentType: boolean;
    public static autoInit: boolean;
-   public static factory: (alias: any, config?: any, more?: any) => any;
+   public static factory: (alias: string, config?: Config, more?: Config) => Component;
    public isComponent?: boolean;
 
-   constructor(config?: any) {
+   constructor(config?: Config) {
       if (config && config.$props) {
          Object.assign(config, config.$props);
          delete config.$props;
@@ -19,6 +27,15 @@ export class Component {
       Object.assign(this, config);
    }
 
+   init() {}
+
+   /**
+    *
+    * @param alias
+    * @param type
+    */
+   static alias<T>(alias: string, type: T): void;
+   static alias<T>(alias: string): DecoratorFactory<T>;
    static alias(alias: string, type?: any) {
       if (type) {
          type.prototype.componentAlias = alias;
@@ -31,7 +48,13 @@ export class Component {
          };
    }
 
-   static create(typeAlias: any, config?: any, more?: any): any {
+   /**
+    *
+    * @param type
+    * @param config
+    * @param more
+    */
+   static create(typeAlias?: any, config?: Config, more?: Config): any {
       if (!typeAlias) return this.factory(typeAlias, config, more);
 
       if (typeAlias.isComponent) return typeAlias;
@@ -84,7 +107,7 @@ Component.isComponentType = true;
 Component.namespace = "";
 Component.autoInit = false;
 
-Component.factory = (alias: string, _config?: any, _more?: any) => {
+Component.factory = (alias: string, _config?: Config, _more?: Config): Component => {
    throw new Error(`Unknown component alias ${alias}.`);
 };
 

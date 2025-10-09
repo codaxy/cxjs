@@ -1,5 +1,4 @@
-//@ts-nocheck
-function hue2rgb(p, q, t) {
+function hue2rgb(p: number, q: number, t: number): number {
    if (t < 0) t += 1;
    if (t > 1) t -= 1;
    if (t < 1 / 6) return p + (q - p) * 6 * t;
@@ -8,7 +7,14 @@ function hue2rgb(p, q, t) {
    return p;
 };
 
-export function hslToRgb(h, s, l) {
+/**
+ *
+ * @param h
+ * @param s
+ * @param l
+ * @returns {array}
+ */
+export function hslToRgb(h: number, s: number, l: number): [number, number, number] {
    h/=360;
    s/=100;
    l/=100;

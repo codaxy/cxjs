@@ -1,10 +1,14 @@
-//@ts-nocheck
 import {dateDiff} from './dateDiff';
 
-export function maxDate() {
-   var max = arguments[0];
-   for (var i = 1; i < arguments.length; i++)
-      if (dateDiff(max, arguments[i]) < 0)
-         max = arguments[i];
+/**
+ * Returns the maximum Date value from the provided values.
+ * @param args
+ * @returns {Date}
+ */
+export function maxDate(...args: Date[]): Date {
+   var max = args[0];
+   for (var i = 1; i < args.length; i++)
+      if (dateDiff(max, args[i]) < 0)
+         max = args[i];
    return max;
 }

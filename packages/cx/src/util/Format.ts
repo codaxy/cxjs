@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { debug } from "./Debug";
 import { GlobalCacheIdentifier } from "./GlobalCacheIdentifier";
 import { isNumber } from "../util/isNumber";
@@ -9,7 +8,9 @@ import { parseDateInvariant } from "./date/parseDateInvariant";
 
 //Culture dependent formatters are defined in the ui package.
 
-const defaultFormatter = (v) => v.toString();
+type Formatter = (value: any) => string;
+
+const defaultFormatter: Formatter = (v) => v.toString();
 
 let formatFactory = {
    string: function () {
@@ -210,11 +211,11 @@ function getDefaultFormatCache() {
 
 let getFormatCache = getDefaultFormatCache;
 
-export function setGetFormatCacheCallback(callback) {
+export function setGetFormatCacheCallback(callback: () => {}): void {
    getFormatCache = callback;
 }
 
-function getFormatter(format) {
+function getFormatter(format: string): Formatter {
    if (!format) format = "";
    let formatCache = getFormatCache();
    let formatter = formatCache[format];
@@ -224,26 +225,29 @@ function getFormatter(format) {
 }
 
 export class Format {
-   static value(v, format) {
+   static value(v: any, format: string): string {
       let formatter = getFormatter(format);
       return formatter(v);
    }
 
-   static parse(format) {
+   static parse(format: string): Formatter {
       return getFormatter(format);
    }
 
-   static register(format, formatter) {
+   static register(format: string | string[], formatter: Formatter): void {
       this.registerFactory(format, () => formatter);
    }
 
-   static registerFactory(format, factory) {
+   static registerFactory(format: string | string[], factory: (...args: any[]) => Formatter): void {
       if (isArray(format)) format.forEach((f) => this.registerFactory(f, factory));
       else formatFactory[format] = factory;
    }
 }
 
-export function resolveMinMaxFractionDigits(minimumFractionDigits, maximumFractionDigits) {
+export function resolveMinMaxFractionDigits(
+   minimumFractionDigits: number,
+   maximumFractionDigits: number,
+): { minimumFractionDigits: number; maximumFractionDigits: number } {
    minimumFractionDigits = minimumFractionDigits != null ? Number(minimumFractionDigits) : minimumFractionDigits;
    maximumFractionDigits = maximumFractionDigits != null ? Number(maximumFractionDigits) : maximumFractionDigits;
 

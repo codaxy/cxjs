@@ -1,4 +1,3 @@
-//@ts-nocheck
-export function isUndefined(v) {
-   return v === undefined;
+export function isUndefined(x: any): x is undefined {
+   return x === undefined;
 }

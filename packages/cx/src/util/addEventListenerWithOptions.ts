@@ -1,7 +1,11 @@
-//@ts-nocheck
 import { browserSupportsPassiveEventHandlers } from "./browserSupportsPassiveEventHandlers";
 
-export function addEventListenerWithOptions(element, event, callback, options) {
+export function addEventListenerWithOptions(
+   element: Element,
+   event: string,
+   callback: (event: Event) => void,
+   options: AddEventListenerOptions
+): () => void {
    let thirdParam = browserSupportsPassiveEventHandlers() ? options : options.capture === true;
    element.addEventListener(event, callback, thirdParam);
    return () => {

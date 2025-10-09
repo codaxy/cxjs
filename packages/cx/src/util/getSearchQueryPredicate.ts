@@ -1,14 +1,13 @@
-//@ts-nocheck
 import { escapeSpecialRegexCharacters } from "./escapeSpecialRegexCharacters";
 
-function getTermsAndRegularExpressions(query) {
+function getTermsAndRegularExpressions(query: string): [string[], RegExp[]] {
    if (!query) return [[], []];
    let terms = query.split(" ").filter(Boolean);
    let regexes = terms.map((word) => new RegExp(escapeSpecialRegexCharacters(word), "gi"));
    return [terms, regexes];
 }
 
-export function getSearchQueryPredicate(query, options) {
+export function getSearchQueryPredicate(query: string, options?: any): (text: string) => boolean {
    let [terms, regexes] = getTermsAndRegularExpressions(query);
    if (terms.length == 0) return () => true;
    if (regexes.length == 1) {
@@ -18,9 +17,9 @@ export function getSearchQueryPredicate(query, options) {
    return (text) => text && regexes.every((re) => text.match(re));
 }
 
-var highlighterCache = {};
+var highlighterCache: { [key: string]: (query: string) => string[] } = {};
 
-export function getSearchQueryHighlighter(query, options) {
+export function getSearchQueryHighlighter(query: string, options?: any): (query: string) => string[] {
    let [terms, regexes] = getTermsAndRegularExpressions(query);
    if (terms.length == 0) return (text) => [text];
 

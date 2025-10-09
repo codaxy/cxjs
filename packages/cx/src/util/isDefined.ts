@@ -1,4 +1,3 @@
-//@ts-nocheck
-export function isDefined(v) {
-   return v !== undefined;
+export function isDefined(x: any): boolean {
+   return x !== undefined;
 }

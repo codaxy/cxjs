@@ -1,4 +1,3 @@
-//@ts-nocheck
 export * from "./Console";
 export * from "./Debug";
 export * from "./DOM";

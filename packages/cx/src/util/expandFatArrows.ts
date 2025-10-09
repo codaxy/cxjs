@@ -1,7 +1,6 @@
-//@ts-nocheck
 //http://stackoverflow.com/questions/36428283/arrow-function-eval-preprocessor
 
-export function expandFatArrows(code) {
+export function expandFatArrows(code: string): string {
    var arrowHeadRegex = RegExp(/(\((?:\w+,)*\w+\)|\(\)|\w+)[\r\t ]*=>\s*/);
    var arrowHeadMatch = arrowHeadRegex.exec(code);
 
@@ -66,7 +65,7 @@ export function expandFatArrows(code) {
    return code;
 }
 
-function getSingeLineBodyEnd(bodyCode, startI) {
+function getSingeLineBodyEnd(bodyCode: string, startI: number): number {
    var braceCount = 0;
    var openingQuote = null;
 
@@ -97,7 +96,7 @@ function getSingeLineBodyEnd(bodyCode, startI) {
    return bodyCode.length;
 }
 
-function skipQuotedString(bodyAndNext, openingQuote, i) {
+function skipQuotedString(bodyAndNext: string, openingQuote: string, i: number): number {
    var matchFound = false;//matching quote
    var openingQuoteI = i;
    i++;

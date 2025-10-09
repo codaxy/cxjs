@@ -1,4 +1,3 @@
-//@ts-nocheck
-export function isString(s) {
-   return typeof s === 'string';
+export function isString(x: any): x is string {
+   return typeof x === 'string';
 }

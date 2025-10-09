@@ -1,8 +1,13 @@
-//@ts-nocheck
 import { findScrollableParent } from "./findScrollableParent";
 import { getScrollerBoundingClientRect } from "./getScrollerBoundingClientRect";
 
-export function scrollElementIntoView(el, vertical = true, horizontal = false, inflate = 0, scrollContainer = null) {
+export function scrollElementIntoView(
+   el: Element,
+   vertical: boolean = true,
+   horizontal: boolean = false,
+   inflate: number = 0,
+   scrollContainer: HTMLElement | null = null
+): void {
    if (horizontal) {
       let parentEl = scrollContainer || findScrollableParent(el, true);
       if (parentEl) {

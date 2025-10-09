@@ -1,4 +1,3 @@
-//@ts-nocheck
-export function isNumber(n) {
-   return typeof n === 'number';
+export function isNumber(x: any): x is number {
+   return typeof x === 'number';
 }

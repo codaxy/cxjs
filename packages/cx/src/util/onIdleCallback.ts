@@ -1,6 +1,5 @@
-//@ts-nocheck
-export function onIdleCallback(callback, options) {
-   let token = null;
+export function onIdleCallback(callback: (idleDeadline: any) => any, options?: any): () => void {
+   let token: number | null = null;
    if (typeof requestIdleCallback == "function")
       token = requestIdleCallback(callback, options);
    else

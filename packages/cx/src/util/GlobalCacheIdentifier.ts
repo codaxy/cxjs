@@ -1,12 +1,11 @@
-//@ts-nocheck
-var globalCacheIdentifier = 1;
+var globalCacheIdentifier: number = 1;
 
 export class GlobalCacheIdentifier {
-   static get() {
+   static get(): number {
       return globalCacheIdentifier;
    }
 
-   static change() {
+   static change(): void {
       globalCacheIdentifier++;
    }
 }

@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(yarn build)"
+      "Bash(yarn build)",
+      "Bash(for f in packages/cx/src/util/date/*.ts)",
+      "Bash(do [ ! -f \"$f%.ts.d.ts\" ])",
+      "Bash(echo:*)",
+      "Bash(done)"
     ],
     "deny": [],
     "ask": []

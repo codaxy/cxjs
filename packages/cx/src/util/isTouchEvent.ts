@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { browserSupportsPassiveEventHandlers } from "./browserSupportsPassiveEventHandlers";
 import { isTouchDevice } from "./isTouchDevice";
 
@@ -14,7 +13,7 @@ let insideTouchEvent = 0;
 let lastTouchEvent = 0;
 let isTouchDetectionEnabled = false;
 
-export function enableTouchEventDetection() {
+export function enableTouchEventDetection(): void {
    if (isTouchDevice() && !isTouchDetectionEnabled) {
       let options = true; //capture
 
@@ -57,7 +56,7 @@ export function enableTouchEventDetection() {
    }
 }
 
-export function isTouchEvent() {
+export function isTouchEvent(): boolean {
    return isTouchDevice() && (!isTouchDetectionEnabled || Date.now() - lastTouchEvent < 1000);
 }
 

@@ -1,2 +1,1 @@
-//@ts-nocheck
-export function dummyCallback() {}
+export function dummyCallback(): void {}
