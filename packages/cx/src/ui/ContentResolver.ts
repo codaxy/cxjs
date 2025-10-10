@@ -1,5 +1,6 @@
 import {PureContainer} from './PureContainer';
 import {isPromise} from '../util/isPromise';
+import {RenderingContext} from './RenderingContext';
 
 export class ContentResolver extends PureContainer {
    mode: "replace" | "prepend" | "append";
@@ -8,25 +9,25 @@ export class ContentResolver extends PureContainer {
    layout?: any;
    items?: any;
 
-   declareData(...args: any[]) {
-      return super.declareData(...args, {
+   declareData(...args: any[]): void {
+      super.declareData(...args, {
          params: {structured: true},
          loading: undefined
       })
    }
 
-   init() {
+   init(): void {
       super.init();
       this.initialItems = this.layout ? this.layout.items : this.items;
       this.clear();
    }
 
-   initInstance(context: any, instance: any) {
+   initInstance(context: RenderingContext, instance: any): void {
       instance.content = this.initialItems;
       instance.cachedParams = {}; //unique value which will never pass the equality check
    }
 
-   prepareData(context: any, instance: any) {
+   prepareData(context: RenderingContext, instance: any): void {
       let {data} = instance;
 
       if (data.params !== instance.cachedParams && this.onResolve) {
@@ -46,7 +47,7 @@ export class ContentResolver extends PureContainer {
       }
    }
 
-   setContent(instance: any, content: any) {
+   setContent(instance: any, content: any): void {
       if (content) {
          this.clear();
          switch (this.mode) {
@@ -71,7 +72,7 @@ export class ContentResolver extends PureContainer {
          instance.content = this.initialItems;
    }
 
-   explore(context: any, instance: any) {
+   explore(context: RenderingContext, instance: any): void {
       //a little bit hacky
       if (this.layout)
          this.layout.items = instance.content;

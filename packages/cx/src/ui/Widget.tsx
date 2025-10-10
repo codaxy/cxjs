@@ -7,6 +7,7 @@ import { isString } from "../util/isString";
 import { isDefined } from "../util/isDefined";
 import { isArray } from "../util/isArray";
 import { Console } from "../util/Console";
+import { RenderingContext } from "./RenderingContext";
 
 import { VDOM as vdom } from "./VDOM";
 export const VDOM = vdom;
@@ -15,26 +16,46 @@ let widgetId = 100;
 
 export class Widget extends Component {
    public widgetId?: number;
-   public jsxSpread?: any[];
+   public jsxSpread?: Record<string, any>[];
    public jsxAttributes?: string[];
    public styles?: any;
    public style?: any;
    public styled?: boolean;
    public if?: any;
    public visible?: boolean;
-   public outerLayout?: any;
+   public outerLayout?: Widget;
    public contentFor?: string;
    public putInto?: string;
    public isContent?: boolean;
    public CSS?: any;
    public initialized?: boolean;
-   public components?: any;
-   public helpers?: any;
-   public selector?: any;
+   public components?: Record<string, any>;
+   public helpers?: Record<string, any>;
+   public selector?: StructuredSelector;
    public nameMap?: any;
    public baseClass?: string;
    public version?: number;
    public memoize?: boolean;
+
+   // Lifecycle hooks
+   public onInit?: (context: RenderingContext, instance: any) => void;
+   public onExplore?: (context: RenderingContext, instance: any) => void;
+   public onPrepare?: (context: RenderingContext, instance: any) => void;
+   public onCleanup?: (context: RenderingContext, instance: any) => void;
+   public onDestroy?: (instance: any) => void;
+
+   // Layout cleanup hooks
+   public exploreCleanup?: (context: RenderingContext, instance: any) => void;
+   public prepareCleanup?: (context: RenderingContext, instance: any) => void;
+   public cleanup?: (context: RenderingContext, instance: any) => void;
+   public prepare?: (context: RenderingContext, instance: any) => void;
+
+   // Controller
+   public controller?: any;
+
+   // Pure container flag
+   public isPureContainer?: boolean;
+
    public static optimizePrepare?: boolean;
 
    constructor(config?: any) {
@@ -44,16 +65,16 @@ export class Widget extends Component {
       if (isArray(this.jsxSpread)) {
          if (!this.jsxAttributes) this.jsxAttributes = [];
 
-         this.jsxSpread.forEach((spread) => {
-            for (var key in spread) {
-               this[key] = spread[key];
-               this.jsxAttributes.push(key);
+         this.jsxSpread.forEach((spread: Record<string, any>) => {
+            for (const key in spread) {
+               (this as any)[key] = spread[key];
+               this.jsxAttributes!.push(key);
             }
          });
       }
    }
 
-   init() {
+   public init(): void {
       if (this.styles) this.style = this.styles;
 
       if (this.styled) this.style = parseStyle(this.style);
@@ -87,25 +108,29 @@ export class Widget extends Component {
       this.initialized = true;
    }
 
-   initComponents(...args: any[]) {
+   protected initComponents(...args: Record<string, any>[]): void {
       if (args.length > 0) {
          this.components = Object.assign({}, ...args);
-         for (var k in this.components) if (!this.components[k]) delete this.components[k];
+         for (const k in this.components) {
+            if (!this.components[k]) delete this.components[k];
+         }
       }
    }
 
-   initHelpers(...args: any[]) {
+   protected initHelpers(...args: Record<string, any>[]): void {
       if (args.length > 0) {
          this.helpers = Object.assign({}, ...args);
       }
    }
 
-   declareData(...args: any[]) {
-      let options: any = {};
+   protected declareData(...args: Record<string, any>[]): void {
+      const options: Record<string, any> = {};
 
-      if (this.styled) options.class = options.className = options.style = { structured: true };
+      if (this.styled) {
+         options.class = options.className = options.style = { structured: true };
+      }
 
-      var props = {
+      const props = {
          visible: undefined,
          mod: {
             structured: true,
@@ -118,7 +143,7 @@ export class Widget extends Component {
       this.nameMap = this.selector.nameMap;
    }
 
-   prepareCSS(_context: any, { data }: any) {
+   protected prepareCSS(_context: RenderingContext, { data }: any): void {
       data.classNames = this.CSS.expand(
          this.CSS.block(this.baseClass, data.mod, data.stateMods),
          data.class,
@@ -127,45 +152,45 @@ export class Widget extends Component {
       data.style = parseStyle(data.style);
    }
 
-   prepareData(context: any, instance: any) {
+   public prepareData(context: RenderingContext, instance: any): void {
       if (this.styled) this.prepareCSS(context, instance);
    }
 
-   initInstance(_context: any, _instance: any) {}
+   public initInstance(_context: RenderingContext, _instance: any): void {}
 
-   initState(_context: any, _instance: any) {}
+   public initState(_context: RenderingContext, _instance: any): void {}
 
-   checkVisible(_context: any, _instance: any, data: any) {
+   public checkVisible(_context: RenderingContext, _instance: any, data: any): boolean {
       return data.visible;
    }
 
-   explore(context: any, instance: any) {
+   public explore(context: RenderingContext, instance: any): void {
       if (this.components) instance.components = {};
-      for (let cmp in this.components) {
-         let ins = instance.getChild(context, this.components[cmp], "cmp-" + cmp, instance.store);
+      for (const cmp in this.components) {
+         const ins = instance.getChild(context, this.components[cmp], "cmp-" + cmp, instance.store);
          if (ins.scheduleExploreIfVisible(context)) instance.components[cmp] = ins;
       }
    }
 
-   render(_context: any, _instance: any, _key: any): any {
+   public render(_context: RenderingContext, _instance: any, _key: any): any {
       Console.log(this);
       throw new Error(
          'Widget\'s render method should be overridden. This error usually happens if with incorrect imports, i.e. import { TextField } from "cx/data". Please check the console for details about the component configuration.',
       );
    }
 
-   update() {
+   public update(): void {
       this.version = (this.version || 0) + 1;
    }
 
-   applyParentStore(instance: any) {
+   public applyParentStore(instance: any): void {
       instance.store = instance.parentStore;
 
       // check when this is actually needed, perhaps this is needed only for tables and repeated elements
       // if (instance.cached) delete instance.cached.rawData; // force prepareData to execute again
    }
 
-   static resetCounter() {
+   public static resetCounter(): void {
       widgetId = 100;
    }
 }

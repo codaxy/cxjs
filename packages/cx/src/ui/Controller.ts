@@ -3,6 +3,7 @@ import { Component } from "../util/Component";
 import { isArray } from "../util/isArray";
 import { isFunction } from "../util/isFunction";
 import { StoreProxy } from "../data/StoreProxy";
+import { RenderingContext } from "./RenderingContext";
 
 const computablePrefix = "computable-";
 const triggerPrefix = "trigger-";
@@ -15,22 +16,24 @@ interface ComputableEntry {
 
 export class Controller extends Component {
    initialized?: boolean;
-   onInit?: (context: any) => void;
-   onExplore?: (context: any) => void;
-   onPrepare?: (context: any) => void;
-   onCleanup?: (context: any) => void;
-   instance: any;
-   store: any;
+   onInit?: (context: RenderingContext) => void;
+   onExplore?: (context: RenderingContext) => void;
+   onPrepare?: (context: RenderingContext) => void;
+   onCleanup?: (context: RenderingContext) => void;
+   onDestroy?: () => void;
+   instance: any; // Instance type
+   store: any; // View type
+   widget?: any; // Widget type
    computables?: Record<string, ComputableEntry>;
 
-   init(context: any) {
+   init(context?: RenderingContext): void {
       if (!this.initialized) {
          this.initialized = true;
-         if (this.onInit) this.onInit(context);
+         if (this.onInit && context) this.onInit(context);
       }
    }
 
-   explore(context: any) {
+   explore(context: RenderingContext): void {
       let { store } = this.instance;
       this.store = store; //in rare cases instance may change its store
 
@@ -53,13 +56,13 @@ export class Controller extends Component {
       }
    }
 
-   prepare(context: any) {
+   prepare(context: RenderingContext): void {
       if (this.onPrepare) {
          this.onPrepare(context);
       }
    }
 
-   cleanup(context: any) {
+   cleanup(context: RenderingContext): void {
       if (this.onCleanup) {
          this.onCleanup(context);
       }

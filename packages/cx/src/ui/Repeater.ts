@@ -4,6 +4,7 @@ import { Container } from "./Container";
 import { ArrayAdapter } from "./adapter/ArrayAdapter";
 import { UseParentLayout } from "./layout/UseParentLayout";
 import { getAccessor } from "../data/getAccessor";
+import { RenderingContext } from "./RenderingContext";
 
 export class Repeater extends Container {
    records?: any;
@@ -70,18 +71,18 @@ export class Repeater extends Container {
       super.init();
    }
 
-   initInstance(context: any, instance: any) {
+   initInstance(context: RenderingContext, instance: any): void {
       this.dataAdapter.initInstance(context, instance);
    }
 
-   applyParentStore(instance: any) {
+   applyParentStore(instance: any): void {
       super.applyParentStore(instance);
 
       // force prepareData to execute again and propagate the store change to the records
       if (instance.cached) delete instance.cached.rawData;
    }
 
-   prepareData(context: any, instance: any) {
+   prepareData(context: RenderingContext, instance: any): void {
       let { data } = instance;
       if (data.sortField)
          data.sorters = [
@@ -104,7 +105,7 @@ export class Repeater extends Container {
       super.prepareData(context, instance);
    }
 
-   explore(context: any, instance: any, data?: any) {
+   explore(context: RenderingContext, instance: any, data?: any): void {
       let instances: any[] = [];
       instance.mappedRecords.forEach((record: any) => {
          let subInstance = instance.getChild(context, this.item, record.key, record.store);
