@@ -12,7 +12,6 @@ export class KeySelection extends Selection {
    initialized?: boolean;
    multiple?: boolean;
    storage?: string;
-   static autoInit?: boolean;
 
    init(): void {
       if (this.bind && !this.selection)
@@ -134,6 +133,6 @@ export class KeySelection extends Selection {
 KeySelection.prototype.multiple = false;
 KeySelection.prototype.keyField = "id";
 KeySelection.prototype.storage = "array";
-KeySelection.autoInit = true;
+(KeySelection as any).autoInit = true;
 
-Selection.alias("key", KeySelection);
+(Selection as any).alias("key", KeySelection);

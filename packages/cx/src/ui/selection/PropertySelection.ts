@@ -57,4 +57,4 @@ export class PropertySelection extends Selection {
 PropertySelection.prototype.selectedField = "selected";
 PropertySelection.prototype.multiple = false;
 
-Selection.alias("property", PropertySelection);
+(Selection as any).alias("property", PropertySelection);

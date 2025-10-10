@@ -61,15 +61,11 @@ export class Selection extends Component {
       var { store, data } = instance;
       return data.$selection && this.isSelected(store, data.$selection.record, data.$selection.index);
    }
-
-   static factory: (name: any) => Selection;
-   static alias: (name: string, constructor: typeof Selection) => void;
-   static namespace: string;
 }
 
 Selection.prototype.toggle = false;
 
-Selection.namespace = "ui.selection.";
+(Selection as any).namespace = "ui.selection.";
 
 export class SimpleSelection extends Selection {
    isSelected(store: View, record: any, index: any): boolean {
@@ -102,7 +98,7 @@ class DummySelection extends Selection {
 
 DummySelection.prototype.isDummy = true;
 
-Selection.factory = (name: any): Selection => {
+(Selection as any).factory = (name: any): Selection => {
    if (typeof name == "object") return new (SimpleSelection as any)(name);
 
    return new DummySelection();
