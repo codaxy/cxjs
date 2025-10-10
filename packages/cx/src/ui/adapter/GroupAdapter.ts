@@ -1,5 +1,5 @@
-//@ts-nocheck
-import { ArrayAdapter } from "./ArrayAdapter";
+import { ArrayAdapter, ArrayAdapterConfig, RecordStoreCache } from "./ArrayAdapter";
+import { DataAdapterRecord } from "./DataAdapter";
 import { ReadOnlyDataView } from "../../data/ReadOnlyDataView";
 import { Grouper } from "../../data/Grouper";
 import { isArray } from "../../util/isArray";
@@ -7,21 +7,83 @@ import { isDefined } from "../../util/isDefined";
 import { getComparer } from "../../data/comparer";
 import { Culture } from "../Culture";
 import { isObject } from "../../util/isObject";
+import { RenderingContext } from "../RenderingContext";
+import { Instance } from "../Instance";
+import { View } from "../../data/View";
+import * as Cx from "../../core";
 
-export class GroupAdapter extends ArrayAdapter {
-   init() {
-      super.init();
+export interface GroupKey {
+   [field: string]: Cx.Prop<any> | { value: Cx.Prop<any>; direction: Cx.SortDirection };
+}
 
-      if (this.groupRecordsAlias) this.groupRecordsName = this.groupRecordsAlias;
+export interface GroupingConfig {
+   key: GroupKey;
+   aggregates?: Cx.StructuredProp;
+   text?: Cx.Prop<string>;
+   includeHeader?: boolean;
+   includeFooter?: boolean;
+   comparer?: ((a: any, b: any) => number) | null;
+}
 
-      if (this.groupings) this.groupBy(this.groupings);
+export interface ResolvedGrouping extends GroupingConfig {
+   grouper: Grouper;
+}
+
+export interface GroupData {
+   $name: string;
+   $level: number;
+   $records: DataAdapterRecord<any>[];
+   $key: string;
+   [key: string]: any;
+}
+
+export interface GroupAdapterRecord<T = any> extends DataAdapterRecord<T> {
+   group?: GroupData;
+   grouping?: ResolvedGrouping;
+   level?: number;
+}
+
+export interface GroupAdapterConfig extends ArrayAdapterConfig {
+   aggregates?: Cx.StructuredProp;
+   groupRecordsAlias?: string;
+   groupRecordsName?: string;
+   groupings?: GroupingConfig[] | null;
+   groupName?: string;
+}
+
+export class GroupAdapter<T = any> extends ArrayAdapter<T> {
+   public aggregates?: Cx.StructuredProp;
+   public groupRecordsAlias?: string;
+   public groupRecordsName?: string;
+   public groupings?: ResolvedGrouping[] | null;
+   public groupName: string;
+
+   constructor(config?: GroupAdapterConfig) {
+      super(config);
    }
 
-   getRecords(context, instance, records, parentStore) {
+   public init(): void {
+      super.init();
+
+      if (this.groupRecordsAlias) {
+         this.groupRecordsName = this.groupRecordsAlias;
+      }
+
+      if (this.groupings) {
+         this.groupBy(this.groupings);
+      }
+   }
+
+   public getRecords(
+      context: RenderingContext,
+      instance: Instance & Partial<RecordStoreCache>,
+      records: T[],
+      parentStore: View,
+   ): DataAdapterRecord<T>[] {
       let result = super.getRecords(context, instance, records, parentStore);
 
       if (this.groupings) {
-         let groupedResults = [];
+         const groupedResults: DataAdapterRecord<T>[] = [];
          this.processLevel([], result, groupedResults, parentStore);
          result = groupedResults;
       }
@@ -29,31 +91,39 @@ export class GroupAdapter extends ArrayAdapter {
       return result;
    }
 
-   processLevel(keys, records, result, parentStore) {
-      let level = keys.length;
-      let inverseLevel = this.groupings.length - level;
+   protected processLevel(
+      keys: any[],
+      records: DataAdapterRecord<T>[],
+      result: DataAdapterRecord<T>[],
+      parentStore: View,
+   ): void {
+      const level = keys.length;
+      const inverseLevel = this.groupings!.length - level;
 
-      if (inverseLevel == 0) {
+      if (inverseLevel === 0) {
          for (let i = 0; i < records.length; i++) {
-            records[i].store.setStore(parentStore);
+            (records[i].store as ReadOnlyDataView).setStore(parentStore);
             result.push(records[i]);
          }
          return;
       }
 
-      let grouping = this.groupings[level];
-      let { grouper } = grouping;
+      const grouping = this.groupings![level];
+      const { grouper } = grouping;
       grouper.reset();
       grouper.processAll(records);
       let results = grouper.getResults();
-      if (grouping.comparer) results.sort(grouping.comparer);
+
+      if (grouping.comparer) {
+         results.sort(grouping.comparer);
+      }
 
       results.forEach((gr) => {
          keys.push(gr.key);
 
-         let key = keys.map(serializeKey).join("|");
+         const key = keys.map(serializeKey).join("|");
 
-         let $group = {
+         const $group: GroupData = {
             ...gr.key,
             ...gr.aggregates,
             $name: gr.name,
@@ -62,80 +132,99 @@ export class GroupAdapter extends ArrayAdapter {
             $key: key,
          };
 
-         let data = {
+         const data = {
             [this.recordName]: gr.records.length > 0 ? gr.records[0].data : null,
             [this.groupName]: $group,
          };
 
-         let groupStore = new ReadOnlyDataView({
+         const groupStore = new ReadOnlyDataView({
             store: parentStore,
             data,
             immutable: this.immutable,
          });
 
-         let group = {
+         const group: GroupAdapterRecord<T> = {
             key,
-            data,
+            data: data as T,
             group: $group,
             grouping,
             store: groupStore,
             level: inverseLevel,
          };
 
-         if (grouping.includeHeader !== false)
+         if (grouping.includeHeader !== false) {
             result.push({
                ...group,
                type: "group-header",
                key: "header:" + group.key,
             });
+         }
 
          this.processLevel(keys, gr.records, result, groupStore);
 
-         if (grouping.includeFooter !== false)
+         if (grouping.includeFooter !== false) {
             result.push({
                ...group,
                type: "group-footer",
                key: "footer:" + group.key,
             });
+         }
 
          keys.pop();
       });
    }
 
-   groupBy(groupings) {
-      if (!groupings) this.groupings = null;
-      else if (isArray(groupings)) {
-         this.groupings = groupings;
+   public groupBy(groupings: GroupingConfig[] | null): void {
+      if (!groupings) {
+         this.groupings = null;
+      } else if (isArray(groupings)) {
+         this.groupings = groupings as unknown as ResolvedGrouping[];
          this.groupings.forEach((g) => {
-            let groupSorters = [];
-            let key = {};
-            for (let name in g.key) {
-               if (!g.key[name] || !isDefined(g.key[name].direction) || !isDefined(g.key[name].value))
-                  g.key[name] = { value: g.key[name], direction: "ASC" };
-               key[name] = g.key[name].value;
+            const groupSorters: Cx.Sorter[] = [];
+            const key: Record<string, Cx.Prop<any>> = {};
+
+            for (const name in g.key) {
+               const keyConfig = g.key[name];
+               if (!keyConfig || typeof keyConfig !== "object" || !("value" in keyConfig)) {
+                  g.key[name] = { value: keyConfig as Cx.Prop<any>, direction: "ASC" };
+               }
+
+               const resolvedKey = g.key[name] as { value: Cx.Prop<any>; direction: Cx.SortDirection };
+               key[name] = resolvedKey.value;
                groupSorters.push({
                   field: name,
-                  direction: g.key[name].direction,
+                  direction: resolvedKey.direction,
                });
             }
-            g.grouper = new Grouper(key, { ...this.aggregates, ...g.aggregates }, (r) => r.store.getData(), g.text);
-            if (g.comparer == null && groupSorters.length > 0)
+
+            g.grouper = new Grouper(
+               key,
+               { ...this.aggregates, ...g.aggregates },
+               (r: DataAdapterRecord<T>) => r.store.getData(),
+               g.text,
+            );
+
+            if (g.comparer == null && groupSorters.length > 0) {
                g.comparer = getComparer(
                   groupSorters,
-                  (x) => x.key,
+                  (x: any) => x.key,
                   this.sortOptions ? Culture.getComparer(this.sortOptions) : null,
                );
+            }
          });
-      } else throw new Error("Invalid grouping provided.");
+      } else {
+         throw new Error("Invalid grouping provided.");
+      }
    }
 }
 
 GroupAdapter.prototype.groupName = "$group";
 
-function serializeKey(data) {
-   if (isObject(data))
+function serializeKey(data: any): string {
+   if (isObject(data)) {
       return Object.keys(data)
          .map((k) => serializeKey(data[k]))
          .join(":");
+   }
    return data?.toString() ?? "";
 }

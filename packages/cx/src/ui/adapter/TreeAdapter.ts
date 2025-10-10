@@ -1,18 +1,69 @@
-//@ts-nocheck
-import { getAccessor } from "../../data/getAccessor";
+import { Accessor, getAccessor } from "../../data/getAccessor";
 import { isArray } from "../../util/isArray";
-import { ArrayAdapter } from "./ArrayAdapter";
+import { ArrayAdapter, ArrayAdapterConfig, RecordStoreCache } from "./ArrayAdapter";
+import { DataAdapterRecord } from "./DataAdapter";
+import { RenderingContext } from "../RenderingContext";
+import { Instance } from "../Instance";
+import { View } from "../../data/View";
+import * as Cx from "../../core";
 
-export class TreeAdapter extends ArrayAdapter {
-   init() {
+export interface TreeNode {
+   $level?: number;
+   $expanded?: boolean;
+   $leaf?: boolean;
+   $loading?: boolean;
+   $loaded?: boolean;
+   [key: string]: any;
+}
+
+export interface ExpandedState {
+   current?: Set<string | number>;
+   next: Set<string | number>;
+}
+
+export interface TreeAdapterConfig extends ArrayAdapterConfig {
+   childrenField?: string;
+   expandedField?: string;
+   leafField?: string;
+   loadingField?: string;
+   loadedField?: string;
+   onLoadError?: (response: any) => void;
+   foldersFirst?: boolean;
+   hideRootNodes?: boolean;
+   restoreExpandedNodesOnLoad?: boolean;
+   load?: (context: RenderingContext, instance: Instance, data: TreeNode) => Promise<any[]> | any[];
+}
+
+export class TreeAdapter<T extends TreeNode = TreeNode> extends ArrayAdapter<T> {
+   public childrenField: string;
+   public expandedField: string;
+   public leafField: string;
+   public loadingField: string;
+   public loadedField: string;
+   public onLoadError?: (response: any) => void;
+   public foldersFirst: boolean;
+   public isTreeAdapter: boolean;
+   public hideRootNodes: boolean;
+   public restoreExpandedNodesOnLoad?: boolean;
+   public load?: (context: RenderingContext, instance: Instance, data: T) => Promise<any[]> | any[];
+
+   protected childrenAccessor?: Accessor;
+   protected expandedState?: ExpandedState;
+
+   constructor(config?: TreeAdapterConfig) {
+      super(config);
+   }
+
+   public init(): void {
       super.init();
       this.childrenAccessor = getAccessor({ bind: `${this.recordName}.${this.childrenField}` });
 
       if (this.restoreExpandedNodesOnLoad) {
-         if (!this.keyField)
+         if (!this.keyField) {
             throw new Error(
                "Stateful tree adapter requires keyField property to be specified on either Grid or data adapter.",
             );
+         }
 
          this.expandedState = {
             next: new Set(),
@@ -20,13 +71,19 @@ export class TreeAdapter extends ArrayAdapter {
       }
    }
 
-   mapRecords(context, instance, data, parentStore, recordsAccessor) {
-      let nodes = super.mapRecords(context, instance, data, parentStore, recordsAccessor);
-      let result = [];
+   public mapRecords(
+      context: RenderingContext,
+      instance: Instance & Partial<RecordStoreCache>,
+      data: T[],
+      parentStore: View,
+      recordsAccessor?: Accessor,
+   ): DataAdapterRecord<T>[] {
+      const nodes = super.mapRecords(context, instance, data, parentStore, recordsAccessor);
+      const result: DataAdapterRecord<T>[] = [];
 
       if (this.restoreExpandedNodesOnLoad) {
          this.expandedState = {
-            current: this.expandedState.next,
+            current: this.expandedState!.next,
             next: new Set(),
          };
       }
@@ -36,37 +93,58 @@ export class TreeAdapter extends ArrayAdapter {
       return result;
    }
 
-   processList(context, instance, level, parentKey, nodes, result) {
+   protected processList(
+      context: RenderingContext,
+      instance: Instance & Partial<RecordStoreCache>,
+      level: number,
+      parentKey: string,
+      nodes: DataAdapterRecord<T>[],
+      result: DataAdapterRecord<T>[],
+   ): void {
       nodes.forEach((record) => {
          record.key = parentKey + record.key;
          this.processNode(context, instance, level, result, record);
       });
    }
 
-   processNode(context, instance, level, result, record) {
-      let isHiddenRootNode = level == 0 && this.hideRootNodes;
-      if (!isHiddenRootNode) result.push(record);
-      let { data, store } = record;
-      data.$level = this.hideRootNodes ? level - 1 : level;
-      if (!data[this.leafField]) {
-         if (this.restoreExpandedNodesOnLoad && data[this.expandedField] == null)
-            data[this.expandedField] = this.expandedState.current.has(data[this.keyField]);
+   protected processNode(
+      context: RenderingContext,
+      instance: Instance & Partial<RecordStoreCache>,
+      level: number,
+      result: DataAdapterRecord<T>[],
+      record: DataAdapterRecord<T>,
+   ): void {
+      const isHiddenRootNode = level === 0 && this.hideRootNodes;
+      if (!isHiddenRootNode) {
+         result.push(record);
+      }
 
-         if (data[this.expandedField] || isHiddenRootNode) {
-            if (this.restoreExpandedNodesOnLoad) this.expandedState.next.add(data[this.keyField]);
+      const { data, store } = record;
+      const dataRecord = data as any;
+      dataRecord.$level = this.hideRootNodes ? level - 1 : level;
 
-            if (data[this.childrenField]) {
-               let childNodes = super.mapRecords(
+      if (!dataRecord[this.leafField]) {
+         if (this.restoreExpandedNodesOnLoad && dataRecord[this.expandedField] == null) {
+            dataRecord[this.expandedField] = this.expandedState!.current!.has(dataRecord[this.keyField!]);
+         }
+
+         if (dataRecord[this.expandedField] || isHiddenRootNode) {
+            if (this.restoreExpandedNodesOnLoad) {
+               this.expandedState!.next.add(dataRecord[this.keyField!]);
+            }
+
+            if (dataRecord[this.childrenField]) {
+               const childNodes = super.mapRecords(
                   context,
                   instance,
-                  data[this.childrenField],
+                  dataRecord[this.childrenField],
                   store,
                   this.childrenAccessor,
                );
                this.processList(context, instance, level + 1, record.key + ":", childNodes, result);
-            } else if (this.load && !data[this.loadedField] && !data[this.loadingField]) {
+            } else if (this.load && !dataRecord[this.loadedField] && !dataRecord[this.loadingField]) {
                store.set(`${this.recordName}.${this.loadingField}`, true);
-               let response = this.load(context, instance, data);
+               const response = this.load(context, instance, data);
                Promise.resolve(response)
                   .then((children) => {
                      store.set(`${this.recordName}.${this.childrenField}`, children);
@@ -75,16 +153,22 @@ export class TreeAdapter extends ArrayAdapter {
                   })
                   .catch((response) => {
                      store.set(`${this.recordName}.${this.loadingField}`, false);
-                     if (this.onLoadError) this.onLoadError(response);
+                     if (this.onLoadError) {
+                        this.onLoadError(response);
+                     }
                   });
             }
-         } else data[this.expandedField] = false;
+         } else {
+            dataRecord[this.expandedField] = false;
+         }
       }
    }
 
-   sort(sorters) {
+   public sort(sorters?: Cx.Sorter[]): void {
       if (this.foldersFirst) {
-         if (!sorters || !isArray(sorters)) sorters = [];
+         if (!sorters || !isArray(sorters)) {
+            sorters = [];
+         }
          sorters = [{ field: this.leafField, direction: "ASC" }, ...sorters];
       }
       super.sort(sorters);

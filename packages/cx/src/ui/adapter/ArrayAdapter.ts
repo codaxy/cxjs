@@ -1,66 +1,131 @@
-//@ts-nocheck
-import { DataAdapter } from "./DataAdapter";
+import { DataAdapter, DataAdapterRecord, DataAdapterConfig } from "./DataAdapter";
 import { ReadOnlyDataView } from "../../data/ReadOnlyDataView";
 import { sorter } from "../../data/comparer";
 import { isArray } from "../../util/isArray";
 import { ArrayElementView } from "../../data/ArrayElementView";
-import { getAccessor } from "../../data/getAccessor";
+import { Accessor, getAccessor } from "../../data/getAccessor";
 import { Culture } from "../Culture";
 import { isDefined, isObject } from "../../util";
+import { RenderingContext } from "../RenderingContext";
+import { Instance } from "../Instance";
+import { View } from "../../data/View";
+import * as Cx from "../../core";
 
-export class ArrayAdapter extends DataAdapter {
-   init() {
-      this.recordsAccessor = getAccessor(this.recordsBinding ? this.recordsBinding : this.recordsAccessor);
+export interface RecordStoreCache {
+   recordStoreCache: WeakMap<any, View>;
+   cacheByKey: Record<string | number, View>;
+   recordsAccessor?: Accessor;
+}
 
-      //resolve accessor chains
-      this.recordName = this.recordName.toString();
-      this.indexName = this.indexName.toString();
+export interface ArrayAdapterConfig extends DataAdapterConfig {
+   recordsBinding?: Cx.Prop<any[]>;
+   recordsAccessor?: Accessor | string;
+   keyField?: string;
+   cacheByKeyField?: boolean;
+   sortOptions?: Cx.CollatorOptions;
+}
+
+export interface ExtendedSorter extends Cx.Sorter {
+   comparer?: ((a: any, b: any) => number) | null;
+   sortOptions?: Cx.CollatorOptions;
+}
+
+export interface ResolvedSorter {
+   getter: (x: any) => any;
+   factor: number;
+   compare: (a: any, b: any) => number;
+}
+
+export class ArrayAdapter<T = any> extends DataAdapter<T> {
+   public recordsAccessor?: Accessor;
+   public recordsBinding?: Cx.Prop<any[]>;
+   public keyField: string | null;
+   public cacheByKeyField: boolean;
+   public sortOptions?: Cx.CollatorOptions;
+
+   protected sorter?: (data: DataAdapterRecord<T>[]) => DataAdapterRecord<T>[];
+
+   constructor(config?: ArrayAdapterConfig) {
+      super(config);
    }
 
-   initInstance(context, instance) {
+   public init(): void {
+      this.recordsAccessor = getAccessor(this.recordsBinding ? this.recordsBinding : this.recordsAccessor);
+
+      this.recordName = this.recordName?.toString() || "$record";
+      this.indexName = this.indexName?.toString() || "$index";
+   }
+
+   public initInstance(context: RenderingContext, instance: Instance & Partial<RecordStoreCache>): void {
       if (!instance.recordStoreCache) {
          instance.recordStoreCache = new WeakMap();
          instance.cacheByKey = {};
       }
 
       if (!instance.recordsAccessor && this.recordsAccessor) {
-         instance.recordsAccessor = this.recordsAccessor.bindInstance
-            ? this.recordsAccessor.bindInstance(instance)
-            : this.recordsAccessor;
+         instance.recordsAccessor =
+            this.recordsAccessor.bindInstance
+               ? this.recordsAccessor.bindInstance(instance)
+               : this.recordsAccessor;
       }
    }
 
-   getRecords(context, instance, records, parentStore) {
-      if (!instance.recordStoreCache) this.initInstance(context, instance);
+   public getRecords(
+      context: RenderingContext,
+      instance: Instance & Partial<RecordStoreCache>,
+      records: T[],
+      parentStore: View,
+   ): DataAdapterRecord<T>[] {
+      if (!instance.recordStoreCache) {
+         this.initInstance(context, instance);
+      }
 
       return this.mapRecords(context, instance, records, parentStore, instance.recordsAccessor);
    }
 
-   mapRecords(context, instance, records, parentStore, recordsAccessor) {
-      let result = [];
+   public mapRecords(
+      context: RenderingContext,
+      instance: Instance & Partial<RecordStoreCache>,
+      records: T[],
+      parentStore: View,
+      recordsAccessor?: Accessor,
+   ): DataAdapterRecord<T>[] {
+      let result: DataAdapterRecord<T>[] = [];
 
-      if (!instance.recordStoreCache) this.initInstance(context, instance);
+      if (!instance.recordStoreCache) {
+         this.initInstance(context, instance);
+      }
 
-      if (isArray(records))
+      if (isArray(records)) {
          records.forEach((data, index) => {
             if (this.filterFn && !this.filterFn(data)) return;
 
-            let record = this.mapRecord(context, instance, data, parentStore, recordsAccessor, index);
-
+            const record = this.mapRecord(context, instance, data, parentStore, recordsAccessor, index);
             result.push(record);
          });
+      }
 
-      if (this.sorter) result = this.sorter(result);
+      if (this.sorter) {
+         result = this.sorter(result);
+      }
 
       return result;
    }
 
-   mapRecord(context, instance, data, parentStore, recordsAccessor, index) {
-      let key = this.cacheByKeyField && this.keyField ? data[this.keyField] : null;
-      let recordStore = key != null ? instance.cacheByKey[key] : instance.recordStoreCache.get(data);
+   public mapRecord(
+      context: RenderingContext,
+      instance: Instance & Partial<RecordStoreCache>,
+      data: T,
+      parentStore: View,
+      recordsAccessor: Accessor | undefined,
+      index: number,
+   ): DataAdapterRecord<T> {
+      const key = this.cacheByKeyField && this.keyField && isObject(data) ? (data as any)[this.keyField] : null;
+      let recordStore =
+         key != null ? instance.cacheByKey![key] : instance.recordStoreCache!.get(data);
 
       if (recordsAccessor) {
-         if (!recordStore)
+         if (!recordStore) {
             recordStore = new ArrayElementView({
                store: parentStore,
                arrayAccessor: recordsAccessor,
@@ -70,12 +135,12 @@ export class ArrayAdapter extends DataAdapter {
                immutable: this.immutable,
                sealed: this.sealed,
             });
-         else {
-            recordStore.setStore(parentStore);
-            recordStore.setIndex(index);
+         } else {
+            (recordStore as ArrayElementView).setStore(parentStore);
+            (recordStore as ArrayElementView).setIndex(index);
          }
       } else {
-         if (!recordStore)
+         if (!recordStore) {
             recordStore = new ReadOnlyDataView({
                store: parentStore,
                data: {
@@ -85,63 +150,70 @@ export class ArrayAdapter extends DataAdapter {
                immutable: this.immutable,
                sealed: this.sealed,
             });
-         else {
-            recordStore.setStore(parentStore);
-            recordStore.setData(data);
+         } else {
+            (recordStore as ReadOnlyDataView).setStore(parentStore);
+            (recordStore as ReadOnlyDataView).setData(data);
          }
       }
 
-      // cache by the key or by data reference
-      if (key != null) instance.cacheByKey[key] = recordStore;
-      else if (isObject(data)) instance.recordStoreCache.set(data, recordStore);
+      if (key != null) {
+         instance.cacheByKey![key] = recordStore;
+      } else if (isObject(data)) {
+         instance.recordStoreCache!.set(data, recordStore);
+      }
 
       return {
          store: recordStore,
          index: index,
          data: data,
          type: "data",
-         key: this.keyField ? data[this.keyField] : index,
+         key: this.keyField && isObject(data) ? (data as any)[this.keyField] : index,
       };
    }
 
-   setFilter(filterFn) {
+   public setFilter(filterFn?: (data: T) => boolean): void {
       this.filterFn = filterFn;
    }
 
-   getComparer(sortOptions) {
+   public getComparer(sortOptions?: Cx.CollatorOptions): ((a: any, b: any) => number) | null {
       return sortOptions ? Culture.getComparer(sortOptions) : null;
    }
 
-   buildSorter(sorters) {
+   public buildSorter(sorters: ExtendedSorter[]): void {
       if (isArray(sorters) && sorters.length > 0) {
-         let fieldValueMapper;
-         let dataAccessor;
+         let dataAccessor: (x: DataAdapterRecord<T>) => any;
+         let fieldValueMapper: (x: ExtendedSorter) => Cx.Prop<any>;
 
-         //if all sorters are based on record fields access data directly (faster)
          if (sorters.every((x) => x.field && x.value == null)) {
             dataAccessor = (x) => x.data;
-            fieldValueMapper = (x) => ({ bind: x.field });
+            fieldValueMapper = (x) => ({ bind: x.field! });
          } else {
             dataAccessor = (x) => x.store.getData();
             fieldValueMapper = (x) => ({ bind: this.recordName + "." + x.field });
          }
+
          this.sorter = sorter(
             sorters.map((x) => {
-               let s = Object.assign({}, x);
-               if (s.field && s.value == null) s.value = fieldValueMapper(s);
-               if (!s.comparer)
+               const s: ExtendedSorter = Object.assign({}, x);
+               if (s.field && s.value == null) {
+                  s.value = fieldValueMapper(s);
+               }
+               if (!s.comparer) {
                   s.comparer = this.getComparer(isDefined(s.sortOptions) ? s.sortOptions : this.sortOptions);
+               }
                return s;
             }),
             dataAccessor,
          );
       } else {
-         this.sorter = null;
+         this.sorter = undefined;
       }
    }
 
-   sort(sorters) {
-      this.buildSorter(sorters);
+   public sort(sorters?: Cx.Sorter[] | ExtendedSorter[]): void {
+      if (sorters) {
+         this.buildSorter(sorters as ExtendedSorter[]);
+      }
    }
 }
 

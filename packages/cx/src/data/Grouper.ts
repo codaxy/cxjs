@@ -101,7 +101,7 @@ export class Grouper {
       }
    }
 
-   processAll(records, indexes) {
+   processAll(records, indexes?) {
       if (indexes) {
          for (let i = 0; i < records.length; i++) this.process(records[i], indexes[i]);
       } else records.forEach((r, i) => this.process(r, i));
