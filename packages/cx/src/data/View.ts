@@ -94,7 +94,7 @@ export class View {
 
       if (arguments.length > 1) path = Array.from(arguments);
 
-      if (isArray(path)) return path.map((arg) => Binding.get(arg).value(storeData));
+      if (isArray(path)) return path.map((arg) => Binding.get(arg as any).value(storeData));
 
       return Binding.get(path).value(storeData);
    }
@@ -121,12 +121,12 @@ export class View {
       throw new Error("abstract method");
    }
 
-   notify(path) {
+   notify(path?) {
       if (this.notificationsSuspended) this.dirty = true;
       else this.doNotify(path);
    }
 
-   doNotify(path) {
+   doNotify(path?) {
       if (this.store) return this.store.notify(path);
 
       throw new Error("abstract method");

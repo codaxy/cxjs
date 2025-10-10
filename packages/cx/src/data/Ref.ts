@@ -6,17 +6,19 @@ interface View {
    set(path: string, value: any): void;
 }
 
-interface RefConfig {
+interface RefConfig<T> {
    store?: View;
    path?: string;
-   get?: () => any;
-   set?: (value: any) => boolean;
+   get?: () => T;
+   set?: (value: T) => boolean;
 }
 
 export class Ref<T = any> extends Component {
    isRef?: boolean;
+   static create: (typeAlias?: any, config?: any, more?: any) => any;
+   static factory: (alias: any, config?: any, more?: any) => Ref;
 
-   constructor(config: RefConfig) {
+   constructor(config: RefConfig<T>) {
       super(config);
       this.get = this.get.bind(this);
       if (this.set) this.set = this.set.bind(this);
@@ -34,13 +36,18 @@ export class Ref<T = any> extends Component {
       throw new Error("Ref's delete method is not implemented.");
    }
 
-   init(value: T): boolean {
+   // Component.init() override - no-op for compatibility
+   init(): void;
+   // Initialize ref value if it's currently undefined
+   init(value: T): boolean;
+   init(value?: T): boolean | void {
+      if (value === undefined) return; // Component.init() compatibility
       if (this.get() === undefined) return this.set(value);
       return false;
    }
 
    toggle(): boolean {
-      return this.set(!this.get());
+      return this.set(!this.get() as T);
    }
 
    update(cb: (currentValue: T, ...args: any[]) => T, ...args: any[]): boolean {

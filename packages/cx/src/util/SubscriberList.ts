@@ -73,7 +73,7 @@ export class SubscriberList {
     */
    notify(...args: any[]): void {
       for (let key in this.subscriptions)
-         this.subscriptions[key](...arguments);
+         this.subscriptions[key](...args);
    }
 
    /**

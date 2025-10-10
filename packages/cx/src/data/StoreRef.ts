@@ -3,6 +3,8 @@ import { isAccessorChain } from "./createAccessorModelProxy";
 import { Ref } from "./Ref";
 
 export class StoreRef extends Ref {
+   static create: (typeAlias?: any, config?: any, more?: any) => any;
+
    constructor(config) {
       super(config);
       if (isAccessorChain(this.path)) this.path = this.path.toString();
