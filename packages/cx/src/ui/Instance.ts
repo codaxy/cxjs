@@ -12,11 +12,72 @@ import { isObject } from "../util/isObject";
 import { isNonEmptyArray } from "../util/isNonEmptyArray";
 import { isUndefined } from "../util/isUndefined";
 import { isAccessorChain } from "../data/createAccessorModelProxy";
+import { RenderingContext } from "./RenderingContext";
+import type { Widget } from "./Widget";
 
 let instanceId = 1000;
 
 export class Instance {
-   constructor(widget, key, parent, parentStore) {
+   // Core properties
+   public widget: Widget;
+   public key: string | number;
+   public id: string;
+   public parent?: Instance;
+   public parentStore: any; // View type
+   public store: any; // View type
+   public controller?: Controller;
+
+   // Data and state
+   public data: Record<string, any>;
+   public rawData: Record<string, any>;
+   public state?: Record<string, any>;
+   public cached: Record<string, any>;
+   public cacheList?: Record<string, any> | null;
+
+   // Selectors
+   public dataSelector?: (store: any) => Record<string, any>;
+
+   // Lifecycle flags
+   public initialized?: boolean;
+   public visible?: boolean;
+   public explored?: boolean;
+   public prepared?: boolean;
+   public shouldUpdate?: boolean;
+   public childStateDirty?: boolean;
+   public detached?: boolean;
+
+   // Cleanup tracking
+   public needsExploreCleanup?: boolean;
+   public needsPrepare?: boolean;
+   public needsCleanup?: boolean;
+   public destroyTracked?: boolean;
+   public destroySubscriptions?: Array<() => void> | null;
+
+   // Child management
+   public instanceCache?: InstanceCache | null;
+   public children?: Instance[];
+   public helpers?: Record<string, Instance>;
+   public components?: Record<string, Instance>;
+
+   // Rendering
+   public vdom?: any;
+   public contentVDOM?: any;
+   public renderList?: any;
+   public assignedRenderList?: any;
+
+   // Layout
+   public outerLayout?: Instance;
+   public contentPlaceholder?: any;
+   public parentOptions?: any;
+
+   // Setters
+   public setters?: Record<string, any>;
+
+   // Other
+   public record?: any;
+   public mappedRecords?: any[];
+
+   constructor(widget: Widget, key: string | number, parent?: Instance, parentStore?: any) {
       this.widget = widget;
       this.key = key;
       this.id = String(++instanceId);
@@ -27,24 +88,24 @@ export class Instance {
       if (this.parentStore == null) throw new Error("Cannot create instance without a parent store.");
    }
 
-   setParentStore(parentStore) {
+   public setParentStore(parentStore: any): void {
       this.parentStore = parentStore;
       this.widget.applyParentStore(this);
    }
 
-   init(context) {
+   public init(context: RenderingContext): void {
       // widget is initialized when the first instance is initialized
       if (!this.widget.initialized) {
-         this.widget.init(context);
+         this.widget.init();
 
          // init default values
-         this.widget.selector.init(this.parentStore);
+         this.widget.selector!.init(this.parentStore);
 
          this.widget.initialized = true;
       }
 
       if (!this.dataSelector) {
-         this.dataSelector = this.widget.selector.createStoreSelector();
+         this.dataSelector = this.widget.selector!.createStoreSelector();
       }
 
       // init instance might change the store, so this must go before the controller initialization
@@ -76,13 +137,13 @@ export class Instance {
       this.initialized = true;
    }
 
-   checkVisible(context) {
+   public checkVisible(context: RenderingContext): boolean {
       if (!this.initialized) this.init(context);
 
-      let wasVisible = this.visible;
-      this.rawData = this.dataSelector(this.store);
+      const wasVisible = this.visible;
+      this.rawData = this.dataSelector!(this.store);
       this.visible = this.widget.checkVisible(context, this, this.rawData);
-      if (this.visible && !this.detached) this.parent.instanceCache.addChild(this);
+      if (this.visible && !this.detached) this.parent!.instanceCache!.addChild(this);
       this.explored = false;
       this.prepared = false;
 
@@ -91,7 +152,7 @@ export class Instance {
       return this.visible;
    }
 
-   scheduleExploreIfVisible(context) {
+   public scheduleExploreIfVisible(context: RenderingContext): boolean {
       if (this.checkVisible(context)) {
          context.exploreStack.push(this);
 
@@ -102,8 +163,8 @@ export class Instance {
       return false;
    }
 
-   cache(key, value) {
-      let oldValue = this.cached[key];
+   public cache(key: string, value: any): boolean {
+      const oldValue = this.cached[key];
       if (oldValue === value) return false;
 
       if (!this.cacheList) this.cacheList = {};
@@ -111,8 +172,8 @@ export class Instance {
       return true;
    }
 
-   markShouldUpdate(context) {
-      let ins = this;
+   private markShouldUpdate(context: RenderingContext): void {
+      let ins: Instance | undefined = this;
       let renderList = this.renderList;
       renderList.markReverseIndex();
 
@@ -127,14 +188,14 @@ export class Instance {
          renderList.data.push(ins);
          ins = ins.widget.isContent
             ? ins.contentPlaceholder
-            : ins.parent.outerLayout === ins
-              ? ins.parent.parent
+            : ins.parent?.outerLayout === ins
+              ? ins.parent?.parent
               : ins.parent;
       }
       renderList.reverse();
    }
 
-   explore(context) {
+   public explore(context: RenderingContext): void {
       if (!this.visible) throw new Error("Explore invisible!");
 
       if (this.explored) {
@@ -242,7 +303,7 @@ export class Instance {
       this.widget.explore(context, this, this.data);
    }
 
-   prepare(context) {
+   public prepare(context: RenderingContext): void {
       if (!this.visible) throw new Error("Prepare invisible!");
 
       if (this.prepared) {
@@ -253,20 +314,24 @@ export class Instance {
       this.prepared = true;
       if (this.widget.prepare) this.widget.prepare(context, this);
 
-      if (this.widget.controller && this.controller.prepare) this.controller.prepare(context);
+      if (this.widget.controller && this.controller?.prepare) this.controller.prepare(context);
    }
 
-   render(context) {
+   public render(context: RenderingContext): any {
       if (!this.visible) throw new Error("Render invisible!");
 
       if (this.shouldUpdate) {
          debug(renderFlag, this.widget, this.key);
-         let vdom = renderResultFix(this.widget.render(context, this, this.key));
+         const vdom = renderResultFix(this.widget.render(context, this, this.key));
          if (this.widget.isContent || this.outerLayout) this.contentVDOM = vdom;
          else this.vdom = vdom;
       }
 
-      if (this.cacheList) for (let key in this.cacheList) this.cached[key] = this.cacheList[key];
+      if (this.cacheList) {
+         for (const key in this.cacheList) {
+            this.cached[key] = this.cacheList[key];
+         }
+      }
 
       this.cacheList = null;
 
@@ -279,44 +344,46 @@ export class Instance {
 
       if (this.instanceCache) this.instanceCache.sweep();
 
-      if (this.parent.outerLayout === this) {
+      if (this.parent?.outerLayout === this) {
          //if outer layouts are chained we need to find the originating element (last element with OL set)
          let parent = this.parent;
-         while (parent.parent.outerLayout == parent) parent = parent.parent;
+         while (parent.parent?.outerLayout == parent) parent = parent.parent;
          parent.vdom = this.vdom;
       }
 
       return this.vdom;
    }
 
-   cleanup(context) {
-      if (this.widget.controller && this.controller.cleanup) this.controller.cleanup(context);
+   public cleanup(context: RenderingContext): void {
+      if (this.widget.controller && this.controller?.cleanup) this.controller.cleanup(context);
 
       if (this.widget.cleanup) this.widget.cleanup(context, this);
    }
 
-   trackDestroy() {
+   private trackDestroy(): void {
       if (!this.destroyTracked) {
          this.destroyTracked = true;
          if (this.parent && !this.detached) this.parent.trackDestroyableChild(this);
       }
    }
 
-   trackDestroyableChild(child) {
-      this.instanceCache.trackDestroy(child);
+   private trackDestroyableChild(child: Instance): void {
+      this.instanceCache!.trackDestroy(child);
       this.trackDestroy();
    }
 
-   subscribeOnDestroy(callback) {
+   public subscribeOnDestroy(callback: () => void): () => void {
       if (!this.destroySubscriptions) this.destroySubscriptions = [];
       this.destroySubscriptions.push(callback);
       this.trackDestroy();
       return () => {
-         this.destroySubscriptions && this.destroySubscriptions.filter((cb) => cb != callback);
+         if (this.destroySubscriptions) {
+            this.destroySubscriptions = this.destroySubscriptions.filter((cb) => cb !== callback);
+         }
       };
    }
 
-   destroy() {
+   public destroy(): void {
       if (this.instanceCache) {
          this.instanceCache.destroy();
          this.instanceCache = null;
@@ -344,15 +411,16 @@ export class Instance {
       }
    }
 
-   setState(state) {
+   public setState(state: Record<string, any>): void {
       let skip = !!this.state;
-      if (this.state)
-         for (let k in state) {
+      if (this.state) {
+         for (const k in state) {
             if (this.state[k] !== state[k]) {
                skip = false;
                break;
             }
          }
+      }
 
       if (skip) return;
 
@@ -368,28 +436,28 @@ export class Instance {
       });
    }
 
-   set(prop, value, options = {}) {
+   public set(prop: string, value: any, options: { internal?: boolean; immediate?: boolean } = {}): boolean {
       //skip re-rendering (used for reading state from uncontrolled components)
       if (options.internal && this.rawData) {
          this.rawData[prop] = value;
          this.data[prop] = value;
       }
 
-      let setter = this.setters && this.setters[prop];
+      const setter = this.setters && this.setters[prop];
       if (setter) {
          if (options.immediate && isFunction(setter.reset)) setter.reset(value);
          else setter(value);
          return true;
       }
 
-      let p = this.widget[prop];
+      const p = (this.widget as any)[prop];
       if (p && typeof p == "object") {
          if (p.debounce) {
             this.definePropertySetter(
                prop,
                validatedDebounce(
-                  (value) => this.doSet(prop, value),
-                  () => this.dataSelector(this.store)[prop],
+                  (value: any) => this.doSet(prop, value),
+                  () => this.dataSelector!(this.store)[prop],
                   p.debounce,
                ),
             );
@@ -400,7 +468,7 @@ export class Instance {
          if (p.throttle) {
             this.definePropertySetter(
                prop,
-               throttle((value) => this.doSet(prop, value), p.throttle),
+               throttle((value: any) => this.doSet(prop, value), p.throttle),
             );
             this.set(prop, value, options);
             return true;
@@ -410,37 +478,40 @@ export class Instance {
       return this.doSet(prop, value);
    }
 
-   definePropertySetter(prop, setter) {
+   public definePropertySetter(prop: string, setter: any): void {
       if (!this.setters) this.setters = {};
       this.setters[prop] = setter;
    }
 
-   doSet(prop, value) {
+   protected doSet(prop: string, value: any): boolean {
       let changed = false;
       batchUpdates(() => {
-         let p = this.widget[prop];
+         const p = (this.widget as any)[prop];
          if (isObject(p)) {
-            if (p.set) {
-               if (isFunction(p.set)) {
-                  p.set(value, this);
+            const pObj = p as any;
+            if (pObj.set) {
+               if (isFunction(pObj.set)) {
+                  pObj.set(value, this);
                   changed = true;
-               } else if (isString(p.set)) {
-                  this.controller[p.set](value, this);
+               } else if (isString(pObj.set)) {
+                  this.controller![pObj.set](value, this);
                   changed = true;
                }
-            } else if (p.action) {
-               let action = p.action(value, this);
+            } else if (pObj.action) {
+               const action = pObj.action(value, this);
                this.store.dispatch(action);
                changed = true;
-            } else if (isString(p.bind) || isAccessorChain(p.bind)) {
-               changed = this.store.set(p.bind, value);
+            } else if (isString(pObj.bind) || isAccessorChain(pObj.bind)) {
+               changed = this.store.set(pObj.bind, value);
             }
-         } else if (isAccessorChain(p)) changed = this.store.set(p.toString(), value);
+         } else if (isAccessorChain(p)) {
+            changed = this.store.set(p.toString(), value);
+         }
       });
       return changed;
    }
 
-   nestedDataSet(key, value, dataConfig, useParentStore) {
+   public nestedDataSet(key: string, value: any, dataConfig: Record<string, any>, useParentStore?: boolean): boolean {
       let config = dataConfig[key];
       if (!config)
          throw new Error(`Unknown nested data key ${key}. Known keys are ${Object.keys(dataConfig).join(", ")}.`);
@@ -468,51 +539,53 @@ export class Instance {
       return true;
    }
 
-   replaceState(state) {
+   public replaceState(state: Record<string, any>): void {
       this.cached.state = this.state;
       this.state = state;
       this.store.notify();
    }
 
-   getInstanceCache() {
+   public getInstanceCache(): InstanceCache {
       if (!this.instanceCache)
          this.instanceCache = new InstanceCache(this, this.widget.isPureContainer ? this.key : null);
       return this.instanceCache;
    }
 
-   clearChildrenCache() {
+   public clearChildrenCache(): void {
       if (this.instanceCache) this.instanceCache.destroy();
    }
 
-   getChild(context, widget, key, store) {
+   public getChild(context: RenderingContext | null, widget: Widget, key?: string | number | null, store?: any): Instance {
       return this.getInstanceCache().getChild(widget, store ?? this.store, key);
    }
 
-   getDetachedChild(widget, key, store) {
-      let child = new Instance(widget, key, this, store ?? this.store);
+   public getDetachedChild(widget: Widget, key: string | number, store?: any): Instance {
+      const child = new Instance(widget, key, this, store ?? this.store);
       child.detached = true;
       return child;
    }
 
-   prepareRenderCleanupChild(widget, store, keyPrefix, options) {
+   public prepareRenderCleanupChild(widget: any, store?: any, keyPrefix?: string, options?: any): any {
       return widget.prepareRenderCleanup(store ?? this.store, options, keyPrefix, this);
    }
 
-   getJsxEventProps() {
-      let { widget } = this;
+   public getJsxEventProps(): Record<string, any> | null {
+      const { widget } = this;
 
       if (!isArray(widget.jsxAttributes)) return null;
 
-      let props = {};
+      const props: Record<string, any> = {};
       widget.jsxAttributes.forEach((attr) => {
-         if (attr.indexOf("on") == 0 && attr.length > 2) props[attr] = (e) => this.invoke(attr, e, this);
+         if (attr.indexOf("on") == 0 && attr.length > 2) {
+            props[attr] = (e: any) => this.invoke(attr, e, this);
+         }
       });
       return props;
    }
 
-   getCallback(methodName) {
-      let scope = this.widget;
-      let callback = scope[methodName];
+   public getCallback(methodName: string): (...args: any[]) => any {
+      const scope = this.widget as any;
+      const callback = scope[methodName];
 
       if (typeof callback === "string") return this.getControllerMethod(callback);
 
@@ -522,13 +595,13 @@ export class Instance {
       return callback.bind(scope);
    }
 
-   getControllerMethod(methodName) {
+   public getControllerMethod(methodName: string): (...args: any[]) => any {
       if (!this.controller)
          throw new Error(
             `Cannot invoke controller method "${methodName}" as controller is not assigned to the widget.`,
          );
 
-      let at = this;
+      let at: Instance | undefined = this;
       while (at != null && at.controller && !at.controller[methodName]) at = at.parent;
 
       if (!at || !at.controller || !at.controller[methodName])
@@ -539,21 +612,27 @@ export class Instance {
       return at.controller[methodName].bind(at.controller);
    }
 
-   invoke(methodName, ...args) {
+   public invoke(methodName: string, ...args: any[]): any {
       return this.getCallback(methodName).apply(null, args);
    }
 
-   invokeControllerMethod(methodName, ...args) {
+   public invokeControllerMethod(methodName: string, ...args: any[]): any {
       return this.getControllerMethod(methodName).apply(null, args);
    }
 }
 
-function renderResultFix(res) {
+function renderResultFix(res: any): any {
    return res != null && isDefined(res.content) ? res : { content: res };
 }
 
 export class InstanceCache {
-   constructor(parent, keyPrefix) {
+   public children: Record<string, Instance>;
+   public parent: Instance;
+   public marked: Record<string, Instance>;
+   public monitored: Record<string, Instance> | null;
+   public keyPrefix: string;
+
+   constructor(parent: Instance, keyPrefix?: string | number | null) {
       this.children = {};
       this.parent = parent;
       this.marked = {};
@@ -561,8 +640,8 @@ export class InstanceCache {
       this.keyPrefix = keyPrefix != null ? keyPrefix + "-" : "";
    }
 
-   getChild(widget, parentStore, key) {
-      let k = this.keyPrefix + (key != null ? key : widget.vdomKey || widget.widgetId);
+   public getChild(widget: Widget, parentStore: any, key?: string | number | null): Instance {
+      const k = this.keyPrefix + (key != null ? key : widget.vdomKey || widget.widgetId);
       let instance = this.children[k];
 
       if (
@@ -579,39 +658,39 @@ export class InstanceCache {
       return instance;
    }
 
-   addChild(instance) {
+   public addChild(instance: Instance): void {
       this.marked[instance.key] = instance;
    }
 
-   mark() {
+   public mark(): void {
       this.marked = {};
    }
 
-   trackDestroy(instance) {
+   public trackDestroy(instance: Instance): void {
       if (!this.monitored) this.monitored = {};
-      this.monitored[instance.key] = instance;
+      this.monitored[instance.key as string] = instance;
    }
 
-   destroy() {
+   public destroy(): void {
       this.children = {};
       this.marked = {};
 
       if (!this.monitored) return;
 
-      for (let key in this.monitored) {
+      for (const key in this.monitored) {
          this.monitored[key].destroy();
       }
 
       this.monitored = null;
    }
 
-   sweep() {
+   public sweep(): void {
       this.children = this.marked;
       if (!this.monitored) return;
       let activeCount = 0;
-      for (let key in this.monitored) {
-         let monitoredChild = this.monitored[key];
-         let child = this.children[key];
+      for (const key in this.monitored) {
+         const monitoredChild = this.monitored[key];
+         const child = this.children[key];
          if (child !== monitoredChild || !monitoredChild.visible) {
             monitoredChild.destroy();
             delete this.monitored[key];

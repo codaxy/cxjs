@@ -44,12 +44,6 @@ export class Widget extends Component {
    public onCleanup?: (context: RenderingContext, instance: any) => void;
    public onDestroy?: (instance: any) => void;
 
-   // Layout cleanup hooks
-   public exploreCleanup?: (context: RenderingContext, instance: any) => void;
-   public prepareCleanup?: (context: RenderingContext, instance: any) => void;
-   public cleanup?: (context: RenderingContext, instance: any) => void;
-   public prepare?: (context: RenderingContext, instance: any) => void;
-
    // Controller
    public controller?: any;
 
