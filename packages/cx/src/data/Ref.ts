@@ -35,15 +35,16 @@ export class Ref<T = any> extends Component {
    }
 
    init(value: T): boolean {
-      if (this.get() === undefined) this.set(value);
+      if (this.get() === undefined) return this.set(value);
+      return false;
    }
 
    toggle(): boolean {
-      this.set(!this.get());
+      return this.set(!this.get());
    }
 
    update(cb: (currentValue: T, ...args: any[]) => T, ...args: any[]): boolean {
-      this.set(cb(this.get(), ...args));
+      return this.set(cb(this.get(), ...args));
    }
 
    as(config: any): Ref {

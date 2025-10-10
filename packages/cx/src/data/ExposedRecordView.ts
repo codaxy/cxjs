@@ -3,7 +3,13 @@ import { View } from "./View";
 import { Binding } from "./Binding";
 
 export class ExposedRecordView extends View {
-   getData() {
+   itemIndex?: number;
+   immutable?: boolean;
+   collectionBinding?: any;
+   recordName?: string;
+   indexName?: string;
+
+   getData(): any {
       if (
          this.sealed &&
          this.meta.version === this.cache.version &&

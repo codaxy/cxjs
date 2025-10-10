@@ -7,7 +7,9 @@
       "Bash(echo:*)",
       "Bash(done)",
       "Bash(find:*)",
-      "Bash(head:*)"
+      "Bash(head:*)",
+      "Bash(npx tsc:*)",
+      "Bash(cut:*)"
     ],
     "deny": [],
     "ask": []

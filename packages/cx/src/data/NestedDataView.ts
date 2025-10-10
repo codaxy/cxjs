@@ -20,10 +20,10 @@ export class NestedDataView extends AugmentedViewBase {
    }
 
    protected setExtraKeyValue(key: string, value: any): boolean {
-      this.nestedData.setItem(key, value);
+      return this.nestedData.setItem(key, value);
    }
 
    protected deleteExtraKeyValue(key: string): boolean {
-      this.setExtraKeyValue(key, undefined);
+      return this.setExtraKeyValue(key, undefined);
    }
 }

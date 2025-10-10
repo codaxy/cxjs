@@ -13,7 +13,13 @@ import { Binding } from "./Binding";
  */
 
 export class Grouper {
-   constructor(key, aggregates, dataGetter, nameGetter) {
+   keys?: any[];
+   nameGetter?: any;
+   dataGetter?: any;
+   aggregates?: any;
+   groups?: any;
+
+   constructor(key: any, aggregates?: any, dataGetter?: any, nameGetter?: any) {
       this.keys = Object.keys(key).map((keyField) => {
          let isSimpleField = keyField.indexOf(".") === -1;
          let keySetter;

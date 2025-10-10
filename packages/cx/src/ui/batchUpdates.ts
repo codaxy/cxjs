@@ -1,11 +1,10 @@
-//@ts-nocheck
 import { VDOM } from './Widget';
 import { SubscriberList } from '../util/SubscriberList';
 
 let isBatching = 0;
 let promiseSubscribers = new SubscriberList();
 
-export function batchUpdates(callback) {
+export function batchUpdates(callback: () => void): void {
    if (VDOM.DOM.unstable_batchedUpdates)
       VDOM.DOM.unstable_batchedUpdates(() => {
          isBatching++;
@@ -20,17 +19,17 @@ export function batchUpdates(callback) {
       callback();
 }
 
-export function isBatchingUpdates() {
+export function isBatchingUpdates(): boolean {
    return isBatching > 0;
 }
 
-export function notifyBatchedUpdateStarting() {
+export function notifyBatchedUpdateStarting(): void {
    promiseSubscribers.execute(x=>{
       x.pending++;
    });
 }
 
-export function notifyBatchedUpdateCompleted() {
+export function notifyBatchedUpdateCompleted(): void {
    promiseSubscribers.execute(x => {
       x.finished++;
       if (x.finished >= x.pending)
@@ -40,7 +39,7 @@ export function notifyBatchedUpdateCompleted() {
 
 let updateId = 0;
 
-export function batchUpdatesAndNotify(callback, notifyCallback, timeout = 1000) {
+export function batchUpdatesAndNotify(callback: () => void, notifyCallback: () => void, timeout: number = 1000): void {
    let update = {
       id: ++updateId,
       pending: 0,

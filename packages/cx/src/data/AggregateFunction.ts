@@ -30,7 +30,11 @@ export class AggregateFunction {
 }
 
 class Sum {
-   process(value) {
+   result: number = 0;
+   empty: boolean = true;
+   invalid?: boolean;
+
+   process(value: number): void {
       this.empty = false;
       if (!isNaN(value)) this.result += value;
       else this.invalid = true;
@@ -46,7 +50,12 @@ Sum.prototype.result = 0;
 Sum.prototype.empty = true;
 
 class Avg {
-   process(value, count = 1) {
+   result: number = 0;
+   count: number = 0;
+   empty: boolean = true;
+   invalid?: boolean;
+
+   process(value: number, count: number = 1): void {
       this.empty = false;
       if (!isNaN(value) && !isNaN(count)) {
          this.result += value * count;
@@ -65,7 +74,9 @@ Avg.prototype.count = 0;
 Avg.prototype.empty = true;
 
 class Count {
-   process(value) {
+   result: number = 0;
+
+   process(value: any): void {
       if (value != null) this.result++;
    }
 
@@ -77,11 +88,16 @@ class Count {
 Count.prototype.result = 0;
 
 class Distinct {
+   values: {[key: string]: boolean} = {};
+   empty: boolean = true;
+   result: number = 0;
+   invalid?: boolean;
+
    constructor() {
       this.values = {};
    }
 
-   process(value) {
+   process(value: any): void {
       if (value == null || this.values[value]) return;
       this.values[value] = true;
       this.empty = false;
@@ -98,7 +114,11 @@ Distinct.prototype.result = 0;
 Distinct.prototype.empty = true;
 
 class Max {
-   process(value) {
+   result: number = 0;
+   empty: boolean = true;
+   invalid?: boolean;
+
+   process(value: number): void {
       if (!isNaN(value)) {
          if (this.empty) this.result = value;
          else if (value > this.result) this.result = value;
@@ -116,7 +136,11 @@ Max.prototype.result = 0;
 Max.prototype.empty = true;
 
 class Min {
-   process(value) {
+   result: number = 0;
+   empty: boolean = true;
+   invalid?: boolean;
+
+   process(value: number): void {
       if (!isNaN(value)) {
          if (this.empty) this.result = value;
          else if (value < this.result) this.result = value;
@@ -134,7 +158,9 @@ Min.prototype.result = 0;
 Min.prototype.empty = true;
 
 class LastValue {
-   process(value) {
+   result: any = null;
+
+   process(value: any): void {
       this.result = value;
    }
 

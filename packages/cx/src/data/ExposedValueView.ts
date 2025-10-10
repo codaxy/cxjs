@@ -3,7 +3,12 @@ import { View } from "./View";
 import { Binding } from "./Binding";
 
 export class ExposedValueView extends View {
-   getData() {
+   key?: string;
+   containerBinding?: any;
+   recordName?: string;
+   immutable?: boolean;
+
+   getData(): any {
       if (
          this.sealed &&
          this.meta.version === this.cache.version &&

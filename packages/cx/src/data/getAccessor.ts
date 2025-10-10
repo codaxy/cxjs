@@ -11,13 +11,15 @@ import { isAccessorChain } from "./createAccessorModelProxy";
  */
 
 interface View {
-   set(path: string, value: any): void;
+   set(path: string, value: any): boolean;
 }
 
 export interface Accessor {
    get: (data: any) => any;
    set?: (value: any, store: View) => boolean;
    bindInstance?(instance: any): Accessor;
+   isAccessor?: boolean;
+   isRef?: boolean;
 }
 
 export function getAccessor(accessor: any, options?: any): Accessor {

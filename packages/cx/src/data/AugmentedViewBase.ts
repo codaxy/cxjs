@@ -3,6 +3,8 @@ import { View } from "./View";
 import { Binding } from "./Binding";
 
 export class AugmentedViewBase extends View {
+   immutable?: boolean;
+
    getData() {
       if (this.sealed && this.meta.version === this.cache.version && this.meta === this.store.meta)
          return this.cache.result;
@@ -16,34 +18,34 @@ export class AugmentedViewBase extends View {
       return this.cache.result;
    }
 
-   getBaseData(parentStoreData) {
+   getBaseData(parentStoreData: any): any {
       if (this.sealed || this.immutable || this.store.sealed) return { ...parentStoreData };
       return parentStoreData;
    }
 
-   embedAugmentData(result, parentStoreData) {
+   embedAugmentData(result: any, parentStoreData: any): void {
       throw new Error("abstract");
    }
 
-   isExtraKey(key) {
+   isExtraKey(key: string): boolean {
       throw new Error("abstract");
    }
 
    // Stores which need to support nested aliases should override this method
-   getExtraKeyBinding(key) {
+   getExtraKeyBinding(key: string): any {
       let binding = Binding.get(key);
       return this.isExtraKey(binding.parts[0]) ? Binding.get(binding.parts[0]) : null;
    }
 
-   setExtraKeyValue(key, value) {
+   setExtraKeyValue(key: string, value: any): boolean {
       throw new Error("abstract");
    }
 
-   deleteExtraKeyValue(key) {
+   deleteExtraKeyValue(key: string): boolean {
       throw new Error("abstract");
    }
 
-   setItem(path, value) {
+   setItem(path: string, value: any): boolean {
       let extraKeyBinding = this.getExtraKeyBinding(path);
       if (extraKeyBinding) {
          let binding = Binding.get(path);
@@ -60,7 +62,7 @@ export class AugmentedViewBase extends View {
       return super.setItem(path, value);
    }
 
-   deleteItem(path) {
+   deleteItem(path: string): boolean {
       let extraKeyBinding = this.getExtraKeyBinding(path);
       if (extraKeyBinding) {
          if (path == extraKeyBinding.path) return this.deleteExtraKeyValue(extraKeyBinding.path);

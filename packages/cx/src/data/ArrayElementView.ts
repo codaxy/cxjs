@@ -4,24 +4,35 @@ import { isArray } from "../util/isArray";
 import { Binding } from "./Binding";
 
 export class ArrayElementView extends AugmentedViewBase {
-   constructor(config) {
+   arrayAccessor?: any;
+   immutable?: boolean;
+   recordAlias?: string;
+   indexAlias?: string;
+   lengthAlias?: string;
+   hasNestedAliases?: boolean;
+   recordBinding?: any;
+   indexBinding?: any;
+   lengthBinding?: any;
+   itemIndex?: number;
+
+   constructor(config?: any) {
       super(config);
       this.hasNestedAliases =
          this.recordAlias.indexOf(".") >= 0 || this.indexAlias.indexOf(".") >= 0 || this.lengthAlias.indexOf(".") >= 0;
       this.recordBinding = Binding.get(this.recordAlias);
       if (this.hasNestedAliases) {
          this.indexBinding = Binding.get(this.indexAlias);
-         this.lengthAlias = Binding.get(this.lengthAlias);
+         this.lengthBinding = Binding.get(this.lengthAlias);
       }
    }
 
-   getExtraKeyBinding(key) {
+   getExtraKeyBinding(key: string): any {
       if (!key.startsWith(this.recordAlias)) return null;
       if (key.length == this.recordAlias.length || key[this.recordAlias.length] == ".") return this.recordBinding;
       return null;
    }
 
-   deleteExtraKeyValue(key) {
+   deleteExtraKeyValue(key: string): boolean {
       if (key != this.recordAlias) throw new Error(`Field ${key} cannot be deleted.`);
       const array = this.arrayAccessor.get(this.store.getData());
       if (!array) return false;
@@ -29,7 +40,7 @@ export class ArrayElementView extends AugmentedViewBase {
       return this.arrayAccessor.set(newArray, this.store);
    }
 
-   setExtraKeyValue(key, value) {
+   setExtraKeyValue(key: string, value: any): boolean {
       if (key != this.recordAlias) throw new Error(`Field ${key} is read-only.`);
       const array = this.arrayAccessor.get(this.store.getData());
       if (!array || value === array[this.itemIndex]) return false;
@@ -37,7 +48,7 @@ export class ArrayElementView extends AugmentedViewBase {
       return this.arrayAccessor.set(newArray, this.store);
    }
 
-   embedAugmentData(result, parentStoreData) {
+   embedAugmentData(result: any, parentStoreData: any): void {
       let array = this.arrayAccessor.get(parentStoreData);
       if (!isArray(array)) return;
       if (!this.hasNestedAliases) {
@@ -48,14 +59,14 @@ export class ArrayElementView extends AugmentedViewBase {
          let copy = result;
          copy = this.recordBinding.set(copy, array[this.itemIndex]);
          copy = this.indexBinding.set(copy, this.itemIndex);
-         copy = this.lengthAlias.set(copy, array.length);
+         copy = this.lengthBinding.set(copy, array.length);
          result[this.recordBinding.parts[0]] = copy[this.recordBinding.parts[0]];
          result[this.indexBinding.parts[0]] = copy[this.indexBinding.parts[0]];
-         result[this.lengthAlias.parts[0]] = copy[this.lengthAlias.parts[0]];
+         result[this.lengthBinding.parts[0]] = copy[this.lengthBinding.parts[0]];
       }
    }
 
-   setIndex(itemIndex) {
+   setIndex(itemIndex: number): void {
       this.itemIndex = itemIndex;
    }
 }

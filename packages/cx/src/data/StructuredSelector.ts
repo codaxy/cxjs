@@ -107,7 +107,10 @@ function createSelector({ functions, structures, constants, defaultValues }) {
 }
 
 export class StructuredSelector {
-   constructor({ props, values }) {
+   nameMap?: any;
+   config?: any;
+
+   constructor({ props, values }: { props: any; values: any }) {
       this.nameMap = {};
       this.config = getSelectorConfig(props, values, this.nameMap);
    }

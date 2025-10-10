@@ -3,7 +3,12 @@ import { View } from "./View";
 import { SubscriberList } from "../util/SubscriberList";
 
 export class SubscribableView extends View {
-   constructor(config) {
+   subscribers?: any;
+   changes?: any[];
+   async?: boolean;
+   scheduled?: any;
+
+   constructor(config?: any) {
       super(config);
       this.subscribers = new SubscriberList();
       this.changes = [];

@@ -7,7 +7,16 @@ import { isObject } from "../util/isObject";
 import { isFunction } from "../util/isFunction";
 
 export class View {
-   constructor(config) {
+   store?: View;
+   data?: any;
+   meta?: any;
+   cache?: { version: number; data?: any; result?: any; itemIndex?: number; key?: string; parentStoreData?: any };
+   sealed?: boolean;
+   notificationsSuspended?: number;
+   dirty?: boolean;
+   mutate?: any;
+
+   constructor(config?: any) {
       Object.assign(this, config);
       this.cache = {
          version: -1,
