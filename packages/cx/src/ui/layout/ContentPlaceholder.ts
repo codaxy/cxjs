@@ -1,47 +1,51 @@
-//@ts-nocheck
-import { Widget } from "../Widget";
-import { PureContainer } from "../PureContainer";
-import { isString } from "../../util/isString";
 import { isNonEmptyArray } from "../../util/isNonEmptyArray";
+import { isString } from "../../util/isString";
+import { PureContainer } from "../PureContainer";
+import { RenderingContext } from "../RenderingContext";
+import { Widget } from "../Widget";
 
 export class ContentPlaceholder extends PureContainer {
-   declareData() {
-      super.declareData(...arguments, {
+   name?: string;
+   scoped?: boolean;
+   allowMultiple?: boolean;
+
+   declareData(...args: any[]): void {
+      super.declareData(...args, {
          name: undefined,
       });
    }
 
-   explore(context, instance) {
+   explore(context: RenderingContext, instance: any): void {
       instance.content = null;
       let { data } = instance;
 
       if (this.allowMultiple) {
-         const contentList = context.contentList && context.contentList[data.name];
+         const contentList = (context as any).contentList && (context as any).contentList[data.name];
          if (isNonEmptyArray(contentList) && !this.scoped)
             for (let i = 0; i < contentList.length; i++) this.setContent(context, instance, contentList[i]);
 
          // in multi mode register a callback to allow for more entries to be added
-         context.pushNamedValue("contentPlaceholder", data.name, (content) => {
+         (context as any).pushNamedValue("contentPlaceholder", data.name, (content: any) => {
             this.setContent(context, instance, content);
          });
       } else {
-         const content = context.content && context.content[data.name];
+         const content = (context as any).content && (context as any).content[data.name];
          if (content && !this.scoped) this.setContent(context, instance, content);
          else
-            context.pushNamedValue("contentPlaceholder", data.name, (content) => {
+            (context as any).pushNamedValue("contentPlaceholder", data.name, (content: any) => {
                this.setContent(context, instance, content);
             });
       }
 
       if (this.scoped)
          instance.unregisterContentPlaceholder = () => {
-            context.popNamedValue("contentPlaceholder", data.name);
+            (context as any).popNamedValue("contentPlaceholder", data.name);
          };
 
       super.explore(context, instance);
    }
 
-   prepare(context, instance) {
+   prepare(context: RenderingContext, instance: any): void {
       let { content } = instance;
       if (this.allowMultiple) {
          let contentId = "";
@@ -58,7 +62,7 @@ export class ContentPlaceholder extends PureContainer {
          instance.markShouldUpdate(context);
    }
 
-   setContent(context, instance, content) {
+   setContent(context: RenderingContext, instance: any, content: any): void {
       if (this.allowMultiple) {
          if (instance.content == null) instance.content = [];
          instance.content.push(content);
@@ -66,10 +70,10 @@ export class ContentPlaceholder extends PureContainer {
       content.contentPlaceholder = instance;
    }
 
-   render(context, instance, key) {
+   render(context: RenderingContext, instance: any, key: any): any {
       const { content } = instance;
       if (!content) return super.render(context, instance, key);
-      if (this.allowMultiple) return content.map((x) => x.contentVDOM);
+      if (this.allowMultiple) return content.map((x: any) => x.contentVDOM);
       return content.contentVDOM;
    }
 }
@@ -81,26 +85,28 @@ ContentPlaceholder.prototype.allowMultiple = false;
 Widget.alias("content-placeholder", ContentPlaceholder);
 
 export class ContentPlaceholderScope extends PureContainer {
-   init() {
+   name?: string | string[];
+
+   init(): void {
       super.init();
 
       if (isString(this.name)) this.name = [this.name];
    }
 
-   explore(context, instance) {
-      this.name.forEach((name) => {
-         context.pushNamedValue("contentPlaceholder", name, null);
-         context.pushNamedValue("content", name, null);
-         context.pushNamedValue("contentList", name, []);
+   explore(context: RenderingContext, instance: any): void {
+      (this.name as string[]).forEach((name) => {
+         (context as any).pushNamedValue("contentPlaceholder", name, null);
+         (context as any).pushNamedValue("content", name, null);
+         (context as any).pushNamedValue("contentList", name, []);
       });
       super.explore(context, instance);
    }
 
-   exploreCleanup(context, instance) {
-      this.name.forEach((name) => {
-         context.popNamedValue("contentPlaceholder", name);
-         context.popNamedValue("content", name);
-         context.popNamedValue("contentList", name);
+   exploreCleanup(context: RenderingContext, instance: any): void {
+      (this.name as string[]).forEach((name) => {
+         (context as any).popNamedValue("contentPlaceholder", name);
+         (context as any).popNamedValue("content", name);
+         (context as any).popNamedValue("contentList", name);
       });
    }
 }

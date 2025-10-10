@@ -1,11 +1,20 @@
-//@ts-nocheck
-import { Selection } from "./Selection";
+import { Selection, SelectionOptions } from "./Selection";
 import { isArray } from "../../util/isArray";
 import { isNonEmptyArray } from "../../util/isNonEmptyArray";
 import { shallowEquals } from "../../util/shallowEquals";
+import { View } from "../../data/View";
 
 export class KeySelection extends Selection {
-   init() {
+   selection?: any;
+   key?: any;
+   keyField?: string | false;
+   keyFields?: string[];
+   initialized?: boolean;
+   multiple?: boolean;
+   storage?: string;
+   static autoInit?: boolean;
+
+   init(): void {
       if (this.bind && !this.selection)
          this.selection = {
             bind: this.bind,
@@ -18,38 +27,38 @@ export class KeySelection extends Selection {
       this.initialized = true;
    }
 
-   getKey(record) {
+   getKey(record: any): any {
       if (this.key != null) return this.key;
 
       if (!record) return null;
 
       if (this.keyField) return record[this.keyField];
 
-      var key = {};
-      this.keyFields.forEach((k) => {
+      var key: any = {};
+      this.keyFields!.forEach((k) => {
          key[k] = record[k];
       });
       return key;
    }
 
-   areKeysEqual(key1, key2) {
+   areKeysEqual(key1: any, key2: any): boolean {
       if (this.keyField) return key1 === key2 && key1 != null;
 
       if (!key1 || !key2) return false;
 
-      return !this.keyFields.some((k) => key1[k] !== key2[k]);
+      return !this.keyFields!.some((k) => key1[k] !== key2[k]);
    }
 
-   declareData() {
+   declareData(...args: any[]): any {
       return super.declareData(
          {
             $selection: { structured: true },
          },
-         ...arguments
+         ...args
       );
    }
 
-   configureWidget(widget) {
+   configureWidget(widget: any): any {
       if (!this.initialized) this.init();
 
       widget.$selection = Object.assign(widget.$selection || {}, {
@@ -59,7 +68,7 @@ export class KeySelection extends Selection {
       return super.configureWidget(widget);
    }
 
-   selectMultiple(store, records, indexes, { toggle, add } = {}) {
+   selectMultiple(store: View, records: any[], indexes: any[], { toggle, add }: SelectionOptions = {}): any {
       if (!this.selection.bind) return false;
 
       if (this.toggle) toggle = true;
@@ -97,11 +106,11 @@ export class KeySelection extends Selection {
       }
    }
 
-   updateSelectionWithShallowEqualsCheck(store, newSelection) {
-      store.update(this.selection.bind, (data) => (shallowEquals(data, newSelection) ? data : newSelection));
+   updateSelectionWithShallowEqualsCheck(store: View, newSelection: any): void {
+      store.update(this.selection.bind, (data: any) => (shallowEquals(data, newSelection) ? data : newSelection));
    }
 
-   getIsSelectedDelegate(store) {
+   getIsSelectedDelegate(store: View): (record: any, index: any) => boolean {
       if (!this.selection.bind) return () => false;
 
       var selection = store.get(this.selection.bind);
@@ -109,7 +118,7 @@ export class KeySelection extends Selection {
       if (this.multiple) {
          if (this.storage == "array") {
             selection = selection || [];
-            return (record, index) => selection.some((k) => this.areKeysEqual(this.getKey(record), k));
+            return (record, index) => selection.some((k: any) => this.areKeysEqual(this.getKey(record), k));
          } else {
             selection = selection || {};
             return (record, index) => selection[this.getKey(record)];
@@ -117,7 +126,7 @@ export class KeySelection extends Selection {
       } else return (record, index) => this.areKeysEqual(selection, this.getKey(record));
    }
 
-   isSelected(store, record, index) {
+   isSelected(store: View, record: any, index: any): boolean {
       return this.getIsSelectedDelegate(store)(record, index);
    }
 }

@@ -54,7 +54,7 @@ export class Container extends Widget {
       this.exploreItems(context, instance, this.items);
    }
 
-   public render(context: any, instance: any): any {
+   public render(context: any, instance: any, key: any): any {
       return this.renderChildren(context, instance);
    }
 

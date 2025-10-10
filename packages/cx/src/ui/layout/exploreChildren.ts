@@ -1,13 +1,23 @@
-//@ts-nocheck
-export function exploreChildren(context, instance, children, previousResult, key, store) {
+import { RenderingContext } from "../RenderingContext";
+import { Instance } from "../Instance";
+import { View } from "../../data/View";
+
+export function exploreChildren(
+   context: RenderingContext,
+   instance: Instance,
+   children: any[],
+   previousResult: any[] | null,
+   key: any,
+   store: View,
+): any[] {
    let newChildren = previousResult || [];
    let oldChildren = previousResult || newChildren;
    let identical = previousResult ? 0 : -1;
 
    for (let c = 0; c < children.length; c++) {
-      let cell = instance.getChild(context, children[c], key, store);
+      let cell = (instance as any).getChild(context, children[c], key, store);
 
-      if (cell.checkVisible(context)) {
+      if ((cell as any).checkVisible(context)) {
          if (identical >= 0) {
             if (cell == oldChildren[identical]) identical++;
             else {
@@ -17,8 +27,8 @@ export function exploreChildren(context, instance, children, previousResult, key
             }
          } else newChildren.push(cell);
 
-         context.exploreStack.push(cell);
-         if (cell.needsExploreCleanup) context.exploreStack.push(cell);
+         (context as any).exploreStack.push(cell);
+         if ((cell as any).needsExploreCleanup) (context as any).exploreStack.push(cell);
       }
    }
 

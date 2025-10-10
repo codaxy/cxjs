@@ -1,9 +1,13 @@
-//@ts-nocheck
 import { isAccessorChain } from "../../../src/data/createAccessorModelProxy";
-import { Selection } from "./Selection";
+import { Selection, SelectionOptions } from "./Selection";
+import { View } from "../../data/View";
 
 export class PropertySelection extends Selection {
-   selectMultiple(store, records, indexes, { toggle, add } = {}) {
+   records?: any;
+   selectedField?: string;
+   multiple?: boolean;
+
+   selectMultiple(store: View, records: any[], indexes: any[], { toggle, add }: SelectionOptions = {}): any {
       if (this.toggle) toggle = true;
 
       if (!this.records) return false;
@@ -45,8 +49,8 @@ export class PropertySelection extends Selection {
       if (dirty) store.set(path, newArray);
    }
 
-   isSelected(store, record, index) {
-      return record && record[this.selectedField];
+   isSelected(store: View, record: any, index: any): boolean {
+      return record && record[this.selectedField!];
    }
 }
 

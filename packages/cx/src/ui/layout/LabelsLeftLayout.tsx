@@ -1,51 +1,59 @@
-//@ts-nocheck
-import { VDOM, getContent, contentAppend } from "../Widget";
-import { PureContainer } from "../PureContainer";
+/** @jsxImportSource react */
+
 import { isArray } from "../../util/isArray";
 import { parseStyle } from "../../util/parseStyle";
+import { PureContainer } from "../PureContainer";
+import { RenderingContext } from "../RenderingContext";
+import { contentAppend, getContent } from "../Widget";
 
-function validContent(r) {
+function validContent(r: any): any {
    if (!r.hasOwnProperty("content")) return r;
-   let content = [];
+   let content: any[] = [];
    for (let key in r) if (key != "label") contentAppend(content, r[key]);
    return content;
 }
 
 export class LabelsLeftLayout extends PureContainer {
-   init() {
+   labelStyle?: any;
+   baseClass?: string;
+   styled?: boolean;
+   CSS?: any;
+
+   init(): void {
       this.labelStyle = parseStyle(this.labelStyle);
       super.init();
    }
 
-   declareData(...args) {
+   declareData(...args: any[]): any {
       return super.declareData(...args, {
          labelStyle: { structured: true },
          labelClass: { structured: true },
       });
    }
 
-   render(context, instance, key) {
+   render(context: RenderingContext, instance: any, key: any): any {
       let result = [];
       let { children, data } = instance;
       let { CSS, baseClass } = this;
 
-      let labelClass = CSS.expand(CSS.element(baseClass, "label"), data.labelClass);
+      let labelClass = CSS!.expand(CSS!.element(baseClass!, "label"), data.labelClass);
 
-      const addItem = (r, key) => {
+      const addItem = (r: any, key: string) => {
          if (!r) return;
-         if (r.useParentLayout && isArray(r.content)) r.content.forEach((x, i) => addItem(x, key + "-" + i));
+         if (r.useParentLayout && isArray(r.content))
+            r.content.forEach((x: any, i: number) => addItem(x, key + "-" + i));
          else {
             result.push(
                <tr key={key}>
                   <td className={labelClass} style={data.labelStyle}>
                      {getContent(r.label)}
                   </td>
-                  <td className={CSS.element(baseClass, "field")}>{validContent(r)}</td>
-               </tr>
+                  <td className={CSS!.element(baseClass!, "field")}>{validContent(r)}</td>
+               </tr>,
             );
          }
       };
-      children.forEach((c) => {
+      children.forEach((c: any) => {
          addItem(c.vdom, c.key);
       });
       return (
