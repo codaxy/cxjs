@@ -1,16 +1,30 @@
-//@ts-nocheck
-import { startAppLoop } from "./startAppLoop";
+import { startAppLoop, StartAppLoopOptions } from "./startAppLoop";
 import { Widget } from "../Widget";
+import { Store } from "../../data/Store";
 
-export function startHotAppLoop(appModule, element, store, widgets, options = {}) {
-   let stop;
+export interface HotModule {
+   hot?: {
+      accept: () => void;
+      dispose: (callback: (data: any) => void) => void;
+      data?: any;
+   };
+}
+
+export function startHotAppLoop(
+   appModule: HotModule,
+   element: HTMLElement,
+   store: Store,
+   widgets: typeof Widget,
+   options: StartAppLoopOptions = {},
+): () => void {
+   let stop: (() => void) | undefined;
    //webpack (HMR)
    if (appModule.hot) {
       // accept itself
       appModule.hot.accept();
 
       // remember data on dispose
-      appModule.hot.dispose(function (data) {
+      appModule.hot.dispose(function (data: any) {
          data.state = store.getData();
          if (stop) stop();
       });

@@ -1,4 +1,5 @@
-//@ts-nocheck
+/** @jsxImportSource react */
+
 import { Widget, VDOM, getContent } from "./Widget";
 import { Instance } from "./Instance";
 import { RenderingContext } from "./RenderingContext";
@@ -8,21 +9,58 @@ import { isBatchingUpdates, notifyBatchedUpdateStarting, notifyBatchedUpdateComp
 import { shallowEquals } from "../util/shallowEquals";
 import { PureContainer } from "./PureContainer";
 import { onIdleCallback } from "../util/onIdleCallback";
-import { getCurrentCulture, pushCulture, popCulture } from "./Culture";
+import { getCurrentCulture, pushCulture, popCulture, CultureInfo } from "./Culture";
+import { View } from "../data/View";
+import * as CxCore from "../core";
 
-export class Cx extends VDOM.Component {
-   constructor(props) {
+export interface CxProps {
+   widget?: CxCore.Config;
+   items?: CxCore.Config;
+   store?: View;
+   instance?: Instance;
+   parentInstance?: Instance;
+   subscribe?: boolean;
+   immediate?: boolean;
+   deferredUntilIdle?: boolean;
+   idleTimeout?: number;
+   options?: any;
+   onError?: (error: Error, instance: Instance, info: any) => void;
+   params?: any;
+   contentFactory?: (props: { children: any }) => any;
+   cultureInfo?: CultureInfo;
+}
+
+export interface CxState {
+   deferToken: number;
+   data?: any;
+}
+
+export class Cx extends VDOM.Component<CxProps, CxState> {
+   widget: typeof Widget;
+   store: View;
+   parentInstance?: Instance;
+   instance?: Instance;
+   flags: { preparing?: boolean; dirty?: boolean; rendering?: boolean };
+   renderCount: number;
+   unsubscribe?: () => void;
+   componentDidCatch?: (error: Error, info: any) => void;
+   forceUpdateCallback: () => void;
+   deferCounter: number;
+   pendingUpdateTimer?: NodeJS.Timeout;
+   unsubscribeIdleRequest?: () => void;
+
+   constructor(props: CxProps) {
       super(props);
 
       if (props.instance) {
-         this.widget = props.instance.widget;
-         this.store = props.instance.store;
+         this.widget = (props.instance as any).widget;
+         this.store = (props.instance as any).store;
       } else {
          this.widget = PureContainer.create({ items: props.widget || props.items });
 
          if (props.parentInstance) {
             this.parentInstance = props.parentInstance;
-            this.store = props.store || this.parentInstance.store;
+            this.store = props.store || (this.parentInstance as any).store;
          } else {
             this.parentInstance = new Instance(this.widget, 0, null, props.store);
             this.store = props.store;
@@ -37,7 +75,7 @@ export class Cx extends VDOM.Component {
 
       if (props.subscribe) {
          this.unsubscribe = this.store.subscribe(this.update.bind(this));
-         this.state.data = this.store.getData();
+         (this.state as any).data = this.store.getData();
       }
 
       this.flags = {};
@@ -51,8 +89,12 @@ export class Cx extends VDOM.Component {
       this.waitForIdle();
    }
 
-   UNSAFE_componentWillReceiveProps(props) {
-      let newStore = props.instance ? props.instance.store : props.store ? props.store : props.parentInstance.store;
+   UNSAFE_componentWillReceiveProps(props: CxProps): void {
+      let newStore = props.instance
+         ? (props.instance as any).store
+         : props.store
+           ? props.store
+           : (props.parentInstance as any).store;
 
       if (newStore != this.store) {
          this.store = newStore;
@@ -69,16 +111,16 @@ export class Cx extends VDOM.Component {
       }
    }
 
-   getInstance() {
+   getInstance(): Instance {
       if (this.props.instance) return this.props.instance;
 
-      if (this.instance && this.instance.widget === this.widget) {
-         if (this.instance.parentStore != this.store) this.instance.setParentStore(this.store);
+      if (this.instance && (this.instance as any).widget === this.widget) {
+         if ((this.instance as any).parentStore != this.store) (this.instance as any).setParentStore(this.store);
          return this.instance;
       }
 
       if (this.widget && this.parentInstance)
-         return (this.instance = this.parentInstance.getDetachedChild(this.widget, 0, this.store));
+         return (this.instance = (this.parentInstance as any).getDetachedChild(this.widget, 0, this.store));
 
       throw new Error("Could not resolve a widget instance in the Cx component.");
    }
@@ -101,20 +143,20 @@ export class Cx extends VDOM.Component {
       );
    }
 
-   componentDidMount() {
+   componentDidMount(): void {
       this.componentDidUpdate();
 
       if (this.props.options && this.props.options.onPipeUpdate)
          this.props.options.onPipeUpdate(this.update.bind(this));
    }
 
-   componentDidUpdate() {
+   componentDidUpdate(): void {
       if (this.flags.dirty) {
          this.update();
       }
    }
 
-   update() {
+   update(): void {
       let data = this.store.getData();
       debug(appDataFlag, data);
       if (this.flags.preparing) this.flags.dirty = true;
@@ -133,7 +175,7 @@ export class Cx extends VDOM.Component {
       }
    }
 
-   waitForIdle() {
+   waitForIdle(): void {
       if (!this.props.deferredUntilIdle) return;
 
       if (this.unsubscribeIdleRequest) this.unsubscribeIdleRequest();
@@ -149,14 +191,14 @@ export class Cx extends VDOM.Component {
       );
    }
 
-   componentWillUnmount() {
+   componentWillUnmount(): void {
       if (this.pendingUpdateTimer) clearTimeout(this.pendingUpdateTimer);
       if (this.unsubscribeIdleRequest) this.unsubscribeIdleRequest();
       if (this.unsubscribe) this.unsubscribe();
       if (this.props.options && this.props.options.onPipeUpdate) this.props.options.onPipeUpdate(null);
    }
 
-   shouldComponentUpdate(props, state) {
+   shouldComponentUpdate(props: CxProps, state: CxState): boolean {
       if (props.deferredUntilIdle && state.deferToken != this.deferCounter) return false;
 
       return (
@@ -171,20 +213,35 @@ export class Cx extends VDOM.Component {
       );
    }
 
-   componentDidCatchHandler(error, info) {
+   componentDidCatchHandler(error: Error, info: any): void {
       this.flags.preparing = false;
-      this.props.onError(error, this.getInstance(), info);
+      this.props.onError!(error, this.getInstance(), info);
    }
 }
 
-class CxContext extends VDOM.Component {
-   constructor(props) {
+interface CxContextProps {
+   instance: Instance;
+   flags: { preparing?: boolean; dirty?: boolean; rendering?: boolean };
+   options?: any;
+   buster: number;
+   contentFactory?: (props: { children: any }) => any;
+   forceUpdate: () => void;
+   cultureInfo?: CultureInfo;
+}
+
+class CxContext extends VDOM.Component<CxContextProps, {}> {
+   renderCount: number;
+   timings: any;
+   content: any;
+   renderingContext?: RenderingContext;
+
+   constructor(props: CxContextProps) {
       super(props);
       this.renderCount = 0;
       this.UNSAFE_componentWillReceiveProps(props);
    }
 
-   UNSAFE_componentWillReceiveProps(props) {
+   UNSAFE_componentWillReceiveProps(props: CxContextProps): void {
       this.timings = {
          start: now(),
       };
@@ -196,10 +253,10 @@ class CxContext extends VDOM.Component {
          forceContinue;
 
       //should not be tracked by parents for destroy
-      if (!instance.detached)
+      if (!(instance as any).detached)
          throw new Error("The instance passed to a Cx component should be detached from its parent.");
 
-      if (this.props.instance !== instance && this.props.instance.destroyTracked) this.props.instance.destroy();
+      if (this.props.instance !== instance && (this.props.instance as any).destroyTracked) (this.props.instance as any).destroy();
 
       this.props.flags.preparing = true;
 
@@ -210,18 +267,18 @@ class CxContext extends VDOM.Component {
             count++;
             forceContinue = false;
             context = new RenderingContext(options);
-            context.forceUpdate = this.props.forceUpdate;
+            (context as any).forceUpdate = this.props.forceUpdate;
             this.props.flags.dirty = false;
-            instance.assignedRenderList = context.getRootRenderList();
-            visible = instance.scheduleExploreIfVisible(context);
+            (instance as any).assignedRenderList = (context as any).getRootRenderList();
+            visible = (instance as any).scheduleExploreIfVisible(context);
             if (visible) {
-               while (!context.exploreStack.empty()) {
-                  let inst = context.exploreStack.pop();
+               while (!(context as any).exploreStack.empty()) {
+                  let inst = (context as any).exploreStack.pop();
                   //console.log("EXPLORE", inst.widget.constructor.name, inst.widget.tag, inst.widget.widgetId);
-                  inst.explore(context);
+                  (inst as any).explore(context);
                }
-            } else if (instance.destroyTracked) {
-               instance.destroy();
+            } else if ((instance as any).destroyTracked) {
+               (instance as any).destroy();
             }
 
             if (this.props.flags.dirty && count <= 3 && Widget.optimizePrepare && now() - this.timings.start < 8) {
@@ -232,7 +289,7 @@ class CxContext extends VDOM.Component {
             if (visible) {
                this.timings.afterExplore = now();
 
-               for (let i = 0; i < context.prepareList.length; i++) context.prepareList[i].prepare(context);
+               for (let i = 0; i < (context as any).prepareList.length; i++) (context as any).prepareList[i].prepare(context);
                this.timings.afterPrepare = now();
             }
          } while (
@@ -242,7 +299,7 @@ class CxContext extends VDOM.Component {
 
          if (visible) {
             //walk in reverse order so children get rendered first
-            let renderList = context.getRootRenderList();
+            let renderList = (context as any).getRootRenderList();
             while (renderList) {
                for (let i = renderList.data.length - 1; i >= 0; i--) {
                   renderList.data[i].render(context);
@@ -250,10 +307,10 @@ class CxContext extends VDOM.Component {
                renderList = renderList.right;
             }
 
-            this.content = getContent(instance.vdom);
+            this.content = getContent((instance as any).vdom);
             if (contentFactory) this.content = contentFactory({ children: this.content });
             this.timings.afterRender = now();
-            for (let i = 0; i < context.cleanupList.length; i++) context.cleanupList[i].cleanup(context);
+            for (let i = 0; i < (context as any).cleanupList.length; i++) (context as any).cleanupList[i].cleanup(context);
          } else {
             this.content = null;
             this.timings.afterExplore = this.timings.afterPrepare = this.timings.afterRender = now();
@@ -272,11 +329,11 @@ class CxContext extends VDOM.Component {
       return this.content;
    }
 
-   componentDidMount() {
+   componentDidMount(): void {
       this.componentDidUpdate();
    }
 
-   componentDidUpdate() {
+   componentDidUpdate(): void {
       this.props.flags.rendering = false;
       this.timings.afterVDOMRender = now();
 
@@ -302,7 +359,7 @@ class CxContext extends VDOM.Component {
          Timing.log(
             appLoopFlag,
             this.renderCount,
-            this.renderingContext.options.name || "main",
+            (this.renderingContext as any).options.name || "main",
             "total",
             (afterCleanup - start).toFixed(1) + "ms",
             "explore",
@@ -319,8 +376,8 @@ class CxContext extends VDOM.Component {
       }
    }
 
-   componentWillUnmount() {
+   componentWillUnmount(): void {
       let { instance } = this.props;
-      if (instance.destroyTracked) instance.destroy();
+      if ((instance as any).destroyTracked) (instance as any).destroy();
    }
 }

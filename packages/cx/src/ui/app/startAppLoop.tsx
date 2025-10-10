@@ -1,20 +1,35 @@
-//@ts-nocheck
+/** @jsxImportSource react */
+
 import { Widget, VDOM } from "../Widget";
 import { Store } from "../../data/Store";
 import { Cx } from "../Cx";
+import { Instance } from "../Instance";
 
-export function startAppLoop(parentDOMElement, storeOrInstance, widget, options = {}) {
+export interface StartAppLoopOptions {
+   destroyDelay?: number;
+   removeParentDOMElement?: boolean;
+   [key: string]: any;
+}
+
+export function startAppLoop(
+   parentDOMElement: HTMLElement,
+   storeOrInstance?: Store | Instance,
+   widget?: typeof Widget,
+   options: StartAppLoopOptions = {},
+): () => void {
    if (!parentDOMElement || parentDOMElement.nodeType !== 1)
       throw new Error("First argument to startAppLoop should be a valid DOM element.");
 
-   let store, instance, parentInstance;
+   let store: Store | undefined;
+   let instance: Instance | undefined;
+   let parentInstance: Instance | undefined;
 
    if (!storeOrInstance) storeOrInstance = new Store();
 
-   if (storeOrInstance.notify) store = storeOrInstance;
-   else if (storeOrInstance.getChild) {
-      if (storeOrInstance.widget === widget) instance = storeOrInstance;
-      else parentInstance = storeOrInstance;
+   if ((storeOrInstance as any).notify) store = storeOrInstance as Store;
+   else if ((storeOrInstance as any).getChild) {
+      if ((storeOrInstance as any).widget === widget) instance = storeOrInstance as Instance;
+      else parentInstance = storeOrInstance as Instance;
    } else throw new Error("Second argument to startAppLoop should be either of type Store or Instance");
 
    let content = (
@@ -26,9 +41,9 @@ export function startAppLoop(parentDOMElement, storeOrInstance, widget, options 
          options={options}
          subscribe
       />
-   );
+   ) as any;
 
-   let root = null;
+   let root: any = null;
    if (VDOM.DOM.createRoot) {
       root = VDOM.DOM.createRoot(parentDOMElement);
       root.render(content);
@@ -50,7 +65,7 @@ export function startAppLoop(parentDOMElement, storeOrInstance, widget, options 
    };
 }
 
-function destroy(parentDOMElement, options, root) {
+function destroy(parentDOMElement: HTMLElement, options: StartAppLoopOptions, root: any): void {
    if (root) root.unmount();
    else VDOM.DOM.unmountComponentAtNode(parentDOMElement);
 

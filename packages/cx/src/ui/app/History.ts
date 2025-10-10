@@ -1,18 +1,32 @@
-//@ts-nocheck
 import { Url } from "./Url";
 import { batchUpdatesAndNotify } from "../batchUpdates";
 import { SubscriberList } from "../../util/SubscriberList";
+import { View } from "../../data/View";
 
-let last = 0,
-   next = 1,
-   transitions = {},
-   subscribers = null,
-   reload = false,
-   navigateConfirmationCallback = null,
-   permanentNavigateConfirmation = false;
+interface Transition {
+   url: string;
+   state: any;
+   title: string;
+   replace: boolean;
+   completed?: boolean;
+}
+
+type NavigateConfirmationCallback = (state: any) => boolean | Promise<boolean>;
+
+let last = 0;
+let next = 1;
+let transitions: Record<number, Transition> = {};
+let subscribers: SubscriberList | null = null;
+let reload = false;
+let navigateConfirmationCallback: NavigateConfirmationCallback | null = null;
+let permanentNavigateConfirmation = false;
 
 export class History {
-   static connect(store, urlBinding, hashBinding?) {
+   static store: View;
+   static urlBinding: string;
+   static hashBinding?: string;
+
+   static connect(store: View, urlBinding: string, hashBinding?: string): void {
       this.store = store;
       this.urlBinding = urlBinding;
       this.hashBinding = hashBinding;
@@ -22,24 +36,24 @@ export class History {
       };
    }
 
-   static pushState(state, title, url) {
+   static pushState(state: any, title: string, url: string): boolean {
       return this.confirmAndNavigate(state, title, url);
    }
 
-   static replaceState(state, title, url) {
+   static replaceState(state: any, title: string, url: string): boolean {
       return this.navigate(state, title, url, true);
    }
 
-   static reloadOnNextChange() {
+   static reloadOnNextChange(): void {
       reload = true;
    }
 
-   static addNavigateConfirmation(callback, permanent = false) {
+   static addNavigateConfirmation(callback: NavigateConfirmationCallback, permanent = false): void {
       navigateConfirmationCallback = callback;
       permanentNavigateConfirmation = permanent;
    }
 
-   static confirm(continueCallback, state) {
+   static confirm(continueCallback: () => boolean, state: any): boolean {
       if (!navigateConfirmationCallback) return continueCallback();
 
       let result = navigateConfirmationCallback(state);
@@ -53,11 +67,11 @@ export class History {
       return false;
    }
 
-   static confirmAndNavigate(state, title, url, replace) {
+   static confirmAndNavigate(state: any, title: string, url: string, replace?: boolean): boolean {
       return this.confirm(() => this.navigate(state, title, url, replace), url);
    }
 
-   static navigate(state, title, url, replace = false) {
+   static navigate(state: any, title: string, url: string, replace = false): boolean {
       url = Url.resolve(url);
 
       if (!window.history.pushState || reload) {
@@ -65,8 +79,8 @@ export class History {
          return true;
       }
 
-      let transition,
-         changed = false;
+      let transition: Transition | undefined;
+      let changed = false;
       batchUpdatesAndNotify(
          () => {
             changed = this.updateStore(url);
@@ -96,9 +110,9 @@ export class History {
       return changed;
    }
 
-   static updateStore(href) {
-      let url = Url.unresolve(href || document.location.href),
-         hash = null;
+   static updateStore(href?: string): boolean {
+      let url = Url.unresolve(href || document.location.href);
+      let hash: string | null = null;
       let hashIndex = url.indexOf("#");
       if (hashIndex !== -1) {
          hash = url.substring(hashIndex);
@@ -108,7 +122,7 @@ export class History {
       return this.store.set(this.urlBinding, url);
    }
 
-   static subscribe(callback) {
+   static subscribe(callback: (url: string, op: string) => void): () => void {
       if (!subscribers) subscribers = new SubscriberList();
       return subscribers.subscribe(callback);
    }
