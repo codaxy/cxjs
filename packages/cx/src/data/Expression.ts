@@ -1,4 +1,4 @@
-//@ts-nocheck
+
 import { computable } from "./computable";
 import { Format } from "../util/Format";
 import { Binding } from "./Binding";

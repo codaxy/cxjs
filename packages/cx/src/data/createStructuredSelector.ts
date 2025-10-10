@@ -1,5 +1,14 @@
-//@ts-nocheck
-export function createStructuredSelector(selector, constants) {
+interface Record {
+   [prop: string]: any;
+}
+
+interface StructuredSelector {
+   [prop: string]: (data: any) => any;
+}
+
+type Selector<T> = (data: any) => T;
+
+export function createStructuredSelector(selector: StructuredSelector, constants?: Record): Selector<Record> {
    let keys = Object.keys(selector);
    if (keys.length == 0) return () => constants;
 

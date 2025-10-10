@@ -1,31 +1,30 @@
-//@ts-nocheck
 import {Ref} from "./Ref";
 import {append} from "./ops/append";
 import {moveElement} from "./ops/moveElement";
 import {insertElement} from "./ops/insertElement";
 
-export class ArrayRef extends Ref {
-   append(...args) {
+export class ArrayRef<T = any> extends Ref<T[]> {
+   append(...args: T[]): void {
       this.update(append, ...args);
    }
 
-   insert(index, ...args) {
+   insert(index: number, ...args: T[]): void {
       this.update(insertElement, ...args)
    }
 
-   filter(predicate) {
+   filter(predicate: (item: T, index?: number) => boolean): void {
       this.update(array => array.filter(a => predicate(a)));
    }
 
-   move(fromIndex, toIndex) {
+   move(fromIndex: number, toIndex: number): void {
       this.update(moveElement, fromIndex, toIndex);
    }
 
-   clear() {
+   clear(): void {
       this.set([]);
    }
 
-   sort(compare) {
+   sort(compare: (a: T, b: T) => number): void {
       let data = this.get();
       if (!data)
          return;

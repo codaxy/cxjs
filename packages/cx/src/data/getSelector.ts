@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { Binding } from "./Binding";
 import { Expression } from "./Expression";
 import { StringTemplate } from "./StringTemplate";
@@ -8,10 +7,12 @@ import { isSelector } from "./isSelector";
 import { isAccessorChain } from "./createAccessorModelProxy";
 import { isString } from "../util/isString";
 
+type Selector<T> = (data: any) => T;
+
 var undefinedF = () => undefined;
 var nullF = () => null;
 
-export function getSelector(config) {
+export function getSelector(config: any): Selector<any> {
    if (config === undefined) return undefinedF;
    if (config === null) return nullF;
 

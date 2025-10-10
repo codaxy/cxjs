@@ -1,4 +1,4 @@
-//@ts-nocheck
+
 import { expression } from "./Expression";
 
 import { quoteStr } from "../util/quote";

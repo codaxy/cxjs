@@ -1,9 +1,16 @@
-//@ts-nocheck
 import { getSelector } from "./getSelector";
 import { isDefined } from "../util/isDefined";
 import { defaultCompare } from "./defaultCompare";
 
-export function getComparer(sorters, dataAccessor, comparer) {
+interface Sorter {
+   value?: any;
+   field?: string;
+   direction?: string;
+   comparer?: (a: any, b: any) => number;
+   compare?: (a: any, b: any) => number;
+}
+
+export function getComparer(sorters: Sorter[], dataAccessor?: (x: any) => any, comparer?: (a: any, b: any) => number): (a: any, b: any) => number {
    let resolvedSorters = (sorters || []).map((s) => {
       let selector = isDefined(s.value) ? getSelector(s.value) : s.field ? (x) => x[s.field] : () => null;
       return {
@@ -35,7 +42,7 @@ export function getComparer(sorters, dataAccessor, comparer) {
    };
 }
 
-export function indexSorter(sorters, dataAccessor, compare) {
+export function indexSorter(sorters: Sorter[], dataAccessor?: (x: any) => any, compare?: (a: any, b: any) => number): (data: any[]) => number[] {
    let cmp = getComparer(sorters, dataAccessor, compare);
    return function (data) {
       let result = Array.from({ length: data.length }, (v, k) => k);
@@ -44,7 +51,7 @@ export function indexSorter(sorters, dataAccessor, compare) {
    };
 }
 
-export function sorter(sorters, dataAccessor, compare) {
+export function sorter(sorters: Sorter[], dataAccessor?: (x: any) => any, compare?: (a: any, b: any) => number): (data: any[]) => any[] {
    let cmp = getComparer(sorters, dataAccessor, compare);
 
    return function (data) {

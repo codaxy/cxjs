@@ -1,5 +1,4 @@
-//@ts-nocheck
-export function defaultCompare(av, bv) {
+export function defaultCompare(av: any, bv: any): number {
    if (av == null) {
       if (bv == null)
          return 0;

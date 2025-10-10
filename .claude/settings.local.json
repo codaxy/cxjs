@@ -5,7 +5,9 @@
       "Bash(for f in packages/cx/src/util/date/*.ts)",
       "Bash(do [ ! -f \"$f%.ts.d.ts\" ])",
       "Bash(echo:*)",
-      "Bash(done)"
+      "Bash(done)",
+      "Bash(find:*)",
+      "Bash(head:*)"
     ],
     "deny": [],
     "ask": []

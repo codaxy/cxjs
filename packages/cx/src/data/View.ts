@@ -1,4 +1,4 @@
-//@ts-nocheck
+
 import { Binding } from "./Binding";
 import { isArray } from "../util/isArray";
 import { isDefined } from "../util/isDefined";

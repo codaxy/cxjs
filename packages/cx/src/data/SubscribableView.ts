@@ -1,4 +1,4 @@
-//@ts-nocheck
+
 import { View } from "./View";
 import { SubscriberList } from "../util/SubscriberList";
 

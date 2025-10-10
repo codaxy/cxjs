@@ -1,9 +1,10 @@
-//@ts-nocheck
 import {View} from './View';
 
 export class ReadOnlyDataView extends View {
+   data?: any;
+   immutable?: boolean;
 
-   getData() {
+   getData(): any {
       if (this.sealed && this.meta.version === this.cache.version && this.cache.data === this.data)
          return this.cache.result;
 
@@ -16,11 +17,11 @@ export class ReadOnlyDataView extends View {
       return this.cache.result;
    }
 
-   getAdditionalData() {
+   getAdditionalData(data?: any): any {
       return this.data;
    }
 
-   setData(data) {
+   setData(data: any): void {
       this.data = data;
    }
 }

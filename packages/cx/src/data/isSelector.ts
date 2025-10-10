@@ -1,5 +1,4 @@
-//@ts-nocheck
-export function isSelector(config) {
+export function isSelector(config: any): boolean {
 
    if (config == null)
       return true;

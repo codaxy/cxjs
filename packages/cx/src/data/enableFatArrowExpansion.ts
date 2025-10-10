@@ -1,7 +1,6 @@
-//@ts-nocheck
 import {expandFatArrows} from '../util/expandFatArrows';
 import {plugFatArrowExpansion} from './Expression';
 
-export function enableFatArrowExpansion() {
+export function enableFatArrowExpansion(): void {
    plugFatArrowExpansion(expandFatArrows);
 }

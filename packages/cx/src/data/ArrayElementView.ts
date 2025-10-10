@@ -1,4 +1,4 @@
-//@ts-nocheck
+
 import { AugmentedViewBase } from "./AugmentedViewBase";
 import { isArray } from "../util/isArray";
 import { Binding } from "./Binding";

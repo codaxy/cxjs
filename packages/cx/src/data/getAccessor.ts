@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { Binding, isBinding } from "./Binding";
 import { isSelector } from "./isSelector";
 import { getSelector } from "./getSelector";
@@ -11,7 +10,17 @@ import { isAccessorChain } from "./createAccessorModelProxy";
    Accessor works as a common interface which works with both patterns.
  */
 
-export function getAccessor(accessor, options) {
+interface View {
+   set(path: string, value: any): void;
+}
+
+export interface Accessor {
+   get: (data: any) => any;
+   set?: (value: any, store: View) => boolean;
+   bindInstance?(instance: any): Accessor;
+}
+
+export function getAccessor(accessor: any, options?: any): Accessor {
    if (accessor == null) return null;
 
    if (isObject(accessor)) {

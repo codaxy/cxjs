@@ -1,8 +1,7 @@
-//@ts-nocheck
 import {View} from "./View";
 
 export class StoreProxy extends View {
-   constructor(getStore) {
+   constructor(getStore: () => View) {
       super({
          store: getStore()
       });
@@ -12,7 +11,7 @@ export class StoreProxy extends View {
       });
    }
 
-   getData() {
+   getData(): any {
       return this.store.getData();
    }
 }

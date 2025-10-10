@@ -1,1 +1,0 @@
-export function defaultCompare(av, bv) : number;

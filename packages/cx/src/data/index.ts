@@ -1,4 +1,3 @@
-//@ts-nocheck
 export * from './Binding';
 export * from './Expression';
 export * from './StringTemplate';

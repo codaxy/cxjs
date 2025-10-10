@@ -1,4 +1,4 @@
-//@ts-nocheck
+
 export class AggregateFunction {
    static sum() {
       return new Sum();

@@ -1,4 +1,4 @@
-//@ts-nocheck
+
 import { View } from "./View";
 import { Binding } from "./Binding";
 
