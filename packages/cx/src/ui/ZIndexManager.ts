@@ -1,4 +1,3 @@
-//@ts-nocheck
 let lastZIndex = 10000;
 
 export class ZIndexManager {
@@ -6,7 +5,7 @@ export class ZIndexManager {
       return ++lastZIndex;
    }
 
-   static reset(zIndex) {
+   static reset(zIndex: number) {
       lastZIndex = zIndex;
    }
 }

@@ -1,4 +1,5 @@
-//@ts-nocheck
+/** @jsxImportSource react */
+
 import { PureContainer } from "./PureContainer";
 import { SubscribableView } from "../data/SubscribableView";
 import { getSelector } from "../data/getSelector";
@@ -7,8 +8,18 @@ import { VDOM } from "./Widget";
 import { IsolatedScope } from "./IsolatedScope";
 
 export class DetachedScope extends IsolatedScope {
-   declareData() {
-      return super.declareData(...arguments, {
+   exclusive?: string | string[];
+   exclusiveData?: any;
+   container?: any;
+   children?: any;
+   items?: any;
+   name?: string;
+   options?: any;
+   data?: any;
+   onError?: any;
+
+   declareData(...args: any[]) {
+      return super.declareData(...args, {
          exclusiveData: { structured: true },
       });
    }
@@ -38,19 +49,19 @@ export class DetachedScope extends IsolatedScope {
       super.init();
    }
 
-   initInstance(context, instance) {
+   initInstance(context: any, instance: any) {
       instance.subStore = new ContainmentStore({
          store: instance.store,
          selector: getSelector(this.exclusiveData || this.data),
       });
    }
 
-   applyParentStore(instance) {
+   applyParentStore(instance: any) {
       instance.store = instance.parentStore;
       instance.subStore.setStore(instance.parentStore);
    }
 
-   render(context, instance, key) {
+   render(context: any, instance: any, key: string) {
       return (
          <Cx
             key={key}
@@ -66,23 +77,27 @@ export class DetachedScope extends IsolatedScope {
 }
 
 class ContainmentStore extends SubscribableView {
+   store: any;
+   selector: any;
+   cache: any;
+
    getData() {
       return this.store.getData();
    }
 
-   setItem(...args) {
+   setItem(...args: any[]) {
       return this.wrapper(() => {
          this.store.setItem(...args);
       });
    }
 
-   deleteItem(...args) {
+   deleteItem(...args: any[]) {
       return this.wrapper(() => {
          this.store.deleteItem(...args);
       });
    }
 
-   wrapper(callback) {
+   wrapper(callback: () => void) {
       if (this.store.silently(callback)) {
          let data = this.getData();
          let containedData = this.selector(data);

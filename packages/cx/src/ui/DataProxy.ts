@@ -1,10 +1,15 @@
-//@ts-nocheck
 import { NestedDataView } from "../data/NestedDataView";
 import { UseParentLayout } from "../ui/layout/UseParentLayout";
 import { PureContainer } from "./PureContainer";
 import { StructuredInstanceDataAccessor } from "./StructuredInstanceDataAccessor";
 
 export class DataProxy extends PureContainer {
+   data?: any;
+   alias?: string;
+   value?: any;
+   immutable: boolean;
+   sealed: boolean;
+
    init() {
       if (!this.data) this.data = {};
 
@@ -13,7 +18,7 @@ export class DataProxy extends PureContainer {
       super.init();
    }
 
-   initInstance(context, instance) {
+   initInstance(context: any, instance: any) {
       instance.store = new NestedDataView({
          store: instance.parentStore,
          nestedData: new StructuredInstanceDataAccessor({ instance, data: this.data, useParentStore: true }),
@@ -23,7 +28,7 @@ export class DataProxy extends PureContainer {
       super.initInstance(context, instance);
    }
 
-   applyParentStore(instance) {
+   applyParentStore(instance: any) {
       instance.store.setStore(instance.parentStore);
    }
 }

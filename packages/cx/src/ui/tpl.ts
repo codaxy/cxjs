@@ -1,5 +1,4 @@
-//@ts-nocheck
-export function tpl(text) {
+export function tpl(text: string) {
    return {
       tpl: text
    }

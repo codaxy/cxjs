@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { PureContainer } from "./PureContainer";
 import { Store } from "../data/Store";
 import { Cx } from "./Cx";
@@ -9,11 +8,28 @@ import { Binding } from "../data/Binding";
 import { StructuredSelector } from "../data/StructuredSelector";
 import { getCurrentCulture } from "./Culture";
 
-let persistenceCache = {};
+let persistenceCache: any = {};
 
 export class Restate extends PureContainer {
-   declareData() {
-      return super.declareData(...arguments, {
+   container: any;
+   privateDataSelector: any;
+   detached: boolean;
+   data?: any;
+   children?: any;
+   items?: any;
+   layout?: any;
+   controller?: any;
+   outerLayout?: any;
+   useParentLayout?: any;
+   ws?: any;
+   culture?: any;
+   options?: any;
+   onError?: any;
+   waitForIdle: boolean;
+   immediate: boolean;
+
+   declareData(...args: any[]) {
+      return super.declareData(...args, {
          deferredUntilIdle: undefined,
          idleTimeout: undefined,
          cacheKey: undefined,
@@ -43,7 +59,7 @@ export class Restate extends PureContainer {
       super.init();
    }
 
-   initSubStore(context, instance) {
+   initSubStore(context: any, instance: any) {
       let { cacheKey } = instance.data;
       this.privateDataSelector.init(instance.store);
       instance.subStore = new RestateStore({
@@ -52,7 +68,7 @@ export class Restate extends PureContainer {
          privateData: this.data || {},
          data: cacheKey ? persistenceCache[cacheKey] || {} : {},
          dataSelector: this.privateDataSelector.create(),
-         onSet: (path, value) => instance.nestedDataSet(path, value, this.data),
+         onSet: (path: string, value: any) => instance.nestedDataSet(path, value, this.data),
       });
 
       if (cacheKey) {
@@ -62,11 +78,11 @@ export class Restate extends PureContainer {
       }
    }
 
-   applyParentStore(instance) {
+   applyParentStore(instance: any) {
       if (instance.subStore) instance.subStore.setStore(instance.parentStore);
    }
 
-   explore(context, instance) {
+   explore(context: any, instance: any) {
       if (!instance.subStore) this.initSubStore(context, instance);
       if (instance.subStore.parentDataCheck()) instance.markShouldUpdate();
       instance.cultureInfo = this.culture ?? getCurrentCulture();
@@ -74,7 +90,7 @@ export class Restate extends PureContainer {
       super.explore(context, instance);
    }
 
-   exploreItems(context, instance, items) {
+   exploreItems(context: any, instance: any, items: any) {
       if (!this.detached) {
          instance.container = instance.getChild(context, this.container, "container", instance.subStore);
          instance.container.scheduleExploreIfVisible(context);
@@ -82,7 +98,7 @@ export class Restate extends PureContainer {
       }
    }
 
-   render(context, instance, key) {
+   render(context: any, instance: any, key: string) {
       if (!this.detached) return instance.container.render(context);
 
       return (
@@ -111,7 +127,15 @@ Restate.prototype.culture = null;
 export const PrivateStore = Restate;
 
 class RestateStore extends Store {
-   constructor(config) {
+   parentDataVersion: number;
+   parentData: any;
+   dataSelector: any;
+   privateData: any;
+   onSet: any;
+   detached: any;
+   store: any;
+
+   constructor(config: any) {
       super(config);
       this.parentDataVersion = -1;
    }
@@ -134,7 +158,7 @@ class RestateStore extends Store {
       });
    }
 
-   setItem(path, value) {
+   setItem(path: string, value: any) {
       let binding = Binding.get(path);
       let bindingRoot = binding.parts[0];
       if (!isObject(this.privateData) || !this.privateData.hasOwnProperty(bindingRoot)) {
@@ -152,7 +176,7 @@ class RestateStore extends Store {
       return true;
    }
 
-   deleteItem(path) {
+   deleteItem(path: string) {
       return this.setItem(path, undefined);
    }
 
@@ -162,7 +186,7 @@ class RestateStore extends Store {
    }
 
    // override the default implementation to avoid meta overwrites
-   setStore(store) {
+   setStore(store: any) {
       this.store = store;
    }
 }

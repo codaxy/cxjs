@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { createComponentFactory, isComponentFactory } from "../util/Component";
 import { flattenProps } from "../ui/flattenProps";
 import { PureContainer } from "./PureContainer";
@@ -6,10 +5,15 @@ import { UseParentLayout } from "./layout/UseParentLayout";
 import { StoreProxy } from "../data/StoreProxy";
 import { isDefined } from "../util/isDefined";
 
-let currentInstance = null;
+let currentInstance: any = null;
 
 class FunctionalComponent extends PureContainer {
-   initInstance(context, instance) {
+   childrenFactory: (props: any) => any;
+   props: any;
+   layout?: any;
+   items?: any;
+
+   initInstance(context: any, instance: any) {
       instance.store = instance.parentStore;
       this.clear();
       currentInstance = instance;
@@ -19,20 +23,20 @@ class FunctionalComponent extends PureContainer {
       currentInstance = null;
    }
 
-   explore(context, instance) {
+   explore(context: any, instance: any) {
       if (this.layout) this.layout.items = instance.content;
       else this.items = instance.content;
       this.exploreItems(context, instance, instance.content);
       if (instance.computables) {
-         instance.computables.forEach((cb) => cb(instance.store.getData()));
+         instance.computables.forEach((cb: any) => cb(instance.store.getData()));
       }
    }
 }
 
-export function createFunctionalComponent(factory) {
+export function createFunctionalComponent(factory: any) {
    if (isComponentFactory(factory)) return factory;
 
-   return createComponentFactory(factory, (props = {}) => {
+   return createComponentFactory(factory, (props: any = {}) => {
       let innerProps = flattenProps(props);
       delete innerProps.visible;
       delete innerProps.if;

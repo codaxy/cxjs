@@ -1,7 +1,11 @@
-//@ts-nocheck
 import { Widget } from './Widget';
 
 export class Text extends Widget {
+   value?: any;
+   tpl?: string;
+   expr?: any;
+   bind?: string;
+
    init() {
       if (!this.value && (this.tpl || this.expr || this.bind))
          this.value = {
@@ -12,13 +16,13 @@ export class Text extends Widget {
       super.init();
    }
 
-   declareData() {
+   declareData(...args: any[]) {
       super.declareData({
          value: undefined
-      }, ...arguments);
+      }, ...args);
    }
 
-   render(context, { data }, key) {
+   render(context: any, { data }: any, key: string) {
       return data.value != null ? data.value : '';
    }
 }

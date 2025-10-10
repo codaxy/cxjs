@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { isSelfOrDescendant, findFirst, findFirstChild, isFocusable, closestParent } from "../util/DOM";
 import { batchUpdates } from "./batchUpdates";
 import { SubscriberList } from "../util/SubscriberList";
@@ -13,21 +12,21 @@ import { getActiveElement } from "../util/getActiveElement";
 
 let subscribers = new SubscriberList(),
    timerInterval = 300,
-   timerId = null;
+   timerId: any = null;
 
-let lastActiveElement = null;
+let lastActiveElement: any = null;
 let pending = false;
 
 export class FocusManager {
-   static subscribe(callback) {
+   static subscribe(callback: (el: any) => void) {
       let unsubscribe = subscribers.subscribe(callback);
       checkTimer();
       return unsubscribe;
    }
 
-   static onFocusOut(el, callback) {
+   static onFocusOut(el: any, callback: (el: any) => void) {
       let active = isSelfOrDescendant(el, getActiveElement());
-      return this.subscribe((focusedEl) => {
+      return this.subscribe((focusedEl: any) => {
          if (!active) active = isSelfOrDescendant(el, getActiveElement());
          else if (!isSelfOrDescendant(el, focusedEl)) {
             active = false;
@@ -36,9 +35,9 @@ export class FocusManager {
       });
    }
 
-   static oneFocusOut(el, callback) {
+   static oneFocusOut(el: any, callback: (el: any) => void) {
       this.nudge();
-      let off = this.subscribe((focusedEl) => {
+      let off = this.subscribe((focusedEl: any) => {
          if (!isSelfOrDescendant(el, focusedEl)) {
             callback(focusedEl);
             off();
@@ -65,25 +64,25 @@ export class FocusManager {
       }
    }
 
-   static focus(el) {
+   static focus(el: any) {
       el.focus();
       this.nudge();
    }
 
-   static focusFirst(el) {
+   static focusFirst(el: any) {
       let focusable = findFirst(el, isFocusable);
       if (focusable) this.focus(focusable);
       return focusable;
    }
 
-   static focusFirstChild(el) {
+   static focusFirstChild(el: any) {
       let focusable = findFirstChild(el, isFocusable);
       if (focusable) this.focus(focusable);
       return focusable;
    }
 
-   static focusNext(el) {
-      let next = el,
+   static focusNext(el: any) {
+      let next: any = el,
          skip = true;
       do {
          if (!skip) {
@@ -101,28 +100,28 @@ export class FocusManager {
       } while (next);
    }
 
-   static setInterval(interval) {
+   static setInterval(interval: number) {
       timerInterval = interval;
       checkTimer();
    }
 }
 
-export function oneFocusOut(component, el, callback) {
+export function oneFocusOut(component: any, el: any, callback: (focus: any) => void) {
    if (!component.oneFocusOut)
-      component.oneFocusOut = FocusManager.oneFocusOut(el, (focus) => {
+      component.oneFocusOut = FocusManager.oneFocusOut(el, (focus: any) => {
          delete component.oneFocusOut;
          callback(focus);
       });
 }
 
-export function offFocusOut(component) {
+export function offFocusOut(component: any) {
    if (component.oneFocusOut) {
       component.oneFocusOut();
       delete component.oneFocusOut;
    }
 }
 
-export function preventFocus(e) {
+export function preventFocus(e: any) {
    //Focus can be prevented only on mousedown event. On touchstart this will not work
    //preventDefault cannot be used as it prevents scrolling
    if (e.type !== "mousedown") return;
@@ -146,23 +145,23 @@ function checkTimer() {
    }
 }
 
-export function preventFocusOnTouch(e, force = false) {
+export function preventFocusOnTouch(e: any, force = false) {
    if (force || isTouchEvent()) preventFocus(e);
 }
 
-export function unfocusElement(target = null, unfocusParentOverlay = true) {
+export function unfocusElement(target: any = null, unfocusParentOverlay = true) {
    const activeElement = getActiveElement();
    if (!target) target = activeElement;
 
    if (unfocusParentOverlay) {
-      let focusableOverlayContainer = closestParent(target, (el) => el.dataset?.focusableOverlayContainer);
+      let focusableOverlayContainer = closestParent(target, (el: any) => el.dataset?.focusableOverlayContainer);
       if (focusableOverlayContainer) target = focusableOverlayContainer;
    }
 
    //find the closest focusable parent of the target element and focus it instead
    let focusableParent = closestParent(
       target,
-      (el) => isFocusable(el) && (!unfocusParentOverlay || el.dataset?.focusableOverlayContainer),
+      (el: any) => isFocusable(el) && (!unfocusParentOverlay || el.dataset?.focusableOverlayContainer),
    );
 
    if (focusableParent && focusableParent !== document.body) focusableParent.focus({ preventScroll: true });

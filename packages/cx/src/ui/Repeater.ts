@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { Widget } from "./Widget";
 import { PureContainer } from "./PureContainer";
 import { Container } from "./Container";
@@ -7,7 +6,27 @@ import { UseParentLayout } from "./layout/UseParentLayout";
 import { getAccessor } from "../data/getAccessor";
 
 export class Repeater extends Container {
-   declareData() {
+   records?: any;
+   recordsAccessor: any;
+   recordAlias?: string;
+   recordName: string;
+   indexAlias?: string;
+   indexName: string;
+   dataAdapter: any;
+   keyField?: string;
+   immutable: boolean;
+   sealed: boolean;
+   sortOptions?: any;
+   item: any;
+   children?: any;
+   items?: any;
+   cached: boolean;
+   onCreateFilter?: any;
+   filter?: any;
+   onTrackMappedRecords?: any;
+   isPureContainer: boolean;
+
+   declareData(...args: any[]) {
       super.declareData(
          {
             records: undefined,
@@ -18,7 +37,7 @@ export class Repeater extends Container {
                structured: true,
             },
          },
-         ...arguments,
+         ...args,
       );
    }
 
@@ -51,18 +70,18 @@ export class Repeater extends Container {
       super.init();
    }
 
-   initInstance(context, instance) {
+   initInstance(context: any, instance: any) {
       this.dataAdapter.initInstance(context, instance);
    }
 
-   applyParentStore(instance) {
+   applyParentStore(instance: any) {
       super.applyParentStore(instance);
 
       // force prepareData to execute again and propagate the store change to the records
       if (instance.cached) delete instance.cached.rawData;
    }
 
-   prepareData(context, instance) {
+   prepareData(context: any, instance: any) {
       let { data } = instance;
       if (data.sortField)
          data.sorters = [
@@ -74,7 +93,7 @@ export class Repeater extends Container {
       this.dataAdapter.sort(data.sorters);
       let filter = null;
       if (this.onCreateFilter) filter = instance.invoke("onCreateFilter", data.filterParams, instance);
-      else if (this.filter) filter = (item) => this.filter(item, data.filterParams);
+      else if (this.filter) filter = (item: any) => this.filter(item, data.filterParams);
       this.dataAdapter.setFilter(filter);
       instance.mappedRecords = this.dataAdapter.getRecords(context, instance, data.records, instance.store);
 
@@ -85,9 +104,9 @@ export class Repeater extends Container {
       super.prepareData(context, instance);
    }
 
-   explore(context, instance, data) {
-      let instances = [];
-      instance.mappedRecords.forEach((record) => {
+   explore(context: any, instance: any, data?: any) {
+      let instances: any[] = [];
+      instance.mappedRecords.forEach((record: any) => {
          let subInstance = instance.getChild(context, this.item, record.key, record.store);
          let changed = subInstance.cache("recordData", record.data) || subInstance.cache("key", record.key);
          subInstance.record = record;

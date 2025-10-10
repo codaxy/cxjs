@@ -1,9 +1,16 @@
-//@ts-nocheck
 import {TraversalStack} from "../util/TraversalStack";
 import {reverseSlice} from "../util/reverseSlice";
 
 export class RenderingContext {
-   constructor(options) {
+   options: any;
+   exploreStack: any;
+   prepareList: any[];
+   cleanupList: any[];
+   stacks: any;
+   renderList: any;
+   [key: string]: any;
+
+   constructor(options?: any) {
       this.options = options || {};
       this.exploreStack = new TraversalStack();
       this.prepareList = [];
@@ -12,7 +19,7 @@ export class RenderingContext {
       this.renderList = new LinkedListsNode();
    }
 
-   getStack(key) {
+   getStack(key: string) {
       let stack = this.stacks[key];
       if (!stack)
          stack = this.stacks[key] = [];
@@ -20,18 +27,18 @@ export class RenderingContext {
    }
 
 
-   push(key, value) {
+   push(key: string, value: any) {
       let stack = this.getStack(key);
       stack.push(this[key]);
       return this[key] = value;
    }
 
-   pop(key) {
+   pop(key: string) {
       let stack = this.getStack(key);
       return this[key] = stack.pop();
    }
 
-   pushNamedValue(key, name, value) {
+   pushNamedValue(key: string, name: string, value: any) {
       let stack = this.getStack(`${key}:${name}`);
       if (!this[key])
          this[key] = {};
@@ -39,12 +46,12 @@ export class RenderingContext {
       return this[key][name] = value;
    }
 
-   popNamedValue(key, name) {
+   popNamedValue(key: string, name: string) {
       let stack = this.getStack(`${key}:${name}`);
       return this[key][name] = stack.pop();
    }
 
-   get(key) {
+   get(key: string) {
       return this[key];
    }
 
@@ -57,7 +64,12 @@ export class RenderingContext {
 }
 
 class LinkedListsNode {
-   constructor(left, right) {
+   left?: LinkedListsNode;
+   right?: LinkedListsNode;
+   data: any[];
+   reverseIndex?: number;
+
+   constructor(left?: LinkedListsNode, right?: LinkedListsNode) {
       this.left = left;
       this.right = right;
       this.data = [];

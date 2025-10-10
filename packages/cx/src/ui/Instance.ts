@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { Controller } from "./Controller";
 import { debug, renderFlag, processDataFlag, destroyFlag } from "../util/Debug";
 import { GlobalCacheIdentifier } from "../util/GlobalCacheIdentifier";

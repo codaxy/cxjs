@@ -1,10 +1,12 @@
-//@ts-nocheck
 import { PureContainer } from "./PureContainer";
 import { isArray } from "../util/isArray";
 
 export class IsolatedScope extends PureContainer {
-   declareData() {
-      return super.declareData(...arguments, {
+   bind?: string | string[];
+   data?: any;
+
+   declareData(...args: any[]) {
+      return super.declareData(...args, {
          data: { structured: true },
       });
    }
@@ -20,7 +22,7 @@ export class IsolatedScope extends PureContainer {
       super.init();
    }
 
-   explore(context, instance) {
+   explore(context: any, instance: any) {
       if (instance.shouldUpdate) {
          super.explore(context, instance);
       } else if (instance.children) {

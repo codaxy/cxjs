@@ -1,4 +1,3 @@
-//@ts-nocheck
 /*
    HoverSync transfers through the context methods for reporting and subscribing to hover data to
    its descendants. How this should work is that each component can subscribe and unsubscribe
@@ -15,10 +14,10 @@ import { PureContainer } from "./PureContainer";
 import { VDOM } from "./VDOM";
 
 export class HoverSync extends PureContainer {
-   initInstance(context, instance) {
-      let channels = {};
+   initInstance(context: any, instance: any) {
+      let channels: any = {};
       instance.hoverSync = {
-         report: (channel, hoverId, active) => {
+         report: (channel: string, hoverId: any, active: boolean) => {
             let ch = channels[channel];
             if (!ch) return;
             let state = active && hoverId != null;
@@ -27,7 +26,7 @@ export class HoverSync extends PureContainer {
                ch.subscribers.notify(state);
             }
          },
-         subscribe: (channel, callback) => {
+         subscribe: (channel: string, callback: (state: any) => void) => {
             let ch = channels[channel];
             if (!ch)
                ch = channels[channel] = {
@@ -39,18 +38,20 @@ export class HoverSync extends PureContainer {
       };
    }
 
-   explore(context, instance) {
+   explore(context: any, instance: any) {
       context.push("hoverSync", instance.hoverSync);
       super.explore(context, instance);
    }
 
-   exploreCleanup(context, instance) {
+   exploreCleanup(context: any, instance: any) {
       context.pop("hoverSync");
    }
 }
 
 class HoverSyncChild extends VDOM.Component {
-   constructor(props) {
+   unsubscribe: any;
+
+   constructor(props: any) {
       super(props);
       this.state = { hover: false };
       this.onMouseMove = this.onMouseMove.bind(this);
@@ -70,7 +71,7 @@ class HoverSyncChild extends VDOM.Component {
    }
 
    componentDidMount() {
-      this.unsubscribe = this.props.hoverSync.subscribe(this.props.hoverChannel, (hoverId) => {
+      this.unsubscribe = this.props.hoverSync.subscribe(this.props.hoverChannel, (hoverId: any) => {
          let hover = hoverId === this.props.hoverId;
          if (hover !== this.state.hover) this.setState({ hover });
       });
@@ -86,7 +87,7 @@ class HoverSyncChild extends VDOM.Component {
    }
 }
 
-export function withHoverSync(key, hoverSync, hoverChannel, hoverId, render) {
+export function withHoverSync(key: string, hoverSync: any, hoverChannel: string, hoverId: any, render: (props: any) => any) {
    if (!hoverSync || !hoverChannel || hoverId == null)
       return render({ key, hover: false, onMouseLeave: dummyCallback, onMouseMove: dummyCallback });
    return (
@@ -95,7 +96,11 @@ export function withHoverSync(key, hoverSync, hoverChannel, hoverId, render) {
 }
 
 export class HoverSyncElement extends Container {
-   declareData(...args) {
+   hoverChannel: string;
+   baseClass: string;
+   styled: boolean;
+
+   declareData(...args: any[]) {
       super.declareData(...args, {
          hoverId: undefined,
          hoverClass: { structured: true },
@@ -103,7 +108,7 @@ export class HoverSyncElement extends Container {
       });
    }
 
-   prepareData(context, instance) {
+   prepareData(context: any, instance: any) {
       instance.hoverSync = context.hoverSync;
       instance.inSvg = !!context.inSvg;
       let { data } = instance;
@@ -111,7 +116,7 @@ export class HoverSyncElement extends Container {
       super.prepareData(context, instance);
    }
 
-   render(context, instance, key) {
+   render(context: any, instance: any, key: string) {
       let { data, inSvg } = instance;
       let { CSS } = this;
       let children = this.renderChildren(context, instance);
@@ -121,7 +126,7 @@ export class HoverSyncElement extends Container {
          instance.hoverSync,
          this.hoverChannel,
          data.hoverId,
-         ({ hover, onMouseMove, onMouseLeave, key }) => {
+         ({ hover, onMouseMove, onMouseLeave, key }: any) => {
             let style = {
                ...data.style,
                ...(hover && data.hoverStyle),

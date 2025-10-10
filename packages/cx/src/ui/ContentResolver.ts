@@ -1,10 +1,15 @@
-//@ts-nocheck
 import {PureContainer} from './PureContainer';
 import {isPromise} from '../util/isPromise';
 
 export class ContentResolver extends PureContainer {
-   declareData() {
-      return super.declareData(...arguments, {
+   mode: "replace" | "prepend" | "append";
+   onResolve?: (params: any, instance: any) => any;
+   initialItems: any;
+   layout?: any;
+   items?: any;
+
+   declareData(...args: any[]) {
+      return super.declareData(...args, {
          params: {structured: true},
          loading: undefined
       })
@@ -16,12 +21,12 @@ export class ContentResolver extends PureContainer {
       this.clear();
    }
 
-   initInstance(context, instance) {
+   initInstance(context: any, instance: any) {
       instance.content = this.initialItems;
       instance.cachedParams = {}; //unique value which will never pass the equality check
    }
 
-   prepareData(context, instance) {
+   prepareData(context: any, instance: any) {
       let {data} = instance;
 
       if (data.params !== instance.cachedParams && this.onResolve) {
@@ -30,7 +35,7 @@ export class ContentResolver extends PureContainer {
          if (isPromise(content)) {
             instance.set('loading', true);
             this.setContent(instance, null);
-            content.then(cnt => {
+            content.then((cnt: any) => {
                this.setContent(instance, cnt);
                instance.setState({cacheBuster: {}});
                instance.set('loading', false);
@@ -41,7 +46,7 @@ export class ContentResolver extends PureContainer {
       }
    }
 
-   setContent(instance, content) {
+   setContent(instance: any, content: any) {
       if (content) {
          this.clear();
          switch (this.mode) {
@@ -66,7 +71,7 @@ export class ContentResolver extends PureContainer {
          instance.content = this.initialItems;
    }
 
-   explore(context, instance) {
+   explore(context: any, instance: any) {
       //a little bit hacky
       if (this.layout)
          this.layout.items = instance.content;

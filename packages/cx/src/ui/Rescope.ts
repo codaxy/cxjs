@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { Widget } from "./Widget";
 import { PureContainer } from "./PureContainer";
 import { Binding } from "../data/Binding";
@@ -7,13 +6,19 @@ import { StructuredInstanceDataAccessor } from "./StructuredInstanceDataAccessor
 import { isObject } from "../util/isObject";
 
 export class Rescope extends PureContainer {
+   bind: string;
+   binding: any;
+   rootAlias?: string;
+   rootName: string;
+   data?: any;
+
    init() {
       this.binding = Binding.get(this.bind);
       if (this.rootAlias) this.rootName = this.rootAlias;
       super.init();
    }
 
-   initInstance(context, instance) {
+   initInstance(context: any, instance: any) {
       instance.store = new ZoomIntoPropertyView({
          store: instance.parentStore,
          binding: this.binding,
@@ -25,7 +30,7 @@ export class Rescope extends PureContainer {
       super.initInstance(context, instance);
    }
 
-   applyParentStore(instance) {
+   applyParentStore(instance: any) {
       instance.store.setStore(instance.parentStore);
    }
 }

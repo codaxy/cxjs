@@ -1,17 +1,16 @@
-//@ts-nocheck
 import { SubscriberList } from "../util/SubscriberList";
 import { isObject } from "../util/isObject";
 
-let subscribers, eventBan = 0;
+let subscribers: any, eventBan = 0;
 
-export function executeKeyboardShortcuts(e) {
+export function executeKeyboardShortcuts(e: KeyboardEvent) {
    if (Date.now() < eventBan) return;
    // Avoid duplicate executions as event.stopPropagation() for React events does not stop native events
    eventBan = Date.now() + 5;
    subscribers && subscribers.notify(e);
 }
 
-export function registerKeyboardShortcut(key, callback) {
+export function registerKeyboardShortcut(key: any, callback: (e: KeyboardEvent) => void) {
    const keyCode = isObject(key) ? key.keyCode : key;
    const shiftKey = isObject(key) ? key.shiftKey : false;
    const ctrlKey = isObject(key) ? key.ctrlKey : false;
@@ -19,13 +18,13 @@ export function registerKeyboardShortcut(key, callback) {
 
    if (!subscribers) {
       subscribers = new SubscriberList();
-      document.addEventListener("keydown", e => {
+      document.addEventListener("keydown", (e: any) => {
          if (e.target == document.body)
             executeKeyboardShortcuts(e);
       });
    }
 
-   return subscribers.subscribe(e => {
+   return subscribers.subscribe((e: any) => {
       if (e.keyCode == keyCode && (!shiftKey || e.shiftKey) && (!ctrlKey || e.ctrlKey) && (!altKey || e.altKey))
          callback(e);
    });

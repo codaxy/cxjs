@@ -1,19 +1,18 @@
-//@ts-nocheck
-let contents = {};
-let localizations = {};
-let overrides = {};
-let defaults = {};
+let contents: any = {};
+let localizations: any = {};
+let overrides: any = {};
+let defaults: any = {};
 let trackDefaults = false;
 
 export class Localization {
-   static register(key) {
-      return type => {
+   static register(key: string) {
+      return (type: any) => {
          this.registerPrototype(key, type);
          return type;
       }
    }
 
-   static registerPrototype(key, type) {
+   static registerPrototype(key: string, type: any) {
       contents[key] = type.prototype;
       if (overrides[key])
          this.override(key, overrides[key]);
@@ -35,7 +34,7 @@ export class Localization {
       defaults = {};
    }
 
-   static override(key, values) {
+   static override(key: string, values: any) {
       overrides[key] = values;
       let p = contents[key];
       if (p) {
@@ -48,7 +47,7 @@ export class Localization {
       }
    }
 
-   static localize(culture, key, values) {
+   static localize(culture: string, key: string, values: any) {
       let l = localizations[culture];
       if (!l)
          l = localizations[culture] = {};
@@ -58,7 +57,7 @@ export class Localization {
       };
    }
 
-   static setCulture(culture) {
+   static setCulture(culture: string) {
       var l = localizations[culture];
       if (l) {
          for (var key in l) {

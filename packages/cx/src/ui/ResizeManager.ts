@@ -1,11 +1,10 @@
-//@ts-nocheck
 import { SubscriberList } from '../util/SubscriberList';
 import { batchUpdates } from './batchUpdates';
 
 let subscribers = new SubscriberList();
 
 export class ResizeManager {
-   static subscribe(callback) {
+   static subscribe(callback: () => void) {
       return subscribers.subscribe(callback);
    }
 
@@ -15,7 +14,7 @@ export class ResizeManager {
       });
    }
 
-   static trackElement(el, callback) {
+   static trackElement(el: any, callback: (entries: any) => void) {
       if (typeof ResizeObserver !== 'function')
          return this.subscribe(callback);
 

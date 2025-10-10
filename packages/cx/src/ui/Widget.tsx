@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { Component } from "../util/Component";
 import { CSSHelper } from "./CSSHelper";
 import "./CSS";
@@ -101,7 +100,7 @@ export class Widget extends Component {
       }
    }
 
-   declareData(...args) {
+   declareData(...args: any[]) {
       let options: any = {};
 
       if (this.styled) options.class = options.className = options.style = { structured: true };

@@ -1,12 +1,11 @@
-//@ts-nocheck
-export const flattenProps = props => {
+export const flattenProps = (props: any): any => {
 
    if (!props) return {};
 
    if (props.jsxSpread) {
       props = {
          ...props,
-         ...props.jsxSpread.reduce((acc, prop) => Object.assign(acc, prop), {})
+         ...props.jsxSpread.reduce((acc: any, prop: any) => Object.assign(acc, prop), {})
       };
    }
 
