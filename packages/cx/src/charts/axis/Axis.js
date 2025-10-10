@@ -220,6 +220,13 @@ export class Axis extends BoundedObject {
       }
 
       lines.forEach((p, i) => {
+         let data =
+            p.data != null
+               ? Object.entries(p.data).reduce((acc, [key, val]) => {
+                    acc[`data-${key}`] = val;
+                    return acc;
+                 }, {})
+               : null;
          result.push(
             <tspan
                key={i}
@@ -228,6 +235,7 @@ export class Axis extends BoundedObject {
                style={p.style}
                className={p.className}
                dx={dx}
+               {...data}
             >
                {p.text}
             </tspan>,
