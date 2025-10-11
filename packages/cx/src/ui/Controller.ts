@@ -4,6 +4,9 @@ import { isArray } from "../util/isArray";
 import { isFunction } from "../util/isFunction";
 import { StoreProxy } from "../data/StoreProxy";
 import { RenderingContext } from "./RenderingContext";
+import { View } from "src/data";
+import { Widget } from "./Widget";
+import { Instance } from "./Instance";
 
 const computablePrefix = "computable-";
 const triggerPrefix = "trigger-";
@@ -21,9 +24,9 @@ export class Controller extends Component {
    onPrepare?: (context: RenderingContext) => void;
    onCleanup?: (context: RenderingContext) => void;
    onDestroy?: () => void;
-   instance: any; // Instance type
-   store: any; // View type
-   widget?: any; // Widget type
+   instance: Instance;
+   store: View;
+   widget?: Widget;
    computables?: Record<string, ComputableEntry>;
 
    init(context?: RenderingContext): void {

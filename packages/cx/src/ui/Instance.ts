@@ -14,6 +14,7 @@ import { isUndefined } from "../util/isUndefined";
 import { isAccessorChain } from "../data/createAccessorModelProxy";
 import { RenderingContext } from "./RenderingContext";
 import type { Widget } from "./Widget";
+import { View } from "src/data";
 
 let instanceId = 1000;
 
@@ -23,8 +24,8 @@ export class Instance {
    public key: string | number;
    public id: string;
    public parent?: Instance;
-   public parentStore: any; // View type
-   public store: any; // View type
+   public parentStore: View;
+   public store: View;
    public controller?: Controller;
 
    // Data and state
