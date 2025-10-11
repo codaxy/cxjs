@@ -1,4 +1,4 @@
-export function getParentFrameBoundingClientRect(el: Element): ClientRect {
+export function getParentFrameBoundingClientRect(el: Element): DOMRect {
    // if the ownerDocument is null, the element itself is the document
    let ownerDocument = el.ownerDocument || el;
    if (ownerDocument != document) {
@@ -9,13 +9,5 @@ export function getParentFrameBoundingClientRect(el: Element): ClientRect {
          }
       }
    }
-
-   return {
-      top: 0,
-      left: 0,
-      right: window.innerWidth,
-      bottom: window.innerHeight,
-      width: window.innerWidth,
-      height: window.innerHeight,
-   };
+   return new DOMRect(0, 0, window.innerWidth, window.innerHeight);
 }

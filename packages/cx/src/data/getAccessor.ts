@@ -26,7 +26,7 @@ export function getAccessor(accessor: any, options?: any): Accessor {
    if (accessor == null) return null;
 
    if (isObject(accessor)) {
-      if (accessor.isAccessor || accessor.isRef) return accessor;
+      if (accessor["isAccessor"] || accessor["isRef"]) return accessor as Accessor;
       if (isBinding(accessor)) {
          let binding = Binding.get(accessor);
          return {

@@ -1,16 +1,15 @@
-import { closest } from './DOM';
+import { closest } from "./DOM";
 
-export function findScrollableParent(sourceEl: Element, horizontal: boolean = false): Element {
+export function findScrollableParent(sourceEl: Element, horizontal: boolean = false): HTMLElement {
    if (!sourceEl) return null;
-   let scrollParent = closest(sourceEl, el => {
-      if (el.nodeType != Node.ELEMENT_NODE)
-         return false;
-      if (!horizontal && el.clientHeight >= el.scrollHeight)
-         return false;
-      if (horizontal && el.clientWidth >= el.scrollWidth)
-         return false;
+   let scrollParent = closest(sourceEl, (el) => {
+      if (el.nodeType != Node.ELEMENT_NODE) return false;
+      if (!horizontal && el.clientHeight >= el.scrollHeight) return false;
+      if (horizontal && el.clientWidth >= el.scrollWidth) return false;
       let overflow = getComputedStyle(el)[horizontal ? "overflow-x" : "overflow-y"];
       return overflow == "auto" || overflow == "scroll";
-   });
-   return scrollParent || sourceEl.ownerDocument.scrollingElement || sourceEl.ownerDocument.documentElement;
+   }) as HTMLElement;
+   return (
+      scrollParent || (sourceEl.ownerDocument.scrollingElement as HTMLElement) || sourceEl.ownerDocument.documentElement
+   );
 }

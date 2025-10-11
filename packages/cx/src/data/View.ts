@@ -1,4 +1,3 @@
-
 import { Binding } from "./Binding";
 import { isArray } from "../util/isArray";
 import { isDefined } from "../util/isDefined";
@@ -24,7 +23,7 @@ export class View {
       if (this.store) this.setStore(this.store);
    }
 
-   getData() {
+   getData(): object {
       throw new Error("abstract method");
    }
 
@@ -187,6 +186,6 @@ View.prototype.sealed = false; //indicate that data should be copied before virt
 //Immer integration point
 View.prototype.mutate = function () {
    throw new Error(
-      "Mutate requires Immer. Please install 'immer' and 'cx-immer' packages and enable store mutation by calling enableImmerMutate()."
+      "Mutate requires Immer. Please install 'immer' and 'cx-immer' packages and enable store mutation by calling enableImmerMutate().",
    );
 };

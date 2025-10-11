@@ -12,7 +12,7 @@ type Formatter = (value: any) => string;
 
 const defaultFormatter: Formatter = (v) => v.toString();
 
-let formatFactory = {
+let formatFactory: Record<string, (...args: (string | number)[]) => (value: unknown) => string> = {
    string: function () {
       return defaultFormatter;
    },
@@ -25,8 +25,8 @@ let formatFactory = {
       return (value) => prefix + value.toString() + suffix;
    },
 
-   fixed: function (part0, digits) {
-      return (value) => value.toFixed(digits);
+   fixed: function (part0, digits: number) {
+      return (value: number) => value.toFixed(digits);
    },
 
    prefix: function (part0, prefix) {
@@ -50,10 +50,10 @@ let formatFactory = {
    },
 
    urlencode: function () {
-      return (value) => encodeURIComponent(value);
+      return (value: string | number | boolean) => encodeURIComponent(value);
    },
 
-   number: function (part0, minFractionDigits, maxFractionDigits) {
+   number: function (part0, minFractionDigits: number, maxFractionDigits: number) {
       let { minimumFractionDigits, maximumFractionDigits } = resolveMinMaxFractionDigits(
          minFractionDigits,
          maxFractionDigits,

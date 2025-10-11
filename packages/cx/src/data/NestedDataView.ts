@@ -1,8 +1,15 @@
 import { AugmentedViewBase } from "../data/AugmentedViewBase";
-import { StructuredDataAccessor } from "./StructuredDataAccessor";
 
 interface Record {
    [prop: string]: any;
+}
+
+export interface StructuredDataAccessor {
+   getSelector(): (data: object) => object;
+   get(): object;
+   setItem(key: string, value: any): boolean;
+   containsKey(key: string): boolean;
+   getKeys(): string[];
 }
 
 export class NestedDataView extends AugmentedViewBase {

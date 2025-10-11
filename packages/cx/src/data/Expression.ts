@@ -1,4 +1,3 @@
-
 import { computable } from "./computable";
 import { Format } from "../util/Format";
 import { Binding } from "./Binding";
@@ -6,6 +5,7 @@ import { Binding } from "./Binding";
 import { quoteStr } from "../util/quote";
 import { isFunction } from "../util/isFunction";
 import { isValidIdentifierName } from "../util/isValidIdentifierName";
+import { Selector } from "./Selector";
 
 /*
    Helper usage example
@@ -22,11 +22,11 @@ let helpers = {},
 function getExpr(expr) {
    if (expr.memoize) return expr;
 
-   function memoize() {
+   function memoize(): Selector {
       let lastValue,
          lastRunBindings = {},
          lastRunResults = {},
-         getters = {},
+         getters: Record<string, Selector> = {},
          currentData,
          len = -1;
 
@@ -82,14 +82,14 @@ function getExpr(expr) {
    return result;
 }
 
-export function expression(str) {
+export function expression(str: string): Selector {
    if (isFunction(str)) return getExpr(str);
 
    let cache = getExpressionCache();
    let r = cache[str];
    if (r) return r;
 
-   let quote = false;
+   let quote: string | false = false;
 
    let termStart = -1,
       curlyBrackets = 0,
@@ -97,7 +97,7 @@ export function expression(str) {
 
    let fb = ["return ("];
 
-   let args = {};
+   let args: Record<string, string | Selector> = {};
    let formats = [];
    let subExprCount = 0;
    let invalidNameCount = 0;
@@ -189,6 +189,7 @@ export function expression(str) {
          ...helperValues,
       );
 
+      // @ts-expect-error
       let selector = computable(...keys.map((k) => args[k]), compute);
       cache[str] = selector;
       return selector;

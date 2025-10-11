@@ -1,14 +1,7 @@
-import {getParentFrameBoundingClientRect} from "./getParentFrameBoundingClientRect";
+import { getParentFrameBoundingClientRect } from "./getParentFrameBoundingClientRect";
 
-export function getTopLevelBoundingClientRect(el: Element): { left: number, right: number, top: number, bottom: number } {
+export function getTopLevelBoundingClientRect(el: Element): DOMRect {
    let bounds = el.getBoundingClientRect();
    let offset = getParentFrameBoundingClientRect(el);
-   return {
-      top: bounds.top + offset.top,
-      left: bounds.left + offset.left,
-      bottom: bounds.bottom + offset.top,
-      right: bounds.right + offset.left,
-      width: bounds.right - bounds.left,
-      height: bounds.bottom - bounds.top
-   }
+   return new DOMRect(bounds.left + offset.left, bounds.top + offset.top, bounds.width, bounds.height);
 }

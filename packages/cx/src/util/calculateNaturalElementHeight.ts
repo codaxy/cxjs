@@ -1,4 +1,4 @@
-export function calculateNaturalElementHeight(el: Element): number {
+export function calculateNaturalElementHeight(el: HTMLElement): number {
    if (el.scrollHeight > el.clientHeight) return naturalElementHeight(el);
    let h = el.offsetHeight;
    for (let i = 0; i < el.children.length; i++) {
@@ -11,7 +11,7 @@ export function calculateNaturalElementHeight(el: Element): number {
    return h;
 }
 
-function naturalElementHeight(el: Element): number {
+function naturalElementHeight(el: HTMLElement): number {
    let h = el.offsetHeight;
    let overflow = el.scrollHeight - el.clientHeight;
    if (overflow <= 0) return h;

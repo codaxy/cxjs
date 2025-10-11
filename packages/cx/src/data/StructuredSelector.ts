@@ -1,4 +1,3 @@
-
 import { Binding } from "./Binding";
 import { Expression } from "./Expression";
 import { StringTemplate } from "./StringTemplate";

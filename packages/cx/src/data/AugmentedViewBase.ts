@@ -1,4 +1,3 @@
-
 import { View } from "./View";
 import { Binding } from "./Binding";
 
@@ -18,30 +17,30 @@ export class AugmentedViewBase extends View {
       return this.cache.result;
    }
 
-   getBaseData(parentStoreData: any): any {
+   protected getBaseData(parentStoreData: any): any {
       if (this.sealed || this.immutable || this.store.sealed) return { ...parentStoreData };
       return parentStoreData;
    }
 
-   embedAugmentData(result: any, parentStoreData: any): void {
+   protected embedAugmentData(result: any, parentStoreData: any): void {
       throw new Error("abstract");
    }
 
-   isExtraKey(key: string): boolean {
+   protected isExtraKey(key: string): boolean {
       throw new Error("abstract");
    }
 
    // Stores which need to support nested aliases should override this method
-   getExtraKeyBinding(key: string): any {
+   protected getExtraKeyBinding(key: string): any {
       let binding = Binding.get(key);
       return this.isExtraKey(binding.parts[0]) ? Binding.get(binding.parts[0]) : null;
    }
 
-   setExtraKeyValue(key: string, value: any): boolean {
+   protected setExtraKeyValue(key: string, value: any): boolean {
       throw new Error("abstract");
    }
 
-   deleteExtraKeyValue(key: string): boolean {
+   protected deleteExtraKeyValue(key: string): boolean {
       throw new Error("abstract");
    }
 

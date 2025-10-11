@@ -15,7 +15,7 @@ let isTouchDetectionEnabled = false;
 
 export function enableTouchEventDetection(): void {
    if (isTouchDevice() && !isTouchDetectionEnabled) {
-      let options = true; //capture
+      let options: boolean | AddEventListenerOptions = true; //capture
 
       if (browserSupportsPassiveEventHandlers())
          options = {
@@ -30,7 +30,7 @@ export function enableTouchEventDetection(): void {
             //console.log('TOUCHSTART');
             lastTouchEvent = Date.now();
          },
-         options
+         options,
       );
 
       document.addEventListener(
@@ -39,7 +39,7 @@ export function enableTouchEventDetection(): void {
             //console.log('TOUCHMOVE');
             lastTouchEvent = Date.now();
          },
-         options
+         options,
       );
 
       document.addEventListener(
@@ -49,7 +49,7 @@ export function enableTouchEventDetection(): void {
             lastTouchEvent = Date.now();
             //console.log('TOUCHEND');
          },
-         options
+         options,
       );
 
       isTouchDetectionEnabled = true;

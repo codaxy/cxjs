@@ -1,12 +1,12 @@
+import { Selector } from "./Selector";
+
 interface Record {
    [prop: string]: any;
 }
 
 interface StructuredSelector {
-   [prop: string]: (data: any) => any;
+   [prop: string]: Selector;
 }
-
-type Selector<T> = (data: any) => T;
 
 export function createStructuredSelector(selector: StructuredSelector, constants?: Record): Selector<Record> {
    let keys = Object.keys(selector);

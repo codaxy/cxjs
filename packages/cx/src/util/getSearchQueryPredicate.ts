@@ -12,9 +12,9 @@ export function getSearchQueryPredicate(query: string, options?: any): (text: st
    if (terms.length == 0) return () => true;
    if (regexes.length == 1) {
       let regex = regexes[0];
-      return (text) => text && text.match(regex);
+      return (text: string) => text && text.match(regex) != null;
    }
-   return (text) => text && regexes.every((re) => text.match(re));
+   return (text: string) => text && regexes.every((re) => text.match(re));
 }
 
 var highlighterCache: { [key: string]: (query: string) => string[] } = {};
