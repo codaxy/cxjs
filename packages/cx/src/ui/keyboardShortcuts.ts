@@ -1,6 +1,13 @@
 import { SubscriberList } from "../util/SubscriberList";
 import { isObject } from "../util/isObject";
 
+interface KeyDescriptor {
+   keyCode: number;
+   shiftKey?: boolean;
+   ctrlKey?: boolean;
+   altKey?: boolean;
+}
+
 let subscribers: any, eventBan = 0;
 
 export function executeKeyboardShortcuts(e: KeyboardEvent) {
@@ -10,11 +17,11 @@ export function executeKeyboardShortcuts(e: KeyboardEvent) {
    subscribers && subscribers.notify(e);
 }
 
-export function registerKeyboardShortcut(key: any, callback: (e: KeyboardEvent) => void) {
-   const keyCode = isObject(key) ? key.keyCode : key;
-   const shiftKey = isObject(key) ? key.shiftKey : false;
-   const ctrlKey = isObject(key) ? key.ctrlKey : false;
-   const altKey = isObject(key) ? key.altKey : false;
+export function registerKeyboardShortcut(key: number | KeyDescriptor, callback: (e: KeyboardEvent) => void) {
+   const keyCode = isObject(key) ? (key as KeyDescriptor).keyCode : key;
+   const shiftKey = isObject(key) ? (key as KeyDescriptor).shiftKey : false;
+   const ctrlKey = isObject(key) ? (key as KeyDescriptor).ctrlKey : false;
+   const altKey = isObject(key) ? (key as KeyDescriptor).altKey : false;
 
    if (!subscribers) {
       subscribers = new SubscriberList();

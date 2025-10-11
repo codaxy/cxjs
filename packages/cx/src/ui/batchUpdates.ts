@@ -30,16 +30,17 @@ export function isBatchingUpdates(): boolean {
 }
 
 export function notifyBatchedUpdateStarting(): void {
-   promiseSubscribers.execute((x: UpdateCallback) =>{
-      x.pending++;
+   promiseSubscribers.execute((x: any) =>{
+      (x as UpdateCallback).pending++;
    });
 }
 
 export function notifyBatchedUpdateCompleted(): void {
-   promiseSubscribers.execute((x: UpdateCallback) => {
-      x.finished++;
-      if (x.finished >= x.pending)
-         x.complete(true);
+   promiseSubscribers.execute((x: any) => {
+      let cb = x as UpdateCallback;
+      cb.finished++;
+      if (cb.finished >= cb.pending)
+         cb.complete(true);
    });
 }
 
