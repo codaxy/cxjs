@@ -1,3 +1,4 @@
+/** @jsxImportSource react */
 /*
    HoverSync transfers through the context methods for reporting and subscribing to hover data to
    its descendants. How this should work is that each component can subscribe and unsubscribe

@@ -38,18 +38,18 @@ export class Widget extends Component {
    public version?: number;
    public memoize?: boolean;
 
-   // Lifecycle hooks
+   // Lifecycle hooks - callbacks that can be set in configuration
    public onInit?: (context: RenderingContext, instance: any) => void;
    public onExplore?: (context: RenderingContext, instance: any) => void;
    public onPrepare?: (context: RenderingContext, instance: any) => void;
    public onCleanup?: (context: RenderingContext, instance: any) => void;
    public onDestroy?: (instance: any) => void;
 
-   // Lifecycle methods that can be overridden or set
-   public exploreCleanup?: (context: RenderingContext, instance: any) => void;
-   public prepareCleanup?: (context: RenderingContext, instance: any) => void;
-   public cleanup?: (context: RenderingContext, instance: any) => void;
-   public prepare?: (context: RenderingContext, instance: any) => void;
+   // Lifecycle methods that can be overridden by subclasses
+   public exploreCleanup?(context: RenderingContext, instance: any): void;
+   public prepareCleanup?(context: RenderingContext, instance: any): void;
+   public cleanup?(context: RenderingContext, instance: any): void;
+   public prepare?(context: RenderingContext, instance: any): void;
 
    // Controller
    public controller?: any;
