@@ -1,6 +1,12 @@
 import { VDOM } from './Widget';
 import { SubscriberList } from '../util/SubscriberList';
 
+interface UpdateCallback {
+   pending: number;
+   finished: number;
+   complete: (success?: boolean) => void;
+}
+
 let isBatching = 0;
 let promiseSubscribers = new SubscriberList();
 
@@ -24,13 +30,13 @@ export function isBatchingUpdates(): boolean {
 }
 
 export function notifyBatchedUpdateStarting(): void {
-   promiseSubscribers.execute(x=>{
+   promiseSubscribers.execute((x: UpdateCallback) =>{
       x.pending++;
    });
 }
 
 export function notifyBatchedUpdateCompleted(): void {
-   promiseSubscribers.execute(x => {
+   promiseSubscribers.execute((x: UpdateCallback) => {
       x.finished++;
       if (x.finished >= x.pending)
          x.complete(true);
@@ -39,29 +45,32 @@ export function notifyBatchedUpdateCompleted(): void {
 
 let updateId = 0;
 
-export function batchUpdatesAndNotify(callback: () => void, notifyCallback: () => void, timeout: number = 1000): void {
-   let update = {
-      id: ++updateId,
+export function batchUpdatesAndNotify(callback: () => void, notifyCallback: (success: boolean) => void, timeout: number = 1000): void {
+   let done = false;
+   let timer: NodeJS.Timeout | undefined;
+   let unsubscribe: (() => void) | undefined;
+
+   const update: UpdateCallback = {
       pending: 0,
       finished: 0,
-      done: false,
-   };
-
-   update.unsubscribe = promiseSubscribers.subscribe(update);
-   update.complete = (success) => {
-      if (!update.done) {
-         update.done = true;
-         if (update.timer)
-            clearInterval(update.timer);
-         update.unsubscribe();
-         notifyCallback(!!success);
+      complete: (success?: boolean) => {
+         if (!done) {
+            done = true;
+            if (timer)
+               clearInterval(timer);
+            if (unsubscribe)
+               unsubscribe();
+            notifyCallback(!!success);
+         }
       }
    };
+
+   unsubscribe = promiseSubscribers.subscribe(update as any);
 
    batchUpdates(callback);
 
    if (update.pending <= update.finished)
       update.complete(true);
    else
-      update.timer = setTimeout(update.complete, timeout);
+      timer = setTimeout(update.complete, timeout);
 }

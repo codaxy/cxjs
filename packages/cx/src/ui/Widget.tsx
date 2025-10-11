@@ -16,6 +16,7 @@ let widgetId = 100;
 
 export class Widget extends Component {
    public widgetId?: number;
+   public vdomKey?: string | number;
    public jsxSpread?: Record<string, any>[];
    public jsxAttributes?: string[];
    public styles?: any;
@@ -43,6 +44,12 @@ export class Widget extends Component {
    public onPrepare?: (context: RenderingContext, instance: any) => void;
    public onCleanup?: (context: RenderingContext, instance: any) => void;
    public onDestroy?: (instance: any) => void;
+
+   // Lifecycle methods that can be overridden or set
+   public exploreCleanup?: (context: RenderingContext, instance: any) => void;
+   public prepareCleanup?: (context: RenderingContext, instance: any) => void;
+   public cleanup?: (context: RenderingContext, instance: any) => void;
+   public prepare?: (context: RenderingContext, instance: any) => void;
 
    // Controller
    public controller?: any;
@@ -158,7 +165,7 @@ export class Widget extends Component {
       return data.visible;
    }
 
-   public explore(context: RenderingContext, instance: any): void {
+   public explore(context: RenderingContext, instance: any, data?: any): void {
       if (this.components) instance.components = {};
       for (const cmp in this.components) {
          const ins = instance.getChild(context, this.components[cmp], "cmp-" + cmp, instance.store);

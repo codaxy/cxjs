@@ -36,7 +36,7 @@ export interface CxState {
 }
 
 export class Cx extends VDOM.Component<CxProps, CxState> {
-   widget: typeof Widget;
+   widget: Widget;
    store: View;
    parentInstance?: Instance;
    instance?: Instance;

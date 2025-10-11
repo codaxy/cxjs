@@ -300,6 +300,7 @@ export class Instance {
          }
       }
 
+      //TODO: check do we need to pass data here?
       this.widget.explore(context, this, this.data);
    }
 
@@ -555,7 +556,12 @@ export class Instance {
       if (this.instanceCache) this.instanceCache.destroy();
    }
 
-   public getChild(context: RenderingContext | null, widget: Widget, key?: string | number | null, store?: any): Instance {
+   public getChild(
+      context: RenderingContext | null,
+      widget: Widget,
+      key?: string | number | null,
+      store?: any,
+   ): Instance {
       return this.getInstanceCache().getChild(widget, store ?? this.store, key);
    }
 

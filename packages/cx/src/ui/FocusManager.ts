@@ -162,10 +162,10 @@ export function unfocusElement(target: any = null, unfocusParentOverlay = true) 
    let focusableParent = closestParent(
       target,
       (el: any) => isFocusable(el) && (!unfocusParentOverlay || el.dataset?.focusableOverlayContainer),
-   );
+   ) as HTMLElement | null;
 
    if (focusableParent && focusableParent !== document.body) focusableParent.focus({ preventScroll: true });
-   else activeElement.blur();
+   else (activeElement as HTMLElement).blur();
 
    FocusManager.nudge();
 }

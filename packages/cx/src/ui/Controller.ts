@@ -68,34 +68,34 @@ export class Controller extends Component {
       }
    }
 
-   addComputable(name: string, args: any[], callback: (...args: any[]) => any) {
+   addComputable(name: string, args: any[], callback: (...args: any[]) => any): void {
       if (!isArray(args)) throw new Error("Second argument to the addComputable method should be an array.");
       let selector = computable(...args, callback).memoize();
       if (!this.computables) this.computables = {};
       this.computables[computablePrefix + name] = { name, selector, type: "computable" };
    }
 
-   addTrigger(name: string, args: any[], callback: (...args: any[]) => any, autoRun?: boolean) {
+   addTrigger(name: string, args: any[], callback: (...args: any[]) => any, autoRun?: boolean): void {
       if (!isArray(args)) throw new Error("Second argument to the addTrigger method should be an array.");
       let selector = computable(...args, callback).memoize(!autoRun && this.store.getData());
       if (!this.computables) this.computables = {};
       this.computables[triggerPrefix + name] = { name, selector, type: "trigger" };
    }
 
-   removeTrigger(name: string) {
+   removeTrigger(name: string): void {
       if (this.computables) delete this.computables[triggerPrefix + name];
    }
 
-   removeComputable(name: string) {
+   removeComputable(name: string): void {
       if (this.computables) delete this.computables[computablePrefix + name];
    }
 
-   invokeParentMethod(methodName: string, ...args: any[]) {
+   invokeParentMethod(methodName: string, ...args: any[]): any {
       let parent = this.instance.parent;
       return parent.invokeControllerMethod(methodName, ...args);
    }
 
-   invokeMethod(methodName: string, ...args: any[]) {
+   invokeMethod(methodName: string, ...args: any[]): any {
       return this.instance.invokeControllerMethod(methodName, ...args);
    }
 }

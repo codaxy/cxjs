@@ -48,10 +48,21 @@ export class HoverSync extends PureContainer {
    }
 }
 
-class HoverSyncChild extends VDOM.Component {
+interface HoverSyncChildProps {
+   hoverSync: any;
+   hoverChannel: string;
+   hoverId: any;
+   render: (props: any) => any;
+}
+
+interface HoverSyncChildState {
+   hover: boolean;
+}
+
+class HoverSyncChild extends VDOM.Component<HoverSyncChildProps, HoverSyncChildState> {
    unsubscribe: any;
 
-   constructor(props: any) {
+   constructor(props: HoverSyncChildProps) {
       super(props);
       this.state = { hover: false };
       this.onMouseMove = this.onMouseMove.bind(this);
@@ -87,7 +98,13 @@ class HoverSyncChild extends VDOM.Component {
    }
 }
 
-export function withHoverSync(key: string, hoverSync: any, hoverChannel: string, hoverId: any, render: (props: any) => any) {
+export function withHoverSync(
+   key: string,
+   hoverSync: any,
+   hoverChannel: string,
+   hoverId: any,
+   render: (props: any) => any,
+) {
    if (!hoverSync || !hoverChannel || hoverId == null)
       return render({ key, hover: false, onMouseLeave: dummyCallback, onMouseMove: dummyCallback });
    return (
