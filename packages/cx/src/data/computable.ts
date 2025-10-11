@@ -135,6 +135,11 @@ export function computable<V1, V2, V3, V4, V5, V6, V7, V8, R>(
    compute: (v1: V1, v2: V2, v3: V3, v4: V4, v5: V5, v6: V6, v7: V7, v8: V8) => R,
 ): Computable<R>;
 
+// Generic overload for arrays of selectors (used with spread operator)
+export function computable<Args extends unknown[], R>(
+   ...selectorsAndCompute: [...selectors: (string | AccessorChain<unknown>)[], compute: (...values: Args) => R]
+): Computable<R>;
+
 export function computable(...selectorsAndCompute: any[]): any {
    if (selectorsAndCompute.length == 0)
       throw new Error("computable requires at least a compute function to be passed in arguments.");
