@@ -2,7 +2,6 @@ import { createComponentFactory, isComponentFactory } from "../util/Component";
 import { flattenProps } from "../ui/flattenProps";
 import { PureContainer } from "./PureContainer";
 import { UseParentLayout } from "./layout/UseParentLayout";
-import { StoreProxy } from "../data/StoreProxy";
 import { isDefined } from "../util/isDefined";
 
 let currentInstance: any = null;
