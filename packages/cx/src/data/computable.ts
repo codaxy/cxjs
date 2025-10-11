@@ -8,6 +8,16 @@ interface AccessorChain<T> {
    toString(): string;
 }
 
+type UnwrapAccessorChain<T> = T extends AccessorChain<infer U> ? U : never;
+
+type ComputableArgs<Args extends AccessorChain<any>[], R> = [
+   ...args: Args,
+   compute: (...values: { [K in keyof Args]: UnwrapAccessorChain<Args[K]> }) => R,
+];
+
+export function computable<Args extends AccessorChain<any>[], R>(...args: ComputableArgs<Args, R>): Selector<R>;
+
+// Backwards compatibility
 export function computable(callback: () => any): Selector;
 export function computable(p1: string, computeFn: (v1: any) => any): Selector;
 export function computable(p1: string, p2: string, computeFn: (v1: any, v2: any) => any): Selector;
@@ -57,70 +67,6 @@ export function computable(
    p8: string,
    computeFn: (v1: any, v2: any, v3: any, v4: any, v5: any, v6: any, v7: any, v8: any) => any,
 ): Selector;
-
-export function computable<V1, R>(arg1: AccessorChain<V1>, compute: (v1: V1) => R): Selector<R>;
-export function computable<V1, V2, R>(
-   arg1: AccessorChain<V1>,
-   arg2: AccessorChain<V2>,
-   compute: (v1: V1, v2: V2) => R,
-): Selector<R>;
-
-export function computable<V1, V2, V3, R>(
-   arg1: AccessorChain<V1>,
-   arg2: AccessorChain<V2>,
-   arg3: AccessorChain<V3>,
-   compute: (v1: V1, v2: V2, v3: V3) => R,
-): Selector<R>;
-
-export function computable<V1, V2, V3, V4, R>(
-   arg1: AccessorChain<V1>,
-   arg2: AccessorChain<V2>,
-   arg3: AccessorChain<V3>,
-   arg4: AccessorChain<V4>,
-   compute: (v1: V1, v2: V2, v3: V3, v4: V4) => R,
-): Selector<R>;
-
-export function computable<V1, V2, V3, V4, V5, R>(
-   arg1: AccessorChain<V1>,
-   arg2: AccessorChain<V2>,
-   arg3: AccessorChain<V3>,
-   arg4: AccessorChain<V4>,
-   arg5: AccessorChain<V5>,
-   compute: (v1: V1, v2: V2, v3: V3, v4: V4, v5: V5) => R,
-): Selector<R>;
-
-export function computable<V1, V2, V3, V4, V5, V6, R>(
-   arg1: AccessorChain<V1>,
-   arg2: AccessorChain<V2>,
-   arg3: AccessorChain<V3>,
-   arg4: AccessorChain<V4>,
-   arg5: AccessorChain<V5>,
-   arg6: AccessorChain<V6>,
-   compute: (v1: V1, v2: V2, v3: V3, v4: V4, v5: V5, v6: V6) => R,
-): Selector<R>;
-
-export function computable<V1, V2, V3, V4, V5, V6, V7, R>(
-   arg1: AccessorChain<V1>,
-   arg2: AccessorChain<V2>,
-   arg3: AccessorChain<V3>,
-   arg4: AccessorChain<V4>,
-   arg5: AccessorChain<V5>,
-   arg6: AccessorChain<V6>,
-   arg7: AccessorChain<V7>,
-   compute: (v1: V1, v2: V2, v3: V3, v4: V4, v5: V5, v6: V6, v7: V7) => R,
-): Selector<R>;
-
-export function computable<V1, V2, V3, V4, V5, V6, V7, V8, R>(
-   arg1: AccessorChain<V1>,
-   arg2: AccessorChain<V2>,
-   arg3: AccessorChain<V3>,
-   arg4: AccessorChain<V4>,
-   arg5: AccessorChain<V5>,
-   arg6: AccessorChain<V6>,
-   arg7: AccessorChain<V7>,
-   arg8: AccessorChain<V8>,
-   compute: (v1: V1, v2: V2, v3: V3, v4: V4, v5: V5, v6: V6, v7: V7, v8: V8) => R,
-): Selector<R>;
 
 export function computable(...selectorsAndCompute: any[]): Selector {
    if (selectorsAndCompute.length == 0)
