@@ -23,7 +23,19 @@ describe("invokeCallback", () => {
 
       let store = new Store();
       let value;
-      const component = renderer.create(<Cx widget={{ type: FComp, onTest: v => { value = v } }} store={store} subscribe immediate />);
+      const component = renderer.create(
+         <Cx
+            widget={{
+               type: FComp,
+               onTest: (v) => {
+                  value = v;
+               },
+            }}
+            store={store}
+            subscribe
+            immediate
+         />,
+      );
 
       component.toJSON();
       assert.equal(value, "works");
@@ -33,20 +45,33 @@ describe("invokeCallback", () => {
       const FComp = createFunctionalComponent(({ onTest }) => {
          return (
             <cx>
-               <div onExplore={(context, instance) => { invokeCallback(instance, onTest, "works") }} />
+               <div
+                  onExplore={(context, instance) => {
+                     invokeCallback(instance, onTest, "works");
+                  }}
+               />
             </cx>
          );
       });
 
       let store = new Store();
       let value;
-      const component = renderer.create(<Cx widget={{
-         type: FComp,
-         onTest: "onTest",
-         controller: {
-            onTest(v) { value = v }
-         }
-      }} store={store} subscribe immediate />);
+      const component = renderer.create(
+         <Cx
+            widget={{
+               type: FComp,
+               onTest: "onTest",
+               controller: {
+                  onTest(v) {
+                     value = v;
+                  },
+               },
+            }}
+            store={store}
+            subscribe
+            immediate
+         />,
+      );
 
       component.toJSON();
       assert.equal(value, "works");

@@ -46,7 +46,7 @@ describe("useTrigger", () => {
             (test) => {
                last = test;
             },
-            true
+            true,
          );
 
          return (
@@ -81,7 +81,7 @@ describe("useTrigger", () => {
             (test) => {
                last = test;
             },
-            true
+            true,
          );
 
          return (

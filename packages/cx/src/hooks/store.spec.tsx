@@ -47,7 +47,7 @@ describe("ref", () => {
          const component = renderer.create(
             <Cx store={store} subscribe immediate>
                <FComp value={value} />
-            </Cx>
+            </Cx>,
          );
          let tree = component.toJSON();
          assert.deepEqual(tree, {
@@ -64,7 +64,7 @@ describe("ref", () => {
       test(() => 500, "x500");
       test(
          computable("value", (value) => value + 100),
-         "x200"
+         "x200",
       );
       test(null, "xnull");
       test(undefined, "xundefined");
