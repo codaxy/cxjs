@@ -1,7 +1,6 @@
-import {Widget, VDOM} from '../ui/Widget';
-import {PureContainer} from '../ui/PureContainer';
-import {Rect, IRect} from './util/Rect';
 import * as Cx from '../core';
+import { PureContainer } from '../ui/PureContainer';
+import { IRect, Rect } from './util/Rect';
 
 export interface BoundedObjectProps extends Cx.StyledContainerProps {
 
@@ -30,13 +29,13 @@ export class BoundedObject extends PureContainer {
    isPureContainer: boolean = false;
    styled: boolean = true;
 
-   declareData() {
+   declareData(...args: any[]) {
       return super.declareData({
          anchors: undefined,
          offset: undefined,
          margin: undefined,
          padding: undefined
-      }, ...arguments)
+      }, ...args)
    }
 
    prepareData(context, instance) {

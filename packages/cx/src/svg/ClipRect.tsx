@@ -1,21 +1,24 @@
-//@ts-nocheck
-import {Widget, VDOM} from '../ui/Widget';
-import {BoundedObject} from './BoundedObject';
-import {Rect} from './util/Rect';
+/** @jsxImportSource react */
+import { BoundedObject, BoundedObjectProps } from './BoundedObject';
+import { RenderingContext } from '../ui/RenderingContext';
+import { Instance } from '../ui/Instance';
+
+export interface ClipRectProps extends BoundedObjectProps {}
 
 export class ClipRect extends BoundedObject {
-
-   prepareBounds(context, instance) {
+   prepareBounds(context: RenderingContext, instance: Instance) {
       super.prepareBounds(context, instance);
-      var {data} = instance;
+      const { data } = instance;
       data.clipId = context.addClipRect(data.bounds);
    }
 
-   render(context, instance, key) {
-      var {data} = instance;
-      return <g key={key} clipPath={`url(#${data.clipId})`}>
-         {this.renderChildren(context, instance)}
-      </g>
+   render(context: RenderingContext, instance: Instance, key: string) {
+      const { data } = instance;
+      return (
+         <g key={key} clipPath={`url(#${data.clipId})`}>
+            {this.renderChildren(context, instance)}
+         </g>
+      );
    }
 }
 
