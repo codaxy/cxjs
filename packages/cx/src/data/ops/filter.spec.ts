@@ -1,4 +1,3 @@
-//@ts-nocheck
 import {Store} from '../Store';
 import {filter} from './filter';
 import assert from 'assert';

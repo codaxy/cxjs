@@ -1,7 +1,6 @@
-//@ts-nocheck
-import {Store} from '../Store';
-import {append} from './append';
 import assert from 'assert';
+import { Store } from '../Store';
+import { append } from './append';
 
 describe('append', function() {
    it('should add elements to an array', function () {

@@ -1,7 +1,5 @@
-//@ts-nocheck
-import {Store} from '../Store';
-import {findTreeNode} from './findTreeNode';
 import assert from 'assert';
+import { findTreeNode } from './findTreeNode';
 
 describe('removeTreeNodes', function() {
    it('removes all nodes that satisfy criteria', function () {
