@@ -1,7 +1,7 @@
 import { getCurrentInstance } from "../ui/createFunctionalComponent";
 import { Ref } from "../data/Ref";
 
-let key = 0;
+let key: number = 0;
 
 export function useState<T = any>(defaultValue?: T): Ref<T> {
    let instance = getCurrentInstance();
@@ -9,8 +9,12 @@ export function useState<T = any>(defaultValue?: T): Ref<T> {
    instance.setState({
       [storeKey]: defaultValue,
    });
-   return new Ref({
-      get: () => instance.state[storeKey],
-      set: (value: T) => instance.setState({ [storeKey]: value }),
+
+   return new Ref<T>({
+      get: (): T => instance.state[storeKey],
+      set: (value: T): boolean => {
+         instance.setState({ [storeKey]: value });
+         return true;
+      },
    });
 }

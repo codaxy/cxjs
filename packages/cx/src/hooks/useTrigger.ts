@@ -3,17 +3,19 @@ import { isArray } from "../util/isArray";
 import { computable } from "../data/computable";
 import { useStore } from "./store";
 
-export function addExploreCallback(callback: any): () => void {
+export function addExploreCallback(callback: (...args: any[]) => any): () => void {
    let instance = getCurrentInstance();
    if (!instance.computables) instance.computables = [];
    instance.computables.push(callback);
    return () => {
-      instance.computables = instance.computables.filter((cb) => cb !== callback);
+      if (instance.computables) {
+         instance.computables = instance.computables.filter((cb) => cb !== callback);
+      }
    };
 }
 
-export function useTrigger(args: Array<string>, callback: (...args: any[]) => void, autoRun?: boolean): () => void {
-   if (!isArray(args)) throw new Error("First argument to addTrigger should be an array.");
+export function useTrigger(args: string[], callback: (...args: any[]) => void, autoRun?: boolean): () => void {
+   if (!isArray(args)) throw new Error("First argument to useTrigger should be an array.");
    let store = useStore();
    let selector = computable(...args, callback).memoize(!autoRun && store.getData());
    return addExploreCallback(selector);

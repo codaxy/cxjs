@@ -1,13 +1,9 @@
-//@ts-nocheck
-import { useTrigger } from "./useTrigger";
-import { createFunctionalComponent } from "../ui/createFunctionalComponent";
-import { Store } from "../data/Store";
-import renderer from "react-test-renderer";
-import { HtmlElement } from "../widgets/HtmlElement";
-import { VDOM } from "../ui/VDOM";
-import { Cx } from "../ui/Cx";
+/** @jsxImportSource react */
 import assert from "assert";
-import { resolveCallback } from "./resolveCallback";
+import renderer from "react-test-renderer";
+import { Store } from "../data/Store";
+import { createFunctionalComponent } from "../ui/createFunctionalComponent";
+import { Cx } from "../ui/Cx";
 import { invokeCallback } from "./invokeCallback";
 
 describe("invokeCallback", () => {

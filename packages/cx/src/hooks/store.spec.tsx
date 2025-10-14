@@ -1,13 +1,11 @@
-//@ts-nocheck
-import { ref } from "./store";
-import { createFunctionalComponent } from "../ui/createFunctionalComponent";
-import { Store } from "../data/Store";
-import renderer from "react-test-renderer";
-import { HtmlElement } from "../widgets/HtmlElement";
-import { VDOM } from "../ui/VDOM";
-import { Cx } from "../ui/Cx";
+/** @jsxImportSource react */
 import assert from "assert";
+import renderer from "react-test-renderer";
 import { computable } from "../data";
+import { Store } from "../data/Store";
+import { createFunctionalComponent } from "../ui/createFunctionalComponent";
+import { Cx } from "../ui/Cx";
+import { ref } from "./store";
 
 describe("ref", () => {
    it("allows store references in functional components", () => {
@@ -63,7 +61,7 @@ describe("ref", () => {
       test(200, "x200");
       test(() => 500, "x500");
       test(
-         computable("value", (value) => value + 100),
+         computable("value", (value: string) => value + 100),
          "x200",
       );
       test(null, "xnull");

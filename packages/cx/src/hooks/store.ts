@@ -15,19 +15,19 @@ export function useStoreMethods(): ReturnType<View["getMethods"]> {
    return getCurrentInstance().store.getMethods();
 }
 
-export function ref(info: any): Selector<any> {
+export function ref<T = any>(info: any): Selector<T> {
    if (isObject(info)) {
       if ((info as any).bind) return useStore().ref((info as any).bind, (info as any).defaultValue);
-      if ((info as any).get) return info as any;
+      if ((info as any).get) return info as unknown as Selector<T>;
       if ((info as any).expr) {
          let store = useStore();
          let selector = expression((info as any).expr).memoize();
-         return new Ref({ get: () => selector(store.getData()), set: (info as any).set }) as any;
+         return new Ref<T>({ get: () => selector(store.getData()), set: (info as any).set }) as unknown as Selector<T>;
       }
       if ((info as any).tpl) {
          let store = useStore();
          let selector = stringTemplate((info as any).tpl).memoize();
-         return new Ref({ get: () => selector(store.getData()), set: (info as any).set }) as any;
+         return new Ref<T>({ get: () => selector(store.getData()), set: (info as any).set }) as unknown as Selector<T>;
       }
    }
    return getSelector(info);
