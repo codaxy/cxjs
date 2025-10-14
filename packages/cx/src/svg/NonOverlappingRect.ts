@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { BoundedObject } from "./BoundedObject";
 
 export class NonOverlappingRect extends BoundedObject {

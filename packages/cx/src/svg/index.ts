@@ -1,4 +1,3 @@
-//@ts-nocheck
 export * from './util/index';
 
 export * from './BoundedObject';

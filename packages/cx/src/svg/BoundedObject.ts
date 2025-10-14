@@ -1,9 +1,34 @@
-//@ts-nocheck
 import {Widget, VDOM} from '../ui/Widget';
 import {PureContainer} from '../ui/PureContainer';
-import {Rect} from './util/Rect';
+import {Rect, IRect} from './util/Rect';
+import * as Cx from '../core';
+
+export interface BoundedObjectProps extends Cx.StyledContainerProps {
+
+   /**
+    * Anchor defines how child bounds are tied to the parent. Zero aligns with the top/left edge.
+    * One aligns with the bottom/right edge. See Svg for more information.
+    */
+   anchors?: Cx.Prop<string | number | IRect>,
+
+   /** Move boundaries specified by the offset. See Svg for more information. */
+   offset?: Cx.Prop<string | number | IRect>,
+
+   /** Apply margin to the given boundaries. See Svg for more information. */
+   margin?: Cx.Prop<string | number | IRect>,
+
+   /** Padding to be applied to the boundaries rectangle before passing to the children. */
+   padding?: Cx.Prop<string | number | IRect>,
+}
 
 export class BoundedObject extends PureContainer {
+
+   anchors: any = 0;
+   margin: any = 0;
+   offset: any = 0;
+   padding: any = 0;
+   isPureContainer: boolean = false;
+   styled: boolean = true;
 
    declareData() {
       return super.declareData({
@@ -50,11 +75,4 @@ export class BoundedObject extends PureContainer {
       context.pop('parentRect');
    }
 }
-
-BoundedObject.prototype.anchors = 0;
-BoundedObject.prototype.margin = 0;
-BoundedObject.prototype.offset = 0;
-BoundedObject.prototype.padding = 0;
-BoundedObject.prototype.isPureContainer = false;
-BoundedObject.prototype.styled = true;
 

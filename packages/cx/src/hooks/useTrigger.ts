@@ -1,10 +1,9 @@
-//@ts-nocheck
 import { getCurrentInstance } from "../ui/createFunctionalComponent";
 import { isArray } from "../util/isArray";
 import { computable } from "../data/computable";
 import { useStore } from "./store";
 
-export function addExploreCallback(callback) {
+export function addExploreCallback(callback: any): () => void {
    let instance = getCurrentInstance();
    if (!instance.computables) instance.computables = [];
    instance.computables.push(callback);
@@ -13,7 +12,7 @@ export function addExploreCallback(callback) {
    };
 }
 
-export function useTrigger(args, callback, autoRun) {
+export function useTrigger(args: Array<string>, callback: (...args: any[]) => void, autoRun?: boolean): () => void {
    if (!isArray(args)) throw new Error("First argument to addTrigger should be an array.");
    let store = useStore();
    let selector = computable(...args, callback).memoize(!autoRun && store.getData());

@@ -1,110 +1,105 @@
-//@ts-nocheck
-import {isNumber} from '../../util/isNumber';
-import {isArray} from '../../util/isArray';
+import { isNumber } from "../../util/isNumber";
+import { isArray } from "../../util/isArray";
 
-export class Rect {
+type RectMargin = string | Rect | Array<string | number>;
 
-   constructor(config) {
+export interface IRect {
+   l: number;
+   r: number;
+   t: number;
+   b: number;
+}
+
+export class Rect implements IRect {
+   isRect: boolean = true;
+   l: number = 0; //left;
+   r: number = 0; //right
+   t: number = 0; //top
+   b: number = 0; //bottom
+
+   constructor(config?: { t?: number; r?: number; b?: number; l?: number }) {
       Object.assign(this, config);
    }
 
-   width() {
+   width(): number {
       return this.r - this.l;
    }
 
-   height() {
+   height(): number {
       return this.b - this.t;
    }
 
-   valid() {
+   valid(): boolean {
       return this.r > this.l && this.b > this.t;
    }
 
-   makeValid() {
+   makeValid(): Rect {
       return new Rect({
          l: Math.min(this.l, this.r),
          r: Math.max(this.l, this.r),
          t: Math.min(this.t, this.b),
-         b: Math.max(this.t, this.b)
-      })
+         b: Math.max(this.t, this.b),
+      });
    }
 
-   isEqual(r) {
+   isEqual(r: Rect): boolean {
+      if (!r || !r.isRect) return false;
 
-      if (!r || !r.isRect)
-         return false;
-
-      return r.l == this.l
-         && r.r == this.r
-         && r.t == this.t
-         && r.b == this.b;
+      return r.l == this.l && r.r == this.r && r.t == this.t && r.b == this.b;
    }
 
-   static add(a, b) {
+   static add(a: Rect, b: Rect): Rect {
       return new Rect({
          l: a.l + b.l,
          t: a.t + b.t,
          r: a.r + b.r,
-         b: a.b + b.b
+         b: a.b + b.b,
       });
    }
 
-   static multiply(a, b) {
+   static multiply(a: Rect, b: Rect): Rect {
       return new Rect({
          l: a.l + (a.r - a.l) * b.l,
          r: a.l + (a.r - a.l) * b.r,
          t: a.t + (a.b - a.t) * b.t,
-         b: a.t + (a.b - a.t) * b.b
+         b: a.t + (a.b - a.t) * b.b,
       });
    }
 
-   static margin(r, m) {
+   static margin(r: Rect, m?: RectMargin): Rect {
       var mr = Rect.convertMargin(m);
       return Rect.add(r, mr);
    }
 
-   static convertMargin(m) {
-      if (!m)
-         return new Rect();
+   static convertMargin(m?: RectMargin): Rect {
+      if (!m) return new Rect();
 
-      if (m.isRect)
-         return m;
+      if ((m as any).isRect) return m as Rect;
 
-      if (isNumber(m))
-         return new Rect({l: m, t: m, r: -m, b: -m});
+      if (isNumber(m)) return new Rect({ l: m as number, t: m as number, r: -(m as number), b: -(m as number) });
 
-      var m = Rect.convert(m);
-      m.b = -m.b;
-      m.r = -m.r;
-      return m;
+      var mr = Rect.convert(m);
+      mr.b = -mr.b;
+      mr.r = -mr.r;
+      return mr;
    }
 
-   static convert(r) {
-      if (!r)
-         return new Rect({l: 0, r: 0, t: 0, b: 0});
+   static convert(r?: RectMargin | number): Rect {
+      if (!r) return new Rect({ l: 0, r: 0, t: 0, b: 0 });
 
-      if (r.isRect)
-         return r;
+      if ((r as any).isRect) return r as Rect;
 
-      if (typeof r === 'string')
-         r = r.split(' ');
+      if (typeof r === "string") r = r.split(" ");
 
       if (isArray(r)) {
          return new Rect({
-            t: parseFloat(r[0]),
-            r: parseFloat(r[1]),
-            b: parseFloat(r[2]),
-            l: parseFloat(r[3])
+            t: parseFloat(r[0] as any),
+            r: parseFloat(r[1] as any),
+            b: parseFloat(r[2] as any),
+            l: parseFloat(r[3] as any),
          });
       }
 
-      return new Rect(r);
+      return new Rect(r as any);
    }
 }
-
-Rect.prototype.isRect = true;
-
-Rect.prototype.l = 0; //left;
-Rect.prototype.r = 0; //right
-Rect.prototype.t = 0; //top
-Rect.prototype.b = 0; //bottom
