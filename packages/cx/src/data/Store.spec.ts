@@ -1,6 +1,5 @@
-//@ts-nocheck
 import assert from 'assert';
-import {Store} from './Store';
+import { Store } from './Store';
 
 describe('Store', () => {
 

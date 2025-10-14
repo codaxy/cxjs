@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { StringTemplate } from "./StringTemplate";
 import assert from "assert";
 

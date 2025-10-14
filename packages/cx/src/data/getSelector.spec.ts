@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { getSelector } from "./getSelector";
 import assert from "assert";
 import { createAccessorModelProxy } from "./createAccessorModelProxy";
@@ -37,7 +36,7 @@ describe("getSelector", function () {
    });
 
    it("works with accessor chains", function () {
-      let m = createAccessorModelProxy();
+      let m = createAccessorModelProxy<{a: {b: any}}>();
       let selector = getSelector(m.a.b);
       assert(selector({ a: { b: 1 } }) === 1);
    });

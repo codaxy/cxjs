@@ -1,6 +1,6 @@
-import {Store} from '../Store';
-import {filter} from './filter';
 import assert from 'assert';
+import { Store } from '../Store';
+import { filter } from './filter';
 
 describe('filter', function() {
    it('should filter array elements', function () {

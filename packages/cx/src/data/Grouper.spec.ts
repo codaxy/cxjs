@@ -1,4 +1,3 @@
-//@ts-nocheck
 let Grouper = require("./Grouper").Grouper;
 import assert from "assert";
 

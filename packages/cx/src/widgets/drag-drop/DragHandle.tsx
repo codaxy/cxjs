@@ -1,19 +1,25 @@
-//@ts-nocheck
+/** @jsxImportSource react */
 import { Widget, VDOM } from '../../ui/Widget';
 import { Container } from '../../ui/Container';
 import { ddHandle } from '../drag-drop/ops';
-import {isArray} from '../../util/isArray';
+import { isArray } from '../../util/isArray';
+import { RenderingContext } from '../../ui/RenderingContext';
+import { Instance } from '../../ui/Instance';
+import * as Cx from '../../core';
+
+export interface DragHandleProps extends Cx.StyledContainerProps {
+   /** Base CSS class to be applied to the element. Defaults to 'draghandle'. */
+   baseClass?: string;
+}
 
 export class DragHandle extends Container {
-
-   explore(context, instance) {
-      if (isArray(context.dragHandles))
-         context.dragHandles.push(instance);
+   explore(context: RenderingContext, instance: Instance) {
+      if (isArray(context.dragHandles)) context.dragHandles.push(instance);
       super.explore(context, instance);
    }
 
-   render(context, instance, key) {
-      let {data} = instance;
+   render(context: RenderingContext, instance: Instance, key: string) {
+      const { data } = instance;
       return (
          <div
             key={key}
@@ -28,7 +34,7 @@ export class DragHandle extends Container {
          >
             {this.renderChildren(context, instance)}
          </div>
-      )
+      );
    }
 }
 

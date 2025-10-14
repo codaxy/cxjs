@@ -1,4 +1,3 @@
-//@ts-nocheck
 export * from './append';
 export * from './merge';
 export * from './filter';

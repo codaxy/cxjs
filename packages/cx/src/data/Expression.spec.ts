@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { Expression } from "./Expression";
 import assert from "assert";
 import { StringTemplate } from "./StringTemplate";

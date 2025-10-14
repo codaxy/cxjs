@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { computable } from "./computable";
 import assert from "assert";
 import { createAccessorModelProxy } from "./createAccessorModelProxy";
@@ -6,14 +5,14 @@ import { createAccessorModelProxy } from "./createAccessorModelProxy";
 describe("computable", function () {
    it("creates a selector", function () {
       let state = { person: { name: "Joe" } };
-      let nameLength = computable("person.name", (name) => name.length);
+      let nameLength = computable("person.name", (name: string) => name.length);
       assert.equal(nameLength(state), 3);
    });
 
    it("fires every time if not memoized", function () {
       let state = { person: { name: "Joe" } };
       let fired = 0;
-      let nameLength = computable("person.name", (name) => {
+      let nameLength = computable("person.name", (name: string) => {
          fired++;
          return name.length;
       });
@@ -25,7 +24,7 @@ describe("computable", function () {
    it("fires once if memoized and data has not changed", function () {
       let state = { person: { name: "Joe" } };
       let fired = 0;
-      let nameLength = computable("person.name", (name) => {
+      let nameLength = computable("person.name", (name: string) => {
          fired++;
          return name.length;
       }).memoize();
@@ -38,7 +37,7 @@ describe("computable", function () {
    it("memoize with warmup data will not call compute", function () {
       let state = { person: { name: "Joe" } };
       let fired = 0;
-      let nameLength = computable("person.name", (name) => {
+      let nameLength = computable("person.name", (name: string) => {
          fired++;
          return name.length;
       }).memoize(state);
@@ -48,9 +47,9 @@ describe("computable", function () {
    });
 
    it("works with accessors", function () {
-      var m = createAccessorModelProxy();
+      var m = createAccessorModelProxy<{person: {name: string}}>();
       let state = { person: { name: "Joe" } };
-      let nameLength = computable(m.person.name, (name) => name.length);
+      let nameLength = computable(m.person.name, (name: string) => name.length);
       assert.equal(nameLength(state), 3);
    });
 });

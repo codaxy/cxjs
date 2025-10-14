@@ -1,9 +1,8 @@
-//@ts-nocheck
 import assert from 'assert';
 
-import {Binding} from './Binding';
-import {Store} from './Store';
-import {ZoomIntoPropertyView} from './ZoomIntoPropertyView';
+import { Binding } from './Binding';
+import { Store } from './Store';
+import { ZoomIntoPropertyView } from './ZoomIntoPropertyView';
 
 describe('ZoomIntoPropertyView', () => {
 

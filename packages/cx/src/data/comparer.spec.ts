@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { sorter } from "./comparer";
 import assert from "assert";
 
