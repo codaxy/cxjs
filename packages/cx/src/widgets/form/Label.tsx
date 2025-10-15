@@ -1,4 +1,6 @@
-//@ts-nocheck
+import type { RenderingContext } from "../../ui/RenderingContext";
+import type { WidgetInstance } from "../../types/instance";
+import type { RenderProps } from "../../types/instance";
 import { Widget, VDOM } from "../../ui/Widget";
 import { HtmlElement } from "../HtmlElement";
 import { FocusManager } from "../../ui/FocusManager";
@@ -6,8 +8,8 @@ import { isArray } from "../../util/isArray";
 import { coalesce } from "../../util/coalesce";
 
 export class Label extends HtmlElement {
-   declareData() {
-      super.declareData(...arguments, {
+   declareData(...args: Record<string, unknown>[]): void {
+      super.declareData(...args, {
          required: undefined,
          disabled: undefined,
          htmlFor: undefined,
@@ -15,7 +17,7 @@ export class Label extends HtmlElement {
       });
    }
 
-   prepareData(context, instance) {
+   prepareData(context: RenderingContext, instance: WidgetInstance): void {
       let { data } = instance;
       data.stateMods = {
          ...data.stateMods,
@@ -25,7 +27,7 @@ export class Label extends HtmlElement {
       super.prepareData(context, instance);
    }
 
-   explore(context, instance) {
+   explore(context: RenderingContext, instance: WidgetInstance): void {
       let { data } = instance;
 
       if (!data.htmlFor) data.htmlFor = context.lastFieldId;
@@ -46,7 +48,7 @@ export class Label extends HtmlElement {
       super.explore(context, instance);
    }
 
-   isValidHtmlAttribute(attrName) {
+   isValidHtmlAttribute(attrName: string): boolean {
       switch (attrName) {
          case "asterisk":
          case "required":
@@ -55,7 +57,7 @@ export class Label extends HtmlElement {
       return super.isValidHtmlAttribute(attrName);
    }
 
-   attachProps(context, instance, props) {
+   attachProps(context: RenderingContext, instance: WidgetInstance, props: RenderProps): void {
       super.attachProps(context, instance, props);
 
       let { data } = instance;

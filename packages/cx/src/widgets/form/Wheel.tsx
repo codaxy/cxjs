@@ -1,19 +1,21 @@
-//@ts-nocheck
 import { VDOM } from "../../ui/Widget";
 import { PureContainer } from "../../ui/PureContainer";
 import { KeyCode } from "../../util/KeyCode";
 import { Icon } from "../Icon";
 import { addEventListenerWithOptions } from "../../util";
+import type { RenderingContext } from "../../ui/RenderingContext";
+import type { WidgetInstance } from "../../types/instance";
+import * as React from "react";
 
 export class Wheel extends PureContainer {
-   declareData() {
-      return super.declareData(...arguments, {
+   declareData(...args: Record<string, unknown>[]): void {
+      return super.declareData(...args, {
          value: undefined,
          options: undefined,
       });
    }
 
-   render(context, instance, key) {
+   render(context: RenderingContext, instance: WidgetInstance, key: string | number): React.ReactNode {
       let { data } = instance;
       let { value, options } = data;
       let index = options.findIndex((a) => a.id === value);
@@ -46,22 +48,51 @@ Wheel.prototype.baseClass = "wheel";
 Wheel.prototype.size = 3;
 Wheel.prototype.styled = true;
 
-export class WheelComponent extends VDOM.Component {
-   constructor(props) {
+export interface WheelComponentProps {
+   size: number;
+   children: React.ReactNode[];
+   CSS: Record<string, unknown>;
+   baseClass: string;
+   active?: boolean;
+   className?: string;
+   style?: React.CSSProperties;
+   index?: number;
+   onChange: (newIndex: number) => void;
+   onPipeKeyDown?: (fn: (e: React.KeyboardEvent) => void) => void;
+   onMouseDown?: () => void;
+   focusable?: boolean;
+}
+
+interface WheelComponentState {
+   wheelHeight?: number;
+   wheelWidth?: number;
+}
+
+export class WheelComponent extends VDOM.Component<WheelComponentProps, WheelComponentState> {
+   index: number;
+   wheelEl!: HTMLDivElement;
+   scrollEl!: HTMLDivElement;
+   unsubscribeOnWheel!: () => void;
+   scrolling?: boolean;
+
+   constructor(props: WheelComponentProps) {
       super(props);
       this.state = {};
       this.index = props.index || 0;
-      this.wheelRef = (el) => {
-         this.wheelEl = el;
+      this.wheelRef = (el: HTMLDivElement | null) => {
+         if (el) this.wheelEl = el;
       };
-      this.scrollRef = (el) => {
-         this.scrollEl = el;
+      this.scrollRef = (el: HTMLDivElement | null) => {
+         if (el) this.scrollEl = el;
       };
       this.onWheel = this.onWheel.bind(this);
       this.onKeyDown = this.onKeyDown.bind(this);
    }
 
-   render() {
+   wheelRef: (el: HTMLDivElement | null) => void;
+   scrollRef: (el: HTMLDivElement | null) => void;
+
+   render(): React.ReactNode {
       let { size, children, CSS, baseClass, active, className, style, onMouseDown } = this.props;
       let optionClass = CSS.element(baseClass, "option");
       let dummyClass = CSS.element(baseClass, "option", { dummy: true });
@@ -90,7 +121,7 @@ export class WheelComponent extends VDOM.Component {
 
       return (
          <div
-            tabIndex={this.props.focusable ? data.tabIndex || 0 : null}
+            tabIndex={this.props.focusable ? 0 : undefined}
             className={className || CSS.element(baseClass, "container", { active })}
             style={style}
             onKeyDown={this.onKeyDown}
@@ -166,7 +197,7 @@ export class WheelComponent extends VDOM.Component {
       );
    }
 
-   componentDidMount() {
+   componentDidMount(): void {
       this.unsubscribeOnWheel = addEventListenerWithOptions(this.wheelEl, "wheel", this.onWheel, { passive: false });
 
       this.setState(
@@ -175,24 +206,26 @@ export class WheelComponent extends VDOM.Component {
             wheelWidth: this.wheelEl.offsetWidth,
          },
          () => {
-            this.scrollEl.scrollTop = (this.index * this.state.wheelHeight) / this.props.size;
+            if (this.state.wheelHeight !== undefined) {
+               this.scrollEl.scrollTop = (this.index * this.state.wheelHeight) / this.props.size;
+            }
          }
       );
 
       if (this.props.onPipeKeyDown) this.props.onPipeKeyDown(this.onKeyDown);
    }
 
-   UNSAFE_componentWillReceiveProps(props) {
+   UNSAFE_componentWillReceiveProps(props: WheelComponentProps): void {
       this.index = props.index || 0;
       this.scrollTo();
    }
 
-   componentWillUnmount() {
+   componentWillUnmount(): void {
       this.scrolling = false;
       this.unsubscribeOnWheel();
    }
 
-   onKeyDown(e) {
+   onKeyDown(e: React.KeyboardEvent): void {
       switch (e.keyCode) {
          case KeyCode.up:
             e.preventDefault();
@@ -206,7 +239,7 @@ export class WheelComponent extends VDOM.Component {
       }
    }
 
-   onWheel(e) {
+   onWheel(e: WheelEvent): void {
       e.preventDefault();
       let index = this.index;
       if (e.deltaY > 0) index++;
@@ -214,17 +247,19 @@ export class WheelComponent extends VDOM.Component {
       this.select(index);
    }
 
-   onTouchStart(e) {
+   onTouchStart(e: React.TouchEvent): void {
       this.scrolling = false;
    }
 
-   onTouchEnd(e) {
+   onTouchEnd(e: React.TouchEvent): void {
       let { size } = this.props;
-      let index = Math.round(this.scrollEl.scrollTop / (this.state.wheelHeight / size));
-      this.select(index);
+      if (this.state.wheelHeight !== undefined) {
+         let index = Math.round(this.scrollEl.scrollTop / (this.state.wheelHeight / size));
+         this.select(index);
+      }
    }
 
-   select(newIndex) {
+   select(newIndex: number): void {
       let { children } = this.props;
       newIndex = Math.max(0, Math.min(children.length - 1, newIndex));
       if (this.index !== newIndex) {
@@ -234,11 +269,11 @@ export class WheelComponent extends VDOM.Component {
       this.scrollTo();
    }
 
-   scrollTo() {
+   scrollTo(): void {
       let { size } = this.props;
 
-      let callback = () => {
-         if (!this.scrolling) return;
+      let callback = (): void => {
+         if (!this.scrolling || this.state.wheelHeight === undefined) return;
 
          let x = (this.index * this.state.wheelHeight) / size;
          let delta = Math.round(x - this.scrollEl.scrollTop);

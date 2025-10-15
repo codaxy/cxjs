@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { Widget, VDOM } from "../../ui/Widget";
 import { Field } from "./Field";
 import { captureMouseOrTouch, getCursorPos } from "../overlay/captureMouse";
@@ -11,26 +10,38 @@ import { stopPropagation } from "../../util/eventCallbacks";
 import { isString } from "../../util/isString";
 import { getTopLevelBoundingClientRect } from "../../util/getTopLevelBoundingClientRect";
 import PixelPickerIcon from "../icons/pixel-picker";
+import type { RenderingContext } from "../../ui/RenderingContext";
+import type { WidgetInstance } from "../../types/instance";
 
 //TODO: Increase HSL precision in calculations, round only RGB values
 //TODO: Resolve alpha input problems
 
+interface ColorState {
+   r: number;
+   g: number;
+   b: number;
+   h: number;
+   s: number;
+   l: number;
+   a: number;
+}
+
 export class ColorPicker extends Field {
-   declareData() {
+   declareData(...args: Record<string, unknown>[]): void {
       super.declareData(
          {
             value: this.emptyValue,
             format: undefined,
          },
-         ...arguments,
+         ...args,
       );
    }
 
-   renderInput(context, instance, key) {
+   renderInput(context: RenderingContext, instance: WidgetInstance, key: string | number): React.ReactNode {
       return <ColorPickerComponent key={key} instance={instance} />;
    }
 
-   handleEvent(eventType, instance, color) {
+   handleEvent(eventType: string, instance: WidgetInstance, color: ColorState): void {
       let { data } = instance;
       if (this.reportOn.indexOf(eventType) != -1) {
          let value;
@@ -63,8 +74,14 @@ ColorPicker.prototype.format = "rgba";
 
 Widget.alias("color-picker", ColorPicker);
 
-class ColorPickerComponent extends VDOM.Component {
-   constructor(props) {
+interface ColorPickerComponentProps {
+   instance: WidgetInstance;
+}
+
+class ColorPickerComponent extends VDOM.Component<ColorPickerComponentProps, ColorState> {
+   data: Record<string, unknown>;
+
+   constructor(props: ColorPickerComponentProps) {
       super(props);
       this.data = props.instance.data;
       try {
@@ -75,7 +92,7 @@ class ColorPickerComponent extends VDOM.Component {
       }
    }
 
-   UNSAFE_componentWillReceiveProps(props) {
+   UNSAFE_componentWillReceiveProps(props: ColorPickerComponentProps): void {
       let { data } = props.instance;
       let color;
       try {
@@ -87,7 +104,7 @@ class ColorPickerComponent extends VDOM.Component {
          this.setState(color);
    }
 
-   parse(color) {
+   parse(color: string | null): ColorState {
       let c = parseColor(color);
       if (c == null) {
          c = {
@@ -117,7 +134,7 @@ class ColorPickerComponent extends VDOM.Component {
       throw new Error(`Color ${color} parsing failed.`);
    }
 
-   render() {
+   render(): React.ReactNode {
       let { h, s, l, a, r, g, b } = this.state;
       let { instance } = this.props;
       let { widget, data } = instance;
@@ -334,14 +351,14 @@ class ColorPickerComponent extends VDOM.Component {
       );
    }
 
-   onColorClick(e) {
+   onColorClick(e: React.MouseEvent): void {
       let { instance } = this.props;
       let { widget } = instance;
 
       if (widget.onColorClick) instance.invoke("onColorClick", e, instance);
    }
 
-   onHueSelect(e) {
+   onHueSelect(e: React.MouseEvent | React.TouchEvent): void {
       e.preventDefault();
       e.stopPropagation();
 
@@ -360,7 +377,7 @@ class ColorPickerComponent extends VDOM.Component {
       move(e);
    }
 
-   onAlphaSelect(e) {
+   onAlphaSelect(e: React.MouseEvent | React.TouchEvent): void {
       e.preventDefault();
       e.stopPropagation();
 
@@ -379,7 +396,7 @@ class ColorPickerComponent extends VDOM.Component {
       move(e);
    }
 
-   onSLSelect(e) {
+   onSLSelect(e: React.MouseEvent | React.TouchEvent): void {
       e.preventDefault();
       e.stopPropagation();
 
@@ -402,38 +419,42 @@ class ColorPickerComponent extends VDOM.Component {
       move(e);
    }
 
-   fix255(v) {
+   fix255(v: number): number {
       return Math.max(0, Math.min(255, Math.round(v)));
    }
 
-   setColorProp(props, value) {
+   setColorProp(props: string | Partial<ColorState>, value?: number): void {
+      let propsObj: Partial<ColorState>;
       if (isString(props)) {
-         props = {
+         propsObj = {
             [props]: value,
          };
+      } else {
+         propsObj = props;
       }
 
       let state = { ...this.state };
       let fixAlpha = false;
 
-      for (let prop in props) {
-         value = props[prop];
+      for (let prop in propsObj) {
+         let propValue = propsObj[prop as keyof ColorState];
+         if (propValue === undefined) continue;
 
          switch (prop) {
             case "h":
-               state.h = Math.min(360, Math.max(0, value));
+               state.h = Math.min(360, Math.max(0, propValue));
                [state.r, state.g, state.b] = hslToRgb(state.h, state.s, state.l);
                fixAlpha = true;
                break;
 
             case "s":
-               state.s = Math.min(100, Math.max(0, value));
+               state.s = Math.min(100, Math.max(0, propValue));
                [state.r, state.g, state.b] = hslToRgb(state.h, state.s, state.l);
                fixAlpha = true;
                break;
 
             case "l":
-               state.l = Math.min(100, Math.max(0, value));
+               state.l = Math.min(100, Math.max(0, propValue));
                [state.r, state.g, state.b] = hslToRgb(state.h, state.s, state.l);
                fixAlpha = true;
                break;
@@ -441,7 +462,7 @@ class ColorPickerComponent extends VDOM.Component {
             case "r":
             case "g":
             case "b":
-               state[prop] = Math.round(Math.min(255, Math.max(0, value)));
+               state[prop] = Math.round(Math.min(255, Math.max(0, propValue)));
                let [h, s, l] = rgbToHsl(state.r, state.g, state.b);
                state.h = h;
                state.s = s;
@@ -450,7 +471,7 @@ class ColorPickerComponent extends VDOM.Component {
                break;
 
             case "a":
-               state.a = Math.round(100 * Math.min(1, Math.max(0, value))) / 100;
+               state.a = Math.round(100 * Math.min(1, Math.max(0, propValue))) / 100;
                break;
          }
       }
@@ -466,21 +487,21 @@ class ColorPickerComponent extends VDOM.Component {
       });
    }
 
-   onNumberChange(e, prop) {
+   onNumberChange(e: React.ChangeEvent<HTMLInputElement>, prop: keyof ColorState): void {
       e.preventDefault();
       e.stopPropagation();
       let number = parseFloat(e.target.value || "0");
       this.setColorProp(prop, number);
    }
 
-   onWheel(e, prop, delta) {
+   onWheel(e: React.WheelEvent, prop: keyof ColorState, delta: number): void {
       e.preventDefault();
       e.stopPropagation();
       let factor = e.deltaY < 0 ? 1 : -1;
       this.setColorProp(prop, this.state[prop] + delta * factor);
    }
 
-   onBlur() {
+   onBlur(): void {
       this.props.instance.widget.handleEvent("blur", this.props.instance, this.state);
    }
 }

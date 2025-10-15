@@ -1,6 +1,5 @@
-//@ts-nocheck
-import {HtmlElement} from '../HtmlElement';
-import {Widget} from '../../ui/Widget';
+import { Widget } from '../../ui/Widget';
+import { HtmlElement } from '../HtmlElement';
 
 export class HelpText extends HtmlElement {}
 

@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { Widget, VDOM, getContent } from "../../ui/Widget";
 import { HtmlElement } from "../HtmlElement";
 import { Field, getFieldTooltip } from "./Field";
@@ -16,9 +15,11 @@ import { isString } from "../../util/isString";
 import { isDefined } from "../../util/isDefined";
 import { KeyCode } from "../../util/KeyCode";
 import { autoFocus } from "../autoFocus";
+import type { RenderingContext } from "../../ui/RenderingContext";
+import type { WidgetInstance } from "../../types/instance";
 
 export class Select extends Field {
-   declareData() {
+   declareData(...args: Record<string, unknown>[]): void {
       super.declareData(
          {
             value: undefined,
@@ -28,23 +29,23 @@ export class Select extends Field {
             placeholder: undefined,
             icon: undefined,
          },
-         ...arguments,
+         ...args,
       );
    }
 
-   init() {
+   init(): void {
       if (isDefined(this.hideClear)) this.showClear = !this.hideClear;
       if (this.alwaysShowClear) this.showClear = true;
       super.init();
    }
 
-   renderInput(context, instance, key) {
+   renderInput(context: RenderingContext, instance: WidgetInstance, key: string | number): React.ReactNode {
       return (
          <SelectComponent
             key={key}
             instance={instance}
             multiple={this.multiple}
-            select={(v) => this.select(v, instance)}
+            select={(v: string) => this.select(v, instance)}
             label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
             help={this.helpPlacement && getContent(this.renderHelp(context, instance, "help"))}
             icon={this.renderIcon(context, instance, "icon")}
@@ -54,7 +55,7 @@ export class Select extends Field {
       );
    }
 
-   convert(value) {
+   convert(value: string): string | number | boolean | null {
       if (value == this.nullString) return null;
       if (value == "true") return true;
       if (value == "false") return false;
@@ -62,12 +63,13 @@ export class Select extends Field {
       return value;
    }
 
-   select(value, instance) {
-      if (this.convertValues && value != null) value = this.convert(value);
-      instance.set("value", value);
+   select(value: string, instance: WidgetInstance): void {
+      let processedValue: string | number | boolean | null = value;
+      if (this.convertValues && value != null) processedValue = this.convert(value);
+      instance.set("value", processedValue);
    }
 
-   add(item) {
+   add(item: unknown): void {
       if (isString(item)) return;
       super.add(item);
    }
@@ -85,8 +87,25 @@ Select.prototype.icon = null;
 Widget.alias("select", Select);
 Localization.registerPrototype("cx/widgets/Select", Select);
 
-class SelectComponent extends VDOM.Component {
-   constructor(props) {
+interface SelectComponentProps {
+   instance: WidgetInstance;
+   multiple: boolean;
+   select: (value: string) => void;
+   label?: React.ReactNode;
+   help?: React.ReactNode;
+   icon?: React.ReactNode;
+   children?: React.ReactNode;
+}
+
+interface SelectComponentState {
+   visited: boolean;
+   focus: boolean;
+}
+
+class SelectComponent extends VDOM.Component<SelectComponentProps, SelectComponentState> {
+   select: HTMLSelectElement | null = null;
+
+   constructor(props: SelectComponentProps) {
       super(props);
       this.state = {
          visited: false,
@@ -94,7 +113,7 @@ class SelectComponent extends VDOM.Component {
       };
    }
 
-   render() {
+   render(): React.ReactNode {
       let { multiple, select, instance, label, help, icon: iconVDOM } = this.props;
       let { data, widget, state } = instance;
       let { CSS, baseClass } = widget;
@@ -187,7 +206,7 @@ class SelectComponent extends VDOM.Component {
       );
    }
 
-   onBlur() {
+   onBlur(): void {
       this.props.instance.setState({ visited: true });
       if (this.state.focus)
          this.setState({
@@ -195,7 +214,7 @@ class SelectComponent extends VDOM.Component {
          });
    }
 
-   onFocus() {
+   onFocus(): void {
       let { instance } = this.props;
       let { widget } = instance;
       if (widget.trackFocus) {
@@ -205,7 +224,7 @@ class SelectComponent extends VDOM.Component {
       }
    }
 
-   onClearClick(e) {
+   onClearClick(e: React.MouseEvent): void {
       e.preventDefault();
       e.stopPropagation();
       let { instance } = this.props;
@@ -213,7 +232,7 @@ class SelectComponent extends VDOM.Component {
       instance.set("value", widget.emptyValue);
    }
 
-   onKeyDown(e) {
+   onKeyDown(e: React.KeyboardEvent): void {
       switch (e.keyCode) {
          case KeyCode.up:
          case KeyCode.down:
@@ -222,24 +241,30 @@ class SelectComponent extends VDOM.Component {
       }
    }
 
-   componentDidMount() {
-      var { select } = this.props;
-      select(this.select.value);
-      tooltipParentDidMount(this.select, ...getFieldTooltip(this.props.instance));
-      autoFocus(this.select, this);
+   componentDidMount(): void {
+      const { select } = this.props;
+      if (this.select) {
+         select(this.select.value);
+         tooltipParentDidMount(this.select, ...getFieldTooltip(this.props.instance));
+         autoFocus(this.select, this);
+      }
    }
 
-   componentDidUpdate() {
-      autoFocus(this.select, this);
+   componentDidUpdate(): void {
+      if (this.select) {
+         autoFocus(this.select, this);
+      }
    }
 
-   UNSAFE_componentWillReceiveProps(props) {
-      tooltipParentWillReceiveProps(this.select, ...getFieldTooltip(props.instance));
+   UNSAFE_componentWillReceiveProps(props: SelectComponentProps): void {
+      if (this.select) {
+         tooltipParentWillReceiveProps(this.select, ...getFieldTooltip(props.instance));
+      }
    }
 }
 
 export class Option extends HtmlElement {
-   declareData() {
+   declareData(...args: Record<string, unknown>[]): void {
       super.declareData(
          {
             value: undefined,
@@ -248,17 +273,18 @@ export class Option extends HtmlElement {
             selected: undefined,
             text: undefined,
          },
-         ...arguments,
+         ...args,
       );
    }
 
-   prepareData(context, { data }) {
-      super.prepareData(...arguments);
+   prepareData(context: RenderingContext, instance: WidgetInstance): void {
+      super.prepareData(context, instance);
+      const { data } = instance;
       if (!data.empty) data.value = data.value.toString();
    }
 
-   render(context, instance, key) {
-      var { data } = instance;
+   render(context: RenderingContext, instance: WidgetInstance, key: string | number): React.ReactNode {
+      const { data } = instance;
       return (
          <option key={key} value={data.value}>
             {data.text || this.renderChildren(context, instance)}

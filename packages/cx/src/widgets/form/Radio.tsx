@@ -1,13 +1,20 @@
-//@ts-nocheck
+import type { RenderingContext } from "../../ui/RenderingContext";
+import type { WidgetInstance } from "../../types/instance";
 import { Widget, VDOM, getContent } from "../../ui/Widget";
 import { Field, getFieldTooltip } from "./Field";
 import { tooltipMouseMove, tooltipMouseLeave } from "../overlay/tooltip-ops";
 import { stopPropagation } from "../../util/eventCallbacks";
 import { KeyCode } from "../../util/KeyCode";
 import { isUndefined } from "../../util/isUndefined";
+import * as React from "react";
 
 export class Radio extends Field {
-   declareData() {
+   public selection?: unknown;
+   public option?: unknown;
+   public native?: boolean;
+   public default?: boolean;
+
+   declareData(...args: Record<string, unknown>[]): void {
       super.declareData(
          {
             value: undefined,
@@ -19,33 +26,33 @@ export class Radio extends Field {
             required: undefined,
             text: undefined,
          },
-         ...arguments
+         ...args
       );
    }
 
-   init() {
+   init(): void {
       if (this.selection) this.value = this.selection;
 
       super.init();
    }
 
-   formatValue(context, { data }) {
+   formatValue(context: RenderingContext, { data }: WidgetInstance): React.ReactNode {
       return data.text;
    }
 
-   prepareData(context, instance) {
-      super.prepareData(...arguments);
+   prepareData(context: RenderingContext, instance: WidgetInstance): void {
+      super.prepareData(context, instance);
       let { data } = instance;
       data.checked = data.value === data.option;
       if (this.default && isUndefined(data.value)) instance.set("value", data.option);
    }
 
-   renderValue(context, { data }) {
-      if (data.value === data.option) return super.renderValue(...arguments);
+   renderValue(context: RenderingContext, { data }: WidgetInstance): React.ReactNode {
+      if (data.value === data.option) return super.renderValue(context, { data });
       return null;
    }
 
-   renderWrap(context, instance, key, content) {
+   renderWrap(context: RenderingContext, instance: WidgetInstance, key: string, content: React.ReactNode): React.ReactElement {
       var { data } = instance;
       return (
          <label
@@ -67,7 +74,7 @@ export class Radio extends Field {
       );
    }
 
-   renderNativeCheck(context, instance) {
+   renderNativeCheck(context: RenderingContext, instance: WidgetInstance): React.ReactElement {
       var { CSS, baseClass } = this;
       var { data } = instance;
       return (
@@ -87,11 +94,11 @@ export class Radio extends Field {
       );
    }
 
-   renderCheck(context, instance) {
+   renderCheck(context: RenderingContext, instance: WidgetInstance): React.ReactElement {
       return <RadioCmp key="check" instance={instance} data={instance.data} />;
    }
 
-   renderInput(context, instance, key) {
+   renderInput(context: RenderingContext, instance: WidgetInstance, key: string): React.ReactElement {
       var { data } = instance;
       var text = data.text || this.renderChildren(context, instance);
       var { CSS, baseClass } = this;
@@ -109,7 +116,7 @@ export class Radio extends Field {
       ]);
    }
 
-   handleClick(e, instance) {
+   handleClick(e: React.MouseEvent, instance: WidgetInstance): void {
       if (this.native) e.stopPropagation();
       else {
          var el = document.getElementById(instance.data.id);
@@ -119,7 +126,7 @@ export class Radio extends Field {
       }
    }
 
-   handleChange(e, instance) {
+   handleChange(e: React.ChangeEvent<HTMLInputElement> | React.MouseEvent, instance: WidgetInstance): void {
       var { data } = instance;
       if (data.disabled || data.readOnly || data.viewMode) return;
       instance.set("value", data.option);
@@ -132,21 +139,31 @@ Radio.prototype.default = false;
 
 Widget.alias("radio", Radio);
 
-class RadioCmp extends VDOM.Component {
-   constructor(props) {
+interface RadioCmpProps {
+   key?: string;
+   instance: WidgetInstance;
+   data: Record<string, unknown>;
+}
+
+interface RadioCmpState {
+   value: unknown;
+}
+
+class RadioCmp extends VDOM.Component<RadioCmpProps, RadioCmpState> {
+   constructor(props: RadioCmpProps) {
       super(props);
       this.state = {
          value: props.data.checked,
       };
    }
 
-   UNSAFE_componentWillReceiveProps(props) {
+   UNSAFE_componentWillReceiveProps(props: RadioCmpProps): void {
       this.setState({
          value: props.data.checked,
       });
    }
 
-   render() {
+   render(): React.ReactElement {
       var { instance, data } = this.props;
       var { widget } = instance;
       var { baseClass, CSS } = widget;
@@ -154,7 +171,7 @@ class RadioCmp extends VDOM.Component {
       return (
          <span
             key="check"
-            tabIndex={data.disabled ? null : data.tabIndex || 0}
+            tabIndex={data.disabled ? undefined : ((data.tabIndex as number) || 0)}
             className={CSS.element(baseClass, "input", {
                checked: this.state.value,
             })}
@@ -166,23 +183,24 @@ class RadioCmp extends VDOM.Component {
       );
    }
 
-   onClick(e) {
+   onClick(e: React.MouseEvent): void {
       var { instance, data } = this.props;
       var { widget } = instance;
       if (!data.disabled && !data.readOnly) {
          e.stopPropagation();
          e.preventDefault();
-         widget.handleChange(e, instance);
+         (widget as Radio).handleChange(e, instance);
       }
    }
 
-   onKeyDown(e) {
+   onKeyDown(e: React.KeyboardEvent): void {
       let { instance } = this.props;
-      if (instance.widget.handleKeyDown(e, instance) === false) return;
+      const widget = instance.widget as Radio;
+      if (widget.handleKeyDown && widget.handleKeyDown(e as unknown as KeyboardEvent, instance) === false) return;
 
       switch (e.keyCode) {
          case KeyCode.space:
-            this.onClick(e);
+            this.onClick(e as unknown as React.MouseEvent);
             break;
       }
    }

@@ -1,21 +1,27 @@
-//@ts-nocheck
 import {Widget} from '../../ui/Widget';
 import {FieldGroup} from './FieldGroup';
 import {Label} from './Label';
 import {isSelector} from '../../data/isSelector';
+import type { RenderingContext } from '../../ui/RenderingContext';
+import type { WidgetInstance } from '../../types/instance';
 
 export class LabeledContainer extends FieldGroup
 {
-   declareData() {
+   label?: unknown; // Can be string, selector, or Label widget config
+   disabled?: unknown;
+   mod?: unknown;
+   asterisk?: boolean;
+
+   declareData(...args: Record<string, unknown>[]): void {
       super.declareData({
          label: undefined
-      }, ...arguments);
+      }, ...args);
    }
 
-   init() {
+   init(): void {
 
       if (this.label != null) {
-         let labelConfig = {
+         let labelConfig: Record<string, unknown> = {
             type: Label,
             disabled: this.disabled,
             mod: this.mod,
@@ -23,8 +29,8 @@ export class LabeledContainer extends FieldGroup
             required: true
          };
 
-         if (this.label.isComponentType)
-            labelConfig = this.label;
+         if ((this.label as any).isComponentType)
+            labelConfig = this.label as Record<string, unknown>;
          else if (isSelector(this.label))
             labelConfig.text = this.label;
          else
@@ -36,18 +42,19 @@ export class LabeledContainer extends FieldGroup
       super.init();
    }
 
-   initComponents(context, instance) {
-      return super.initComponents(...arguments, {
+   initComponents(context: RenderingContext, instance: WidgetInstance, ...args: unknown[]): Record<string, Widget> {
+      return super.initComponents(context, instance, ...args, {
          label: this.label
       });
    }
 
-   renderLabel(context, instance, key) {
-      if (instance.components.label)
-         return instance.components.label.render(context, key);
+   renderLabel(context: RenderingContext, instance: WidgetInstance, key?: string | number): React.ReactNode {
+      if (instance.components && instance.components.label)
+         return instance.components.label.render(context, key!);
+      return null;
    }
 
-   render(context, instance, key) {
+   render(context: RenderingContext, instance: WidgetInstance, key: string | number): { label: React.ReactNode; content: React.ReactNode } {
       return {
          label: this.renderLabel(context, instance),
          content: this.renderChildren(context, instance)

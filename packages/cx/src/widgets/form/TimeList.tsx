@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { ContentResolver } from "../../ui/ContentResolver";
 import { DataProxy } from "../../ui/DataProxy";
 import { List } from "../List";
@@ -9,13 +8,23 @@ import { Format } from "../../util/Format";
 import { Culture } from "../../ui/Culture";
 import { isString } from "../../util/isString";
 import { isFunction } from "../../util/isFunction";
+import type { WidgetInstance } from "../../types/instance";
 
-export const TimeList = createFunctionalComponent(({ value, step, format, encoding, onSelect, ...props }) => {
+interface TimeListProps {
+   value?: unknown;
+   step?: number;
+   format?: string;
+   encoding?: (date: Date) => unknown;
+   onSelect?: string | ((e: React.MouseEvent, instance: WidgetInstance, date: Date) => void);
+   [key: string]: unknown;
+}
+
+export const TimeList = createFunctionalComponent(({ value, step, format, encoding, onSelect, ...props }: TimeListProps) => {
    return (
       <cx>
          <ContentResolver
             params={{ step, format, dummy: true }}
-            onResolve={({ step, format }) => {
+            onResolve={({ step, format }: { step?: number; format?: string }) => {
                let max = 24 * 60;
                if (!step) step = 15;
                if (step < 1) step = 1;
@@ -35,13 +44,13 @@ export const TimeList = createFunctionalComponent(({ value, step, format, encodi
                         <DataProxy
                            data={{
                               $selection: {
-                                 get: ({ $value }) => {
+                                 get: ({ $value }: { $value?: unknown }) => {
                                     if ($value == null) return null;
                                     let selectionDate = new Date($value);
                                     let selectionTime = selectionDate.valueOf() - zeroTime(selectionDate).valueOf();
                                     return (Math.round(selectionTime / stepMs) * stepMs) % 86400000;
                                  },
-                                 set: (value, instance) => {
+                                 set: (value: unknown, instance: WidgetInstance) => {
                                     let { store } = instance;
                                     let $value = store.get("$value");
                                     let copy = $value ? new Date($value) : new Date();
@@ -65,7 +74,7 @@ export const TimeList = createFunctionalComponent(({ value, step, format, encodi
                                  selection: { bind: "$selection" },
                               }}
                               {...props}
-                              onItemClick={(e, instance) => {
+                              onItemClick={(e: React.MouseEvent, instance: WidgetInstance) => {
                                  if (!onSelect) return;
                                  let date = new Date(instance.store.get('$value'));
                                  if (isString(onSelect)) instance.invokeControllerMethod(onSelect, e, instance, date);

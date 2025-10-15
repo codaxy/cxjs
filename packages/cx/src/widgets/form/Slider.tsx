@@ -1,6 +1,7 @@
-//@ts-nocheck
 import { Widget, VDOM, getContent } from "../../ui/Widget";
 import { Field, getFieldTooltip } from "./Field";
+import type { RenderingContext } from "../../ui/RenderingContext";
+import type { Instance } from "../../ui/Instance";
 import {
    tooltipParentWillReceiveProps,
    tooltipParentWillUnmount,
@@ -16,7 +17,18 @@ import { getTopLevelBoundingClientRect } from "../../util/getTopLevelBoundingCli
 import { addEventListenerWithOptions } from "../../util/addEventListenerWithOptions";
 
 export class Slider extends Field {
-   declareData() {
+   public min?: number;
+   public max?: number;
+   public value?: number;
+   public vertical?: boolean;
+   public invert?: boolean;
+   public showFrom?: boolean;
+   public showTo?: boolean;
+   public toTooltip?: Record<string, unknown>;
+   public fromTooltip?: Record<string, unknown>;
+   public valueTooltip?: Record<string, unknown>;
+
+   declareData(...args: Record<string, unknown>[]): void {
       super.declareData(
          {
             from: 0,
@@ -38,11 +50,11 @@ export class Slider extends Field {
             },
             invert: false,
          },
-         ...arguments
+         ...args
       );
    }
 
-   init() {
+   init(): void {
       if (isDefined(this.min)) this.minValue = this.min;
 
       if (isDefined(this.max)) this.maxValue = this.max;
@@ -60,7 +72,7 @@ export class Slider extends Field {
       super.init();
    }
 
-   prepareData(context, instance) {
+   prepareData(context: RenderingContext, instance: Instance): void {
       let { data } = instance;
       data.stateMods = {
          ...data.stateMods,
@@ -71,7 +83,7 @@ export class Slider extends Field {
       super.prepareData(context, instance);
    }
 
-   renderInput(context, instance, key) {
+   renderInput(context: RenderingContext, instance: Instance, key: string | number): React.ReactNode {
       return (
          <SliderComponent
             key={key}
@@ -93,18 +105,40 @@ Slider.prototype.invert = false;
 
 Widget.alias("slider", Slider);
 
-class SliderComponent extends VDOM.Component {
-   constructor(props) {
+interface SliderComponentProps {
+   instance: Instance;
+   data: Record<string, unknown>;
+   label?: React.ReactNode;
+}
+
+interface SliderComponentState {
+   from: number;
+   to: number;
+   drag?: boolean;
+}
+
+interface DomRefs {
+   el?: HTMLElement;
+   range?: HTMLElement;
+   from?: HTMLElement;
+   to?: HTMLElement;
+}
+
+class SliderComponent extends VDOM.Component<SliderComponentProps, SliderComponentState> {
+   dom: DomRefs;
+   unsubscribeOnWheel?: () => void;
+
+   constructor(props: SliderComponentProps) {
       super(props);
       this.dom = {};
       let { data } = props;
       this.state = {
-         from: data.from,
-         to: data.to,
+         from: data.from as number,
+         to: data.to as number,
       };
    }
 
-   render() {
+   render(): React.ReactNode {
       let { instance, data, label } = this.props;
       let { widget } = instance;
       let { CSS, baseClass } = widget;
@@ -140,43 +174,43 @@ class SliderComponent extends VDOM.Component {
             className={data.classNames}
             style={data.style}
             id={data.id}
-            onClick={(e) => this.onClick(e)}
-            ref={(el) => (this.dom.el = el)}
-            onMouseMove={(e) => tooltipMouseMove(e, ...getFieldTooltip(instance))}
-            onMouseLeave={(e) => tooltipMouseLeave(e, ...getFieldTooltip(instance))}
+            onClick={(e: React.MouseEvent) => this.onClick(e)}
+            ref={(el: HTMLDivElement | null) => (this.dom.el = el || undefined)}
+            onMouseMove={(e: React.MouseEvent) => tooltipMouseMove(e, ...getFieldTooltip(instance))}
+            onMouseLeave={(e: React.MouseEvent) => tooltipMouseLeave(e, ...getFieldTooltip(instance))}
          >
             {label}&nbsp;
             <div className={CSS.element(baseClass, "axis")}>
                {rangeSize > 0 && <div key="range" className={CSS.element(baseClass, "range")} style={rangeStyle} />}
-               <div key="space" className={CSS.element(baseClass, "space")} ref={(c) => (this.dom.range = c)}>
+               <div key="space" className={CSS.element(baseClass, "space")} ref={(c: HTMLDivElement | null) => (this.dom.range = c || undefined)}>
                   {widget.showFrom && (
                      <div
                         key="from"
                         className={CSS.element(baseClass, "handle")}
-                        tabIndex={data.disabled ? null : data.tabIndex || 0}
+                        tabIndex={data.disabled ? undefined : (data.tabIndex as number) || 0}
                         style={fromHandleStyle}
-                        onMouseDown={(e) => this.onHandleMouseDown(e, "from")}
-                        onMouseMove={(e) =>
+                        onMouseDown={(e: React.MouseEvent) => this.onHandleMouseDown(e, "from")}
+                        onMouseMove={(e: React.MouseEvent) =>
                            tooltipMouseMove(e, instance, widget.fromTooltip, { tooltipName: "fromTooltip" })
                         }
-                        onMouseLeave={(e) => this.onHandleMouseLeave(e, "from")}
-                        onTouchStart={(e) => this.onHandleMouseDown(e, "from")}
-                        ref={(c) => (this.dom.from = c)}
+                        onMouseLeave={(e: React.MouseEvent) => this.onHandleMouseLeave(e, "from")}
+                        onTouchStart={(e: React.TouchEvent) => this.onHandleMouseDown(e, "from")}
+                        ref={(c: HTMLDivElement | null) => (this.dom.from = c || undefined)}
                      />
                   )}
                   {widget.showTo && (
                      <div
                         key="to"
                         className={CSS.element(baseClass, "handle")}
-                        tabIndex={data.disabled ? null : 0}
+                        tabIndex={data.disabled ? undefined : 0}
                         style={toHandleStyle}
-                        onMouseDown={(e) => this.onHandleMouseDown(e, "to")}
-                        onMouseMove={(e) =>
+                        onMouseDown={(e: React.MouseEvent) => this.onHandleMouseDown(e, "to")}
+                        onMouseMove={(e: React.MouseEvent) =>
                            tooltipMouseMove(e, instance, widget.toTooltip, { tooltipName: "toTooltip" })
                         }
-                        onMouseLeave={(e) => this.onHandleMouseLeave(e, "to")}
-                        onTouchStart={(e) => this.onHandleMouseDown(e, "to")}
-                        ref={(c) => (this.dom.to = c)}
+                        onMouseLeave={(e: React.MouseEvent) => this.onHandleMouseLeave(e, "to")}
+                        onTouchStart={(e: React.TouchEvent) => this.onHandleMouseDown(e, "to")}
+                        ref={(c: HTMLDivElement | null) => (this.dom.to = c || undefined)}
                      />
                   )}
                </div>
@@ -185,7 +219,7 @@ class SliderComponent extends VDOM.Component {
       );
    }
 
-   UNSAFE_componentWillReceiveProps(props) {
+   UNSAFE_componentWillReceiveProps(props: SliderComponentProps): void {
       this.setState({
          from: props.data.from,
          to: props.data.to,
@@ -197,12 +231,12 @@ class SliderComponent extends VDOM.Component {
       tooltipParentWillReceiveProps(this.dom.from, instance, widget.fromTooltip, { tooltipName: "fromTooltip" });
    }
 
-   componentWillUnmount() {
+   componentWillUnmount(): void {
       tooltipParentWillUnmount(this.props.instance);
       this.unsubscribeOnWheel();
    }
 
-   componentDidMount() {
+   componentDidMount(): void {
       let { instance } = this.props;
       let { widget } = instance;
       tooltipParentDidMount(this.dom.to, instance, widget.toTooltip, { tooltipName: "toTooltip" });
@@ -213,7 +247,7 @@ class SliderComponent extends VDOM.Component {
       });
    }
 
-   onHandleMouseLeave(e, handle) {
+   onHandleMouseLeave(e: React.MouseEvent, handle: string): void {
       if (!this.state.drag) {
          let tooltipName = handle + "Tooltip";
          let { instance } = this.props;
@@ -222,7 +256,7 @@ class SliderComponent extends VDOM.Component {
       }
    }
 
-   onHandleMouseDown(e, handle) {
+   onHandleMouseDown(e: React.MouseEvent | React.TouchEvent, handle: string): void {
       e.preventDefault();
       e.stopPropagation();
 
@@ -271,7 +305,7 @@ class SliderComponent extends VDOM.Component {
       );
    }
 
-   getValues(e, d = 0) {
+   getValues(e: MouseEvent | TouchEvent, d: number = 0): { percent: number; value: number } {
       let { data, widget } = this.props.instance;
       let { minValue, maxValue } = data;
       let b = getTopLevelBoundingClientRect(this.dom.range);
@@ -297,7 +331,7 @@ class SliderComponent extends VDOM.Component {
       };
    }
 
-   onClick(e) {
+   onClick(e: React.MouseEvent): void {
       let { instance } = this.props;
       let { data, widget } = instance;
       if (!data.disabled && !data.readOnly) {
@@ -315,7 +349,7 @@ class SliderComponent extends VDOM.Component {
       }
    }
 
-   onWheel(e) {
+   onWheel(e: WheelEvent): void {
       let { instance } = this.props;
       let { data, widget } = instance;
       if ((widget.showFrom && widget.showTo) || !data.wheel) return;
@@ -336,14 +370,14 @@ class SliderComponent extends VDOM.Component {
       }
    }
 
-   checkBoundaries(value) {
+   checkBoundaries(value: number): number {
       let { data } = this.props.instance;
       if (value > data.maxValue) value = data.maxValue;
       else if (value < data.minValue) value = data.minValue;
       return value;
    }
 
-   getIncrement() {
+   getIncrement(): number {
       let { instance } = this.props;
       let { data } = instance;
       let increment = data.increment || (data.maxValue - data.minValue) * data.incrementPercentage;

@@ -1,7 +1,8 @@
-//@ts-nocheck
 import { Widget, VDOM, getContent } from "../../ui/Widget";
 import { TextField } from "./TextField";
 import { getFieldTooltip } from "./Field";
+import type { RenderingContext } from "../../ui/RenderingContext";
+import type { Instance } from "../../ui/Instance";
 import {
    tooltipParentWillReceiveProps,
    tooltipParentWillUnmount,
@@ -15,22 +16,22 @@ import { autoFocus } from "../autoFocus";
 import { getActiveElement } from "../../util/getActiveElement";
 
 export class TextArea extends TextField {
-   declareData() {
+   declareData(...args: Record<string, unknown>[]): void {
       super.declareData(
          {
             rows: undefined,
          },
-         ...arguments
+         ...args
       );
    }
 
-   prepareData(context, instance) {
+   prepareData(context: RenderingContext, instance: Instance): void {
       let { state, data, cached } = instance;
       if (!cached.data || data.value != cached.data.value) state.empty = !data.value;
       super.prepareData(context, instance);
    }
 
-   renderInput(context, instance, key) {
+   renderInput(context: RenderingContext, instance: Instance, key: string | number): React.ReactNode {
       return (
          <Input
             key={key}
@@ -42,7 +43,7 @@ export class TextArea extends TextField {
       );
    }
 
-   validateRequired(context, instance) {
+   validateRequired(context: RenderingContext, instance: Instance): string | undefined {
       return instance.state.empty && this.requiredText;
    }
 }
@@ -51,15 +52,28 @@ TextArea.prototype.baseClass = "textarea";
 TextArea.prototype.reactOn = "blur";
 TextArea.prototype.suppressErrorsUntilVisited = true;
 
-class Input extends VDOM.Component {
-   constructor(props) {
+interface InputProps {
+   instance: Instance;
+   data: Record<string, unknown>;
+   label?: React.ReactNode;
+   help?: React.ReactNode;
+}
+
+interface InputState {
+   focus: boolean;
+}
+
+class Input extends VDOM.Component<InputProps, InputState> {
+   input?: HTMLTextAreaElement;
+
+   constructor(props: InputProps) {
       super(props);
       this.state = {
          focus: false,
       };
    }
 
-   render() {
+   render(): React.ReactNode {
       let { instance, label, help } = this.props;
       let { widget, data, state } = instance;
       let { CSS, baseClass, suppressErrorsUntilVisited } = widget;
@@ -83,8 +97,8 @@ class Input extends VDOM.Component {
          >
             <textarea
                className={CSS.element(baseClass, "input")}
-               ref={(el) => {
-                  this.input = el;
+               ref={(el: HTMLTextAreaElement | null) => {
+                  this.input = el || undefined;
                }}
                id={data.id}
                rows={data.rows}
@@ -96,13 +110,13 @@ class Input extends VDOM.Component {
                placeholder={data.placeholder}
                {...data.inputAttrs}
                onInput={(e) => this.onChange(e.target.value, "input")}
-               onChange={(e) => this.onChange(e.target.value, "change")}
-               onBlur={(e) => this.onBlur(e)}
-               onFocus={(e) => this.onFocus()}
+               onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => this.onChange(e.target.value, "change")}
+               onBlur={(e: React.FocusEvent<HTMLTextAreaElement>) => this.onBlur(e)}
+               onFocus={(e: React.FocusEvent<HTMLTextAreaElement>) => this.onFocus()}
                onClick={stopPropagation}
-               onKeyDown={(e) => this.onKeyDown(e)}
-               onMouseMove={(e) => tooltipMouseMove(e, ...getFieldTooltip(instance))}
-               onMouseLeave={(e) => tooltipMouseLeave(e, ...getFieldTooltip(instance))}
+               onKeyDown={(e: React.KeyboardEvent<HTMLTextAreaElement>) => this.onKeyDown(e)}
+               onMouseMove={(e: React.MouseEvent<HTMLTextAreaElement>) => tooltipMouseMove(e, ...getFieldTooltip(instance))}
+               onMouseLeave={(e: React.MouseEvent<HTMLTextAreaElement>) => tooltipMouseLeave(e, ...getFieldTooltip(instance))}
             />
             {label}
             {help}
@@ -110,23 +124,23 @@ class Input extends VDOM.Component {
       );
    }
 
-   componentWillUnmount() {
+   componentWillUnmount(): void {
       if (this.input == getActiveElement()) {
          this.onChange(this.input.value, "blur");
       }
       tooltipParentWillUnmount(this.props.instance);
    }
 
-   componentDidMount() {
+   componentDidMount(): void {
       tooltipParentDidMount(this.input, ...getFieldTooltip(this.props.instance));
       autoFocus(this.input, this);
    }
 
-   componentDidUpdate() {
+   componentDidUpdate(): void {
       autoFocus(this.input, this);
    }
 
-   onKeyDown(e) {
+   onKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>): void {
       let { instance } = this.props;
       if (instance.widget.handleKeyDown(e, instance) === false) return;
 
@@ -140,14 +154,14 @@ class Input extends VDOM.Component {
       }
    }
 
-   UNSAFE_componentWillReceiveProps({ data, instance }) {
+   UNSAFE_componentWillReceiveProps({ data, instance }: InputProps): void {
       if (data.value != this.props.data.value) {
          this.input.value = data.value || "";
       }
       tooltipParentWillReceiveProps(this.input, ...getFieldTooltip(instance));
    }
 
-   onChange(inputValue, change) {
+   onChange(inputValue: string, change: string): void {
       let { instance, data } = this.props;
       let { widget } = instance;
 
@@ -171,7 +185,7 @@ class Input extends VDOM.Component {
       }
    }
 
-   onFocus() {
+   onFocus(): void {
       let { instance } = this.props;
       let { widget } = instance;
       if (widget.trackFocus) {
@@ -183,7 +197,7 @@ class Input extends VDOM.Component {
       }
    }
 
-   onBlur(e) {
+   onBlur(e: React.FocusEvent<HTMLTextAreaElement>): void {
       const { instance } = this.props;
       if (instance.widget.trackFocus) {
          instance.set("focused", false);

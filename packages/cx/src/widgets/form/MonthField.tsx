@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { DateTimeCulture } from "intl-io";
 import { StringTemplate } from "../../data/StringTemplate";
 import { Culture } from "../../ui";
@@ -29,16 +28,18 @@ import {
 import { Field, getFieldTooltip } from "./Field";
 import { MonthPicker } from "./MonthPicker";
 import { getActiveElement } from "../../util/getActiveElement";
+import type { RenderingContext } from "../../ui/RenderingContext";
+import type { WidgetInstance } from "../../types/instance";
 
 export class MonthField extends Field {
-   declareData() {
+   declareData(...args: Record<string, unknown>[]): void {
       if (this.mode == "range") {
          this.range = true;
          this.mode = "edit";
          Console.warn('Please use the range flag on MonthFields. Syntax mode="range" is deprecated.', this);
       }
 
-      let values = {};
+      let values: Record<string, unknown> = {};
 
       if (this.range) {
          values = {
@@ -65,15 +66,15 @@ export class MonthField extends Field {
             maxExclusive: undefined,
             icon: undefined,
          },
-         ...arguments,
+         ...args,
       );
    }
 
-   isEmpty(data) {
+   isEmpty(data: Record<string, unknown>): boolean {
       return this.range ? data.from == null : data.value == null;
    }
 
-   init() {
+   init(): void {
       if (!this.culture) this.culture = new DateTimeCulture(Format.culture);
 
       if (isDefined(this.hideClear)) this.showClear = !this.hideClear;
@@ -83,7 +84,7 @@ export class MonthField extends Field {
       super.init();
    }
 
-   prepareData(context, instance) {
+   prepareData(context: RenderingContext, instance: WidgetInstance): void {
       super.prepareData(context, instance);
 
       let { data } = instance;
@@ -115,14 +116,14 @@ export class MonthField extends Field {
       instance.lastDropdown = context.lastDropdown;
    }
 
-   validateRequired(context, instance) {
-      var { data } = instance;
+   validateRequired(context: RenderingContext, instance: WidgetInstance): string | undefined {
+      const { data } = instance;
       if (this.range) {
          if (!data.from || !data.to) return this.requiredText;
       } else return super.validateRequired(context, instance);
    }
 
-   validate(context, instance) {
+   validate(context: RenderingContext, instance: WidgetInstance): void {
       super.validate(context, instance);
       var { data } = instance;
       if (!data.error && data.date) {
@@ -143,7 +144,7 @@ export class MonthField extends Field {
       }
    }
 
-   renderInput(context, instance, key) {
+   renderInput(context: RenderingContext, instance: WidgetInstance, key: string | number): React.ReactNode {
       return (
          <MonthInput
             key={key}
@@ -171,18 +172,18 @@ export class MonthField extends Field {
       );
    }
 
-   formatValue(context, { data }) {
-      return data.formatted || "";
+   formatValue(context: RenderingContext, instance: WidgetInstance): string {
+      return instance.data.formatted || "";
    }
 
-   parseDate(date) {
+   parseDate(date: string | Date | null): Date | null {
       if (!date) return null;
       if (date instanceof Date) return date;
-      date = this.culture.parse(date, { useCurrentDateForDefaults: true });
-      return date;
+      let parsed = this.culture.parse(date, { useCurrentDateForDefaults: true });
+      return parsed;
    }
 
-   handleSelect(instance, date1, date2) {
+   handleSelect(instance: WidgetInstance, date1: Date | null, date2: Date | null): void {
       let { widget } = instance;
       let encode = widget.encoding || Culture.getDefaultDateEncoding();
       instance.setState({
@@ -223,8 +224,28 @@ Localization.registerPrototype("cx/widgets/MonthField", MonthField);
 
 Widget.alias("monthfield", MonthField);
 
-class MonthInput extends VDOM.Component {
-   constructor(props) {
+interface MonthInputProps {
+   instance: WidgetInstance;
+   data: Record<string, unknown>;
+   monthPicker: Record<string, unknown>;
+   label?: React.ReactNode;
+   help?: React.ReactNode;
+   icon?: React.ReactNode;
+}
+
+interface MonthInputState {
+   dropdownOpen: boolean;
+   focus: boolean;
+}
+
+class MonthInput extends VDOM.Component<MonthInputProps, MonthInputState> {
+   input!: HTMLInputElement;
+   dropdown?: Widget;
+   openDropdownOnFocus: boolean = false;
+   scrollableParents?: Element[];
+   updateDropdownPosition: () => void = () => {};
+
+   constructor(props: MonthInputProps) {
       super(props);
       this.props.instance.component = this;
       this.state = {
@@ -233,7 +254,7 @@ class MonthInput extends VDOM.Component {
       };
    }
 
-   getDropdown() {
+   getDropdown(): Widget {
       if (this.dropdown) return this.dropdown;
 
       let { widget, lastDropdown } = this.props.instance;
@@ -271,9 +292,9 @@ class MonthInput extends VDOM.Component {
       return (this.dropdown = Widget.create(dropdown));
    }
 
-   render() {
-      var { instance, label, help, data, icon: iconVDOM } = this.props;
-      var { widget, state } = instance;
+   render(): React.ReactNode {
+      const { instance, label, help, data, icon: iconVDOM } = this.props;
+      const { widget, state } = instance;
       var { CSS, baseClass, suppressErrorsUntilVisited } = widget;
 
       let insideButton, icon;
@@ -373,7 +394,7 @@ class MonthInput extends VDOM.Component {
       );
    }
 
-   onMouseDown(e) {
+   onMouseDown(e: React.MouseEvent): void {
       e.stopPropagation();
 
       if (this.state.dropdownOpen) this.closeDropdown(e);
@@ -389,7 +410,7 @@ class MonthInput extends VDOM.Component {
       }
    }
 
-   onFocus(e) {
+   onFocus(e: React.FocusEvent): void {
       let { instance } = this.props;
       let { widget } = instance;
       if (widget.trackFocus) {
@@ -400,7 +421,7 @@ class MonthInput extends VDOM.Component {
       if (this.openDropdownOnFocus) this.openDropdown(e);
    }
 
-   onKeyDown(e) {
+   onKeyDown(e: React.KeyboardEvent): void {
       let { instance } = this.props;
       if (instance.widget.handleKeyDown(e, instance) === false) return;
 
@@ -432,17 +453,17 @@ class MonthInput extends VDOM.Component {
       }
    }
 
-   onBlur(e) {
+   onBlur(e: React.FocusEvent): void {
       if (!this.state.dropdownOpen) this.props.instance.setState({ visited: true });
 
       if (this.state.focus)
          this.setState({
             focus: false,
          });
-      this.onChange(e.target.value, "blur");
+      this.onChange((e.target as HTMLInputElement).value, "blur");
    }
 
-   closeDropdown(e, callback) {
+   closeDropdown(e?: React.KeyboardEvent | React.MouseEvent, callback?: () => void): void {
       if (this.state.dropdownOpen) {
          if (this.scrollableParents)
             this.scrollableParents.forEach((el) => {
@@ -454,8 +475,8 @@ class MonthInput extends VDOM.Component {
       } else if (callback) callback();
    }
 
-   openDropdown(e) {
-      var { data } = this.props.instance;
+   openDropdown(e: React.KeyboardEvent | React.MouseEvent): void {
+      const { data } = this.props.instance;
       this.openDropdownOnFocus = false;
 
       if (!this.state.dropdownOpen && !(data.disabled || data.readOnly)) {
@@ -463,18 +484,18 @@ class MonthInput extends VDOM.Component {
       }
    }
 
-   onClearClick(e) {
+   onClearClick(e: React.MouseEvent): void {
       e.stopPropagation();
       e.preventDefault();
 
-      var { instance } = this.props;
-      var { widget } = instance;
+      const { instance } = this.props;
+      const { widget } = instance;
 
       widget.handleSelect(instance, null, null);
    }
 
-   UNSAFE_componentWillReceiveProps(props) {
-      var { data, state } = props.instance;
+   UNSAFE_componentWillReceiveProps(props: MonthInputProps): void {
+      const { data, state } = props.instance;
       if (data.formatted != this.input.value && (data.formatted != this.props.data.formatted || !state.inputError)) {
          this.input.value = data.formatted || "";
          props.instance.setState({
@@ -484,25 +505,25 @@ class MonthInput extends VDOM.Component {
       tooltipParentWillReceiveProps(this.input, ...getFieldTooltip(this.props.instance));
    }
 
-   componentDidMount() {
+   componentDidMount(): void {
       tooltipParentDidMount(this.input, ...getFieldTooltip(this.props.instance));
       autoFocus(this.input, this);
    }
 
-   componentDidUpdate() {
+   componentDidUpdate(): void {
       autoFocus(this.input, this);
    }
 
-   componentWillUnmount() {
+   componentWillUnmount(): void {
       if (this.input == getActiveElement() && this.input.value != this.props.data.formatted) {
          this.onChange(this.input.value, "blur");
       }
       tooltipParentWillUnmount(this.props.instance);
    }
 
-   onChange(inputValue, eventType) {
-      var { instance } = this.props;
-      var { widget } = instance;
+   onChange(inputValue: string, eventType: string): void {
+      const { instance } = this.props;
+      const { widget } = instance;
 
       if (widget.reactOn.indexOf(eventType) == -1) return;
 

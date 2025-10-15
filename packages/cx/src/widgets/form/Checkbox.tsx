@@ -1,6 +1,7 @@
-//@ts-nocheck
 /** @jsxImportSource react */
 
+import type { RenderingContext } from "../../ui/RenderingContext";
+import type { WidgetInstance } from "../../types/instance";
 import { Widget, getContent } from "../../ui/Widget";
 import { Field, getFieldTooltip } from "./Field";
 import { tooltipMouseMove, tooltipMouseLeave } from "../overlay/tooltip-ops";
@@ -13,20 +14,20 @@ import * as React from "react";
 import { VDOM } from "cx-react";
 
 export class Checkbox extends Field {
-   public checked?: any;
-   public value?: any;
+   public checked?: unknown;
+   public value?: unknown;
    public indeterminate?: boolean;
    public unfocusable?: boolean;
    public native?: boolean;
    public requiredText?: string;
 
-   init() {
+   init(): void {
       if (this.checked) this.value = this.checked;
 
       super.init();
    }
 
-   declareData(...args: any[]) {
+   declareData(...args: Record<string, unknown>[]): void {
       super.declareData(
          {
             value: !this.indeterminate ? false : undefined,
@@ -41,7 +42,7 @@ export class Checkbox extends Field {
       );
    }
 
-   renderWrap(context: any, instance: Instance, key: string, content: any) {
+   renderWrap(context: RenderingContext, instance: WidgetInstance, key: string, content: React.ReactNode): React.ReactElement {
       let { data } = instance;
       return (
          <label
@@ -74,12 +75,12 @@ export class Checkbox extends Field {
       );
    }
 
-   validateRequired(context: any, instance: Instance) {
+   validateRequired(context: RenderingContext, instance: WidgetInstance): string | undefined {
       let { data } = instance;
       if (!data.value) return this.requiredText;
    }
 
-   renderNativeCheck(context: any, instance: Instance) {
+   renderNativeCheck(context: RenderingContext, instance: WidgetInstance): React.ReactElement {
       let { CSS, baseClass } = this;
       let { data } = instance;
       return (
@@ -99,11 +100,11 @@ export class Checkbox extends Field {
       );
    }
 
-   renderCheck(context: any, instance: Instance) {
+   renderCheck(context: RenderingContext, instance: WidgetInstance): React.ReactElement {
       return <CheckboxCmp key="check" instance={instance} data={instance.data} />;
    }
 
-   renderInput(context: any, instance: Instance, key: string) {
+   renderInput(context: RenderingContext, instance: WidgetInstance, key: string): React.ReactElement {
       let { data } = instance;
       let text = data.text || this.renderChildren?.(context, instance);
       let { CSS, baseClass } = this;
@@ -121,17 +122,17 @@ export class Checkbox extends Field {
       ]);
    }
 
-   renderValue(context: any, { data }: { data: any }) {
+   renderValue(context: RenderingContext, { data }: { data: Record<string, unknown> }): React.ReactNode {
       if (!data.viewText) return super.renderValue(context, { data }, undefined);
       return <span className={this.CSS.element(this.baseClass, "view-text")}>{data.viewText}</span>;
    }
 
-   formatValue(context: any, instance: Instance) {
+   formatValue(context: RenderingContext, instance: WidgetInstance): React.ReactNode {
       let { data } = instance;
       return data.value && (data.text || this.renderChildren?.(context, instance));
    }
 
-   handleClick(e: any, instance: Instance) {
+   handleClick(e: React.MouseEvent, instance: WidgetInstance): void {
       if (this.native) e.stopPropagation();
       else {
          var el = document.getElementById(instance.data.id);
@@ -144,12 +145,12 @@ export class Checkbox extends Field {
       }
    }
 
-   handleChange(e: any, instance: Instance, checked?: boolean) {
+   handleChange(e: React.ChangeEvent<HTMLInputElement> | React.MouseEvent, instance: WidgetInstance, checked?: boolean): void {
       let { data } = instance;
 
       if (data.readOnly || data.disabled || data.viewMode) return;
 
-      instance.set("value", checked != null ? checked : e.target.checked);
+      instance.set("value", checked != null ? checked : (e.target as HTMLInputElement).checked);
    }
 }
 
@@ -162,12 +163,12 @@ Widget.alias("checkbox", Checkbox);
 
 interface CheckboxCmpProps {
    key?: string;
-   instance: Instance;
-   data: any;
+   instance: WidgetInstance;
+   data: Record<string, unknown>;
 }
 
 interface CheckboxCmpState {
-   value: any;
+   value: unknown;
 }
 
 class CheckboxCmp extends VDOM.Component<CheckboxCmpProps, CheckboxCmpState> {
@@ -184,7 +185,7 @@ class CheckboxCmp extends VDOM.Component<CheckboxCmpProps, CheckboxCmpState> {
       });
    }
 
-   render() {
+   render(): React.ReactElement {
       let { instance, data } = this.props;
       let { widget } = instance;
       let { baseClass, CSS } = widget;
@@ -197,7 +198,7 @@ class CheckboxCmp extends VDOM.Component<CheckboxCmpProps, CheckboxCmpState> {
       return (
          <span
             key="check"
-            tabIndex={(widget as Checkbox).unfocusable || data.disabled ? null : data.tabIndex || 0}
+            tabIndex={(widget as Checkbox).unfocusable || data.disabled ? undefined : ((data.tabIndex as number) || 0)}
             className={CSS.element(baseClass, "input", {
                checked: check,
             })}
@@ -212,7 +213,7 @@ class CheckboxCmp extends VDOM.Component<CheckboxCmpProps, CheckboxCmpState> {
       );
    }
 
-   onClick(e: any) {
+   onClick(e: React.MouseEvent): void {
       let { instance, data } = this.props;
       let { widget } = instance;
       if (!data.disabled && !data.readOnly) {
@@ -223,13 +224,14 @@ class CheckboxCmp extends VDOM.Component<CheckboxCmpProps, CheckboxCmpState> {
       }
    }
 
-   onKeyDown(e: any) {
+   onKeyDown(e: React.KeyboardEvent): void {
       let { instance } = this.props;
-      if ((instance.widget as any).handleKeyDown && (instance.widget as any).handleKeyDown(e, instance) === false) return;
+      const widget = instance.widget as Checkbox;
+      if (widget.handleKeyDown && widget.handleKeyDown(e as unknown as KeyboardEvent, instance) === false) return;
 
       switch (e.keyCode) {
          case KeyCode.space:
-            this.onClick(e);
+            this.onClick(e as unknown as React.MouseEvent);
             break;
       }
    }

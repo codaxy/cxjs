@@ -1,8 +1,9 @@
-//@ts-nocheck
 import { Widget, VDOM, getContent } from "../../ui/Widget";
 import { Field, getFieldTooltip } from "./Field";
 import { Format } from "../../ui/Format";
 import { Culture } from "../../ui/Culture";
+import type { RenderingContext } from "../../ui/RenderingContext";
+import type { Instance } from "../../ui/Instance";
 import { StringTemplate } from "../../data/StringTemplate";
 import {
    tooltipParentWillReceiveProps,
@@ -26,7 +27,19 @@ import { autoFocus } from "../autoFocus";
 enableCultureSensitiveFormatting();
 
 export class NumberField extends Field {
-   declareData() {
+   public step?: number;
+   public hideClear?: boolean;
+   public showClear?: boolean;
+   public alwaysShowClear?: boolean;
+   public snapToIncrement?: boolean;
+   public onParseInput?: string | ((value: string, instance: Instance) => number | undefined);
+   public minValueErrorText?: string;
+   public maxValueErrorText?: string;
+   public minExclusiveErrorText?: string;
+   public maxExclusiveErrorText?: string;
+   public inputErrorText?: string;
+
+   declareData(...args: Record<string, unknown>[]): void {
       super.declareData(
          {
             value: this.emptyValue,
@@ -47,11 +60,11 @@ export class NumberField extends Field {
             scale: undefined,
             offset: undefined,
          },
-         ...arguments,
+         ...args,
       );
    }
 
-   init() {
+   init(): void {
       if (isDefined(this.step)) this.increment = this.step;
 
       if (isDefined(this.hideClear)) this.showClear = !this.hideClear;
@@ -61,7 +74,7 @@ export class NumberField extends Field {
       super.init();
    }
 
-   prepareData(context, instance) {
+   prepareData(context: RenderingContext, instance: Instance): void {
       let { data, state, cached } = instance;
       data.formatted = Format.value(data.value, data.format);
 
@@ -70,11 +83,11 @@ export class NumberField extends Field {
       super.prepareData(context, instance);
    }
 
-   formatValue(context, { data }) {
+   formatValue(context: RenderingContext, { data }: Instance): string | number | undefined {
       return data.formatted;
    }
 
-   parseValue(value, instance) {
+   parseValue(value: string, instance: Instance): number {
       if (this.onParseInput) {
          let result = instance.invoke("onParseInput", value, instance);
          if (result !== undefined) return result;
@@ -82,7 +95,7 @@ export class NumberField extends Field {
       return Culture.getNumberCulture().parse(value);
    }
 
-   validate(context, instance) {
+   validate(context: RenderingContext, instance: Instance): void {
       super.validate(context, instance);
 
       let { data } = instance;
@@ -103,7 +116,7 @@ export class NumberField extends Field {
       }
    }
 
-   renderInput(context, instance, key) {
+   renderInput(context: RenderingContext, instance: Instance, key: string | number): React.ReactNode {
       return (
          <Input
             key={key}
@@ -116,7 +129,7 @@ export class NumberField extends Field {
       );
    }
 
-   validateRequired(context, instance) {
+   validateRequired(context: RenderingContext, instance: Instance): string | undefined {
       return instance.state.empty && this.requiredText;
    }
 }
@@ -144,15 +157,29 @@ NumberField.prototype.alwaysShowClear = false;
 Widget.alias("numberfield", NumberField);
 Localization.registerPrototype("cx/widgets/NumberField", NumberField);
 
-class Input extends VDOM.Component {
-   constructor(props) {
+interface InputProps {
+   instance: Instance;
+   data: Record<string, unknown>;
+   label?: React.ReactNode;
+   help?: React.ReactNode;
+   icon?: React.ReactNode;
+}
+
+interface InputState {
+   focus: boolean;
+}
+
+class Input extends VDOM.Component<InputProps, InputState> {
+   input?: HTMLInputElement;
+
+   constructor(props: InputProps) {
       super(props);
       this.state = {
          focus: false,
       };
    }
 
-   render() {
+   render(): React.ReactNode {
       let { data, instance, label, help, icon: iconVDOM } = this.props;
       let { widget, state } = instance;
       let { CSS, baseClass, suppressErrorsUntilVisited } = widget;
@@ -199,8 +226,8 @@ class Input extends VDOM.Component {
                type={widget.inputType}
                className={CSS.expand(CSS.element(baseClass, "input"), data.inputClass)}
                defaultValue={data.formatted}
-               ref={(el) => {
-                  this.input = el;
+               ref={(el: HTMLInputElement | null) => {
+                  this.input = el || undefined;
                }}
                style={data.inputStyle}
                disabled={data.disabled}
@@ -208,15 +235,15 @@ class Input extends VDOM.Component {
                tabIndex={data.tabIndex}
                placeholder={data.placeholder}
                {...data.inputAttrs}
-               onMouseMove={(e) => tooltipMouseMove(e, ...getFieldTooltip(this.props.instance))}
-               onMouseLeave={(e) => tooltipMouseLeave(e, ...getFieldTooltip(this.props.instance))}
-               onChange={(e) => this.onChange(e, "change")}
+               onMouseMove={(e: React.MouseEvent<HTMLInputElement>) => tooltipMouseMove(e, ...getFieldTooltip(this.props.instance))}
+               onMouseLeave={(e: React.MouseEvent<HTMLInputElement>) => tooltipMouseLeave(e, ...getFieldTooltip(this.props.instance))}
+               onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.onChange(e, "change")}
                onKeyDown={this.onKeyDown.bind(this)}
-               onBlur={(e) => {
+               onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
                   this.onChange(e, "blur");
                }}
-               onFocus={(e) => this.onFocus()}
-               onWheel={(e) => {
+               onFocus={(e: React.FocusEvent<HTMLInputElement>) => this.onFocus()}
+               onWheel={(e: React.WheelEvent<HTMLInputElement>) => {
                   this.onChange(e, "wheel");
                }}
                onClick={stopPropagation}
@@ -229,7 +256,7 @@ class Input extends VDOM.Component {
       );
    }
 
-   UNSAFE_componentWillReceiveProps(props) {
+   UNSAFE_componentWillReceiveProps(props: InputProps): void {
       let { data, state } = props.instance;
       if (this.props.data.formatted != data.formatted && !state.inputError) {
          this.input.value = props.data.formatted || "";
@@ -240,23 +267,23 @@ class Input extends VDOM.Component {
       tooltipParentWillReceiveProps(this.input, ...getFieldTooltip(props.instance));
    }
 
-   componentDidMount() {
+   componentDidMount(): void {
       tooltipParentDidMount(this.input, ...getFieldTooltip(this.props.instance));
       autoFocus(this.input, this);
    }
 
-   componentDidUpdate() {
+   componentDidUpdate(): void {
       autoFocus(this.input, this);
    }
 
-   componentWillUnmount() {
+   componentWillUnmount(): void {
       if (this.input == getActiveElement() && this.input.value != this.props.data.formatted) {
          this.onChange({ target: { value: this.input.value } }, "blur");
       }
       tooltipParentWillUnmount(this.props.instance);
    }
 
-   getPreCursorDigits(text, cursor, decimalSeparator) {
+   getPreCursorDigits(text: string, cursor: number, decimalSeparator: string): string {
       let res = "";
       for (let i = 0; i < cursor; i++) {
          if ("0" <= text[i] && text[i] <= "9") res += text[i];
@@ -266,7 +293,7 @@ class Input extends VDOM.Component {
       return res;
    }
 
-   getLengthWithoutSuffix(text, decimalSeparator) {
+   getLengthWithoutSuffix(text: string, decimalSeparator: string): number {
       let l = text.length;
       while (l > 0) {
          if ("0" <= text[l - 1] && text[l - 1] <= "9") break;
@@ -276,7 +303,7 @@ class Input extends VDOM.Component {
       return l;
    }
 
-   getDecimalSeparator(format) {
+   getDecimalSeparator(format: string): string | null {
       let text = Format.value(0.11111111, format);
       for (let i = text.length - 1; i >= 0; i--) {
          if ("0" <= text[i] && text[i] <= "9") continue;
@@ -286,7 +313,7 @@ class Input extends VDOM.Component {
       return null;
    }
 
-   updateCursorPosition(preCursorText) {
+   updateCursorPosition(preCursorText: string | undefined): void {
       if (isString(preCursorText)) {
          let cursor = 0;
          let preCursor = 0;
@@ -303,7 +330,7 @@ class Input extends VDOM.Component {
       }
    }
 
-   calculateIncrement(value, strength) {
+   calculateIncrement(value: number, strength: number): number {
       if (value == 0) return 0.1;
       let absValue = Math.abs(value * strength);
       let log10 = Math.floor(Math.log10(absValue) + 0.001);
@@ -313,13 +340,13 @@ class Input extends VDOM.Component {
       return size;
    }
 
-   onClearClick(e) {
+   onClearClick(e: React.MouseEvent): void {
       this.input.value = "";
       let { instance } = this.props;
       instance.set("value", instance.widget.emptyValue, { immediate: true });
    }
 
-   onKeyDown(e) {
+   onKeyDown(e: React.KeyboardEvent<HTMLInputElement>): void {
       let { instance } = this.props;
       if (instance.widget.handleKeyDown(e, instance) === false) return;
 
@@ -335,7 +362,7 @@ class Input extends VDOM.Component {
       }
    }
 
-   onChange(e, change) {
+   onChange(e: React.SyntheticEvent<HTMLInputElement>, change: string): void {
       let { instance, data } = this.props;
       let { widget } = instance;
 
@@ -448,7 +475,7 @@ class Input extends VDOM.Component {
       });
    }
 
-   onFocus() {
+   onFocus(): void {
       let { instance } = this.props;
       let { widget } = instance;
       if (widget.trackFocus) {

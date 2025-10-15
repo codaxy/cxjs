@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { Widget, VDOM, getContent } from "../../ui/Widget";
 import { Cx } from "../../ui/Cx";
 import { Field, getFieldTooltip } from "./Field";
@@ -37,9 +36,11 @@ import { HighlightedSearchText } from "../HighlightedSearchText";
 import { autoFocus } from "../autoFocus";
 import { bind } from "../../ui";
 import { isAccessorChain } from "../../data/createAccessorModelProxy";
+import type { RenderingContext } from "../../ui/RenderingContext";
+import type { WidgetInstance } from "../../types/instance";
 
 export class LookupField extends Field {
-   declareData() {
+   declareData(...args: Record<string, unknown>[]): void {
       let additionalAttributes = this.multiple
          ? { values: undefined, records: undefined }
          : { value: undefined, text: undefined };
@@ -57,11 +58,11 @@ export class LookupField extends Field {
             filterParams: { structured: true },
          },
          additionalAttributes,
-         ...arguments,
+         ...args,
       );
    }
 
-   init() {
+   init(): void {
       if (isDefined(this.hideClear)) this.showClear = !this.hideClear;
 
       if (this.alwaysShowClear) this.showClear = true;
@@ -122,7 +123,7 @@ export class LookupField extends Field {
       super.init();
    }
 
-   prepareData(context, instance) {
+   prepareData(context: RenderingContext, instance: WidgetInstance): void {
       let { data, store } = instance;
 
       data.stateMods = {
@@ -174,7 +175,7 @@ export class LookupField extends Field {
       super.prepareData(context, instance);
    }
 
-   renderInput(context, instance, key) {
+   renderInput(context: RenderingContext, instance: WidgetInstance, key: string | number): React.ReactNode {
       return (
          <LookupComponent
             key={key}
@@ -191,23 +192,23 @@ export class LookupField extends Field {
       );
    }
 
-   filterOptions(instance, options, query) {
+   filterOptions(instance: WidgetInstance, options: Record<string, unknown>[], query: string): Record<string, unknown>[] {
       if (!query) return options;
       let textPredicate = getSearchQueryPredicate(query);
       return options.filter((o) => isString(o[this.optionTextField]) && textPredicate(o[this.optionTextField]));
    }
 
-   isEmpty(data) {
+   isEmpty(data: Record<string, unknown>): boolean {
       if (this.multiple) return !isNonEmptyArray(data.values) && !isNonEmptyArray(data.records);
       return super.isEmpty(data);
    }
 
-   getValidationValue(data) {
+   getValidationValue(data: Record<string, unknown>): unknown {
       if (this.multiple) return data.records ?? data.values;
       return super.getValidationValue(data);
    }
 
-   formatValue(context, instance) {
+   formatValue(context: RenderingContext, instance: WidgetInstance): string | null {
       if (!this.multiple) return super.formatValue(context, instance);
 
       let { records, values, options } = instance.data;
@@ -270,11 +271,18 @@ Localization.registerPrototype("cx/widgets/LookupField", LookupField);
 
 Widget.alias("lookupfield", LookupField);
 
-function getOptionKey(bindings, data) {
+interface BindingConfig {
+   local: string;
+   remote: string;
+   key?: boolean;
+   set?: (value: unknown, instance: WidgetInstance) => void;
+}
+
+function getOptionKey(bindings: BindingConfig[], data: Record<string, unknown>): unknown[] {
    return bindings.filter((a) => a.key).map((b) => Binding.get(b.remote).value(data));
 }
 
-function areKeysEqual(key1, key2) {
+function areKeysEqual(key1: unknown[], key2: unknown[]): boolean {
    if (!key1 || !key2 || key1.length != key2.length) return false;
 
    for (let i = 0; i < key1.length; i++) if (key1[i] !== key2[i]) return false;
@@ -282,32 +290,78 @@ function areKeysEqual(key1, key2) {
    return true;
 }
 
-function convertOption(bindings, data) {
-   let result = { $value: {} };
+function convertOption(bindings: BindingConfig[], data: Record<string, unknown>): Record<string, unknown> {
+   let result: Record<string, unknown> = { $value: {} };
    bindings.forEach((b) => {
       let value = Binding.get(b.remote).value(data);
       result = Binding.get(b.local).set(result, value);
    });
-   return result.$value;
+   return result.$value as Record<string, unknown>;
 }
 
 class SelectionDelegate extends Selection {
-   constructor({ delegate }) {
+   delegate: (record: Record<string, unknown>, index: number) => boolean;
+
+   constructor({ delegate }: { delegate: (record: Record<string, unknown>, index: number) => boolean }) {
       super();
       this.delegate = delegate;
    }
 
-   getIsSelectedDelegate(store) {
-      return (record, index) => this.delegate(record, index);
+   getIsSelectedDelegate(store: unknown): (record: Record<string, unknown>, index: number) => boolean {
+      return (record: Record<string, unknown>, index: number) => this.delegate(record, index);
    }
 
-   select() {
+   select(): boolean {
       return false;
    }
 }
 
-class LookupComponent extends VDOM.Component {
-   constructor(props) {
+interface LookupComponentProps {
+   instance: WidgetInstance;
+   multiple: boolean;
+   itemConfig: unknown;
+   bindings: BindingConfig[];
+   baseClass: string;
+   label?: React.ReactNode;
+   help?: React.ReactNode;
+   forceUpdate?: () => void;
+   icon?: React.ReactNode;
+}
+
+interface LookupComponentState {
+   options: Record<string, unknown>[];
+   formatted?: string;
+   value?: string;
+   dropdownOpen: boolean;
+   focus: boolean;
+   status?: string;
+   message?: string;
+   query?: string;
+   page?: number;
+   hover?: boolean;
+}
+
+class LookupComponent extends VDOM.Component<LookupComponentProps, LookupComponentState> {
+   dom: {
+      input?: HTMLDivElement;
+      dropdown?: HTMLDivElement;
+      list?: HTMLDivElement;
+      query?: HTMLInputElement;
+   } = {};
+   itemStore: ReadOnlyDataView;
+   dropdown?: Widget;
+   list?: Widget;
+   listKeyDown?: (e: React.KeyboardEvent) => void;
+   queryTimeoutId?: ReturnType<typeof setTimeout>;
+   cachedResult?: Record<string, unknown>[];
+   tmpCachedResult?: Record<string, unknown>[];
+   lastQueryId?: number;
+   lastQuery?: string;
+   extraPageLoadingBlocker?: string | false;
+   unsubscribeListOnWheel?: () => void;
+   unsubscribeListOnScroll?: () => void;
+
+   constructor(props: LookupComponentProps) {
       super(props);
       let { data, store } = this.props.instance;
       this.dom = {};
@@ -324,15 +378,15 @@ class LookupComponent extends VDOM.Component {
       });
    }
 
-   getOptionKey(data) {
+   getOptionKey(data: Record<string, unknown>): unknown[] {
       return this.props.bindings.filter((a) => a.key).map((b) => Binding.get(b.remote).value(data));
    }
 
-   getLocalKey(data) {
+   getLocalKey(data: Record<string, unknown>): unknown[] {
       return this.props.bindings.filter((a) => a.key).map((b) => Binding.get(b.local).value(data));
    }
 
-   findOption(options, key) {
+   findOption(options: Record<string, unknown>[], key: unknown[]): number {
       if (!key) return -1;
       for (let i = 0; i < options.length; i++) {
          let optionKey = this.getOptionKey({ $option: options[i] });
@@ -341,7 +395,7 @@ class LookupComponent extends VDOM.Component {
       return -1;
    }
 
-   getDropdown() {
+   getDropdown(): Widget {
       if (this.dropdown) return this.dropdown;
 
       let { widget, lastDropdown } = this.props.instance;
@@ -407,7 +461,7 @@ class LookupComponent extends VDOM.Component {
       return (this.dropdown = Widget.create(dropdown));
    }
 
-   renderDropdownContents() {
+   renderDropdownContents(): React.ReactNode {
       let content;
       let { instance } = this.props;
       let { data, widget } = instance;
@@ -490,18 +544,19 @@ class LookupComponent extends VDOM.Component {
       );
    }
 
-   onListWheel(e) {
+   onListWheel(e: WheelEvent): void {
       let { list } = this.dom;
       if (
-         (list.scrollTop + list.offsetHeight == list.scrollHeight && e.deltaY > 0) ||
-         (list.scrollTop == 0 && e.deltaY < 0)
+         list &&
+         ((list.scrollTop + list.offsetHeight == list.scrollHeight && e.deltaY > 0) ||
+            (list.scrollTop == 0 && e.deltaY < 0))
       ) {
          e.preventDefault();
          e.stopPropagation();
       }
    }
 
-   onListScroll() {
+   onListScroll(): void {
       if (!this.dom.list) return;
       var el = this.dom.list;
       if (el.scrollTop > el.scrollHeight - 2 * el.offsetHeight) {
@@ -509,11 +564,11 @@ class LookupComponent extends VDOM.Component {
       }
    }
 
-   onDropdownFocus(e) {
+   onDropdownFocus(e: React.FocusEvent): void {
       if (this.dom.query && !isFocused(this.dom.query) && !isTouchDevice()) FocusManager.focus(this.dom.query);
    }
 
-   getPlaceholder(text) {
+   getPlaceholder(text?: string): React.ReactNode {
       let { CSS, baseClass } = this.props.instance.widget;
 
       if (text) return <span className={CSS.element(baseClass, "placeholder")}>{text}</span>;
@@ -521,7 +576,7 @@ class LookupComponent extends VDOM.Component {
       return <span className={CSS.element(baseClass, "placeholder")}>&nbsp;</span>;
    }
 
-   render() {
+   render(): React.ReactNode {
       let { instance, label, help, icon: iconVDOM } = this.props;
       let { data, widget, state } = instance;
       let { CSS, baseClass, suppressErrorsUntilVisited } = widget;
@@ -671,7 +726,7 @@ class LookupComponent extends VDOM.Component {
       );
    }
 
-   onMouseDown(e) {
+   onMouseDown(e: React.MouseEvent): void {
       //skip touch start to allow touch scrolling
       if (isTouchEvent()) return;
       e.preventDefault();
@@ -679,7 +734,7 @@ class LookupComponent extends VDOM.Component {
       this.toggleDropdown(e, true);
    }
 
-   onClick(e) {
+   onClick(e: React.MouseEvent): void {
       //mouse down will handle it for non-touch events
       if (!isTouchEvent()) return;
       e.preventDefault();
@@ -687,13 +742,13 @@ class LookupComponent extends VDOM.Component {
       this.toggleDropdown(e, true);
    }
 
-   onItemClick(e, { store }) {
+   onItemClick(e: React.KeyboardEvent | React.MouseEvent, { store }: { store: { getData: () => Record<string, unknown> } }): void {
       this.select(e, [store.getData()]);
       if (!this.props.instance.widget.submitOnEnterKey || e.type != "keydown") e.stopPropagation();
-      if (e.keyCode != KeyCode.tab) e.preventDefault();
+      if ((e as React.KeyboardEvent).keyCode != KeyCode.tab) e.preventDefault();
    }
 
-   onClearClick(e, value) {
+   onClearClick(e: React.MouseEvent, value?: Record<string, unknown>): void {
       let { instance } = this.props;
       let { data, store, widget } = instance;
       let { keyBindings } = widget;
@@ -721,13 +776,13 @@ class LookupComponent extends VDOM.Component {
       if (!isTouchEvent(e)) this.dom.input.focus();
    }
 
-   onClearMultipleClick(e) {
+   onClearMultipleClick(e: React.MouseEvent): void {
       let { instance } = this.props;
       instance.set("records", []);
       instance.set("values", []);
    }
 
-   select(e, itemsData, reset) {
+   select(e: React.KeyboardEvent | React.MouseEvent, itemsData: Record<string, unknown>[], reset?: boolean): void {
       let { instance } = this.props;
       let { store, data, widget } = instance;
       let { bindings, keyBindings } = widget;
@@ -783,7 +838,7 @@ class LookupComponent extends VDOM.Component {
       }
    }
 
-   onDropdownKeyPress(e) {
+   onDropdownKeyPress(e: React.KeyboardEvent): void {
       switch (e.keyCode) {
          case KeyCode.esc:
             this.closeDropdown(e);
@@ -817,7 +872,7 @@ class LookupComponent extends VDOM.Component {
       }
    }
 
-   onKeyDown(e) {
+   onKeyDown(e: React.KeyboardEvent): void {
       switch (e.keyCode) {
          case KeyCode.pageDown:
          case KeyCode.pageUp:
@@ -826,7 +881,7 @@ class LookupComponent extends VDOM.Component {
       }
    }
 
-   onInputKeyDown(e) {
+   onInputKeyDown(e: React.KeyboardEvent): void {
       let { instance } = this.props;
       if (instance.widget.handleKeyDown(e, instance) === false) return;
 
@@ -865,11 +920,11 @@ class LookupComponent extends VDOM.Component {
       }
    }
 
-   onQueryBlur(e) {
+   onQueryBlur(e: React.FocusEvent): void {
       FocusManager.nudge();
    }
 
-   onFocus(e) {
+   onFocus(e: React.FocusEvent): void {
       let { instance } = this.props;
       let { widget } = instance;
       if (widget.trackFocus) {
@@ -881,7 +936,7 @@ class LookupComponent extends VDOM.Component {
       if (this.props.instance.data.autoOpen) this.openDropdown(null);
    }
 
-   onBlur(e) {
+   onBlur(e: React.FocusEvent): void {
       if (!this.state.dropdownOpen) this.props.instance.setState({ visited: true });
 
       if (this.state.focus)
@@ -890,12 +945,12 @@ class LookupComponent extends VDOM.Component {
          });
    }
 
-   toggleDropdown(e, keepFocus) {
+   toggleDropdown(e: React.KeyboardEvent | React.MouseEvent, keepFocus?: boolean): void {
       if (this.state.dropdownOpen) this.closeDropdown(e, keepFocus);
       else this.openDropdown(e);
    }
 
-   closeDropdown(e, keepFocus) {
+   closeDropdown(e?: React.KeyboardEvent | React.MouseEvent | null, keepFocus?: boolean): void {
       if (this.state.dropdownOpen) {
          this.setState(
             {
@@ -913,7 +968,7 @@ class LookupComponent extends VDOM.Component {
       delete this.tmpCachedResult;
    }
 
-   openDropdown(e) {
+   openDropdown(e: React.KeyboardEvent | React.MouseEvent | null): void {
       let { instance } = this.props;
       let { data } = instance;
       if (!this.state.dropdownOpen && !data.disabled && !data.readOnly) {
@@ -929,7 +984,7 @@ class LookupComponent extends VDOM.Component {
       }
    }
 
-   query(q) {
+   query(q: string): void {
       /*
        In fetchAll mode onQuery should fetch all data and after
        that everything is done filtering is done client-side.
@@ -1025,7 +1080,7 @@ class LookupComponent extends VDOM.Component {
       }
    }
 
-   loadAdditionalOptionPages() {
+   loadAdditionalOptionPages(): void {
       let { instance } = this.props;
       let { widget } = instance;
       if (!widget.infinite) return;
@@ -1079,26 +1134,32 @@ class LookupComponent extends VDOM.Component {
          });
    }
 
-   UNSAFE_componentWillReceiveProps(props) {
-      tooltipParentWillReceiveProps(this.dom.input, ...getFieldTooltip(props.instance));
+   UNSAFE_componentWillReceiveProps(props: LookupComponentProps): void {
+      if (this.dom.input) {
+         tooltipParentWillReceiveProps(this.dom.input, ...getFieldTooltip(props.instance));
+      }
    }
 
-   componentDidMount() {
-      tooltipParentDidMount(this.dom.input, ...getFieldTooltip(this.props.instance));
-      autoFocus(this.dom.input, this);
+   componentDidMount(): void {
+      if (this.dom.input) {
+         tooltipParentDidMount(this.dom.input, ...getFieldTooltip(this.props.instance));
+         autoFocus(this.dom.input, this);
+      }
    }
 
-   componentDidUpdate() {
-      autoFocus(this.dom.input, this);
+   componentDidUpdate(): void {
+      if (this.dom.input) {
+         autoFocus(this.dom.input, this);
+      }
    }
 
-   componentWillUnmount() {
+   componentWillUnmount(): void {
       if (this.queryTimeoutId) clearTimeout(this.queryTimeoutId);
       tooltipParentWillUnmount(this.props.instance);
       this.subscribeListOnWheel(null);
    }
 
-   subscribeListOnWheel(list) {
+   subscribeListOnWheel(list: HTMLDivElement | null): void {
       if (this.unsubscribeListOnWheel) {
          this.unsubscribeListOnWheel();
          this.unsubscribeListOnWheel = null;
@@ -1110,7 +1171,7 @@ class LookupComponent extends VDOM.Component {
       }
    }
 
-   subscribeListOnScroll(list) {
+   subscribeListOnScroll(list: HTMLDivElement | null): void {
       if (this.unsubscribeListOnScroll) {
          this.unsubscribeListOnScroll();
          this.unsubscribeListOnScroll = null;
@@ -1122,7 +1183,7 @@ class LookupComponent extends VDOM.Component {
       }
    }
 
-   submitOnEnter(e) {
+   submitOnEnter(e: React.KeyboardEvent): void {
       let instance = this.props.instance.parent;
       while (instance) {
          if (instance.events && instance.events.onSubmit) {

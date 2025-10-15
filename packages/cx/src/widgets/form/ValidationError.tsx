@@ -1,8 +1,28 @@
-//@ts-nocheck
+import type { RenderingContext } from "../../ui/RenderingContext";
+import type { WidgetInstance } from "../../types/instance";
 import { Widget, VDOM } from "../../ui/Widget";
+import * as React from "react";
+
+interface ValidationErrorData {
+   visible?: boolean;
+   classNames?: string;
+   fieldId?: string;
+   errorMessage?: string;
+   style?: Record<string, string | number> | string;
+}
+
+interface ValidationErrorInstance extends WidgetInstance {
+   lastError?: {
+      fieldId: string;
+      message: string;
+      visited: boolean;
+      type: string;
+   };
+   data: ValidationErrorData;
+}
 
 export class ValidationError extends Widget {
-   checkVisible(context, instance, data) {
+   checkVisible(context: RenderingContext, instance: ValidationErrorInstance, data: ValidationErrorData): boolean {
       if (
          data.visible &&
          context.lastFieldId &&
@@ -17,19 +37,19 @@ export class ValidationError extends Widget {
       return false;
    }
 
-   explore(context, instance) {
+   explore(context: RenderingContext, instance: ValidationErrorInstance): void {
       var { data, lastError } = instance;
-      let c1 = instance.cache("lastErrorMessage", lastError.message);
-      let c2 = instance.cache("lastErrorFieldId", lastError.fieldId);
+      let c1 = instance.cache("lastErrorMessage", lastError?.message);
+      let c2 = instance.cache("lastErrorFieldId", lastError?.fieldId);
       if (c1 || c2) {
-         data.errorMessage = lastError.message;
-         data.fieldId = lastError.fieldId;
+         data.errorMessage = lastError?.message;
+         data.fieldId = lastError?.fieldId;
          instance.markShouldUpdate(context);
       }
       super.explore(context, instance);
    }
 
-   render(context, instance, key) {
+   render(context: RenderingContext, instance: ValidationErrorInstance, key: string | number): React.ReactElement {
       var { data } = instance;
       return (
          <label key={key} className={data.classNames} htmlFor={data.fieldId} style={data.style}>

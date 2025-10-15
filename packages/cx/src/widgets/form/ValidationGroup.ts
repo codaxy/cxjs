@@ -1,13 +1,29 @@
-//@ts-nocheck
+import type { RenderingContext } from "../../ui/RenderingContext";
+import type { WidgetInstance } from "../../types/instance";
 import { Widget } from "../../ui/Widget";
 import { PureContainer } from "../../ui/PureContainer";
 import { isDefined } from "../../util/isDefined";
 import { shallowEquals } from "../../util/shallowEquals";
 import { coalesce } from "../../util/coalesce";
 
+interface ValidationGroupInstance extends WidgetInstance {
+   validation: {
+      errors: Array<{
+         fieldId: string;
+         message: string;
+         visited: boolean;
+         type: string;
+      }>;
+   };
+   valid?: boolean;
+}
+
 export class ValidationGroup extends PureContainer {
-   declareData() {
-      return super.declareData(...arguments, {
+   public errors?: unknown;
+   public isolated?: boolean;
+
+   declareData(...args: Record<string, unknown>[]): Record<string, unknown> {
+      return super.declareData(...args, {
          errors: undefined,
          valid: undefined,
          invalid: undefined,
@@ -23,7 +39,7 @@ export class ValidationGroup extends PureContainer {
       });
    }
 
-   explore(context, instance) {
+   explore(context: RenderingContext, instance: ValidationGroupInstance): void {
       if (isDefined(instance.data.enabled)) instance.data.disabled = !instance.data.enabled;
 
       instance.validation = {
@@ -42,7 +58,7 @@ export class ValidationGroup extends PureContainer {
       super.explore(context, instance);
    }
 
-   exploreCleanup(context, instance) {
+   exploreCleanup(context: RenderingContext, instance: ValidationGroupInstance): void {
       context.pop("validation");
       context.pop("parentVisited");
       context.pop("parentDisabled");

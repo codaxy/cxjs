@@ -1,6 +1,7 @@
-//@ts-nocheck
 import { VDOM, getContent } from "../../ui/Widget";
 import { PureContainer } from "../../ui/PureContainer";
+import type { RenderingContext } from "../../ui/RenderingContext";
+import type { Instance } from "../../ui/Instance";
 import { ValidationError } from "./ValidationError";
 import { HelpText } from "./HelpText";
 import { Label } from "./Label";
@@ -17,37 +18,36 @@ import { coalesce } from "../../util/coalesce";
 import { isUndefined } from "../../util/isUndefined";
 import { shallowEquals } from "../../util/shallowEquals";
 import { FieldIcon } from "./FieldIcon";
-import { Instance } from "../../ui";
 
 export class Field extends PureContainer {
-   public inputStyle?: any;
+   public inputStyle?: Record<string, unknown> | string;
    public validationMode?: string;
-   public errorTooltip?: any;
-   public help?: any;
-   public label?: any;
-   public mod?: any;
-   public disabled?: any;
-   public required?: any;
-   public asterisk?: any;
-   public labelStyle?: any;
-   public labelClass?: any;
-   public icon?: any;
+   public errorTooltip?: Record<string, unknown>;
+   public help?: Record<string, unknown> | string;
+   public label?: Record<string, unknown> | string;
+   public mod?: Record<string, unknown>;
+   public disabled?: boolean;
+   public required?: boolean;
+   public asterisk?: boolean;
+   public labelStyle?: Record<string, unknown> | string;
+   public labelClass?: string;
+   public icon?: Record<string, unknown> | string;
    public visited?: boolean;
    public labelPlacement?: string;
    public helpPlacement?: string;
-   public emptyValue?: any;
+   public emptyValue?: unknown;
    public requiredText?: string;
    public validatingText?: string;
-   public onValidate?: any;
+   public onValidate?: string | ((value: unknown, instance: Instance, validationParams: Record<string, unknown>) => unknown);
    public validationExceptionText?: string;
-   public onValidationException?: any;
-   public onKeyDown?: any;
+   public onValidationException?: string | ((error: unknown, instance: Instance) => void);
+   public onKeyDown?: string | ((e: KeyboardEvent, instance: Instance) => boolean | void);
    public suppressErrorsUntilVisited?: boolean;
    public autoFocus?: boolean;
    public helpSpacer?: string;
    public trackFocus?: boolean;
 
-   public declareData(...args: any[]): void {
+   public declareData(...args: Record<string, unknown>[]): void {
       super.declareData(
          {
             label: undefined,
@@ -75,7 +75,7 @@ export class Field extends PureContainer {
       super.init();
    }
 
-   public initComponents(_context: any, instance: any): void {
+   public initComponents(_context: RenderingContext, instance: Instance): void {
       if (this.validationMode == "tooltip" && isUndefined(this.errorTooltip)) {
          this.errorTooltip = {
             text: { bind: "$error" },
@@ -88,12 +88,12 @@ export class Field extends PureContainer {
          switch (this.validationMode) {
             case "help":
             case "help-inline":
-               this.help = ValidationError;
+               this.help = ValidationError as any;
                break;
 
             case "help-block":
                this.help = {
-                  type: ValidationError,
+                  type: ValidationError as any,
                   mod: "block",
                };
                break;
@@ -101,17 +101,17 @@ export class Field extends PureContainer {
       }
 
       if (this.help != null) {
-         let helpConfig = {};
+         let helpConfig: any = {};
 
-         if (this.help.isComponentType) helpConfig = this.help;
-         else if (isSelector(this.help)) (helpConfig as any).text = this.help;
+         if ((this.help as any).isComponentType) helpConfig = this.help;
+         else if (isSelector(this.help)) helpConfig.text = this.help;
          else Object.assign(helpConfig, this.help);
 
-         this.help = HelpText.create(helpConfig);
+         this.help = HelpText.create(helpConfig) as any;
       }
 
       if (this.label != null) {
-         let labelConfig = {
+         let labelConfig: any = {
             mod: this.mod,
             disabled: this.disabled,
             required: this.required,
@@ -120,38 +120,38 @@ export class Field extends PureContainer {
             class: this.labelClass,
          };
 
-         if (this.label.isComponentType) labelConfig = this.label;
-         else if (isSelector(this.label)) (labelConfig as any).text = this.label;
+         if ((this.label as any).isComponentType) labelConfig = this.label;
+         else if (isSelector(this.label)) labelConfig.text = this.label;
          else Object.assign(labelConfig, this.label);
 
-         this.label = Label.create(labelConfig);
+         this.label = Label.create(labelConfig) as any;
       }
 
       if (this.icon != null) {
-         let iconConfig = {
-            className: this.CSS.element(this.baseClass, "icon") as any,
+         let iconConfig: any = {
+            className: this.CSS.element(this.baseClass, "icon"),
          };
-         if (isSelector(this.icon)) (iconConfig as any).name = this.icon;
+         if (isSelector(this.icon)) iconConfig.name = this.icon;
          else Object.assign(iconConfig, this.icon);
 
-         this.icon = FieldIcon.create(iconConfig);
+         this.icon = FieldIcon.create(iconConfig) as any;
       }
 
-      return super.initComponents({
+      super.initComponents({
          label: this.label,
          help: this.help,
          icon: this.icon,
       });
    }
 
-   public initState(_context: any, instance: any): void {
+   public initState(_context: RenderingContext, instance: Instance): void {
       instance.state = {
          inputError: false,
          visited: this.visited === true,
       };
    }
 
-   public prepareData(context: any, instance: any, ...args: any[]): void {
+   public prepareData(context: RenderingContext, instance: Instance, ...args: Record<string, unknown>[]): void {
       let { data, state } = instance;
       if (!data.id) data.id = "fld-" + instance.id;
 
@@ -160,11 +160,11 @@ export class Field extends PureContainer {
       data._viewMode = data.mode === "view" || data.viewMode;
       data._tabOnEnterKey = data.tabOnEnterKey;
       data.validationValue = this.getValidationValue(data);
-      instance.parentDisabled = context.parentDisabled;
-      instance.parentReadOnly = context.parentReadOnly;
-      instance.parentViewMode = context.parentViewMode;
-      instance.parentTabOnEnterKey = context.parentTabOnEnterKey;
-      instance.parentVisited = context.parentVisited;
+      (instance as any).parentDisabled = context.parentDisabled;
+      (instance as any).parentReadOnly = context.parentReadOnly;
+      (instance as any).parentViewMode = context.parentViewMode;
+      (instance as any).parentTabOnEnterKey = context.parentTabOnEnterKey;
+      (instance as any).parentVisited = context.parentVisited;
 
       if (typeof data.enabled !== "undefined") data._disabled = !data.enabled;
 
@@ -181,7 +181,7 @@ export class Field extends PureContainer {
       super.prepareData(context, instance);
    }
 
-   protected disableOrValidate(context: any, instance: any): void {
+   protected disableOrValidate(context: RenderingContext, instance: Instance): void {
       let { data, state } = instance;
 
       //if the parent is strict and sets some flag to true, it is not allowed to overrule that flag by field settings
@@ -223,14 +223,14 @@ export class Field extends PureContainer {
       };
    }
 
-   explore(context, instance) {
+   explore(context: RenderingContext, instance: Instance): void {
       let { data, state } = instance;
 
-      instance.parentDisabled = context.parentDisabled;
-      instance.parentReadOnly = context.parentReadOnly;
-      instance.parentViewMode = context.parentViewMode;
-      instance.parentTabOnEnterKey = context.parentTabOnEnterKey;
-      instance.parentVisited = context.parentVisited;
+      (instance as any).parentDisabled = context.parentDisabled;
+      (instance as any).parentReadOnly = context.parentReadOnly;
+      (instance as any).parentViewMode = context.parentViewMode;
+      (instance as any).parentTabOnEnterKey = context.parentTabOnEnterKey;
+      (instance as any).parentVisited = context.parentVisited;
 
       if (
          instance.cache("parentDisabled", context.parentDisabled) ||
@@ -239,7 +239,7 @@ export class Field extends PureContainer {
          instance.cache("parentTabOnEnterKey", context.parentTabOnEnterKey) ||
          instance.cache("parentVisited", context.parentVisited)
       ) {
-         instance.markShouldUpdate(context);
+         (instance as any).markShouldUpdate(context);
          this.disableOrValidate(context, instance);
          this.prepareCSS(context, instance);
       }
@@ -253,7 +253,7 @@ export class Field extends PureContainer {
          context.validation.errors.push({
             fieldId: data.id,
             message: data.error,
-            visited: state.visited,
+            visited: state?.visited,
             type: "error",
          });
       }
@@ -262,26 +262,26 @@ export class Field extends PureContainer {
       super.explore(context, instance);
    }
 
-   exploreCleanup(context, instance) {
+   exploreCleanup(context: RenderingContext, instance: Instance): void {
       context.pop("lastFieldId");
    }
 
-   isEmpty(data) {
+   isEmpty(data: Record<string, unknown>): boolean {
       return data.value == null || data.value === this.emptyValue;
    }
 
-   validateRequired(context, instance) {
+   validateRequired(context: RenderingContext, instance: Instance): string | undefined {
       let { data } = instance;
       if (this.isEmpty(data)) return this.requiredText;
    }
 
-   getValidationValue(data) {
+   getValidationValue(data: Record<string, unknown>): unknown {
       return data.value;
    }
 
-   validate(context, instance) {
-      let { data, state } = instance;
-      state = state || {};
+   validate(context: RenderingContext, instance: Instance): void {
+      let { data } = instance;
+      let state = instance.state || {};
 
       let empty = this.isEmpty(data);
 
@@ -345,27 +345,27 @@ export class Field extends PureContainer {
       }
    }
 
-   renderLabel(context, instance, key) {
-      if (instance.components.label) return getContent(instance.components.label.vdom);
+   renderLabel(context: RenderingContext, instance: Instance, key: string | number): React.ReactNode {
+      if (instance.components?.label) return getContent(instance.components.label.vdom);
    }
 
-   renderInput(context, instance, key) {
+   renderInput(context: RenderingContext, instance: Instance, key: string | number): React.ReactNode {
       throw new Error("Not implemented.");
    }
 
-   renderHelp(context, instance, key) {
-      if (instance.components.help) return getContent(instance.components.help.render(context, key));
+   renderHelp(context: RenderingContext, instance: Instance, key: string | number): React.ReactNode {
+      if (instance.components?.help) return getContent(instance.components.help.render(context));
    }
 
-   renderIcon(context, instance, key) {
-      if (instance.components.icon) return getContent(instance.components.icon.render(context, key));
+   renderIcon(context: RenderingContext, instance: Instance, key: string | number): React.ReactNode {
+      if (instance.components?.icon) return getContent(instance.components.icon.render(context));
    }
 
-   formatValue(context, { data }) {
+   formatValue(context: RenderingContext, { data }: Instance): string | number | undefined {
       return data.text || data.value;
    }
 
-   renderValue(context, instance, key) {
+   renderValue(context: RenderingContext, instance: Instance, key: string | number): React.ReactNode {
       let text = this.formatValue(context, instance);
       if (text) {
          return (
@@ -386,12 +386,12 @@ export class Field extends PureContainer {
       }
    }
 
-   protected renderContent(context: any, instance: any, key: any): any {
+   protected renderContent(context: RenderingContext, instance: Instance, key: string | number): React.ReactNode {
       let content = this.renderValue(context, instance, key) || this.renderEmptyText(context, instance, key);
       return this.renderWrap(context, instance, key, content);
    }
 
-   protected renderWrap(context: any, instance: any, key: any, content: any): any {
+   protected renderWrap(context: RenderingContext, instance: Instance, key: string | number, content: React.ReactNode): React.ReactNode {
       let { data } = instance;
       let interactive = !data.viewMode && !data.disabled;
       return (
@@ -408,7 +408,7 @@ export class Field extends PureContainer {
       );
    }
 
-   protected renderEmptyText(_context: any, { data }: any, key: any): any {
+   protected renderEmptyText(_context: RenderingContext, { data }: Instance, key: string | number): React.ReactNode {
       return (
          <span key={key} className={this.CSS.element(this.baseClass, "empty-text")}>
             {data.emptyText || <span>&nbsp;</span>}
@@ -416,7 +416,7 @@ export class Field extends PureContainer {
       );
    }
 
-   public render(context: any, instance: any, key?: any): any {
+   public render(context: RenderingContext, instance: Instance, key?: string | number): Record<string, React.ReactNode> {
       let { data } = instance;
       let content = !data.viewMode
          ? this.renderInput(context, instance, key)
@@ -430,7 +430,7 @@ export class Field extends PureContainer {
       };
    }
 
-   protected handleKeyDown(e: any, instance: any): boolean | void {
+   protected handleKeyDown(e: KeyboardEvent, instance: Instance): boolean | void {
       if (this.onKeyDown && instance.invoke("onKeyDown", e, instance) === false) return false;
 
       if (instance.data.tabOnEnterKey && e.keyCode === 13) {
@@ -464,7 +464,7 @@ Field.prototype.styled = true;
 
 Localization.registerPrototype("cx/widgets/Field", Field);
 
-export function getFieldTooltip(instance): [Instance, any, any?] {
+export function getFieldTooltip(instance: Instance): [Instance, Record<string, unknown> | undefined, Record<string, unknown> | undefined] {
    let { widget, data, state } = instance;
 
    if (widget.errorTooltip && data.error && (!state || state.visited || !widget.suppressErrorsUntilVisited))

@@ -1,4 +1,3 @@
-//@ts-nocheck
 import * as React from "react";
 import { Widget, VDOM, getContent } from "../../ui/Widget";
 import { Cx } from "../../ui/Cx";
@@ -8,6 +7,8 @@ import { ColorPicker } from "./ColorPicker";
 import { parseColor } from "../../util/color/parseColor";
 import { isTouchDevice } from "../../util/isTouchDevice";
 import { isTouchEvent } from "../../util/isTouchEvent";
+import type { RenderingContext } from "../../ui/RenderingContext";
+import type { WidgetInstance } from "../../types/instance";
 
 import {
    tooltipParentWillReceiveProps,
@@ -27,14 +28,14 @@ import { getActiveElement } from "../../util/getActiveElement";
 
 interface ColorInputProps {
    key?: string;
-   instance: any;
-   data: any;
+   instance: WidgetInstance;
+   data: Record<string, unknown>;
    picker: {
-      value: any;
-      format: any;
+      value: unknown;
+      format: string;
    };
-   label?: any;
-   help?: any;
+   label?: React.ReactNode;
+   help?: React.ReactNode;
 }
 
 interface ColorInputState {
@@ -43,19 +44,7 @@ interface ColorInputState {
 }
 
 export class ColorField extends Field {
-   emptyValue: any;
-   hideClear: boolean;
-   showClear: boolean;
-   alwaysShowClear: boolean;
-   value: any;
-   format: string;
-   labelPlacement: any;
-   helpPlacement: any;
-   baseClass: string;
-   suppressErrorsUntilVisited: boolean;
-   dropdownOptions: any;
-
-   declareData(...args: any[]) {
+   declareData(...args: Record<string, unknown>[]): void {
       super.declareData(
          {
             value: this.emptyValue,
@@ -70,7 +59,7 @@ export class ColorField extends Field {
       );
    }
 
-   init() {
+   init(): void {
       if (isDefined(this.hideClear)) this.showClear = !this.hideClear;
 
       if (this.alwaysShowClear) this.showClear = true;
@@ -78,7 +67,7 @@ export class ColorField extends Field {
       super.init();
    }
 
-   prepareData(context: any, instance: any) {
+   prepareData(context: RenderingContext, instance: WidgetInstance): void {
       let { data } = instance;
       data.stateMods = [
          data.stateMods,
@@ -90,7 +79,7 @@ export class ColorField extends Field {
       super.prepareData(context, instance);
    }
 
-   renderInput(context: any, instance: any, key: string) {
+   renderInput(context: RenderingContext, instance: WidgetInstance, key: string | number): React.ReactNode {
       return (
          <ColorInput
             key={key}
@@ -117,10 +106,10 @@ Widget.alias("color-field", ColorField);
 Localization.registerPrototype("cx/widgets/ColorField", ColorField);
 
 class ColorInput extends VDOM.Component<ColorInputProps, ColorInputState> {
-   data: any;
-   dropdown?: any;
-   input: HTMLInputElement;
-   openDropdownOnFocus: boolean;
+   data: Record<string, unknown>;
+   dropdown?: Widget;
+   input!: HTMLInputElement;
+   openDropdownOnFocus: boolean = false;
    scrollableParents?: Element[];
    updateDropdownPosition: () => void;
 
@@ -135,7 +124,7 @@ class ColorInput extends VDOM.Component<ColorInputProps, ColorInputState> {
       this.updateDropdownPosition = () => {};
    }
 
-   getDropdown() {
+   getDropdown(): Widget {
       if (this.dropdown) return this.dropdown;
 
       let { widget, lastDropdown } = this.props.instance;
@@ -176,7 +165,7 @@ class ColorInput extends VDOM.Component<ColorInputProps, ColorInputState> {
       return (this.dropdown = Widget.create(dropdown));
    }
 
-   render() {
+   render(): React.ReactNode {
       let { instance, label, help, data } = this.props;
       let { widget, state } = instance;
       let { CSS, baseClass, suppressErrorsUntilVisited } = widget;
@@ -286,7 +275,7 @@ class ColorInput extends VDOM.Component<ColorInputProps, ColorInputState> {
       );
    }
 
-   onMouseDown(e: React.MouseEvent) {
+   onMouseDown(e: React.MouseEvent): void {
       e.stopPropagation();
       if (this.state.dropdownOpen) this.closeDropdown(e);
       else {
@@ -301,7 +290,7 @@ class ColorInput extends VDOM.Component<ColorInputProps, ColorInputState> {
       }
    }
 
-   onFocus(e: React.FocusEvent) {
+   onFocus(e: React.FocusEvent): void {
       if (this.openDropdownOnFocus) this.openDropdown(e);
 
       let { instance } = this.props;
@@ -313,7 +302,7 @@ class ColorInput extends VDOM.Component<ColorInputProps, ColorInputState> {
       }
    }
 
-   onKeyDown(e: React.KeyboardEvent) {
+   onKeyDown(e: React.KeyboardEvent): void {
       let { instance } = this.props;
       if (instance.widget.handleKeyDown(e, instance) === false) return;
 
@@ -345,7 +334,7 @@ class ColorInput extends VDOM.Component<ColorInputProps, ColorInputState> {
       }
    }
 
-   onBlur(e: React.FocusEvent) {
+   onBlur(e: React.FocusEvent): void {
       if (this.state.focus)
          this.setState({
             focus: false,
@@ -353,7 +342,7 @@ class ColorInput extends VDOM.Component<ColorInputProps, ColorInputState> {
       this.onChange((e.target as HTMLInputElement).value, "blur");
    }
 
-   closeDropdown(e?: any, callback?: () => void) {
+   closeDropdown(e?: React.KeyboardEvent | React.MouseEvent, callback?: () => void): void {
       if (this.state.dropdownOpen) {
          if (this.scrollableParents)
             this.scrollableParents.forEach((el) => {
@@ -364,7 +353,7 @@ class ColorInput extends VDOM.Component<ColorInputProps, ColorInputState> {
       } else if (callback) callback();
    }
 
-   openDropdown(e: any) {
+   openDropdown(e: React.KeyboardEvent | React.MouseEvent): void {
       let { data } = this.props;
       this.openDropdownOnFocus = false;
 
@@ -373,11 +362,11 @@ class ColorInput extends VDOM.Component<ColorInputProps, ColorInputState> {
       }
    }
 
-   trim(value: string) {
+   trim(value: string): string {
       return value.replace(/\s/g, "");
    }
 
-   UNSAFE_componentWillReceiveProps(props: ColorInputProps) {
+   UNSAFE_componentWillReceiveProps(props: ColorInputProps): void {
       let { data, instance } = props;
       let { state } = instance;
       let nv = this.trim(data.value || "");
@@ -393,20 +382,20 @@ class ColorInput extends VDOM.Component<ColorInputProps, ColorInputState> {
       tooltipParentWillReceiveProps(this.input, tooltip1[0], tooltip1[1]);
    }
 
-   componentDidMount() {
+   componentDidMount(): void {
       const tooltip2 = getFieldTooltip(this.props.instance);
       tooltipParentDidMount(this.input, tooltip2[0], tooltip2[1]);
       if (this.props.instance.widget.autoFocus && !isTouchDevice()) this.input.focus();
    }
 
-   componentWillUnmount() {
+   componentWillUnmount(): void {
       if (this.input == getActiveElement() && this.input.value != this.props.data.value) {
          this.onChange(this.input.value, "blur");
       }
       tooltipParentWillUnmount(this.props.instance);
    }
 
-   onClearClick(e: React.MouseEvent) {
+   onClearClick(e: React.MouseEvent): void {
       let { instance } = this.props;
       instance.set("value", instance.widget.emptyValue);
       instance.setState({
@@ -416,7 +405,7 @@ class ColorInput extends VDOM.Component<ColorInputProps, ColorInputState> {
       e.preventDefault();
    }
 
-   onChange(inputValue: string, eventType: string) {
+   onChange(inputValue: string, eventType: string): void {
       let { instance, data } = this.props;
       let { widget } = instance;
 

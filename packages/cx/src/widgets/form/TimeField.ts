@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { Widget } from "../../ui/Widget";
 import { Localization } from "../../ui/Localization";
 import { DateTimeField } from "./DateTimeField";

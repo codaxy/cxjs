@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { Widget, VDOM, getContent } from "../../ui/Widget";
 import { Cx } from "../../ui/Cx";
 import { Field, getFieldTooltip } from "./Field";
@@ -29,9 +28,12 @@ import { TimeList } from "./TimeList";
 import { autoFocus } from "../autoFocus";
 import { getActiveElement } from "../../util";
 import { parseDateInvariant } from "../../util";
+import type { RenderingContext } from "../../ui/RenderingContext";
+import type { WidgetInstance } from "../../types/instance";
+import * as React from "react";
 
 export class DateTimeField extends Field {
-   declareData() {
+   declareData(...args: Record<string, unknown>[]): void {
       super.declareData(
          {
             value: this.emptyValue,
@@ -48,11 +50,11 @@ export class DateTimeField extends Field {
             icon: undefined,
             autoOpen: undefined,
          },
-         ...arguments,
+         ...args,
       );
    }
 
-   init() {
+   init(): void {
       if (typeof this.hideClear !== "undefined") this.showClear = !this.hideClear;
 
       if (this.alwaysShowClear) this.showClear = true;
@@ -75,7 +77,7 @@ export class DateTimeField extends Field {
       super.init();
    }
 
-   prepareData(context, instance) {
+   prepareData(context: RenderingContext, instance: WidgetInstance): void {
       let { data } = instance;
 
       if (data.value) {
@@ -108,7 +110,7 @@ export class DateTimeField extends Field {
       super.prepareData(context, instance);
    }
 
-   validate(context, instance) {
+   validate(context: RenderingContext, instance: WidgetInstance): void {
       super.validate(context, instance);
       var { data, widget } = instance;
       if (!data.error && data.date) {
@@ -135,7 +137,7 @@ export class DateTimeField extends Field {
       }
    }
 
-   renderInput(context, instance, key) {
+   renderInput(context: RenderingContext, instance: WidgetInstance, key: string | number): React.ReactNode {
       return (
          <DateTimeInput
             key={key}
@@ -159,11 +161,11 @@ export class DateTimeField extends Field {
       );
    }
 
-   formatValue(context, { data }) {
+   formatValue(context: RenderingContext, { data }: WidgetInstance): string | null {
       return data.value ? data.formatted : null;
    }
 
-   parseDate(date, instance) {
+   parseDate(date: unknown, instance: WidgetInstance): Date | null {
       if (!date) return null;
       if (date instanceof Date) return date;
       if (this.onParseInput) {
@@ -196,8 +198,30 @@ DateTimeField.prototype.focusInputFirst = false;
 Widget.alias("datetimefield", DateTimeField);
 Localization.registerPrototype("cx/widgets/DateTimeField", DateTimeField);
 
-class DateTimeInput extends VDOM.Component {
-   constructor(props) {
+interface DateTimeInputProps {
+   instance: WidgetInstance;
+   data: Record<string, unknown>;
+   picker: Record<string, unknown>;
+   label?: React.ReactNode;
+   help?: React.ReactNode;
+   icon?: React.ReactNode;
+}
+
+interface DateTimeInputState {
+   dropdownOpen: boolean;
+   focus: boolean;
+   dropdownOpenTime?: number;
+}
+
+class DateTimeInput extends VDOM.Component<DateTimeInputProps, DateTimeInputState> {
+   input!: HTMLInputElement;
+   dropdown?: Widget;
+   scrollableParents?: Element[];
+   openDropdownOnFocus?: boolean;
+   updateDropdownPosition?: () => void;
+   scrolling?: boolean;
+
+   constructor(props: DateTimeInputProps) {
       super(props);
       props.instance.component = this;
       this.state = {
@@ -206,7 +230,7 @@ class DateTimeInput extends VDOM.Component {
       };
    }
 
-   getDropdown() {
+   getDropdown(): Widget {
       if (this.dropdown) return this.dropdown;
 
       let { widget, lastDropdown } = this.props.instance;
@@ -288,7 +312,7 @@ class DateTimeInput extends VDOM.Component {
       return (this.dropdown = Widget.create(dropdown));
    }
 
-   render() {
+   render(): React.ReactNode {
       let { instance, label, help, icon: iconVDOM } = this.props;
       let { data, widget, state } = instance;
       let { CSS, baseClass, suppressErrorsUntilVisited } = widget;
@@ -388,7 +412,7 @@ class DateTimeInput extends VDOM.Component {
       );
    }
 
-   onMouseDown(e) {
+   onMouseDown(e: React.MouseEvent): void {
       e.stopPropagation();
 
       if (this.state.dropdownOpen) {
@@ -409,7 +433,7 @@ class DateTimeInput extends VDOM.Component {
       }
    }
 
-   onFocus(e) {
+   onFocus(e: React.FocusEvent): void {
       let { instance } = this.props;
       let { widget } = instance;
       if (widget.trackFocus) {
@@ -420,7 +444,7 @@ class DateTimeInput extends VDOM.Component {
       if (this.openDropdownOnFocus || widget.focusInputFirst) this.openDropdown(e);
    }
 
-   onKeyDown(e) {
+   onKeyDown(e: React.KeyboardEvent): void {
       let { instance } = this.props;
       if (instance.widget.handleKeyDown(e, instance) === false) return;
 
@@ -451,7 +475,7 @@ class DateTimeInput extends VDOM.Component {
       }
    }
 
-   onBlur(e) {
+   onBlur(e: React.FocusEvent<HTMLInputElement>): void {
       if (!this.state.dropdownOpen) this.props.instance.setState({ visited: true });
       else if (this.props.instance.widget.focusInputFirst) this.closeDropdown(e);
       if (this.state.focus)
@@ -461,7 +485,7 @@ class DateTimeInput extends VDOM.Component {
       this.onChange(e.target.value, "blur");
    }
 
-   closeDropdown(e, callback) {
+   closeDropdown(e: unknown, callback?: () => void): void {
       if (this.state.dropdownOpen) {
          if (this.scrollableParents)
             this.scrollableParents.forEach((el) => {
@@ -473,7 +497,7 @@ class DateTimeInput extends VDOM.Component {
       } else if (callback) callback();
    }
 
-   openDropdown() {
+   openDropdown(): void {
       let { data } = this.props.instance;
       this.openDropdownOnFocus = false;
 
@@ -485,13 +509,13 @@ class DateTimeInput extends VDOM.Component {
       }
    }
 
-   onClearClick(e) {
+   onClearClick(e: React.MouseEvent): void {
       this.setValue(null);
       e.stopPropagation();
       e.preventDefault();
    }
 
-   UNSAFE_componentWillReceiveProps(props) {
+   UNSAFE_componentWillReceiveProps(props: DateTimeInputProps): void {
       let { data, state } = props.instance;
       if (data.formatted !== this.input.value && (data.formatted !== this.props.data.formatted || !state.inputError)) {
          this.input.value = data.formatted || "";
@@ -503,24 +527,24 @@ class DateTimeInput extends VDOM.Component {
       tooltipParentWillReceiveProps(this.input, ...getFieldTooltip(this.props.instance));
    }
 
-   componentDidMount() {
+   componentDidMount(): void {
       tooltipParentDidMount(this.input, ...getFieldTooltip(this.props.instance));
       autoFocus(this.input, this);
       if (this.props.data.autoOpen) this.openDropdown();
    }
 
-   componentDidUpdate() {
+   componentDidUpdate(): void {
       autoFocus(this.input, this);
    }
 
-   componentWillUnmount() {
+   componentWillUnmount(): void {
       if (this.input == getActiveElement() && this.input.value != this.props.data.formatted) {
          this.onChange(this.input.value, "blur");
       }
       tooltipParentWillUnmount(this.props.instance);
    }
 
-   onChange(inputValue, eventType) {
+   onChange(inputValue: string, eventType: string): void {
       let { instance, data } = this.props;
       let { widget } = instance;
 
@@ -533,7 +557,7 @@ class DateTimeInput extends VDOM.Component {
       this.setValue(inputValue, data.value);
    }
 
-   setValue(text, baseValue) {
+   setValue(text: string | null, baseValue?: unknown): void {
       let { instance, data } = this.props;
       let { widget } = instance;
 

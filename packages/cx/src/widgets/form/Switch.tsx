@@ -1,4 +1,5 @@
-//@ts-nocheck
+import type { RenderingContext } from "../../ui/RenderingContext";
+import type { WidgetInstance } from "../../types/instance";
 import { Widget, VDOM, getContent } from "../../ui/Widget";
 import { KeyCode } from "../../util/KeyCode";
 import { parseStyle } from "../../util/parseStyle";
@@ -6,9 +7,17 @@ import { Field, getFieldTooltip } from "./Field";
 import { tooltipMouseMove, tooltipMouseLeave } from "../overlay/tooltip-ops";
 import { preventFocus } from "../../ui/FocusManager";
 import { isDefined } from "../../util/isDefined";
+import * as React from "react";
 
 export class Switch extends Field {
-   declareData() {
+   public on?: unknown;
+   public off?: unknown;
+   public value?: unknown;
+   public rangeStyle?: Record<string, unknown> | string;
+   public handleStyle?: Record<string, unknown> | string;
+   public focusOnMouseDown?: boolean;
+
+   declareData(...args: Record<string, unknown>[]): void {
       super.declareData(
          {
             on: false,
@@ -25,15 +34,15 @@ export class Switch extends Field {
                structured: true,
             },
          },
-         ...arguments
+         ...args
       );
    }
 
-   isEmpty() {
+   isEmpty(): boolean {
       return false;
    }
 
-   init() {
+   init(): void {
       if (isDefined(this.value)) this.on = this.value;
 
       this.rangeStyle = parseStyle(this.rangeStyle);
@@ -42,7 +51,7 @@ export class Switch extends Field {
       super.init();
    }
 
-   prepareData(context, instance) {
+   prepareData(context: RenderingContext, instance: WidgetInstance): void {
       let { data } = instance;
 
       if (isDefined(this.off)) data.on = !data.off;
@@ -55,7 +64,7 @@ export class Switch extends Field {
       super.prepareData(context, instance);
    }
 
-   renderInput(context, instance, key) {
+   renderInput(context: RenderingContext, instance: WidgetInstance, key: string): React.ReactElement {
       let { data, widget } = instance;
       let { rangeStyle, handleStyle } = data;
       let { CSS, baseClass } = this;
@@ -69,7 +78,7 @@ export class Switch extends Field {
             className={data.classNames}
             style={data.style}
             id={data.id}
-            tabIndex={data.disabled ? null : data.tabIndex || 0}
+            tabIndex={data.disabled ? undefined : ((data.tabIndex as number) || 0)}
             onMouseDown={(e) => {
                e.stopPropagation();
                if (!this.focusOnMouseDown) preventFocus(e);
@@ -78,13 +87,23 @@ export class Switch extends Field {
                this.toggle(e, instance);
             }}
             onKeyDown={(e) => {
-               if (widget.handleKeyDown(e, instance) === false) return;
+               if (widget.handleKeyDown && widget.handleKeyDown(e as unknown as KeyboardEvent, instance) === false) return;
                if (e.keyCode == KeyCode.space) {
                   this.toggle(e, instance);
                }
             }}
-            onMouseMove={(e) => tooltipMouseMove(e, ...getFieldTooltip(instance))}
-            onMouseLeave={(e) => tooltipMouseLeave(e, ...getFieldTooltip(instance))}
+            onMouseMove={(e) => {
+               const tooltip = getFieldTooltip(instance);
+               if (Array.isArray(tooltip)) {
+                  tooltipMouseMove(e, ...tooltip);
+               }
+            }}
+            onMouseLeave={(e) => {
+               const tooltip = getFieldTooltip(instance);
+               if (Array.isArray(tooltip)) {
+                  tooltipMouseLeave(e, ...tooltip);
+               }
+            }}
          >
             {this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
             &nbsp;
@@ -103,7 +122,7 @@ export class Switch extends Field {
       );
    }
 
-   toggle(e, instance) {
+   toggle(e: React.MouseEvent | React.KeyboardEvent, instance: WidgetInstance): void {
       let { data } = instance;
       if (data.readOnly || data.disabled) return;
       instance.set("on", !data.on);

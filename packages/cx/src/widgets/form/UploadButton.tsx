@@ -1,14 +1,25 @@
-//@ts-nocheck
 import { Widget, VDOM } from "../../ui/Widget";
 import { Icon } from "../Icon";
 import { Field } from "./Field";
 import { Url } from "../../ui/app/Url";
 import { Localization } from "../../ui/Localization";
+import type { RenderingContext } from "../../ui/RenderingContext";
+import type { Instance } from "../../ui/Instance";
 
 //TODO: Implement UploadStatus which will enable canceling
 
 export class UploadButton extends Field {
-   declareData() {
+   public multiple?: boolean;
+   public method?: string;
+   public abortOnDestroy?: boolean;
+   public uploadInProgressText?: string;
+   public onResolveUrl?: string | ((file: File, instance: Instance) => string | Promise<string>);
+   public onUploadStarting?: string | ((xhr: XMLHttpRequest, instance: Instance, file: File, formData: FormData) => boolean | Promise<boolean>);
+   public onUploadComplete?: string | ((xhr: XMLHttpRequest, instance: Instance, file: File, formData: FormData) => void);
+   public onUploadProgress?: string | ((event: ProgressEvent, instance: Instance, file: File, formData: FormData) => void);
+   public onUploadError?: string | ((error: unknown, instance: Instance, file: File, formData: FormData) => void);
+
+   declareData(...args: Record<string, unknown>[]): void {
       super.declareData(
          {
             disabled: undefined,
@@ -18,11 +29,11 @@ export class UploadButton extends Field {
             icon: undefined,
             accept: undefined
          },
-         ...arguments
+         ...args
       );
    }
 
-   renderInput(context, instance, key) {
+   renderInput(context: RenderingContext, instance: Instance, key: string | number): React.ReactNode {
       let { data } = instance;
       return (
          <UploadButtonComponent key={key} instance={instance}>
@@ -40,8 +51,28 @@ UploadButton.prototype.uploadInProgressText = "Upload is in progress.";
 
 Localization.registerPrototype("cx/widgets/UploadButton", UploadButton);
 
-class UploadButtonComponent extends VDOM.Component {
-   constructor(props) {
+interface UploadButtonComponentProps {
+   instance: Instance;
+   children?: React.ReactNode;
+}
+
+interface UploadButtonComponentState {
+   progress: number;
+   uploadKey: number;
+}
+
+interface Upload {
+   progress: number;
+   size: number;
+   file: File;
+   xhr: XMLHttpRequest;
+}
+
+class UploadButtonComponent extends VDOM.Component<UploadButtonComponentProps, UploadButtonComponentState> {
+   uploads: Record<string, Upload>;
+   el?: HTMLDivElement;
+
+   constructor(props: UploadButtonComponentProps) {
       super(props);
       this.uploads = {};
       this.state = {
@@ -50,7 +81,7 @@ class UploadButtonComponent extends VDOM.Component {
       };
    }
 
-   render() {
+   render(): React.ReactNode {
       let { instance, children } = this.props;
       let { widget, data } = instance;
       let { CSS, baseClass } = widget;
@@ -68,8 +99,8 @@ class UploadButtonComponent extends VDOM.Component {
 
       return (
          <div
-            ref={(el) => {
-               this.el = el;
+            ref={(el: HTMLDivElement | null) => {
+               this.el = el || undefined;
             }}
             className={className}
             style={data.style}
@@ -87,9 +118,9 @@ class UploadButtonComponent extends VDOM.Component {
                   className={CSS.element(baseClass, "input")}
                   type="file"
                   title=" "
-                  accept={data.accept}
+                  accept={data.accept as string}
                   multiple={widget.multiple}
-                  tabIndex={data.tabIndex}
+                  tabIndex={data.tabIndex as number}
                   onChange={this.onFileSelected.bind(this)}
                />
             )}
@@ -97,16 +128,18 @@ class UploadButtonComponent extends VDOM.Component {
       );
    }
 
-   onFileSelected(e) {
-      let files = e.dataTransfer ? e.dataTransfer.files : e.target ? e.target.files : [];
-      for (let i = 0; i < files.length; i++) this.uploadFile(files[i]);
+   onFileSelected(e: React.ChangeEvent<HTMLInputElement>): void {
+      let files = e.target.files;
+      if (files) {
+         for (let i = 0; i < files.length; i++) this.uploadFile(files[i]);
+      }
    }
 
-   componentDidMount() {
+   componentDidMount(): void {
       if (this.props.instance.data.autoFocus) this.el.focus();
    }
 
-   componentWillUnmount() {
+   componentWillUnmount(): void {
       if (this.props.instance.widget.abortOnDestroy) {
          for (let key in this.uploads) {
             let upload = this.uploads[key];
@@ -115,7 +148,7 @@ class UploadButtonComponent extends VDOM.Component {
       }
    }
 
-   uploadFile(file) {
+   uploadFile(file: File): void {
       let { instance } = this.props;
       let { data, widget } = instance;
 
@@ -128,7 +161,7 @@ class UploadButtonComponent extends VDOM.Component {
       }
    }
 
-   doUpload(file, url) {
+   doUpload(file: File, url: string): void {
       let { instance } = this.props;
       let { widget } = instance;
 
@@ -189,7 +222,7 @@ class UploadButtonComponent extends VDOM.Component {
       this.reportProgress();
    }
 
-   reportProgress() {
+   reportProgress(): void {
       let totalSize = 0;
       let uploaded = 0;
 
