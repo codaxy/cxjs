@@ -1,30 +1,68 @@
-//@ts-nocheck
-let impl = false;
+import type { WidgetInstance } from "../../types/instance";
+import type { TooltipConfig, TooltipOptions, TooltipOperations } from "../../types/tooltip";
 
-export function tooltipMouseMove(e, parentInstance, tooltip, options = {}) {
-   return impl && impl.tooltipMouseMove.apply(impl, arguments);
+let impl: TooltipOperations | false = false;
+
+export function tooltipMouseMove(
+   e: MouseEvent,
+   parentInstance: WidgetInstance,
+   tooltip: TooltipConfig,
+   options: TooltipOptions = {}
+): void {
+   if (impl) {
+      impl.tooltipMouseMove.call(impl, e, parentInstance, tooltip, options);
+   }
 }
 
-export function tooltipMouseLeave(e, parentInstance, tooltip, options) {
-   return impl && impl.tooltipMouseLeave.apply(impl, arguments);
+export function tooltipMouseLeave(
+   e: MouseEvent,
+   parentInstance: WidgetInstance,
+   tooltip: TooltipConfig,
+   options?: TooltipOptions
+): void {
+   if (impl) {
+      impl.tooltipMouseLeave.call(impl, e, parentInstance, tooltip, options);
+   }
 }
 
-export function tooltipParentDidMount(element, parentInstance, tooltip, options) {
-   return impl && impl.tooltipParentDidMount.apply(impl, arguments);
+export function tooltipParentDidMount(
+   element: HTMLElement,
+   parentInstance: WidgetInstance,
+   tooltip: TooltipConfig,
+   options?: TooltipOptions
+): void {
+   if (impl) {
+      impl.tooltipParentDidMount.call(impl, element, parentInstance, tooltip, options);
+   }
 }
 
-export function tooltipParentWillReceiveProps(element, parentInstance, tooltip, options) {
-   return impl && impl.tooltipParentWillReceiveProps.apply(impl, arguments);
+export function tooltipParentWillReceiveProps(
+   element: HTMLElement,
+   parentInstance: WidgetInstance,
+   tooltip: TooltipConfig,
+   options?: TooltipOptions
+): void {
+   if (impl) {
+      impl.tooltipParentWillReceiveProps.call(impl, element, parentInstance, tooltip, options);
+   }
 }
 
-export function tooltipParentWillUnmount(parentInstance) {
-   return impl && impl.tooltipParentWillUnmount.apply(impl, arguments);
+export function tooltipParentWillUnmount(parentInstance: WidgetInstance): void {
+   if (impl) {
+      impl.tooltipParentWillUnmount.call(impl, parentInstance);
+   }
 }
 
-export function tooltipParentDidUpdate(element, parentInstance, tooltip) {
-   return impl && impl.tooltipParentDidUpdate.apply(impl, arguments);
+export function tooltipParentDidUpdate(
+   element: HTMLElement,
+   parentInstance: WidgetInstance,
+   tooltip: TooltipConfig
+): void {
+   if (impl) {
+      impl.tooltipParentDidUpdate.call(impl, element, parentInstance, tooltip);
+   }
 }
 
-export function wireTooltipOps(ops) {
+export function wireTooltipOps(ops: TooltipOperations): void {
    impl = ops;
 }

@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { Widget, VDOM, getContentArray } from "../ui/Widget";
 import { HtmlElement } from "./HtmlElement";
 import { yesNo } from "./overlay/alerts";
@@ -7,10 +6,29 @@ import { preventFocus } from "../ui/FocusManager";
 import { isFunction } from "../util/isFunction";
 import { isDefined } from "../util/isDefined";
 import { coalesce } from "../util/coalesce";
+import type { RenderingContext } from "../ui/RenderingContext";
+import type { WidgetInstance, WidgetData } from "../types/instance";
+import type { RenderProps } from "../types/instance";
+import { YesNoResult } from "../types/instance";
+
+interface ButtonData extends WidgetData {
+   pressed?: boolean;
+   icon?: string | boolean;
+   disabled?: boolean;
+   enabled?: boolean;
+}
 
 export class Button extends HtmlElement {
-   declareData() {
-      super.declareData(...arguments, {
+   public tag?: string;
+   public baseClass?: string;
+   public icon?: boolean | string;
+   public focusOnMouseDown?: boolean;
+   public submit?: boolean;
+   public dismiss?: boolean;
+   public onMouseDown?: string | ((e: MouseEvent, instance: WidgetInstance) => void);
+
+   declareData(...args: Record<string, unknown>[]): void {
+      super.declareData(...args, {
          confirm: { structured: true },
          pressed: undefined,
          icon: undefined,
@@ -19,8 +37,8 @@ export class Button extends HtmlElement {
       });
    }
 
-   prepareData(context, instance) {
-      let { data } = instance;
+   prepareData(context: RenderingContext, instance: WidgetInstance<ButtonData>): void {
+      const { data } = instance;
       data.stateMods = {
          ...data.stateMods,
          pressed: data.pressed,
@@ -30,7 +48,7 @@ export class Button extends HtmlElement {
       super.prepareData(context, instance);
    }
 
-   explore(context, instance) {
+   explore(context: RenderingContext, instance: WidgetInstance<ButtonData>): void {
       instance.data.parentDisabled = context.parentDisabled;
       instance.data.parentStrict = context.parentStrict;
 
@@ -40,23 +58,28 @@ export class Button extends HtmlElement {
       super.explore(context, instance);
    }
 
-   attachProps(context, instance, props) {
+   attachProps(context: RenderingContext, instance: WidgetInstance<ButtonData>, props: RenderProps): void {
       super.attachProps(context, instance, props);
 
       if (!this.focusOnMouseDown) {
-         props.onMouseDown = (e) => {
-            if (this.onMouseDown && instance.invoke("onMouseDown", e, instance) == false) return;
-            preventFocus(e);
+         props.onMouseDown = (e: React.MouseEvent) => {
+            if (this.onMouseDown && instance.invoke("onMouseDown", e.nativeEvent, instance) === false) return;
+            preventFocus(e.nativeEvent);
          };
       }
 
       if (this.dismiss) {
-         let { onClick } = props;
+         const { onClick } = props;
 
-         props.onClick = (...args) => {
-            if (onClick && onClick(...args) === false) return;
+         props.onClick = (e: React.MouseEvent) => {
+            if (onClick) {
+               const result = onClick(e);
+               if (result === false) return;
+            }
 
-            if (instance.parentOptions && isFunction(instance.parentOptions.dismiss)) instance.parentOptions.dismiss();
+            if (instance.parentOptions && isFunction(instance.parentOptions.dismiss)) {
+               instance.parentOptions.dismiss();
+            }
          };
       }
 
@@ -70,40 +93,41 @@ export class Button extends HtmlElement {
       delete props.icon;
       delete props.enabled;
 
-      let oldOnClick,
-         { data } = instance;
+      const { data } = instance;
 
-      props.disabled = coalesce(data.parentStrict ? data.parentDisabled : null, data.disabled, data.parentDisabled);
+      props.disabled = coalesce(data.parentStrict ? data.parentDisabled : null, data.disabled, data.parentDisabled) as
+         | boolean
+         | undefined;
 
       if (data.confirm) {
-         oldOnClick = props.onClick;
-         props.onClick = () => {
-            yesNo(data.confirm).then((btn) => {
-               if (btn == "yes") oldOnClick.call(this, null, instance);
+         const oldOnClick = props.onClick;
+         props.onClick = (e: React.MouseEvent) => {
+            yesNo(data.confirm!).then((btn: string) => {
+               if (btn === YesNoResult.Yes && oldOnClick) {
+                  oldOnClick(e);
+               }
             });
          };
       }
 
-      let icon, children;
-
       if (data.icon) {
-         icon = Icon.render(data.icon, {
+         const icon = Icon.render(data.icon, {
             key: "icon",
             className: this.CSS.element(this.baseClass, "icon"),
          });
-         children = getContentArray(props.children);
+         const children = getContentArray(props.children);
          props.children = [icon, ...children];
          props.className = this.CSS.expand(
             props.className,
             this.CSS.state("icon"),
-            children.length == 0 && this.CSS.state("empty")
+            children.length === 0 && this.CSS.state("empty"),
          );
 
-         if (children.length == 0) {
-            props.children.push(
+         if (children.length === 0) {
+            (props.children as React.ReactNode[]).push(
                <span key="baseline" className={this.CSS.element(this.baseClass, "baseline")}>
                   &nbsp;
-               </span>
+               </span>,
             );
          }
       }

@@ -2,7 +2,7 @@
    "compilerOptions": {
       "target": "es2017",
       "jsx": "react-jsx",
-      "jsxImportSource": ".",
+      "jsxImportSource": "react",
       "allowJs": true,
       "moduleResolution": "node",
       "module": "esnext",
@@ -13,11 +13,20 @@
       "skipLibCheck": true,
       "baseUrl": ".",
       "paths": {
-         "./jsx-runtime": ["./jsx-runtime.js"]
+         "./jsx-runtime": ["./jsx-runtime"]
       },
       "outDir": "./build",
       "rootDir": "./src",
-      "declaration": true
+      "declaration": true,
+      "strict": true,
+      "noImplicitAny": true,
+      "strictNullChecks": true,
+      "strictFunctionTypes": true,
+      "strictBindCallApply": true,
+      "strictPropertyInitialization": false,
+      "noImplicitThis": true,
+      "alwaysStrict": true,
+      "downlevelIteration": true
    },
    "exclude": ["dist", "build"],
    "include": ["src"]
