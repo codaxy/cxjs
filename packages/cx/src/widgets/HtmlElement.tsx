@@ -15,8 +15,8 @@ import { isUndefined } from "../util/isUndefined";
 import { isDefined } from "../util/isDefined";
 import { isArray } from "../util/isArray";
 import { autoFocus } from "./autoFocus";
-import type { RenderingContext } from "../ui/RenderingContext";
-import type { WidgetData, Instance, RenderProps, Instance } from "../ui/Instance";
+import type { CxChild, RenderingContext } from "../ui/RenderingContext";
+import type { WidgetData, Instance, RenderProps } from "../ui/Instance";
 import type { TooltipConfig } from "./overlay/tooltip-ops";
 
 const isDataAttribute = (attr: string): string | false =>
@@ -200,8 +200,8 @@ export class HtmlElement extends Container {
 
       if (data.style) props.style = data.style as Record<string, string | number>;
 
-      let children: React.ReactNode;
-      if (isDefined(data.text)) children = data.text as React.ReactNode;
+      let children: CxChild;
+      if (isDefined(data.text)) children = data.text;
       else if (isString(data.innerHtml)) {
          props.dangerouslySetInnerHTML = { __html: data.innerHtml };
       } else {
@@ -216,11 +216,11 @@ export class HtmlElement extends Container {
       if (this.tooltip || this.onRef || this.autoFocus)
          return (
             <ContainerComponent key={key} tag={this.tag!} props={props} instance={instance} data={data}>
-               {props.children}
+               {props.children as React.ReactNode}
             </ContainerComponent>
          );
 
-      return VDOM.createElement(this.tag!, props, props.children);
+      return VDOM.createElement(this.tag!, props, props.children as React.ReactNode);
    }
 }
 
@@ -262,11 +262,11 @@ class ContainerComponent extends VDOM.Component<ContainerComponentProps> {
          const { onMouseLeave, onMouseMove } = props;
 
          props.onMouseLeave = (e: React.MouseEvent) => {
-            tooltipMouseLeave(e.nativeEvent, instance, widget.tooltip!);
+            tooltipMouseLeave(e, instance, widget.tooltip!);
             if (onMouseLeave) onMouseLeave(e);
          };
          props.onMouseMove = (e: React.MouseEvent) => {
-            tooltipMouseMove(e.nativeEvent, instance, widget.tooltip!);
+            tooltipMouseMove(e, instance, widget.tooltip!);
             if (onMouseMove) onMouseMove(e);
          };
       }

@@ -31,7 +31,7 @@ export class Field extends PureContainer {
    public asterisk?: boolean;
    public labelStyle?: Record<string, unknown> | string;
    public labelClass?: string;
-   public icon?: Record<string, unknown> | string;
+   public icon?: null | string;
    public visited?: boolean;
    public labelPlacement?: string;
    public helpPlacement?: string;

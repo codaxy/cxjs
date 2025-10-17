@@ -1,5 +1,8 @@
 import { TraversalStack } from "../util/TraversalStack";
 import { reverseSlice } from "../util/reverseSlice";
+import { Widget } from "./Widget";
+
+export type CxChild = Record<string, any> | React.ReactElement | Widget | CxChild[] | null | undefined;
 
 export class RenderingContext {
    options: any;

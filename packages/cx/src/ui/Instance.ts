@@ -12,7 +12,7 @@ import { isObject } from "../util/isObject";
 import { isNonEmptyArray } from "../util/isNonEmptyArray";
 import { isUndefined } from "../util/isUndefined";
 import { isAccessorChain } from "../data/createAccessorModelProxy";
-import { RenderingContext } from "./RenderingContext";
+import { CxChild, RenderingContext } from "./RenderingContext";
 import type { Widget } from "./Widget";
 import { View } from "src/data";
 
@@ -126,7 +126,7 @@ export interface RenderProps {
    className?: string;
    style?: Record<string, string | number>;
    ref?: (element: HTMLElement | null) => void;
-   children?: React.ReactNode;
+   children?: CxChild;
    dangerouslySetInnerHTML?: { __html: string };
    htmlFor?: string;
 

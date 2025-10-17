@@ -1,10 +1,9 @@
-//@ts-nocheck
+import { Instance, RenderingContext } from "src/ui";
 import { Widget } from "../ui/Widget";
-import { VDOM } from "../ui/VDOM";
 import { getSearchQueryHighlighter } from "../util/getSearchQueryPredicate";
 
 export class HighlightedSearchText extends Widget {
-   declareData(...args) {
+   declareData(...args: Record<string, unknown>[]) {
       super.declareData(...args, {
          text: undefined,
          chunks: undefined,
@@ -12,7 +11,7 @@ export class HighlightedSearchText extends Widget {
       });
    }
 
-   render(context, instance, key) {
+   render(context: RenderingContext, instance: Instance, key: string): React.ReactNode {
       let { data } = instance;
       let { text, chunks, query, classNames, style } = data;
 
@@ -22,7 +21,7 @@ export class HighlightedSearchText extends Widget {
       }
 
       if (!chunks) return text;
-      return chunks.map((text, i) => {
+      return chunks.map((text: string, i: number) => {
          if (i % 2 == 0) return text;
          return (
             <span key={`${key}-${i}`} className={classNames} style={style}>

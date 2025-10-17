@@ -1,18 +1,16 @@
-//@ts-nocheck
-import { Widget, VDOM, getContent } from "../ui/Widget";
-import { PureContainer } from "../ui/PureContainer";
-import { GroupAdapter } from "../ui/adapter/GroupAdapter";
-import { Binding, isBinding } from "../data/Binding";
-import { Selection } from "../ui/selection/Selection";
-import { KeyCode } from "../util/KeyCode";
-import { scrollElementIntoView } from "../util/scrollElementIntoView";
-import { FocusManager, oneFocusOut, offFocusOut, preventFocusOnTouch } from "../ui/FocusManager";
-import { isString } from "../util/isString";
-import { isArray } from "../util/isArray";
+import { Instance, RenderingContext } from "src/ui";
 import { getAccessor } from "../data/getAccessor";
+import { GroupAdapter, GroupingConfig } from "../ui/adapter/GroupAdapter";
 import { batchUpdates } from "../ui/batchUpdates";
 import { Container } from "../ui/Container";
+import { FocusManager, offFocusOut, oneFocusOut, preventFocusOnTouch } from "../ui/FocusManager";
+import { Selection } from "../ui/selection/Selection";
+import { VDOM, Widget, getContent } from "../ui/Widget";
 import { addEventListenerWithOptions } from "../util/addEventListenerWithOptions";
+import { isArray } from "../util/isArray";
+import { isString } from "../util/isString";
+import { KeyCode } from "../util/KeyCode";
+import { scrollElementIntoView } from "../util/scrollElementIntoView";
 
 /*
  - renders list of items
@@ -22,6 +20,40 @@ import { addEventListenerWithOptions } from "../util/addEventListenerWithOptions
  */
 
 export class List extends Widget {
+   public recordAlias?: string;
+   public recordName: string;
+   public indexAlias?: string;
+   public indexName: string;
+   public adapter: GroupAdapter;
+   public child: ListItem;
+   public items: Widget[];
+   public children: Widget[];
+   public selection: Selection;
+   public itemClass: string;
+   public itemClassName: string;
+   public itemStyle: string;
+   public itemDisabled: boolean;
+   public item: Widget;
+   public layout: any;
+   public keyField: string;
+   public records: any[];
+   public sortOptions: any;
+   public grouping: GroupingConfig[];
+   public onCreateFilter?: (filterParams: Record<string, unknown>, instance: Instance) => (record: unknown) => boolean;
+   public onItemClick: (e: MouseEvent, instance: Instance) => void;
+   public onItemDoubleClick: (e: MouseEvent, instance: Instance) => void;
+   public onKeyDown: (e: KeyboardEvent, instance: Instance) => void;
+   public onScroll: (event: Event, instance: Instance) => void;
+   public onFocus: (event: FocusEvent, instance: Instance) => void;
+   public onBlur: (event: FocusEvent, instance: Instance) => void;
+   public onMouseLeave?: (event: MouseEvent, instance: Instance) => void;
+   public onMouseEnter?: (event: MouseEvent, instance: Instance) => void;
+   public onMouseMove?: (event: MouseEvent, instance: Instance) => void;
+   public onMouseUp?: (event: MouseEvent, instance: Instance) => void;
+   public onMouseDown?: (event: MouseEvent, instance: Instance) => void;
+   public onMouseOver?: (event: MouseEvent, instance: Instance) => void;
+   public onMouseOut?: (event: MouseEvent, instance: Instance) => void;
+
    init() {
       if (this.recordAlias) this.recordName = this.recordAlias;
 
@@ -87,7 +119,7 @@ export class List extends Widget {
       );
    }
 
-   prepareData(context, instance) {
+   prepareData(context: RenderingContext, instance: Instance) {
       let { data } = instance;
 
       if (data.sortField)
@@ -113,15 +145,15 @@ export class List extends Widget {
       super.prepareData(context, instance);
    }
 
-   applyParentStore(instance) {
+   applyParentStore(instance: Instance) {
       super.applyParentStore(instance);
 
       // force prepareData to execute again and propagate the store change to the records
       if (instance.cached) delete instance.cached.rawData;
    }
 
-   explore(context, instance, data) {
-      let instances = [];
+   explore(context: RenderingContext, instance: Instance, data: Record<string, unknown>): void {
+      let instances: Instance[] = [];
       let isSelected = this.selection.getIsSelectedDelegate(instance.store);
       instance.mappedRecords.forEach((record) => {
          if (record.type == "data") {
@@ -150,7 +182,7 @@ export class List extends Widget {
       instance.instances = instances;
    }
 
-   render(context, instance, key) {
+   render(context: RenderingContext, instance: Instance, key: string): React.ReactNode {
       let items = instance.instances.map((x, i) => ({
          instance: x,
          key: x.record.key,
@@ -167,7 +199,7 @@ export class List extends Widget {
       );
    }
 
-   groupBy(grouping) {
+   groupBy(grouping: GroupingConfig[]): void {
       if (!isArray(grouping)) {
          if (isString(grouping) || typeof grouping == "object") return this.groupBy([grouping]);
          throw new Error("DynamicGrouping should be an array of grouping objects");

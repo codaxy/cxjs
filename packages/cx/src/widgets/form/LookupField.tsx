@@ -3,7 +3,7 @@ import { Cx } from "../../ui/Cx";
 import { Field, getFieldTooltip } from "./Field";
 import { ReadOnlyDataView } from "../../data/ReadOnlyDataView";
 import { HtmlElement } from "../HtmlElement";
-import { Binding } from "../../data/Binding";
+import { Binding, BindingInput } from "../../data/Binding";
 import { debug } from "../../util/Debug";
 import { Dropdown } from "../overlay/Dropdown";
 import { FocusManager } from "../../ui/FocusManager";
@@ -35,11 +35,59 @@ import { Selection } from "../../ui/selection/Selection";
 import { HighlightedSearchText } from "../HighlightedSearchText";
 import { autoFocus } from "../autoFocus";
 import { bind } from "../../ui";
-import { isAccessorChain } from "../../data/createAccessorModelProxy";
-import type { RenderingContext } from "../../ui/RenderingContext";
-import type { Instance } from "../../ui/Instance";
+import { AccessorChain, isAccessorChain } from "../../data/createAccessorModelProxy";
+import type { CxChild, RenderingContext } from "../../ui/RenderingContext";
+import type { DropdownInstance, Instance } from "../../ui/Instance";
 
 export class LookupField extends Field {
+   public multiple?: boolean;
+   public hideClear?: boolean;
+   public showClear?: boolean;
+   public alwaysShowClear?: boolean;
+   public hideSearchField?: boolean;
+   public minOptionsForSearchField?: number;
+   public loadingText?: string;
+   public queryErrorText?: string;
+   public noResultsText?: string;
+   public optionIdField?: string;
+   public optionTextField?: string;
+   public valueIdField?: string;
+   public valueTextField?: string;
+   public suppressErrorsUntilVisited?: boolean;
+   public fetchAll?: boolean;
+   public cacheAll?: boolean;
+   public closeOnSelect?: boolean;
+   public minQueryLengthMessageText?: string;
+   public sort?: boolean;
+   public listOptions?: Record<string, unknown>;
+   public autoOpen?: boolean;
+   public submitOnEnterKey?: boolean;
+   public submitOnDropdownEnterKey?: boolean;
+   public pageSize?: number;
+   public infinite?: boolean;
+   public quickSelectAll?: boolean;
+   public queryDelay?: number;
+   public minQueryLength?: number;
+   public onGetRecordDisplayText?: string | ((record: Record<string, unknown>, instance: Instance) => string);
+   public onQuery?: string | ((params: string | { query: string; page: number; pageSize: number }, instance: Instance) => Promise<Record<string, unknown>[]> | Record<string, unknown>[]);
+   public onCreateVisibleOptionsFilter?: string | ((filterParams: unknown, instance: Instance) => (option: Record<string, unknown>) => boolean);
+   public value?: BindingInput;
+   public text?: BindingInput<string>;
+   public records?: Record<string, unknown>[];
+   public values?: unknown[];
+   public options?: Record<string, unknown>[];
+   public disabled?: boolean;
+   public enabled?: boolean;
+   public placeholder?: string;
+   public required?: boolean;
+   public readOnly?: boolean;
+   public emptyValue?: unknown;
+   public trackFocus?: boolean;
+   public dropdownOptions?: Record<string, unknown>;
+   public bindings?: BindingConfig[];
+   public keyBindings?: BindingConfig[];
+   public itemConfig?: CxChild;
+
    declareData(...args: Record<string, unknown>[]): void {
       let additionalAttributes = this.multiple
          ? { values: undefined, records: undefined }
@@ -68,25 +116,25 @@ export class LookupField extends Field {
       if (this.alwaysShowClear) this.showClear = true;
 
       if (!this.bindings) {
-         let b = [];
+         let b: BindingConfig[] = [];
          if (this.value) {
             if (isAccessorChain(this.value)) this.value = bind(this.value);
-            if (this.value.bind)
+            if ((this.value as any).bind)
                b.push({
                   key: true,
-                  local: this.value.bind,
+                  local: (this.value as any).bind,
                   remote: `$option.${this.optionIdField}`,
-                  set: this.value.set,
+                  set: (this.value as any).set,
                });
          }
 
-         if (this.text) {
+         if (this.text as string | AccessorChain<unknown>) {
             if (isAccessorChain(this.text)) this.text = bind(this.text);
-            if (this.text.bind)
+            if ((this.text as any).bind)
                b.push({
-                  local: this.text.bind,
+                  local: (this.text as any).bind,
                   remote: `$option.${this.optionTextField}`,
-                  set: this.text.set,
+                  set: (this.text as any).set,
                });
          }
 
@@ -123,7 +171,7 @@ export class LookupField extends Field {
       super.init();
    }
 
-   prepareData(context: RenderingContext, instance: Instance): void {
+   prepareData(context: RenderingContext, instance: DropdownInstance): void {
       let { data, store } = instance;
 
       data.stateMods = {
@@ -143,13 +191,13 @@ export class LookupField extends Field {
 
       if (this.multiple) {
          if (isArray(data.values) && isArray(data.options)) {
-            data.selectedKeys = data.values.map((v) => (this.keyBindings.length == 1 ? [v] : v));
-            let map = {};
+            data.selectedKeys = data.values.map((v) => (this.keyBindings!.length == 1 ? [v] : v));
+            let map: Record<number, Record<string, unknown>> = {};
             data.options.filter(($option) => {
-               let optionKey = getOptionKey(this.keyBindings, { $option });
+               let optionKey = getOptionKey(this.keyBindings!, { $option });
                for (let i = 0; i < data.selectedKeys.length; i++)
                   if (areKeysEqual(optionKey, data.selectedKeys[i])) {
-                     map[i] = convertOption(this.bindings, { $option });
+                     map[i] = convertOption(this.bindings!, { $option });
                      break;
                   }
             });
@@ -157,16 +205,16 @@ export class LookupField extends Field {
             for (let i = 0; i < data.selectedKeys.length; i++) if (map[i]) data.records.push(map[i]);
          } else if (isArray(data.records))
             data.selectedKeys.push(
-               ...data.records.map(($value) => this.keyBindings.map((b) => Binding.get(b.local).value({ $value }))),
+               ...data.records.map(($value) => this.keyBindings!.map((b) => Binding.get(b.local).value({ $value }))),
             );
       } else {
          let dataViewData = store.getData();
-         data.selectedKeys.push(this.keyBindings.map((b) => Binding.get(b.local).value(dataViewData)));
+         data.selectedKeys.push(this.keyBindings!.map((b) => Binding.get(b.local).value(dataViewData)));
          if (!this.text && isArray(data.options)) {
             let option = data.options.find(($option) =>
-               areKeysEqual(getOptionKey(this.keyBindings, { $option }), data.selectedKeys[0]),
+               areKeysEqual(getOptionKey(this.keyBindings!, { $option }), data.selectedKeys[0]),
             );
-            data.text = (option && option[this.optionTextField]) || "";
+            data.text = (option && option[this.optionTextField!]) || "";
          }
       }
 
@@ -179,11 +227,11 @@ export class LookupField extends Field {
       return (
          <LookupComponent
             key={key}
-            multiple={this.multiple}
+            multiple={this.multiple!}
             instance={instance}
             itemConfig={this.itemConfig}
-            bindings={this.bindings}
-            baseClass={this.baseClass}
+            bindings={this.bindings!}
+            baseClass={this.baseClass!}
             label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
             help={this.helpPlacement && getContent(this.renderHelp(context, instance, "help"))}
             forceUpdate={context.forceUpdate}
@@ -195,7 +243,7 @@ export class LookupField extends Field {
    filterOptions(instance: Instance, options: Record<string, unknown>[], query: string): Record<string, unknown>[] {
       if (!query) return options;
       let textPredicate = getSearchQueryPredicate(query);
-      return options.filter((o) => isString(o[this.optionTextField]) && textPredicate(o[this.optionTextField]));
+      return options.filter((o) => isString(o[this.optionTextField!]) && textPredicate(o[this.optionTextField!]));
    }
 
    isEmpty(data: Record<string, unknown>): boolean {
@@ -208,13 +256,13 @@ export class LookupField extends Field {
       return super.getValidationValue(data);
    }
 
-   formatValue(context: RenderingContext, instance: Instance): string | null {
+   formatValue(context: RenderingContext, instance: Instance): string | string[] | null {
       if (!this.multiple) return super.formatValue(context, instance);
 
       let { records, values, options } = instance.data;
       if (isArray(records)) {
          let valueTextFormatter =
-            this.onGetRecordDisplayText ?? ((record) => record[this.valueTextField] || record[this.valueIdField]);
+            this.onGetRecordDisplayText ?? ((record) => record[this.valueTextField!] || record[this.valueIdField!]);
          return records.map((record) => valueTextFormatter(record, instance));
       }
 
@@ -222,8 +270,8 @@ export class LookupField extends Field {
          if (isArray(options))
             return values
                .map((id) => {
-                  let option = options.find((o) => o[this.optionIdField] == id);
-                  return option ? option[this.valueTextField] : id;
+                  let option = options.find((o) => o[this.optionIdField!] == id);
+                  return option ? option[this.valueTextField!] : id;
                })
                .filter(Boolean)
                .join(", ");
@@ -358,8 +406,8 @@ class LookupComponent extends VDOM.Component<LookupComponentProps, LookupCompone
    lastQueryId?: number;
    lastQuery?: string;
    extraPageLoadingBlocker?: string | false;
-   unsubscribeListOnWheel?: () => void;
-   unsubscribeListOnScroll?: () => void;
+   unsubscribeListOnWheel?: () => void | null;
+   unsubscribeListOnScroll?: () => void | null;
 
    constructor(props: LookupComponentProps) {
       super(props);
@@ -748,7 +796,7 @@ class LookupComponent extends VDOM.Component<LookupComponentProps, LookupCompone
       if ((e as React.KeyboardEvent).keyCode != KeyCode.tab) e.preventDefault();
    }
 
-   onClearClick(e: React.MouseEvent, value?: Record<string, unknown>): void {
+   onClearClick(e: React.MouseEvent | React.KeyboardEvent, value?: Record<string, unknown>): void {
       let { instance } = this.props;
       let { data, store, widget } = instance;
       let { keyBindings } = widget;
@@ -763,7 +811,7 @@ class LookupComponent extends VDOM.Component<LookupComponentProps, LookupCompone
 
             let newValues = newRecords
                .map((rec) => this.getLocalKey({ $value: rec }))
-               .map((k) => (keyBindings.length == 1 ? k[0] : k));
+               .map((k) => (keyBindings!.length == 1 ? k[0] : k));
 
             instance.set("values", newValues);
          }
@@ -773,7 +821,7 @@ class LookupComponent extends VDOM.Component<LookupComponentProps, LookupCompone
          });
       }
 
-      if (!isTouchEvent(e)) this.dom.input.focus();
+      if (!isTouchEvent()) this.dom.input!.focus();
    }
 
    onClearMultipleClick(e: React.MouseEvent): void {
@@ -792,7 +840,7 @@ class LookupComponent extends VDOM.Component<LookupComponentProps, LookupCompone
 
          let newRecords = reset ? [] : [...(records || [])];
          let singleSelect = itemsData.length == 1;
-         let optionKey = null;
+         let optionKey: unknown[] | null = null;
          if (singleSelect) optionKey = this.getOptionKey(itemsData[0]);
 
          // deselect
@@ -800,13 +848,13 @@ class LookupComponent extends VDOM.Component<LookupComponentProps, LookupCompone
             newRecords = records.filter((v) => !areKeysEqual(optionKey, this.getLocalKey({ $value: v })));
          } else {
             itemsData.forEach((itemData) => {
-               let valueData = {
+               let valueData: Record<string, unknown> = {
                   $value: {},
                };
-               bindings.forEach((b) => {
+               bindings!.forEach((b) => {
                   valueData = Binding.get(b.local).set(valueData, Binding.get(b.remote).value(itemData));
                });
-               newRecords.push(valueData.$value);
+               newRecords.push(valueData.$value as Record<string, unknown>);
             });
          }
 
@@ -814,11 +862,11 @@ class LookupComponent extends VDOM.Component<LookupComponentProps, LookupCompone
 
          let newValues = newRecords
             .map((rec) => this.getLocalKey({ $value: rec }))
-            .map((k) => (keyBindings.length == 1 ? k[0] : k));
+            .map((k) => (keyBindings!.length == 1 ? k[0] : k));
 
          instance.set("values", newValues);
       } else {
-         bindings.forEach((b) => {
+         bindings!.forEach((b) => {
             let v = Binding.get(b.remote).value(itemsData[0]);
             if (b.set) b.set(v, instance);
             else store.set(b.local, v);
@@ -827,14 +875,14 @@ class LookupComponent extends VDOM.Component<LookupComponentProps, LookupCompone
 
       if (widget.closeOnSelect) {
          //Pressing Tab should work it's own thing. Focus will move elsewhere and the dropdown will close.
-         if (e.keyCode != KeyCode.tab) {
-            if (!isTouchEvent(e)) this.dom.input.focus();
+         if ((e as React.KeyboardEvent).keyCode != KeyCode.tab) {
+            if (!isTouchEvent(e)) this.dom.input!.focus();
             this.closeDropdown(e);
          }
       }
 
-      if (e.keyCode == KeyCode.enter && widget.submitOnDropdownEnterKey) {
-         this.submitOnEnter(e);
+      if ((e as React.KeyboardEvent).keyCode == KeyCode.enter && widget.submitOnDropdownEnterKey) {
+         this.submitOnEnter(e as React.KeyboardEvent);
       }
    }
 

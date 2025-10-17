@@ -5,12 +5,14 @@ import { innerTextTrim } from "../util/innerTextTrim";
 import { isString } from "../util/isString";
 import { isArray } from "../util/isArray";
 import { exploreChildren } from "./layout/exploreChildren";
+import { Instance } from "./Instance";
+import { CxChild, RenderingContext } from "./RenderingContext";
 
 export class Container extends Widget {
    public ws?: boolean;
    public preserveWhitespace?: boolean;
    public trimWhitespace?: boolean;
-   public items?: any[];
+   public items?: Widget[];
    public children?: any[];
    public layout?: any;
    public useParentLayout?: boolean;
@@ -44,7 +46,7 @@ export class Container extends Widget {
 
    }
 
-   protected exploreItems(context: any, instance: any, items: any[]): void {
+   protected exploreItems(context: RenderingContext, instance: Instance, items: CxChild[]): void {
       instance.children = exploreChildren(context, instance, items, instance.cached.children, null, instance.store);
       if (instance.cache("children", instance.children)) instance.markShouldUpdate(context);
    }
@@ -58,7 +60,7 @@ export class Container extends Widget {
       return this.renderChildren(context, instance, key);
    }
 
-   protected renderChildren(_context: any, instance: any, key: string): Record<string, React.ReactNode> | React.ReactNode[] {
+   protected renderChildren(_context: any, instance: any, key?: string): CxChild {
       let preserveComplexContent = this.useParentLayout;
 
       function append(result: any[], r: any): void {
@@ -141,14 +143,14 @@ export class Container extends Widget {
       for (let i = 0; i < this.items.length; i++) {
          let w = this.items[i];
 
-         if (!w.initialized) w.init();
+         if (w && !w.initialized) w.init();
 
          if (filter(w)) {
             results.push(w);
             if (options.first) break;
          }
 
-         if (w.find) results.push(...w.find(filter, options));
+         if (w && (w as any).find) results.push(...(w as any).find(filter, options));
       }
 
       return results;

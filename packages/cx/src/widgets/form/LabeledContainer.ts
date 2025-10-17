@@ -1,27 +1,26 @@
-import {Widget} from '../../ui/Widget';
-import {FieldGroup} from './FieldGroup';
-import {Label} from './Label';
-import {isSelector} from '../../data/isSelector';
-import type { RenderingContext } from '../../ui/RenderingContext';
+import { isSelector } from '../../data/isSelector';
 import type { Instance } from '../../ui/Instance';
+import type { CxChild, RenderingContext } from '../../ui/RenderingContext';
+import { Widget } from '../../ui/Widget';
+import { FieldGroup } from './FieldGroup';
+import { Label } from './Label';
 
 export class LabeledContainer extends FieldGroup
 {
-   label?: unknown; // Can be string, selector, or Label widget config
-   disabled?: unknown;
-   mod?: unknown;
+   label?: string | Record<string, unknown> | Label; // Can be string, selector, or Label widget config
+   disabled?: boolean;
+   mod?: Record<string, unknown>;
    asterisk?: boolean;
 
-   declareData(...args: Record<string, unknown>[]): void {
-      super.declareData({
+   declareData(...args: Record<string, unknown>[]): Record<string, unknown> {
+      return super.declareData(...args, {
          label: undefined
-      }, ...args);
+      });
    }
 
-   init(): void {
-
+   init(): void {  
       if (this.label != null) {
-         let labelConfig: Record<string, unknown> = {
+         let labelConfig: any = {
             type: Label,
             disabled: this.disabled,
             mod: this.mod,
@@ -42,19 +41,19 @@ export class LabeledContainer extends FieldGroup
       super.init();
    }
 
-   initComponents(context: RenderingContext, instance: Instance, ...args: unknown[]): Record<string, Widget> {
+   initComponents(context: RenderingContext, instance: Instance, ...args: Record<string, unknown>[]): void {
       return super.initComponents(context, instance, ...args, {
          label: this.label
       });
    }
 
-   renderLabel(context: RenderingContext, instance: Instance, key?: string | number): React.ReactNode {
+   renderLabel(context: RenderingContext, instance: Instance, key?: string): CxChild {
       if (instance.components && instance.components.label)
-         return instance.components.label.render(context, key!);
+         return instance.components.label.render(context);
       return null;
    }
 
-   render(context: RenderingContext, instance: Instance, key: string): { label: React.ReactNode; content: React.ReactNode } {
+   render(context: RenderingContext, instance: Instance, key: string): { label: CxChild; content: CxChild } {
       return {
          label: this.renderLabel(context, instance),
          content: this.renderChildren(context, instance)

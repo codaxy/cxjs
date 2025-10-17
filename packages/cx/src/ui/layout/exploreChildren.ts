@@ -1,11 +1,11 @@
-import { RenderingContext } from "../RenderingContext";
+import { CxChild, RenderingContext } from "../RenderingContext";
 import { Instance } from "../Instance";
 import { View } from "../../data/View";
 
 export function exploreChildren(
    context: RenderingContext,
    instance: Instance,
-   children: any[],
+   children: CxChild[],
    previousResult: any[] | null,
    key: any,
    store: View,
