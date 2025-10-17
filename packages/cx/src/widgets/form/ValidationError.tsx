@@ -49,10 +49,10 @@ export class ValidationError extends Widget {
       super.explore(context, instance);
    }
 
-   render(context: RenderingContext, instance: ValidationErrorInstance, key: string | number): React.ReactElement {
+   render(context: RenderingContext, instance: ValidationErrorInstance, key: string): React.ReactElement {
       var { data } = instance;
       return (
-         <label key={key} className={data.classNames} htmlFor={data.fieldId} style={data.style}>
+         <label key={key} className={data.classNames as string} htmlFor={data.fieldId} style={data.style as React.CSSProperties}>
             {data.errorMessage}
          </label>
       );

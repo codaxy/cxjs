@@ -51,7 +51,7 @@ export class ColorPicker extends Field {
       );
    }
 
-   renderInput(context: RenderingContext, instance: Instance, key: string | number): React.ReactNode {
+   renderInput(context: RenderingContext, instance: Instance, key: string): React.ReactNode {
       return <ColorPickerComponent key={key} instance={instance} />;
    }
 

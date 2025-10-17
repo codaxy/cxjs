@@ -51,14 +51,14 @@ export class Container extends Widget {
 
    public explore(context: any, instance: any): void {
       super.explore(context, instance);
-      this.exploreItems(context, instance, this.items);
+      this.exploreItems(context, instance, this.items!);
    }
 
    public render(context: any, instance: any, key: any): any {
-      return this.renderChildren(context, instance);
+      return this.renderChildren(context, instance, key);
    }
 
-   protected renderChildren(_context: any, instance: any): any {
+   protected renderChildren(_context: any, instance: any, key: string): Record<string, React.ReactNode> | React.ReactNode[] {
       let preserveComplexContent = this.useParentLayout;
 
       function append(result: any[], r: any): void {
@@ -80,7 +80,7 @@ export class Container extends Widget {
          }
       }
 
-      let result = [];
+      let result: React.ReactNode[] = [];
       for (let i = 0; i < instance.children.length; i++) {
          append(result, instance.children[i].vdom);
       }
@@ -108,7 +108,7 @@ export class Container extends Widget {
          else if (isString(a)) {
             if (this.trimWhitespace) a = innerTextTrim(a);
             if (a) this.addText(a);
-         } else if (a.isComponent) this.items.push(this.wrapItem(a));
+         } else if (a.isComponent) this.items!.push(this.wrapItem(a));
          else {
             this.add(Widget.create(a, this.itemDefaults, {}));
          }

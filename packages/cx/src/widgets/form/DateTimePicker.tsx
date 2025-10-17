@@ -28,7 +28,7 @@ export class DateTimePicker extends Widget {
       });
    }
 
-   render(context: RenderingContext, instance: Instance, key: string | number): React.ReactNode {
+   render(context: RenderingContext, instance: Instance, key: string): React.ReactNode {
       return (
          <DateTimePickerComponent
             key={key}

@@ -176,7 +176,7 @@ export class HtmlElement extends Container {
       if (!isString(this.tag)) props.instance = instance;
    }
 
-   render(context: RenderingContext, instance: Instance, key: string | number): React.ReactNode {
+   render(context: RenderingContext, instance: Instance, key: string): React.ReactNode {
       //rebind events to pass instance
       if (this.events && !instance.events) {
          instance.events = {};
@@ -233,7 +233,7 @@ interface ContainerComponentProps {
    children: React.ReactNode;
    instance: Instance;
    data: WidgetData;
-   key: string | number;
+   key: string;
 }
 
 class ContainerComponent extends VDOM.Component<ContainerComponentProps> {

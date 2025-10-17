@@ -54,7 +54,7 @@ export class LabeledContainer extends FieldGroup
       return null;
    }
 
-   render(context: RenderingContext, instance: Instance, key: string | number): { label: React.ReactNode; content: React.ReactNode } {
+   render(context: RenderingContext, instance: Instance, key: string): { label: React.ReactNode; content: React.ReactNode } {
       return {
          label: this.renderLabel(context, instance),
          content: this.renderChildren(context, instance)

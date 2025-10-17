@@ -47,7 +47,7 @@ export class Label extends HtmlElement {
       super.explore(context, instance);
    }
 
-   isValidHtmlAttribute(attrName: string): boolean {
+   isValidHtmlAttribute(attrName: string): string | false {
       switch (attrName) {
          case "asterisk":
          case "required":
@@ -76,8 +76,9 @@ export class Label extends HtmlElement {
 
       if (data.required && data.asterisk) {
          if (!isArray(props.children)) props.children = [props.children];
-         props.children.push(" ");
-         props.children.push(
+         const children = props.children as React.ReactNode[];
+         children.push(" ");
+         children.push(
             <span key="asterisk" className={this.CSS.element(this.baseClass, "asterisk")}>
                *
             </span>

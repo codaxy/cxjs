@@ -144,7 +144,7 @@ export class Calendar extends Field {
       }
    }
 
-   renderInput(context: RenderingContext, instance: any, key: string | number): React.ReactElement {
+   renderInput(context: RenderingContext, instance: any, key: string): React.ReactElement {
       return (
          <CalendarCmp key={key} instance={instance} handleSelect={(e: React.MouseEvent, date: Date) => this.handleSelect(e, instance, date)} />
       );

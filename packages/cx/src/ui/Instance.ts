@@ -128,6 +128,7 @@ export interface RenderProps {
    ref?: (element: HTMLElement | null) => void;
    children?: React.ReactNode;
    dangerouslySetInnerHTML?: { __html: string };
+   htmlFor?: string;
 
    // CxJS custom props
    instance?: Instance;
@@ -204,7 +205,7 @@ let instanceId = 1000;
 export class Instance {
    // Core properties
    public widget: Widget;
-   public key: string | number;
+   public key: string;
    public id: string;
    public parent?: Instance;
    public parentStore: View;
@@ -263,7 +264,7 @@ export class Instance {
    public mappedRecords?: any[];
    public events?: Record<string, (e: Event) => unknown>;
 
-   constructor(widget: Widget, key: string | number, parent?: Instance, parentStore?: any) {
+   constructor(widget: Widget, key: string, parent?: Instance, parentStore?: any) {
       this.widget = widget;
       this.key = key;
       this.id = String(++instanceId);
@@ -359,7 +360,7 @@ export class Instance {
       return true;
    }
 
-   private markShouldUpdate(context: RenderingContext): void {
+   public markShouldUpdate(context: RenderingContext): void {
       let ins: Instance | undefined = this;
       let renderList = this.renderList;
       renderList.markReverseIndex();
@@ -505,7 +506,7 @@ export class Instance {
       if (this.widget.controller && this.controller?.prepare) this.controller.prepare(context);
    }
 
-   public render(context: RenderingContext): any {
+   public render(context: RenderingContext): null | Record<string, React.ReactNode> | React.ReactNode[] {
       if (!this.visible) throw new Error("Render invisible!");
 
       if (this.shouldUpdate) {
@@ -752,7 +753,7 @@ export class Instance {
       return this.getInstanceCache().getChild(widget, store ?? this.store, key);
    }
 
-   public getDetachedChild(widget: Widget, key: string | number, store?: any): Instance {
+   public getDetachedChild(widget: Widget, key: string, store?: any): Instance {
       const child = new Instance(widget, key, this, store ?? this.store);
       child.detached = true;
       return child;

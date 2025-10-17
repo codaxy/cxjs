@@ -15,7 +15,7 @@ export class Wheel extends PureContainer {
       });
    }
 
-   render(context: RenderingContext, instance: Instance, key: string | number): React.ReactNode {
+   render(context: RenderingContext, instance: Instance, key: string): React.ReactNode {
       let { data } = instance;
       let { value, options } = data;
       let index = options.findIndex((a) => a.id === value);

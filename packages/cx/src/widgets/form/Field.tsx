@@ -345,19 +345,19 @@ export class Field extends PureContainer {
       }
    }
 
-   renderLabel(context: RenderingContext, instance: Instance, key: string | number): React.ReactNode {
+   renderLabel(context: RenderingContext, instance: Instance, key: string): React.ReactNode {
       if (instance.components?.label) return getContent(instance.components.label.vdom);
    }
 
-   renderInput(context: RenderingContext, instance: Instance, key: string | number): React.ReactNode {
+   renderInput(context: RenderingContext, instance: Instance, key: string): React.ReactNode {
       throw new Error("Not implemented.");
    }
 
-   renderHelp(context: RenderingContext, instance: Instance, key: string | number): React.ReactNode {
+   renderHelp(context: RenderingContext, instance: Instance, key: string): React.ReactNode {
       if (instance.components?.help) return getContent(instance.components.help.render(context));
    }
 
-   renderIcon(context: RenderingContext, instance: Instance, key: string | number): React.ReactNode {
+   renderIcon(context: RenderingContext, instance: Instance, key: string): React.ReactNode {
       if (instance.components?.icon) return getContent(instance.components.icon.render(context));
    }
 
@@ -386,12 +386,12 @@ export class Field extends PureContainer {
       }
    }
 
-   protected renderContent(context: RenderingContext, instance: Instance, key: string | number): React.ReactNode {
+   protected renderContent(context: RenderingContext, instance: Instance, key: string): React.ReactNode {
       let content = this.renderValue(context, instance, key) || this.renderEmptyText(context, instance, key);
       return this.renderWrap(context, instance, key, content);
    }
 
-   protected renderWrap(context: RenderingContext, instance: Instance, key: string | number, content: React.ReactNode): React.ReactNode {
+   protected renderWrap(context: RenderingContext, instance: Instance, key: string, content: React.ReactNode): React.ReactNode {
       let { data } = instance;
       let interactive = !data.viewMode && !data.disabled;
       return (
@@ -408,7 +408,7 @@ export class Field extends PureContainer {
       );
    }
 
-   protected renderEmptyText(_context: RenderingContext, { data }: Instance, key: string | number): React.ReactNode {
+   protected renderEmptyText(_context: RenderingContext, { data }: Instance, key: string): React.ReactNode {
       return (
          <span key={key} className={this.CSS.element(this.baseClass, "empty-text")}>
             {data.emptyText || <span>&nbsp;</span>}
@@ -416,7 +416,7 @@ export class Field extends PureContainer {
       );
    }
 
-   public render(context: RenderingContext, instance: Instance, key: string | number): Record<string, React.ReactNode> {
+   public render(context: RenderingContext, instance: Instance, key: string): Record<string, React.ReactNode> {
       let { data } = instance;
       let content = !data.viewMode
          ? this.renderInput(context, instance, key)

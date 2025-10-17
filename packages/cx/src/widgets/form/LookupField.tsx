@@ -175,7 +175,7 @@ export class LookupField extends Field {
       super.prepareData(context, instance);
    }
 
-   renderInput(context: RenderingContext, instance: Instance, key: string | number): React.ReactNode {
+   renderInput(context: RenderingContext, instance: Instance, key: string): React.ReactNode {
       return (
          <LookupComponent
             key={key}

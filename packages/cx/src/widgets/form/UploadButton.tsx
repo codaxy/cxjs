@@ -33,7 +33,7 @@ export class UploadButton extends Field {
       );
    }
 
-   renderInput(context: RenderingContext, instance: Instance, key: string | number): React.ReactNode {
+   renderInput(context: RenderingContext, instance: Instance, key: string): React.ReactNode {
       let { data } = instance;
       return (
          <UploadButtonComponent key={key} instance={instance}>

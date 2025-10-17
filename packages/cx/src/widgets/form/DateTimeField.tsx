@@ -173,7 +173,7 @@ export class DateTimeField extends Field {
       }
    }
 
-   renderInput(context: RenderingContext, instance: Instance, key: string | number): React.ReactNode {
+   renderInput(context: RenderingContext, instance: Instance, key: string): React.ReactNode {
       return (
          <DateTimeInput
             key={key}

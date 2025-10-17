@@ -39,7 +39,7 @@ export class Select extends Field {
       super.init();
    }
 
-   renderInput(context: RenderingContext, instance: Instance, key: string | number): React.ReactNode {
+   renderInput(context: RenderingContext, instance: Instance, key: string): React.ReactNode {
       return (
          <SelectComponent
             key={key}
@@ -283,7 +283,7 @@ export class Option extends HtmlElement {
       if (!data.empty) data.value = data.value.toString();
    }
 
-   render(context: RenderingContext, instance: Instance, key: string | number): React.ReactNode {
+   render(context: RenderingContext, instance: Instance, key: string): React.ReactNode {
       const { data } = instance;
       return (
          <option key={key} value={data.value}>

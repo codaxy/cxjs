@@ -14,24 +14,24 @@ export class FieldIcon extends Widget {
       });
    }
 
-   render(context: RenderingContext, instance: Instance, key: string | number): React.ReactNode {
+   render(context: RenderingContext, instance: Instance, key: string): React.ReactNode {
       let { data } = instance;
       if (!data.name) return null;
 
-      let onClick: ((e: MouseEvent) => void) | undefined;
-      let onMouseMove: ((e: MouseEvent) => void) | undefined;
-      let onMouseLeave: ((e: MouseEvent) => void) | undefined;
+      let onClick: ((e: React.MouseEvent) => void) | undefined;
+      let onMouseMove: ((e: React.MouseEvent) => void) | undefined;
+      let onMouseLeave: ((e: React.MouseEvent) => void) | undefined;
 
       if (this.onClick)
-         onClick = (e: MouseEvent) => {
+         onClick = (e: React.MouseEvent) => {
             instance.invoke("onClick", e, instance);
          };
 
       if (this.tooltip) {
-         onMouseLeave = (e: MouseEvent) => {
+         onMouseLeave = (e: React.MouseEvent) => {
             tooltipMouseLeave(e, instance, this.tooltip!);
          };
-         onMouseMove = (e: MouseEvent) => {
+         onMouseMove = (e: React.MouseEvent) => {
             tooltipMouseMove(e, instance, this.tooltip!);
          };
       }

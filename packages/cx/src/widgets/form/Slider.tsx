@@ -83,7 +83,7 @@ export class Slider extends Field {
       super.prepareData(context, instance);
    }
 
-   renderInput(context: RenderingContext, instance: Instance, key: string | number): React.ReactNode {
+   renderInput(context: RenderingContext, instance: Instance, key: string): React.ReactNode {
       return (
          <SliderComponent
             key={key}

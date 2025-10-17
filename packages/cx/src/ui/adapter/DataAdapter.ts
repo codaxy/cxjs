@@ -9,7 +9,7 @@ export type DataAdapterRecordType = "data" | "group-header" | "group-footer";
 export interface DataAdapterRecord<T = any> {
    data: T;
    index?: number;
-   key: string | number;
+   key: string;
    store: View;
    type?: DataAdapterRecordType;
 }
