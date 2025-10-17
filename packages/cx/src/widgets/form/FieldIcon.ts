@@ -1,9 +1,8 @@
 import { Widget } from "../../ui/Widget";
 import { Icon } from "../Icon";
-import { tooltipMouseLeave, tooltipMouseMove } from "../overlay/tooltip-ops";
+import { tooltipMouseLeave, tooltipMouseMove, TooltipConfig } from "../overlay/tooltip-ops";
 import type { RenderingContext } from "../../ui/RenderingContext";
-import type { WidgetInstance } from "../../types/instance";
-import type { TooltipConfig } from "../../types/tooltip";
+import type { WidgetInstance } from "../../ui/Instance";
 
 export class FieldIcon extends Widget {
    onClick?: (e: MouseEvent, instance: WidgetInstance) => void;

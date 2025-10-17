@@ -4,7 +4,7 @@ import { KeyCode } from "../../util/KeyCode";
 import { Icon } from "../Icon";
 import { addEventListenerWithOptions } from "../../util";
 import type { RenderingContext } from "../../ui/RenderingContext";
-import type { WidgetInstance } from "../../types/instance";
+import type { WidgetInstance } from "../../ui/Instance";
 import * as React from "react";
 
 export class Wheel extends PureContainer {

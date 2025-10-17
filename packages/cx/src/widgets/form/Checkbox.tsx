@@ -1,17 +1,16 @@
 /** @jsxImportSource react */
 
+import { VDOM } from "cx-react";
+import * as React from "react";
+import type { FieldWidgetData, Instance } from "../../ui/Instance";
 import type { RenderingContext } from "../../ui/RenderingContext";
-import type { WidgetInstance } from "../../types/instance";
 import { Widget, getContent } from "../../ui/Widget";
-import { Field, getFieldTooltip } from "./Field";
-import { tooltipMouseMove, tooltipMouseLeave } from "../overlay/tooltip-ops";
 import { stopPropagation } from "../../util/eventCallbacks";
 import { KeyCode } from "../../util/KeyCode";
 import CheckIcon from "../icons/check";
 import SquareIcon from "../icons/square";
-import { Instance } from "../../ui/Instance";
-import * as React from "react";
-import { VDOM } from "cx-react";
+import { tooltipMouseLeave, tooltipMouseMove } from "../overlay/tooltip-ops";
+import { Field, getFieldTooltip } from "./Field";
 
 export class Checkbox extends Field {
    public checked?: unknown;
@@ -42,7 +41,7 @@ export class Checkbox extends Field {
       );
    }
 
-   renderWrap(context: RenderingContext, instance: WidgetInstance, key: string, content: React.ReactNode): React.ReactElement {
+   renderWrap(context: RenderingContext, instance: Instance, key: string, content: React.ReactNode): React.ReactElement {
       let { data } = instance;
       return (
          <label
@@ -75,12 +74,12 @@ export class Checkbox extends Field {
       );
    }
 
-   validateRequired(context: RenderingContext, instance: WidgetInstance): string | undefined {
+   validateRequired(context: RenderingContext, instance: Instance): string | undefined {
       let { data } = instance;
       if (!data.value) return this.requiredText;
    }
 
-   renderNativeCheck(context: RenderingContext, instance: WidgetInstance): React.ReactElement {
+   renderNativeCheck(context: RenderingContext, instance: Instance): React.ReactElement {
       let { CSS, baseClass } = this;
       let { data } = instance;
       return (
@@ -100,11 +99,11 @@ export class Checkbox extends Field {
       );
    }
 
-   renderCheck(context: RenderingContext, instance: WidgetInstance): React.ReactElement {
+   renderCheck(context: RenderingContext, instance: Instance): React.ReactElement {
       return <CheckboxCmp key="check" instance={instance} data={instance.data} />;
    }
 
-   renderInput(context: RenderingContext, instance: WidgetInstance, key: string): React.ReactElement {
+   renderInput(context: RenderingContext, instance: Instance, key: string): React.ReactElement {
       let { data } = instance;
       let text = data.text || this.renderChildren?.(context, instance);
       let { CSS, baseClass } = this;
@@ -122,17 +121,18 @@ export class Checkbox extends Field {
       ]);
    }
 
-   renderValue(context: RenderingContext, { data }: { data: Record<string, unknown> }): React.ReactNode {
+   renderValue(context: RenderingContext, instance: Instance): React.ReactNode {
+      let { data } = instance;
       if (!data.viewText) return super.renderValue(context, { data }, undefined);
       return <span className={this.CSS.element(this.baseClass, "view-text")}>{data.viewText}</span>;
    }
 
-   formatValue(context: RenderingContext, instance: WidgetInstance): React.ReactNode {
+   formatValue(context: RenderingContext, instance: Instance): React.ReactNode {
       let { data } = instance;
       return data.value && (data.text || this.renderChildren?.(context, instance));
    }
 
-   handleClick(e: React.MouseEvent, instance: WidgetInstance): void {
+   handleClick(e: React.MouseEvent, instance: Instance): void {
       if (this.native) e.stopPropagation();
       else {
          var el = document.getElementById(instance.data.id);
@@ -145,7 +145,7 @@ export class Checkbox extends Field {
       }
    }
 
-   handleChange(e: React.ChangeEvent<HTMLInputElement> | React.MouseEvent, instance: WidgetInstance, checked?: boolean): void {
+   handleChange(e: React.ChangeEvent<HTMLInputElement> | React.MouseEvent, instance: Instance, checked?: boolean): void {
       let { data } = instance;
 
       if (data.readOnly || data.disabled || data.viewMode) return;
@@ -163,7 +163,7 @@ Widget.alias("checkbox", Checkbox);
 
 interface CheckboxCmpProps {
    key?: string;
-   instance: WidgetInstance;
+   instance: Instance;
    data: Record<string, unknown>;
 }
 
@@ -186,7 +186,7 @@ class CheckboxCmp extends VDOM.Component<CheckboxCmpProps, CheckboxCmpState> {
    }
 
    render(): React.ReactElement {
-      let { instance, data } = this.props;
+      let { instance, data }: { instance: Instance; data: FieldWidgetData } = this.props;
       let { widget } = instance;
       let { baseClass, CSS } = widget;
 

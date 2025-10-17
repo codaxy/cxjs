@@ -29,7 +29,7 @@ import { Field, getFieldTooltip } from "./Field";
 import { MonthPicker } from "./MonthPicker";
 import { getActiveElement } from "../../util/getActiveElement";
 import type { RenderingContext } from "../../ui/RenderingContext";
-import type { WidgetInstance } from "../../types/instance";
+import type { WidgetInstance } from "../../ui/Instance";
 
 export class MonthField extends Field {
    declareData(...args: Record<string, unknown>[]): void {

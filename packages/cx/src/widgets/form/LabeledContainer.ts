@@ -3,7 +3,7 @@ import {FieldGroup} from './FieldGroup';
 import {Label} from './Label';
 import {isSelector} from '../../data/isSelector';
 import type { RenderingContext } from '../../ui/RenderingContext';
-import type { WidgetInstance } from '../../types/instance';
+import type { WidgetInstance } from '../../ui/Instance';
 
 export class LabeledContainer extends FieldGroup
 {

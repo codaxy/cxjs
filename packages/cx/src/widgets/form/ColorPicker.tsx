@@ -11,7 +11,7 @@ import { isString } from "../../util/isString";
 import { getTopLevelBoundingClientRect } from "../../util/getTopLevelBoundingClientRect";
 import PixelPickerIcon from "../icons/pixel-picker";
 import type { RenderingContext } from "../../ui/RenderingContext";
-import type { WidgetInstance } from "../../types/instance";
+import type { WidgetInstance } from "../../ui/Instance";
 
 //TODO: Increase HSL precision in calculations, round only RGB values
 //TODO: Resolve alpha input problems

@@ -16,9 +16,8 @@ import { isDefined } from "../util/isDefined";
 import { isArray } from "../util/isArray";
 import { autoFocus } from "./autoFocus";
 import type { RenderingContext } from "../ui/RenderingContext";
-import type { WidgetInstance } from "../types/instance";
-import type { RenderProps } from "../types/instance";
-import type { TooltipConfig } from "../types/tooltip";
+import type { WidgetData, WidgetInstance, RenderProps, Instance } from "../ui/Instance";
+import type { TooltipConfig } from "./overlay/tooltip-ops";
 
 const isDataAttribute = (attr: string): string | false =>
    attr.indexOf("data-") === 0 ? attr.substring(5) : false;
@@ -37,11 +36,11 @@ export class HtmlElement extends Container {
    public innerHtml?: string;
    public attrs?: Record<string, unknown>;
    public data?: Record<string, unknown>;
-   public events?: Record<string, (e: Event, instance: WidgetInstance) => unknown>;
+   public events?: Record<string, (e: Event, instance: Instance) => unknown>;
    public urlAttributes?: string[];
    public extraProps?: Record<string, unknown>;
    public tooltip?: TooltipConfig;
-   public onRef?: (element: HTMLElement | null, instance: WidgetInstance) => void;
+   public onRef?: (element: HTMLElement | null, instance: Instance) => void;
    public autoFocus?: boolean | string;
    [key: string]: unknown; // Index signature for dynamic properties
 
@@ -80,7 +79,7 @@ export class HtmlElement extends Container {
                if (name.indexOf("on") === 0) {
                   if (this[attr]) {
                      if (!this.events) this.events = {};
-                     this.events[name] = this[attr] as (e: Event, instance: WidgetInstance) => unknown;
+                     this.events[name] = this[attr] as (e: Event, instance: Instance) => unknown;
                   }
                } else {
                   if (!this.attrs) this.attrs = {};
@@ -157,7 +156,7 @@ export class HtmlElement extends Container {
       super.init();
    }
 
-   prepareData(context: RenderingContext, instance: WidgetInstance): void {
+   prepareData(context: RenderingContext, instance: Instance): void {
       const { data } = instance;
       if (this.urlAttributes && data.attrs) {
          data.attrs = { ...data.attrs };
@@ -171,13 +170,13 @@ export class HtmlElement extends Container {
       super.prepareData(context, instance);
    }
 
-   attachProps(context: RenderingContext, instance: WidgetInstance, props: RenderProps): void {
+   attachProps(context: RenderingContext, instance: Instance, props: RenderProps): void {
       Object.assign(props, this.extraProps);
 
       if (!isString(this.tag)) props.instance = instance;
    }
 
-   render(context: RenderingContext, instance: WidgetInstance, key: string | number): React.ReactNode {
+   render(context: RenderingContext, instance: Instance, key: string | number): React.ReactNode {
       //rebind events to pass instance
       if (this.events && !instance.events) {
          instance.events = {};
@@ -232,8 +231,8 @@ interface ContainerComponentProps {
    tag: string | React.ComponentType;
    props: RenderProps;
    children: React.ReactNode;
-   instance: WidgetInstance;
-   data: WidgetInstance["data"];
+   instance: Instance;
+   data: WidgetData;
    key: string | number;
 }
 

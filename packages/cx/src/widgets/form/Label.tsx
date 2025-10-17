@@ -1,6 +1,5 @@
 import type { RenderingContext } from "../../ui/RenderingContext";
-import type { WidgetInstance } from "../../types/instance";
-import type { RenderProps } from "../../types/instance";
+import type { WidgetInstance, RenderProps } from "../../ui/Instance";
 import { Widget, VDOM } from "../../ui/Widget";
 import { HtmlElement } from "../HtmlElement";
 import { FocusManager } from "../../ui/FocusManager";

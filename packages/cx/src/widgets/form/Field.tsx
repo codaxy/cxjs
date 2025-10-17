@@ -1,23 +1,23 @@
-import { VDOM, getContent } from "../../ui/Widget";
+import { TooltipConfig } from "src/widgets/overlay/tooltip-ops";
+import { isSelector } from "../../data/isSelector";
+import { FocusManager } from "../../ui/FocusManager";
+import type { Instance, PartialInstance } from "../../ui/Instance";
+import { Localization } from "../../ui/Localization";
 import { PureContainer } from "../../ui/PureContainer";
 import type { RenderingContext } from "../../ui/RenderingContext";
-import type { Instance } from "../../ui/Instance";
-import { ValidationError } from "./ValidationError";
+import { getContent } from "../../ui/Widget";
+import { coalesce } from "../../util/coalesce";
+import { Console } from "../../util/Console";
+import { stopPropagation } from "../../util/eventCallbacks";
+import { isPromise } from "../../util/isPromise";
+import { isUndefined } from "../../util/isUndefined";
+import { parseStyle } from "../../util/parseStyle";
+import { shallowEquals } from "../../util/shallowEquals";
+import { tooltipMouseLeave, tooltipMouseMove } from "../overlay/tooltip-ops";
+import { FieldIcon } from "./FieldIcon";
 import { HelpText } from "./HelpText";
 import { Label } from "./Label";
-import { stopPropagation } from "../../util/eventCallbacks";
-import { isSelector } from "../../data/isSelector";
-import { Localization } from "../../ui/Localization";
-import { isPromise } from "../../util/isPromise";
-import { Console } from "../../util/Console";
-import { parseStyle } from "../../util/parseStyle";
-import { FocusManager } from "../../ui/FocusManager";
-import { isTouchEvent } from "../../util/isTouchEvent";
-import { tooltipMouseLeave, tooltipMouseMove } from "../overlay/tooltip-ops";
-import { coalesce } from "../../util/coalesce";
-import { isUndefined } from "../../util/isUndefined";
-import { shallowEquals } from "../../util/shallowEquals";
-import { FieldIcon } from "./FieldIcon";
+import { ValidationError } from "./ValidationError";
 
 export class Field extends PureContainer {
    public inputStyle?: Record<string, unknown> | string;
@@ -210,9 +210,9 @@ export class Field extends PureContainer {
 
       if (!data.error && !data.disabled && !data.viewMode) this.validate(context, instance);
 
-      if (data.visited && !state.visited) {
+      if (data.visited && !state?.visited) {
          //feels hacky but it should be ok since we're in the middle of a new render cycle
-         state.visited = true;
+         state!.visited = true;
       }
 
       data.stateMods = {
@@ -319,8 +319,8 @@ export class Field extends PureContainer {
                .then((r) => {
                   let { data, state } = instance;
                   let error =
-                     data.validationValue == state.lastValidatedValue &&
-                     shallowEquals(data.validationParams, state.lastValidationParams)
+                     data.validationValue == state?.lastValidatedValue &&
+                     shallowEquals(data.validationParams, state?.lastValidationParams)
                         ? r
                         : this.validatingText; //parameters changed, this will be revalidated
 
@@ -361,22 +361,22 @@ export class Field extends PureContainer {
       if (instance.components?.icon) return getContent(instance.components.icon.render(context));
    }
 
-   formatValue(context: RenderingContext, { data }: Instance): string | number | undefined {
+   formatValue(context: RenderingContext, { data }: Instance): React.ReactNode {
       return data.text || data.value;
    }
 
-   renderValue(context: RenderingContext, instance: Instance, key: string | number): React.ReactNode {
-      let text = this.formatValue(context, instance);
+   renderValue(context: RenderingContext, instance: Instance | PartialInstance, key?: string | number): React.ReactNode {
+      let text = this.formatValue(context, instance as Instance);
       if (text) {
          return (
             <span
                key={key}
                onMouseMove={(e: any) => {
-                  const tooltip = getFieldTooltip(instance);
+                  const tooltip = getFieldTooltip(instance as Instance);
                   if (tooltip) (tooltipMouseMove as any)(e, tooltip, null, null);
                }}
                onMouseLeave={(e: any) => {
-                  const tooltip = getFieldTooltip(instance);
+                  const tooltip = getFieldTooltip(instance as Instance);
                   if (tooltip) (tooltipMouseLeave as any)(e, tooltip, null, null);
                }}
             >
@@ -399,8 +399,8 @@ export class Field extends PureContainer {
             key={key}
             className={data.classNames}
             style={data.style}
-            onMouseDown={interactive ? stopPropagation : null}
-            onTouchStart={interactive ? stopPropagation : null}
+            onMouseDown={interactive ? stopPropagation : undefined}
+            onTouchStart={interactive ? stopPropagation : undefined}
          >
             {content}
             {this.labelPlacement && this.renderLabel(context, instance, "label")}
@@ -416,7 +416,7 @@ export class Field extends PureContainer {
       );
    }
 
-   public render(context: RenderingContext, instance: Instance, key?: string | number): Record<string, React.ReactNode> {
+   public render(context: RenderingContext, instance: Instance, key: string | number): Record<string, React.ReactNode> {
       let { data } = instance;
       let content = !data.viewMode
          ? this.renderInput(context, instance, key)
@@ -425,18 +425,18 @@ export class Field extends PureContainer {
       return {
          label: !this.labelPlacement && this.renderLabel(context, instance, key),
          content: content,
-         helpSpacer: this.helpSpacer && instance.components.help ? " " : null,
+         helpSpacer: this.helpSpacer && instance.components?.help ? " " : undefined,
          help: !this.helpPlacement && this.renderHelp(context, instance, key),
       };
    }
 
-   protected handleKeyDown(e: KeyboardEvent, instance: Instance): boolean | void {
+   public handleKeyDown(e: KeyboardEvent, instance: Instance): boolean | void {
       if (this.onKeyDown && instance.invoke("onKeyDown", e, instance) === false) return false;
 
       if (instance.data.tabOnEnterKey && e.keyCode === 13) {
          let target = e.target;
          setTimeout(() => {
-            if (!instance.state.inputError) (FocusManager as any).focusNext(target);
+            if (!instance.state?.inputError) (FocusManager as any).focusNext(target);
          }, 10);
       }
    }
@@ -464,7 +464,7 @@ Field.prototype.styled = true;
 
 Localization.registerPrototype("cx/widgets/Field", Field);
 
-export function getFieldTooltip(instance: Instance): [Instance, Record<string, unknown> | undefined, Record<string, unknown> | undefined] {
+export function getFieldTooltip(instance: Instance): [Instance, TooltipConfig, Record<string, unknown> | undefined] {
    let { widget, data, state } = instance;
 
    if (widget.errorTooltip && data.error && (!state || state.visited || !widget.suppressErrorsUntilVisited))
@@ -477,5 +477,5 @@ export function getFieldTooltip(instance: Instance): [Instance, Record<string, u
             },
          },
       ];
-   return [instance, widget.tooltip];
+   return [instance, widget.tooltip!, undefined];
 }

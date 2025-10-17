@@ -8,7 +8,7 @@ import { parseColor } from "../../util/color/parseColor";
 import { isTouchDevice } from "../../util/isTouchDevice";
 import { isTouchEvent } from "../../util/isTouchEvent";
 import type { RenderingContext } from "../../ui/RenderingContext";
-import type { WidgetInstance } from "../../types/instance";
+import type { WidgetInstance } from "../../ui/Instance";
 
 import {
    tooltipParentWillReceiveProps,

@@ -1,5 +1,5 @@
 import type { RenderingContext } from "../../ui/RenderingContext";
-import type { WidgetInstance } from "../../types/instance";
+import type { WidgetInstance } from "../../ui/Instance";
 import { Widget, VDOM } from "../../ui/Widget";
 import * as React from "react";
 

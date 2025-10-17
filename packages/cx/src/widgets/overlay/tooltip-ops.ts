@@ -1,11 +1,69 @@
-import type { WidgetInstance } from "../../types/instance";
-import type { TooltipConfig, TooltipOptions, TooltipOperations } from "../../types/tooltip";
+import { Instance } from "src/ui/Instance";
+
+/**
+ * Tooltip configuration - can be a string or complex config object
+ */
+export type TooltipConfig = string | TooltipConfigObject;
+
+export interface TooltipConfigObject {
+   text?: string;
+   title?: string;
+   placement?: "top" | "bottom" | "left" | "right";
+   offset?: number;
+   [key: string]: unknown;
+}
+
+/**
+ * Options passed to tooltip functions
+ */
+export interface TooltipOptions {
+   mouseOverCheck?: boolean;
+   [key: string]: unknown;
+}
+
+/**
+ * Tooltip operations implementation interface
+ * This is the actual implementation that gets wired via wireTooltipOps
+ */
+export interface TooltipOperations {
+   tooltipMouseMove(
+      e: React.MouseEvent,
+      parentInstance: Instance,
+      tooltip: TooltipConfig,
+      options?: TooltipOptions
+   ): void;
+
+   tooltipMouseLeave(
+      e: React.MouseEvent,
+      parentInstance: Instance,
+      tooltip: TooltipConfig,
+      options?: TooltipOptions
+   ): void;
+
+   tooltipParentDidMount(
+      element: HTMLElement,
+      parentInstance: Instance,
+      tooltip: TooltipConfig,
+      options?: TooltipOptions
+   ): void;
+
+   tooltipParentWillReceiveProps(
+      element: HTMLElement,
+      parentInstance: Instance,
+      tooltip: TooltipConfig,
+      options?: TooltipOptions
+   ): void;
+
+   tooltipParentWillUnmount(parentInstance: Instance): void;
+
+   tooltipParentDidUpdate(element: HTMLElement, parentInstance: Instance, tooltip: TooltipConfig): void;
+}
 
 let impl: TooltipOperations | false = false;
 
 export function tooltipMouseMove(
-   e: MouseEvent,
-   parentInstance: WidgetInstance,
+   e: React.MouseEvent,
+   parentInstance: Instance,
    tooltip: TooltipConfig,
    options: TooltipOptions = {}
 ): void {
@@ -15,8 +73,8 @@ export function tooltipMouseMove(
 }
 
 export function tooltipMouseLeave(
-   e: MouseEvent,
-   parentInstance: WidgetInstance,
+   e: React.MouseEvent,
+   parentInstance: Instance,
    tooltip: TooltipConfig,
    options?: TooltipOptions
 ): void {
@@ -27,7 +85,7 @@ export function tooltipMouseLeave(
 
 export function tooltipParentDidMount(
    element: HTMLElement,
-   parentInstance: WidgetInstance,
+   parentInstance: Instance,
    tooltip: TooltipConfig,
    options?: TooltipOptions
 ): void {
@@ -38,7 +96,7 @@ export function tooltipParentDidMount(
 
 export function tooltipParentWillReceiveProps(
    element: HTMLElement,
-   parentInstance: WidgetInstance,
+   parentInstance: Instance,
    tooltip: TooltipConfig,
    options?: TooltipOptions
 ): void {
@@ -47,7 +105,7 @@ export function tooltipParentWillReceiveProps(
    }
 }
 
-export function tooltipParentWillUnmount(parentInstance: WidgetInstance): void {
+export function tooltipParentWillUnmount(parentInstance: Instance): void {
    if (impl) {
       impl.tooltipParentWillUnmount.call(impl, parentInstance);
    }
@@ -55,7 +113,7 @@ export function tooltipParentWillUnmount(parentInstance: WidgetInstance): void {
 
 export function tooltipParentDidUpdate(
    element: HTMLElement,
-   parentInstance: WidgetInstance,
+   parentInstance: Instance,
    tooltip: TooltipConfig
 ): void {
    if (impl) {

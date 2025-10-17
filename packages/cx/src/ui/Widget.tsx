@@ -10,6 +10,7 @@ import { Console } from "../util/Console";
 import { RenderingContext } from "./RenderingContext";
 
 import { VDOM as vdom } from "./VDOM";
+import { TooltipConfig } from "src/widgets/overlay/tooltip-ops";
 export const VDOM = vdom;
 
 let widgetId = 100;
@@ -44,6 +45,9 @@ export class Widget extends Component {
    public onPrepare?: (context: RenderingContext, instance: any) => void;
    public onCleanup?: (context: RenderingContext, instance: any) => void;
    public onDestroy?: (instance: any) => void;
+   public tooltip?: TooltipConfig;
+   public errorTooltip?: TooltipConfig;
+   public suppressErrorsUntilVisited?: boolean;
 
    // Lifecycle methods that can be overridden by subclasses
    public exploreCleanup?(context: RenderingContext, instance: any): void;
@@ -220,7 +224,7 @@ export function contentAppend(result: any[], w: any, prependSpace?: boolean): bo
 }
 
 export function getContentArray(x: any): any[] {
-   let result = [];
+   let result: any[] = [];
    contentAppend(result, x, false);
    return result;
 }

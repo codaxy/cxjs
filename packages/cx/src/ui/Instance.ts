@@ -16,6 +16,163 @@ import { RenderingContext } from "./RenderingContext";
 import type { Widget } from "./Widget";
 import { View } from "src/data";
 
+/**
+ * Serializable value types that can be safely passed through the framework
+ */
+export type SerializableValue = string | number | boolean | object | null | undefined;
+
+/**
+ * Core instance data structure used by widgets
+ *
+ * For custom widget data, extend this interface:
+ * @example
+ * interface MyWidgetData extends WidgetData {
+ *    customProp: string;
+ * }
+ */
+export interface WidgetData {
+   visible?: boolean;
+   disabled?: boolean;
+   enabled?: boolean;
+   text?: string;
+   innerHtml?: string;
+   attrs?: Record<string, unknown>;
+   data?: Record<string, unknown>;
+   classNames?: string;
+   className?: string;
+   class?: string;
+   style?: Record<string, string | number> | string;
+   stateMods?: Record<string, boolean | undefined>;
+   mod?: Record<string, boolean | undefined>;
+   pressed?: boolean;
+   icon?: string | boolean;
+   confirm?: string | ConfirmConfig;
+   parentDisabled?: boolean;
+   parentStrict?: boolean;
+   error?: string;
+}
+
+/**
+ * Confirmation dialog configuration
+ */
+export interface ConfirmConfig {
+   message: string;
+   title?: string;
+   yesText?: string;
+   noText?: string;
+}
+
+/**
+ * Field widget data structure - extends WidgetData with field-specific properties
+ *
+ * Used by form field widgets like TextField, Checkbox, Select, etc.
+ * @example
+ * interface MyFieldData extends FieldWidgetData {
+ *    customFieldProp: string;
+ * }
+ */
+export interface FieldWidgetData extends WidgetData {
+   id?: string;
+   value?: unknown;
+   readOnly?: boolean;
+   viewMode?: boolean;
+   mode?: string;
+   emptyText?: string;
+   visited?: boolean;
+   autoFocus?: boolean;
+   tabOnEnterKey?: boolean;
+   tabIndex?: number;
+   inputStyle?: Record<string, string | number> | string;
+   inputClass?: string;
+   inputAttrs?: Record<string, unknown>;
+   validationParams?: Record<string, unknown>;
+   validationValue?: unknown;
+   label?: string;
+   labelWidth?: number;
+   empty?: boolean;
+   
+   // Internal properties set by Field.prepareData
+   _disabled?: boolean;
+   _readOnly?: boolean;
+   _viewMode?: boolean;
+   _tabOnEnterKey?: boolean;
+}
+
+/**
+ * Parent options passed down from overlay/modal components
+ *
+ * For custom parent options, extend this interface:
+ * @example
+ * interface MyParentOptions extends ParentOptions {
+ *    customOption: string;
+ * }
+ */
+export interface ParentOptions {
+   dismiss?: () => void;
+}
+
+/**
+ * Props object used for rendering (passed to React.createElement)
+ *
+ * For custom render props, extend this interface or use intersection types:
+ * @example
+ * interface MyRenderProps extends RenderProps {
+ *    'data-custom': string;
+ * }
+ */
+export interface RenderProps {
+   // React standard props
+   key?: string | number;
+   className?: string;
+   style?: Record<string, string | number>;
+   ref?: (element: HTMLElement | null) => void;
+   children?: React.ReactNode;
+   dangerouslySetInnerHTML?: { __html: string };
+
+   // CxJS custom props
+   instance?: Instance;
+
+   // Common HTML attributes
+   id?: string;
+   disabled?: boolean;
+   type?: string;
+   value?: string | number | readonly string[];
+   checked?: boolean;
+   tabIndex?: number;
+   title?: string;
+   role?: string;
+
+   // Event handlers - allow returning false to prevent default behavior
+   onClick?: (e: React.MouseEvent) => void | false;
+   onMouseDown?: (e: React.MouseEvent) => void | false;
+   onMouseMove?: (e: React.MouseEvent) => void | false;
+   onMouseLeave?: (e: React.MouseEvent) => void | false;
+   onMouseEnter?: (e: React.MouseEvent) => void | false;
+   onKeyDown?: (e: React.KeyboardEvent) => void | false;
+   onKeyUp?: (e: React.KeyboardEvent) => void | false;
+   onFocus?: (e: React.FocusEvent) => void | false;
+   onBlur?: (e: React.FocusEvent) => void | false;
+   onChange?: (e: React.ChangeEvent) => void | false;
+}
+
+/**
+ * Result type for yes/no dialogs
+ */
+export const enum YesNoResult {
+   Yes = "yes",
+   No = "no",
+}
+
+/**
+ * Partial instance-like object used in some render methods
+ * This is a hack to allow passing only the data property instead of full Instance
+ */
+export interface PartialInstance {
+   data: Record<string, any>;
+   widget?: Widget;
+   state?: Record<string, any>;
+}
+
 let instanceId = 1000;
 
 export class Instance {
@@ -77,6 +234,7 @@ export class Instance {
    // Other
    public record?: any;
    public mappedRecords?: any[];
+   public events?: Record<string, (e: Event) => unknown>;
 
    constructor(widget: Widget, key: string | number, parent?: Instance, parentStore?: any) {
       this.widget = widget;
@@ -204,7 +362,7 @@ export class Instance {
 
          if (this.widget.exploreCleanup) this.widget.exploreCleanup(context, this);
 
-         if (this.parent.outerLayout === this) context.popNamedValue("content", "body");
+         if (this.parent?.outerLayout === this) context.popNamedValue("content", "body");
 
          if (this.widget.controller) context.pop("controller");
 
@@ -225,7 +383,7 @@ export class Instance {
 
       if (!this.controller) {
          if (context.controller) this.controller = context.controller;
-         else if (this.parent.controller) this.controller = this.parent.controller;
+         else if (this.parent?.controller) this.controller = this.parent?.controller;
       }
 
       this.destroyTracked = false;
@@ -244,7 +402,7 @@ export class Instance {
 
       if (this.widget.onDestroy || isNonEmptyArray(this.destroySubscriptions)) this.trackDestroy();
 
-      this.renderList = this.assignedRenderList || this.parent.renderList || context.getRootRenderList();
+      this.renderList = this.assignedRenderList || this.parent?.renderList || context.getRootRenderList();
 
       let shouldUpdate =
          this.rawData !== this.cached.rawData ||
@@ -261,7 +419,7 @@ export class Instance {
       //onExplore might set the outer layout
       if (this.widget.onExplore) this.widget.onExplore(context, this);
 
-      if (this.parent.outerLayout === this) {
+      if (this.parent?.outerLayout === this) {
          this.renderList = this.renderList.insertRight();
          context.pushNamedValue("content", "body", this.parent);
       }
@@ -273,14 +431,14 @@ export class Instance {
       }
 
       if (this.widget.isContent) {
-         this.contentPlaceholder = context.contentPlaceholder && context.contentPlaceholder[this.widget.putInto];
-         if (this.contentPlaceholder) context.contentPlaceholder[this.widget.putInto](this);
+         this.contentPlaceholder = context.contentPlaceholder && context.contentPlaceholder[this.widget.putInto!];
+         if (this.contentPlaceholder) context.contentPlaceholder[this.widget.putInto!](this);
          else {
             this.renderList = this.renderList.insertLeft();
-            context.pushNamedValue("content", this.widget.putInto, this);
+            context.pushNamedValue("content", this.widget.putInto!, this);
             if (!context.contentList) context.contentList = {};
-            let list = context.contentList[this.widget.putInto];
-            if (!list) list = context.contentList[this.widget.putInto] = [];
+            let list = context.contentList[this.widget.putInto!];
+            if (!list) list = context.contentList[this.widget.putInto!] = [];
             list.push(this);
          }
       }
@@ -496,7 +654,7 @@ export class Instance {
                   pObj.set(value, this);
                   changed = true;
                } else if (isString(pObj.set)) {
-                  this.controller![pObj.set](value, this);
+                  (this.controller as any)?.[pObj.set](value, this);
                   changed = true;
                }
             } else if (pObj.action) {
@@ -609,14 +767,14 @@ export class Instance {
          );
 
       let at: Instance | undefined = this;
-      while (at != null && at.controller && !at.controller[methodName]) at = at.parent;
+      while (at != null && at.controller && !(at.controller as any)[methodName]) at = at.parent;
 
-      if (!at || !at.controller || !at.controller[methodName])
+      if (!at || !at.controller || !(at.controller as any)[methodName])
          throw new Error(
             `Cannot invoke controller method "${methodName}". The method cannot be found in any of the assigned controllers.`,
          );
 
-      return at.controller[methodName].bind(at.controller);
+      return (at.controller as any)[methodName].bind(at.controller);
    }
 
    public invoke(methodName: string, ...args: any[]): any {

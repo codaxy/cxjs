@@ -6,7 +6,7 @@ import { oneFocusOut, offFocusOut } from "../../ui/FocusManager";
 import { enableCultureSensitiveFormatting } from "../../ui/Format";
 import { parseDateInvariant } from "../../util";
 import type { RenderingContext } from "../../ui/RenderingContext";
-import type { WidgetInstance } from "../../types/instance";
+import type { WidgetInstance } from "../../ui/Instance";
 import * as React from "react";
 
 enableCultureSensitiveFormatting();

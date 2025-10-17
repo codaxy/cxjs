@@ -7,9 +7,8 @@ import { isFunction } from "../util/isFunction";
 import { isDefined } from "../util/isDefined";
 import { coalesce } from "../util/coalesce";
 import type { RenderingContext } from "../ui/RenderingContext";
-import type { WidgetInstance, WidgetData } from "../types/instance";
-import type { RenderProps } from "../types/instance";
-import { YesNoResult } from "../types/instance";
+import type { WidgetInstance, WidgetData, RenderProps } from "../ui/Instance";
+import { YesNoResult } from "../ui/Instance";
 
 interface ButtonData extends WidgetData {
    pressed?: boolean;

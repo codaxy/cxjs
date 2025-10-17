@@ -1,5 +1,5 @@
 import type { RenderingContext } from "../../ui/RenderingContext";
-import type { WidgetInstance } from "../../types/instance";
+import type { WidgetInstance } from "../../ui/Instance";
 import { Widget } from "../../ui/Widget";
 import { PureContainer } from "../../ui/PureContainer";
 import { isDefined } from "../../util/isDefined";

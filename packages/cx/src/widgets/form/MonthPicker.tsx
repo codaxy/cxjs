@@ -25,7 +25,7 @@ import { isString } from "../../util/isString";
 import { isTouchEvent } from "../../util/isTouchEvent";
 import { getCursorPos } from "../overlay/captureMouse";
 import type { RenderingContext } from "../../ui/RenderingContext";
-import type { WidgetInstance } from "../../types/instance";
+import type { WidgetInstance } from "../../ui/Instance";
 
 import { enableCultureSensitiveFormatting } from "../../ui/Format";
 import { parseDateInvariant } from "../../util";

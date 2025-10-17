@@ -8,7 +8,7 @@ import { Format } from "../../util/Format";
 import { Culture } from "../../ui/Culture";
 import { isString } from "../../util/isString";
 import { isFunction } from "../../util/isFunction";
-import type { WidgetInstance } from "../../types/instance";
+import type { WidgetInstance } from "../../ui/Instance";
 
 interface TimeListProps {
    value?: unknown;

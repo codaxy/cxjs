@@ -37,7 +37,7 @@ import { autoFocus } from "../autoFocus";
 import { bind } from "../../ui";
 import { isAccessorChain } from "../../data/createAccessorModelProxy";
 import type { RenderingContext } from "../../ui/RenderingContext";
-import type { WidgetInstance } from "../../types/instance";
+import type { WidgetInstance } from "../../ui/Instance";
 
 export class LookupField extends Field {
    declareData(...args: Record<string, unknown>[]): void {

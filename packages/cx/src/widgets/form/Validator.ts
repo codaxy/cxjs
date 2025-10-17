@@ -1,6 +1,6 @@
 import { Field } from "./Field";
 import type { RenderingContext } from "../../ui/RenderingContext";
-import type { WidgetInstance } from "../../types/instance";
+import type { WidgetInstance } from "../../ui/Instance";
 
 export class Validator extends Field {
    declareData(...args: Record<string, unknown>[]): Record<string, unknown> {

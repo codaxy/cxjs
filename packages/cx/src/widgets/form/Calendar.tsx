@@ -24,10 +24,12 @@ import {
    tooltipParentWillUnmount,
 } from "../overlay/tooltip-ops";
 import { Field, getFieldTooltip } from "./Field";
+import type { Instance } from "../../ui/Instance";
+import type { RenderingContext } from "../../ui/RenderingContext";
 
-interface CalendarProps {
-   instance: any;
-   handleSelect: (e: any, date: Date) => void;
+interface CalendarCmpProps {
+   instance: Instance;
+   handleSelect: (e: React.MouseEvent, date: Date) => void;
 }
 
 interface CalendarState {
@@ -55,13 +57,15 @@ export class Calendar extends Field {
    public showTodayButton?: boolean;
    public todayButtonText?: string;
    public startWithMonday?: boolean;
-   public onBeforeSelect?: any;
-   public onSelect?: any;
+   public onBeforeSelect?: string | ((e: React.MouseEvent, instance: Instance, date: Date) => boolean | void);
+   public onSelect?: string | ((e: React.MouseEvent, instance: Instance, date: Date) => void);
+   public onBlur?: string | ((e: React.FocusEvent, instance: Instance) => void);
+   public onFocusOut?: string | ((instance: Instance) => void);
    public disabledDaysOfWeek?: number[];
    public partial?: boolean;
-   public encoding?: any;
+   public encoding?: (date: Date) => string;
 
-   declareData(...args: any[]) {
+   declareData(...args: Record<string, unknown>[]) {
       super.declareData(
          {
             value: undefined,
@@ -85,7 +89,8 @@ export class Calendar extends Field {
       super.init();
    }
 
-   prepareData(context: any, { data }: any, ...args: any[]) {
+   prepareData(context: RenderingContext, instance: Instance, ...args: any[]) {
+      const { data } = instance;
       data.stateMods = {
          disabled: data.disabled,
       };
@@ -103,12 +108,14 @@ export class Calendar extends Field {
 
       if (data.minValue) data.minValue = zeroTime(parseDateInvariant(data.minValue));
 
-      super.prepareData(context, { data }, ...args);
+      super.prepareData(context, instance, ...args);
    }
 
-   validate(context: any, instance: any) {
+   validate(context: RenderingContext, instance: Instance) {
       super.validate(context, instance);
       let { data, widget } = instance;
+      let calendarWidget = widget as Calendar;
+
       if (!data.error && data.date) {
          let d;
          if (data.maxValue) {
@@ -125,8 +132,8 @@ export class Calendar extends Field {
                data.error = StringTemplate.format(this.minExclusiveErrorText!, data.minValue);
          }
 
-         if (widget.disabledDaysOfWeek) {
-            if (widget.disabledDaysOfWeek.includes(data.date.getDay())) data.error = this.disabledDaysOfWeekErrorText;
+         if (calendarWidget.disabledDaysOfWeek) {
+            if (calendarWidget.disabledDaysOfWeek.includes(data.date.getDay())) data.error = this.disabledDaysOfWeekErrorText;
          }
 
          if (data.dayData) {
@@ -137,24 +144,25 @@ export class Calendar extends Field {
       }
    }
 
-   renderInput(context: any, instance: any, key: string) {
+   renderInput(context: RenderingContext, instance: any, key: string | number): React.ReactElement {
       return (
-         <CalendarCmp key={key} instance={instance} handleSelect={(e: any, date: Date) => this.handleSelect(e, instance, date)} />
+         <CalendarCmp key={key} instance={instance} handleSelect={(e: React.MouseEvent, date: Date) => this.handleSelect(e, instance, date)} />
       );
    }
 
-   handleSelect(e: any, instance: any, date: Date) {
+   handleSelect(e: React.MouseEvent, instance: any, date: Date): void {
       let { store, data, widget } = instance;
+      let calendarWidget = widget as Calendar;
 
       e.stopPropagation();
 
       if (data.disabled) return;
 
-      if (!validationCheck(date, data, widget.disabledDaysOfWeek)) return;
+      if (!validationCheck(date, data, calendarWidget.disabledDaysOfWeek)) return;
 
       if (this.onBeforeSelect && instance.invoke("onBeforeSelect", e, instance, date) === false) return;
 
-      if (widget.partial) {
+      if (calendarWidget.partial) {
          let mixed = parseDateInvariant(data.value);
          if (data.value && !isNaN(mixed.getTime())) {
             mixed.setFullYear(date.getFullYear());
@@ -164,7 +172,7 @@ export class Calendar extends Field {
          }
       }
 
-      let encode = widget.encoding || Culture.getDefaultDateEncoding();
+      let encode = calendarWidget.encoding || Culture.getDefaultDateEncoding()!;
       instance.set("value", encode(date));
 
       if (this.onSelect) instance.invoke("onSelect", e, instance, date);
@@ -186,7 +194,23 @@ Calendar.prototype.focusable = true;
 
 Localization.registerPrototype("cx/widgets/Calendar", Calendar);
 
-const validationCheck = (date: Date, data: any, disabledDaysOfWeek?: number[]) => {
+interface DayInfo {
+   className?: string;
+   style?: string;
+   mod?: string;
+   disabled?: boolean;
+   unselectable?: boolean;
+}
+
+interface CalendarData {
+   maxValue?: Date;
+   maxExclusive?: boolean;
+   minValue?: Date;
+   minExclusive?: boolean;
+   dayData?: Record<string, DayInfo>;
+}
+
+const validationCheck = (date: Date, data: CalendarData, disabledDaysOfWeek?: number[]): boolean => {
    if (data.maxValue && !upperBoundCheck(date, data.maxValue, data.maxExclusive)) return false;
 
    if (data.minValue && !lowerBoundCheck(date, data.minValue, data.minExclusive)) return false;
@@ -201,10 +225,10 @@ const validationCheck = (date: Date, data: any, disabledDaysOfWeek?: number[]) =
    return true;
 };
 
-export class CalendarCmp extends VDOM.Component<CalendarProps, CalendarState> {
+export class CalendarCmp extends VDOM.Component<CalendarCmpProps, CalendarState> {
    el: HTMLElement | null = null;
 
-   constructor(props: CalendarProps) {
+   constructor(props: CalendarCmpProps) {
       super(props);
       let { data } = props.instance;
 
@@ -225,7 +249,8 @@ export class CalendarCmp extends VDOM.Component<CalendarProps, CalendarState> {
    getPage(refDate: Date): { refDate: Date; startDate: Date; endDate: Date } {
       refDate = monthStart(refDate); //make a copy
 
-      let startWithMonday = this.props.instance.widget.startWithMonday;
+      let calendarWidget = this.props.instance.widget as Calendar;
+      let startWithMonday = calendarWidget.startWithMonday;
 
       let startDay = startWithMonday ? 1 : 0;
       let startDate = new Date(refDate);
@@ -245,7 +270,7 @@ export class CalendarCmp extends VDOM.Component<CalendarProps, CalendarState> {
       };
    }
 
-   moveCursor(e: any, date: Date, options: { movePage?: boolean } = {}) {
+   moveCursor(e: React.SyntheticEvent | React.KeyboardEvent, date: Date, options: { movePage?: boolean } = {}): void {
       e.preventDefault();
       e.stopPropagation();
 
@@ -262,7 +287,7 @@ export class CalendarCmp extends VDOM.Component<CalendarProps, CalendarState> {
       });
    }
 
-   move(e: any, period: string, delta: number) {
+   move(e: React.MouseEvent, period: string, delta: number): void {
       e.preventDefault();
       e.stopPropagation();
 
@@ -286,12 +311,12 @@ export class CalendarCmp extends VDOM.Component<CalendarProps, CalendarState> {
       this.setState({ ...page, cursor });
    }
 
-   handleKeyPress(e: any) {
+   handleKeyPress(e: React.KeyboardEvent): void {
       let cursor = new Date(this.state.cursor);
 
       switch (e.keyCode) {
          case KeyCode.enter:
-            this.props.handleSelect(e, this.state.cursor);
+            this.props.handleSelect(e as unknown as React.MouseEvent, this.state.cursor);
             break;
 
          case KeyCode.left:
@@ -337,13 +362,13 @@ export class CalendarCmp extends VDOM.Component<CalendarProps, CalendarState> {
 
          default:
             let { instance } = this.props;
-            let { widget } = instance;
-            if (widget.onKeyDown) instance.invoke("onKeyDown", e, instance);
+            let calendarWidget = instance.widget as Calendar;
+            if (calendarWidget.onKeyDown) instance.invoke("onKeyDown", e, instance);
             break;
       }
    }
 
-   handleWheel(e: any) {
+   handleWheel(e: WheelEvent): void {
       e.preventDefault();
       e.stopPropagation();
 
@@ -351,60 +376,61 @@ export class CalendarCmp extends VDOM.Component<CalendarProps, CalendarState> {
 
       if (e.deltaY < 0) {
          cursor.setMonth(cursor.getMonth() - 1);
-         this.moveCursor(e, cursor, { movePage: true });
+         this.moveCursor(e as unknown as React.SyntheticEvent, cursor, { movePage: true });
       } else if (e.deltaY > 0) {
          cursor.setMonth(cursor.getMonth() + 1);
-         this.moveCursor(e, cursor, { movePage: true });
+         this.moveCursor(e as unknown as React.SyntheticEvent, cursor, { movePage: true });
       }
    }
 
-   handleBlur(e: any) {
+   handleBlur(e: React.FocusEvent): void {
       FocusManager.nudge();
       let { instance } = this.props;
-      let { widget } = instance;
-      if (widget.onBlur) instance.invoke("onBlur", e, instance);
+      let calendarWidget = instance.widget as Calendar;
+      if (calendarWidget.onBlur) instance.invoke("onBlur", e, instance);
       this.setState({
          focus: false,
       });
    }
 
-   handleFocus(e: any) {
+   handleFocus(e: React.FocusEvent): void {
       oneFocusOut(this, this.el!, this.handleFocusOut.bind(this));
       this.setState({
          focus: true,
       });
    }
 
-   handleFocusOut() {
+   handleFocusOut(): void {
       let { instance } = this.props;
-      let { widget } = instance;
-      if (widget.onFocusOut) instance.invoke("onFocusOut", null, instance);
+      let calendarWidget = instance.widget as Calendar;
+      if (calendarWidget.onFocusOut) instance.invoke("onFocusOut", null, instance);
    }
 
-   handleMouseLeave(e: any) {
+   handleMouseLeave(e: React.MouseEvent): void {
       tooltipMouseLeave(e, ...getFieldTooltip(this.props.instance));
       this.setState({
          hover: false,
       });
    }
 
-   handleMouseEnter(e: any) {
+   handleMouseEnter(e: React.MouseEvent): void {
       this.setState({
          hover: true,
       });
    }
 
-   handleMouseMove(e: any) {
-      this.moveCursor(e, readDate(e.target.dataset));
+   handleMouseMove(e: React.MouseEvent): void {
+      this.moveCursor(e, readDate((e.target as HTMLElement).dataset));
    }
 
-   handleMouseDown(e: any) {
-      this.props.handleSelect(e, readDate(e.target.dataset));
+   handleMouseDown(e: React.MouseEvent): void {
+      this.props.handleSelect(e, readDate((e.target as HTMLElement).dataset));
    }
 
-   componentDidMount() {
+   componentDidMount(): void {
       //calendar doesn't bring up keyboard so it's ok to focus it even on mobile
-      if (this.props.instance.widget.autoFocus && this.el) this.el.focus();
+      let calendarWidget = this.props.instance.widget as Calendar;
+      if (calendarWidget.autoFocus && this.el) this.el.focus();
 
       if (this.el) {
          tooltipParentDidMount(this.el, ...getFieldTooltip(this.props.instance));
@@ -412,24 +438,24 @@ export class CalendarCmp extends VDOM.Component<CalendarProps, CalendarState> {
       }
    }
 
-   UNSAFE_componentWillReceiveProps(props: CalendarProps) {
+   UNSAFE_componentWillReceiveProps(props: CalendarCmpProps): void {
       let { data } = props.instance;
       if (data.date)
          this.setState({
             ...this.getPage(data.date),
-         } as any);
+         });
 
       if (this.el) {
          tooltipParentWillReceiveProps(this.el, ...getFieldTooltip(props.instance));
       }
    }
 
-   componentWillUnmount() {
+   componentWillUnmount(): void {
       offFocusOut(this);
       tooltipParentWillUnmount(this.props.instance);
    }
 
-   showYearDropdown() {
+   showYearDropdown(): void {
       if (this.el && this.el.firstChild) {
          this.setState({
             activeView: "year-picker",
@@ -438,7 +464,7 @@ export class CalendarCmp extends VDOM.Component<CalendarProps, CalendarState> {
       }
    }
 
-   handleYearSelect(e: any, year: number) {
+   handleYearSelect(e: React.MouseEvent, year: number): void {
       e.preventDefault();
       e.stopPropagation();
       let refDate = new Date(this.state.refDate);
@@ -449,13 +475,14 @@ export class CalendarCmp extends VDOM.Component<CalendarProps, CalendarState> {
       });
    }
 
-   renderYearPicker() {
+   renderYearPicker(): React.ReactElement {
       let { data, widget } = this.props.instance;
-      let minYear = data.minValue?.getFullYear();
-      let maxYear = data.maxValue?.getFullYear();
-      let { CSS } = this.props.instance.widget;
+      let calendarWidget = widget as Calendar;
+      let minYear: number | undefined = data.minValue?.getFullYear();
+      let maxYear: number | undefined = data.maxValue?.getFullYear();
+      let { CSS } = widget;
 
-      let years = [];
+      let years: number[] = [];
       let currentYear = new Date().getFullYear();
       let midYear = currentYear - (currentYear % 5);
       let refYear = new Date(this.state.refDate).getFullYear();
@@ -463,13 +490,13 @@ export class CalendarCmp extends VDOM.Component<CalendarProps, CalendarState> {
          years.push(i);
       }
 
-      let rows = [];
+      let rows: number[][] = [];
       for (let i = 0; i < years.length; i += 5) {
          rows.push(years.slice(i, i + 5));
       }
       return (
          <div
-            className={CSS.element(widget.baseClass, "year-picker")}
+            className={CSS.element(calendarWidget.baseClass, "year-picker")}
             style={{
                height: this.state.yearPickerHeight,
             }}
@@ -486,12 +513,12 @@ export class CalendarCmp extends VDOM.Component<CalendarProps, CalendarState> {
          >
             <table>
                <tbody>
-                  {rows.map((row, rowIndex) => (
+                  {rows.map((row: number[], rowIndex: number) => (
                      <tr key={rowIndex}>
-                        {row.map((year) => (
+                        {row.map((year: number) => (
                            <td
                               key={year}
-                              className={CSS.element(this.props.instance.widget.baseClass, "year-option", {
+                              className={CSS.element(calendarWidget.baseClass, "year-option", {
                                  unselectable: (minYear && year < minYear) || (maxYear && year > maxYear),
                                  selected: year === refYear,
                                  active: year === currentYear,
@@ -509,22 +536,23 @@ export class CalendarCmp extends VDOM.Component<CalendarProps, CalendarState> {
       );
    }
 
-   render() {
+   render(): React.ReactElement {
       let { data, widget } = this.props.instance;
-      let { CSS, baseClass, disabledDaysOfWeek, startWithMonday } = widget;
+      let calendarWidget = widget as Calendar;
+      let { CSS, baseClass, disabledDaysOfWeek, startWithMonday } = calendarWidget;
 
       let { refDate, startDate, endDate } = this.getPage(this.state.refDate);
 
       let month = refDate.getMonth();
       let year = refDate.getFullYear();
-      let weeks = [];
+      let weeks: React.ReactNode[] = [];
       let date = startDate;
 
-      let empty = {};
+      let empty: Record<string, any> = {};
 
       let today = zeroTime(new Date());
       while (date >= startDate && date <= endDate) {
-         let days = [];
+         let days: React.ReactNode[] = [];
          for (let i = 0; i < 7; i++) {
             let dayInfo = (data.dayData && data.dayData[date.toDateString()]) || empty;
             let unselectable = !validationCheck(date, data, disabledDaysOfWeek);
@@ -535,7 +563,7 @@ export class CalendarCmp extends VDOM.Component<CalendarProps, CalendarState> {
                   selected: data.date && sameDate(data.date, date),
                   cursor:
                      (this.state.hover || this.state.focus) && this.state.cursor && sameDate(this.state.cursor, date),
-                  today: widget.highlightToday && sameDate(date, today),
+                  today: calendarWidget.highlightToday && sameDate(date, today),
                }),
                dayInfo.className,
                CSS.mod(dayInfo.mod),
@@ -549,8 +577,8 @@ export class CalendarCmp extends VDOM.Component<CalendarProps, CalendarState> {
                   data-year={dateInst.getFullYear()}
                   data-month={dateInst.getMonth() + 1}
                   data-date={dateInst.getDate()}
-                  onMouseMove={unselectable ? null : this.handleMouseMove}
-                  onMouseDown={unselectable ? null : this.handleMouseDown}
+                  onMouseMove={unselectable ? undefined : this.handleMouseMove}
+                  onMouseDown={unselectable ? undefined : this.handleMouseDown}
                >
                   {date.getDate()}
                </td>,
@@ -568,7 +596,7 @@ export class CalendarCmp extends VDOM.Component<CalendarProps, CalendarState> {
 
       let culture = Culture.getDateTimeCulture();
       let monthNames = culture.getMonthNames("long");
-      let dayNames = culture.getWeekdayNames("short").map((x) => x.substr(0, 2));
+      let dayNames = culture.getWeekdayNames("short").map((x: string) => x.substr(0, 2));
       if (startWithMonday) dayNames = [...dayNames.slice(1), dayNames[0]];
 
       return (
@@ -624,7 +652,7 @@ export class CalendarCmp extends VDOM.Component<CalendarProps, CalendarState> {
                      </tr>
                      <tr key="d" className={CSS.element(baseClass, "day-names")}>
                         <td />
-                        {dayNames.map((name, i) => (
+                        {dayNames.map((name: string, i: number) => (
                            <th key={i}>{name}</th>
                         ))}
                         <td />
@@ -633,7 +661,7 @@ export class CalendarCmp extends VDOM.Component<CalendarProps, CalendarState> {
                   <tbody>{weeks}</tbody>
                </table>
             )}
-            {this.state.activeView == "calendar" && widget.showTodayButton && (
+            {this.state.activeView == "calendar" && calendarWidget.showTodayButton && (
                <div className={CSS.element(baseClass, "toolbar")}>
                   <button
                      className={CSS.expand(CSS.element(baseClass, "today-button"), CSS.block("button", "hollow"))}
@@ -644,7 +672,7 @@ export class CalendarCmp extends VDOM.Component<CalendarProps, CalendarState> {
                         this.handleMouseDown(e);
                      }}
                   >
-                     {widget.todayButtonText}
+                     {calendarWidget.todayButtonText}
                   </button>
                </div>
             )}
@@ -655,6 +683,6 @@ export class CalendarCmp extends VDOM.Component<CalendarProps, CalendarState> {
    }
 }
 
-const readDate = (ds: any) => new Date(Number(ds.year), Number(ds.month) - 1, Number(ds.date));
+const readDate = (ds: DOMStringMap): Date => new Date(Number(ds.year), Number(ds.month) - 1, Number(ds.date));
 
 Widget.alias("calendar", Calendar);
