@@ -36,7 +36,7 @@ export class Button extends HtmlElement {
       });
    }
 
-   prepareData(context: RenderingContext, instance: Instance<ButtonData>): void {
+   prepareData(context: RenderingContext, instance: Instance): void {
       const { data } = instance;
       data.stateMods = {
          ...data.stateMods,
@@ -47,7 +47,7 @@ export class Button extends HtmlElement {
       super.prepareData(context, instance);
    }
 
-   explore(context: RenderingContext, instance: Instance<ButtonData>): void {
+   explore(context: RenderingContext, instance: Instance): void {
       instance.data.parentDisabled = context.parentDisabled;
       instance.data.parentStrict = context.parentStrict;
 
@@ -57,13 +57,13 @@ export class Button extends HtmlElement {
       super.explore(context, instance);
    }
 
-   attachProps(context: RenderingContext, instance: Instance<ButtonData>, props: RenderProps): void {
+   attachProps(context: RenderingContext, instance: Instance, props: RenderProps): void {
       super.attachProps(context, instance, props);
 
       if (!this.focusOnMouseDown) {
          props.onMouseDown = (e: React.MouseEvent) => {
             if (this.onMouseDown && instance.invoke("onMouseDown", e.nativeEvent, instance) === false) return;
-            preventFocus(e.nativeEvent);
+            preventFocus(e);
          };
       }
 
