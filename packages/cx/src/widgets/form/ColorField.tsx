@@ -1,34 +1,36 @@
+/** @jsxImportSource react */
+
 import * as React from "react";
-import { Widget, VDOM, getContent } from "../../ui/Widget";
 import { Cx } from "../../ui/Cx";
-import { Field, getFieldTooltip } from "./Field";
-import { Dropdown } from "../overlay/Dropdown";
-import { ColorPicker } from "./ColorPicker";
+import { DropdownInstance, Instance } from "../../ui/Instance";
+import type { RenderingContext } from "../../ui/RenderingContext";
+import { VDOM, Widget, getContent } from "../../ui/Widget";
 import { parseColor } from "../../util/color/parseColor";
 import { isTouchDevice } from "../../util/isTouchDevice";
 import { isTouchEvent } from "../../util/isTouchEvent";
-import type { RenderingContext } from "../../ui/RenderingContext";
-import type { WidgetInstance } from "../../ui/Instance";
+import { Dropdown } from "../overlay/Dropdown";
+import { ColorPicker } from "./ColorPicker";
+import { Field, getFieldTooltip } from "./Field";
 
-import {
-   tooltipParentWillReceiveProps,
-   tooltipParentWillUnmount,
-   tooltipMouseMove,
-   tooltipMouseLeave,
-   tooltipParentDidMount,
-} from "../overlay/tooltip-ops";
 import { stopPropagation } from "../../util/eventCallbacks";
 import { KeyCode } from "../../util/KeyCode";
+import {
+   tooltipMouseLeave,
+   tooltipMouseMove,
+   tooltipParentDidMount,
+   tooltipParentWillReceiveProps,
+   tooltipParentWillUnmount,
+} from "../overlay/tooltip-ops";
 
-import DropdownIcon from "../icons/drop-down";
-import ClearIcon from "../icons/clear";
 import { Localization } from "../../ui/Localization";
-import { isDefined } from "../../util/isDefined";
 import { getActiveElement } from "../../util/getActiveElement";
+import { isDefined } from "../../util/isDefined";
+import ClearIcon from "../icons/clear";
+import DropdownIcon from "../icons/drop-down";
 
 interface ColorInputProps {
    key?: string;
-   instance: WidgetInstance;
+   instance: Instance;
    data: Record<string, unknown>;
    picker: {
       value: unknown;
@@ -44,6 +46,18 @@ interface ColorInputState {
 }
 
 export class ColorField extends Field {
+
+   public showClear?: boolean;
+   public alwaysShowClear?: boolean;
+   public hideClear?: boolean;
+   public emptyValue?: unknown;
+   public format: string = "rgba";
+   public labelPlacement?: string;
+   public helpPlacement?: string;
+   public lastDropdown?: string;
+   public value?: string;
+   public dropdownOptions?: Record<string, any>;
+
    declareData(...args: Record<string, unknown>[]): void {
       super.declareData(
          {
@@ -67,7 +81,7 @@ export class ColorField extends Field {
       super.init();
    }
 
-   prepareData(context: RenderingContext, instance: WidgetInstance): void {
+   prepareData(context: RenderingContext, instance: DropdownInstance): void {
       let { data } = instance;
       data.stateMods = [
          data.stateMods,
@@ -79,7 +93,7 @@ export class ColorField extends Field {
       super.prepareData(context, instance);
    }
 
-   renderInput(context: RenderingContext, instance: WidgetInstance, key: string | number): React.ReactNode {
+   renderInput(context: RenderingContext, instance: Instance, key: string): React.ReactNode {
       return (
          <ColorInput
             key={key}
@@ -127,7 +141,8 @@ class ColorInput extends VDOM.Component<ColorInputProps, ColorInputState> {
    getDropdown(): Widget {
       if (this.dropdown) return this.dropdown;
 
-      let { widget, lastDropdown } = this.props.instance;
+      let { widget, lastDropdown } = this.props.instance as DropdownInstance;
+      const colorFieldWidget = widget as ColorField;
 
       let dropdown = {
          scrollTracking: true,
@@ -137,13 +152,13 @@ class ColorInput extends VDOM.Component<ColorInputProps, ColorInputState> {
          touchFriendly: true,
          placementOrder:
             " down down-left down-right up up-left up-right right right-up right-down left left-up left-down",
-         ...widget.dropdownOptions,
+         ...colorFieldWidget.dropdownOptions,
          type: Dropdown,
          relatedElement: this.input,
          items: {
             type: ColorPicker,
             ...this.props.picker,
-            onColorClick: (e) => {
+            onColorClick: (e: React.MouseEvent) => {
                e.stopPropagation();
                e.preventDefault();
                let touch = isTouchEvent();
@@ -170,11 +185,13 @@ class ColorInput extends VDOM.Component<ColorInputProps, ColorInputState> {
       let { widget, state } = instance;
       let { CSS, baseClass, suppressErrorsUntilVisited } = widget;
 
+      const colorFieldWidget = widget as ColorField;
+
       let insideButton;
       if (!data.readOnly && !data.disabled) {
          if (
-            widget.showClear &&
-            (((!data.required || widget.alwaysShowClear) && !data.empty) || instance.state.inputError)
+            colorFieldWidget.showClear &&
+            (((!data.required || colorFieldWidget.alwaysShowClear) && !data.empty) || instance.state?.inputError)
          )
             insideButton = (
                <div
@@ -200,11 +217,11 @@ class ColorInput extends VDOM.Component<ColorInputProps, ColorInputState> {
 
       let well = (
          <div className={CSS.element(baseClass, "left-icon")}>
-            <div style={{ backgroundColor: data.value }}></div>
+            <div style={{ backgroundColor: data.value as string }}></div>
          </div>
       );
 
-      let dropdown = false;
+      let dropdown: React.ReactNode | false = false;
       if (this.state.dropdownOpen)
          dropdown = (
             <Cx
@@ -222,46 +239,46 @@ class ColorInput extends VDOM.Component<ColorInputProps, ColorInputState> {
             className={CSS.expand(
                data.classNames,
                CSS.state({
-                  visited: state.visited,
+                  visited: state?.visited,
                   focus: this.state.focus || this.state.dropdownOpen,
                   icon: true,
                   empty: empty && !data.placeholder,
-                  error: data.error && (state.visited || !suppressErrorsUntilVisited || !empty),
+                  error: data.error && (state?.visited || !suppressErrorsUntilVisited || !empty),
                }),
             )}
-            style={data.style}
+            style={data.style as React.CSSProperties}
             onMouseDown={this.onMouseDown.bind(this)}
             onTouchStart={stopPropagation}
             onClick={stopPropagation}
          >
             <input
-               id={data.id}
+               id={data.id as string}
                ref={(el) => {
                   this.input = el!;
                }}
                type="text"
                className={CSS.expand(CSS.element(baseClass, "input"), data.inputClass)}
-               style={data.inputStyle}
-               defaultValue={this.trim(data.value || "")}
-               disabled={data.disabled}
-               readOnly={data.readOnly}
-               tabIndex={data.tabIndex}
-               placeholder={data.placeholder}
-               {...data.inputAttrs}
-               onInput={(e) => this.onChange((e.target as HTMLInputElement).value, "input")}
-               onChange={(e) => this.onChange((e.target as HTMLInputElement).value, "change")}
-               onKeyDown={(e) => this.onKeyDown(e)}
-               onBlur={(e) => {
+               style={data.inputStyle as React.CSSProperties}
+               defaultValue={this.trim(data.value as string || "")}
+               disabled={data.disabled as boolean}
+               readOnly={data.readOnly as boolean}
+               tabIndex={data.tabIndex as number}
+               placeholder={data.placeholder as string}
+               {...data.inputAttrs as Record<string, any>}
+               onInput={(e: React.ChangeEvent<HTMLInputElement>) => this.onChange((e.target as HTMLInputElement).value, "input")}
+               onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.onChange((e.target as HTMLInputElement).value, "change")}
+               onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => this.onKeyDown(e)}
+               onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
                   this.onBlur(e);
                }}
-               onFocus={(e) => {
+               onFocus={(e: React.FocusEvent<HTMLInputElement>) => {
                   this.onFocus(e);
                }}
-               onMouseMove={(e) => {
+               onMouseMove={(e: React.MouseEvent<HTMLInputElement>) => {
                   const tooltip = getFieldTooltip(instance);
                   tooltipMouseMove(e, tooltip[0], tooltip[1]);
                }}
-               onMouseLeave={(e) => {
+               onMouseLeave={(e: React.MouseEvent<HTMLInputElement>) => {
                   const tooltip = getFieldTooltip(instance);
                   tooltipMouseLeave(e, tooltip[0], tooltip[1]);
                }}
@@ -295,7 +312,9 @@ class ColorInput extends VDOM.Component<ColorInputProps, ColorInputState> {
 
       let { instance } = this.props;
       let { widget } = instance;
-      if (widget.trackFocus) {
+      const colorFieldWidget = widget as ColorField;
+      
+      if (colorFieldWidget.trackFocus) {
          this.setState({
             focus: true,
          });
@@ -304,7 +323,7 @@ class ColorInput extends VDOM.Component<ColorInputProps, ColorInputState> {
 
    onKeyDown(e: React.KeyboardEvent): void {
       let { instance } = this.props;
-      if (instance.widget.handleKeyDown(e, instance) === false) return;
+      if ((instance.widget as ColorField).handleKeyDown(e, instance) === false) return;
 
       switch (e.keyCode) {
          case KeyCode.enter:
@@ -353,7 +372,7 @@ class ColorInput extends VDOM.Component<ColorInputProps, ColorInputState> {
       } else if (callback) callback();
    }
 
-   openDropdown(e: React.KeyboardEvent | React.MouseEvent): void {
+   openDropdown(e: React.KeyboardEvent | React.FocusEvent | React.MouseEvent): void {
       let { data } = this.props;
       this.openDropdownOnFocus = false;
 
@@ -369,8 +388,8 @@ class ColorInput extends VDOM.Component<ColorInputProps, ColorInputState> {
    UNSAFE_componentWillReceiveProps(props: ColorInputProps): void {
       let { data, instance } = props;
       let { state } = instance;
-      let nv = this.trim(data.value || "");
-      if (nv != this.input.value && (this.data.value != data.value || !state.inputError)) {
+      let nv = this.trim(data.value as string || "");
+      if (nv != this.input.value && (this.data.value != data.value || !state?.inputError)) {
          this.input.value = nv;
          instance.setState({
             inputError: false,
@@ -385,7 +404,7 @@ class ColorInput extends VDOM.Component<ColorInputProps, ColorInputState> {
    componentDidMount(): void {
       const tooltip2 = getFieldTooltip(this.props.instance);
       tooltipParentDidMount(this.input, tooltip2[0], tooltip2[1]);
-      if (this.props.instance.widget.autoFocus && !isTouchDevice()) this.input.focus();
+      if ((this.props.instance.widget as ColorField).autoFocus && !isTouchDevice()) this.input.focus();
    }
 
    componentWillUnmount(): void {
@@ -397,7 +416,7 @@ class ColorInput extends VDOM.Component<ColorInputProps, ColorInputState> {
 
    onClearClick(e: React.MouseEvent): void {
       let { instance } = this.props;
-      instance.set("value", instance.widget.emptyValue);
+      instance.set("value", (instance.widget as ColorField).emptyValue);
       instance.setState({
          inputError: false,
       });
@@ -422,7 +441,7 @@ class ColorInput extends VDOM.Component<ColorInputProps, ColorInputState> {
       }
 
       if (eventType == "blur" || eventType == "enter") {
-         let value = inputValue || widget.emptyValue;
+         let value = inputValue || (widget as ColorField).emptyValue;
          if (isValid && value !== data.value) instance.set("value", value);
 
          instance.setState({

@@ -90,6 +90,6 @@ class LinkedListsNode {
    }
 
    reverse() {
-      reverseSlice(this.data, this.reverseIndex);
+      reverseSlice(this.data, this.reverseIndex!);
    }
 }

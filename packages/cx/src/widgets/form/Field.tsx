@@ -430,7 +430,7 @@ export class Field extends PureContainer {
       };
    }
 
-   public handleKeyDown(e: KeyboardEvent, instance: Instance): boolean | void {
+   public handleKeyDown(e: React.KeyboardEvent, instance: Instance): boolean | void {
       if (this.onKeyDown && instance.invoke("onKeyDown", e, instance) === false) return false;
 
       if (instance.data.tabOnEnterKey && e.keyCode === 13) {

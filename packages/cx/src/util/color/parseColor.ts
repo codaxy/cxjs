@@ -37,7 +37,7 @@ type HSLColor = {
  * @param  color
  * @returns {RGBColor|HSLColor}
  */
-export function parseColor(color: string): RGBColor | HSLColor {
+export function parseColor(color: string | null): RGBColor | HSLColor | null {
 
    if (!color)
       return null;
@@ -59,7 +59,7 @@ export function parseColor(color: string): RGBColor | HSLColor {
  * @param color
  * @returns {RGBColor}
  */
-export function parseHexColor(color: string): RGBColor {
+export function parseHexColor(color: string | null): RGBColor | null {
 
    if (!color)
       return null;
@@ -93,7 +93,7 @@ export function parseHexColor(color: string): RGBColor {
  * @param color
  * @returns {RGBColor}
  */
-export function parseRgbColor(color: string): RGBColor {
+export function parseRgbColor(color: string | null): RGBColor | null {
    if (!color)
       return null;
 
@@ -135,7 +135,7 @@ export function parseRgbColor(color: string): RGBColor {
  * @param color
  * @returns {HSLColor}
  */
-export function parseHslColor(color: string): HSLColor {
+export function parseHslColor(color: string | null): HSLColor | null {
    if (!color)
       return null;
 

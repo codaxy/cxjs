@@ -11,7 +11,17 @@ import { isString } from "../../util/isString";
 import { getTopLevelBoundingClientRect } from "../../util/getTopLevelBoundingClientRect";
 import PixelPickerIcon from "../icons/pixel-picker";
 import type { RenderingContext } from "../../ui/RenderingContext";
-import type { WidgetInstance } from "../../ui/Instance";
+import type { Instance } from "../../ui/Instance";
+
+// Type declaration for EyeDropper API
+declare global {
+   class EyeDropper {
+      open(): Promise<{ sRGBHex: string }>;
+   }
+   interface Window {
+      EyeDropper: typeof EyeDropper;
+   }
+}
 
 //TODO: Increase HSL precision in calculations, round only RGB values
 //TODO: Resolve alpha input problems
@@ -27,6 +37,10 @@ interface ColorState {
 }
 
 export class ColorPicker extends Field {
+   public format: string = "rgba";
+   public reportOn: string = "blur change";
+   public onColorClick?: (e: React.MouseEvent, instance: Instance) => void;
+
    declareData(...args: Record<string, unknown>[]): void {
       super.declareData(
          {
@@ -37,11 +51,11 @@ export class ColorPicker extends Field {
       );
    }
 
-   renderInput(context: RenderingContext, instance: WidgetInstance, key: string | number): React.ReactNode {
+   renderInput(context: RenderingContext, instance: Instance, key: string | number): React.ReactNode {
       return <ColorPickerComponent key={key} instance={instance} />;
    }
 
-   handleEvent(eventType: string, instance: WidgetInstance, color: ColorState): void {
+   handleEvent(eventType: string, instance: Instance, color: ColorState): void {
       let { data } = instance;
       if (this.reportOn.indexOf(eventType) != -1) {
          let value;
@@ -75,7 +89,7 @@ ColorPicker.prototype.format = "rgba";
 Widget.alias("color-picker", ColorPicker);
 
 interface ColorPickerComponentProps {
-   instance: WidgetInstance;
+   instance: Instance;
 }
 
 class ColorPickerComponent extends VDOM.Component<ColorPickerComponentProps, ColorState> {
@@ -149,7 +163,7 @@ class ColorPickerComponent extends VDOM.Component<ColorPickerComponentProps, Col
          "css",
       )}linear-gradient(left, hsla(${h},${s}%,${l}%,0) 0%, hsla(${h},${s}%,${l}%,1) 100%)`;
 
-      if (window.EyeDropper) {
+      if ('EyeDropper' in window && window.EyeDropper) {
          pixelPicker = (
             <div
                className={CSS.element(baseClass, "pixel-picker")}
@@ -157,10 +171,10 @@ class ColorPickerComponent extends VDOM.Component<ColorPickerComponentProps, Col
                   const eyeDropper = new EyeDropper();
                   eyeDropper
                      .open()
-                     .then((result) => {
+                     .then((result: { sRGBHex: string }) => {
                         instance.set("value", result.sRGBHex);
                      })
-                     .catch((e) => {});
+                     .catch((e: any) => {});
                }}
             >
                <PixelPickerIcon />
@@ -355,7 +369,7 @@ class ColorPickerComponent extends VDOM.Component<ColorPickerComponentProps, Col
       let { instance } = this.props;
       let { widget } = instance;
 
-      if (widget.onColorClick) instance.invoke("onColorClick", e, instance);
+      if ((widget as ColorPicker).onColorClick) (widget as ColorPicker).onColorClick!(e, instance);
    }
 
    onHueSelect(e: React.MouseEvent | React.TouchEvent): void {
@@ -365,9 +379,9 @@ class ColorPickerComponent extends VDOM.Component<ColorPickerComponentProps, Col
       let el = e.currentTarget;
       let bounds = el.getBoundingClientRect();
 
-      let move = (e) => {
+      let move = (e: React.MouseEvent | React.TouchEvent) => {
          let pos = getCursorPos(e);
-         let x = Math.max(0, Math.min(1, (pos.clientX + 1 - bounds.left) / el.offsetWidth));
+         let x = Math.max(0, Math.min(1, (pos.clientX + 1 - bounds.left) / (el as HTMLElement).offsetWidth));
          this.setColorProp({
             h: x * 360,
          });
@@ -384,9 +398,9 @@ class ColorPickerComponent extends VDOM.Component<ColorPickerComponentProps, Col
       let el = e.currentTarget;
       let bounds = getTopLevelBoundingClientRect(el);
 
-      let move = (e) => {
+      let move = (e: React.MouseEvent | React.TouchEvent) => {
          let pos = getCursorPos(e);
-         let x = Math.max(0, Math.min(1, (pos.clientX + 1 - bounds.left) / el.offsetWidth));
+         let x = Math.max(0, Math.min(1, (pos.clientX + 1 - bounds.left) / (el as HTMLElement).offsetWidth));
          this.setColorProp({
             a: x,
          });
@@ -403,10 +417,10 @@ class ColorPickerComponent extends VDOM.Component<ColorPickerComponentProps, Col
       let el = e.currentTarget;
       let bounds = getTopLevelBoundingClientRect(el);
 
-      let move = (e) => {
+      let move = (e: React.MouseEvent | React.TouchEvent) => {
          let pos = getCursorPos(e);
-         let x = Math.max(0, Math.min(1, (pos.clientX + 1 - bounds.left) / el.offsetWidth));
-         let y = Math.max(0, Math.min(1, (pos.clientY + 1 - bounds.top) / el.offsetWidth));
+         let x = Math.max(0, Math.min(1, (pos.clientX + 1 - bounds.left) / (el as HTMLElement).offsetWidth));
+         let y = Math.max(0, Math.min(1, (pos.clientY + 1 - bounds.top) / (el as HTMLElement).offsetWidth));
          let s = x;
          let l = 1 - y;
          this.setColorProp({
@@ -483,7 +497,7 @@ class ColorPickerComponent extends VDOM.Component<ColorPickerComponentProps, Col
       if (fixAlpha && state.a === 0) state.a = 1;
 
       this.setState(state, () => {
-         this.props.instance.widget.handleEvent("change", this.props.instance, this.state);
+         (this.props.instance.widget as ColorPicker).handleEvent("change", this.props.instance, this.state);
       });
    }
 
@@ -502,6 +516,6 @@ class ColorPickerComponent extends VDOM.Component<ColorPickerComponentProps, Col
    }
 
    onBlur(): void {
-      this.props.instance.widget.handleEvent("blur", this.props.instance, this.state);
+      (this.props.instance.widget as ColorPicker).handleEvent("blur", this.props.instance, this.state);
    }
 }

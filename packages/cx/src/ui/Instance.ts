@@ -173,8 +173,34 @@ export interface PartialInstance {
    state?: Record<string, any>;
 }
 
+/**
+ * Example widget-specific properties for dropdown widgets
+ */
+export interface DropdownWidgetProps {
+   lastDropdown?: Instance;
+   dropdownOpen?: boolean;
+   selectedIndex?: number;
+}
+
+/**
+ * Example widget-specific properties for form field widgets
+ */
+export interface FieldWidgetProps {
+   inputElement?: HTMLInputElement;
+   validationState?: 'valid' | 'invalid' | 'pending';
+}
+
+/**
+ * Type aliases for common widget instance types using intersection types
+ */
+export type DropdownInstance = Instance & DropdownWidgetProps;
+export type FieldInstance = Instance & FieldWidgetProps;
+
 let instanceId = 1000;
 
+/**
+ * Base Instance class
+ */
 export class Instance {
    // Core properties
    public widget: Widget;
@@ -191,6 +217,7 @@ export class Instance {
    public state?: Record<string, any>;
    public cached: Record<string, any>;
    public cacheList?: Record<string, any> | null;
+
 
    // Selectors
    public dataSelector?: (store: any) => Record<string, any>;
@@ -243,6 +270,7 @@ export class Instance {
       this.cached = {};
       this.parent = parent;
       this.parentStore = parentStore ?? parent?.store;
+
 
       if (this.parentStore == null) throw new Error("Cannot create instance without a parent store.");
    }
