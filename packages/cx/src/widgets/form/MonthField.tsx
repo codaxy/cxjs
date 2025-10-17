@@ -29,7 +29,7 @@ import { Field, getFieldTooltip } from "./Field";
 import { MonthPicker } from "./MonthPicker";
 import { getActiveElement } from "../../util/getActiveElement";
 import type { RenderingContext } from "../../ui/RenderingContext";
-import type { WidgetInstance } from "../../ui/Instance";
+import type { Instance } from "../../ui/Instance";
 
 export class MonthField extends Field {
    declareData(...args: Record<string, unknown>[]): void {
@@ -84,7 +84,7 @@ export class MonthField extends Field {
       super.init();
    }
 
-   prepareData(context: RenderingContext, instance: WidgetInstance): void {
+   prepareData(context: RenderingContext, instance: Instance): void {
       super.prepareData(context, instance);
 
       let { data } = instance;
@@ -116,14 +116,14 @@ export class MonthField extends Field {
       instance.lastDropdown = context.lastDropdown;
    }
 
-   validateRequired(context: RenderingContext, instance: WidgetInstance): string | undefined {
+   validateRequired(context: RenderingContext, instance: Instance): string | undefined {
       const { data } = instance;
       if (this.range) {
          if (!data.from || !data.to) return this.requiredText;
       } else return super.validateRequired(context, instance);
    }
 
-   validate(context: RenderingContext, instance: WidgetInstance): void {
+   validate(context: RenderingContext, instance: Instance): void {
       super.validate(context, instance);
       var { data } = instance;
       if (!data.error && data.date) {
@@ -144,7 +144,7 @@ export class MonthField extends Field {
       }
    }
 
-   renderInput(context: RenderingContext, instance: WidgetInstance, key: string | number): React.ReactNode {
+   renderInput(context: RenderingContext, instance: Instance, key: string | number): React.ReactNode {
       return (
          <MonthInput
             key={key}
@@ -172,7 +172,7 @@ export class MonthField extends Field {
       );
    }
 
-   formatValue(context: RenderingContext, instance: WidgetInstance): string {
+   formatValue(context: RenderingContext, instance: Instance): string {
       return instance.data.formatted || "";
    }
 
@@ -183,7 +183,7 @@ export class MonthField extends Field {
       return parsed;
    }
 
-   handleSelect(instance: WidgetInstance, date1: Date | null, date2: Date | null): void {
+   handleSelect(instance: Instance, date1: Date | null, date2: Date | null): void {
       let { widget } = instance;
       let encode = widget.encoding || Culture.getDefaultDateEncoding();
       instance.setState({
@@ -225,7 +225,7 @@ Localization.registerPrototype("cx/widgets/MonthField", MonthField);
 Widget.alias("monthfield", MonthField);
 
 interface MonthInputProps {
-   instance: WidgetInstance;
+   instance: Instance;
    data: Record<string, unknown>;
    monthPicker: Record<string, unknown>;
    label?: React.ReactNode;

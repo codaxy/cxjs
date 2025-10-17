@@ -37,7 +37,7 @@ import { autoFocus } from "../autoFocus";
 import { bind } from "../../ui";
 import { isAccessorChain } from "../../data/createAccessorModelProxy";
 import type { RenderingContext } from "../../ui/RenderingContext";
-import type { WidgetInstance } from "../../ui/Instance";
+import type { Instance } from "../../ui/Instance";
 
 export class LookupField extends Field {
    declareData(...args: Record<string, unknown>[]): void {
@@ -123,7 +123,7 @@ export class LookupField extends Field {
       super.init();
    }
 
-   prepareData(context: RenderingContext, instance: WidgetInstance): void {
+   prepareData(context: RenderingContext, instance: Instance): void {
       let { data, store } = instance;
 
       data.stateMods = {
@@ -175,7 +175,7 @@ export class LookupField extends Field {
       super.prepareData(context, instance);
    }
 
-   renderInput(context: RenderingContext, instance: WidgetInstance, key: string | number): React.ReactNode {
+   renderInput(context: RenderingContext, instance: Instance, key: string | number): React.ReactNode {
       return (
          <LookupComponent
             key={key}
@@ -192,7 +192,7 @@ export class LookupField extends Field {
       );
    }
 
-   filterOptions(instance: WidgetInstance, options: Record<string, unknown>[], query: string): Record<string, unknown>[] {
+   filterOptions(instance: Instance, options: Record<string, unknown>[], query: string): Record<string, unknown>[] {
       if (!query) return options;
       let textPredicate = getSearchQueryPredicate(query);
       return options.filter((o) => isString(o[this.optionTextField]) && textPredicate(o[this.optionTextField]));
@@ -208,7 +208,7 @@ export class LookupField extends Field {
       return super.getValidationValue(data);
    }
 
-   formatValue(context: RenderingContext, instance: WidgetInstance): string | null {
+   formatValue(context: RenderingContext, instance: Instance): string | null {
       if (!this.multiple) return super.formatValue(context, instance);
 
       let { records, values, options } = instance.data;
@@ -275,7 +275,7 @@ interface BindingConfig {
    local: string;
    remote: string;
    key?: boolean;
-   set?: (value: unknown, instance: WidgetInstance) => void;
+   set?: (value: unknown, instance: Instance) => void;
 }
 
 function getOptionKey(bindings: BindingConfig[], data: Record<string, unknown>): unknown[] {
@@ -317,7 +317,7 @@ class SelectionDelegate extends Selection {
 }
 
 interface LookupComponentProps {
-   instance: WidgetInstance;
+   instance: Instance;
    multiple: boolean;
    itemConfig: unknown;
    bindings: BindingConfig[];

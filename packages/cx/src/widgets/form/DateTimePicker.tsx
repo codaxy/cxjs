@@ -1,24 +1,34 @@
-import { Widget, VDOM } from "../../ui/Widget";
+/** @jsxImportSource react */
+
+import * as React from "react";
 import { Culture } from "../../ui/Culture";
+import { offFocusOut, oneFocusOut } from "../../ui/FocusManager";
+import { enableCultureSensitiveFormatting } from "../../ui/Format";
+import type { Instance } from "../../ui/Instance";
+import type { RenderingContext } from "../../ui/RenderingContext";
+import { VDOM, Widget } from "../../ui/Widget";
+import { parseDateInvariant } from "../../util";
 import { KeyCode } from "../../util/KeyCode";
 import { WheelComponent } from "./Wheel";
-import { oneFocusOut, offFocusOut } from "../../ui/FocusManager";
-import { enableCultureSensitiveFormatting } from "../../ui/Format";
-import { parseDateInvariant } from "../../util";
-import type { RenderingContext } from "../../ui/RenderingContext";
-import type { WidgetInstance } from "../../ui/Instance";
-import * as React from "react";
 
 enableCultureSensitiveFormatting();
 
 export class DateTimePicker extends Widget {
+   public size: number;
+   public segment: string;
+   public autoFocus?: boolean;
+   public showSeconds?: boolean;
+   public encoding?: (date: Date) => string;
+   public onFocusOut?: string | ((instance: Instance) => void);
+   public onSelect?: string | ((e: React.KeyboardEvent, instance: Instance, date: Date) => void);
+
    declareData(...args: Record<string, unknown>[]): void {
       return super.declareData(...args, {
          value: undefined,
       });
    }
 
-   render(context: RenderingContext, instance: WidgetInstance, key: string | number): React.ReactNode {
+   render(context: RenderingContext, instance: Instance, key: string | number): React.ReactNode {
       return (
          <DateTimePickerComponent
             key={key}
@@ -39,7 +49,7 @@ DateTimePicker.prototype.segment = "datetime";
 DateTimePicker.prototype.showSeconds = false;
 
 interface DateTimePickerComponentProps {
-   instance: WidgetInstance;
+   instance: Instance;
    data: Record<string, unknown>;
    size: number;
    segment: string;
@@ -57,7 +67,7 @@ class DateTimePickerComponent extends VDOM.Component<DateTimePickerComponentProp
 
    constructor(props: DateTimePickerComponentProps) {
       super(props);
-      let date = props.data.value ? parseDateInvariant(props.data.value) : new Date();
+      let date = props.data.value ? parseDateInvariant(props.data.value as string | number | Date) : new Date();
       if (isNaN(date.getTime())) date = new Date();
       this.state = {
          date: date,
@@ -65,6 +75,7 @@ class DateTimePickerComponent extends VDOM.Component<DateTimePickerComponentProp
       };
 
       let { widget } = props.instance;
+      let pickerWidget = widget as DateTimePicker;
 
       this.handleChange = this.handleChange.bind(this);
       this.onFocus = this.onFocus.bind(this);
@@ -80,14 +91,14 @@ class DateTimePickerComponent extends VDOM.Component<DateTimePickerComponentProp
          date: showDate,
          hours: showTime,
          minutes: showTime,
-         seconds: showTime && widget.showSeconds,
+         seconds: showTime && !!pickerWidget.showSeconds,
       };
 
       this.keyDownPipes = {};
    }
 
    UNSAFE_componentWillReceiveProps(props: DateTimePickerComponentProps): void {
-      let date = props.data.value ? parseDateInvariant(props.data.value) : new Date();
+      let date = props.data.value ? parseDateInvariant(props.data.value as string | number | Date) : new Date();
       if (isNaN(date.getTime())) date = new Date();
       this.setState({ date });
    }
@@ -123,14 +134,17 @@ class DateTimePickerComponent extends VDOM.Component<DateTimePickerComponentProp
    }
 
    handleChange(): void {
-      let encode = this.props.instance.widget.encoding || Culture.getDefaultDateEncoding();
-      this.props.instance.set("value", encode(this.state.date));
+      let { widget } = this.props.instance;
+      let pickerWidget = widget as DateTimePicker;
+      let encode = pickerWidget.encoding || Culture.getDefaultDateEncoding();
+      this.props.instance.set("value", encode!(this.state.date));
    }
 
    render(): React.ReactNode {
       let { instance, data, size } = this.props;
       let { widget } = instance;
       let { CSS, baseClass } = widget;
+      let pickerWidget = widget as DateTimePicker;
       let date = this.state.date;
 
       let culture = Culture.getDateTimeCulture();
@@ -161,9 +175,9 @@ class DateTimePickerComponent extends VDOM.Component<DateTimePickerComponentProp
          <div
             tabIndex={0}
             ref={(el) => {
-               this.el = el;
+               this.el = el!;
             }}
-            className={data.classNames}
+            className={data.classNames as string}
             onFocus={this.onFocus}
             onBlur={this.onBlur}
             onKeyDown={this.onKeyDown}
@@ -216,7 +230,7 @@ class DateTimePickerComponent extends VDOM.Component<DateTimePickerComponentProp
                      this.setState({ activeWheel: "month" });
                   }}
                >
-                  {monthNames.map((m, i) => (
+                  {monthNames.map((m: string, i: number) => (
                      <span key={i}>{m}</span>
                   ))}
                </WheelComponent>
@@ -330,7 +344,9 @@ class DateTimePickerComponent extends VDOM.Component<DateTimePickerComponentProp
    }
 
    componentDidMount(): void {
-      if (this.props.instance.widget.autoFocus) this.el.focus();
+      let { widget } = this.props.instance;
+      let pickerWidget = widget as DateTimePicker;
+      if (pickerWidget.autoFocus) this.el.focus();
    }
 
    componentWillUnmount(): void {
@@ -341,7 +357,7 @@ class DateTimePickerComponent extends VDOM.Component<DateTimePickerComponentProp
       oneFocusOut(this, this.el, this.onFocusOut.bind(this));
 
       if (!this.state.activeWheel) {
-         let firstWheel = null;
+         let firstWheel: string | null = null;
          for (let wheel in this.wheels) {
             if (this.wheels[wheel]) {
                firstWheel = wheel;
@@ -358,7 +374,8 @@ class DateTimePickerComponent extends VDOM.Component<DateTimePickerComponentProp
    onFocusOut(): void {
       let { instance } = this.props;
       let { widget } = instance;
-      if (widget.onFocusOut) instance.invoke("onFocusOut", null, instance);
+      let pickerWidget = widget as DateTimePicker;
+      if (pickerWidget.onFocusOut) instance.invoke("onFocusOut", null, instance);
    }
 
    onBlur(): void {
@@ -368,8 +385,11 @@ class DateTimePickerComponent extends VDOM.Component<DateTimePickerComponentProp
    }
 
    onKeyDown(e: React.KeyboardEvent): void {
-      let tmp = null;
+      let tmp: string | null = null;
       let { instance } = this.props;
+      let { widget } = instance;
+      let pickerWidget = widget as DateTimePicker;
+
       switch (e.keyCode) {
          case KeyCode.right:
             e.preventDefault();
@@ -399,11 +419,11 @@ class DateTimePickerComponent extends VDOM.Component<DateTimePickerComponentProp
 
          case KeyCode.enter:
             e.preventDefault();
-            if (instance.widget.onSelect) instance.invoke("onSelect", e, instance, this.state.date);
+            if (pickerWidget.onSelect) instance.invoke("onSelect", e, instance, this.state.date);
             break;
 
          default:
-            let kdp = this.keyDownPipes[this.state.activeWheel];
+            let kdp = this.keyDownPipes[this.state.activeWheel!];
             if (kdp) kdp(e);
             break;
       }

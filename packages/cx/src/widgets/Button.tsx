@@ -7,7 +7,7 @@ import { isFunction } from "../util/isFunction";
 import { isDefined } from "../util/isDefined";
 import { coalesce } from "../util/coalesce";
 import type { RenderingContext } from "../ui/RenderingContext";
-import type { WidgetInstance, WidgetData, RenderProps } from "../ui/Instance";
+import type { Instance, WidgetData, RenderProps } from "../ui/Instance";
 import { YesNoResult } from "../ui/Instance";
 
 interface ButtonData extends WidgetData {
@@ -24,7 +24,7 @@ export class Button extends HtmlElement {
    public focusOnMouseDown?: boolean;
    public submit?: boolean;
    public dismiss?: boolean;
-   public onMouseDown?: string | ((e: MouseEvent, instance: WidgetInstance) => void);
+   public onMouseDown?: string | ((e: MouseEvent, instance: Instance) => void);
 
    declareData(...args: Record<string, unknown>[]): void {
       super.declareData(...args, {
@@ -36,7 +36,7 @@ export class Button extends HtmlElement {
       });
    }
 
-   prepareData(context: RenderingContext, instance: WidgetInstance<ButtonData>): void {
+   prepareData(context: RenderingContext, instance: Instance<ButtonData>): void {
       const { data } = instance;
       data.stateMods = {
          ...data.stateMods,
@@ -47,7 +47,7 @@ export class Button extends HtmlElement {
       super.prepareData(context, instance);
    }
 
-   explore(context: RenderingContext, instance: WidgetInstance<ButtonData>): void {
+   explore(context: RenderingContext, instance: Instance<ButtonData>): void {
       instance.data.parentDisabled = context.parentDisabled;
       instance.data.parentStrict = context.parentStrict;
 
@@ -57,7 +57,7 @@ export class Button extends HtmlElement {
       super.explore(context, instance);
    }
 
-   attachProps(context: RenderingContext, instance: WidgetInstance<ButtonData>, props: RenderProps): void {
+   attachProps(context: RenderingContext, instance: Instance<ButtonData>, props: RenderProps): void {
       super.attachProps(context, instance, props);
 
       if (!this.focusOnMouseDown) {

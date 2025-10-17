@@ -2,10 +2,10 @@ import { Widget } from "../../ui/Widget";
 import { Icon } from "../Icon";
 import { tooltipMouseLeave, tooltipMouseMove, TooltipConfig } from "../overlay/tooltip-ops";
 import type { RenderingContext } from "../../ui/RenderingContext";
-import type { WidgetInstance } from "../../ui/Instance";
+import type { Instance } from "../../ui/Instance";
 
 export class FieldIcon extends Widget {
-   onClick?: (e: MouseEvent, instance: WidgetInstance) => void;
+   onClick?: (e: MouseEvent, instance: Instance) => void;
    tooltip?: TooltipConfig;
 
    declareData(...args: Record<string, unknown>[]): void {
@@ -14,7 +14,7 @@ export class FieldIcon extends Widget {
       });
    }
 
-   render(context: RenderingContext, instance: WidgetInstance, key: string | number): React.ReactNode {
+   render(context: RenderingContext, instance: Instance, key: string | number): React.ReactNode {
       let { data } = instance;
       if (!data.name) return null;
 

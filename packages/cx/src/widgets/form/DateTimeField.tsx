@@ -1,38 +1,71 @@
-import { Widget, VDOM, getContent } from "../../ui/Widget";
-import { Cx } from "../../ui/Cx";
-import { Field, getFieldTooltip } from "./Field";
-import { DateTimePicker } from "./DateTimePicker";
-import { Calendar } from "./Calendar";
-import { Culture } from "../../ui/Culture";
-import { isTouchEvent } from "../../util/isTouchEvent";
-import { isTouchDevice } from "../../util/isTouchDevice";
-import { Dropdown } from "../overlay/Dropdown";
+/** @jsxImportSource react */
+
+import * as React from "react";
 import { StringTemplate } from "../../data/StringTemplate";
-import { zeroTime } from "../../util/date/zeroTime";
-import { dateDiff } from "../../util/date/dateDiff";
-import {
-   tooltipParentWillReceiveProps,
-   tooltipParentWillUnmount,
-   tooltipMouseMove,
-   tooltipMouseLeave,
-   tooltipParentDidMount,
-} from "../overlay/tooltip-ops";
-import { KeyCode } from "../../util/KeyCode";
+import { Culture } from "../../ui/Culture";
+import { Cx } from "../../ui/Cx";
+import type { DropdownInstance, Instance } from "../../ui/Instance";
 import { Localization } from "../../ui/Localization";
-import DropdownIcon from "../icons/drop-down";
-import { Icon } from "../Icon";
-import ClearIcon from "../icons/clear";
+import type { RenderingContext } from "../../ui/RenderingContext";
+import { VDOM, Widget, getContent } from "../../ui/Widget";
+import { getActiveElement, parseDateInvariant } from "../../util";
+import { dateDiff } from "../../util/date/dateDiff";
+import { zeroTime } from "../../util/date/zeroTime";
 import { stopPropagation } from "../../util/eventCallbacks";
 import { Format } from "../../util/Format";
-import { TimeList } from "./TimeList";
+import { isTouchDevice } from "../../util/isTouchDevice";
+import { isTouchEvent } from "../../util/isTouchEvent";
+import { KeyCode } from "../../util/KeyCode";
 import { autoFocus } from "../autoFocus";
-import { getActiveElement } from "../../util";
-import { parseDateInvariant } from "../../util";
-import type { RenderingContext } from "../../ui/RenderingContext";
-import type { WidgetInstance } from "../../ui/Instance";
-import * as React from "react";
+import ClearIcon from "../icons/clear";
+import DropdownIcon from "../icons/drop-down";
+import { Dropdown } from "../overlay/Dropdown";
+import {
+   tooltipMouseLeave,
+   tooltipMouseMove,
+   tooltipParentDidMount,
+   tooltipParentWillReceiveProps,
+   tooltipParentWillUnmount,
+} from "../overlay/tooltip-ops";
+import { Calendar } from "./Calendar";
+import { DateTimePicker } from "./DateTimePicker";
+import { Field, getFieldTooltip } from "./Field";
+import { TimeList } from "./TimeList";
 
 export class DateTimeField extends Field {
+   public showClear?: boolean;
+   public alwaysShowClear?: boolean;
+   public hideClear?: boolean;
+   public format?: string;
+   public segment?: string;
+   public maxValueErrorText?: string;
+   public maxExclusiveErrorText?: string;
+   public minValueErrorText?: string;
+   public minExclusiveErrorText?: string;
+   public inputErrorText?: string;
+   public disabledDaysOfWeekErrorText?: string;
+   public suppressErrorsUntilVisited?: boolean;
+   public labelPlacement?: string;
+   public helpPlacement?: string;
+   public emptyValue?: unknown;
+   public value?: unknown;
+   public minValue?: unknown;
+   public maxValue?: unknown;
+   public minExclusive?: boolean;
+   public maxExclusive?: boolean;
+   public picker?: string;
+   public partial?: boolean;
+   public encoding?: (date: Date) => string;
+   public disabledDaysOfWeek?: number[] | null;
+   public reactOn?: string;
+   public focusInputFirst?: boolean;
+   public dropdownOptions?: Record<string, any>;
+   public onParseInput?: string | ((date: unknown, instance: Instance) => Date | undefined);
+   public autoFocus?: boolean;
+   public trackFocus?: boolean;
+   public showSeconds?: boolean;
+   public step?: number;
+
    declareData(...args: Record<string, unknown>[]): void {
       super.declareData(
          {
@@ -77,8 +110,9 @@ export class DateTimeField extends Field {
       super.init();
    }
 
-   prepareData(context: RenderingContext, instance: WidgetInstance): void {
+   prepareData(context: RenderingContext, instance: Instance): void {
       let { data } = instance;
+      let dropdownInstance = instance as DropdownInstance;
 
       if (data.value) {
          let date = parseDateInvariant(data.value);
@@ -105,39 +139,41 @@ export class DateTimeField extends Field {
          if (data.maxValue) data.maxValue = zeroTime(data.maxValue);
       }
 
-      instance.lastDropdown = context.lastDropdown;
+      dropdownInstance.lastDropdown = context.lastDropdown;
 
       super.prepareData(context, instance);
    }
 
-   validate(context: RenderingContext, instance: WidgetInstance): void {
+   validate(context: RenderingContext, instance: Instance): void {
       super.validate(context, instance);
-      var { data, widget } = instance;
+      let { data, widget } = instance;
+      let dateTimeWidget = widget as DateTimeField;
+
       if (!data.error && data.date) {
          if (isNaN(data.date)) data.error = this.inputErrorText;
          else {
             let d;
             if (data.maxValue) {
                d = dateDiff(data.date, data.maxValue);
-               if (d > 0) data.error = StringTemplate.format(this.maxValueErrorText, data.maxValue);
+               if (d > 0) data.error = StringTemplate.format(this.maxValueErrorText!, data.maxValue);
                else if (d == 0 && data.maxExclusive)
-                  data.error = StringTemplate.format(this.maxExclusiveErrorText, data.maxValue);
+                  data.error = StringTemplate.format(this.maxExclusiveErrorText!, data.maxValue);
             }
             if (data.minValue) {
                d = dateDiff(data.date, data.minValue);
-               if (d < 0) data.error = StringTemplate.format(this.minValueErrorText, data.minValue);
+               if (d < 0) data.error = StringTemplate.format(this.minValueErrorText!, data.minValue);
                else if (d == 0 && data.minExclusive)
-                  data.error = StringTemplate.format(this.minExclusiveErrorText, data.minValue);
+                  data.error = StringTemplate.format(this.minExclusiveErrorText!, data.minValue);
             }
-            if (widget.disabledDaysOfWeek) {
-               if (widget.disabledDaysOfWeek.includes(data.date.getDay()))
+            if (dateTimeWidget.disabledDaysOfWeek) {
+               if (dateTimeWidget.disabledDaysOfWeek.includes(data.date.getDay()))
                   data.error = this.disabledDaysOfWeekErrorText;
             }
          }
       }
    }
 
-   renderInput(context: RenderingContext, instance: WidgetInstance, key: string | number): React.ReactNode {
+   renderInput(context: RenderingContext, instance: Instance, key: string | number): React.ReactNode {
       return (
          <DateTimeInput
             key={key}
@@ -161,19 +197,19 @@ export class DateTimeField extends Field {
       );
    }
 
-   formatValue(context: RenderingContext, { data }: WidgetInstance): string | null {
+   formatValue(context: RenderingContext, { data }: Instance): React.ReactNode {
       return data.value ? data.formatted : null;
    }
 
-   parseDate(date: unknown, instance: WidgetInstance): Date | null {
+   parseDate(date: unknown, instance: Instance): Date | null {
       if (!date) return null;
       if (date instanceof Date) return date;
       if (this.onParseInput) {
          let result = instance.invoke("onParseInput", date, instance);
          if (result !== undefined) return result;
       }
-      date = Culture.getDateTimeCulture().parse(date, { useCurrentDateForDefaults: true });
-      return date;
+      date = Culture.getDateTimeCulture().parse(date, { useCurrentDateForDefaults: true }) as Date;
+      return date as Date | null;
    }
 }
 
@@ -199,7 +235,7 @@ Widget.alias("datetimefield", DateTimeField);
 Localization.registerPrototype("cx/widgets/DateTimeField", DateTimeField);
 
 interface DateTimeInputProps {
-   instance: WidgetInstance;
+   instance: Instance;
    data: Record<string, unknown>;
    picker: Record<string, unknown>;
    label?: React.ReactNode;
@@ -217,34 +253,36 @@ class DateTimeInput extends VDOM.Component<DateTimeInputProps, DateTimeInputStat
    input!: HTMLInputElement;
    dropdown?: Widget;
    scrollableParents?: Element[];
-   openDropdownOnFocus?: boolean;
-   updateDropdownPosition?: () => void;
+   openDropdownOnFocus: boolean = false;
+   updateDropdownPosition: () => void;
    scrolling?: boolean;
 
    constructor(props: DateTimeInputProps) {
       super(props);
-      props.instance.component = this;
+      (props.instance as any).component = this;
       this.state = {
          dropdownOpen: false,
          focus: false,
       };
+      this.updateDropdownPosition = () => {};
    }
 
    getDropdown(): Widget {
       if (this.dropdown) return this.dropdown;
 
-      let { widget, lastDropdown } = this.props.instance;
+      let { widget, lastDropdown } = this.props.instance as DropdownInstance;
+      let dateTimeWidget = widget as DateTimeField;
 
       let pickerConfig;
 
-      switch (widget.picker) {
+      switch (dateTimeWidget.picker) {
          case "calendar":
             pickerConfig = {
                type: Calendar,
-               partial: widget.partial,
-               encoding: widget.encoding,
-               disabledDaysOfWeek: widget.disabledDaysOfWeek,
-               focusable: !widget.focusInputFirst,
+               partial: dateTimeWidget.partial,
+               encoding: dateTimeWidget.encoding,
+               disabledDaysOfWeek: dateTimeWidget.disabledDaysOfWeek,
+               focusable: !dateTimeWidget.focusInputFirst,
             };
             break;
 
@@ -252,9 +290,9 @@ class DateTimeInput extends VDOM.Component<DateTimeInputProps, DateTimeInputStat
             pickerConfig = {
                type: TimeList,
                style: "height: 300px",
-               encoding: widget.encoding,
-               step: widget.step,
-               format: widget.format,
+               encoding: dateTimeWidget.encoding,
+               step: dateTimeWidget.step,
+               format: dateTimeWidget.format,
                scrollSelectionIntoView: true,
             };
             break;
@@ -262,9 +300,9 @@ class DateTimeInput extends VDOM.Component<DateTimeInputProps, DateTimeInputStat
          default:
             pickerConfig = {
                type: DateTimePicker,
-               segment: widget.segment,
-               encoding: widget.encoding,
-               showSeconds: widget.showSeconds,
+               segment: dateTimeWidget.segment,
+               encoding: dateTimeWidget.encoding,
+               showSeconds: dateTimeWidget.showSeconds,
             };
             break;
       }
@@ -277,30 +315,30 @@ class DateTimeInput extends VDOM.Component<DateTimeInputProps, DateTimeInputStat
          touchFriendly: true,
          firstChildDefinesHeight: true,
          firstChildDefinesWidth: true,
-         ...widget.dropdownOptions,
+         ...dateTimeWidget.dropdownOptions,
          type: Dropdown,
          relatedElement: this.input,
-         onFocusOut: (e) => {
+         onFocusOut: (e: unknown) => {
             this.closeDropdown(e);
          },
          onMouseDown: stopPropagation,
          items: {
             ...pickerConfig,
             ...this.props.picker,
-            autoFocus: !widget.focusInputFirst,
-            tabIndex: widget.focusInputFirst ? -1 : 0,
-            onKeyDown: (e) => this.onKeyDown(e),
-            onSelect: (e, calendar, date) => {
+            autoFocus: !dateTimeWidget.focusInputFirst,
+            tabIndex: dateTimeWidget.focusInputFirst ? -1 : 0,
+            onKeyDown: (e: React.KeyboardEvent) => this.onKeyDown(e),
+            onSelect: (e: React.MouseEvent, calendar: any, date: Date) => {
                e.stopPropagation();
                e.preventDefault();
-               let touch = isTouchEvent(e);
+               let touch = isTouchEvent();
                this.closeDropdown(e, () => {
                   if (date) {
                      // If a blur event occurs before we re-render the input,
                      // the old input value is parsed and written to the store.
                      // We want to prevent that by eagerly updating the input value.
                      // This can happen if the date field is within a menu.
-                     let newFormattedValue = Format.value(date, this.props.data.format);
+                     let newFormattedValue = Format.value(date, this.props.data.format as string);
                      this.input.value = newFormattedValue;
                   }
                   if (!touch) this.input.focus();
@@ -316,13 +354,14 @@ class DateTimeInput extends VDOM.Component<DateTimeInputProps, DateTimeInputStat
       let { instance, label, help, icon: iconVDOM } = this.props;
       let { data, widget, state } = instance;
       let { CSS, baseClass, suppressErrorsUntilVisited } = widget;
+      let dateTimeWidget = widget as DateTimeField;
 
       let insideButton, icon;
 
       if (!data.readOnly && !data.disabled) {
          if (
-            widget.showClear &&
-            (((widget.alwaysShowClear || !data.required) && !data.empty) || instance.state.inputError)
+            dateTimeWidget.showClear &&
+            (((dateTimeWidget.alwaysShowClear || !data.required) && !data.empty) || instance.state?.inputError)
          )
             insideButton = (
                <div
@@ -348,7 +387,7 @@ class DateTimeInput extends VDOM.Component<DateTimeInputProps, DateTimeInputStat
          icon = <div className={CSS.element(baseClass, "left-icon")}>{iconVDOM}</div>;
       }
 
-      let dropdown = false;
+      let dropdown: React.ReactNode | undefined;
       if (this.state.dropdownOpen)
          dropdown = (
             <Cx
@@ -366,32 +405,32 @@ class DateTimeInput extends VDOM.Component<DateTimeInputProps, DateTimeInputStat
             className={CSS.expand(
                data.classNames,
                CSS.state({
-                  visited: state.visited,
+                  visited: state?.visited,
                   focus: this.state.focus || this.state.dropdownOpen,
                   icon: !!icon,
                   empty: empty && !data.placeholder,
-                  error: data.error && (state.visited || !suppressErrorsUntilVisited || !empty),
+                  error: data.error && (state?.visited || !suppressErrorsUntilVisited || !empty),
                }),
             )}
-            style={data.style}
+            style={data.style as React.CSSProperties}
             onMouseDown={this.onMouseDown.bind(this)}
             onTouchStart={stopPropagation}
          >
             <input
-               id={data.id}
+               id={data.id as string}
                ref={(el) => {
-                  this.input = el;
+                  this.input = el!;
                }}
                type="text"
                className={CSS.expand(CSS.element(baseClass, "input"), data.inputClass)}
-               style={data.inputStyle}
-               defaultValue={data.formatted}
-               disabled={data.disabled}
-               readOnly={data.readOnly}
-               tabIndex={data.tabIndex}
-               placeholder={data.placeholder}
-               {...data.inputAttrs}
-               onInput={(e) => this.onChange(e.target.value, "input")}
+               style={data.inputStyle as React.CSSProperties}
+               defaultValue={data.formatted as string}
+               disabled={data.disabled as boolean}
+               readOnly={data.readOnly as boolean}
+               tabIndex={data.tabIndex as number}
+               placeholder={data.placeholder as string}
+               {...(data.inputAttrs as Record<string, any>)}
+               onInput={(e) => this.onChange((e.target as HTMLInputElement).value, "input")}
                onChange={(e) => this.onChange(e.target.value, "change")}
                onKeyDown={(e) => this.onKeyDown(e)}
                onBlur={(e) => {
@@ -414,6 +453,8 @@ class DateTimeInput extends VDOM.Component<DateTimeInputProps, DateTimeInputStat
 
    onMouseDown(e: React.MouseEvent): void {
       e.stopPropagation();
+      let { widget } = this.props.instance;
+      let dateTimeWidget = widget as DateTimeField;
 
       if (this.state.dropdownOpen) {
          this.closeDropdown(e);
@@ -426,31 +467,33 @@ class DateTimeInput extends VDOM.Component<DateTimeInputProps, DateTimeInputStat
          e.preventDefault();
 
          //the field should not focus only in case when dropdown will open and autofocus
-         if (this.props.instance.widget.focusInputFirst || this.state.dropdownOpen) this.input.focus();
+         if (dateTimeWidget.focusInputFirst || this.state.dropdownOpen) this.input.focus();
 
          if (this.state.dropdownOpen) this.closeDropdown(e);
-         else this.openDropdown(e);
+         else this.openDropdown();
       }
    }
 
    onFocus(e: React.FocusEvent): void {
       let { instance } = this.props;
       let { widget } = instance;
-      if (widget.trackFocus) {
+      let dateTimeWidget = widget as DateTimeField;
+
+      if (dateTimeWidget.trackFocus) {
          this.setState({
             focus: true,
          });
       }
-      if (this.openDropdownOnFocus || widget.focusInputFirst) this.openDropdown(e);
+      if (this.openDropdownOnFocus || dateTimeWidget.focusInputFirst) this.openDropdown();
    }
 
    onKeyDown(e: React.KeyboardEvent): void {
       let { instance } = this.props;
-      if (instance.widget.handleKeyDown(e, instance) === false) return;
+      if ((instance.widget as DateTimeField).handleKeyDown(e, instance) === false) return;
 
       switch (e.keyCode) {
          case KeyCode.enter:
-            this.onChange(e.target.value, "enter");
+            this.onChange((e.target as HTMLInputElement).value, "enter");
             break;
 
          case KeyCode.esc:
@@ -468,7 +511,7 @@ class DateTimeInput extends VDOM.Component<DateTimeInputProps, DateTimeInputStat
             break;
 
          case KeyCode.down:
-            this.openDropdown(e);
+            this.openDropdown();
             e.stopPropagation();
             e.preventDefault();
             break;
@@ -476,8 +519,11 @@ class DateTimeInput extends VDOM.Component<DateTimeInputProps, DateTimeInputStat
    }
 
    onBlur(e: React.FocusEvent<HTMLInputElement>): void {
+      let { widget } = this.props.instance;
+      let dateTimeWidget = widget as DateTimeField;
+
       if (!this.state.dropdownOpen) this.props.instance.setState({ visited: true });
-      else if (this.props.instance.widget.focusInputFirst) this.closeDropdown(e);
+      else if (dateTimeWidget.focusInputFirst) this.closeDropdown(e);
       if (this.state.focus)
          this.setState({
             focus: false,
@@ -517,7 +563,7 @@ class DateTimeInput extends VDOM.Component<DateTimeInputProps, DateTimeInputStat
 
    UNSAFE_componentWillReceiveProps(props: DateTimeInputProps): void {
       let { data, state } = props.instance;
-      if (data.formatted !== this.input.value && (data.formatted !== this.props.data.formatted || !state.inputError)) {
+      if (data.formatted !== this.input.value && (data.formatted !== this.props.data.formatted || !state?.inputError)) {
          this.input.value = data.formatted || "";
          props.instance.setState({
             inputError: false,
@@ -547,10 +593,11 @@ class DateTimeInput extends VDOM.Component<DateTimeInputProps, DateTimeInputStat
    onChange(inputValue: string, eventType: string): void {
       let { instance, data } = this.props;
       let { widget } = instance;
+      let dateTimeWidget = widget as DateTimeField;
 
       if (data.disabled || data.readOnly) return;
 
-      if (widget.reactOn.indexOf(eventType) === -1) return;
+      if (dateTimeWidget.reactOn!.indexOf(eventType) === -1) return;
 
       if (eventType == "enter") instance.setState({ visited: true });
 
@@ -560,27 +607,28 @@ class DateTimeInput extends VDOM.Component<DateTimeInputProps, DateTimeInputStat
    setValue(text: string | null, baseValue?: unknown): void {
       let { instance, data } = this.props;
       let { widget } = instance;
+      let dateTimeWidget = widget as DateTimeField;
 
-      let date = widget.parseDate(text, instance);
+      let date = dateTimeWidget.parseDate(text, instance);
 
       instance.setState({
-         inputError: isNaN(date) && widget.inputErrorText,
+         inputError: isNaN(date as any) && dateTimeWidget.inputErrorText,
       });
 
-      if (!isNaN(date)) {
-         let mixed = parseDateInvariant(baseValue);
-         if (date && baseValue && !isNaN(mixed) && widget.partial) {
-            switch (widget.segment) {
+      if (!isNaN(date as any)) {
+         let mixed = parseDateInvariant(baseValue as string);
+         if (date && baseValue && !isNaN(mixed as any) && dateTimeWidget.partial) {
+            switch (dateTimeWidget.segment) {
                case "date":
-                  mixed.setFullYear(date.getFullYear());
-                  mixed.setMonth(date.getMonth());
-                  mixed.setDate(date.getDate());
+                  mixed.setFullYear(date!.getFullYear());
+                  mixed.setMonth(date!.getMonth());
+                  mixed.setDate(date!.getDate());
                   break;
 
                case "time":
-                  mixed.setHours(date.getHours());
-                  mixed.setMinutes(date.getMinutes());
-                  mixed.setSeconds(date.getSeconds());
+                  mixed.setHours(date!.getHours());
+                  mixed.setMinutes(date!.getMinutes());
+                  mixed.setSeconds(date!.getSeconds());
                   break;
 
                default:
@@ -591,11 +639,11 @@ class DateTimeInput extends VDOM.Component<DateTimeInputProps, DateTimeInputStat
             date = mixed;
          }
 
-         let encode = widget.encoding || Culture.getDefaultDateEncoding();
+         let encode = dateTimeWidget.encoding || Culture.getDefaultDateEncoding();
 
-         let value = date ? encode(date) : widget.emptyValue;
+         let value = date ? encode!(date!) : dateTimeWidget.emptyValue;
 
-         if (!instance.set("value", value)) this.input.value = value ? Format.value(date, data.format) : "";
+         if (!instance.set("value", value)) this.input.value = value ? Format.value(date!, data.format as string) : "";
       }
    }
 }

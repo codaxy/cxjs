@@ -1,5 +1,5 @@
 import type { RenderingContext } from "../../ui/RenderingContext";
-import type { WidgetInstance } from "../../ui/Instance";
+import type { Instance } from "../../ui/Instance";
 import { Widget, VDOM } from "../../ui/Widget";
 import * as React from "react";
 
@@ -11,7 +11,7 @@ interface ValidationErrorData {
    style?: Record<string, string | number> | string;
 }
 
-interface ValidationErrorInstance extends WidgetInstance {
+interface ValidationErrorInstance extends Instance {
    lastError?: {
       fieldId: string;
       message: string;

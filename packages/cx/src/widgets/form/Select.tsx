@@ -16,7 +16,7 @@ import { isDefined } from "../../util/isDefined";
 import { KeyCode } from "../../util/KeyCode";
 import { autoFocus } from "../autoFocus";
 import type { RenderingContext } from "../../ui/RenderingContext";
-import type { WidgetInstance } from "../../ui/Instance";
+import type { Instance } from "../../ui/Instance";
 
 export class Select extends Field {
    declareData(...args: Record<string, unknown>[]): void {
@@ -39,7 +39,7 @@ export class Select extends Field {
       super.init();
    }
 
-   renderInput(context: RenderingContext, instance: WidgetInstance, key: string | number): React.ReactNode {
+   renderInput(context: RenderingContext, instance: Instance, key: string | number): React.ReactNode {
       return (
          <SelectComponent
             key={key}
@@ -63,7 +63,7 @@ export class Select extends Field {
       return value;
    }
 
-   select(value: string, instance: WidgetInstance): void {
+   select(value: string, instance: Instance): void {
       let processedValue: string | number | boolean | null = value;
       if (this.convertValues && value != null) processedValue = this.convert(value);
       instance.set("value", processedValue);
@@ -88,7 +88,7 @@ Widget.alias("select", Select);
 Localization.registerPrototype("cx/widgets/Select", Select);
 
 interface SelectComponentProps {
-   instance: WidgetInstance;
+   instance: Instance;
    multiple: boolean;
    select: (value: string) => void;
    label?: React.ReactNode;
@@ -277,13 +277,13 @@ export class Option extends HtmlElement {
       );
    }
 
-   prepareData(context: RenderingContext, instance: WidgetInstance): void {
+   prepareData(context: RenderingContext, instance: Instance): void {
       super.prepareData(context, instance);
       const { data } = instance;
       if (!data.empty) data.value = data.value.toString();
    }
 
-   render(context: RenderingContext, instance: WidgetInstance, key: string | number): React.ReactNode {
+   render(context: RenderingContext, instance: Instance, key: string | number): React.ReactNode {
       const { data } = instance;
       return (
          <option key={key} value={data.value}>

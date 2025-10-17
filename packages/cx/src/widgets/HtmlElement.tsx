@@ -16,7 +16,7 @@ import { isDefined } from "../util/isDefined";
 import { isArray } from "../util/isArray";
 import { autoFocus } from "./autoFocus";
 import type { RenderingContext } from "../ui/RenderingContext";
-import type { WidgetData, WidgetInstance, RenderProps, Instance } from "../ui/Instance";
+import type { WidgetData, Instance, RenderProps, Instance } from "../ui/Instance";
 import type { TooltipConfig } from "./overlay/tooltip-ops";
 
 const isDataAttribute = (attr: string): string | false =>

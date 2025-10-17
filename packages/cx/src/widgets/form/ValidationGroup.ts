@@ -1,12 +1,12 @@
 import type { RenderingContext } from "../../ui/RenderingContext";
-import type { WidgetInstance } from "../../ui/Instance";
+import type { Instance } from "../../ui/Instance";
 import { Widget } from "../../ui/Widget";
 import { PureContainer } from "../../ui/PureContainer";
 import { isDefined } from "../../util/isDefined";
 import { shallowEquals } from "../../util/shallowEquals";
 import { coalesce } from "../../util/coalesce";
 
-interface ValidationGroupInstance extends WidgetInstance {
+interface ValidationGroupInstance extends Instance {
    validation: {
       errors: Array<{
          fieldId: string;

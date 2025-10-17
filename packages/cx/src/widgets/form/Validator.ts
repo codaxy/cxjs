@@ -1,6 +1,6 @@
 import { Field } from "./Field";
 import type { RenderingContext } from "../../ui/RenderingContext";
-import type { WidgetInstance } from "../../ui/Instance";
+import type { Instance } from "../../ui/Instance";
 
 export class Validator extends Field {
    declareData(...args: Record<string, unknown>[]): Record<string, unknown> {
@@ -16,7 +16,7 @@ export class Validator extends Field {
       return false;
    }
 
-   render(context: RenderingContext, instance: WidgetInstance, key: string | number): React.ReactNode {
+   render(context: RenderingContext, instance: Instance, key: string | number): React.ReactNode {
       if (!instance.state?.visited || !instance.data.error) return null;
       return this.renderChildren(context, instance, key);
    }

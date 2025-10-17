@@ -3,7 +3,7 @@ import {FieldGroup} from './FieldGroup';
 import {Label} from './Label';
 import {isSelector} from '../../data/isSelector';
 import type { RenderingContext } from '../../ui/RenderingContext';
-import type { WidgetInstance } from '../../ui/Instance';
+import type { Instance } from '../../ui/Instance';
 
 export class LabeledContainer extends FieldGroup
 {
@@ -42,19 +42,19 @@ export class LabeledContainer extends FieldGroup
       super.init();
    }
 
-   initComponents(context: RenderingContext, instance: WidgetInstance, ...args: unknown[]): Record<string, Widget> {
+   initComponents(context: RenderingContext, instance: Instance, ...args: unknown[]): Record<string, Widget> {
       return super.initComponents(context, instance, ...args, {
          label: this.label
       });
    }
 
-   renderLabel(context: RenderingContext, instance: WidgetInstance, key?: string | number): React.ReactNode {
+   renderLabel(context: RenderingContext, instance: Instance, key?: string | number): React.ReactNode {
       if (instance.components && instance.components.label)
          return instance.components.label.render(context, key!);
       return null;
    }
 
-   render(context: RenderingContext, instance: WidgetInstance, key: string | number): { label: React.ReactNode; content: React.ReactNode } {
+   render(context: RenderingContext, instance: Instance, key: string | number): { label: React.ReactNode; content: React.ReactNode } {
       return {
          label: this.renderLabel(context, instance),
          content: this.renderChildren(context, instance)

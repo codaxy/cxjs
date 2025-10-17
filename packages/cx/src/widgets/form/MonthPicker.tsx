@@ -25,7 +25,7 @@ import { isString } from "../../util/isString";
 import { isTouchEvent } from "../../util/isTouchEvent";
 import { getCursorPos } from "../overlay/captureMouse";
 import type { RenderingContext } from "../../ui/RenderingContext";
-import type { WidgetInstance } from "../../ui/Instance";
+import type { Instance } from "../../ui/Instance";
 
 import { enableCultureSensitiveFormatting } from "../../ui/Format";
 import { parseDateInvariant } from "../../util";
@@ -70,7 +70,7 @@ export class MonthPicker extends Field {
       super.init();
    }
 
-   prepareData(context: RenderingContext, instance: WidgetInstance): void {
+   prepareData(context: RenderingContext, instance: Instance): void {
       let { data } = instance;
       data.stateMods = {
          disabled: data.disabled,
@@ -105,7 +105,7 @@ export class MonthPicker extends Field {
       super.prepareData(...arguments);
    }
 
-   validate(context: RenderingContext, instance: WidgetInstance): void {
+   validate(context: RenderingContext, instance: Instance): void {
       super.validate(context, instance);
       let { data } = instance;
       if (!data.error && data.date) {
@@ -126,7 +126,7 @@ export class MonthPicker extends Field {
       }
    }
 
-   renderInput(context: RenderingContext, instance: WidgetInstance, key: string | number): React.ReactNode {
+   renderInput(context: RenderingContext, instance: Instance, key: string | number): React.ReactNode {
       return (
          <MonthPickerComponent
             key={key}
@@ -139,7 +139,7 @@ export class MonthPicker extends Field {
       );
    }
 
-   handleSelect(e: React.KeyboardEvent | React.MouseEvent | React.TouchEvent, instance: WidgetInstance, date1: Date, date2: Date): void {
+   handleSelect(e: React.KeyboardEvent | React.MouseEvent | React.TouchEvent, instance: Instance, date1: Date, date2: Date): void {
       let { data, widget, isMonthDateSelectable } = instance;
       let encode = widget.encoding || Culture.getDefaultDateEncoding();
 
@@ -192,10 +192,10 @@ const monthNumber = (date: Date): number => {
 };
 
 interface MonthPickerComponentProps {
-   instance: WidgetInstance;
+   instance: Instance;
    onBlur?: () => void;
    onFocusOut?: () => void;
-   onKeyDown?: (e: React.KeyboardEvent, instance: WidgetInstance) => void;
+   onKeyDown?: (e: React.KeyboardEvent, instance: Instance) => void;
    autoFocus?: boolean;
 }
 

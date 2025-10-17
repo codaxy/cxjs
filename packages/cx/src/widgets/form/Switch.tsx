@@ -1,5 +1,5 @@
 import type { RenderingContext } from "../../ui/RenderingContext";
-import type { WidgetInstance } from "../../ui/Instance";
+import type { Instance } from "../../ui/Instance";
 import { Widget, VDOM, getContent } from "../../ui/Widget";
 import { KeyCode } from "../../util/KeyCode";
 import { parseStyle } from "../../util/parseStyle";
@@ -51,7 +51,7 @@ export class Switch extends Field {
       super.init();
    }
 
-   prepareData(context: RenderingContext, instance: WidgetInstance): void {
+   prepareData(context: RenderingContext, instance: Instance): void {
       let { data } = instance;
 
       if (isDefined(this.off)) data.on = !data.off;
@@ -64,7 +64,7 @@ export class Switch extends Field {
       super.prepareData(context, instance);
    }
 
-   renderInput(context: RenderingContext, instance: WidgetInstance, key: string): React.ReactElement {
+   renderInput(context: RenderingContext, instance: Instance, key: string): React.ReactElement {
       let { data, widget } = instance;
       let { rangeStyle, handleStyle } = data;
       let { CSS, baseClass } = this;
@@ -122,7 +122,7 @@ export class Switch extends Field {
       );
    }
 
-   toggle(e: React.MouseEvent | React.KeyboardEvent, instance: WidgetInstance): void {
+   toggle(e: React.MouseEvent | React.KeyboardEvent, instance: Instance): void {
       let { data } = instance;
       if (data.readOnly || data.disabled) return;
       instance.set("on", !data.on);

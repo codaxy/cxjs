@@ -8,14 +8,14 @@ import { Format } from "../../util/Format";
 import { Culture } from "../../ui/Culture";
 import { isString } from "../../util/isString";
 import { isFunction } from "../../util/isFunction";
-import type { WidgetInstance } from "../../ui/Instance";
+import type { Instance } from "../../ui/Instance";
 
 interface TimeListProps {
    value?: unknown;
    step?: number;
    format?: string;
    encoding?: (date: Date) => unknown;
-   onSelect?: string | ((e: React.MouseEvent, instance: WidgetInstance, date: Date) => void);
+   onSelect?: string | ((e: React.MouseEvent, instance: Instance, date: Date) => void);
    [key: string]: unknown;
 }
 
@@ -50,7 +50,7 @@ export const TimeList = createFunctionalComponent(({ value, step, format, encodi
                                     let selectionTime = selectionDate.valueOf() - zeroTime(selectionDate).valueOf();
                                     return (Math.round(selectionTime / stepMs) * stepMs) % 86400000;
                                  },
-                                 set: (value: unknown, instance: WidgetInstance) => {
+                                 set: (value: unknown, instance: Instance) => {
                                     let { store } = instance;
                                     let $value = store.get("$value");
                                     let copy = $value ? new Date($value) : new Date();
@@ -74,7 +74,7 @@ export const TimeList = createFunctionalComponent(({ value, step, format, encodi
                                  selection: { bind: "$selection" },
                               }}
                               {...props}
-                              onItemClick={(e: React.MouseEvent, instance: WidgetInstance) => {
+                              onItemClick={(e: React.MouseEvent, instance: Instance) => {
                                  if (!onSelect) return;
                                  let date = new Date(instance.store.get('$value'));
                                  if (isString(onSelect)) instance.invokeControllerMethod(onSelect, e, instance, date);

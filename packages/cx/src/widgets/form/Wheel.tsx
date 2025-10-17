@@ -4,7 +4,7 @@ import { KeyCode } from "../../util/KeyCode";
 import { Icon } from "../Icon";
 import { addEventListenerWithOptions } from "../../util";
 import type { RenderingContext } from "../../ui/RenderingContext";
-import type { WidgetInstance } from "../../ui/Instance";
+import type { Instance } from "../../ui/Instance";
 import * as React from "react";
 
 export class Wheel extends PureContainer {
@@ -15,7 +15,7 @@ export class Wheel extends PureContainer {
       });
    }
 
-   render(context: RenderingContext, instance: WidgetInstance, key: string | number): React.ReactNode {
+   render(context: RenderingContext, instance: Instance, key: string | number): React.ReactNode {
       let { data } = instance;
       let { value, options } = data;
       let index = options.findIndex((a) => a.id === value);

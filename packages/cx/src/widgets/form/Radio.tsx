@@ -1,5 +1,5 @@
 import type { RenderingContext } from "../../ui/RenderingContext";
-import type { WidgetInstance } from "../../ui/Instance";
+import type { Instance } from "../../ui/Instance";
 import { Widget, VDOM, getContent } from "../../ui/Widget";
 import { Field, getFieldTooltip } from "./Field";
 import { tooltipMouseMove, tooltipMouseLeave } from "../overlay/tooltip-ops";
@@ -36,23 +36,23 @@ export class Radio extends Field {
       super.init();
    }
 
-   formatValue(context: RenderingContext, { data }: WidgetInstance): React.ReactNode {
+   formatValue(context: RenderingContext, { data }: Instance): React.ReactNode {
       return data.text;
    }
 
-   prepareData(context: RenderingContext, instance: WidgetInstance): void {
+   prepareData(context: RenderingContext, instance: Instance): void {
       super.prepareData(context, instance);
       let { data } = instance;
       data.checked = data.value === data.option;
       if (this.default && isUndefined(data.value)) instance.set("value", data.option);
    }
 
-   renderValue(context: RenderingContext, { data }: WidgetInstance): React.ReactNode {
+   renderValue(context: RenderingContext, { data }: Instance): React.ReactNode {
       if (data.value === data.option) return super.renderValue(context, { data });
       return null;
    }
 
-   renderWrap(context: RenderingContext, instance: WidgetInstance, key: string, content: React.ReactNode): React.ReactElement {
+   renderWrap(context: RenderingContext, instance: Instance, key: string, content: React.ReactNode): React.ReactElement {
       var { data } = instance;
       return (
          <label
@@ -74,7 +74,7 @@ export class Radio extends Field {
       );
    }
 
-   renderNativeCheck(context: RenderingContext, instance: WidgetInstance): React.ReactElement {
+   renderNativeCheck(context: RenderingContext, instance: Instance): React.ReactElement {
       var { CSS, baseClass } = this;
       var { data } = instance;
       return (
@@ -94,11 +94,11 @@ export class Radio extends Field {
       );
    }
 
-   renderCheck(context: RenderingContext, instance: WidgetInstance): React.ReactElement {
+   renderCheck(context: RenderingContext, instance: Instance): React.ReactElement {
       return <RadioCmp key="check" instance={instance} data={instance.data} />;
    }
 
-   renderInput(context: RenderingContext, instance: WidgetInstance, key: string): React.ReactElement {
+   renderInput(context: RenderingContext, instance: Instance, key: string): React.ReactElement {
       var { data } = instance;
       var text = data.text || this.renderChildren(context, instance);
       var { CSS, baseClass } = this;
@@ -116,7 +116,7 @@ export class Radio extends Field {
       ]);
    }
 
-   handleClick(e: React.MouseEvent, instance: WidgetInstance): void {
+   handleClick(e: React.MouseEvent, instance: Instance): void {
       if (this.native) e.stopPropagation();
       else {
          var el = document.getElementById(instance.data.id);
@@ -126,7 +126,7 @@ export class Radio extends Field {
       }
    }
 
-   handleChange(e: React.ChangeEvent<HTMLInputElement> | React.MouseEvent, instance: WidgetInstance): void {
+   handleChange(e: React.ChangeEvent<HTMLInputElement> | React.MouseEvent, instance: Instance): void {
       var { data } = instance;
       if (data.disabled || data.readOnly || data.viewMode) return;
       instance.set("value", data.option);
@@ -141,7 +141,7 @@ Widget.alias("radio", Radio);
 
 interface RadioCmpProps {
    key?: string;
-   instance: WidgetInstance;
+   instance: Instance;
    data: Record<string, unknown>;
 }
 
