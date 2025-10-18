@@ -5,7 +5,7 @@ import { Binding } from "./Binding";
 import { quoteStr } from "../util/quote";
 import { isFunction } from "../util/isFunction";
 import { isValidIdentifierName } from "../util/isValidIdentifierName";
-import { Selector } from "./Selector";
+import { MemoSelector, Selector } from "./Selector";
 
 /*
    Helper usage example
@@ -14,23 +14,23 @@ import { Selector } from "./Selector";
    let e = Expression.compile('_.min({data})');
  */
 
-let helpers = {},
+let helpers: Record<string, any> = {},
    helperNames: string[] = [],
-   helperValues = [],
-   expFatArrows = null;
+   helperValues: any[] = [],
+   expFatArrows: null | ((body: string) => string) = null;
 
-function getExpr(expr) {
-   if (expr.memoize) return expr;
+function getExpr(expr: Selector): MemoSelector {
+   if (expr.memoize) return expr as MemoSelector;
 
    function memoize(): Selector {
-      let lastValue,
-         lastRunBindings = {},
-         lastRunResults = {},
+      let lastValue: any,
+         lastRunBindings: Record<string, Selector> = {},
+         lastRunResults: Record<string, any> = {},
          getters: Record<string, Selector> = {},
-         currentData,
+         currentData: any,
          len = -1;
 
-      let get = function (bindingWithFormat) {
+      let get = function (bindingWithFormat: string) {
          let getter = getters[bindingWithFormat];
          if (!getter) {
             let binding = bindingWithFormat,
@@ -77,12 +77,12 @@ function getExpr(expr) {
       };
    }
 
-   let result = memoize();
+   let result: Selector = memoize();
    result.memoize = memoize;
-   return result;
+   return result as MemoSelector;
 }
 
-export function expression(str: string): Selector {
+export function expression(str: string | Selector): MemoSelector {
    if (isFunction(str)) return getExpr(str);
 
    let cache = getExpressionCache();
@@ -189,32 +189,34 @@ export function expression(str: string): Selector {
          ...helperValues,
       );
 
-      // @ts-expect-error
       let selector = computable(...keys.map((k) => args[k]), compute);
       cache[str] = selector;
       return selector;
    } catch (err) {
-      throw new Error(`Failed to parse expression: '${str}'. Error: ${err.message}`);
+      throw new Error(`Failed to parse expression: '${str}'. ${err}`);
    }
 }
 
+export type GetFunction = (bindingPath: string) => any;
+export type SelectorFunction = (get: GetFunction) => any;
+
 export const Expression = {
-   get: function (str: string) {
+   get: function (str: string | SelectorFunction): MemoSelector {
       return expression(str);
    },
 
-   compile: function (str: string) {
+   compile: function (str: string | SelectorFunction): Selector {
       return this.get(str).memoize();
    },
 
-   registerHelper: function (name: string, helper) {
+   registerHelper: function (name: string, helper: any) {
       helpers[name] = helper;
       helperNames = Object.keys(helpers);
       helperValues = helperNames.map((n) => helpers[n]);
    },
 };
 
-export function plugFatArrowExpansion(impl) {
+export function plugFatArrowExpansion(impl: (body: string) => string) {
    expFatArrows = impl;
 }
 
@@ -222,10 +224,10 @@ export function invalidateExpressionCache() {
    expCache = {};
 }
 
-let expCache = {};
+let expCache: Record<string, MemoSelector> = {};
 
 let getExpressionCache = () => expCache;
 
-export function setGetExpressionCacheCallback(callback) {
+export function setGetExpressionCacheCallback(callback: () => Record<string, MemoSelector>) {
    getExpressionCache = callback;
 }

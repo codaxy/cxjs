@@ -5,5 +5,11 @@ export function removeTreeNodes<T extends Record<string, any>>(
    criteria: (node: T) => boolean,
    childrenField: keyof T = "$children" as keyof T,
 ): T[] | undefined {
-   return updateTree(array, null, () => false, childrenField, criteria);
+   return updateTree(
+      array,
+      (x) => x,
+      () => false,
+      childrenField,
+      criteria,
+   );
 }

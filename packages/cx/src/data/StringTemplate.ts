@@ -1,24 +1,25 @@
 
 import { expression } from "./Expression";
+import { MemoSelector } from "./Selector";
 
 import { quoteStr } from "../util/quote";
 
-function plus(str) {
+function plus(str: string) {
    return str.length ? str + " + " : str;
 }
 
-export function stringTemplate(str) {
+export function stringTemplate(str: string): MemoSelector {
    let tplCache = getTplCache();
-   let expr = tplCache[str];
-   if (expr) return expr;
+   let cached = tplCache[str];
+   if (cached) return cached;
 
-   expr = "";
+   let expr = "";
 
    let termStart = -1,
       quoteStart = 0,
-      term,
+      term: string,
       bracketsOpen = 0,
-      percentSign;
+      percentSign: boolean = false;
 
    for (let i = 0; i < str.length; i++) {
       switch (str[i]) {
@@ -67,20 +68,20 @@ export function stringTemplate(str) {
 }
 
 export const StringTemplate = {
-   get: function (str) {
+   get: function (str: string) {
       return stringTemplate(str);
    },
 
-   compile: function (str) {
+   compile: function (str: string) {
       return stringTemplate(str).memoize();
    },
 
-   format: function (format, ...args) {
+   format: function (format: string, ...args: any[]) {
       return stringTemplate(format)(args);
    },
 };
 
-let tplCache = {};
+let tplCache: Record<string, MemoSelector> = {};
 
 let getTplCache = () => tplCache;
 
@@ -88,6 +89,6 @@ export function invalidateStringTemplateCache() {
    tplCache = {};
 }
 
-export function setGetStringTemplateCacheCallback(callback) {
+export function setGetStringTemplateCacheCallback(callback: () => Record<string, MemoSelector>) {
    getTplCache = callback;
 }

@@ -9,21 +9,22 @@ import { isDefined } from "../util/isDefined";
 import { isArray } from "../util/isArray";
 import { isAccessorChain } from "./createAccessorModelProxy";
 import { isString } from "../util/isString";
+import { View } from "./View";
 
-function defaultValue(pv) {
+function defaultValue(pv: any) {
    if (typeof pv == "object" && pv && pv.structured) return pv.defaultValue;
 
    return pv;
 }
 
-function getSelectorConfig(props, values, nameMap) {
-   let functions = {},
-      structures = {},
-      defaultValues = {},
-      constants,
-      p,
-      v,
-      pv,
+function getSelectorConfig(props: any, values: any, nameMap: any) {
+   let functions: Record<string, any> = {},
+      structures: Record<string, any> = {},
+      defaultValues: Record<string, any> = {},
+      constants: Record<string, any> | undefined,
+      p: string,
+      v: any,
+      pv: any,
       constant = true;
 
    for (p in props) {
@@ -93,8 +94,18 @@ function getSelectorConfig(props, values, nameMap) {
    };
 }
 
-function createSelector({ functions, structures, constants, defaultValues }) {
-   let selector = {};
+function createSelector({
+   functions,
+   structures,
+   constants,
+   defaultValues,
+}: {
+   functions: any;
+   structures: any;
+   constants: any;
+   defaultValues: any;
+}) {
+   let selector: Record<string, any> = {};
 
    for (let n in functions) {
       selector[n] = functions[n];
@@ -106,15 +117,15 @@ function createSelector({ functions, structures, constants, defaultValues }) {
 }
 
 export class StructuredSelector {
-   nameMap?: any;
-   config?: any;
+   nameMap: Record<string, string>;
+   config: any;
 
    constructor({ props, values }: { props: any; values: any }) {
       this.nameMap = {};
       this.config = getSelectorConfig(props, values, this.nameMap);
    }
 
-   init(store) {
+   init(store: View) {
       store.init(this.config.defaultValues);
    }
 
@@ -130,6 +141,6 @@ export class StructuredSelector {
          return () => result;
       }
       let selector = this.create();
-      return (store) => selector(store.getData());
+      return (store: View) => selector(store.getData());
    }
 }

@@ -28,7 +28,7 @@ export class Binding<T = any> {
       this.value = new Function("x", body) as ValueGetter<T>;
    }
 
-   set<S extends Record<string, any>>(state: S, value: T): S {
+   set<S extends Record<string, any> = any>(state: S, value: T): S {
       const cv = this.value(state);
       if (cv === value) return state;
 
@@ -45,7 +45,7 @@ export class Binding<T = any> {
       return ns;
    }
 
-   delete<S extends Record<string, any>>(state: S): S {
+   delete<S extends Record<string, any> = any>(state: S): S {
       const ns = Object.assign({}, state) as S;
       let o: any = ns;
       let part: string;
@@ -65,7 +65,7 @@ export class Binding<T = any> {
       return ns;
    }
 
-   static get<T = unknown>(path: BindingInput<T>): Binding<T> {
+   static get<T = any>(path: BindingInput<T>): Binding<T> {
       if (isString(path)) {
          let b = bindingCache[path] as Binding<T> | undefined;
          if (b) return b;

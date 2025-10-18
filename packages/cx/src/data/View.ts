@@ -136,7 +136,7 @@ export class View<D = any> {
    }
 
    update(updateFn: (currentValue: D, ...args: any[]) => any, ...args: any): boolean;
-   update(path: Path, updateFn: (currentValue: any, ...args: any[]) => any, ...args: any[]): boolean;
+   update<A extends any[]>(path: Path, updateFn: (currentValue: any, ...args: A) => any, ...args: A): boolean;
    update<V, A extends any[]>(
       path: AccessorChain<V>,
       updateFn: (currentValue: V, ...args: A) => V,
@@ -149,7 +149,7 @@ export class View<D = any> {
    }
 
    mutate(updateFn: (currentValue: D, ...args: any[]) => void, ...args: any[]): boolean;
-   mutate(path: Path, updateFn: (currentValue: any, ...args: any[]) => void, ...args: any[]): boolean;
+   mutate<A extends any[]>(path: Path, updateFn: (currentValue: any, ...args: A) => void, ...args: A): boolean;
    mutate<V, A extends any[]>(
       path: AccessorChain<V>,
       updateFn: (currentValue: V, ...args: A) => void,
@@ -210,7 +210,7 @@ export class View<D = any> {
    }
 
    ref<T = any>(path: string | AccessorChain<T>, defaultValue?: T): Ref<T> {
-      if (isDefined(defaultValue)) this.init(path, defaultValue);
+      if (isDefined(defaultValue)) this.init(path as any, defaultValue);
       return StoreRef.create({
          store: this,
          path,

@@ -1,6 +1,6 @@
 import { updateArray } from "./updateArray";
 
-export function updateTree<T extends Record<string, any>>(
+export function updateTree<T extends Record<string, any> = any>(
    array: T[] | undefined,
    updateCallback: (item: T) => T,
    itemFilter: ((item: T) => boolean) | null,
@@ -10,22 +10,11 @@ export function updateTree<T extends Record<string, any>>(
    return updateArray(
       array,
       (item: T) => {
-         if (!itemFilter || itemFilter(item)) {
-            item = updateCallback(item);
-         }
-
+         if (!itemFilter || itemFilter(item)) item = updateCallback(item);
          const children = item[childrenField];
-
-         if (!Array.isArray(children)) {
-            return item;
-         }
-
+         if (!Array.isArray(children)) return item;
          const updatedChildren = updateTree(children, updateCallback, itemFilter, childrenField, removeFilter);
-
-         if (updatedChildren != children) {
-            return { ...item, [childrenField]: updatedChildren };
-         }
-
+         if (updatedChildren != children) return { ...item, [childrenField]: updatedChildren };
          return item;
       },
       null,

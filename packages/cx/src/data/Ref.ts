@@ -1,10 +1,7 @@
 import { isFunction } from "../util/isFunction";
 import { Component } from "../util/Component";
 import { Binding } from "./Binding";
-
-interface View {
-   set(path: string, value: any): void;
-}
+import { View } from "./View";
 
 interface RefConfig<T> {
    store?: View;
@@ -65,11 +62,11 @@ export class Ref<T = any> extends Component {
       let binding = Binding.get(path);
       return Ref.create({
          get: () => binding.value(this.get()),
-         set: (value) => {
+         set: (value: any) => {
             let data = this.get();
-            let newData = binding.set(data, value);
+            let newData = binding.set(data as Record<string, any>, value);
             if (data === newData) return false;
-            return this.set(newData);
+            return this.set(newData as T);
          },
       });
    }

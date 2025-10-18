@@ -15,6 +15,7 @@ export interface ArrayElementViewConfig {
    indexBinding?: any;
    lengthBinding?: any;
    itemIndex: number;
+   sealed?: boolean;
 }
 
 export class ArrayElementView extends AugmentedViewBase {

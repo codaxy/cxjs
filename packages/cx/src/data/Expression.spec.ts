@@ -26,7 +26,7 @@ describe("Expression", function () {
 
       it("allows mixed curly braces in strings", () => {
          let e = Expression.compile('"Hello {" + "person.name}"');
-         assert.equal(e(), "Hello {person.name}");
+         assert.equal(e({}), "Hello {person.name}");
       });
 
       it("properly encodes quotes #1", function () {
@@ -78,17 +78,17 @@ describe("Expression", function () {
 
       it("prefixed with % sign", function () {
          let e = Expression.compile("%{1+1}");
-         assert.equal(e(), "2");
+         assert.equal(e({}), "2");
       });
 
       it("can be formatted", function () {
          let e = Expression.compile("{[1+1]:f;2}");
-         assert.equal(e(), "2.00");
+         assert.equal(e({}), "2.00");
       });
 
       it("n level deep", function () {
          let e = Expression.compile("{[{[{[1+1]}]}]:f;2}");
-         assert.equal(e(), "2.00");
+         assert.equal(e({}), "2.00");
       });
 
       it("with complex math inside", function () {
@@ -101,7 +101,7 @@ describe("Expression", function () {
 
       it("with a conditional operator inside", function () {
          let e = Expression.compile('{[true ? "T" : "F"]}');
-         assert.equal(e(), "T");
+         assert.equal(e({}), "T");
       });
 
       it("with string interpolation inside", function () {
@@ -161,10 +161,10 @@ describe("Expression", function () {
 
       it("allows strings in subexpressions", () => {
          let e = Expression.compile("{['1']}");
-         assert.equal(e(), "1");
+         assert.equal(e({}), "1");
 
          let e2 = Expression.compile('%{"1"}');
-         assert.equal(e2(), "1");
+         assert.equal(e({}), "1");
       });
 
       it("allows string templates in nested expressions", () => {

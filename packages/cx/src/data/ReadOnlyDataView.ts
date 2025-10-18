@@ -1,6 +1,7 @@
-import {View} from './View';
+import { View } from "./View";
 
 export class ReadOnlyDataView extends View {
+   store: View;
    data?: any;
    immutable?: boolean;
 
@@ -9,9 +10,10 @@ export class ReadOnlyDataView extends View {
          return this.cache.result;
 
       let data = this.store.getData();
-      this.cache.result = this.sealed || this.immutable || this.store.sealed
-         ? Object.assign({}, data, this.getAdditionalData(data))
-         : Object.assign(data, this.getAdditionalData(data));
+      this.cache.result =
+         this.sealed || this.immutable || this.store.sealed
+            ? Object.assign({}, data, this.getAdditionalData(data))
+            : Object.assign(data, this.getAdditionalData(data));
       this.cache.version = this.meta.version;
       this.cache.data = this.data;
       return this.cache.result;
