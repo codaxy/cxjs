@@ -22,6 +22,9 @@ export function expr<V1, V2, V3, V4, R>(
    arg4: AccessorChain<V4>,
    compute: (v1: V1, v2: V2, v3: V3, v4: V4) => R,
 ): Selector<R>;
+export function expr<T extends AccessorChain<any>[], R>(
+   ...args: [...accessors: T, compute: (...values: { [K in keyof T]: T[K] extends AccessorChain<infer V> ? V : never }) => R]
+): Selector<R>;
 export function expr(...args: any[]): any {
    let text = args[0];
    if (isString(text))

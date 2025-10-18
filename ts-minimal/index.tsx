@@ -1,10 +1,10 @@
-import { bind, History, startHotAppLoop, Widget } from "cxts/ui";
-import { HtmlElement } from 'cx/widgets';
-import { Store } from "cxts/data";
-import { CSS, CSSHelper } from "cxts/src/ui";
+import { bind, History, startHotAppLoop, Widget } from "cx/ui";
+import { HtmlElement } from "cx/widgets";
+import { Store } from "cx/data";
+import { CSS, CSSHelper } from "cx/src/ui";
 // import { TextField } from "cxts/src/widgets/form/TextField";
-import { Debug, Timing } from "cxts/util";
-import { TextField } from "cxts/widgets";
+import { Debug, Timing } from "cx/util";
+import { TextField } from "cx/widgets";
 
 CSSHelper.register("cx", CSS);
 
