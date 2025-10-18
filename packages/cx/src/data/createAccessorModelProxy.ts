@@ -1,4 +1,4 @@
-import { isObject } from "cx/util";
+import { isObject } from "../util/isObject";
 
 interface AccessorChainMethods {
    toString(): string;
