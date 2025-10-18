@@ -2,7 +2,8 @@ import { View } from "./View";
 import { Binding } from "./Binding";
 
 export class AugmentedViewBase extends View {
-   immutable?: boolean;
+   immutable: boolean;
+   store: View;
 
    getData() {
       if (this.sealed && this.meta.version === this.cache.version && this.meta === this.store.meta)

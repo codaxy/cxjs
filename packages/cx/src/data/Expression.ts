@@ -15,7 +15,7 @@ import { Selector } from "./Selector";
  */
 
 let helpers = {},
-   helperNames = [],
+   helperNames: string[] = [],
    helperValues = [],
    expFatArrows = null;
 
@@ -199,15 +199,15 @@ export function expression(str: string): Selector {
 }
 
 export const Expression = {
-   get: function (str) {
+   get: function (str: string) {
       return expression(str);
    },
 
-   compile: function (str) {
+   compile: function (str: string) {
       return this.get(str).memoize();
    },
 
-   registerHelper: function (name, helper) {
+   registerHelper: function (name: string, helper) {
       helpers[name] = helper;
       helperNames = Object.keys(helpers);
       helperValues = helperNames.map((n) => helpers[n]);

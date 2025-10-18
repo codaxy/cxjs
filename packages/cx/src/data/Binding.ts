@@ -5,10 +5,10 @@ import { isAccessorChain } from "./createAccessorModelProxy";
 import { AccessorChain } from "./createAccessorModelProxy";
 
 export interface BindingObject {
-  bind: string;
-  defaultValue?: any;
-  throttle?: number;
-  debounce?: number;
+   bind: string;
+   defaultValue?: any;
+   throttle?: number;
+   debounce?: number;
 }
 
 export type BindingInput<T = any> = string | BindingObject | Binding<T> | AccessorChain<T>;
@@ -65,7 +65,7 @@ export class Binding<T = any> {
       return ns;
    }
 
-   static get<T = any>(path: BindingInput<T>): Binding<T> {
+   static get<T = unknown>(path: BindingInput<T>): Binding<T> {
       if (isString(path)) {
          let b = bindingCache[path] as Binding<T> | undefined;
          if (b) return b;
@@ -75,7 +75,7 @@ export class Binding<T = any> {
          return b;
       }
 
-      if (isObject(path) && 'bind' in path && isString((path as BindingObject).bind)) {
+      if (isObject(path) && "bind" in path && isString((path as BindingObject).bind)) {
          return this.get<T>((path as BindingObject).bind);
       }
 
@@ -90,8 +90,8 @@ export class Binding<T = any> {
 export function isBinding(value: unknown): value is BindingInput {
    if (isObject(value)) {
       const obj = value as Record<string, any>;
-      if ('bind' in obj && isString(obj.bind)) return true;
-      if ('isAccessorChain' in obj && obj.isAccessorChain === true) return true;
+      if ("bind" in obj && isString(obj.bind)) return true;
+      if ("isAccessorChain" in obj && obj.isAccessorChain === true) return true;
    }
    return value instanceof Binding;
 }
@@ -101,13 +101,13 @@ export type BindingValue<B> = B extends Binding<infer T> ? T : unknown;
 export function isBindingObject(value: unknown): value is BindingObject {
    if (!isObject(value)) return false;
    const obj = value as Record<string, any>;
-   return 'bind' in obj && isString(obj.bind);
+   return "bind" in obj && isString(obj.bind);
 }
 
 export function isAccessorChainObject<T>(value: unknown): value is AccessorChain<T> {
    if (!isObject(value)) return false;
    const obj = value as Record<string, any>;
-   return 'isAccessorChain' in obj && obj.isAccessorChain === true;
+   return "isAccessorChain" in obj && obj.isAccessorChain === true;
 }
 
 export { bindingCache };

@@ -1,20 +1,18 @@
-import {Binding} from './Binding';
-import {SubscribableView} from './SubscribableView';
+import { Binding } from "./Binding";
+import { SubscribableView } from "./SubscribableView";
 
 interface StoreConfig<D = any> {
    async?: boolean;
    data?: D;
 }
 
-export class Store<D = any> extends SubscribableView {
-   async?: boolean;
-
+export class Store<D = any> extends SubscribableView<D> {
    constructor(config: StoreConfig<D> = {}) {
       super(config);
       this.data = config.data || {};
       this.meta = {
-         version: 0
-      }
+         version: 0,
+      };
    }
 
    getData(): D {

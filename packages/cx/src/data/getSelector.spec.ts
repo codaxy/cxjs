@@ -11,7 +11,7 @@ describe("getSelector", function () {
    });
 
    it("get can be used for selectors that have set defined too ", function () {
-      let selector = getSelector({ get: (data) => data.name, set: () => {} });
+      let selector = getSelector({ get: (data: any) => data.name, set: () => {} });
       assert.deepEqual(selector({ name: "Jack" }), "Jack");
    });
 
@@ -36,7 +36,7 @@ describe("getSelector", function () {
    });
 
    it("works with accessor chains", function () {
-      let m = createAccessorModelProxy<{a: {b: any}}>();
+      let m = createAccessorModelProxy<{ a: { b: any } }>();
       let selector = getSelector(m.a.b);
       assert(selector({ a: { b: 1 } }) === 1);
    });

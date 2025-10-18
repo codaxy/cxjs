@@ -9,7 +9,9 @@
       "Bash(find:*)",
       "Bash(head:*)",
       "Bash(npx tsc:*)",
-      "Bash(cut:*)"
+      "Bash(cut:*)",
+      "WebFetch(domain:github.com)",
+      "Bash(curl -s https://raw.githubusercontent.com/codaxy/cxjs/master/packages/cx/src/data/View.d.ts)"
     ],
     "deny": [],
     "ask": []

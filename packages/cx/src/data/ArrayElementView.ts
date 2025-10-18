@@ -1,21 +1,34 @@
-
 import { AugmentedViewBase } from "./AugmentedViewBase";
 import { isArray } from "../util/isArray";
 import { Binding } from "./Binding";
+import { View } from "./View";
 
-export class ArrayElementView extends AugmentedViewBase {
-   arrayAccessor?: any;
+export interface ArrayElementViewConfig {
+   store: View;
+   arrayAccessor: any;
    immutable?: boolean;
-   recordAlias?: string;
-   indexAlias?: string;
-   lengthAlias?: string;
+   recordAlias: string;
+   indexAlias: string;
+   lengthAlias: string;
    hasNestedAliases?: boolean;
    recordBinding?: any;
    indexBinding?: any;
    lengthBinding?: any;
-   itemIndex?: number;
+   itemIndex: number;
+}
 
-   constructor(config?: any) {
+export class ArrayElementView extends AugmentedViewBase {
+   arrayAccessor: any;
+   recordAlias: string;
+   indexAlias: string;
+   lengthAlias: string;
+   hasNestedAliases?: boolean;
+   recordBinding?: any;
+   indexBinding?: any;
+   lengthBinding?: any;
+   itemIndex: number;
+
+   constructor(config?: ArrayElementViewConfig) {
       super(config);
       this.hasNestedAliases =
          this.recordAlias.indexOf(".") >= 0 || this.indexAlias.indexOf(".") >= 0 || this.lengthAlias.indexOf(".") >= 0;
