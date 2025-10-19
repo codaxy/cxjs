@@ -1,9 +1,18 @@
 import { Binding } from "./Binding";
-import { NestedDataView } from "./NestedDataView";
+import { NestedDataView, NestedDataViewConfig } from "./NestedDataView";
+
+export interface ZoomIntoPropertyViewConfig extends NestedDataViewConfig {
+   binding: Binding;
+   rootName?: string;
+}
 
 export class ZoomIntoPropertyView extends NestedDataView {
    binding: Binding;
    rootName: string;
+
+   constructor(config: ZoomIntoPropertyViewConfig) {
+      super(config);
+   }
 
    protected getBaseData(parentStoreData: any): any {
       let x = this.binding.value(parentStoreData);

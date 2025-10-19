@@ -52,4 +52,11 @@ describe("computable", function () {
       let nameLength = computable(m.person.name, (name) => name.length);
       assert.equal(nameLength(state), 3);
    });
+
+   it("works with array length accessor", function () {
+      var m = createAccessorModelProxy<{ items: string[] }>();
+      let state = { items: ["a", "b", "c"] };
+      let itemCount = computable(m.items.length, (length) => length);
+      assert.equal(itemCount(state), 3);
+   });
 });

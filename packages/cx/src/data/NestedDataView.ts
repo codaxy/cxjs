@@ -10,12 +10,12 @@ export interface StructuredDataAccessor {
 }
 
 export interface NestedDataViewConfig extends ViewConfig {
-   nestedData: StructuredDataAccessor;
+   nestedData?: StructuredDataAccessor;
    store: View;
 }
 
 export class NestedDataView extends AugmentedViewBase {
-   nestedData: StructuredDataAccessor;
+   nestedData?: StructuredDataAccessor;
 
    constructor(config: NestedDataViewConfig) {
       super(config);
@@ -33,6 +33,7 @@ export class NestedDataView extends AugmentedViewBase {
    }
 
    protected setExtraKeyValue(key: string, value: any): boolean {
+      if (!this.nestedData) throw new Error("Internal error. This should not happen.");
       return this.nestedData.setItem(key, value);
    }
 

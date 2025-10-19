@@ -6,13 +6,15 @@ interface AccessorChainMethods {
    nameOf(): string;
 }
 
-type AccessorChainMap<M> = { [prop in keyof M]: AccessorChain<M[prop]> };
+type AccessorChainMap<M extends object> = {
+   [prop in Exclude<keyof M, keyof AccessorChainMethods>]: AccessorChain<M[prop]>;
+};
 
-type AccessorChain<M> = {
+export type AccessorChain<M> = {
    toString(): string;
    valueOf(): string;
    nameOf(): string;
-} & Omit<AccessorChainMap<M>, keyof AccessorChainMethods>;
+} & (M extends object ? AccessorChainMap<M> : {});
 
 const emptyFn = () => {};
 
@@ -57,5 +59,3 @@ export function createAccessorModelProxy<M>(chain: string = ""): AccessorChain<M
 export function isAccessorChain<M>(value: unknown): value is AccessorChain<M> {
    return value != null && isObject(value) && "isAccessorChain" in value && !!value.isAccessorChain;
 }
-
-export { AccessorChain, AccessorChainMap, AccessorChainMethods };

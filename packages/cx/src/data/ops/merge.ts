@@ -5,7 +5,7 @@ export function merge<T extends object>(item: T, data?: Partial<T>): T {
 
    if (data) {
       for (const key in data) {
-         result = Binding.get(key).set(result, data[key]);
+         result = Binding.get(key).set(result, data[key] as any);
       }
    }
 

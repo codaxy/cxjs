@@ -8,8 +8,8 @@ import { invokeCallback } from "./invokeCallback";
 
 describe("invokeCallback", () => {
    it("works with functions", () => {
-      const FComp = createFunctionalComponent(({ onTest }) => {
-         invokeCallback(null, onTest, "works");
+      const FComp = createFunctionalComponent(({ onTest }: { onTest: (v: any) => void }) => {
+         invokeCallback(null!, onTest, "works");
          return (
             <cx>
                <div />
@@ -23,7 +23,7 @@ describe("invokeCallback", () => {
          <Cx
             widget={{
                type: FComp,
-               onTest: (v) => {
+               onTest: (v: any) => {
                   value = v;
                },
             }}
@@ -38,7 +38,7 @@ describe("invokeCallback", () => {
    });
 
    it("works with controller methods", () => {
-      const FComp = createFunctionalComponent(({ onTest }) => {
+      const FComp = createFunctionalComponent(({ onTest }: { onTest: (v: any) => void }) => {
          return (
             <cx>
                <div
@@ -58,7 +58,7 @@ describe("invokeCallback", () => {
                type: FComp,
                onTest: "onTest",
                controller: {
-                  onTest(v) {
+                  onTest(v: any) {
                      value = v;
                   },
                },

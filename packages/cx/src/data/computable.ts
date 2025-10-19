@@ -2,7 +2,10 @@ import { Binding } from "./Binding";
 import { isString } from "../util/isString";
 import { isFunction } from "../util/isFunction";
 import { AccessorChain, isAccessorChain } from "./createAccessorModelProxy";
-import { MemoSelector, Selector } from "./Selector";
+import { CanMemoize, MemoSelector, Selector } from "./Selector";
+import { Ref } from "./Ref";
+
+export type ComputableSelector<T = any> = string | Selector<T> | AccessorChain<T> | CanMemoize<T>;
 
 // Helper type to infer the value type from a selector, string, or accessor chain
 type InferSelectorValue<T> =
@@ -11,7 +14,7 @@ type InferSelectorValue<T> =
 // Generic overload - handles all cases with proper type inference
 export function computable<Selectors extends readonly any[], R>(
    ...args: [
-      ...selectors: Selectors,
+      ...selectors: ComputableSelector[],
       compute: (...values: { [K in keyof Selectors]: InferSelectorValue<Selectors[K]> }) => R,
    ]
 ): MemoSelector<R>;

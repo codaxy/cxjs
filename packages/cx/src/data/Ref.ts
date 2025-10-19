@@ -2,6 +2,7 @@ import { isFunction } from "../util/isFunction";
 import { Component } from "../util/Component";
 import { Binding } from "./Binding";
 import { View } from "./View";
+import { CanMemoize } from "./Selector";
 
 interface RefConfig<T> {
    store?: View;
@@ -10,7 +11,7 @@ interface RefConfig<T> {
    set?: (value: T) => boolean;
 }
 
-export class Ref<T = any> extends Component {
+export class Ref<T = any> extends Component implements CanMemoize<T> {
    isRef?: boolean;
    static create: (typeAlias?: any, config?: any, more?: any) => any;
    static factory: (alias: any, config?: any, more?: any) => Ref;
