@@ -36,14 +36,11 @@ export class Instance {
       // widget is initialized when the first instance is initialized
       if (!this.widget.initialized) {
          this.widget.init(context);
-
-         // init default values
-         this.widget.selector.init(this.parentStore);
-
          this.widget.initialized = true;
       }
 
       if (!this.dataSelector) {
+         this.widget.selector.init(this.parentStore);
          this.dataSelector = this.widget.selector.createStoreSelector();
       }
 
