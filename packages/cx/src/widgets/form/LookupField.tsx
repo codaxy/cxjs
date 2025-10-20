@@ -1,3 +1,4 @@
+/**@jsxImportSource react */
 import { Widget, VDOM, getContent } from "../../ui/Widget";
 import { Cx } from "../../ui/Cx";
 import { Field, getFieldTooltip } from "./Field";
@@ -59,7 +60,7 @@ export class LookupField extends Field {
    public closeOnSelect?: boolean;
    public minQueryLengthMessageText?: string;
    public sort?: boolean;
-   public listOptions?: Record<string, unknown>;
+   public listOptions?: Record<string, unknown> | null;
    public autoOpen?: boolean;
    public submitOnEnterKey?: boolean;
    public submitOnDropdownEnterKey?: boolean;
@@ -68,7 +69,7 @@ export class LookupField extends Field {
    public quickSelectAll?: boolean;
    public queryDelay?: number;
    public minQueryLength?: number;
-   public onGetRecordDisplayText?: string | ((record: Record<string, unknown>, instance: Instance) => string);
+   public onGetRecordDisplayText?: string | ((record: Record<string, unknown>, instance: Instance) => string) | null;
    public onQuery?: string | ((params: string | { query: string; page: number; pageSize: number }, instance: Instance) => Promise<Record<string, unknown>[]> | Record<string, unknown>[]);
    public onCreateVisibleOptionsFilter?: string | ((filterParams: unknown, instance: Instance) => (option: Record<string, unknown>) => boolean);
    public value?: BindingInput;
@@ -158,10 +159,10 @@ export class LookupField extends Field {
 
       if (!this.items && !this.children)
          this.items = {
-            $type: HighlightedSearchText,
+            type: HighlightedSearchText,
             text: { bind: `$option.${this.optionTextField}` },
             query: { bind: "$query" },
-         };
+         } as any;
 
       this.itemConfig = this.children || this.items;
 
@@ -214,11 +215,11 @@ export class LookupField extends Field {
             let option = data.options.find(($option) =>
                areKeysEqual(getOptionKey(this.keyBindings!, { $option }), data.selectedKeys[0]),
             );
-            data.text = (option && option[this.optionTextField!]) || "";
+            data.text = (option && (option as any)[this.optionTextField!]) || "";
          }
       }
 
-      instance.lastDropdown = context.lastDropdown;
+      (instance as DropdownInstance).lastDropdown = context.lastDropdown;
 
       super.prepareData(context, instance);
    }
@@ -243,7 +244,7 @@ export class LookupField extends Field {
    filterOptions(instance: Instance, options: Record<string, unknown>[], query: string): Record<string, unknown>[] {
       if (!query) return options;
       let textPredicate = getSearchQueryPredicate(query);
-      return options.filter((o) => isString(o[this.optionTextField!]) && textPredicate(o[this.optionTextField!]));
+      return options.filter((o) => isString((o as any)[this.optionTextField!]) && textPredicate((o as any)[this.optionTextField!] as string));
    }
 
    isEmpty(data: Record<string, unknown>): boolean {
@@ -256,22 +257,24 @@ export class LookupField extends Field {
       return super.getValidationValue(data);
    }
 
-   formatValue(context: RenderingContext, instance: Instance): string | string[] | null {
+   formatValue(context: RenderingContext, instance: Instance): string | React.ReactNode {
       if (!this.multiple) return super.formatValue(context, instance);
 
       let { records, values, options } = instance.data;
       if (isArray(records)) {
          let valueTextFormatter =
-            this.onGetRecordDisplayText ?? ((record) => record[this.valueTextField!] || record[this.valueIdField!]);
-         return records.map((record) => valueTextFormatter(record, instance));
+            typeof this.onGetRecordDisplayText === "function"
+               ? this.onGetRecordDisplayText
+               : (record: Record<string, unknown>) => (record as any)[this.valueTextField!] || (record as any)[this.valueIdField!];
+         return records.map((record) => valueTextFormatter(record as any, instance));
       }
 
       if (isArray(values)) {
          if (isArray(options))
             return values
                .map((id) => {
-                  let option = options.find((o) => o[this.optionIdField!] == id);
-                  return option ? option[this.valueTextField!] : id;
+                  let option = options.find((o) => (o as any)[this.optionIdField!] == id);
+                  return option ? (option as any)[this.valueTextField!] : id;
                })
                .filter(Boolean)
                .join(", ");
@@ -393,7 +396,7 @@ class LookupComponent extends VDOM.Component<LookupComponentProps, LookupCompone
    dom: {
       input?: HTMLDivElement;
       dropdown?: HTMLDivElement;
-      list?: HTMLDivElement;
+      list?: HTMLDivElement | null;
       query?: HTMLInputElement;
    } = {};
    itemStore: ReadOnlyDataView;
@@ -446,7 +449,8 @@ class LookupComponent extends VDOM.Component<LookupComponentProps, LookupCompone
    getDropdown(): Widget {
       if (this.dropdown) return this.dropdown;
 
-      let { widget, lastDropdown } = this.props.instance;
+      let { widget }: { widget: LookupField } = this.props.instance as unknown as { widget: LookupField };
+      let { lastDropdown } = this.props.instance as DropdownInstance;
 
       this.list = Widget.create(
          <cx>
@@ -459,8 +463,8 @@ class LookupComponent extends VDOM.Component<LookupComponentProps, LookupCompone
                {...widget.listOptions}
                records-bind="$options"
                recordName="$option"
-               onItemClick={(e, inst) => this.onItemClick(e, inst)}
-               pipeKeyDown={(kd) => {
+               onItemClick={(e: React.MouseEvent, inst: Instance) => this.onItemClick(e, inst)}
+               pipeKeyDown={(kd: React.KeyboardEvent) => {
                   this.listKeyDown = kd;
                }}
                selectOnTab
@@ -487,7 +491,7 @@ class LookupComponent extends VDOM.Component<LookupComponentProps, LookupCompone
          type: Dropdown,
          relatedElement: this.dom.input,
          renderChildren: () => this.renderDropdownContents(),
-         onFocusOut: (e) => this.closeDropdown(e),
+         onFocusOut: (e: React.MouseEvent) => this.closeDropdown(e),
          memoize: false,
          touchFriendly: isTouchDevice(),
          onMeasureNaturalContentSize: () => {
@@ -496,7 +500,7 @@ class LookupComponent extends VDOM.Component<LookupComponentProps, LookupCompone
                   height:
                      this.dom.dropdown.offsetHeight -
                      this.dom.list.offsetHeight +
-                     (this.dom.list.firstElementChild?.offsetHeight || 0),
+                     ((this.dom.list.firstElementChild as HTMLElement)?.offsetHeight || 0),
                };
             }
          },
@@ -512,7 +516,7 @@ class LookupComponent extends VDOM.Component<LookupComponentProps, LookupCompone
    renderDropdownContents(): React.ReactNode {
       let content;
       let { instance } = this.props;
-      let { data, widget } = instance;
+      let { data, widget }: { data: Record<string, unknown>; widget: LookupField } = instance as unknown as { data: Record<string, unknown>; widget: LookupField };
       let { CSS, baseClass } = widget;
 
       let searchVisible =
@@ -564,7 +568,7 @@ class LookupComponent extends VDOM.Component<LookupComponentProps, LookupCompone
          <div
             key="dropdown"
             ref={(el) => {
-               this.dom.dropdown = el;
+               this.dom.dropdown = el as HTMLDivElement;
             }}
             className={CSS.element(baseClass, "dropdown")}
             tabIndex={0}
@@ -575,7 +579,7 @@ class LookupComponent extends VDOM.Component<LookupComponentProps, LookupCompone
                <input
                   key="query"
                   ref={(el) => {
-                     this.dom.query = el;
+                     this.dom.query = el as HTMLInputElement;
                   }}
                   type="text"
                   className={CSS.element(baseClass, "query")}
@@ -627,7 +631,7 @@ class LookupComponent extends VDOM.Component<LookupComponentProps, LookupCompone
    render(): React.ReactNode {
       let { instance, label, help, icon: iconVDOM } = this.props;
       let { data, widget, state } = instance;
-      let { CSS, baseClass, suppressErrorsUntilVisited } = widget;
+      let { CSS, baseClass, suppressErrorsUntilVisited } = widget as LookupField;
 
       let icon = iconVDOM && (
          <div

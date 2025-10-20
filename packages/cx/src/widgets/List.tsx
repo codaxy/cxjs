@@ -1,3 +1,4 @@
+/**@jsxImportSource react */
 import { Instance, RenderingContext } from "src/ui";
 import { getAccessor } from "../data/getAccessor";
 import { GroupAdapter, GroupingConfig } from "../ui/adapter/GroupAdapter";
@@ -26,33 +27,43 @@ export class List extends Widget {
    public indexName: string;
    public adapter: GroupAdapter;
    public child: ListItem;
-   public items: Widget[];
-   public children: Widget[];
+   public items?: Widget[];
+   public children?: Widget[];
    public selection: Selection;
-   public itemClass: string;
-   public itemClassName: string;
-   public itemStyle: string;
-   public itemDisabled: boolean;
-   public item: Widget;
-   public layout: any;
-   public keyField: string;
-   public records: any[];
-   public sortOptions: any;
-   public grouping: GroupingConfig[];
+   public itemClass?: string;
+   public itemClassName?: string;
+   public itemStyle?: string;
+   public itemDisabled?: boolean;
+   public item?: Widget;
+   public layout?: any;
+   public keyField?: string;
+   public records?: any[];
+   public sortOptions?: any;
+   public grouping?: GroupingConfig[];
+   public focusable?: boolean;
+   public focused?: boolean;
+   public itemPad?: boolean;
+   public cached?: boolean;
+   public scrollSelectionIntoView?: boolean;
+   public selectMode?: boolean;
+   public selectOnTab?: boolean;
+   public pipeKeyDown?: string | ((handler: ((e: React.KeyboardEvent) => void) | null, instance: Instance) => void);
+   public autoFocus?: boolean;
+   public filter?: (item: unknown, filterParams: Record<string, unknown>) => boolean;
    public onCreateFilter?: (filterParams: Record<string, unknown>, instance: Instance) => (record: unknown) => boolean;
-   public onItemClick: (e: MouseEvent, instance: Instance) => void;
-   public onItemDoubleClick: (e: MouseEvent, instance: Instance) => void;
-   public onKeyDown: (e: KeyboardEvent, instance: Instance) => void;
-   public onScroll: (event: Event, instance: Instance) => void;
-   public onFocus: (event: FocusEvent, instance: Instance) => void;
-   public onBlur: (event: FocusEvent, instance: Instance) => void;
-   public onMouseLeave?: (event: MouseEvent, instance: Instance) => void;
-   public onMouseEnter?: (event: MouseEvent, instance: Instance) => void;
-   public onMouseMove?: (event: MouseEvent, instance: Instance) => void;
-   public onMouseUp?: (event: MouseEvent, instance: Instance) => void;
-   public onMouseDown?: (event: MouseEvent, instance: Instance) => void;
-   public onMouseOver?: (event: MouseEvent, instance: Instance) => void;
-   public onMouseOut?: (event: MouseEvent, instance: Instance) => void;
+   public onItemClick?: (e: React.MouseEvent, instance: Instance) => void;
+   public onItemDoubleClick?: (e: React.MouseEvent, instance: Instance) => void;
+   public onKeyDown?: (e: React.KeyboardEvent, instance: Instance) => void;
+   public onScroll?: (event: Event, instance: Instance) => void;
+   public onFocus?: (event: FocusEvent, instance: Instance) => void;
+   public onBlur?: (event: FocusEvent, instance: Instance) => void;
+   public onMouseLeave?: (event: React.MouseEvent, instance: Instance) => void;
+   public onMouseEnter?: (event: React.MouseEvent, instance: Instance) => void;
+   public onMouseMove?: (event: React.MouseEvent, instance: Instance) => void;
+   public onMouseUp?: (event: React.MouseEvent, instance: Instance) => void;
+   public onMouseDown?: (event: React.MouseEvent, instance: Instance) => void;
+   public onMouseOver?: (event: React.MouseEvent, instance: Instance) => void;
+   public onMouseOut?: (event: React.MouseEvent, instance: Instance) => void;
 
    init() {
       if (this.recordAlias) this.recordName = this.recordAlias;
@@ -92,7 +103,7 @@ export class List extends Widget {
       }
    }
 
-   initInstance(context, instance) {
+   initInstance(context: RenderingContext, instance: Instance) {
       this.adapter.initInstance(context, instance);
    }
 
@@ -133,7 +144,7 @@ export class List extends Widget {
 
       let filter = null;
       if (this.onCreateFilter) filter = instance.invoke("onCreateFilter", data.filterParams, instance);
-      else if (this.filter) filter = (item) => this.filter(item, data.filterParams);
+      else if (this.filter) filter = (item: unknown) => this.filter!(item, data.filterParams);
       this.adapter.setFilter(filter);
       instance.mappedRecords = this.adapter.getRecords(context, instance, data.records, instance.store);
 
@@ -155,7 +166,7 @@ export class List extends Widget {
    explore(context: RenderingContext, instance: Instance, data: Record<string, unknown>): void {
       let instances: Instance[] = [];
       let isSelected = this.selection.getIsSelectedDelegate(instance.store);
-      instance.mappedRecords.forEach((record) => {
+      instance.mappedRecords!.forEach((record) => {
          if (record.type == "data") {
             let itemInstance = instance.getChild(context, this.child, record.key, record.store);
             itemInstance.record = record;
@@ -183,7 +194,7 @@ export class List extends Widget {
    }
 
    render(context: RenderingContext, instance: Instance, key: string): React.ReactNode {
-      let items = instance.instances.map((x, i) => ({
+      let items = instance.instances!.map((x) => ({
          instance: x,
          key: x.record.key,
          type: x.record.type,
@@ -194,7 +205,7 @@ export class List extends Widget {
             key={key}
             instance={instance}
             items={items}
-            selectable={!this.selection.isDummy || this.onItemClick}
+            selectable={(!this.selection.isDummy || !!this.onItemClick) as boolean}
          />
       );
    }
@@ -243,11 +254,36 @@ List.prototype.selectOnTab = false;
 
 Widget.alias("list", List);
 
-class ListComponent extends VDOM.Component {
-   constructor(props) {
+interface ListItemData {
+   instance: Instance;
+   key: string;
+   type: string;
+   content: React.ReactNode;
+}
+
+interface ListComponentProps {
+   instance: Instance;
+   items: ListItemData[];
+   selectable: boolean | ((e: MouseEvent, instance: Instance) => void);
+}
+
+interface ListComponentState {
+   cursor: number;
+   focused: boolean;
+   selectionStart?: number;
+}
+
+class ListComponent extends VDOM.Component<ListComponentProps, ListComponentState> {
+   el?: HTMLUListElement;
+   cursorChildIndex: number[] = [];
+   selectedEl?: Element | null;
+   unsubscribeScroll?: () => void;
+   onKeyDown?: (e: React.KeyboardEvent, instance: Instance) => boolean | void;
+
+   constructor(props: ListComponentProps) {
       super(props);
       let { widget } = props.instance;
-      let { focused } = widget;
+      let { focused } = widget as unknown as { focused: boolean };
       this.state = {
          cursor: focused && props.selectable ? 0 : -1,
          focused: focused,
@@ -258,21 +294,21 @@ class ListComponent extends VDOM.Component {
       this.handleItemClick = this.handleItemClick.bind(this);
    }
 
-   shouldComponentUpdate(props, state) {
+   shouldComponentUpdate(props: ListComponentProps, state: ListComponentState): boolean {
       return props.instance.shouldUpdate || state != this.state;
    }
 
-   componentDidMount() {
+   componentDidMount(): void {
       let { instance } = this.props;
-      let { widget } = instance;
+      let { widget } = instance as unknown as { widget: List };
       if (widget.pipeKeyDown) {
          instance.invoke("pipeKeyDown", this.handleKeyDown.bind(this), instance);
          this.showCursor();
       }
 
-      if (widget.autoFocus) FocusManager.focus(this.el);
+      if (widget.autoFocus && this.el) FocusManager.focus(this.el);
 
-      if (widget.onScroll) {
+      if (widget.onScroll && this.el) {
          this.unsubscribeScroll = addEventListenerWithOptions(
             this.el,
             "scroll",
@@ -286,21 +322,21 @@ class ListComponent extends VDOM.Component {
       this.componentDidUpdate();
    }
 
-   UNSAFE_componentWillReceiveProps(props) {
-      if (this.state.focused && props.instance.widget.selectMode) this.showCursor(true, props.items);
+   UNSAFE_componentWillReceiveProps(props: ListComponentProps): void {
+      if (this.state.focused && (props.instance.widget as List).selectMode) this.showCursor(true, props.items);
       else if (this.state.cursor >= props.items.length) this.moveCursor(props.items.length - 1);
       else if (this.state.focused && this.state.cursor < 0) this.moveCursor(0);
    }
 
-   componentWillUnmount() {
+   componentWillUnmount(): void {
       let { instance } = this.props;
-      let { widget } = instance;
+      let { widget } = instance as unknown as { widget: List };
       offFocusOut(this);
       if (widget.pipeKeyDown) instance.invoke("pipeKeyDown", null, instance);
    }
 
-   handleItemMouseDown(e) {
-      let index = Number(e.currentTarget.dataset.recordIndex);
+   handleItemMouseDown(e: React.MouseEvent<HTMLLIElement>): void {
+      let index = Number((e.currentTarget as HTMLElement).dataset.recordIndex);
       this.moveCursor(index);
       if (e.shiftKey) e.preventDefault();
 
@@ -314,9 +350,9 @@ class ListComponent extends VDOM.Component {
       });
    }
 
-   handleItemClick(e) {
+   handleItemClick(e: React.MouseEvent<HTMLLIElement>): void {
       let { instance, items } = this.props;
-      let index = Number(e.currentTarget.dataset.recordIndex);
+      let index = Number((e.currentTarget as HTMLElement).dataset.recordIndex);
       let item = items[this.cursorChildIndex[index]];
       if (instance.invoke("onItemClick", e, item.instance) === false) return;
 
@@ -330,31 +366,32 @@ class ListComponent extends VDOM.Component {
       });
    }
 
-   handleItemDoubleClick(e) {
+   handleItemDoubleClick(e: React.MouseEvent<HTMLLIElement>): void {
       let { instance, items } = this.props;
-      let index = Number(e.currentTarget.dataset.recordIndex);
+      let index = Number((e.currentTarget as HTMLElement).dataset.recordIndex);
       let item = items[this.cursorChildIndex[index]];
       instance.invoke("onItemDoubleClick", e, item.instance);
    }
 
-   render() {
+   render(): React.ReactNode {
       let { instance, items, selectable } = this.props;
-      let { data, widget } = instance;
+      let { data, widget } = instance as unknown as { data: Record<string, any>; widget: List };
       let { CSS, baseClass } = widget;
       let itemStyle = CSS.parseStyle(data.itemStyle);
       this.cursorChildIndex = [];
       let cursorIndex = 0;
 
-      let onDblClick, onClick;
+      let onDblClick: ((e: React.MouseEvent<HTMLLIElement>) => void) | undefined;
+      let onClick: ((e: React.MouseEvent<HTMLLIElement>) => void) | undefined;
 
       if (widget.onItemClick) onClick = this.handleItemClick;
 
       if (widget.onItemDoubleClick) onDblClick = this.handleItemDoubleClick;
 
-      let children =
+      let children: React.ReactNode =
          items.length > 0 &&
          items.map((x, i) => {
-            let { data, selected } = x.instance;
+            let { data, selected } = x.instance as { data: any; selected?: boolean };
             let className;
 
             if (x.type == "data") {
@@ -397,11 +434,11 @@ class ListComponent extends VDOM.Component {
       return (
          <ul
             ref={(el) => {
-               this.el = el;
+               this.el = el as HTMLUListElement;
             }}
             className={CSS.expand(data.classNames, CSS.state({ focused: this.state.focused }))}
             style={data.style}
-            tabIndex={widget.focusable && selectable && items.length > 0 ? data.tabIndex || 0 : null}
+            tabIndex={widget.focusable && selectable && items.length > 0 ? data.tabIndex || 0 : undefined}
             onMouseDown={preventFocusOnTouch}
             onKeyDown={this.handleKeyDown.bind(this)}
             onMouseLeave={this.handleMouseLeave.bind(this)}
@@ -413,17 +450,17 @@ class ListComponent extends VDOM.Component {
       );
    }
 
-   componentDidUpdate() {
-      let { widget } = this.props.instance;
+   componentDidUpdate(): void {
+      let { widget } = this.props.instance as unknown as { widget: List };
       if (widget.scrollSelectionIntoView) {
          //The timeout is reqired for use-cases when parent needs to do some measuring that affect scrollbars, i.e. LookupField.
          setTimeout(() => this.scrollElementIntoView(), 0);
       }
    }
 
-   scrollElementIntoView() {
+   scrollElementIntoView(): void {
       if (!this.el) return; //unmount
-      let { widget } = this.props.instance;
+      let { widget } = this.props.instance as unknown as { widget: List };
       let { CSS, baseClass } = widget;
       let selectedRowSelector = `.${CSS.element(baseClass, "item")}.${CSS.state("selected")}`;
       let firstSelectedRow = this.el.querySelector(selectedRowSelector);
@@ -433,12 +470,12 @@ class ListComponent extends VDOM.Component {
       }
    }
 
-   moveCursor(index, { focused, hover, scrollIntoView, select, selectRange, selectOptions } = {}) {
+   moveCursor(index: number, { focused, hover, scrollIntoView, select, selectRange, selectOptions }: { focused?: boolean, hover?: boolean, scrollIntoView?: boolean, select?: boolean, selectRange?: boolean, selectOptions?: { toggle?: boolean, add?: boolean } } = {}): void {
       let { instance, selectable } = this.props;
       if (!selectable) return;
 
-      let { widget } = instance;
-      let newState = {};
+      let { widget } = instance as unknown as { widget: List };
+      let newState: Partial<ListComponentState> = {};
       if (widget.focused) focused = true;
 
       if (focused != null && this.state.focused != focused) newState.focused = focused;
@@ -449,14 +486,14 @@ class ListComponent extends VDOM.Component {
       //batch updates to avoid flickering between selection and cursor changes
       batchUpdates(() => {
          if (select || widget.selectMode) {
-            let start = selectRange && this.state.selectionStart >= 0 ? this.state.selectionStart : index;
+            let start: number | undefined = selectRange && this.state.selectionStart !== undefined && this.state.selectionStart >= 0 ? this.state.selectionStart : index;
             if (start < 0) start = index;
             this.selectRange(start, index, selectOptions);
             if (!selectRange) newState.selectionStart = index;
          }
          if (Object.keys(newState).length > 0) {
-            this.setState(newState, () => {
-               if (scrollIntoView) {
+            this.setState(newState as ListComponentState, () => {
+               if (scrollIntoView && this.el) {
                   let item = this.el.children[this.cursorChildIndex[index]];
                   if (item) scrollElementIntoView(item);
                }
@@ -465,9 +502,9 @@ class ListComponent extends VDOM.Component {
       });
    }
 
-   selectRange(from, to, options) {
+   selectRange(from: number, to: number, options?: { toggle?: boolean; add?: boolean }): void {
       let { instance, items } = this.props;
-      let { widget } = instance;
+      let { widget } = instance as unknown as { widget: List };
 
       if (from > to) {
          let tmp = from;
@@ -475,13 +512,13 @@ class ListComponent extends VDOM.Component {
          to = tmp;
       }
 
-      let selection = [],
-         indexes = [];
+      let selection: any[] = [],
+         indexes: number[] = [];
 
       for (let cursor = from; cursor <= to; cursor++) {
          let item = items[this.cursorChildIndex[cursor]];
          if (item) {
-            let { record, data } = item.instance;
+            let { record, data } = item.instance as { record: any; data: any };
             if (data.disabled) continue;
             selection.push(record.data);
             indexes.push(record.index);
@@ -491,7 +528,7 @@ class ListComponent extends VDOM.Component {
       widget.selection.selectMultiple(instance.store, selection, indexes, options);
    }
 
-   showCursor(force, newItems) {
+   showCursor(force?: boolean, newItems?: ListItemData[]): void {
       if (!force && this.state.cursor >= 0) return;
 
       let items = newItems || this.props.items;
@@ -504,24 +541,24 @@ class ListComponent extends VDOM.Component {
             index++;
 
             if (!isItemDisabled(item) && firstValid == -1) firstValid = index;
-            if (item.instance.selected) {
+            if ((item.instance as any).selected) {
                firstSelected = index;
                break;
             }
          }
       }
       this.moveCursor(firstSelected != -1 ? firstSelected : firstValid, {
-         focusedport: true,
+         focused: true,
       });
    }
 
-   onFocus() {
-      let { widget } = this.props.instance;
+   onFocus(): void {
+      let { widget } = this.props.instance as unknown as { widget: List };
 
       FocusManager.nudge();
       this.showCursor(widget.selectMode);
 
-      if (!widget.focused)
+      if (!widget.focused && this.el)
          oneFocusOut(this, this.el, () => {
             this.moveCursor(-1, { focused: false });
          });
@@ -531,18 +568,18 @@ class ListComponent extends VDOM.Component {
       });
    }
 
-   onBlur() {
+   onBlur(): void {
       FocusManager.nudge();
    }
 
-   handleMouseLeave() {
-      let { widget } = this.props.instance;
+   handleMouseLeave(): void {
+      let { widget } = this.props.instance as unknown as { widget: List };
       if (!widget.focused) this.moveCursor(-1, { hover: true });
    }
 
-   handleKeyDown(e) {
+   handleKeyDown(e: React.KeyboardEvent): void {
       let { instance, items } = this.props;
-      let { widget } = instance;
+      let { widget } = instance as unknown as { widget: List };
 
       if (this.onKeyDown && instance.invoke("onKeyDown", e, instance) === false) return;
 
@@ -607,21 +644,21 @@ class ListComponent extends VDOM.Component {
 }
 
 class ListItem extends Container {
-   declareData(...args) {
+   declareData(...args: Record<string, unknown>[]) {
       super.declareData(...args, {
          disabled: undefined,
       });
    }
 }
 
-function isItemSelectable(item) {
+function isItemSelectable(item: any) {
    return isDataItem(item) && !isItemDisabled(item);
 }
 
-function isDataItem(item) {
+function isDataItem(item: any) {
    return item?.type == "data";
 }
 
-function isItemDisabled(item) {
+function isItemDisabled(item: any) {
    return item?.instance.data.disabled;
 }

@@ -361,7 +361,7 @@ export class Field extends PureContainer {
       if (instance.components?.icon) return getContent(instance.components.icon.render(context));
    }
 
-   formatValue(context: RenderingContext, { data }: Instance): React.ReactNode {
+   formatValue(context: RenderingContext, { data }: Instance): string | React.ReactNode {
       return data.text || data.value;
    }
 

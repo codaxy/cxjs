@@ -127,7 +127,7 @@ export class Checkbox extends Field {
       return <span className={this.CSS.element(this.baseClass, "view-text")}>{data.viewText}</span>;
    }
 
-   formatValue(context: RenderingContext, instance: Instance): React.ReactNode {
+   formatValue(context: RenderingContext, instance: Instance): React.ReactNode | string {
       let { data } = instance;
       return data.value && (data.text || this.renderChildren?.(context, instance));
    }
@@ -227,7 +227,7 @@ class CheckboxCmp extends VDOM.Component<CheckboxCmpProps, CheckboxCmpState> {
    onKeyDown(e: React.KeyboardEvent): void {
       let { instance } = this.props;
       const widget = instance.widget as Checkbox;
-      if (widget.handleKeyDown && widget.handleKeyDown(e as unknown as KeyboardEvent, instance) === false) return;
+      if (widget.handleKeyDown && widget.handleKeyDown(e as unknown as React.KeyboardEvent<Element>, instance) === false) return;
 
       switch (e.keyCode) {
          case KeyCode.space:

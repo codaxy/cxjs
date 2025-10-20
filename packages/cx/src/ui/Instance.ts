@@ -264,6 +264,10 @@ export class Instance {
    public mappedRecords?: any[];
    public events?: Record<string, (e: Event) => unknown>;
 
+   // List-specific
+   public instances?: Instance[];
+   public selected?: boolean;
+
    constructor(widget: Widget, key: string, parent?: Instance, parentStore?: any) {
       this.widget = widget;
       this.key = key;

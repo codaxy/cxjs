@@ -23,6 +23,8 @@ export interface GroupingConfig {
    includeHeader?: boolean;
    includeFooter?: boolean;
    comparer?: ((a: any, b: any) => number) | null;
+   header?: any;
+   footer?: any;
 }
 
 export interface ResolvedGrouping extends GroupingConfig {
