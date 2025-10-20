@@ -1,26 +1,30 @@
-//@ts-nocheck
-export class TraversalStack {
+interface StackLine<T> {
+   elements: T[];
+   index: number;
+}
+
+export class TraversalStack<T> {
+   private data: StackLine<T>[];
 
    constructor() {
       this.data = [];
    }
 
-   push(node) {
+   push(node: T): void {
       if (this.data.length == 0)
          this.hop();
 
       this.data[this.data.length - 1].elements.push(node);
    }
 
-   hop() {
+   hop(): void {
       this.data.push({
          elements: [],
          index: 0
       });
    }
 
-
-   pop() {
+   pop(): T | null {
       while (this.data.length > 0) {
          let line = this.data[this.data.length - 1];
          if (line.index < line.elements.length) {
@@ -32,7 +36,7 @@ export class TraversalStack {
       return null;
    }
 
-   empty() {
+   empty(): boolean {
       while (this.data.length > 0) {
          let line = this.data[this.data.length - 1];
          if (line.index < line.elements.length)

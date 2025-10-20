@@ -12,7 +12,7 @@ type Formatter = (value: any) => string;
 
 const defaultFormatter: Formatter = (v) => v.toString();
 
-let formatFactory: Record<string, (...args: (string | number)[]) => (value: unknown) => string> = {
+let formatFactory: Record<string, (...args: any[]) => (value: any) => string> = {
    string: function () {
       return defaultFormatter;
    },
@@ -22,38 +22,38 @@ let formatFactory: Record<string, (...args: (string | number)[]) => (value: unkn
 
       if (!suffix) suffix = "";
 
-      return (value) => prefix + value.toString() + suffix;
+      return (value: any) => prefix + String(value) + suffix;
    },
 
-   fixed: function (part0, digits: number) {
-      return (value: number) => value.toFixed(digits);
+   fixed: function (part0, digits) {
+      return (value: any) => Number(value).toFixed(digits);
    },
 
    prefix: function (part0, prefix) {
       if (!prefix) prefix = "";
 
-      return (value) => prefix + value.toString();
+      return (value: any) => prefix + String(value);
    },
 
    suffix: function (part0, suffix) {
       if (!suffix) suffix = "";
 
-      return (value) => value.toString() + suffix;
+      return (value: any) => String(value) + suffix;
    },
 
    uppercase: function () {
-      return (value) => value.toString().toUpperCase();
+      return (value: any) => String(value).toUpperCase();
    },
 
    lowercase: function () {
-      return (value) => value.toString().toLowerCase();
+      return (value: any) => String(value).toLowerCase();
    },
 
    urlencode: function () {
-      return (value: string | number | boolean) => encodeURIComponent(value);
+      return (value: any) => encodeURIComponent(value);
    },
 
-   number: function (part0, minFractionDigits: number, maxFractionDigits: number) {
+   number: function (part0, minFractionDigits, maxFractionDigits) {
       let { minimumFractionDigits, maximumFractionDigits } = resolveMinMaxFractionDigits(
          minFractionDigits,
          maxFractionDigits,
@@ -61,30 +61,30 @@ let formatFactory: Record<string, (...args: (string | number)[]) => (value: unkn
       let trimmable = maximumFractionDigits - minimumFractionDigits;
       if (trimmable > 0) {
          if (minimumFractionDigits == 0) ++trimmable;
-         return (value) => trimFractionZeros(value.toFixed(maximumFractionDigits), trimmable);
+         return (value: any) => trimFractionZeros(value.toFixed(maximumFractionDigits), trimmable);
       }
-      return (value) => value.toFixed(maximumFractionDigits);
+      return (value: any) => value.toFixed(maximumFractionDigits);
    },
 
    percentage: function (part0, minFractionDigits, maxFractionDigits) {
       let numberFormatter = formatFactory.number(part0, minFractionDigits, maxFractionDigits);
-      return (value) => numberFormatter(value * 100) + "%";
+      return (value: any) => numberFormatter(value * 100) + "%";
    },
 
    percentageSign: function (part0, minFractionDigits, maxFractionDigits) {
       let numberFormatter = formatFactory.number(part0, minFractionDigits, maxFractionDigits);
-      return (value) => numberFormatter(value) + "%";
+      return (value: any) => numberFormatter(value) + "%";
    },
 
    date: function () {
-      return (value) => {
+      return (value: any) => {
          let date = parseDateInvariant(value);
          return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
       };
    },
 
    time: function () {
-      return (value) => {
+      return (value: any) => {
          let date = parseDateInvariant(value);
          let h = date.getHours() >= 10 ? date.getHours() : "0" + date.getHours();
          let m = date.getMinutes() >= 10 ? date.getMinutes() : "0" + date.getMinutes();
@@ -95,7 +95,7 @@ let formatFactory: Record<string, (...args: (string | number)[]) => (value: unkn
    datetime: function () {
       let date = formatFactory.date();
       let time = formatFactory.time();
-      return (value) => date(value) + " " + time(value);
+      return (value: any) => date(value) + " " + time(value);
    },
 
    ellipsis: function (part0, length, where) {
@@ -130,14 +130,14 @@ let formatFactory: Record<string, (...args: (string | number)[]) => (value: unkn
    },
 
    zeroPad: function (part0, length) {
-      return (value) => {
+      return (value: any) => {
          let s = String(value);
          return s.padStart(length, "0");
       };
    },
 
    leftPad: function (part0, length, char) {
-      return (value) => {
+      return (value: any) => {
          let s = String(value);
          return s.padStart(length, char ?? " ");
       };
@@ -173,7 +173,7 @@ formatFactory.leftpad = formatFactory.leftPad;
 formatFactory.capitalize = formatFactory.capitalize;
 formatFactory.titlecase = formatFactory.titleCase;
 
-function buildFormatter(format) {
+function buildFormatter(format: string): Formatter {
    let formatter = defaultFormatter,
       nullText = "";
    if (format) {
@@ -195,23 +195,18 @@ function buildFormatter(format) {
    return (v) => (v == null || v === "" ? nullText : formatter(v));
 }
 
-let format = {
-   cache: {},
-};
+let format: { cache: Record<string, Formatter>; cacheIdentifier?: number } = { cache: {} };
 
-function getDefaultFormatCache() {
+function getDefaultFormatCache(): Record<string, Formatter> {
    if (format.cacheIdentifier != GlobalCacheIdentifier.get()) {
-      format = {
-         cache: {},
-         cacheIdentifier: GlobalCacheIdentifier.get(),
-      };
+      format = { cache: {}, cacheIdentifier: GlobalCacheIdentifier.get() };
    }
    return format.cache;
 }
 
 let getFormatCache = getDefaultFormatCache;
 
-export function setGetFormatCacheCallback(callback: () => {}): void {
+export function setGetFormatCacheCallback(callback: () => Record<string, Formatter>): void {
    getFormatCache = callback;
 }
 
@@ -260,13 +255,10 @@ export function resolveMinMaxFractionDigits(
       maximumFractionDigits = 18;
    }
 
-   return {
-      minimumFractionDigits,
-      maximumFractionDigits,
-   };
+   return { minimumFractionDigits, maximumFractionDigits };
 }
 
-export function trimFractionZeros(str, max) {
+export function trimFractionZeros(str: string, max: number): string {
    let cnt = 0,
       l = str.length;
    while (cnt < max && (str[l - 1 - cnt] === "0" || str[l - 1 - cnt] === ".")) cnt++;

@@ -12,7 +12,7 @@ export function findFirst(el: Element, condition: (el: Element) => boolean): Ele
    if (condition(el))
       return el;
 
-   var children = el.childNodes;
+   var children = el.children;
    if (children)
       for (var i = 0; i < children.length; i++) {
          var child = findFirst(children[i], condition);
@@ -23,7 +23,7 @@ export function findFirst(el: Element, condition: (el: Element) => boolean): Ele
 }
 
 export function findFirstChild(el: Element, condition: (el: Element) => boolean): Element | null {
-   var children = el.childNodes;
+   var children = el.children;
    if (children)
       for (var i = 0; i < children.length; i++) {
          var child = findFirst(children[i], condition);
@@ -33,17 +33,17 @@ export function findFirstChild(el: Element, condition: (el: Element) => boolean)
    return null;
 }
 
-export function closest(el: Element, condition: (el: Element) => boolean): Element | null {
+export function closest(el: Element | null, condition: (el: Element) => boolean): Element | null {
    while (el) {
       if (condition(el))
          return el;
-      el = el.parentNode;
+      el = el.parentElement;
    }
    return null;
 }
 
 export function closestParent(el: Element, condition: (el: Element) => boolean): Element | null {
-   return el && closest(el.parentNode, condition);
+   return el && closest(el.parentElement, condition);
 }
 
 export function isFocused(el: Element): boolean {
@@ -51,12 +51,15 @@ export function isFocused(el: Element): boolean {
 }
 
 export function isFocusedDeep(el: Element): boolean {
-   return document.activeElement == el || (document.activeElement && el.contains(document.activeElement));
+   return document.activeElement == el || (!!document.activeElement && el.contains(document.activeElement));
 }
 
 const focusableWithoutTabIndex = ['INPUT', 'SELECT', 'TEXTAREA', 'A', 'BUTTON'];
 
 export function isFocusable(el: Element): boolean {
+   if (!(el instanceof HTMLElement))
+      return false;
+
    var firstPass = el && isNumber(el.tabIndex) && el.tabIndex >= 0;
    if (!firstPass)
       return false;
@@ -71,7 +74,7 @@ export function isFocusable(el: Element): boolean {
  * Returns focused element.
  * @returns {Element}
  */
-export function getFocusedElement(): Element {
+export function getFocusedElement(): Element | null {
    return document.activeElement;
 }
 

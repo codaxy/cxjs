@@ -13,7 +13,7 @@ export class SubscriberList {
 
    private getSlot(): string {
       if (this.freeSlots.length)
-         return this.freeSlots.pop();
+         return this.freeSlots.pop()!;
 
       let slot = String(this.nextSlot++);
       return slot;

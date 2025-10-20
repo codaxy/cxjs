@@ -10,7 +10,7 @@ interface DecoratorFactory<T> {
    (t: T): T;
 }
 
-const componentAlias = {};
+const componentAlias: Record<string, any> = {};
 
 export class Component {
    public static namespace: string;
@@ -89,7 +89,7 @@ export class Component {
          }
       }
 
-      if (isArray(config)) return config.map((cfg) => this.create(cmpType, cfg, more));
+      if (isArray(config)) return config.map((cfg: any) => this.create(cmpType, cfg, more));
 
       let cfg = config;
 

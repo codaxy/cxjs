@@ -12,9 +12,9 @@ export function getSearchQueryPredicate(query: string, options?: any): (text: st
    if (terms.length == 0) return () => true;
    if (regexes.length == 1) {
       let regex = regexes[0];
-      return (text: string) => text && text.match(regex) != null;
+      return (text: string) => !!text && text.match(regex) != null;
    }
-   return (text: string) => text && regexes.every((re) => text.match(re));
+   return (text: string) => !!text && regexes.every((re) => text.match(re));
 }
 
 var highlighterCache: { [key: string]: (query: string) => string[] } = {};
@@ -25,8 +25,7 @@ export function getSearchQueryHighlighter(query: string, options?: any): (query:
 
    if (highlighterCache[query]) return highlighterCache[query];
 
-   let result = (query) => {
-      query = new String(query);
+   let result = (query: string) => {
       let chunks = [query];
       for (let i = 0; i < regexes.length; i++) {
          let newChunks = [];

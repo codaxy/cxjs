@@ -1,13 +1,9 @@
-interface Config {
-   [prop: string]: any;
-}
-
-export function parseStyle(str: string): Config;
+export function parseStyle(str: string): Record<string, string>;
 export function parseStyle(str: any): any;
 export function parseStyle(str: any): any {
    if (typeof str != "string") return str;
 
-   var style = {},
+   var style: Record<string, string> = {},
       parts = str.split(";");
 
    for (var i = 0; i < parts.length; i++) {

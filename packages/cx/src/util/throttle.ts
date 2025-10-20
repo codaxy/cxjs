@@ -6,17 +6,16 @@
  * @param delay - Delay in milliseconds.
  * @returns {Function}
  */
-export function throttle(callback: (...args: any[]) => void, delay: number): (...args: any[]) => void {
-   let timer: ReturnType<typeof setTimeout> | null, context: any, args: IArguments;
+export function throttle<T extends (...args: any[]) => void>(callback: T, delay: number): T {
+   let timer: ReturnType<typeof setTimeout> | null;
 
-   return function () {
-      context = this;
-      args = arguments;
+   return function (this: any, ...args: any[]) {
+      const context = this;
 
       if (!timer)
          timer = setTimeout(function () {
             callback.apply(context, args);
             timer = null;
          }, delay);
-   };
+   } as T;
 }

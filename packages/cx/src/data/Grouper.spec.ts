@@ -1,4 +1,4 @@
-let Grouper = require("./Grouper").Grouper;
+import { Grouper } from "./Grouper";
 import assert from "assert";
 
 describe("Grouper", function () {

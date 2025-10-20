@@ -28,12 +28,13 @@ function disable(flag: string): void {
    }
 }
 
-function count(flag: string): number {
+function count(flag: string): number | undefined {
    if (process.env.NODE_ENV !== "production") {
       if (!activeFlags[flag])
-         return;
+         return undefined;
       return counter[flag] = (counter[flag] || 0) + 1;
    }
+   return undefined;
 }
 
 function log(flag: string, ...args: any[]): void {
@@ -41,11 +42,11 @@ function log(flag: string, ...args: any[]): void {
       if (!activeFlags[flag])
          return;
 
-      Console.log(...arguments);
+      Console.log(flag, ...args);
    }
 }
 
-if (process.env.NODE_ENV !== "production" && typeof window != 'undefined' && window.performance && window.performance.now) {
+if (process.env.NODE_ENV !== "production" && typeof window != 'undefined' && window.performance && typeof window.performance.now === 'function') {
    nowImpl = () => performance.now();
 }
 

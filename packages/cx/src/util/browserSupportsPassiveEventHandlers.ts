@@ -8,15 +8,13 @@ export function browserSupportsPassiveEventHandlers(): boolean {
    if (passiveEventsSupported == null) {
       try {
          passiveEventsSupported = false;
-         const options = Object.defineProperty({}, 'passive', {
+         const options = Object.defineProperty({}, "passive", {
             get() {
                passiveEventsSupported = true;
             },
          });
-         window.addEventListener('test', null, options);
-      } catch (e) {
-      }
+         window.addEventListener("test" as any, null as any, options);
+      } catch (e) {}
    }
-
-   return passiveEventsSupported;
+   return passiveEventsSupported!;
 }
