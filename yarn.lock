@@ -2521,6 +2521,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/webpack-env@npm:^1.18.8":
+  version: 1.18.8
+  resolution: "@types/webpack-env@npm:1.18.8"
+  checksum: 10/f3932f3d6c2530f644cfc898eda1ab8182d6ae57f555c2f0179d813549b639078671b71e4041831fc306c5ebe61f5cdac794fe4ceae281fce8bf67e23661a488
+  languageName: node
+  linkType: hard
+
 "@types/ws@npm:^8.5.10":
   version: 8.18.1
   resolution: "@types/ws@npm:8.18.1"
@@ -3347,7 +3354,7 @@ __metadata:
     copy-webpack-plugin: "npm:^12.0.2"
     core-js: "npm:^3.39.0"
     css-loader: "npm:^7.1.2"
-    cx: "npm:^25.9.0"
+    cx: "npm:^25.10.0"
     cx-react: "npm:^24.7.1"
     file-loader: "npm:^6.2.0"
     html-webpack-plugin: "npm:^5.6.3"
@@ -4270,20 +4277,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"cx@npm:^25.9.0":
-  version: 25.9.0
-  resolution: "cx@npm:25.9.0"
-  dependencies:
-    intl-io: "npm:^0.4.4"
-    route-parser: "npm:^0.0.5"
-  peerDependencies:
-    "@types/react": "*"
-    react: "*"
-    react-dom: "*"
-  checksum: 10/594579fae0642a2e8a704d12bd0e035ef30490077e37151758336c4cc389d41b93ef79bcdb5a4eaf85fbc8a97359adac5836ea181df3dea2e6f21481e46faf6d
-  languageName: node
-  linkType: hard
-
 "cxjs@workspace:.":
   version: 0.0.0-use.local
   resolution: "cxjs@workspace:."
@@ -4570,7 +4563,7 @@ __metadata:
     copy-webpack-plugin: "npm:^12.0.2"
     core-js: "npm:^3.39.0"
     css-loader: "npm:^7.1.2"
-    cx: "npm:^25.9.0"
+    cx: "npm:^25.10.0"
     cx-react: "npm:^24.7.1"
     file-loader: "npm:^6.2.0"
     html-webpack-plugin: "npm:^5.6.3"
@@ -5162,7 +5155,7 @@ __metadata:
     copy-webpack-plugin: "npm:^12.0.2"
     core-js: "npm:^3.39.0"
     css-loader: "npm:^7.1.2"
-    cx: "npm:^25.9.0"
+    cx: "npm:^25.10.0"
     cx-react: "npm:^24.7.1"
     deep-equal: "npm:^2.2.3"
     deepmerge: "npm:^4.3.1"
@@ -6993,7 +6986,7 @@ __metadata:
     copy-webpack-plugin: "npm:^12.0.2"
     core-js: "npm:^3.39.0"
     css-loader: "npm:^7.1.2"
-    cx: "npm:^25.9.0"
+    cx: "npm:^25.10.0"
     cx-immer: "npm:^25.5.0"
     cx-react: "npm:^24.7.1"
     file-loader: "npm:^6.2.0"
@@ -9928,6 +9921,7 @@ __metadata:
   dependencies:
     "@types/node": "npm:^22.10.1"
     "@types/react": "npm:^18.3.14"
+    "@types/webpack-env": "npm:^1.18.8"
     copy-webpack-plugin: "npm:^12.0.2"
     css-loader: "npm:^7.1.2"
     cx: "npm:^25.10.0"

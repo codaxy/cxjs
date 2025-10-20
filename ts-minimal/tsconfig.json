@@ -7,7 +7,7 @@
       "moduleResolution": "bundler",
       "esModuleInterop": true,
       "allowJs": true,
-      "types": ["node"],
+      "types": ["node", "webpack-env"],
       "outDir": "dist"
    },
    "exclude": ["**.spec.**"]

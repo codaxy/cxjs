@@ -29,7 +29,9 @@ type CXIntrinsicElements = {
 };
 
 declare namespace JSX {
-   interface IntrinsicElements extends CXIntrinsicElements {}
+   interface IntrinsicElements extends CXIntrinsicElements {
+      cx: any;
+   }
 
    interface ElementClass extends Widget<any> {}
 }
