@@ -2,7 +2,7 @@ import { Binding, isBinding } from "./Binding";
 import { isSelector } from "./isSelector";
 import { getSelector } from "./getSelector";
 import { isObject } from "../util/isObject";
-import { isAccessorChain } from "./createAccessorModelProxy";
+import { AccessorChain, isAccessorChain } from "./createAccessorModelProxy";
 
 /*
    Accessor provides a common ground between refs and bindings.
@@ -22,11 +22,13 @@ export interface Accessor {
    isRef?: boolean;
 }
 
-export function getAccessor(accessor: any, options?: any): Accessor {
-   if (accessor == null) return null;
+export function getAccessor(accessor: AccessorChain<unknown>): Accessor;
+
+export function getAccessor(accessor: any, options?: any): Accessor | undefined {
+   if (accessor == null) return undefined;
 
    if (isObject(accessor)) {
-      if (accessor["isAccessor"] || accessor["isRef"]) return accessor as Accessor;
+      if ("isAccessor" in accessor || "isRef" in accessor) return accessor as Accessor;
       if (isBinding(accessor)) {
          let binding = Binding.get(accessor);
          return {

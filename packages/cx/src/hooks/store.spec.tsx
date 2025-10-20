@@ -6,6 +6,7 @@ import { Store } from "../data/Store";
 import { createFunctionalComponent } from "../ui/createFunctionalComponent";
 import { Cx } from "../ui/Cx";
 import { ref } from "./store";
+import { Prop } from "src/core";
 
 describe("ref", () => {
    it("allows store references in functional components", () => {
@@ -31,7 +32,7 @@ describe("ref", () => {
    });
 
    it("can be used to adapt any prop passed to a functional component", () => {
-      const FComp = createFunctionalComponent(({ value }) => {
+      const FComp = createFunctionalComponent(({ value }: { value: Prop<any> }) => {
          return (
             <cx>
                <div text={computable(ref(value), (value) => `x${value}`)} />
@@ -41,7 +42,7 @@ describe("ref", () => {
 
       let store = new Store({ data: { value: 100 } });
 
-      function test(value, expectation) {
+      function test(value: Prop<any>, expectation: any) {
          const component = renderer.create(
             <Cx store={store} subscribe immediate>
                <FComp value={value} />

@@ -25,7 +25,7 @@ export class Rescope extends PureContainer {
          rootName: this.rootName,
          nestedData: isObject(this.data)
             ? new StructuredInstanceDataAccessor({ instance, data: this.data, useParentStore: true })
-            : null,
+            : undefined,
       });
       super.initInstance(context, instance);
    }

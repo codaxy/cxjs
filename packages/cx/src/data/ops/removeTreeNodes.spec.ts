@@ -25,7 +25,7 @@ describe("removeTreeNodes", function () {
          },
       });
 
-      assert(store.update("array", removeTreeNodes, (x) => x.value > 1, "children"));
+      assert(store.update("array", removeTreeNodes, (x: any) => x.value > 1, "children"));
       assert.deepEqual(store.get("array"), [
          {
             id: "n1",

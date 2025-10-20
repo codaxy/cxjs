@@ -1,7 +1,7 @@
-export function updateArray<T>(
+export function updateArray<T = any>(
    array: T[] | undefined,
    updateCallback: (item: T, index: number) => T,
-   itemFilter?: (item: T, index: number) => boolean,
+   itemFilter?: null | ((item: T, index: number) => boolean),
    removeFilter?: (item: T, index: number) => boolean,
 ): T[] | undefined {
    if (!array) return array;

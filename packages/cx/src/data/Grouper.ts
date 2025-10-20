@@ -1,4 +1,3 @@
-
 import { getSelector } from "./getSelector";
 import { AggregateFunction } from "./AggregateFunction";
 import { Binding } from "./Binding";
@@ -12,12 +11,20 @@ import { Binding } from "./Binding";
  }
  */
 
+export interface GroupResult {
+   key: any;
+   name?: any;
+   records: any[];
+   indexes: number[];
+   aggregates?: Record<string, any>;
+}
+
 export class Grouper {
-   keys?: any[];
+   keys: any[];
    nameGetter?: any;
-   dataGetter?: any;
+   dataGetter: any;
    aggregates?: any;
-   groups?: any;
+   groups: any;
 
    constructor(key: any, aggregates?: any, dataGetter?: any, nameGetter?: any) {
       this.keys = Object.keys(key).map((keyField) => {
@@ -25,14 +32,14 @@ export class Grouper {
          let keySetter;
          if (isSimpleField) {
             // use simple field setter wherever possible
-            keySetter = function set(result, value) {
+            keySetter = function set(result: any, value: any) {
                result[keyField] = value;
                return result;
             };
          } else {
             // for complex paths, use deep setter
             let binding = Binding.get(keyField);
-            keySetter = (result, value) => binding.set(result, value);
+            keySetter = (result: any, value: any) => binding.set(result, value);
          }
          return {
             name: keyField,
@@ -41,11 +48,11 @@ export class Grouper {
          };
       });
       if (nameGetter) this.nameGetter = getSelector(nameGetter);
-      this.dataGetter = dataGetter || ((x) => x);
+      this.dataGetter = dataGetter || ((x: any) => x);
       this.aggregates =
          aggregates &&
          transformValues(aggregates, (prop) => {
-            if (!AggregateFunction[prop.type]) throw new Error(`Unknown aggregate function '${prop.type}'.`);
+            if (!(prop.type in AggregateFunction)) throw new Error(`Unknown aggregate function '${prop.type}'.`);
 
             return {
                value: getSelector(prop.value),
@@ -60,7 +67,7 @@ export class Grouper {
       this.groups = this.initGroup(this.keys.length == 0);
    }
 
-   initGroup(leaf) {
+   initGroup(leaf: boolean) {
       if (!leaf) return {};
 
       return {
@@ -69,7 +76,7 @@ export class Grouper {
          aggregates:
             this.aggregates &&
             transformValues(this.aggregates, (prop) => {
-               let f = AggregateFunction[prop.type];
+               let f = (AggregateFunction as any)[prop.type];
                return {
                   processor: f(),
                   value: prop.value,
@@ -79,7 +86,7 @@ export class Grouper {
       };
    }
 
-   process(record, index) {
+   process(record: any, index: number) {
       let data = this.dataGetter(record);
       let key = this.keys.map((k) => k.value(data));
       let g = this.groups;
@@ -101,16 +108,16 @@ export class Grouper {
       }
    }
 
-   processAll(records, indexes?) {
+   processAll(records: any[], indexes?: number[]) {
       if (indexes) {
          for (let i = 0; i < records.length; i++) this.process(records[i], indexes[i]);
-      } else records.forEach((r, i) => this.process(r, i));
+      } else records.forEach((r: any, i: number) => this.process(r, i));
    }
 
-   report(g, path, level, results) {
+   report(g: any, path: any[], level: number, results: GroupResult[]) {
       if (level == this.keys.length) {
          let key = {};
-         this.keys.forEach((k, i) => {
+         this.keys.forEach((k: any, i: number) => {
             key = k.keySetter(key, path[i]);
          });
          results.push({
@@ -125,24 +132,24 @@ export class Grouper {
       }
    }
 
-   getResults() {
+   getResults(): GroupResult[] {
       let g = this.groups;
-      let results = [];
+      let results: GroupResult[] = [];
       this.report(g, [], 0, results);
       return results;
    }
 }
 
 // transform object values using a function
-function transformValues(o, f) {
-   let res = {};
+function transformValues(o: Record<string, any>, f: (v: any, k?: string) => any): Record<string, any> {
+   let res: Record<string, any> = {};
    for (let k in o) res[k] = f(o[k], k);
    return res;
 }
 
 // transform keys like 'a.b.c' into nested objects
-function resolveKeyPaths(o) {
-   let res = {};
+function resolveKeyPaths(o: Record<string, any>) {
+   let res: Record<string, any> = {};
    for (let k in o) {
       if (k.indexOf(".") > 0) res = Binding.get(k).set(res, o[k]);
       else res[k] = o[k];

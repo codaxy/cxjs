@@ -1,10 +1,8 @@
 import { isFunction } from "../util/isFunction";
 import { Component } from "../util/Component";
 import { Binding } from "./Binding";
-
-interface View {
-   set(path: string, value: any): void;
-}
+import { View } from "./View";
+import { CanMemoize } from "./Selector";
 
 interface RefConfig<T> {
    store?: View;
@@ -13,7 +11,7 @@ interface RefConfig<T> {
    set?: (value: T) => boolean;
 }
 
-export class Ref<T = any> extends Component {
+export class Ref<T = any> extends Component implements CanMemoize<T> {
    isRef?: boolean;
    static create: (typeAlias?: any, config?: any, more?: any) => any;
    static factory: (alias: any, config?: any, more?: any) => Ref;
@@ -65,11 +63,11 @@ export class Ref<T = any> extends Component {
       let binding = Binding.get(path);
       return Ref.create({
          get: () => binding.value(this.get()),
-         set: (value) => {
+         set: (value: any) => {
             let data = this.get();
-            let newData = binding.set(data, value);
+            let newData = binding.set(data as Record<string, any>, value);
             if (data === newData) return false;
-            return this.set(newData);
+            return this.set(newData as T);
          },
       });
    }

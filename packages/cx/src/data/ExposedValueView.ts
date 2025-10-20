@@ -1,12 +1,12 @@
-
 import { View } from "./View";
 import { Binding } from "./Binding";
 
 export class ExposedValueView extends View {
-   key?: string;
+   key: string;
    containerBinding?: any;
-   recordName?: string;
+   recordName: string;
    immutable?: boolean;
+   store: View;
 
    getData(): any {
       if (
@@ -29,7 +29,7 @@ export class ExposedValueView extends View {
       return this.cache.result;
    }
 
-   setKey(key) {
+   setKey(key: string) {
       this.key = key;
    }
 
@@ -37,7 +37,7 @@ export class ExposedValueView extends View {
       return this.key;
    }
 
-   setItem(path, value) {
+   setItem(path: string, value: any) {
       if (path == this.recordName || path.indexOf(this.recordName + ".") == 0) {
          var data = this.getData();
          var d = Binding.get(path).set(data, value);
@@ -51,7 +51,7 @@ export class ExposedValueView extends View {
       return this.store.setItem(path, value);
    }
 
-   deleteItem(path) {
+   deleteItem(path: string) {
       var data, container, newContainer;
 
       if (path == this.recordName) {

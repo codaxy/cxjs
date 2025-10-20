@@ -63,10 +63,9 @@ export class ArrayAdapter<T = any> extends DataAdapter<T> {
       }
 
       if (!instance.recordsAccessor && this.recordsAccessor) {
-         instance.recordsAccessor =
-            this.recordsAccessor.bindInstance
-               ? this.recordsAccessor.bindInstance(instance)
-               : this.recordsAccessor;
+         instance.recordsAccessor = this.recordsAccessor.bindInstance
+            ? this.recordsAccessor.bindInstance(instance)
+            : this.recordsAccessor;
       }
    }
 
@@ -121,8 +120,7 @@ export class ArrayAdapter<T = any> extends DataAdapter<T> {
       index: number,
    ): DataAdapterRecord<T> {
       const key = this.cacheByKeyField && this.keyField && isObject(data) ? (data as any)[this.keyField] : null;
-      let recordStore =
-         key != null ? instance.cacheByKey![key] : instance.recordStoreCache!.get(data);
+      let recordStore = key != null ? instance.cacheByKey![key] : instance.recordStoreCache!.get(data);
 
       if (recordsAccessor) {
          if (!recordStore) {

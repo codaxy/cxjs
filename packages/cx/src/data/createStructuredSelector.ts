@@ -1,28 +1,37 @@
-import { Selector } from "./Selector";
+import { MemoSelector, Selector } from "./Selector";
 
-interface Record {
-   [prop: string]: any;
-}
-
-interface StructuredSelector {
+export interface StructuredSelectorConfig {
    [prop: string]: Selector;
 }
 
-export function createStructuredSelector(selector: StructuredSelector, constants?: Record): Selector<Record> {
+// Helper type to infer result type from selector config
+type InferStructuredSelectorResult<T extends StructuredSelectorConfig, C = {}> = {
+   [K in keyof T]: T[K] extends Selector<infer R> ? R : any;
+} & C;
+
+export function createStructuredSelector<S extends StructuredSelectorConfig, C extends Record<string, any> = {}>(
+   selector: S,
+   constants?: C,
+): MemoSelector<InferStructuredSelectorResult<S, C>> {
    let keys = Object.keys(selector);
-   if (keys.length == 0) return () => constants;
+   constants = constants ?? ({} as C);
+   if (keys.length == 0) {
+      let result: Selector = () => constants;
+      result.memoize = () => result;
+      return result as MemoSelector<InferStructuredSelectorResult<S, C>>;
+   }
 
    function memoize() {
-      let lastResult = Object.assign({}, constants);
+      let lastResult: Record<string, any> = Object.assign({}, constants);
 
-      let memoizedSelectors = {};
+      let memoizedSelectors: Record<string, Selector> = {};
 
       keys.forEach((key) => {
          memoizedSelectors[key] = selector[key].memoize ? selector[key].memoize() : selector[key];
          lastResult[key] = undefined;
       });
 
-      return function (data) {
+      return function (data: any) {
          let result = lastResult,
             k,
             v,
@@ -40,14 +49,14 @@ export function createStructuredSelector(selector: StructuredSelector, constants
       };
    }
 
-   function evaluate(data) {
-      let result = Object.assign({}, constants);
+   let result: Selector = function evaluate(data: any) {
+      let result: Record<string, any> = Object.assign({}, constants);
       for (let i = 0; i < keys.length; i++) {
          result[keys[i]] = selector[keys[i]](data);
       }
       return result;
-   }
+   };
 
-   evaluate.memoize = memoize;
-   return evaluate;
+   result.memoize = memoize;
+   return result as MemoSelector<InferStructuredSelectorResult<S, C>>;
 }

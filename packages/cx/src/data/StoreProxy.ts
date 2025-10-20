@@ -1,13 +1,15 @@
-import {View} from "./View";
+import { View } from "./View";
 
 export class StoreProxy extends View {
+   store: View;
+
    constructor(getStore: () => View) {
       super({
-         store: getStore()
+         store: getStore(),
       });
 
       Object.defineProperty(this, "store", {
-         get: getStore
+         get: getStore,
       });
    }
 

@@ -15,7 +15,7 @@ describe("StringTemplate", function () {
 
       it("allows empty strings", function () {
          let e = StringTemplate.compile("");
-         assert.equal(e(), "");
+         assert.equal(e({}), "");
       });
 
       it("properly encodes ' and \"", function () {
@@ -30,10 +30,10 @@ describe("StringTemplate", function () {
 
       it("supports multi-line strings", function () {
          var e = StringTemplate.compile("a\nb");
-         assert.equal(e(), "a\nb");
+         assert.equal(e({}), "a\nb");
 
          var e = StringTemplate.compile("a\r\nb");
-         assert.equal(e(), "a\r\nb");
+         assert.equal(e({}), "a\r\nb");
       });
    });
 
@@ -89,34 +89,34 @@ describe("StringTemplate", function () {
    describe("properly handles backslashes", function () {
       it("in a string", function () {
          var e = StringTemplate.compile("a\\b");
-         assert.equal(e(), "a\\b");
+         assert.equal(e({}), "a\\b");
       });
 
       it("before a special character", function () {
          var e = StringTemplate.compile("\\t");
-         assert.equal(e(), "\\t");
+         assert.equal(e({}), "\\t");
       });
    });
 
    describe("supports expressions", function () {
       it("using []", function () {
          var e = StringTemplate.compile("1 + 2 = {[1+2]}");
-         assert.equal(e(), "1 + 2 = 3");
+         assert.equal(e({}), "1 + 2 = 3");
       });
 
       it("using %", function () {
          var e = StringTemplate.compile("1 + 2 = %{1+2}");
-         assert.equal(e(), "1 + 2 = 3");
+         assert.equal(e({}), "1 + 2 = 3");
       });
 
       it("with subexpressions", function () {
          var e = StringTemplate.compile("1 + 2 = {[%{1+2}]}");
-         assert.equal(e(), "1 + 2 = 3");
+         assert.equal(e({}), "1 + 2 = 3");
       });
 
       it("with a conditional operator", function () {
          var e = StringTemplate.compile("1 + 2 = {[true ? 3 : 2]:s}");
-         assert.equal(e(), "1 + 2 = 3");
+         assert.equal(e({}), "1 + 2 = 3");
       });
 
       it("with sub-expression formatting", function () {

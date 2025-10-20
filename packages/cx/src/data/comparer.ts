@@ -10,11 +10,19 @@ interface Sorter {
    compare?: (a: any, b: any) => number;
 }
 
-export function getComparer(sorters: Sorter[], dataAccessor?: (x: any) => any, comparer?: (a: any, b: any) => number): (a: any, b: any) => number {
+export function getComparer(
+   sorters: Sorter[],
+   dataAccessor?: (x: any) => any,
+   comparer?: (a: any, b: any) => number,
+): (a: any, b: any) => number {
    let resolvedSorters = (sorters || []).map((s) => {
-      let selector = isDefined(s.value) ? getSelector(s.value) : s.field ? (x) => x[s.field] : () => null;
+      let selector = isDefined(s.value)
+         ? getSelector(s.value)
+         : s.field
+           ? (x: Record<string, any>) => x[s.field!]
+           : () => null;
       return {
-         getter: dataAccessor ? (x) => selector(dataAccessor(x)) : selector,
+         getter: dataAccessor ? (x: any) => selector(dataAccessor(x)) : selector,
          factor: s.direction && s.direction[0].toLowerCase() == "d" ? -1 : 1,
          compare: s.comparer || s.compare || comparer || defaultCompare,
       };
@@ -42,7 +50,11 @@ export function getComparer(sorters: Sorter[], dataAccessor?: (x: any) => any, c
    };
 }
 
-export function indexSorter(sorters: Sorter[], dataAccessor?: (x: any) => any, compare?: (a: any, b: any) => number): (data: any[]) => number[] {
+export function indexSorter(
+   sorters: Sorter[],
+   dataAccessor?: (x: any) => any,
+   compare?: (a: any, b: any) => number,
+): (data: any[]) => number[] {
    let cmp = getComparer(sorters, dataAccessor, compare);
    return function (data) {
       let result = Array.from({ length: data.length }, (v, k) => k);
@@ -51,7 +63,11 @@ export function indexSorter(sorters: Sorter[], dataAccessor?: (x: any) => any, c
    };
 }
 
-export function sorter(sorters: Sorter[], dataAccessor?: (x: any) => any, compare?: (a: any, b: any) => number): (data: any[]) => any[] {
+export function sorter(
+   sorters: Sorter[],
+   dataAccessor?: (x: any) => any,
+   compare?: (a: any, b: any) => number,
+): (data: any[]) => any[] {
    let cmp = getComparer(sorters, dataAccessor, compare);
 
    return function (data) {

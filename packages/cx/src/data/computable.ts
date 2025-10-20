@@ -1,81 +1,32 @@
 import { Binding } from "./Binding";
 import { isString } from "../util/isString";
 import { isFunction } from "../util/isFunction";
-import { isAccessorChain } from "./createAccessorModelProxy";
-import { Selector } from "./Selector";
+import { AccessorChain, isAccessorChain } from "./createAccessorModelProxy";
+import { CanMemoize, MemoSelector, Selector } from "./Selector";
+import { Ref } from "./Ref";
 
-interface AccessorChain<T> {
-   toString(): string;
-}
+export type ComputableSelector<T = any> = string | Selector<T> | AccessorChain<T> | CanMemoize<T>;
 
-type UnwrapAccessorChain<T> = T extends AccessorChain<infer U> ? U : never;
+// Helper type to infer the value type from a selector, string, or accessor chain
+type InferSelectorValue<T> =
+   T extends Selector<infer R> ? R : T extends AccessorChain<infer R> ? R : T extends string ? any : never;
 
-type ComputableArgs<Args extends AccessorChain<any>[], R> = [
-   ...args: Args,
-   compute: (...values: { [K in keyof Args]: UnwrapAccessorChain<Args[K]> }) => R,
-];
+// Generic overload - handles all cases with proper type inference
+export function computable<Selectors extends readonly any[], R>(
+   ...args: [
+      ...selectors: ComputableSelector[],
+      compute: (...values: { [K in keyof Selectors]: InferSelectorValue<Selectors[K]> }) => R,
+   ]
+): MemoSelector<R>;
 
-export function computable<Args extends AccessorChain<any>[], R>(...args: ComputableArgs<Args, R>): Selector<R>;
-
-// Backwards compatibility
-export function computable(callback: () => any): Selector;
-export function computable(p1: string, computeFn: (v1: any) => any): Selector;
-export function computable(p1: string, p2: string, computeFn: (v1: any, v2: any) => any): Selector;
-export function computable(p1: string, p2: string, p3: string, computeFn: (v1: any, v2: any, v3: any) => any): Selector;
-export function computable(
-   p1: string,
-   p2: string,
-   p3: string,
-   p4: string,
-   computeFn: (v1: any, v2: any, v3: any, v4: any) => any,
-): Selector;
-export function computable(
-   p1: string,
-   p2: string,
-   p3: string,
-   p4: string,
-   p5: string,
-   computeFn: (v1: any, v2: any, v3: any, v4: any, v5: any) => any,
-): Selector;
-export function computable(
-   p1: string,
-   p2: string,
-   p3: string,
-   p4: string,
-   p5: string,
-   p6: string,
-   computeFn: (v1: any, v2: any, v3: any, v4: any, v5: any, v6: any) => any,
-): Selector;
-export function computable(
-   p1: string,
-   p2: string,
-   p3: string,
-   p4: string,
-   p5: string,
-   p6: string,
-   p7: string,
-   computeFn: (v1: any, v2: any, v3: any, v4: any, v5: any, v6: any, v7: any) => any,
-): Selector;
-export function computable(
-   p1: string,
-   p2: string,
-   p3: string,
-   p4: string,
-   p5: string,
-   p6: string,
-   p7: string,
-   p8: string,
-   computeFn: (v1: any, v2: any, v3: any, v4: any, v5: any, v6: any, v7: any, v8: any) => any,
-): Selector;
-
-export function computable(...selectorsAndCompute: any[]): Selector {
+export function computable(...selectorsAndCompute: any[]): MemoSelector {
    if (selectorsAndCompute.length == 0)
       throw new Error("computable requires at least a compute function to be passed in arguments.");
 
    let compute = selectorsAndCompute[selectorsAndCompute.length - 1];
    if (typeof compute != "function") throw new Error("Last argument to the computable function should be a function.");
 
-   let inputs = [],
+   let inputs: Selector[] = [],
       a;
 
    for (let i = 0; i + 1 < selectorsAndCompute.length; i++) {
@@ -86,11 +37,11 @@ export function computable(...selectorsAndCompute: any[]): Selector {
       else throw new Error(`Invalid selector type '${typeof a}' received.`);
    }
 
-   function memoize(warmupData) {
-      let lastValue,
+   function memoize(warmupData: any) {
+      let lastValue: any,
          lastArgs = warmupData && inputs.map((s) => s(warmupData));
 
-      return function (data) {
+      return function (data: any) {
          let dirty = false;
 
          if (!lastArgs) {
@@ -117,5 +68,5 @@ export function computable(...selectorsAndCompute: any[]): Selector {
          inputs.map((s) => s(data)),
       );
    selector.memoize = memoize;
-   return selector;
+   return selector as MemoSelector;
 }

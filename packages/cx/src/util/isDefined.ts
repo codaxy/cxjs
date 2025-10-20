@@ -1,3 +1,3 @@
-export function isDefined(x: any): boolean {
+export function isDefined<T>(x: T | undefined): x is T {
    return x !== undefined;
 }

@@ -2,7 +2,7 @@ import { Binding } from "./Binding";
 import { Expression } from "./Expression";
 import { StringTemplate } from "./StringTemplate";
 import { isArray } from "../util/isArray";
-import { createStructuredSelector } from "./createStructuredSelector";
+import { createStructuredSelector, StructuredSelectorConfig } from "./createStructuredSelector";
 import { isSelector } from "./isSelector";
 import { isAccessorChain } from "./createAccessorModelProxy";
 import { isString } from "../util/isString";
@@ -32,10 +32,11 @@ export function getSelector(config: any): Selector<any> {
 
          if (config.get) return config.get;
 
-         let selectors = {};
-         let constants = {};
+         let selectors: StructuredSelectorConfig = {};
+         let constants: Record<string, any> = {};
 
          for (let key in config) {
+            // TODO: Detect constants here
             if (isSelector(config[key])) selectors[key] = getSelector(config[key]);
             else constants[key] = config[key];
          }

@@ -1,9 +1,18 @@
 import { Binding } from "./Binding";
-import { NestedDataView } from "./NestedDataView";
+import { NestedDataView, NestedDataViewConfig } from "./NestedDataView";
+
+export interface ZoomIntoPropertyViewConfig extends NestedDataViewConfig {
+   binding: Binding;
+   rootName?: string;
+}
 
 export class ZoomIntoPropertyView extends NestedDataView {
-   binding?: Binding;
-   rootName?: string;
+   binding: Binding;
+   rootName: string;
+
+   constructor(config: ZoomIntoPropertyViewConfig) {
+      super(config);
+   }
 
    protected getBaseData(parentStoreData: any): any {
       let x = this.binding.value(parentStoreData);
@@ -18,18 +27,18 @@ export class ZoomIntoPropertyView extends NestedDataView {
       super.embedAugmentData(result, parentStoreData);
    }
 
-   setItem(path: string, value: any): void {
-      if (path.indexOf(this.rootName + ".") == 0) this.store.setItem(path.substring(this.rootName.length + 1), value);
-      else if (this.isExtraKey(Binding.get(path).parts[0]))
-         super.setItem(path, value);
-      else super.setItem(this.binding.path + "." + path, value);
+   setItem(path: string, value: any): boolean {
+      if (path.indexOf(this.rootName + ".") == 0)
+         return this.store.setItem(path.substring(this.rootName.length + 1), value);
+      if (this.isExtraKey(Binding.get(path).parts[0])) return super.setItem(path, value);
+      return super.setItem(this.binding.path + "." + path, value);
    }
 
    deleteItem(path: string): boolean {
-      if (path.indexOf(this.rootName + ".") == 0) this.store.deleteItem(path.substring(this.rootName.length + 1));
-      else if (this.isExtraKey(Binding.get(path).parts[0]))
-         super.deleteItem(path);
-      else super.deleteItem(this.binding.path + "." + path);
+      if (path.indexOf(this.rootName + ".") == 0)
+         return this.store.deleteItem(path.substring(this.rootName.length + 1));
+      if (this.isExtraKey(Binding.get(path).parts[0])) return super.deleteItem(path);
+      return super.deleteItem(this.binding.path + "." + path);
    }
 }
 

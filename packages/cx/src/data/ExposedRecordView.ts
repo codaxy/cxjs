@@ -1,13 +1,26 @@
-
 import { View } from "./View";
 import { Binding } from "./Binding";
 
-export class ExposedRecordView extends View {
-   itemIndex?: number;
+export interface ExposedRecordViewConfig {
+   store: View;
+   itemIndex: number;
    immutable?: boolean;
-   collectionBinding?: any;
-   recordName?: string;
-   indexName?: string;
+   collectionBinding: any;
+   recordName: string;
+   indexName: string;
+}
+
+export class ExposedRecordView<D = any> extends View<D> {
+   store: View;
+   itemIndex: number;
+   immutable: boolean;
+   collectionBinding: Binding;
+   recordName: string;
+   indexName: string;
+
+   constructor(config: ExposedRecordViewConfig) {
+      super(config);
+   }
 
    getData(): any {
       if (
@@ -25,7 +38,7 @@ export class ExposedRecordView extends View {
       return this.cache.result;
    }
 
-   embed(data) {
+   embed(data: any) {
       const collection = this.collectionBinding.value(data);
       const record = collection[this.itemIndex];
       const copy = this.sealed || this.immutable || this.store.sealed ? { ...data } : data;
@@ -34,11 +47,11 @@ export class ExposedRecordView extends View {
       return copy;
    }
 
-   setIndex(index) {
+   setIndex(index: number) {
       this.itemIndex = index;
    }
 
-   setItem(path, value) {
+   setItem(path: string, value: any) {
       if (path == this.recordName || path.indexOf(this.recordName + ".") == 0) {
          const storeData = this.store.getData();
          const collection = this.collectionBinding.value(storeData);
@@ -56,7 +69,7 @@ export class ExposedRecordView extends View {
       return this.store.setItem(path, value);
    }
 
-   deleteItem(path) {
+   deleteItem(path: string) {
       let storeData, collection, newCollection;
 
       if (path == this.recordName) {

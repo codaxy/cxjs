@@ -1,6 +1,7 @@
 import { getSelector } from "../data/getSelector";
+import { StructuredDataAccessor } from "../data/NestedDataView";
 
-export class StructuredInstanceDataAccessor {
+export class StructuredInstanceDataAccessor implements StructuredDataAccessor {
    instance: any;
    dataConfig: any;
    useParentStore: any;
@@ -19,8 +20,8 @@ export class StructuredInstanceDataAccessor {
    get() {
       return this.dataSelector.get(this.instance.store.getData());
    }
-   setItem(key: string, value: any) {
-      this.instance.nestedDataSet(key, value, this.dataConfig, this.useParentStore);
+   setItem(key: string, value: any): boolean {
+      return this.instance.nestedDataSet(key, value, this.dataConfig, this.useParentStore);
    }
    containsKey(key: string) {
       return this.dataConfig.hasOwnProperty(key);

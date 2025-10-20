@@ -2433,6 +2433,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/react-test-renderer@npm:^19.1.0":
+  version: 19.1.0
+  resolution: "@types/react-test-renderer@npm:19.1.0"
+  dependencies:
+    "@types/react": "npm:*"
+  checksum: 10/2ef3aec0f2fd638902cda606d70c8531d66f8e8944334427986b99dcac9755ee60b700c5c3a19ac354680f9c45669e98077b84f79cac60e950bdb7d38aebffde
+  languageName: node
+  linkType: hard
+
+"@types/react@npm:*":
+  version: 19.2.2
+  resolution: "@types/react@npm:19.2.2"
+  dependencies:
+    csstype: "npm:^3.0.2"
+  checksum: 10/d6adf8fd4bb23a7e04da5700d96b15dc0f59653727a9c6e940c151d7232fa1dbbab98417d5ac830dcfb6cba3f206efbd4cd83647e6f9a688d7363a90e607f6bf
+  languageName: node
+  linkType: hard
+
 "@types/react@npm:^18.3.14":
   version: 18.3.24
   resolution: "@types/react@npm:18.3.24"
@@ -4240,6 +4258,7 @@ __metadata:
   dependencies:
     "@types/jest": "npm:^30.0.0"
     "@types/mocha": "npm:^10.0.10"
+    "@types/react-test-renderer": "npm:^19.1.0"
     intl-io: "npm:^0.4.4"
     react-test-renderer: "npm:^18.3.1"
     route-parser: "npm:^0.0.5"

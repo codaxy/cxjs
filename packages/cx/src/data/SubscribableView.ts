@@ -1,20 +1,23 @@
-
-import { View } from "./View";
+import { View, ViewConfig } from "./View";
 import { SubscriberList } from "../util/SubscriberList";
 
-export class SubscribableView extends View {
-   subscribers?: any;
-   changes?: any[];
+export interface SubscribableViewConfig extends ViewConfig {
    async?: boolean;
-   scheduled?: any;
+}
 
-   constructor(config?: any) {
+export class SubscribableView<D> extends View<D> {
+   subscribers?: any;
+   changes: string[];
+   async: boolean;
+   scheduled: boolean;
+
+   constructor(config?: SubscribableViewConfig) {
       super(config);
       this.subscribers = new SubscriberList();
       this.changes = [];
    }
 
-   subscribe(callback) {
+   subscribe(callback: () => void) {
       return this.subscribers.subscribe(callback);
    }
 
@@ -22,7 +25,7 @@ export class SubscribableView extends View {
       this.subscribers.clear();
    }
 
-   doNotify(path) {
+   doNotify(path: string) {
       if (this.notificationsSuspended) return;
 
       if (!this.async) {
@@ -41,7 +44,7 @@ export class SubscribableView extends View {
       }
    }
 
-   silently(callback) {
+   silently(callback: (store?: View) => void) {
       this.notificationsSuspended = (this.notificationsSuspended || 0) + 1;
       let wasDirty = this.dirty,
          dirty;

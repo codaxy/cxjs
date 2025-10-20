@@ -3,12 +3,13 @@
    "version": "25.10.0",
    "description": "Advanced JavaScript UI framework for admin and dashboard applications with ready to use grid, form and chart components.",
    "exports": {
-      "widgets": "./build/src/widgets/index.js",
-      "data": "./build/src/data/index.js",
-      "ui": "./build/src/ui/index.js",
-      "hooks": "./build/src/hooks/index.js",
-      "svg": "./build/src/svg/index.js",
-      "charts": "./build/src/svg/charts"
+      "data": "./build/data/index.js",
+      "util": "./build/util/index.js",
+      "widgets": "./build/widgets/index.js",
+      "ui": "./build/ui/index.js",
+      "hooks": "./build/hooks/index.js",
+      "svg": "./build/svg/index.js",
+      "charts": "./build/svg/charts"
    },
    "sideEffects": false,
    "scripts": {
@@ -38,6 +39,7 @@
    "devDependencies": {
       "@types/jest": "^30.0.0",
       "@types/mocha": "^10.0.10",
+      "@types/react-test-renderer": "^19.1.0",
       "react-test-renderer": "^18.3.1",
       "typescript": "^5.9.3"
    }
