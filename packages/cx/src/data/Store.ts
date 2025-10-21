@@ -6,10 +6,12 @@ interface StoreConfig<D = any> {
    data?: D;
 }
 
-export class Store<D = any> extends SubscribableView<D> {
+export class Store<D extends Record<string, any> = any> extends SubscribableView<D> {
+   data: D;
+
    constructor(config: StoreConfig<D> = {}) {
       super(config);
-      this.data = config.data || {};
+      this.data = config.data ?? ({} as D);
       this.meta = {
          version: 0,
       };
@@ -42,7 +44,7 @@ export class Store<D = any> extends SubscribableView<D> {
    }
 
    clear(): void {
-      this.data = {};
+      this.data = {} as D;
       this.meta.version++;
       this.notify();
    }

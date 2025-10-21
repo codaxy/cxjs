@@ -1,4 +1,4 @@
-import { contentAppend, Widget } from "./Widget";
+import { contentAppend, Widget, WidgetConfig } from "./Widget";
 import { StaticText } from "./StaticText";
 import { Text } from "./Text";
 import { innerTextTrim } from "../util/innerTextTrim";
@@ -7,14 +7,54 @@ import { isArray } from "../util/isArray";
 import { exploreChildren } from "./layout/exploreChildren";
 import { Instance } from "./Instance";
 import { CxChild, RenderingContext } from "./RenderingContext";
+import { ClassProp, StyleProp } from "./Prop";
 
-export class Container extends Widget {
+export interface PureContainerConfig extends WidgetConfig {
+   /** Keep whitespace in text based children. Default is `false`. See also `trimWhitespace`. */
+   ws?: boolean;
+
+   /** Remove all whitespace in text based children. Default is `true`. See also `preserveWhitespace`. */
+   trimWhitespace?: boolean;
+
+   /** Keep whitespace in text based children. Default is `false`. See also `trimWhitespace`. */
+   preserveWhitespace?: boolean;
+
+   /** List of child elements. */
+   items?: any;
+
+   /** List of child elements. */
+   children?: any;
+
+   plainText?: boolean;
+}
+
+export interface StyledContainerConfig extends PureContainerConfig {
+   /**
+    * Additional CSS classes to be applied to the element.
+    * If an object is provided, all keys with a "truthy" value will be added to the CSS class list.
+    */
+   class?: ClassProp;
+
+   /**
+    * Additional CSS classes to be applied to the element.
+    * If an object is provided, all keys with a "truthy" value will be added to the CSS class list.
+    */
+   className?: ClassProp;
+
+   /** Style object applied to the element */
+   style?: StyleProp;
+
+   /** Style object applied to the element */
+   styles?: StyleProp;
+}
+
+export class Container<Config extends PureContainerConfig = PureContainerConfig> extends Widget<Config> {
    public ws?: boolean;
    public preserveWhitespace?: boolean;
    public trimWhitespace?: boolean;
    public items?: Widget[];
-   public children?: any[];
-   public layout?: any;
+   public children?: Widget[];
+   public layout?: Widget;
    public useParentLayout?: boolean;
    public itemDefaults?: any;
    public plainText?: boolean;
@@ -43,7 +83,6 @@ export class Container extends Widget {
       } else {
          this.add(items);
       }
-
    }
 
    protected exploreItems(context: RenderingContext, instance: Instance, items: CxChild[]): void {

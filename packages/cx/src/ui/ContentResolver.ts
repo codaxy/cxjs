@@ -6,8 +6,6 @@ export class ContentResolver extends PureContainer {
    mode: "replace" | "prepend" | "append";
    onResolve?: (params: any, instance: any) => any;
    initialItems: any;
-   layout?: any;
-   items?: any;
 
    declareData(...args: any[]): void {
       super.declareData(...args, {

@@ -4,8 +4,6 @@ import { PureContainer } from "../PureContainer";
 export class Content extends PureContainer {
    name?: string;
    for?: string;
-   putInto?: string;
-   isContent?: boolean;
 
    init(): void {
       super.init();

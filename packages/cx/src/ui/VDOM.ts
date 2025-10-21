@@ -1,7 +1,7 @@
 import { VDOM as vdom } from "cx-react";
 
 import type * as React from "react";
-import type { Component, ReactElement } from "react";
+import type { Component } from "react";
 import type {
    unstable_batchedUpdates,
    render,

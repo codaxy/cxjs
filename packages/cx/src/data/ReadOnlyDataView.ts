@@ -1,6 +1,7 @@
 import { View } from "./View";
 
 export class ReadOnlyDataView extends View {
+   // @ts-expect-error
    store: View;
    data?: any;
    immutable?: boolean;

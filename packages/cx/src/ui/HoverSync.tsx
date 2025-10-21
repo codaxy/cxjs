@@ -115,8 +115,6 @@ export function withHoverSync(
 
 export class HoverSyncElement extends Container {
    hoverChannel: string;
-   baseClass: string;
-   styled: boolean;
 
    declareData(...args: any[]) {
       super.declareData(...args, {

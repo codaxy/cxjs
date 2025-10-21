@@ -1,12 +1,12 @@
 {
    "compilerOptions": {
-      "target": "es2017",
+      "target": "es2024",
       "jsx": "react-jsx",
-      "jsxImportSource": "react",
+      "jsxImportSource": "cx",
       "allowJs": true,
       "moduleResolution": "node",
       "module": "esnext",
-      "lib": ["dom", "dom.iterable", "es6"],
+      "lib": ["dom", "dom.iterable", "ESNext"],
       "allowSyntheticDefaultImports": true,
       "esModuleInterop": true,
       "forceConsistentCasingInFileNames": true,

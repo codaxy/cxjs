@@ -9,8 +9,6 @@ let currentInstance: any = null;
 class FunctionalComponent extends PureContainer {
    childrenFactory: (props: any) => any;
    props: any;
-   layout?: any;
-   items?: any;
 
    initInstance(context: any, instance: any) {
       instance.store = instance.parentStore;

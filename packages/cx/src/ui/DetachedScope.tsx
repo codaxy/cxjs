@@ -11,11 +11,8 @@ export class DetachedScope extends IsolatedScope {
    exclusive?: string | string[];
    exclusiveData?: any;
    container?: any;
-   children?: any;
-   items?: any;
    name?: string;
    options?: any;
-   data?: any;
    onError?: any;
 
    declareData(...args: any[]) {

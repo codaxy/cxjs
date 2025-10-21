@@ -3,6 +3,7 @@ import { isSelector } from "./isSelector";
 import { getSelector } from "./getSelector";
 import { isObject } from "../util/isObject";
 import { AccessorChain, isAccessorChain } from "./createAccessorModelProxy";
+import { Prop } from "../ui/Prop";
 
 /*
    Accessor provides a common ground between refs and bindings.
@@ -23,8 +24,9 @@ export interface Accessor {
 }
 
 export function getAccessor(accessor: AccessorChain<unknown>): Accessor;
+export function getAccessor(accessor: Prop<unknown[]>): Accessor;
 
-export function getAccessor(accessor: any, options?: any): Accessor | undefined {
+export function getAccessor(accessor: any): Accessor | undefined {
    if (accessor == null) return undefined;
 
    if (isObject(accessor)) {

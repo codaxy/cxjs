@@ -1,12 +1,10 @@
-/** @jsxImportSource react */
 import assert from "assert";
-import renderer from "react-test-renderer";
+import { Prop } from "src/core";
+import { createTestRenderer } from "src/util/test/createTestRenderer";
 import { computable } from "../data";
 import { Store } from "../data/Store";
 import { createFunctionalComponent } from "../ui/createFunctionalComponent";
-import { Cx } from "../ui/Cx";
 import { ref } from "./store";
-import { Prop } from "src/core";
 
 describe("ref", () => {
    it("allows store references in functional components", () => {
@@ -21,7 +19,7 @@ describe("ref", () => {
 
       let store = new Store();
 
-      const component = renderer.create(<Cx widget={FComp} store={store} subscribe immediate />);
+      const component = createTestRenderer(store, FComp);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -43,11 +41,7 @@ describe("ref", () => {
       let store = new Store({ data: { value: 100 } });
 
       function test(value: Prop<any>, expectation: any) {
-         const component = renderer.create(
-            <Cx store={store} subscribe immediate>
-               <FComp value={value} />
-            </Cx>,
-         );
+         const component = createTestRenderer(store, <FComp value={value} />);
          let tree = component.toJSON();
          assert.deepEqual(tree, {
             type: "div",

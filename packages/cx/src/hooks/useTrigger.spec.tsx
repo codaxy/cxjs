@@ -1,9 +1,7 @@
-/** @jsxImportSource react */
 import assert from "assert";
-import renderer from "react-test-renderer";
+import { createTestRenderer } from "src/util/test/createTestRenderer";
 import { Store } from "../data/Store";
 import { createFunctionalComponent } from "../ui/createFunctionalComponent";
-import { Cx } from "../ui/Cx";
 import { useTrigger } from "./useTrigger";
 
 describe("useTrigger", () => {
@@ -25,7 +23,7 @@ describe("useTrigger", () => {
       let store = new Store();
       let test = store.ref("test", 1);
 
-      const component = renderer.create(<Cx widget={FComp} store={store} subscribe immediate />);
+      const component = createTestRenderer(store, FComp);
 
       component.toJSON();
       assert.equal(last, null); //trigger did not fire because it didn't receive true as the last argument
@@ -57,7 +55,7 @@ describe("useTrigger", () => {
       let store = new Store();
       let test = store.ref("test", 1);
 
-      const component = renderer.create(<Cx widget={FComp} store={store} subscribe immediate />);
+      const component = createTestRenderer(store, FComp);
 
       component.toJSON();
       assert.equal(last, 1);
@@ -89,7 +87,7 @@ describe("useTrigger", () => {
          );
       });
 
-      const component = renderer.create(<Cx widget={FComp} store={store} subscribe immediate />);
+      const component = createTestRenderer(store, FComp);
 
       component.toJSON();
       assert.equal(last, 1);

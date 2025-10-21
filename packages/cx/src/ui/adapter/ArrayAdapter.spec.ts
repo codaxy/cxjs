@@ -21,7 +21,7 @@ describe("ArrayAdapter", () => {
 
       let store = new Store();
 
-      let records = adapter.mapRecords(new RenderingContext(), new Instance(null, 1, null, store), data, store, null);
+      let records = adapter.mapRecords(new RenderingContext(), new Instance(null!, "1", null!, store), data, store);
 
       assert.equal(records.length, 2);
       assert.equal(records[0].data, records[0].store.get("$record"));
@@ -46,7 +46,7 @@ describe("ArrayAdapter", () => {
 
       let store = new Store();
 
-      let records = adapter.mapRecords(new RenderingContext(), new Instance(null, 1, null, store), data, store, null);
+      let records = adapter.mapRecords(new RenderingContext(), new Instance(null!, "1", null!, store), data, store);
 
       assert.equal(records.length, 2);
       assert.equal(data[1], records[0].store.get("$record"));

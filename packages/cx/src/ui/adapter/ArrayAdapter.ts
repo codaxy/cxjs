@@ -10,6 +10,7 @@ import { RenderingContext } from "../RenderingContext";
 import { Instance } from "../Instance";
 import { View } from "../../data/View";
 import * as Cx from "../../core";
+import { Prop } from "../Prop";
 
 export interface RecordStoreCache {
    recordStoreCache: WeakMap<any, View>;
@@ -38,7 +39,7 @@ export interface ResolvedSorter {
 
 export class ArrayAdapter<T = any> extends DataAdapter<T> {
    public recordsAccessor?: Accessor;
-   public recordsBinding?: Cx.Prop<any[]>;
+   public recordsBinding?: Prop<T[]>;
    public keyField: string | null;
    public cacheByKeyField: boolean;
    public sortOptions?: Cx.CollatorOptions;

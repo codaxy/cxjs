@@ -11,11 +11,31 @@ import { RenderingContext } from "./RenderingContext";
 
 import { VDOM as vdom } from "./VDOM";
 import { TooltipConfig } from "src/widgets/overlay/tooltip-ops";
+import { BooleanProp, ClassProp, StyleProp } from "src/core";
+import { Instance } from "./Instance";
 export const VDOM = vdom;
 
 let widgetId = 100;
 
-export class Widget extends Component {
+export interface WidgetConfig {
+   styles?: StyleProp;
+   style?: StyleProp;
+   visible?: BooleanProp;
+   if?: BooleanProp;
+   styled?: boolean;
+   outerLayout?: unknown;
+   contentFor?: string;
+   putInto?: string;
+   isContent?: boolean;
+   class?: ClassProp;
+   className?: ClassProp;
+   vdomKey?: string;
+}
+
+export abstract class Widget<
+   Config extends WidgetConfig = WidgetConfig,
+   InstanceType extends Instance = Instance,
+> extends Component {
    public widgetId?: number;
    public vdomKey?: string | number;
    public jsxSpread?: Record<string, any>[];
@@ -63,7 +83,7 @@ export class Widget extends Component {
 
    public static optimizePrepare?: boolean;
 
-   constructor(config?: any) {
+   constructor(config?: Config) {
       super(config);
       this.widgetId = widgetId++;
 
@@ -157,23 +177,25 @@ export class Widget extends Component {
       data.style = parseStyle(data.style);
    }
 
-   public prepareData(context: RenderingContext, instance: any): void {
+   public prepareData(context: RenderingContext, instance: InstanceType): void {
       if (this.styled) this.prepareCSS(context, instance);
    }
 
-   public initInstance(_context: RenderingContext, _instance: any): void {}
+   public initInstance(_context: RenderingContext, _instance: InstanceType): void {}
 
-   public initState(_context: RenderingContext, _instance: any): void {}
+   public initState(_context: RenderingContext, _instance: InstanceType): void {}
 
-   public checkVisible(_context: RenderingContext, _instance: any, data: any): boolean {
+   public checkVisible(_context: RenderingContext, _instance: InstanceType, data: any): boolean {
       return data.visible;
    }
 
-   public explore(context: RenderingContext, instance: any, data?: any): void {
-      if (this.components) instance.components = {};
-      for (const cmp in this.components) {
-         const ins = instance.getChild(context, this.components[cmp], "cmp-" + cmp, instance.store);
-         if (ins.scheduleExploreIfVisible(context)) instance.components[cmp] = ins;
+   public explore(context: RenderingContext, instance: InstanceType, data?: any): void {
+      if (this.components) {
+         instance.components = {};
+         for (const cmp in this.components) {
+            const ins = instance.getChild(context, this.components[cmp], "cmp-" + cmp, instance.store);
+            if (ins.scheduleExploreIfVisible(context)) instance.components[cmp] = ins;
+         }
       }
    }
 

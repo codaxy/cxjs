@@ -1,6 +1,6 @@
-import { Container } from "./Container";
+import { Container, PureContainerConfig } from "./Container";
 
-export class PureContainer extends Container {
+export class PureContainer<Config extends PureContainerConfig = PureContainerConfig> extends Container<Config> {
    public isPureContainer: boolean = true;
 }
 

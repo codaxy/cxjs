@@ -17,7 +17,6 @@ export interface ViewConfig {
 
 export class View<D = any> {
    store?: View;
-   data?: any;
    meta: any;
    cache: { version: number; data?: any; result?: any; itemIndex?: number; key?: string; parentStoreData?: any };
    sealed?: boolean;

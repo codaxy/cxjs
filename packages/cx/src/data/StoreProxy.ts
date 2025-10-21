@@ -1,6 +1,7 @@
 import { View } from "./View";
 
 export class StoreProxy extends View {
+   // @ts-expect-error
    store: View;
 
    constructor(getStore: () => View) {

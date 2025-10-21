@@ -29,7 +29,7 @@ export class ArrayElementView extends AugmentedViewBase {
    lengthBinding?: any;
    itemIndex: number;
 
-   constructor(config?: ArrayElementViewConfig) {
+   constructor(config: ArrayElementViewConfig) {
       super(config);
       this.hasNestedAliases =
          this.recordAlias.indexOf(".") >= 0 || this.indexAlias.indexOf(".") >= 0 || this.lengthAlias.indexOf(".") >= 0;

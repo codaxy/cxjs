@@ -1,9 +1,19 @@
-import { View } from "./View";
+import { View, ViewConfig } from "./View";
 import { Binding } from "./Binding";
 
-export class AugmentedViewBase extends View {
+export interface AugmentedViewBaseConfig extends ViewConfig {
+   store: View<any>;
+}
+
+export class AugmentedViewBase<D = any> extends View<D> {
    immutable: boolean;
+
+   //@ts-expect-error
    store: View;
+
+   constructor(config: AugmentedViewBaseConfig) {
+      super(config);
+   }
 
    getData() {
       if (this.sealed && this.meta.version === this.cache.version && this.meta === this.store.meta)
