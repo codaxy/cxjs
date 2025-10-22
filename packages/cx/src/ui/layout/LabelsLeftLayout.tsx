@@ -15,9 +15,7 @@ function validContent(r: any): any {
 
 export class LabelsLeftLayout extends PureContainer {
    labelStyle?: any;
-   baseClass?: string;
-   styled?: boolean;
-   CSS?: any;
+   // baseClass, styled, CSS inherited from Widget
 
    init(): void {
       this.labelStyle = parseStyle(this.labelStyle);
@@ -32,7 +30,7 @@ export class LabelsLeftLayout extends PureContainer {
    }
 
    render(context: RenderingContext, instance: any, key: any): any {
-      let result = [];
+      let result: any[] = [];
       let { children, data } = instance;
       let { CSS, baseClass } = this;
 

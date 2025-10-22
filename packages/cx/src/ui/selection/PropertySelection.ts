@@ -4,8 +4,7 @@ import { View } from "../../data/View";
 
 export class PropertySelection extends Selection {
    records?: any;
-   selectedField?: string;
-   multiple?: boolean;
+   selectedField: string;
 
    selectMultiple(store: View, records: any[], indexes: any[], { toggle, add }: SelectionOptions = {}): any {
       if (this.toggle) toggle = true;

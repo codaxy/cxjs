@@ -6,8 +6,54 @@ import { getSelector } from "../data/getSelector";
 import { Cx } from "./Cx";
 import { VDOM } from "./Widget";
 import { IsolatedScope } from "./IsolatedScope";
+import { Instance } from "./Instance";
+import { SubscribableViewConfig } from "../data/SubscribableView";
 
-export class DetachedScope extends IsolatedScope {
+interface ContainmentStoreConfig extends SubscribableViewConfig {
+   selector: any;
+}
+
+class ContainmentStore extends SubscribableView<any> {
+   selector: any;
+   declare cache: { version: number; data?: any; result?: any; itemIndex?: number; key?: string; parentStoreData?: any; containedData?: any };
+
+   getData() {
+      return this.store!.getData();
+   }
+
+   setItem(path: string, value: any) {
+      return this.wrapper(() => {
+         this.store!.setItem(path, value);
+      });
+   }
+
+   deleteItem(path: string) {
+      return this.wrapper(() => {
+         this.store!.deleteItem(path);
+      });
+   }
+
+   wrapper(callback: () => void) {
+      if (this.store!.silently(callback)) {
+         let data = this.getData();
+         let containedData = this.selector(data);
+         if (containedData === this.cache.containedData) {
+            this.store!.notify();
+         } else {
+            this.cache.containedData = containedData;
+            this.notify(undefined!);
+         }
+         return true;
+      }
+      return false;
+   }
+}
+
+export interface DetachedScopeInstance extends Instance {
+   subStore: ContainmentStore;
+}
+
+export class DetachedScope extends IsolatedScope<any, DetachedScopeInstance> {
    exclusive?: string | string[];
    exclusiveData?: any;
    container?: any;
@@ -46,11 +92,12 @@ export class DetachedScope extends IsolatedScope {
       super.init();
    }
 
-   initInstance(context: any, instance: any) {
-      instance.subStore = new ContainmentStore({
+   initInstance(context: any, instance: DetachedScopeInstance) {
+      const config: ContainmentStoreConfig = {
          store: instance.store,
          selector: getSelector(this.exclusiveData || this.data),
-      });
+      };
+      instance.subStore = new ContainmentStore(config);
    }
 
    applyParentStore(instance: any) {
@@ -70,42 +117,5 @@ export class DetachedScope extends IsolatedScope {
             onError={this.onError}
          />
       );
-   }
-}
-
-class ContainmentStore extends SubscribableView {
-   store: any;
-   selector: any;
-   cache: any;
-
-   getData() {
-      return this.store.getData();
-   }
-
-   setItem(...args: any[]) {
-      return this.wrapper(() => {
-         this.store.setItem(...args);
-      });
-   }
-
-   deleteItem(...args: any[]) {
-      return this.wrapper(() => {
-         this.store.deleteItem(...args);
-      });
-   }
-
-   wrapper(callback: () => void) {
-      if (this.store.silently(callback)) {
-         let data = this.getData();
-         let containedData = this.selector(data);
-         if (containedData === this.cache.containedData) {
-            this.store.notify();
-         } else {
-            this.cache.containedData = containedData;
-            this.notify();
-         }
-         return true;
-      }
-      return false;
    }
 }

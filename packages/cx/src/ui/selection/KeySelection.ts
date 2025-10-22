@@ -10,7 +10,6 @@ export class KeySelection extends Selection {
    keyField?: string | false;
    keyFields?: string[];
    initialized?: boolean;
-   multiple?: boolean;
    storage?: string;
 
    init(): void {
@@ -89,9 +88,9 @@ export class KeySelection extends Selection {
             else {
                let newSelection = [...selection];
                keys.forEach((key) => {
-                  let exists = selection.some((x) => this.areKeysEqual(x, key));
+                  let exists = selection.some((x: any) => this.areKeysEqual(x, key));
                   if (!exists) newSelection.push(key);
-                  else if (toggle) newSelection = newSelection.filter((x) => !this.areKeysEqual(x, key)); //TODO: optimize
+                  else if (toggle) newSelection = newSelection.filter((x: any) => !this.areKeysEqual(x, key)); //TODO: optimize
                });
                this.updateSelectionWithShallowEqualsCheck(store, newSelection);
             }

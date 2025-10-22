@@ -14,9 +14,9 @@ export class ResizeManager {
       });
    }
 
-   static trackElement(el: any, callback: (entries: any) => void) {
+   static trackElement(el: any, callback: (entries: ResizeObserverEntry[]) => void) {
       if (typeof ResizeObserver !== 'function')
-         return this.subscribe(callback);
+         return this.subscribe(() => callback([]));
 
       let obs = new ResizeObserver(callback);
       obs.observe(el);

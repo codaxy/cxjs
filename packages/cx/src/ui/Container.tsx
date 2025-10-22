@@ -9,7 +9,7 @@ import { Instance } from "./Instance";
 import { CxChild, RenderingContext } from "./RenderingContext";
 import { ClassProp, StyleProp } from "./Prop";
 
-export interface PureContainerConfig extends WidgetConfig {
+export interface ContainerConfig extends WidgetConfig {
    /** Keep whitespace in text based children. Default is `false`. See also `trimWhitespace`. */
    ws?: boolean;
 
@@ -28,7 +28,7 @@ export interface PureContainerConfig extends WidgetConfig {
    plainText?: boolean;
 }
 
-export interface StyledContainerConfig extends PureContainerConfig {
+export interface StyledContainerConfig extends ContainerConfig {
    /**
     * Additional CSS classes to be applied to the element.
     * If an object is provided, all keys with a "truthy" value will be added to the CSS class list.
@@ -48,13 +48,16 @@ export interface StyledContainerConfig extends PureContainerConfig {
    styles?: StyleProp;
 }
 
-export class Container<Config extends PureContainerConfig = PureContainerConfig> extends Widget<Config> {
+export class Container<
+   Config extends ContainerConfig = ContainerConfig,
+   InstanceType extends Instance = Instance
+> extends Widget<Config, InstanceType> {
    public ws?: boolean;
    public preserveWhitespace?: boolean;
    public trimWhitespace?: boolean;
    public items?: Widget[];
    public children?: Widget[];
-   public layout?: Widget;
+   public layout?: Container | null;
    public useParentLayout?: boolean;
    public itemDefaults?: any;
    public plainText?: boolean;
@@ -70,10 +73,10 @@ export class Container<Config extends PureContainerConfig = PureContainerConfig>
       this.items = [];
 
       if (this.layout) {
-         let layout = Widget.create({ type: this.layout, items }, {});
+         let layout = Container.create({ type: this.layout, items }, {});
          layout.init(context);
          this.layout = null;
-         if (layout.noLayout) {
+         if ("noLayout" in layout && (layout as any).noLayout) {
             this.useParentLayout = true;
             this.add(items);
          } else {
@@ -99,7 +102,7 @@ export class Container<Config extends PureContainerConfig = PureContainerConfig>
       return this.renderChildren(context, instance, key);
    }
 
-   protected renderChildren(_context: any, instance: any, key?: string): CxChild {
+   protected renderChildren(_context: any, instance: any, key?: string): any {
       let preserveComplexContent = this.useParentLayout;
 
       function append(result: any[], r: any): void {
@@ -138,6 +141,11 @@ export class Container<Config extends PureContainerConfig = PureContainerConfig>
    public clear(): void {
       if (this.layout) this.layout.clear();
       else this.items = [];
+   }
+
+   // Overload create to return Container type instead of any
+   public static create(typeAlias?: any, config?: any, more?: any): Container {
+      return super.create(typeAlias, config, more) as Container;
    }
 
    public add(...args: any[]): void {

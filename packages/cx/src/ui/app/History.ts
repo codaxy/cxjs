@@ -100,9 +100,13 @@ export class History {
                let tr = transitions[next];
                delete transitions[next];
                next++;
-               let op = tr.replace ? "replaceState" : "pushState";
-               window.history[op](tr.state, tr.title, tr.url);
-               if (subscribers) subscribers.notify(tr.url, op);
+               if (tr.replace) {
+                  window.history.replaceState(tr.state, tr.title, tr.url);
+                  if (subscribers) subscribers.notify(tr.url, "replaceState");
+               } else {
+                  window.history.pushState(tr.state, tr.title, tr.url);
+                  if (subscribers) subscribers.notify(tr.url, "pushState");
+               }
             }
          },
       );

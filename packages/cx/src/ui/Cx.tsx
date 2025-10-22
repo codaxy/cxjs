@@ -62,8 +62,8 @@ export class Cx extends VDOM.Component<CxProps, CxState> {
             this.parentInstance = props.parentInstance;
             this.store = props.store || (this.parentInstance as any).store;
          } else {
-            this.parentInstance = new Instance(this.widget, 0, null, props.store);
-            this.store = props.store;
+            this.parentInstance = new Instance(this.widget, "0", undefined, props.store);
+            this.store = props.store!;
          }
 
          if (!this.store) throw new Error("Cx component requires a store.");

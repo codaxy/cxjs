@@ -1,5 +1,5 @@
 import { Widget, VDOM } from "../ui/Widget";
-import { Container } from "../ui/Container";
+import { Container, StyledContainerConfig } from "../ui/Container";
 import {
    tooltipMouseMove,
    tooltipParentWillUnmount,
@@ -18,9 +18,9 @@ import { autoFocus } from "./autoFocus";
 import type { CxChild, RenderingContext } from "../ui/RenderingContext";
 import type { WidgetData, Instance, RenderProps } from "../ui/Instance";
 import type { TooltipConfig } from "./overlay/tooltip-ops";
+import { StringProp, NumberProp, StructuredProp } from "../ui/Prop";
 
-const isDataAttribute = (attr: string): string | false =>
-   attr.indexOf("data-") === 0 ? attr.substring(5) : false;
+const isDataAttribute = (attr: string): string | false => (attr.indexOf("data-") === 0 ? attr.substring(5) : false);
 
 export let urlAttributes: Record<string, boolean> = {
    "a.href": true,
@@ -28,7 +28,17 @@ export let urlAttributes: Record<string, boolean> = {
    "iframe.src": true,
 };
 
-export class HtmlElement extends Container {
+export interface HtmlElementConfig extends StyledContainerConfig {
+   id?: StringProp | NumberProp;
+
+   /** Inner text contents. */
+   text?: Cx.StringProp | Cx.NumberProp;
+
+   /** Tooltip configuration. */
+   tooltip?: StringProp | TooltipConfig;
+}
+
+export class HtmlElement<Config extends HtmlElementConfig = HtmlElementConfig> extends Container<Config> {
    public tag?: string;
    public html?: string;
    public innerText?: string;
@@ -44,7 +54,7 @@ export class HtmlElement extends Container {
    public autoFocus?: boolean | string;
    [key: string]: unknown; // Index signature for dynamic properties
 
-   constructor(config?: Record<string, unknown>) {
+   constructor(config?: Config) {
       super(config);
 
       if (isUndefined(this.jsxAttributes) && config)
@@ -92,7 +102,7 @@ export class HtmlElement extends Container {
       if (this.urlAttributes.length === 0) delete this.urlAttributes;
 
       // Combine args array with data object for super call
-      super.declareData(...[...args, data]);
+      super.declareData(...args, data);
    }
 
    isValidHtmlAttribute(attrName: string): string | false {
@@ -141,7 +151,6 @@ export class HtmlElement extends Container {
 
          default:
             if (isDataAttribute(attrName)) return false;
-
             break;
       }
 
@@ -308,7 +317,7 @@ const originalWidgetFactory = Widget.factory;
 Widget.factory = function (
    type: string | React.ComponentType | undefined,
    config?: Record<string, unknown>,
-   more?: Record<string, unknown>
+   more?: Record<string, unknown>,
 ) {
    const typeType = typeof type;
 

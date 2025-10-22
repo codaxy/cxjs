@@ -11,7 +11,9 @@
       "Bash(npx tsc:*)",
       "Bash(cut:*)",
       "WebFetch(domain:github.com)",
-      "Bash(curl -s https://raw.githubusercontent.com/codaxy/cxjs/master/packages/cx/src/data/View.d.ts)"
+      "Bash(curl -s https://raw.githubusercontent.com/codaxy/cxjs/master/packages/cx/src/data/View.d.ts)",
+      "Bash(yarn build2:*)",
+      "WebFetch(domain:raw.githubusercontent.com)"
     ],
     "deny": [],
     "ask": []

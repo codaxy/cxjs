@@ -8,9 +8,9 @@ let production = process.env.npm_lifecycle_event && process.env.npm_lifecycle_ev
 
 let common = {
    resolve: {
-      alias: {
-         cx: path.resolve(path.join(__dirname, "../packages/cx")),
-      },
+      // alias: {
+      //    cx: path.resolve(path.join(__dirname, "../packages/cx")),
+      // },
       extensions: [".js", ".ts", ".tsx", ".json"],
    },
 

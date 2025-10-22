@@ -7,9 +7,9 @@ export interface ArrayElementViewConfig {
    store: View;
    arrayAccessor: any;
    immutable?: boolean;
-   recordAlias: string;
-   indexAlias: string;
-   lengthAlias: string;
+   recordAlias?: string;
+   indexAlias?: string;
+   lengthAlias?: string;
    hasNestedAliases?: boolean;
    recordBinding?: any;
    indexBinding?: any;

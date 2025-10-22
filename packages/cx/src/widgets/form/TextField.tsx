@@ -1,45 +1,37 @@
 import { Widget, getContent } from "../../ui/Widget";
-import { Field, getFieldTooltip } from "./Field";
+import { Field, FieldConfig, getFieldTooltip } from "./Field";
+import { BooleanProp, NumberProp, Prop, StringProp } from "../../ui/Prop";
+import { Instance } from "../../ui/Instance";
 
-export interface TextFieldProps {
-   value?: any;
-   placeholder?: string;
-   disabled?: boolean;
-   readOnly?: boolean;
-   required?: boolean;
-   minLength?: number;
-   maxLength?: number;
-   validationRegExp?: RegExp;
-   validationErrorText?: string;
-   minLengthValidationErrorText?: string;
-   maxLengthValidationErrorText?: string;
-   reactOn?: string;
-   inputType?: string;
-   keyboardShortcut?: string;
-   trim?: boolean;
-   hideClear?: boolean;
-   showClear?: boolean;
-   alwaysShowClear?: boolean;
-   icon?: any;
-   inputStyle?: any;
-   inputClass?: any;
-   inputAttrs?: any;
-   emptyValue?: any;
-   help?: any;
-   label?: any;
-   style?: any;
-   className?: string;
-   id?: string;
-   enabled?: boolean;
-   visible?: boolean;
-   if?: any;
-   controller?: any;
-   onKeyDown?: any;
-   onChange?: any;
-   onInput?: any;
-   onFocus?: any;
-   onBlur?: any;
+export interface TextFieldConfig extends FieldConfig {
+   value?: Prop<any>;
+   placeholder?: StringProp;
+   disabled?: BooleanProp;
+   readOnly?: BooleanProp;
+   required?: BooleanProp;
+   minLength?: NumberProp;
+   maxLength?: NumberProp;
+   validationRegExp?: Prop<RegExp>;
+   validationErrorText?: StringProp;
+   minLengthValidationErrorText?: StringProp;
+   maxLengthValidationErrorText?: StringProp;
+   reactOn?: StringProp;
+   inputType?: StringProp;
+   keyboardShortcut?: StringProp;
+   trim?: BooleanProp;
+   hideClear?: BooleanProp;
+   showClear?: BooleanProp;
+   alwaysShowClear?: BooleanProp;
+   icon?: Prop<any>;
+   inputAttrs?: Prop<any>;
+   onChange?: string | ((value: any, instance: Instance) => void);
+   onInput?: string | ((value: any, instance: Instance) => void);
+   onFocus?: string | ((e: FocusEvent, instance: Instance) => void);
+   onBlur?: string | ((e: FocusEvent, instance: Instance) => void);
 }
+
+// Legacy alias for backward compatibility
+export interface TextFieldProps extends TextFieldConfig {}
 
 import {
    tooltipParentWillReceiveProps,
@@ -59,7 +51,7 @@ import { isString } from "../../util/isString";
 import { getActiveElement } from "../../util/getActiveElement";
 import { VDOM } from "cx-react";
 
-export class TextField extends Field implements TextFieldProps {
+export class TextField<Config extends TextFieldConfig = TextFieldConfig> extends Field<Config> {
    public hideClear?: boolean;
    public showClear?: boolean;
    public alwaysShowClear?: boolean;

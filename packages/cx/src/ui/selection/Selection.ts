@@ -10,12 +10,12 @@ export class Selection extends Component {
    bind?: string;
    record?: any;
    index?: any;
-   toggle?: boolean;
-   isDummy?: boolean;
-   multiple?: boolean;
+   toggle: boolean;
+   isDummy: boolean;
+   multiple: boolean;
 
    isSelected(store: View, record: any, index: any): boolean {
-      return this.bind && store.get(this.bind) === record;
+      return !!this.bind && store.get(this.bind) === record;
    }
 
    getIsSelectedDelegate(store: View): (record: any, index: any) => boolean {

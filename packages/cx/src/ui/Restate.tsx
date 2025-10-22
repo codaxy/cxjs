@@ -1,27 +1,39 @@
-import { PureContainer } from "./PureContainer";
+/** @jsxImportSource react */
+import { PureContainer, PureContainerConfig } from "./PureContainer";
 import { Store } from "../data/Store";
+import { View } from "../data/View";
 import { Cx } from "./Cx";
 import { VDOM } from "./VDOM";
 import { isObject } from "../util/isObject";
 import { isUndefined } from "../util/isUndefined";
 import { Binding } from "../data/Binding";
 import { StructuredSelector } from "../data/StructuredSelector";
-import { getCurrentCulture } from "./Culture";
+import { getCurrentCulture, CultureInfo } from "./Culture";
+import { BooleanProp, NumberProp, StringProp, StructuredProp } from "./Prop";
+import { Instance } from "./Instance";
 
 let persistenceCache: any = {};
 
-export class Restate extends PureContainer {
+export interface RestateConfig extends PureContainerConfig {
+   data?: StructuredProp;
+   detached?: boolean;
+   deferredUntilIdle?: BooleanProp;
+   idleTimeout?: NumberProp;
+   cacheKey?: StringProp;
+   immediate?: boolean;
+   onError?: (error: Error, instance: Instance) => void;
+   culture?: CultureInfo;
+}
+
+// Legacy alias for backward compatibility
+export interface RestateProps extends RestateConfig {}
+
+export class Restate<Config extends RestateConfig = RestateConfig> extends PureContainer<Config> {
    container: any;
    privateDataSelector: any;
    detached: boolean;
    data?: any;
-   children?: any;
-   items?: any;
-   layout?: any;
-   controller?: any;
-   outerLayout?: any;
-   useParentLayout?: any;
-   ws?: any;
+   // children, items, layout, controller, outerLayout, useParentLayout, ws inherited from parent classes
    culture?: any;
    options?: any;
    onError?: any;
@@ -37,8 +49,7 @@ export class Restate extends PureContainer {
    }
 
    init() {
-      this.container = PureContainer.create({
-         type: PureContainer,
+      this.container = PureContainer.create({         
          items: this.children || this.items,
          layout: this.layout,
          controller: this.controller,
@@ -133,7 +144,8 @@ class RestateStore extends Store {
    privateData: any;
    onSet: any;
    detached: any;
-   store: any;
+   // @ts-expect-error - RestateStore needs its own store property to reference the parent store
+   store: View; // Parent store reference
 
    constructor(config: any) {
       super(config);
@@ -181,8 +193,8 @@ class RestateStore extends Store {
    }
 
    doNotify() {
-      if (!this.detached) this.store.notify();
-      super.doNotify();
+      if (!this.detached) this.store.notify(undefined!);
+      super.doNotify(undefined!);
    }
 
    // override the default implementation to avoid meta overwrites

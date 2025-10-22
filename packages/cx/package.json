@@ -10,7 +10,7 @@
       "./hooks": "./build/hooks/index.js",
       "./svg": "./build/svg/index.js",
       "./charts": "./build/svg/charts.js",
-      "./jsx-runtime": "./jsx-runtime.js",
+      "./jsx-runtime": "./build/jsx-runtime.js",
       "./manifest.js": "./dist/manifest.js"
    },
    "sideEffects": false,

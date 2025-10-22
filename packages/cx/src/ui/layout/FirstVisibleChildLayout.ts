@@ -10,8 +10,6 @@ function isVisibleDeep(instance: any): boolean {
 }
 
 class FirstVisibleChildItem extends PureContainer {
-   useParentLayout?: boolean;
-
    checkVisible(context: RenderingContext, instance: any, data: any): boolean {
       if (instance.parent.firstVisibleChild) return false;
       return super.checkVisible(context, instance, data);

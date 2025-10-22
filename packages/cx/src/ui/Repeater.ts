@@ -1,12 +1,35 @@
 import { Widget } from "./Widget";
 import { PureContainer } from "./PureContainer";
-import { Container } from "./Container";
+import { Container, ContainerConfig } from "./Container";
 import { ArrayAdapter } from "./adapter/ArrayAdapter";
 import { UseParentLayout } from "./layout/UseParentLayout";
 import { getAccessor } from "../data/getAccessor";
 import { RenderingContext } from "./RenderingContext";
+import { Prop, StringProp, BooleanProp, StructuredProp, RecordAlias, SortersProp, CollatorOptions, SortDirection, DataRecord } from "./Prop";
+import { Instance } from "./Instance";
+import { DataAdapterRecord } from "./adapter/DataAdapter";
 
-export class Repeater extends Container {
+export interface RepeaterConfig<T = DataRecord> extends ContainerConfig {
+   records?: Prop<T[]>;
+   recordName?: RecordAlias;
+   recordAlias?: RecordAlias;
+   indexName?: RecordAlias;
+   indexAlias?: RecordAlias;
+   cached?: BooleanProp;
+   immutable?: BooleanProp;
+   sealed?: BooleanProp;
+   sorters?: SortersProp;
+   sortField?: StringProp;
+   sortDirection?: Prop<SortDirection>;
+   filterParams?: StructuredProp;
+   onCreateFilter?: (filterParams: any, instance: Instance) => (record: T) => boolean;
+   onTrackMappedRecords?: string | ((records: DataAdapterRecord<T>[], instance: Instance) => void);
+   sortOptions?: CollatorOptions;
+   keyField?: StringProp;
+   dataAdapter?: any;
+}
+
+export class Repeater<Config extends RepeaterConfig = RepeaterConfig> extends Container<Config> {
    records?: any;
    recordsAccessor: any;
    recordAlias?: string;
@@ -19,13 +42,10 @@ export class Repeater extends Container {
    sealed: boolean;
    sortOptions?: any;
    item: any;
-   children?: any;
-   items?: any;
    cached: boolean;
    onCreateFilter?: any;
    filter?: any;
    onTrackMappedRecords?: any;
-   isPureContainer: boolean;
 
    declareData(...args: any[]) {
       super.declareData(

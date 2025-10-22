@@ -1,7 +1,11 @@
-import { PureContainer } from "./PureContainer";
+import { PureContainer, PureContainerConfig } from "./PureContainer";
 import { isArray } from "../util/isArray";
+import { Instance } from "./Instance";
 
-export class IsolatedScope extends PureContainer {
+export class IsolatedScope<
+   Config extends PureContainerConfig = PureContainerConfig,
+   InstanceType extends Instance = Instance
+> extends PureContainer<Config, InstanceType> {
    bind?: string | string[];
    data?: any;
 

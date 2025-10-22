@@ -9,8 +9,7 @@ import { isDefined, isObject } from "../../util";
 import { RenderingContext } from "../RenderingContext";
 import { Instance } from "../Instance";
 import { View } from "../../data/View";
-import * as Cx from "../../core";
-import { Prop } from "../Prop";
+import { Prop, Sorter, CollatorOptions } from "../Prop";
 
 export interface RecordStoreCache {
    recordStoreCache: WeakMap<any, View>;
@@ -19,16 +18,16 @@ export interface RecordStoreCache {
 }
 
 export interface ArrayAdapterConfig extends DataAdapterConfig {
-   recordsBinding?: Cx.Prop<any[]>;
+   recordsBinding?: Prop<any[]>;
    recordsAccessor?: Accessor | string;
    keyField?: string;
    cacheByKeyField?: boolean;
-   sortOptions?: Cx.CollatorOptions;
+   sortOptions?: CollatorOptions;
 }
 
-export interface ExtendedSorter extends Cx.Sorter {
-   comparer?: ((a: any, b: any) => number) | null;
-   sortOptions?: Cx.CollatorOptions;
+export interface ExtendedSorter extends Sorter {
+   comparer?: (a: any, b: any) => number;
+   sortOptions?: CollatorOptions;
 }
 
 export interface ResolvedSorter {
@@ -38,11 +37,11 @@ export interface ResolvedSorter {
 }
 
 export class ArrayAdapter<T = any> extends DataAdapter<T> {
-   public recordsAccessor?: Accessor;
+   public recordsAccessor: Accessor;
    public recordsBinding?: Prop<T[]>;
    public keyField: string | null;
    public cacheByKeyField: boolean;
-   public sortOptions?: Cx.CollatorOptions;
+   public sortOptions?: CollatorOptions;
 
    protected sorter?: (data: DataAdapterRecord<T>[]) => DataAdapterRecord<T>[];
 
@@ -51,8 +50,7 @@ export class ArrayAdapter<T = any> extends DataAdapter<T> {
    }
 
    public init(): void {
-      this.recordsAccessor = getAccessor(this.recordsBinding ? this.recordsBinding : this.recordsAccessor);
-
+      this.recordsAccessor = getAccessor(this.recordsBinding ?? this.recordsAccessor);
       this.recordName = this.recordName?.toString() || "$record";
       this.indexName = this.indexName?.toString() || "$index";
    }
@@ -174,14 +172,14 @@ export class ArrayAdapter<T = any> extends DataAdapter<T> {
       this.filterFn = filterFn;
    }
 
-   public getComparer(sortOptions?: Cx.CollatorOptions): ((a: any, b: any) => number) | null {
-      return sortOptions ? Culture.getComparer(sortOptions) : null;
+   public getComparer(sortOptions?: CollatorOptions): ((a: any, b: any) => number) | undefined {
+      return sortOptions ? Culture.getComparer(sortOptions) : undefined;
    }
 
    public buildSorter(sorters: ExtendedSorter[]): void {
       if (isArray(sorters) && sorters.length > 0) {
          let dataAccessor: (x: DataAdapterRecord<T>) => any;
-         let fieldValueMapper: (x: ExtendedSorter) => Cx.Prop<any>;
+         let fieldValueMapper: (x: ExtendedSorter) => Prop<any>;
 
          if (sorters.every((x) => x.field && x.value == null)) {
             dataAccessor = (x) => x.data;
@@ -209,7 +207,7 @@ export class ArrayAdapter<T = any> extends DataAdapter<T> {
       }
    }
 
-   public sort(sorters?: Cx.Sorter[] | ExtendedSorter[]): void {
+   public sort(sorters?: Sorter[] | ExtendedSorter[]): void {
       if (sorters) {
          this.buildSorter(sorters as ExtendedSorter[]);
       }

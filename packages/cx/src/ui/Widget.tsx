@@ -30,6 +30,7 @@ export interface WidgetConfig {
    class?: ClassProp;
    className?: ClassProp;
    vdomKey?: string;
+   controller?: any;
 }
 
 export abstract class Widget<
@@ -65,9 +66,6 @@ export abstract class Widget<
    public onPrepare?: (context: RenderingContext, instance: any) => void;
    public onCleanup?: (context: RenderingContext, instance: any) => void;
    public onDestroy?: (instance: any) => void;
-   public tooltip?: TooltipConfig;
-   public errorTooltip?: TooltipConfig;
-   public suppressErrorsUntilVisited?: boolean;
 
    // Lifecycle methods that can be overridden by subclasses
    public exploreCleanup?(context: RenderingContext, instance: any): void;
@@ -215,6 +213,11 @@ export abstract class Widget<
 
       // check when this is actually needed, perhaps this is needed only for tables and repeated elements
       // if (instance.cached) delete instance.cached.rawData; // force prepareData to execute again
+   }
+
+   // Overload create to return Widget type instead of any
+   public static create(typeAlias?: any, config?: any, more?: any): Widget {
+      return super.create(typeAlias, config, more) as Widget;
    }
 
    public static resetCounter(): void {

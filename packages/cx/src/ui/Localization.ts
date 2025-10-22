@@ -39,7 +39,7 @@ export class Localization {
       let p = contents[key];
       if (p) {
          if (trackDefaults && !defaults[key]) {
-            let d = defaults[key] = {};
+            let d: any = defaults[key] = {};
             for (let key in values)
                d[key] = p[key];
          }

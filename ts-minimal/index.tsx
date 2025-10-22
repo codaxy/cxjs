@@ -1,7 +1,5 @@
-import { bind, History, startHotAppLoop, Widget, CSS, CSSHelper } from "cx/ui";
-import { HtmlElement } from "cx/widgets";
 import { Store } from "cx/data";
-// import { TextField } from "cxts/src/widgets/form/TextField";
+import { bind, CSS, CSSHelper, History, startHotAppLoop, Widget } from "cx/ui";
 import { Debug, Timing } from "cx/util";
 import { TextField } from "cx/widgets";
 
@@ -37,7 +35,7 @@ startHotAppLoop(
          <p>This is a minimal example of a Cx application using TypeScript.</p>
          <p>Check the console for1 debug information.</p>
          {/* there is no error for abc, because TextField has //@ts-nocheck */}
-         <TextField abc value={bind("nesto")} />
+         <TextField value={bind("nesto")} />
          {/* <TextField value={bind("nesto")} /> */}
 
          <div text={bind("nesto")} style="color: red" />

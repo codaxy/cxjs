@@ -1,10 +1,18 @@
-import { View } from "./View";
+import { View, ViewConfig } from "./View";
+
+export interface ReadOnlyDataViewConfig extends ViewConfig {
+   data?: any;
+}
 
 export class ReadOnlyDataView extends View {
    // @ts-expect-error
    store: View;
    data?: any;
    immutable?: boolean;
+
+   constructor(config?: ReadOnlyDataViewConfig) {
+      super(config);
+   }
 
    getData(): any {
       if (this.sealed && this.meta.version === this.cache.version && this.cache.data === this.data)

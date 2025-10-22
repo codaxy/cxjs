@@ -3,7 +3,7 @@ import { isSelector } from "../../data/isSelector";
 import { FocusManager } from "../../ui/FocusManager";
 import type { Instance, PartialInstance } from "../../ui/Instance";
 import { Localization } from "../../ui/Localization";
-import { PureContainer } from "../../ui/PureContainer";
+import { PureContainer, PureContainerConfig } from "../../ui/PureContainer";
 import type { RenderingContext } from "../../ui/RenderingContext";
 import { getContent } from "../../ui/Widget";
 import { coalesce } from "../../util/coalesce";
@@ -18,8 +18,38 @@ import { FieldIcon } from "./FieldIcon";
 import { HelpText } from "./HelpText";
 import { Label } from "./Label";
 import { ValidationError } from "./ValidationError";
+import { BooleanProp, Prop, StringProp, StyleProp } from "../../ui/Prop";
 
-export class Field extends PureContainer {
+export interface FieldConfig extends PureContainerConfig {
+   inputStyle?: StyleProp;
+   validationMode?: StringProp;
+   errorTooltip?: Prop<Record<string, unknown>>;
+   help?: Prop<Record<string, unknown> | string>;
+   label?: Prop<Record<string, unknown> | string>;
+   mod?: Prop<Record<string, unknown>>;
+   disabled?: BooleanProp;
+   required?: BooleanProp;
+   asterisk?: BooleanProp;
+   labelStyle?: StyleProp;
+   labelClass?: StringProp;
+   icon?: Prop<null | string>;
+   visited?: BooleanProp;
+   labelPlacement?: StringProp;
+   helpPlacement?: StringProp;
+   emptyValue?: Prop<unknown>;
+   requiredText?: StringProp;
+   validatingText?: StringProp;
+   onValidate?: string | ((value: unknown, instance: Instance, validationParams: Record<string, unknown>) => unknown);
+   validationExceptionText?: StringProp;
+   onValidationException?: string | ((error: unknown, instance: Instance) => void);
+   onKeyDown?: string | ((e: KeyboardEvent, instance: Instance) => boolean | void);
+   suppressErrorsUntilVisited?: BooleanProp;
+   autoFocus?: BooleanProp;
+   helpSpacer?: StringProp;
+   trackFocus?: BooleanProp;
+}
+
+export class Field<Config extends FieldConfig = FieldConfig> extends PureContainer<Config> {
    public inputStyle?: Record<string, unknown> | string;
    public validationMode?: string;
    public errorTooltip?: Record<string, unknown>;

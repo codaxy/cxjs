@@ -1,4 +1,4 @@
-import { computable } from "../data/computable";
+import { computable, ComputableSelector, InferSelectorValue } from "../data/computable";
 import { Component } from "../util/Component";
 import { isArray } from "../util/isArray";
 import { isFunction } from "../util/isFunction";
@@ -71,14 +71,23 @@ export class Controller extends Component {
       }
    }
 
-   addComputable(name: string, args: any[], callback: (...args: any[]) => any): void {
+   addComputable<Selectors extends readonly ComputableSelector[]>(
+      name: string,
+      args: [...Selectors],
+      callback: (...values: { [K in keyof Selectors]: InferSelectorValue<Selectors[K]> }) => any
+   ): void {
       if (!isArray(args)) throw new Error("Second argument to the addComputable method should be an array.");
       let selector = computable(...args, callback).memoize();
       if (!this.computables) this.computables = {};
       this.computables[computablePrefix + name] = { name, selector, type: "computable" };
    }
 
-   addTrigger(name: string, args: any[], callback: (...args: any[]) => any, autoRun?: boolean): void {
+   addTrigger<Selectors extends readonly ComputableSelector[]>(
+      name: string,
+      args: [...Selectors],
+      callback: (...values: { [K in keyof Selectors]: InferSelectorValue<Selectors[K]> }) => any,
+      autoRun?: boolean
+   ): void {
       if (!isArray(args)) throw new Error("Second argument to the addTrigger method should be an array.");
       let selector = computable(...args, callback).memoize(!autoRun && this.store.getData());
       if (!this.computables) this.computables = {};
@@ -95,6 +104,7 @@ export class Controller extends Component {
 
    invokeParentMethod(methodName: string, ...args: any[]): any {
       let parent = this.instance.parent;
+      if (!parent) throw new Error("Cannot invoke a parent controller method as the instance does not have a parent.");
       return parent.invokeControllerMethod(methodName, ...args);
    }
 

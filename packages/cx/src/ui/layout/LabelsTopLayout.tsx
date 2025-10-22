@@ -25,9 +25,7 @@ interface LayoutState {
 export class LabelsTopLayout extends Container {
    vertical?: boolean;
    columns?: number;
-   baseClass?: string;
-   styled?: boolean;
-   CSS?: any;
+   // baseClass, styled, CSS inherited from Widget
 
    init(): void {
       if (this.vertical && isUndefined(this.columns)) this.columns = 1;
@@ -117,9 +115,6 @@ LabelsTopLayout.prototype.columns = undefined;
 LabelsTopLayout.prototype.styled = true;
 
 export class LabelsTopLayoutCell extends PureContainer {
-   styled?: boolean;
-   useParentLayout?: boolean;
-
    declareData(...args: any[]): void {
       super.declareData(...args, {
          colSpan: undefined,

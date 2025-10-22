@@ -4,6 +4,7 @@ import { getSelector } from "./getSelector";
 import { isObject } from "../util/isObject";
 import { AccessorChain, isAccessorChain } from "./createAccessorModelProxy";
 import { Prop } from "../ui/Prop";
+import { View } from "./View";
 
 /*
    Accessor provides a common ground between refs and bindings.
@@ -11,20 +12,16 @@ import { Prop } from "../ui/Prop";
    Accessor works as a common interface which works with both patterns.
  */
 
-interface View {
-   set(path: string, value: any): boolean;
-}
-
-export interface Accessor {
-   get: (data: any) => any;
-   set?: (value: any, store: View) => boolean;
+export interface Accessor<T = any> {
+   get: (data: any) => T;
+   set?: (value: T, store: View) => boolean;
    bindInstance?(instance: any): Accessor;
    isAccessor?: boolean;
    isRef?: boolean;
 }
 
-export function getAccessor(accessor: AccessorChain<unknown>): Accessor;
-export function getAccessor(accessor: Prop<unknown[]>): Accessor;
+export function getAccessor<T = any>(accessor: Prop<T[]>): Accessor;
+export function getAccessor(accessor: Accessor): Accessor;
 
 export function getAccessor(accessor: any): Accessor | undefined {
    if (accessor == null) return undefined;

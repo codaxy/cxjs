@@ -10,16 +10,17 @@ import { isObject } from "../../util/isObject";
 import { RenderingContext } from "../RenderingContext";
 import { Instance } from "../Instance";
 import { View } from "../../data/View";
-import * as Cx from "../../core";
+import { Prop, SortDirection, StructuredProp } from "../Prop";
+import { isDataRecord } from "../../util";
 
 export interface GroupKey {
-   [field: string]: Cx.Prop<any> | { value: Cx.Prop<any>; direction: Cx.SortDirection };
+   [field: string]: Prop<any> | { value: Prop<any>; direction: SortDirection };
 }
 
 export interface GroupingConfig {
    key: GroupKey;
-   aggregates?: Cx.StructuredProp;
-   text?: Cx.Prop<string>;
+   aggregates?: StructuredProp;
+   text?: Prop<string>;
    includeHeader?: boolean;
    includeFooter?: boolean;
    comparer?: ((a: any, b: any) => number) | null;
@@ -210,7 +211,7 @@ export class GroupAdapter<T = any> extends ArrayAdapter<T> {
                g.comparer = getComparer(
                   groupSorters,
                   (x: any) => x.key,
-                  this.sortOptions ? Culture.getComparer(this.sortOptions) : null,
+                  this.sortOptions ? Culture.getComparer(this.sortOptions) : undefined,
                );
             }
          });
@@ -223,7 +224,7 @@ export class GroupAdapter<T = any> extends ArrayAdapter<T> {
 GroupAdapter.prototype.groupName = "$group";
 
 function serializeKey(data: any): string {
-   if (isObject(data)) {
+   if (isDataRecord(data)) {
       return Object.keys(data)
          .map((k) => serializeKey(data[k]))
          .join(":");

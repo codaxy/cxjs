@@ -37,6 +37,6 @@ export function expr(...args: any[]): any {
    for (let i = 0; i < args.length - 1; i++) getters.push(Binding.get(args[i]).value);
    return (data: any) => {
       let argv = getters.map((g) => g(data));
-      return compute.apply(this, argv);
+      return compute.apply(null, argv);
    };
 }

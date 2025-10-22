@@ -8,7 +8,7 @@ import { Ref } from "./Ref";
 export type ComputableSelector<T = any> = string | Selector<T> | AccessorChain<T> | CanMemoize<T>;
 
 // Helper type to infer the value type from a selector, string, or accessor chain
-type InferSelectorValue<T> =
+export type InferSelectorValue<T> =
    T extends Selector<infer R> ? R : T extends AccessorChain<infer R> ? R : T extends string ? any : never;
 
 // Generic overload - handles all cases with proper type inference
