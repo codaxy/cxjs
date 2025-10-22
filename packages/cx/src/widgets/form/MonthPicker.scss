@@ -1,7 +1,10 @@
+@use "sass:map";
+@use "sass:color";
+
 @mixin cx-monthpicker($name: "monthpicker", $state-style-map: $cx-input-state-style-map, $besm: $cx-besm) {
-   $block: map-get($besm, block);
-   $element: map-get($besm, element);
-   $state: map-get($besm, state);
+   $block: map.get($besm, block);
+   $element: map.get($besm, element);
+   $state: map.get($besm, state);
 
    .#{$block}#{$name} {
       overflow-y: scroll;
@@ -26,7 +29,7 @@
 
       th,
       td {
-         border-top: 1px solid transparentize($border-color, 0.5);
+         border-top: 1px solid color.adjust($border-color, $alpha: -0.5);
          -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
       }
 
@@ -112,7 +115,7 @@
    .#{$block}#{$name}.#{$state}disabled {
       background-color: transparent;
       border-color: transparent;
-      color: darken(#fff, 18);
+      color: color.adjust(#fff, $lightness: -18%);
       pointer-events: none;
    }
 }

@@ -5,6 +5,8 @@
 //   }
 //}
 
+@use "sass:map";
+
 @mixin cx-checker-background($tile-size: 4px, $color: rgba(gray, 0.5)) {
    background-image: linear-gradient(45deg, $color 25%, transparent 25%),
       linear-gradient(-45deg, $color 25%, transparent 25%), linear-gradient(45deg, transparent 75%, $color 75%),
@@ -23,9 +25,9 @@
    $placeholder: $cx-input-placeholder,
    $besm: $cx-besm
 ) {
-   $block: map-get($besm, block);
-   $element: map-get($besm, element);
-   $state: map-get($besm, state);
+   $block: map.get($besm, block);
+   $element: map.get($besm, element);
+   $state: map.get($besm, state);
 
    $size: 220px;
 

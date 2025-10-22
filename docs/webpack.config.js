@@ -23,7 +23,18 @@ if (production) {
          rules: [
             {
                test: /\.scss$/,
-               use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
+               use: [
+                  MiniCssExtractPlugin.loader,
+                  "css-loader",
+                  {
+                     loader: "sass-loader",
+                     options: {
+                        sassOptions: {
+                           silenceDeprecations: ["import", "global-builtin"],
+                        },
+                     },
+                  },
+               ],
             },
             {
                test: /\.css$/,
@@ -82,7 +93,18 @@ if (production) {
          rules: [
             {
                test: /\.scss$/,
-               use: ["style-loader", "css-loader", "sass-loader"],
+               use: [
+                  "style-loader",
+                  "css-loader",
+                  {
+                     loader: "sass-loader",
+                     options: {
+                        sassOptions: {
+                           silenceDeprecations: ["import", "global-builtin"],
+                        },
+                     },
+                  },
+               ],
             },
             {
                test: /\.css$/,
@@ -140,7 +162,7 @@ var common = {
    module: {
       rules: [
          {
-            test: /\.js$/,
+            test: /\.(js|ts|tsx)$/,
             include: /[\\\/](misc|docs|cx|cx-react)[\\\/]/,
             //exclude: /(babelHelpers)/,
             use: [

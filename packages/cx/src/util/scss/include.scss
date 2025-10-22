@@ -1,3 +1,4 @@
+@use "sass:map";
 @import "call-once";
 @import "colors";
 
@@ -10,9 +11,9 @@ $cx-dependencies: () !default;
 
 @function cx-should-include($name, $once: true) {
    @return (
-       (map-get($cx-excluded, $name) != true) and
+       (map.get($cx-excluded, $name) != true) and
        ($cx-include-all or
-       ($cx-used != null and map-get($cx-used, $name) == true))
+       ($cx-used != null and map.get($cx-used, $name) == true))
    )
    and ($once != true or cx-call-once($name));
 }
@@ -22,12 +23,12 @@ $cx-dependencies: () !default;
 }
 
 @function cx-widget($name) {
-   @if (map-get($cx-excluded, $name)) {
+   @if (map.get($cx-excluded, $name)) {
       @return 0;
    }
-   $cx-used: map_merge($cx-used, ($name: true)) !global;
+   $cx-used: map.merge($cx-used, ($name: true)) !global;
    $dummy: 1;
-   $deps: map-get($cx-dependencies, $name);
+   $deps: map.get($cx-dependencies, $name);
    @if ($deps == null) {
       @return 0;
    }

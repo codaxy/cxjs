@@ -1,3 +1,5 @@
+@use "sass:map";
+
 @if cx-call-once("cx/widgets/checker-background") {
    %cx-checker-bg {
       background-repeat: repeat;
@@ -305,7 +307,7 @@ $cx-input-tag-clear-state-style-map: cx-deep-map-merge(
 @import "Radio.variables";
 @import "ColorPicker.variables";
 
-$cx-dependencies: map-merge(
+$cx-dependencies: map.merge(
    $cx-dependencies,
    (
       "cx/widgets/Field": "cx/widgets/Label" "cx/widgets/Tooltip" "cx/widgets/ValidationError" "cx/widgets/HelpText",

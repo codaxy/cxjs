@@ -1,3 +1,5 @@
+@use "sass:map";
+
 //THEME SPECIFIC VARIABLES
 $cx-theme-primary-color: #4dcbac !default;
 $cx-theme-primary-color-light: lighten($cx-theme-primary-color, 5);
@@ -479,7 +481,7 @@ $cx-section-mods: cx-deep-map-merge(
 );
 
 //MENU
-$cx-dropdown-styles: map-merge(
+$cx-dropdown-styles: map.merge(
    $cx-dropdown-styles,
    (
       background-color: $cx-default-background-color-lighter,

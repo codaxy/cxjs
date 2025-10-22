@@ -1,3 +1,5 @@
+@use "sass:map";
+
 @mixin cx-button(
    $name: "button",
    $state-style-map: $cx-button-state-style-map,
@@ -5,10 +7,10 @@
    $icon-size: $cx-default-icon-size,
    $besm: $cx-besm
 ) {
-   $block: map-get($besm, block);
-   $element: map-get($besm, element);
-   $state: map-get($besm, state);
-   $mod: map-get($besm, mod);
+   $block: map.get($besm, block);
+   $element: map.get($besm, element);
+   $state: map.get($besm, state);
+   $mod: map.get($besm, mod);
 
    .#{$block}#{$name} {
       position: relative;

@@ -1,9 +1,10 @@
+@use "sass:map";
 @import "axis/variables";
 
 $cx-default-swimlanes-lane-background-color: #f1f1f1;
 $cx-default-range-marker-color: #696969;
 
-$cx-dependencies: map-merge(
+$cx-dependencies: map.merge(
    $cx-dependencies,
    (
       "cx/charts/Bar": "cx/charts/palette",

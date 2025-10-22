@@ -1,3 +1,7 @@
 {
-   "cSpell.words": ["flexbox", "hscroll", "immer", "lookupfield", "resizer", "trello"]
+   "cSpell.words": ["flexbox", "hscroll", "immer", "lookupfield", "resizer", "trello"],
+   "explorer.autoRevealExclude": {
+      "**/node_modules": false
+   },
+   "javascript.preferences.importModuleSpecifier": "relative"
 }

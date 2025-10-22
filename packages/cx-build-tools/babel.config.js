@@ -5,10 +5,13 @@ module.exports = {
       [
          "@babel/preset-env",
          {
-            loose: true,
             modules: false,
+            targets: {
+               chrome: "79"
+            }
          },
       ],
+      "@babel/preset-typescript",
    ],
    plugins: [
       //"@babel/external-helpers",

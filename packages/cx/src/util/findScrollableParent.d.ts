@@ -1,1 +1,0 @@
-export function findScrollableParent(sourceEl: Element, horizontal?: boolean) : Element;

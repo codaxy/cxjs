@@ -1,7 +1,9 @@
-$block: map-get($cx-besm, block);
-$element: map-get($cx-besm, element);
-$state: map-get($cx-besm, state);
-$mod: map-get($cx-besm, mod);
+@use "sass:map";
+
+$block: map.get($cx-besm, block);
+$element: map.get($cx-besm, element);
+$state: map.get($cx-besm, state);
+$mod: map.get($cx-besm, mod);
 
 @if (cx-included("cx/widgets/Section")) {
    $section-mods: primary success warning error;

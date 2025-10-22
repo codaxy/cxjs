@@ -1,1 +1,0 @@
-export function getSearchQueryPredicate(query: string, options?: any) : (text: string) => boolean;

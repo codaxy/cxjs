@@ -1,3 +1,5 @@
+@use "sass:map";
+
 @mixin cx-textfield(
    $name: "textfield",
    $state-style-map: $cx-std-field-state-style-map,
@@ -9,10 +11,10 @@
    $width: $cx-default-input-width,
    $besm: $cx-besm
 ) {
-   $block: map-get($besm, block);
-   $element: map-get($besm, element);
-   $state: map-get($besm, state);
-   $mod: map-get($besm, mod);
+   $block: map.get($besm, block);
+   $element: map.get($besm, element);
+   $state: map.get($besm, state);
+   $mod: map.get($besm, mod);
 
    .#{$block}#{$name} {
       @include cxb-field($besm, $state-style-map, $width: $width, $input: true);

@@ -1,3 +1,6 @@
+@use "sass:map";
+@use "sass:color";
+
 @mixin cx-calendar(
    $name: "calendar",
    $state-style-map: $cx-calendar-state-style-map,
@@ -5,10 +8,10 @@
    $icon-size: $cx-default-icon-size,
    $besm: $cx-besm
 ) {
-   $block: map-get($besm, block);
-   $element: map-get($besm, element);
-   $state: map-get($besm, state);
-   $mod: map-get($besm, mod);
+   $block: map.get($besm, block);
+   $element: map.get($besm, element);
+   $state: map.get($besm, state);
+   $mod: map.get($besm, mod);
 
    .#{$block}calendar {
       display: inline-block;
@@ -116,7 +119,7 @@
       &.#{$state}disabled {
          background-color: transparent;
          border-color: transparent;
-         color: darken(#fff, 18);
+         color: color.adjust(#fff, $lightness: -18%);
          pointer-events: none;
          opacity: 0.9;
       }

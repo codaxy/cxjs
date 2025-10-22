@@ -1,1 +1,0 @@
-export function shallowEquals(v1: any, v2: any) : boolean;

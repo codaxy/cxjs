@@ -1,4 +1,6 @@
 /* prettier-ignore */
+@use "sass:map";
+
 //THEME SPECIFIC VARIABLES
 // pick theme color scheme
 $primary-color-blue: #2196f3 !default;
@@ -359,8 +361,8 @@ $cx-button-mods: cx-deep-map-merge(
             box-shadow: none,
          ),
          hover:
-            map-merge(
-               map-get($cx-list-item, hover),
+            map.merge(
+               map.get($cx-list-item, hover),
                (
                   box-shadow: none,
                   border-color: transparent,
@@ -386,8 +388,8 @@ $cx-button-mods: cx-deep-map-merge(
             box-shadow: none,
          ),
          hover:
-            map-merge(
-               map-get($cx-list-item, hover),
+            map.merge(
+               map.get($cx-list-item, hover),
                (
                   box-shadow: none,
                   border-color: transparent,
@@ -659,7 +661,7 @@ $cx-section-mods: cx-deep-map-merge(
 );
 
 //MENU
-$cx-dropdown-styles: map-merge(
+$cx-dropdown-styles: map.merge(
    $cx-dropdown-styles,
    (
       font-size: $cx-default-box-font-size + 1px,
@@ -670,7 +672,7 @@ $cx-dropdown-styles: map-merge(
    )
 );
 
-$cx-menu-state-style-map: map-merge(
+$cx-menu-state-style-map: map.merge(
    $cx-menu-state-style-map,
    (
       default: (

@@ -1,19 +1,23 @@
+@use "sass:list";
+@use "sass:map";
+@use "sass:math";
+
 @function cx-calc($lengths...) {
    $units: ();
 
    @each $l in $lengths {
-      $unit: unit($l);
-      @if (map-has-key($units, $unit)) {
-         $nl: map-get($units, $unit) + $l;
-         $units: map-merge($units, ($unit: $nl))
+      $unit: math.unit($l);
+      @if (map.has-key($units, $unit)) {
+         $nl: map.get($units, $unit) + $l;
+         $units: map.merge($units, ($unit: $nl))
       } @else {
-         $units: map-merge($units, ($unit: $l))
+         $units: map.merge($units, ($unit: $l))
       }
    }
 
-   $keys: map-keys($units);
-   @if (length($keys) == 1) {
-      @return map-get($units, nth($keys, 1));
+   $keys: map.keys($units);
+   @if (list.length($keys) == 1) {
+      @return map.get($units, list.nth($keys, 1));
    }
 
    $calc: '';

@@ -1,3 +1,5 @@
+@use "sass:map";
+
 @mixin cx-numberfield(
    $name: "numberfield",
    $state-style-map: $cx-std-field-state-style-map,
@@ -10,9 +12,9 @@
    $width: $cx-default-input-width,
    $besm: $cx-besm
 ) {
-   $block: map-get($besm, block);
-   $element: map-get($besm, element);
-   $state: map-get($besm, state);
+   $block: map.get($besm, block);
+   $element: map.get($besm, element);
+   $state: map.get($besm, state);
    $padding: cx-get-state-rule($state-style-map, default, "padding");
 
    .#{$block}#{$name} {

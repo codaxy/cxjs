@@ -1,1 +1,0 @@
-export function getParentFrameBoundingClientRect(el: Element) : ClientRect;

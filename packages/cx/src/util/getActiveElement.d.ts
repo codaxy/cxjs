@@ -1,1 +1,0 @@
-export function getActiveElement() : Element;

@@ -14,6 +14,8 @@ $cx-default-grid-header-border-color: $cx-default-border-color !default;
 $cx-default-grid-header-box-shadow: null !default;
 $cx-default-grid-header-padding: null !default;
 
+@use "sass:color";
+
 $cx-grid-header-state-style-map: (
    default: (
       font-size: $cx-default-grid-header-font-size,
@@ -26,13 +28,13 @@ $cx-grid-header-state-style-map: (
       padding: $cx-default-grid-header-padding,
    ),
    hover: (
-      background-color: darken($cx-default-grid-header-background-color, 2),
+      background-color: color.adjust($cx-default-grid-header-background-color, $lightness: -2%),
    ),
    sorted: (
-      background-color: darken($cx-default-grid-header-background-color, 7),
+      background-color: color.adjust($cx-default-grid-header-background-color, $lightness: -7%),
    ),
    sorted-hover: (
-      background-color: darken($cx-default-grid-header-background-color, 5),
+      background-color: color.adjust($cx-default-grid-header-background-color, $lightness: -5%),
    ),
 ) !default;
 
@@ -125,7 +127,9 @@ $cx-grid-cell-cursor-style: (
    border: 2px solid rgba(green, 1),
 );
 
-$cx-dependencies: map-merge(
+@use "sass:map";
+
+$cx-dependencies: map.merge(
    $cx-dependencies,
    (
       "cx/widgets/Grid": "cx/widgets/DragClone",

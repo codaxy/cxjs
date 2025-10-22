@@ -2,10 +2,22 @@
    "name": "cx",
    "version": "25.10.1",
    "description": "Advanced JavaScript UI framework for admin and dashboard applications with ready to use grid, form and chart components.",
-   "main": "index.js",
-   "jsnext:main": "src/index.js",
+   "exports": {
+      "./data": "./build/data/index.js",
+      "./util": "./build/util/index.js",
+      "./widgets": "./build/widgets/index.js",
+      "./ui": "./build/ui/index.js",
+      "./hooks": "./build/hooks/index.js",
+      "./svg": "./build/svg/index.js",
+      "./charts": "./build/svg/index.js",
+      "./jsx-runtime": "./build/jsx-runtime.js",
+      "./manifest.js": "./dist/manifest.js"
+   },
+   "sideEffects": false,
    "scripts": {
-      "build": "node build/index"
+      "build": "node build/index",
+      "build2": "rm -rf build && tsc",
+      "check-types": "tsc --noEmit"
    },
    "author": "Codaxy",
    "license": "MIT",
@@ -27,6 +39,11 @@
       "url": "git@github.com:codaxy/cxjs.git"
    },
    "devDependencies": {
-      "react-test-renderer": "^18.3.1"
+      "@types/jest": "^30.0.0",
+      "@types/mocha": "^10.0.10",
+      "@types/react-dom": "^18.3.1",
+      "@types/react-test-renderer": "^18.3.1",
+      "react-test-renderer": "^18.3.1",
+      "typescript": "^5.9.3"
    }
 }

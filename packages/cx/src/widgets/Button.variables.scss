@@ -1,3 +1,6 @@
+@use "sass:color";
+@use "sass:map";
+
 $cx-default-button-font-family: $cx-default-box-font-family !default;
 $cx-default-button-font-size: $cx-default-box-font-size !default;
 $cx-default-button-font-weight: normal !default;
@@ -61,9 +64,9 @@ $cx-button-mods: (
          color: white,
       ),
       disabled: (
-         background-color: transparentize(#1f99f8, 0.5),
-         border-color: transparentize(#1e88e5, 0.9),
-         color: transparentize(white, 0.4),
+         background-color: color.adjust(#1f99f8, $alpha: -0.5),
+         border-color: color.adjust(#1e88e5, $alpha: -0.9),
+         color: color.adjust(white, $alpha: -0.4),
       ),
       hover: (
          background-color: #1f99f8,
@@ -76,9 +79,9 @@ $cx-button-mods: (
          color: white,
       ),
       disabled: (
-         background-color: transparentize(#d32f2f, 0.4),
-         border-color: transparentize(#c62828, 0.9),
-         color: transparentize(white, 0.5),
+         background-color: color.adjust(#d32f2f, $alpha: -0.4),
+         border-color: color.adjust(#c62828, $alpha: -0.9),
+         color: color.adjust(white, $alpha: -0.5),
       ),
       hover: (
          background-color: #d32f2f,
@@ -92,16 +95,16 @@ $cx-button-mods: (
          box-shadow: none,
       ),
       hover:
-         map-merge(
-            map-get($cx-list-item, hover),
+         map.merge(
+            map.get($cx-list-item, hover),
             (
                box-shadow: none,
                border-color: transparent,
             )
          ),
       focus:
-         map-merge(
-            map-get($cx-list-item, selected-cursor),
+         map.merge(
+            map.get($cx-list-item, selected-cursor),
             (
                box-shadow: none,
                border-color: transparent,
