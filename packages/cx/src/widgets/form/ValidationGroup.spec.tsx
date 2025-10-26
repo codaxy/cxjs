@@ -4,6 +4,7 @@ import { Store } from "../../data/Store";
 import { HtmlElement } from "../HtmlElement";
 import { ValidationGroup } from "./ValidationGroup";
 import { Validator } from "./Validator";
+import { bind } from "../../ui/bind";
 
 import renderer from "react-test-renderer";
 import assert from "assert";
@@ -12,9 +13,9 @@ describe("ValidationGroup", () => {
    it("performs validation and sets the flags", () => {
       let widget = (
          <cx>
-            <ValidationGroup invalid-bind="invalid" valid-bind="valid">
+            <ValidationGroup invalid={bind("invalid")} valid={bind("valid")}>
                <Validator onValidate={() => "Something is wrong..."} />
-               <div visible-bind="invalid">Invalid</div>
+               <div visible={bind("invalid")}>Invalid</div>
             </ValidationGroup>
          </cx>
       );
@@ -33,11 +34,11 @@ describe("ValidationGroup", () => {
       let widget = (
          <cx>
             <div>
-               <ValidationGroup invalid-bind="invalid">
-                  <ValidationGroup invalid-bind="invalid1">
+               <ValidationGroup invalid={bind("invalid")}>
+                  <ValidationGroup invalid={bind("invalid1")}>
                      <Validator onValidate={() => "Something is wrong..."} />
                   </ValidationGroup>
-                  <ValidationGroup invalid-bind="invalid2">
+                  <ValidationGroup invalid={bind("invalid2")}>
                      <Validator onValidate={() => false} />
                   </ValidationGroup>
                </ValidationGroup>
@@ -59,11 +60,11 @@ describe("ValidationGroup", () => {
       let widget = (
          <cx>
             <div>
-               <ValidationGroup invalid-bind="invalid">
-                  <ValidationGroup invalid-bind="invalid1" isolated>
+               <ValidationGroup invalid={bind("invalid")}>
+                  <ValidationGroup invalid={bind("invalid1")} isolated>
                      <Validator onValidate={() => "Something is wrong..."} />
                   </ValidationGroup>
-                  <ValidationGroup invalid-bind="invalid2">
+                  <ValidationGroup invalid={bind("invalid2")}>
                      <Validator onValidate={() => false} />
                   </ValidationGroup>
                </ValidationGroup>
@@ -112,7 +113,7 @@ describe("ValidationGroup", () => {
       let widget = (
          <cx>
             <div>
-               <ValidationGroup invalid-bind="invalid" disabled>
+               <ValidationGroup invalid={bind("invalid")} disabled>
                   <Validator onValidate={() => "Something is wrong..."} disabled={false} />
                </ValidationGroup>
             </div>
@@ -131,7 +132,7 @@ describe("ValidationGroup", () => {
       let widget = (
          <cx>
             <div>
-               <ValidationGroup invalid-bind="invalid" disabled strict>
+               <ValidationGroup invalid={bind("invalid")} disabled strict>
                   <Validator onValidate={() => "Something is wrong..."} disabled={false} />
                </ValidationGroup>
             </div>

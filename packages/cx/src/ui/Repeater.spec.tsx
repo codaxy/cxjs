@@ -1,9 +1,7 @@
-//@ts-nocheck
 import { Cx } from "./Cx";
-import { VDOM } from "./Widget";
-import { HtmlElement } from "../widgets/HtmlElement";
 import { Store } from "../data/Store";
 import { Repeater } from "./Repeater";
+import { bind } from "./bind";
 
 import renderer from "react-test-renderer";
 import assert from "assert";
@@ -65,9 +63,9 @@ describe("Repeater", () => {
       let widget = (
          <cx>
             <div>
-               <Repeater records-bind="data" sorters={[{ field: "value", direction: "ASC" }]} recordAlias="$item">
+               <Repeater records={bind("data")} sorters={[{ field: "value", direction: "ASC" }]} recordAlias="$item">
                   <div
-                     text:bind="$item.value"
+                     text={bind("$item.value")}
                      onExplore={(context, instance) => {
                         divInstances.push(instance);
                      }}

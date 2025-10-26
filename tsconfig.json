@@ -2,7 +2,7 @@
    "compilerOptions": {
       "target": "es2017",
       "jsx": "react-jsx",
-      "jsxImportSource": "cxts",
+      "jsxImportSource": "cx",
       "allowJs": true,
       "moduleResolution": "node",
       "module": "esnext",

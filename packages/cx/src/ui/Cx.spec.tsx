@@ -1,8 +1,9 @@
-//@ts-nocheck
 import { Cx } from './Cx';
 import { VDOM } from "./VDOM";
 import { Container } from "./Container";
 import { Store } from '../data/Store';
+import { bind } from "./bind";
+import { createTestRenderer } from "../util/test/createTestRenderer";
 import renderer from 'react-test-renderer';
 import assert from 'assert';
 import { HtmlElement } from "../widgets/HtmlElement";
@@ -16,9 +17,7 @@ describe('Cx', () => {
 
       let store = new Store();
 
-      const component = renderer.create(
-         <Cx widget={widget} store={store} subscribe immediate />
-      );
+      const component = createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -34,7 +33,7 @@ describe('Cx', () => {
       let storeLog = [];
 
       let widget = <cx>
-         <div text-bind="text" onExplore={(context, instance) => {
+         <div text={bind("text")} onExplore={(context, instance) => {
             instanceLog.push(instance);
             storeLog.push(instance.store);
          }} />
@@ -117,9 +116,7 @@ describe('Cx', () => {
 
       let store = new Store();
 
-      const component = renderer.create(
-         <Cx widget={widget} store={store} subscribe immediate />
-      );
+      const component = createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {

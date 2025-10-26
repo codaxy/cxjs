@@ -20,7 +20,7 @@ export interface Accessor<T = any> {
    isRef?: boolean;
 }
 
-export function getAccessor<T = any>(accessor: Prop<T[]>): Accessor;
+export function getAccessor<T = any>(accessor: Prop<T>): Accessor;
 export function getAccessor(accessor: Accessor): Accessor;
 
 export function getAccessor(accessor: any): Accessor | undefined {

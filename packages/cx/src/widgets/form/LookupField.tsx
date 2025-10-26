@@ -461,7 +461,7 @@ class LookupComponent extends VDOM.Component<LookupComponentProps, LookupCompone
                scrollSelectionIntoView
                cached={widget.infinite}
                {...widget.listOptions}
-               records-bind="$options"
+               records={bind("$options")}
                recordName="$option"
                onItemClick={(e: React.MouseEvent, inst: Instance) => this.onItemClick(e, inst)}
                pipeKeyDown={(kd: React.KeyboardEvent) => {

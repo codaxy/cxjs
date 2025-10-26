@@ -1,3 +1,5 @@
+/** @jsxImportSource react */
+
 import { Widget, VDOM } from "../ui/Widget";
 import { Container, StyledContainerConfig } from "../ui/Container";
 import {

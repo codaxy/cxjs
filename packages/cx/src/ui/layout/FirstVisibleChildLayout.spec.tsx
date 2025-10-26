@@ -2,6 +2,7 @@ import {Cx} from '../Cx';
 import {VDOM} from '../Widget';
 import {HtmlElement} from '../../widgets/HtmlElement';
 import {Store} from '../../data/Store';
+import {expr} from '../expr';
 
 import renderer from 'react-test-renderer';
 import assert from 'assert';
@@ -154,11 +155,11 @@ describe('FirstVisibleChildLayout', () => {
       let destroyList = [];
       let widget = <cx>
          <div layout={FirstVisibleChildLayout}>
-            <div visible-expr="{index} == 0" onDestroy={() => destroyList.push(0)} />
-            <div visible-expr="{index} == 1" onDestroy={() => destroyList.push(1)} />
-            <div visible-expr="{index} == 2" onDestroy={() => destroyList.push(2)} />
-            <div visible-expr="{index} == 3" onDestroy={() => destroyList.push(3)} />
-            <div visible-expr="{index} == 4" onDestroy={() => destroyList.push(4)} />
+            <div visible={expr("{index} == 0")} onDestroy={() => destroyList.push(0)} />
+            <div visible={expr("{index} == 1")} onDestroy={() => destroyList.push(1)} />
+            <div visible={expr("{index} == 2")} onDestroy={() => destroyList.push(2)} />
+            <div visible={expr("{index} == 3")} onDestroy={() => destroyList.push(3)} />
+            <div visible={expr("{index} == 4")} onDestroy={() => destroyList.push(4)} />
          </div>
       </cx>;
 

@@ -1,16 +1,9 @@
-//@ts-nocheck
 import { Cx } from "./Cx";
 import { Store } from "../data/Store";
-import { VDOM } from "./VDOM";
 import renderer from "react-test-renderer";
 import assert from "assert";
-import { Controller } from "./Controller";
 import { IsolatedScope } from "./IsolatedScope";
-import { computable } from "../data/computable";
-import { HtmlElement } from "../widgets/HtmlElement";
-import { useState } from "../hooks";
-import { createFunctionalComponent } from "./createFunctionalComponent";
-import { Widget } from "./Widget";
+import { bind } from "./bind";
 
 describe("IsolatedScope", () => {
    it("prevents multiple re-renders", () => {
@@ -22,7 +15,7 @@ describe("IsolatedScope", () => {
                   value: { bind: 'value' }
                }}
             >
-               <span text-bind="value" onExplore={(context, { store }) => {
+               <span text={bind("value")} onExplore={(context, { store }) => {
                   list.push(store.get("value"));
                }} />
             </IsolatedScope>

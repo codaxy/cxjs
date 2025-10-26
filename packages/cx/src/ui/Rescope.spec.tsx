@@ -1,14 +1,10 @@
-//@ts-nocheck
 import { Cx } from "./Cx";
-import { VDOM } from "./Widget";
-import { HtmlElement } from "../widgets/HtmlElement";
 import { Store } from "../data/Store";
 import { Rescope } from "./Rescope";
-import { PureContainer } from "./PureContainer";
+import { bind } from "./bind";
 
 import renderer from "react-test-renderer";
 import assert from "assert";
-import { Controller } from "./Controller";
 
 describe("Rescope", () => {
    it("allows simple access to nested data", () => {
@@ -25,7 +21,7 @@ describe("Rescope", () => {
       let widget = (
          <cx>
             <Rescope bind="$page.data">
-               <div text-bind="name" />
+               <div text={bind("name")} />
             </Rescope>
          </cx>
       );
@@ -57,7 +53,7 @@ describe("Rescope", () => {
       let widget = (
          <cx>
             <Rescope bind="$page.data">
-               <div text-bind="$root.layout.title" />
+               <div text={bind("$root.layout.title")} />
             </Rescope>
          </cx>
       );
@@ -84,7 +80,7 @@ describe("Rescope", () => {
       let widget = (
          <cx>
             <Rescope bind="$page" data={{ $title: { bind: "layout.title" } }}>
-               <div text-bind="$title" />
+               <div text={bind("$title")} />
             </Rescope>
          </cx>
       );
@@ -117,7 +113,7 @@ describe("Rescope", () => {
                   }
                }} />
             </Rescope>
-            <div text-bind="item.value" />
+            <div text={bind("item.value")} />
          </cx>
       );
 
@@ -148,8 +144,8 @@ describe("Rescope", () => {
 
       const component = renderer.create(
          <Cx store={store} subscribe immediate>
-            <Rescope bind="$page.data" visible-bind="visible">
-               <div text-bind="name" />
+            <Rescope bind="$page.data" visible={bind("visible")}>
+               <div text={bind("name")} />
             </Rescope>
          </Cx>
       );
@@ -185,7 +181,7 @@ describe("Rescope", () => {
       const component = renderer.create(
          <Cx store={store} subscribe immediate>
             <Rescope bind="$page.data" controller={TestController}>
-               <div text-bind="name" />
+               <div text={bind("name")} />
             </Rescope>
          </Cx>
       );

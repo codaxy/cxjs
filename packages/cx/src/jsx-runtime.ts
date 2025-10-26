@@ -68,15 +68,12 @@ type CxEventHandler<T> = T extends (event: infer E) => any
    : string | T;
 
 type CxIntrinsicElement<T> = {
-   [K in keyof T]: K extends 'children'
+   [K in keyof T]: K extends "children"
       ? any
       : IsEventHandler<K, T[K]> extends true
-         ? CxEventHandler<T[K]>
-         : Prop<T[K]>;
-} & HtmlElementConfig & {
-   // Allow any additional properties for dynamic HTML attributes and CxJS features
-   [key: string]: any;
-};
+        ? CxEventHandler<T[K]>
+        : Prop<T[K]>;
+} & HtmlElementConfig;
 
 type CxIntrinsicElements = {
    [K in keyof ReactIntrinsicElements]: CxIntrinsicElement<ReactIntrinsicElements[K]>;

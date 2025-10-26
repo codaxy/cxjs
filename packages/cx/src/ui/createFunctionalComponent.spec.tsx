@@ -1,11 +1,9 @@
-//@ts-nocheck
-import { Cx } from "./Cx";
-import { VDOM } from "./Widget";
-import { HtmlElement } from "../widgets/HtmlElement";
 import { Store } from "../data/Store";
 import { createFunctionalComponent } from "./createFunctionalComponent";
+import { bind } from "./bind";
+import { expr } from "./expr";
+import { createTestRenderer } from "../util/test/createTestRenderer";
 
-import renderer from "react-test-renderer";
 import assert from "assert";
 import { Rescope } from "./Rescope";
 import { LabelsLeftLayout } from "./layout/LabelsLeftLayout";
@@ -37,7 +35,7 @@ describe("createFunctionalComponent", () => {
 
       let store = new Store();
 
-      const component = renderer.create(<Cx widget={widget} store={store} subscribe immediate />);
+      const component = createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -57,7 +55,7 @@ describe("createFunctionalComponent", () => {
          return (
             <cx>
                <Rescope bind="x">
-                  <div text-bind="y" />
+                  <div text={bind("y")} />
                </Rescope>
             </cx>
          );
@@ -65,7 +63,7 @@ describe("createFunctionalComponent", () => {
 
       const widget = (
          <cx>
-            <RootRescope visible-expr="!!{x}" />
+            <RootRescope visible={expr("!!{x}")} />
          </cx>
       );
 
@@ -77,7 +75,7 @@ describe("createFunctionalComponent", () => {
          },
       });
 
-      const component = renderer.create(<Cx widget={widget} store={store} subscribe immediate />);
+      const component = createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -106,7 +104,7 @@ describe("createFunctionalComponent", () => {
 
       let store = new Store();
 
-      const component = renderer.create(<Cx widget={widget} store={store} subscribe immediate />);
+      const component = createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, [
@@ -143,7 +141,7 @@ describe("createFunctionalComponent", () => {
 
       let store = new Store();
 
-      const component = renderer.create(<Cx widget={widget} store={store} subscribe immediate />);
+      const component = createTestRenderer(store, widget);
 
       let tree = component.toJSON();
 
@@ -247,7 +245,7 @@ describe("createFunctionalComponent", () => {
 
       let store = new Store();
 
-      const component = renderer.create(<Cx widget={widget} store={store} subscribe immediate />);
+      const component = createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -276,7 +274,7 @@ describe("createFunctionalComponent", () => {
 
       let store = new Store();
 
-      const component = renderer.create(<Cx widget={widget} store={store} subscribe immediate />);
+      const component = createTestRenderer(store, widget);
 
       let tree = component.toJSON();
 
@@ -318,7 +316,7 @@ describe("createFunctionalComponent", () => {
 
       const widget = (
          <cx>
-            <Repeater records-bind="array">
+            <Repeater records={bind("array")}>
                <X />
             </Repeater>
          </cx>
@@ -326,7 +324,7 @@ describe("createFunctionalComponent", () => {
 
       let store = new Store({ data: { array: [{ text: "0" }, { text: "1" }, { text: "2" }] } });
 
-      const component = renderer.create(<Cx widget={widget} store={store} subscribe immediate />);
+      const component = createTestRenderer(store, widget);
 
       let tree = component.toJSON();
 
@@ -388,7 +386,7 @@ describe("createFunctionalComponent", () => {
 
       let store = new Store();
 
-      const component = renderer.create(<Cx widget={widget} store={store} subscribe immediate />);
+      const component = createTestRenderer(store, widget);
 
       let tree = component.toJSON();
 

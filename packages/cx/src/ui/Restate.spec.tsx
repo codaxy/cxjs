@@ -19,8 +19,8 @@ describe("Restate", () => {
                      value: "good",
                   }}
                >
-                  <span text-bind="value" />
-                  <span text-bind="value2" />
+                  <span text={bind("value")} />
+                  <span text={bind("value2")} />
                </Restate>
             </div>
          </cx>
@@ -113,7 +113,7 @@ describe("Restate", () => {
                      name: { bind: "person.name" },
                   }}
                >
-                  <div controller={TestController} text-bind="nickname" />
+                  <div controller={TestController} text={bind("nickname")} />
                </Restate>
             </div>
          </cx>
@@ -301,7 +301,7 @@ describe("Restate", () => {
                         name: bind("name", "Cx"),
                      }}
                   >
-                     <div text-bind="name" />
+                     <div text={bind("name")} />
                   </Restate>
                </div>
             </cx>
@@ -338,7 +338,7 @@ describe("Restate", () => {
             <div>
                <Restate>
                   <Restate>
-                     <div controller={TestController} text-bind="nickname" />
+                     <div controller={TestController} text={bind("nickname")} />
                   </Restate>
                </Restate>
             </div>

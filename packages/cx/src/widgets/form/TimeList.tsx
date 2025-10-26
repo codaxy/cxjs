@@ -8,6 +8,7 @@ import { Format } from "../../util/Format";
 import { Culture } from "../../ui/Culture";
 import { isString } from "../../util/isString";
 import { isFunction } from "../../util/isFunction";
+import { bind } from "../../ui/bind";
 import type { Instance } from "../../ui/Instance";
 
 interface TimeListProps {
@@ -81,7 +82,7 @@ export const TimeList = createFunctionalComponent(({ value, step, format, encodi
                                  else if (isFunction(onSelect)) onSelect(e, instance, date);
                               }}
                            >
-                              <div text-bind="$time.text" />
+                              <div text={bind("$time.text")} />
                            </List>
                         </DataProxy>
                      </DataProxy>

@@ -1,18 +1,17 @@
-import { Component } from "../util/Component";
-import { CSSHelper } from "./CSSHelper";
-import "./CSS";
 import { StructuredSelector } from "../data/StructuredSelector";
-import { parseStyle } from "../util/parseStyle";
-import { isString } from "../util/isString";
-import { isDefined } from "../util/isDefined";
-import { isArray } from "../util/isArray";
+import { Component } from "../util/Component";
 import { Console } from "../util/Console";
+import { isArray } from "../util/isArray";
+import { isDefined } from "../util/isDefined";
+import { isString } from "../util/isString";
+import { parseStyle } from "../util/parseStyle";
+import "./CSS";
+import { CSSHelper } from "./CSSHelper";
 import { RenderingContext } from "./RenderingContext";
 
-import { VDOM as vdom } from "./VDOM";
-import { TooltipConfig } from "src/widgets/overlay/tooltip-ops";
 import { BooleanProp, ClassProp, StyleProp } from "src/core";
 import { Instance } from "./Instance";
+import { VDOM as vdom } from "./VDOM";
 export const VDOM = vdom;
 
 let widgetId = 100;
@@ -31,6 +30,12 @@ export interface WidgetConfig {
    className?: ClassProp;
    vdomKey?: string;
    controller?: any;
+
+   onInit?: (context: RenderingContext, instance: Instance) => void;
+   onExplore?: (context: RenderingContext, instance: Instance) => void;
+   onPrepare?: (context: RenderingContext, instance: Instance) => void;
+   onCleanup?: (context: RenderingContext, instance: Instance) => void;
+   onDestroy?: (instance: Instance) => void;
 }
 
 export abstract class Widget<
@@ -61,17 +66,17 @@ export abstract class Widget<
    public memoize?: boolean;
 
    // Lifecycle hooks - callbacks that can be set in configuration
-   public onInit?: (context: RenderingContext, instance: any) => void;
-   public onExplore?: (context: RenderingContext, instance: any) => void;
-   public onPrepare?: (context: RenderingContext, instance: any) => void;
-   public onCleanup?: (context: RenderingContext, instance: any) => void;
-   public onDestroy?: (instance: any) => void;
+   public onInit?: (context: RenderingContext, instance: InstanceType) => void;
+   public onExplore?: (context: RenderingContext, instance: InstanceType) => void;
+   public onPrepare?: (context: RenderingContext, instance: InstanceType) => void;
+   public onCleanup?: (context: RenderingContext, instance: InstanceType) => void;
+   public onDestroy?: (instance: InstanceType) => void;
 
    // Lifecycle methods that can be overridden by subclasses
-   public exploreCleanup?(context: RenderingContext, instance: any): void;
-   public prepareCleanup?(context: RenderingContext, instance: any): void;
-   public cleanup?(context: RenderingContext, instance: any): void;
-   public prepare?(context: RenderingContext, instance: any): void;
+   public exploreCleanup?(context: RenderingContext, instance: InstanceType): void;
+   public prepareCleanup?(context: RenderingContext, instance: InstanceType): void;
+   public cleanup?(context: RenderingContext, instance: InstanceType): void;
+   public prepare?(context: RenderingContext, instance: InstanceType): void;
 
    // Controller
    public controller?: any;

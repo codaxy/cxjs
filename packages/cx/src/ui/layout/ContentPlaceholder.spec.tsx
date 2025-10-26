@@ -1,19 +1,15 @@
-import { Cx } from "../Cx";
-import { VDOM } from "../Widget";
-import { HtmlElement } from "../../widgets/HtmlElement";
 import { Store } from "../../data/Store";
-import { Controller } from "../Controller";
 import { ContentPlaceholder, ContentPlaceholderScope } from "./ContentPlaceholder";
-
-import renderer from "react-test-renderer";
 import assert from "assert";
 import { PureContainer } from "../PureContainer";
+import { createTestRenderer } from "../../util/test/createTestRenderer";
+import { bind } from "../bind";
 
 describe("ContentPlaceholder", () => {
    it("allows putting content inside", () => {
       let store = new Store();
-      const component = renderer.create(
-         <Cx store={store} subscribe immediate>
+      const component = createTestRenderer(store, (
+         <cx>
             <div>
                <header>
                   <ContentPlaceholder name="header" />
@@ -22,8 +18,8 @@ describe("ContentPlaceholder", () => {
                   <h2 putInto="header">Header</h2>
                </main>
             </div>
-         </Cx>,
-      );
+         </cx>
+      ));
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -56,16 +52,16 @@ describe("ContentPlaceholder", () => {
             headerText: "Header",
          },
       });
-      const component = renderer.create(
-         <Cx store={store} subscribe immediate>
+      const component = createTestRenderer(store, (
+         <cx>
             <div>
                <ContentPlaceholder name="header" />
-               <h2 putInto="header" text:bind="headerText" />
+               <h2 putInto="header" text={bind("headerText")} />
             </div>
-         </Cx>,
-      );
+         </cx>
+      ));
 
-      let getTree = (headerText) => ({
+      let getTree = (headerText: string) => ({
          type: "div",
          props: {},
          children: [
@@ -84,8 +80,8 @@ describe("ContentPlaceholder", () => {
 
    it("allows putting multiple entries inside", () => {
       let store = new Store();
-      const component = renderer.create(
-         <Cx store={store} subscribe immediate>
+      const component = createTestRenderer(store, (
+         <cx>
             <div>
                <header>
                   <ContentPlaceholder name="headers" allowMultiple />
@@ -95,8 +91,8 @@ describe("ContentPlaceholder", () => {
                   <h2 putInto="headers">Header2</h2>
                </main>
             </div>
-         </Cx>,
-      );
+         </cx>
+      ));
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -130,8 +126,8 @@ describe("ContentPlaceholder", () => {
 
    it("allows putting multiple entries inside when content is defined before and after the placeholder", () => {
       let store = new Store();
-      const component = renderer.create(
-         <Cx store={store} subscribe immediate>
+      const component = createTestRenderer(store, (
+         <cx>
             <div>
                <PureContainer>
                   <h2 putInto="headers">Header1</h2>
@@ -145,8 +141,8 @@ describe("ContentPlaceholder", () => {
                   <h2 putInto="headers">Header4</h2>
                </PureContainer>
             </div>
-         </Cx>,
-      );
+         </cx>
+      ));
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -185,8 +181,8 @@ describe("ContentPlaceholder", () => {
 
    it("allows putting multiple entries into separate placeholders using content placeholder scopes", () => {
       let store = new Store();
-      const component = renderer.create(
-         <Cx store={store} subscribe immediate>
+      const component = createTestRenderer(store, (
+         <cx>
             <div>
                <ContentPlaceholderScope name="headers">
                   <h2 putInto="headers">Header1</h2>
@@ -204,8 +200,8 @@ describe("ContentPlaceholder", () => {
                   <h2 putInto="headers">Header4</h2>
                </ContentPlaceholderScope>
             </div>
-         </Cx>,
-      );
+         </cx>
+      ));
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -261,11 +257,11 @@ describe("ContentPlaceholder", () => {
          </cx>
       );
 
-      const component = renderer.create(
-         <Cx store={store} subscribe immediate>
+      const component = createTestRenderer(store, (
+         <cx>
             <main outerLayout={layout} />
-         </Cx>,
-      );
+         </cx>
+      ));
 
       assert.deepEqual(component.toJSON(), {
          type: "div",
@@ -313,21 +309,21 @@ describe("ContentPlaceholder", () => {
          </cx>
       );
 
-      const component = renderer.create(
-         <Cx store={store} subscribe immediate>
+      const component = createTestRenderer(store, (
+         <cx>
             <main outerLayout={layout}>
                <div putInto="header">
-                  <span text:bind="header" />
+                  <span text={bind("header")} />
                </div>
                <div putInto="footer">
-                  <span text:bind="footer" />
+                  <span text={bind("footer")} />
                </div>
-               <span text:bind="body" />
+               <span text={bind("body")} />
             </main>
-         </Cx>,
-      );
+         </cx>
+      ));
 
-      let getTree = (h, b, f) => ({
+      let getTree = (h: string, b: string, f: string) => ({
          type: "div",
          props: {},
          children: [
@@ -377,11 +373,11 @@ describe("ContentPlaceholder", () => {
          </cx>
       );
 
-      const component = renderer.create(
-         <Cx store={store} subscribe immediate>
+      const component = createTestRenderer(store, (
+         <cx>
             <section outerLayout={innerLayout} />
-         </Cx>,
-      );
+         </cx>
+      ));
 
       let tree = component.toJSON();
       //console.log(tree);
@@ -408,8 +404,8 @@ describe("ContentPlaceholder", () => {
    it("works in strange order", () => {
       let store = new Store();
 
-      const component = renderer.create(
-         <Cx store={store} subscribe immediate>
+      const component = createTestRenderer(store, (
+         <cx>
             <div>
                <ContentPlaceholder name="footer" />
                <PureContainer putInto="footer-content">works</PureContainer>
@@ -418,8 +414,8 @@ describe("ContentPlaceholder", () => {
                   <ContentPlaceholder name="footer-content">doesn't work</ContentPlaceholder>
                </PureContainer>
             </div>
-         </Cx>,
-      );
+         </cx>
+      ));
 
       let tree = component.toJSON();
       //console.log(tree);
@@ -452,11 +448,11 @@ describe("ContentPlaceholder", () => {
          </cx>
       );
 
-      const component = renderer.create(
-         <Cx store={store} subscribe immediate>
+      const component = createTestRenderer(store, (
+         <cx>
             <section outerLayout={innerLayout} />
-         </Cx>,
-      );
+         </cx>
+      ));
 
       assert.deepEqual(component.toJSON(), {
          type: "div",
@@ -484,13 +480,13 @@ describe("ContentPlaceholder", () => {
          </cx>
       );
 
-      const component = renderer.create(
-         <Cx store={store} subscribe immediate>
+      const component = createTestRenderer(store, (
+         <cx>
             <PureContainer outerLayout={outerLayout1}>
                <PureContainer outerLayout={outerLayout2}>Content</PureContainer>
             </PureContainer>
-         </Cx>,
-      );
+         </cx>
+      ));
 
       assert.deepEqual(component.toJSON(), {
          type: "div",
@@ -532,21 +528,21 @@ describe("ContentPlaceholder", () => {
          </cx>
       );
 
-      const component = renderer.create(
-         <Cx store={store} subscribe immediate>
+      const component = createTestRenderer(store, (
+         <cx>
             <main outerLayout={innerLayout}>
                <div putInto="header">
-                  <span text:bind="header" />
+                  <span text={bind("header")} />
                </div>
                <div putInto="footer">
-                  <span text:bind="footer" />
+                  <span text={bind("footer")} />
                </div>
-               <span text:bind="body" />
+               <span text={bind("body")} />
             </main>
-         </Cx>,
-      );
+         </cx>
+      ));
 
-      let getTree = (h, b, f) => ({
+      let getTree = (h: string, b: string, f: string) => ({
          type: "div",
          props: {},
          children: [

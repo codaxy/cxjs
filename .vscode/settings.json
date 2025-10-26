@@ -3,5 +3,17 @@
    "explorer.autoRevealExclude": {
       "**/node_modules": false
    },
-   "javascript.preferences.importModuleSpecifier": "relative"
+   "javascript.preferences.importModuleSpecifier": "relative",
+   "files.watcherExclude": {
+      "**/node_modules": true,
+      "**/dist": true,
+      "**/build": true,
+      "**/.git/objects/**": true,
+      "**/.git/subtree-cache/**": true
+   },
+   "search.exclude": {
+      "**/node_modules": true,
+      "**/dist": true,
+      "**/build": true
+   }
 }

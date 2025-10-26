@@ -1,4 +1,3 @@
-//@ts-nocheck
 import assert from "assert";
 import renderer from "react-test-renderer";
 import { Store } from "../data/Store";

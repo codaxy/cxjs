@@ -1,16 +1,16 @@
-//@ts-nocheck
-import { Cx } from "./Cx";
 import { Store } from "../data/Store";
-import { VDOM } from "./VDOM";
+import { createTestRenderer } from "../util/test/createTestRenderer";
 import renderer from "react-test-renderer";
 import assert from "assert";
 import { Controller } from "./Controller";
 import { DataProxy } from "./DataProxy";
 import { computable } from "../data/computable";
-import { HtmlElement } from "../widgets/HtmlElement";
 import { useState } from "../hooks";
 import { createFunctionalComponent } from "./createFunctionalComponent";
 import { Widget } from "./Widget";
+import { bind } from "./bind";
+import { tpl } from "./tpl";
+import { Cx } from "./Cx";
 
 describe("DataProxy", () => {
    it("can calculate values", () => {
@@ -21,7 +21,7 @@ describe("DataProxy", () => {
                   $value: { bind: "value" },
                }}
             >
-               <span text-bind="$value" />
+               <span text={bind("$value")} />
             </DataProxy>
          </cx>
       );
@@ -57,7 +57,7 @@ describe("DataProxy", () => {
                }}
                controller={TestController}
             >
-               <span text-bind="$value" />
+               <span text={bind("$value")} />
             </DataProxy>
          </cx>
       );
@@ -101,7 +101,7 @@ describe("DataProxy", () => {
                }}
                controller={TestController}
             >
-               <span text-bind="$value" />
+               <span text={bind("$value")} />
             </DataProxy>
          </cx>
       );
@@ -128,8 +128,8 @@ describe("DataProxy", () => {
    it("allows shorter syntax", () => {
       let widget = (
          <cx>
-            <DataProxy alias="$value" value-bind="value">
-               <span text-bind="$value" />
+            <DataProxy alias="$value" value={bind("value")}>
+               <span text={bind("$value")} />
             </DataProxy>
          </cx>
       );
@@ -166,7 +166,7 @@ describe("DataProxy", () => {
                }}
                controller={TestController}
             >
-               <span text-bind="$value" />
+               <span text={bind("$value")} />
             </DataProxy>
          </cx>
       );
@@ -205,7 +205,7 @@ describe("DataProxy", () => {
                }}
                controller={TestController}
             >
-               <span text-tpl="{$person.firstName} {$person.lastName}" />
+               <span text={tpl("{$person.firstName} {$person.lastName}")} />
             </DataProxy>
          </cx>
       );
@@ -240,7 +240,7 @@ describe("DataProxy", () => {
                   }}
                >
                   <span
-                     text-bind="$value"
+                     text={bind("$value")}
                      controller={{
                         onInit() {
                            valueRef.set("b");
@@ -301,14 +301,14 @@ describe("DataProxy", () => {
                   $value: { bind: "value" },
                }}
             >
-               <span text-bind="$value" />
+               <span text={bind("$value")} />
             </DataProxy>
             <DataProxy
                data={{
                   $value: { bind: "dummy" },
                }}
             >
-               <span text-bind="$value" />
+               <span text={bind("$value")} />
             </DataProxy>
          </cx>
       );

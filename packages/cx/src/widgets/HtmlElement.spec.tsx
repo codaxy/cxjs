@@ -1,15 +1,13 @@
-/** @jsxImportSource react */
-import { Cx } from "../ui/Cx";
 import { Store } from "../data/Store";
-
-import renderer from "react-test-renderer";
 import assert from "assert";
+import { createTestRenderer } from "../util/test/createTestRenderer";
+import { bind } from "../ui/bind";
 
 describe("HtmlElement", () => {
    it("renders textual content provided through the text property", () => {
       let widget = (
          <cx>
-            <div text-bind="text" />
+            <div text={bind("text")} />
          </cx>
       );
 
@@ -19,9 +17,10 @@ describe("HtmlElement", () => {
          },
       });
 
-      const component = renderer.create(<Cx widget={widget} store={store} />);
+      const component = createTestRenderer(store, widget);
 
       let tree = component.toJSON();
+      assert(tree && !Array.isArray(tree), "Expected single element");
       assert.equal(tree.type, "div");
       assert.deepEqual(tree.children, ["Test"]);
    });
@@ -33,15 +32,16 @@ describe("HtmlElement", () => {
          },
       });
 
-      const component = renderer.create(
-         <Cx store={store}>
+      const component = createTestRenderer(store, (
+         <cx>
             <a href="#" {...{ title: { bind: "title" } }}>
                Link
             </a>
-         </Cx>,
-      );
+         </cx>
+      ));
 
       let tree = component.toJSON();
+      assert(tree && !Array.isArray(tree), "Expected single element");
       assert.deepEqual(tree, {
          type: "a",
          children: ["Link"],

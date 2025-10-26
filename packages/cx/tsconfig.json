@@ -3,8 +3,8 @@
       "target": "es2024",
       "jsx": "react-jsx",
       "jsxImportSource": "cx",
-      "allowJs": true,
-      "moduleResolution": "node",
+      "allowJs": false,
+      "moduleResolution": "bundler",
       "module": "esnext",
       "lib": ["dom", "dom.iterable", "ESNext"],
       "allowSyntheticDefaultImports": true,
@@ -13,7 +13,7 @@
       "skipLibCheck": true,
       "baseUrl": ".",
       "paths": {
-         "./jsx-runtime": ["./jsx-runtime"]
+         "cx/jsx-runtime": ["./jsx-runtime"]
       },
       "outDir": "./build",
       "rootDir": "./src",
