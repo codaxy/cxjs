@@ -1,16 +1,23 @@
-import { PureContainer } from "../ui/PureContainer";
+import { PureContainer, PureContainerConfig } from "../ui/PureContainer";
+import { RenderingContext } from "../ui/RenderingContext";
+import { Instance } from "../ui/Instance";
+import { NonOverlappingRectInstance } from "./NonOverlappingRect";
 
-export class NonOverlappingRectGroup extends PureContainer {
-   prepare(context, instance) {
+interface NonOverlappingRectGroupInstance extends Instance {
+   nonOverlappingObjects: NonOverlappingRectInstance[];
+}
+
+export class NonOverlappingRectGroup extends PureContainer<PureContainerConfig, NonOverlappingRectGroupInstance> {
+   prepare(context: RenderingContext, instance: NonOverlappingRectGroupInstance) {
       instance.nonOverlappingObjects = [];
-      context.push("addNonOverlappingBoundingObject", objectInstance => {
+      context.push("addNonOverlappingBoundingObject", (objectInstance: NonOverlappingRectInstance) => {
          instance.nonOverlappingObjects.push(objectInstance);
       });
    }
 
-   prepareCleanup(context, instance) {
+   prepareCleanup(context: RenderingContext, instance: NonOverlappingRectGroupInstance) {
       context.pop("addNonOverlappingBoundingObject");
-      instance.nonOverlappingObjects.sort((a, b) => (a.data.bounds.r - b.data.bounds.r));
+      instance.nonOverlappingObjects.sort((a, b) => a.data.bounds.r - b.data.bounds.r);
       let visibleObjects = [];
       for (let item of instance.nonOverlappingObjects) {
          let overlapping = false;
@@ -30,8 +37,7 @@ export class NonOverlappingRectGroup extends PureContainer {
             item.overlapping = overlapping;
             item.markShouldUpdate(context);
          }
-         if (!overlapping)
-            visibleObjects.push(item);
+         if (!overlapping) visibleObjects.push(item);
       }
    }
 }

@@ -1,12 +1,12 @@
-import {BoundedObject, BoundedObjectProps} from './BoundedObject';
+import {BoundedObject, BoundedObjectConfig} from './BoundedObject';
 import {Text} from './Text';
 import {innerTextTrim} from '../util/innerTextTrim';
 
 // no new props, but exporting for easier inheritance
-export interface TextualBoundedObjectProps extends BoundedObjectProps {}
+export interface TextualBoundedObjectConfig extends BoundedObjectConfig {}
 
 export class TextualBoundedObject extends BoundedObject {
-   add(widget) {
+   add(widget: any): any {
       if (typeof widget != 'string')
          return super.add(...arguments);
 

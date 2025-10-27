@@ -1,9 +1,9 @@
 /** @jsxImportSource react */
-import { BoundedObject, BoundedObjectProps } from './BoundedObject';
-import { RenderingContext } from '../ui/RenderingContext';
-import { Instance } from '../ui/Instance';
+import { BoundedObject, BoundedObjectConfig } from "./BoundedObject";
+import { RenderingContext } from "../ui/RenderingContext";
+import { Instance } from "../ui/Instance";
 
-export interface ClipRectProps extends BoundedObjectProps {}
+export interface ClipRectConfig extends BoundedObjectConfig {}
 
 export class ClipRect extends BoundedObject {
    prepareBounds(context: RenderingContext, instance: Instance) {
@@ -22,6 +22,4 @@ export class ClipRect extends BoundedObject {
    }
 }
 
-ClipRect.prototype.anchors = '0 1 1 0';
-
-
+ClipRect.prototype.anchors = "0 1 1 0";

@@ -26,6 +26,7 @@
    },
    "homepage": "https://cxjs.io",
    "dependencies": {
+      "@types/route-parser": "^0.1.7",
       "intl-io": "^0.4.4",
       "route-parser": "^0.0.5"
    },
@@ -41,6 +42,7 @@
    "devDependencies": {
       "@types/jest": "^30.0.0",
       "@types/mocha": "^10.0.10",
+      "@types/node": "^22.10.2",
       "@types/react-dom": "^18.3.1",
       "@types/react-test-renderer": "^18.3.1",
       "react-test-renderer": "^18.3.1",

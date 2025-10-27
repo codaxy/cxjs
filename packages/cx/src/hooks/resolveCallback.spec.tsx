@@ -1,14 +1,14 @@
 import assert from "assert";
-import renderer from "react-test-renderer";
 import { Store } from "../data/Store";
 import { createFunctionalComponent } from "../ui/createFunctionalComponent";
-import { Cx } from "../ui/Cx";
+import { createTestRenderer } from "../util/test/createTestRenderer";
 import { resolveCallback } from "./resolveCallback";
 
 describe("resolveCallback", () => {
    it("works with functions", () => {
-      const FComp = createFunctionalComponent(({ onTest }) => {
+      const FComp = createFunctionalComponent(({ onTest }: { onTest: (value: string) => void }) => {
          let callback = resolveCallback(onTest);
+         assert(typeof callback === 'function');
          callback("works");
          return (
             <cx>
@@ -19,15 +19,16 @@ describe("resolveCallback", () => {
 
       let store = new Store();
       let value;
-      const component = renderer.create(<Cx widget={{ type: FComp, onTest: v => { value = v } }} store={store} subscribe immediate />);
+      const component = createTestRenderer(store, <cx><FComp onTest={(v: string) => { value = v }} /></cx>);
 
       component.toJSON();
       assert.equal(value, "works");
    });
 
    it("works with controller methods", () => {
-      const FComp = createFunctionalComponent(({ onTest }) => {
+      const FComp = createFunctionalComponent(({ onTest }: { onTest: string | ((value: string) => void) }) => {
          let callback = resolveCallback(onTest);
+         assert(typeof callback === 'function');
          return (
             <cx>
                <div onInit={() => { callback("works"); }} />
@@ -37,13 +38,9 @@ describe("resolveCallback", () => {
 
       let store = new Store();
       let value;
-      const component = renderer.create(<Cx widget={{
-         type: FComp,
-         onTest: "onTest",
-         controller: {
-            onTest(v) { value = v }
-         }
-      }} store={store} subscribe immediate />);
+      const component = createTestRenderer(store, <cx><FComp onTest="onTest" controller={{
+         onTest(v: string) { value = v }
+      }} /></cx>);
 
       component.toJSON();
       assert.equal(value, "works");

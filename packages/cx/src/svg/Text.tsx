@@ -1,38 +1,38 @@
 /** @jsxImportSource react */
 import { Widget, VDOM } from "../ui/Widget";
-import { BoundedObject, BoundedObjectProps } from "./BoundedObject";
+import { BoundedObject, BoundedObjectConfig } from "./BoundedObject";
 import { RenderingContext } from "../ui/RenderingContext";
 import { Instance } from "../ui/Instance";
-import * as Cx from "../core";
+import { Prop, StringProp } from "../ui/Prop";
 
-export interface TextProps extends BoundedObjectProps {
+export interface TextConfig extends BoundedObjectConfig {
    /** Text to be displayed. */
-   value?: Cx.StringProp;
+   value?: StringProp;
 
    bind?: string;
    tpl?: string;
    expr?: string;
 
    /** Offset along the x-axis. */
-   dx?: Cx.Prop<string | number>;
+   dx?: Prop<string | number>;
 
    /**
     * Offset along the y-axis. This property is commonly used for vertical text alignment.
     * Set dy="0.8em" to align the text with the top and dy="0.4em" to center it vertically.
     */
-   dy?: Cx.Prop<string | number>;
+   dy?: Prop<string | number>;
 
    /** Used for horizontal text alignment. Accepted values are `start`, `middle` and `end`. */
-   textAnchor?: Cx.StringProp;
+   textAnchor?: StringProp;
 
    /** Used for horizontal text alignment. Accepted values are `start`, `middle` and `end`. */
-   ta?: Cx.StringProp;
+   ta?: StringProp;
 
    /** Sets text-body color. */
-   fill?: Cx.StringProp;
+   fill?: StringProp;
 
    /** Sets text-outline color. */
-   stroke?: Cx.StringProp;
+   stroke?: StringProp;
 
    /** Base CSS class to be applied to the element. Defaults to `text`. */
    baseClass?: string;
@@ -42,16 +42,16 @@ export interface TextProps extends BoundedObjectProps {
 }
 
 export class Text extends BoundedObject {
-   declare value?: Cx.StringProp;
+   declare value?: StringProp;
    declare bind?: string;
    declare tpl?: string;
    declare expr?: string;
-   declare dx?: Cx.Prop<string | number>;
-   declare dy?: Cx.Prop<string | number>;
-   declare textAnchor?: Cx.StringProp;
-   declare ta?: Cx.StringProp;
-   declare fill?: Cx.StringProp;
-   declare stroke?: Cx.StringProp;
+   declare dx?: Prop<string | number>;
+   declare dy?: Prop<string | number>;
+   declare textAnchor?: StringProp;
+   declare ta?: StringProp;
+   declare fill?: StringProp;
+   declare stroke?: StringProp;
    declare autoTextAnchor?: boolean;
 
    declareData(...args: any[]) {

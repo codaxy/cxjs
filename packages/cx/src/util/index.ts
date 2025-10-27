@@ -52,3 +52,4 @@ export * from "./capitalize";
 export * from "./isValidIdentifierName";
 export * from "./isDataRecord";
 export * from "./TraversalStack";
+export * from "./hasKey"

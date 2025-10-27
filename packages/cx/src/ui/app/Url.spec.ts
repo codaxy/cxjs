@@ -1,7 +1,6 @@
 import { Url } from "./Url";
 import Route from "route-parser";
-
-var assert = require("assert");
+import assert from "assert";
 describe("Url", function () {
    describe(".unresolve", function () {
       it("preserves query parameters", function () {
@@ -33,8 +32,8 @@ describe("Route", function () {
    it("matches query param", function () {
       let route = new Route("~/?state=:state");
       let result = route.match("~/?state=1");
-      assert(result);
-      assert.equal(result.state, 1);
+      assert(result !== false);
+      assert.equal(result.state, "1");
    });
 
    it("matches routes with extra query params", function () {

@@ -1,28 +1,28 @@
 /** @jsxImportSource react */
-import * as Cx from "../core";
 import { Instance } from "../ui/Instance";
 import { RenderingContext } from "../ui/RenderingContext";
 import { Widget } from "../ui/Widget";
-import { TextualBoundedObject, TextualBoundedObjectProps } from "./TextualBoundedObject";
+import { NumberProp, StringProp } from "../ui/Prop";
+import { TextualBoundedObject, TextualBoundedObjectConfig } from "./TextualBoundedObject";
 
-export interface LineProps extends TextualBoundedObjectProps {
+export interface LineConfig extends TextualBoundedObjectConfig {
    /**
     * Index of the color in the default color palette. Setting this property will set
     * both fill and stroke on the object. Use `style` or a CSS class to remove stroke or fill
     * if they are not necessary.
     */
-   colorIndex?: Cx.NumberProp;
+   colorIndex?: NumberProp;
 
    /** A color used to paint the outline of the box. */
-   stroke?: Cx.StringProp;
+   stroke?: StringProp;
 
    /** Base CSS class to be applied to the element. Defaults to `line`. */
    baseClass?: string;
 }
 
 export class Line extends TextualBoundedObject {
-   declare colorIndex?: Cx.NumberProp;
-   declare stroke?: Cx.StringProp;
+   declare colorIndex?: NumberProp;
+   declare stroke?: StringProp;
 
    declareData(...args: any[]) {
       super.declareData(...args, {

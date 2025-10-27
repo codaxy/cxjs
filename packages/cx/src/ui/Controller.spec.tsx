@@ -1,8 +1,9 @@
-import { Cx } from './Cx';
 import { Store } from '../data/Store';
 import { Controller } from './Controller';
-
-import renderer from 'react-test-renderer';
+import { createTestRenderer } from '../util/test/createTestRenderer';
+import { VDOM } from './Widget';
+import { Instance } from './Instance';
+import { bind } from './bind';
 import assert from 'assert';
 
 describe('Controller', () => {
@@ -32,15 +33,11 @@ describe('Controller', () => {
          }
       }
 
-      let widget = <cx>
-         <div controller={TestController}/>
-      </cx>;
-
       let store = new Store();
 
-      const component = renderer.create(
-         <Cx widget={widget} store={store} subscribe immediate/>
-      );
+      const component = createTestRenderer(store, <cx>
+         <div controller={TestController}/>
+      </cx>);
 
       let tree = component.toJSON();
       assert.equal(init, 1);
@@ -59,7 +56,7 @@ describe('Controller', () => {
          }
       }
 
-      class Cmp extends VDOM.Component {
+      class Cmp extends VDOM.Component<{ instance: Instance }> {
          render() {
             return <div/>
          }
@@ -71,11 +68,9 @@ describe('Controller', () => {
 
       let store = new Store();
 
-      const component = renderer.create(
-         <Cx store={store} subscribe immediate>
-            <Cmp controller={TestController} onTest="callback"/>
-         </Cx>
-      );
+      const component = createTestRenderer(store, <cx>
+         <Cmp controller={TestController} onTest="callback"/>
+      </cx>);
 
       let tree = component.toJSON();
       assert.equal(callback, 1);
@@ -98,7 +93,7 @@ describe('Controller', () => {
          }
       }
 
-      class Cmp extends VDOM.Component {
+      class Cmp extends VDOM.Component<{ instance: Instance }> {
          render() {
             return <div/>
          }
@@ -110,13 +105,11 @@ describe('Controller', () => {
 
       let store = new Store();
 
-      const component = renderer.create(
-         <Cx store={store} subscribe immediate>
-            <div controller={TestController1}>
-               <Cmp controller={TestController2} onTest="callback1"/>
-            </div>
-         </Cx>
-      );
+      const component = createTestRenderer(store, <cx>
+         <div controller={TestController1}>
+            <Cmp controller={TestController2} onTest="callback1"/>
+         </div>
+      </cx>);
 
       let tree = component.toJSON();
       assert.equal(callback1, 1);
@@ -141,13 +134,11 @@ describe('Controller', () => {
 
       let store = new Store();
 
-      const component = renderer.create(
-         <Cx store={store} subscribe immediate>
-            <div controller={TestController1}>
-               <div controller={TestController2}/>
-            </div>
-         </Cx>
-      );
+      const component = createTestRenderer(store, <cx>
+         <div controller={TestController1}>
+            <div controller={TestController2}/>
+         </div>
+      </cx>);
 
       let tree = component.toJSON();
       assert.deepEqual(order, ["1", "2"]);
@@ -171,13 +162,11 @@ describe('Controller', () => {
 
       let store = new Store();
 
-      const component = renderer.create(
-         <Cx store={store} subscribe immediate>
-            <div controller={TestController1}>
-               <div visible={false} controller={TestController2}/>
-            </div>
-         </Cx>
-      );
+      const component = createTestRenderer(store, <cx>
+         <div controller={TestController1}>
+            <div visible={false} controller={TestController2}/>
+         </div>
+      </cx>);
 
       let tree = component.toJSON();
       assert.deepEqual(order, ["1"]);
@@ -203,15 +192,11 @@ describe('Controller', () => {
          }
       }
 
-      let widget = <cx>
-         <div controller={TestController}/>
-      </cx>;
-
       let store = new Store();
 
-      const component = renderer.create(
-         <Cx widget={widget} store={store} subscribe immediate/>
-      );
+      const component = createTestRenderer(store, <cx>
+         <div controller={TestController}/>
+      </cx>);
 
       let tree = component.toJSON();
       assert.deepEqual(log, ["t1", "c1", "t2"]);
@@ -229,11 +214,9 @@ describe('Controller', () => {
       let store = new Store();
       store.set('visible', true);
 
-      const component = renderer.create(
-         <Cx store={store} subscribe immediate>
-            <div visible:bind="visible" controller={TestController}/>
-         </Cx>
-      );
+      const component = createTestRenderer(store, <cx>
+         <div visible={bind("visible")} controller={TestController}/>
+      </cx>);
 
       let tree1 = component.toJSON();
       assert.equal(initCount, 1);
@@ -281,11 +264,9 @@ describe('Controller', () => {
       let store = new Store();
       store.set('visible', true);
 
-      const component = renderer.create(
-         <Cx store={store} subscribe immediate>
-            <div visible:bind="visible" controller={testController}/>
-         </Cx>
-      );
+      const component = createTestRenderer(store, <cx>
+         <div visible={bind("visible")} controller={testController}/>
+      </cx>);
 
       let tree1 = component.toJSON();
       assert.equal(initCount, 1);
@@ -302,27 +283,23 @@ describe('Controller', () => {
    it('widgets can easily define controller methods', () => {
       let store = new Store({ data: { x: 0}});
 
-      const component = renderer.create(
-         <Cx store={store} subscribe immediate>
+      const component = createTestRenderer(store, <cx>
+         <div
+            controller={{
+               increment(count) {
+                  this.store.update("x", x => x + count);
+               }
+            }}
+         >
             <div
                controller={{
-                  increment(count) {
-                     this.store.update("x", x => x + count);
+                  onInit() {
+                     this.invokeParentMethod("increment", 1);
                   }
                }}
-            >
-               <div
-                  controller={{
-                     onInit() {
-                        this.invokeParentMethod("increment", 1);
-                     }
-                  }}
-               />
-            </div>
-
-
-         </Cx>
-      );
+            />
+         </div>
+      </cx>);
 
       let tree1 = component.toJSON();
       assert.equal(store.get("x"), 1);
@@ -331,25 +308,23 @@ describe('Controller', () => {
    it('functional controllers get store methods through configuration', () => {
       let store = new Store({ data: { x: 0}});
 
-      const component = renderer.create(
-         <Cx store={store} subscribe immediate>
+      const component = createTestRenderer(store, <cx>
+         <div
+            controller={({update}) => ({
+               increment(count) {
+                  update("x", x => x + count);
+               }
+            })}
+         >
             <div
-               controller={({update}) => ({
-                  increment(count) {
-                     update("x", x => x + count);
+               controller={{
+                  onInit() {
+                     this.invokeParentMethod("increment", 1);
                   }
-               })}
-            >
-               <div
-                  controller={{
-                     onInit() {
-                        this.invokeParentMethod("increment", 1);
-                     }
-                  }}
-               />
-            </div>
-         </Cx>
-      );
+               }}
+            />
+         </div>
+      </cx>);
 
       let tree1 = component.toJSON();
       assert.equal(store.get("x"), 1);
@@ -358,20 +333,18 @@ describe('Controller', () => {
    it('addComputable accepts refs', () => {
       let store = new Store({data: {x: 0}});
 
-      const component = renderer.create(
-         <Cx store={store} subscribe immediate>
-            <div
-               controller={({ref}) => {
-                  let x = ref("x");
-                  return {
-                     onInit() {
-                        this.addComputable("y", [x], x => x + 1);
-                     }
+      const component = createTestRenderer(store, <cx>
+         <div
+            controller={({ref}) => {
+               let x = ref("x");
+               return {
+                  onInit() {
+                     this.addComputable("y", [x], x => x + 1);
                   }
-               }}
-            />
-         </Cx>
-      );
+               }
+            }}
+         />
+      </cx>);
 
       let tree1 = component.toJSON();
       assert.equal(store.get("y"), 1);
@@ -399,13 +372,11 @@ describe('Controller', () => {
 
       let store = new Store();
 
-      const component = renderer.create(
-         <Cx store={store} subscribe immediate>
-            <div controller={TestController2}>
-               <div controller={TestController1}/>
-            </div>
-         </Cx>
-      );
+      const component = createTestRenderer(store, <cx>
+         <div controller={TestController2}>
+            <div controller={TestController1}/>
+         </div>
+      </cx>);
 
       // let tree = component.toJSON();
       assert.deepStrictEqual(testValid, [1, 2]);

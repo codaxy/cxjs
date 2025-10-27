@@ -6,13 +6,14 @@ import { createStructuredSelector, StructuredSelectorConfig } from "./createStru
 import { isSelector } from "./isSelector";
 import { isAccessorChain } from "./createAccessorModelProxy";
 import { isString } from "../util/isString";
+import { hasKey, hasStringAtKey, hasFunctionAtKey } from "../util/hasKey";
 
 type Selector<T> = (data: any) => T;
 
 var undefinedF = () => undefined;
 var nullF = () => null;
 
-export function getSelector(config: any): Selector<any> {
+export function getSelector(config: unknown): Selector<any> {
    if (config === undefined) return undefinedF;
    if (config === null) return nullF;
 
@@ -24,27 +25,37 @@ export function getSelector(config: any): Selector<any> {
          }
 
          //toString converts accessor chains to binding paths
-         if (config.bind) return Binding.get(config.bind.toString()).value;
+         if (hasKey(config, "bind") && config.bind != null) return Binding.get(config.bind.toString()).value;
 
-         if (isString(config.tpl)) return StringTemplate.get(config.tpl);
+         if (hasStringAtKey(config, "tpl")) return StringTemplate.get(config.tpl);
 
-         if (config.expr) return Expression.get(config.expr);
+         if (hasStringAtKey(config, "expr")) return Expression.get(config.expr);
 
-         if (config.get) return config.get;
+         if (hasFunctionAtKey(config, "get")) return config.get;
 
          let selectors: StructuredSelectorConfig = {};
          let constants: Record<string, any> = {};
 
-         for (let key in config) {
-            // TODO: Detect constants here
-            if (isSelector(config[key])) selectors[key] = getSelector(config[key]);
-            else constants[key] = config[key];
+         let obj = config as Record<string, any>;
+         for (let key in obj) {
+            switch (typeof obj[key]) {
+               case "bigint":
+               case "boolean":
+               case "number":
+               case "string":
+                  constants[key] = obj[key];
+                  break;
+               default:
+                  if (isSelector(obj[key])) selectors[key] = getSelector(obj[key]);
+                  else constants[key] = obj[key];
+                  break;
+            }
          }
          return createStructuredSelector(selectors, constants);
 
       case "function":
          if (isAccessorChain(config)) return Binding.get(config.toString()).value;
-         return config;
+         return config as Selector<any>;
 
       default:
          return () => config;

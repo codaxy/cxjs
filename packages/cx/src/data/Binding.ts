@@ -1,8 +1,10 @@
-let bindingCache: Record<string, Binding<any>> = {};
 import { isString } from "../util/isString";
 import { isObject } from "../util/isObject";
 import { isAccessorChain } from "./createAccessorModelProxy";
 import { AccessorChain } from "./createAccessorModelProxy";
+import { hasStringAtKey, hasValueAtKey } from "../util/hasKey";
+
+let bindingCache: Record<string, Binding<any>> = {};
 
 export interface BindingObject {
    bind: string;
@@ -75,9 +77,7 @@ export class Binding<T = any> {
          return b;
       }
 
-      if (isObject(path) && "bind" in path && isString((path as BindingObject).bind)) {
-         return this.get<T>((path as BindingObject).bind);
-      }
+      if (isBindingObject(path)) return this.get<T>(path.bind);
 
       if (path instanceof Binding) return path as Binding<T>;
 
@@ -89,9 +89,8 @@ export class Binding<T = any> {
 
 export function isBinding(value: unknown): value is BindingInput {
    if (isObject(value)) {
-      const obj = value as Record<string, any>;
-      if ("bind" in obj && isString(obj.bind)) return true;
-      if ("isAccessorChain" in obj && obj.isAccessorChain === true) return true;
+      if (hasStringAtKey(value, "bind")) return true;
+      if (hasValueAtKey(value, "isAccessorChain", true)) return true;
    }
    return value instanceof Binding;
 }
@@ -99,15 +98,11 @@ export function isBinding(value: unknown): value is BindingInput {
 export type BindingValue<B> = B extends Binding<infer T> ? T : unknown;
 
 export function isBindingObject(value: unknown): value is BindingObject {
-   if (!isObject(value)) return false;
-   const obj = value as Record<string, any>;
-   return "bind" in obj && isString(obj.bind);
+   return isObject(value) && hasStringAtKey(value, "bind");
 }
 
 export function isAccessorChainObject<T>(value: unknown): value is AccessorChain<T> {
-   if (!isObject(value)) return false;
-   const obj = value as Record<string, any>;
-   return "isAccessorChain" in obj && obj.isAccessorChain === true;
+   return isObject(value) && hasValueAtKey(value, "isAccessorChain", true);
 }
 
 export { bindingCache };

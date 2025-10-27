@@ -1,13 +1,24 @@
 /** @jsxImportSource react */
 import { Widget, VDOM } from "../ui/Widget";
-import { BoundedObject, BoundedObjectProps } from "./BoundedObject";
+import { BoundedObject, BoundedObjectConfig, BoundedObjectInstance } from "./BoundedObject";
 import { Rect } from "./util/Rect";
 import { ResizeManager } from "../ui/ResizeManager";
 import { addEventListenerWithOptions } from "../util/addEventListenerWithOptions";
 import { RenderingContext } from "../ui/RenderingContext";
 import { Instance } from "../ui/Instance";
 
-export interface SvgProps extends BoundedObjectProps {
+interface SvgInstance extends BoundedObjectInstance {
+   state: {
+      size: {
+         width: number;
+         height: number;
+      };
+   };
+   clipRects?: Record<string, Rect>;
+   clipRectId?: number;
+}
+
+export interface SvgConfig extends BoundedObjectConfig {
    /** Set to `true` to automatically calculate width based on the measured height and `aspectRatio`. */
    autoWidth?: boolean;
 
@@ -23,23 +34,23 @@ export interface SvgProps extends BoundedObjectProps {
    /** Base CSS class to be applied to the element. Defaults to `svg`. */
    baseClass?: string;
 
-   onMouseDown?(e: MouseEvent, instance: Instance): void;
-   onMouseUp?(e: MouseEvent, instance: Instance): void;
-   onMouseMove?(e: MouseEvent, instance: Instance): void;
-   onTouchStart?(e: TouchEvent, instance: Instance): void;
-   onTouchMove?(e: TouchEvent, instance: Instance): void;
-   onTouchEnd?(e: TouchEvent, instance: Instance): void;
-   onWheel?(e: WheelEvent, instance: Instance): void;
-   onWheelActive?(e: WheelEvent, instance: Instance): void;
+   onMouseDown?(e: MouseEvent, instance: SvgInstance): void;
+   onMouseUp?(e: MouseEvent, instance: SvgInstance): void;
+   onMouseMove?(e: MouseEvent, instance: SvgInstance): void;
+   onTouchStart?(e: TouchEvent, instance: SvgInstance): void;
+   onTouchMove?(e: TouchEvent, instance: SvgInstance): void;
+   onTouchEnd?(e: TouchEvent, instance: SvgInstance): void;
+   onWheel?(e: WheelEvent, instance: SvgInstance): void;
+   onWheelActive?(e: WheelEvent, instance: SvgInstance): void;
 }
 
-export class Svg extends BoundedObject {
+export class Svg extends BoundedObject<SvgConfig, SvgInstance> {
    declare autoWidth?: boolean;
    declare autoHeight?: boolean;
    declare aspectRatio?: number;
-   declare onWheelActive?: (e: WheelEvent, instance: Instance) => void;
+   declare onWheelActive?: (e: WheelEvent, instance: SvgInstance) => void;
 
-   initState(context: RenderingContext, instance: Instance) {
+   initState(context: RenderingContext, instance: SvgInstance) {
       const size = {
          width: 0,
          height: 0,
@@ -47,16 +58,16 @@ export class Svg extends BoundedObject {
       instance.state = { size };
    }
 
-   explore(context: RenderingContext, instance: Instance) {
+   explore(context: RenderingContext, instance: SvgInstance) {
       context.push("inSvg", true);
       super.explore(context, instance);
    }
 
-   exploreCleanup(context: RenderingContext, instance: Instance) {
+   exploreCleanup(context: RenderingContext, instance: SvgInstance) {
       context.pop("inSvg");
    }
 
-   prepare(context: RenderingContext, instance: Instance) {
+   prepare(context: RenderingContext, instance: SvgInstance) {
       const size = instance.state.size;
 
       context.parentRect = new Rect({
@@ -66,24 +77,24 @@ export class Svg extends BoundedObject {
          b: size.height,
       });
 
-      (instance as any).clipRects = {};
-      (instance as any).clipRectId = 0;
+      instance.clipRects = {};
+      instance.clipRectId = 0;
       context.push("addClipRect", (rect: Rect) => {
-         const id = `clip-${instance.id}-${++(instance as any).clipRectId}`;
-         (instance as any).clipRects[id] = rect;
+         const id = `clip-${instance.id}-${++instance.clipRectId!}`;
+         instance.clipRects![id] = rect;
          return id;
       });
       context.push("inSvg", true);
       super.prepare(context, instance);
    }
 
-   prepareCleanup(context: RenderingContext, instance: Instance) {
+   prepareCleanup(context: RenderingContext, instance: SvgInstance) {
       super.prepareCleanup(context, instance);
       context.pop("addClipRect");
       context.pop("inSvg");
    }
 
-   render(context: RenderingContext, instance: Instance, key: string) {
+   render(context: RenderingContext, instance: SvgInstance, key: string) {
       let eventHandlers = instance.getJsxEventProps();
       if (eventHandlers) {
          delete eventHandlers["onWheelActive"];
@@ -116,7 +127,7 @@ function sameSize(a: { width: number; height: number } | null, b: { width: numbe
 }
 
 interface SvgComponentProps {
-   instance: Instance;
+   instance: SvgInstance;
    data: any;
    size: { width: number; height: number };
    children: any;
@@ -139,7 +150,7 @@ class SvgComponent extends VDOM.Component<SvgComponentProps> {
          defs.push(
             <clipPath key={k} id={k}>
                <rect x={cr.l} y={cr.t} width={Math.max(0, cr.width())} height={Math.max(0, cr.height())} />
-            </clipPath>
+            </clipPath>,
          );
       }
 
@@ -209,7 +220,7 @@ class SvgComponent extends VDOM.Component<SvgComponentProps> {
                const { instance } = this.props;
                instance.invoke("onWheelActive", event, instance);
             },
-            { passive: false }
+            { passive: false },
          );
       }
    }

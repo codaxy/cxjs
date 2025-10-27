@@ -2398,6 +2398,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/node@npm:^22.10.2":
+  version: 22.18.12
+  resolution: "@types/node@npm:22.18.12"
+  dependencies:
+    undici-types: "npm:~6.21.0"
+  checksum: 10/41b8853302deac6895aa978193fcab53bf8d1f6f5df5fad38e2a33c2c853c3689e905c9dde373e45bb87273b2690e5ac2d6f40809fe72f45264952ba3ae3b196
+  languageName: node
+  linkType: hard
+
 "@types/parse-json@npm:^4.0.0":
   version: 4.0.2
   resolution: "@types/parse-json@npm:4.0.2"
@@ -2482,6 +2491,13 @@ __metadata:
   version: 0.12.2
   resolution: "@types/retry@npm:0.12.2"
   checksum: 10/e5675035717b39ce4f42f339657cae9637cf0c0051cf54314a6a2c44d38d91f6544be9ddc0280587789b6afd056be5d99dbe3e9f4df68c286c36321579b1bf4a
+  languageName: node
+  linkType: hard
+
+"@types/route-parser@npm:^0.1.7":
+  version: 0.1.7
+  resolution: "@types/route-parser@npm:0.1.7"
+  checksum: 10/4aae92e0d1171ef09e524e48453653574ef15397592ad1a07ff358313456965741b442959557993897aa7afd33fa0365f74d0e89818d16fac07b7b15402841c2
   languageName: node
   linkType: hard
 
@@ -4275,8 +4291,10 @@ __metadata:
   dependencies:
     "@types/jest": "npm:^30.0.0"
     "@types/mocha": "npm:^10.0.10"
+    "@types/node": "npm:^22.10.2"
     "@types/react-dom": "npm:^18.3.1"
     "@types/react-test-renderer": "npm:^18.3.1"
+    "@types/route-parser": "npm:^0.1.7"
     intl-io: "npm:^0.4.4"
     react-test-renderer: "npm:^18.3.1"
     route-parser: "npm:^0.0.5"

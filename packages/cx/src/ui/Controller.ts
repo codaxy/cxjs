@@ -19,11 +19,11 @@ interface ComputableEntry {
 
 export class Controller extends Component {
    initialized?: boolean;
-   onInit?: (context: RenderingContext) => void;
-   onExplore?: (context: RenderingContext) => void;
-   onPrepare?: (context: RenderingContext) => void;
-   onCleanup?: (context: RenderingContext) => void;
-   onDestroy?: () => void;
+   onInit?(context: RenderingContext): void;
+   onExplore?(context: RenderingContext): void;
+   onPrepare?(context: RenderingContext): void;
+   onCleanup?(context: RenderingContext): void;
+   onDestroy?(): void;
    instance: Instance;
    store: View;
    widget?: Widget;

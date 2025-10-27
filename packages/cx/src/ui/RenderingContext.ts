@@ -11,6 +11,7 @@ export class RenderingContext {
    cleanupList: any[];
    stacks: any;
    renderList: any;
+
    [key: string]: any;
 
    constructor(options?: any) {

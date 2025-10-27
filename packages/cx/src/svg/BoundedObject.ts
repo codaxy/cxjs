@@ -1,7 +1,7 @@
 import { Instance } from "./../ui/Instance";
-import { StyledContainerConfig } from "../ui/Container";
-import * as Cx from "../core";
-import { PureContainer } from "../ui/PureContainer";
+import { StyledContainerConfig, Container } from "../ui/Container";
+import { RenderingContext } from "../ui/RenderingContext";
+import { Prop } from "../ui/Prop";
 import { IRect, Rect } from "./util/Rect";
 
 export interface BoundedObjectConfig extends StyledContainerConfig {
@@ -9,24 +9,30 @@ export interface BoundedObjectConfig extends StyledContainerConfig {
     * Anchor defines how child bounds are tied to the parent. Zero aligns with the top/left edge.
     * One aligns with the bottom/right edge. See Svg for more information.
     */
-   anchors?: Cx.Prop<string | number | IRect>;
+   anchors?: Prop<string | number | IRect>;
 
    /** Move boundaries specified by the offset. See Svg for more information. */
-   offset?: Cx.Prop<string | number | IRect>;
+   offset?: Prop<string | number | IRect>;
 
    /** Apply margin to the given boundaries. See Svg for more information. */
-   margin?: Cx.Prop<string | number | IRect>;
+   margin?: Prop<string | number | IRect>;
 
    /** Padding to be applied to the boundaries rectangle before passing to the children. */
-   padding?: Cx.Prop<string | number | IRect>;
+   padding?: Prop<string | number | IRect>;
 }
 
-export class BoundedObject<Config extends BoundedObjectConfig = BoundedObjectConfig> extends PureContainer<Config> {
+export interface BoundedObjectInstance extends Instance {
+   parentRect?: any;
+}
+
+export class BoundedObject<
+   Config extends BoundedObjectConfig = BoundedObjectConfig,
+   InstanceType extends BoundedObjectInstance = BoundedObjectInstance
+> extends Container<Config, InstanceType> {
    anchors: any = 0;
    margin: any = 0;
    offset: any = 0;
    padding: any = 0;
-   isPureContainer: boolean = false;
    styled: boolean = true;
 
    declareData(...args: any[]) {
@@ -41,7 +47,7 @@ export class BoundedObject<Config extends BoundedObjectConfig = BoundedObjectCon
       );
    }
 
-   prepareData(context: RenderingContext, instance: Instance) {
+   prepareData(context: RenderingContext, instance: InstanceType) {
       super.prepareData(context, instance);
       var { data } = instance;
       data.anchors = Rect.convert(data.anchors);
@@ -50,12 +56,12 @@ export class BoundedObject<Config extends BoundedObjectConfig = BoundedObjectCon
       data.padding = Rect.convertMargin(data.padding);
    }
 
-   calculateBounds(context: RenderingContext, instance: Instance) {
+   calculateBounds(context: RenderingContext, instance: InstanceType) {
       var { data } = instance;
       return Rect.add(Rect.add(Rect.multiply(instance.parentRect, data.anchors), data.offset), data.margin);
    }
 
-   prepareBounds(context: RenderingContext, instance: Instance) {
+   prepareBounds(context: RenderingContext, instance: InstanceType) {
       var { data } = instance;
       if (
          instance.shouldUpdate ||
@@ -72,12 +78,12 @@ export class BoundedObject<Config extends BoundedObjectConfig = BoundedObjectCon
       }
    }
 
-   prepare(context: RenderingContext, instance: Instance) {
+   prepare(context: RenderingContext, instance: InstanceType) {
       this.prepareBounds(context, instance);
       context.push("parentRect", instance.data.childrenBounds);
    }
 
-   prepareCleanup(context: RenderingContext, instance: Instance) {
+   prepareCleanup(context: RenderingContext, instance: InstanceType) {
       context.pop("parentRect");
    }
 }

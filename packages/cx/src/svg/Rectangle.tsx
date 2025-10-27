@@ -1,23 +1,23 @@
 /** @jsxImportSource react */
 import { Widget, VDOM } from '../ui/Widget';
-import { TextualBoundedObject, TextualBoundedObjectProps } from './TextualBoundedObject';
+import { TextualBoundedObject, TextualBoundedObjectConfig } from './TextualBoundedObject';
 import { RenderingContext } from '../ui/RenderingContext';
 import { Instance } from '../ui/Instance';
-import * as Cx from '../core';
+import { NumberProp, StringProp } from '../ui/Prop';
 
-export interface RectangleProps extends TextualBoundedObjectProps {
+export interface RectangleConfig extends TextualBoundedObjectConfig {
    /**
     * Index of the color in the default color palette. Setting this property will set
     * both fill and stroke on the object. Use `style` or a CSS class to remove stroke or fill
     * if they are not necessary.
     */
-   colorIndex?: Cx.NumberProp;
+   colorIndex?: NumberProp;
 
    /** A color used to paint the box. */
-   fill?: Cx.StringProp;
+   fill?: StringProp;
 
    /** A color used to paint the outline of the box. */
-   stroke?: Cx.StringProp;
+   stroke?: StringProp;
 
    /** Base CSS class to be applied to the element. Defaults to `rectangle`. */
    baseClass?: string;
@@ -27,22 +27,22 @@ export interface RectangleProps extends TextualBoundedObjectProps {
     * Value type: <length>|<percentage>;
     * If unit is not specified, it defaults to `px`.
     */
-   rx?: Cx.StringProp | Cx.NumberProp;
+   rx?: StringProp | NumberProp;
 
    /**
     * The vertical corner radius of the rect. Defaults to rx if it is specified.
     * Value type: <length>|<percentage>;
     * If unit is not specified, it defaults to `px`.
     */
-   ry?: Cx.StringProp | Cx.NumberProp;
+   ry?: StringProp | NumberProp;
 }
 
 export class Rectangle extends TextualBoundedObject {
-   declare colorIndex?: Cx.NumberProp;
-   declare fill?: Cx.StringProp;
-   declare stroke?: Cx.StringProp;
-   declare rx?: Cx.StringProp | Cx.NumberProp;
-   declare ry?: Cx.StringProp | Cx.NumberProp;
+   declare colorIndex?: NumberProp;
+   declare fill?: StringProp;
+   declare stroke?: StringProp;
+   declare rx?: StringProp | NumberProp;
+   declare ry?: StringProp | NumberProp;
 
    declareData(...args: any[]) {
       super.declareData(...args, {
