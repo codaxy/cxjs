@@ -8,6 +8,7 @@ import { parseStyle } from "../util/parseStyle";
 import { CSS } from "./CSS";
 import { CSSHelper } from "./CSSHelper";
 import { RenderingContext } from "./RenderingContext";
+import type { Controller, ControllerConfig } from "./Controller";
 
 import { BooleanProp, ClassProp, StyleProp } from "./Prop";
 import { Instance } from "./Instance";
@@ -15,6 +16,13 @@ import { VDOM as vdom } from "./VDOM";
 export const VDOM = vdom;
 
 let widgetId = 100;
+
+// Controller property accepts: class, instance, config object, or factory function
+export type ControllerProp =
+   | typeof Controller
+   | Controller
+   | ControllerConfig<any>
+   | ((config: ViewMethods) => ControllerConfig<any>);
 
 export interface WidgetConfig {
    styles?: StyleProp;
@@ -29,13 +37,13 @@ export interface WidgetConfig {
    class?: ClassProp;
    className?: ClassProp;
    vdomKey?: string;
-   controller?: any;
+   controller?: ControllerProp;
 
-   onInit?: (context: RenderingContext, instance: Instance) => void;
-   onExplore?: (context: RenderingContext, instance: Instance) => void;
-   onPrepare?: (context: RenderingContext, instance: Instance) => void;
-   onCleanup?: (context: RenderingContext, instance: Instance) => void;
-   onDestroy?: (instance: Instance) => void;
+   onInit?(context: RenderingContext, instance: Instance): void;
+   onExplore?(context: RenderingContext, instance: Instance): void;
+   onPrepare?(context: RenderingContext, instance: Instance): void;
+   onCleanup?(context: RenderingContext, instance: Instance): void;
+   onDestroy?(instance: Instance): void;
 }
 
 export abstract class Widget<
@@ -66,11 +74,11 @@ export abstract class Widget<
    public memoize?: boolean;
 
    // Lifecycle hooks - callbacks that can be set in configuration
-   public onInit?: (context: RenderingContext, instance: InstanceType) => void;
-   public onExplore?: (context: RenderingContext, instance: InstanceType) => void;
-   public onPrepare?: (context: RenderingContext, instance: InstanceType) => void;
-   public onCleanup?: (context: RenderingContext, instance: InstanceType) => void;
-   public onDestroy?: (instance: InstanceType) => void;
+   public onInit?(context: RenderingContext, instance: InstanceType): void;
+   public onExplore?(context: RenderingContext, instance: InstanceType): void;
+   public onPrepare?(context: RenderingContext, instance: InstanceType): void;
+   public onCleanup?(context: RenderingContext, instance: InstanceType): void;
+   public onDestroy?(instance: InstanceType): void;
 
    // Lifecycle methods that can be overridden by subclasses
    public exploreCleanup?(context: RenderingContext, instance: InstanceType): void;
@@ -78,8 +86,8 @@ export abstract class Widget<
    public cleanup?(context: RenderingContext, instance: InstanceType): void;
    public prepare?(context: RenderingContext, instance: InstanceType): void;
 
-   // Controller
-   public controller?: any;
+   // Controller (initialized instance)
+   public controller?: Controller;
 
    // Pure container flag
    public isPureContainer?: boolean;
@@ -202,7 +210,7 @@ export abstract class Widget<
       }
    }
 
-   public render(_context: RenderingContext, _instance: any, _key: any): any {
+   public render(context: RenderingContext, instance: InstanceType, key: string): any {
       Console.log(this);
       throw new Error(
          'Widget\'s render method should be overridden. This error usually happens if with incorrect imports, i.e. import { TextField } from "cx/data". Please check the console for details about the component configuration.',

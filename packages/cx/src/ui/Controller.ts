@@ -17,7 +17,29 @@ interface ComputableEntry {
    type: "computable" | "trigger";
 }
 
-export class Controller extends Component {
+// Controller methods interface for ThisType in config objects
+export interface ControllerMethods {
+   store: View;
+   instance: Instance;
+   widget?: Widget;
+   invokeParentMethod(method: string, ...args: any[]): any;
+   addTrigger<Selectors extends readonly ComputableSelector[]>(
+      name: string,
+      args: [...Selectors],
+      callback: (...values: { [K in keyof Selectors]: InferSelectorValue<Selectors[K]> }) => any,
+      autoRun?: boolean
+   ): void;
+   addComputable<Selectors extends readonly ComputableSelector[]>(
+      name: string,
+      args: [...Selectors],
+      callback: (...values: { [K in keyof Selectors]: InferSelectorValue<Selectors[K]> }) => any
+   ): void;
+}
+
+// Controller config object type with Controller methods AND its own methods available on 'this'
+export type ControllerConfig<T extends object = {}> = T & ThisType<ControllerMethods & T>;
+
+export class Controller extends Component implements ControllerMethods {
    initialized?: boolean;
    onInit?(context: RenderingContext): void;
    onExplore?(context: RenderingContext): void;
