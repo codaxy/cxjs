@@ -5,6 +5,7 @@ import { StringTemplate } from "../../data/StringTemplate";
 import { Culture } from "../../ui/Culture";
 import { Cx } from "../../ui/Cx";
 import type { DropdownInstance, Instance } from "../../ui/Instance";
+import { FieldInstance } from "./Field";
 import { Localization } from "../../ui/Localization";
 import type { RenderingContext } from "../../ui/RenderingContext";
 import { VDOM, Widget, getContent } from "../../ui/Widget";
@@ -44,10 +45,6 @@ export class DateTimeField extends Field {
    public minExclusiveErrorText?: string;
    public inputErrorText?: string;
    public disabledDaysOfWeekErrorText?: string;
-   public suppressErrorsUntilVisited?: boolean;
-   public labelPlacement?: string;
-   public helpPlacement?: string;
-   public emptyValue?: unknown;
    public value?: unknown;
    public minValue?: unknown;
    public maxValue?: unknown;
@@ -61,8 +58,6 @@ export class DateTimeField extends Field {
    public focusInputFirst?: boolean;
    public dropdownOptions?: Record<string, any>;
    public onParseInput?: string | ((date: unknown, instance: Instance) => Date | undefined);
-   public autoFocus?: boolean;
-   public trackFocus?: boolean;
    public showSeconds?: boolean;
    public step?: number;
 
@@ -173,7 +168,7 @@ export class DateTimeField extends Field {
       }
    }
 
-   renderInput(context: RenderingContext, instance: Instance, key: string): React.ReactNode {
+   renderInput(context: RenderingContext, instance: FieldInstance<DateTimeField>, key: string): React.ReactNode {
       return (
          <DateTimeInput
             key={key}
@@ -235,7 +230,7 @@ Widget.alias("datetimefield", DateTimeField);
 Localization.registerPrototype("cx/widgets/DateTimeField", DateTimeField);
 
 interface DateTimeInputProps {
-   instance: Instance;
+   instance: FieldInstance<DateTimeField>;
    data: Record<string, unknown>;
    picker: Record<string, unknown>;
    label?: React.ReactNode;
@@ -353,15 +348,14 @@ class DateTimeInput extends VDOM.Component<DateTimeInputProps, DateTimeInputStat
    render(): React.ReactNode {
       let { instance, label, help, icon: iconVDOM } = this.props;
       let { data, widget, state } = instance;
-      let { CSS, baseClass, suppressErrorsUntilVisited } = widget;
-      let dateTimeWidget = widget as DateTimeField;
+      let { CSS, baseClass, suppressErrorsUntilVisited, showClear, alwaysShowClear } = widget;
 
       let insideButton, icon;
 
       if (!data.readOnly && !data.disabled) {
          if (
-            dateTimeWidget.showClear &&
-            (((dateTimeWidget.alwaysShowClear || !data.required) && !data.empty) || instance.state?.inputError)
+            showClear &&
+            (((alwaysShowClear || !data.required) && !data.empty) || instance.state?.inputError)
          )
             insideButton = (
                <div

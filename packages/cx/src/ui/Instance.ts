@@ -90,7 +90,7 @@ export interface FieldWidgetData extends WidgetData {
    label?: string;
    labelWidth?: number;
    empty?: boolean;
-   
+
    // Internal properties set by Field.prepareData
    _disabled?: boolean;
    _readOnly?: boolean;
@@ -113,48 +113,8 @@ export interface ParentOptions {
 
 /**
  * Props object used for rendering (passed to React.createElement)
- *
- * For custom render props, extend this interface or use intersection types:
- * @example
- * interface MyRenderProps extends RenderProps {
- *    'data-custom': string;
- * }
  */
-export interface RenderProps {
-   // React standard props
-   key?: string | number;
-   className?: string;
-   style?: Record<string, string | number>;
-   ref?: (element: HTMLElement | null) => void;
-   children?: CxChild;
-   dangerouslySetInnerHTML?: { __html: string };
-   htmlFor?: string;
-
-   // CxJS custom props
-   instance?: Instance;
-
-   // Common HTML attributes
-   id?: string;
-   disabled?: boolean;
-   type?: string;
-   value?: string | number | readonly string[];
-   checked?: boolean;
-   tabIndex?: number;
-   title?: string;
-   role?: string;
-
-   // Event handlers - allow returning false to prevent default behavior
-   onClick?: (e: React.MouseEvent) => void | false;
-   onMouseDown?: (e: React.MouseEvent) => void | false;
-   onMouseMove?: (e: React.MouseEvent) => void | false;
-   onMouseLeave?: (e: React.MouseEvent) => void | false;
-   onMouseEnter?: (e: React.MouseEvent) => void | false;
-   onKeyDown?: (e: React.KeyboardEvent) => void | false;
-   onKeyUp?: (e: React.KeyboardEvent) => void | false;
-   onFocus?: (e: React.FocusEvent) => void | false;
-   onBlur?: (e: React.FocusEvent) => void | false;
-   onChange?: (e: React.ChangeEvent) => void | false;
-}
+export type RenderProps = Record<string, any>;
 
 /**
  * Result type for yes/no dialogs
@@ -188,7 +148,7 @@ export interface DropdownWidgetProps {
  */
 export interface FieldWidgetProps {
    inputElement?: HTMLInputElement;
-   validationState?: 'valid' | 'invalid' | 'pending';
+   validationState?: "valid" | "invalid" | "pending";
 }
 
 /**
@@ -202,9 +162,9 @@ let instanceId = 1000;
 /**
  * Base Instance class
  */
-export class Instance {
+export class Instance<WidgetType extends Widget<any, any> = Widget<any, any>> {
    // Core properties
-   public widget: Widget;
+   public widget: WidgetType;
    public key: string;
    public id: string;
    public parent?: Instance;
@@ -218,7 +178,6 @@ export class Instance {
    public state?: Record<string, any>;
    public cached: Record<string, any>;
    public cacheList?: Record<string, any> | null;
-
 
    // Selectors
    public dataSelector?: (store: any) => Record<string, any>;
@@ -268,14 +227,13 @@ export class Instance {
    public instances?: Instance[];
    public selected?: boolean;
 
-   constructor(widget: Widget, key: string, parent?: Instance, parentStore?: any) {
+   constructor(widget: WidgetType, key: string, parent?: Instance, parentStore?: any) {
       this.widget = widget;
       this.key = key;
       this.id = String(++instanceId);
       this.cached = {};
       this.parent = parent;
       this.parentStore = parentStore ?? parent?.store;
-
 
       if (this.parentStore == null) throw new Error("Cannot create instance without a parent store.");
    }

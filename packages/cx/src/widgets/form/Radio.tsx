@@ -1,18 +1,21 @@
+/** @jsxImportSource react */
 import type { RenderingContext } from "../../ui/RenderingContext";
 import type { Instance } from "../../ui/Instance";
 import { Widget, VDOM, getContent } from "../../ui/Widget";
-import { Field, getFieldTooltip } from "./Field";
+import { Field, getFieldTooltip, FieldInstance } from "./Field";
 import { tooltipMouseMove, tooltipMouseLeave } from "../overlay/tooltip-ops";
 import { stopPropagation } from "../../util/eventCallbacks";
 import { KeyCode } from "../../util/KeyCode";
 import { isUndefined } from "../../util/isUndefined";
 import * as React from "react";
+import { Prop } from "../../ui/Prop";
 
 export class Radio extends Field {
-   public selection?: unknown;
-   public option?: unknown;
+   public selection?: Prop<number | string | boolean>;
+   public option?: Prop<number | string | boolean>;
    public native?: boolean;
    public default?: boolean;
+   public value?: Prop<number | string | boolean>;
 
    declareData(...args: Record<string, unknown>[]): void {
       super.declareData(
@@ -47,12 +50,12 @@ export class Radio extends Field {
       if (this.default && isUndefined(data.value)) instance.set("value", data.option);
    }
 
-   renderValue(context: RenderingContext, { data }: Instance): React.ReactNode {
-      if (data.value === data.option) return super.renderValue(context, { data });
+   renderValue(context: RenderingContext, { data }: FieldInstance): React.ReactNode {
+      if (data.value === data.option) return super.renderValue(context, { data } as FieldInstance);
       return null;
    }
 
-   renderWrap(context: RenderingContext, instance: Instance, key: string, content: React.ReactNode): React.ReactElement {
+   renderWrap(context: RenderingContext, instance: FieldInstance, key: string, content: React.ReactNode): React.ReactElement {
       var { data } = instance;
       return (
          <label
@@ -61,9 +64,9 @@ export class Radio extends Field {
             style={data.style}
             onMouseDown={stopPropagation}
             onTouchStart={stopPropagation}
-            onMouseMove={(e) => tooltipMouseMove(e, ...getFieldTooltip(instance))}
-            onMouseLeave={(e) => tooltipMouseLeave(e, ...getFieldTooltip(instance))}
-            onClick={(e) => {
+            onMouseMove={(e: React.MouseEvent) => tooltipMouseMove(e, ...getFieldTooltip(instance))}
+            onMouseLeave={(e: React.MouseEvent) => tooltipMouseLeave(e, ...getFieldTooltip(instance))}
+            onClick={(e: React.MouseEvent) => {
                this.handleClick(e, instance);
             }}
             htmlFor={data.id}
@@ -87,18 +90,18 @@ export class Radio extends Field {
             disabled={data.disabled}
             {...data.inputAttrs}
             onClick={stopPropagation}
-            onChange={(e) => {
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                this.handleChange(e, instance);
             }}
          />
       );
    }
 
-   renderCheck(context: RenderingContext, instance: Instance): React.ReactElement {
+   renderCheck(context: RenderingContext, instance: FieldInstance): React.ReactElement {
       return <RadioCmp key="check" instance={instance} data={instance.data} />;
    }
 
-   renderInput(context: RenderingContext, instance: Instance, key: string): React.ReactElement {
+   renderInput(context: RenderingContext, instance: FieldInstance, key: string): React.ReactElement {
       var { data } = instance;
       var text = data.text || this.renderChildren(context, instance);
       var { CSS, baseClass } = this;
@@ -142,7 +145,7 @@ Widget.alias("radio", Radio);
 interface RadioCmpProps {
    key?: string;
    instance: Instance;
-   data: Record<string, unknown>;
+   data: Record<string, any>;
 }
 
 interface RadioCmpState {
@@ -196,7 +199,7 @@ class RadioCmp extends VDOM.Component<RadioCmpProps, RadioCmpState> {
    onKeyDown(e: React.KeyboardEvent): void {
       let { instance } = this.props;
       const widget = instance.widget as Radio;
-      if (widget.handleKeyDown && widget.handleKeyDown(e as unknown as KeyboardEvent, instance) === false) return;
+      if (widget.handleKeyDown && widget.handleKeyDown(e, instance) === false) return;
 
       switch (e.keyCode) {
          case KeyCode.space:

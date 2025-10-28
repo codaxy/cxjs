@@ -18,8 +18,6 @@ interface ButtonData extends WidgetData {
 }
 
 export class Button extends HtmlElement {
-   public tag?: string;
-   public baseClass?: string;
    public icon?: boolean | string;
    public focusOnMouseDown?: boolean;
    public submit?: boolean;

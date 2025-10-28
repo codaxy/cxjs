@@ -1,3 +1,5 @@
+/** @jsxImportSource react */
+
 import { Widget, getContent } from "../../ui/Widget";
 import { Field, FieldConfig, getFieldTooltip } from "./Field";
 import { BooleanProp, NumberProp, Prop, StringProp } from "../../ui/Prop";
@@ -49,7 +51,7 @@ import ClearIcon from "../icons/clear";
 import { autoFocus } from "../autoFocus";
 import { isString } from "../../util/isString";
 import { getActiveElement } from "../../util/getActiveElement";
-import { VDOM } from "cx-react";
+import { VDOM } from "../../ui/VDOM";
 
 export class TextField<Config extends TextFieldConfig = TextFieldConfig> extends Field<Config> {
    public hideClear?: boolean;
@@ -59,7 +61,7 @@ export class TextField<Config extends TextFieldConfig = TextFieldConfig> extends
    public validationErrorText?: string;
    public minLengthValidationErrorText?: string;
    public maxLengthValidationErrorText?: string;
-   public reactOn?: string;
+   public reactOn!: string;
    public inputType?: string;
    public keyboardShortcut?: string;
    public trim?: boolean;

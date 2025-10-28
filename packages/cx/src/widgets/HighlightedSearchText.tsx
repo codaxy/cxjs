@@ -1,4 +1,5 @@
-import { Instance, RenderingContext } from "src/ui";
+import { Instance } from "../ui/Instance";
+import type { RenderingContext } from "../ui/RenderingContext";
 import { Widget } from "../ui/Widget";
 import { getSearchQueryHighlighter } from "../util/getSearchQueryPredicate";
 

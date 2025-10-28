@@ -50,10 +50,7 @@ export class ColorField extends Field {
    public showClear?: boolean;
    public alwaysShowClear?: boolean;
    public hideClear?: boolean;
-   public emptyValue?: unknown;
    public format: string = "rgba";
-   public labelPlacement?: string;
-   public helpPlacement?: string;
    public lastDropdown?: string;
    public value?: string;
    public dropdownOptions?: Record<string, any>;
@@ -183,15 +180,13 @@ class ColorInput extends VDOM.Component<ColorInputProps, ColorInputState> {
    render(): React.ReactNode {
       let { instance, label, help, data } = this.props;
       let { widget, state } = instance;
-      let { CSS, baseClass, suppressErrorsUntilVisited } = widget;
-
-      const colorFieldWidget = widget as ColorField;
+      let { CSS, baseClass, suppressErrorsUntilVisited, showClear, alwaysShowClear } = widget as ColorField;
 
       let insideButton;
       if (!data.readOnly && !data.disabled) {
          if (
-            colorFieldWidget.showClear &&
-            (((!data.required || colorFieldWidget.alwaysShowClear) && !data.empty) || instance.state?.inputError)
+            showClear &&
+            (((!data.required || alwaysShowClear) && !data.empty) || instance.state?.inputError)
          )
             insideButton = (
                <div

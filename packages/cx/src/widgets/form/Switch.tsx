@@ -1,9 +1,10 @@
+/** @jsxImportSource react */
 import type { RenderingContext } from "../../ui/RenderingContext";
 import type { Instance } from "../../ui/Instance";
 import { Widget, VDOM, getContent } from "../../ui/Widget";
 import { KeyCode } from "../../util/KeyCode";
 import { parseStyle } from "../../util/parseStyle";
-import { Field, getFieldTooltip } from "./Field";
+import { Field, getFieldTooltip, FieldInstance } from "./Field";
 import { tooltipMouseMove, tooltipMouseLeave } from "../overlay/tooltip-ops";
 import { preventFocus } from "../../ui/FocusManager";
 import { isDefined } from "../../util/isDefined";
@@ -64,7 +65,7 @@ export class Switch extends Field {
       super.prepareData(context, instance);
    }
 
-   renderInput(context: RenderingContext, instance: Instance, key: string): React.ReactElement {
+   renderInput(context: RenderingContext, instance: FieldInstance, key: string): React.ReactElement {
       let { data, widget } = instance;
       let { rangeStyle, handleStyle } = data;
       let { CSS, baseClass } = this;
@@ -79,26 +80,27 @@ export class Switch extends Field {
             style={data.style}
             id={data.id}
             tabIndex={data.disabled ? undefined : ((data.tabIndex as number) || 0)}
-            onMouseDown={(e) => {
+            onMouseDown={(e: React.MouseEvent) => {
                e.stopPropagation();
                if (!this.focusOnMouseDown) preventFocus(e);
             }}
-            onClick={(e) => {
+            onClick={(e: React.MouseEvent) => {
                this.toggle(e, instance);
             }}
-            onKeyDown={(e) => {
-               if (widget.handleKeyDown && widget.handleKeyDown(e as unknown as KeyboardEvent, instance) === false) return;
+            onKeyDown={(e: React.KeyboardEvent) => {
+               const switchWidget = widget as Switch;
+               if (switchWidget.handleKeyDown && switchWidget.handleKeyDown(e, instance) === false) return;
                if (e.keyCode == KeyCode.space) {
                   this.toggle(e, instance);
                }
             }}
-            onMouseMove={(e) => {
+            onMouseMove={(e: React.MouseEvent) => {
                const tooltip = getFieldTooltip(instance);
                if (Array.isArray(tooltip)) {
                   tooltipMouseMove(e, ...tooltip);
                }
             }}
-            onMouseLeave={(e) => {
+            onMouseLeave={(e: React.MouseEvent) => {
                const tooltip = getFieldTooltip(instance);
                if (Array.isArray(tooltip)) {
                   tooltipMouseLeave(e, ...tooltip);

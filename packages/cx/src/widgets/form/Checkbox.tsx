@@ -1,10 +1,11 @@
 /** @jsxImportSource react */
 
-import { VDOM } from "cx-react";
 import * as React from "react";
+import { VDOM } from "../../ui/VDOM";
 import type { FieldWidgetData, Instance } from "../../ui/Instance";
 import type { RenderingContext } from "../../ui/RenderingContext";
 import { Widget, getContent } from "../../ui/Widget";
+import { FieldInstance } from "./Field";
 import { stopPropagation } from "../../util/eventCallbacks";
 import { KeyCode } from "../../util/KeyCode";
 import CheckIcon from "../icons/check";
@@ -18,7 +19,6 @@ export class Checkbox extends Field {
    public indeterminate?: boolean;
    public unfocusable?: boolean;
    public native?: boolean;
-   public requiredText?: string;
 
    init(): void {
       if (this.checked) this.value = this.checked;
@@ -121,9 +121,9 @@ export class Checkbox extends Field {
       ]);
    }
 
-   renderValue(context: RenderingContext, instance: Instance): React.ReactNode {
+   renderValue(context: RenderingContext, instance: FieldInstance): React.ReactNode {
       let { data } = instance;
-      if (!data.viewText) return super.renderValue(context, { data }, undefined);
+      if (!data.viewText) return super.renderValue(context, instance, undefined);
       return <span className={this.CSS.element(this.baseClass, "view-text")}>{data.viewText}</span>;
    }
 

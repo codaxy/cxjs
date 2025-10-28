@@ -1,3 +1,5 @@
+/** @jsxImportSource react */
+
 import { VDOM } from "../../ui/Widget";
 import { PureContainer } from "../../ui/PureContainer";
 import { KeyCode } from "../../util/KeyCode";
@@ -5,9 +7,11 @@ import { Icon } from "../Icon";
 import { addEventListenerWithOptions } from "../../util";
 import type { RenderingContext } from "../../ui/RenderingContext";
 import type { Instance } from "../../ui/Instance";
+import type { CSS } from "../../ui/CSS";
 import * as React from "react";
 
 export class Wheel extends PureContainer {
+   public size?: number;
    declareData(...args: Record<string, unknown>[]): void {
       return super.declareData(...args, {
          value: undefined,
@@ -51,7 +55,7 @@ Wheel.prototype.styled = true;
 export interface WheelComponentProps {
    size: number;
    children: React.ReactNode[];
-   CSS: Record<string, unknown>;
+   CSS: typeof CSS;
    baseClass: string;
    active?: boolean;
    className?: string;

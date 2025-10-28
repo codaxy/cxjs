@@ -1,7 +1,7 @@
-import { TooltipConfig } from "src/widgets/overlay/tooltip-ops";
+import { TooltipConfig } from "../overlay/tooltip-ops";
 import { isSelector } from "../../data/isSelector";
 import { FocusManager } from "../../ui/FocusManager";
-import type { Instance, PartialInstance } from "../../ui/Instance";
+import { Instance, PartialInstance } from "../../ui/Instance";
 import { Localization } from "../../ui/Localization";
 import { PureContainer, PureContainerConfig } from "../../ui/PureContainer";
 import type { RenderingContext } from "../../ui/RenderingContext";
@@ -24,6 +24,7 @@ export interface FieldConfig extends PureContainerConfig {
    inputStyle?: StyleProp;
    validationMode?: StringProp;
    errorTooltip?: Prop<Record<string, unknown>>;
+   tooltip?: Prop<TooltipConfig>;
    help?: Prop<Record<string, unknown> | string>;
    label?: Prop<Record<string, unknown> | string>;
    mod?: Prop<Record<string, unknown>>;
@@ -49,10 +50,22 @@ export interface FieldConfig extends PureContainerConfig {
    trackFocus?: BooleanProp;
 }
 
-export class Field<Config extends FieldConfig = FieldConfig> extends PureContainer<Config> {
+export class FieldInstance<F extends Field<any, any> = Field<any, any>> extends Instance<F> {
+   parentDisabled?: boolean;
+   parentReadOnly?: boolean;
+   parentViewMode?: string;
+   parentTabOnEnterKey?: boolean;
+   parentVisited?: boolean;
+}
+
+export class Field<
+   Config extends FieldConfig = FieldConfig,
+   InstanceType extends FieldInstance<any> = FieldInstance<any>,
+> extends PureContainer<Config, InstanceType> {
    public inputStyle?: Record<string, unknown> | string;
    public validationMode?: string;
    public errorTooltip?: Record<string, unknown>;
+   public tooltip?: TooltipConfig;
    public help?: Record<string, unknown> | string;
    public label?: Record<string, unknown> | string;
    public mod?: Record<string, unknown>;
@@ -68,7 +81,9 @@ export class Field<Config extends FieldConfig = FieldConfig> extends PureContain
    public emptyValue?: unknown;
    public requiredText?: string;
    public validatingText?: string;
-   public onValidate?: string | ((value: unknown, instance: Instance, validationParams: Record<string, unknown>) => unknown);
+   public onValidate?:
+      | string
+      | ((value: unknown, instance: Instance, validationParams: Record<string, unknown>) => unknown);
    public validationExceptionText?: string;
    public onValidationException?: string | ((error: unknown, instance: Instance) => void);
    public onKeyDown?: string | ((e: KeyboardEvent, instance: Instance) => boolean | void);
@@ -174,14 +189,14 @@ export class Field<Config extends FieldConfig = FieldConfig> extends PureContain
       });
    }
 
-   public initState(_context: RenderingContext, instance: Instance): void {
+   public initState(_context: RenderingContext, instance: InstanceType): void {
       instance.state = {
          inputError: false,
          visited: this.visited === true,
       };
    }
 
-   public prepareData(context: RenderingContext, instance: Instance, ...args: Record<string, unknown>[]): void {
+   public prepareData(context: RenderingContext, instance: InstanceType, ...args: Record<string, unknown>[]): void {
       let { data, state } = instance;
       if (!data.id) data.id = "fld-" + instance.id;
 
@@ -190,11 +205,11 @@ export class Field<Config extends FieldConfig = FieldConfig> extends PureContain
       data._viewMode = data.mode === "view" || data.viewMode;
       data._tabOnEnterKey = data.tabOnEnterKey;
       data.validationValue = this.getValidationValue(data);
-      (instance as any).parentDisabled = context.parentDisabled;
-      (instance as any).parentReadOnly = context.parentReadOnly;
-      (instance as any).parentViewMode = context.parentViewMode;
-      (instance as any).parentTabOnEnterKey = context.parentTabOnEnterKey;
-      (instance as any).parentVisited = context.parentVisited;
+      instance.parentDisabled = context.parentDisabled;
+      instance.parentReadOnly = context.parentReadOnly;
+      instance.parentViewMode = context.parentViewMode;
+      instance.parentTabOnEnterKey = context.parentTabOnEnterKey;
+      instance.parentVisited = context.parentVisited;
 
       if (typeof data.enabled !== "undefined") data._disabled = !data.enabled;
 
@@ -253,14 +268,14 @@ export class Field<Config extends FieldConfig = FieldConfig> extends PureContain
       };
    }
 
-   explore(context: RenderingContext, instance: Instance): void {
+   explore(context: RenderingContext, instance: InstanceType): void {
       let { data, state } = instance;
 
-      (instance as any).parentDisabled = context.parentDisabled;
-      (instance as any).parentReadOnly = context.parentReadOnly;
-      (instance as any).parentViewMode = context.parentViewMode;
-      (instance as any).parentTabOnEnterKey = context.parentTabOnEnterKey;
-      (instance as any).parentVisited = context.parentVisited;
+      instance.parentDisabled = context.parentDisabled;
+      instance.parentReadOnly = context.parentReadOnly;
+      instance.parentViewMode = context.parentViewMode;
+      instance.parentTabOnEnterKey = context.parentTabOnEnterKey;
+      instance.parentVisited = context.parentVisited;
 
       if (
          instance.cache("parentDisabled", context.parentDisabled) ||
@@ -395,18 +410,18 @@ export class Field<Config extends FieldConfig = FieldConfig> extends PureContain
       return data.text || data.value;
    }
 
-   renderValue(context: RenderingContext, instance: Instance | PartialInstance, key?: string | number): React.ReactNode {
+   renderValue(context: RenderingContext, instance: FieldInstance, key?: string | number): React.ReactNode {
       let text = this.formatValue(context, instance as Instance);
       if (text) {
          return (
             <span
                key={key}
                onMouseMove={(e: any) => {
-                  const tooltip = getFieldTooltip(instance as Instance);
+                  const tooltip = getFieldTooltip(instance);
                   if (tooltip) (tooltipMouseMove as any)(e, tooltip, null, null);
                }}
                onMouseLeave={(e: any) => {
-                  const tooltip = getFieldTooltip(instance as Instance);
+                  const tooltip = getFieldTooltip(instance);
                   if (tooltip) (tooltipMouseLeave as any)(e, tooltip, null, null);
                }}
             >
@@ -416,12 +431,17 @@ export class Field<Config extends FieldConfig = FieldConfig> extends PureContain
       }
    }
 
-   protected renderContent(context: RenderingContext, instance: Instance, key: string): React.ReactNode {
+   protected renderContent(context: RenderingContext, instance: FieldInstance, key: string): React.ReactNode {
       let content = this.renderValue(context, instance, key) || this.renderEmptyText(context, instance, key);
       return this.renderWrap(context, instance, key, content);
    }
 
-   protected renderWrap(context: RenderingContext, instance: Instance, key: string, content: React.ReactNode): React.ReactNode {
+   protected renderWrap(
+      context: RenderingContext,
+      instance: Instance,
+      key: string,
+      content: React.ReactNode,
+   ): React.ReactNode {
       let { data } = instance;
       let interactive = !data.viewMode && !data.disabled;
       return (
@@ -446,7 +466,7 @@ export class Field<Config extends FieldConfig = FieldConfig> extends PureContain
       );
    }
 
-   public render(context: RenderingContext, instance: Instance, key: string): Record<string, React.ReactNode> {
+   public render(context: RenderingContext, instance: InstanceType, key: string): Record<string, React.ReactNode> {
       let { data } = instance;
       let content = !data.viewMode
          ? this.renderInput(context, instance, key)
@@ -494,7 +514,9 @@ Field.prototype.styled = true;
 
 Localization.registerPrototype("cx/widgets/Field", Field);
 
-export function getFieldTooltip(instance: Instance): [Instance, TooltipConfig, Record<string, unknown> | undefined] {
+export function getFieldTooltip(
+   instance: FieldInstance<any>,
+): [Instance, TooltipConfig, Record<string, unknown> | undefined] {
    let { widget, data, state } = instance;
 
    if (widget.errorTooltip && data.error && (!state || state.visited || !widget.suppressErrorsUntilVisited))

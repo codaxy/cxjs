@@ -5,11 +5,11 @@ import { isArray } from "../util/isArray";
 import { isDefined } from "../util/isDefined";
 import { isString } from "../util/isString";
 import { parseStyle } from "../util/parseStyle";
-import "./CSS";
+import { CSS } from "./CSS";
 import { CSSHelper } from "./CSSHelper";
 import { RenderingContext } from "./RenderingContext";
 
-import { BooleanProp, ClassProp, StyleProp } from "src/core";
+import { BooleanProp, ClassProp, StyleProp } from "./Prop";
 import { Instance } from "./Instance";
 import { VDOM as vdom } from "./VDOM";
 export const VDOM = vdom;
@@ -55,7 +55,7 @@ export abstract class Widget<
    public contentFor?: string;
    public putInto?: string;
    public isContent?: boolean;
-   public CSS?: any;
+   public CSS!: typeof CSS;
    public initialized?: boolean;
    public components?: Record<string, any>;
    public helpers?: Record<string, any>;
@@ -173,7 +173,7 @@ export abstract class Widget<
 
    protected prepareCSS(_context: RenderingContext, { data }: any): void {
       data.classNames = this.CSS.expand(
-         this.CSS.block(this.baseClass, data.mod, data.stateMods),
+         this.CSS.block(this.baseClass!, data.mod, data.stateMods),
          data.class,
          data.className,
       );
@@ -232,7 +232,7 @@ export abstract class Widget<
 
 Widget.prototype.visible = true;
 Widget.prototype.memoize = true; //cache rendered content and use it if possible
-Widget.prototype.CSS = "cx";
+Widget.prototype.CSS = CSSHelper.get("cx");
 Widget.prototype.styled = false;
 
 Widget.namespace = "ui.";

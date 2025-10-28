@@ -46,14 +46,12 @@ interface CalendarState {
 export class Calendar extends Field {
    public unfocusable?: boolean;
    public focusable?: boolean;
-   public baseClass?: string;
    public highlightToday?: boolean;
    public maxValueErrorText?: string;
    public maxExclusiveErrorText?: string;
    public minValueErrorText?: string;
    public minExclusiveErrorText?: string;
    public disabledDaysOfWeekErrorText?: string;
-   public suppressErrorsUntilVisited?: boolean;
    public showTodayButton?: boolean;
    public todayButtonText?: string;
    public startWithMonday?: boolean;

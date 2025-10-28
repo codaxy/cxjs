@@ -1,18 +1,21 @@
+/** @jsxImportSource react */
+
 import { Widget, VDOM } from "../../ui/Widget";
 import { Icon } from "../Icon";
-import { Field } from "./Field";
+import { Field, FieldInstance } from "./Field";
 import { Url } from "../../ui/app/Url";
 import { Localization } from "../../ui/Localization";
 import type { RenderingContext } from "../../ui/RenderingContext";
 import type { Instance } from "../../ui/Instance";
+import { isNonEmptyArray } from "../../util/isNonEmptyArray";
 
 //TODO: Implement UploadStatus which will enable canceling
 
 export class UploadButton extends Field {
-   public multiple?: boolean;
-   public method?: string;
-   public abortOnDestroy?: boolean;
-   public uploadInProgressText?: string;
+   public multiple!: boolean;
+   public method!: string;
+   public abortOnDestroy!: boolean;
+   public uploadInProgressText!: string;
    public onResolveUrl?: string | ((file: File, instance: Instance) => string | Promise<string>);
    public onUploadStarting?: string | ((xhr: XMLHttpRequest, instance: Instance, file: File, formData: FormData) => boolean | Promise<boolean>);
    public onUploadComplete?: string | ((xhr: XMLHttpRequest, instance: Instance, file: File, formData: FormData) => void);
@@ -33,7 +36,7 @@ export class UploadButton extends Field {
       );
    }
 
-   renderInput(context: RenderingContext, instance: Instance, key: string): React.ReactNode {
+   renderInput(context: RenderingContext, instance: FieldInstance<UploadButton>, key: string): React.ReactNode {
       let { data } = instance;
       return (
          <UploadButtonComponent key={key} instance={instance}>
@@ -52,7 +55,7 @@ UploadButton.prototype.uploadInProgressText = "Upload is in progress.";
 Localization.registerPrototype("cx/widgets/UploadButton", UploadButton);
 
 interface UploadButtonComponentProps {
-   instance: Instance;
+   instance: FieldInstance<UploadButton>;
    children?: React.ReactNode;
 }
 
@@ -94,7 +97,7 @@ class UploadButtonComponent extends VDOM.Component<UploadButtonComponentProps, U
          icon = Icon.render(data.icon, {
             className: CSS.element(baseClass, "icon"),
          });
-         className = CSS.expand(className, CSS.state("icon"), children.length == 0 && CSS.state("empty"));
+         className = CSS.expand(className, CSS.state("icon"), !isNonEmptyArray(children) && CSS.state("empty"));
       }
 
       return (
@@ -235,7 +238,7 @@ class UploadButtonComponent extends VDOM.Component<UploadButtonComponentProps, U
       let progress = 100 * (totalSize ? uploaded / totalSize : 1);
 
       this.props.instance.setState({
-         inputError: progress == 100 ? false : this.props.instance.uploadInProgressText,
+         inputError: progress == 100 ? false : this.props.instance.widget.uploadInProgressText,
       });
 
       this.setState({

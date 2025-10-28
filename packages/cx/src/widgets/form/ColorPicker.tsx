@@ -1,3 +1,4 @@
+/** @jsxImportSource react */
 import { Widget, VDOM } from "../../ui/Widget";
 import { Field } from "./Field";
 import { captureMouseOrTouch, getCursorPos } from "../overlay/captureMouse";

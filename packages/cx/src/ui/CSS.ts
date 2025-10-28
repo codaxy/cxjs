@@ -48,7 +48,7 @@ export class CSS {
       return list || [];
    }
 
-   static block(baseClass: string, styleModifiers: any, stateModifiers: any): string | null {
+   static block(baseClass: string, styleModifiers: any, stateModifiers?: any): string | null {
       let list: any[] | undefined;
       if (baseClass) list = push(list, this.classPrefix + "b-" + baseClass);
       list = pushMap(list, this.resolve(styleModifiers), (m) => this.classPrefix + "m-" + m);
@@ -56,7 +56,7 @@ export class CSS {
       return join(list);
    }
 
-   static element(baseClass: string, elementClass: string, stateModifiers: any): string | null {
+   static element(baseClass: string, elementClass: string, stateModifiers?: any): string | null {
       let list: any[] | undefined;
       if (baseClass && elementClass) list = push(list, this.classPrefix + "e-" + baseClass + "-" + elementClass);
       list = pushMap(list, this.resolve(stateModifiers), (m) => this.classPrefix + "s-" + m);
@@ -75,7 +75,7 @@ export class CSS {
       return join(this.resolve(...args));
    }
 
-   static parseStyle(str: string): any {
+   static parseStyle(str: any): any {
       return parseStyle(str);
    }
 }

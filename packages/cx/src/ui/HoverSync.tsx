@@ -78,7 +78,7 @@ class HoverSyncChild extends VDOM.Component<HoverSyncChildProps, HoverSyncChildS
       this.props.hoverSync.report(this.props.hoverChannel, this.props.hoverId, false);
    }
 
-   compontentWillUnmount() {
+   componentWillUnmount() {
       this.unsubscribe();
    }
 

@@ -1,6 +1,8 @@
+/** @jsxImportSource react */
+
 import { Widget, VDOM, getContent } from "../../ui/Widget";
 import { TextField } from "./TextField";
-import { getFieldTooltip } from "./Field";
+import { getFieldTooltip, FieldInstance } from "./Field";
 import type { RenderingContext } from "../../ui/RenderingContext";
 import type { Instance } from "../../ui/Instance";
 import {
@@ -31,7 +33,7 @@ export class TextArea extends TextField {
       super.prepareData(context, instance);
    }
 
-   renderInput(context: RenderingContext, instance: Instance, key: string): React.ReactNode {
+   renderInput(context: RenderingContext, instance: FieldInstance<TextArea>, key: string): React.ReactNode {
       return (
          <Input
             key={key}
@@ -53,8 +55,8 @@ TextArea.prototype.reactOn = "blur";
 TextArea.prototype.suppressErrorsUntilVisited = true;
 
 interface InputProps {
-   instance: Instance;
-   data: Record<string, unknown>;
+   instance: FieldInstance<TextArea>;
+   data: Record<string, any>;
    label?: React.ReactNode;
    help?: React.ReactNode;
 }
@@ -109,7 +111,7 @@ class Input extends VDOM.Component<InputProps, InputState> {
                tabIndex={data.tabIndex}
                placeholder={data.placeholder}
                {...data.inputAttrs}
-               onInput={(e) => this.onChange(e.target.value, "input")}
+               onInput={(e: React.FormEvent<HTMLTextAreaElement>) => this.onChange(e.currentTarget.value, "input")}
                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => this.onChange(e.target.value, "change")}
                onBlur={(e: React.FocusEvent<HTMLTextAreaElement>) => this.onBlur(e)}
                onFocus={(e: React.FocusEvent<HTMLTextAreaElement>) => this.onFocus()}
@@ -132,7 +134,7 @@ class Input extends VDOM.Component<InputProps, InputState> {
    }
 
    componentDidMount(): void {
-      tooltipParentDidMount(this.input, ...getFieldTooltip(this.props.instance));
+      tooltipParentDidMount(this.input!, ...getFieldTooltip(this.props.instance));
       autoFocus(this.input, this);
    }
 
@@ -156,9 +158,9 @@ class Input extends VDOM.Component<InputProps, InputState> {
 
    UNSAFE_componentWillReceiveProps({ data, instance }: InputProps): void {
       if (data.value != this.props.data.value) {
-         this.input.value = data.value || "";
+         this.input!.value = data.value || "";
       }
-      tooltipParentWillReceiveProps(this.input, ...getFieldTooltip(instance));
+      tooltipParentWillReceiveProps(this.input!, ...getFieldTooltip(instance));
    }
 
    onChange(inputValue: string, change: string): void {

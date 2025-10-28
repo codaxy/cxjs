@@ -1,5 +1,6 @@
 /**@jsxImportSource react */
-import { Instance, RenderingContext } from "src/ui";
+import { Instance } from "../ui/Instance";
+import type { RenderingContext } from "../ui/RenderingContext";
 import { getAccessor } from "../data/getAccessor";
 import { GroupAdapter, GroupingConfig } from "../ui/adapter/GroupAdapter";
 import { batchUpdates } from "../ui/batchUpdates";
@@ -88,7 +89,7 @@ export class List extends Widget {
          style: this.itemStyle,
          disabled: this.itemDisabled,
          ...this.item,
-      });
+      }) as ListItem;
 
       delete this.children;
 
