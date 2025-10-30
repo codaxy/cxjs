@@ -11,8 +11,7 @@ export interface ExposedRecordViewConfig {
 }
 
 export class ExposedRecordView<D = any> extends View<D> {
-   // @ts-expect-error
-   store: View;
+   declare store: View;
    itemIndex: number;
    immutable: boolean;
    collectionBinding: Binding;

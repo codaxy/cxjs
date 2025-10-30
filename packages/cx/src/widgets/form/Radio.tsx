@@ -43,7 +43,7 @@ export class Radio extends Field {
       return data.text;
    }
 
-   prepareData(context: RenderingContext, instance: Instance): void {
+   prepareData(context: RenderingContext, instance: FieldInstance<Radio>): void {
       super.prepareData(context, instance);
       let { data } = instance;
       data.checked = data.value === data.option;

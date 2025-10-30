@@ -105,7 +105,7 @@ export class DateTimeField extends Field {
       super.init();
    }
 
-   prepareData(context: RenderingContext, instance: Instance): void {
+   prepareData(context: RenderingContext, instance: FieldInstance<DateTimeField>): void {
       let { data } = instance;
       let dropdownInstance = instance as DropdownInstance;
 
@@ -139,7 +139,7 @@ export class DateTimeField extends Field {
       super.prepareData(context, instance);
    }
 
-   validate(context: RenderingContext, instance: Instance): void {
+   validate(context: RenderingContext, instance: FieldInstance<DateTimeField>): void{
       super.validate(context, instance);
       let { data, widget } = instance;
       let dateTimeWidget = widget as DateTimeField;

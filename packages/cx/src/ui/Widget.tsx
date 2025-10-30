@@ -13,6 +13,8 @@ import type { Controller, ControllerConfig } from "./Controller";
 import { BooleanProp, ClassProp, StyleProp } from "./Prop";
 import { Instance } from "./Instance";
 import { VDOM as vdom } from "./VDOM";
+import { ViewMethods } from "../data/View";
+
 export const VDOM = vdom;
 
 let widgetId = 100;

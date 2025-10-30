@@ -5,8 +5,7 @@ export interface ReadOnlyDataViewConfig extends ViewConfig {
 }
 
 export class ReadOnlyDataView extends View {
-   // @ts-expect-error
-   store: View;
+   declare store: View;
    data?: any;
    immutable?: boolean;
 

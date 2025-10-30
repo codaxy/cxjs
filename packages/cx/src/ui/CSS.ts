@@ -20,8 +20,8 @@ function pushMap(list: any[] | undefined, itemArray: any[] | undefined, mapF: (i
    return itemArray ? pushMore(list, itemArray.map(mapF)) : list;
 }
 
-function join(list: any[] | undefined): string | null {
-   return list ? list.join(" ") : null;
+function join(list: any[] | undefined): string | undefined {
+   return list ? list.join(" ") : undefined;
 }
 
 export class CSS {
@@ -48,7 +48,7 @@ export class CSS {
       return list || [];
    }
 
-   static block(baseClass: string, styleModifiers: any, stateModifiers?: any): string | null {
+   static block(baseClass: string, styleModifiers: any, stateModifiers?: any): string | undefined {
       let list: any[] | undefined;
       if (baseClass) list = push(list, this.classPrefix + "b-" + baseClass);
       list = pushMap(list, this.resolve(styleModifiers), (m) => this.classPrefix + "m-" + m);
@@ -56,22 +56,22 @@ export class CSS {
       return join(list);
    }
 
-   static element(baseClass: string, elementClass: string, stateModifiers?: any): string | null {
+   static element(baseClass: string, elementClass: string, stateModifiers?: any): string | undefined {
       let list: any[] | undefined;
       if (baseClass && elementClass) list = push(list, this.classPrefix + "e-" + baseClass + "-" + elementClass);
       list = pushMap(list, this.resolve(stateModifiers), (m) => this.classPrefix + "s-" + m);
       return join(list);
    }
 
-   static state(stateModifiers: any): string | null {
+   static state(stateModifiers: any): string | undefined {
       return join(pushMap(undefined, this.resolve(stateModifiers), (m) => this.classPrefix + "s-" + m));
    }
 
-   static mod(mods: any): string | null {
+   static mod(mods: any): string | undefined {
       return join(pushMap(undefined, this.resolve(mods), (m) => this.classPrefix + "m-" + m));
    }
 
-   static expand(...args: any[]): string | null {
+   static expand(...args: any[]): string | undefined {
       return join(this.resolve(...args));
    }
 

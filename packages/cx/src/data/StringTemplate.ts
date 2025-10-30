@@ -1,4 +1,3 @@
-
 import { expression } from "./Expression";
 import { MemoSelector } from "./Selector";
 
@@ -8,7 +7,7 @@ function plus(str: string) {
    return str.length ? str + " + " : str;
 }
 
-export function stringTemplate(str: string): MemoSelector {
+export function stringTemplate(str: string): MemoSelector<string> {
    let tplCache = getTplCache();
    let cached = tplCache[str];
    if (cached) return cached;

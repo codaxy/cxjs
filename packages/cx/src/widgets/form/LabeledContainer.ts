@@ -7,13 +7,13 @@ import { Label } from './Label';
 
 export class LabeledContainer extends FieldGroup
 {
-   label?: string | Record<string, unknown> | Label; // Can be string, selector, or Label widget config
+   label?: string | Record<string, unknown> | Label | Widget; // Can be string, selector, Label widget config, or Widget
    disabled?: boolean;
    mod?: Record<string, unknown>;
    asterisk?: boolean;
 
-   declareData(...args: Record<string, unknown>[]): Record<string, unknown> {
-      return super.declareData(...args, {
+   declareData(...args: Record<string, unknown>[]): void {
+      super.declareData(...args, {
          label: undefined
       });
    }

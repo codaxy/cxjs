@@ -22,8 +22,8 @@ export class ValidationGroup extends PureContainer {
    public errors?: unknown;
    public isolated?: boolean;
 
-   declareData(...args: Record<string, unknown>[]): Record<string, unknown> {
-      return super.declareData(...args, {
+   declareData(...args: Record<string, unknown>[]): void {
+      super.declareData(...args, {
          errors: undefined,
          valid: undefined,
          invalid: undefined,

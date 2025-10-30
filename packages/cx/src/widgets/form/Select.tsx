@@ -1,6 +1,8 @@
+/** @jsxImportSource react */
+
 import { Widget, VDOM, getContent } from "../../ui/Widget";
 import { HtmlElement } from "../HtmlElement";
-import { Field, getFieldTooltip } from "./Field";
+import { Field, getFieldTooltip, FieldInstance } from "./Field";
 import {
    tooltipParentWillReceiveProps,
    tooltipMouseMove,
@@ -17,8 +19,32 @@ import { KeyCode } from "../../util/KeyCode";
 import { autoFocus } from "../autoFocus";
 import type { RenderingContext } from "../../ui/RenderingContext";
 import type { Instance } from "../../ui/Instance";
+import { FieldConfig } from "./Field";
+import { Prop, StringProp, BooleanProp } from "../../ui/Prop";
 
-export class Select extends Field {
+export interface SelectConfig extends FieldConfig {
+   value?: Prop<number | string>;
+   emptyValue?: unknown;
+   enabled?: BooleanProp;
+   placeholder?: StringProp;
+   hideClear?: boolean;
+   showClear?: boolean;
+   alwaysShowClear?: boolean;
+   baseClass?: string;
+   multiple?: boolean;
+   convertValues?: boolean;
+   nullString?: string;
+}
+
+export class Select<Config extends SelectConfig = SelectConfig> extends Field<Config> {
+   declare public baseClass: string;
+   public hideClear?: boolean;
+   public showClear!: boolean;
+   public alwaysShowClear!: boolean;
+   public multiple!: boolean;
+   public convertValues!: boolean;
+   public nullString!: string;
+   
    declareData(...args: Record<string, unknown>[]): void {
       super.declareData(
          {
@@ -39,7 +65,7 @@ export class Select extends Field {
       super.init();
    }
 
-   renderInput(context: RenderingContext, instance: Instance, key: string): React.ReactNode {
+   renderInput(context: RenderingContext, instance: FieldInstance<Select>, key: string): React.ReactNode {
       return (
          <SelectComponent
             key={key}
@@ -88,7 +114,7 @@ Widget.alias("select", Select);
 Localization.registerPrototype("cx/widgets/Select", Select);
 
 interface SelectComponentProps {
-   instance: Instance;
+   instance: FieldInstance<Select>;
    multiple: boolean;
    select: (value: string) => void;
    label?: React.ReactNode;

@@ -1,5 +1,7 @@
+/** @jsxImportSource react */
+
 import { Widget, VDOM, getContent } from "../../ui/Widget";
-import { Field, getFieldTooltip } from "./Field";
+import { Field, getFieldTooltip, FieldInstance } from "./Field";
 import type { RenderingContext } from "../../ui/RenderingContext";
 import type { Instance } from "../../ui/Instance";
 import {
@@ -17,16 +19,23 @@ import { getTopLevelBoundingClientRect } from "../../util/getTopLevelBoundingCli
 import { addEventListenerWithOptions } from "../../util/addEventListenerWithOptions";
 
 export class Slider extends Field {
+   declare public baseClass: string;
    public min?: number;
    public max?: number;
+   public minValue!: number;
+   public maxValue!: number;
    public value?: number;
-   public vertical?: boolean;
-   public invert?: boolean;
+   public vertical!: boolean;
+   public invert!: boolean;
+   public from?: number;
+   public to?: number;
    public showFrom?: boolean;
    public showTo?: boolean;
    public toTooltip?: Record<string, unknown>;
    public fromTooltip?: Record<string, unknown>;
    public valueTooltip?: Record<string, unknown>;
+   public incrementPercentage!: number;
+   public wheel!: boolean;
 
    declareData(...args: Record<string, unknown>[]): void {
       super.declareData(
@@ -72,7 +81,7 @@ export class Slider extends Field {
       super.init();
    }
 
-   prepareData(context: RenderingContext, instance: Instance): void {
+   prepareData(context: RenderingContext, instance: FieldInstance<Slider>): void {
       let { data } = instance;
       data.stateMods = {
          ...data.stateMods,
@@ -83,7 +92,7 @@ export class Slider extends Field {
       super.prepareData(context, instance);
    }
 
-   renderInput(context: RenderingContext, instance: Instance, key: string): React.ReactNode {
+   renderInput(context: RenderingContext, instance: FieldInstance<Slider>, key: string): React.ReactNode {
       return (
          <SliderComponent
             key={key}
@@ -106,8 +115,8 @@ Slider.prototype.invert = false;
 Widget.alias("slider", Slider);
 
 interface SliderComponentProps {
-   instance: Instance;
-   data: Record<string, unknown>;
+   instance: FieldInstance<Slider>;
+   data: Record<string, any>;
    label?: React.ReactNode;
 }
 

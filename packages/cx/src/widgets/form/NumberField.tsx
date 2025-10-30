@@ -1,5 +1,7 @@
+/** @jsxImportSource react */
+
 import { Widget, VDOM, getContent } from "../../ui/Widget";
-import { Field, getFieldTooltip } from "./Field";
+import { Field, getFieldTooltip, FieldInstance, FieldConfig } from "./Field";
 import { Format } from "../../ui/Format";
 import { Culture } from "../../ui/Culture";
 import type { RenderingContext } from "../../ui/RenderingContext";
@@ -23,10 +25,49 @@ import { getActiveElement } from "../../util/getActiveElement";
 import { enableCultureSensitiveFormatting } from "../../ui/Format";
 import { KeyCode } from "../../util/KeyCode";
 import { autoFocus } from "../autoFocus";
+import { Prop, NumberProp, StringProp, BooleanProp } from "../../ui/Prop";
 
 enableCultureSensitiveFormatting();
 
-export class NumberField extends Field {
+export interface NumberFieldConfig extends FieldConfig {
+   value?: NumberProp;
+   readOnly?: BooleanProp;
+   enabled?: BooleanProp;
+   placeholder?: StringProp;
+   format?: StringProp;
+   minValue?: NumberProp;
+   minExclusive?: BooleanProp;
+   maxValue?: NumberProp;
+   maxExclusive?: BooleanProp;
+   constrain?: BooleanProp;
+   incrementPercentage?: NumberProp;
+   increment?: NumberProp;
+   step?: number;
+   baseClass?: string;
+   snapToIncrement?: boolean;
+   showClear?: boolean;
+   hideClear?: boolean;
+   alwaysShowClear?: boolean;
+   reactOn?: string;
+   inputType?: "text" | "password";
+   maxValueErrorText?: string;
+   maxExclusiveErrorText?: string;
+   minValueErrorText?: string;
+   minExclusiveErrorText?: string;
+   inputErrorText?: string;
+   scale?: number;
+   offset?: number;
+}
+
+export class NumberField<Config extends NumberFieldConfig = NumberFieldConfig> extends Field<Config> {
+   declare public baseClass: string;
+   public reactOn!: string;
+   public format!: string;
+   public inputType!: string;
+   public incrementPercentage!: number;
+   public increment?: number;
+   public scale!: number;
+   public offset!: number;
    public step?: number;
    public hideClear?: boolean;
    public showClear?: boolean;
@@ -74,7 +115,7 @@ export class NumberField extends Field {
       super.init();
    }
 
-   prepareData(context: RenderingContext, instance: Instance): void {
+   prepareData(context: RenderingContext, instance: FieldInstance<NumberField>): void {
       let { data, state, cached } = instance;
       data.formatted = Format.value(data.value, data.format);
 
@@ -83,11 +124,11 @@ export class NumberField extends Field {
       super.prepareData(context, instance);
    }
 
-   formatValue(context: RenderingContext, { data }: Instance): string | number | undefined {
+   formatValue(context: RenderingContext, { data }: FieldInstance<NumberField>): string | number | undefined {
       return data.formatted;
    }
 
-   parseValue(value: string, instance: Instance): number {
+   parseValue(value: string, instance: FieldInstance<NumberField>): number {
       if (this.onParseInput) {
          let result = instance.invoke("onParseInput", value, instance);
          if (result !== undefined) return result;
@@ -95,7 +136,7 @@ export class NumberField extends Field {
       return Culture.getNumberCulture().parse(value);
    }
 
-   validate(context: RenderingContext, instance: Instance): void {
+   validate(context: RenderingContext, instance: FieldInstance<NumberField>): void {
       super.validate(context, instance);
 
       let { data } = instance;
@@ -116,7 +157,7 @@ export class NumberField extends Field {
       }
    }
 
-   renderInput(context: RenderingContext, instance: Instance, key: string): React.ReactNode {
+   renderInput(context: RenderingContext, instance: FieldInstance<NumberField>, key: string): React.ReactNode {
       return (
          <Input
             key={key}
@@ -129,7 +170,7 @@ export class NumberField extends Field {
       );
    }
 
-   validateRequired(context: RenderingContext, instance: Instance): string | undefined {
+   validateRequired(context: RenderingContext, instance: FieldInstance<NumberField>): string | undefined {
       return instance.state.empty && this.requiredText;
    }
 }
@@ -158,8 +199,8 @@ Widget.alias("numberfield", NumberField);
 Localization.registerPrototype("cx/widgets/NumberField", NumberField);
 
 interface InputProps {
-   instance: Instance;
-   data: Record<string, unknown>;
+   instance: FieldInstance<NumberField>;
+   data: Record<string, any>;
    label?: React.ReactNode;
    help?: React.ReactNode;
    icon?: React.ReactNode;
@@ -278,7 +319,7 @@ class Input extends VDOM.Component<InputProps, InputState> {
 
    componentWillUnmount(): void {
       if (this.input == getActiveElement() && this.input.value != this.props.data.formatted) {
-         this.onChange({ target: { value: this.input.value } }, "blur");
+         this.onChange({ currentTarget: this.input } as React.SyntheticEvent<HTMLInputElement>, "blur");
       }
       tooltipParentWillUnmount(this.props.instance);
    }
@@ -362,13 +403,14 @@ class Input extends VDOM.Component<InputProps, InputState> {
       }
    }
 
-   onChange(e: React.SyntheticEvent<HTMLInputElement>, change: string): void {
+   onChange(e: React.SyntheticEvent<HTMLInputElement> | React.WheelEvent<HTMLInputElement>, change: string): void {
       let { instance, data } = this.props;
       let { widget } = instance;
+      let inputValue = e.currentTarget.value;
 
       if (data.required) {
          instance.setState({
-            empty: !e.target.value,
+            empty: !inputValue,
          });
       }
 
@@ -386,8 +428,8 @@ class Input extends VDOM.Component<InputProps, InputState> {
 
       let value = null;
 
-      if (e.target.value) {
-         let displayValue = widget.parseValue(e.target.value, instance);
+      if (inputValue) {
+         let displayValue = widget.parseValue(inputValue, instance);
          if (isNaN(displayValue)) {
             instance.setState({
                inputError: instance.widget.inputErrorText,
@@ -401,7 +443,8 @@ class Input extends VDOM.Component<InputProps, InputState> {
             e.preventDefault();
             let increment =
                data.increment != null ? data.increment : this.calculateIncrement(value, data.incrementPercentage);
-            value = value + (e.deltaY < 0 ? increment : -increment);
+            let deltaY = (e as React.WheelEvent<HTMLInputElement>).deltaY;
+            value = value + (deltaY < 0 ? increment : -increment);
             if (widget.snapToIncrement) {
                value = Math.round(value / increment) * increment;
             }
@@ -447,13 +490,15 @@ class Input extends VDOM.Component<InputProps, InputState> {
 
          // Allow users to type numbers like 100.0003 or -0.05 without interruptions
          // If the last typed character is zero or dot (decimal separator), skip processing it
+         let selectionEnd = this.input!.selectionEnd;
          if (
             change == "change" &&
-            this.input.selectionStart == this.input.selectionEnd &&
-            this.input.selectionEnd >= this.getLengthWithoutSuffix(this.input.value, decimalSeparator) &&
-            (e.target.value[this.input.selectionEnd - 1] == decimalSeparator ||
-               (e.target.value.indexOf(decimalSeparator) >= 0 && e.target.value[this.input.selectionEnd - 1] == "0") ||
-               (this.input.selectionEnd == 2 && e.target.value[0] === "-" && e.target.value[1] === "0"))
+            this.input!.selectionStart == selectionEnd &&
+            selectionEnd != null &&
+            selectionEnd >= this.getLengthWithoutSuffix(this.input!.value, decimalSeparator) &&
+            (inputValue[selectionEnd - 1] == decimalSeparator ||
+               (inputValue.indexOf(decimalSeparator) >= 0 && inputValue[selectionEnd - 1] == "0") ||
+               (selectionEnd == 2 && inputValue[0] === "-" && inputValue[1] === "0"))
          )
             return;
 

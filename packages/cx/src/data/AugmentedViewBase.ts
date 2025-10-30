@@ -7,9 +7,7 @@ export interface AugmentedViewBaseConfig extends ViewConfig {
 
 export class AugmentedViewBase<D = any> extends View<D> {
    immutable: boolean;
-
-   //@ts-expect-error
-   store: View;
+   declare store: View;
 
    constructor(config: AugmentedViewBaseConfig) {
       super(config);

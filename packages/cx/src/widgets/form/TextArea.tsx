@@ -27,7 +27,7 @@ export class TextArea extends TextField {
       );
    }
 
-   prepareData(context: RenderingContext, instance: Instance): void {
+   prepareData(context: RenderingContext, instance: FieldInstance<TextArea>): void {
       let { state, data, cached } = instance;
       if (!cached.data || data.value != cached.data.value) state.empty = !data.value;
       super.prepareData(context, instance);

@@ -51,6 +51,7 @@ export interface FieldConfig extends PureContainerConfig {
 }
 
 export class FieldInstance<F extends Field<any, any> = Field<any, any>> extends Instance<F> {
+   declare state: Record<string, any>;
    parentDisabled?: boolean;
    parentReadOnly?: boolean;
    parentViewMode?: string;

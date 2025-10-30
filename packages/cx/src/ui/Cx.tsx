@@ -256,7 +256,8 @@ class CxContext extends VDOM.Component<CxContextProps, {}> {
       if (!(instance as any).detached)
          throw new Error("The instance passed to a Cx component should be detached from its parent.");
 
-      if (this.props.instance !== instance && (this.props.instance as any).destroyTracked) (this.props.instance as any).destroy();
+      if (this.props.instance !== instance && (this.props.instance as any).destroyTracked)
+         (this.props.instance as any).destroy();
 
       this.props.flags.preparing = true;
 
@@ -289,7 +290,8 @@ class CxContext extends VDOM.Component<CxContextProps, {}> {
             if (visible) {
                this.timings.afterExplore = now();
 
-               for (let i = 0; i < (context as any).prepareList.length; i++) (context as any).prepareList[i].prepare(context);
+               for (let i = 0; i < (context as any).prepareList.length; i++)
+                  (context as any).prepareList[i].prepare(context);
                this.timings.afterPrepare = now();
             }
          } while (
@@ -310,7 +312,8 @@ class CxContext extends VDOM.Component<CxContextProps, {}> {
             this.content = getContent((instance as any).vdom);
             if (contentFactory) this.content = contentFactory({ children: this.content });
             this.timings.afterRender = now();
-            for (let i = 0; i < (context as any).cleanupList.length; i++) (context as any).cleanupList[i].cleanup(context);
+            for (let i = 0; i < (context as any).cleanupList.length; i++)
+               (context as any).cleanupList[i].cleanup(context);
          } else {
             this.content = null;
             this.timings.afterExplore = this.timings.afterPrepare = this.timings.afterRender = now();

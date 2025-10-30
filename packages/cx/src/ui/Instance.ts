@@ -14,7 +14,7 @@ import { isUndefined } from "../util/isUndefined";
 import { isAccessorChain } from "../data/createAccessorModelProxy";
 import { CxChild, RenderingContext } from "./RenderingContext";
 import type { Widget } from "./Widget";
-import { View } from "src/data";
+import { View } from "../data/View";
 
 /**
  * Serializable value types that can be safely passed through the framework

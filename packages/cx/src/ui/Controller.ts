@@ -4,7 +4,7 @@ import { isArray } from "../util/isArray";
 import { isFunction } from "../util/isFunction";
 import { StoreProxy } from "../data/StoreProxy";
 import { RenderingContext } from "./RenderingContext";
-import { View } from "src/data";
+import { View } from "../data/View";
 import { Widget } from "./Widget";
 import { Instance } from "./Instance";
 

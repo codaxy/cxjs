@@ -15,7 +15,62 @@ export interface ViewConfig {
    sealed?: boolean;
 }
 
-export class View<D = any> {
+export interface ViewMethods<D = Record<string, any>> {
+   getData(): D;
+
+   init(path: Path, value: unknown): boolean;
+   init<V>(path: AccessorChain<V>, value: V): boolean;
+   init<T extends Record<string, unknown>>(initObject: T): boolean;
+
+   set(path: Path, value: any): boolean;
+   set<T extends Record<string, any>>(changes: T): boolean;
+   set<V>(path: AccessorChain<V>, value: V): boolean;
+
+   get(path: Path): any;
+   get(paths: Path[]): any[];
+   get(...paths: Path[]): any[];
+   get<V>(path: AccessorChain<V>): V;
+   get<T extends any[]>(...paths: { [K in keyof T]: AccessorChain<T[K]> }): T;
+   get<T extends any[]>(paths: { [K in keyof T]: AccessorChain<T[K]> }): T;
+
+   /**
+    * Removes data from the Store.
+    * @param paths - One or more paths to be deleted.
+    * @return {boolean}
+    */
+   delete(path: Path): boolean;
+   delete(paths: Path[]): boolean;
+   delete(...paths: Path[]): boolean;
+   delete<V>(path: AccessorChain<V>): boolean;
+   delete<T extends any[]>(...paths: { [K in keyof T]: AccessorChain<T[K]> }): boolean;
+   delete<T extends any[]>(paths: { [K in keyof T]: AccessorChain<T[K]> }): boolean;
+
+   toggle(path: Path): boolean;
+   toggle(path: AccessorChain<boolean>): boolean;
+
+   update(updateFn: (currentValue: D, ...args: any[]) => any, ...args: any): boolean;
+   update<A extends any[]>(path: Path, updateFn: (currentValue: any, ...args: A) => any, ...args: A): boolean;
+   update<V, A extends any[]>(
+      path: AccessorChain<V>,
+      updateFn: (currentValue: V, ...args: A) => V,
+      ...args: A
+   ): boolean;
+
+   /**
+    *  Mutates the content of the store using Immer
+    */
+   mutate(updateFn: (currentValue: D, ...args: any[]) => void, ...args: any[]): boolean;
+   mutate<A extends any[]>(path: Path, updateFn: (currentValue: any, ...args: A) => void, ...args: A): boolean;
+   mutate<V, A extends any[]>(
+      path: AccessorChain<V>,
+      updateFn: (currentValue: V, ...args: A) => void,
+      ...args: A
+   ): boolean;
+
+   ref<T = any>(path: string | AccessorChain<T>, defaultValue?: T): Ref<T>;
+}
+
+export class View<D = any> implements ViewMethods<D> {
    store?: View;
    meta: any;
    cache: { version: number; data?: any; result?: any; itemIndex?: number; key?: string; parentStoreData?: any };
@@ -216,7 +271,7 @@ export class View<D = any> {
       });
    }
 
-   getMethods() {
+   getMethods(): ViewMethods<D> {
       return {
          getData: this.getData.bind(this),
          set: this.set.bind(this),
@@ -226,7 +281,7 @@ export class View<D = any> {
          toggle: this.toggle.bind(this),
          init: this.init.bind(this),
          ref: this.ref.bind(this),
-         mutate: this.ref.bind(this),
+         mutate: this.mutate.bind(this),
       };
    }
 }

@@ -144,8 +144,7 @@ class RestateStore extends Store {
    privateData: any;
    onSet: any;
    detached: any;
-   // @ts-expect-error - RestateStore needs its own store property to reference the parent store
-   store: View; // Parent store reference
+   declare store: View; // Parent store reference
 
    constructor(config: any) {
       super(config);

@@ -6,9 +6,7 @@ export class ExposedValueView extends View {
    containerBinding?: any;
    recordName: string;
    immutable?: boolean;
-
-   // @ts-expect-error
-   store: View;
+   declare store: View;
 
    getData(): any {
       if (

@@ -52,7 +52,7 @@ export class Switch extends Field {
       super.init();
    }
 
-   prepareData(context: RenderingContext, instance: Instance): void {
+   prepareData(context: RenderingContext, instance: FieldInstance<Switch>): void {
       let { data } = instance;
 
       if (isDefined(this.off)) data.on = !data.off;

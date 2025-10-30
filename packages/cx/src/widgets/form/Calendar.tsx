@@ -109,7 +109,7 @@ export class Calendar extends Field {
       super.prepareData(context, instance, ...args);
    }
 
-   validate(context: RenderingContext, instance: Instance) {
+   validate(context: RenderingContext, instance: FieldInstance<Calendar>) {
       super.validate(context, instance);
       let { data, widget } = instance;
       let calendarWidget = widget as Calendar;

@@ -1,4 +1,4 @@
-import { Instance } from "src/ui/Instance";
+import { Instance } from "../../ui/Instance";
 
 /**
  * Tooltip configuration - can be a string or complex config object
