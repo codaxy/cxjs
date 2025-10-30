@@ -3,7 +3,7 @@ import { Widget, VDOM, getContent } from "../../ui/Widget";
 import { Cx } from "../../ui/Cx";
 import { Field, getFieldTooltip, FieldInstance } from "./Field";
 import { ReadOnlyDataView } from "../../data/ReadOnlyDataView";
-import { HtmlElement } from "../HtmlElement";
+import { HtmlElement, HtmlElementInstance } from "../HtmlElement";
 import { Binding, BindingInput } from "../../data/Binding";
 import { debug } from "../../util/Debug";
 import { Dropdown } from "../overlay/Dropdown";
@@ -1283,8 +1283,9 @@ class LookupComponent extends VDOM.Component<LookupComponentProps, LookupCompone
    submitOnEnter(e: React.KeyboardEvent): void {
       let instance = this.props.instance.parent;
       while (instance) {
-         if (instance.events && instance.events.onSubmit) {
-            instance.events.onSubmit(e, instance);
+         let htmlInstance = instance as HtmlElementInstance;
+         if (htmlInstance.events && htmlInstance.events.onSubmit) {
+            htmlInstance.events.onSubmit(e, instance);
             break;
          } else {
             instance = instance.parent;

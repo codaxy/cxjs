@@ -18,7 +18,8 @@ import { isDefined } from "../util/isDefined";
 import { isArray } from "../util/isArray";
 import { autoFocus } from "./autoFocus";
 import type { CxChild, RenderingContext } from "../ui/RenderingContext";
-import type { WidgetData, Instance, RenderProps } from "../ui/Instance";
+import type { WidgetData, RenderProps } from "../ui/Instance";
+import { Instance } from "../ui/Instance";
 import type { TooltipConfig } from "./overlay/tooltip-ops";
 import { StringProp, NumberProp, StructuredProp } from "../ui/Prop";
 
@@ -40,7 +41,14 @@ export interface HtmlElementConfig extends StyledContainerConfig {
    tooltip?: StringProp | TooltipConfig;
 }
 
-export class HtmlElement<Config extends HtmlElementConfig = HtmlElementConfig> extends Container<Config> {
+export class HtmlElementInstance<E extends HtmlElement<any, any> = HtmlElement<any, any>> extends Instance<E> {
+   events?: Record<string, (e: React.SyntheticEvent, instance: Instance) => any>;
+}
+
+export class HtmlElement<
+   Config extends HtmlElementConfig = HtmlElementConfig,
+   InstanceType extends HtmlElementInstance<any> = HtmlElementInstance<any>,
+> extends Container<Config, InstanceType> {
    public tag?: string;
    public html?: string;
    public innerText?: string;
@@ -167,7 +175,7 @@ export class HtmlElement<Config extends HtmlElementConfig = HtmlElementConfig> e
       super.init();
    }
 
-   prepareData(context: RenderingContext, instance: Instance): void {
+   prepareData(context: RenderingContext, instance: InstanceType): void {
       const { data } = instance;
       if (this.urlAttributes && data.attrs) {
          data.attrs = { ...data.attrs };
@@ -181,19 +189,19 @@ export class HtmlElement<Config extends HtmlElementConfig = HtmlElementConfig> e
       super.prepareData(context, instance);
    }
 
-   attachProps(context: RenderingContext, instance: Instance, props: RenderProps): void {
+   attachProps(context: RenderingContext, instance: InstanceType, props: RenderProps): void {
       Object.assign(props, this.extraProps);
 
       if (!isString(this.tag)) props.instance = instance;
    }
 
-   render(context: RenderingContext, instance: Instance, key: string): React.ReactNode {
+   render(context: RenderingContext, instance: InstanceType, key: string): React.ReactNode {
       //rebind events to pass instance
       if (this.events && !instance.events) {
          instance.events = {};
          for (const eventName in this.events) {
             const handler = this.events[eventName];
-            instance.events[eventName] = (e: Event) => instance.invoke(eventName, e, instance);
+            instance.events[eventName] = (e: React.SyntheticEvent) => instance.invoke(eventName, e, instance);
          }
       }
 

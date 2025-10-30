@@ -221,7 +221,6 @@ export class Instance<WidgetType extends Widget<any, any> = Widget<any, any>> {
    // Other
    public record?: any;
    public mappedRecords?: any[];
-   public events?: Record<string, (e: Event) => unknown>;
 
    // List-specific
    public instances?: Instance[];
