@@ -10,13 +10,22 @@ export interface CultureInfo {
    culture?: string;
    numberCulture?: string | null;
    dateTimeCulture?: string | null;
-   cache?: any;
    defaultCurrency?: string;
    dateEncoding?: (date: Date) => string;
    timezone?: string | null;
 }
 
-let stack: CultureInfo[] = [
+export interface ResolvedCultureInfo {
+   culture: string;
+   numberCulture?: string | null;
+   dateTimeCulture?: string | null;
+   cache: any;
+   defaultCurrency: string;
+   dateEncoding: (date: Date) => string;
+   timezone?: string | null;
+}
+
+let stack: ResolvedCultureInfo[] = [
    {
       culture: "en",
       numberCulture: null,
@@ -28,11 +37,11 @@ let stack: CultureInfo[] = [
    },
 ];
 
-export function getDefaultCulture(): CultureInfo {
+export function getDefaultCulture(): ResolvedCultureInfo {
    return stack[0];
 }
 
-export function getCurrentCulture(): CultureInfo {
+export function getCurrentCulture(): ResolvedCultureInfo {
    return stack[stack.length - 1];
 }
 
@@ -40,13 +49,13 @@ export function getCurrentCultureCache(): any {
    return getCurrentCulture().cache;
 }
 
-export function pushCulture(cultureInfo: CultureInfo): void {
+export function pushCulture(cultureInfo: ResolvedCultureInfo): void {
    stack.push(cultureInfo);
 }
 
-export function createCulture(cultureSpecs: Partial<CultureInfo>): CultureInfo {
+export function createCulture(cultureSpecs: Partial<CultureInfo>): ResolvedCultureInfo {
    let current = getCurrentCulture();
-   let info: CultureInfo = {
+   let info: ResolvedCultureInfo = {
       culture: current.culture,
       dateEncoding: current.dateEncoding,
       defaultCurrency: current.defaultCurrency,
@@ -137,11 +146,11 @@ export class Culture {
       return cache!.dateTimeCulture;
    }
 
-   static getDefaultDateEncoding(): ((date: Date) => string) | undefined {
+   static getDefaultDateEncoding(): (date: Date) => string {
       return getCurrentCulture().dateEncoding;
    }
 
-   static getComparer(options?: Intl.CollatorOptions): ((a: any, b: any) => number) {
+   static getComparer(options?: Intl.CollatorOptions): (a: any, b: any) => number {
       let { culture } = getCurrentCulture();
       if (typeof Intl.Collator != "undefined") return new Intl.Collator(culture, options).compare;
       return defaultCompare;

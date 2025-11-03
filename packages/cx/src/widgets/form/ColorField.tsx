@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { Cx } from "../../ui/Cx";
-import { DropdownInstance, Instance } from "../../ui/Instance";
+import { DropdownInstance, DropdownWidgetProps, Instance } from "../../ui/Instance";
 import type { RenderingContext } from "../../ui/RenderingContext";
 import { VDOM, Widget, getContent } from "../../ui/Widget";
 import { parseColor } from "../../util/color/parseColor";
@@ -10,7 +10,13 @@ import { isTouchDevice } from "../../util/isTouchDevice";
 import { isTouchEvent } from "../../util/isTouchEvent";
 import { Dropdown } from "../overlay/Dropdown";
 import { ColorPicker } from "./ColorPicker";
-import { Field, getFieldTooltip } from "./Field";
+import { Field, getFieldTooltip, FieldInstance } from "./Field";
+
+export class ColorFieldInstance<F extends ColorField = ColorField> extends FieldInstance<F> implements DropdownWidgetProps {
+   lastDropdown?: Instance;
+   dropdownOpen?: boolean;
+   selectedIndex?: number;
+}
 
 import { stopPropagation } from "../../util/eventCallbacks";
 import { KeyCode } from "../../util/KeyCode";
@@ -30,7 +36,7 @@ import DropdownIcon from "../icons/drop-down";
 
 interface ColorInputProps {
    key?: string;
-   instance: Instance;
+   instance: ColorFieldInstance;
    data: Record<string, unknown>;
    picker: {
       value: unknown;
@@ -46,7 +52,7 @@ interface ColorInputState {
 }
 
 export class ColorField extends Field {
-
+   declare public baseClass: string;
    public showClear?: boolean;
    public alwaysShowClear?: boolean;
    public hideClear?: boolean;
@@ -78,7 +84,7 @@ export class ColorField extends Field {
       super.init();
    }
 
-   prepareData(context: RenderingContext, instance: DropdownInstance): void {
+   prepareData(context: RenderingContext, instance: ColorFieldInstance): void {
       let { data } = instance;
       data.stateMods = [
          data.stateMods,
@@ -90,7 +96,7 @@ export class ColorField extends Field {
       super.prepareData(context, instance);
    }
 
-   renderInput(context: RenderingContext, instance: Instance, key: string): React.ReactNode {
+   renderInput(context: RenderingContext, instance: ColorFieldInstance, key: string): React.ReactNode {
       return (
          <ColorInput
             key={key}

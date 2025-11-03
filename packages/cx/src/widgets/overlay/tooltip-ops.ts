@@ -64,10 +64,10 @@ let impl: TooltipOperations | false = false;
 export function tooltipMouseMove(
    e: React.MouseEvent,
    parentInstance: Instance,
-   tooltip: TooltipConfig,
+   tooltip: TooltipConfig | undefined,
    options: TooltipOptions = {}
 ): void {
-   if (impl) {
+   if (impl && tooltip) {
       impl.tooltipMouseMove.call(impl, e, parentInstance, tooltip, options);
    }
 }
@@ -75,10 +75,10 @@ export function tooltipMouseMove(
 export function tooltipMouseLeave(
    e: React.MouseEvent,
    parentInstance: Instance,
-   tooltip: TooltipConfig,
+   tooltip: TooltipConfig | undefined,
    options?: TooltipOptions
 ): void {
-   if (impl) {
+   if (impl && tooltip) {
       impl.tooltipMouseLeave.call(impl, e, parentInstance, tooltip, options);
    }
 }
@@ -86,7 +86,7 @@ export function tooltipMouseLeave(
 export function tooltipParentDidMount(
    element: HTMLElement,
    parentInstance: Instance,
-   tooltip: TooltipConfig,
+   tooltip: TooltipConfig | undefined,
    options?: TooltipOptions
 ): void {
    if (impl) {
@@ -97,7 +97,7 @@ export function tooltipParentDidMount(
 export function tooltipParentWillReceiveProps(
    element: HTMLElement,
    parentInstance: Instance,
-   tooltip: TooltipConfig,
+   tooltip: TooltipConfig | undefined,
    options?: TooltipOptions
 ): void {
    if (impl) {

@@ -10,6 +10,7 @@ import {
    tooltipMouseMove,
    tooltipMouseLeave,
    tooltipParentDidMount,
+   type TooltipConfig,
 } from "../overlay/tooltip-ops";
 import { captureMouseOrTouch, getCursorPos } from "../overlay/captureMouse";
 import { isUndefined } from "../../util/isUndefined";
@@ -31,9 +32,9 @@ export class Slider extends Field {
    public to?: number;
    public showFrom?: boolean;
    public showTo?: boolean;
-   public toTooltip?: Record<string, unknown>;
-   public fromTooltip?: Record<string, unknown>;
-   public valueTooltip?: Record<string, unknown>;
+   public toTooltip?: TooltipConfig;
+   public fromTooltip?: TooltipConfig;
+   public valueTooltip?: TooltipConfig;
    public incrementPercentage!: number;
    public wheel!: boolean;
 
@@ -251,7 +252,7 @@ class SliderComponent extends VDOM.Component<SliderComponentProps, SliderCompone
       tooltipParentDidMount(this.dom.to, instance, widget.toTooltip, { tooltipName: "toTooltip" });
       tooltipParentDidMount(this.dom.from, instance, widget.fromTooltip, { tooltipName: "fromTooltip" });
 
-      this.unsubscribeOnWheel = addEventListenerWithOptions(this.dom.el, "wheel", (e) => this.onWheel(e), {
+      this.unsubscribeOnWheel = addEventListenerWithOptions(this.dom.el!, "wheel", (e) => this.onWheel(e), {
          passive: false,
       });
    }
@@ -303,27 +304,27 @@ class SliderComponent extends VDOM.Component<SliderComponentProps, SliderCompone
             }
             tooltipMouseMove(e, instance, tooltip, { tooltipName, target: handleEl });
          },
-         (e) => {
+         (e: any) => {
             this.setState({
                drag: false,
             });
             let pos = getCursorPos(e);
             let el = document.elementFromPoint(pos.clientX, pos.clientY);
-            if (el !== handleEl) tooltipMouseLeave(e, instance, tooltip, { tooltipName, target: handleEl });
+            if (el !== handleEl) tooltipMouseLeave(e, instance, tooltip as any, { tooltipName, target: handleEl });
          }
       );
    }
 
-   getValues(e: MouseEvent | TouchEvent, d: number = 0): { percent: number; value: number } {
+   getValues(e: React.MouseEvent | React.TouchEvent | MouseEvent | TouchEvent, d: number = 0): { percent: number; value: number } {
       let { data, widget } = this.props.instance;
       let { minValue, maxValue } = data;
-      let b = getTopLevelBoundingClientRect(this.dom.range);
-      let pos = getCursorPos(e);
+      let b = getTopLevelBoundingClientRect(this.dom.range!);
+      let pos = getCursorPos(e as any);
       let pct = widget.vertical
          ? widget.invert
-            ? Math.max(0, Math.min(1, (pos.clientY - b.top - d) / this.dom.range.offsetHeight))
-            : Math.max(0, Math.min(1, (b.bottom - pos.clientY + d) / this.dom.range.offsetHeight))
-         : Math.max(0, Math.min(1, (pos.clientX - b.left - d) / this.dom.range.offsetWidth));
+            ? Math.max(0, Math.min(1, (pos.clientY - b.top - d) / this.dom.range!.offsetHeight))
+            : Math.max(0, Math.min(1, (b.bottom - pos.clientY + d) / this.dom.range!.offsetHeight))
+         : Math.max(0, Math.min(1, (pos.clientX - b.left - d) / this.dom.range!.offsetWidth));
       let delta = (maxValue - minValue) * pct;
       if (data.step) {
          let currentValue = Math.round(delta / data.step) * data.step + minValue;

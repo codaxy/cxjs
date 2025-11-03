@@ -1,3 +1,5 @@
+/**@jsxImportSource react */
+
 import { DateTimeCulture } from "intl-io";
 import { StringTemplate } from "../../data/StringTemplate";
 import { Culture } from "../../ui";
@@ -5,7 +7,6 @@ import { Cx } from "../../ui/Cx";
 import { Localization } from "../../ui/Localization";
 import { VDOM, Widget, getContent } from "../../ui/Widget";
 import { Console } from "../../util/Console";
-import { Format } from "../../util/Format";
 import { KeyCode } from "../../util/KeyCode";
 import { dateDiff } from "../../util/date/dateDiff";
 import { parseDateInvariant } from "../../util";
@@ -25,13 +26,77 @@ import {
    tooltipParentWillReceiveProps,
    tooltipParentWillUnmount,
 } from "../overlay/tooltip-ops";
-import { Field, getFieldTooltip } from "./Field";
+import { Field, getFieldTooltip, FieldInstance, FieldConfig } from "./Field";
 import { MonthPicker } from "./MonthPicker";
 import { getActiveElement } from "../../util/getActiveElement";
 import type { RenderingContext } from "../../ui/RenderingContext";
-import type { Instance } from "../../ui/Instance";
+import type { Instance, DropdownWidgetProps } from "../../ui/Instance";
+import type { Prop, BooleanProp, StringProp } from "../../ui/Prop";
 
-export class MonthField extends Field {
+export class MonthFieldInstance<F extends MonthField = MonthField>
+   extends FieldInstance<F>
+   implements DropdownWidgetProps
+{
+   lastDropdown?: Instance;
+   dropdownOpen?: boolean;
+   selectedIndex?: number;
+   component?: any;
+}
+
+export interface MonthFieldConfig extends FieldConfig {
+   mode?: string;
+   range?: BooleanProp;
+   from?: Prop<string | Date>;
+   to?: Prop<string | Date>;
+   value?: Prop<string | Date>;
+   culture?: string;
+   hideClear?: boolean;
+   showClear?: boolean;
+   alwaysShowClear?: boolean;
+   encoding?: (date: Date) => string;
+   dropdownOptions?: Record<string, any>;
+   inclusiveTo?: boolean;
+   monthPickerOptions?: Record<string, any>;
+   maxValueErrorText?: string;
+   maxExclusiveErrorText?: string;
+   minValueErrorText?: string;
+   minExclusiveErrorText?: string;
+   inputErrorText?: string;
+   minExclusive?: BooleanProp;
+   maxExclusive?: BooleanProp;
+   minValue?: Prop<string | Date>;
+   maxValue?: Prop<string | Date>;
+   placeholder?: StringProp;
+   reactOn?: string;
+}
+
+export class MonthField<Config extends MonthFieldConfig = MonthFieldConfig> extends Field<Config, MonthFieldInstance> {
+   declare public baseClass: string;
+   public mode?: string;
+   public range?: BooleanProp;
+   public from?: Prop<string | Date>;
+   public to?: Prop<string | Date>;
+   public value?: Prop<string | Date>;
+   public culture!: DateTimeCulture;
+   public hideClear?: boolean;
+   public showClear?: boolean;
+   public alwaysShowClear?: boolean;
+   public encoding?: (date: Date) => string;
+   public dropdownOptions?: Record<string, any>;
+   public inclusiveTo?: boolean;
+   public monthPickerOptions?: Record<string, any>;
+   public maxValueErrorText: string;
+   public maxExclusiveErrorText: string;
+   public minValueErrorText: string;
+   public minExclusiveErrorText: string;
+   public inputErrorText?: string;
+   public minExclusive?: BooleanProp;
+   public maxExclusive?: BooleanProp;
+   public minValue?: Prop<string | Date>;
+   public maxValue?: Prop<string | Date>;
+   public placeholder?: StringProp;
+   public reactOn: string;
+
    declareData(...args: Record<string, unknown>[]): void {
       if (this.mode == "range") {
          this.range = true;
@@ -75,7 +140,7 @@ export class MonthField extends Field {
    }
 
    init(): void {
-      if (!this.culture) this.culture = new DateTimeCulture(Format.culture);
+      if (!this.culture) this.culture = Culture.getDateTimeCulture();
 
       if (isDefined(this.hideClear)) this.showClear = !this.hideClear;
 
@@ -84,7 +149,7 @@ export class MonthField extends Field {
       super.init();
    }
 
-   prepareData(context: RenderingContext, instance: Instance): void {
+   prepareData(context: RenderingContext, instance: MonthFieldInstance): void {
       super.prepareData(context, instance);
 
       let { data } = instance;
@@ -116,14 +181,14 @@ export class MonthField extends Field {
       instance.lastDropdown = context.lastDropdown;
    }
 
-   validateRequired(context: RenderingContext, instance: Instance): string | undefined {
+   validateRequired(context: RenderingContext, instance: MonthFieldInstance): string | undefined {
       const { data } = instance;
       if (this.range) {
          if (!data.from || !data.to) return this.requiredText;
       } else return super.validateRequired(context, instance);
    }
 
-   validate(context: RenderingContext, instance: Instance): void {
+   validate(context: RenderingContext, instance: MonthFieldInstance): void {
       super.validate(context, instance);
       var { data } = instance;
       if (!data.error && data.date) {
@@ -144,7 +209,7 @@ export class MonthField extends Field {
       }
    }
 
-   renderInput(context: RenderingContext, instance: Instance, key: string): React.ReactNode {
+   renderInput(context: RenderingContext, instance: MonthFieldInstance, key: string): React.ReactNode {
       return (
          <MonthInput
             key={key}
@@ -183,9 +248,9 @@ export class MonthField extends Field {
       return parsed;
    }
 
-   handleSelect(instance: Instance, date1: Date | null, date2: Date | null): void {
+   handleSelect(instance: MonthFieldInstance, date1: Date | null, date2: Date | null): void {
       let { widget } = instance;
-      let encode = widget.encoding || Culture.getDefaultDateEncoding();
+      let encode = widget.encoding ?? Culture.getDefaultDateEncoding();
       instance.setState({
          inputError: false,
       });
@@ -225,9 +290,9 @@ Localization.registerPrototype("cx/widgets/MonthField", MonthField);
 Widget.alias("monthfield", MonthField);
 
 interface MonthInputProps {
-   instance: Instance;
-   data: Record<string, unknown>;
-   monthPicker: Record<string, unknown>;
+   instance: MonthFieldInstance;
+   data: Record<string, any>;
+   monthPicker: Record<string, any>;
    label?: React.ReactNode;
    help?: React.ReactNode;
    icon?: React.ReactNode;
@@ -279,7 +344,7 @@ class MonthInput extends VDOM.Component<MonthInputProps, MonthInputState> {
             },
             onKeyDown: (e) => this.onKeyDown(e),
             onSelect: (e) => {
-               let touch = isTouchEvent(e);
+               let touch = isTouchEvent();
                this.closeDropdown(e, () => {
                   if (!touch) this.input.focus();
                });
@@ -330,7 +395,7 @@ class MonthInput extends VDOM.Component<MonthInputProps, MonthInputState> {
          icon = <div className={CSS.element(baseClass, "left-icon")}>{iconVDOM}</div>;
       }
 
-      var dropdown = false;
+      var dropdown: React.ReactElement | false = false;
       if (this.state.dropdownOpen)
          dropdown = (
             <Cx
@@ -373,8 +438,8 @@ class MonthInput extends VDOM.Component<MonthInputProps, MonthInputState> {
                readOnly={data.readOnly}
                tabIndex={data.tabIndex}
                placeholder={data.placeholder}
-               onInput={(e) => this.onChange(e.target.value, "input")}
-               onChange={(e) => this.onChange(e.target.value, "change")}
+               onInput={(e) => this.onChange((e.target as HTMLInputElement).value, "input")}
+               onChange={(e) => this.onChange((e.target as HTMLInputElement).value, "change")}
                onKeyDown={(e) => this.onKeyDown(e)}
                onBlur={(e) => {
                   this.onBlur(e);
@@ -428,7 +493,7 @@ class MonthInput extends VDOM.Component<MonthInputProps, MonthInputState> {
       switch (e.keyCode) {
          case KeyCode.enter:
             e.stopPropagation();
-            this.onChange(e.target.value, "enter");
+            this.onChange((e.target as HTMLInputElement).value, "enter");
             break;
 
          case KeyCode.esc:
@@ -475,7 +540,7 @@ class MonthInput extends VDOM.Component<MonthInputProps, MonthInputState> {
       } else if (callback) callback();
    }
 
-   openDropdown(e: React.KeyboardEvent | React.MouseEvent): void {
+   openDropdown(e?: React.KeyboardEvent | React.MouseEvent | React.FocusEvent): void {
       const { data } = this.props.instance;
       this.openDropdownOnFocus = false;
 
@@ -531,7 +596,7 @@ class MonthInput extends VDOM.Component<MonthInputProps, MonthInputState> {
       var date1 = widget.parseDate(parts[0]);
       var date2 = widget.parseDate(parts[1]) || date1;
 
-      if ((date1 != null && isNaN(date1)) || (date2 != null && isNaN(date2))) {
+      if ((date1 != null && isNaN(date1.getTime())) || (date2 != null && isNaN(date2.getTime()))) {
          instance.setState({
             inputError: widget.inputErrorText,
          });

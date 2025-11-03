@@ -36,7 +36,10 @@ export function ref<T = any>(info: unknown): GetSet<T> | Selector<T> {
       if (hasStringAtKey(info, "tpl")) {
          let store = useStore();
          let selector = stringTemplate(info.tpl).memoize();
-         return new Ref<T>({ get: () => selector(store.getData()), set: (info as any).set }) as unknown as Selector<T>;
+         return new Ref<T>({
+            get: () => selector(store.getData()) as T,
+            set: (info as any).set,
+         }) as unknown as Selector<T>;
       }
    }
    return getSelector(info);

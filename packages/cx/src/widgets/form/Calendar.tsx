@@ -23,12 +23,12 @@ import {
    tooltipParentWillReceiveProps,
    tooltipParentWillUnmount,
 } from "../overlay/tooltip-ops";
-import { Field, getFieldTooltip } from "./Field";
+import { Field, getFieldTooltip, FieldInstance } from "./Field";
 import type { Instance } from "../../ui/Instance";
 import type { RenderingContext } from "../../ui/RenderingContext";
 
 interface CalendarCmpProps {
-   instance: Instance;
+   instance: FieldInstance<Calendar>;
    handleSelect: (e: React.MouseEvent, date: Date) => void;
 }
 
@@ -44,6 +44,7 @@ interface CalendarState {
 }
 
 export class Calendar extends Field {
+   declare public baseClass: string;
    public unfocusable?: boolean;
    public focusable?: boolean;
    public highlightToday?: boolean;
@@ -87,7 +88,7 @@ export class Calendar extends Field {
       super.init();
    }
 
-   prepareData(context: RenderingContext, instance: Instance, ...args: any[]) {
+   prepareData(context: RenderingContext, instance: FieldInstance<Calendar>, ...args: any[]) {
       const { data } = instance;
       data.stateMods = {
          disabled: data.disabled,
