@@ -74,6 +74,7 @@ export abstract class Widget<
    public baseClass?: string;
    public version?: number;
    public memoize?: boolean;
+   
 
    // Lifecycle hooks - callbacks that can be set in configuration
    public onInit?(context: RenderingContext, instance: InstanceType): void;

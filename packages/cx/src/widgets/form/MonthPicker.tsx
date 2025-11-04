@@ -1,5 +1,7 @@
+/**@jsxImportSource react */
+
 import { Widget, VDOM } from "../../ui/Widget";
-import { Field, getFieldTooltip } from "./Field";
+import { Field, getFieldTooltip, FieldInstance, FieldConfig } from "./Field";
 import { Culture } from "../../ui/Culture";
 import { FocusManager, oneFocusOut, offFocusOut, preventFocusOnTouch } from "../../ui/FocusManager";
 import { StringTemplate } from "../../data/StringTemplate";
@@ -26,12 +28,83 @@ import { isTouchEvent } from "../../util/isTouchEvent";
 import { getCursorPos } from "../overlay/captureMouse";
 import type { RenderingContext } from "../../ui/RenderingContext";
 import type { Instance } from "../../ui/Instance";
+import type { Prop, BooleanProp } from "../../ui/Prop";
 
 import { enableCultureSensitiveFormatting } from "../../ui/Format";
 import { parseDateInvariant } from "../../util";
+import { HtmlElement } from "../HtmlElement";
 enableCultureSensitiveFormatting();
 
-export class MonthPicker extends Field {
+export class MonthPickerInstance<F extends MonthPicker = MonthPicker> extends FieldInstance<F> {
+   isMonthDateSelectable?: (monthDate: Date) => boolean;
+}
+
+export interface MonthPickerConfig extends FieldConfig {
+   range?: BooleanProp;
+   from?: Prop<string | Date>;
+   to?: Prop<string | Date>;
+   value?: Prop<string | Date>;
+   refDate?: Prop<string | Date>;
+   minValue?: Prop<string | Date>;
+   minExclusive?: BooleanProp;
+   maxValue?: Prop<string | Date>;
+   maxExclusive?: BooleanProp;
+   startYear?: number;
+   endYear?: number;
+   bufferSize?: number;
+   maxValueErrorText?: string;
+   maxExclusiveErrorText?: string;
+   minValueErrorText?: string;
+   minExclusiveErrorText?: string;
+   encoding?: (date: Date) => any;
+   inclusiveTo?: boolean;
+   onBeforeSelect?: (e: Event, instance: MonthPickerInstance, dateFrom?: Date, dateTo?: Date) => boolean;
+   onSelect?: (instance: MonthPickerInstance, dateFrom?: Date, dateTo?: Date) => void;
+   hideQuarters?: boolean;
+   onCreateIsMonthDateSelectable?: (
+      validationParams: Record<string, any>,
+      instance: MonthPickerInstance,
+   ) => (monthDate: Date) => boolean;
+   handleSelect?: (e: React.MouseEvent, instance: MonthPickerInstance, dateFrom?: Date, dateTo?: Date) => void;
+   onBlur?: string | ((e: React.FocusEvent, instance: MonthPickerInstance) => void);
+   onFocusOut?: string | ((e: React.FocusEvent, instance: MonthPickerInstance) => void);
+   autoFocus?: boolean;
+}
+
+export class MonthPicker<Config extends MonthPickerConfig = MonthPickerConfig> extends Field<
+   Config,
+   MonthPickerInstance
+> {
+   declare public baseClass: string;
+   public mode?: string;
+   public range?: BooleanProp;
+   public from?: Prop<string | Date>;
+   public to?: Prop<string | Date>;
+   public value?: Prop<string | Date>;
+   public refDate?: Prop<string | Date>;
+   public minValue?: Prop<string | Date>;
+   public minExclusive?: BooleanProp;
+   public maxValue?: Prop<string | Date>;
+   public maxExclusive?: BooleanProp;
+   public startYear: number;
+   public endYear: number;
+   public bufferSize: number;
+   public maxValueErrorText: string;
+   public maxExclusiveErrorText: string;
+   public minValueErrorText: string;
+   public minExclusiveErrorText: string;
+   public encoding?: (date: Date) => any;
+   public inclusiveTo?: boolean;
+   public onBeforeSelect?: (e: Event, instance: MonthPickerInstance, dateFrom?: Date, dateTo?: Date) => boolean;
+   public onSelect?: (instance: MonthPickerInstance, dateFrom?: Date, dateTo?: Date) => void;
+   public hideQuarters?: boolean;
+   public onCreateIsMonthDateSelectable?: (
+      validationParams: Record<string, any>,
+      instance: MonthPickerInstance,
+   ) => (monthDate: Date) => boolean;
+   public onBlur?: string | ((e: React.FocusEvent, instance: MonthPickerInstance) => void);
+   public onFocusOut?: string | ((e: React.FocusEvent, instance: MonthPickerInstance) => void);
+
    declareData(...args: Record<string, unknown>[]): void {
       let values: Record<string, unknown> = {};
 
@@ -70,7 +143,7 @@ export class MonthPicker extends Field {
       super.init();
    }
 
-   prepareData(context: RenderingContext, instance: Instance): void {
+   prepareData(context: RenderingContext, instance: MonthPickerInstance): void {
       let { data } = instance;
       data.stateMods = {
          disabled: data.disabled,
@@ -102,10 +175,10 @@ export class MonthPicker extends Field {
          );
       }
 
-      super.prepareData(...arguments);
+      super.prepareData(context, instance);
    }
 
-   validate(context: RenderingContext, instance: Instance): void {
+   validate(context: RenderingContext, instance: MonthPickerInstance): void {
       super.validate(context, instance);
       let { data } = instance;
       if (!data.error && data.date) {
@@ -126,20 +199,16 @@ export class MonthPicker extends Field {
       }
    }
 
-   renderInput(context: RenderingContext, instance: Instance, key: string): React.ReactNode {
-      return (
-         <MonthPickerComponent
-            key={key}
-            instance={instance}
-            onBlur={this.onBlur}
-            onFocusOut={this.onFocusOut}
-            onKeyDown={this.onKeyDown}
-            autoFocus={this.autoFocus}
-         />
-      );
+   renderInput(context: RenderingContext, instance: MonthPickerInstance, key: string): React.ReactNode {
+      return <MonthPickerComponent key={key} instance={instance} autoFocus={this.autoFocus} />;
    }
 
-   handleSelect(e: React.KeyboardEvent | React.MouseEvent | React.TouchEvent, instance: Instance, date1: Date, date2: Date): void {
+   handleSelect(
+      e: React.KeyboardEvent | React.MouseEvent | React.TouchEvent,
+      instance: MonthPickerInstance,
+      date1: Date,
+      date2: Date,
+   ): void {
       let { data, widget, isMonthDateSelectable } = instance;
       let encode = widget.encoding || Culture.getDefaultDateEncoding();
 
@@ -179,7 +248,7 @@ Localization.registerPrototype("cx/widgets/MonthPicker", MonthPicker);
 
 Widget.alias("month-picker", MonthPicker);
 
-const dateSelectableCheck = (date: Date, data: Record<string, unknown>): boolean => {
+const dateSelectableCheck = (date: Date, data: Record<string, any>): boolean => {
    if (data.maxValue && !upperBoundCheck(date, data.maxValue as Date, data.maxExclusive)) return false;
 
    if (data.minValue && !lowerBoundCheck(date, data.minValue as Date, data.minExclusive)) return false;
@@ -192,10 +261,10 @@ const monthNumber = (date: Date): number => {
 };
 
 interface MonthPickerComponentProps {
-   instance: Instance;
-   onBlur?: () => void;
-   onFocusOut?: () => void;
-   onKeyDown?: (e: React.KeyboardEvent, instance: Instance) => void;
+   instance: MonthPickerInstance;
+   onBlur?: string | ((e: React.FocusEvent, instance: MonthPickerInstance) => void);
+   onFocusOut?: string | ((e: React.FocusEvent, instance: MonthPickerInstance) => void);
+   onKeyDown?: string | ((e: React.KeyboardEvent, instance: MonthPickerInstance) => boolean | void);
    autoFocus?: boolean;
 }
 
@@ -214,24 +283,18 @@ interface MonthPickerComponentState {
 
 interface CursorInfo {
    column: string;
-   cursorYear?: number;
-   cursorMonth?: number;
-   cursorQuarter?: number;
+   cursorYear: number;
+   cursorMonth: number;
+   cursorQuarter: number;
    hover?: boolean;
 }
 
 export class MonthPickerComponent extends VDOM.Component<MonthPickerComponentProps, MonthPickerComponentState> {
    dom: {
-      el?: HTMLDivElement;
-      table?: HTMLTableElement;
+      el?: HTMLDivElement | null;
+      table?: HTMLTableElement | null;
    } = {};
    dragStartDates?: [Date, Date];
-   handleMouseDown: (e: React.MouseEvent | React.TouchEvent, cursor?: CursorInfo, drag?: boolean) => void;
-   handleMouseUp: (e: React.KeyboardEvent | React.MouseEvent | React.TouchEvent) => void;
-   handleMouseEnter: (e: React.MouseEvent) => void;
-   handleKeyPress: (e: React.KeyboardEvent) => void;
-   handleTouchMove: (e: React.TouchEvent) => void;
-   handleTouchEnd: (e: React.TouchEvent) => void;
 
    constructor(props: MonthPickerComponentProps) {
       super(props);
@@ -266,6 +329,8 @@ export class MonthPickerComponent extends VDOM.Component<MonthPickerComponentPro
       let cursor: CursorInfo = {
          column: "Y",
          cursorYear: Number(parts[1]),
+         cursorMonth: 1,
+         cursorQuarter: 1,
       };
       if (parts.length == 4) {
          cursor.column = parts[2];
@@ -275,27 +340,32 @@ export class MonthPickerComponent extends VDOM.Component<MonthPickerComponentPro
       return cursor;
    }
 
-   moveCursor(e: React.KeyboardEvent | React.MouseEvent | React.TouchEvent, data: Partial<MonthPickerComponentState>, options: { ensureVisible?: boolean } = {}): void {
+   moveCursor<K extends keyof MonthPickerComponentState>(
+      e: React.KeyboardEvent | React.MouseEvent | React.TouchEvent,
+      data: Pick<MonthPickerComponentState, K>,
+      options: { ensureVisible?: boolean } = {},
+   ): void {
       e.preventDefault();
       e.stopPropagation();
 
-      if (data.cursorYear) {
+      if ("cursorYear" in data && data.cursorYear !== undefined) {
          let { startYear, endYear } = this.props.instance.widget;
-         data.cursorYear = Math.max(startYear, Math.min(endYear, data.cursorYear));
+         (data as any).cursorYear = Math.max(startYear, Math.min(endYear, data.cursorYear as number));
       }
 
-      if (Object.keys(data).every((k) => this.state[k] == data[k])) return;
+      if (Object.keys(data).every((k) => this.state[k as K] == (data as any)[k])) return;
 
       this.setState(data, () => {
          if (options.ensureVisible) {
             let index = this.state.cursorYear - this.state.start;
-            let tbody = this.dom.table.children[index];
+            let tbody = this.dom.table?.children?.[index];
             if (tbody) scrollElementIntoView(tbody);
          }
       });
    }
 
    handleKeyPress(e: React.KeyboardEvent): void {
+      let { instance } = this.props;
       let { widget } = this.props.instance;
       let { cursorMonth, cursorYear, cursorQuarter, column } = this.state;
 
@@ -378,14 +448,16 @@ export class MonthPickerComponent extends VDOM.Component<MonthPickerComponentPro
             break;
 
          default:
-            if (this.props.onKeyDown) this.props.onKeyDown(e, this.props.instance);
+            if (widget.onKeyDown) instance.invoke("onKeyDown", e, instance);
             break;
       }
    }
 
    handleBlur(e: React.FocusEvent): void {
       FocusManager.nudge();
-      if (this.props.onBlur) this.props.onBlur();
+      let { instance } = this.props;
+      let { widget } = instance;
+      if (widget.onBlur) instance.invoke("onBlur", e, instance);
       this.setState({
          focused: false,
       });
@@ -398,12 +470,14 @@ export class MonthPickerComponent extends VDOM.Component<MonthPickerComponentPro
       if (this.props.onFocusOut && this.dom.el) oneFocusOut(this, this.dom.el, this.handleFocusOut.bind(this));
    }
 
-   handleFocusOut(): void {
-      if (this.props.onFocusOut) this.props.onFocusOut();
+   handleFocusOut(e: React.FocusEvent): void {
+      let { instance } = this.props;
+      let { widget } = instance;
+      if (widget.onFocusOut) instance.invoke("onFocusOut", e, instance);
    }
 
-   getCursorDates(cursor?: Partial<MonthPickerComponentState>): [Date, Date] {
-      let { cursorMonth, cursorYear, cursorQuarter, column } = cursor || this.state;
+   getCursorDates(cursor?: CursorInfo): [Date, Date] {
+      let { cursorMonth, cursorYear, cursorQuarter, column } = cursor ?? this.state;
       switch (column) {
          case "M":
             return [new Date(cursorYear, cursorMonth - 1, 1), new Date(cursorYear, cursorMonth, 1)];
@@ -411,6 +485,7 @@ export class MonthPickerComponent extends VDOM.Component<MonthPickerComponentPro
          case "Q":
             return [new Date(cursorYear, cursorQuarter * 3, 1), new Date(cursorYear, cursorQuarter * 3 + 3, 1)];
 
+         default:
          case "Y":
             return [new Date(cursorYear, 0, 1), new Date(cursorYear + 1, 0, 1)];
       }
@@ -419,7 +494,13 @@ export class MonthPickerComponent extends VDOM.Component<MonthPickerComponentPro
    handleTouchMove(e: React.TouchEvent): void {
       let cursorPos = getCursorPos(e);
       let el = document.elementFromPoint(cursorPos.clientX, cursorPos.clientY);
-      if (this.dom.table && el && this.dom.table.contains(el) && el instanceof HTMLElement && isString(el.dataset.point)) {
+      if (
+         this.dom.table &&
+         el &&
+         this.dom.table.contains(el) &&
+         el instanceof HTMLElement &&
+         isString(el.dataset.point)
+      ) {
          let cursor = this.extractCursorInfo(el);
          if (cursor) this.moveCursor(e, cursor);
       }
@@ -437,12 +518,13 @@ export class MonthPickerComponent extends VDOM.Component<MonthPickerComponentPro
       }
    }
 
-   handleMouseDown(e: React.MouseEvent | React.TouchEvent, cursor?: CursorInfo, drag: boolean = true): void {
+   handleMouseDown(e: React.MouseEvent | React.TouchEvent, cursor?: CursorInfo | false, drag: boolean = true): void {
       let { instance } = this.props;
       let { widget } = instance;
 
       if (!cursor) {
-         cursor = this.extractCursorInfo(e.currentTarget);
+         cursor = this.extractCursorInfo(e.currentTarget as HTMLElement);
+         if (!cursor) return;
          this.moveCursor(e, cursor);
       }
 
@@ -473,7 +555,7 @@ export class MonthPickerComponent extends VDOM.Component<MonthPickerComponentPro
          if (data.to) originToDate = data.to;
       } else if (this.state.state == "drag") {
          if (widget.range) {
-            [originFromDate, originToDate] = this.dragStartDates;
+            [originFromDate, originToDate] = this.dragStartDates!;
          }
          this.setState({ state: "normal" });
       } else {
@@ -502,7 +584,7 @@ export class MonthPickerComponent extends VDOM.Component<MonthPickerComponentPro
          to = from + 0.1;
       } else if (widget.range) {
          if (this.state.state == "drag") {
-            let [originFromDate, originToDate] = this.dragStartDates;
+            let [originFromDate, originToDate] = this.dragStartDates!;
             let [cursorFromDate, cursorToDate] = this.getCursorDates();
             a = Math.min(monthNumber(originFromDate), monthNumber(cursorFromDate));
             b = Math.max(monthNumber(originToDate), monthNumber(cursorToDate));
@@ -550,9 +632,9 @@ export class MonthPickerComponent extends VDOM.Component<MonthPickerComponentPro
                         }),
                         CSS.state({ unselectable: unselectableYear }),
                      )}
-                     onMouseEnter={unselectableYear ? null : this.handleMouseEnter}
-                     onMouseDown={unselectableYear ? null : this.handleMouseDown}
-                     onMouseUp={unselectableYear ? null : this.handleMouseUp}
+                     onMouseEnter={unselectableYear ? undefined : this.handleMouseEnter}
+                     onMouseDown={unselectableYear ? undefined : this.handleMouseDown}
+                     onMouseUp={unselectableYear ? undefined : this.handleMouseUp}
                   >
                      {y}
                   </th>,
@@ -578,11 +660,11 @@ export class MonthPickerComponent extends VDOM.Component<MonthPickerComponentPro
                         unselectable: unselectableMonth,
                      })}
                      data-point={`Y-${y}-M-${m}`}
-                     onMouseEnter={unselectableMonth ? null : this.handleMouseEnter}
-                     onMouseDown={unselectableMonth ? null : this.handleMouseDown}
-                     onMouseUp={unselectableMonth ? null : this.handleMouseUp}
-                     onTouchStart={unselectableMonth ? null : this.handleMouseDown}
-                     onTouchMove={unselectableMonth ? null : this.handleTouchMove}
+                     onMouseEnter={unselectableMonth ? undefined : this.handleMouseEnter}
+                     onMouseDown={unselectableMonth ? undefined : this.handleMouseDown}
+                     onMouseUp={unselectableMonth ? undefined : this.handleMouseUp}
+                     onTouchStart={unselectableMonth ? undefined : this.handleMouseDown}
+                     onTouchMove={unselectableMonth ? undefined : this.handleTouchMove}
                      onTouchEnd={this.handleMouseUp}
                   >
                      {monthNames[m - 1].substr(0, 3)}
@@ -613,9 +695,9 @@ export class MonthPickerComponent extends VDOM.Component<MonthPickerComponentPro
                         unselectable: unselectableQuarter,
                      })}
                      data-point={`Y-${y}-Q-${q}`}
-                     onMouseEnter={unselectableQuarter ? null : this.handleMouseEnter}
-                     onMouseDown={unselectableQuarter ? null : this.handleMouseDown}
-                     onMouseUp={unselectableQuarter ? null : this.handleMouseUp}
+                     onMouseEnter={unselectableQuarter ? undefined : this.handleMouseEnter}
+                     onMouseDown={unselectableQuarter ? undefined : this.handleMouseDown}
+                     onMouseUp={unselectableQuarter ? undefined : this.handleMouseUp}
                   >
                      {`Q${q + 1}`}
                   </th>,

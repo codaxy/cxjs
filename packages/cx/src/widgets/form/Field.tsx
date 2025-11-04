@@ -42,8 +42,8 @@ export interface FieldConfig extends PureContainerConfig {
    validatingText?: StringProp;
    onValidate?: string | ((value: unknown, instance: Instance, validationParams: Record<string, unknown>) => unknown);
    validationExceptionText?: StringProp;
-   onValidationException?: string | ((error: unknown, instance: Instance) => void);
-   onKeyDown?: string | ((e: KeyboardEvent, instance: Instance) => boolean | void);
+   onValidationException?: string | ((error: unknown, instance: FieldInstance) => void);
+   onKeyDown?: string | ((e: React.KeyboardEvent, instance: FieldInstance) => boolean | void);
    suppressErrorsUntilVisited?: BooleanProp;
    autoFocus?: BooleanProp;
    helpSpacer?: StringProp;
@@ -87,11 +87,12 @@ export class Field<
       | ((value: unknown, instance: Instance, validationParams: Record<string, unknown>) => unknown);
    public validationExceptionText?: string;
    public onValidationException?: string | ((error: unknown, instance: Instance) => void);
-   public onKeyDown?: string | ((e: KeyboardEvent, instance: Instance) => boolean | void);
+   public onKeyDown?: string | ((e: React.KeyboardEvent, instance: Instance) => boolean | void);
    public suppressErrorsUntilVisited?: boolean;
    public autoFocus?: boolean;
    public helpSpacer?: string;
    public trackFocus?: boolean;
+   declare public baseClass: string;
 
    public declareData(...args: Record<string, unknown>[]): void {
       super.declareData(
