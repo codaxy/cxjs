@@ -1,19 +1,19 @@
-import { Cx } from './Cx';
+import { Cx } from "./Cx";
 import { VDOM } from "./VDOM";
-import { Container } from "./Container";
-import { Store } from '../data/Store';
+import { Container, ContainerConfig } from "./Container";
+import { Store } from "../data/Store";
 import { bind } from "./bind";
-import { createTestRenderer } from "../util/test/createTestRenderer";
-import renderer from 'react-test-renderer';
-import assert from 'assert';
+import { createTestRenderer, createTestWidget } from "../util/test/createTestRenderer";
+import assert from "assert";
 import { HtmlElement } from "../widgets/HtmlElement";
 
-describe('Cx', () => {
-
-   it('can render cx content', () => {
-      let widget = <cx>
-         <div>Test</div>
-      </cx>;
+describe("Cx", () => {
+   it("can render cx content", () => {
+      let widget = (
+         <cx>
+            <div>Test</div>
+         </cx>
+      );
 
       let store = new Store();
 
@@ -21,45 +21,47 @@ describe('Cx', () => {
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
-         type: 'div',
+         type: "div",
          props: {},
-         children: ["Test"]
-      })
+         children: ["Test"],
+      });
    });
 
-   it('store changes preserve the instance', () => {
+   it("store changes preserve the instance", () => {
+      let instanceLog: any[] = [];
+      let storeLog: any[] = [];
 
-      let instanceLog = [];
-      let storeLog = [];
-
-      let widget = <cx>
-         <div text={bind("text")} onExplore={(context, instance) => {
-            instanceLog.push(instance);
-            storeLog.push(instance.store);
-         }} />
-      </cx>;
-
-      let store1 = new Store({ data: { text: 'Test1' } });
-      let store2 = new Store({ data: { text: 'Test2' } });
-
-      const component = renderer.create(
-         <Cx widget={widget} store={store1} subscribe immediate />
+      let widget = (
+         <cx>
+            <div
+               text={bind("text")}
+               onExplore={(context, instance) => {
+                  instanceLog.push(instance);
+                  storeLog.push(instance.store);
+               }}
+            />
+         </cx>
       );
+
+      let store1 = new Store({ data: { text: "Test1" } });
+      let store2 = new Store({ data: { text: "Test2" } });
+
+      const component = createTestRenderer(store1, widget);
 
       let tree1 = component.toJSON();
       assert.deepEqual(tree1, {
-         type: 'div',
+         type: "div",
          props: {},
-         children: ["Test1"]
+         children: ["Test1"],
       });
 
-      component.update(<Cx widget={widget} store={store2} subscribe immediate />);
+      component.update(createTestWidget(store2, widget));
 
       let tree2 = component.toJSON();
       assert.deepEqual(tree2, {
-         type: 'div',
+         type: "div",
          props: {},
-         children: ["Test2"]
+         children: ["Test2"],
       });
 
       assert.equal(instanceLog.length, 2);
@@ -68,51 +70,56 @@ describe('Cx', () => {
       assert(storeLog[1] === store2);
    });
 
-   it('invokes lifetime methods in the right order', () => {
+   it("invokes lifetime methods in the right order", () => {
+      let events: any[] = [];
 
-      let events = [];
+      interface TestWidgetConfig extends ContainerConfig {
+         id?: string;
+      }
 
-      class TestWidget extends Container {
-         explore(context, instance) {
+      class TestWidget extends Container<TestWidgetConfig> {
+         declare id?: string;
+
+         explore(context: any, instance: any) {
             super.explore(context, instance);
             events.push(["explore", this.id]);
          }
 
-         exploreCleanup(context, instance) {
+         exploreCleanup(context: any, instance: any) {
             //super.exploreCleanup(context, instance);
             events.push(["exploreCleanup", this.id]);
          }
 
-         prepare(context, instance) {
+         prepare(context: any, instance: any) {
             //super.prepare(context, instance);
             events.push(["prepare", this.id]);
          }
 
-         prepareCleanup(context, instance) {
+         prepareCleanup(context: any, instance: any) {
             //super.prepareCleanup(context, instance);
             events.push(["prepareCleanup", this.id]);
          }
 
-         render(context, instance, key) {
+         render(context: any, instance: any, key: any) {
             events.push(["render", this.id]);
-            return <div key={key}>
-               {this.renderChildren(context, instance)}
-            </div>
+            return VDOM.createElement("div", { key }, this.renderChildren(context, instance));
          }
       }
 
-      let widget = <cx>
-         <TestWidget id="0">
-            <TestWidget id="0.0" />
-            <TestWidget id="0.1">
-               <TestWidget id="0.1.0" />
-               <TestWidget id="0.1.1" />
+      let widget = (
+         <cx>
+            <TestWidget id="0">
+               <TestWidget id="0.0" />
+               <TestWidget id="0.1">
+                  <TestWidget id="0.1.0" />
+                  <TestWidget id="0.1.1" />
+               </TestWidget>
+               <TestWidget id="0.2">
+                  <TestWidget id="0.2.0" />
+               </TestWidget>
             </TestWidget>
-            <TestWidget id="0.2">
-               <TestWidget id="0.2.0" />
-            </TestWidget>
-         </TestWidget>
-      </cx>;
+         </cx>
+      );
 
       let store = new Store();
 
@@ -120,33 +127,42 @@ describe('Cx', () => {
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
-         type: 'div',
+         type: "div",
          props: {},
-         children: [{
-            type: 'div',
-            props: {},
-            children: null
-         }, {
-            type: 'div',
-            props: {},
-            children: [{
-               type: 'div',
+         children: [
+            {
+               type: "div",
                props: {},
-               children: null
-            }, {
-               type: 'div',
+               children: null,
+            },
+            {
+               type: "div",
                props: {},
-               children: null
-            }]
-         }, {
-            type: 'div',
-            props: {},
-            children: [{
-               type: 'div',
+               children: [
+                  {
+                     type: "div",
+                     props: {},
+                     children: null,
+                  },
+                  {
+                     type: "div",
+                     props: {},
+                     children: null,
+                  },
+               ],
+            },
+            {
+               type: "div",
                props: {},
-               children: null
-            }]
-         }]
+               children: [
+                  {
+                     type: "div",
+                     props: {},
+                     children: null,
+                  },
+               ],
+            },
+         ],
       });
 
       //console.log(events);
@@ -187,6 +203,6 @@ describe('Cx', () => {
          ["render", "0.1"],
          ["render", "0.0"],
          ["render", "0"],
-      ])
+      ]);
    });
 });

@@ -38,6 +38,7 @@ export interface RectangleConfig extends TextualBoundedObjectConfig {
 }
 
 export class Rectangle extends TextualBoundedObject {
+   declare baseClass: string;
    declare colorIndex?: NumberProp;
    declare fill?: StringProp;
    declare stroke?: StringProp;

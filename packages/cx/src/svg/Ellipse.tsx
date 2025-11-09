@@ -24,6 +24,7 @@ export interface EllipseConfig extends TextualBoundedObjectConfig {
 }
 
 export class Ellipse extends TextualBoundedObject {
+   declare baseClass: string;
    declare colorIndex?: NumberProp;
    declare fill?: StringProp;
    declare stroke?: StringProp;

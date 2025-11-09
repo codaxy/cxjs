@@ -4,5 +4,9 @@ import { Cx } from "../../ui/Cx";
 import { View } from "../../data/View";
 
 export function createTestRenderer(store: View, widget: any) {
-   return renderer.create(<Cx widget={widget} store={store} subscribe immediate />);
+   return renderer.create(createTestWidget(store, widget));
+}
+
+export function createTestWidget(store: View, widget: any) {
+   return <Cx widget={widget} store={store} subscribe immediate />;
 }

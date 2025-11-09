@@ -21,6 +21,7 @@ export interface LineConfig extends TextualBoundedObjectConfig {
 }
 
 export class Line extends TextualBoundedObject {
+   declare baseClass: string;
    declare colorIndex?: NumberProp;
    declare stroke?: StringProp;
 

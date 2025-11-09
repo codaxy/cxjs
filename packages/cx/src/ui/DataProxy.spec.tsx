@@ -1,6 +1,5 @@
 import { Store } from "../data/Store";
 import { createTestRenderer } from "../util/test/createTestRenderer";
-import renderer from "react-test-renderer";
 import assert from "assert";
 import { Controller } from "./Controller";
 import { DataProxy } from "./DataProxy";
@@ -10,7 +9,6 @@ import { createFunctionalComponent } from "./createFunctionalComponent";
 import { Widget } from "./Widget";
 import { bind } from "./bind";
 import { tpl } from "./tpl";
-import { Cx } from "./Cx";
 
 describe("DataProxy", () => {
    it("can calculate values", () => {
@@ -32,7 +30,7 @@ describe("DataProxy", () => {
          },
       });
 
-      const component = renderer.create(<Cx widget={widget} store={store} subscribe immediate />);
+      const component = createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -68,7 +66,7 @@ describe("DataProxy", () => {
          },
       });
 
-      const component = renderer.create(<Cx widget={widget} store={store} subscribe immediate />);
+      const component = createTestRenderer(store, widget);
 
       let tree = component.toJSON();
 
@@ -93,8 +91,8 @@ describe("DataProxy", () => {
             <DataProxy
                data={{
                   $value: {
-                     expr: computable("value", (value) => value),
-                     set: (value, { store }) => {
+                     expr: computable("value", (value: any) => value),
+                     set: (value: any, { store }: { store: any }) => {
                         store.set("value", value);
                      },
                   },
@@ -112,7 +110,7 @@ describe("DataProxy", () => {
          },
       });
 
-      const component = renderer.create(<Cx widget={widget} store={store} subscribe immediate />);
+      const component = createTestRenderer(store, widget);
 
       let tree = component.toJSON();
 
@@ -140,7 +138,7 @@ describe("DataProxy", () => {
          },
       });
 
-      const component = renderer.create(<Cx widget={widget} store={store} subscribe immediate />);
+      const component = createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -177,7 +175,7 @@ describe("DataProxy", () => {
          },
       });
 
-      const component = renderer.create(<Cx widget={widget} store={store} subscribe immediate />);
+      const component = createTestRenderer(store, widget);
 
       let tree = component.toJSON();
 
@@ -216,7 +214,7 @@ describe("DataProxy", () => {
          },
       });
 
-      const component = renderer.create(<Cx widget={widget} store={store} subscribe immediate />);
+      const component = createTestRenderer(store, widget);
 
       let tree = component.toJSON();
 
@@ -258,7 +256,7 @@ describe("DataProxy", () => {
          },
       });
 
-      const component = renderer.create(<Cx widget={widget} store={store} subscribe immediate />);
+      const component = createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -287,7 +285,7 @@ describe("DataProxy", () => {
 
       let store = new Store();
 
-      const component = renderer.create(<Cx widget={widget} store={store} subscribe immediate />);
+      const component = createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.equal(value, 5);
@@ -319,7 +317,7 @@ describe("DataProxy", () => {
          },
       });
 
-      const component = renderer.create(<Cx widget={widget} store={store} subscribe immediate />);
+      const component = createTestRenderer(store, widget);
 
       let tree = component.toJSON();
 

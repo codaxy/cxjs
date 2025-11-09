@@ -1,14 +1,25 @@
 import { NestedDataView } from "../data/NestedDataView";
 import { UseParentLayout } from "../ui/layout/UseParentLayout";
-import { PureContainer } from "./PureContainer";
+import { PureContainer, PureContainerConfig } from "./PureContainer";
 import { StructuredInstanceDataAccessor } from "./StructuredInstanceDataAccessor";
+import { StructuredProp, Bind } from "./Prop";
 
-export class DataProxy extends PureContainer {
-   data?: any;
+export interface DataProxyConfig extends PureContainerConfig {
+   data?: StructuredProp;
+   value?: Bind;
    alias?: string;
-   value?: any;
-   immutable: boolean;
-   sealed: boolean;
+   cached?: boolean;
+   immutable?: boolean;
+   sealed?: boolean;
+}
+
+export class DataProxy extends PureContainer<DataProxyConfig> {
+   declare data?: any;
+   declare alias?: string;
+   declare value?: any;
+   declare cached?: boolean;
+   declare immutable: boolean;
+   declare sealed: boolean;
 
    init() {
       if (!this.data) this.data = {};
