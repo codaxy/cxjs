@@ -256,7 +256,7 @@ describe("createFunctionalComponent", () => {
    });
 
    it("adds children at the right place", () => {
-      const X = createFunctionalComponent(({ children }) => (
+      const X = createFunctionalComponent(({ children }: { children: any }) => (
          <cx>
             <header />
             <main>{children}</main>

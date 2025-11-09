@@ -7,7 +7,7 @@ import { shallowEquals } from "../../util/shallowEquals";
 import { coalesce } from "../../util/coalesce";
 import { BooleanProp, Prop } from "../../ui/Prop";
 
-export interface ValidationError {
+export interface ValidationErrorData {
    fieldId: string;
    message: string;
    visited: boolean;
@@ -16,14 +16,14 @@ export interface ValidationError {
 
 interface ValidationGroupInstance extends Instance {
    validation: {
-      errors: ValidationError[];
+      errors: ValidationErrorData[];
    };
    valid?: boolean;
 }
 
 export interface ValidationGroupConfig extends PureContainerConfig {
    /** Binding used to store validation errors in the store. */
-   errors?: Prop<ValidationError[]>;
+   errors?: Prop<ValidationErrorData[]>;
 
    /** Binding which will be set to true if all child form field are valid. */
    valid?: BooleanProp;
@@ -59,8 +59,10 @@ export interface ValidationGroupConfig extends PureContainerConfig {
    asterisk?: BooleanProp;
 }
 
-export class ValidationGroup extends PureContainer<ValidationGroupConfig, ValidationGroupInstance> {
-   declare errors?: Prop<ValidationError[]>;
+export class ValidationGroup<
+   TConfig extends ValidationGroupConfig = ValidationGroupConfig
+> extends PureContainer<TConfig, ValidationGroupInstance> {
+   declare errors?: Prop<ValidationErrorData[]>;
    declare isolated?: boolean;
 
    declareData(...args: Record<string, unknown>[]): void {

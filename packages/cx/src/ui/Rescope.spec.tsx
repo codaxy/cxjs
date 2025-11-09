@@ -100,19 +100,21 @@ describe("Rescope", () => {
       let store = new Store({
          data: {
             item: {
-               value: 0
-            }
+               value: 0,
+            },
          },
       });
 
       let widget = (
          <cx>
             <Rescope bind="$page" data={{ $value: { bind: "item.value" } }}>
-               <PureContainer controller={{
-                  onInit() {
-                     this.store.set("$value", 2);
-                  }
-               }} />
+               <PureContainer               
+                  controller={{
+                     onInit() {
+                        this.store.set("$value", 2);
+                     },
+                  }}
+               />
             </Rescope>
             <div text={bind("item.value")} />
          </cx>

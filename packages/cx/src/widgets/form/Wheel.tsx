@@ -1,7 +1,7 @@
 /** @jsxImportSource react */
 
 import { VDOM } from "../../ui/Widget";
-import { PureContainer } from "../../ui/PureContainer";
+import { PureContainer, PureContainerConfig } from "../../ui/PureContainer";
 import { KeyCode } from "../../util/KeyCode";
 import { Icon } from "../Icon";
 import { addEventListenerWithOptions } from "../../util";
@@ -9,9 +9,23 @@ import type { RenderingContext } from "../../ui/RenderingContext";
 import type { Instance } from "../../ui/Instance";
 import type { CSS } from "../../ui/CSS";
 import * as React from "react";
+import { Prop, StructuredProp } from "../../ui/Prop";
 
-export class Wheel extends PureContainer {
-   public size?: number;
+export interface WheelConfig extends PureContainerConfig {
+   /** The selected value. */
+   value?: Prop<any>;
+
+   /** Array of available options. */
+   options?: StructuredProp;
+
+   /** Number of visible options in the wheel. Default is 3. */
+   size?: number;
+}
+
+export class Wheel extends PureContainer<WheelConfig> {
+   declare size: number;
+   declare baseClass: string;
+
    declareData(...args: Record<string, unknown>[]): void {
       return super.declareData(...args, {
          value: undefined,
@@ -22,7 +36,7 @@ export class Wheel extends PureContainer {
    render(context: RenderingContext, instance: Instance, key: string): React.ReactNode {
       let { data } = instance;
       let { value, options } = data;
-      let index = options.findIndex((a) => a.id === value);
+      let index = options.findIndex((a: any) => a.id === value);
       if (index === -1) index = Math.floor(options.length / 2);
 
       return (
@@ -40,7 +54,7 @@ export class Wheel extends PureContainer {
                instance.set("value", option.id);
             }}
          >
-            {options.map((o, i) => (
+            {options.map((o: any, i: number) => (
                <span key={0}>{o.text}</span>
             ))}
          </WheelComponent>
@@ -213,7 +227,7 @@ export class WheelComponent extends VDOM.Component<WheelComponentProps, WheelCom
             if (this.state.wheelHeight !== undefined) {
                this.scrollEl.scrollTop = (this.index * this.state.wheelHeight) / this.props.size;
             }
-         }
+         },
       );
 
       if (this.props.onPipeKeyDown) this.props.onPipeKeyDown(this.onKeyDown);

@@ -29,7 +29,7 @@ export class Radio extends Field {
             required: undefined,
             text: undefined,
          },
-         ...args
+         ...args,
       );
    }
 
@@ -55,7 +55,12 @@ export class Radio extends Field {
       return null;
    }
 
-   renderWrap(context: RenderingContext, instance: FieldInstance, key: string, content: React.ReactNode): React.ReactElement {
+   renderWrap(
+      context: RenderingContext,
+      instance: FieldInstance,
+      key: string,
+      content: React.ReactNode,
+   ): React.ReactElement {
       var { data } = instance;
       return (
          <label
@@ -97,11 +102,11 @@ export class Radio extends Field {
       );
    }
 
-   renderCheck(context: RenderingContext, instance: FieldInstance): React.ReactElement {
+   renderCheck(context: RenderingContext, instance: FieldInstance<Radio>): React.ReactElement {
       return <RadioCmp key="check" instance={instance} data={instance.data} />;
    }
 
-   renderInput(context: RenderingContext, instance: FieldInstance, key: string): React.ReactElement {
+   renderInput(context: RenderingContext, instance: FieldInstance<Radio>, key: string): React.ReactElement {
       var { data } = instance;
       var text = data.text || this.renderChildren(context, instance);
       var { CSS, baseClass } = this;
@@ -144,7 +149,7 @@ Widget.alias("radio", Radio);
 
 interface RadioCmpProps {
    key?: string;
-   instance: Instance;
+   instance: FieldInstance<Radio>;
    data: Record<string, any>;
 }
 
@@ -174,7 +179,7 @@ class RadioCmp extends VDOM.Component<RadioCmpProps, RadioCmpState> {
       return (
          <span
             key="check"
-            tabIndex={data.disabled ? undefined : ((data.tabIndex as number) || 0)}
+            tabIndex={data.disabled ? undefined : (data.tabIndex as number) || 0}
             className={CSS.element(baseClass, "input", {
                checked: this.state.value,
             })}

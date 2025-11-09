@@ -50,6 +50,7 @@ export class List extends Widget {
    public selectOnTab?: boolean;
    public pipeKeyDown?: string | ((handler: ((e: React.KeyboardEvent) => void) | null, instance: Instance) => void);
    public autoFocus?: boolean;
+   declare public baseClass: string;
    public filter?: (item: unknown, filterParams: Record<string, unknown>) => boolean;
    public onCreateFilter?: (filterParams: Record<string, unknown>, instance: Instance) => (record: unknown) => boolean;
    public onItemClick?: (e: React.MouseEvent, instance: Instance) => void;
@@ -471,7 +472,24 @@ class ListComponent extends VDOM.Component<ListComponentProps, ListComponentStat
       }
    }
 
-   moveCursor(index: number, { focused, hover, scrollIntoView, select, selectRange, selectOptions }: { focused?: boolean, hover?: boolean, scrollIntoView?: boolean, select?: boolean, selectRange?: boolean, selectOptions?: { toggle?: boolean, add?: boolean } } = {}): void {
+   moveCursor(
+      index: number,
+      {
+         focused,
+         hover,
+         scrollIntoView,
+         select,
+         selectRange,
+         selectOptions,
+      }: {
+         focused?: boolean;
+         hover?: boolean;
+         scrollIntoView?: boolean;
+         select?: boolean;
+         selectRange?: boolean;
+         selectOptions?: { toggle?: boolean; add?: boolean };
+      } = {},
+   ): void {
       let { instance, selectable } = this.props;
       if (!selectable) return;
 
@@ -487,7 +505,10 @@ class ListComponent extends VDOM.Component<ListComponentProps, ListComponentStat
       //batch updates to avoid flickering between selection and cursor changes
       batchUpdates(() => {
          if (select || widget.selectMode) {
-            let start: number | undefined = selectRange && this.state.selectionStart !== undefined && this.state.selectionStart >= 0 ? this.state.selectionStart : index;
+            let start: number | undefined =
+               selectRange && this.state.selectionStart !== undefined && this.state.selectionStart >= 0
+                  ? this.state.selectionStart
+                  : index;
             if (start < 0) start = index;
             this.selectRange(start, index, selectOptions);
             if (!selectRange) newState.selectionStart = index;

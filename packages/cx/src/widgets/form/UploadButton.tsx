@@ -17,9 +17,15 @@ export class UploadButton extends Field {
    public abortOnDestroy!: boolean;
    public uploadInProgressText!: string;
    public onResolveUrl?: string | ((file: File, instance: Instance) => string | Promise<string>);
-   public onUploadStarting?: string | ((xhr: XMLHttpRequest, instance: Instance, file: File, formData: FormData) => boolean | Promise<boolean>);
-   public onUploadComplete?: string | ((xhr: XMLHttpRequest, instance: Instance, file: File, formData: FormData) => void);
-   public onUploadProgress?: string | ((event: ProgressEvent, instance: Instance, file: File, formData: FormData) => void);
+   public onUploadStarting?:
+      | string
+      | ((xhr: XMLHttpRequest, instance: Instance, file: File, formData: FormData) => boolean | Promise<boolean>);
+   public onUploadComplete?:
+      | string
+      | ((xhr: XMLHttpRequest, instance: Instance, file: File, formData: FormData) => void);
+   public onUploadProgress?:
+      | string
+      | ((event: ProgressEvent, instance: Instance, file: File, formData: FormData) => void);
    public onUploadError?: string | ((error: unknown, instance: Instance, file: File, formData: FormData) => void);
 
    declareData(...args: Record<string, unknown>[]): void {
@@ -30,9 +36,9 @@ export class UploadButton extends Field {
             text: undefined,
             url: undefined,
             icon: undefined,
-            accept: undefined
+            accept: undefined,
          },
-         ...args
+         ...args,
       );
    }
 
@@ -139,7 +145,7 @@ class UploadButtonComponent extends VDOM.Component<UploadButtonComponentProps, U
    }
 
    componentDidMount(): void {
-      if (this.props.instance.data.autoFocus) this.el.focus();
+      if (this.props.instance.data.autoFocus) this.el!.focus();
    }
 
    componentWillUnmount(): void {

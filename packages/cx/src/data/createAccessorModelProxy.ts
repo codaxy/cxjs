@@ -14,6 +14,7 @@ export type AccessorChain<M> = {
    toString(): string;
    valueOf(): string;
    nameOf(): string;
+   __accessorChainType?: M; // Type-only marker for inference
 } & (M extends object ? AccessorChainMap<M> : {});
 
 const emptyFn = () => {};

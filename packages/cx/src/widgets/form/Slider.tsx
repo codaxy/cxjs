@@ -1,42 +1,97 @@
 /** @jsxImportSource react */
 
-import { Widget, VDOM, getContent } from "../../ui/Widget";
-import { Field, getFieldTooltip, FieldInstance } from "./Field";
+import { BooleanProp, NumberProp, StringProp, StructuredProp, StyleProp } from "../../ui/Prop";
 import type { RenderingContext } from "../../ui/RenderingContext";
-import type { Instance } from "../../ui/Instance";
+import { VDOM, Widget, getContent } from "../../ui/Widget";
+import { addEventListenerWithOptions } from "../../util/addEventListenerWithOptions";
+import { getTopLevelBoundingClientRect } from "../../util/getTopLevelBoundingClientRect";
+import { isDefined } from "../../util/isDefined";
+import { isUndefined } from "../../util/isUndefined";
+import { captureMouseOrTouch, getCursorPos } from "../overlay/captureMouse";
 import {
+   tooltipMouseLeave,
+   tooltipMouseMove,
+   tooltipParentDidMount,
    tooltipParentWillReceiveProps,
    tooltipParentWillUnmount,
-   tooltipMouseMove,
-   tooltipMouseLeave,
-   tooltipParentDidMount,
    type TooltipConfig,
 } from "../overlay/tooltip-ops";
-import { captureMouseOrTouch, getCursorPos } from "../overlay/captureMouse";
-import { isUndefined } from "../../util/isUndefined";
-import { isDefined } from "../../util/isDefined";
-import { isArray } from "../../util/isArray";
-import { getTopLevelBoundingClientRect } from "../../util/getTopLevelBoundingClientRect";
-import { addEventListenerWithOptions } from "../../util/addEventListenerWithOptions";
+import { Field, FieldConfig, FieldInstance, getFieldTooltip } from "./Field";
 
-export class Slider extends Field {
-   declare public baseClass: string;
-   public min?: number;
-   public max?: number;
-   public minValue!: number;
-   public maxValue!: number;
-   public value?: number;
-   public vertical!: boolean;
-   public invert!: boolean;
-   public from?: number;
-   public to?: number;
-   public showFrom?: boolean;
-   public showTo?: boolean;
-   public toTooltip?: TooltipConfig;
-   public fromTooltip?: TooltipConfig;
-   public valueTooltip?: TooltipConfig;
-   public incrementPercentage!: number;
-   public wheel!: boolean;
+export interface SliderConfig extends FieldConfig {
+   /** Low value of the slider range. */
+   from?: NumberProp;
+
+   /** High value of the slider range. */
+   to?: NumberProp;
+
+   /** Rounding step. */
+   step?: NumberProp;
+
+   /** Minimum allowed value. Default is `0`. */
+   minValue?: NumberProp;
+
+   /** Maximum allowed value. Default is `100`. */
+   maxValue?: NumberProp;
+
+   /** Style object to be applied on the selected axis range. */
+   rangeStyle?: StyleProp;
+
+   /** Style object to be applied on the handle. */
+   handleStyle?: StyleProp;
+
+   /** Minimum allowed value. Default is `0`. */
+   min?: NumberProp;
+
+   /** Maximum allowed value. Default is `100`. */
+   max?: NumberProp;
+
+   /** High value of the slider range. */
+   value?: NumberProp;
+
+   /** Set to `true` to orient the slider vertically. */
+   vertical?: boolean;
+
+   /** Invert vertical slider behavior. Set this to `true` if you want the slider to go from `top` to `bottom`. */
+   invert?: boolean;
+
+   /** Range tooltip configuration. */
+   toTooltip?: StringProp | StructuredProp;
+
+   /** Range tooltip configuration. */
+   valueTooltip?: StringProp | StructuredProp;
+
+   /** Range tooltip configuration. */
+   fromTooltip?: StringProp | StructuredProp;
+
+   /** When set to `true`, slider responds to mouse wheel events, while hovering it. It will not work if both `from` and `to` values are used. Default value is `false`. */
+   wheel?: BooleanProp;
+
+   /** Value increment/decrement, when controlling the slider with mouse wheel. Default value is set to `1%` of range. */
+   increment?: NumberProp;
+
+   /** Increment percentage. Default value is `0.01` (1%). */
+   incrementPercentage?: number;
+}
+
+export class Slider extends Field<SliderConfig, FieldInstance<Slider>> {
+   declare baseClass: string;
+   declare min?: number;
+   declare max?: number;
+   declare minValue: number;
+   declare maxValue: number;
+   declare value?: number;
+   declare vertical: boolean;
+   declare invert: boolean;
+   declare from?: number;
+   declare to?: number;
+   declare showFrom?: boolean;
+   declare showTo?: boolean;
+   declare toTooltip?: TooltipConfig;
+   declare fromTooltip?: TooltipConfig;
+   declare valueTooltip?: TooltipConfig;
+   declare incrementPercentage: number;
+   declare wheel: boolean;
 
    declareData(...args: Record<string, unknown>[]): void {
       super.declareData(
@@ -60,7 +115,7 @@ export class Slider extends Field {
             },
             invert: false,
          },
-         ...args
+         ...args,
       );
    }
 
@@ -192,7 +247,11 @@ class SliderComponent extends VDOM.Component<SliderComponentProps, SliderCompone
             {label}&nbsp;
             <div className={CSS.element(baseClass, "axis")}>
                {rangeSize > 0 && <div key="range" className={CSS.element(baseClass, "range")} style={rangeStyle} />}
-               <div key="space" className={CSS.element(baseClass, "space")} ref={(c: HTMLDivElement | null) => (this.dom.range = c || undefined)}>
+               <div
+                  key="space"
+                  className={CSS.element(baseClass, "space")}
+                  ref={(c: HTMLDivElement | null) => (this.dom.range = c || undefined)}
+               >
                   {widget.showFrom && (
                      <div
                         key="from"
@@ -237,36 +296,36 @@ class SliderComponent extends VDOM.Component<SliderComponentProps, SliderCompone
 
       let { instance } = props;
       let { widget } = instance;
-      tooltipParentWillReceiveProps(this.dom.to, instance, widget.toTooltip, { tooltipName: "toTooltip" });
-      tooltipParentWillReceiveProps(this.dom.from, instance, widget.fromTooltip, { tooltipName: "fromTooltip" });
+      tooltipParentWillReceiveProps(this.dom.to!, instance, widget.toTooltip, { tooltipName: "toTooltip" });
+      tooltipParentWillReceiveProps(this.dom.from!, instance, widget.fromTooltip, { tooltipName: "fromTooltip" });
    }
 
    componentWillUnmount(): void {
       tooltipParentWillUnmount(this.props.instance);
-      this.unsubscribeOnWheel();
+      this.unsubscribeOnWheel?.();
    }
 
    componentDidMount(): void {
       let { instance } = this.props;
       let { widget } = instance;
-      tooltipParentDidMount(this.dom.to, instance, widget.toTooltip, { tooltipName: "toTooltip" });
-      tooltipParentDidMount(this.dom.from, instance, widget.fromTooltip, { tooltipName: "fromTooltip" });
+      tooltipParentDidMount(this.dom.to!, instance, widget.toTooltip, { tooltipName: "toTooltip" });
+      tooltipParentDidMount(this.dom.from!, instance, widget.fromTooltip, { tooltipName: "fromTooltip" });
 
       this.unsubscribeOnWheel = addEventListenerWithOptions(this.dom.el!, "wheel", (e) => this.onWheel(e), {
          passive: false,
       });
    }
 
-   onHandleMouseLeave(e: React.MouseEvent, handle: string): void {
+   onHandleMouseLeave(e: React.MouseEvent, handle: "from" | "to"): void {
       if (!this.state.drag) {
          let tooltipName = handle + "Tooltip";
          let { instance } = this.props;
-         let tooltip = instance.widget[tooltipName];
+         let tooltip = handle == "from" ? instance.widget.fromTooltip : instance.widget.toTooltip;
          tooltipMouseLeave(e, instance, tooltip, { tooltipName });
       }
    }
 
-   onHandleMouseDown(e: React.MouseEvent | React.TouchEvent, handle: string): void {
+   onHandleMouseDown(e: React.MouseEvent | React.TouchEvent, handle: "from" | "to"): void {
       e.preventDefault();
       e.stopPropagation();
 
@@ -275,13 +334,13 @@ class SliderComponent extends VDOM.Component<SliderComponentProps, SliderCompone
       if (data.disabled || data.readOnly) return;
 
       let handleEl = this.dom[handle];
-      let b = getTopLevelBoundingClientRect(handleEl);
+      let b = getTopLevelBoundingClientRect(handleEl!);
       let pos = getCursorPos(e);
       let dx = pos.clientX - (b.left + b.right) / 2;
       let dy = pos.clientY - (b.top + b.bottom) / 2;
 
       let tooltipName = handle + "Tooltip";
-      let tooltip = widget[tooltipName];
+      let tooltip = handle == "from" ? widget.fromTooltip : widget.toTooltip;
 
       this.setState({
          drag: true,
@@ -311,11 +370,14 @@ class SliderComponent extends VDOM.Component<SliderComponentProps, SliderCompone
             let pos = getCursorPos(e);
             let el = document.elementFromPoint(pos.clientX, pos.clientY);
             if (el !== handleEl) tooltipMouseLeave(e, instance, tooltip as any, { tooltipName, target: handleEl });
-         }
+         },
       );
    }
 
-   getValues(e: React.MouseEvent | React.TouchEvent | MouseEvent | TouchEvent, d: number = 0): { percent: number; value: number } {
+   getValues(
+      e: React.MouseEvent | React.TouchEvent | MouseEvent | TouchEvent,
+      d: number = 0,
+   ): { percent: number; value: number } {
       let { data, widget } = this.props.instance;
       let { minValue, maxValue } = data;
       let b = getTopLevelBoundingClientRect(this.dom.range!);

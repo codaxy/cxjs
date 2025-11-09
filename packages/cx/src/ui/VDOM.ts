@@ -1,3 +1,4 @@
+// @ts-expect-error
 import { VDOM as vdom } from "cx-react";
 
 import type * as React from "react";

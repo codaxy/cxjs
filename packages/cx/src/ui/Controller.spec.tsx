@@ -57,11 +57,11 @@ describe("Controller", () => {
          }
       }
 
-      interface Config extends WidgetConfig {
+      interface CmpConfig extends WidgetConfig {
          onTest: string;
       }
 
-      class Cmp extends Widget<Config> {
+      class Cmp extends Widget<CmpConfig> {
          render(context: RenderingContext, instance: Instance, key: string) {
             return null;
          }
@@ -100,11 +100,11 @@ describe("Controller", () => {
          }
       }
 
-      interface Config extends WidgetConfig {
+      interface CmpConfig extends WidgetConfig {
          onTest: string;
       }
 
-      class Cmp extends Widget<Config> {
+      class Cmp extends Widget<CmpConfig> {
          render(context: RenderingContext, instance: Instance, key: string) {
             return null;
          }

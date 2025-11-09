@@ -23,6 +23,7 @@ export class Button extends HtmlElement {
    public submit?: boolean;
    public dismiss?: boolean;
    public onMouseDown?: string | ((e: MouseEvent, instance: Instance) => void);
+   declare baseClass: string;
 
    declareData(...args: Record<string, unknown>[]): void {
       super.declareData(...args, {

@@ -59,8 +59,8 @@ export class TextField<Config extends TextFieldConfig = TextFieldConfig> extends
    public alwaysShowClear?: boolean;
    public validationRegExp?: RegExp;
    public validationErrorText?: string;
-   public minLengthValidationErrorText?: string;
-   public maxLengthValidationErrorText?: string;
+   public minLengthValidationErrorText: string;
+   public maxLengthValidationErrorText: string;
    public reactOn!: string;
    public inputType?: string;
    public keyboardShortcut?: string;
@@ -269,7 +269,7 @@ class Input extends VDOM.Component<any, any> {
 
    componentDidMount(): void {
       const tooltip = getFieldTooltip(this.props.instance);
-      tooltipParentDidMount(this.input, tooltip[0], tooltip[1], tooltip[2]);
+      tooltipParentDidMount(this.input!, tooltip[0], tooltip[1], tooltip[2]);
       autoFocus(this.input, this);
    }
 
@@ -306,7 +306,7 @@ class Input extends VDOM.Component<any, any> {
       if (this.input && data.value != this.input.value && data.value != this.props.data.value)
          this.input.value = data.value || "";
       const tooltip = getFieldTooltip(props.instance);
-      tooltipParentWillReceiveProps(this.input, tooltip[0], tooltip[1], tooltip[2]);
+      tooltipParentWillReceiveProps(this.input!, tooltip[0], tooltip[1], tooltip[2]);
    }
 
    onChange(textValue: any, change: string): void {

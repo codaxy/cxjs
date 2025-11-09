@@ -19,12 +19,9 @@ import { getActiveElement } from "../../util/getActiveElement";
 
 export class TextArea extends TextField {
    declareData(...args: Record<string, unknown>[]): void {
-      super.declareData(
-         {
-            rows: undefined,
-         },
-         ...args
-      );
+      super.declareData(...args, {
+         rows: undefined,
+      });
    }
 
    prepareData(context: RenderingContext, instance: FieldInstance<TextArea>): void {
@@ -45,7 +42,7 @@ export class TextArea extends TextField {
       );
    }
 
-   validateRequired(context: RenderingContext, instance: Instance): string | undefined {
+   validateRequired(context: RenderingContext, instance: FieldInstance<TextArea>): string | undefined {
       return instance.state.empty && this.requiredText;
    }
 }
@@ -91,7 +88,7 @@ class Input extends VDOM.Component<InputProps, InputState> {
                   focus: this.state.focus,
                   empty: empty && !data.placeholder,
                   error: data.error && (state.visited || !suppressErrorsUntilVisited || !empty),
-               })
+               }),
             )}
             style={data.style}
             onMouseDown={stopPropagation}
@@ -117,8 +114,12 @@ class Input extends VDOM.Component<InputProps, InputState> {
                onFocus={(e: React.FocusEvent<HTMLTextAreaElement>) => this.onFocus()}
                onClick={stopPropagation}
                onKeyDown={(e: React.KeyboardEvent<HTMLTextAreaElement>) => this.onKeyDown(e)}
-               onMouseMove={(e: React.MouseEvent<HTMLTextAreaElement>) => tooltipMouseMove(e, ...getFieldTooltip(instance))}
-               onMouseLeave={(e: React.MouseEvent<HTMLTextAreaElement>) => tooltipMouseLeave(e, ...getFieldTooltip(instance))}
+               onMouseMove={(e: React.MouseEvent<HTMLTextAreaElement>) =>
+                  tooltipMouseMove(e, ...getFieldTooltip(instance))
+               }
+               onMouseLeave={(e: React.MouseEvent<HTMLTextAreaElement>) =>
+                  tooltipMouseLeave(e, ...getFieldTooltip(instance))
+               }
             />
             {label}
             {help}

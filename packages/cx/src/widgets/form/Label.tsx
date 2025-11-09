@@ -34,7 +34,7 @@ export class Label extends HtmlElement {
       data.disabled = data.stateMods.disabled = coalesce(
          context.parentStrict ? context.parentDisabled : null,
          data._disabled,
-         context.parentDisabled
+         context.parentDisabled,
       );
 
       data.asterisk = context.parentAsterisk || data.asterisk;
@@ -79,9 +79,9 @@ export class Label extends HtmlElement {
          const children = props.children as React.ReactNode[];
          children.push(" ");
          children.push(
-            <span key="asterisk" className={this.CSS.element(this.baseClass, "asterisk")}>
+            <span key="asterisk" className={this.CSS.element(this.baseClass!, "asterisk")}>
                *
-            </span>
+            </span>,
          );
       }
    }

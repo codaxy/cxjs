@@ -1,5 +1,6 @@
 /**@jsxImportSource react */
 
+// @ts-expect-error
 import { DateTimeCulture } from "intl-io";
 import { StringTemplate } from "../../data/StringTemplate";
 import { Culture } from "../../ui";
@@ -304,7 +305,7 @@ interface MonthInputState {
 }
 
 class MonthInput extends VDOM.Component<MonthInputProps, MonthInputState> {
-   input!: HTMLInputElement;
+   input?: HTMLInputElement | null;
    dropdown?: Widget;
    openDropdownOnFocus: boolean = false;
    scrollableParents?: Element[];
@@ -339,14 +340,14 @@ class MonthInput extends VDOM.Component<MonthInputProps, MonthInputState> {
             encoding: widget.encoding,
             inclusiveTo: widget.inclusiveTo,
             autoFocus: true,
-            onFocusOut: (e) => {
+            onFocusOut: (e: React.MouseEvent) => {
                this.closeDropdown(e);
             },
-            onKeyDown: (e) => this.onKeyDown(e),
-            onSelect: (e) => {
+            onKeyDown: (e: React.KeyboardEvent) => this.onKeyDown(e),
+            onSelect: (e: React.MouseEvent) => {
                let touch = isTouchEvent();
                this.closeDropdown(e, () => {
-                  if (!touch) this.input.focus();
+                  if (!touch) this.input!.focus();
                });
             },
          },
@@ -471,7 +472,7 @@ class MonthInput extends VDOM.Component<MonthInputProps, MonthInputState> {
       if (e.target != this.input) {
          e.preventDefault();
          if (!this.state.dropdownOpen) this.openDropdown(e);
-         else this.input.focus();
+         else this.input!.focus();
       }
    }
 
@@ -500,7 +501,7 @@ class MonthInput extends VDOM.Component<MonthInputProps, MonthInputState> {
             if (this.state.dropdownOpen) {
                e.stopPropagation();
                this.closeDropdown(e, () => {
-                  this.input.focus();
+                  this.input!.focus();
                });
             }
             break;
@@ -561,17 +562,17 @@ class MonthInput extends VDOM.Component<MonthInputProps, MonthInputState> {
 
    UNSAFE_componentWillReceiveProps(props: MonthInputProps): void {
       const { data, state } = props.instance;
-      if (data.formatted != this.input.value && (data.formatted != this.props.data.formatted || !state.inputError)) {
-         this.input.value = data.formatted || "";
+      if (data.formatted != this.input!.value && (data.formatted != this.props.data.formatted || !state.inputError)) {
+         this.input!.value = data.formatted || "";
          props.instance.setState({
             inputError: false,
          });
       }
-      tooltipParentWillReceiveProps(this.input, ...getFieldTooltip(this.props.instance));
+      tooltipParentWillReceiveProps(this.input!, ...getFieldTooltip(this.props.instance));
    }
 
    componentDidMount(): void {
-      tooltipParentDidMount(this.input, ...getFieldTooltip(this.props.instance));
+      tooltipParentDidMount(this.input!, ...getFieldTooltip(this.props.instance));
       autoFocus(this.input, this);
    }
 

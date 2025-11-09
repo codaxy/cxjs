@@ -21,6 +21,7 @@ export class DateTimePicker extends Widget {
    public encoding?: (date: Date) => string;
    public onFocusOut?: string | ((instance: Instance) => void);
    public onSelect?: string | ((e: React.KeyboardEvent, instance: Instance, date: Date) => void);
+   declare baseClass: string;
 
    declareData(...args: Record<string, unknown>[]): void {
       return super.declareData(...args, {
@@ -261,7 +262,7 @@ class DateTimePickerComponent extends VDOM.Component<DateTimePickerComponentProp
                   {days}
                </WheelComponent>
             )}
-            {this.wheels.hours && this.wheels.year && <span className={CSS.element(baseClass, "spacer")} />}
+            {this.wheels.hours && this.wheels.year && <span className={CSS.element(baseClass!, "spacer")} />}
             {this.wheels.hours && (
                <WheelComponent
                   size={size}

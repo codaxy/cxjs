@@ -22,6 +22,7 @@ describe("ValidationGroup", () => {
       const component = createTestRenderer(store, widget);
 
       let tree = component.toJSON();
+      assert(tree && !Array.isArray(tree));
       assert.equal(tree.type, "div");
       assert.equal(store.get("invalid"), true);
       assert.equal(store.get("valid"), false);

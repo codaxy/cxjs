@@ -1,6 +1,10 @@
 import { Widget } from "../../ui/Widget";
-import { ValidationGroup } from "./ValidationGroup";
+import { ValidationGroup, ValidationGroupConfig } from "./ValidationGroup";
 
-export class FieldGroup extends ValidationGroup {}
+export interface FieldGroupConfig extends ValidationGroupConfig {}
+
+export class FieldGroup<
+   TConfig extends FieldGroupConfig = FieldGroupConfig
+> extends ValidationGroup<TConfig> {}
 
 Widget.alias("field-group", FieldGroup);

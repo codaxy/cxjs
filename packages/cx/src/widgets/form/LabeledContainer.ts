@@ -2,15 +2,30 @@ import { isSelector } from '../../data/isSelector';
 import type { Instance } from '../../ui/Instance';
 import type { CxChild, RenderingContext } from '../../ui/RenderingContext';
 import { Widget } from '../../ui/Widget';
-import { FieldGroup } from './FieldGroup';
+import { FieldGroup, FieldGroupConfig } from './FieldGroup';
 import { Label } from './Label';
+import { StringProp, Config, BooleanProp } from '../../ui/Prop';
 
-export class LabeledContainer extends FieldGroup
-{
-   label?: string | Record<string, unknown> | Label | Widget; // Can be string, selector, Label widget config, or Widget
-   disabled?: boolean;
+export interface LabeledContainerConfig extends FieldGroupConfig {
+   /** The label. */
+   label?: StringProp | Config;
+
+   /** Set to true to disable the field. */
+   disabled?: BooleanProp;
+
+   /** CSS modifier classes. */
    mod?: Record<string, unknown>;
-   asterisk?: boolean;
+
+   /** Set to true to display an asterisk next to the label. */
+   asterisk?: BooleanProp;
+}
+
+export class LabeledContainer extends FieldGroup<LabeledContainerConfig>
+{
+   declare label?: string | Record<string, unknown> | Label | Widget; // Can be string, selector, Label widget config, or Widget
+   declare disabled?: boolean;
+   declare mod?: Record<string, unknown>;
+   declare asterisk?: boolean;
 
    declareData(...args: Record<string, unknown>[]): void {
       super.declareData(...args, {

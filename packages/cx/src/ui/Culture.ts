@@ -1,3 +1,4 @@
+// @ts-expect-error
 import { NumberCulture, DateTimeCulture } from "intl-io";
 import { Localization } from "./Localization";
 import { GlobalCacheIdentifier } from "../util/GlobalCacheIdentifier";

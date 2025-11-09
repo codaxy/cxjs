@@ -23,8 +23,8 @@ let widgetId = 100;
 export type ControllerProp =
    | typeof Controller
    | Controller
-   | ControllerConfig<any>
-   | ((config: ViewMethods) => ControllerConfig<any>);
+   | ControllerConfig
+   | ((config: ViewMethods) => ControllerConfig);
 
 export interface WidgetConfig {
    styles?: StyleProp;

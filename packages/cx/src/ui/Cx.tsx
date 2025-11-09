@@ -9,7 +9,7 @@ import { isBatchingUpdates, notifyBatchedUpdateStarting, notifyBatchedUpdateComp
 import { shallowEquals } from "../util/shallowEquals";
 import { PureContainer } from "./PureContainer";
 import { onIdleCallback } from "../util/onIdleCallback";
-import { getCurrentCulture, pushCulture, popCulture, CultureInfo } from "./Culture";
+import { getCurrentCulture, pushCulture, popCulture, CultureInfo, ResolvedCultureInfo } from "./Culture";
 import { View } from "../data/View";
 import * as CxCore from "../core";
 
@@ -27,7 +27,7 @@ export interface CxProps {
    onError?: (error: Error, instance: Instance, info: any) => void;
    params?: any;
    contentFactory?: (props: { children: any }) => any;
-   cultureInfo?: CultureInfo;
+   cultureInfo?: ResolvedCultureInfo;
 }
 
 export interface CxState {
@@ -226,7 +226,7 @@ interface CxContextProps {
    buster: number;
    contentFactory?: (props: { children: any }) => any;
    forceUpdate: () => void;
-   cultureInfo?: CultureInfo;
+   cultureInfo?: ResolvedCultureInfo;
 }
 
 class CxContext extends VDOM.Component<CxContextProps, {}> {

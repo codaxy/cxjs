@@ -29,29 +29,29 @@ export interface TooltipOperations {
    tooltipMouseMove(
       e: React.MouseEvent,
       parentInstance: Instance,
-      tooltip: TooltipConfig,
-      options?: TooltipOptions
+      tooltip: TooltipConfig | undefined,
+      options?: TooltipOptions,
    ): void;
 
    tooltipMouseLeave(
       e: React.MouseEvent,
       parentInstance: Instance,
-      tooltip: TooltipConfig,
-      options?: TooltipOptions
+      tooltip: TooltipConfig | undefined,
+      options?: TooltipOptions,
    ): void;
 
    tooltipParentDidMount(
       element: HTMLElement,
       parentInstance: Instance,
-      tooltip: TooltipConfig,
-      options?: TooltipOptions
+      tooltip: TooltipConfig | undefined,
+      options?: TooltipOptions,
    ): void;
 
    tooltipParentWillReceiveProps(
       element: HTMLElement,
       parentInstance: Instance,
-      tooltip: TooltipConfig,
-      options?: TooltipOptions
+      tooltip: TooltipConfig | undefined,
+      options?: TooltipOptions,
    ): void;
 
    tooltipParentWillUnmount(parentInstance: Instance): void;
@@ -65,7 +65,7 @@ export function tooltipMouseMove(
    e: React.MouseEvent,
    parentInstance: Instance,
    tooltip: TooltipConfig | undefined,
-   options: TooltipOptions = {}
+   options: TooltipOptions = {},
 ): void {
    if (impl && tooltip) {
       impl.tooltipMouseMove.call(impl, e, parentInstance, tooltip, options);
@@ -76,7 +76,7 @@ export function tooltipMouseLeave(
    e: React.MouseEvent,
    parentInstance: Instance,
    tooltip: TooltipConfig | undefined,
-   options?: TooltipOptions
+   options?: TooltipOptions,
 ): void {
    if (impl && tooltip) {
       impl.tooltipMouseLeave.call(impl, e, parentInstance, tooltip, options);
@@ -87,7 +87,7 @@ export function tooltipParentDidMount(
    element: HTMLElement,
    parentInstance: Instance,
    tooltip: TooltipConfig | undefined,
-   options?: TooltipOptions
+   options?: TooltipOptions,
 ): void {
    if (impl) {
       impl.tooltipParentDidMount.call(impl, element, parentInstance, tooltip, options);
@@ -98,7 +98,7 @@ export function tooltipParentWillReceiveProps(
    element: HTMLElement,
    parentInstance: Instance,
    tooltip: TooltipConfig | undefined,
-   options?: TooltipOptions
+   options?: TooltipOptions,
 ): void {
    if (impl) {
       impl.tooltipParentWillReceiveProps.call(impl, element, parentInstance, tooltip, options);
@@ -111,11 +111,7 @@ export function tooltipParentWillUnmount(parentInstance: Instance): void {
    }
 }
 
-export function tooltipParentDidUpdate(
-   element: HTMLElement,
-   parentInstance: Instance,
-   tooltip: TooltipConfig
-): void {
+export function tooltipParentDidUpdate(element: HTMLElement, parentInstance: Instance, tooltip: TooltipConfig): void {
    if (impl) {
       impl.tooltipParentDidUpdate.call(impl, element, parentInstance, tooltip);
    }
