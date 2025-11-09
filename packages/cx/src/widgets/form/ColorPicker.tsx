@@ -1,6 +1,6 @@
 /** @jsxImportSource react */
 import { Widget, VDOM } from "../../ui/Widget";
-import { Field } from "./Field";
+import { Field, FieldConfig, FieldInstance } from "./Field";
 import { captureMouseOrTouch, getCursorPos } from "../overlay/captureMouse";
 import { hslToRgb } from "../../util/color/hslToRgb";
 import { rgbToHsl } from "../../util/color/rgbToHsl";
@@ -37,10 +37,27 @@ interface ColorState {
    a: number;
 }
 
-export class ColorPicker extends Field {
-   public format: string = "rgba";
-   public reportOn: string = "blur change";
-   public onColorClick?: (e: React.MouseEvent, instance: Instance) => void;
+export interface ColorPickerConfig extends FieldConfig {
+   /** Either `rgba`, `hsla` or `hex` value of the selected color. */
+   value?: string;
+
+   /** Format of the color representation. Either `rgba`, `hsla` or `hex`. */
+   format?: "rgba" | "hsla" | "hex";
+
+   /**
+    * A string containing the list of all events that cause that selected value is written to the store.
+    * Default value is `blur change` which means that changes are propagated immediately.
+    */
+   reportOn?: string;
+
+   /** Callback function invoked when the color preview is clicked. */
+   onColorClick?: (e: React.MouseEvent, instance: Instance) => void;
+}
+
+export class ColorPicker extends Field<ColorPickerConfig, FieldInstance<ColorPicker>> {
+   declare format: string;
+   declare reportOn: string;
+   declare onColorClick?: (e: React.MouseEvent, instance: FieldInstance<ColorPicker>) => void;
 
    declareData(...args: Record<string, unknown>[]): void {
       super.declareData(
@@ -52,11 +69,11 @@ export class ColorPicker extends Field {
       );
    }
 
-   renderInput(context: RenderingContext, instance: Instance, key: string): React.ReactNode {
+   renderInput(context: RenderingContext, instance: FieldInstance<ColorPicker>, key: string): React.ReactNode {
       return <ColorPickerComponent key={key} instance={instance} />;
    }
 
-   handleEvent(eventType: string, instance: Instance, color: ColorState): void {
+   handleEvent(eventType: string, instance: FieldInstance<ColorPicker>, color: ColorState): void {
       let { data } = instance;
       if (this.reportOn.indexOf(eventType) != -1) {
          let value;
@@ -90,7 +107,7 @@ ColorPicker.prototype.format = "rgba";
 Widget.alias("color-picker", ColorPicker);
 
 interface ColorPickerComponentProps {
-   instance: Instance;
+   instance: FieldInstance<ColorPicker>;
 }
 
 class ColorPickerComponent extends VDOM.Component<ColorPickerComponentProps, ColorState> {
@@ -164,7 +181,7 @@ class ColorPickerComponent extends VDOM.Component<ColorPickerComponentProps, Col
          "css",
       )}linear-gradient(left, hsla(${h},${s}%,${l}%,0) 0%, hsla(${h},${s}%,${l}%,1) 100%)`;
 
-      if ('EyeDropper' in window && window.EyeDropper) {
+      if ("EyeDropper" in window && window.EyeDropper) {
          pixelPicker = (
             <div
                className={CSS.element(baseClass, "pixel-picker")}

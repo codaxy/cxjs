@@ -40,7 +40,7 @@ import { AccessorChain, isAccessorChain } from "../../data/createAccessorModelPr
 import type { CxChild, RenderingContext } from "../../ui/RenderingContext";
 import type { DropdownInstance, Instance } from "../../ui/Instance";
 import { FieldConfig } from "./Field";
-import { Prop, BooleanProp, StringProp } from "../../ui/Prop";
+import { Prop, BooleanProp, StringProp, DataRecord } from "../../ui/Prop";
 
 export interface LookupBinding {
    local: string;
@@ -78,7 +78,12 @@ export interface LookupFieldConfig extends FieldConfig {
    cacheAll?: boolean;
    closeOnSelect?: boolean;
    minQueryLengthMessageText?: string;
-   onQuery?: string | ((query: string | { query: string; page: number; pageSize: number }, instance: Instance) => Record<string, any>[] | Promise<Record<string, any>[]>);
+   onQuery?:
+      | string
+      | ((
+           query: string | { query: string; page: number; pageSize: number },
+           instance: Instance,
+        ) => Record<string, any>[] | Promise<Record<string, any>[]>);
    sort?: boolean;
    listOptions?: Record<string, any>;
    autoOpen?: BooleanProp;
@@ -88,7 +93,9 @@ export interface LookupFieldConfig extends FieldConfig {
    infinite?: boolean;
    quickSelectAll?: boolean;
    onGetRecordDisplayText?: ((record: Record<string, any>, instance: Instance) => string) | null;
-   onCreateVisibleOptionsFilter?: string | ((filterParams: unknown, instance: Instance) => (option: Record<string, any>) => boolean);
+   onCreateVisibleOptionsFilter?:
+      | string
+      | ((filterParams: unknown, instance: Instance) => (option: Record<string, any>) => boolean);
 }
 
 export class LookupField<Config extends LookupFieldConfig = LookupFieldConfig> extends Field<Config> {
@@ -109,32 +116,36 @@ export class LookupField<Config extends LookupFieldConfig = LookupFieldConfig> e
    public fetchAll!: boolean;
    public cacheAll!: boolean;
    public closeOnSelect!: boolean;
-   public minQueryLengthMessageText?: string;
+   public minQueryLengthMessageText: string;
    public sort?: boolean;
    public listOptions?: Record<string, any> | null;
    public autoOpen?: boolean;
    public submitOnEnterKey?: boolean;
    public submitOnDropdownEnterKey?: boolean;
-   public pageSize?: number;
+   public pageSize: number;
    public infinite?: boolean;
    public quickSelectAll?: boolean;
    public queryDelay!: number;
    public minQueryLength!: number;
    public onGetRecordDisplayText?: ((record: Record<string, any>, instance: Instance) => string) | null;
-   public onQuery?: string | ((params: string | { query: string; page: number; pageSize: number }, instance: Instance) => Promise<Record<string, any>[]> | Record<string, any>[]);
-   public onCreateVisibleOptionsFilter?: string | ((filterParams: unknown, instance: Instance) => (option: Record<string, any>) => boolean);
+   public onQuery?:
+      | string
+      | ((
+           params: string | { query: string; page: number; pageSize: number },
+           instance: Instance,
+        ) => Promise<Record<string, any>[]> | Record<string, any>[]);
+   public onCreateVisibleOptionsFilter?:
+      | string
+      | ((filterParams: unknown, instance: Instance) => (option: Record<string, any>) => boolean);
    public value?: BindingInput;
    public text?: BindingInput<string>;
    public records?: Record<string, any>[];
    public values?: unknown[];
    public options?: Record<string, any>[];
-   public disabled?: boolean;
+
    public enabled?: boolean;
    public placeholder?: string;
-   public required?: boolean;
    public readOnly?: boolean;
-   public emptyValue?: unknown;
-   public trackFocus?: boolean;
    public dropdownOptions?: Record<string, any>;
    public bindings?: BindingConfig[];
    public keyBindings?: BindingConfig[];
@@ -292,10 +303,12 @@ export class LookupField<Config extends LookupFieldConfig = LookupFieldConfig> e
       );
    }
 
-   filterOptions(instance: Instance, options: Record<string, any>[], query: string): Record<string, any>[] {
+   filterOptions(instance: Instance, options: DataRecord[], query?: string): DataRecord[] {
       if (!query) return options;
       let textPredicate = getSearchQueryPredicate(query);
-      return options.filter((o) => isString((o as any)[this.optionTextField!]) && textPredicate((o as any)[this.optionTextField!] as string));
+      return options.filter(
+         (o) => isString(o[this.optionTextField!]) && textPredicate((o as any)[this.optionTextField!] as string),
+      );
    }
 
    isEmpty(data: Record<string, any>): boolean {
@@ -316,7 +329,8 @@ export class LookupField<Config extends LookupFieldConfig = LookupFieldConfig> e
          let valueTextFormatter =
             typeof this.onGetRecordDisplayText === "function"
                ? this.onGetRecordDisplayText
-               : (record: Record<string, any>) => (record as any)[this.valueTextField!] || (record as any)[this.valueIdField!];
+               : (record: Record<string, any>) =>
+                    (record as any)[this.valueTextField!] || (record as any)[this.valueIdField!];
          return records.map((record) => valueTextFormatter(record as any, instance));
       }
 
@@ -426,12 +440,12 @@ interface LookupComponentProps {
    baseClass: string;
    label?: React.ReactNode;
    help?: React.ReactNode;
-   forceUpdate?: () => void;
+   forceUpdate: () => void;
    icon?: React.ReactNode;
 }
 
 interface LookupComponentState {
-   options: Record<string, any>[];
+   options: unknown[];
    formatted?: string;
    value?: string;
    dropdownOpen: boolean;
@@ -445,10 +459,10 @@ interface LookupComponentState {
 
 class LookupComponent extends VDOM.Component<LookupComponentProps, LookupComponentState> {
    dom: {
-      input?: HTMLDivElement;
-      dropdown?: HTMLDivElement;
+      input?: HTMLDivElement | null;
+      dropdown?: HTMLDivElement | null;
       list?: HTMLDivElement | null;
-      query?: HTMLInputElement;
+      query?: HTMLInputElement | null;
    } = {};
    itemStore: ReadOnlyDataView;
    dropdown?: Widget;
@@ -460,8 +474,8 @@ class LookupComponent extends VDOM.Component<LookupComponentProps, LookupCompone
    lastQueryId?: number;
    lastQuery?: string;
    extraPageLoadingBlocker?: string | false;
-   unsubscribeListOnWheel?: () => void | null;
-   unsubscribeListOnScroll?: () => void | null;
+   unsubscribeListOnWheel?: (() => void) | null;
+   unsubscribeListOnScroll?: (() => void) | null;
 
    constructor(props: LookupComponentProps) {
       super(props);
@@ -521,8 +535,8 @@ class LookupComponent extends VDOM.Component<LookupComponentProps, LookupCompone
          focusable: false,
          selection: {
             type: SelectionDelegate,
-            delegate: (data) =>
-               this.props.instance.data.selectedKeys.find((x) =>
+            delegate: (data: any) =>
+               this.props.instance.data.selectedKeys.find((x: any) =>
                   areKeysEqual(x, this.getOptionKey({ $option: data })),
                ) != null,
          },
@@ -563,7 +577,10 @@ class LookupComponent extends VDOM.Component<LookupComponentProps, LookupCompone
    renderDropdownContents(): React.ReactNode {
       let content;
       let { instance } = this.props;
-      let { data, widget }: { data: Record<string, any>; widget: LookupField } = instance as unknown as { data: Record<string, any>; widget: LookupField };
+      let { data, widget }: { data: Record<string, any>; widget: LookupField } = instance as unknown as {
+         data: Record<string, any>;
+         widget: LookupField;
+      };
       let { CSS, baseClass } = widget;
 
       let searchVisible =
@@ -749,7 +766,9 @@ class LookupComponent extends VDOM.Component<LookupComponentProps, LookupCompone
       if (this.props.multiple) {
          let readOnly = data.disabled || data.readOnly;
          if (isNonEmptyArray(data.records)) {
-            let valueTextFormatter = widget.onGetRecordDisplayText ?? ((record: Record<string, any>) => record[widget.valueTextField] as string);
+            let valueTextFormatter =
+               widget.onGetRecordDisplayText ??
+               ((record: Record<string, any>) => record[widget.valueTextField] as string);
             text = data.records.map((v, i) => (
                <div
                   key={i}
@@ -839,7 +858,10 @@ class LookupComponent extends VDOM.Component<LookupComponentProps, LookupCompone
       this.toggleDropdown(e, true);
    }
 
-   onItemClick(e: React.KeyboardEvent | React.MouseEvent, { store }: { store: { getData: () => Record<string, any> } }): void {
+   onItemClick(
+      e: React.KeyboardEvent | React.MouseEvent,
+      { store }: { store: { getData: () => Record<string, any> } },
+   ): void {
       this.select(e, [store.getData()]);
       if (!this.props.instance.widget.submitOnEnterKey || e.type != "keydown") e.stopPropagation();
       if ((e as React.KeyboardEvent).keyCode != KeyCode.tab) e.preventDefault();
@@ -893,8 +915,8 @@ class LookupComponent extends VDOM.Component<LookupComponentProps, LookupCompone
          if (singleSelect) optionKey = this.getOptionKey(itemsData[0]);
 
          // deselect
-         if (singleSelect && selectedKeys.find((k) => areKeysEqual(optionKey, k))) {
-            newRecords = records.filter((v) => !areKeysEqual(optionKey, this.getLocalKey({ $value: v })));
+         if (singleSelect && selectedKeys.find((k: any) => areKeysEqual(optionKey!, k))) {
+            newRecords = records.filter((v: any) => !areKeysEqual(optionKey!, this.getLocalKey({ $value: v })));
          } else {
             itemsData.forEach((itemData) => {
                let valueData: Record<string, any> = {
@@ -939,7 +961,7 @@ class LookupComponent extends VDOM.Component<LookupComponentProps, LookupCompone
       switch (e.keyCode) {
          case KeyCode.esc:
             this.closeDropdown(e);
-            this.dom.input.focus();
+            this.dom.input!.focus();
             break;
 
          case KeyCode.tab:
@@ -1053,7 +1075,7 @@ class LookupComponent extends VDOM.Component<LookupComponentProps, LookupCompone
             {
                dropdownOpen: false,
             },
-            () => keepFocus && this.dom.input.focus(),
+            () => keepFocus && this.dom.input?.focus(),
          );
 
          this.props.instance.setState({
@@ -1108,7 +1130,7 @@ class LookupComponent extends VDOM.Component<LookupComponentProps, LookupCompone
       }
 
       if (isArray(data.visibleOptions)) {
-         let results = widget.filterOptions(this.props.instance, data.visibleOptions, q);
+         let results = widget.filterOptions(this.props.instance, data.visibleOptions as DataRecord[], q);
          this.setState({
             options: results,
             status: "loaded",
@@ -1183,6 +1205,7 @@ class LookupComponent extends VDOM.Component<LookupComponentProps, LookupCompone
       if (!widget.infinite) return;
 
       let { query, page, status, options } = this.state;
+      if (!page) page = 1;
 
       let blockerKey = query;
 
@@ -1262,9 +1285,14 @@ class LookupComponent extends VDOM.Component<LookupComponentProps, LookupCompone
          this.unsubscribeListOnWheel = null;
       }
       if (list) {
-         this.unsubscribeListOnWheel = addEventListenerWithOptions(list, "wheel", (e) => this.onListWheel(e as WheelEvent), {
-            passive: false,
-         });
+         this.unsubscribeListOnWheel = addEventListenerWithOptions(
+            list,
+            "wheel",
+            (e) => this.onListWheel(e as WheelEvent),
+            {
+               passive: false,
+            },
+         );
       }
    }
 

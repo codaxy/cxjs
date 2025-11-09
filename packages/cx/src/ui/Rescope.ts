@@ -1,16 +1,24 @@
 import { Widget } from "./Widget";
-import { PureContainer } from "./PureContainer";
+import { PureContainer, PureContainerConfig } from "./PureContainer";
 import { Binding } from "../data/Binding";
 import { ZoomIntoPropertyView } from "../data/ZoomIntoPropertyView";
 import { StructuredInstanceDataAccessor } from "./StructuredInstanceDataAccessor";
 import { isObject } from "../util/isObject";
+import { StructuredProp } from "./Prop";
 
-export class Rescope extends PureContainer {
+export interface RescopeConfig extends PureContainerConfig {
    bind: string;
-   binding: any;
+   rootName?: string;
    rootAlias?: string;
-   rootName: string;
-   data?: any;
+   data?: StructuredProp;
+}
+
+export class Rescope extends PureContainer<RescopeConfig> {
+   declare bind: string;
+   declare binding: any;
+   declare rootAlias?: string;
+   declare rootName: string;
+   declare data?: any;
 
    init() {
       this.binding = Binding.get(this.bind);

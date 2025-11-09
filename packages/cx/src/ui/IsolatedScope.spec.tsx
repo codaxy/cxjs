@@ -1,13 +1,12 @@
-import { Cx } from "./Cx";
 import { Store } from "../data/Store";
-import renderer from "react-test-renderer";
+import { createTestRenderer } from "../util/test/createTestRenderer";
 import assert from "assert";
 import { IsolatedScope } from "./IsolatedScope";
 import { bind } from "./bind";
 
 describe("IsolatedScope", () => {
    it("prevents multiple re-renders", () => {
-      let list = [];
+      let list: any[] = [];
       let widget = (
          <cx>
             <IsolatedScope
@@ -28,7 +27,7 @@ describe("IsolatedScope", () => {
          },
       });
 
-      const component = renderer.create(<Cx widget={widget} store={store} subscribe immediate />);
+      const component = createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(list, ["bad"]);

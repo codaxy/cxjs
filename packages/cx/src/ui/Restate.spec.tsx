@@ -1,9 +1,6 @@
-import { HtmlElement } from "../widgets/HtmlElement";
-import { Cx } from "./Cx";
 import { Restate } from "./Restate";
 import { Store } from "../data/Store";
-import { VDOM } from "./VDOM";
-import renderer from "react-test-renderer";
+import { createTestRenderer } from "../util/test/createTestRenderer";
 import assert from "assert";
 import { Controller } from "./Controller";
 import { bind } from "./bind";
@@ -33,7 +30,7 @@ describe("Restate", () => {
          },
       });
 
-      const component = renderer.create(<Cx widget={widget} store={store} subscribe immediate />);
+      const component = createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -83,7 +80,7 @@ describe("Restate", () => {
          changed = true;
       });
 
-      const component = renderer.create(<Cx widget={widget} store={store} subscribe immediate />);
+      const component = createTestRenderer(store, widget);
 
       let tree = component.toJSON();
 
@@ -93,14 +90,14 @@ describe("Restate", () => {
    });
 
    it("causes a global update if internal data changes", () => {
-      let controller;
+      let controller: TestController | undefined;
 
       class TestController extends Controller {
          onInit() {
             controller = this;
          }
 
-         setNickname(nname) {
+         setNickname(nname: string) {
             this.store.set("nickname", nname);
          }
       }
@@ -125,7 +122,7 @@ describe("Restate", () => {
          changed = true;
       });
 
-      const component = renderer.create(<Cx widget={widget} store={store} subscribe immediate />);
+      const component = createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -140,7 +137,7 @@ describe("Restate", () => {
          ],
       });
 
-      controller.setNickname("Sale");
+      controller!.setNickname("Sale");
 
       let tree2 = component.toJSON();
       assert.deepEqual(tree2, {
@@ -184,7 +181,7 @@ describe("Restate", () => {
          changed = true;
       });
 
-      const component = renderer.create(<Cx widget={widget} store={store} subscribe immediate />);
+      const component = createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert(!changed);
@@ -216,7 +213,7 @@ describe("Restate", () => {
          //console.log(store.getData());
       });
 
-      const component = renderer.create(<Cx widget={widget} store={store} subscribe immediate />);
+      const component = createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(store.getData(), {
@@ -249,7 +246,7 @@ describe("Restate", () => {
 
          let store = new Store();
 
-         const component = renderer.create(<Cx widget={widget} store={store} subscribe immediate />);
+         const component = createTestRenderer(store, widget);
 
          let tree = component.toJSON();
          assert.deepEqual(tree, {
@@ -309,7 +306,7 @@ describe("Restate", () => {
 
          let store = new Store();
 
-         const component = renderer.create(<Cx widget={widget} store={store} subscribe immediate />);
+         const component = createTestRenderer(store, widget);
 
          let tree = component.toJSON();
          assert.deepEqual(tree, {
@@ -351,7 +348,7 @@ describe("Restate", () => {
          changed = true;
       });
 
-      const component = renderer.create(<Cx widget={widget} store={store} subscribe immediate />);
+      const component = createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -383,7 +380,7 @@ describe("Restate", () => {
 
       let store = new Store();
 
-      const component = renderer.create(<Cx widget={widget} store={store} subscribe immediate />);
+      const component = createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -409,7 +406,7 @@ describe("Restate", () => {
 
       let store = new Store();
 
-      const component = renderer.create(<Cx widget={widget} store={store} subscribe immediate />);
+      const component = createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {

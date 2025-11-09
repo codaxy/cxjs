@@ -1,12 +1,9 @@
-import { Cx } from "../../ui/Cx";
-import { VDOM } from "../../ui/VDOM";
 import { Store } from "../../data/Store";
-import { HtmlElement } from "../HtmlElement";
 import { ValidationGroup } from "./ValidationGroup";
 import { Validator } from "./Validator";
 import { bind } from "../../ui/bind";
+import { createTestRenderer } from "../../util/test/createTestRenderer";
 
-import renderer from "react-test-renderer";
 import assert from "assert";
 
 describe("ValidationGroup", () => {
@@ -22,7 +19,7 @@ describe("ValidationGroup", () => {
 
       let store = new Store();
 
-      const component = renderer.create(<Cx widget={widget} store={store} subscribe immediate />);
+      const component = createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.equal(tree.type, "div");
@@ -48,7 +45,7 @@ describe("ValidationGroup", () => {
 
       let store = new Store();
 
-      const component = renderer.create(<Cx widget={widget} store={store} subscribe />);
+      const component = createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.equal(store.get("invalid"), true);
@@ -74,7 +71,7 @@ describe("ValidationGroup", () => {
 
       let store = new Store();
 
-      const component = renderer.create(<Cx widget={widget} store={store} subscribe />);
+      const component = createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.equal(store.get("invalid"), false);
@@ -103,7 +100,7 @@ describe("ValidationGroup", () => {
 
       let store = new Store();
 
-      const component = renderer.create(<Cx widget={widget} store={store} subscribe />);
+      const component = createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert(visited);
@@ -122,7 +119,7 @@ describe("ValidationGroup", () => {
 
       let store = new Store();
 
-      const component = renderer.create(<Cx widget={widget} store={store} subscribe />);
+      const component = createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.equal(store.get("invalid"), true);
@@ -141,7 +138,7 @@ describe("ValidationGroup", () => {
 
       let store = new Store();
 
-      const component = renderer.create(<Cx widget={widget} store={store} subscribe />);
+      const component = createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.equal(store.get("invalid"), false);

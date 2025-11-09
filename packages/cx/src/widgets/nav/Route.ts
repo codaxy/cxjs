@@ -1,11 +1,31 @@
-//@ts-nocheck
 import { Widget } from "../../ui/Widget";
-import { PureContainer } from "../../ui/PureContainer";
+import { PureContainer, PureContainerConfig } from "../../ui/PureContainer";
 import RouteMatcher from "route-parser";
 import { ReadOnlyDataView } from "../../data/ReadOnlyDataView";
 import { routeAppend } from "../../util/routeAppend";
+import { StringProp, BooleanProp, Prop } from "../../ui/Prop";
+import { RenderingContext } from "../../ui/RenderingContext";
+import { Instance } from "../../ui/Instance";
 
-export class Route extends PureContainer {
+export interface RouteConfig extends PureContainerConfig {
+   url?: StringProp;
+   route: string;
+   path?: string;
+   prefix?: BooleanProp;
+   recordName?: string;
+   params?: Prop<any>;
+   map?: Record<string, string>;
+}
+
+export class Route extends PureContainer<RouteConfig> {
+   declare url?: string;
+   declare route: string;
+   declare path?: string;
+   declare prefix?: boolean;
+   declare recordName: string;
+   declare params?: Prop<any>;
+   declare map?: Record<string, string>;
+   declare matcher?: any;
    init() {
       if (this.path) this.route = this.path;
 
@@ -15,24 +35,24 @@ export class Route extends PureContainer {
          this.matcher = new RouteMatcher(this.route + (this.prefix ? "(*remainder)" : ""));
    }
 
-   initInstance(context, instance) {
+   initInstance(context: RenderingContext, instance: Instance) {
       instance.store = new ReadOnlyDataView({
          store: instance.parentStore,
       });
       super.initInstance(context, instance);
    }
 
-   applyParentStore(instance) {
+   applyParentStore(instance: Instance) {
       instance.store.setStore(instance.parentStore);
    }
 
-   declareData() {
-      super.declareData(...arguments, {
+   declareData(...args: any[]): void {
+      super.declareData(...args, {
          url: undefined,
       });
    }
 
-   checkVisible(context, instance, data) {
+   checkVisible(context: RenderingContext, instance: Instance, data: any) {
       if (!data.visible) return false;
 
       if (data.url !== instance.cached.url) {
@@ -54,10 +74,12 @@ export class Route extends PureContainer {
       return super.checkVisible(context, instance, data);
    }
 
-   prepareData(context, { data, store, cached }) {
-      super.prepareData(...arguments);
+   prepareData(context: RenderingContext, instance: Instance) {
+      super.prepareData(context, instance);
 
-      store.setData({
+      const { store, cached } = instance;
+
+      (store as ReadOnlyDataView).setData({
          [this.recordName]: cached.result,
       });
 
@@ -70,18 +92,18 @@ export class Route extends PureContainer {
       }
 
       if (this.map) {
-         for (var key in result) {
+         for (var key in cached.result) {
             var binding = this.map[key];
-            if (binding) store.set(binding, result[key]);
+            if (binding) store.set(binding, cached.result[key]);
          }
       }
    }
 
-   explore(context, instance) {
+   explore(context: RenderingContext, instance: Instance) {
       context.push("lastRoute", {
          route: instance.cached.route,
          result: instance.cached.result,
-         reverse: function (data) {
+         reverse: function (data: any) {
             return instance.cached.matcher.reverse({
                ...instance.cached.result,
                remainder: "",
@@ -92,7 +114,7 @@ export class Route extends PureContainer {
       super.explore(context, instance);
    }
 
-   exploreCleanup(context, instance) {
+   exploreCleanup(context: RenderingContext, instance: Instance) {
       context.pop("lastRoute");
    }
 }

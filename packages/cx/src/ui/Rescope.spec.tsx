@@ -1,10 +1,11 @@
-import { Cx } from "./Cx";
 import { Store } from "../data/Store";
 import { Rescope } from "./Rescope";
 import { bind } from "./bind";
+import { createTestRenderer } from "../util/test/createTestRenderer";
+import { Controller } from "./Controller";
 
-import renderer from "react-test-renderer";
 import assert from "assert";
+import { PureContainer } from "./PureContainer";
 
 describe("Rescope", () => {
    it("allows simple access to nested data", () => {
@@ -26,7 +27,7 @@ describe("Rescope", () => {
          </cx>
       );
 
-      const component = renderer.create(<Cx widget={widget} store={store} subscribe immediate />);
+      const component = createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -58,7 +59,7 @@ describe("Rescope", () => {
          </cx>
       );
 
-      const component = renderer.create(<Cx widget={widget} store={store} subscribe immediate />);
+      const component = createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -85,7 +86,7 @@ describe("Rescope", () => {
          </cx>
       );
 
-      const component = renderer.create(<Cx widget={widget} store={store} subscribe immediate />);
+      const component = createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -117,7 +118,7 @@ describe("Rescope", () => {
          </cx>
       );
 
-      const component = renderer.create(<Cx widget={widget} store={store} subscribe immediate />);
+      const component = createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -142,13 +143,15 @@ describe("Rescope", () => {
          },
       });
 
-      const component = renderer.create(
-         <Cx store={store} subscribe immediate>
+      let widget = (
+         <cx>
             <Rescope bind="$page.data" visible={bind("visible")}>
                <div text={bind("name")} />
             </Rescope>
-         </Cx>
+         </cx>
       );
+
+      const component = createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -178,13 +181,15 @@ describe("Rescope", () => {
          }
       }
 
-      const component = renderer.create(
-         <Cx store={store} subscribe immediate>
+      let widget = (
+         <cx>
             <Rescope bind="$page.data" controller={TestController}>
                <div text={bind("name")} />
             </Rescope>
-         </Cx>
+         </cx>
       );
+
+      const component = createTestRenderer(store, widget);
 
       component.toJSON();
       assert.equal(testName, "John");

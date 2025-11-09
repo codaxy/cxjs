@@ -1,13 +1,21 @@
 import { isNonEmptyArray } from "../../util/isNonEmptyArray";
 import { isString } from "../../util/isString";
-import { PureContainer } from "../PureContainer";
+import { PureContainer, PureContainerConfig } from "../PureContainer";
 import { RenderingContext } from "../RenderingContext";
 import { Widget } from "../Widget";
+import { StringProp } from "../Prop";
 
-export class ContentPlaceholder extends PureContainer {
-   name?: string;
+export interface ContentPlaceholderConfig extends PureContainerConfig {
+   name?: StringProp;
    scoped?: boolean;
+   /** Set to true to allow all registered content elements to render inside the placeholder. Otherwise only one element is rendered. */
    allowMultiple?: boolean;
+}
+
+export class ContentPlaceholder extends PureContainer<ContentPlaceholderConfig> {
+   declare name?: string;
+   declare scoped?: boolean;
+   declare allowMultiple?: boolean;
 
    declareData(...args: any[]): void {
       super.declareData(...args, {
@@ -84,29 +92,32 @@ ContentPlaceholder.prototype.allowMultiple = false;
 
 Widget.alias("content-placeholder", ContentPlaceholder);
 
-export class ContentPlaceholderScope extends PureContainer {
-   name?: string | string[];
+export interface ContentPlaceholderScopeConfig extends PureContainerConfig {
+   name: string | string[];
+}
+
+export class ContentPlaceholderScope extends PureContainer<ContentPlaceholderScopeConfig> {
+   declare name: string[];
 
    init(): void {
       super.init();
-
       if (isString(this.name)) this.name = [this.name];
    }
 
    explore(context: RenderingContext, instance: any): void {
-      (this.name as string[]).forEach((name) => {
-         (context as any).pushNamedValue("contentPlaceholder", name, null);
-         (context as any).pushNamedValue("content", name, null);
-         (context as any).pushNamedValue("contentList", name, []);
+      this.name.forEach((name) => {
+         context.pushNamedValue("contentPlaceholder", name, null);
+         context.pushNamedValue("content", name, null);
+         context.pushNamedValue("contentList", name, []);
       });
       super.explore(context, instance);
    }
 
    exploreCleanup(context: RenderingContext, instance: any): void {
-      (this.name as string[]).forEach((name) => {
-         (context as any).popNamedValue("contentPlaceholder", name);
-         (context as any).popNamedValue("content", name);
-         (context as any).popNamedValue("contentList", name);
+      this.name.forEach((name) => {
+         context.popNamedValue("contentPlaceholder", name);
+         context.popNamedValue("content", name);
+         context.popNamedValue("contentList", name);
       });
    }
 }

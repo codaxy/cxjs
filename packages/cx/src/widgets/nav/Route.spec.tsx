@@ -1,11 +1,6 @@
-//@ts-nocheck
-import { Cx } from "../../ui/Cx";
-import { VDOM } from "../../ui/VDOM";
 import { Route } from "./Route";
 import { Store } from "../../data/Store";
-import { HtmlElement } from "../HtmlElement";
-
-import renderer from "react-test-renderer";
+import { createTestRenderer } from "../../util/test/createTestRenderer";
 import assert from "assert";
 
 describe("Route", () => {
@@ -20,9 +15,10 @@ describe("Route", () => {
 
       let store = new Store();
 
-      const component = renderer.create(<Cx widget={widget} store={store} />);
+      const component = createTestRenderer(store, widget);
 
       let tree = component.toJSON();
+      assert(tree && !Array.isArray(tree));
       assert.equal(tree.type, "div");
    });
 });

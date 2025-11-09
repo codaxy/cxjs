@@ -1,12 +1,8 @@
 import assert from "assert";
-import reactTestRenderer from "react-test-renderer";
 import { createAccessorModelProxy } from "../data/createAccessorModelProxy";
 import { Store } from "../data/Store";
 import { expr } from "../ui";
-import { Cx } from "../ui/Cx";
-import { HtmlElement } from "./HtmlElement";
-
-let DummyHack = HtmlElement;
+import { createTestRenderer } from "../util/test/createTestRenderer";
 
 interface Model {
    $page: {
@@ -34,9 +30,10 @@ describe("Accessors", () => {
          },
       });
 
-      const component = reactTestRenderer.create(<Cx widget={widget} store={store} />);
+      const component = createTestRenderer(store, widget);
 
       let tree = component.toJSON();
+      assert(tree && !Array.isArray(tree));
       assert(tree.type === "div");
       assert.deepStrictEqual(tree.children, ["Test"]);
    });
@@ -57,9 +54,10 @@ describe("Accessors", () => {
          },
       });
 
-      const component = reactTestRenderer.create(<Cx widget={widget} store={store} />);
+      const component = createTestRenderer(store, widget);
 
       let tree = component.toJSON();
+      assert(tree && !Array.isArray(tree));
       assert(tree.type === "div");
       assert.deepStrictEqual(tree.children, ["4"]);
    });

@@ -1,9 +1,8 @@
-import { Cx } from "./Cx";
 import { Store } from "../data/Store";
 import { Repeater } from "./Repeater";
 import { bind } from "./bind";
+import { createTestRenderer } from "../util/test/createTestRenderer";
 
-import renderer from "react-test-renderer";
 import assert from "assert";
 
 describe("Repeater", () => {
@@ -24,7 +23,7 @@ describe("Repeater", () => {
          <cx>
             <div>
                <Repeater records={data} sorters={[{ field: "value", direction: "ASC" }]} recordAlias="$item">
-                  <div text:bind="$item.value" />
+                  <div text={bind("$item.value")} />
                </Repeater>
             </div>
          </cx>
@@ -32,7 +31,7 @@ describe("Repeater", () => {
 
       let store = new Store();
 
-      const component = renderer.create(<Cx widget={widget} store={store} subscribe immediate />);
+      const component = createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -59,7 +58,7 @@ describe("Repeater", () => {
    });
 
    it("changes are properly updated", () => {
-      let divInstances = [];
+      let divInstances: any[] = [];
       let widget = (
          <cx>
             <div>
@@ -88,7 +87,7 @@ describe("Repeater", () => {
          },
       });
 
-      const component = renderer.create(<Cx widget={widget} store={store} subscribe immediate />);
+      const component = createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {

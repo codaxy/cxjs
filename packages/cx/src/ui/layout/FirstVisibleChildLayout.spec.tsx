@@ -1,66 +1,73 @@
-import {Cx} from '../Cx';
-import {VDOM} from '../Widget';
-import {HtmlElement} from '../../widgets/HtmlElement';
-import {Store} from '../../data/Store';
-import {expr} from '../expr';
+import { Store } from "../../data/Store";
+import { expr } from "../expr";
+import { createTestRenderer } from "../../util/test/createTestRenderer";
 
-import renderer from 'react-test-renderer';
-import assert from 'assert';
-import {FirstVisibleChildLayout} from "./FirstVisibleChildLayout";
-import {UseParentLayout} from "./UseParentLayout";
-import {PureContainer} from "../PureContainer";
-import {createFunctionalComponent} from "../createFunctionalComponent";
+import assert from "assert";
+import { FirstVisibleChildLayout } from "./FirstVisibleChildLayout";
+import { UseParentLayout } from "./UseParentLayout";
+import { PureContainer } from "../PureContainer";
+import { createFunctionalComponent } from "../createFunctionalComponent";
 
-describe('FirstVisibleChildLayout', () => {
-
-   it('renders only the first child', () => {
-
-      let widget = <cx>
-         <div layout={FirstVisibleChildLayout}>
-            <header></header>
-            <main></main>
-            <footer></footer>
-         </div>
-      </cx>;
+describe("FirstVisibleChildLayout", () => {
+   it("renders only the first child", () => {
+      let widget = (
+         <cx>
+            <div layout={FirstVisibleChildLayout}>
+               <header></header>
+               <main></main>
+               <footer></footer>
+            </div>
+         </cx>
+      );
 
       let store = new Store();
 
-      const component = renderer.create(
-         <Cx widget={widget} store={store} subscribe immediate/>
-      );
+      const component = createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
-            type: 'div',
-            props: {},
-            children: [{type: 'header', props: {}, children: null}]
-         }
-      )
+         type: "div",
+         props: {},
+         children: [{ type: "header", props: {}, children: null }],
+      });
    });
 
-   it('does not process other widgets', () => {
+   it("does not process other widgets", () => {
+      let h = false,
+         m = false,
+         f = false;
 
-      let h = false, m = false, f = false;
-
-      let widget = <cx>
-         <div layout={FirstVisibleChildLayout}>
-            <header onInit={() => {h = true }} />
-            <main onInit={() => {m = true }}  />
-            <footer onInit={() => {f = true }} />
-         </div>
-      </cx>;
+      let widget = (
+         <cx>
+            <div layout={FirstVisibleChildLayout}>
+               <header
+                  onInit={() => {
+                     h = true;
+                  }}
+               />
+               <main
+                  onInit={() => {
+                     m = true;
+                  }}
+               />
+               <footer
+                  onInit={() => {
+                     f = true;
+                  }}
+               />
+            </div>
+         </cx>
+      );
 
       let store = new Store();
 
-      const component = renderer.create(
-         <Cx widget={widget} store={store} subscribe immediate/>
-      );
+      const component = createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
-         type: 'div',
+         type: "div",
          props: {},
-         children: [{type: 'header', props: {}, children: null}]
+         children: [{ type: "header", props: {}, children: null }],
       });
 
       assert.equal(h, true);
@@ -68,106 +75,98 @@ describe('FirstVisibleChildLayout', () => {
       assert.equal(f, false);
    });
 
-   it('skips the first child if not visible', () => {
-
-      let widget = <cx>
-         <div layout={FirstVisibleChildLayout}>
-            <header visible={false}></header>
-            <main></main>
-            <footer></footer>
-         </div>
-      </cx>;
-
-      let store = new Store();
-
-      const component = renderer.create(
-         <Cx widget={widget} store={store} subscribe immediate/>
-      );
-
-      let tree = component.toJSON();
-      assert.deepEqual(tree, {
-            type: 'div',
-            props: {},
-            children: [{type: 'main', props: {}, children: null}]
-         }
-      )
-   });
-
-   it('skips pure containers which use parent layouts', () => {
-
-      let widget = <cx>
-         <div layout={FirstVisibleChildLayout}>
-            <PureContainer layout={UseParentLayout}>
+   it("skips the first child if not visible", () => {
+      let widget = (
+         <cx>
+            <div layout={FirstVisibleChildLayout}>
                <header visible={false}></header>
-            </PureContainer>
-            <main></main>
-            <footer></footer>
-         </div>
-      </cx>;
+               <main></main>
+               <footer></footer>
+            </div>
+         </cx>
+      );
 
       let store = new Store();
 
-      const component = renderer.create(
-         <Cx widget={widget} store={store} subscribe immediate/>
-      );
+      const component = createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
-            type: 'div',
-            props: {},
-            children: [{type: 'main', props: {}, children: null}]
-         }
-      )
+         type: "div",
+         props: {},
+         children: [{ type: "main", props: {}, children: null }],
+      });
    });
 
-   it('works with functional components', () => {
-
-      let FC = createFunctionalComponent(({children}) => <cx>
-         {children}
-      </cx>);
-
-      let widget = <cx>
-         <div layout={FirstVisibleChildLayout}>
-            <FC dummy>
-               <header visible={false}></header>
-            </FC>
-            <main></main>
-            <footer></footer>
-         </div>
-      </cx>;
+   it("skips pure containers which use parent layouts", () => {
+      let widget = (
+         <cx>
+            <div layout={FirstVisibleChildLayout}>
+               <PureContainer layout={UseParentLayout}>
+                  <header visible={false}></header>
+               </PureContainer>
+               <main></main>
+               <footer></footer>
+            </div>
+         </cx>
+      );
 
       let store = new Store();
 
-      const component = renderer.create(
-         <Cx widget={widget} store={store} subscribe immediate/>
-      );
+      const component = createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
-            type: 'div',
-            props: {},
-            children: [{type: 'main', props: {}, children: null}]
-         }
-      )
+         type: "div",
+         props: {},
+         children: [{ type: "main", props: {}, children: null }],
+      });
    });
 
-   it('properly destroys invisible items', () => {
-      let destroyList = [];
-      let widget = <cx>
-         <div layout={FirstVisibleChildLayout}>
-            <div visible={expr("{index} == 0")} onDestroy={() => destroyList.push(0)} />
-            <div visible={expr("{index} == 1")} onDestroy={() => destroyList.push(1)} />
-            <div visible={expr("{index} == 2")} onDestroy={() => destroyList.push(2)} />
-            <div visible={expr("{index} == 3")} onDestroy={() => destroyList.push(3)} />
-            <div visible={expr("{index} == 4")} onDestroy={() => destroyList.push(4)} />
-         </div>
-      </cx>;
+   it("works with functional components", () => {
+      let FC = createFunctionalComponent(({ children }: { children?: any }) => <cx>{children}</cx>);
+
+      let widget = (
+         <cx>
+            <div layout={FirstVisibleChildLayout}>
+               <FC dummy>
+                  <header visible={false}></header>
+               </FC>
+               <main></main>
+               <footer></footer>
+            </div>
+         </cx>
+      );
 
       let store = new Store();
 
-      const component = renderer.create(
-         <Cx widget={widget} store={store} subscribe immediate/>
+      const component = createTestRenderer(store, widget);
+
+      let tree = component.toJSON();
+      assert.deepEqual(tree, {
+         type: "div",
+         props: {},
+         children: [{ type: "main", props: {}, children: null }],
+      });
+   });
+
+   it("properly destroys invisible items", () => {
+      let destroyList: number[] = [];
+      let widget = (
+         <cx>
+            <div layout={FirstVisibleChildLayout}>
+               <div visible={expr("{index} == 0")} onDestroy={() => destroyList.push(0)} />
+               <div visible={expr("{index} == 1")} onDestroy={() => destroyList.push(1)} />
+               <div visible={expr("{index} == 2")} onDestroy={() => destroyList.push(2)} />
+               <div visible={expr("{index} == 3")} onDestroy={() => destroyList.push(3)} />
+               <div visible={expr("{index} == 4")} onDestroy={() => destroyList.push(4)} />
+            </div>
+         </cx>
       );
+
+      let store = new Store();
+
+      const component = createTestRenderer(store, widget);
 
       store.set("index", 0);
       component.toJSON();
@@ -194,4 +193,3 @@ describe('FirstVisibleChildLayout', () => {
       assert.deepEqual(destroyList, [0, 3, 1, 4, 0]);
    });
 });
-

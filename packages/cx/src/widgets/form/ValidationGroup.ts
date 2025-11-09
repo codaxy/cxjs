@@ -1,26 +1,67 @@
 import type { RenderingContext } from "../../ui/RenderingContext";
 import type { Instance } from "../../ui/Instance";
 import { Widget } from "../../ui/Widget";
-import { PureContainer } from "../../ui/PureContainer";
+import { PureContainer, PureContainerConfig } from "../../ui/PureContainer";
 import { isDefined } from "../../util/isDefined";
 import { shallowEquals } from "../../util/shallowEquals";
 import { coalesce } from "../../util/coalesce";
+import { BooleanProp, Prop } from "../../ui/Prop";
+
+export interface ValidationError {
+   fieldId: string;
+   message: string;
+   visited: boolean;
+   type: string;
+}
 
 interface ValidationGroupInstance extends Instance {
    validation: {
-      errors: Array<{
-         fieldId: string;
-         message: string;
-         visited: boolean;
-         type: string;
-      }>;
+      errors: ValidationError[];
    };
    valid?: boolean;
 }
 
-export class ValidationGroup extends PureContainer {
-   public errors?: unknown;
-   public isolated?: boolean;
+export interface ValidationGroupConfig extends PureContainerConfig {
+   /** Binding used to store validation errors in the store. */
+   errors?: Prop<ValidationError[]>;
+
+   /** Binding which will be set to true if all child form field are valid. */
+   valid?: BooleanProp;
+
+   /** Binding which will be set to true if any of child form field reports validation error. */
+   invalid?: BooleanProp;
+
+   /** Set to `false` to disable all inner elements that support `disabled` property. */
+   enabled?: BooleanProp;
+
+   /** Set to `true` to disable all inner elements that support `disabled` property. */
+   disabled?: BooleanProp;
+
+   /** Set to `true` to make read-only all inner elements that support `readOnly` property. */
+   readOnly?: BooleanProp;
+
+   /** Set to `true` to isolate children from participating in outer validation scopes. */
+   isolated?: BooleanProp;
+
+   /** Set to `true` to notify all children to report errors. */
+   visited?: BooleanProp;
+
+   /** Set to `true` to tab on Enter key for all children. */
+   tabOnEnterKey?: BooleanProp;
+
+   /** Set to `true` to set all child fields to view mode. */
+   viewMode?: BooleanProp;
+
+   /** Set to `true` to force children to respect disabled, readOnly, viewMode and visited flags set on the group level. */
+   strict?: BooleanProp;
+
+   /** Set to `true` to add red asterisk for all required fields inside the group. */
+   asterisk?: BooleanProp;
+}
+
+export class ValidationGroup extends PureContainer<ValidationGroupConfig, ValidationGroupInstance> {
+   declare errors?: Prop<ValidationError[]>;
+   declare isolated?: boolean;
 
    declareData(...args: Record<string, unknown>[]): void {
       super.declareData(...args, {

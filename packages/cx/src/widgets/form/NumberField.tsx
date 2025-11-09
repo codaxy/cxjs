@@ -74,10 +74,10 @@ export class NumberField<Config extends NumberFieldConfig = NumberFieldConfig> e
    public alwaysShowClear?: boolean;
    public snapToIncrement?: boolean;
    public onParseInput?: string | ((value: string, instance: Instance) => number | undefined);
-   public minValueErrorText?: string;
-   public maxValueErrorText?: string;
-   public minExclusiveErrorText?: string;
-   public maxExclusiveErrorText?: string;
+   public minValueErrorText: string;
+   public maxValueErrorText: string;
+   public minExclusiveErrorText: string;
+   public maxExclusiveErrorText: string;
    public inputErrorText?: string;
 
    declareData(...args: Record<string, unknown>[]): void {
@@ -276,8 +276,12 @@ class Input extends VDOM.Component<InputProps, InputState> {
                tabIndex={data.tabIndex}
                placeholder={data.placeholder}
                {...data.inputAttrs}
-               onMouseMove={(e: React.MouseEvent<HTMLInputElement>) => tooltipMouseMove(e, ...getFieldTooltip(this.props.instance))}
-               onMouseLeave={(e: React.MouseEvent<HTMLInputElement>) => tooltipMouseLeave(e, ...getFieldTooltip(this.props.instance))}
+               onMouseMove={(e: React.MouseEvent<HTMLInputElement>) =>
+                  tooltipMouseMove(e, ...getFieldTooltip(this.props.instance))
+               }
+               onMouseLeave={(e: React.MouseEvent<HTMLInputElement>) =>
+                  tooltipMouseLeave(e, ...getFieldTooltip(this.props.instance))
+               }
                onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.onChange(e, "change")}
                onKeyDown={this.onKeyDown.bind(this)}
                onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
@@ -300,16 +304,16 @@ class Input extends VDOM.Component<InputProps, InputState> {
    UNSAFE_componentWillReceiveProps(props: InputProps): void {
       let { data, state } = props.instance;
       if (this.props.data.formatted != data.formatted && !state.inputError) {
-         this.input.value = props.data.formatted || "";
+         this.input!.value = props.data.formatted || "";
          props.instance.setState({
             inputError: false,
          });
       }
-      tooltipParentWillReceiveProps(this.input, ...getFieldTooltip(props.instance));
+      tooltipParentWillReceiveProps(this.input!, ...getFieldTooltip(props.instance));
    }
 
    componentDidMount(): void {
-      tooltipParentDidMount(this.input, ...getFieldTooltip(this.props.instance));
+      tooltipParentDidMount(this.input!, ...getFieldTooltip(this.props.instance));
       autoFocus(this.input, this);
    }
 
@@ -358,7 +362,7 @@ class Input extends VDOM.Component<InputProps, InputState> {
       if (isString(preCursorText)) {
          let cursor = 0;
          let preCursor = 0;
-         let text = this.input.value || "";
+         let text = this.input!.value || "";
          while (preCursor < preCursorText.length && cursor < text.length) {
             if (text[cursor] == preCursorText[preCursor]) {
                cursor++;
@@ -367,7 +371,7 @@ class Input extends VDOM.Component<InputProps, InputState> {
                cursor++;
             }
          }
-         this.input.setSelectionRange(cursor, cursor);
+         this.input!.setSelectionRange(cursor, cursor);
       }
    }
 
@@ -382,7 +386,7 @@ class Input extends VDOM.Component<InputProps, InputState> {
    }
 
    onClearClick(e: React.MouseEvent): void {
-      this.input.value = "";
+      this.input!.value = "";
       let { instance } = this.props;
       instance.set("value", instance.widget.emptyValue, { immediate: true });
    }
@@ -504,11 +508,15 @@ class Input extends VDOM.Component<InputProps, InputState> {
 
          if (change != "blur") {
             // Format, but keep the correct cursor position
-            let preCursorText = this.getPreCursorDigits(this.input.value, this.input.selectionStart, decimalSeparator);
-            this.input.value = formatted;
+            let preCursorText = this.getPreCursorDigits(
+               this.input!.value,
+               this.input!.selectionStart!,
+               decimalSeparator,
+            );
+            this.input!.value = formatted;
             this.updateCursorPosition(preCursorText);
          } else {
-            this.input.value = formatted;
+            this.input!.value = formatted;
          }
       }
 
