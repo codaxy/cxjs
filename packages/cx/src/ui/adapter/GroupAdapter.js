@@ -33,6 +33,7 @@ export class GroupAdapter extends ArrayAdapter {
       let inverseLevel = this.groupings.length - level;
 
       if (inverseLevel == 0) {
+         if (this.preserveOrder && this.sorter) records = this.sorter(records);
          for (let i = 0; i < records.length; i++) {
             records[i].store.setStore(parentStore);
             result.push(records[i]);
@@ -45,7 +46,8 @@ export class GroupAdapter extends ArrayAdapter {
       grouper.reset();
       grouper.processAll(records);
       let results = grouper.getResults();
-      if (grouping.comparer) results.sort(grouping.comparer);
+
+      if (grouping.comparer && !this.preserveOrder) results.sort(grouping.comparer);
 
       results.forEach((gr) => {
          keys.push(gr.key);
@@ -130,6 +132,7 @@ export class GroupAdapter extends ArrayAdapter {
 }
 
 GroupAdapter.prototype.groupName = "$group";
+GroupAdapter.prototype.preserveOrder = false;
 
 function serializeKey(data) {
    if (isObject(data))

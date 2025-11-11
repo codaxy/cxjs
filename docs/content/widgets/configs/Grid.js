@@ -342,5 +342,11 @@ export default {
         description: <cx><Md>
             Callback function to get grid component and instance references on component init.
         </Md></cx>
+    },
+    preserveGroupOrder: {
+        type: 'boolean',
+        description: <cx><Md>
+            When enabled, groups are shown in the same order as the source records.
+        </Md></cx>
     }
 };

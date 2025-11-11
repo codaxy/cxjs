@@ -232,6 +232,7 @@ export class Grid extends Container {
             indexName: this.indexName,
             sortOptions: this.sortOptions,
             groupings: grouping,
+            preserveOrder: this.preserveGroupOrder,
          },
          this.dataAdapter,
       );
@@ -1261,6 +1262,7 @@ Grid.prototype.preciseMeasurements = false;
 Grid.prototype.hoverChannel = "default";
 Grid.prototype.focusable = null; // automatically resolved
 Grid.prototype.allowsFileDrops = false;
+Grid.prototype.preserveGroupOrder = false;
 
 Widget.alias("grid", Grid);
 Localization.registerPrototype("cx/widgets/Grid", Grid);

@@ -49,7 +49,7 @@ export class ArrayAdapter extends DataAdapter {
             result.push(record);
          });
 
-      if (this.sorter) result = this.sorter(result);
+      if (this.sorter && !this.preserveOrder) result = this.sorter(result);
 
       return result;
    }

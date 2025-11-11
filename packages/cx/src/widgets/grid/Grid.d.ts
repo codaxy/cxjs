@@ -423,6 +423,9 @@ interface GridProps<T = unknown> extends StyledContainerProps {
 
    /** Callback function to get grid component and instance references on component init. */
    onRef?: string | ((element: any, instance: Instance) => void);
+
+   /** When enabled, groups are shown in the same order as the source records. */
+   preserveGroupOrder?: boolean;
 }
 
 interface GridCellInfo {
