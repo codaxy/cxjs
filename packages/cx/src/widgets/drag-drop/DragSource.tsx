@@ -1,11 +1,71 @@
-//@ts-nocheck
+/** @jsxImportSource react */
+
 import { Widget, VDOM } from "../../ui/Widget";
-import { Container } from "../../ui/Container";
+import { ContainerBase, ContainerConfig } from "../../ui/Container";
 import { ddMouseDown, ddDetect, ddMouseUp, initiateDragDrop, isDragHandleEvent } from "./ops";
 import { preventFocus } from "../../ui/FocusManager";
 import { parseStyle } from "../../util/parseStyle";
+import { Instance } from "../../ui/Instance";
+import { StringProp, StyleProp, ClassProp, Config } from "../../ui/Prop";
+import { RenderingContext } from "../../ui/RenderingContext";
 
-export class DragSource extends Container {
+export interface DragSourceConfig extends ContainerConfig {
+   /**
+    * Data about the drag source that can be used by drop zones to test if
+    * drag source is acceptable and to perform drop operations.
+    */
+   data?: any;
+
+   /**
+    * Set to true to hide the element while being dragged.
+    * Use if drop zones are configured to expand to indicate where drop will occur.
+    */
+   hideOnDrag?: boolean;
+
+   /** Set to true to indicate that this drag source can be dragged only by using an inner DragHandle. */
+   handled?: boolean;
+
+   /** Base CSS class to be applied to the element. Defaults to 'dragsource'. */
+   baseClass?: string;
+
+   onDragStart?: (e: React.MouseEvent | React.TouchEvent, instance: Instance) => any;
+
+   onDragEnd?: (e: React.MouseEvent | React.TouchEvent, instance: Instance) => void;
+
+   id?: StringProp;
+
+   /** Custom contents to be displayed during drag & drop operation. */
+   clone?: Config;
+
+   /** CSS styles to be applied to the clone of the element being dragged. */
+   cloneStyle?: StyleProp;
+
+   /** CSS styles to be applied to the element being dragged. */
+   draggedStyle?: StyleProp;
+
+   /** Additional CSS class to be applied to the clone of the element being dragged. */
+   cloneClass?: ClassProp;
+
+   /** Additional CSS class to be applied to the element being dragged. */
+   draggedClass?: ClassProp;
+}
+
+export interface DragSourceInstance extends Instance<DragSource> {
+   dragHandles: any[];
+}
+
+export class DragSource extends ContainerBase<DragSourceConfig, DragSourceInstance> {
+   declare styled: boolean;
+   declare baseClass: string;
+   declare hideOnDrag: boolean;
+   declare handled: boolean;
+   declare data: any;
+   declare clone?: Config;
+   declare cloneStyle: any;
+   declare draggedStyle: any;
+   declare onDragStart?: (e: React.MouseEvent | React.TouchEvent, instance: DragSourceInstance) => any;
+   declare onDragEnd?: (e: React.MouseEvent | React.TouchEvent, instance: DragSourceInstance) => void;
+
    init() {
       this.cloneStyle = parseStyle(this.cloneStyle);
       this.draggedStyle = parseStyle(this.draggedStyle);
@@ -23,16 +83,16 @@ export class DragSource extends Container {
       });
    }
 
-   explore(context, instance) {
+   explore(context: RenderingContext, instance: DragSourceInstance) {
       context.push("dragHandles", (instance.dragHandles = []));
       super.explore(context, instance);
    }
 
-   exploreCleanup(context, instance) {
+   exploreCleanup(context: RenderingContext, instance: DragSourceInstance) {
       context.pop("dragHandles");
    }
 
-   render(context, instance, key) {
+   render(context: RenderingContext, instance: DragSourceInstance, key: string) {
       return (
          <DragSourceComponent key={key} instance={instance} handled={this.handled || instance.dragHandles.length > 0}>
             {this.renderChildren(context, instance)}
@@ -48,17 +108,30 @@ DragSource.prototype.handled = false;
 
 Widget.alias("dragsource", DragSource);
 
-class DragSourceComponent extends VDOM.Component {
-   constructor(props) {
+interface DragSourceComponentProps {
+   instance: DragSourceInstance;
+   children?: any;
+   handled: boolean;
+}
+
+interface DragSourceComponentState {
+   dragged: boolean;
+}
+
+class DragSourceComponent extends VDOM.Component<DragSourceComponentProps, DragSourceComponentState> {
+   el: HTMLElement | null;
+
+   constructor(props: DragSourceComponentProps) {
       super(props);
       this.state = { dragged: false };
       this.beginDragDrop = this.beginDragDrop.bind(this);
       this.onMouseMove = this.onMouseMove.bind(this);
       this.onMouseDown = this.onMouseDown.bind(this);
-      this.setRef = (el) => {
-         this.el = el;
-      };
    }
+
+   setRef = (el: HTMLElement | null) => {
+      this.el = el;
+   };
 
    render() {
       let { instance, children, handled } = this.props;
@@ -86,7 +159,7 @@ class DragSourceComponent extends VDOM.Component {
             };
       }
 
-      let eventHandlers = {
+      let eventHandlers: any = {
          ...instance.getJsxEventProps(),
          onTouchStart: this.onMouseDown,
          onMouseDown: this.onMouseDown,
@@ -106,7 +179,7 @@ class DragSourceComponent extends VDOM.Component {
       );
    }
 
-   onMouseDown(e) {
+   onMouseDown(e: React.MouseEvent) {
       ddMouseDown(e);
       if (isDragHandleEvent(e) || !this.props.handled) {
          preventFocus(e); //disables text selection in Firefox
@@ -114,7 +187,7 @@ class DragSourceComponent extends VDOM.Component {
       }
    }
 
-   onMouseMove(e) {
+   onMouseMove(e: React.MouseEvent) {
       if (ddDetect(e)) {
          if (isDragHandleEvent(e) || !this.props.handled) {
             this.beginDragDrop(e);
@@ -122,7 +195,7 @@ class DragSourceComponent extends VDOM.Component {
       }
    }
 
-   beginDragDrop(e) {
+   beginDragDrop(e: React.MouseEvent) {
       let { instance } = this.props;
       let { data, widget, store } = instance;
 
@@ -131,7 +204,7 @@ class DragSourceComponent extends VDOM.Component {
       initiateDragDrop(
          e,
          {
-            sourceEl: this.el,
+            sourceEl: this.el!,
             source: {
                store: store,
                data: data.data,
@@ -146,12 +219,12 @@ class DragSourceComponent extends VDOM.Component {
                matchCursorOffset: !widget.clone,
             },
          },
-         (e) => {
+         (e: any) => {
             this.setState({
                dragged: false,
             });
             if (widget.onDragEnd) instance.invoke("onDragEnd", e, instance);
-         }
+         },
       );
 
       this.setState({

@@ -1,7 +1,48 @@
 //@ts-nocheck
 import { SubscriberList } from "../../util/SubscriberList";
-import { getCursorPos, captureMouseOrTouch } from "../overlay/captureMouse";
+import { getCursorPos, captureMouseOrTouch, CursorPosition } from "../overlay/captureMouse";
 import { startAppLoop } from "../../ui/app/startAppLoop";
+import { View } from "../../data/View";
+
+export interface DragEvent {
+   type: 'dragstart' | 'dragmove' | 'dragdrop';
+   event: React.SyntheticEvent<any>;
+   cursor: CursorPosition;
+   source: {
+      width: number;
+      height: number;
+      margin: string[];
+      data?: any;
+      store: View;
+      [other: string]: any;
+   };
+   result?: any;
+}
+
+export interface DragDropOptions {
+   sourceEl?: Element;
+   clone?: any;
+   source?: any;
+}
+
+export type DragEventHandler = (e: DragEvent) => void;
+
+export interface IDropZone {
+   onDropTest?: (e: DragEvent) => boolean;
+   onDragStart?: DragEventHandler;
+   onDragAway?: DragEventHandler;
+   onDragEnd?: DragEventHandler;
+   onDragMeasure?: (e: DragEvent) => { over: number | false; near: number | boolean };
+   onDragLeave?: DragEventHandler;
+   onDragOver?: DragEventHandler;
+   onDragEnter?: DragEventHandler;
+   onDrop?: DragEventHandler;
+   onGetVScrollParent?: () => Element | null;
+   onGetHScrollParent?: () => Element | null;
+}
+
+export type UnregisterFunction = () => void;
+
 import { getScrollerBoundingClientRect } from "../../util/getScrollerBoundingClientRect";
 import { isNumber } from "../../util/isNumber";
 import { isObject } from "../../util/isObject";
@@ -21,11 +62,11 @@ let dropZones = new SubscriberList(),
    vscrollParent,
    hscrollParent;
 
-export function registerDropZone(dropZone) {
+export function registerDropZone(dropZone: IDropZone): UnregisterFunction {
    return dropZones.subscribe(dropZone);
 }
 
-export function initiateDragDrop(e, options = {}, onDragEnd) {
+export function initiateDragDrop(e: React.MouseEvent | React.TouchEvent, options: DragDropOptions = {}, onDragEnd?: (e?: DragEvent) => void): void {
    if (puppet) {
       //last operation didn't finish properly
       notifyDragDrop(e);
@@ -292,7 +333,7 @@ function getDragEvent(e, type) {
 
 let dragCandidate = {};
 
-export function ddMouseDown(e) {
+export function ddMouseDown(e: React.SyntheticEvent<any>): void {
    //do not allow that the same event is processed by multiple drag sources
    //the first (top-level) source should be a drag-candidate
    if (e.timeStamp <= dragCandidate.timeStamp) return;
@@ -304,11 +345,11 @@ export function ddMouseDown(e) {
    };
 }
 
-export function ddMouseUp() {
+export function ddMouseUp(): void {
    dragCandidate = {};
 }
 
-export function ddDetect(e) {
+export function ddDetect(e: React.SyntheticEvent<any>): void | true {
    let cursor = getCursorPos(e);
    if (
       e.currentTarget == dragCandidate.el &&
@@ -320,13 +361,13 @@ export function ddDetect(e) {
    }
 }
 
-let lastDragHandle;
+let lastDragHandle: any;
 
-export function ddHandle(e) {
+export function ddHandle(e: React.SyntheticEvent<any>): void {
    lastDragHandle = e.currentTarget;
 }
 
-export function isDragHandleEvent(e) {
+export function isDragHandleEvent(e: React.SyntheticEvent<any>): boolean {
    return lastDragHandle && (e.target == lastDragHandle || lastDragHandle.contains(e.target));
 }
 

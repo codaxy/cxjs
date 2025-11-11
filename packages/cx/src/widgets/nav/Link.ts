@@ -1,8 +1,11 @@
-//@ts-nocheck
 import {Widget, VDOM} from '../../ui/Widget';
-import {LinkButton} from './LinkButton';
+import {LinkButton, LinkButtonConfig} from './LinkButton';
 
-export class Link extends LinkButton {}
+export interface LinkConfig extends LinkButtonConfig {}
+
+export class Link extends LinkButton {
+   declare baseClass: string;
+}
 
 Link.prototype.baseClass = "link";
 

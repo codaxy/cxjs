@@ -6,7 +6,7 @@ import { View } from "../../data/View";
 interface Transition {
    url: string;
    state: any;
-   title: string;
+   title: string | null;
    replace: boolean;
    completed?: boolean;
 }
@@ -36,11 +36,11 @@ export class History {
       };
    }
 
-   static pushState(state: any, title: string, url: string): boolean {
+   static pushState(state: any, title: string | null, url: string): boolean {
       return this.confirmAndNavigate(state, title, url);
    }
 
-   static replaceState(state: any, title: string, url: string): boolean {
+   static replaceState(state: any, title: string | null, url: string): boolean {
       return this.navigate(state, title, url, true);
    }
 
@@ -67,11 +67,11 @@ export class History {
       return false;
    }
 
-   static confirmAndNavigate(state: any, title: string, url: string, replace?: boolean): boolean {
+   static confirmAndNavigate(state: any, title: string | null, url: string, replace?: boolean): boolean {
       return this.confirm(() => this.navigate(state, title, url, replace), url);
    }
 
-   static navigate(state: any, title: string, url: string, replace = false): boolean {
+   static navigate(state: any, title: string | null, url: string, replace = false): boolean {
       url = Url.resolve(url);
 
       if (!window.history.pushState || reload) {
@@ -101,10 +101,10 @@ export class History {
                delete transitions[next];
                next++;
                if (tr.replace) {
-                  window.history.replaceState(tr.state, tr.title, tr.url);
+                  window.history.replaceState(tr.state, tr.title ?? "", tr.url);
                   if (subscribers) subscribers.notify(tr.url, "replaceState");
                } else {
-                  window.history.pushState(tr.state, tr.title, tr.url);
+                  window.history.pushState(tr.state, tr.title ?? "", tr.url);
                   if (subscribers) subscribers.notify(tr.url, "pushState");
                }
             }

@@ -1,6 +1,5 @@
-//@ts-nocheck
 import { Widget, VDOM } from "../../ui/Widget";
-import { HtmlElement } from "../HtmlElement";
+import { HtmlElement, HtmlElementConfig } from "../HtmlElement";
 import { findFirst, isFocusable, getFocusedElement, isSelfOrDescendant, closest, isFocusedDeep } from "../../util/DOM";
 import { KeyCode } from "../../util/KeyCode";
 import { debug, menuFlag } from "../../util/Debug";
@@ -12,6 +11,31 @@ import { isString } from "../../util/isString";
 import { ResizeManager } from "../../ui/ResizeManager";
 import { MenuSpacer } from "./MenuSpacer";
 import { isTextInputElement } from "../../util";
+import { Instance } from "../../ui/Instance";
+import { RenderingContext } from "../../ui/RenderingContext";
+
+export interface MenuConfig extends HtmlElementConfig {
+   /** Set to `true` for horizontal menus. */
+   horizontal?: boolean;
+
+   /**
+    * Controls size of menu items. Supported values are `xsmall`, `small`, `medium`, `large` or `xlarge`.
+    * For horizontal menus default size is `small` and for vertical it's `medium`.
+    */
+   itemPadding?: string;
+
+   defaultVerticalItemPadding?: string;
+   defaultHorizontalItemPadding?: string;
+
+   /** Set to true to put overflow items into a submenu on the right. */
+   overflow?: boolean;
+
+   /** Icon to be used for the overflow menu. */
+   overflowIcon?: string;
+
+   /** Base CSS class to be applied to the element. No class is applied by default. */
+   baseClass?: string;
+}
 
 /*
  Functionality:
@@ -21,6 +45,16 @@ import { isTextInputElement } from "../../util";
  */
 
 export class Menu extends HtmlElement {
+   declare horizontal: boolean;
+   declare itemPadding: string | boolean;
+   declare defaultHorizontalItemPadding: string;
+   declare defaultVerticalItemPadding: string;
+   declare overflow: boolean;
+   declare overflowIcon: string;
+   declare baseClass: string;
+   declare tag: string;
+   static Item: typeof MenuItem;
+   static Spacer: typeof MenuSpacer;
    init() {
       if (this.itemPadding === true) this.itemPadding = "medium";
 
@@ -50,7 +84,7 @@ export class Menu extends HtmlElement {
       }
    }
 
-   prepareData(context, instance) {
+   prepareData(context: RenderingContext, instance: Instance) {
       let { data } = instance;
       data.stateMods = {
          ...data.stateMods,
@@ -62,16 +96,16 @@ export class Menu extends HtmlElement {
       super.prepareData(context, instance);
    }
 
-   explore(context, instance) {
+   explore(context: RenderingContext, instance: Instance) {
       context.push("lastMenu", this);
       super.explore(context, instance);
    }
 
-   exploreCleanup(context, instance) {
+   exploreCleanup(context: RenderingContext, instance: Instance) {
       context.pop("lastMenu");
    }
 
-   render(context, instance, key) {
+   render(context: RenderingContext, instance: Instance, key: string) {
       return (
          <MenuComponent key={key} instance={instance}>
             {this.renderChildren(context, instance)}
@@ -79,7 +113,7 @@ export class Menu extends HtmlElement {
       );
    }
 
-   add(item) {
+   add(item: any) {
       if (item && (item.tag == "a" || item.tag == "hr")) {
          let mi = {
             type: MenuItem,
@@ -105,17 +139,35 @@ Menu.prototype.overflowIcon = "drop-down";
 Menu.Item = MenuItem;
 Menu.Spacer = MenuSpacer;
 
-class MenuComponent extends VDOM.Component {
-   constructor(props) {
+interface MenuComponentProps {
+   instance: Instance;
+   children?: any;
+}
+
+interface MenuComponentState {
+   cursor: any;
+   nonOverflownItemCount: number;
+}
+
+class MenuComponent extends VDOM.Component<MenuComponentProps, MenuComponentState> {
+   el: HTMLElement | null = null;
+   itemInfo: any[];
+   isMeasureOverflowDisabled: boolean = false;
+   unsubscribeFocusOut?: () => void;
+   unsubscribeResize?: () => void;
+
+   constructor(props: MenuComponentProps) {
       super(props);
       this.state = {
          cursor: null,
          nonOverflownItemCount: Infinity,
       };
-      this.ref = (el) => {
+      this.ref = (el: HTMLElement | null) => {
          this.el = el;
       };
    }
+
+   ref: (el: HTMLElement | null) => void;
 
    render() {
       let { instance, children } = this.props;
@@ -178,14 +230,14 @@ class MenuComponent extends VDOM.Component {
       );
    }
 
-   moveCursor(itemKey) {
+   moveCursor(itemKey: any) {
       if (itemKey != this.state.cursor) {
          debug(menuFlag, "Menu", "moveCursor", itemKey);
          this.setState({ cursor: itemKey });
       }
    }
 
-   onKeyDown(e) {
+   onKeyDown(e: React.KeyboardEvent) {
       //ignore the event if it comes from an input element
       if (isTextInputElement(e.target)) return;
 
@@ -244,7 +296,7 @@ class MenuComponent extends VDOM.Component {
       }
    }
 
-   onFocusOut(elementReceivingFocus) {
+   onFocusOut(elementReceivingFocus: any) {
       debug(menuFlag, "Menu", "focusout", this.el, elementReceivingFocus);
       if (this.el && !isSelfOrDescendant(this.el, elementReceivingFocus)) this.moveCursor(null);
    }
@@ -320,8 +372,25 @@ Menu.prototype.tag = "ul";
 
 Widget.alias("menu", Menu);
 
-class MenuItemComponent extends VDOM.Component {
-   constructor(props) {
+interface MenuItemComponentProps {
+   itemInfo: any[];
+   itemIndex: number;
+   itemKey: any;
+   instance: Instance;
+   cursor: boolean;
+   hidden: boolean;
+   moveCursor: (itemKey: any) => void;
+   children?: any;
+}
+
+interface MenuItemComponentState {
+   focusable: boolean;
+}
+
+class MenuItemComponent extends VDOM.Component<MenuItemComponentProps, MenuItemComponentState> {
+   el: HTMLElement | null = null;
+
+   constructor(props: MenuItemComponentProps) {
       super(props);
       this.state = { focusable: true };
    }
@@ -356,20 +425,20 @@ class MenuItemComponent extends VDOM.Component {
       );
    }
 
-   onFocus(e) {
+   onFocus(e: React.FocusEvent) {
       FocusManager.nudge();
       debug(menuFlag, "MenuItem", "focus", this.el, e.target);
       this.props.moveCursor(this.props.itemKey);
    }
 
-   onKeyDown(e) {
+   onKeyDown(e: React.KeyboardEvent) {
       let { instance } = this.props;
       let { widget } = instance;
 
       if (widget.onKeyDown) instance.invoke("onKeyDown", e, instance);
    }
 
-   onMouseDown(e) {
+   onMouseDown(e: React.MouseEvent) {
       e.stopPropagation();
 
       //e.preventDefault(); //Causes problems with focusing menu items. Figure out why is this really needed?

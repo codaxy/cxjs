@@ -1,12 +1,93 @@
-//@ts-nocheck
 import { Widget, VDOM } from "../../ui/Widget";
 import { Button } from "../Button";
 import { History } from "../../ui/app/History";
 import { Url } from "../../ui/app/Url";
 import { routeAppend } from "../../util/routeAppend";
 import { parseStyle } from "../../util/parseStyle";
+import { StringProp, StyleProp, ClassProp, Prop } from "../../ui/Prop";
+import { Instance } from "../../ui/Instance";
+import { RenderingContext } from "../../ui/RenderingContext";
+import { HtmlElementConfig } from "../HtmlElement";
+
+export interface LinkButtonConfig extends HtmlElementConfig {
+   /** Confirmation text or configuration object. See MsgBox.yesNo for more details. */
+   confirm?: Prop<string | any>;
+
+   /** If true button appears in pressed state. Useful for implementing toggle buttons. */
+   pressed?: Prop<boolean>;
+
+   /** Name of the icon to be put on the left side of the button. */
+   icon?: StringProp;
+
+   /** HTML tag to be used. Default is `button`. */
+   tag?: string;
+
+   /** Base CSS class to be applied to the element. Default is 'button'. */
+   baseClass?: string;
+
+   /**
+    * Determines if button should receive focus on mousedown event.
+    * Default is `false`, which means that focus can be set only using the keyboard `Tab` key.
+    */
+   focusOnMouseDown?: boolean;
+
+   /** Add type="submit" to the button. */
+   submit?: boolean;
+
+   /** Set to `true` to disable the button. */
+   disabled?: Prop<boolean>;
+
+   /** Set to `false` to disable the button. */
+   enabled?: Prop<boolean>;
+
+   onClick?: string | ((e: MouseEvent, instance: Instance) => void);
+   onMouseDown?: string | ((e: MouseEvent, instance: Instance) => void);
+
+   /** Button type. */
+   type?: "submit" | "button";
+
+   /** If set to `true`, the Button will cause its parent Overlay (if one exists) to close. This, however, can be prevented if `onClick` explicitly returns `false`. */
+   dismiss?: boolean;
+
+   /** The form attribute specifies the form the button belongs to.
+    * The value of this attribute must be equal to the `id` attribute of a `<form>` element in the same document.
+    */
+   form?: StringProp;
+   /** Url to the link's target location. Should start with `~/` or `#/` for pushState/hash based navigation. */
+   href?: StringProp;
+
+   /** Binding to the current url location in the store. If `href` matches `url`, additional CSS class `active` is applied. */
+   url?: StringProp;
+
+   /**
+    * Accepted values are `equal`, `prefix` and `subroute`. Default is `equal` which means that `url` must exactly match `href` in order to consider the link active.
+    * In `prefix` mode, if `href` is a prefix of `url`, the link is considered active. The `subroute` mode is similar to `prefix` mode, except that `href` must be followed by a forward slash `/`, indicating
+    * a subroute.
+    */
+   match?: "equal" | "prefix" | "subroute";
+
+   /** Additional CSS style to aplied when the link is active. */
+   activeStyle?: StyleProp;
+
+   /** Additional CSS style to aplied when the link is inactive. */
+   inactiveStyle?: StyleProp;
+
+   /** Additional CSS class to aplied when the link is active. */
+   activeClass?: ClassProp;
+
+   /** Additional CSS class to aplied when the link is inactive. */
+   inactiveClass?: ClassProp;
+
+   /** Where to display the linked URL, as the name for a browsing context (a tab, window, or <iframe>) */
+   target?: Prop<"_self" | "_blank" | "_parent" | "_top" | (string & {})>;
+}
 
 export class LinkButton extends Button {
+   declare match: "equal" | "prefix" | "subroute";
+   declare activeStyle: any;
+   declare inactiveStyle: any;
+   declare onClick?: string | ((e: MouseEvent, instance: Instance) => void);
+   declare tag: string;
    init() {
       this.activeStyle = parseStyle(this.activeStyle);
       this.inactiveStyle = parseStyle(this.inactiveStyle);
@@ -29,7 +110,7 @@ export class LinkButton extends Button {
       );
    }
 
-   prepareData(context, instance) {
+   prepareData(context: RenderingContext, instance: Instance) {
       let { data } = instance;
 
       data.unresolvedHref = data.href;
@@ -67,7 +148,7 @@ export class LinkButton extends Button {
       }
    }
 
-   isActive(data) {
+   isActive(data: any) {
       if (data.active != null) return data.active;
 
       switch (this.match) {
@@ -88,8 +169,8 @@ export class LinkButton extends Button {
       }
    }
 
-   attachProps(context, instance, props) {
-      props.onClick = (ev) => {
+   attachProps(context: RenderingContext, instance: Instance, props: any) {
+      props.onClick = (ev: any) => {
          this.handleClick(ev, instance);
       };
       super.attachProps(context, instance, props);
@@ -101,12 +182,12 @@ export class LinkButton extends Button {
       delete props.inactiveStyle;
    }
 
-   isValidHtmlAttribute(attr) {
+   isValidHtmlAttribute(attr: string) {
       if (attr === "url" || attr === "match") return false;
       return super.isValidHtmlAttribute(attr);
    }
 
-   handleClick(e, instance) {
+   handleClick(e: React.MouseEvent, instance: Instance) {
       let { data } = instance;
 
       if (data.disabled) {
