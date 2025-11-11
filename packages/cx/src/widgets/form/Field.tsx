@@ -3,7 +3,7 @@ import { isSelector } from "../../data/isSelector";
 import { FocusManager } from "../../ui/FocusManager";
 import { Instance, PartialInstance } from "../../ui/Instance";
 import { Localization } from "../../ui/Localization";
-import { PureContainer, PureContainerConfig } from "../../ui/PureContainer";
+import { PureContainerBase, PureContainerConfig } from "../../ui/PureContainer";
 import type { RenderingContext } from "../../ui/RenderingContext";
 import { getContent } from "../../ui/Widget";
 import { coalesce } from "../../util/coalesce";
@@ -62,7 +62,7 @@ export class FieldInstance<F extends Field<any, any> = Field<any, any>> extends 
 export class Field<
    Config extends FieldConfig = FieldConfig,
    InstanceType extends FieldInstance<any> = FieldInstance<any>,
-> extends PureContainer<Config, InstanceType> {
+> extends PureContainerBase<Config, InstanceType> {
    public inputStyle?: Record<string, unknown> | string;
    public validationMode?: string;
    public errorTooltip?: Record<string, unknown>;

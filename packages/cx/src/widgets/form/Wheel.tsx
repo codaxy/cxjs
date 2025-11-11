@@ -1,7 +1,7 @@
 /** @jsxImportSource react */
 
 import { VDOM } from "../../ui/Widget";
-import { PureContainer, PureContainerConfig } from "../../ui/PureContainer";
+import { PureContainerBase, PureContainerConfig } from "../../ui/PureContainer";
 import { KeyCode } from "../../util/KeyCode";
 import { Icon } from "../Icon";
 import { addEventListenerWithOptions } from "../../util";
@@ -22,7 +22,7 @@ export interface WheelConfig extends PureContainerConfig {
    size?: number;
 }
 
-export class Wheel extends PureContainer<WheelConfig> {
+export class Wheel extends PureContainerBase<WheelConfig> {
    declare size: number;
    declare baseClass: string;
 

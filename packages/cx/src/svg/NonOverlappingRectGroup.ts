@@ -1,4 +1,4 @@
-import { PureContainer, PureContainerConfig } from "../ui/PureContainer";
+import { PureContainerBase, PureContainerConfig } from "../ui/PureContainer";
 import { RenderingContext } from "../ui/RenderingContext";
 import { Instance } from "../ui/Instance";
 import { NonOverlappingRectInstance } from "./NonOverlappingRect";
@@ -7,7 +7,7 @@ interface NonOverlappingRectGroupInstance extends Instance {
    nonOverlappingObjects: NonOverlappingRectInstance[];
 }
 
-export class NonOverlappingRectGroup extends PureContainer<PureContainerConfig, NonOverlappingRectGroupInstance> {
+export class NonOverlappingRectGroup extends PureContainerBase<PureContainerConfig, NonOverlappingRectGroupInstance> {
    prepare(context: RenderingContext, instance: NonOverlappingRectGroupInstance) {
       instance.nonOverlappingObjects = [];
       context.push("addNonOverlappingBoundingObject", (objectInstance: NonOverlappingRectInstance) => {

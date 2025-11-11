@@ -1,5 +1,5 @@
 import { Widget } from "../../ui/Widget";
-import { PureContainer, PureContainerConfig } from "../../ui/PureContainer";
+import { PureContainerBase, PureContainerConfig } from "../../ui/PureContainer";
 import RouteMatcher from "route-parser";
 import { ReadOnlyDataView } from "../../data/ReadOnlyDataView";
 import { routeAppend } from "../../util/routeAppend";
@@ -17,7 +17,7 @@ export interface RouteConfig extends PureContainerConfig {
    map?: Record<string, string>;
 }
 
-export class Route extends PureContainer<RouteConfig> {
+export class Route extends PureContainerBase<RouteConfig> {
    declare url?: string;
    declare route: string;
    declare path?: string;

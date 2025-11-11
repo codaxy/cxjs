@@ -1,5 +1,5 @@
 import { Instance } from "./../ui/Instance";
-import { StyledContainerConfig, Container } from "../ui/Container";
+import { StyledContainerConfig, ContainerBase } from "../ui/Container";
 import { RenderingContext } from "../ui/RenderingContext";
 import { Prop } from "../ui/Prop";
 import { IRect, Rect } from "./util/Rect";
@@ -28,7 +28,7 @@ export interface BoundedObjectInstance extends Instance {
 export class BoundedObject<
    Config extends BoundedObjectConfig = BoundedObjectConfig,
    InstanceType extends BoundedObjectInstance = BoundedObjectInstance
-> extends Container<Config, InstanceType> {
+> extends ContainerBase<Config, InstanceType> {
    anchors: any = 0;
    margin: any = 0;
    offset: any = 0;

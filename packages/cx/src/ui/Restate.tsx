@@ -1,5 +1,5 @@
 /** @jsxImportSource react */
-import { PureContainer, PureContainerConfig } from "./PureContainer";
+import { PureContainer, PureContainerBase, PureContainerConfig } from "./PureContainer";
 import { Store } from "../data/Store";
 import { View } from "../data/View";
 import { Cx } from "./Cx";
@@ -28,7 +28,7 @@ export interface RestateConfig extends PureContainerConfig {
 // Legacy alias for backward compatibility
 export interface RestateProps extends RestateConfig {}
 
-export class Restate<Config extends RestateConfig = RestateConfig> extends PureContainer<Config> {
+export class Restate<Config extends RestateConfig = RestateConfig> extends PureContainerBase<Config> {
    container: any;
    privateDataSelector: any;
    detached: boolean;

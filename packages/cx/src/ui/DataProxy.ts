@@ -1,6 +1,6 @@
 import { NestedDataView } from "../data/NestedDataView";
 import { UseParentLayout } from "../ui/layout/UseParentLayout";
-import { PureContainer, PureContainerConfig } from "./PureContainer";
+import { PureContainerBase, PureContainerConfig } from "./PureContainer";
 import { StructuredInstanceDataAccessor } from "./StructuredInstanceDataAccessor";
 import { StructuredProp, Bind } from "./Prop";
 
@@ -13,7 +13,7 @@ export interface DataProxyConfig extends PureContainerConfig {
    sealed?: boolean;
 }
 
-export class DataProxy extends PureContainer<DataProxyConfig> {
+export class DataProxy extends PureContainerBase<DataProxyConfig> {
    declare data?: any;
    declare alias?: string;
    declare value?: any;

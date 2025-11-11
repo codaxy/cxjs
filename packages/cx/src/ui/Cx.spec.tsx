@@ -1,6 +1,6 @@
 import { Cx } from "./Cx";
 import { VDOM } from "./VDOM";
-import { Container, ContainerConfig } from "./Container";
+import { Container, ContainerBase, ContainerConfig } from "./Container";
 import { Store } from "../data/Store";
 import { bind } from "./bind";
 import { createTestRenderer, createTestWidget } from "../util/test/createTestRenderer";
@@ -77,7 +77,7 @@ describe("Cx", () => {
          id?: string;
       }
 
-      class TestWidget extends Container<TestWidgetConfig> {
+      class TestWidget extends ContainerBase<TestWidgetConfig> {
          declare id?: string;
 
          explore(context: any, instance: any) {

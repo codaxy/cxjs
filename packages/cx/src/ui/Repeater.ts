@@ -1,6 +1,6 @@
 import { Widget } from "./Widget";
 import { PureContainer } from "./PureContainer";
-import { Container, ContainerConfig } from "./Container";
+import { ContainerBase, ContainerConfig } from "./Container";
 import { ArrayAdapter } from "./adapter/ArrayAdapter";
 import { UseParentLayout } from "./layout/UseParentLayout";
 import { getAccessor } from "../data/getAccessor";
@@ -29,7 +29,7 @@ export interface RepeaterConfig<T = DataRecord> extends ContainerConfig {
    dataAdapter?: any;
 }
 
-export class Repeater<Config extends RepeaterConfig = RepeaterConfig> extends Container<Config> {
+export class Repeater<Config extends RepeaterConfig = RepeaterConfig> extends ContainerBase<Config> {
    records?: any;
    recordsAccessor: any;
    recordAlias?: string;

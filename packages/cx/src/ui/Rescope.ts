@@ -1,5 +1,5 @@
 import { Widget } from "./Widget";
-import { PureContainer, PureContainerConfig } from "./PureContainer";
+import { PureContainerBase, PureContainerConfig } from "./PureContainer";
 import { Binding } from "../data/Binding";
 import { ZoomIntoPropertyView } from "../data/ZoomIntoPropertyView";
 import { StructuredInstanceDataAccessor } from "./StructuredInstanceDataAccessor";
@@ -13,7 +13,7 @@ export interface RescopeConfig extends PureContainerConfig {
    data?: StructuredProp;
 }
 
-export class Rescope extends PureContainer<RescopeConfig> {
+export class Rescope extends PureContainerBase<RescopeConfig> {
    declare bind: string;
    declare binding: any;
    declare rootAlias?: string;

@@ -1,6 +1,6 @@
 import { isNonEmptyArray } from "../../util/isNonEmptyArray";
 import { isString } from "../../util/isString";
-import { PureContainer, PureContainerConfig } from "../PureContainer";
+import { PureContainerBase, PureContainerConfig } from "../PureContainer";
 import { RenderingContext } from "../RenderingContext";
 import { Widget } from "../Widget";
 import { StringProp } from "../Prop";
@@ -12,7 +12,7 @@ export interface ContentPlaceholderConfig extends PureContainerConfig {
    allowMultiple?: boolean;
 }
 
-export class ContentPlaceholder extends PureContainer<ContentPlaceholderConfig> {
+export class ContentPlaceholder extends PureContainerBase<ContentPlaceholderConfig> {
    declare name?: string;
    declare scoped?: boolean;
    declare allowMultiple?: boolean;
@@ -96,7 +96,7 @@ export interface ContentPlaceholderScopeConfig extends PureContainerConfig {
    name: string | string[];
 }
 
-export class ContentPlaceholderScope extends PureContainer<ContentPlaceholderScopeConfig> {
+export class ContentPlaceholderScope extends PureContainerBase<ContentPlaceholderScopeConfig> {
    declare name: string[];
 
    init(): void {

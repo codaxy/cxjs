@@ -1,7 +1,7 @@
 import type { RenderingContext } from "../../ui/RenderingContext";
 import type { Instance } from "../../ui/Instance";
 import { Widget } from "../../ui/Widget";
-import { PureContainer, PureContainerConfig } from "../../ui/PureContainer";
+import { PureContainerBase, PureContainerConfig } from "../../ui/PureContainer";
 import { isDefined } from "../../util/isDefined";
 import { shallowEquals } from "../../util/shallowEquals";
 import { coalesce } from "../../util/coalesce";
@@ -61,7 +61,7 @@ export interface ValidationGroupConfig extends PureContainerConfig {
 
 export class ValidationGroup<
    TConfig extends ValidationGroupConfig = ValidationGroupConfig
-> extends PureContainer<TConfig, ValidationGroupInstance> {
+> extends PureContainerBase<TConfig, ValidationGroupInstance> {
    declare errors?: Prop<ValidationErrorData[]>;
    declare isolated?: boolean;
 

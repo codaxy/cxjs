@@ -1,7 +1,7 @@
 /** @jsxImportSource react */
 
 import { Widget, VDOM } from "../ui/Widget";
-import { Container, StyledContainerConfig } from "../ui/Container";
+import { ContainerBase, StyledContainerConfig } from "../ui/Container";
 import {
    tooltipMouseMove,
    tooltipParentWillUnmount,
@@ -48,7 +48,7 @@ export class HtmlElementInstance<E extends HtmlElement<any, any> = HtmlElement<a
 export class HtmlElement<
    Config extends HtmlElementConfig = HtmlElementConfig,
    InstanceType extends HtmlElementInstance<any> = HtmlElementInstance<any>,
-> extends Container<Config, InstanceType> {
+> extends ContainerBase<Config, InstanceType> {
    public tag?: string;
    public html?: string;
    public innerText?: string;

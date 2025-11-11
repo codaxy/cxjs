@@ -48,7 +48,8 @@ export interface StyledContainerConfig extends ContainerConfig {
    styles?: StyleProp;
 }
 
-export class Container<
+// Base class for extending with custom Config types
+export class ContainerBase<
    Config extends ContainerConfig = ContainerConfig,
    InstanceType extends Instance = Instance
 > extends Widget<Config, InstanceType> {
@@ -208,6 +209,9 @@ export class Container<
    }
 }
 
-Container.prototype.trimWhitespace = true;
-Container.prototype.plainText = true;
-Container.prototype.styled = false;
+ContainerBase.prototype.trimWhitespace = true;
+ContainerBase.prototype.plainText = true;
+ContainerBase.prototype.styled = false;
+
+// Closed type for direct usage - preserves ControllerProp ThisType
+export class Container extends ContainerBase<ContainerConfig, Instance> {}
