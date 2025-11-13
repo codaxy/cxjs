@@ -1,6 +1,6 @@
 /** @jsxImportSource react */
 import { Widget, VDOM } from "../../ui/Widget";
-import { Dropdown } from "./Dropdown";
+import { Dropdown, DropdownBase, DropdownConfig, DropdownInstance } from "./Dropdown";
 import { debug, tooltipsFlag } from "../../util/Debug";
 import { isNonEmptyArray } from "../../util/isNonEmptyArray";
 import { ReadOnlyDataView } from "../../data/ReadOnlyDataView";
@@ -10,17 +10,74 @@ import { isSelector } from "../../data/isSelector";
 import { wireTooltipOps } from "./tooltip-ops";
 import { getCursorPos } from "./captureMouse";
 import { RenderingContext } from "../../ui/RenderingContext";
+import { StringProp, BooleanProp } from "../../ui/Prop";
 
-export class Tooltip extends Dropdown {
-   declareData() {
-      super.declareData(...arguments, {
+export interface TooltipConfig extends DropdownConfig {
+   /** Text to be displayed inside the tooltip. */
+   text?: StringProp;
+
+   /** Text to be displayed in the header. */
+   title?: StringProp;
+
+   /** Set to true to make the tooltip always visible. */
+   alwaysVisible?: BooleanProp;
+
+   /** Base CSS class to be applied to the field. Defaults to 'tooltip'. */
+   baseClass?: string;
+
+   /** Set to `true` to append the set `animate` state after the initial render. */
+   animate?: boolean;
+
+   /** Set to `true` to make the tooltip follow the mouse movement. */
+   trackMouse?: boolean;
+
+   trackMouseX?: boolean;
+   trackMouseY?: boolean;
+
+   /** This property controls how tooltips behave on touch events. */
+   touchBehavior?: string;
+
+   /** Set to true to rely on browser's window mousemove event for getting mouse coordinates. */
+   globalMouseTracking?: boolean;
+}
+
+export class TooltipInstance extends DropdownInstance<Tooltip> {
+   tooltipComponent?: any;
+   parentValidityCheckTimer?: NodeJS.Timeout;
+   mouseOverTooltip?: boolean;
+   mouseOverTarget?: boolean;
+   trackMouse?: (e: any) => void;
+   dismissTooltip?: (() => void) | null;
+   tooltipName?: string;
+   lastClickTime?: number;
+   config?: any;
+}
+
+export class TooltipBase<
+   Config extends TooltipConfig = TooltipConfig,
+   InstanceType extends TooltipInstance = TooltipInstance,
+> extends DropdownBase<Config, InstanceType> {
+   declare text?: StringProp;
+   declare title?: StringProp;
+   declare alwaysVisible?: BooleanProp;
+   declare trackMouse?: boolean;
+   declare trackMouseX?: boolean;
+   declare trackMouseY?: boolean;
+   declare touchBehavior?: string;
+   declare globalMouseTracking?: boolean;
+   declare mouseTrap?: boolean;
+   declare createDelay?: number;
+   declare baseClass: string;
+
+   declareData(...args: any[]) {
+      super.declareData(...args, {
          text: undefined,
          title: undefined,
          alwaysVisible: undefined,
       });
    }
 
-   prepareData(context, instance) {
+   prepareData(context: RenderingContext, instance: InstanceType): void {
       let { data } = instance;
       data.stateMods = {
          ...data.stateMods,
@@ -29,7 +86,7 @@ export class Tooltip extends Dropdown {
       super.prepareData(context, instance);
    }
 
-   renderContents(context, instance) {
+   renderContents(context: RenderingContext, instance: InstanceType): any {
       let { data } = instance;
       let { CSS, baseClass } = this;
       return [
@@ -43,11 +100,11 @@ export class Tooltip extends Dropdown {
       ];
    }
 
-   initInstance(context, instance) {
+   initInstance(context: RenderingContext, instance: InstanceType): void {
       super.initInstance(context, instance);
 
       if (this.trackMouseX || this.trackMouseY) {
-         instance.trackMouse = (e) => {
+         instance.trackMouse = (e: any) => {
             let pos = getCursorPos(e);
             instance.mousePosition = {
                x: pos.clientX,
@@ -58,13 +115,13 @@ export class Tooltip extends Dropdown {
       }
    }
 
-   overlayDidMount(instance, component) {
+   overlayDidMount(instance: InstanceType, component: any): void {
       instance.tooltipComponent = component;
 
       super.overlayDidMount(instance, component);
 
       instance.parentValidityCheckTimer = setInterval(() => {
-         if (!this.relatedElement.ownerDocument.body.contains(this.relatedElement)) {
+         if (this.relatedElement && !this.relatedElement.ownerDocument.body.contains(this.relatedElement)) {
             if (instance.dismissTooltip) {
                instance.dismissTooltip();
                instance.dismissTooltip = null;
@@ -79,7 +136,7 @@ export class Tooltip extends Dropdown {
       }
    }
 
-   overlayWillUnmount(instance, component) {
+   overlayWillUnmount(instance: InstanceType, component: any): void {
       clearInterval(instance.parentValidityCheckTimer);
       super.overlayWillUnmount(instance, component);
       instance.tooltipComponent = null;
@@ -89,29 +146,30 @@ export class Tooltip extends Dropdown {
       }
    }
 
-   handleMouseEnter(instance, component) {
+   handleMouseEnter(instance: InstanceType, component: any): void {
       instance.mouseOverTooltip = true;
       super.handleMouseEnter(instance, component);
    }
 
-   handleMouseLeave(instance, component) {
+   handleMouseLeave(instance: InstanceType, component: any): void {
       instance.mouseOverTooltip = false;
       if (this.mouseTrap) this.handleMouseLeavesParent(instance);
       super.handleMouseLeave(instance, component);
    }
 
-   handleMouseLeavesParent(instance) {
+   handleMouseLeavesParent(instance: InstanceType): void {
       let timeout = this.mouseTrap ? 200 : 0;
       setTimeout(() => {
          if (!instance.mouseOverTarget && !(this.mouseTrap && instance.mouseOverTooltip)) this.dismissTooltip(instance);
       }, timeout);
    }
 
-   dismissTooltip(instance) {
+   dismissTooltip(instance: InstanceType): void {
       if (!instance || !instance.dismissTooltip) return;
       if (
          instance.data &&
          instance.data.alwaysVisible &&
+         this.relatedElement &&
          this.relatedElement.ownerDocument.body.contains(this.relatedElement)
       )
          return;
@@ -119,34 +177,35 @@ export class Tooltip extends Dropdown {
       instance.dismissTooltip = null;
    }
 
-   dismissAfterScroll(data, instance) {
+   dismissAfterScroll(data: any, instance: InstanceType): void {
       this.dismissTooltip(instance);
    }
 
-   checkVisible(context, instance, data) {
+   checkVisible(context: RenderingContext, instance: InstanceType, data: any): boolean {
       if (!isNonEmptyArray(this.items) && !data.title && !data.text) return false;
       return super.checkVisible(context, instance, data);
    }
 }
 
-Widget.alias("tooltip", Tooltip);
-
-Tooltip.prototype.baseClass = "tooltip";
-Tooltip.prototype.offset = 8;
-Tooltip.prototype.placementOrder =
+TooltipBase.prototype.baseClass = "tooltip";
+TooltipBase.prototype.offset = 8;
+TooltipBase.prototype.placementOrder =
    "right up down left up-right up-left right-up right-down down-right down-left left-up left-down";
-Tooltip.prototype.animate = true;
-Tooltip.prototype.destroyDelay = 300;
-Tooltip.prototype.createDelay = 200;
-Tooltip.prototype.matchWidth = false;
-Tooltip.prototype.trackMouse = false;
-Tooltip.prototype.trackMouseX = false;
-Tooltip.prototype.trackMouseY = false;
-Tooltip.prototype.touchFriendly = false; //rename to positioningMode
-Tooltip.prototype.touchBehavior = "toggle";
-Tooltip.prototype.arrow = true;
-Tooltip.prototype.alwaysVisible = false;
-Tooltip.prototype.globalMouseTracking = false;
+TooltipBase.prototype.animate = true;
+TooltipBase.prototype.destroyDelay = 300;
+TooltipBase.prototype.createDelay = 200;
+TooltipBase.prototype.matchWidth = false;
+TooltipBase.prototype.trackMouse = false;
+TooltipBase.prototype.trackMouseX = false;
+TooltipBase.prototype.trackMouseY = false;
+TooltipBase.prototype.touchFriendly = false; //rename to positioningMode
+TooltipBase.prototype.touchBehavior = "toggle";
+TooltipBase.prototype.arrow = true;
+TooltipBase.prototype.alwaysVisible = false;
+TooltipBase.prototype.globalMouseTracking = false;
+
+export class Tooltip extends TooltipBase {}
+Widget.alias("tooltip", Tooltip);
 
 export function getTooltipInstance(e, parentInstance, tooltip, options = {}) {
    let target = options.target || (e && e.currentTarget) || e;

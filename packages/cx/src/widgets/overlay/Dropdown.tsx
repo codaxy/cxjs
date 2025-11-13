@@ -6,7 +6,10 @@ import { calculateNaturalElementHeight } from "../../util/calculateNaturalElemen
 import { closestParent, findFirst, isFocusable } from "../../util/DOM";
 import { getTopLevelBoundingClientRect } from "../../util/getTopLevelBoundingClientRect";
 import { isTouchDevice } from "../../util/isTouchDevice";
-import { Overlay } from "./Overlay";
+import { Overlay, OverlayBase, OverlayConfig, OverlayInstance } from "./Overlay";
+import { Instance } from "../../ui/Instance";
+import { StringProp } from "../../ui/Prop";
+import { RenderingContext } from "../../ui/RenderingContext";
 
 /*
  Dropdown specific features:
@@ -14,51 +17,168 @@ import { Overlay } from "./Overlay";
  - monitor scrollable parents and updates it's position
  */
 
-export class Dropdown extends Overlay {
+export interface DropdownConfig extends OverlayConfig {
+   /** Placement option for the dropdown relative to the trigger element. */
+   placement?: StringProp | null;
+
+   /** Offset distance from the trigger element. */
+   offset?: number;
+
+   /** Match the dropdown width to the trigger element. */
+   matchWidth?: boolean;
+
+   /** Match the dropdown max-width to the trigger element. */
+   matchMaxWidth?: boolean;
+
+   /** Placement preference order. */
+   placementOrder?: string;
+
+   /** Constrain the dropdown within the viewport. */
+   constrain?: boolean;
+
+   /** Positioning strategy - "fixed", "absolute", or "auto". */
+   positioning?: string;
+
+   /** Use touch-friendly positioning on touch devices. */
+   touchFriendly?: boolean;
+
+   /** Show an arrow pointing to the trigger element. */
+   arrow?: boolean;
+
+   /** Add padding around the dropdown. */
+   pad?: boolean;
+
+   /** Element explosion distance for positioning. */
+   elementExplode?: number;
+
+   /** Padding from screen edges. */
+   screenPadding?: number;
+
+   /** First child element defines the height. */
+   firstChildDefinesHeight?: boolean;
+
+   /** First child element defines the width. */
+   firstChildDefinesWidth?: boolean;
+
+   /** The dropdown will be automatically closed if the page is scrolled a certain distance. */
+   closeOnScrollDistance?: number;
+
+   /** The element to position the dropdown relative to. */
+   relatedElement?: Element;
+
+   /** Callback to resolve the related element. */
+   onResolveRelatedElement?: string | ((beaconEl: Element, instance: any) => Element);
+
+   /** Callback to measure natural content size. */
+   onMeasureNaturalContentSize?: string | ((el: Element, instance: any) => { width?: number; height?: number });
+
+   /** Callback when dropdown mounts. */
+   onDropdownDidMount?: string;
+
+   /** Callback to validate dropdown position. */
+   pipeValidateDropdownPosition?: string;
+
+   /** Callback when dropdown is dismissed after scroll. */
+   onDismissAfterScroll?: string;
+
+   /** Track mouse position for dropdowns. */
+   trackMouse?: boolean;
+
+   /** Track mouse X position. */
+   trackMouseX?: boolean;
+
+   /** Track mouse Y position. */
+   trackMouseY?: boolean;
+
+   /** Cover the related element with dropdown. */
+   cover?: boolean;
+}
+
+export class DropdownInstance<WidgetType extends DropdownBase = Dropdown> extends OverlayInstance<WidgetType> {
+   mousePosition?: any;
+   parentPositionChangeEvent?: any;
+   initialScreenPosition?: any;
+   relatedElement?: Element;
+   needsBeacon?: boolean;
+}
+
+export class DropdownBase<
+   Config extends DropdownConfig = DropdownConfig,
+   InstanceType extends DropdownInstance<any> = DropdownInstance<any>,
+> extends OverlayBase<Config, InstanceType> {
+   declare trackMouse?: boolean;
+   declare trackMouseX?: boolean;
+   declare trackMouseY?: boolean;
+   declare offset: number;
+   declare matchWidth?: boolean;
+   declare matchMaxWidth?: boolean;
+   declare placementOrder?: string;
+   declare placement?: StringProp | null;
+   declare constrain?: boolean;
+   declare positioning?: string;
+   declare touchFriendly?: boolean;
+   declare arrow?: boolean;
+   declare elementExplode?: number;
+   declare screenPadding?: number;
+   declare firstChildDefinesHeight?: boolean;
+   declare firstChildDefinesWidth?: boolean;
+   declare closeOnScrollDistance?: number;
+   declare relatedElement?: Element;
+   declare onResolveRelatedElement?: string | ((beaconEl: Element, instance: any) => Element);
+   declare onMeasureNaturalContentSize?: string | ((el: Element, instance: any) => { width?: number; height?: number });
+   declare onDropdownDidMount?: string;
+   declare pipeValidateDropdownPosition?: string;
+   declare onDismissAfterScroll?: string;
+   declare onKeyDown?: string;
+   declare cover?: boolean;
+   declare mousePosition?: any;
+   declare mouseTrap?: boolean;
+   declare createDelay?: number;
+
    init() {
       if (this.trackMouse) {
          this.trackMouseX = true;
          this.trackMouseY = true;
       }
-      if (this.autoFocus && !this.hasOwnProperty(this.focusable)) this.focusable = true;
+      if (this.autoFocus && !this.hasOwnProperty("focusable")) this.focusable = true;
       super.init();
    }
 
-   declareData() {
-      return super.declareData(...arguments, {
+   declareData(...args: any[]) {
+      return super.declareData(...args, {
          placement: undefined,
       });
    }
 
-   initInstance(context, instance) {
+   initInstance(context: RenderingContext, instance: InstanceType): void {
       instance.mousePosition = this.mousePosition;
       instance.parentPositionChangeEvent = context.parentPositionChangeEvent;
       super.initInstance(context, instance);
    }
 
-   explore(context, instance) {
+   explore(context: RenderingContext, instance: InstanceType): void {
       context.push("lastDropdown", instance);
       super.explore(context, instance);
    }
 
-   exploreCleanup(context, instance) {
+   exploreCleanup(context: RenderingContext, instance: InstanceType): void {
       context.pop("lastDropdown");
       super.exploreCleanup(context, instance);
    }
 
-   overlayDidMount(instance, component) {
+   overlayDidMount(instance: InstanceType, component: any): void {
       super.overlayDidMount(instance, component);
       var scrollableParents = (component.scrollableParents = [window]);
-      component.updateDropdownPosition = (e) => this.updateDropdownPosition(instance, component);
+      component.updateDropdownPosition = (e: any) => this.updateDropdownPosition(instance, component);
 
       instance.initialScreenPosition = null;
 
-      var el = instance.relatedElement.parentElement;
+      var el = instance.relatedElement?.parentElement;
       while (el) {
          scrollableParents.push(el);
          el = el.parentElement;
       }
-      scrollableParents.forEach((el) => {
+      scrollableParents.forEach((el: any) => {
          el.addEventListener("scroll", component.updateDropdownPosition);
       });
       component.offResize = ResizeManager.subscribe(component.updateDropdownPosition);
@@ -74,14 +194,14 @@ export class Dropdown extends Overlay {
          );
    }
 
-   overlayDidUpdate(instance, component) {
+   overlayDidUpdate(instance: InstanceType, component: any): void {
       this.updateDropdownPosition(instance, component);
    }
 
-   overlayWillUnmount(instance, component) {
+   overlayWillUnmount(instance: InstanceType, component: any): void {
       var { scrollableParents } = component;
       if (scrollableParents) {
-         scrollableParents.forEach((el) => {
+         scrollableParents.forEach((el: any) => {
             el.removeEventListener("scroll", component.updateDropdownPosition);
          });
          delete component.scrollableParents;
@@ -97,16 +217,16 @@ export class Dropdown extends Overlay {
       delete component.initialScreenPosition;
    }
 
-   dismissAfterScroll(data, instance, component) {
+   dismissAfterScroll(data: any, instance: InstanceType, component: any): void {
       if (this.onDismissAfterScroll && instance.invoke("onDismissAfterScroll", data, instance, component) === false)
          return;
       if (instance.dismiss) instance.dismiss();
    }
 
-   updateDropdownPosition(instance, component) {
+   updateDropdownPosition(instance: InstanceType, component: any): void {
       var { el, initialScreenPosition } = component;
       var { data, relatedElement } = instance;
-      var parentBounds = getTopLevelBoundingClientRect(relatedElement);
+      var parentBounds = getTopLevelBoundingClientRect(relatedElement!);
 
       //getBoundingClientRect() will return an empty rect if the element is hidden or removed
       if (parentBounds.left == 0 && parentBounds.top == 0 && parentBounds.bottom == 0 && parentBounds.right == 0) {
@@ -174,7 +294,14 @@ export class Dropdown extends Overlay {
       instance.positionChangeSubscribers.notify();
    }
 
-   applyFixedPositioningPlacementStyles(style, placement, contentSize, rel, el, noAuto) {
+   applyFixedPositioningPlacementStyles(
+      style: any,
+      placement: string,
+      contentSize: any,
+      rel: any,
+      el: HTMLElement,
+      noAuto: boolean,
+   ): void {
       let viewport = getViewportRect(this.screenPadding);
       style.position = "fixed";
 
@@ -283,7 +410,14 @@ export class Dropdown extends Overlay {
       }
    }
 
-   applyAbsolutePositioningPlacementStyles(style, placement, contentSize, rel, el, noAuto) {
+   applyAbsolutePositioningPlacementStyles(
+      style: any,
+      placement: string,
+      contentSize: any,
+      rel: any,
+      el: HTMLElement,
+      noAuto: boolean,
+   ): void {
       var viewport = getViewportRect(this.screenPadding);
 
       style.position = "absolute";
@@ -383,7 +517,7 @@ export class Dropdown extends Overlay {
       }
    }
 
-   applyPositioningPlacementStyles(style, placement, contentSize, parentBounds, el, noAuto) {
+   applyPositioningPlacementStyles(style: any, placement: string, contentSize: any, parentBounds: any, el: HTMLElement, noAuto: boolean): void {
       switch (this.positioning) {
          case "absolute":
             this.applyAbsolutePositioningPlacementStyles(style, placement, contentSize, parentBounds, el, noAuto);
@@ -401,7 +535,7 @@ export class Dropdown extends Overlay {
       }
    }
 
-   setDirectionClass(component, placement) {
+   setDirectionClass(component: any, placement: string): void {
       var state = {
          "place-left": false,
          "place-right": false,
@@ -417,7 +551,7 @@ export class Dropdown extends Overlay {
       });
    }
 
-   measureNaturalDropdownSize(instance, component) {
+   measureNaturalDropdownSize(instance: InstanceType, component: any): any {
       var { el } = component;
       var size = {
          width: el.offsetWidth,
@@ -442,7 +576,7 @@ export class Dropdown extends Overlay {
       return size;
    }
 
-   findOptimalPlacement(contentSize, target, placement, lastPlacement) {
+   findOptimalPlacement(contentSize: any, target: any, placement: string, lastPlacement: any): any {
       var placementOrder = this.placementOrder.split(" ");
       var best = lastPlacement || placement;
       var first;
@@ -582,23 +716,25 @@ export class Dropdown extends Overlay {
    }
 }
 
-Dropdown.prototype.offset = 0;
-Dropdown.prototype.baseClass = "dropdown";
-Dropdown.prototype.matchWidth = true;
-Dropdown.prototype.matchMaxWidth = false;
-Dropdown.prototype.placementOrder = "up down right left";
-Dropdown.prototype.placement = null; //default placement
-Dropdown.prototype.constrain = false;
-Dropdown.prototype.positioning = "fixed";
-Dropdown.prototype.touchFriendly = false;
-Dropdown.prototype.arrow = false;
-Dropdown.prototype.pad = false;
-Dropdown.prototype.elementExplode = 0;
-Dropdown.prototype.closeOnScrollDistance = 50;
-Dropdown.prototype.screenPadding = 5;
-Dropdown.prototype.firstChildDefinesHeight = false;
-Dropdown.prototype.firstChildDefinesWidth = false;
-Dropdown.prototype.cover = false;
+DropdownBase.prototype.offset = 0;
+DropdownBase.prototype.baseClass = "dropdown";
+DropdownBase.prototype.matchWidth = true;
+DropdownBase.prototype.matchMaxWidth = false;
+DropdownBase.prototype.placementOrder = "up down right left";
+DropdownBase.prototype.placement = null; //default placement
+DropdownBase.prototype.constrain = false;
+DropdownBase.prototype.positioning = "fixed";
+DropdownBase.prototype.touchFriendly = false;
+DropdownBase.prototype.arrow = false;
+DropdownBase.prototype.pad = false;
+DropdownBase.prototype.elementExplode = 0;
+DropdownBase.prototype.closeOnScrollDistance = 50;
+DropdownBase.prototype.screenPadding = 5;
+DropdownBase.prototype.firstChildDefinesHeight = false;
+DropdownBase.prototype.firstChildDefinesWidth = false;
+DropdownBase.prototype.cover = false;
+
+export class Dropdown extends DropdownBase<DropdownConfig, DropdownInstance> {}
 
 Widget.alias("dropdown", Dropdown);
 Localization.registerPrototype("cx/widgets/Dropdown", Dropdown);

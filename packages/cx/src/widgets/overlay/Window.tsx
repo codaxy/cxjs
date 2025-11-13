@@ -1,6 +1,6 @@
 /** @jsxImportSource react */
 import { Widget, VDOM, getContent } from "../../ui/Widget";
-import { Overlay, OverlayComponent } from "./Overlay";
+import { Overlay, OverlayBase, OverlayComponent, OverlayConfig, OverlayInstance } from "./Overlay";
 import { ContentPlaceholder } from "../../ui/layout/ContentPlaceholder";
 import { ZIndexManager } from "../../ui/ZIndexManager";
 import { Button } from "../Button";
@@ -10,8 +10,80 @@ import { stopPropagation } from "../../util/eventCallbacks";
 import { ddMouseDown, ddDetect, ddMouseUp } from "../drag-drop/ops";
 import { isDefined } from "../../util/isDefined";
 import { isString } from "../../util/isString";
+import { BooleanProp, StringProp, StyleProp, ClassProp } from "../../ui/Prop";
+import { RenderingContext } from "../../ui/RenderingContext";
 
-export class Window extends Overlay {
+export interface WindowConfig extends OverlayConfig {
+   /** Text to be displayed in the header. */
+   title?: StringProp;
+
+   /** Controls the close button visibility. Defaults to `true`. */
+   closable?: BooleanProp;
+
+   /** A custom style which will be applied to the body. */
+   bodyStyle?: StyleProp;
+
+   /** A custom style which will be applied to the header. */
+   headerStyle?: StyleProp;
+
+   /** A custom style which will be applied to the footer. */
+   footerStyle?: StyleProp;
+
+   /** Base CSS class to be applied to the field. Defaults to `window`. */
+   baseClass?: string;
+
+   /** Additional CSS class to be applied to the section body. */
+   bodyClass?: ClassProp;
+
+   /** Set to `true` to enable resizing. */
+   resizable?: boolean;
+
+   /** Set to `true` to automatically focus the field, after it renders for the first time. */
+   autoFocus?: boolean;
+
+   /** Set to `false` to prevent the window itself to be focusable. Default value is true.*/
+   focusable?: boolean;
+
+   /** Set to `true` to disable moving the window by dragging the header. */
+   fixed?: boolean;
+
+   /** Set to `true` to add default padding to the window body. */
+   pad?: boolean;
+
+   /** Optional header widget. */
+   header?: any;
+
+   /** Optional footer widget. */
+   footer?: any;
+
+   /** Custom event handler for closeable. */
+   closeable?: BooleanProp;
+}
+
+export class WindowInstance extends OverlayInstance {
+   headerEl?: HTMLElement;
+   footerEl?: HTMLElement;
+   bodyEl?: HTMLElement;
+   containerEl?: HTMLElement;
+}
+
+export class Window extends OverlayBase<WindowConfig, WindowInstance> {
+   declare closable?: BooleanProp;
+   declare closeable?: BooleanProp;
+   declare resizable?: boolean;
+   declare fixed?: boolean;
+   declare autoFocus?: boolean;
+   declare focusable?: boolean;
+   declare pad?: boolean;
+   declare bodyStyle?: StyleProp;
+   declare headerStyle?: StyleProp;
+   declare footerStyle?: StyleProp;
+   declare bodyClass?: ClassProp;
+   declare title?: StringProp;
+   declare header?: any;
+   declare footer?: any;
+   declare baseClass?: string;
+
    init() {
       if (isDefined(this.closeable)) this.closable = this.closeable;
 
@@ -52,7 +124,7 @@ export class Window extends Overlay {
       });
    }
 
-   exploreCleanup(context, instance) {
+   exploreCleanup(context: RenderingContext, instance: WindowInstance): void {
       super.exploreCleanup(context, instance);
 
       let { helpers } = instance;
@@ -63,7 +135,7 @@ export class Window extends Overlay {
       if (unregisterFooter) unregisterFooter();
    }
 
-   renderHeader(context, instance, key) {
+   renderHeader(context: RenderingContext, instance: WindowInstance, key: string): any[] {
       let { data } = instance;
       let result = [];
       if (data.title) result.push(data.title);
@@ -75,11 +147,11 @@ export class Window extends Overlay {
       return result;
    }
 
-   renderFooter(context, instance, key) {
+   renderFooter(context: RenderingContext, instance: WindowInstance, key: string): any {
       return getContent(instance.helpers && instance.helpers.footer && instance.helpers.footer.render(context, key));
    }
 
-   render(context, instance, key) {
+   render(context: RenderingContext, instance: WindowInstance, key: string): any {
       var header = this.renderHeader(context, instance, "header");
       var footer = this.renderFooter(context, instance, "footer");
       return (

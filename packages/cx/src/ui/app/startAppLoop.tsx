@@ -1,6 +1,6 @@
 /** @jsxImportSource react */
 
-import { Widget, VDOM } from "../Widget";
+import { Widget, VDOM, WidgetConfig } from "../Widget";
 import { Store } from "../../data/Store";
 import { Cx } from "../Cx";
 import { Instance } from "../Instance";
@@ -14,7 +14,7 @@ export interface StartAppLoopOptions {
 export function startAppLoop(
    parentDOMElement: HTMLElement,
    storeOrInstance?: Store | Instance,
-   widget?: typeof Widget,
+   widget?: Widget | WidgetConfig,
    options: StartAppLoopOptions = {},
 ): () => void {
    if (!parentDOMElement || parentDOMElement.nodeType !== 1)
