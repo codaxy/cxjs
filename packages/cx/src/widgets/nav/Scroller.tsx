@@ -1,29 +1,45 @@
-//@ts-nocheck
+/** @jsxImportSource react */
+import * as React from "react";
 import { Icon } from "../Icon";
 import { VDOM } from "../../ui/Widget";
-import { Container } from "../../ui/Container";
+import { Container, ContainerConfig } from "../../ui/Container";
 import { ResizeManager } from "../../ui/ResizeManager";
 import { isString, scrollElementIntoView } from "../../util";
+import { RenderingContext } from "../../ui/RenderingContext";
+import { Instance } from "../../ui/Instance";
+import { BooleanProp, StringProp } from "../../ui/Prop";
+
+export interface ScrollerConfig extends ContainerConfig {
+   /** Base CSS class. Default is `hscroller`. */
+   baseClass?: string;
+   horizontal?: BooleanProp;
+   vertical?: BooleanProp;
+   scrollIntoViewSelector?: StringProp;
+}
 
 export class Scroller extends Container {
+   declare public baseClass: string;
+   declare public styled: boolean;
+   declare public horizontal?: any;
+   declare public vertical?: any;
+   declare public scrollIntoViewSelector?: any;
+
    init() {
       if (!this.vertical) this.horizontal = true; //default
 
       super.init();
    }
 
-   declareData(...args) {
+   declareData(...args: any[]) {
       super.declareData(...args, {
          scrollIntoViewSelector: undefined,
       });
    }
 
-   render(context, instance, key) {
-      let { data } = instance;
-
+   render(context: RenderingContext, instance: Instance, key: string) {
       return (
          <HScrollerComponent key={key} widget={this} data={instance.data}>
-            {this.renderChildren(context, instance)}
+            {(this as any).renderChildren(context, instance)}
          </HScrollerComponent>
       );
    }
@@ -32,8 +48,30 @@ export class Scroller extends Container {
 Scroller.prototype.styled = true;
 Scroller.prototype.baseClass = "scroller";
 
-export class HScrollerComponent extends VDOM.Component {
-   constructor(props) {
+interface HScrollerComponentProps {
+   widget: Scroller;
+   data: any;
+   children?: any;
+}
+
+interface HScrollerComponentState {
+   scrollable: boolean;
+}
+
+export class HScrollerComponent extends VDOM.Component<HScrollerComponentProps, HScrollerComponentState> {
+   el?: HTMLElement | null;
+   clip?: HTMLElement | null;
+   scroller?: HTMLElement | null;
+   content?: HTMLElement | null;
+   unsubscribeResize?: () => void;
+   doScroll?: any;
+   stopScrolling: () => void;
+   scrollLeft: (e: any) => void;
+   scrollRight: (e: any) => void;
+   scrollUp: (e: any) => void;
+   scrollDown: (e: any) => void;
+
+   constructor(props: HScrollerComponentProps) {
       super(props);
       this.stopScrolling = () => {
          delete this.doScroll;
@@ -57,7 +95,7 @@ export class HScrollerComponent extends VDOM.Component {
                   scrollable: this.state.scrollable,
                   horizontal: widget.horizontal,
                   vertical: widget.vertical,
-               })
+               }),
             )}
             style={data.style}
             ref={(el) => {
@@ -147,14 +185,14 @@ export class HScrollerComponent extends VDOM.Component {
       let { widget } = this.props;
       let scrollable = false;
       if (widget.horizontal) {
-         let scrollSize = this.scroller.offsetHeight - this.scroller.clientHeight;
-         this.scroller.style.marginBottom = `${-scrollSize}px`;
-         if (this.content.scrollWidth > this.clip.clientWidth) scrollable = true;
+         let scrollSize = this.scroller!.offsetHeight - this.scroller!.clientHeight;
+         this.scroller!.style.marginBottom = `${-scrollSize}px`;
+         if (this.content!.scrollWidth > this.clip!.clientWidth) scrollable = true;
       }
       if (widget.vertical) {
-         let scrollSize = this.scroller.offsetWidth - this.scroller.clientWidth;
-         this.scroller.style.marginRight = `${-scrollSize}px`;
-         if (this.content.scrollHeight > this.clip.clientHeight) scrollable = true;
+         let scrollSize = this.scroller!.offsetWidth - this.scroller!.clientWidth;
+         this.scroller!.style.marginRight = `${-scrollSize}px`;
+         if (this.content!.scrollHeight > this.clip!.clientHeight) scrollable = true;
       }
       if (scrollable != this.state.scrollable) this.setState({ scrollable });
 
@@ -162,10 +200,10 @@ export class HScrollerComponent extends VDOM.Component {
    }
 
    componentWillUnmount() {
-      this.unsubscribeResize();
+      this.unsubscribeResize!();
    }
 
-   scroll(e, direction) {
+   scroll(e: any, direction: string) {
       e.stopPropagation();
       e.preventDefault();
 
@@ -200,7 +238,7 @@ export class HScrollerComponent extends VDOM.Component {
       let { scrollIntoViewSelector } = data;
 
       if (isString(scrollIntoViewSelector)) {
-         let child = this.el.querySelector(scrollIntoViewSelector);
+         let child = this.el?.querySelector(scrollIntoViewSelector);
          if (child) scrollElementIntoView(child, widget.vertical, widget.horizontal);
       }
    }

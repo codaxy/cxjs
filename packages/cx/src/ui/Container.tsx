@@ -51,12 +51,12 @@ export interface StyledContainerConfig extends ContainerConfig {
 // Base class for extending with custom Config types
 export class ContainerBase<
    Config extends ContainerConfig = ContainerConfig,
-   InstanceType extends Instance = Instance
+   InstanceType extends Instance = Instance,
 > extends Widget<Config, InstanceType> {
    public ws?: boolean;
    public preserveWhitespace?: boolean;
    public trimWhitespace?: boolean;
-   public items?: Widget[];
+   declare public items: Widget[];
    public children?: Widget[];
    public layout?: Container | null;
    public useParentLayout?: boolean;
@@ -158,7 +158,7 @@ export class ContainerBase<
          else if (isString(a)) {
             if (this.trimWhitespace) a = innerTextTrim(a);
             if (a) this.addText(a);
-         } else if (a.isComponent) this.items!.push(this.wrapItem(a));
+         } else if (a.isComponent) this.items.push(this.wrapItem(a));
          else {
             this.add(Widget.create(a, this.itemDefaults, {}));
          }

@@ -1,4 +1,4 @@
-//@ts-nocheck
+/** @jsxImportSource react */
 import { Widget } from "../../ui/Widget";
 import { HtmlElement } from "../HtmlElement";
 import { Window } from "./Window";

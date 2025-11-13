@@ -1,4 +1,3 @@
-//@ts-nocheck
 import {debug, deprecatedFlag} from '../../util/Debug';
 import {isString} from '../../util/isString';
 

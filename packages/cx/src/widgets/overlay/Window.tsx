@@ -1,4 +1,4 @@
-//@ts-nocheck
+/** @jsxImportSource react */
 import { Widget, VDOM, getContent } from "../../ui/Widget";
 import { Overlay, OverlayComponent } from "./Overlay";
 import { ContentPlaceholder } from "../../ui/layout/ContentPlaceholder";

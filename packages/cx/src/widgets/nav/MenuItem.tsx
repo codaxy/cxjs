@@ -1,7 +1,9 @@
-//@ts-nocheck
+/** @jsxImportSource react */
 import { Widget, VDOM } from "../../ui/Widget";
 import { Cx } from "../../ui/Cx";
-import { HtmlElement } from "../HtmlElement";
+import { HtmlElement, HtmlElementConfig } from "../HtmlElement";
+import { Instance } from "../../ui/Instance";
+import { RenderingContext } from "../../ui/RenderingContext";
 import { findFirstChild, isFocusable, isSelfOrDescendant, closest, isFocusedDeep, isFocused } from "../../util/DOM";
 import { Dropdown } from "../overlay/Dropdown";
 import { FocusManager, oneFocusOut, offFocusOut } from "../../ui/FocusManager";
@@ -10,7 +12,7 @@ import DropdownIcon from "../icons/drop-down";
 import { Icon } from "../Icon";
 import { Localization } from "../../ui/Localization";
 import { KeyCode } from "../../util/KeyCode";
-import { registerKeyboardShortcut } from "../../ui/keyboardShortcuts";
+import { registerKeyboardShortcut, KeyboardShortcut } from "../../ui/keyboardShortcuts";
 import { getActiveElement } from "../../util/getActiveElement";
 import {
    tooltipMouseLeave,
@@ -21,6 +23,8 @@ import {
 import { yesNo } from "../overlay/alerts";
 import { isTextInputElement, stopPropagation } from "../../util";
 import { unfocusElement } from "../../ui/FocusManager";
+import { BooleanProp, Prop, StringProp } from "../../ui/Prop";
+import { Config } from "../../core";
 
 /*
  Functionality:
@@ -31,7 +35,62 @@ import { unfocusElement } from "../../ui/FocusManager";
  - automatically opens the dropdown if mouse is held over for a period of time
  */
 
-export class MenuItem extends HtmlElement {
+export interface MenuItemConfig extends HtmlElementConfig {
+   baseClass?: string;
+   hoverFocusTimeout?: number;
+   clickToOpen?: boolean;
+   hoverToOpen?: boolean;
+   horizontal?: boolean;
+   arrow?: BooleanProp;
+   dropdownOptions?: Config;
+   showCursor?: boolean;
+   pad?: boolean;
+   placement?: string;
+   placementOrder?: string;
+   autoClose?: boolean;
+   icons?: boolean;
+   icon?: StringProp;
+   keyboardShortcut?: KeyboardShortcut | false;
+   tooltip?: string | Config;
+   openOnFocus?: boolean;
+   disabled?: BooleanProp;
+   checked?: BooleanProp;
+   confirm?: Prop<string | Config>;
+   checkedIcon?: string;
+   uncheckedIcon?: string;
+   padding?: string;
+   hideCursor?: boolean;
+   dropdown?: any;
+}
+
+export class MenuItemInstance extends Instance<MenuItem> {
+   horizontal?: boolean;
+   padding?: string;
+   icons?: boolean;
+   parentPositionChangeEvent?: any;
+}
+
+export class MenuItem extends HtmlElement<MenuItemConfig, MenuItemInstance> {
+   declare public baseClass: string;
+   declare public hoverFocusTimeout: number;
+   declare public clickToOpen: boolean;
+   declare public hoverToOpen: boolean;
+   declare public horizontal: boolean;
+   declare public arrow: BooleanProp;
+   declare public dropdownOptions: Config | null;
+   declare public showCursor: boolean;
+   declare public pad: boolean;
+   declare public placement: string | null;
+   declare public placementOrder: string | null;
+   declare public autoClose: boolean;
+   declare public checkedIcon: string;
+   declare public uncheckedIcon: string;
+   declare public keyboardShortcut: KeyboardShortcut | false;
+   declare public openOnFocus: boolean;
+   declare public hideCursor?: boolean;
+   declare public checked?: BooleanProp;
+   declare public padding?: string;
+   declare public dropdown?: any;
    init() {
       if (this.hideCursor) this.showCursor = false;
       super.init();
@@ -47,7 +106,7 @@ export class MenuItem extends HtmlElement {
       });
    }
 
-   explore(context, instance) {
+   explore(context: RenderingContext, instance: MenuItemInstance) {
       instance.horizontal = this.horizontal;
       let { lastMenu } = context;
       if (lastMenu) {
@@ -66,11 +125,11 @@ export class MenuItem extends HtmlElement {
       super.explore(context, instance);
    }
 
-   exploreCleanup(context, instance) {
+   exploreCleanup(context: RenderingContext, instance: MenuItemInstance) {
       context.pop("lastMenuItem");
    }
 
-   render(context, instance, key) {
+   render(context: RenderingContext, instance: MenuItemInstance, key: string) {
       return (
          <MenuItemComponent key={key} instance={instance} data={instance.data}>
             {instance.data.text ? <span>{instance.data.text}</span> : this.renderChildren(context, instance)}
@@ -78,14 +137,14 @@ export class MenuItem extends HtmlElement {
       );
    }
 
-   add(element) {
+   add(element: any) {
       if (element && typeof element == "object" && element.putInto == "dropdown") {
          this.dropdown = { ...element };
          delete this.dropdown.putInto;
       } else super.add(...arguments);
    }
 
-   addText(text) {
+   addText(text: any) {
       this.add({
          type: HtmlElement,
          tag: "span",
@@ -114,15 +173,33 @@ MenuItem.prototype.openOnFocus = true;
 Widget.alias("submenu", MenuItem);
 Localization.registerPrototype("cx/widgets/MenuItem", MenuItem);
 
-class MenuItemComponent extends VDOM.Component {
-   constructor(props) {
+interface MenuItemComponentProps {
+   instance: MenuItemInstance;
+   data: any;
+   children?: any;
+}
+
+interface MenuItemComponentState {
+   dropdownOpen: boolean;
+}
+
+class MenuItemComponent extends VDOM.Component<MenuItemComponentProps, MenuItemComponentState> {
+   dropdown?: Widget;
+   el?: HTMLElement;
+   validateDropdownPosition?: () => void;
+   unregisterKeyboardShortcut?: () => void;
+   autoFocusTimerId?: number;
+   initialScreenPosition?: any;
+   offParentPositionChange?: () => void;
+
+   constructor(props: MenuItemComponentProps) {
       super(props);
       this.state = {
          dropdownOpen: false,
       };
    }
 
-   getDefaultPlacementOrder(horizontal) {
+   getDefaultPlacementOrder(horizontal?: boolean) {
       return horizontal
          ? "down-right down down-left up-right up up-left"
          : "right-down right right-up left-down left left-up";
@@ -138,13 +215,13 @@ class MenuItemComponent extends VDOM.Component {
             inline: true,
             onClick: stopPropagation,
             ...widget.dropdownOptions,
-            relatedElement: this.el.parentElement,
+            relatedElement: this.el!.parentElement,
             placement: widget.placement,
             onKeyDown: this.onDropdownKeyDown.bind(this),
             onMouseDown: stopPropagation,
             items: widget.dropdown,
             parentPositionChangeEvent,
-            pipeValidateDropdownPosition: (cb) => {
+            pipeValidateDropdownPosition: (cb: any) => {
                this.validateDropdownPosition = cb;
             },
             onDismissAfterScroll: () => {
@@ -205,7 +282,7 @@ class MenuItemComponent extends VDOM.Component {
             icon: !!icon || instance.icons,
             disabled: data.disabled,
             empty,
-         })
+         }),
       );
 
       if (empty) children = <span className={CSS.element(baseClass, "baseline")}>&nbsp;</span>;
@@ -214,8 +291,8 @@ class MenuItemComponent extends VDOM.Component {
          <div
             className={classNames}
             style={data.style}
-            tabIndex={!data.disabled && (widget.dropdown || widget.onClick || widget.checked) ? 0 : null}
-            ref={(el) => {
+            tabIndex={!data.disabled && (widget.dropdown || widget.onClick || widget.checked) ? 0 : undefined}
+            ref={(el: any) => {
                this.el = el;
             }}
             onKeyDown={this.onKeyDown.bind(this)}
@@ -243,22 +320,22 @@ class MenuItemComponent extends VDOM.Component {
    componentDidMount() {
       let { widget } = this.props.instance;
       if (widget.keyboardShortcut)
-         this.unregisterKeyboardShortcut = registerKeyboardShortcut(widget.keyboardShortcut, (e) => {
-            this.el.focus(); //open the dropdown
+         this.unregisterKeyboardShortcut = registerKeyboardShortcut(widget.keyboardShortcut, (e: any) => {
+            this.el!.focus(); //open the dropdown
             this.onClick(e); //execute the onClick handler
          });
 
-      tooltipParentDidMount(this.el, this.props.instance, widget.tooltip);
+      tooltipParentDidMount(this.el!, this.props.instance, widget.tooltip);
    }
 
-   onDropdownKeyDown(e) {
+   onDropdownKeyDown(e: React.KeyboardEvent) {
       debug(menuFlag, "MenuItem", "dropdownKeyDown");
       let { horizontal } = this.props.instance;
       if (
          e.keyCode == KeyCode.esc ||
-         (!isTextInputElement(e.target) && (horizontal ? e.keyCode == KeyCode.up : e.keyCode == KeyCode.left))
+         (!isTextInputElement(e.currentTarget) && (horizontal ? e.keyCode == KeyCode.up : e.keyCode == KeyCode.left))
       ) {
-         FocusManager.focus(this.el);
+         FocusManager.focus(this.el!);
          e.preventDefault();
          e.stopPropagation();
       }
@@ -272,25 +349,25 @@ class MenuItemComponent extends VDOM.Component {
       }
    }
 
-   onMouseEnter(e) {
+   onMouseEnter(e: React.MouseEvent) {
       debug(menuFlag, "MenuItem", "mouseEnter", this.el);
       let { widget } = this.props.instance;
       if (widget.dropdown && !this.state.dropdownOpen) {
          this.clearAutoFocusTimer();
 
-         if (widget.hoverToOpen) FocusManager.focus(this.el);
+         if (widget.hoverToOpen) FocusManager.focus(this.el!);
          else if (!widget.clickToOpen) {
             // Automatically open the dropdown only if parent menu is focused
-            let commonParentMenu = closest(this.el, (el) => el.tagName == "UL" && el.contains(getActiveElement()));
+            let commonParentMenu = closest(this.el!, (el) => el.tagName == "UL" && el.contains(getActiveElement()));
             if (commonParentMenu)
                this.autoFocusTimerId = setTimeout(() => {
                   delete this.autoFocusTimerId;
                   if (!this.state.dropdownOpen) {
                      debug(menuFlag, "MenuItem", "hoverFocusTimeout:before", this.el);
-                     FocusManager.focus(this.el);
+                     FocusManager.focus(this.el!);
                      debug(menuFlag, "MenuItem", "hoverFocusTimeout:after", this.el, getActiveElement());
                   }
-               }, widget.hoverFocusTimeout);
+               }, widget.hoverFocusTimeout) as any;
          }
 
          e.stopPropagation();
@@ -300,19 +377,19 @@ class MenuItemComponent extends VDOM.Component {
       tooltipMouseMove(e, this.props.instance, widget.tooltip);
    }
 
-   onMouseLeave(e) {
+   onMouseLeave(e: React.MouseEvent) {
       let { widget } = this.props.instance;
       if (widget.dropdown) {
          debug(menuFlag, "MenuItem", "mouseLeave", this.el);
          this.clearAutoFocusTimer();
 
-         if (widget.hoverToOpen && document.activeElement == this.el) unfocusElement(this.el);
+         if (widget.hoverToOpen && document.activeElement == this.el) unfocusElement(this.el!);
       }
 
       tooltipMouseLeave(e, this.props.instance, widget.tooltip);
    }
 
-   onKeyDown(e) {
+   onKeyDown(e: React.KeyboardEvent) {
       debug(menuFlag, "MenuItem", "keyDown", this.el);
       let { horizontal, widget } = this.props.instance;
       if (widget.dropdown) {
@@ -322,7 +399,7 @@ class MenuItemComponent extends VDOM.Component {
             (e.keyCode == KeyCode.enter || (horizontal ? e.keyCode == KeyCode.down : e.keyCode == KeyCode.right))
          ) {
             this.openDropdown(() => {
-               let focusableChild = findFirstChild(this.el, isFocusable);
+               let focusableChild = findFirstChild(this.el!, isFocusable);
                if (focusableChild) FocusManager.focus(focusableChild);
             });
             e.preventDefault();
@@ -330,8 +407,8 @@ class MenuItemComponent extends VDOM.Component {
          }
 
          if (e.keyCode == KeyCode.esc) {
-            if (!isFocused(this.el)) {
-               FocusManager.focus(this.el);
+            if (!isFocused(this.el!)) {
+               FocusManager.focus(this.el!);
                e.preventDefault();
                e.stopPropagation();
             }
@@ -342,23 +419,23 @@ class MenuItemComponent extends VDOM.Component {
       }
    }
 
-   onMouseDown(e) {
+   onMouseDown(e: React.MouseEvent) {
       let { widget } = this.props.instance;
       if (widget.dropdown) {
          e.stopPropagation();
          if (this.state.dropdownOpen && !widget.hoverToOpen) this.closeDropdown();
          else {
             //IE sometimes does not focus parent on child click
-            if (!isFocusedDeep(this.el)) FocusManager.focus(this.el);
+            if (!isFocusedDeep(this.el!)) FocusManager.focus(this.el!);
             this.openDropdown();
 
             //If one of the elements is auto focused prevent stealing focus
-            if (isFocusedDeep(this.el)) e.preventDefault();
+            if (isFocusedDeep(this.el!)) e.preventDefault();
          }
       }
    }
 
-   openDropdown(callback) {
+   openDropdown(callback?: any) {
       let { widget } = this.props.instance;
       if (widget.dropdown) {
          if (!this.state.dropdownOpen) {
@@ -366,16 +443,16 @@ class MenuItemComponent extends VDOM.Component {
                {
                   dropdownOpen: true,
                },
-               callback
+               callback,
             );
 
             //hide tooltip if dropdown is open
-            tooltipMouseLeave(null, this.props.instance, widget.tooltip);
+            tooltipMouseLeave(null as any, this.props.instance, widget.tooltip);
          } else if (callback) callback(this.state);
       }
    }
 
-   onClick(e) {
+   onClick(e: any) {
       e.stopPropagation();
 
       let { instance } = this.props;
@@ -406,7 +483,7 @@ class MenuItemComponent extends VDOM.Component {
    onFocus() {
       let { widget } = this.props.instance;
       if (widget.dropdown) {
-         oneFocusOut(this, this.el, this.onFocusOut.bind(this));
+         oneFocusOut(this, this.el!, this.onFocusOut.bind(this));
          debug(menuFlag, "MenuItem", "focus", this.el, document.activeElement);
          this.clearAutoFocusTimer();
          if (widget.openOnFocus) this.openDropdown();
@@ -424,7 +501,7 @@ class MenuItemComponent extends VDOM.Component {
       delete this.initialScreenPosition;
    }
 
-   onFocusOut(focusedElement) {
+   onFocusOut(focusedElement: any) {
       debug(menuFlag, "MenuItem", "focusout", this.el, focusedElement);
       this.clearAutoFocusTimer();
       if (this.el && !isSelfOrDescendant(this.el, focusedElement)) {

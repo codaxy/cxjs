@@ -1,10 +1,10 @@
-//@ts-nocheck
+/** @jsxImportSource react */
 import { VDOM } from "../../ui/Widget";
 import { registerIcon } from "./registry";
 
 export default registerIcon(
    "pixel-picker",
-   (props) => {
+   (props: any) => {
       return (
          <svg {...props} viewBox="0 0 30 30">
             <path

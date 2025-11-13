@@ -228,7 +228,7 @@ export class LookupField<Config extends LookupFieldConfig = LookupFieldConfig> e
 
       this.itemConfig = this.children || this.items;
 
-      delete this.items;
+      this.items = [];
       delete this.children;
 
       super.init();

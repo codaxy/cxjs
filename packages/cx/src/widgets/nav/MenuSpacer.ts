@@ -1,8 +1,13 @@
-//@ts-nocheck
-import {Widget} from "../../ui/Widget";
+import { Widget, WidgetConfig } from "../../ui/Widget";
+import { Instance } from "../../ui/Instance";
+import { RenderingContext } from "../../ui/RenderingContext";
 
-export class MenuSpacer extends Widget {
-   render(context, instance, key) {
+export interface MenuSpacerConfig extends WidgetConfig {}
+
+export class MenuSpacer extends Widget<MenuSpacerConfig> {
+   declare public isMenuSpacer: boolean;
+
+   render(context: RenderingContext, instance: Instance, key: string) {
       return {
          key: true,
          atomic: true,

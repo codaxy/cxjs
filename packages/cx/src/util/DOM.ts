@@ -1,4 +1,4 @@
-import {isNumber} from '../util/isNumber';
+import { isNumber } from "../util/isNumber";
 
 type ElementFilter = (el: Element, condition: (el: Element) => boolean) => Element | null;
 
@@ -8,35 +8,35 @@ type ElementFilter = (el: Element, condition: (el: Element) => boolean) => Eleme
  * @param condition
  * @returns {Element}
  */
+export function findFirst<T extends Element>(el: Element, condition: (el: Element) => el is T): T | null;
+export function findFirst(el: Element, condition: (el: Element) => boolean): Element | null;
 export function findFirst(el: Element, condition: (el: Element) => boolean): Element | null {
-   if (condition(el))
-      return el;
+   if (condition(el)) return el;
 
    var children = el.children;
    if (children)
       for (var i = 0; i < children.length; i++) {
          var child = findFirst(children[i], condition);
-         if (child)
-            return child;
+         if (child) return child;
       }
    return null;
 }
 
+export function findFirstChild<T extends Element>(el: Element, condition: (el: Element) => el is T): T | null;
+export function findFirstChild(el: Element, condition: (el: Element) => boolean): Element | null;
 export function findFirstChild(el: Element, condition: (el: Element) => boolean): Element | null {
    var children = el.children;
    if (children)
       for (var i = 0; i < children.length; i++) {
          var child = findFirst(children[i], condition);
-         if (child)
-            return child;
+         if (child) return child;
       }
    return null;
 }
 
 export function closest(el: Element | null, condition: (el: Element) => boolean): Element | null {
    while (el) {
-      if (condition(el))
-         return el;
+      if (condition(el)) return el;
       el = el.parentElement;
    }
    return null;
@@ -54,20 +54,17 @@ export function isFocusedDeep(el: Element): boolean {
    return document.activeElement == el || (!!document.activeElement && el.contains(document.activeElement));
 }
 
-const focusableWithoutTabIndex = ['INPUT', 'SELECT', 'TEXTAREA', 'A', 'BUTTON'];
+const focusableWithoutTabIndex = ["INPUT", "SELECT", "TEXTAREA", "A", "BUTTON"];
 
-export function isFocusable(el: Element): boolean {
-   if (!(el instanceof HTMLElement))
-      return false;
+export function isFocusable(el: Element): el is HTMLElement {
+   if (!(el instanceof HTMLElement)) return false;
 
    var firstPass = el && isNumber(el.tabIndex) && el.tabIndex >= 0;
-   if (!firstPass)
-      return false;
+   if (!firstPass) return false;
 
-   if (focusableWithoutTabIndex.indexOf(el.tagName) != -1 && !el.hasAttribute('disabled'))
-      return true;
+   if (focusableWithoutTabIndex.indexOf(el.tagName) != -1 && !el.hasAttribute("disabled")) return true;
 
-   return el.hasAttribute('tabindex');
+   return el.hasAttribute("tabindex");
 }
 
 /**

@@ -64,29 +64,29 @@ export class FocusManager {
       }
    }
 
-   static focus(el: any) {
+   static focus(el: HTMLElement) {
       el.focus();
       this.nudge();
    }
 
-   static focusFirst(el: any) {
+   static focusFirst(el: HTMLElement) {
       let focusable = findFirst(el, isFocusable);
-      if (focusable) this.focus(focusable);
+      if (focusable) this.focus(focusable as HTMLElement);
       return focusable;
    }
 
-   static focusFirstChild(el: any) {
+   static focusFirstChild(el: HTMLElement) {
       let focusable = findFirstChild(el, isFocusable);
-      if (focusable) this.focus(focusable);
+      if (focusable) this.focus(focusable as HTMLElement);
       return focusable;
    }
 
-   static focusNext(el: any) {
-      let next: any = el,
+   static focusNext(el: HTMLElement) {
+      let next: Node | null = el,
          skip = true;
       do {
          if (!skip) {
-            let focusable = this.focusFirst(next);
+            let focusable = this.focusFirst(next as HTMLElement);
             if (focusable) return focusable;
          }
 
@@ -121,7 +121,7 @@ export function offFocusOut(component: any) {
    }
 }
 
-export function preventFocus(e: any) {
+export function preventFocus(e: React.MouseEvent) {
    //Focus can be prevented only on mousedown event. On touchstart this will not work
    //preventDefault cannot be used as it prevents scrolling
    if (e.type !== "mousedown") return;
@@ -149,7 +149,7 @@ export function preventFocusOnTouch(e: any, force = false) {
    if (force || isTouchEvent()) preventFocus(e);
 }
 
-export function unfocusElement(target: any = null, unfocusParentOverlay = true) {
+export function unfocusElement(target: Element | null = null, unfocusParentOverlay = true) {
    const activeElement = getActiveElement();
    if (!target) target = activeElement;
 
@@ -161,7 +161,7 @@ export function unfocusElement(target: any = null, unfocusParentOverlay = true) 
    //find the closest focusable parent of the target element and focus it instead
    let focusableParent = closestParent(
       target,
-      (el: any) => isFocusable(el) && (!unfocusParentOverlay || el.dataset?.focusableOverlayContainer),
+      (el: any) => isFocusable(el) && (!unfocusParentOverlay || !!el.dataset?.focusableOverlayContainer),
    ) as HTMLElement | null;
 
    if (focusableParent && focusableParent !== document.body) focusableParent.focus({ preventScroll: true });

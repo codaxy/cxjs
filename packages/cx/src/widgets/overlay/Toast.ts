@@ -1,4 +1,3 @@
-//@ts-nocheck
 import {Overlay} from './Overlay';
 import {Text} from '../../ui/Text';
 

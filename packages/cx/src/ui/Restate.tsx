@@ -61,7 +61,7 @@ export class Restate<Config extends RestateConfig = RestateConfig> extends PureC
          props: this.data || {},
          values: this.data,
       });
-      delete this.items;
+      this.items = [];
       delete this.children;
       delete this.controller;
       delete this.outerLayout;

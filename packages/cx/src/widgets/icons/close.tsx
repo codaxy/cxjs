@@ -1,10 +1,10 @@
-//@ts-nocheck
+/** @jsxImportSource react */
 import { VDOM } from "../../ui/Widget";
 import { registerIcon } from "./registry";
 
 export default registerIcon(
    "close",
-   (props) => {
+   (props: any) => {
       return (
          <svg {...props} viewBox="0 0 32 32">
             <path

@@ -1,4 +1,4 @@
-//@ts-nocheck
+/** @jsxImportSource react */
 import { Widget, VDOM } from "../../ui/Widget";
 import { Dropdown } from "./Dropdown";
 import { debug, tooltipsFlag } from "../../util/Debug";

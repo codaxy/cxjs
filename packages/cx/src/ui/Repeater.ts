@@ -86,7 +86,7 @@ export class Repeater<Config extends RepeaterConfig = RepeaterConfig> extends Co
       });
 
       delete this.children;
-      delete this.items;
+      this.items = [];
 
       super.init();
    }

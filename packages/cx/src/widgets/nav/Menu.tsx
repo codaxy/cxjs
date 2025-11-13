@@ -1,3 +1,4 @@
+/** @jsxImportSource react */
 import { Widget, VDOM } from "../../ui/Widget";
 import { HtmlElement, HtmlElementConfig } from "../HtmlElement";
 import { findFirst, isFocusable, getFocusedElement, isSelfOrDescendant, closest, isFocusedDeep } from "../../util/DOM";
@@ -35,6 +36,12 @@ export interface MenuConfig extends HtmlElementConfig {
 
    /** Base CSS class to be applied to the element. No class is applied by default. */
    baseClass?: string;
+
+   /** Show only overflow items. Used internally for overflow menus. */
+   showOnlyOverflowItems?: boolean;
+
+   /** Auto focus first menu item. */
+   autoFocus?: boolean;
 }
 
 /*
@@ -44,15 +51,17 @@ export interface MenuConfig extends HtmlElementConfig {
  - changes focusElement to the first focusable child when cursor is moved using keyboard
  */
 
-export class Menu extends HtmlElement {
-   declare horizontal: boolean;
-   declare itemPadding: string | boolean;
-   declare defaultHorizontalItemPadding: string;
-   declare defaultVerticalItemPadding: string;
-   declare overflow: boolean;
-   declare overflowIcon: string;
-   declare baseClass: string;
-   declare tag: string;
+export class Menu extends HtmlElement<MenuConfig, MenuInstance> {
+   declare public baseClass: string;
+   declare public horizontal: boolean;
+   declare public itemPadding: string | boolean;
+   declare public defaultHorizontalItemPadding: string;
+   declare public defaultVerticalItemPadding: string;
+   declare public overflow: boolean;
+   declare public overflowIcon: string;
+   declare public tag: string;
+   declare public showOnlyOverflowItems?: boolean;
+   declare public autoFocus?: boolean;
    static Item: typeof MenuItem;
    static Spacer: typeof MenuSpacer;
    init() {
@@ -79,12 +88,12 @@ export class Menu extends HtmlElement {
                      showOnlyOverflowItems: true,
                   },
                ],
-            })
+            }),
          );
       }
    }
 
-   prepareData(context: RenderingContext, instance: Instance) {
+   prepareData(context: RenderingContext, instance: MenuInstance) {
       let { data } = instance;
       data.stateMods = {
          ...data.stateMods,
@@ -96,16 +105,16 @@ export class Menu extends HtmlElement {
       super.prepareData(context, instance);
    }
 
-   explore(context: RenderingContext, instance: Instance) {
+   explore(context: RenderingContext, instance: MenuInstance) {
       context.push("lastMenu", this);
       super.explore(context, instance);
    }
 
-   exploreCleanup(context: RenderingContext, instance: Instance) {
+   exploreCleanup(context: RenderingContext, instance: MenuInstance) {
       context.pop("lastMenu");
    }
 
-   render(context: RenderingContext, instance: Instance, key: string) {
+   render(context: RenderingContext, instance: MenuInstance, key: string) {
       return (
          <MenuComponent key={key} instance={instance}>
             {this.renderChildren(context, instance)}
@@ -115,7 +124,7 @@ export class Menu extends HtmlElement {
 
    add(item: any) {
       if (item && (item.tag == "a" || item.tag == "hr")) {
-         let mi = {
+         let mi: any = {
             type: MenuItem,
             items: item,
             autoClose: item.tag == "a",
@@ -139,9 +148,13 @@ Menu.prototype.overflowIcon = "drop-down";
 Menu.Item = MenuItem;
 Menu.Spacer = MenuSpacer;
 
+export class MenuInstance extends Instance<Menu> {
+   nonOverflownItemCount?: number;
+}
+
 interface MenuComponentProps {
-   instance: Instance;
-   children?: any;
+   instance: MenuInstance;
+   children: any[];
 }
 
 interface MenuComponentState {
@@ -180,7 +193,7 @@ class MenuComponent extends VDOM.Component<MenuComponentProps, MenuComponentStat
       if (widget.showOnlyOverflowItems) {
          let { parent } = instance;
          while (parent != null) {
-            if (parent.widget instanceof Menu) {
+            if (parent instanceof MenuInstance) {
                parentNonOverflownItemCount = parent.nonOverflownItemCount || 0;
                break;
             }
@@ -195,10 +208,10 @@ class MenuComponent extends VDOM.Component<MenuComponentProps, MenuComponentStat
                data.classNames,
                CSS.state({
                   pack: this.state.nonOverflownItemCount < children.length - 1,
-               })
+               }),
             )}
             style={data.style}
-            onBlur={FocusManager.nudge()}
+            onBlur={FocusManager.nudge}
             onKeyDown={this.onKeyDown.bind(this)}
          >
             {children.map((content, index) => {
@@ -239,7 +252,7 @@ class MenuComponent extends VDOM.Component<MenuComponentProps, MenuComponentStat
 
    onKeyDown(e: React.KeyboardEvent) {
       //ignore the event if it comes from an input element
-      if (isTextInputElement(e.target)) return;
+      if (isTextInputElement(e.target as Element)) return;
 
       let { instance } = this.props;
       let { widget } = instance;
@@ -303,7 +316,7 @@ class MenuComponent extends VDOM.Component<MenuComponentProps, MenuComponentStat
 
    componentDidMount() {
       let { widget } = this.props.instance;
-      if (widget.autoFocus && this.itemInfo.length > 0 && !isFocusedDeep(this.el))
+      if (widget.autoFocus && this.itemInfo.length > 0 && !isFocusedDeep(this.el!))
          FocusManager.focusFirst(this.itemInfo[0].el);
       if (widget.overflow) {
          this.measureOverflow();
@@ -322,12 +335,13 @@ class MenuComponent extends VDOM.Component<MenuComponentProps, MenuComponentStat
       let { CSS, baseClass } = widget;
       if (!widget.overflow) return;
 
-      let spacerClass = CSS.element(baseClass, "spacer");
+      let spacerClass = CSS.element(baseClass, "spacer")!;
 
       let nonOverflownItemCount = 0;
       let fitItemsWidth = 0;
-      let children = Array.from(this.el.children);
+      let children = Array.from(this.el!.children);
       let widths = children.map((c) => {
+         if (!(c instanceof HTMLElement)) return 0;
          if (c.classList.contains(spacerClass)) return 0;
          let w = c.offsetWidth;
          let style = getComputedStyle(c);
@@ -337,7 +351,7 @@ class MenuComponent extends VDOM.Component<MenuComponentProps, MenuComponentStat
          if (isString(marginRight) && marginRight.endsWith("px")) w += parseFloat(marginRight);
          return w;
       });
-      let clientWidth = this.el.clientWidth;
+      let clientWidth = this.el!.clientWidth;
       let overflowWidth = widths[widths.length - 1];
       for (let i = 0; i < widths.length - 1; i++) {
          let overflowReduction = i == widths.length - 2 ? 0 : overflowWidth;
@@ -356,7 +370,7 @@ class MenuComponent extends VDOM.Component<MenuComponentProps, MenuComponentStat
             },
             () => {
                this.isMeasureOverflowDisabled = false;
-            }
+            },
          );
       }
    }
@@ -376,7 +390,7 @@ interface MenuItemComponentProps {
    itemInfo: any[];
    itemIndex: number;
    itemKey: any;
-   instance: Instance;
+   instance: MenuInstance;
    cursor: boolean;
    hidden: boolean;
    moveCursor: (itemKey: any) => void;
@@ -447,7 +461,7 @@ class MenuItemComponent extends VDOM.Component<MenuItemComponentProps, MenuItemC
       if (this.state.focusable) {
          let { itemInfo, itemIndex } = this.props;
          let el = itemInfo[itemIndex].el;
-         let focusableSubElement = closest(e.target, (domEl) => domEl === el || isFocusable(domEl));
+         let focusableSubElement = closest(e.target as Element, (domEl) => domEl === el || isFocusable(domEl));
          if (focusableSubElement == el) {
             //the user clicked on an unfocusable branch of elements
             //lets find a focusable child element and focus it
@@ -467,7 +481,7 @@ class MenuItemComponent extends VDOM.Component<MenuItemComponentProps, MenuItemC
 
    componentDidUpdate() {
       let { itemInfo, itemIndex, hidden } = this.props;
-      let focusable = !hidden && !!findFirst(this.el, isFocusable);
+      let focusable = !hidden && !!findFirst(this.el!, isFocusable);
       if (focusable !== this.state.focusable) {
          itemInfo[itemIndex].focusable = focusable;
          this.setState({ focusable: focusable });

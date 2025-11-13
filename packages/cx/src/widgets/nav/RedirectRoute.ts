@@ -1,13 +1,21 @@
-//@ts-nocheck
-import {Widget} from '../../ui/Widget';
-import {Route} from './Route';
-import {History} from '../../ui/app/History';
-import {Url} from '../../ui/app/Url';
-import {routeAppend} from "../../util/routeAppend";
+import { Widget } from '../../ui/Widget';
+import { RouteBase, RouteConfig } from './Route';
+import { History } from '../../ui/app/History';
+import { Url } from '../../ui/app/Url';
+import { routeAppend } from "../../util/routeAppend";
+import { StringProp } from "../../ui/Prop";
+import { RenderingContext } from "../../ui/RenderingContext";
+import { Instance } from "../../ui/Instance";
 
-export class RedirectRoute extends Route
-{
-   checkVisible(context, instance, data) {
+export interface RedirectRouteConfig extends RouteConfig {
+   /** Redirection URL. */
+   redirect?: StringProp;
+}
+
+export class RedirectRoute extends RouteBase<RedirectRouteConfig> {
+   declare redirect?: StringProp;
+
+   checkVisible(context: RenderingContext, instance: Instance, data: any) {
 
       if (!data.visible)
          return false;
@@ -24,8 +32,8 @@ export class RedirectRoute extends Route
       });
    }
 
-   prepareData(context, instance) {
-      super.prepareData(...arguments);
+   prepareData(context: RenderingContext, instance: Instance) {
+      super.prepareData(context, instance);
 
       var {data} = instance;
 

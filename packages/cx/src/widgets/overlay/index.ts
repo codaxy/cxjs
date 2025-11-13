@@ -1,4 +1,3 @@
-//@ts-nocheck
 export * from "./Overlay";
 export * from "./Dropdown";
 export * from "./tooltip-ops";

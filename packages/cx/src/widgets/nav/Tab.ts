@@ -1,10 +1,48 @@
-//@ts-nocheck
 import { Widget, VDOM } from "../../ui/Widget";
-import { HtmlElement } from "../HtmlElement";
+import { HtmlElement, HtmlElementConfig } from "../HtmlElement";
+import { Instance } from "../../ui/Instance";
+import { RenderingContext } from "../../ui/RenderingContext";
 import { preventFocusOnTouch } from "../../ui/FocusManager";
 import { isUndefined } from "../../util/isUndefined";
+import { BooleanProp, Prop, StringProp } from "../../ui/Prop";
 
-export class Tab extends HtmlElement {
+export interface TabConfig extends HtmlElementConfig {
+   /** A value to be written to the `value` property if the tab is clicked. */
+   tab?: Prop<string | number>;
+
+   /**
+    * Value of the currently selected tab.
+    * If `value` is equal to `tab`, the tab appears active.
+    */
+   value?: StringProp;
+
+   /** Set to `true` to disable selection. */
+   disabled?: BooleanProp;
+
+   /** Base CSS class to be applied to the element. No class is applied by default. */
+   baseClass?: string;
+
+   /** Name of the HTML element to be rendered. Default is `div`. */
+   tag?: string;
+
+   /**
+    * Determines if tab should receive focus on `mousedown` event.
+    * Default is `false`, which means that focus can be set only using the keyboard `Tab` key.
+    */
+   focusOnMouseDown?: boolean;
+
+   /** Set to true to set the default tab. */
+   default?: boolean;
+}
+
+export class Tab extends HtmlElement<TabConfig> {
+   declare public baseClass: string;
+   declare public tag: string;
+   declare public focusOnMouseDown: boolean;
+   declare public default: boolean;
+   declare public shape?: string;
+   declare public onMouseDown?: any;
+   declare public onClick?: any;
    declareData() {
       super.declareData(
          {
@@ -17,7 +55,7 @@ export class Tab extends HtmlElement {
       );
    }
 
-   prepareData(context, instance) {
+   prepareData(context: RenderingContext, instance: Instance) {
       let { data } = instance;
       data.stateMods = {
          active: data.tab == data.value,
@@ -28,7 +66,7 @@ export class Tab extends HtmlElement {
       super.prepareData(context, instance);
    }
 
-   isValidHtmlAttribute(attrName) {
+   isValidHtmlAttribute(attrName: string) {
       switch (attrName) {
          case "value":
          case "tab":
@@ -42,7 +80,7 @@ export class Tab extends HtmlElement {
       }
    }
 
-   attachProps(context, instance, props) {
+   attachProps(context: RenderingContext, instance: Instance, props: any) {
       super.attachProps(context, instance, props);
 
       let { data } = instance;
@@ -50,16 +88,16 @@ export class Tab extends HtmlElement {
          props.href = "#";
          delete props.value;
 
-         props.onMouseDown = (e) => {
+         props.onMouseDown = (e: any) => {
             if (this.onMouseDown) instance.invoke("onMouseDown", e, instance);
             preventFocusOnTouch(e);
          };
 
-         props.onClick = (e) => this.handleClick(e, instance);
+         props.onClick = (e: any) => this.handleClick(e, instance);
       }
    }
 
-   handleClick(e, instance) {
+   handleClick(e: any, instance: Instance) {
       if (this.onClick && instance.invoke("onClick", e, instance) === false) {
          return;
       }

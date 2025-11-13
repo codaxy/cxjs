@@ -8,16 +8,30 @@ import { RenderingContext } from "../../ui/RenderingContext";
 import { Instance } from "../../ui/Instance";
 
 export interface RouteConfig extends PureContainerConfig {
+   /** Url binding. Bind this to the global `url` variable. */
    url?: StringProp;
-   route: string;
+
+   /** Target route, e.g. `~/user/:userId`. All routes should start with `~/`. */
+   route?: string;
+
+   /** Target route, e.g. `~/user/:userId`. All routes should start with `~/`. */
    path?: string;
-   prefix?: BooleanProp;
+
+   /** Name used to expose local data. Defaults to `$route`. */
    recordName?: string;
+
+   /** Match route even if given `route` is only a prefix of the current `url`. */
+   prefix?: BooleanProp;
+
+   /** Parameters mapping */
    params?: Prop<any>;
+
+   /** Parameter name mapping */
    map?: Record<string, string>;
 }
 
-export class Route extends PureContainerBase<RouteConfig> {
+// Base class for extending with custom Config types
+export class RouteBase<Config extends RouteConfig = RouteConfig> extends PureContainerBase<Config> {
    declare url?: string;
    declare route: string;
    declare path?: string;
@@ -119,7 +133,10 @@ export class Route extends PureContainerBase<RouteConfig> {
    }
 }
 
-Route.prototype.recordName = "$route";
-Route.prototype.prefix = false;
+RouteBase.prototype.recordName = "$route";
+RouteBase.prototype.prefix = false;
+
+// Closed type for direct usage
+export class Route extends RouteBase<RouteConfig> {}
 
 Widget.alias("route", Route);

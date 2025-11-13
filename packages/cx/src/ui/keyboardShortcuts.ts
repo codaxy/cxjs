@@ -8,6 +8,8 @@ interface KeyDescriptor {
    altKey?: boolean;
 }
 
+export type KeyboardShortcut = number | KeyDescriptor;
+
 let subscribers: any, eventBan = 0;
 
 export function executeKeyboardShortcuts(e: KeyboardEvent) {

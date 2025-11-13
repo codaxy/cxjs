@@ -1,8 +1,8 @@
-//@ts-nocheck
+/** @jsxImportSource react */
 import {VDOM} from '../../ui/Widget';
 import {registerIcon} from './registry';
 
-export default registerIcon('loading', props => {
+export default registerIcon('loading', (props: any) => {
    let style = {
       animation: 'linear infinite 0.5s cx-rotate'
    };

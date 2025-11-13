@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { Dropdown } from "./Dropdown";
 import { getCursorPos } from "./captureMouse";
 

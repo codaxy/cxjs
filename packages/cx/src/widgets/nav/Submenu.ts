@@ -1,5 +1,4 @@
-//@ts-nocheck
-import {MenuItem} from './MenuItem';
+import { MenuItem } from './MenuItem';
 
 export class Submenu extends MenuItem {}
 

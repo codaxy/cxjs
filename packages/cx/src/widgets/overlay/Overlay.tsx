@@ -1,4 +1,4 @@
-//@ts-nocheck
+/** @jsxImportSource react */
 import { Widget, VDOM } from "../../ui/Widget";
 import { Container } from "../../ui/Container";
 import { startAppLoop } from "../../ui/app/startAppLoop";

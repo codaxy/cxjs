@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { Store } from "../../data/Store";
 import { SubscriberList } from "../../util/SubscriberList";
 import { Window } from "./Window";

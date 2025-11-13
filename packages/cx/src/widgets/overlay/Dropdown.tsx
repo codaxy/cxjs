@@ -1,4 +1,4 @@
-//@ts-nocheck
+/** @jsxImportSource react */
 import { Localization } from "../../ui/Localization";
 import { ResizeManager } from "../../ui/ResizeManager";
 import { Widget, VDOM } from "../../ui/Widget";

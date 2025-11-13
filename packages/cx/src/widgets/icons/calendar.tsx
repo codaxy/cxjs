@@ -1,8 +1,8 @@
-//@ts-nocheck
+/** @jsxImportSource react */
 import {VDOM} from '../../ui/Widget';
 import {registerIcon} from './registry';
 
-export default registerIcon('calendar', props => {
+export default registerIcon('calendar', (props: any) => {
    return <svg
       {...props}
       viewBox="0 0 32 32">

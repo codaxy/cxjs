@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { Widget } from "../../ui/Widget";
 import { VDOM } from "../../ui/VDOM";
 import { tooltipMouseMove, tooltipMouseLeave } from "./tooltip-ops";

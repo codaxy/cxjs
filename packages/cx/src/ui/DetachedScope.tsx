@@ -15,7 +15,15 @@ interface ContainmentStoreConfig extends SubscribableViewConfig {
 
 class ContainmentStore extends SubscribableView<any> {
    selector: any;
-   declare cache: { version: number; data?: any; result?: any; itemIndex?: number; key?: string; parentStoreData?: any; containedData?: any };
+   declare cache: {
+      version: number;
+      data?: any;
+      result?: any;
+      itemIndex?: number;
+      key?: string;
+      parentStoreData?: any;
+      containedData?: any;
+   };
 
    getData() {
       return this.store!.getData();
@@ -80,8 +88,9 @@ export class DetachedScope extends IsolatedScope<any, DetachedScopeInstance> {
          type: PureContainer,
          items: this.children || this.items,
       });
-      delete this.items;
+
       delete this.children;
+      this.items = [];
 
       if (this.name)
          this.options = {
