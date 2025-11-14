@@ -10,6 +10,7 @@ import { Overlay, OverlayBase, OverlayConfig, OverlayInstance } from "./Overlay"
 import { Instance } from "../../ui/Instance";
 import { StringProp } from "../../ui/Prop";
 import { RenderingContext } from "../../ui/RenderingContext";
+import { HtmlElement } from "../HtmlElement";
 
 /*
  Dropdown specific features:
@@ -61,7 +62,7 @@ export interface DropdownConfig extends OverlayConfig {
    firstChildDefinesWidth?: boolean;
 
    /** The dropdown will be automatically closed if the page is scrolled a certain distance. */
-   closeOnScrollDistance?: number;
+   closeOnScrollDistance: number;
 
    /** The element to position the dropdown relative to. */
    relatedElement?: Element;
@@ -94,11 +95,13 @@ export interface DropdownConfig extends OverlayConfig {
    cover?: boolean;
 }
 
-export class DropdownInstance<WidgetType extends DropdownBase = Dropdown> extends OverlayInstance<WidgetType> {
+export class DropdownInstance<
+   WidgetType extends DropdownBase<any, any> = Dropdown,
+> extends OverlayInstance<WidgetType> {
    mousePosition?: any;
    parentPositionChangeEvent?: any;
    initialScreenPosition?: any;
-   relatedElement?: Element;
+   relatedElement?: HTMLElement;
    needsBeacon?: boolean;
 }
 
@@ -112,18 +115,18 @@ export class DropdownBase<
    declare offset: number;
    declare matchWidth?: boolean;
    declare matchMaxWidth?: boolean;
-   declare placementOrder?: string;
+   declare placementOrder: string;
    declare placement?: StringProp | null;
    declare constrain?: boolean;
    declare positioning?: string;
    declare touchFriendly?: boolean;
    declare arrow?: boolean;
    declare elementExplode?: number;
-   declare screenPadding?: number;
+   declare screenPadding: number;
    declare firstChildDefinesHeight?: boolean;
    declare firstChildDefinesWidth?: boolean;
-   declare closeOnScrollDistance?: number;
-   declare relatedElement?: Element;
+   declare closeOnScrollDistance: number;
+   declare relatedElement?: HTMLElement;
    declare onResolveRelatedElement?: string | ((beaconEl: Element, instance: any) => Element);
    declare onMeasureNaturalContentSize?: string | ((el: Element, instance: any) => { width?: number; height?: number });
    declare onDropdownDidMount?: string;
@@ -168,7 +171,7 @@ export class DropdownBase<
 
    overlayDidMount(instance: InstanceType, component: any): void {
       super.overlayDidMount(instance, component);
-      var scrollableParents = (component.scrollableParents = [window]);
+      var scrollableParents: Element[] = (component.scrollableParents = [window]);
       component.updateDropdownPosition = (e: any) => this.updateDropdownPosition(instance, component);
 
       instance.initialScreenPosition = null;
@@ -235,34 +238,34 @@ export class DropdownBase<
       } else component.parentBounds = parentBounds;
 
       if (this.trackMouseX && instance.mousePosition) {
-         parentBounds = {
-            top: parentBounds.top,
-            bottom: parentBounds.bottom,
-            left: instance.mousePosition.x,
-            right: instance.mousePosition.x,
-         };
+         parentBounds = new DOMRect(
+            instance.mousePosition.x,
+            parentBounds.top,
+            0,
+            parentBounds.bottom - parentBounds.top,
+         );
       }
 
       if (this.trackMouseY && instance.mousePosition) {
-         parentBounds = {
-            left: parentBounds.left,
-            right: parentBounds.right,
-            top: instance.mousePosition.y,
-            bottom: instance.mousePosition.y,
-         };
+         parentBounds = new DOMRect(
+            parentBounds.left,
+            instance.mousePosition.y,
+            parentBounds.right - parentBounds.left,
+            0,
+         );
       }
 
       let explode = this.pad && typeof this.elementExplode === "number" ? this.elementExplode : 0;
       if (explode) {
-         parentBounds = {
-            left: Math.round(parentBounds.left - explode),
-            right: Math.round(parentBounds.right + explode),
-            top: Math.round(parentBounds.top - explode),
-            bottom: Math.round(parentBounds.bottom + explode),
-         };
+         parentBounds = new DOMRect(
+            Math.round(parentBounds.left - explode),
+            Math.round(parentBounds.top - explode),
+            Math.round(parentBounds.right - parentBounds.left + 2 * explode),
+            Math.round(parentBounds.bottom - parentBounds.top + 2 * explode),
+         );
       }
 
-      var style = {};
+      var style: any = {};
       if (this.matchWidth) style.minWidth = `${parentBounds.right - parentBounds.left}px`;
       if (this.matchMaxWidth) style.maxWidth = `${parentBounds.right - parentBounds.left}px`;
 
@@ -517,7 +520,14 @@ export class DropdownBase<
       }
    }
 
-   applyPositioningPlacementStyles(style: any, placement: string, contentSize: any, parentBounds: any, el: HTMLElement, noAuto: boolean): void {
+   applyPositioningPlacementStyles(
+      style: any,
+      placement: string,
+      contentSize: any,
+      parentBounds: any,
+      el: HTMLElement,
+      noAuto: boolean,
+   ): void {
       switch (this.positioning) {
          case "absolute":
             this.applyAbsolutePositioningPlacementStyles(style, placement, contentSize, parentBounds, el, noAuto);
@@ -581,7 +591,7 @@ export class DropdownBase<
       var best = lastPlacement || placement;
       var first;
 
-      var score = {};
+      var score: Record<string, number> = {};
       var viewport = getViewportRect();
 
       for (var i = 0; i < placementOrder.length; i++) {
@@ -653,10 +663,10 @@ export class DropdownBase<
       return best;
    }
 
-   handleKeyDown(e, instance) {
+   handleKeyDown(e: React.KeyboardEvent, instance: InstanceType) {
       switch (e.keyCode) {
          case 27: //esc
-            var focusable = findFirst(instance.relatedElement, isFocusable);
+            var focusable = findFirst(instance.relatedElement!, isFocusable);
             if (focusable) focusable.focus();
             e.stopPropagation();
             e.preventDefault();
@@ -666,7 +676,7 @@ export class DropdownBase<
       if (this.onKeyDown) instance.invoke("onKeyDown", e, instance);
    }
 
-   renderContents(context, instance) {
+   renderContents(context: RenderingContext, instance: InstanceType) {
       let { CSS, baseClass } = this;
       let result = [super.renderContents(context, instance)];
       if (this.arrow) {
@@ -678,7 +688,7 @@ export class DropdownBase<
       return result;
    }
 
-   render(context, instance, key) {
+   render(context: RenderingContext, instance: InstanceType, key: string) {
       let { CSS, baseClass } = this;
       //if relatedElement is not provided, a beacon is rendered to and used to resolve a nearby element as a target
       //if onResolveTarget doesn't provide another element, the beacon itself is used as a target
@@ -691,10 +701,10 @@ export class DropdownBase<
                key={`${key}-beacon`}
                className={CSS.element(baseClass, "beacon")}
                ref={(el) => {
-                  if (instance.relatedElement) return;
-                  let target = el;
+                  if (instance.relatedElement || !el) return;
+                  let target: HTMLElement | null = el;
                   if (this.onResolveRelatedElement) target = instance.invoke("onResolveRelatedElement", el, instance);
-                  else target = el.previousElementSibling;
+                  else target = el.previousElementSibling as HTMLElement;
                   if (!target) target = el;
                   if (target == el) instance.needsBeacon = true;
                   instance.relatedElement = target;
@@ -706,10 +716,13 @@ export class DropdownBase<
       return [beacon, instance.relatedElement && super.render(context, instance, key)];
    }
 
-   getOverlayContainer() {
+   getOverlayContainer(): HTMLElement {
       // this should be instance.relatedElement
       if (this.relatedElement) {
-         let container = closestParent(this.relatedElement, (el) => el.dataset && el.dataset.focusableOverlayContainer);
+         let container = closestParent(
+            this.relatedElement,
+            (el) => el.dataset && !!el.dataset.focusableOverlayContainer,
+         );
          if (container) return container;
       }
       return super.getOverlayContainer();

@@ -34,7 +34,9 @@ export function findFirstChild(el: Element, condition: (el: Element) => boolean)
    return null;
 }
 
-export function closest(el: Element | null, condition: (el: Element) => boolean): Element | null {
+export function closest(el: HTMLElement | null, condition: (el: HTMLElement) => boolean): HTMLElement | null;
+export function closest(el: Element | null, condition: (el: Element) => boolean): Element | null;
+export function closest(el: Element | null, condition: (el: any) => boolean): Element | null {
    while (el) {
       if (condition(el)) return el;
       el = el.parentElement;
@@ -42,7 +44,9 @@ export function closest(el: Element | null, condition: (el: Element) => boolean)
    return null;
 }
 
-export function closestParent(el: Element, condition: (el: Element) => boolean): Element | null {
+export function closestParent(el: HTMLElement, condition: (el: HTMLElement) => boolean): HTMLElement | null;
+export function closestParent(el: Element, condition: (el: HTMLElement) => boolean): HTMLElement | null;
+export function closestParent(el: Element, condition: (el: any) => boolean): HTMLElement | null {
    return el && closest(el.parentElement, condition);
 }
 
