@@ -171,7 +171,7 @@ export class DropdownBase<
 
    overlayDidMount(instance: InstanceType, component: any): void {
       super.overlayDidMount(instance, component);
-      var scrollableParents: Element[] = (component.scrollableParents = [window]);
+      var scrollableParents: Element[] = (component.scrollableParents = [window as any]);
       component.updateDropdownPosition = (e: any) => this.updateDropdownPosition(instance, component);
 
       instance.initialScreenPosition = null;
@@ -204,7 +204,7 @@ export class DropdownBase<
    overlayWillUnmount(instance: InstanceType, component: any): void {
       var { scrollableParents } = component;
       if (scrollableParents) {
-         scrollableParents.forEach((el: any) => {
+         scrollableParents.forEach((el: Element) => {
             el.removeEventListener("scroll", component.updateDropdownPosition);
          });
          delete component.scrollableParents;
