@@ -7,7 +7,7 @@ import { isArray } from "../util/isArray";
 import { exploreChildren } from "./layout/exploreChildren";
 import { Instance } from "./Instance";
 import { CxChild, RenderingContext } from "./RenderingContext";
-import { ClassProp, StyleProp } from "./Prop";
+import { ClassProp, ModProp, StyleProp } from "./Prop";
 
 export interface ContainerConfig extends WidgetConfig {
    /** Keep whitespace in text based children. Default is `false`. See also `trimWhitespace`. */
@@ -46,6 +46,12 @@ export interface StyledContainerConfig extends ContainerConfig {
 
    /** Style object applied to the element */
    styles?: StyleProp;
+
+   /** Base CSS class to be applied to the element. For example, value 'button' will add a class 'cxb-button' to the element. */
+   baseClass?: string;
+
+   /** Appearance modifier. For example, mod="big" will add the CSS class .cxm-big to the block element. */
+   mod?: ModProp;
 }
 
 // Base class for extending with custom Config types

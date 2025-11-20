@@ -1,5 +1,7 @@
 import { Dropdown } from "./Dropdown";
 import { getCursorPos } from "./captureMouse";
+import { View } from "../../data/View";
+import { Instance } from "../../ui/Instance";
 
 export class ContextMenu extends Dropdown {}
 ContextMenu.prototype.trackMouse = true;
@@ -12,7 +14,12 @@ ContextMenu.prototype.autoFocus = true;
 ContextMenu.prototype.autoFocusFirstChild = false;
 ContextMenu.prototype.focusable = true;
 
-export const openContextMenu = (e, content, storeOrInstance, options) => {
+export const openContextMenu = (
+   e: React.MouseEvent,
+   content: any,
+   storeOrInstance?: View | Instance,
+   options?: any,
+) => {
    e.preventDefault();
    e.stopPropagation();
    let position = getCursorPos(e);
@@ -25,5 +32,5 @@ export const openContextMenu = (e, content, storeOrInstance, options) => {
       trackMouse: true,
       items: content,
    });
-   menu.open(storeOrInstance, options);
+   return menu.open(storeOrInstance, options);
 };

@@ -1,7 +1,15 @@
 /** @jsxImportSource react */
 import { Widget, VDOM, getContent } from "../../ui/Widget";
-import { Overlay, OverlayBase, OverlayComponent, OverlayConfig, OverlayInstance } from "./Overlay";
-import { ContentPlaceholder } from "../../ui/layout/ContentPlaceholder";
+import {
+   Overlay,
+   OverlayBase,
+   OverlayComponent,
+   OverlayComponentProps,
+   OverlayComponentState,
+   OverlayConfig,
+   OverlayInstance,
+} from "./Overlay";
+import { ContentPlaceholder, ContentPlaceholderInstance } from "../../ui/layout/ContentPlaceholder";
 import { ZIndexManager } from "../../ui/ZIndexManager";
 import { Button } from "../Button";
 import { parseStyle } from "../../util/parseStyle";
@@ -60,7 +68,7 @@ export interface WindowConfig extends OverlayConfig {
    closeable?: BooleanProp;
 }
 
-export class WindowInstance extends OverlayInstance {
+export class WindowInstance extends OverlayInstance<Window> {
    headerEl?: HTMLElement;
    footerEl?: HTMLElement;
    bodyEl?: HTMLElement;
@@ -82,7 +90,7 @@ export class Window extends OverlayBase<WindowConfig, WindowInstance> {
    declare title?: StringProp;
    declare header?: any;
    declare footer?: any;
-   declare baseClass?: string;
+   declare baseClass: string;
 
    init() {
       if (isDefined(this.closeable)) this.closable = this.closeable;
@@ -96,8 +104,8 @@ export class Window extends OverlayBase<WindowConfig, WindowInstance> {
       super.init();
    }
 
-   declareData() {
-      return super.declareData(...arguments, {
+   declareData(...args: any) {
+      return super.declareData(...args, {
          title: undefined,
          closable: undefined,
          bodyStyle: { structured: true },
@@ -107,8 +115,8 @@ export class Window extends OverlayBase<WindowConfig, WindowInstance> {
       });
    }
 
-   initHelpers() {
-      return super.initHelpers(...arguments, {
+   initHelpers(...args: any) {
+      return super.initHelpers(...args, {
          header: Widget.create(this.header || { type: ContentPlaceholder, name: "header", scoped: true }),
          footer: Widget.create(this.footer || { type: ContentPlaceholder, name: "footer", scoped: true }),
          close:
@@ -128,10 +136,12 @@ export class Window extends OverlayBase<WindowConfig, WindowInstance> {
       super.exploreCleanup(context, instance);
 
       let { helpers } = instance;
-      let unregisterHeader = helpers.header && helpers.header.unregisterContentPlaceholder;
+      let unregisterHeader =
+         helpers!.header && (helpers!.header as ContentPlaceholderInstance).unregisterContentPlaceholder;
       if (unregisterHeader) unregisterHeader();
 
-      let unregisterFooter = helpers.footer && helpers.footer.unregisterContentPlaceholder;
+      let unregisterFooter =
+         helpers!.footer && (helpers!.footer as ContentPlaceholderInstance).unregisterContentPlaceholder;
       if (unregisterFooter) unregisterFooter();
    }
 
@@ -140,7 +150,7 @@ export class Window extends OverlayBase<WindowConfig, WindowInstance> {
       let result = [];
       if (data.title) result.push(data.title);
       if (instance.helpers) {
-         let header = getContent(instance.helpers.header && instance.helpers.header.render(context, key));
+         let header = getContent(instance.helpers.header && instance.helpers.header.render(context));
          if (header) result.push(header);
          if (data.closable && instance.helpers.close) result.push(getContent(instance.helpers.close.render(context)));
       }
@@ -148,7 +158,7 @@ export class Window extends OverlayBase<WindowConfig, WindowInstance> {
    }
 
    renderFooter(context: RenderingContext, instance: WindowInstance, key: string): any {
-      return getContent(instance.helpers && instance.helpers.footer && instance.helpers.footer.render(context, key));
+      return getContent(instance.helpers && instance.helpers.footer && instance.helpers.footer.render(context));
    }
 
    render(context: RenderingContext, instance: WindowInstance, key: string): any {
@@ -179,10 +189,24 @@ Window.prototype.pad = true;
 Widget.alias("window", Window);
 Localization.registerPrototype("cx/widgets/Window", Window);
 
-class WindowComponent extends OverlayComponent {
+interface WindowComponentProps extends OverlayComponentProps {
+   header: any[];
+   footer: any;
+   instance: WindowInstance;
+}
+
+interface WindowComponentState extends OverlayComponentState {
+   active?: boolean;
+}
+
+class WindowComponent extends OverlayComponent<WindowComponentProps, WindowComponentState> {
+   headerEl?: HTMLElement | null;
+   footerEl?: HTMLElement | null;
+   bodyEl?: HTMLElement | null;
+
    renderOverlayBody() {
       var { widget, data } = this.props.instance;
-      var { CSS, baseClass } = widget;
+      var { CSS, baseClass, pad } = widget;
 
       let header, footer;
 
@@ -228,7 +252,7 @@ class WindowComponent extends OverlayComponent {
             ref={(c) => {
                this.bodyEl = c;
             }}
-            className={CSS.expand(CSS.element(widget.baseClass, "body", { pad: widget.pad }), data.bodyClass)}
+            className={CSS.expand(CSS.element(baseClass, "body", { pad }), data.bodyClass)}
             style={data.bodyStyle}
          >
             {this.props.children}
@@ -247,7 +271,7 @@ class WindowComponent extends OverlayComponent {
    onFocusIn() {
       super.onFocusIn();
       if (!this.state.active) {
-         if (this.containerEl.contains(document.activeElement)) this.setZIndex(ZIndexManager.next());
+         if (this.containerEl!.contains(document.activeElement)) this.setZIndex(ZIndexManager.next());
          this.setState({ active: true });
       }
    }
@@ -261,14 +285,14 @@ class WindowComponent extends OverlayComponent {
       }
    }
 
-   onHeaderMouseDown(e) {
+   onHeaderMouseDown(e: any) {
       e.stopPropagation();
       ddMouseDown(e);
    }
 
-   onHeaderMouseMove(e) {
+   onHeaderMouseMove(e: any) {
       e.stopPropagation();
-      if (!this.props.instance.widget.fixed && ddDetect(e)) {
+      if (!(this.props.instance.widget as Window).fixed && ddDetect(e)) {
          this.startMoveOperation(e);
       }
    }

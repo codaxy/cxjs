@@ -15,7 +15,8 @@
       "Bash(yarn build2:*)",
       "WebFetch(domain:raw.githubusercontent.com)",
       "Bash(cat package.json)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(yarn check-types:*)"
     ],
     "deny": [],
     "ask": []

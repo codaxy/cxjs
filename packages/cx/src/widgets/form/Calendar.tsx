@@ -27,22 +27,6 @@ import { Field, getFieldTooltip, FieldInstance } from "./Field";
 import type { Instance } from "../../ui/Instance";
 import type { RenderingContext } from "../../ui/RenderingContext";
 
-interface CalendarCmpProps {
-   instance: FieldInstance<Calendar>;
-   handleSelect: (e: React.MouseEvent, date: Date) => void;
-}
-
-interface CalendarState {
-   hover: boolean;
-   focus: boolean;
-   cursor: Date;
-   activeView: string;
-   refDate: Date;
-   startDate: Date;
-   endDate: Date;
-   yearPickerHeight?: number;
-}
-
 export class Calendar extends Field {
    declare public baseClass: string;
    public unfocusable?: boolean;
@@ -223,6 +207,22 @@ const validationCheck = (date: Date, data: CalendarData, disabledDaysOfWeek?: nu
 
    return true;
 };
+
+interface CalendarCmpProps {
+   instance: FieldInstance<Calendar>;
+   handleSelect: (e: React.MouseEvent, date: Date) => void;
+}
+
+interface CalendarState {
+   hover: boolean;
+   focus: boolean;
+   cursor: Date;
+   activeView: string;
+   refDate: Date;
+   startDate: Date;
+   endDate: Date;
+   yearPickerHeight?: number;
+}
 
 export class CalendarCmp extends VDOM.Component<CalendarCmpProps, CalendarState> {
    el: HTMLElement | null = null;

@@ -1,5 +1,5 @@
 import { Widget, VDOM } from "../../ui/Widget";
-import { HtmlElement, HtmlElementConfig } from "../HtmlElement";
+import { HtmlElement, HtmlElementConfig, HtmlElementInstance } from "../HtmlElement";
 import { Instance } from "../../ui/Instance";
 import { RenderingContext } from "../../ui/RenderingContext";
 import { preventFocusOnTouch } from "../../ui/FocusManager";
@@ -51,11 +51,11 @@ export class Tab extends HtmlElement<TabConfig> {
             disabled: undefined,
             text: undefined,
          },
-         ...arguments
+         ...arguments,
       );
    }
 
-   prepareData(context: RenderingContext, instance: Instance) {
+   prepareData(context: RenderingContext, instance: HtmlElementInstance) {
       let { data } = instance;
       data.stateMods = {
          active: data.tab == data.value,
@@ -80,7 +80,7 @@ export class Tab extends HtmlElement<TabConfig> {
       }
    }
 
-   attachProps(context: RenderingContext, instance: Instance, props: any) {
+   attachProps(context: RenderingContext, instance: HtmlElementInstance, props: any) {
       super.attachProps(context, instance, props);
 
       let { data } = instance;

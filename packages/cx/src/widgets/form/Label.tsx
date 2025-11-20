@@ -1,7 +1,7 @@
 import type { RenderingContext } from "../../ui/RenderingContext";
 import type { Instance, RenderProps } from "../../ui/Instance";
 import { Widget, VDOM } from "../../ui/Widget";
-import { HtmlElement } from "../HtmlElement";
+import { HtmlElement, HtmlElementInstance } from "../HtmlElement";
 import { FocusManager } from "../../ui/FocusManager";
 import { isArray } from "../../util/isArray";
 import { coalesce } from "../../util/coalesce";
@@ -16,7 +16,7 @@ export class Label extends HtmlElement {
       });
    }
 
-   prepareData(context: RenderingContext, instance: Instance): void {
+   prepareData(context: RenderingContext, instance: HtmlElementInstance): void {
       let { data } = instance;
       data.stateMods = {
          ...data.stateMods,
@@ -56,7 +56,7 @@ export class Label extends HtmlElement {
       return super.isValidHtmlAttribute(attrName);
    }
 
-   attachProps(context: RenderingContext, instance: Instance, props: RenderProps): void {
+   attachProps(context: RenderingContext, instance: HtmlElementInstance, props: RenderProps): void {
       super.attachProps(context, instance, props);
 
       let { data } = instance;

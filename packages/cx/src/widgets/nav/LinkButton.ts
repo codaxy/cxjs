@@ -7,7 +7,7 @@ import { parseStyle } from "../../util/parseStyle";
 import { StringProp, StyleProp, ClassProp, Prop } from "../../ui/Prop";
 import { Instance } from "../../ui/Instance";
 import { RenderingContext } from "../../ui/RenderingContext";
-import { HtmlElementConfig } from "../HtmlElement";
+import { HtmlElementConfig, HtmlElementInstance } from "../HtmlElement";
 
 export interface LinkButtonConfig extends HtmlElementConfig {
    /** Confirmation text or configuration object. See MsgBox.yesNo for more details. */
@@ -110,7 +110,7 @@ export class LinkButton extends Button {
       );
    }
 
-   prepareData(context: RenderingContext, instance: Instance) {
+   prepareData(context: RenderingContext, instance: HtmlElementInstance) {
       let { data } = instance;
 
       data.unresolvedHref = data.href;
@@ -169,7 +169,7 @@ export class LinkButton extends Button {
       }
    }
 
-   attachProps(context: RenderingContext, instance: Instance, props: any) {
+   attachProps(context: RenderingContext, instance: HtmlElementInstance, props: any) {
       props.onClick = (ev: any) => {
          this.handleClick(ev, instance);
       };

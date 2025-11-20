@@ -54,6 +54,7 @@ export type ClassProp = Prop<string> | StructuredProp;
 export type RecordsProp = Prop<DataRecord[]>;
 export type SortersProp = Prop<Sorter[]>;
 export type UnknownProp = Prop<unknown>;
+export type ModProp = StringProp | StructuredProp;
 
 export type RecordAlias = string | { toString(): string };
 

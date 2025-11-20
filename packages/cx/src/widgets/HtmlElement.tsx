@@ -9,7 +9,9 @@ import {
    tooltipParentWillReceiveProps,
    tooltipParentDidMount,
    tooltipParentDidUpdate,
+   TooltipParentInstance,
 } from "./overlay/tooltip-ops";
+import type { TooltipInstance } from "./overlay/Tooltip";
 import { Url } from "../ui/app/Url";
 import { debug } from "../util/Debug";
 import { isString } from "../util/isString";
@@ -41,8 +43,12 @@ export interface HtmlElementConfig extends StyledContainerConfig {
    tooltip?: StringProp | TooltipConfig;
 }
 
-export class HtmlElementInstance<E extends HtmlElement<any, any> = HtmlElement<any, any>> extends Instance<E> {
+export class HtmlElementInstance<E extends HtmlElement<any, any> = HtmlElement<any, any>>
+   extends Instance<E>
+   implements TooltipParentInstance
+{
    events?: Record<string, (e: React.SyntheticEvent, instance: Instance) => any>;
+   tooltips: { [key: string]: TooltipInstance };
 }
 
 export class HtmlElement<
@@ -250,7 +256,7 @@ interface ContainerComponentProps {
    tag: string | React.ComponentType;
    props: RenderProps;
    children: React.ReactNode;
-   instance: Instance;
+   instance: HtmlElementInstance;
    data: WidgetData;
    key: string;
 }

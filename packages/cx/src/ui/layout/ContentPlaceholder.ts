@@ -4,6 +4,7 @@ import { PureContainerBase, PureContainerConfig } from "../PureContainer";
 import { RenderingContext } from "../RenderingContext";
 import { Widget } from "../Widget";
 import { StringProp } from "../Prop";
+import { Instance } from "../Instance";
 
 export interface ContentPlaceholderConfig extends PureContainerConfig {
    name?: StringProp;
@@ -12,7 +13,12 @@ export interface ContentPlaceholderConfig extends PureContainerConfig {
    allowMultiple?: boolean;
 }
 
-export class ContentPlaceholder extends PureContainerBase<ContentPlaceholderConfig> {
+export class ContentPlaceholderInstance extends Instance<ContentPlaceholder> {
+   content?: any;
+   unregisterContentPlaceholder?: () => void;
+}
+
+export class ContentPlaceholder extends PureContainerBase<ContentPlaceholderConfig, ContentPlaceholderInstance> {
    declare name?: string;
    declare scoped?: boolean;
    declare allowMultiple?: boolean;
@@ -23,7 +29,7 @@ export class ContentPlaceholder extends PureContainerBase<ContentPlaceholderConf
       });
    }
 
-   explore(context: RenderingContext, instance: any): void {
+   explore(context: RenderingContext, instance: ContentPlaceholderInstance): void {
       instance.content = null;
       let { data } = instance;
 
@@ -53,7 +59,7 @@ export class ContentPlaceholder extends PureContainerBase<ContentPlaceholderConf
       super.explore(context, instance);
    }
 
-   prepare(context: RenderingContext, instance: any): void {
+   prepare(context: RenderingContext, instance: ContentPlaceholderInstance): void {
       let { content } = instance;
       if (this.allowMultiple) {
          let contentId = "";
@@ -70,7 +76,7 @@ export class ContentPlaceholder extends PureContainerBase<ContentPlaceholderConf
          instance.markShouldUpdate(context);
    }
 
-   setContent(context: RenderingContext, instance: any, content: any): void {
+   setContent(context: RenderingContext, instance: ContentPlaceholderInstance, content: any): void {
       if (this.allowMultiple) {
          if (instance.content == null) instance.content = [];
          instance.content.push(content);
@@ -78,7 +84,7 @@ export class ContentPlaceholder extends PureContainerBase<ContentPlaceholderConf
       content.contentPlaceholder = instance;
    }
 
-   render(context: RenderingContext, instance: any, key: any): any {
+   render(context: RenderingContext, instance: ContentPlaceholderInstance, key: any): any {
       const { content } = instance;
       if (!content) return super.render(context, instance, key);
       if (this.allowMultiple) return content.map((x: any) => x.contentVDOM);

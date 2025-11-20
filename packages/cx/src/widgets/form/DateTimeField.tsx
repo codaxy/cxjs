@@ -139,7 +139,7 @@ export class DateTimeField extends Field {
       super.prepareData(context, instance);
    }
 
-   validate(context: RenderingContext, instance: FieldInstance<DateTimeField>): void{
+   validate(context: RenderingContext, instance: FieldInstance<DateTimeField>): void {
       super.validate(context, instance);
       let { data, widget } = instance;
       let dateTimeWidget = widget as DateTimeField;
@@ -353,10 +353,7 @@ class DateTimeInput extends VDOM.Component<DateTimeInputProps, DateTimeInputStat
       let insideButton, icon;
 
       if (!data.readOnly && !data.disabled) {
-         if (
-            showClear &&
-            (((alwaysShowClear || !data.required) && !data.empty) || instance.state?.inputError)
-         )
+         if (showClear && (((alwaysShowClear || !data.required) && !data.empty) || instance.state?.inputError))
             insideButton = (
                <div
                   className={CSS.element(baseClass, "clear")}
@@ -448,7 +445,6 @@ class DateTimeInput extends VDOM.Component<DateTimeInputProps, DateTimeInputStat
    onMouseDown(e: React.MouseEvent): void {
       e.stopPropagation();
       let { widget } = this.props.instance;
-      let dateTimeWidget = widget as DateTimeField;
 
       if (this.state.dropdownOpen) {
          this.closeDropdown(e);
@@ -461,7 +457,7 @@ class DateTimeInput extends VDOM.Component<DateTimeInputProps, DateTimeInputStat
          e.preventDefault();
 
          //the field should not focus only in case when dropdown will open and autofocus
-         if (dateTimeWidget.focusInputFirst || this.state.dropdownOpen) this.input.focus();
+         if (widget.focusInputFirst || this.state.dropdownOpen) this.input.focus();
 
          if (this.state.dropdownOpen) this.closeDropdown(e);
          else this.openDropdown();
@@ -471,19 +467,18 @@ class DateTimeInput extends VDOM.Component<DateTimeInputProps, DateTimeInputStat
    onFocus(e: React.FocusEvent): void {
       let { instance } = this.props;
       let { widget } = instance;
-      let dateTimeWidget = widget as DateTimeField;
 
-      if (dateTimeWidget.trackFocus) {
+      if (widget.trackFocus) {
          this.setState({
             focus: true,
          });
       }
-      if (this.openDropdownOnFocus || dateTimeWidget.focusInputFirst) this.openDropdown();
+      if (this.openDropdownOnFocus || widget.focusInputFirst) this.openDropdown();
    }
 
    onKeyDown(e: React.KeyboardEvent): void {
       let { instance } = this.props;
-      if ((instance.widget as DateTimeField).handleKeyDown(e, instance) === false) return;
+      if (instance.widget.handleKeyDown(e, instance) === false) return;
 
       switch (e.keyCode) {
          case KeyCode.enter:

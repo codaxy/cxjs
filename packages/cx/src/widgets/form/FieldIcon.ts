@@ -1,12 +1,24 @@
-import { Widget } from "../../ui/Widget";
+import { Widget, WidgetConfig } from "../../ui/Widget";
 import { Icon } from "../Icon";
-import { tooltipMouseLeave, tooltipMouseMove, TooltipConfig } from "../overlay/tooltip-ops";
+import { tooltipMouseLeave, tooltipMouseMove, TooltipConfig, TooltipParentInstance } from "../overlay/tooltip-ops";
 import type { RenderingContext } from "../../ui/RenderingContext";
-import type { Instance } from "../../ui/Instance";
+import { Instance } from "../../ui/Instance";
+import type { TooltipInstance } from "../overlay/Tooltip";
+import { StringProp } from "../../ui/Prop";
+
+export interface FieldIconConfig extends WidgetConfig {
+   onClick?: (e: MouseEvent, instance: FieldIconInstance) => void;
+   tooltip?: TooltipConfig;
+   name: StringProp;
+}
+
+export class FieldIconInstance extends Instance<FieldIcon> implements TooltipParentInstance {
+   tooltips: { [key: string]: TooltipInstance };
+}
 
 export class FieldIcon extends Widget {
-   onClick?: (e: MouseEvent, instance: Instance) => void;
-   tooltip?: TooltipConfig;
+   declare onClick?: (e: MouseEvent, instance: FieldIconInstance) => void;
+   declare tooltip?: TooltipConfig;
 
    declareData(...args: Record<string, unknown>[]): void {
       super.declareData(...args, {
@@ -14,7 +26,7 @@ export class FieldIcon extends Widget {
       });
    }
 
-   render(context: RenderingContext, instance: Instance, key: string): React.ReactNode {
+   render(context: RenderingContext, instance: FieldIconInstance, key: string): React.ReactNode {
       let { data } = instance;
       if (!data.name) return null;
 
@@ -29,10 +41,10 @@ export class FieldIcon extends Widget {
 
       if (this.tooltip) {
          onMouseLeave = (e: React.MouseEvent) => {
-            tooltipMouseLeave(e, instance, this.tooltip!);
+            tooltipMouseLeave(e, instance, this.tooltip!, {});
          };
          onMouseMove = (e: React.MouseEvent) => {
-            tooltipMouseMove(e, instance, this.tooltip!);
+            tooltipMouseMove(e, instance, this.tooltip!, {});
          };
       }
 

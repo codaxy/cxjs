@@ -1,10 +1,10 @@
 /** @jsxImportSource react */
 import { isBinding, isBindingObject } from "../../data/Binding";
 import { startAppLoop } from "../../ui/app/startAppLoop";
-import { ContainerBase, ContainerConfig } from "../../ui/Container";
+import { ContainerBase, ContainerConfig, StyledContainerConfig } from "../../ui/Container";
 import { FocusManager, offFocusOut, oneFocusOut } from "../../ui/FocusManager";
 import { Instance } from "../../ui/Instance";
-import { BooleanProp, NumberProp } from "../../ui/Prop";
+import { BooleanProp, ModProp, NumberProp } from "../../ui/Prop";
 import { RenderingContext } from "../../ui/RenderingContext";
 import { VDOM, Widget } from "../../ui/Widget";
 import { ZIndexManager } from "../../ui/ZIndexManager";
@@ -29,7 +29,7 @@ import { captureMouseOrTouch } from "./captureMouse";
  - stop mouse events from bubbling to parents, but allow keystrokes
  */
 
-export interface OverlayConfig extends ContainerConfig {
+export interface OverlayConfig extends StyledContainerConfig {
    /** Set to `true` to enable resizing. */
    resizable?: BooleanProp;
 
@@ -169,6 +169,11 @@ export class OverlayBase<
    declare style?: any;
    declare pad?: boolean;
 
+   // Overload create to return Overlay type instead of any
+   public static create(typeAlias?: any, config?: any, more?: any): Overlay {
+      return super.create(typeAlias, config, more) as Overlay;
+   }
+
    init() {
       if (this.center) this.centerX = this.centerY = this.center;
 
@@ -300,7 +305,7 @@ export class OverlayBase<
       return el;
    }
 
-   open(storeOrInstance: any, options?: any): any {
+   open(storeOrInstance: any, options?: any): () => void {
       if (!this.initialized) this.init();
 
       let el = this.containerFactory();
@@ -441,20 +446,23 @@ class OverlayContent extends VDOM.Component<OverlayContentProps, {}> {
    }
 }
 
-interface OverlayComponentProps {
+export interface OverlayComponentProps {
    instance: OverlayInstance;
    parentEl?: HTMLElement;
    subscribeToBeforeDismiss?: (cb: () => boolean) => void;
    children: any;
 }
 
-interface OverlayComponentState {
+export interface OverlayComponentState {
    animated?: boolean;
-   mods?: any;
+   mods?: Record<string, boolean>;
 }
 
 //TODO: This should be called OverlayPortal
-export class OverlayComponent extends VDOM.Component<OverlayComponentProps, OverlayComponentState> {
+export class OverlayComponent<
+   Props extends OverlayComponentProps = OverlayComponentProps,
+   State extends OverlayComponentState = OverlayComponentState,
+> extends VDOM.Component<Props, State> {
    el?: HTMLElement | null;
    containerEl?: HTMLElement | null;
    ownedEl?: HTMLElement | null;
@@ -466,9 +474,9 @@ export class OverlayComponent extends VDOM.Component<OverlayComponentProps, Over
    unsubscribeWheelBlock?: () => void;
    customStyle: any;
 
-   constructor(props: OverlayComponentProps) {
+   constructor(props: Props) {
       super(props);
-      this.state = {};
+      this.state = {} as State;
       this.customStyle = {};
    }
 
@@ -897,8 +905,8 @@ export class OverlayComponent extends VDOM.Component<OverlayComponentProps, Over
       };
    }
 
-   setCSSState(mods: any) {
-      let m = { ...this.state.mods };
+   setCSSState(mods: Record<string, boolean>) {
+      let m: Record<string, boolean> = { ...this.state.mods };
       let changed = false;
       for (let k in mods)
          if (m[k] !== mods[k]) {

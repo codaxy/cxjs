@@ -1,37 +1,55 @@
+import { Instance } from "../../ui/Instance";
+import { RenderingContext } from "../../ui/RenderingContext";
 import { Widget } from "../../ui/Widget";
-import { VDOM } from "../../ui/VDOM";
-import { tooltipMouseMove, tooltipMouseLeave } from "./tooltip-ops";
-import { closest, isObject } from "../../util";
+import { closest } from "../../util";
+import type { TooltipInstance } from "./Tooltip";
+import { tooltipMouseLeave, tooltipMouseMove, TooltipParentInstance, TooltipProp } from "./tooltip-ops";
+
+export interface FlyweightTooltipTrackerConfig {
+   onGetTooltip?: (element: Element, instance: Instance) => TooltipProp;
+}
+
+export class FlyweightTooltipTrackerInstance
+   extends Instance<FlyweightTooltipTracker>
+   implements TooltipParentInstance
+{
+   lastTarget?: EventTarget | null;
+   tooltip?: TooltipProp;
+   parentEl?: Element;
+   tooltips: { [key: string]: TooltipInstance };
+}
 
 export class FlyweightTooltipTracker extends Widget {
-   initInstance(context, instance) {
-      let handler = (e) => this.handleMouseMove(e, instance);
+   declare onGetTooltip?: (element: Element, instance: Instance) => TooltipProp | undefined;
+
+   initInstance(context: RenderingContext, instance: FlyweightTooltipTrackerInstance): void {
+      let handler = (e: MouseEvent) => this.handleMouseMove(e, instance);
       document.addEventListener("mousemove", handler);
       instance.subscribeOnDestroy(() => {
          document.removeEventListener("mousemove", handler);
       });
    }
 
-   render(context, instance, key) {
+   render(context: RenderingContext, instance: FlyweightTooltipTrackerInstance, key: string): any {
       return null;
    }
 
-   handleMouseMove(e, instance) {
+   handleMouseMove(e: MouseEvent, instance: FlyweightTooltipTrackerInstance): void {
       if (!this.onGetTooltip) return;
-      let parentEl, tooltip;
+      let parentEl: Element | null, tooltip: TooltipProp | undefined;
       if (instance.lastTarget == e.target) return;
 
       instance.lastTarget = e.target;
-      parentEl = closest(e.target, (element) => {
+      parentEl = closest(e.target as Element, (element: Element) => {
          tooltip = instance.invoke("onGetTooltip", element, instance);
-         if (tooltip) return true;
+         return !!tooltip;
       });
 
-      if (!parentEl) tooltipMouseLeave(e, instance, instance.tooltip, { target: instance.parentEl });
+      if (!parentEl) tooltipMouseLeave(e, instance, instance.tooltip!, { target: instance.parentEl });
       else {
          instance.tooltip = tooltip;
          instance.parentEl = parentEl;
-         tooltipMouseMove(e, instance, instance.tooltip, {
+         tooltipMouseMove(e, instance, instance.tooltip!, {
             target: parentEl,
          });
       }

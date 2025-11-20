@@ -62,7 +62,7 @@ export interface DropdownConfig extends OverlayConfig {
    firstChildDefinesWidth?: boolean;
 
    /** The dropdown will be automatically closed if the page is scrolled a certain distance. */
-   closeOnScrollDistance: number;
+   closeOnScrollDistance?: number;
 
    /** The element to position the dropdown relative to. */
    relatedElement?: Element;

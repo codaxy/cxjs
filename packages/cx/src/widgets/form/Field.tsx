@@ -1,4 +1,4 @@
-import { TooltipConfig } from "../overlay/tooltip-ops";
+import { TooltipConfig, TooltipOptions, TooltipParentInstance } from "../overlay/tooltip-ops";
 import { isSelector } from "../../data/isSelector";
 import { FocusManager } from "../../ui/FocusManager";
 import { Instance, PartialInstance } from "../../ui/Instance";
@@ -19,6 +19,7 @@ import { HelpText } from "./HelpText";
 import { Label } from "./Label";
 import { ValidationError } from "./ValidationError";
 import { BooleanProp, Prop, StringProp, StyleProp } from "../../ui/Prop";
+import type { TooltipInstance } from "../overlay";
 
 export interface FieldConfig extends PureContainerConfig {
    inputStyle?: StyleProp;
@@ -50,13 +51,17 @@ export interface FieldConfig extends PureContainerConfig {
    trackFocus?: BooleanProp;
 }
 
-export class FieldInstance<F extends Field<any, any> = Field<any, any>> extends Instance<F> {
+export class FieldInstance<F extends Field<any, any> = Field<any, any>>
+   extends Instance<F>
+   implements TooltipParentInstance
+{
    declare state: Record<string, any>;
    parentDisabled?: boolean;
    parentReadOnly?: boolean;
    parentViewMode?: string;
    parentTabOnEnterKey?: boolean;
    parentVisited?: boolean;
+   tooltips: { [key: string]: TooltipInstance };
 }
 
 export class Field<
@@ -518,7 +523,7 @@ Localization.registerPrototype("cx/widgets/Field", Field);
 
 export function getFieldTooltip(
    instance: FieldInstance<any>,
-): [Instance, TooltipConfig, Record<string, unknown> | undefined] {
+): [FieldInstance<any>, TooltipConfig, TooltipOptions | undefined] {
    let { widget, data, state } = instance;
 
    if (widget.errorTooltip && data.error && (!state || state.visited || !widget.suppressErrorsUntilVisited))

@@ -1,7 +1,7 @@
 /** @jsxImportSource react */
 import { Widget, VDOM } from "../../ui/Widget";
 import { Cx } from "../../ui/Cx";
-import { HtmlElement, HtmlElementConfig } from "../HtmlElement";
+import { HtmlElement, HtmlElementConfig, HtmlElementInstance } from "../HtmlElement";
 import { Instance } from "../../ui/Instance";
 import { RenderingContext } from "../../ui/RenderingContext";
 import { findFirstChild, isFocusable, isSelfOrDescendant, closest, isFocusedDeep, isFocused } from "../../util/DOM";
@@ -63,7 +63,7 @@ export interface MenuItemConfig extends HtmlElementConfig {
    dropdown?: any;
 }
 
-export class MenuItemInstance extends Instance<MenuItem> {
+export class MenuItemInstance extends HtmlElementInstance<MenuItem> {
    horizontal?: boolean;
    padding?: string;
    icons?: boolean;

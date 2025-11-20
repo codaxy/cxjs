@@ -1,6 +1,6 @@
 /** @jsxImportSource react */
 import { Widget, VDOM } from "../../ui/Widget";
-import { HtmlElement, HtmlElementConfig } from "../HtmlElement";
+import { HtmlElement, HtmlElementConfig, HtmlElementInstance } from "../HtmlElement";
 import { findFirst, isFocusable, getFocusedElement, isSelfOrDescendant, closest, isFocusedDeep } from "../../util/DOM";
 import { KeyCode } from "../../util/KeyCode";
 import { debug, menuFlag } from "../../util/Debug";
@@ -148,7 +148,7 @@ Menu.prototype.overflowIcon = "drop-down";
 Menu.Item = MenuItem;
 Menu.Spacer = MenuSpacer;
 
-export class MenuInstance extends Instance<Menu> {
+export class MenuInstance extends HtmlElementInstance<Menu> {
    nonOverflownItemCount?: number;
 }
 

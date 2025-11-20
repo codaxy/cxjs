@@ -1,7 +1,7 @@
 /** @jsxImportSource react */
 
 import { Widget, VDOM, getContent } from "../../ui/Widget";
-import { HtmlElement } from "../HtmlElement";
+import { HtmlElement, HtmlElementInstance } from "../HtmlElement";
 import { Field, getFieldTooltip, FieldInstance } from "./Field";
 import {
    tooltipParentWillReceiveProps,
@@ -44,7 +44,7 @@ export class Select<Config extends SelectConfig = SelectConfig> extends Field<Co
    public multiple!: boolean;
    public convertValues!: boolean;
    public nullString!: string;
-   
+
    declareData(...args: Record<string, unknown>[]): void {
       super.declareData(
          {
@@ -303,13 +303,13 @@ export class Option extends HtmlElement {
       );
    }
 
-   prepareData(context: RenderingContext, instance: Instance): void {
+   prepareData(context: RenderingContext, instance: HtmlElementInstance): void {
       super.prepareData(context, instance);
       const { data } = instance;
       if (!data.empty) data.value = data.value.toString();
    }
 
-   render(context: RenderingContext, instance: Instance, key: string): React.ReactNode {
+   render(context: RenderingContext, instance: HtmlElementInstance, key: string): React.ReactNode {
       const { data } = instance;
       return (
          <option key={key} value={data.value}>

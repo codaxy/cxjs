@@ -7,50 +7,25 @@ import { ReadOnlyDataView } from "../../data/ReadOnlyDataView";
 import { isTouchEvent } from "../../util/isTouchEvent";
 import { shallowEquals } from "../../util/shallowEquals";
 import { isSelector } from "../../data/isSelector";
-import { wireTooltipOps } from "./tooltip-ops";
+import { TooltipConfig, TooltipParentInstance, TooltipProp, wireTooltipOps } from "./tooltip-ops";
 import { getCursorPos } from "./captureMouse";
 import { RenderingContext } from "../../ui/RenderingContext";
 import { StringProp, BooleanProp } from "../../ui/Prop";
-
-export interface TooltipConfig extends DropdownConfig {
-   /** Text to be displayed inside the tooltip. */
-   text?: StringProp;
-
-   /** Text to be displayed in the header. */
-   title?: StringProp;
-
-   /** Set to true to make the tooltip always visible. */
-   alwaysVisible?: BooleanProp;
-
-   /** Base CSS class to be applied to the field. Defaults to 'tooltip'. */
-   baseClass?: string;
-
-   /** Set to `true` to append the set `animate` state after the initial render. */
-   animate?: boolean;
-
-   /** Set to `true` to make the tooltip follow the mouse movement. */
-   trackMouse?: boolean;
-
-   trackMouseX?: boolean;
-   trackMouseY?: boolean;
-
-   /** This property controls how tooltips behave on touch events. */
-   touchBehavior?: string;
-
-   /** Set to true to rely on browser's window mousemove event for getting mouse coordinates. */
-   globalMouseTracking?: boolean;
-}
+import { Instance } from "../../ui/Instance";
 
 export class TooltipInstance extends DropdownInstance<Tooltip> {
    tooltipComponent?: any;
    parentValidityCheckTimer?: NodeJS.Timeout;
    mouseOverTooltip?: boolean;
    mouseOverTarget?: boolean;
-   trackMouse?: (e: any) => void;
+   trackMouse?: (e: MouseEvent) => void;
    dismissTooltip?: (() => void) | null;
-   tooltipName?: string;
+   declare tooltipName: string;
    lastClickTime?: number;
-   config?: any;
+   config?: TooltipConfig;
+   update?: () => void;
+   declare store: ReadOnlyDataView;
+   declare parent: Instance & TooltipParentInstance;
 }
 
 export class TooltipBase<
@@ -207,15 +182,26 @@ TooltipBase.prototype.globalMouseTracking = false;
 export class Tooltip extends TooltipBase {}
 Widget.alias("tooltip", Tooltip);
 
-export function getTooltipInstance(e, parentInstance, tooltip, options = {}) {
-   let target = options.target || (e && e.currentTarget) || e;
+interface TooltipHelperOptions {
+   target?: HTMLElement;
+   tooltipName?: string;
+   data?: any;
+}
+
+export function getTooltipInstance(
+   e: MouseEvent | Element,
+   parentInstance: Instance<any> & TooltipParentInstance,
+   tooltip: TooltipProp | undefined,
+   options: TooltipHelperOptions = {},
+) {
+   let target = options.target || (e instanceof Element ? e : e.currentTarget) || e;
 
    debug(tooltipsFlag, "mouse-move", target, parentInstance);
 
    let name = options.tooltipName || "tooltip";
 
    if (!parentInstance.tooltips) parentInstance.tooltips = {};
-   let tooltipInstance = parentInstance.tooltips[name];
+   let tooltipInstance: TooltipInstance | null = parentInstance.tooltips[name] || null;
 
    //no tooltips on disabled elements
    if (parentInstance?.data.disabled) {
@@ -237,30 +223,39 @@ export function getTooltipInstance(e, parentInstance, tooltip, options = {}) {
    if (!tooltip || !target) return;
 
    if (!tooltipInstance) {
-      let config = tooltip;
-      if (isSelector(tooltip)) {
+      let config: TooltipConfig = tooltip as TooltipConfig;
+      if (!isTooltipConfig(tooltip)) {
          config = {
-            text: tooltip,
+            text: tooltip as StringProp,
          };
       }
       let tooltipWidget = Tooltip.create({ relatedElement: target }, config);
       let store = new ReadOnlyDataView({
          store: parentInstance.store,
       });
-      tooltipInstance = parentInstance.tooltips[name] = parentInstance.getDetachedChild(tooltipWidget, name, store);
-      tooltipInstance.config = tooltip;
+      tooltipInstance = parentInstance.tooltips[name] = parentInstance.getDetachedChild(
+         tooltipWidget,
+         name,
+         store,
+      ) as TooltipInstance;
+      tooltipInstance.config = config;
       tooltipInstance.tooltipName = name;
       tooltipInstance.init(new RenderingContext());
 
-      if (tooltip.alwaysVisible || tooltip.trackMouse || tooltip.trackMouseX || tooltip.trackMouseY) {
-         tooltipInstance.data = tooltipInstance.dataSelector(store);
+      if (config.alwaysVisible || config.trackMouse || config.trackMouseX || config.trackMouseY) {
+         tooltipInstance.data = tooltipInstance.dataSelector!(store);
       }
    }
 
    return tooltipInstance;
 }
 
-function tooltipMouseMove(e, parentInstance, tooltip, options = {}) {
+function tooltipMouseMove(
+   e: MouseEvent | Element,
+   parentInstance: Instance<any> & TooltipParentInstance,
+   tooltip: TooltipProp | undefined,
+   options: TooltipHelperOptions = {},
+) {
    let instance = getTooltipInstance(e, parentInstance, tooltip, options);
    if (!instance) return;
 
@@ -280,7 +275,7 @@ function tooltipMouseMove(e, parentInstance, tooltip, options = {}) {
          dismiss();
       });
       instance.dismissTooltip = () => {
-         if (instance.parent.tooltips[instance.tooltipName] === instance)
+         if (instance.parent.tooltips![instance.tooltipName] === instance)
             delete instance.parent.tooltips[instance.tooltipName];
          unsubscribeDismiss();
          dismiss();
@@ -289,9 +284,9 @@ function tooltipMouseMove(e, parentInstance, tooltip, options = {}) {
       instance.lastClickTime = Date.now();
       setTimeout(() => {
          let { relatedElement } = instance.widget;
-         if (!canceled && instance.mouseOverTarget && relatedElement.ownerDocument.body.contains(relatedElement)) {
+         if (!canceled && instance.mouseOverTarget && relatedElement!.ownerDocument.body.contains(relatedElement!)) {
             dismiss = instance.widget.open(instance, {
-               onPipeUpdate: (cb) => {
+               onPipeUpdate: (cb: () => void) => {
                   instance.update = cb;
                },
             });
@@ -310,10 +305,26 @@ function tooltipMouseMove(e, parentInstance, tooltip, options = {}) {
       } else if (dirty && instance.update) instance.update();
    }
 
-   if (instance.trackMouse && e && e.target) instance.trackMouse(e);
+   if (instance.trackMouse && isMouseEvent(e)) instance.trackMouse(e);
 }
 
-function tooltipMouseLeave(e, parentInstance, tooltip, options) {
+function isMouseEvent(e: MouseEvent | Element): e is MouseEvent {
+   if (e instanceof Element) return false;
+   return !!e;
+}
+
+function isTooltipConfig(tooltip: TooltipProp | undefined): tooltip is TooltipConfig {
+   if (!tooltip) return false;
+   if (isSelector(tooltip)) return false;
+   return true;
+}
+
+function tooltipMouseLeave(
+   e: MouseEvent | Element,
+   parentInstance: Instance<any> & TooltipParentInstance,
+   tooltip: TooltipProp | undefined,
+   options?: TooltipHelperOptions,
+) {
    let instance = getTooltipInstance(e, parentInstance, tooltip, options);
 
    // do not process leave events twice even if called multiple times
@@ -323,14 +334,24 @@ function tooltipMouseLeave(e, parentInstance, tooltip, options) {
    }
 }
 
-function tooltipParentDidMount(element, parentInstance, tooltip, options) {
-   if (tooltip && tooltip.alwaysVisible) {
+function tooltipParentDidMount(
+   element: Element,
+   parentInstance: Instance<any> & TooltipParentInstance,
+   tooltip: TooltipProp | undefined,
+   options?: TooltipHelperOptions,
+) {
+   if (isTooltipConfig(tooltip) && tooltip.alwaysVisible) {
       let instance = getTooltipInstance(element, parentInstance, tooltip, options);
       if (instance && instance.data.alwaysVisible) tooltipMouseMove(element, parentInstance, tooltip, options);
    }
 }
 
-function tooltipParentWillReceiveProps(element, parentInstance, tooltip, options) {
+function tooltipParentWillReceiveProps(
+   element: Element,
+   parentInstance: Instance<any> & TooltipParentInstance,
+   tooltip: TooltipProp | undefined,
+   options?: TooltipHelperOptions,
+) {
    let instance = getTooltipInstance(element, parentInstance, tooltip, options);
    if (instance && options) {
       instance.store.setData(options.data);
@@ -340,17 +361,21 @@ function tooltipParentWillReceiveProps(element, parentInstance, tooltip, options
    }
 }
 
-function tooltipParentWillUnmount(parentInstance) {
+function tooltipParentWillUnmount(parentInstance: Instance<any> & TooltipParentInstance) {
    if (parentInstance.tooltips) {
       for (let name in parentInstance.tooltips) {
          let instance = parentInstance.tooltips[name];
          instance.mouseOverTarget = false;
-         if (instance.dismissTooltip) parentInstance.tooltips[name].dismissTooltip();
+         if (instance.dismissTooltip) instance.dismissTooltip();
       }
    }
 }
 
-function tooltipParentDidUpdate(element, parentInstance, tooltip) {
+function tooltipParentDidUpdate(
+   element: HTMLElement,
+   parentInstance: Instance<any> & TooltipParentInstance,
+   tooltip: TooltipProp | undefined,
+) {
    let instance = getTooltipInstance(element, parentInstance, tooltip);
    if (instance && instance.visible && instance.data?.alwaysVisible && instance.tooltipComponent)
       instance.widget.updateDropdownPosition(instance, instance.tooltipComponent);

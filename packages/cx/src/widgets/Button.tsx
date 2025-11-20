@@ -1,5 +1,5 @@
 import { Widget, VDOM, getContentArray } from "../ui/Widget";
-import { HtmlElement } from "./HtmlElement";
+import { HtmlElement, HtmlElementConfig, HtmlElementInstance } from "./HtmlElement";
 import { yesNo } from "./overlay/alerts";
 import { Icon } from "./Icon";
 import { preventFocus } from "../ui/FocusManager";
@@ -9,6 +9,7 @@ import { coalesce } from "../util/coalesce";
 import type { RenderingContext } from "../ui/RenderingContext";
 import type { Instance, WidgetData, RenderProps } from "../ui/Instance";
 import { YesNoResult } from "../ui/Instance";
+import { BooleanProp, StringProp, Prop, ModProp } from "../ui/Prop";
 
 interface ButtonData extends WidgetData {
    pressed?: boolean;
@@ -17,12 +18,65 @@ interface ButtonData extends WidgetData {
    enabled?: boolean;
 }
 
-export class Button extends HtmlElement {
-   public icon?: boolean | string;
-   public focusOnMouseDown?: boolean;
-   public submit?: boolean;
-   public dismiss?: boolean;
-   public onMouseDown?: string | ((e: MouseEvent, instance: Instance) => void);
+export interface ButtonConfig extends HtmlElementConfig {
+   /** Confirmation text or configuration object. See MsgBox.yesNo for more details. */
+   confirm?: Prop<string | Record<string, unknown>>;
+
+   /** If true button appears in pressed state. Useful for implementing toggle buttons. */
+   pressed?: BooleanProp;
+
+   /** Name of the icon to be put on the left side of the button. */
+   icon?: StringProp;
+
+   /** HTML tag to be used. Default is `button`. */
+   tag?: string;
+
+   /** Base CSS class to be applied to the element. Default is 'button'. */
+   baseClass?: string;
+
+   /**
+    * Determines if button should receive focus on mousedown event.
+    * Default is `false`, which means that focus can be set only using the keyboard `Tab` key.
+    */
+   focusOnMouseDown?: boolean;
+
+   /** Add type="submit" to the button. */
+   submit?: boolean;
+
+   /** Set to `true` to disable the button. */
+   disabled?: BooleanProp;
+
+   /** Set to `false` to disable the button. */
+   enabled?: BooleanProp;
+
+   /**
+    * Click handler.
+    *
+    * @param e - Event.
+    * @param instance - Cx widget instance that fired the event.
+    */
+   onClick?: string | ((e: MouseEvent, instance: Instance) => void);
+
+   onMouseDown?: string | ((e: MouseEvent, instance: Instance) => void);
+
+   /** Button type. */
+   type?: "submit" | "button";
+
+   /** If set to `true`, the Button will cause its parent Overlay (if one exists) to close. This, however, can be prevented if `onClick` explicitly returns `false`. */
+   dismiss?: boolean;
+
+   /** The form attribute specifies the form the button belongs to.
+    * The value of this attribute must be equal to the `id` attribute of a `<form>` element in the same document.
+    */
+   form?: StringProp;
+}
+
+export class Button extends HtmlElement<ButtonConfig, HtmlElementInstance> {
+   declare icon?: boolean | string;
+   declare focusOnMouseDown?: boolean;
+   declare submit?: boolean;
+   declare dismiss?: boolean;
+   declare onMouseDown?: string | ((e: MouseEvent, instance: Instance) => void);
    declare baseClass: string;
 
    declareData(...args: Record<string, unknown>[]): void {
@@ -35,7 +89,7 @@ export class Button extends HtmlElement {
       });
    }
 
-   prepareData(context: RenderingContext, instance: Instance): void {
+   prepareData(context: RenderingContext, instance: HtmlElementInstance): void {
       const { data } = instance;
       data.stateMods = {
          ...data.stateMods,
@@ -46,7 +100,7 @@ export class Button extends HtmlElement {
       super.prepareData(context, instance);
    }
 
-   explore(context: RenderingContext, instance: Instance): void {
+   explore(context: RenderingContext, instance: HtmlElementInstance): void {
       instance.data.parentDisabled = context.parentDisabled;
       instance.data.parentStrict = context.parentStrict;
 
@@ -56,7 +110,7 @@ export class Button extends HtmlElement {
       super.explore(context, instance);
    }
 
-   attachProps(context: RenderingContext, instance: Instance, props: RenderProps): void {
+   attachProps(context: RenderingContext, instance: HtmlElementInstance, props: RenderProps): void {
       super.attachProps(context, instance, props);
 
       if (!this.focusOnMouseDown) {

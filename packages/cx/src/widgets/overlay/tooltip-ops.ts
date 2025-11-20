@@ -1,24 +1,63 @@
+import { BooleanProp, StringProp } from "../../ui/Prop";
 import { Instance } from "../../ui/Instance";
+import { DropdownConfig } from "./Dropdown";
+import type { TooltipInstance } from "./Tooltip";
 
-/**
- * Tooltip configuration - can be a string or complex config object
- */
-export type TooltipConfig = string | TooltipConfigObject;
+export interface TooltipConfig extends DropdownConfig {
+   /** Text to be displayed inside the tooltip. */
+   text?: StringProp;
 
-export interface TooltipConfigObject {
-   text?: string;
-   title?: string;
-   placement?: "top" | "bottom" | "left" | "right";
-   offset?: number;
-   [key: string]: unknown;
+   /** Text to be displayed in the header. */
+   title?: StringProp;
+
+   /**
+    * Set to true to make the tooltip always visible.
+    * This is useful e.g. in product tours, when instructions need to be shown, even if the mouse pointer is not around.
+    */
+   alwaysVisible?: BooleanProp;
+
+   /** Base CSS class to be applied to the field. Defaults to 'tooltip'. */
+   baseClass?: string;
+
+   /**
+    * Set to `true` to append the set `animate` state after the initial render.
+    * Appended CSS class may be used to add show/hide animations.
+    */
+   animate?: boolean;
+
+   /** Set to `true` to make the tooltip follow the mouse movement. */
+   trackMouse?: boolean;
+
+   trackMouseX?: boolean;
+   trackMouseY?: boolean;
+
+   /**
+    * This property controls how tooltips behave on touch events.
+    * Default value is `toggle` which means that the tooltip is shown on first tap and closed on the second tap.
+    * Use `ignore` to skip showing tooltips on touch events.
+    */
+   touchBehavior?: string;
+
+   /**
+    * Set to true to rely on browser's window mousemove event for getting mouse coordinates
+    * instead of using the element that tooltip is attached to.
+    */
+   globalMouseTracking?: boolean;
 }
+
+export type TooltipProp = TooltipConfig | StringProp;
 
 /**
  * Options passed to tooltip functions
  */
 export interface TooltipOptions {
-   mouseOverCheck?: boolean;
-   [key: string]: unknown;
+   target?: Element;
+   tooltipName?: string;
+   data?: any;
+}
+
+export interface TooltipParentInstance {
+   tooltips: { [key: string]: TooltipInstance };
 }
 
 /**
@@ -27,45 +66,49 @@ export interface TooltipOptions {
  */
 export interface TooltipOperations {
    tooltipMouseMove(
-      e: React.MouseEvent,
-      parentInstance: Instance,
-      tooltip: TooltipConfig | undefined,
+      e: MouseEvent | React.MouseEvent | Element,
+      parentInstance: Instance & TooltipParentInstance,
+      tooltip: TooltipProp | undefined,
       options?: TooltipOptions,
    ): void;
 
    tooltipMouseLeave(
-      e: React.MouseEvent,
-      parentInstance: Instance,
-      tooltip: TooltipConfig | undefined,
+      e: MouseEvent | React.MouseEvent | Element,
+      parentInstance: Instance & TooltipParentInstance,
+      tooltip: TooltipProp | undefined,
       options?: TooltipOptions,
    ): void;
 
    tooltipParentDidMount(
-      element: HTMLElement,
-      parentInstance: Instance,
-      tooltip: TooltipConfig | undefined,
+      element: Element,
+      parentInstance: Instance & TooltipParentInstance,
+      tooltip: TooltipProp | undefined,
       options?: TooltipOptions,
    ): void;
 
    tooltipParentWillReceiveProps(
-      element: HTMLElement,
-      parentInstance: Instance,
-      tooltip: TooltipConfig | undefined,
+      element: Element,
+      parentInstance: Instance & TooltipParentInstance,
+      tooltip: TooltipProp | undefined,
       options?: TooltipOptions,
    ): void;
 
-   tooltipParentWillUnmount(parentInstance: Instance): void;
+   tooltipParentWillUnmount(parentInstance: Instance & TooltipParentInstance): void;
 
-   tooltipParentDidUpdate(element: HTMLElement, parentInstance: Instance, tooltip: TooltipConfig): void;
+   tooltipParentDidUpdate(
+      element: Element,
+      parentInstance: Instance & TooltipParentInstance,
+      tooltip: TooltipProp | undefined,
+   ): void;
 }
 
 let impl: TooltipOperations | false = false;
 
 export function tooltipMouseMove(
-   e: React.MouseEvent,
-   parentInstance: Instance,
-   tooltip: TooltipConfig | undefined,
-   options: TooltipOptions = {},
+   e: MouseEvent | React.MouseEvent | Element,
+   parentInstance: Instance & TooltipParentInstance,
+   tooltip: TooltipProp | undefined,
+   options?: TooltipOptions,
 ): void {
    if (impl && tooltip) {
       impl.tooltipMouseMove.call(impl, e, parentInstance, tooltip, options);
@@ -73,9 +116,9 @@ export function tooltipMouseMove(
 }
 
 export function tooltipMouseLeave(
-   e: React.MouseEvent,
-   parentInstance: Instance,
-   tooltip: TooltipConfig | undefined,
+   e: MouseEvent | React.MouseEvent | Element,
+   parentInstance: Instance & TooltipParentInstance,
+   tooltip: TooltipProp | undefined,
    options?: TooltipOptions,
 ): void {
    if (impl && tooltip) {
@@ -84,9 +127,9 @@ export function tooltipMouseLeave(
 }
 
 export function tooltipParentDidMount(
-   element: HTMLElement,
-   parentInstance: Instance,
-   tooltip: TooltipConfig | undefined,
+   element: Element,
+   parentInstance: Instance & TooltipParentInstance,
+   tooltip: TooltipProp | undefined,
    options?: TooltipOptions,
 ): void {
    if (impl) {
@@ -95,9 +138,9 @@ export function tooltipParentDidMount(
 }
 
 export function tooltipParentWillReceiveProps(
-   element: HTMLElement,
-   parentInstance: Instance,
-   tooltip: TooltipConfig | undefined,
+   element: Element,
+   parentInstance: Instance & TooltipParentInstance,
+   tooltip: TooltipProp | undefined,
    options?: TooltipOptions,
 ): void {
    if (impl) {
@@ -105,13 +148,17 @@ export function tooltipParentWillReceiveProps(
    }
 }
 
-export function tooltipParentWillUnmount(parentInstance: Instance): void {
+export function tooltipParentWillUnmount(parentInstance: Instance & TooltipParentInstance): void {
    if (impl) {
       impl.tooltipParentWillUnmount.call(impl, parentInstance);
    }
 }
 
-export function tooltipParentDidUpdate(element: HTMLElement, parentInstance: Instance, tooltip: TooltipConfig): void {
+export function tooltipParentDidUpdate(
+   element: Element,
+   parentInstance: Instance & TooltipParentInstance,
+   tooltip: TooltipProp | undefined,
+): void {
    if (impl) {
       impl.tooltipParentDidUpdate.call(impl, element, parentInstance, tooltip);
    }
