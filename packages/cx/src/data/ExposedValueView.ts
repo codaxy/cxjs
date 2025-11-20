@@ -1,12 +1,22 @@
-import { View } from "./View";
+import { View, ViewConfig } from "./View";
 import { Binding } from "./Binding";
+
+export interface ExposedValueViewConfig extends ViewConfig {
+   containerBinding: Binding;
+   key?: string | null;
+   recordName?: string;
+}
 
 export class ExposedValueView extends View {
    key: string;
-   containerBinding?: any;
+   containerBinding: Binding;
    recordName: string;
    immutable?: boolean;
    declare store: View;
+
+   constructor(config: ExposedValueViewConfig) {
+      super(config);
+   }
 
    getData(): any {
       if (

@@ -43,6 +43,10 @@ export interface TooltipConfig extends DropdownConfig {
     * instead of using the element that tooltip is attached to.
     */
    globalMouseTracking?: boolean;
+
+   /** Tooltips are hidden as soon as the mouse leaves the related widget. Set this to true to keep the tooltip
+    * while the mouse is inside the tooltip itself. */
+   mouseTrap?: boolean;
 }
 
 export type TooltipProp = TooltipConfig | StringProp;

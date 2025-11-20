@@ -1,19 +1,18 @@
 /** @jsxImportSource react */
-import { Widget, VDOM } from "../../ui/Widget";
-import { HtmlElement, HtmlElementConfig, HtmlElementInstance } from "../HtmlElement";
-import { findFirst, isFocusable, getFocusedElement, isSelfOrDescendant, closest, isFocusedDeep } from "../../util/DOM";
-import { KeyCode } from "../../util/KeyCode";
-import { debug, menuFlag } from "../../util/Debug";
 import { FocusManager } from "../../ui/FocusManager";
-import { MenuItem } from "./MenuItem";
-import { isUndefined } from "../../util/isUndefined";
+import { RenderingContext } from "../../ui/RenderingContext";
+import { ResizeManager } from "../../ui/ResizeManager";
+import { VDOM, Widget } from "../../ui/Widget";
+import { isTextInputElement } from "../../util";
+import { debug, menuFlag } from "../../util/Debug";
+import { closest, findFirst, getFocusedElement, isFocusable, isFocusedDeep, isSelfOrDescendant } from "../../util/DOM";
 import { isDefined } from "../../util/isDefined";
 import { isString } from "../../util/isString";
-import { ResizeManager } from "../../ui/ResizeManager";
+import { isUndefined } from "../../util/isUndefined";
+import { KeyCode } from "../../util/KeyCode";
+import { HtmlElement, HtmlElementConfig, HtmlElementInstance } from "../HtmlElement";
+import { MenuItem } from "./MenuItem";
 import { MenuSpacer } from "./MenuSpacer";
-import { isTextInputElement } from "../../util";
-import { Instance } from "../../ui/Instance";
-import { RenderingContext } from "../../ui/RenderingContext";
 
 export interface MenuConfig extends HtmlElementConfig {
    /** Set to `true` for horizontal menus. */

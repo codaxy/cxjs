@@ -1,24 +1,35 @@
-//@ts-nocheck
-import {HtmlElement} from './HtmlElement';
+import { HtmlElement, HtmlElementConfig, HtmlElementInstance } from "./HtmlElement";
+import { RenderingContext } from "../ui/RenderingContext";
 
+export interface HeadingConfig extends HtmlElementConfig {
+   /** Name of the HTML element to be rendered. Default is `div`. */
+   tag?: string;
 
-export class Heading extends HtmlElement {
+   /** Heading level. Allowed values go from 1 to 6. Default is 3. */
+   level?: number | string;
 
-   init() {
+   /** Base CSS class. Default is `heading`. */
+   baseClass?: string;
+}
+
+export class Heading extends HtmlElement<HeadingConfig, HtmlElementInstance> {
+   declare level?: number | string;
+
+   init(): void {
       this.tag = `h${this.level}`;
       super.init();
    }
 
-   prepareData(context, instance) {
-      let {data} = instance;
+   prepareData(context: RenderingContext, instance: HtmlElementInstance): void {
+      let { data } = instance;
       data.stateMods = {
          ...data.stateMods,
-         [`level-${this.level}`]: true
+         [`level-${this.level}`]: true,
       };
       super.prepareData(context, instance);
    }
 
-   isValidHtmlAttribute(attrName) {
+   isValidHtmlAttribute(attrName: string): string | false {
       switch (attrName) {
          case "level":
             return false;
@@ -29,6 +40,5 @@ export class Heading extends HtmlElement {
    }
 }
 
-
 Heading.prototype.level = 3;
-Heading.prototype.baseClass = 'heading';
+Heading.prototype.baseClass = "heading";

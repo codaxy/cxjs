@@ -1,11 +1,35 @@
-//@ts-nocheck
 import { Widget } from "../ui/Widget";
-import { PureContainer } from "../ui/PureContainer";
-import { Binding } from "../data/Binding";
-import { ExposedValueView } from "../data/ExposedValueView";
+import { PureContainerBase, PureContainerConfig } from "../ui/PureContainer";
+import { Binding, BindingInput } from "../data/Binding";
+import { ExposedValueView, ExposedValueViewConfig } from "../data/ExposedValueView";
+import { RenderingContext } from "../ui/RenderingContext";
+import { Instance } from "../ui/Instance";
+import { StringProp, WritableProp } from "../ui/Prop";
 
-export class Sandbox extends PureContainer {
-   init() {
+export interface SandboxConfig extends PureContainerConfig {
+   storage: WritableProp<Record<string, any>>;
+   key?: any;
+   accessKey?: StringProp;
+   recordName?: string;
+   recordAlias?: string;
+   immutable?: boolean;
+   sealed?: boolean;
+}
+
+export interface SandboxInstance extends Instance {
+   store: ExposedValueView;
+}
+
+export class Sandbox extends PureContainerBase<SandboxConfig, SandboxInstance> {
+   declare storage: WritableProp<Record<string, any>>;
+   declare key?: any;
+   declare recordName?: string;
+   declare recordAlias?: string;
+   declare accessKey?: StringProp;
+   declare immutable?: boolean;
+   declare sealed?: boolean;
+   declare storageBinding: Binding;
+   init(): void {
       if (this.recordAlias) this.recordName = this.recordAlias;
 
       if (this.accessKey) this.key = this.accessKey;
@@ -15,7 +39,7 @@ export class Sandbox extends PureContainer {
       super.init();
    }
 
-   initInstance(context, instance) {
+   initInstance(context: RenderingContext, instance: SandboxInstance): void {
       instance.store = new ExposedValueView({
          store: instance.parentStore,
          containerBinding: this.storageBinding,
@@ -26,21 +50,21 @@ export class Sandbox extends PureContainer {
       super.initInstance(context, instance);
    }
 
-   applyParentStore(instance) {
+   applyParentStore(instance: SandboxInstance): void {
       instance.store.setStore(instance.parentStore);
    }
 
-   declareData() {
+   declareData(...args: Record<string, unknown>[]): void {
       super.declareData(
          {
             storage: undefined,
             key: undefined,
          },
-         ...arguments,
+         ...args,
       );
    }
 
-   prepareData(context, instance) {
+   prepareData(context: RenderingContext, instance: SandboxInstance): void {
       var { store, data } = instance;
       if (store.getKey() !== data.key) {
          //when navigating to a page using the same widget tree as the previous page

@@ -34,6 +34,8 @@ export interface StructuredSelector {
 
 export type Prop<T> = T | Binding | Selector<T> | AccessorChain<T> | GetSet<T>;
 
+export type WritableProp<T> = Bind | AccessorChain<T>;
+
 export interface DataRecord {
    [prop: string]: any;
 }

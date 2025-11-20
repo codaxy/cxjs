@@ -1,4 +1,3 @@
-//@ts-nocheck
 import {HtmlElement} from './HtmlElement';
 import {VDOM} from '../ui/Widget';
 import {createComponentFactory, isComponentFactory} from '../util/Component';
@@ -11,16 +10,16 @@ import {isArray} from '../util/isArray';
 
 import {flattenProps} from '../ui/flattenProps';
 
-let htmlFactoryCache = {};
+let htmlFactoryCache: Record<string, any> = {};
 
-function getHtmlElementFactory(tagName) {
+function getHtmlElementFactory(tagName: string): any {
    let factory = htmlFactoryCache[tagName];
    if (factory)
       return factory;
    return htmlFactoryCache[tagName] = createComponentFactory(() => {}, config => HtmlElement.create(HtmlElement, {tag: tagName}, flattenProps(config)), {tag: tagName});
 }
 
-export function cx(typeName, props, ...children) {
+export function cx(typeName: any, props?: any, ...children: any[]): any {
 
    if (isArray(typeName))
       return typeName;
@@ -54,7 +53,7 @@ export function cx(typeName, props, ...children) {
    }
 }
 
-export function react(config) {
+export function react(config: any): any {
    if (!config || isString(config) || isNumber(config) || VDOM.isValidElement(config))
       return config;
 

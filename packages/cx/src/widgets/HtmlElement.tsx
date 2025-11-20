@@ -22,7 +22,7 @@ import { autoFocus } from "./autoFocus";
 import type { CxChild, RenderingContext } from "../ui/RenderingContext";
 import type { WidgetData, RenderProps } from "../ui/Instance";
 import { Instance } from "../ui/Instance";
-import type { TooltipConfig } from "./overlay/tooltip-ops";
+import type { TooltipConfig, TooltipProp } from "./overlay/tooltip-ops";
 import { StringProp, NumberProp, StructuredProp } from "../ui/Prop";
 
 const isDataAttribute = (attr: string): string | false => (attr.indexOf("data-") === 0 ? attr.substring(5) : false);
@@ -65,7 +65,7 @@ export class HtmlElement<
    public events?: Record<string, (e: Event, instance: Instance) => unknown>;
    public urlAttributes?: string[];
    public extraProps?: Record<string, unknown>;
-   public tooltip?: TooltipConfig;
+   public tooltip?: TooltipProp;
    public onRef?: (element: HTMLElement | null, instance: Instance) => void;
    public autoFocus?: boolean | string;
    [key: string]: unknown; // Index signature for dynamic properties

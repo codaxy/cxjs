@@ -1,9 +1,39 @@
-//@ts-nocheck
-import { Widget, VDOM } from "../ui/Widget";
+/** @jsxImportSource react */
+import { Instance } from "../ui/Instance";
+import { NumberProp } from "../ui/Prop";
+import { RenderingContext } from "../ui/RenderingContext";
+import { VDOM, Widget, WidgetConfig } from "../ui/Widget";
 import { captureMouseOrTouch, getCursorPos } from "./overlay/captureMouse";
 
-export class Resizer extends Widget {
-   declareData(...args) {
+export interface ResizerConfig extends WidgetConfig {
+   /** Make resizer horizontal. */
+   horizontal?: boolean;
+
+   /** Use the element after the the resizer for size measurements. */
+   forNextElement?: boolean;
+
+   /** A binding for the new size. */
+   size?: NumberProp;
+
+   /** Default value that will be set when the user double click on the resizer. */
+   defaultSize?: NumberProp;
+
+   /** Minimum size of the element. */
+   minSize?: NumberProp;
+
+   /** Maximum size of the element. */
+   maxSize?: NumberProp;
+}
+
+export class Resizer extends Widget<ResizerConfig> {
+   declare baseClass: string;
+   declare horizontal?: boolean;
+   declare forNextElement?: boolean;
+   declare defaultSize?: NumberProp | null;
+   declare minSize?: NumberProp;
+   declare maxSize?: NumberProp;
+
+   declareData(...args: Record<string, unknown>[]): void {
       super.declareData(...args, {
          size: undefined,
          defaultSize: undefined,
@@ -12,7 +42,7 @@ export class Resizer extends Widget {
       });
    }
 
-   render(context, instance, key) {
+   render(context: RenderingContext, instance: Instance<Resizer>, key: string): React.ReactNode {
       let { data } = instance;
 
       return <ResizerCmp key={key} instance={instance} data={data} />;
@@ -27,8 +57,22 @@ Resizer.prototype.defaultSize = null;
 Resizer.prototype.minSize = 0;
 Resizer.prototype.maxSize = 1e6;
 
-class ResizerCmp extends VDOM.Component {
-   constructor(props) {
+interface ResizerCmpProps {
+   instance: Instance<Resizer>;
+   data: Record<string, any>;
+}
+
+interface ResizerCmpState {
+   dragged: boolean;
+   offset: number;
+   initialPosition?: { clientX: number; clientY: number };
+}
+
+class ResizerCmp extends VDOM.Component<ResizerCmpProps, ResizerCmpState> {
+   el?: HTMLDivElement | null;
+   hasCapture?: boolean;
+
+   constructor(props: ResizerCmpProps) {
       super(props);
       this.state = {
          dragged: false,
@@ -36,11 +80,11 @@ class ResizerCmp extends VDOM.Component {
       };
    }
 
-   shouldComponentUpdate(props, state) {
+   shouldComponentUpdate(props: ResizerCmpProps, state: ResizerCmpState): boolean {
       return state != this.state;
    }
 
-   render() {
+   render(): React.ReactNode {
       let { instance, data } = this.props;
       let { widget } = instance;
       let { baseClass, CSS } = widget;
@@ -55,7 +99,7 @@ class ResizerCmp extends VDOM.Component {
                CSS.state({
                   vertical: !widget.horizontal,
                   horizontal: widget.horizontal,
-               })
+               }),
             )}
             style={data.style}
             onDoubleClick={(e) => {
@@ -82,7 +126,7 @@ class ResizerCmp extends VDOM.Component {
       );
    }
 
-   startCapture(e) {
+   startCapture(e: React.MouseEvent): void {
       let { instance } = this.props;
       let { widget } = instance;
 
@@ -92,13 +136,13 @@ class ResizerCmp extends VDOM.Component {
             e,
             this.onHandleMove.bind(this),
             this.onDragComplete.bind(this),
-            this.state.initialPosition,
-            widget.horizontal ? "row-resize" : "col-resize"
+            this.state.initialPosition!,
+            widget.horizontal ? "row-resize" : "col-resize",
          );
       }
    }
 
-   onHandleMove(e, initialPosition) {
+   onHandleMove(e: any, initialPosition: { clientX: number; clientY: number }): void {
       let { instance } = this.props;
       let { widget } = instance;
       let currentPosition = getCursorPos(e);
@@ -114,7 +158,7 @@ class ResizerCmp extends VDOM.Component {
       this.setState({ offset: allowedOffset });
    }
 
-   getNewSize(offset) {
+   getNewSize(offset: number): number {
       let { instance, data } = this.props;
       let { horizontal, forNextElement } = instance.widget;
 
@@ -125,20 +169,20 @@ class ResizerCmp extends VDOM.Component {
       )
          return 0;
 
-      let newSize;
+      let newSize: number;
 
       if (horizontal) {
-         if (forNextElement) newSize = this.el.nextElementSibling.offsetHeight - offset;
-         else newSize = this.el.previousElementSibling.offsetHeight + offset;
+         if (forNextElement) newSize = (this.el.nextElementSibling as HTMLElement).offsetHeight - offset;
+         else newSize = (this.el.previousElementSibling as HTMLElement).offsetHeight + offset;
       } else {
-         if (forNextElement) newSize = this.el.nextElementSibling.offsetWidth - offset;
-         else newSize = this.el.previousElementSibling.offsetWidth + offset;
+         if (forNextElement) newSize = (this.el.nextElementSibling as HTMLElement).offsetWidth - offset;
+         else newSize = (this.el.previousElementSibling as HTMLElement).offsetWidth + offset;
       }
 
-      return Math.max(data.minSize, Math.min(newSize, data.maxSize));
+      return Math.max(data.minSize as number, Math.min(newSize, data.maxSize as number));
    }
 
-   onDragComplete() {
+   onDragComplete(): void {
       this.hasCapture = false;
       let { instance } = this.props;
 

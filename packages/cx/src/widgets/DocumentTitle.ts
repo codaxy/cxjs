@@ -1,52 +1,63 @@
-//@ts-nocheck
-import {Widget} from '../ui/Widget';
+import { Widget, WidgetConfig } from "../ui/Widget";
+import { RenderingContext } from "../ui/RenderingContext";
+import { Instance } from "../ui/Instance";
+import { StringProp } from "../ui/Prop";
 
-export class DocumentTitle extends Widget {
-   init() {
-      if (this.value)
-         this.text = this.value;
+export interface DocumentTitleConfig extends WidgetConfig {
+   value?: StringProp;
+   append?: boolean;
+   action?: "append" | "replace" | "prepend";
+   separator?: StringProp;
+}
 
-      if (this.append)
-         this.action = "append";
+export class DocumentTitle extends Widget<DocumentTitleConfig> {
+   declare value?: StringProp;
+   declare text?: StringProp;
+   declare append?: boolean;
+   declare action?: "append" | "replace" | "prepend";
+   declare separator?: StringProp;
+
+   init(): void {
+      if (this.value) this.text = this.value;
+
+      if (this.append) this.action = "append";
 
       super.init();
    }
 
-   declareData() {
-      super.declareData(...arguments, {
+   declareData(...args: Record<string, unknown>[]): void {
+      super.declareData(...args, {
          value: undefined,
          text: undefined,
          action: undefined,
-         separator: undefined
+         separator: undefined,
       });
    }
 
-   explore(context, instance) {
-      if (!context.documentTitle) {
-         context.documentTitle = {
+   explore(context: RenderingContext, instance: Instance): void {
+      if (!(context as any).documentTitle) {
+         (context as any).documentTitle = {
             activeInstance: instance,
-            title: ''
-         }
+            title: "",
+         };
       }
 
-      let {data} = instance;
+      let { data } = instance;
 
       if (data.text) {
-
          switch (data.action) {
             case "append":
-               if (context.documentTitle.title)
-                  context.documentTitle.title += data.separator;
-               context.documentTitle.title += data.text;
+               if ((context as any).documentTitle.title) (context as any).documentTitle.title += data.separator;
+               (context as any).documentTitle.title += data.text;
                break;
 
             case "prepend":
-               context.documentTitle.title = data.text + data.separator + context.documentTitle.title;
+               (context as any).documentTitle.title = data.text + data.separator + (context as any).documentTitle.title;
                break;
 
             default:
             case "replace":
-               context.documentTitle.title = data.text;
+               (context as any).documentTitle.title = data.text;
                break;
          }
       }
@@ -54,17 +65,17 @@ export class DocumentTitle extends Widget {
       super.explore(context, instance);
    }
 
-   prepare(context, instance) {
-      if (context.documentTitle.activeInstance == instance)
-         document.title = context.documentTitle.title;
+   prepare(context: RenderingContext, instance: Instance): void {
+      if ((context as any).documentTitle.activeInstance == instance)
+         document.title = (context as any).documentTitle.title;
    }
 
-   render() {
+   render(): null {
       return null;
    }
 }
 
 DocumentTitle.prototype.action = "append";
-DocumentTitle.prototype.separator = '';
+DocumentTitle.prototype.separator = "";
 
-Widget.alias('document-title', DocumentTitle);
+Widget.alias("document-title", DocumentTitle);

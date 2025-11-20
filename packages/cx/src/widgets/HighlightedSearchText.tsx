@@ -1,9 +1,16 @@
 import { Instance } from "../ui/Instance";
 import type { RenderingContext } from "../ui/RenderingContext";
-import { Widget } from "../ui/Widget";
+import { Widget, WidgetConfig } from "../ui/Widget";
 import { getSearchQueryHighlighter } from "../util/getSearchQueryPredicate";
+import { StringProp, Prop } from "../ui/Prop";
 
-export class HighlightedSearchText extends Widget {
+export interface HighlightedSearchTextConfig extends WidgetConfig {
+   query?: StringProp;
+   text?: StringProp;
+   chunks?: Prop<string[]>;
+}
+
+export class HighlightedSearchText extends Widget<HighlightedSearchTextConfig> {
    declareData(...args: Record<string, unknown>[]) {
       super.declareData(...args, {
          text: undefined,

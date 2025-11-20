@@ -1,6 +1,6 @@
 import assert from "assert";
-import { Prop } from "src/core";
-import { createTestRenderer } from "src/util/test/createTestRenderer";
+import { Prop } from "../ui/Prop";
+import { createTestRenderer } from "../util/test/createTestRenderer";
 import { computable } from "../data";
 import { Store } from "../data/Store";
 import { createFunctionalComponent } from "../ui/createFunctionalComponent";
