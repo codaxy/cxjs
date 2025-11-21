@@ -42,7 +42,6 @@ export class TreeAdapter<T extends TreeNode = TreeNode> extends ArrayAdapter<T> 
    public loadedField: string;
    public onLoadError?: (response: any) => void;
    public foldersFirst: boolean;
-   public isTreeAdapter: boolean;
    public hideRootNodes: boolean;
    public restoreExpandedNodesOnLoad?: boolean;
    public load?: (context: RenderingContext, instance: Instance, data: T) => Promise<any[]> | any[];

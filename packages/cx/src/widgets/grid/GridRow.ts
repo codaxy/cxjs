@@ -41,7 +41,31 @@ export class GridRow extends ValidationGroup {
 
 GridRow.prototype.styled = true; //styles used on the wrapper component
 
-export class GridRowComponent extends VDOM.Component {
+export interface GridRowComponentProps {
+   key?: string;
+   className?: string;
+   store?: any;
+   dragSource?: any;
+   instance?: any;
+   grid?: any;
+   record?: any;
+   parent?: any;
+   cursorIndex?: number;
+   selected?: boolean;
+   isBeingDragged?: any;
+   isDraggedOver?: boolean;
+   cursor?: boolean;
+   cursorCellIndex?: any;
+   cellEdit?: any;
+   onMouseLeave?: any;
+   useTrTag?: any;
+   shouldUpdate?: any;
+   dimensionsVersion?: any;
+   fixed?: any;
+   children?: any;
+}
+
+export class GridRowComponent extends VDOM.Component<GridRowComponentProps> {
    constructor(props) {
       super(props);
       this.onMouseMove = this.onMouseMove.bind(this);
@@ -213,7 +237,7 @@ export class GridRowComponent extends VDOM.Component {
       );
    }
 
-   compontentWillUnmount() {
+   componentWillUnmount() {
       this.unsubscribeHoverSync && this.unsubscribeHoverSync();
    }
 

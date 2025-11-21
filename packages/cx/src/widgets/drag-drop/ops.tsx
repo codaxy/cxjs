@@ -5,7 +5,7 @@ import { startAppLoop } from "../../ui/app/startAppLoop";
 import { View } from "../../data/View";
 
 export interface DragEvent {
-   type: 'dragstart' | 'dragmove' | 'dragdrop';
+   type: "dragstart" | "dragmove" | "dragdrop";
    event: React.SyntheticEvent<any>;
    cursor: CursorPosition;
    source: {
@@ -16,13 +16,18 @@ export interface DragEvent {
       store: View;
       [other: string]: any;
    };
+   dataTransfer?: DataTransfer;
    result?: any;
 }
 
 export interface DragDropOptions {
-   sourceEl?: Element;
+   sourceEl?: Element | null;
    clone?: any;
    source?: any;
+}
+
+export interface DragDropOperationContext {
+   test: any;
 }
 
 export type DragEventHandler = (e: DragEvent) => void;
@@ -32,13 +37,16 @@ export interface IDropZone {
    onDragStart?: DragEventHandler;
    onDragAway?: DragEventHandler;
    onDragEnd?: DragEventHandler;
-   onDragMeasure?: (e: DragEvent) => { over: number | false; near: number | boolean };
+   onDragMeasure?: (
+      e: DragEvent,
+      operation: DragDropOperationContext,
+   ) => { over: number | false; near: number | boolean } | false | undefined;
    onDragLeave?: DragEventHandler;
-   onDragOver?: DragEventHandler;
+   onDragOver?: (e: DragEvent, operation: DragDropOperationContext) => void;
    onDragEnter?: DragEventHandler;
    onDrop?: DragEventHandler;
-   onGetVScrollParent?: () => Element | null;
-   onGetHScrollParent?: () => Element | null;
+   onGetVScrollParent?: (operation: DragDropOperationContext) => Element | null;
+   onGetHScrollParent?: (operation: DragDropOperationContext) => Element | null;
 }
 
 export type UnregisterFunction = () => void;
@@ -66,7 +74,11 @@ export function registerDropZone(dropZone: IDropZone): UnregisterFunction {
    return dropZones.subscribe(dropZone);
 }
 
-export function initiateDragDrop(e: React.MouseEvent | React.TouchEvent, options: DragDropOptions = {}, onDragEnd?: (e?: DragEvent) => void): void {
+export function initiateDragDrop(
+   e: React.MouseEvent | React.TouchEvent,
+   options: DragDropOptions = {},
+   onDragEnd?: (e?: DragEvent) => void,
+): void {
    if (puppet) {
       //last operation didn't finish properly
       notifyDragDrop(e);
@@ -150,8 +162,7 @@ export function initiateDragDrop(e: React.MouseEvent | React.TouchEvent, options
       if (zone.onDropTest)
          try {
             if (!zone.onDropTest(event)) return;
-         }
-         catch (err) {
+         } catch (err) {
             Console.warn("Drop zone onDropTest failed. Error: ", err, zone);
             return;
          }
@@ -180,8 +191,7 @@ function notifyDragMove(e, captureData) {
       try {
          test = zone.onDropTest && zone.onDropTest(event);
          if (!test) return;
-      }
-      catch (err) {
+      } catch (err) {
          //the problem is already reported, so here we just swallow the bug to avoid spammming the console too much
          return;
       }
@@ -268,7 +278,7 @@ function notifyDragMove(e, captureData) {
                   let current = vscrollParent.scrollTop;
                   let next = Math.min(
                      vscrollParent.scrollHeight,
-                     Math.max(0, current + (scrollY * 5 * Math.min(200, Math.max(50, event.source.height))) / 60)
+                     Math.max(0, current + (scrollY * 5 * Math.min(200, Math.max(50, event.source.height))) / 60),
                   ); //60 FPS
                   vscrollParent.scrollTop = next;
                }
@@ -276,7 +286,7 @@ function notifyDragMove(e, captureData) {
                   let current = hscrollParent.scrollLeft;
                   let next = Math.min(
                      hscrollParent.scrollWidth,
-                     Math.max(0, current + (scrollX * 5 * Math.min(200, Math.max(50, event.source.width))) / 60)
+                     Math.max(0, current + (scrollX * 5 * Math.min(200, Math.max(50, event.source.width))) / 60),
                   ); //60 FPS
                   hscrollParent.scrollLeft = next;
                }
@@ -341,7 +351,7 @@ export function ddMouseDown(e: React.SyntheticEvent<any>): void {
    dragCandidate = {
       el: e.currentTarget,
       start: { ...getCursorPos(e) },
-      timeStamp: e.timeStamp
+      timeStamp: e.timeStamp,
    };
 }
 
@@ -354,7 +364,7 @@ export function ddDetect(e: React.SyntheticEvent<any>): void | true {
    if (
       e.currentTarget == dragCandidate.el &&
       Math.abs(cursor.clientX - dragCandidate.start.clientX) + Math.abs(cursor.clientY - dragCandidate.start.clientY) >=
-      2
+         2
    ) {
       dragCandidate = {};
       return true;
