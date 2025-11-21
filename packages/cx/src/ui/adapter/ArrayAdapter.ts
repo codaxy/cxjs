@@ -42,6 +42,7 @@ export class ArrayAdapter<T = any> extends DataAdapter<T> {
    public keyField: string | null;
    public cacheByKeyField: boolean;
    public sortOptions?: CollatorOptions;
+   declare isTreeAdapter: boolean;
 
    protected sorter?: (data: DataAdapterRecord<T>[]) => DataAdapterRecord<T>[];
 
@@ -218,5 +219,6 @@ ArrayAdapter.prototype.immutable = false;
 ArrayAdapter.prototype.sealed = false;
 ArrayAdapter.prototype.keyField = null;
 ArrayAdapter.prototype.cacheByKeyField = true;
+ArrayAdapter.prototype.isTreeAdapter = false;
 
 ArrayAdapter.autoInit = true;
