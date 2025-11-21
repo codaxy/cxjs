@@ -1929,15 +1929,15 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
       }
 
       this.scrollerRef = (el) => {
-         this.dom.scroller! = el;
+         this.dom.scroller = el;
       };
 
       this.fixedScrollerRef = (el) => {
-         this.dom.fixedScroller! = el;
+         this.dom.fixedScroller = el;
       };
 
       this.gridRef = (el) => {
-         this.dom.el! = el;
+         this.dom.el = el;
       };
    }
 
@@ -2386,7 +2386,7 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
                <div className={CSS.element(baseClass, "fixed-table-wrapper")}>
                   <table
                      ref={(el) => {
-                        this.dom.fixedTable! = el;
+                        this.dom.fixedTable = el;
                      }}
                   >
                      {this.props.fixedColumnsHeader}
@@ -2410,7 +2410,7 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
             <div className={CSS.element(baseClass, "table-wrapper")}>
                <table
                   ref={(el) => {
-                     this.dom.table! = el;
+                     this.dom.table = el;
                      if (this.props.instance.widget.onRef) this.props.instance.invoke("onRef", el, this.props.instance);
                   }}
                >
@@ -2426,7 +2426,7 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
             <div
                key="fh"
                ref={(el) => {
-                  this.dom.fixedHeader! = el;
+                  this.dom.fixedHeader = el;
                }}
                className={CSS.element(baseClass, "fixed-header")}
                style={{
@@ -2442,7 +2442,7 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
             <div
                key="fcfh"
                ref={(el) => {
-                  this.dom.fixedColumnsFixedHeader! = el;
+                  this.dom.fixedColumnsFixedHeader = el;
                }}
                className={CSS.element(baseClass, "fixed-fixed-header")}
                style={{
@@ -2458,7 +2458,7 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
             <div
                key="ff"
                ref={(el) => {
-                  this.dom.fixedFooter! = el;
+                  this.dom.fixedFooter = el;
                }}
                className={CSS.element(baseClass, "fixed-footer")}
             >
@@ -2471,7 +2471,7 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
                <div
                   key="fcff"
                   ref={(el) => {
-                     this.dom.fixedColumnsFixedFooter! = el;
+                     this.dom.fixedColumnsFixedFooter = el;
                   }}
                   className={CSS.element(baseClass, "fixed-fixed-footer")}
                >
@@ -2805,14 +2805,14 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
    }
 
    onColumnDragOver(ev: DragEvent) {
-      let headerTBody = this.dom.table!.firstChild;
+      let headerTBody = this.dom.table!.firstChild as HTMLElement;
       let positions: number[] = [];
       let bounds: DOMRect;
 
       let exists: Record<string, boolean> = {};
 
-      for (let r = 0; r < headerTBody.children.length; r++) {
-         let cells = headerTBody.children[r].children;
+      for (let r = 0; r < headerTBody!.children.length; r++) {
+         let cells = headerTBody!.children[r].children;
          for (let c = 0; c < cells.length; c++) {
             bounds = cells[c].getBoundingClientRect();
             let key = bounds.left.toFixed(0);
