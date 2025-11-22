@@ -27,12 +27,12 @@ export interface ControllerMethods {
       name: string,
       args: [...Selectors],
       callback: (...values: { [K in keyof Selectors]: InferSelectorValue<Selectors[K]> }) => any,
-      autoRun?: boolean
+      autoRun?: boolean,
    ): void;
    addComputable<Selectors extends readonly ComputableSelector[]>(
       name: string,
       args: [...Selectors],
-      callback: (...values: { [K in keyof Selectors]: InferSelectorValue<Selectors[K]> }) => any
+      callback: (...values: { [K in keyof Selectors]: InferSelectorValue<Selectors[K]> }) => any,
    ): void;
 }
 
@@ -46,9 +46,9 @@ export class Controller extends Component implements ControllerMethods {
    onPrepare?(context: RenderingContext): void;
    onCleanup?(context: RenderingContext): void;
    onDestroy?(): void;
-   instance: Instance;
-   store: View;
-   widget?: Widget;
+   declare instance: Instance;
+   declare store: View;
+   declare widget?: Widget;
    computables?: Record<string, ComputableEntry>;
 
    init(context?: RenderingContext): void {
@@ -96,7 +96,7 @@ export class Controller extends Component implements ControllerMethods {
    addComputable<Selectors extends readonly ComputableSelector[]>(
       name: string,
       args: [...Selectors],
-      callback: (...values: { [K in keyof Selectors]: InferSelectorValue<Selectors[K]> }) => any
+      callback: (...values: { [K in keyof Selectors]: InferSelectorValue<Selectors[K]> }) => any,
    ): void {
       if (!isArray(args)) throw new Error("Second argument to the addComputable method should be an array.");
       let selector = computable(...args, callback).memoize();
@@ -108,7 +108,7 @@ export class Controller extends Component implements ControllerMethods {
       name: string,
       args: [...Selectors],
       callback: (...values: { [K in keyof Selectors]: InferSelectorValue<Selectors[K]> }) => any,
-      autoRun?: boolean
+      autoRun?: boolean,
    ): void {
       if (!isArray(args)) throw new Error("Second argument to the addTrigger method should be an array.");
       let selector = computable(...args, callback).memoize(!autoRun && this.store.getData());

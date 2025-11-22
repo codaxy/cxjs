@@ -7,12 +7,12 @@ export interface SelectionOptions {
 }
 
 export class Selection extends Component {
-   bind?: string;
-   record?: any;
-   index?: any;
-   toggle: boolean;
-   isDummy: boolean;
-   multiple: boolean;
+   declare bind?: string;
+   declare record?: any;
+   declare index?: any;
+   declare toggle: boolean;
+   declare isDummy: boolean;
+   declare multiple: boolean;
 
    isSelected(store: View, record: any, index: any): boolean {
       return !!this.bind && store.get(this.bind) === record;
