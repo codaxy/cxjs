@@ -158,7 +158,7 @@ export class ContainerBase<
    public add(...args: any[]): void {
       if (this.layout) return this.layout.add(...args);
       for (let a of args) {
-         if (!a) return;
+         if (!a) continue;
          if (isArray(a)) {
             for (let c of a) this.add(c);
          } else if (isString(a)) {
