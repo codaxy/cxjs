@@ -53,10 +53,10 @@ interface ColorInputState {
 
 export class ColorField extends Field {
    declare public baseClass: string;
-   public showClear?: boolean;
-   public alwaysShowClear?: boolean;
+   declare public showClear?: boolean;
+   declare public alwaysShowClear?: boolean;
    public hideClear?: boolean;
-   public format: string = "rgba";
+   declare public format: string ;
    public lastDropdown?: string;
    public value?: string;
    public dropdownOptions?: Record<string, any>;

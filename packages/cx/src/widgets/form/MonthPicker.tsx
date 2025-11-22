@@ -77,7 +77,7 @@ export class MonthPicker<Config extends MonthPickerConfig = MonthPickerConfig> e
 > {
    declare public baseClass: string;
    public mode?: string;
-   public range?: BooleanProp;
+   declare public range?: BooleanProp;
    public from?: Prop<string | Date>;
    public to?: Prop<string | Date>;
    public value?: Prop<string | Date>;
@@ -86,18 +86,18 @@ export class MonthPicker<Config extends MonthPickerConfig = MonthPickerConfig> e
    public minExclusive?: BooleanProp;
    public maxValue?: Prop<string | Date>;
    public maxExclusive?: BooleanProp;
-   public startYear: number;
-   public endYear: number;
-   public bufferSize: number;
-   public maxValueErrorText: string;
-   public maxExclusiveErrorText: string;
-   public minValueErrorText: string;
-   public minExclusiveErrorText: string;
+   declare public startYear: number;
+   declare public endYear: number;
+   declare public bufferSize: number;
+   declare public maxValueErrorText: string;
+   declare public maxExclusiveErrorText: string;
+   declare public minValueErrorText: string;
+   declare public minExclusiveErrorText: string;
    public encoding?: (date: Date) => any;
-   public inclusiveTo?: boolean;
+   declare public inclusiveTo?: boolean;
    public onBeforeSelect?: (e: Event, instance: MonthPickerInstance, dateFrom?: Date, dateTo?: Date) => boolean;
    public onSelect?: (instance: MonthPickerInstance, dateFrom?: Date, dateTo?: Date) => void;
-   public hideQuarters?: boolean;
+   declare public hideQuarters?: boolean;
    public onCreateIsMonthDateSelectable?: (
       validationParams: Record<string, any>,
       instance: MonthPickerInstance,

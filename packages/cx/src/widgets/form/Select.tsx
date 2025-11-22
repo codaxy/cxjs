@@ -39,11 +39,11 @@ export interface SelectConfig extends FieldConfig {
 export class Select<Config extends SelectConfig = SelectConfig> extends Field<Config> {
    declare public baseClass: string;
    public hideClear?: boolean;
-   public showClear!: boolean;
-   public alwaysShowClear!: boolean;
-   public multiple!: boolean;
-   public convertValues!: boolean;
-   public nullString!: string;
+   declare public showClear: boolean;
+   declare public alwaysShowClear: boolean;
+   declare public multiple: boolean;
+   declare public convertValues: boolean;
+   declare public nullString: string;
 
    declareData(...args: Record<string, unknown>[]): void {
       super.declareData(

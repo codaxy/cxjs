@@ -61,13 +61,13 @@ export class ContainerBase<
 > extends Widget<Config, InstanceType> {
    public ws?: boolean;
    public preserveWhitespace?: boolean;
-   public trimWhitespace?: boolean;
+   declare public trimWhitespace?: boolean;
    declare public items: Widget[];
-   public children?: Widget[];
+   declare public children?: Widget[];
    public layout?: Container | null;
    public useParentLayout?: boolean;
    public itemDefaults?: any;
-   public plainText?: boolean;
+   declare public plainText?: boolean;
 
    public init(context?: any): void {
       super.init();

@@ -55,16 +55,16 @@ import { VDOM } from "../../ui/VDOM";
 
 export class TextField<Config extends TextFieldConfig = TextFieldConfig> extends Field<Config> {
    public hideClear?: boolean;
-   public showClear?: boolean;
-   public alwaysShowClear?: boolean;
+   declare public showClear?: boolean;
+   declare public alwaysShowClear?: boolean;
    public validationRegExp?: RegExp;
-   public validationErrorText?: string;
-   public minLengthValidationErrorText: string;
-   public maxLengthValidationErrorText: string;
-   public reactOn!: string;
-   public inputType?: string;
-   public keyboardShortcut?: string;
-   public trim?: boolean;
+   declare public validationErrorText?: string;
+   declare public minLengthValidationErrorText: string;
+   declare public maxLengthValidationErrorText: string;
+   declare public reactOn: string;
+   declare public inputType?: string;
+   declare public keyboardShortcut?: string;
+   declare public trim?: boolean;
 
    public init(): void {
       if (typeof this.hideClear !== "undefined") this.showClear = !this.hideClear;

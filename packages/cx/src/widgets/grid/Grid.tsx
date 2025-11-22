@@ -3859,7 +3859,6 @@ class GridColumnHeaderLine extends PureContainerBase<GridColumnHeaderLineConfig>
    declare showHeader: boolean;
    declare headerStyle?: any;
    declare headerClass?: any;
-   declare visible?: any;
    declare className?: any;
    declare class?: any;
    declare isPureContainer: boolean;

@@ -14,10 +14,10 @@ import { WheelComponent } from "./Wheel";
 enableCultureSensitiveFormatting();
 
 export class DateTimePicker extends Widget {
-   public size: number;
-   public segment: string;
-   public autoFocus?: boolean;
-   public showSeconds?: boolean;
+   declare public size: number;
+   declare public segment: string;
+   declare public autoFocus?: boolean;
+   declare public showSeconds?: boolean;
    public encoding?: (date: Date) => string;
    public onFocusOut?: string | ((instance: Instance) => void);
    public onSelect?: string | ((e: React.KeyboardEvent, instance: Instance, date: Date) => void);

@@ -35,14 +35,14 @@ export interface TreeAdapterConfig extends ArrayAdapterConfig {
 }
 
 export class TreeAdapter<T extends TreeNode = TreeNode> extends ArrayAdapter<T> {
-   public childrenField: string;
-   public expandedField: string;
-   public leafField: string;
-   public loadingField: string;
-   public loadedField: string;
+   declare public childrenField: string;
+   declare public expandedField: string;
+   declare public leafField: string;
+   declare public loadingField: string;
+   declare public loadedField: string;
    public onLoadError?: (response: any) => void;
-   public foldersFirst: boolean;
-   public hideRootNodes: boolean;
+   declare public foldersFirst: boolean;
+   declare public hideRootNodes: boolean;
    public restoreExpandedNodesOnLoad?: boolean;
    public load?: (context: RenderingContext, instance: Instance, data: T) => Promise<any[]> | any[];
 

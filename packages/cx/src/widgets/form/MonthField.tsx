@@ -74,29 +74,29 @@ export interface MonthFieldConfig extends FieldConfig {
 export class MonthField<Config extends MonthFieldConfig = MonthFieldConfig> extends Field<Config, MonthFieldInstance> {
    declare public baseClass: string;
    public mode?: string;
-   public range?: BooleanProp;
+   declare public range?: BooleanProp;
    public from?: Prop<string | Date>;
    public to?: Prop<string | Date>;
    public value?: Prop<string | Date>;
    public culture!: DateTimeCulture;
    public hideClear?: boolean;
-   public showClear?: boolean;
-   public alwaysShowClear?: boolean;
+   declare public showClear?: boolean;
+   declare public alwaysShowClear?: boolean;
    public encoding?: (date: Date) => string;
    public dropdownOptions?: Record<string, any>;
-   public inclusiveTo?: boolean;
+   declare public inclusiveTo?: boolean;
    public monthPickerOptions?: Record<string, any>;
-   public maxValueErrorText: string;
-   public maxExclusiveErrorText: string;
-   public minValueErrorText: string;
-   public minExclusiveErrorText: string;
-   public inputErrorText?: string;
+   declare public maxValueErrorText: string;
+   declare public maxExclusiveErrorText: string;
+   declare public minValueErrorText: string;
+   declare public minExclusiveErrorText: string;
+   declare public inputErrorText?: string;
    public minExclusive?: BooleanProp;
    public maxExclusive?: BooleanProp;
    public minValue?: Prop<string | Date>;
    public maxValue?: Prop<string | Date>;
    public placeholder?: StringProp;
-   public reactOn: string;
+   declare public reactOn: string;
 
    declareData(...args: Record<string, unknown>[]): void {
       if (this.mode == "range") {

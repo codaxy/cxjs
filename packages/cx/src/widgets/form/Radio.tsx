@@ -13,8 +13,8 @@ import { Prop } from "../../ui/Prop";
 export class Radio extends Field {
    public selection?: Prop<number | string | boolean>;
    public option?: Prop<number | string | boolean>;
-   public native?: boolean;
-   public default?: boolean;
+   declare public native?: boolean;
+   declare public default?: boolean;
    public value?: Prop<number | string | boolean>;
 
    declareData(...args: Record<string, unknown>[]): void {

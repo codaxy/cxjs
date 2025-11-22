@@ -69,7 +69,7 @@ export class Field<
    InstanceType extends FieldInstance<any> = FieldInstance<any>,
 > extends PureContainerBase<Config, InstanceType> {
    public inputStyle?: Record<string, unknown> | string;
-   public validationMode?: string;
+   declare public validationMode?: string;
    public errorTooltip?: Record<string, unknown>;
    public tooltip?: TooltipConfig;
    public help?: Record<string, unknown> | string;
@@ -77,26 +77,26 @@ export class Field<
    public mod?: Record<string, unknown>;
    public disabled?: boolean;
    public required?: boolean;
-   public asterisk?: boolean;
+   declare public asterisk?: boolean;
    public labelStyle?: Record<string, unknown> | string;
    public labelClass?: string;
    public icon?: null | string;
    public visited?: boolean;
-   public labelPlacement?: string;
-   public helpPlacement?: string;
-   public emptyValue?: unknown;
-   public requiredText?: string;
-   public validatingText?: string;
+   declare public labelPlacement?: string;
+   declare public helpPlacement?: string;
+   declare public emptyValue?: unknown;
+   declare public requiredText?: string;
+   declare public validatingText?: string;
    public onValidate?:
       | string
       | ((value: unknown, instance: Instance, validationParams: Record<string, unknown>) => unknown);
-   public validationExceptionText?: string;
+   declare public validationExceptionText?: string;
    public onValidationException?: string | ((error: unknown, instance: Instance) => void);
    public onKeyDown?: string | ((e: React.KeyboardEvent, instance: Instance) => boolean | void);
-   public suppressErrorsUntilVisited?: boolean;
-   public autoFocus?: boolean;
-   public helpSpacer?: string;
-   public trackFocus?: boolean;
+   declare public suppressErrorsUntilVisited?: boolean;
+   declare public autoFocus?: boolean;
+   declare public helpSpacer?: string;
+   declare public trackFocus?: boolean;
    declare public baseClass: string;
 
    public declareData(...args: Record<string, unknown>[]): void {

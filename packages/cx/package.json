@@ -17,7 +17,8 @@
    "scripts": {
       "build": "node build/index",
       "build2": "tsc",
-      "check-types": "tsc --noEmit"
+      "check-types": "tsc --noEmit",
+      "test": "ts-mocha -p tsconfig.mocha.json"
    },
    "author": "Codaxy",
    "license": "MIT",
@@ -46,6 +47,9 @@
       "@types/react-dom": "^18.3.1",
       "@types/react-test-renderer": "^18.3.1",
       "react-test-renderer": "^18.3.1",
+      "ts-mocha": "^11.1.0",
+      "ts-node": "^10.9.2",
+      "tsconfig-paths": "^4.2.0",
       "typescript": "^5.9.3"
    }
 }

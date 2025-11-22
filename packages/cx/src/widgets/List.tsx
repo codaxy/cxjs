@@ -23,9 +23,9 @@ import { scrollElementIntoView } from "../util/scrollElementIntoView";
 
 export class List extends Widget {
    public recordAlias?: string;
-   public recordName: string;
+   declare public recordName: string;
    public indexAlias?: string;
-   public indexName: string;
+   declare public indexName: string;
    public adapter: GroupAdapter;
    public child: ListItem;
    public items?: Widget[];
@@ -41,13 +41,13 @@ export class List extends Widget {
    public records?: any[];
    public sortOptions?: any;
    public grouping?: GroupingConfig[];
-   public focusable?: boolean;
-   public focused?: boolean;
-   public itemPad?: boolean;
-   public cached?: boolean;
-   public scrollSelectionIntoView?: boolean;
-   public selectMode?: boolean;
-   public selectOnTab?: boolean;
+   declare public focusable?: boolean;
+   declare public focused?: boolean;
+   declare public itemPad?: boolean;
+   declare public cached?: boolean;
+   declare public scrollSelectionIntoView?: boolean;
+   declare public selectMode?: boolean;
+   declare public selectOnTab?: boolean;
    public pipeKeyDown?: string | ((handler: ((e: React.KeyboardEvent) => void) | null, instance: Instance) => void);
    public autoFocus?: boolean;
    declare public baseClass: string;

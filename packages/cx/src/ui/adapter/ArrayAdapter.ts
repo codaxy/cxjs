@@ -39,8 +39,8 @@ export interface ResolvedSorter {
 export class ArrayAdapter<T = any> extends DataAdapter<T> {
    public recordsAccessor: Accessor;
    public recordsBinding?: Prop<T[]>;
-   public keyField: string | null;
-   public cacheByKeyField: boolean;
+   declare public keyField: string | null;
+   declare public cacheByKeyField: boolean;
    public sortOptions?: CollatorOptions;
    declare isTreeAdapter: boolean;
 

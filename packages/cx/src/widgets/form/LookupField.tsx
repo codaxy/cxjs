@@ -100,34 +100,34 @@ export interface LookupFieldConfig extends FieldConfig {
 
 export class LookupField<Config extends LookupFieldConfig = LookupFieldConfig> extends Field<Config> {
    declare public baseClass: string;
-   public multiple!: boolean;
+   declare public multiple: boolean;
    public hideClear?: boolean;
-   public showClear!: boolean;
-   public alwaysShowClear!: boolean;
-   public hideSearchField!: boolean;
-   public minOptionsForSearchField!: number;
-   public loadingText!: string;
-   public queryErrorText!: string;
-   public noResultsText!: string;
-   public optionIdField!: string;
-   public optionTextField!: string;
-   public valueIdField!: string;
-   public valueTextField!: string;
-   public fetchAll!: boolean;
-   public cacheAll!: boolean;
-   public closeOnSelect!: boolean;
-   public minQueryLengthMessageText: string;
-   public sort?: boolean;
-   public listOptions?: Record<string, any> | null;
-   public autoOpen?: boolean;
-   public submitOnEnterKey?: boolean;
-   public submitOnDropdownEnterKey?: boolean;
-   public pageSize: number;
-   public infinite?: boolean;
-   public quickSelectAll?: boolean;
-   public queryDelay!: number;
-   public minQueryLength!: number;
-   public onGetRecordDisplayText?: ((record: Record<string, any>, instance: Instance) => string) | null;
+   declare public showClear: boolean;
+   declare public alwaysShowClear: boolean;
+   declare public hideSearchField: boolean;
+   declare public minOptionsForSearchField: number;
+   declare public loadingText: string;
+   declare public queryErrorText: string;
+   declare public noResultsText: string;
+   declare public optionIdField: string;
+   declare public optionTextField: string;
+   declare public valueIdField: string;
+   declare public valueTextField: string;
+   declare public fetchAll: boolean;
+   declare public cacheAll: boolean;
+   declare public closeOnSelect: boolean;
+   declare public minQueryLengthMessageText: string;
+   declare public sort?: boolean;
+   declare public listOptions?: Record<string, any> | null;
+   declare public autoOpen?: boolean;
+   declare public submitOnEnterKey?: boolean;
+   declare public submitOnDropdownEnterKey?: boolean;
+   declare public pageSize: number;
+   declare public infinite?: boolean;
+   declare public quickSelectAll?: boolean;
+   declare public queryDelay: number;
+   declare public minQueryLength: number;
+   declare public onGetRecordDisplayText?: ((record: Record<string, any>, instance: Instance) => string) | null;
    public onQuery?:
       | string
       | ((

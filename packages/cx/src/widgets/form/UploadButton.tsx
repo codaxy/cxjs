@@ -12,10 +12,10 @@ import { isNonEmptyArray } from "../../util/isNonEmptyArray";
 //TODO: Implement UploadStatus which will enable canceling
 
 export class UploadButton extends Field {
-   public multiple!: boolean;
-   public method!: string;
-   public abortOnDestroy!: boolean;
-   public uploadInProgressText!: string;
+   declare public multiple: boolean;
+   declare public method: string;
+   declare public abortOnDestroy: boolean;
+   declare public uploadInProgressText: string;
    public onResolveUrl?: string | ((file: File, instance: Instance) => string | Promise<string>);
    public onUploadStarting?:
       | string

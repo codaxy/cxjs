@@ -55,7 +55,7 @@ export class HtmlElement<
    Config extends HtmlElementConfig = HtmlElementConfig,
    InstanceType extends HtmlElementInstance<any> = HtmlElementInstance<any>,
 > extends ContainerBase<Config, InstanceType> {
-   public tag?: string;
+   declare public tag?: string;
    public html?: string;
    public innerText?: string;
    public text?: string;

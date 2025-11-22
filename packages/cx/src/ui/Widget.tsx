@@ -66,7 +66,7 @@ export abstract class Widget<
    public contentFor?: string;
    public putInto?: string;
    public isContent?: boolean;
-   public CSS!: typeof CSS;
+   declare public CSS: typeof CSS;
    public initialized?: boolean;
    public components?: Record<string, any>;
    public helpers?: Record<string, any>;
@@ -74,7 +74,7 @@ export abstract class Widget<
    public nameMap?: any;
    public baseClass?: string;
    public version?: number;
-   public memoize?: boolean;
+   declare public memoize: boolean;
 
    // Lifecycle hooks - callbacks that can be set in configuration
    public onInit?(context: RenderingContext, instance: InstanceType): void;

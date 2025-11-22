@@ -59,7 +59,7 @@ export class GroupAdapter<T = any> extends ArrayAdapter<T> {
    public groupRecordsAlias?: string;
    public groupRecordsName?: string;
    public groupings?: ResolvedGrouping[] | null;
-   public groupName: string;
+   declare public groupName: string;
 
    constructor(config?: GroupAdapterConfig) {
       super(config);

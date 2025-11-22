@@ -16,9 +16,9 @@ export class Checkbox extends Field {
    declare public baseClass: string;
    public checked?: unknown;
    public value?: unknown;
-   public indeterminate?: boolean;
-   public unfocusable?: boolean;
-   public native?: boolean;
+   declare public indeterminate?: boolean;
+   declare public unfocusable?: boolean;
+   declare public native?: boolean;
 
    init(): void {
       if (this.checked) this.value = this.checked;

@@ -16,7 +16,7 @@ export class Switch extends Field {
    public value?: unknown;
    public rangeStyle?: Record<string, unknown> | string;
    public handleStyle?: Record<string, unknown> | string;
-   public focusOnMouseDown?: boolean;
+   declare public focusOnMouseDown?: boolean;
 
    declareData(...args: Record<string, unknown>[]): void {
       super.declareData(

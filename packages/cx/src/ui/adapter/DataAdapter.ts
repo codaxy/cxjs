@@ -22,9 +22,9 @@ export interface DataAdapterConfig {
 }
 
 export abstract class DataAdapter<T = any> extends Component {
-   public recordName: string;
-   public indexName: string;
-   public immutable: boolean;
+   declare public recordName: string;
+   declare public indexName: string;
+   declare public immutable: boolean;
    public sealed?: boolean;
 
    protected filterFn?: (data: T) => boolean;

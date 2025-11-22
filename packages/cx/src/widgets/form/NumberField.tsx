@@ -61,24 +61,24 @@ export interface NumberFieldConfig extends FieldConfig {
 
 export class NumberField<Config extends NumberFieldConfig = NumberFieldConfig> extends Field<Config> {
    declare public baseClass: string;
-   public reactOn!: string;
-   public format!: string;
-   public inputType!: string;
-   public incrementPercentage!: number;
+   declare public reactOn: string;
+   declare public format: string;
+   declare public inputType: string;
+   declare public incrementPercentage: number;
    public increment?: number;
-   public scale!: number;
-   public offset!: number;
+   declare public scale: number;
+   declare public offset: number;
    public step?: number;
    public hideClear?: boolean;
-   public showClear?: boolean;
-   public alwaysShowClear?: boolean;
-   public snapToIncrement?: boolean;
+   declare public showClear?: boolean;
+   declare public alwaysShowClear?: boolean;
+   declare public snapToIncrement?: boolean;
    public onParseInput?: string | ((value: string, instance: Instance) => number | undefined);
-   public minValueErrorText: string;
-   public maxValueErrorText: string;
-   public minExclusiveErrorText: string;
-   public maxExclusiveErrorText: string;
-   public inputErrorText?: string;
+   declare public minValueErrorText: string;
+   declare public maxValueErrorText: string;
+   declare public minExclusiveErrorText: string;
+   declare public maxExclusiveErrorText: string;
+   declare public inputErrorText?: string;
 
    declareData(...args: Record<string, unknown>[]): void {
       super.declareData(
