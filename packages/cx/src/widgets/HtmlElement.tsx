@@ -48,7 +48,7 @@ export class HtmlElementInstance<E extends HtmlElement<any, any> = HtmlElement<a
    implements TooltipParentInstance
 {
    events?: Record<string, (e: React.SyntheticEvent, instance: Instance) => any>;
-   tooltips: { [key: string]: TooltipInstance };
+   declare tooltips: { [key: string]: TooltipInstance };
 }
 
 export class HtmlElement<
@@ -56,18 +56,18 @@ export class HtmlElement<
    InstanceType extends HtmlElementInstance<any> = HtmlElementInstance<any>,
 > extends ContainerBase<Config, InstanceType> {
    declare public tag?: string;
-   public html?: string;
-   public innerText?: string;
-   public text?: string;
-   public innerHtml?: string;
-   public attrs?: Record<string, unknown>;
-   public data?: Record<string, unknown>;
-   public events?: Record<string, (e: Event, instance: Instance) => unknown>;
-   public urlAttributes?: string[];
-   public extraProps?: Record<string, unknown>;
-   public tooltip?: TooltipProp;
-   public onRef?: (element: HTMLElement | null, instance: Instance) => void;
-   public autoFocus?: boolean | string;
+   declare public html?: string;
+   declare public innerText?: string;
+   declare public text?: string;
+   declare public innerHtml?: string;
+   declare public attrs?: Record<string, unknown>;
+   declare public data?: Record<string, unknown>;
+   declare public events?: Record<string, (e: Event, instance: Instance) => unknown>;
+   declare public urlAttributes?: string[];
+   declare public extraProps?: Record<string, unknown>;
+   declare public tooltip?: TooltipProp;
+   declare public onRef?: (element: HTMLElement | null, instance: Instance) => void;
+   declare public autoFocus?: boolean | string;
    [key: string]: unknown; // Index signature for dynamic properties
 
    constructor(config?: Config) {
@@ -165,8 +165,7 @@ export class HtmlElement<
          case "vdomKey":
             return false;
 
-         default:
-            if (isDataAttribute(attrName)) return false;
+         default: if (isDataAttribute(attrName)) return false;
             break;
       }
 
@@ -263,7 +262,7 @@ interface ContainerComponentProps {
 
 class ContainerComponent extends VDOM.Component<ContainerComponentProps> {
    el: HTMLElement | null = null;
-   ref: (c: HTMLElement | null) => void;
+   declare ref: (c: HTMLElement | null) => void;
 
    constructor(props: ContainerComponentProps) {
       super(props);

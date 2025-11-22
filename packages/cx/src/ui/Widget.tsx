@@ -54,17 +54,17 @@ export abstract class Widget<
    InstanceType extends Instance = Instance,
 > extends Component {
    public widgetId?: number;
-   public vdomKey?: string | number;
+   declare public vdomKey?: string | number;
    public jsxSpread?: Record<string, any>[];
    public jsxAttributes?: string[];
-   public styles?: any;
-   public style?: any;
-   declare public styled?: boolean;
+   declare public styles?: any;
+   declare public style?: any;
+   declare public styled: boolean;
    declare public if?: any;
    declare public visible: boolean;
-   public outerLayout?: Widget;
-   public contentFor?: string;
-   public putInto?: string;
+   declare public outerLayout?: Widget;
+   declare public contentFor?: string;
+   declare public putInto?: string;
    public isContent?: boolean;
    declare public CSS: typeof CSS;
    public initialized?: boolean;
@@ -72,7 +72,7 @@ export abstract class Widget<
    public helpers?: Record<string, any>;
    public selector?: StructuredSelector;
    public nameMap?: any;
-   public baseClass?: string;
+   declare public baseClass?: string;
    public version?: number;
    declare public memoize: boolean;
 
@@ -90,7 +90,7 @@ export abstract class Widget<
    public prepare?(context: RenderingContext, instance: InstanceType): void;
 
    // Controller (initialized instance)
-   public controller?: Controller;
+   declare public controller?: Controller;
 
    // Pure container flag
    public isPureContainer?: boolean;

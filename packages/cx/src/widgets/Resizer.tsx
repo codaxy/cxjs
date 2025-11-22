@@ -69,8 +69,8 @@ interface ResizerCmpState {
 }
 
 class ResizerCmp extends VDOM.Component<ResizerCmpProps, ResizerCmpState> {
-   el?: HTMLDivElement | null;
-   hasCapture?: boolean;
+   declare el?: HTMLDivElement | null;
+   declare hasCapture?: boolean;
 
    constructor(props: ResizerCmpProps) {
       super(props);

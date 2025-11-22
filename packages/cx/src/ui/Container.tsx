@@ -59,18 +59,17 @@ export class ContainerBase<
    Config extends ContainerConfig = ContainerConfig,
    InstanceType extends Instance = Instance,
 > extends Widget<Config, InstanceType> {
-   public ws?: boolean;
-   public preserveWhitespace?: boolean;
+   declare public ws?: boolean;
+   declare public preserveWhitespace?: boolean;
    declare public trimWhitespace?: boolean;
    declare public items: Widget[];
    declare public children?: Widget[];
-   public layout?: Container | null;
-   public useParentLayout?: boolean;
-   public itemDefaults?: any;
+   declare public layout?: Container | null;
+   declare public useParentLayout?: boolean;
+   declare public itemDefaults?: any;
    declare public plainText?: boolean;
 
    public init(context?: any): void {
-      super.init();
       if (typeof this.ws !== "undefined") this.preserveWhitespace = this.ws;
 
       if (this.preserveWhitespace) this.trimWhitespace = false;
@@ -93,6 +92,8 @@ export class ContainerBase<
       } else {
          this.add(items);
       }
+
+      super.init();
    }
 
    protected exploreItems(context: RenderingContext, instance: Instance, items: CxChild[]): void {

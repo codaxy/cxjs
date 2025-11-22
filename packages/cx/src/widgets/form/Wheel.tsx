@@ -91,7 +91,7 @@ export class WheelComponent extends VDOM.Component<WheelComponentProps, WheelCom
    wheelEl!: HTMLDivElement;
    scrollEl!: HTMLDivElement;
    unsubscribeOnWheel!: () => void;
-   scrolling?: boolean;
+   declare scrolling?: boolean;
 
    constructor(props: WheelComponentProps) {
       super(props);

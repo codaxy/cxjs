@@ -13,10 +13,10 @@ export class FlyweightTooltipTrackerInstance
    extends Instance<FlyweightTooltipTracker>
    implements TooltipParentInstance
 {
-   lastTarget?: EventTarget | null;
-   tooltip?: TooltipProp;
-   parentEl?: Element;
-   tooltips: { [key: string]: TooltipInstance };
+   declare lastTarget?: EventTarget | null;
+   declare tooltip?: TooltipProp;
+   declare parentEl?: Element;
+   declare tooltips: { [key: string]: TooltipInstance };
 }
 
 export class FlyweightTooltipTracker extends Widget {

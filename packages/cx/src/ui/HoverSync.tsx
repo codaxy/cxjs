@@ -61,7 +61,7 @@ interface HoverSyncChildState {
 }
 
 class HoverSyncChild extends VDOM.Component<HoverSyncChildProps, HoverSyncChildState> {
-   unsubscribe: any;
+   declare unsubscribe: any;
 
    constructor(props: HoverSyncChildProps) {
       super(props);
@@ -114,7 +114,7 @@ export function withHoverSync(
 }
 
 export class HoverSyncElement extends Container {
-   hoverChannel: string;
+   declare hoverChannel: string;
 
    declareData(...args: any[]) {
       super.declareData(...args, {

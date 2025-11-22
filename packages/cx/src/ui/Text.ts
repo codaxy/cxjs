@@ -1,10 +1,10 @@
 import { Widget } from './Widget';
 
 export class Text extends Widget {
-   value?: any;
-   tpl?: string;
-   expr?: any;
-   bind?: string;
+   declare value?: any;
+   declare tpl?: string;
+   declare expr?: any;
+   declare bind?: string;
 
    init() {
       if (!this.value && (this.tpl || this.expr || this.bind))

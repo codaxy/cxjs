@@ -14,7 +14,7 @@ function validContent(r: any): any {
 }
 
 export class LabelsLeftLayout extends PureContainer {
-   labelStyle?: any;
+   declare labelStyle?: any;
    // baseClass, styled, CSS inherited from Widget
 
    init(): void {

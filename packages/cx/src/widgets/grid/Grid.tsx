@@ -1919,29 +1919,29 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
       fixedColumnsFixedFooter?: HTMLElement | null;
    };
    syncBuffering: boolean = false;
-   start?: number;
-   end?: number;
-   loadingStartPage?: number;
-   loadingEndPage?: number;
-   heightStats?: AvgHeight;
-   rowHeights?: Record<string, number>;
-   rowHeight?: number;
+   declare start?: number;
+   declare end?: number;
+   declare loadingStartPage?: number;
+   declare loadingEndPage?: number;
+   declare heightStats?: AvgHeight;
+   declare rowHeights?: Record<string, number>;
+   declare rowHeight?: number;
    scrollerRef: (el: HTMLElement | null) => void;
    fixedScrollerRef: (el: HTMLElement | null) => void;
    gridRef: (el: HTMLElement | null) => void;
-   cellEditorValid?: boolean;
-   scrollWidth: number;
-   loading?: boolean;
-   loadPageRange?: any;
-   prevFetchRecordsState?: any;
-   pending?: any;
+   declare cellEditorValid?: boolean;
+   declare scrollWidth: number;
+   declare loading?: boolean;
+   declare loadPageRange?: any;
+   declare prevFetchRecordsState?: any;
+   declare pending?: any;
    offResize?: () => void;
    unregisterDropZone?: () => void;
-   lastSorters?: any;
-   lastScrollFilterParams?: any;
-   lastScrollResetParams?: any;
-   selectedEl?: Element | null;
-   cellEditUndoData?: any;
+   declare lastSorters?: any;
+   declare lastScrollFilterParams?: any;
+   declare lastScrollResetParams?: any;
+   declare selectedEl?: Element | null;
+   declare cellEditUndoData?: any;
 
    constructor(props: GridComponentProps) {
       super(props);
@@ -3073,8 +3073,7 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
                }
                break;
 
-            default:
-               Console.warn("UNPROCESSED RECORD TYPE", record);
+            default: Console.warn("UNPROCESSED RECORD TYPE", record);
                break;
          }
 
@@ -4060,7 +4059,7 @@ class GridColumnHeaderCell extends PureContainerBase<GridColumnHeaderCellConfig>
    declare draggable?: any;
    declare tool?: any;
    declare allowSorting?: boolean;
-   declare styled?: boolean;
+
    declareData() {
       return super.declareData(...arguments, {
          text: undefined,
@@ -4203,7 +4202,7 @@ function syncHeaderHeights(header1: HTMLElement, header2: HTMLElement) {
 }
 
 class AvgHeight {
-   groups: Record<string, { sum: number; count: number }>;
+   declare groups: Record<string, { sum: number; count: number }>;
 
    constructor() {
       this.groups = {};

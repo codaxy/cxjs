@@ -29,16 +29,16 @@ export interface RestateConfig extends PureContainerConfig {
 export interface RestateProps extends RestateConfig {}
 
 export class Restate<Config extends RestateConfig = RestateConfig> extends PureContainerBase<Config> {
-   container: any;
-   privateDataSelector: any;
-   detached: boolean;
-   data?: any;
+   declare container: any;
+   declare privateDataSelector: any;
+   declare detached: boolean;
+   declare data?: any;
    // children, items, layout, controller, outerLayout, useParentLayout, ws inherited from parent classes
-   culture?: any;
-   options?: any;
+   declare culture?: any;
+   declare options?: any;
    onError?: any;
-   waitForIdle: boolean;
-   immediate: boolean;
+   declare waitForIdle: boolean;
+   declare immediate: boolean;
 
    declareData(...args: any[]) {
       return super.declareData(...args, {
@@ -138,12 +138,12 @@ Restate.prototype.culture = null;
 export const PrivateStore = Restate;
 
 class RestateStore extends Store {
-   parentDataVersion: number;
-   parentData: any;
-   dataSelector: any;
-   privateData: any;
+   declare parentDataVersion: number;
+   declare parentData: any;
+   declare dataSelector: any;
+   declare privateData: any;
    onSet: any;
-   detached: any;
+   declare detached: any;
    declare store: View; // Parent store reference
 
    constructor(config: any) {

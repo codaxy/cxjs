@@ -1,7 +1,7 @@
 import { Store } from "cx/data";
-import { bind, CSS, CSSHelper, History, startHotAppLoop, Widget } from "cx/ui";
-import { Component, Debug, Timing } from "cx/util";
-import { HtmlElement, PureContainer, TextField } from "cx/widgets";
+import { bind, History, startHotAppLoop, Widget } from "cx/ui";
+import { Debug, Timing } from "cx/util";
+import { TextField } from "cx/widgets";
 
 let store = new Store();
 
@@ -21,7 +21,7 @@ startHotAppLoop(
    <cx>
       <div
          onMouseMove={(e, instance) => {
-            // console.log("Mouse moved", e, instance);
+            //console.log("Mouse moved", e, instance);
          }}
          controller={{
             onInit() {
@@ -32,10 +32,7 @@ startHotAppLoop(
          <h1>TypeScript Minimal Example</h1>
          <p>This is a minimal example of a Cx application using TypeScript.</p>
          <p>Check the console for1 debug information.</p>
-         {/* there is no error for abc, because TextField has //@ts-nocheck */}
          <TextField value={bind("nesto")} />
-         {/* <TextField value={bind("nesto")} /> */}
-
          <div text={bind("nesto")} style="color: red" />
       </div>
    </cx>,

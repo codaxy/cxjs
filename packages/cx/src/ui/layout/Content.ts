@@ -2,8 +2,8 @@ import { Widget } from "../Widget";
 import { PureContainer } from "../PureContainer";
 
 export class Content extends PureContainer {
-   name?: string;
-   for?: string;
+   declare name?: string;
+   declare for?: string;
 
    init(): void {
       super.init();

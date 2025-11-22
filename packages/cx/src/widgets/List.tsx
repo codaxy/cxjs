@@ -22,25 +22,25 @@ import { scrollElementIntoView } from "../util/scrollElementIntoView";
  */
 
 export class List extends Widget {
-   public recordAlias?: string;
+   declare public recordAlias?: string;
    declare public recordName: string;
-   public indexAlias?: string;
+   declare public indexAlias?: string;
    declare public indexName: string;
-   public adapter: GroupAdapter;
-   public child: ListItem;
-   public items?: Widget[];
-   public children?: Widget[];
-   public selection: Selection;
-   public itemClass?: string;
-   public itemClassName?: string;
-   public itemStyle?: string;
-   public itemDisabled?: boolean;
+   declare public adapter: GroupAdapter;
+   declare public child: ListItem;
+   declare public items?: Widget[];
+   declare public children?: Widget[];
+   declare public selection: Selection;
+   declare public itemClass?: string;
+   declare public itemClassName?: string;
+   declare public itemStyle?: string;
+   declare public itemDisabled?: boolean;
    public item?: Widget;
-   public layout?: any;
-   public keyField?: string;
-   public records?: any[];
-   public sortOptions?: any;
-   public grouping?: GroupingConfig[];
+   declare public layout?: any;
+   declare public keyField?: string;
+   declare public records?: any[];
+   declare public sortOptions?: any;
+   declare public grouping?: GroupingConfig[];
    declare public focusable?: boolean;
    declare public focused?: boolean;
    declare public itemPad?: boolean;
@@ -49,7 +49,7 @@ export class List extends Widget {
    declare public selectMode?: boolean;
    declare public selectOnTab?: boolean;
    public pipeKeyDown?: string | ((handler: ((e: React.KeyboardEvent) => void) | null, instance: Instance) => void);
-   public autoFocus?: boolean;
+   declare public autoFocus?: boolean;
    declare public baseClass: string;
    public filter?: (item: unknown, filterParams: Record<string, unknown>) => boolean;
    public onCreateFilter?: (filterParams: Record<string, unknown>, instance: Instance) => (record: unknown) => boolean;
@@ -276,9 +276,9 @@ interface ListComponentState {
 }
 
 class ListComponent extends VDOM.Component<ListComponentProps, ListComponentState> {
-   el?: HTMLUListElement;
+   declare el?: HTMLUListElement;
    cursorChildIndex: number[] = [];
-   selectedEl?: Element | null;
+   declare selectedEl?: Element | null;
    unsubscribeScroll?: () => void;
    onKeyDown?: (e: React.KeyboardEvent, instance: Instance) => boolean | void;
 

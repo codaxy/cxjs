@@ -64,10 +64,10 @@ export interface MenuItemConfig extends HtmlElementConfig {
 }
 
 export class MenuItemInstance extends HtmlElementInstance<MenuItem> {
-   horizontal?: boolean;
-   padding?: string;
-   icons?: boolean;
-   parentPositionChangeEvent?: any;
+   declare horizontal?: boolean;
+   declare padding?: string;
+   declare icons?: boolean;
+   declare parentPositionChangeEvent?: any;
 }
 
 export class MenuItem extends HtmlElement<MenuItemConfig, MenuItemInstance> {
@@ -184,12 +184,12 @@ interface MenuItemComponentState {
 }
 
 class MenuItemComponent extends VDOM.Component<MenuItemComponentProps, MenuItemComponentState> {
-   dropdown?: Widget;
-   el?: HTMLElement;
+   declare dropdown?: Widget;
+   declare el?: HTMLElement;
    validateDropdownPosition?: () => void;
    unregisterKeyboardShortcut?: () => void;
-   autoFocusTimerId?: number;
-   initialScreenPosition?: any;
+   declare autoFocusTimerId?: number;
+   declare initialScreenPosition?: any;
    offParentPositionChange?: () => void;
 
    constructor(props: MenuItemComponentProps) {

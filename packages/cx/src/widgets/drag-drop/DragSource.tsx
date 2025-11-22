@@ -119,7 +119,7 @@ interface DragSourceComponentState {
 }
 
 class DragSourceComponent extends VDOM.Component<DragSourceComponentProps, DragSourceComponentState> {
-   el: HTMLElement | null;
+   declare el: HTMLElement | null;
 
    constructor(props: DragSourceComponentProps) {
       super(props);

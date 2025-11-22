@@ -3,9 +3,9 @@ import {isPromise} from '../util/isPromise';
 import {RenderingContext} from './RenderingContext';
 
 export class ContentResolver extends PureContainer {
-   mode: "replace" | "prepend" | "append";
+   declare mode: "replace" | "prepend" | "append";
    onResolve?: (params: any, instance: any) => any;
-   initialItems: any;
+   declare initialItems: any;
 
    declareData(...args: any[]): void {
       super.declareData(...args, {

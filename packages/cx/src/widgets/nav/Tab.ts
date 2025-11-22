@@ -75,8 +75,7 @@ export class Tab extends HtmlElement<TabConfig> {
          case "default":
             return false;
 
-         default:
-            return super.isValidHtmlAttribute(attrName);
+         default: return super.isValidHtmlAttribute(attrName);
       }
    }
 

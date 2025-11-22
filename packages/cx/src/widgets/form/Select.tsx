@@ -38,7 +38,7 @@ export interface SelectConfig extends FieldConfig {
 
 export class Select<Config extends SelectConfig = SelectConfig> extends Field<Config> {
    declare public baseClass: string;
-   public hideClear?: boolean;
+   declare public hideClear?: boolean;
    declare public showClear: boolean;
    declare public alwaysShowClear: boolean;
    declare public multiple: boolean;

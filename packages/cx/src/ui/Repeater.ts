@@ -30,22 +30,22 @@ export interface RepeaterConfig<T = DataRecord> extends ContainerConfig {
 }
 
 export class Repeater<Config extends RepeaterConfig = RepeaterConfig> extends ContainerBase<Config> {
-   records?: any;
+   declare records?: any;
    recordsAccessor: any;
-   recordAlias?: string;
-   recordName: string;
-   indexAlias?: string;
-   indexName: string;
-   dataAdapter: any;
-   keyField?: string;
-   immutable: boolean;
-   sealed: boolean;
-   sortOptions?: any;
+   declare recordAlias?: string;
+   declare recordName: string;
+   declare indexAlias?: string;
+   declare indexName: string;
+   declare dataAdapter: any;
+   declare keyField?: string;
+   declare immutable: boolean;
+   declare sealed: boolean;
+   declare sortOptions?: any;
    item: any;
-   cached: boolean;
-   onCreateFilter?: any;
+   declare cached: boolean;
+   declare onCreateFilter?: any;
    filter?: any;
-   onTrackMappedRecords?: any;
+   declare onTrackMappedRecords?: any;
 
    declareData(...args: any[]) {
       super.declareData(

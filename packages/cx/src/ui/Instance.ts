@@ -164,67 +164,67 @@ let instanceId = 1000;
  */
 export class Instance<WidgetType extends Widget<any, any> = Widget<any, any>> {
    // Core properties
-   public widget: WidgetType;
-   public key: string;
-   public id: string;
-   public parent?: Instance;
-   public parentStore: View;
-   public store: View;
-   public controller?: Controller;
+   declare public widget: WidgetType;
+   declare public key: string;
+   declare public id: string;
+   declare public parent?: Instance;
+   declare public parentStore: View;
+   declare public store: View;
+   declare public controller?: Controller;
 
    // Data and state
-   public data: Record<string, any>;
-   public rawData: Record<string, any>;
-   public state?: Record<string, any>;
-   public cached: Record<string, any>;
-   public cacheList?: Record<string, any> | null;
+   declare public data: Record<string, any>;
+   declare public rawData: Record<string, any>;
+   declare public state?: Record<string, any>;
+   declare public cached: Record<string, any>;
+   declare public cacheList?: Record<string, any> | null;
 
    // Selectors
    public dataSelector?: (store: any) => Record<string, any>;
 
    // Lifecycle flags
    public initialized?: boolean;
-   public visible?: boolean;
-   public explored?: boolean;
-   public prepared?: boolean;
-   public shouldUpdate?: boolean;
-   public childStateDirty?: boolean;
-   public detached?: boolean;
+   declare public visible?: boolean;
+   declare public explored?: boolean;
+   declare public prepared?: boolean;
+   declare public shouldUpdate?: boolean;
+   declare public childStateDirty?: boolean;
+   declare public detached?: boolean;
 
    // Cleanup tracking
-   public needsExploreCleanup?: boolean;
-   public needsPrepare?: boolean;
-   public needsCleanup?: boolean;
-   public destroyTracked?: boolean;
+   declare public needsExploreCleanup?: boolean;
+   declare public needsPrepare?: boolean;
+   declare public needsCleanup?: boolean;
+   declare public destroyTracked?: boolean;
    public destroySubscriptions?: Array<() => void> | null;
 
    // Child management
-   public instanceCache?: InstanceCache | null;
-   public children?: Instance[];
+   declare public instanceCache?: InstanceCache | null;
+   declare public children?: Instance[];
    public helpers?: Record<string, Instance>;
    public components?: Record<string, Instance>;
 
    // Rendering
-   public vdom?: any;
-   public contentVDOM?: any;
-   public renderList?: any;
-   public assignedRenderList?: any;
+   declare public vdom?: any;
+   declare public contentVDOM?: any;
+   declare public renderList?: any;
+   declare public assignedRenderList?: any;
 
    // Layout
-   public outerLayout?: Instance;
-   public contentPlaceholder?: any;
-   public parentOptions?: any;
+   declare public outerLayout?: Instance;
+   declare public contentPlaceholder?: any;
+   declare public parentOptions?: any;
 
    // Setters
-   public setters?: Record<string, any>;
+   declare public setters?: Record<string, any>;
 
    // Other
-   public record?: any;
-   public mappedRecords?: any[];
+   declare public record?: any;
+   declare public mappedRecords?: any[];
 
    // List-specific
-   public instances?: Instance[];
-   public selected?: boolean;
+   declare public instances?: Instance[];
+   declare public selected?: boolean;
 
    constructor(widget: WidgetType, key: string, parent?: Instance, parentStore?: any) {
       this.widget = widget;
@@ -781,11 +781,11 @@ function renderResultFix(res: any): any {
 }
 
 export class InstanceCache {
-   public children: Record<string, Instance>;
-   public parent: Instance;
-   public marked: Record<string, Instance>;
-   public monitored: Record<string, Instance> | null;
-   public keyPrefix: string;
+   declare public children: Record<string, Instance>;
+   declare public parent: Instance;
+   declare public marked: Record<string, Instance>;
+   declare public monitored: Record<string, Instance> | null;
+   declare public keyPrefix: string;
 
    constructor(parent: Instance, keyPrefix?: string | number | null) {
       this.children = {};

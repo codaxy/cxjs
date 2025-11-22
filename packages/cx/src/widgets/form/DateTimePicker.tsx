@@ -63,7 +63,7 @@ interface DateTimePickerComponentState {
 
 class DateTimePickerComponent extends VDOM.Component<DateTimePickerComponentProps, DateTimePickerComponentState> {
    el!: HTMLDivElement;
-   wheels: Record<string, boolean>;
+   declare wheels: Record<string, boolean>;
    keyDownPipes: Record<string, (e: React.KeyboardEvent) => void>;
 
    constructor(props: DateTimePickerComponentProps) {
@@ -423,8 +423,7 @@ class DateTimePickerComponent extends VDOM.Component<DateTimePickerComponentProp
             if (pickerWidget.onSelect) instance.invoke("onSelect", e, instance, this.state.date);
             break;
 
-         default:
-            let kdp = this.keyDownPipes[this.state.activeWheel!];
+         default: let kdp = this.keyDownPipes[this.state.activeWheel!];
             if (kdp) kdp(e);
             break;
       }

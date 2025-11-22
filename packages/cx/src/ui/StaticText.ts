@@ -1,7 +1,7 @@
 import {Widget} from './Widget';
 
 export class StaticText extends Widget {
-   text?: string;
+   declare text?: string;
 
    render() {
       return this.text;

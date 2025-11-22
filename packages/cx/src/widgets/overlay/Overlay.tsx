@@ -126,8 +126,8 @@ export interface OverlayConfig extends StyledContainerConfig {
 }
 
 export class OverlayInstance<WidgetType extends OverlayBase<any, any> = Overlay> extends Instance<WidgetType> {
-   positionChangeSubscribers: SubscriberList;
-   dismiss?: () => void;
+   declare positionChangeSubscribers: SubscriberList;
+   declare dismiss?: () => void;
    onBeforeDismiss?: () => boolean;
 }
 
@@ -463,16 +463,16 @@ export class OverlayComponent<
    Props extends OverlayComponentProps = OverlayComponentProps,
    State extends OverlayComponentState = OverlayComponentState,
 > extends VDOM.Component<Props, State> {
-   el?: HTMLElement | null;
-   containerEl?: HTMLElement | null;
-   ownedEl?: HTMLElement | null;
+   declare el?: HTMLElement | null;
+   declare containerEl?: HTMLElement | null;
+   declare ownedEl?: HTMLElement | null;
    onOverlayRef?: (el: HTMLElement | null) => void;
-   shadowEl?: HTMLElement | null;
-   dismissed?: boolean;
-   unmounting?: boolean;
+   declare shadowEl?: HTMLElement | null;
+   declare dismissed?: boolean;
+   declare unmounting?: boolean;
    onPopState?: () => void;
    unsubscribeWheelBlock?: () => void;
-   customStyle: any;
+   declare customStyle: any;
 
    constructor(props: Props) {
       super(props);

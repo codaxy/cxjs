@@ -171,7 +171,7 @@ describe("PureContainer", () => {
       let widget = (
          <cx>
             <PureContainer ws>
-               <div>  Spaced Text  </div>
+               <div> Spaced Text </div>
             </PureContainer>
          </cx>
       );
@@ -183,14 +183,14 @@ describe("PureContainer", () => {
       assert(tree && !Array.isArray(tree), "Expected single element");
       assert.equal(tree.type, "div");
       // With ws=true, whitespace should be preserved
-      assert(tree.children && tree.children[0].includes("  "));
+      assert(tree.children && typeof tree.children[0] === 'string' && tree.children[0].includes("  "));
    });
 
    it("trims whitespace by default", () => {
       let widget = (
          <cx>
             <PureContainer>
-               <div>  Spaced Text  </div>
+               <div> Spaced Text </div>
             </PureContainer>
          </cx>
       );
@@ -210,12 +210,7 @@ describe("PureContainer", () => {
    it("renders children from items property", () => {
       let widget = (
          <cx>
-            <PureContainer
-               items={[
-                  <div key="1">Item 1</div>,
-                  <div key="2">Item 2</div>,
-               ]}
-            />
+            <PureContainer items={[<div key="1">Item 1</div>, <div key="2">Item 2</div>]} />
          </cx>
       );
 

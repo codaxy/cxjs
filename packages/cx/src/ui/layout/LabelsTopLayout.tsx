@@ -23,8 +23,8 @@ interface LayoutState {
 }
 
 export class LabelsTopLayout extends Container {
-   vertical?: boolean;
-   columns?: number;
+   declare vertical?: boolean;
+   declare columns?: number;
    // baseClass, styled, CSS inherited from Widget
 
    init(): void {

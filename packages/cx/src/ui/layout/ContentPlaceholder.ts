@@ -14,7 +14,7 @@ export interface ContentPlaceholderConfig extends PureContainerConfig {
 }
 
 export class ContentPlaceholderInstance extends Instance<ContentPlaceholder> {
-   content?: any;
+   declare content?: any;
    unregisterContentPlaceholder?: () => void;
 }
 

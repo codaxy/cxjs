@@ -27,13 +27,12 @@ export interface BoundedObjectInstance extends Instance {
 
 export class BoundedObject<
    Config extends BoundedObjectConfig = BoundedObjectConfig,
-   InstanceType extends BoundedObjectInstance = BoundedObjectInstance
+   InstanceType extends BoundedObjectInstance = BoundedObjectInstance,
 > extends ContainerBase<Config, InstanceType> {
-   anchors: any = 0;
-   margin: any = 0;
-   offset: any = 0;
-   padding: any = 0;
-   styled: boolean = true;
+   declare anchors: any;
+   declare margin: any;
+   declare offset: any;
+   declare padding: any;
 
    declareData(...args: any[]) {
       return super.declareData(
@@ -87,3 +86,9 @@ export class BoundedObject<
       context.pop("parentRect");
    }
 }
+
+BoundedObject.prototype.anchors = 0;
+BoundedObject.prototype.margin = 0;
+BoundedObject.prototype.offset = 0;
+BoundedObject.prototype.padding = 0;
+BoundedObject.prototype.styled = true;

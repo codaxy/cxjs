@@ -59,12 +59,12 @@ interface HScrollerComponentState {
 }
 
 export class HScrollerComponent extends VDOM.Component<HScrollerComponentProps, HScrollerComponentState> {
-   el?: HTMLElement | null;
-   clip?: HTMLElement | null;
-   scroller?: HTMLElement | null;
-   content?: HTMLElement | null;
+   declare el?: HTMLElement | null;
+   declare clip?: HTMLElement | null;
+   declare scroller?: HTMLElement | null;
+   declare content?: HTMLElement | null;
    unsubscribeResize?: () => void;
-   doScroll?: any;
+   declare doScroll?: any;
    stopScrolling: () => void;
    scrollLeft: (e: any) => void;
    scrollRight: (e: any) => void;

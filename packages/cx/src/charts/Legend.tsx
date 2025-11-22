@@ -48,8 +48,7 @@ export class Legend extends HtmlElement {
          case "valueFormat":
             return false;
 
-         default:
-            return super.isValidHtmlAttribute(attrName);
+         default: return super.isValidHtmlAttribute(attrName);
       }
    }
 

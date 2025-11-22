@@ -6,8 +6,8 @@ export class IsolatedScope<
    Config extends PureContainerConfig = PureContainerConfig,
    InstanceType extends Instance = Instance,
 > extends PureContainerBase<Config, InstanceType> {
-   bind?: string | string[];
-   data?: any;
+   declare bind?: string | string[];
+   declare data?: any;
 
    declareData(...args: any[]) {
       return super.declareData(...args, {

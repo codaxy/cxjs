@@ -148,7 +148,7 @@ Menu.Item = MenuItem;
 Menu.Spacer = MenuSpacer;
 
 export class MenuInstance extends HtmlElementInstance<Menu> {
-   nonOverflownItemCount?: number;
+   declare nonOverflownItemCount?: number;
 }
 
 interface MenuComponentProps {
@@ -163,7 +163,7 @@ interface MenuComponentState {
 
 class MenuComponent extends VDOM.Component<MenuComponentProps, MenuComponentState> {
    el: HTMLElement | null = null;
-   itemInfo: any[];
+   declare itemInfo: any[];
    isMeasureOverflowDisabled: boolean = false;
    unsubscribeFocusOut?: () => void;
    unsubscribeResize?: () => void;

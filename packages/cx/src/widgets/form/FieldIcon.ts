@@ -13,7 +13,7 @@ export interface FieldIconConfig extends WidgetConfig {
 }
 
 export class FieldIconInstance extends Instance<FieldIcon> implements TooltipParentInstance {
-   tooltips: { [key: string]: TooltipInstance };
+   declare tooltips: { [key: string]: TooltipInstance };
 }
 
 export class FieldIcon extends Widget {

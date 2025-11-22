@@ -56,32 +56,32 @@ export class FieldInstance<F extends Field<any, any> = Field<any, any>>
    implements TooltipParentInstance
 {
    declare state: Record<string, any>;
-   parentDisabled?: boolean;
-   parentReadOnly?: boolean;
-   parentViewMode?: string;
-   parentTabOnEnterKey?: boolean;
-   parentVisited?: boolean;
-   tooltips: { [key: string]: TooltipInstance };
+   declare parentDisabled?: boolean;
+   declare parentReadOnly?: boolean;
+   declare parentViewMode?: string;
+   declare parentTabOnEnterKey?: boolean;
+   declare parentVisited?: boolean;
+   declare tooltips: { [key: string]: TooltipInstance };
 }
 
 export class Field<
    Config extends FieldConfig = FieldConfig,
    InstanceType extends FieldInstance<any> = FieldInstance<any>,
 > extends PureContainerBase<Config, InstanceType> {
-   public inputStyle?: Record<string, unknown> | string;
+   declare public inputStyle?: Record<string, unknown> | string;
    declare public validationMode?: string;
-   public errorTooltip?: Record<string, unknown>;
-   public tooltip?: TooltipConfig;
-   public help?: Record<string, unknown> | string;
-   public label?: Record<string, unknown> | string;
-   public mod?: Record<string, unknown>;
-   public disabled?: boolean;
-   public required?: boolean;
+   declare public errorTooltip?: Record<string, unknown>;
+   declare public tooltip?: TooltipConfig;
+   declare public help?: Record<string, unknown> | string;
+   declare public label?: Record<string, unknown> | string;
+   declare public mod?: Record<string, unknown>;
+   declare public disabled?: boolean;
+   declare public required?: boolean;
    declare public asterisk?: boolean;
-   public labelStyle?: Record<string, unknown> | string;
-   public labelClass?: string;
-   public icon?: null | string;
-   public visited?: boolean;
+   declare public labelStyle?: Record<string, unknown> | string;
+   declare public labelClass?: string;
+   declare public icon?: null | string;
+   declare public visited?: boolean;
    declare public labelPlacement?: string;
    declare public helpPlacement?: string;
    declare public emptyValue?: unknown;

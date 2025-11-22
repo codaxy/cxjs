@@ -34,8 +34,7 @@ export class Heading extends HtmlElement<HeadingConfig, HtmlElementInstance> {
          case "level":
             return false;
 
-         default:
-            return super.isValidHtmlAttribute(attrName);
+         default: return super.isValidHtmlAttribute(attrName);
       }
    }
 }
