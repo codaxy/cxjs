@@ -1,9 +1,7 @@
 import { Store } from "cx/data";
 import { bind, CSS, CSSHelper, History, startHotAppLoop, Widget } from "cx/ui";
-import { Debug, Timing } from "cx/util";
-import { TextField } from "cx/widgets";
-
-CSSHelper.register("cx", CSS);
+import { Component, Debug, Timing } from "cx/util";
+import { HtmlElement, PureContainer, TextField } from "cx/widgets";
 
 let store = new Store();
 

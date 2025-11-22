@@ -1,6 +1,6 @@
 require("@babel/register")({
    retainLines: true,
-   presets: ["@babel/typescript", ["@babel/preset-env", { loose: true }]],
+   presets: [["@babel/preset-env", { loose: true }], ["@babel/typescript", { allowDeclareFields: true }]],
    plugins: [
       ["@babel/transform-react-jsx", { runtime: "automatic" }],
       [

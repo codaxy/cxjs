@@ -17,7 +17,7 @@ export class Component {
    public static isComponentType: boolean;
    public static autoInit: boolean;
    public static factory: (alias: string, config?: Config, more?: Config) => Component;
-   public isComponent?: boolean;
+   declare public isComponent: boolean;
 
    constructor(config?: Config) {
       if (config && config.$props) {

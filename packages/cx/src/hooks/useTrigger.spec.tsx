@@ -1,5 +1,5 @@
 import assert from "assert";
-import { createTestRenderer } from "src/util/test/createTestRenderer";
+import { createTestRenderer } from "../util/test/createTestRenderer";
 import { Store } from "../data/Store";
 import { createFunctionalComponent } from "../ui/createFunctionalComponent";
 import { useTrigger } from "./useTrigger";

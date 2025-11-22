@@ -157,18 +157,18 @@ export class ContainerBase<
 
    public add(...args: any[]): void {
       if (this.layout) return this.layout.add(...args);
-
-      args.forEach((a) => {
+      for (let a of args) {
          if (!a) return;
-         if (isArray(a)) a.forEach((c) => this.add(c));
-         else if (isString(a)) {
+         if (isArray(a)) {
+            for (let c of a) this.add(c);
+         } else if (isString(a)) {
             if (this.trimWhitespace) a = innerTextTrim(a);
             if (a) this.addText(a);
          } else if (a.isComponent) this.items.push(this.wrapItem(a));
          else {
             this.add(Widget.create(a, this.itemDefaults, {}));
          }
-      });
+      }
    }
 
    protected wrapItem(item: any): any {

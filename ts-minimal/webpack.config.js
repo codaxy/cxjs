@@ -21,8 +21,9 @@ let common = {
             loader: "json-loader",
          },
          {
-            test: /\.(js|jsx|ts|tsx)$/,
+            test: /\.(ts|tsx)$/,
             //include: /(ts-minimal)/,
+            exclude: /node_modules/,
             loader: "ts-loader",
             options: {
                colors: false,
@@ -69,7 +70,7 @@ let specific;
 if (production) {
    specific = {
       mode: "production",
-      target: ["web", "es2015"], // Modern browsers for better tree-shaking
+      target: ["web", "es2022"], // Modern browsers for better tree-shaking
       module: {
          rules: [
             {
@@ -131,7 +132,7 @@ if (production) {
       performance: {
          hints: false,
       },
-      devtool: "eval",
+      //devtool: "eval",
       devServer: {
          //contentBase: "/",
          hot: true,

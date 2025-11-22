@@ -59,9 +59,9 @@ export abstract class Widget<
    public jsxAttributes?: string[];
    public styles?: any;
    public style?: any;
-   public styled?: boolean;
-   public if?: any;
-   public visible?: boolean;
+   declare public styled?: boolean;
+   declare public if?: any;
+   declare public visible: boolean;
    public outerLayout?: Widget;
    public contentFor?: string;
    public putInto?: string;
@@ -243,7 +243,7 @@ export abstract class Widget<
 
 Widget.prototype.visible = true;
 Widget.prototype.memoize = true; //cache rendered content and use it if possible
-Widget.prototype.CSS = CSSHelper.get("cx");
+Widget.prototype.CSS = CSS;
 Widget.prototype.styled = false;
 
 Widget.namespace = "ui.";
