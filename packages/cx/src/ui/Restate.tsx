@@ -36,7 +36,7 @@ export class Restate<Config extends RestateConfig = RestateConfig> extends PureC
    // children, items, layout, controller, outerLayout, useParentLayout, ws inherited from parent classes
    declare culture?: any;
    declare options?: any;
-   onError?: any;
+   declare onError?: (error: Error, instance: Instance) => void;
    declare waitForIdle: boolean;
    declare immediate: boolean;
 
@@ -49,7 +49,7 @@ export class Restate<Config extends RestateConfig = RestateConfig> extends PureC
    }
 
    init() {
-      this.container = PureContainer.create({         
+      this.container = PureContainer.create({
          items: this.children || this.items,
          layout: this.layout,
          controller: this.controller,

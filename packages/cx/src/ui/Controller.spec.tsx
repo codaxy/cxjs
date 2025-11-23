@@ -66,9 +66,9 @@ describe("Controller", () => {
             return null;
          }
 
-         onInit(context: RenderingContext, instance: Instance) {
+         onInit = (context: RenderingContext, instance: Instance) => {
             instance.invoke("onTest");
-         }
+         };
       }
 
       let store = new Store();
@@ -109,9 +109,9 @@ describe("Controller", () => {
             return null;
          }
 
-         onInit(context: RenderingContext, instance: Instance) {
+         onInit = (context: RenderingContext, instance: Instance) => {
             instance.invoke("onTest");
-         }
+         };
       }
 
       let store = new Store();

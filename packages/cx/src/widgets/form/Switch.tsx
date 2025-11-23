@@ -11,11 +11,11 @@ import { isDefined } from "../../util/isDefined";
 import * as React from "react";
 
 export class Switch extends Field {
-   public on?: unknown;
-   public off?: unknown;
-   public value?: unknown;
-   public rangeStyle?: Record<string, unknown> | string;
-   public handleStyle?: Record<string, unknown> | string;
+   declare public on?: unknown;
+   declare public off?: unknown;
+   declare public value?: unknown;
+   declare public rangeStyle?: Record<string, unknown> | string;
+   declare public handleStyle?: Record<string, unknown> | string;
    declare public focusOnMouseDown?: boolean;
 
    declareData(...args: Record<string, unknown>[]): void {

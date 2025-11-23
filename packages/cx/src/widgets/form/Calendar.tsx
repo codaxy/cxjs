@@ -29,7 +29,7 @@ import type { RenderingContext } from "../../ui/RenderingContext";
 
 export class Calendar extends Field {
    declare public baseClass: string;
-   public unfocusable?: boolean;
+   declare public unfocusable?: boolean;
    declare public focusable?: boolean;
    declare public highlightToday?: boolean;
    declare public maxValueErrorText?: string;
@@ -40,13 +40,13 @@ export class Calendar extends Field {
    declare public showTodayButton?: boolean;
    declare public todayButtonText?: string;
    declare public startWithMonday?: boolean;
-   public onBeforeSelect?: string | ((e: React.MouseEvent, instance: Instance, date: Date) => boolean | void);
-   public onSelect?: string | ((e: React.MouseEvent, instance: Instance, date: Date) => void);
-   public onBlur?: string | ((e: React.FocusEvent, instance: Instance) => void);
-   public onFocusOut?: string | ((instance: Instance) => void);
-   public disabledDaysOfWeek?: number[];
-   public partial?: boolean;
-   public encoding?: (date: Date) => string;
+   declare public onBeforeSelect?: string | ((e: React.MouseEvent, instance: Instance, date: Date) => boolean | void);
+   declare public onSelect?: string | ((e: React.MouseEvent, instance: Instance, date: Date) => void);
+   declare public onBlur?: string | ((e: React.FocusEvent, instance: Instance) => void);
+   declare public onFocusOut?: string | ((instance: Instance) => void);
+   declare public disabledDaysOfWeek?: number[];
+   declare public partial?: boolean;
+   declare public encoding?: (date: Date) => string;
 
    declareData(...args: Record<string, unknown>[]) {
       super.declareData(

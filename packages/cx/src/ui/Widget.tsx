@@ -77,11 +77,11 @@ export abstract class Widget<
    declare public memoize: boolean;
 
    // Lifecycle hooks - callbacks that can be set in configuration
-   public onInit?(context: RenderingContext, instance: InstanceType): void;
-   public onExplore?(context: RenderingContext, instance: InstanceType): void;
-   public onPrepare?(context: RenderingContext, instance: InstanceType): void;
-   public onCleanup?(context: RenderingContext, instance: InstanceType): void;
-   public onDestroy?(instance: InstanceType): void;
+   declare public onInit?: (context: RenderingContext, instance: Instance) => void;
+   declare public onExplore?: (context: RenderingContext, instance: Instance) => void;
+   declare public onPrepare?: (context: RenderingContext, instance: Instance) => void;
+   declare public onCleanup?: (context: RenderingContext, instance: Instance) => void;
+   declare public onDestroy?: (instance: Instance) => void;
 
    // Lifecycle methods that can be overridden by subclasses
    public exploreCleanup?(context: RenderingContext, instance: InstanceType): void;

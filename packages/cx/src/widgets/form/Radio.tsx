@@ -11,11 +11,11 @@ import * as React from "react";
 import { Prop } from "../../ui/Prop";
 
 export class Radio extends Field {
-   public selection?: Prop<number | string | boolean>;
-   public option?: Prop<number | string | boolean>;
+   declare public selection?: Prop<number | string | boolean>;
+   declare public option?: Prop<number | string | boolean>;
    declare public native?: boolean;
    declare public default?: boolean;
-   public value?: Prop<number | string | boolean>;
+   declare public value?: Prop<number | string | boolean>;
 
    declareData(...args: Record<string, unknown>[]): void {
       super.declareData(

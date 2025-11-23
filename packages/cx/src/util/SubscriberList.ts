@@ -2,10 +2,10 @@ type UnsubscribeFunction = () => void;
 type Callback = (...args: any[]) => void;
 
 export class SubscriberList {
-   private subscriptions: { [key: string]: Callback };
-   private freeSlots: string[];
-   private nextSlot: number;
-   private subscriptionCount: number;
+   declare private subscriptions: { [key: string]: Callback };
+   declare private freeSlots: string[];
+   declare private nextSlot: number;
+   declare private subscriptionCount: number;
 
    constructor() {
       this.clear();

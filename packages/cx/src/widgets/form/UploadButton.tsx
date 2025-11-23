@@ -16,17 +16,17 @@ export class UploadButton extends Field {
    declare public method: string;
    declare public abortOnDestroy: boolean;
    declare public uploadInProgressText: string;
-   public onResolveUrl?: string | ((file: File, instance: Instance) => string | Promise<string>);
-   public onUploadStarting?:
+   declare public onResolveUrl?: string | ((file: File, instance: Instance) => string | Promise<string>);
+   declare public onUploadStarting?:
       | string
       | ((xhr: XMLHttpRequest, instance: Instance, file: File, formData: FormData) => boolean | Promise<boolean>);
-   public onUploadComplete?:
+   declare public onUploadComplete?:
       | string
       | ((xhr: XMLHttpRequest, instance: Instance, file: File, formData: FormData) => void);
-   public onUploadProgress?:
+   declare public onUploadProgress?:
       | string
       | ((event: ProgressEvent, instance: Instance, file: File, formData: FormData) => void);
-   public onUploadError?: string | ((error: unknown, instance: Instance, file: File, formData: FormData) => void);
+   declare public onUploadError?: string | ((error: unknown, instance: Instance, file: File, formData: FormData) => void);
 
    declareData(...args: Record<string, unknown>[]): void {
       super.declareData(

@@ -36,8 +36,8 @@ import { TimeList } from "./TimeList";
 export class DateTimeField extends Field {
    declare public showClear?: boolean;
    declare public alwaysShowClear?: boolean;
-   public hideClear?: boolean;
-   public format?: string;
+   declare public hideClear?: boolean;
+   declare public format?: string;
    declare public segment?: string;
    declare public maxValueErrorText?: string;
    declare public maxExclusiveErrorText?: string;
@@ -45,21 +45,21 @@ export class DateTimeField extends Field {
    declare public minExclusiveErrorText?: string;
    declare public inputErrorText?: string;
    declare public disabledDaysOfWeekErrorText?: string;
-   public value?: unknown;
-   public minValue?: unknown;
-   public maxValue?: unknown;
-   public minExclusive?: boolean;
-   public maxExclusive?: boolean;
+   declare public value?: unknown;
+   declare public minValue?: unknown;
+   declare public maxValue?: unknown;
+   declare public minExclusive?: boolean;
+   declare public maxExclusive?: boolean;
    declare public picker?: string;
-   public partial?: boolean;
-   public encoding?: (date: Date) => string;
+   declare public partial?: boolean;
+   declare public encoding?: (date: Date) => string;
    declare public disabledDaysOfWeek?: number[] | null;
    declare public reactOn?: string;
    declare public focusInputFirst?: boolean;
-   public dropdownOptions?: Record<string, any>;
-   public onParseInput?: string | ((date: unknown, instance: Instance) => Date | undefined);
-   public showSeconds?: boolean;
-   public step?: number;
+   declare public dropdownOptions?: Record<string, any>;
+   declare public onParseInput?: string | ((date: unknown, instance: Instance) => Date | undefined);
+   declare public showSeconds?: boolean;
+   declare public step?: number;
 
    declareData(...args: Record<string, unknown>[]): void {
       super.declareData(

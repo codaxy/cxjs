@@ -18,9 +18,9 @@ export class DateTimePicker extends Widget {
    declare public segment: string;
    declare public autoFocus?: boolean;
    declare public showSeconds?: boolean;
-   public encoding?: (date: Date) => string;
-   public onFocusOut?: string | ((instance: Instance) => void);
-   public onSelect?: string | ((e: React.KeyboardEvent, instance: Instance, date: Date) => void);
+   declare public encoding?: (date: Date) => string;
+   declare public onFocusOut?: string | ((instance: Instance) => void);
+   declare public onSelect?: string | ((e: React.KeyboardEvent, instance: Instance, date: Date) => void);
    declare baseClass: string;
 
    declareData(...args: Record<string, unknown>[]): void {

@@ -87,12 +87,10 @@ export class Field<
    declare public emptyValue?: unknown;
    declare public requiredText?: string;
    declare public validatingText?: string;
-   public onValidate?:
-      | string
-      | ((value: unknown, instance: Instance, validationParams: Record<string, unknown>) => unknown);
+   declare public onValidate?: string | ((value: unknown, instance: Instance, validationParams: Record<string, unknown>) => unknown);
    declare public validationExceptionText?: string;
-   public onValidationException?: string | ((error: unknown, instance: Instance) => void);
-   public onKeyDown?: string | ((e: React.KeyboardEvent, instance: Instance) => boolean | void);
+   declare public onValidationException?: string | ((error: unknown, instance: Instance) => void);
+   declare public onKeyDown?: string | ((e: React.KeyboardEvent, instance: Instance) => boolean | void);
    declare public suppressErrorsUntilVisited?: boolean;
    declare public autoFocus?: boolean;
    declare public helpSpacer?: string;

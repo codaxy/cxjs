@@ -14,8 +14,8 @@ import { Field, getFieldTooltip, FieldInstance } from "./Field";
 
 export class Checkbox extends Field {
    declare public baseClass: string;
-   public checked?: unknown;
-   public value?: unknown;
+   declare public checked?: unknown;
+   declare public value?: unknown;
    declare public indeterminate?: boolean;
    declare public unfocusable?: boolean;
    declare public native?: boolean;

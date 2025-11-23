@@ -1,0 +1,143 @@
+const fs = require('fs');
+const path = require('path');
+const glob = require('glob');
+
+function processFile(filePath) {
+    let content = fs.readFileSync(filePath, 'utf8');
+    let modified = false;
+    const lines = content.split('\n');
+    const newLines = [];
+
+    let inClass = false;
+    let inInterface = false;
+    let inReactComponent = false;
+    let braceDepth = 0;
+    let classStartDepth = 0;
+
+    for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
+        const trimmed = line.trim();
+
+        // Track interface boundaries
+        if (trimmed.match(/^(export\s+)?interface\s+\w+/)) {
+            inInterface = true;
+            braceDepth = 0;
+        }
+
+        // Track class boundaries
+        if (trimmed.match(/^(export\s+)?class\s+\w+/)) {
+            inClass = true;
+            classStartDepth = braceDepth;
+            // Check if it's a React component
+            inReactComponent = trimmed.includes('extends VDOM.Component') ||
+                              trimmed.includes('extends React.Component') ||
+                              trimmed.includes('extends Component');
+        }
+
+        // Track braces
+        const openBraces = (line.match(/\{/g) || []).length;
+        const closeBraces = (line.match(/\}/g) || []).length;
+        braceDepth += openBraces - closeBraces;
+
+        // Exit class/interface when we close the brace
+        if (inClass && braceDepth <= classStartDepth && closeBraces > 0) {
+            inClass = false;
+            inReactComponent = false;
+        }
+        if (inInterface && braceDepth < 0) {
+            inInterface = false;
+        }
+
+        // Check if this is a property line that needs declare
+        if (inClass && !inInterface && !inReactComponent) {
+            // Match: public/private/protected property without declare
+            const match = trimmed.match(/^(public|private|protected)\s+(\w+)(\?)?:\s*/);
+
+            if (match && !trimmed.includes('declare')) {
+                const [, visibility, propName, optional] = match;
+
+                // Skip if it's a method (has opening parenthesis for method signature)
+                if (trimmed.match(/^\s*(public|private|protected)\s+\w+\??\s*\(/)) {
+                    newLines.push(line);
+                    continue;
+                }
+
+                // For multi-line definitions, we need to check the complete property
+                // Look ahead to find if there's an initializer
+                let hasInitializer = false;
+                let lookAhead = i;
+                let fullProperty = '';
+
+                // Keep looking until we find a semicolon or the next property/method
+                while (lookAhead < lines.length) {
+                    fullProperty += lines[lookAhead];
+
+                    // Stop if we hit a semicolon
+                    if (lines[lookAhead].includes(';')) break;
+
+                    // Stop if we hit the next property/method definition
+                    if (lookAhead > i && lines[lookAhead].trim().match(/^(public|private|protected|declare)/)) break;
+
+                    lookAhead++;
+                    if (lookAhead - i > 10) break; // Safety limit
+                }
+
+                // Check for initializer: look for = that's not part of =>
+                // We need to properly handle arrow functions
+                let depth = 0;
+                for (let j = fullProperty.indexOf(':'); j < fullProperty.length - 1; j++) {
+                    const char = fullProperty[j];
+                    const nextChar = fullProperty[j + 1];
+
+                    if (char === '<' || char === '{' || char === '[' || char === '(') depth++;
+                    if (char === '>' || char === '}' || char === ']' || char === ')') depth--;
+
+                    // Check for = but not =>
+                    if (char === '=' && nextChar !== '>' && depth === 0) {
+                        hasInitializer = true;
+                        break;
+                    }
+                }
+
+                // Skip if it has an initializer
+                if (hasInitializer) {
+                    newLines.push(line);
+                    continue;
+                }
+
+                // Add declare
+                const indent = line.match(/^(\s*)/)[1];
+                const rest = line.substring(line.indexOf(visibility));
+                newLines.push(`${indent}declare ${rest}`);
+                modified = true;
+                continue;
+            }
+        }
+
+        newLines.push(line);
+    }
+
+    if (modified) {
+        fs.writeFileSync(filePath, newLines.join('\n'), 'utf8');
+        return true;
+    }
+
+    return false;
+}
+
+// Find all .ts and .tsx files
+const files = glob.sync('src/**/*.{ts,tsx}', {
+    cwd: __dirname,
+    absolute: true,
+    ignore: ['**/*.d.ts', '**/*.spec.ts', '**/*.spec.tsx']
+});
+
+let modifiedCount = 0;
+files.forEach(file => {
+    if (processFile(file)) {
+        console.log('Modified:', path.relative(__dirname, file));
+        modifiedCount++;
+    }
+});
+
+console.log(`\nModified ${modifiedCount} files`);
