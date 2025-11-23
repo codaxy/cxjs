@@ -76,16 +76,16 @@ export class MonthPicker<Config extends MonthPickerConfig = MonthPickerConfig> e
    MonthPickerInstance
 > {
    declare public baseClass: string;
-   public mode?: string;
+   declare public mode?: string;
    declare public range?: BooleanProp;
-   public from?: Prop<string | Date>;
-   public to?: Prop<string | Date>;
-   public value?: Prop<string | Date>;
-   public refDate?: Prop<string | Date>;
-   public minValue?: Prop<string | Date>;
-   public minExclusive?: BooleanProp;
-   public maxValue?: Prop<string | Date>;
-   public maxExclusive?: BooleanProp;
+   declare public from?: Prop<string | Date>;
+   declare public to?: Prop<string | Date>;
+   declare public value?: Prop<string | Date>;
+   declare public refDate?: Prop<string | Date>;
+   declare public minValue?: Prop<string | Date>;
+   declare public minExclusive?: BooleanProp;
+   declare public maxValue?: Prop<string | Date>;
+   declare public maxExclusive?: BooleanProp;
    declare public startYear: number;
    declare public endYear: number;
    declare public bufferSize: number;
@@ -93,17 +93,17 @@ export class MonthPicker<Config extends MonthPickerConfig = MonthPickerConfig> e
    declare public maxExclusiveErrorText: string;
    declare public minValueErrorText: string;
    declare public minExclusiveErrorText: string;
-   public encoding?: (date: Date) => any;
+   declare public encoding?: (date: Date) => any;
    declare public inclusiveTo?: boolean;
-   public onBeforeSelect?: (e: Event, instance: MonthPickerInstance, dateFrom?: Date, dateTo?: Date) => boolean;
-   public onSelect?: (instance: MonthPickerInstance, dateFrom?: Date, dateTo?: Date) => void;
+   declare public onBeforeSelect?: (e: Event, instance: MonthPickerInstance, dateFrom?: Date, dateTo?: Date) => boolean;
+   declare public onSelect?: (instance: MonthPickerInstance, dateFrom?: Date, dateTo?: Date) => void;
    declare public hideQuarters?: boolean;
-   public onCreateIsMonthDateSelectable?: (
+   declare public onCreateIsMonthDateSelectable?: (
       validationParams: Record<string, any>,
       instance: MonthPickerInstance,
    ) => (monthDate: Date) => boolean;
-   public onBlur?: string | ((e: React.FocusEvent, instance: MonthPickerInstance) => void);
-   public onFocusOut?: string | ((e: React.FocusEvent, instance: MonthPickerInstance) => void);
+   declare public onBlur?: string | ((e: React.FocusEvent, instance: MonthPickerInstance) => void);
+   declare public onFocusOut?: string | ((e: React.FocusEvent, instance: MonthPickerInstance) => void);
 
    declareData(...args: Record<string, unknown>[]): void {
       let values: Record<string, unknown> = {};

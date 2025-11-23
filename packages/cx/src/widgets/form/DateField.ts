@@ -3,9 +3,12 @@ import { Localization } from "../../ui/Localization";
 import { DateTimeField } from "./DateTimeField";
 
 export class DateField extends DateTimeField {
-   public picker: string = "calendar";
-   public segment: string = "date";
+   declare public picker: string;
+   declare public segment: string;
 }
+
+DateField.prototype.picker = "calendar";
+DateField.prototype.segment = "date";
 
 Widget.alias("datefield", DateField);
 Localization.registerPrototype("cx/widgets/DateField", DateField);

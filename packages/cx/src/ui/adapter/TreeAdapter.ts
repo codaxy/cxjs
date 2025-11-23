@@ -40,14 +40,14 @@ export class TreeAdapter<T extends TreeNode = TreeNode> extends ArrayAdapter<T> 
    declare public leafField: string;
    declare public loadingField: string;
    declare public loadedField: string;
-   public onLoadError?: (response: any) => void;
+   declare public onLoadError?: (response: any) => void;
    declare public foldersFirst: boolean;
    declare public hideRootNodes: boolean;
-   public restoreExpandedNodesOnLoad?: boolean;
-   public load?: (context: RenderingContext, instance: Instance, data: T) => Promise<any[]> | any[];
+   declare public restoreExpandedNodesOnLoad?: boolean;
+   declare public load?: (context: RenderingContext, instance: Instance, data: T) => Promise<any[]> | any[];
 
-   protected childrenAccessor?: Accessor;
-   protected expandedState?: ExpandedState;
+   declare protected childrenAccessor?: Accessor;
+   declare protected expandedState?: ExpandedState;
 
    constructor(config?: TreeAdapterConfig) {
       super(config);

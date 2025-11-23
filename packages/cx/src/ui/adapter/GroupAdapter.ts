@@ -55,10 +55,10 @@ export interface GroupAdapterConfig extends ArrayAdapterConfig {
 }
 
 export class GroupAdapter<T = any> extends ArrayAdapter<T> {
-   public aggregates?: Cx.StructuredProp;
-   public groupRecordsAlias?: string;
-   public groupRecordsName?: string;
-   public groupings?: ResolvedGrouping[] | null;
+   declare public aggregates?: Cx.StructuredProp;
+   declare public groupRecordsAlias?: string;
+   declare public groupRecordsName?: string;
+   declare public groupings?: ResolvedGrouping[] | null;
    declare public groupName: string;
 
    constructor(config?: GroupAdapterConfig) {

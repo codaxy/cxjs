@@ -142,7 +142,7 @@ class RestateStore extends Store {
    declare parentData: any;
    declare dataSelector: any;
    declare privateData: any;
-   onSet: any;
+   declare onSet: any;
    declare detached: any;
    declare store: View; // Parent store reference
 

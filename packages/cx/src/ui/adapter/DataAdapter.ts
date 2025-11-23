@@ -25,9 +25,9 @@ export abstract class DataAdapter<T = any> extends Component {
    declare public recordName: string;
    declare public indexName: string;
    declare public immutable: boolean;
-   public sealed?: boolean;
+   declare public sealed?: boolean;
 
-   protected filterFn?: (data: T) => boolean;
+   declare protected filterFn?: (data: T) => boolean;
 
    constructor(config?: DataAdapterConfig) {
       super(config);

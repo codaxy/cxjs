@@ -73,29 +73,29 @@ export interface MonthFieldConfig extends FieldConfig {
 
 export class MonthField<Config extends MonthFieldConfig = MonthFieldConfig> extends Field<Config, MonthFieldInstance> {
    declare public baseClass: string;
-   public mode?: string;
+   declare public mode?: string;
    declare public range?: BooleanProp;
-   public from?: Prop<string | Date>;
-   public to?: Prop<string | Date>;
-   public value?: Prop<string | Date>;
-   public culture!: DateTimeCulture;
-   public hideClear?: boolean;
+   declare public from?: Prop<string | Date>;
+   declare public to?: Prop<string | Date>;
+   declare public value?: Prop<string | Date>;
+   declare public culture: DateTimeCulture;
+   declare public hideClear?: boolean;
    declare public showClear?: boolean;
    declare public alwaysShowClear?: boolean;
-   public encoding?: (date: Date) => string;
-   public dropdownOptions?: Record<string, any>;
+   declare public encoding?: (date: Date) => string;
+   declare public dropdownOptions?: Record<string, any>;
    declare public inclusiveTo?: boolean;
-   public monthPickerOptions?: Record<string, any>;
+   declare public monthPickerOptions?: Record<string, any>;
    declare public maxValueErrorText: string;
    declare public maxExclusiveErrorText: string;
    declare public minValueErrorText: string;
    declare public minExclusiveErrorText: string;
    declare public inputErrorText?: string;
-   public minExclusive?: BooleanProp;
-   public maxExclusive?: BooleanProp;
-   public minValue?: Prop<string | Date>;
-   public maxValue?: Prop<string | Date>;
-   public placeholder?: StringProp;
+   declare public minExclusive?: BooleanProp;
+   declare public maxExclusive?: BooleanProp;
+   declare public minValue?: Prop<string | Date>;
+   declare public maxValue?: Prop<string | Date>;
+   declare public placeholder?: StringProp;
    declare public reactOn: string;
 
    declareData(...args: Record<string, unknown>[]): void {

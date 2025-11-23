@@ -37,14 +37,14 @@ export interface ResolvedSorter {
 }
 
 export class ArrayAdapter<T = any> extends DataAdapter<T> {
-   public recordsAccessor: Accessor;
-   public recordsBinding?: Prop<T[]>;
+   declare public recordsAccessor: Accessor;
+   declare public recordsBinding?: Prop<T[]>;
    declare public keyField: string | null;
    declare public cacheByKeyField: boolean;
-   public sortOptions?: CollatorOptions;
+   declare public sortOptions?: CollatorOptions;
    declare isTreeAdapter: boolean;
 
-   protected sorter?: (data: DataAdapterRecord<T>[]) => DataAdapterRecord<T>[];
+   declare protected sorter?: (data: DataAdapterRecord<T>[]) => DataAdapterRecord<T>[];
 
    constructor(config?: ArrayAdapterConfig) {
       super(config);

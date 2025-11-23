@@ -55,11 +55,11 @@ export class ColorField extends Field {
    declare public baseClass: string;
    declare public showClear?: boolean;
    declare public alwaysShowClear?: boolean;
-   public hideClear?: boolean;
+   declare public hideClear?: boolean;
    declare public format: string ;
-   public lastDropdown?: string;
-   public value?: string;
-   public dropdownOptions?: Record<string, any>;
+   declare public lastDropdown?: string;
+   declare public value?: string;
+   declare public dropdownOptions?: Record<string, any>;
 
    declareData(...args: Record<string, unknown>[]): void {
       super.declareData(

@@ -54,10 +54,10 @@ import { getActiveElement } from "../../util/getActiveElement";
 import { VDOM } from "../../ui/VDOM";
 
 export class TextField<Config extends TextFieldConfig = TextFieldConfig> extends Field<Config> {
-   public hideClear?: boolean;
+   declare public hideClear?: boolean;
    declare public showClear?: boolean;
    declare public alwaysShowClear?: boolean;
-   public validationRegExp?: RegExp;
+   declare public validationRegExp?: RegExp;
    declare public validationErrorText?: string;
    declare public minLengthValidationErrorText: string;
    declare public maxLengthValidationErrorText: string;

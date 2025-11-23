@@ -101,7 +101,7 @@ export interface LookupFieldConfig extends FieldConfig {
 export class LookupField<Config extends LookupFieldConfig = LookupFieldConfig> extends Field<Config> {
    declare public baseClass: string;
    declare public multiple: boolean;
-   public hideClear?: boolean;
+   declare public hideClear?: boolean;
    declare public showClear: boolean;
    declare public alwaysShowClear: boolean;
    declare public hideSearchField: boolean;
@@ -128,28 +128,28 @@ export class LookupField<Config extends LookupFieldConfig = LookupFieldConfig> e
    declare public queryDelay: number;
    declare public minQueryLength: number;
    declare public onGetRecordDisplayText?: ((record: Record<string, any>, instance: Instance) => string) | null;
-   public onQuery?:
+   declare public onQuery?:
       | string
       | ((
            params: string | { query: string; page: number; pageSize: number },
            instance: Instance,
         ) => Promise<Record<string, any>[]> | Record<string, any>[]);
-   public onCreateVisibleOptionsFilter?:
+   declare public onCreateVisibleOptionsFilter?:
       | string
       | ((filterParams: unknown, instance: Instance) => (option: Record<string, any>) => boolean);
-   public value?: BindingInput;
-   public text?: BindingInput<string>;
-   public records?: Record<string, any>[];
-   public values?: unknown[];
-   public options?: Record<string, any>[];
+   declare public value?: BindingInput;
+   declare public text?: BindingInput<string>;
+   declare public records?: Record<string, any>[];
+   declare public values?: unknown[];
+   declare public options?: Record<string, any>[];
 
-   public enabled?: boolean;
-   public placeholder?: string;
-   public readOnly?: boolean;
-   public dropdownOptions?: Record<string, any>;
-   public bindings?: BindingConfig[];
-   public keyBindings?: BindingConfig[];
-   public itemConfig?: CxChild;
+   declare public enabled?: boolean;
+   declare public placeholder?: string;
+   declare public readOnly?: boolean;
+   declare public dropdownOptions?: Record<string, any>;
+   declare public bindings?: BindingConfig[];
+   declare public keyBindings?: BindingConfig[];
+   declare public itemConfig?: CxChild;
 
    declareData(...args: Record<string, any>[]): void {
       let additionalAttributes = this.multiple
