@@ -1,3 +1,4 @@
+import { PureContainerConfig } from "./../PureContainer";
 import { Instance } from "../Instance";
 import { PureContainer } from "../PureContainer";
 import { RenderingContext } from "../RenderingContext";
@@ -11,6 +12,10 @@ function isVisibleDeep(instance: Instance): boolean {
 }
 
 class FirstVisibleChildItem extends PureContainer {
+   constructor(config: PureContainerConfig) {
+      super(config);
+   }
+
    checkVisible(context: RenderingContext, instance: any, data: any): boolean {
       if (instance.parent.firstVisibleChild) return false;
       return super.checkVisible(context, instance, data);

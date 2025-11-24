@@ -93,7 +93,7 @@ export abstract class Widget<
    declare public controller?: Controller;
 
    // Pure container flag
-   public isPureContainer?: boolean;
+   declare public isPureContainer?: boolean;
 
    public static optimizePrepare?: boolean;
 
