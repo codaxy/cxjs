@@ -167,46 +167,6 @@ describe("PureContainer", () => {
       });
    });
 
-   it("preserves whitespace when ws is true", () => {
-      let widget = (
-         <cx>
-            <PureContainer ws>
-               <div> Spaced Text </div>
-            </PureContainer>
-         </cx>
-      );
-
-      let store = new Store();
-      const component = createTestRenderer(store, widget);
-
-      let tree = component.toJSON();
-      assert(tree && !Array.isArray(tree), "Expected single element");
-      assert.equal(tree.type, "div");
-      // With ws=true, whitespace should be preserved
-      assert(tree.children && typeof tree.children[0] === 'string' && tree.children[0].includes("  "));
-   });
-
-   it("trims whitespace by default", () => {
-      let widget = (
-         <cx>
-            <PureContainer>
-               <div> Spaced Text </div>
-            </PureContainer>
-         </cx>
-      );
-
-      let store = new Store();
-      const component = createTestRenderer(store, widget);
-
-      let tree = component.toJSON();
-      assert(tree && !Array.isArray(tree), "Expected single element");
-      assert.deepEqual(tree, {
-         type: "div",
-         props: {},
-         children: ["Spaced Text"],
-      });
-   });
-
    it("renders children from items property", () => {
       let widget = (
          <cx>

@@ -1,4 +1,5 @@
-import { isObject } from "../util/isObject";
+import { isObject } from "../util";
+import { isDataRecord } from "../util/isDataRecord";
 
 interface AccessorChainMethods {
    toString(): string;
@@ -58,5 +59,5 @@ export function createAccessorModelProxy<M>(chain: string = ""): AccessorChain<M
 }
 
 export function isAccessorChain<M>(value: unknown): value is AccessorChain<M> {
-   return value != null && isObject(value) && "isAccessorChain" in value && !!value.isAccessorChain;
+   return value != null && !!(value as any).isAccessorChain;
 }

@@ -15,7 +15,7 @@ export interface NestedDataViewConfig extends ViewConfig {
 }
 
 export class NestedDataView extends AugmentedViewBase {
-   nestedData?: StructuredDataAccessor;
+   declare nestedData?: StructuredDataAccessor;
 
    constructor(config: NestedDataViewConfig) {
       super(config);

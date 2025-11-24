@@ -33,7 +33,6 @@ export class Restate<Config extends RestateConfig = RestateConfig> extends PureC
    declare privateDataSelector: any;
    declare detached: boolean;
    declare data?: any;
-   // children, items, layout, controller, outerLayout, useParentLayout, ws inherited from parent classes
    declare culture?: any;
    declare options?: any;
    declare onError?: (error: Error, instance: Instance) => void;

@@ -6,8 +6,8 @@ export interface ReadOnlyDataViewConfig extends ViewConfig {
 
 export class ReadOnlyDataView extends View {
    declare store: View;
-   data?: any;
-   immutable?: boolean;
+   declare data?: any;
+   declare immutable?: boolean;
 
    constructor(config?: ReadOnlyDataViewConfig) {
       super(config);

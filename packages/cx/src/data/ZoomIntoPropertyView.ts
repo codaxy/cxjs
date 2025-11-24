@@ -7,8 +7,8 @@ export interface ZoomIntoPropertyViewConfig extends NestedDataViewConfig {
 }
 
 export class ZoomIntoPropertyView extends NestedDataView {
-   binding: Binding;
-   rootName: string;
+   declare binding: Binding;
+   declare rootName: string;
 
    constructor(config: ZoomIntoPropertyViewConfig) {
       super(config);

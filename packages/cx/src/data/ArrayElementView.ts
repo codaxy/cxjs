@@ -19,15 +19,15 @@ export interface ArrayElementViewConfig {
 }
 
 export class ArrayElementView extends AugmentedViewBase {
-   arrayAccessor: any;
-   recordAlias: string;
-   indexAlias: string;
-   lengthAlias: string;
-   hasNestedAliases?: boolean;
-   recordBinding?: any;
-   indexBinding?: any;
-   lengthBinding?: any;
-   itemIndex: number;
+   declare arrayAccessor: any;
+   declare recordAlias: string;
+   declare indexAlias: string;
+   declare lengthAlias: string;
+   declare hasNestedAliases?: boolean;
+   declare recordBinding?: any;
+   declare indexBinding?: any;
+   declare lengthBinding?: any;
+   declare itemIndex: number;
 
    constructor(config: ArrayElementViewConfig) {
       super(config);

@@ -8,10 +8,10 @@ export interface ExposedValueViewConfig extends ViewConfig {
 }
 
 export class ExposedValueView extends View {
-   key: string;
-   containerBinding: Binding;
-   recordName: string;
-   immutable?: boolean;
+   declare key: string;
+   declare containerBinding: Binding;
+   declare recordName: string;
+   declare immutable?: boolean;
    declare store: View;
 
    constructor(config: ExposedValueViewConfig) {

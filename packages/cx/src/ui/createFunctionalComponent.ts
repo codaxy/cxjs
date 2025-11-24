@@ -7,8 +7,8 @@ import { isDefined } from "../util/isDefined";
 let currentInstance: any = null;
 
 class FunctionalComponent extends PureContainer {
-   childrenFactory: (props: any) => any;
-   props: any;
+   declare childrenFactory: (props: any) => any;
+   declare props: any;
 
    initInstance(context: any, instance: any) {
       instance.store = instance.parentStore;

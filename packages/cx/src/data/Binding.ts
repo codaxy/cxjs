@@ -101,8 +101,4 @@ export function isBindingObject(value: unknown): value is BindingObject {
    return isObject(value) && hasStringAtKey(value, "bind");
 }
 
-export function isAccessorChainObject<T>(value: unknown): value is AccessorChain<T> {
-   return isObject(value) && hasValueAtKey(value, "isAccessorChain", true);
-}
-
 export { bindingCache };

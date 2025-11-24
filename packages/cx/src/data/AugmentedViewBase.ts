@@ -6,7 +6,7 @@ export interface AugmentedViewBaseConfig extends ViewConfig {
 }
 
 export class AugmentedViewBase<D = any> extends View<D> {
-   immutable: boolean;
+   declare immutable: boolean;
    declare store: View;
 
    constructor(config: AugmentedViewBaseConfig) {

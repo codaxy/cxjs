@@ -8,7 +8,7 @@ export interface SubscribableViewConfig extends ViewConfig {
 export class SubscribableView<D> extends View<D> {
    subscribers?: any;
    changes: string[];
-   async: boolean;
+   declare async: boolean;
    scheduled: boolean;
 
    constructor(config?: SubscribableViewConfig) {

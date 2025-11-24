@@ -71,12 +71,12 @@ export interface ViewMethods<D = Record<string, any>> {
 }
 
 export class View<D = any> implements ViewMethods<D> {
-   store?: View;
-   meta: any;
+   declare store?: View;
+   declare meta: any;
+   declare sealed: boolean;
    cache: { version: number; data?: any; result?: any; itemIndex?: number; key?: string; parentStoreData?: any };
-   sealed?: boolean;
-   notificationsSuspended?: number;
-   dirty?: boolean;
+   notificationsSuspended: number = 0;
+   dirty: boolean = false;
 
    constructor(config?: ViewConfig) {
       Object.assign(this, config);
