@@ -4,7 +4,7 @@ import { PureContainer } from "../PureContainer";
 import { RenderingContext } from "../RenderingContext";
 
 function isVisibleDeep(instance: Instance): boolean {
-   if (instance.visible && (!instance.widget.isPureContainer || !(instance.widget as any).useParentLayout)) return true;
+   if (instance.visible && (!instance.widget.isPureContainer || !instance.widget.useParentLayout)) return true;
    if (instance.children) {
       for (let i = 0; i < instance.children.length; i++) if (isVisibleDeep(instance.children[i])) return true;
    }

@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { VDOM } from "../../ui/VDOM";
-import type { FieldWidgetData, Instance } from "../../ui/Instance";
+import type { Instance } from "../../ui/Instance";
 import type { RenderingContext } from "../../ui/RenderingContext";
 import { Widget, getContent } from "../../ui/Widget";
 import { stopPropagation } from "../../util/eventCallbacks";

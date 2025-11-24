@@ -42,7 +42,7 @@ export interface WidgetConfig {
    vdomKey?: string;
    controller?: ControllerProp;
 
-   onInit?(context: RenderingContext, instance: Instance): void;
+   onInit?(context: RenderingContext): void;
    onExplore?(context: RenderingContext, instance: Instance): void;
    onPrepare?(context: RenderingContext, instance: Instance): void;
    onCleanup?(context: RenderingContext, instance: Instance): void;
@@ -94,6 +94,7 @@ export abstract class Widget<
 
    // Pure container flag
    declare public isPureContainer?: boolean;
+   declare public useParentLayout?: boolean;
 
    public static optimizePrepare?: boolean;
 

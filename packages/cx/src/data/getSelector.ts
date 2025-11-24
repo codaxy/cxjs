@@ -1,3 +1,4 @@
+import { expr } from "cx/ui";
 import { Binding } from "./Binding";
 import { Expression } from "./Expression";
 import { StringTemplate } from "./StringTemplate";
@@ -7,6 +8,7 @@ import { isSelector } from "./isSelector";
 import { isAccessorChain } from "./createAccessorModelProxy";
 import { isString } from "../util/isString";
 import { hasKey, hasStringAtKey, hasFunctionAtKey } from "../util/hasKey";
+import { isFunction } from "../util";
 
 type Selector<T> = (data: any) => T;
 
@@ -29,7 +31,8 @@ export function getSelector(config: unknown): Selector<any> {
 
          if (hasStringAtKey(config, "tpl")) return StringTemplate.get(config.tpl);
 
-         if (hasStringAtKey(config, "expr")) return Expression.get(config.expr);
+         if (hasKey(config, "expr") && (isString(config.expr) || isFunction(config.expr)))
+            return Expression.get(config.expr as any);
 
          if (hasFunctionAtKey(config, "get")) return config.get;
 

@@ -63,42 +63,6 @@ export interface ConfirmConfig {
 }
 
 /**
- * Field widget data structure - extends WidgetData with field-specific properties
- *
- * Used by form field widgets like TextField, Checkbox, Select, etc.
- * @example
- * interface MyFieldData extends FieldWidgetData {
- *    customFieldProp: string;
- * }
- */
-export interface FieldWidgetData extends WidgetData {
-   id?: string;
-   value?: unknown;
-   readOnly?: boolean;
-   viewMode?: boolean;
-   mode?: string;
-   emptyText?: string;
-   visited?: boolean;
-   autoFocus?: boolean;
-   tabOnEnterKey?: boolean;
-   tabIndex?: number;
-   inputStyle?: Record<string, string | number> | string;
-   inputClass?: string;
-   inputAttrs?: Record<string, unknown>;
-   validationParams?: Record<string, unknown>;
-   validationValue?: unknown;
-   label?: string;
-   labelWidth?: number;
-   empty?: boolean;
-
-   // Internal properties set by Field.prepareData
-   _disabled?: boolean;
-   _readOnly?: boolean;
-   _viewMode?: boolean;
-   _tabOnEnterKey?: boolean;
-}
-
-/**
  * Parent options passed down from overlay/modal components
  *
  * For custom parent options, extend this interface:

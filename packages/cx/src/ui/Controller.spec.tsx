@@ -63,12 +63,9 @@ describe("Controller", () => {
 
       class Cmp extends Widget<CmpConfig> {
          render(context: RenderingContext, instance: Instance, key: string) {
+            instance.invoke("onTest");
             return null;
          }
-
-         onInit = (context: RenderingContext, instance: Instance) => {
-            instance.invoke("onTest");
-         };
       }
 
       let store = new Store();
@@ -106,12 +103,9 @@ describe("Controller", () => {
 
       class Cmp extends Widget<CmpConfig> {
          render(context: RenderingContext, instance: Instance, key: string) {
+            instance.invoke("onTest");
             return null;
          }
-
-         onInit = (context: RenderingContext, instance: Instance) => {
-            instance.invoke("onTest");
-         };
       }
 
       let store = new Store();

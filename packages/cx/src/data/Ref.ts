@@ -12,9 +12,7 @@ interface RefConfig<T> {
 }
 
 export class Ref<T = any> extends Component implements CanMemoize<T> {
-   isRef?: boolean;
-   static create: (typeAlias?: any, config?: any, more?: any) => any;
-   static factory: (alias: any, config?: any, more?: any) => Ref;
+   declare isRef?: boolean;
 
    constructor(config: RefConfig<T>) {
       super(config);

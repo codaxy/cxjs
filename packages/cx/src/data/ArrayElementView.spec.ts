@@ -26,7 +26,7 @@ describe("ArrayElementView", function () {
       let store = new Store({ data: { letters } });
       let elementView = new ArrayElementView({ store, itemIndex: 1, arrayAccessor: getAccessor({ bind: "letters" }) });
       elementView.delete("$record");
-      assert.deepEqual(store.get("letters"), [...letters[0]]);
+      assert.deepEqual(store.get("letters"), [letters[0]]);
    });
 
    it("exposes the element as under the given alias", function () {
