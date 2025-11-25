@@ -1,6 +1,7 @@
-//@ts-nocheck
-import { Widget, VDOM } from "../ui/Widget";
-import { HtmlElement } from "../widgets/HtmlElement";
+/** @jsxImportSource react */
+
+import { Widget, VDOM, WidgetConfig } from "../ui/Widget";
+import { HtmlElement, HtmlElementConfig, HtmlElementInstance } from "../widgets/HtmlElement";
 import { PureContainer } from "../ui/PureContainer";
 import { getShape } from "./shapes";
 import { isUndefined } from "../util/isUndefined";
@@ -8,10 +9,86 @@ import { isNonEmptyArray } from "../util/isNonEmptyArray";
 import { parseStyle } from "../util/parseStyle";
 import { withHoverSync } from "../ui/HoverSync";
 import { Format } from "../util/Format";
+import { Instance } from "../ui/Instance";
+import { RenderingContext } from "../ui/RenderingContext";
+import { StringProp, StyleProp, BooleanProp } from "../ui/Prop";
+
+export interface LegendEntry {
+   name: string;
+   displayText?: string;
+   active?: boolean;
+   colorIndex?: number;
+   disabled?: boolean;
+   selected?: boolean;
+   style?: any;
+   shape?: string;
+   shapeSize?: number;
+   hoverSync?: any;
+   hoverChannel?: string;
+   hoverId?: any;
+   onClick?: (e: MouseEvent) => void;
+   value?: number;
+}
+
+export interface LegendConfig extends HtmlElementConfig {
+   /** Name of the legend. Default is `legend`. */
+   name?: string;
+
+   /** Default shape to use for all entries. */
+   shape?: StringProp;
+
+   /** Style applied to each entry. */
+   entryStyle?: StyleProp;
+
+   /** CSS class applied to each entry. */
+   entryClass?: StringProp;
+
+   /** Style applied to the value display. */
+   valueStyle?: StyleProp;
+
+   /** CSS class applied to the value display. */
+   valueClass?: StringProp;
+
+   /** Set to `true` to show values next to legend entries. */
+   showValues?: BooleanProp;
+
+   /** Format used for displaying values. Default is `s`. */
+   valueFormat?: string;
+
+   /** Set to `true` for vertical layout. */
+   vertical?: boolean;
+
+   /** Size of the shape in pixels. Default is `18`. */
+   shapeSize?: number;
+
+   /** Size of the SVG container in pixels. Default is `20`. */
+   svgSize?: number;
+}
+
+export interface LegendInstance extends HtmlElementInstance {
+   legends: Record<string, { entries: LegendEntry[]; names: Record<string, LegendEntry> }>;
+}
 
 export class Legend extends HtmlElement {
-   declareData() {
-      super.declareData(...arguments, {
+   declare baseClass: string;
+   declare name: string;
+   declare vertical: boolean;
+   declare shapeSize: number;
+   declare shape: string | null;
+   declare svgSize: number;
+   declare showValues: boolean;
+   declare valueFormat: string;
+   declare entryStyle: any;
+   declare valueStyle: any;
+
+   static Scope: typeof PureContainer;
+
+   constructor(config: LegendConfig) {
+      super(config);
+   }
+
+   declareData(...args: any[]): void {
+      super.declareData(...args, {
          shape: undefined,
          entryStyle: { structured: true },
          entryClass: { structured: true },
@@ -21,13 +98,13 @@ export class Legend extends HtmlElement {
       });
    }
 
-   init() {
+   init(): void {
       this.entryStyle = parseStyle(this.entryStyle);
       this.valueStyle = parseStyle(this.valueStyle);
       super.init();
    }
 
-   prepareData(context, instance) {
+   prepareData(context: RenderingContext, instance: LegendInstance): void {
       let { data } = instance;
       data.stateMods = Object.assign(data.stateMods || {}, {
          vertical: this.vertical,
@@ -35,7 +112,7 @@ export class Legend extends HtmlElement {
       super.prepareData(context, instance);
    }
 
-   isValidHtmlAttribute(attrName) {
+   isValidHtmlAttribute(attrName: string): string | false {
       switch (attrName) {
          case "shapeSize":
          case "svgSize":
@@ -48,16 +125,17 @@ export class Legend extends HtmlElement {
          case "valueFormat":
             return false;
 
-         default: return super.isValidHtmlAttribute(attrName);
+         default:
+            return super.isValidHtmlAttribute(attrName);
       }
    }
 
-   explore(context, instance) {
+   explore(context: RenderingContext, instance: LegendInstance): void {
       if (!context.legends) context.legends = {};
 
       instance.legends = context.legends;
 
-      context.addLegendEntry = (legendName, entry) => {
+      context.addLegendEntry = (legendName: string | false, entry: LegendEntry) => {
          if (!legendName) return;
 
          //case when all legends are scoped and new entry is added outside the scope
@@ -79,20 +157,20 @@ export class Legend extends HtmlElement {
       super.explore(context, instance);
    }
 
-   renderChildren(context, instance) {
+   renderChildren(context: RenderingContext, instance: LegendInstance): React.ReactNode[] {
       const CSS = this.CSS;
 
       let entries = instance.legends[this.name] && instance.legends[this.name].entries,
-         list;
+         list: React.ReactNode;
 
       let { entryClass, entryStyle, shape, valueClass, valueStyle } = instance.data;
       let valueFormatter = Format.parse(this.valueFormat);
 
-      let valueClasses = this.showValues ? CSS.expand(CSS.element(this.baseClass, "value"), valueClass) : null;
+      let valueClasses = this.showValues ? CSS.expand(CSS.element(this.baseClass, "value"), valueClass) : undefined;
       let entryTextClass = CSS.element(this.baseClass, "entry-text");
 
       if (isNonEmptyArray(entries)) {
-         list = entries.map((e, i) =>
+         list = entries.map((e: LegendEntry, i: number) =>
             withHoverSync(i, e.hoverSync, e.hoverChannel, e.hoverId, ({ onMouseMove, onMouseLeave, hover }) => (
                <div
                   key={i}
@@ -106,7 +184,7 @@ export class Legend extends HtmlElement {
                      entryClass,
                   )}
                   style={entryStyle}
-                  onClick={e.onClick}
+                  onClick={e.onClick as any}
                   onMouseMove={onMouseMove}
                   onMouseLeave={onMouseLeave}
                >
@@ -125,7 +203,7 @@ export class Legend extends HtmlElement {
       return [list, super.renderChildren(context, instance)];
    }
 
-   renderShape(entry, legendEntriesShape) {
+   renderShape(entry: LegendEntry, legendEntriesShape: string | null | undefined): React.ReactNode {
       const className = this.CSS.element(this.baseClass, "shape", {
          [`color-${entry.colorIndex}`]: entry.colorIndex != null && (isUndefined(entry.active) || entry.active),
       });
@@ -165,21 +243,25 @@ Legend.prototype.valueFormat = "s";
 
 Widget.alias("legend", Legend);
 
+interface LegendScopeInstance extends Instance {
+   legends: Record<string, { entries: LegendEntry[]; names: Record<string, LegendEntry> }>;
+}
+
 Legend.Scope = class extends PureContainer {
-   explore(context, instance) {
+   explore(context: RenderingContext, instance: LegendScopeInstance): void {
       context.push("legends", (instance.legends = {}));
       super.explore(context, instance);
    }
 
-   exploreCleanup(context, instance) {
+   exploreCleanup(context: RenderingContext, instance: LegendScopeInstance): void {
       context.pop("legends");
    }
 
-   prepare(context, instance) {
+   prepare(context: RenderingContext, instance: LegendScopeInstance): void {
       context.push("legends", instance.legends);
    }
 
-   prepareCleanup(context, instance) {
+   prepareCleanup(context: RenderingContext, instance: LegendScopeInstance): void {
       context.pop("legends");
    }
 };

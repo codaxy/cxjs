@@ -1,29 +1,64 @@
-//@ts-nocheck
 import { Widget, VDOM } from "../ui/Widget";
-import { ColumnBarBase } from "./ColumnBarBase";
+import { ColumnBarBase, ColumnBarBaseConfig, ColumnBarBaseInstance } from "./ColumnBarBase";
 import { Rect } from "../svg/util/Rect";
 import { isDefined } from "../util/isDefined";
+import { RenderingContext } from "../ui/RenderingContext";
+import { NumberProp, BooleanProp } from "../ui/Prop";
+
+export interface ColumnConfig extends ColumnBarBaseConfig {
+   /** Column base value. Default value is `0`. */
+   y0?: NumberProp;
+
+   /** Size (width) of the column in axis units. */
+   size?: NumberProp;
+
+   /** Set to true to auto calculate size and offset. Available only if the x axis is a category axis. */
+   autoSize?: BooleanProp;
+
+   /** Alias for size. */
+   width?: number;
+
+   /** Minimum column size in pixels. Useful for indicating very small values. Default value is 0.5. */
+   minPixelHeight?: number;
+
+   /** Hide the base of the column (y0). */
+   hiddenBase?: boolean;
+}
 
 export class Column extends ColumnBarBase {
-   init() {
+   declare y0: number;
+   declare size: number;
+   declare autoSize: boolean;
+   declare width: number;
+   declare minPixelHeight: number;
+   declare hiddenBase: boolean;
+
+   constructor(config: ColumnConfig) {
+      super(config);
+   }
+
+   init(): void {
       if (isDefined(this.width)) this.size = this.width;
 
       super.init();
    }
 
-   declareData() {
-      return super.declareData(...arguments, {
-         y0: undefined,
-         size: undefined,
-         autoSize: undefined,
-      });
+   declareData(...args: any[]): any {
+      return super.declareData(
+         {
+            y0: undefined,
+            size: undefined,
+            autoSize: undefined,
+         },
+         ...args,
+      );
    }
 
-   checkValid(data) {
+   checkValid(data: any): boolean {
       return data.x != null && data.y != null && data.y0 != null;
    }
 
-   explore(context, instance) {
+   explore(context: RenderingContext, instance: ColumnBarBaseInstance): void {
       let { data, xAxis, yAxis } = instance;
 
       instance.colorMap = data.colorMap && context.getColorMap && context.getColorMap(data.colorMap);
@@ -47,7 +82,7 @@ export class Column extends ColumnBarBase {
       }
    }
 
-   calculateRect(instance) {
+   calculateRect(instance: ColumnBarBaseInstance): Rect {
       var { data } = instance;
       var { offset, size } = data;
 

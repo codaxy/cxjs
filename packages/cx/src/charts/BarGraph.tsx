@@ -1,17 +1,48 @@
-//@ts-nocheck
+/** @jsxImportSource react */
+
 import { Widget, VDOM } from "../ui/Widget";
-import { ColumnBarGraphBase } from "./ColumnBarGraphBase";
-import { tooltipMouseMove, tooltipMouseLeave } from "../widgets/overlay/tooltip-ops";
+import { ColumnBarGraphBase, ColumnBarGraphBaseConfig, ColumnBarGraphBaseInstance } from "./ColumnBarGraphBase";
+import { tooltipMouseMove, tooltipMouseLeave, TooltipParentInstance } from "../widgets/overlay/tooltip-ops";
 import { isArray } from "../util/isArray";
+import { RenderingContext } from "../ui/RenderingContext";
+import { NumberProp } from "../ui/Prop";
+
+export interface BarGraphConfig extends ColumnBarGraphBaseConfig {
+   /**
+    * Name of the property which holds the base value.
+    * Default value is `false`, which means x0 value is not read from the data array.
+    */
+   x0Field?: string | false;
+
+   /** Bar base value. Default value is `0`. */
+   x0?: NumberProp;
+
+   /** Hide the base of the bar (x0). */
+   hiddenBase?: boolean;
+
+   /** Tooltip configuration. */
+   tooltip?: any;
+}
+
+export interface BarGraphInstance extends ColumnBarGraphBaseInstance, TooltipParentInstance {}
 
 export class BarGraph extends ColumnBarGraphBase {
-   explore(context, instance) {
+   declare x0Field: string | false;
+   declare x0: number;
+   declare hiddenBase: boolean;
+   declare tooltip: any;
+
+   constructor(config: BarGraphConfig) {
+      super(config);
+   }
+
+   explore(context: RenderingContext, instance: BarGraphInstance): void {
       super.explore(context, instance);
 
       let { data, yAxis, xAxis } = instance;
 
       if (isArray(data.data)) {
-         data.data.forEach((p) => {
+         data.data.forEach((p: any) => {
             var x0 = this.x0Field ? p[this.x0Field] : data.x0;
             var y = p[this.yField];
             var x = p[this.xField];
@@ -31,14 +62,14 @@ export class BarGraph extends ColumnBarGraphBase {
       }
    }
 
-   renderGraph(context, instance) {
+   renderGraph(context: RenderingContext, instance: BarGraphInstance): React.ReactNode {
       var { data, yAxis, xAxis, store } = instance;
 
       if (!isArray(data.data)) return false;
 
       var isSelected = this.selection.getIsSelectedDelegate(store);
 
-      return data.data.map((p, i) => {
+      return data.data.map((p: any, i: number) => {
          var { offset, size } = data;
 
          var x0 = this.x0Field ? p[this.x0Field] : data.x0;
@@ -56,26 +87,27 @@ export class BarGraph extends ColumnBarGraphBase {
          var x1 = data.stacked ? xAxis.stack(data.stack, y, x0) : xAxis.map(x0);
          var x2 = data.stacked ? xAxis.stack(data.stack, y, x) : xAxis.map(x);
 
-         var color = this.colorIndexField ? p[this.colorIndexField] : data.colorIndex;
-         var state = {
+         var color = this.colorIndexField ? p[this.colorIndexField as string] : data.colorIndex;
+         var state: Record<string, any> = {
             selected: isSelected(p, i),
             selectable: !this.selection.isDummy,
             [`color-${color}`]: color != null,
          };
 
-         let mmove, mleave;
+         let mmove: ((e: React.MouseEvent) => void) | undefined,
+            mleave: ((e: React.MouseEvent) => void) | undefined;
 
          if (this.tooltip) {
             mmove = (e) =>
                tooltipMouseMove(e, instance, this.tooltip, {
-                  target: e.target.parent,
+                  target: (e.target as any).parent,
                   data: {
                      $record: p,
                   },
                });
             mleave = (e) =>
                tooltipMouseLeave(e, instance, this.tooltip, {
-                  target: e.target.parent,
+                  target: (e.target as any).parent,
                   data: {
                      $record: p,
                   },

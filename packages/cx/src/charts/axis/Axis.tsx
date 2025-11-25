@@ -1,11 +1,162 @@
-//@ts-nocheck
-import { BoundedObject } from "../../svg/BoundedObject";
+/** @jsxImportSource react */
+
+import { BoundedObject, BoundedObjectConfig, BoundedObjectInstance } from "../../svg/BoundedObject";
 import { VDOM } from "../../ui/Widget";
 import { isUndefined } from "../../util/isUndefined";
 import { parseStyle } from "../../util/parseStyle";
+import { RenderingContext } from "../../ui/RenderingContext";
+import { Instance } from "../../ui/Instance";
+import { BooleanProp, StyleProp, ClassProp, Prop } from "../../ui/Prop";
 
-export class Axis extends BoundedObject {
-   init() {
+export interface AxisConfig extends BoundedObjectConfig {
+   /** Set to `true` for vertical axes. */
+   vertical?: boolean;
+
+   /** Used as a secondary axis. Displayed at the top/right. */
+   secondary?: boolean;
+
+   /** When set to `true`, the values are displayed in descending order. */
+   inverted?: BooleanProp;
+
+   /** When set to `true`, rendering of visual elements of the axis, such as ticks and labels, is skipped, but their function is preserved. */
+   hidden?: boolean;
+
+   /** Size of the axis tick line. Defaults to 3. */
+   tickSize?: number;
+
+   /** Distance between ticks and the axis. Default is 0. Use negative values for offset to make ticks appear on both sides of the axis. */
+   tickOffset?: number;
+
+   /** The smallest distance between two ticks on the axis. Defaults to 25. */
+   minTickDistance?: number;
+
+   /** The smallest distance between two labels on the vertical axis. Defaults to 40. */
+   minLabelDistanceVertical?: number;
+
+   /** The smallest distance between two labels on the horizontal axis. Defaults to 50.  */
+   minLabelDistanceHorizontal?: number;
+
+   /** Distance between labels and the axis. Defaults to 10. */
+   labelOffset?: number | string;
+
+   /** Label rotation angle in degrees. */
+   labelRotation?: Prop<number | string>;
+
+   /** Label text-anchor value. Allowed values are start, end and middle. Default value is set based on the value of vertical and secondary flags. */
+   labelAnchor?: "start" | "end" | "middle" | "auto";
+
+   /** Horizontal text offset. */
+   labelDx?: number | string;
+
+   /** Vertical text offset which can be used for vertical alignment. */
+   labelDy?: number | string;
+
+   /** Set to `true` to break long labels into multiple lines. Default value is `false`. Text is split at space characters. See also `labelMaxLineLength` and `labelLineCountDyFactor`. */
+   labelWrap?: boolean;
+
+   /**
+    * Used for vertical adjustment of multi-line labels. Default value is `auto` which means
+    * that value is initialized based on axis configuration. Value `0` means that label will grow towards
+    * the bottom of the screen. Value `-1` will make labels to grow towards the top of the screen.
+    * `-0.5` will make labels vertically centered.
+    */
+   labelLineCountDyFactor?: number | string;
+
+   /**
+    * Used for vertical adjustment of multi-line labels. Default value is 1 which means
+    * that labels are stacked without any space between them. Value of 1.4 will add 40% of the label height as a space between labels.
+    */
+   labelLineHeight?: number | string;
+
+   /** If `labelWrap` is on, this number is used as a measure to split labels into multiple lines. Default value is `10`. */
+   labelMaxLineLength?: number;
+
+   /** Set to true to hide the axis labels. */
+   hideLabels?: boolean;
+
+   /** Set to true to hide the axis line. */
+   hideLine?: boolean;
+
+   /** Set to true to hide the axis ticks. */
+   hideTicks?: boolean;
+
+   /** Additional CSS style to be applied to the axis line. */
+   lineStyle?: StyleProp;
+
+   /** Additional CSS style to be applied to the axis ticks. */
+   tickStyle?: StyleProp;
+
+   /** Additional CSS style to be applied to the axis labels. */
+   labelStyle?: StyleProp;
+
+   /** Additional CSS class to be applied to the axis line. */
+   lineClass?: ClassProp;
+
+   /** Additional CSS class to be applied to the axis ticks. */
+   tickClass?: ClassProp;
+
+   /** Additional CSS class to be applied to the axis labels. */
+   labelClass?: ClassProp;
+
+   onMeasured?: (info: any, instance: Instance) => void;
+
+   /** A function used to create a formatter function for axis labels. */
+   onCreateLabelFormatter?:
+      | string
+      | ((
+           context: any,
+           instance: Instance,
+        ) => (
+           formattedValue: string,
+           value: any,
+           info: { tickIndex: number; serieIndex: number },
+        ) => { text: string; style?: any; className?: string }[]);
+
+   /** Distance between the even labels and the axis. */
+   alternateLabelOffset?: number | string;
+
+   useGridlineTicks?: boolean;
+}
+
+export interface AxisInstance extends BoundedObjectInstance {
+   calculator: any;
+   labelFormatter?: any;
+   cached: { axis?: any };
+}
+
+export class Axis extends BoundedObject<AxisConfig, AxisInstance> {
+   declare baseClass: string;
+   declare vertical: boolean;
+   declare secondary: boolean;
+   declare inverted: boolean;
+   declare hidden: boolean;
+   declare hideLabels: boolean;
+   declare hideTicks: boolean;
+   declare hideLine: boolean;
+   declare tickSize: number;
+   declare tickOffset: number;
+   declare minTickDistance: number;
+   declare minLabelDistance: number;
+   declare minLabelDistanceVertical: number;
+   declare minLabelDistanceHorizontal: number;
+   declare labelOffset: number;
+   declare alternateLabelOffset: number | null;
+   declare labelRotation: number;
+   declare labelAnchor: string;
+   declare labelDx: number | string;
+   declare labelDy: number | string;
+   declare labelWrap: boolean;
+   declare labelLineCountDyFactor: number | string;
+   declare labelLineHeight: number;
+   declare labelMaxLineLength: number;
+   declare lineStyle: any;
+   declare tickStyle: any;
+   declare labelStyle: any;
+   declare useGridlineTicks: boolean;
+   declare onCreateLabelFormatter: AxisConfig["onCreateLabelFormatter"];
+   declare onMeasured: AxisConfig["onMeasured"];
+
+   init(): void {
       if (this.labelAnchor == "auto") this.labelAnchor = this.vertical ? (this.secondary ? "start" : "end") : "middle";
 
       if (this.labelDx == "auto") this.labelDx = 0;
@@ -25,7 +176,7 @@ export class Axis extends BoundedObject {
       super.init();
    }
 
-   declareData() {
+   declareData(...args: any[]): void {
       super.declareData(
          {
             anchors: undefined,
@@ -41,23 +192,23 @@ export class Axis extends BoundedObject {
             tickStyle: undefined,
             tickClass: undefined,
          },
-         ...arguments,
+         ...args,
       );
    }
 
-   prepareData(context, instance) {
+   prepareData(context: RenderingContext, instance: AxisInstance): void {
       super.prepareData(context, instance);
       if (this.onCreateLabelFormatter)
          instance.labelFormatter = instance.invoke("onCreateLabelFormatter", context, instance);
    }
 
-   report(context, instance) {
+   report(context: RenderingContext, instance: AxisInstance): any {
       return instance.calculator;
    }
 
-   reportData(context, instance) {}
+   reportData(context: RenderingContext, instance: AxisInstance): void {}
 
-   renderTicksAndLabels(context, instance, valueFormatter, minLabelDistance) {
+   renderTicksAndLabels(context: RenderingContext, instance: AxisInstance, valueFormatter: (v: any) => string, minLabelDistance: number): any {
       if (this.hidden) return false;
 
       var { data, calculator, labelFormatter } = instance;
@@ -85,7 +236,7 @@ export class Axis extends BoundedObject {
          y1 = y2 = this.secondary ? bounds.t : bounds.b;
       }
 
-      var res = [null, null];
+      var res: any[] = [null, null];
 
       if (!data.hideLine) {
          res[0] = (
@@ -101,11 +252,11 @@ export class Axis extends BoundedObject {
          );
       }
 
-      var t = [];
+      var t: string[] = [];
       if (!!size && !data.hideLabels) {
          var ticks = calculator.getTicks([size]);
-         ticks.forEach((serie, si) => {
-            serie.forEach((v, i) => {
+         ticks.forEach((serie: any[], si: number) => {
+            serie.forEach((v: any, i: number) => {
                var s = calculator.map(v);
 
                if (this.secondary) {
@@ -134,7 +285,7 @@ export class Axis extends BoundedObject {
                   y = this.vertical ? s : bounds.b + labelOffset;
                }
 
-               var transform = data.labelRotation ? `rotate(${data.labelRotation} ${x} ${y})` : null;
+               var transform = data.labelRotation ? `rotate(${data.labelRotation} ${x} ${y})` : undefined;
                var formattedValue = valueFormatter(v);
                var lines = labelFormatter
                   ? labelFormatter(formattedValue, v, { tickIndex: si, serieIndex: i })
@@ -159,7 +310,7 @@ export class Axis extends BoundedObject {
       if (!data.hideTicks) {
          if (this.useGridlineTicks) {
             let gridlines = calculator.mapGridlines();
-            gridlines.forEach((s, i) => {
+            gridlines.forEach((s: number, i: number) => {
                if (this.secondary) {
                   x1 = this.vertical ? bounds.r + tickOffset : s;
                   y1 = this.vertical ? s : bounds.t - tickOffset;
@@ -188,14 +339,14 @@ export class Axis extends BoundedObject {
       return res;
    }
 
-   wrapLines(str) {
+   wrapLines(str: any): { text: string; style?: any; className?: string }[] | null {
       if (!this.labelWrap || typeof str != "string") return [{ text: str }];
 
       let parts = str.split(" ");
       if (parts.length == 0) return null;
 
-      let lines = [];
-      let line = null;
+      let lines: { text: string }[] = [];
+      let line: string | null = null;
       for (let i = 0; i < parts.length; i++) {
          if (!line) line = parts[i];
          else if (parts[i].length + line.length < this.labelMaxLineLength) line += " " + parts[i];
@@ -204,12 +355,12 @@ export class Axis extends BoundedObject {
             line = parts[i];
          }
       }
-      lines.push({ text: line });
+      if (line) lines.push({ text: line });
       return lines;
    }
 
-   renderLabels(lines, x, dy, dx, offsetClass) {
-      let offset = this.labelLineCountDyFactor * (lines.length - 1);
+   renderLabels(lines: { text: string; style?: any; className?: string }[], x: number, dy: number | string, dx: number | string, offsetClass: string): React.ReactNode[] {
+      let offset = (this.labelLineCountDyFactor as number) * (lines.length - 1);
       let result = [];
 
       if (lines.length > 1 && dy != null) {
@@ -237,7 +388,7 @@ export class Axis extends BoundedObject {
       return result;
    }
 
-   prepare(context, instance) {
+   prepare(context: RenderingContext, instance: AxisInstance): void {
       super.prepare(context, instance);
       var { bounds } = instance.data;
       var [a, b] = !this.vertical ? [bounds.l, bounds.r] : [bounds.b, bounds.t];
@@ -246,7 +397,7 @@ export class Axis extends BoundedObject {
       if (!instance.calculator.isSame(instance.cached.axis)) instance.markShouldUpdate(context);
    }
 
-   cleanup(context, instance) {
+   cleanup(context: RenderingContext, instance: AxisInstance): void {
       var { cached, calculator } = instance;
       cached.axis = calculator.hash();
    }

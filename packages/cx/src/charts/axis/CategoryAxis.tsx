@@ -1,51 +1,92 @@
-//@ts-nocheck
-import { Axis } from "./Axis";
+/** @jsxImportSource react */
+
+import { Axis, AxisConfig, AxisInstance } from "./Axis";
 import { VDOM } from "../../ui/Widget";
 import { isUndefined } from "../../util/isUndefined";
 import { isArray } from "../../util/isArray";
 import { Format } from "../../util/Format";
+import { RenderingContext } from "../../ui/RenderingContext";
+import { BooleanProp, NumberProp, StringProp, Prop } from "../../ui/Prop";
+import { Binding } from "../../data/Binding";
+import { AccessorChain, GetSet } from "../../core";
+
+export interface CategoryAxisConfig extends AxisConfig {
+   /** Uniform axes provide exact size and offset for all entries. */
+   uniform?: BooleanProp;
+
+   /** Names corresponding the given `values`. */
+   names?: Prop<any[] | Record<string, any>>;
+
+   /** Values used to initialize the axis. */
+   values?: Prop<any[] | Record<string, any>>;
+
+   /** Min number of entries. */
+   minSize?: NumberProp;
+
+   /** Base CSS class. Defaults to `categoryaxis`. */
+   baseClass?: string;
+
+   /** Output value for category count. */
+   categoryCount?: Binding | AccessorChain<number> | GetSet<number>;
+
+   /** Show ticks aligned with gridlines. */
+   useGridlineTicks?: boolean;
+
+   /** Additional label formatting. */
+   format?: StringProp;
+}
 
 export class CategoryAxis extends Axis {
-   declareData() {
-      super.declareData(...arguments, {
-         inverted: undefined,
-         uniform: undefined,
-         names: undefined,
-         values: undefined,
-         minSize: undefined,
-         categoryCount: undefined,
-         format: undefined,
-      });
+   declare uniform: boolean;
+   declare minSize: number;
+
+   constructor(config: CategoryAxisConfig) {
+      super(config);
    }
 
-   initInstance(context, instance) {
+   declareData(...args: any[]): void {
+      super.declareData(
+         {
+            inverted: undefined,
+            uniform: undefined,
+            names: undefined,
+            values: undefined,
+            minSize: undefined,
+            categoryCount: undefined,
+            format: undefined,
+         },
+         ...args,
+      );
+   }
+
+   initInstance(context: RenderingContext, instance: AxisInstance): void {
       instance.calculator = new CategoryScale();
    }
 
-   explore(context, instance) {
+   explore(context: RenderingContext, instance: AxisInstance): void {
       super.explore(context, instance);
       var { values, names, inverted, uniform, minSize } = instance.data;
       instance.calculator.reset(inverted, uniform, values, names, minSize, this.minTickDistance, this.minLabelDistance);
    }
 
-   reportData(context, instance) {
+   reportData(context: RenderingContext, instance: AxisInstance): void {
       instance.set("categoryCount", instance.calculator.valueList.length);
    }
 
-   render(context, instance, key) {
+   render(context: RenderingContext, instance: AxisInstance, key: string): React.ReactNode {
       var { data, calculator } = instance;
 
       if (!data.bounds.valid()) return null;
 
-      let labelGetter = (v) => calculator.names[v] ?? v;
+      let labelGetter = (v: any) => calculator.names[v] ?? v;
       let labelFormatter = labelGetter;
       if (data.format) {
          let formatter = Format.parse(data.format);
-         labelFormatter = (v) => formatter(labelGetter(v));
+         labelFormatter = (v: any) => formatter(labelGetter(v));
       }
       return (
          <g key={key} className={data.classNames} style={data.style}>
-            {this.renderTicksAndLabels(context, instance, labelFormatter)}
+            {this.renderTicksAndLabels(context, instance, labelFormatter, this.minLabelDistance)}
          </g>
       );
    }
@@ -69,12 +110,41 @@ CategoryAxis.prototype.minTickDistance = 0;
 Axis.alias("category", CategoryAxis);
 
 class CategoryScale {
-   reset(inverted, uniform, values, names, minSize, minTickDistance, minLabelDistance) {
+   padding: number;
+   min?: number;
+   max?: number;
+   minValue?: number;
+   maxValue?: number;
+   minSize: number;
+   valuesMap: Record<string, number>;
+   valueList: any[];
+   inverted: boolean;
+   uniform: boolean;
+   valueStacks: Record<string, { index: Record<string, number>; count: number }>;
+   names: Record<string, any>;
+   minTickDistance: number;
+   minLabelDistance: number;
+   origin: number;
+   factor: number;
+   tickSizes: number[];
+   a: number;
+   b: number;
+   shouldUpdate: boolean;
+
+   reset(
+      inverted: boolean,
+      uniform: boolean,
+      values: any,
+      names: any,
+      minSize: number,
+      minTickDistance: number,
+      minLabelDistance: number,
+   ): void {
       this.padding = 0.5;
-      delete this.min;
-      delete this.max;
-      delete this.minValue;
-      delete this.maxValue;
+      this.min = undefined;
+      this.max = undefined;
+      this.minValue = undefined;
+      this.maxValue = undefined;
       this.minSize = minSize;
       this.valuesMap = {};
       this.valueList = [];
@@ -86,7 +156,7 @@ class CategoryScale {
       this.minLabelDistance = minLabelDistance;
 
       if (values) {
-         if (isArray(values)) values.forEach((v) => this.acknowledge(v));
+         if (isArray(values)) values.forEach((v: any) => this.acknowledge(v));
          else if (typeof values == "object")
             for (var k in values) {
                this.acknowledge(k);
@@ -97,7 +167,7 @@ class CategoryScale {
       if (names) {
          if (isArray(names)) {
             values = values || [];
-            names.forEach((name, index) => {
+            names.forEach((name: any, index: number) => {
                var value = values[index];
                this.names[value != null ? value : index] = name;
             });
@@ -105,35 +175,35 @@ class CategoryScale {
       }
    }
 
-   decodeValue(n) {
+   decodeValue(n: any): any {
       return n;
    }
 
-   encodeValue(v) {
+   encodeValue(v: any): any {
       return v;
    }
 
-   map(v, offset = 0) {
+   map(v: any, offset: number = 0): number {
       var index = this.valuesMap[v] || 0;
 
-      return this.origin + (index + offset - this.min + this.padding) * this.factor;
+      return this.origin + (index + offset - this.min! + this.padding) * this.factor;
    }
 
-   measure(a, b) {
+   measure(a: number, b: number): void {
       this.a = a;
       this.b = b;
 
       if (this.min == null) this.min = this.minValue || 0;
 
-      if (this.max == null) this.max = !isNaN(this.maxValue) ? this.maxValue : 100;
+      if (this.max == null) this.max = this.maxValue != null && !isNaN(this.maxValue) ? this.maxValue : 100;
 
       var sign = this.inverted ? -1 : 1;
 
-      if (this.max - this.min + 1 < this.minSize) {
+      if (this.max! - this.min! + 1 < this.minSize) {
          this.factor = (sign * (this.b - this.a)) / this.minSize;
-         this.origin = (this.b + this.a) * 0.5 - (this.factor * (this.max - this.min + 1)) / 2;
+         this.origin = (this.b + this.a) * 0.5 - (this.factor * (this.max! - this.min! + 1)) / 2;
       } else {
-         this.factor = (sign * (this.b - this.a)) / (this.max - this.min + 2 * this.padding);
+         this.factor = (sign * (this.b - this.a)) / (this.max! - this.min! + 2 * this.padding);
          this.origin = (this.a * (1 + sign)) / 2 + (this.b * (1 - sign)) / 2; //a || b
       }
 
@@ -152,7 +222,7 @@ class CategoryScale {
       }
    }
 
-   hash() {
+   hash(): Record<string, any> {
       return {
          origin: this.origin,
          factor: this.factor,
@@ -164,14 +234,14 @@ class CategoryScale {
       };
    }
 
-   isSame(x) {
+   isSame(x: any): boolean {
       var h = this.hash();
       var same = x && !Object.keys(h).some((k) => x[k] !== h[k]);
       this.shouldUpdate = !same;
       return same;
    }
 
-   acknowledge(value, width = 0, offset = 0) {
+   acknowledge(value: any, width: number = 0, offset: number = 0): void {
       var index = this.valuesMap[value];
       if (isUndefined(index)) {
          index = this.valueList.length;
@@ -190,7 +260,7 @@ class CategoryScale {
       }
    }
 
-   book(value, name) {
+   book(value: any, name: string): void {
       if (this.uniform) value = 0;
 
       var stack = this.valueStacks[value];
@@ -202,7 +272,7 @@ class CategoryScale {
       if (!stack.index.hasOwnProperty(name)) stack.index[name] = stack.count++;
    }
 
-   locate(value, name) {
+   locate(value: any, name: string): [number, number] {
       if (this.uniform) value = 0;
 
       var stack = this.valueStacks[value];
@@ -211,32 +281,32 @@ class CategoryScale {
       return [stack.index[name], stack.count];
    }
 
-   trackValue(v, offset = 0, constrain = false) {
-      let index = Math.round((v - this.origin) / this.factor - offset + this.min - this.padding);
-      if (index < this.min) index = this.min;
-      if (index > this.max) index = this.max;
+   trackValue(v: number, offset: number = 0, constrain: boolean = false): any {
+      let index = Math.round((v - this.origin) / this.factor - offset + this.min! - this.padding);
+      if (index < this.min!) index = this.min!;
+      if (index > this.max!) index = this.max!;
       return this.valueList[index];
    }
 
-   findTickSize(minPxDist) {
+   findTickSize(minPxDist: number): number {
       for (let tickSize of this.tickSizes) if (tickSize * Math.abs(this.factor) >= minPxDist) return tickSize;
       return 1;
    }
 
-   getTickSizes() {
+   getTickSizes(): number[] {
       return this.tickSizes;
    }
 
-   getTicks(tickSizes) {
+   getTicks(tickSizes: number[]): any[][] {
       return tickSizes.map((size) => this.valueList.filter((_, i) => i % size == 0));
    }
 
-   mapGridlines() {
-      let result = [];
+   mapGridlines(): number[] {
+      let result: number[] = [];
       if (this.tickSizes.length == 0) return result;
       let step = this.tickSizes[0];
-      for (let index = this.min; index <= this.max + 1; index += step)
-         result.push(this.origin + (index - 0.5 - this.min + this.padding) * this.factor);
+      for (let index = this.min!; index <= this.max! + 1; index += step)
+         result.push(this.origin + (index - 0.5 - this.min! + this.padding) * this.factor);
       return result;
    }
 }

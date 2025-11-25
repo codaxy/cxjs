@@ -1,17 +1,22 @@
-//@ts-nocheck
 export class Stack {
+   stacks: Record<string, { total: number; min: number; max: number }>;
+   values: Record<string, number>;
+   normalized: boolean;
+   invalid: Record<string, boolean>;
+   info?: any[];
+
    constructor() {
       this.reset();
    }
 
-   reset() {
+   reset(): void {
       this.stacks = {};
       this.values = {};
       this.normalized = false;
       this.invalid = {};
    }
 
-   acknowledge(ordinal, value) {
+   acknowledge(ordinal: string, value: number | null): void {
       if (value != null) {
          let s = this.stacks[ordinal];
          if (!s) this.stacks[ordinal] = s = { total: 0, min: 0, max: 0 };
@@ -23,7 +28,7 @@ export class Stack {
       }
    }
 
-   measure(normalized) {
+   measure(normalized: boolean): [number, number] {
       if (normalized) {
          this.normalized = true;
          return [0, 1];
@@ -38,7 +43,7 @@ export class Stack {
       return [min, max];
    }
 
-   stack(ordinal, value) {
+   stack(ordinal: string, value: number | null): number | null {
       if (value == null || this.invalid[ordinal]) return null;
 
       let base = this.values[ordinal] || 0;

@@ -1,16 +1,50 @@
-//@ts-nocheck
+/** @jsxImportSource react */
+
 import { VDOM } from "../ui/Widget";
-import { BoundedObject } from "../svg/BoundedObject";
+import { BoundedObject, BoundedObjectConfig, BoundedObjectInstance } from "../svg/BoundedObject";
 import { Rect } from "../svg/util/Rect";
 import { parseStyle } from "../util/parseStyle";
+import { RenderingContext } from "../ui/RenderingContext";
+import { NumberProp, StringProp, StyleProp } from "../ui/Prop";
+
+export interface PieLabelConfig extends BoundedObjectConfig {
+   /** Distance from the pie center. Default is `100`. */
+   distance?: NumberProp;
+
+   /** Style for the connecting line. */
+   lineStyle?: StyleProp;
+
+   /** Stroke color for the connecting line. */
+   lineStroke?: StringProp;
+
+   /** CSS class for the connecting line. */
+   lineClass?: StringProp;
+
+   /** Color index for the connecting line. */
+   lineColorIndex?: NumberProp;
+}
+
+export interface PieLabelInstance extends BoundedObjectInstance {
+   originalBounds: Rect;
+   actualBounds: Rect;
+   parentRect: Rect;
+}
 
 export class PieLabel extends BoundedObject {
-   init() {
+   declare baseClass: string;
+   declare distance: number;
+   declare lineStyle: any;
+
+   constructor(config: PieLabelConfig) {
+      super(config);
+   }
+
+   init(): void {
       this.lineStyle = parseStyle(this.lineStyle);
       super.init();
    }
 
-   declareData(...args) {
+   declareData(...args: any[]): void {
       super.declareData(...args, {
          distance: undefined,
          lineStyle: { structured: true },
@@ -20,7 +54,7 @@ export class PieLabel extends BoundedObject {
       });
    }
 
-   calculateBounds(context, instance) {
+   calculateBounds(context: RenderingContext, instance: PieLabelInstance): Rect {
       var { data } = instance;
       var bounds = Rect.add(Rect.add(Rect.multiply(instance.parentRect, data.anchors), data.offset), data.margin);
       instance.originalBounds = bounds;
@@ -28,7 +62,7 @@ export class PieLabel extends BoundedObject {
       return new Rect({ t: 0, r: bounds.width(), b: bounds.height(), l: 0 });
    }
 
-   prepare(context, instance) {
+   prepare(context: RenderingContext, instance: PieLabelInstance): void {
       super.prepare(context, instance);
       if (!context.registerPieLabel)
          throw new Error("PieLabel components are allowed only within PieLabelsContainer components.");
@@ -37,11 +71,11 @@ export class PieLabel extends BoundedObject {
       context.registerPieLabel(instance);
    }
 
-   prepareCleanup(context, instance) {
+   prepareCleanup(context: RenderingContext, instance: PieLabelInstance): void {
       context.pop("textDirection");
    }
 
-   render(context, instance, key) {
+   render(context: RenderingContext, instance: PieLabelInstance, key: string): React.ReactNode {
       let { originalBounds, actualBounds, data } = instance;
 
       return (
@@ -50,7 +84,7 @@ export class PieLabel extends BoundedObject {
                className={this.CSS.element(
                   this.baseClass,
                   "line",
-                  data.lineColorIndex != null && "color-" + data.lineColorIndex
+                  data.lineColorIndex != null && "color-" + data.lineColorIndex,
                )}
                x1={actualBounds.l < originalBounds.l ? actualBounds.r : actualBounds.l}
                y1={(actualBounds.t + actualBounds.b) / 2}

@@ -1,17 +1,48 @@
-//@ts-nocheck
+/** @jsxImportSource react */
+
 import { Widget, VDOM } from "../ui/Widget";
-import { ColumnBarGraphBase } from "./ColumnBarGraphBase";
-import { tooltipMouseMove, tooltipMouseLeave } from "../widgets/overlay/tooltip-ops";
+import { ColumnBarGraphBase, ColumnBarGraphBaseConfig, ColumnBarGraphBaseInstance } from "./ColumnBarGraphBase";
+import { tooltipMouseMove, tooltipMouseLeave, TooltipParentInstance } from "../widgets/overlay/tooltip-ops";
 import { isArray } from "../util/isArray";
+import { RenderingContext } from "../ui/RenderingContext";
+import { NumberProp } from "../ui/Prop";
+
+export interface ColumnGraphConfig extends ColumnBarGraphBaseConfig {
+   /**
+    * Name of the property which holds the base value.
+    * Default value is `false`, which means y0 value is not read from the data array.
+    */
+   y0Field?: string | false;
+
+   /** Column base value. Default value is `0`. */
+   y0?: NumberProp;
+
+   /** Hide the base of the column (y0). */
+   hiddenBase?: boolean;
+
+   /** Tooltip configuration. */
+   tooltip?: any;
+}
+
+export interface ColumnGraphInstance extends ColumnBarGraphBaseInstance, TooltipParentInstance {}
 
 export class ColumnGraph extends ColumnBarGraphBase {
-   explore(context, instance) {
+   declare y0Field: string | false;
+   declare y0: number;
+   declare hiddenBase: boolean;
+   declare tooltip: any;
+
+   constructor(config: ColumnGraphConfig) {
+      super(config);
+   }
+
+   explore(context: RenderingContext, instance: ColumnGraphInstance): void {
       super.explore(context, instance);
 
       let { data, xAxis, yAxis } = instance;
 
       if (isArray(data.data)) {
-         data.data.forEach((p, index) => {
+         data.data.forEach((p: any, index: number) => {
             var y0 = this.y0Field ? p[this.y0Field] : data.y0;
             var x = p[this.xField];
             var y = p[this.yField];
@@ -31,23 +62,23 @@ export class ColumnGraph extends ColumnBarGraphBase {
       }
    }
 
-   prepare(context, instance) {
+   prepare(context: RenderingContext, instance: ColumnGraphInstance): void {
       super.prepare(context, instance);
       let { data } = instance;
       if (context.pointReducer && isArray(data.data)) {
-         data.data.forEach((p, index) => {
+         data.data.forEach((p: any, index: number) => {
             context.pointReducer(p[this.xField], p[this.yField], data.name, p, data.data, index);
          });
       }
    }
 
-   renderGraph(context, instance) {
+   renderGraph(context: RenderingContext, instance: ColumnGraphInstance): React.ReactNode {
       var { data, xAxis, yAxis, store } = instance;
       if (!isArray(data.data)) return false;
 
       var isSelected = this.selection.getIsSelectedDelegate(store);
 
-      return data.data.map((p, i) => {
+      return data.data.map((p: any, i: number) => {
          var { offset, size } = data;
 
          var y0 = this.y0Field ? p[this.y0Field] : data.y0;
@@ -65,26 +96,27 @@ export class ColumnGraph extends ColumnBarGraphBase {
          var y1 = data.stacked ? yAxis.stack(data.stack, x, y0) : yAxis.map(y0);
          var y2 = data.stacked ? yAxis.stack(data.stack, x, y) : yAxis.map(y);
 
-         var color = this.colorIndexField ? p[this.colorIndexField] : data.colorIndex;
-         var state = {
+         var color = this.colorIndexField ? p[this.colorIndexField as string] : data.colorIndex;
+         var state: Record<string, any> = {
             selected: isSelected(p, i),
             selectable: !this.selection.isDummy,
             [`color-${color}`]: color != null,
          };
 
-         let mmove, mleave;
+         let mmove: ((e: React.MouseEvent) => void) | undefined,
+            mleave: ((e: React.MouseEvent) => void) | undefined;
 
          if (this.tooltip) {
             mmove = (e) =>
                tooltipMouseMove(e, instance, this.tooltip, {
-                  target: e.target.parent,
+                  target: (e.target as any).parent,
                   data: {
                      $record: p,
                   },
                });
             mleave = (e) =>
                tooltipMouseLeave(e, instance, this.tooltip, {
-                  target: e.target.parent,
+                  target: (e.target as any).parent,
                   data: {
                      $record: p,
                   },

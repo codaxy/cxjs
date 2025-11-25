@@ -100,9 +100,9 @@ class HoverSyncChild extends VDOM.Component<HoverSyncChildProps, HoverSyncChildS
 }
 
 export function withHoverSync(
-   key: string,
+   key: string | number,
    hoverSync: any,
-   hoverChannel: string,
+   hoverChannel: string | undefined,
    hoverId: any,
    render: (props: any) => any,
 ) {

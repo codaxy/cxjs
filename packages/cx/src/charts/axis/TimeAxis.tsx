@@ -1,5 +1,6 @@
-//@ts-nocheck
-import { Axis } from "./Axis";
+/** @jsxImportSource react */
+
+import { Axis, AxisConfig, AxisInstance } from "./Axis";
 import { VDOM } from "../../ui/Widget";
 import { Stack } from "./Stack";
 import { Format } from "../../ui/Format";
@@ -7,21 +8,62 @@ import { isNumber } from "../../util/isNumber";
 import { zeroTime } from "../../util/date/zeroTime";
 import { Console } from "../../util/Console";
 import { parseDateInvariant } from "../../util";
+import { RenderingContext } from "../../ui/RenderingContext";
+import { NumberProp, StringProp } from "../../ui/Prop";
 
-Format.registerFactory("yearOrMonth", (format) => {
+export interface TimeAxisConfig extends AxisConfig {
+   /** Minimum value. */
+   min?: NumberProp;
+
+   /** Maximum value. */
+   max?: NumberProp;
+
+   /** Base CSS class to be applied to the element. Defaults to `timeaxis`. */
+   baseClass?: string;
+
+   /** A number ranged between `0-2`. `0` means that the range is aligned with the lowest ticks. Default value is `1`, which means that the range is aligned with medium ticks. Use value `2` to align with major ticks. */
+   snapToTicks?: 0 | 1 | 2 | false;
+
+   tickDivisions?: Record<string, number[][]>;
+   minTickUnit?: string;
+
+   /** Set to true to apply precise label distances from minLabelDistanceFormatOverride based on the resolved label format. */
+   useLabelDistanceFormatOverrides?: boolean;
+
+   /** Mapping of formats to label distances, i.e. { "datetime;YYYYMM": 80 } */
+   minLabelDistanceFormatOverride?: Record<string, number>;
+   minLabelDistanceFormatOverrideDefaults?: Record<string, number>;
+
+   /** Axis labels format string override. */
+   format?: StringProp;
+
+   /** Custom date decoder function. */
+   decode?: (date: string) => string;
+
+   /** Size of a zone reserved for labels for both lower and upper end of the axis. */
+   deadZone?: number;
+
+   /** Size of a zone reserved for labels near the lower end of the axis. */
+   lowerDeadZone?: number;
+
+   /** Size of a zone reserved for labels near the upper (higher) end of the axis. */
+   upperDeadZone?: number;
+}
+
+Format.registerFactory("yearOrMonth", (format: string) => {
    let year = Format.parse("datetime;yyyy");
    let month = Format.parse("datetime;MMM");
-   return function (date) {
+   return function (date: any): string {
       let d = parseDateInvariant(date);
       if (d.getMonth() == 0) return year(d);
       else return month(d);
    };
 });
 
-Format.registerFactory("monthOrDay", (format) => {
+Format.registerFactory("monthOrDay", (format: string) => {
    let month = Format.parse("datetime;MMM");
    let day = Format.parse("datetime;dd");
-   return function (date) {
+   return function (date: any): string {
       let d = parseDateInvariant(date);
       if (d.getDate() == 1) return month(d);
       else return day(d);
@@ -29,7 +71,23 @@ Format.registerFactory("monthOrDay", (format) => {
 });
 
 export class TimeAxis extends Axis {
-   init() {
+   declare deadZone: number;
+   declare lowerDeadZone: number;
+   declare upperDeadZone: number;
+   declare snapToTicks: number | false;
+   declare tickDivisions: Record<string, number[][]>;
+   declare minTickUnit: string;
+   declare useLabelDistanceFormatOverrides: boolean;
+   declare minLabelDistanceFormatOverride: Record<string, number>;
+   declare minLabelDistanceFormatOverrideDefaults: Record<string, number>;
+   declare format: string;
+   declare decode: TimeAxisConfig["decode"];
+
+   constructor(config: TimeAxisConfig) {
+      super(config);
+   }
+
+   init(): void {
       if (this.labelAnchor == "auto") this.labelAnchor = this.vertical ? (this.secondary ? "start" : "end") : "start";
 
       if (this.labelDx == "auto") this.labelDx = this.vertical ? 0 : "5px";
@@ -47,22 +105,25 @@ export class TimeAxis extends Axis {
       super.init();
    }
 
-   declareData() {
-      super.declareData(...arguments, {
-         anchors: undefined,
-         min: undefined,
-         max: undefined,
-         inverted: undefined,
-         lowerDeadZone: undefined,
-         upperDeadZone: undefined,
-      });
+   declareData(...args: any[]): void {
+      super.declareData(
+         {
+            anchors: undefined,
+            min: undefined,
+            max: undefined,
+            inverted: undefined,
+            lowerDeadZone: undefined,
+            upperDeadZone: undefined,
+         },
+         ...args,
+      );
    }
 
-   initInstance(context, instance) {
+   initInstance(context: RenderingContext, instance: AxisInstance): void {
       instance.calculator = new TimeScale();
    }
 
-   explore(context, instance) {
+   explore(context: RenderingContext, instance: AxisInstance): void {
       super.explore(context, instance);
       let { min, max, normalized, inverted, lowerDeadZone, upperDeadZone } = instance.data;
       instance.calculator.reset(
@@ -83,7 +144,7 @@ export class TimeAxis extends Axis {
       );
    }
 
-   render(context, instance, key) {
+   render(context: RenderingContext, instance: AxisInstance, key: string): React.ReactNode {
       let { data, cached, calculator } = instance;
 
       cached.axis = calculator.hash();
@@ -139,15 +200,15 @@ TimeAxis.prototype.minLabelDistanceFormatOverrideDefaults = {
    [TimeFormats.shortMonthDate]: 90,
 };
 
-function monthNumber(date) {
+function monthNumber(date: Date): number {
    return date.getFullYear() * 12 + date.getMonth() + (date.getDate() - 1) / 31;
 }
 
-function yearNumber(date) {
+function yearNumber(date: Date): number {
    return monthNumber(date) / 12;
 }
 
-const milliSeconds = {
+const milliSeconds: Record<string, number> = {
    second: 1000,
    minute: 60 * 1000,
    hour: 3600 * 1000,
@@ -157,23 +218,67 @@ const milliSeconds = {
    year: 3600 * 24 * 365 * 1000,
 };
 
+interface TickSize {
+   size: number;
+   measure: string;
+   noLabels?: boolean;
+}
+
+interface TimeScaleRange {
+   factor: number;
+   min: number;
+   max: number;
+   minPadding: number;
+   maxPadding: number;
+}
+
 class TimeScale {
+   dateCache: Record<string, number>;
+   min: number | null;
+   max: number | null;
+   snapToTicks: number | false;
+   tickDivisions: Record<string, number[][]>;
+   minLabelDistance: number;
+   minTickDistance: number;
+   tickSizes: TickSize[];
+   normalized: boolean;
+   minTickUnit: string;
+   inverted: boolean;
+   lowerDeadZone: number;
+   upperDeadZone: number;
+   minValue?: number;
+   maxValue?: number;
+   minValuePadded?: number;
+   maxValuePadded?: number;
+   stacks: Record<string, Stack>;
+   decode?: (date: string) => string;
+   minLabelDistanceFormatOverride: Record<string, number>;
+   format: string;
+   origin: number;
+   scale: TimeScaleRange;
+   a: number;
+   b: number;
+   tickMeasure: string;
+   resolvedFormat: string | null;
+   resolvedMinLabelDistance: number;
+   shouldUpdate: boolean;
+
    reset(
-      min,
-      max,
-      snapToTicks,
-      tickDivisions,
-      minTickDistance,
-      minLabelDistance,
-      normalized,
-      inverted,
-      minTickUnit,
-      lowerDeadZone,
-      upperDeadZone,
-      decode,
-      minLabelDistanceFormatOverride,
-      format,
-   ) {
+      min: any,
+      max: any,
+      snapToTicks: number | false,
+      tickDivisions: Record<string, number[][]>,
+      minTickDistance: number,
+      minLabelDistance: number,
+      normalized: boolean,
+      inverted: boolean,
+      minTickUnit: string,
+      lowerDeadZone: number,
+      upperDeadZone: number,
+      decode: ((date: string) => string) | undefined,
+      minLabelDistanceFormatOverride: Record<string, number>,
+      format: string,
+   ): void {
       this.dateCache = {};
       this.min = min != null ? this.decodeValue(min) : null;
       this.max = max != null ? this.decodeValue(max) : null;
@@ -187,17 +292,17 @@ class TimeScale {
       this.inverted = inverted;
       this.lowerDeadZone = lowerDeadZone || 0;
       this.upperDeadZone = upperDeadZone || 0;
-      delete this.minValue;
-      delete this.maxValue;
-      delete this.minValuePadded;
-      delete this.maxValuePadded;
+      this.minValue = undefined;
+      this.maxValue = undefined;
+      this.minValuePadded = undefined;
+      this.maxValuePadded = undefined;
       this.stacks = {};
       this.decode = decode;
       this.minLabelDistanceFormatOverride = minLabelDistanceFormatOverride;
       this.format = format;
    }
 
-   decodeValue(date) {
+   decodeValue(date: any): number {
       if (date instanceof Date) return date.getTime();
 
       switch (typeof date) {
@@ -212,13 +317,14 @@ class TimeScale {
          case "number":
             return parseDateInvariant(date).getTime();
       }
+      return 0;
    }
 
-   encodeValue(v) {
+   encodeValue(v: number): string {
       return new Date(v).toISOString();
    }
 
-   getFormat(unit, scale) {
+   getFormat(unit: string, scale: TimeScaleRange): string {
       switch (unit) {
          case "year":
             return "datetime;yyyy";
@@ -253,22 +359,22 @@ class TimeScale {
       }
    }
 
-   map(v, offset = 0) {
+   map(v: any, offset: number = 0): number {
       return this.origin + (this.decodeValue(v) + offset - this.scale.min + this.scale.minPadding) * this.scale.factor;
    }
 
-   constrainValue(v) {
+   constrainValue(v: number): number {
       return Math.max(this.scale.min, Math.min(this.scale.max, v));
    }
 
-   trackValue(v, offset = 0, constrain = false) {
+   trackValue(v: number, offset: number = 0, constrain: boolean = false): number {
       let value = (v - this.origin) / this.scale.factor - offset + this.scale.min - this.scale.minPadding;
       if (constrain) value = this.constrainValue(value);
       return value;
    }
 
-   hash() {
-      let r = {
+   hash(): Record<string, any> {
+      let r: any = {
          origin: this.origin,
          factor: this.scale.factor,
          min: this.scale.min,
@@ -277,27 +383,27 @@ class TimeScale {
          maxPadding: this.scale.maxPadding,
       };
       r.stacks = Object.keys(this.stacks)
-         .map((s) => this.stacks[s].info.join(","))
+         .map((s) => this.stacks[s].info?.join(","))
          .join(":");
       return r;
    }
 
-   isSame(x) {
+   isSame(x: any): boolean {
       let hash = this.hash();
       let same = x && !Object.keys(hash).some((k) => x[k] !== hash[k]);
       this.shouldUpdate = !same;
       return same;
    }
 
-   measure(a, b) {
+   measure(a: number, b: number): void {
       this.a = a;
       this.b = b;
 
       for (let s in this.stacks) {
          let info = this.stacks[s].measure(this.normalized);
-         let [min, max, invalid] = info;
+         let [min, max] = info;
          if (this.minValue == null || min < this.minValue) this.minValue = min;
-         if (this.max == null || max > this.maxValue) this.maxValue = max;
+         if (this.max == null || max > this.maxValue!) this.maxValue = max;
          this.stacks[s].info = info;
       }
 
@@ -319,19 +425,19 @@ class TimeScale {
       }
    }
 
-   getTimezoneOffset(date) {
+   getTimezoneOffset(date: Date): number {
       return date.getTimezoneOffset() * 60 * 1000;
    }
 
-   getScale(tickSize, measure, minRange = 1000) {
+   getScale(tickSize?: number | null, measure?: string, minRange: number = 1000): TimeScaleRange {
       let { min, max, upperDeadZone, lowerDeadZone } = this;
 
-      let smin = min;
-      let smax = max;
+      let smin: number = min!;
+      let smax: number = max!;
 
       if (tickSize) {
-         let minDate = new Date(min);
-         let maxDate = new Date(max);
+         let minDate = new Date(min!);
+         let maxDate = new Date(max!);
 
          switch (measure) {
             case "second":
@@ -367,8 +473,8 @@ class TimeScale {
                break;
          }
       } else {
-         if (this.minValue == min) smin = this.minValuePadded;
-         if (this.maxValue == max) smax = this.maxValuePadded;
+         if (this.minValue == min) smin = this.minValuePadded!;
+         if (this.maxValue == max) smax = this.maxValuePadded!;
       }
 
       if (smax - smin < minRange) {
@@ -378,8 +484,8 @@ class TimeScale {
       }
 
       //padding should be activated only if using min/max obtained from the data
-      let minPadding = this.minValue === min ? Math.max(0, smin - this.minValuePadded) : 0;
-      let maxPadding = this.maxValue === max ? Math.max(0, this.maxValuePadded - smax) : 0;
+      let minPadding = this.minValue === min ? Math.max(0, smin - this.minValuePadded!) : 0;
+      let maxPadding = this.maxValue === max ? Math.max(0, this.maxValuePadded! - smax) : 0;
 
       let factor = smin < smax ? Math.abs(this.b - this.a) / (smax - smin + minPadding + maxPadding) : 0;
       if (factor > 0 && (upperDeadZone > 0 || lowerDeadZone > 0)) {
@@ -401,42 +507,42 @@ class TimeScale {
       };
    }
 
-   acknowledge(value, width = 0, offset = 0) {
+   acknowledge(value: any, width: number = 0, offset: number = 0): void {
       value = this.decodeValue(value);
-      if (this.minValue == null || value + offset - width / 2 < this.minValuePadded) {
+      if (this.minValue == null || value + offset - width / 2 < this.minValuePadded!) {
          this.minValue = value;
          this.minValuePadded = value + offset - width / 2;
       }
-      if (this.maxValue == null || value + offset + width / 2 > this.maxValuePadded) {
+      if (this.maxValue == null || value + offset + width / 2 > this.maxValuePadded!) {
          this.maxValue = value;
          this.maxValuePadded = value + offset + width / 2;
       }
    }
 
-   getStack(name) {
+   getStack(name: string): Stack {
       let s = this.stacks[name];
       if (!s) s = this.stacks[name] = new Stack();
       return s;
    }
 
-   stacknowledge(name, ordinal, value) {
+   stacknowledge(name: string, ordinal: string, value: number | null): void {
       return this.getStack(name).acknowledge(ordinal, value);
    }
 
-   stack(name, ordinal, value) {
+   stack(name: string, ordinal: string, value: number | null): number | null {
       let v = this.getStack(name).stack(ordinal, value);
       return v != null ? this.map(v) : null;
    }
 
-   findTickSize(minPxDist) {
+   findTickSize(minPxDist: number): TickSize | undefined {
       return this.tickSizes.find(({ size, noLabels }) => !noLabels && size * Math.abs(this.scale.factor) >= minPxDist);
    }
 
-   getTickSizes() {
+   getTickSizes(): TickSize[] {
       return this.tickSizes;
    }
 
-   calculateTicks() {
+   calculateTicks(): void {
       let minReached = false;
 
       let minRange = 1000;
@@ -458,9 +564,9 @@ class TimeScale {
 
          let bestLabelDistance = Infinity;
          let bestMinLabelDistance = this.minLabelDistance;
-         let bestTicks = [];
-         let bestScale = null;
-         let bestFormat = null;
+         let bestTicks: number[] = [];
+         let bestScale: TimeScaleRange | null = null;
+         let bestFormat: string | null = null;
 
          this.tickMeasure = unit;
 
@@ -484,15 +590,15 @@ class TimeScale {
             }
          }
 
-         this.scale = bestScale;
+         this.scale = bestScale!;
          this.tickSizes = bestTicks
-            .filter((ts) => ts * Math.abs(bestScale.factor) >= this.minTickDistance)
+            .filter((ts) => ts * Math.abs(bestScale!.factor) >= this.minTickDistance)
             .map((size) => ({ size, measure: this.tickMeasure }));
          this.resolvedFormat = bestFormat;
          this.resolvedMinLabelDistance = bestMinLabelDistance;
       }
 
-      let lowerTickUnit = null;
+      let lowerTickUnit: string | null = null;
       switch (this.tickMeasure) {
          case "year":
             lowerTickUnit = "month";
@@ -546,13 +652,13 @@ class TimeScale {
       }
    }
 
-   getTicks(tickSizes) {
+   getTicks(tickSizes: TickSize[]): (number | Date)[][] {
       return tickSizes.map(({ size, measure }) => {
-         let result = [],
-            start,
-            end,
-            minDate,
-            maxDate;
+         let result: (number | Date)[] = [],
+            start: number,
+            end: number,
+            minDate: Date,
+            maxDate: Date;
          if (measure == "year") {
             size /= milliSeconds.year;
             minDate = new Date(this.scale.min - this.scale.minPadding);
@@ -601,12 +707,12 @@ class TimeScale {
       });
    }
 
-   mapGridlines() {
+   mapGridlines(): number[] {
       if (this.tickSizes.length == 0) return [];
       return this.getTicks([this.tickSizes[0]])[0].map((x) => this.map(x));
    }
 
-   book() {
+   book(): void {
       Console.warn("TimeAxis does not support the autoSize flag for column and bar graphs.");
    }
 }

@@ -1,17 +1,47 @@
-//@ts-nocheck
-import { Widget, VDOM } from "../ui/Widget";
-import { Container } from "../ui/Container";
-import { BoundedObject } from "../svg/BoundedObject";
+/** @jsxImportSource react */
+
+import { Widget, VDOM, WidgetConfig } from "../ui/Widget";
+import { Container, ContainerConfig } from "../ui/Container";
+import { BoundedObject, BoundedObjectConfig, BoundedObjectInstance } from "../svg/BoundedObject";
 import { Rect } from "../svg/util/Rect";
 import { Selection } from "../ui/selection/Selection";
-import { tooltipMouseMove, tooltipMouseLeave } from "../widgets/overlay/tooltip-ops";
+import { tooltipMouseMove, tooltipMouseLeave, TooltipParentInstance } from "../widgets/overlay/tooltip-ops";
 import { isNumber } from "../util/isNumber";
 import { shallowEquals } from "../util/shallowEquals";
 import { withHoverSync } from "../ui/HoverSync";
+import { Instance } from "../ui/Instance";
+import { RenderingContext } from "../ui/RenderingContext";
+import { NumberProp, BooleanProp, StringProp } from "../ui/Prop";
+
+export interface PieChartConfig extends BoundedObjectConfig {
+   /** Total angle of the pie chart in degrees. Default is `360`. */
+   angle?: NumberProp;
+
+   /** Starting angle in degrees. Default is `0`. */
+   startAngle?: NumberProp;
+
+   /** Set to `true` for clockwise direction. */
+   clockwise?: BooleanProp;
+
+   /** Gap between slices in pixels. Default is `0`. */
+   gap?: NumberProp;
+}
+
+export interface PieChartInstance extends BoundedObjectInstance {
+   pie: PieCalculator;
+}
 
 export class PieChart extends BoundedObject {
-   declareData() {
-      super.declareData(...arguments, {
+   declare angle: number;
+   declare startAngle: number;
+   declare gap: number;
+
+   constructor(config: PieChartConfig) {
+      super(config);
+   }
+
+   declareData(...args: any[]): void {
+      super.declareData(...args, {
          angle: undefined,
          startAngle: undefined,
          clockwise: undefined,
@@ -19,7 +49,7 @@ export class PieChart extends BoundedObject {
       });
    }
 
-   explore(context, instance) {
+   explore(context: RenderingContext, instance: PieChartInstance): void {
       if (!instance.pie) instance.pie = new PieCalculator();
       let { data } = instance;
       instance.pie.reset(data.angle, data.startAngle, data.clockwise, data.gap);
@@ -28,11 +58,11 @@ export class PieChart extends BoundedObject {
       super.explore(context, instance);
    }
 
-   exploreCleanup(context, instance) {
+   exploreCleanup(context: RenderingContext, instance: PieChartInstance): void {
       context.pop("pie");
    }
 
-   prepare(context, instance) {
+   prepare(context: RenderingContext, instance: PieChartInstance): void {
       this.prepareBounds(context, instance);
       let { data, pie } = instance;
       pie.measure(data.bounds);
@@ -46,8 +76,41 @@ export class PieChart extends BoundedObject {
 
 PieChart.prototype.anchors = "0 1 1 0";
 
+interface PieStack {
+   total: number;
+   r0s: number[] | null;
+   r0ps: number[] | null;
+   gap: number;
+   angleFactor: number;
+   lastAngle: number;
+}
+
+export interface PieSegment {
+   startAngle: number;
+   endAngle: number;
+   angle: number;
+   midAngle: number;
+   gap: number;
+   cx: number;
+   cy: number;
+   R: number;
+   ox?: number;
+   oy?: number;
+   radiusMultiplier?: number;
+}
+
 class PieCalculator {
-   reset(angle, startAngle, clockwise, gap) {
+   angleTotal: number = 0;
+   startAngle: number = 0;
+   clockwise: boolean = false;
+   gap: number = 0;
+   stacks: Record<string, PieStack> = {};
+   cx: number = 0;
+   cy: number = 0;
+   R: number = 0;
+   shouldUpdate: boolean = false;
+
+   reset(angle: number, startAngle: number, clockwise: boolean, gap: number): void {
       if (angle == 360) angle = 359.99; // really hacky way to draw full circles
       this.angleTotal = (angle / 180) * Math.PI;
       this.startAngle = (startAngle / 180) * Math.PI;
@@ -56,18 +119,18 @@ class PieCalculator {
       this.stacks = {};
    }
 
-   acknowledge(stack, value, r, r0, percentageRadius) {
+   acknowledge(stack: string, value: number, r: number, r0: number, percentageRadius: boolean): void {
       let s = this.stacks[stack];
-      if (!s) s = this.stacks[stack] = { total: 0, r0s: this.gap > 0 ? [] : null, r0ps: this.gap > 0 ? [] : null };
+      if (!s) s = this.stacks[stack] = { total: 0, r0s: this.gap > 0 ? [] : null, r0ps: this.gap > 0 ? [] : null, gap: 0, angleFactor: 0, lastAngle: 0 };
       if (value > 0) {
          s.total += value;
          if (this.gap > 0 && r0 > 0)
-            if (percentageRadius) s.r0ps.push(r0);
-            else s.r0s.push(r0);
+            if (percentageRadius) s.r0ps!.push(r0);
+            else s.r0s!.push(r0);
       }
    }
 
-   hash() {
+   hash(): Record<string, any> {
       return {
          angleTotal: this.angleTotal,
          startAngle: this.startAngle,
@@ -82,7 +145,7 @@ class PieCalculator {
       };
    }
 
-   measure(rect) {
+   measure(rect: Rect): void {
       this.R = Math.max(0, Math.min(rect.width(), rect.height())) / 2;
       for (let s in this.stacks) {
          let stack = this.stacks[s];
@@ -90,19 +153,19 @@ class PieCalculator {
          stack.gap = this.gap;
          if (this.gap > 0) {
             // gap cannot be larger of two times the smallest r0
-            for (let index = 0; index < stack.r0s.length; index++)
-               if (2 * stack.r0s[index] < stack.gap) stack.gap = 2 * stack.r0s[index];
-            for (let index = 0; index < stack.r0ps.length; index++) {
-               let r0 = (stack.r0ps[index] * this.R) / 100;
+            for (let index = 0; index < stack.r0s!.length; index++)
+               if (2 * stack.r0s![index] < stack.gap) stack.gap = 2 * stack.r0s![index];
+            for (let index = 0; index < stack.r0ps!.length; index++) {
+               let r0 = (stack.r0ps![index] * this.R) / 100;
                if (2 * r0 < stack.gap) stack.gap = 2 * r0;
             }
          }
          while (stack.gap > 0) {
-            for (let index = 0; index < stack.r0s.length; index++)
-               gapAngleTotal += 2 * Math.asin(stack.gap / stack.r0s[index] / 2);
+            for (let index = 0; index < stack.r0s!.length; index++)
+               gapAngleTotal += 2 * Math.asin(stack.gap / stack.r0s![index] / 2);
 
-            for (let index = 0; index < stack.r0ps.length; index++)
-               gapAngleTotal += 2 * Math.asin(stack.gap / ((stack.r0ps[index] * this.R) / 100) / 2);
+            for (let index = 0; index < stack.r0ps!.length; index++)
+               gapAngleTotal += 2 * Math.asin(stack.gap / ((stack.r0ps![index] * this.R) / 100) / 2);
 
             if (gapAngleTotal < 0.25 * this.angleTotal) break;
             stack.gap = stack.gap * 0.95;
@@ -116,7 +179,7 @@ class PieCalculator {
       this.cy = (rect.t + rect.b) / 2;
    }
 
-   map(stack, value, r, r0, percentageRadius) {
+   map(stack: string, value: number, r: number, r0: number, percentageRadius: boolean): PieSegment {
       if (percentageRadius) {
          r = (r * this.R) / 100;
          r0 = (r0 * this.R) / 100;
@@ -142,7 +205,7 @@ class PieCalculator {
    }
 }
 
-function createSvgArc(cx, cy, r0 = 0, r, startAngle, endAngle, br = 0, gap = 0) {
+function createSvgArc(cx: number, cy: number, r0: number = 0, r: number, startAngle: number, endAngle: number, br: number = 0, gap: number = 0): string {
    let gap2 = gap / 2;
 
    if (startAngle > endAngle) {
@@ -286,17 +349,120 @@ PieChart.prototype.angle = 360;
 PieChart.prototype.startAngle = 0;
 PieChart.prototype.gap = 0;
 
+export interface PieSliceConfig extends ContainerConfig {
+   /** Used to indicate if a slice is active or not. Inactive slices are not rendered. */
+   active?: BooleanProp;
+
+   /** Inner radius of the slice. Default is `0`. */
+   r0?: NumberProp;
+
+   /** Outer radius of the slice. Default is `50`. */
+   r?: NumberProp;
+
+   /** Index of a color from the standard palette of colors. 0-15. */
+   colorIndex?: NumberProp;
+
+   /** Used to automatically assign a color based on the `name` and the contextual `ColorMap` widget. */
+   colorMap?: StringProp;
+
+   /** Name used to resolve the color. If not provided, `name` is used instead. */
+   colorName?: StringProp;
+
+   /** Offset of the slice from the center. */
+   offset?: NumberProp;
+
+   /** Value represented by the slice. */
+   value?: NumberProp;
+
+   /** Set to `true` to disable the slice. */
+   disabled?: BooleanProp;
+
+   /** Inner radius for point calculations. */
+   innerPointRadius?: NumberProp;
+
+   /** Outer radius for point calculations. */
+   outerPointRadius?: NumberProp;
+
+   /** Name of the item as it will appear in the legend. */
+   name?: StringProp;
+
+   /** Stack name. Default is `stack`. */
+   stack?: StringProp;
+
+   /** Name of the legend to be used. Default is `legend`. Set to `false` to hide the legend entry. */
+   legend?: StringProp;
+
+   /** ID used for hover synchronization. */
+   hoverId?: StringProp;
+
+   /** Border radius for rounded corners. */
+   br?: NumberProp;
+
+   /** Alias for br (border radius). */
+   borderRadius?: number;
+
+   /** Text to display in the legend. */
+   legendDisplayText?: StringProp;
+
+   /** Set to `true` to use percentage-based radius. Default is `true`. */
+   percentageRadius?: boolean;
+
+   /** Shape to use in legend. Default is `circle`. */
+   legendShape?: string;
+
+   /** Action to perform on legend item click. Default is `auto`. */
+   legendAction?: string;
+
+   /** Hover channel for hover synchronization. Default is `default`. */
+   hoverChannel?: string;
+
+   /** Selection configuration. */
+   selection?: any;
+
+   /** Tooltip configuration. */
+   tooltip?: any;
+}
+
+export interface PieSliceInstance extends Instance, TooltipParentInstance {
+   pie: PieCalculator;
+   valid: boolean;
+   colorMap: any;
+   hoverSync: any;
+   segment: PieSegment;
+   bounds: Rect;
+}
+
 Widget.alias("pie-slice");
 export class PieSlice extends Container {
-   init() {
+   declare baseClass: string;
+   declare offset: number;
+   declare r0: number;
+   declare r: number;
+   declare percentageRadius: boolean;
+   declare legend: string;
+   declare active: boolean;
+   declare stack: string;
+   declare legendAction: string;
+   declare legendShape: string;
+   declare hoverChannel: string;
+   declare br: number;
+   declare borderRadius: number;
+   declare selection: Selection;
+   declare tooltip: any;
+
+   constructor(config: PieSliceConfig) {
+      super(config);
+   }
+
+   init(): void {
       this.selection = Selection.create(this.selection);
       if (this.borderRadius) this.br = this.borderRadius;
       super.init();
    }
 
-   declareData() {
+   declareData(...args: any[]): void {
       let selection = this.selection.configureWidget(this);
-      super.declareData(...arguments, selection, {
+      super.declareData(...args, selection, {
          active: true,
          r0: undefined,
          r: undefined,
@@ -317,7 +483,7 @@ export class PieSlice extends Container {
       });
    }
 
-   prepareData(context, instance) {
+   prepareData(context: RenderingContext, instance: PieSliceInstance): void {
       let { data } = instance;
 
       if (data.name && !data.colorName) data.colorName = data.name;
@@ -325,7 +491,7 @@ export class PieSlice extends Container {
       super.prepareData(context, instance);
    }
 
-   explore(context, instance) {
+   explore(context: RenderingContext, instance: PieSliceInstance): void {
       instance.pie = context.pie;
       if (!instance.pie) throw new Error("Pie.Slice must be placed inside a Pie.");
 
@@ -344,7 +510,7 @@ export class PieSlice extends Container {
       }
    }
 
-   prepare(context, instance) {
+   prepare(context: RenderingContext, instance: PieSliceInstance): void {
       let { data, segment, pie, colorMap } = instance;
 
       if (colorMap && data.colorName) {
@@ -376,10 +542,10 @@ export class PieSlice extends Container {
             let innerR = data.innerPointRadius != null ? data.innerPointRadius : data.r0;
             let outerR = data.outerPointRadius != null ? data.outerPointRadius : data.r;
 
-            let ix = seg.ox + Math.cos(seg.midAngle) * innerR * seg.radiusMultiplier;
-            let iy = seg.oy - Math.sin(seg.midAngle) * innerR * seg.radiusMultiplier;
-            let ox = seg.ox + Math.cos(seg.midAngle) * outerR * seg.radiusMultiplier;
-            let oy = seg.oy - Math.sin(seg.midAngle) * outerR * seg.radiusMultiplier;
+            let ix = seg.ox! + Math.cos(seg.midAngle) * innerR * seg.radiusMultiplier;
+            let iy = seg.oy! - Math.sin(seg.midAngle) * innerR * seg.radiusMultiplier;
+            let ox = seg.ox! + Math.cos(seg.midAngle) * outerR * seg.radiusMultiplier;
+            let oy = seg.oy! - Math.sin(seg.midAngle) * outerR * seg.radiusMultiplier;
 
             instance.segment = seg;
             instance.bounds = new Rect({
@@ -409,27 +575,27 @@ export class PieSlice extends Container {
             hoverSync: instance.hoverSync,
             displayText: data.legendDisplayText,
             value: data.value,
-            onClick: (e) => {
+            onClick: (e: MouseEvent) => {
                this.onLegendClick(e, instance);
             },
          });
    }
 
-   prepareCleanup(context, instance) {
+   prepareCleanup(context: RenderingContext, instance: PieSliceInstance): void {
       if (instance.valid && instance.data.active) {
          context.pop("parentRect");
       }
    }
 
-   onLegendClick(e, instance) {
+   onLegendClick(e: MouseEvent | React.MouseEvent, instance: PieSliceInstance): void {
       let allActions = this.legendAction == "auto";
       let { data } = instance;
       if (allActions || this.legendAction == "toggle") if (instance.set("active", !data.active)) return;
 
-      if (allActions || this.legendAction == "select") this.handleClick(e, instance);
+      if (allActions || this.legendAction == "select") this.handleClick(e as React.MouseEvent, instance);
    }
 
-   render(context, instance, key) {
+   render(context: RenderingContext, instance: PieSliceInstance, key: string): React.ReactNode {
       let { segment, data } = instance;
       if (!instance.valid || !data.active) return null;
 
@@ -439,7 +605,7 @@ export class PieSlice extends Container {
          this.hoverChannel,
          data.hoverId,
          ({ hover, onMouseMove, onMouseLeave }) => {
-            let stateMods = {
+            let stateMods: Record<string, any> = {
                selected: this.selection.isInstanceSelected(instance),
                disabled: data.disabled,
                selectable: !this.selection.isDummy,
@@ -448,10 +614,10 @@ export class PieSlice extends Container {
             };
 
             let d = createSvgArc(
-               segment.ox,
-               segment.oy,
-               data.r0 * segment.radiusMultiplier,
-               data.r * segment.radiusMultiplier,
+               segment.ox!,
+               segment.oy!,
+               data.r0 * segment.radiusMultiplier!,
+               data.r * segment.radiusMultiplier!,
                segment.startAngle,
                segment.endAngle,
                data.br,
@@ -483,7 +649,7 @@ export class PieSlice extends Container {
       );
    }
 
-   handleClick(e, instance) {
+   handleClick(e: React.MouseEvent, instance: PieSliceInstance): void {
       if (!this.selection.isDummy) {
          this.selection.selectInstance(instance, {
             toggle: e.ctrlKey,
@@ -494,23 +660,23 @@ export class PieSlice extends Container {
    }
 }
 
-function move(x, y) {
+function move(x: number, y: number): string {
    return `M ${x} ${y}`;
 }
 
-function line(x, y) {
+function line(x: number, y: number): string {
    return `L ${x} ${y}`;
 }
 
-function z() {
+function z(): string {
    return "Z";
 }
 
-function arc(rx, ry, xRotation, largeArc, sweep, x, y) {
+function arc(rx: number, ry: number, xRotation: number, largeArc: number, sweep: number, x: number, y: number): string {
    return `A ${rx} ${ry} ${xRotation} ${largeArc} ${sweep} ${x} ${y}`;
 }
 
-function largeArcFlag(angle) {
+function largeArcFlag(angle: number): number {
    return angle > Math.PI || angle < -Math.PI ? 1 : 0;
 }
 

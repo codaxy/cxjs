@@ -1,29 +1,60 @@
-//@ts-nocheck
 import { Widget, VDOM } from "../ui/Widget";
-import { ColumnBarBase } from "./ColumnBarBase";
+import { ColumnBarBase, ColumnBarBaseConfig, ColumnBarBaseInstance } from "./ColumnBarBase";
 import { Rect } from "../svg/util/Rect";
 import { isDefined } from "../util/isDefined";
+import { RenderingContext } from "../ui/RenderingContext";
+import { NumberProp, BooleanProp } from "../ui/Prop";
+
+export interface BarConfig extends ColumnBarBaseConfig {
+   /** Base value. Default value is `0`. */
+   x0?: NumberProp;
+
+   /** Size (height) of the bar in axis units. */
+   size?: NumberProp;
+
+   /** Set to true to auto calculate size and offset. Available only if the y axis is a category axis. */
+   autoSize?: BooleanProp;
+
+   /** Alias for size. */
+   height?: number;
+
+   /** Hide the base of the bar (x0). */
+   hiddenBase?: boolean;
+}
 
 export class Bar extends ColumnBarBase {
-   init() {
+   declare x0: number;
+   declare size: number;
+   declare autoSize: boolean;
+   declare height: number;
+   declare hiddenBase: boolean;
+
+   constructor(config: BarConfig) {
+      super(config);
+   }
+
+   init(): void {
       if (isDefined(this.height)) this.size = this.height;
 
       super.init();
    }
 
-   declareData() {
-      return super.declareData(...arguments, {
-         x0: undefined,
-         size: undefined,
-         autoSize: undefined,
-      });
+   declareData(...args: any[]): any {
+      return super.declareData(
+         {
+            x0: undefined,
+            size: undefined,
+            autoSize: undefined,
+         },
+         ...args,
+      );
    }
 
-   checkValid(data) {
+   checkValid(data: any): boolean {
       return data.y != null && data.x != null && data.x0 != null;
    }
 
-   explore(context, instance) {
+   explore(context: RenderingContext, instance: ColumnBarBaseInstance): void {
       let { data, xAxis, yAxis } = instance;
 
       instance.colorMap = data.colorMap && context.getColorMap && context.getColorMap(data.colorMap);
@@ -47,7 +78,7 @@ export class Bar extends ColumnBarBase {
       }
    }
 
-   calculateRect(instance) {
+   calculateRect(instance: ColumnBarBaseInstance): Rect {
       let { data } = instance;
       var { offset, size } = data;
 

@@ -6,11 +6,11 @@ import { getParentFrameBoundingClientRect } from "../../util/getParentFrameBound
  */
 interface CaptureMouseOptions {
    /** Callback function called on mouse move events */
-   onMouseMove?: (e: React.MouseEvent, captureData?: any) => void;
+   onMouseMove?: (e: MouseEvent | TouchEvent, captureData?: any) => void;
    /** Callback function called on mouse up events */
-   onMouseUp?: (e: React.MouseEvent, captureData?: any) => void;
+   onMouseUp?: (e: MouseEvent | TouchEvent, captureData?: any) => void;
    /** Callback function called on double click events */
-   onDblClick?: (e: React.MouseEvent) => void;
+   onDblClick?: (e: MouseEvent) => void;
    /** Additional data passed to callbacks */
    captureData?: any;
    /** CSS cursor style for the capture surface */
@@ -50,7 +50,7 @@ export function captureMouse2(e: React.MouseEvent, options: CaptureMouseOptions)
 
    function doubleClick(e: Event) {
       try {
-         options.onDblClick && options.onDblClick(e as any as React.MouseEvent);
+         options.onDblClick && options.onDblClick(e as MouseEvent);
       } finally {
          tear();
       }
@@ -68,7 +68,7 @@ export function captureMouse2(e: React.MouseEvent, options: CaptureMouseOptions)
       options.onDblClick = undefined;
 
       batchUpdates(() => {
-         if (options.onMouseMove) options.onMouseMove(e as any as React.MouseEvent, options.captureData);
+         if (options.onMouseMove) options.onMouseMove(e as MouseEvent, options.captureData);
          e.stopPropagation();
          e.preventDefault(); //disable text selection
       });
@@ -82,7 +82,7 @@ export function captureMouse2(e: React.MouseEvent, options: CaptureMouseOptions)
 
          if (!options.onDblClick) surface.style.display = "none";
          try {
-            if (options.onMouseUp) options.onMouseUp(e as any as React.MouseEvent, options.captureData);
+            if (options.onMouseUp) options.onMouseUp(e as MouseEvent, options.captureData);
          } finally {
             if (options.onDblClick) {
                //keep the surface a little longer to detect double clicks
@@ -104,24 +104,24 @@ export function captureMouseOrTouch2(e: React.MouseEvent | React.TouchEvent, opt
 
       let move = (e: TouchEvent) => {
          batchUpdates(() => {
-            if (options.onMouseMove) options.onMouseMove(e as any, options.captureData);
+            if (options.onMouseMove) options.onMouseMove(e, options.captureData);
             e.preventDefault();
          });
       };
 
       let end = (e: TouchEvent) => {
          batchUpdates(() => {
-      el.removeEventListener("touchmove", move as any);
-      el.removeEventListener("touchend", end as any);
+            el.removeEventListener("touchmove", move);
+            el.removeEventListener("touchend", end);
 
-            if (options.onMouseUp) options.onMouseUp(e as any);
+            if (options.onMouseUp) options.onMouseUp(e);
 
             e.preventDefault();
          });
       };
 
-      el.addEventListener("touchmove", move as any);
-      el.addEventListener("touchend", end as any);
+      el.addEventListener("touchmove", move);
+      el.addEventListener("touchend", end);
 
       e.stopPropagation();
    } else captureMouse2(e as React.MouseEvent, options);
@@ -137,8 +137,8 @@ export function captureMouseOrTouch2(e: React.MouseEvent | React.TouchEvent, opt
  */
 export function captureMouse(
    e: React.MouseEvent,
-   onMouseMove?: (e: React.MouseEvent, captureData?: any) => void,
-   onMouseUp?: (e: React.MouseEvent, captureData?: any) => void,
+   onMouseMove?: (e: MouseEvent | TouchEvent, captureData?: any) => void,
+   onMouseUp?: (e: MouseEvent | TouchEvent, captureData?: any) => void,
    captureData?: any,
    cursor?: string
 ): void {
@@ -160,8 +160,8 @@ export function captureMouse(
  */
 export function captureMouseOrTouch(
    e: React.MouseEvent | React.TouchEvent,
-   onMouseMove?: (e: React.MouseEvent, captureData?: any) => void,
-   onMouseUp?: (e: React.MouseEvent | React.TouchEvent, captureData?: any) => void,
+   onMouseMove?: (e: MouseEvent | TouchEvent, captureData?: any) => void,
+   onMouseUp?: (e: MouseEvent | TouchEvent, captureData?: any) => void,
    captureData?: any,
    cursor?: string
 ): void {
@@ -170,11 +170,13 @@ export function captureMouseOrTouch(
 
 /**
  * Gets the cursor position relative to the parent frame
- * @param e - Mouse or touch event
+ * @param e - Mouse or touch event (React or native)
  * @returns Object with clientX and clientY coordinates adjusted for parent frame offset
  */
-export function getCursorPos(e: React.MouseEvent | React.TouchEvent): { clientX: number; clientY: number } {
-   let p = (e as React.TouchEvent).touches?.[0] || (e as React.MouseEvent);
+export function getCursorPos(
+   e: React.MouseEvent | React.TouchEvent | MouseEvent | TouchEvent
+): { clientX: number; clientY: number } {
+   let p = (e as TouchEvent).touches?.[0] || (e as MouseEvent);
    let offset = getParentFrameBoundingClientRect(e.target as Element);
    return {
       clientX: p.clientX + offset.left,

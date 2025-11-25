@@ -1,10 +1,26 @@
-//@ts-nocheck
 import { Widget, VDOM, getContent } from "../ui/Widget";
-import { BoundedObject } from "../svg/BoundedObject";
+import { BoundedObject, BoundedObjectConfig, BoundedObjectInstance } from "../svg/BoundedObject";
 import { Axis } from "./axis/Axis";
+import { RenderingContext } from "../ui/RenderingContext";
 
-export class Chart extends BoundedObject {
-   init() {
+export interface ChartConfig extends BoundedObjectConfig {
+   /** Axis definition. Each key represent an axis, and each value hold axis configuration. */
+   axes?: Record<string, any>;
+
+   /** Put axes over data series. */
+   axesOnTop?: boolean;
+}
+
+export interface ChartInstance extends BoundedObjectInstance {
+   calculators: Record<string, any>;
+   axes: Record<string, any>;
+}
+
+export class Chart extends BoundedObject<ChartConfig, ChartInstance> {
+   declare axes: Record<string, any>;
+   declare axesOnTop: boolean;
+
+   init(): void {
       super.init();
 
       if (!this.axes) this.axes = {};
@@ -14,7 +30,7 @@ export class Chart extends BoundedObject {
       }
    }
 
-   explore(context, instance) {
+   explore(context: RenderingContext, instance: ChartInstance): void {
       instance.calculators = { ...context.axes };
 
       context.push("axes", instance.calculators);
@@ -32,7 +48,7 @@ export class Chart extends BoundedObject {
       super.explore(context, instance);
    }
 
-   exploreCleanup(context, instance) {
+   exploreCleanup(context: RenderingContext, instance: ChartInstance): void {
       context.pop("axes");
 
       for (let axis in instance.axes) {
@@ -40,17 +56,17 @@ export class Chart extends BoundedObject {
       }
    }
 
-   prepare(context, instance) {
+   prepare(context: RenderingContext, instance: ChartInstance): void {
       context.push("axes", instance.calculators);
       super.prepare(context, instance);
    }
 
-   prepareCleanup(context, instance) {
+   prepareCleanup(context: RenderingContext, instance: ChartInstance): void {
       context.pop("axes");
       super.prepareCleanup(context, instance);
    }
 
-   render(context, instance, key) {
+   render(context: RenderingContext, instance: ChartInstance, key: string): any[] {
       let axes = [];
       for (let k in instance.axes) {
          axes.push(getContent(instance.axes[k].render(context, key + "-axis-" + k)));

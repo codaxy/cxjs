@@ -1,12 +1,84 @@
-//@ts-nocheck
-import { BoundedObject } from "../svg/BoundedObject";
+/** @jsxImportSource react */
+
+import { BoundedObject, BoundedObjectConfig, BoundedObjectInstance } from "../svg/BoundedObject";
 import { Rect } from "../svg/util/Rect";
 import { Widget, VDOM } from "../ui/Widget";
 import { parseStyle } from "../util/parseStyle";
+import { RenderingContext } from "../ui/RenderingContext";
+import { NumberProp, BooleanProp, StringProp, StyleProp } from "../ui/Prop";
+
+export interface RangeMarkerConfig extends BoundedObjectConfig {
+   /** The `x` value binding or expression. */
+   x?: NumberProp;
+
+   /** The `y` value binding or expression. */
+   y?: NumberProp;
+
+   /** The shape of marker, Could be `min`, `max`, `line`. Default to `line`. */
+   shape?: StringProp;
+
+   /** Switch to vertical mode. */
+   vertical?: BooleanProp;
+
+   /** Size of the range marker. */
+   size?: NumberProp;
+
+   /** The laneOffset property adjusts the positioning of lane elements, enhancing their alignment and readability. */
+   laneOffset?: NumberProp;
+
+   /** Style object applied to the range marker. */
+   lineStyle?: StyleProp;
+
+   /** Class object applied to the range marker. */
+   lineClass?: StringProp;
+
+   /** Size of vertical or horizontal caps. */
+   capSize?: NumberProp;
+
+   /** Inflate the range marker. */
+   inflate?: NumberProp;
+
+   /** Set to `true` to allow the range marker to affect axis bounds. */
+   affectsAxes?: boolean;
+
+   /**
+    * Name of the horizontal axis. The value should match one of the horizontal axes set
+    * in the `axes` configuration of the parent `Chart` component. Default value is `x`.
+    */
+   xAxis?: string;
+
+   /**
+    * Name of the vertical axis. The value should match one of the vertical axes set
+    * in the `axes` configuration if the parent `Chart` component. Default value is `y`.
+    */
+   yAxis?: string;
+}
+
+export interface RangeMarkerInstance extends BoundedObjectInstance {
+   axes: Record<string, any>;
+   xAxis: any;
+   yAxis: any;
+}
 
 export class RangeMarker extends BoundedObject {
-   declareData() {
-      super.declareData(...arguments, {
+   declare baseClass: string;
+   declare xAxis: string;
+   declare yAxis: string;
+   declare shape: string;
+   declare vertical: boolean;
+   declare size: number;
+   declare laneOffset: number;
+   declare capSize: number;
+   declare inflate: number;
+   declare affectsAxes: boolean;
+   declare lineStyle: any;
+
+   constructor(config: RangeMarkerConfig) {
+      super(config);
+   }
+
+   declareData(...args: any[]): void {
+      super.declareData(...args, {
          x: undefined,
          y: undefined,
          shape: undefined,
@@ -20,19 +92,19 @@ export class RangeMarker extends BoundedObject {
       });
    }
 
-   init() {
+   init(): void {
       this.lineStyle = parseStyle(this.lineStyle);
       super.init();
    }
 
-   prepareData(context, instance) {
+   prepareData(context: RenderingContext, instance: RangeMarkerInstance): void {
       instance.axes = context.axes;
       instance.xAxis = context.axes[this.xAxis];
       instance.yAxis = context.axes[this.yAxis];
       super.prepareData(context, instance);
    }
 
-   explore(context, instance) {
+   explore(context: RenderingContext, instance: RangeMarkerInstance): void {
       let { data, xAxis, yAxis } = instance;
 
       if (this.affectsAxes) {
@@ -43,10 +115,10 @@ export class RangeMarker extends BoundedObject {
       super.explore(context, instance);
    }
 
-   calculateBounds(context, instance) {
+   calculateBounds(context: RenderingContext, instance: RangeMarkerInstance): Rect {
       let { data, xAxis, yAxis } = instance;
 
-      let l, r, t, b;
+      let l: number, r: number, t: number, b: number;
 
       if (data.x == null || data.y == null) {
          return super.calculateBounds(context, instance);
@@ -80,11 +152,11 @@ export class RangeMarker extends BoundedObject {
       });
    }
 
-   prepare(context, instance) {
+   prepare(context: RenderingContext, instance: RangeMarkerInstance): void {
       super.prepare(context, instance);
    }
 
-   render(context, instance, key) {
+   render(context: RenderingContext, instance: RangeMarkerInstance, key: string): React.ReactNode {
       var { data } = instance;
       let { CSS, baseClass } = this;
       let { bounds, shape } = data;

@@ -1,23 +1,102 @@
-//@ts-nocheck
-import { Widget, VDOM } from "../ui/Widget";
+/** @jsxImportSource react */
+
+import { Widget, VDOM, WidgetConfig } from "../ui/Widget";
 import { Selection } from "../ui/selection/Selection";
 import { CSS } from "../ui/CSS";
 import { getShape } from "./shapes";
 import { isArray } from "../util/isArray";
+import { Instance } from "../ui/Instance";
+import { RenderingContext } from "../ui/RenderingContext";
+import { NumberProp, StringProp, RecordsProp } from "../ui/Prop";
+
+export interface ScatterGraphConfig extends WidgetConfig {
+   /** Data for the graph. Each entry should be an object with at least two properties
+    * whose names should match the `xField` and `yField` values.
+    */
+   data?: RecordsProp;
+
+   /** Size of the scatter points. */
+   size?: NumberProp;
+
+   /** Shape of the scatter points. Default is `circle`. */
+   shape?: StringProp;
+
+   /** Index of a color from the standard palette of colors. 0-15. */
+   colorIndex?: NumberProp;
+
+   /** Used to automatically assign a color based on the `name` and the contextual `ColorMap` widget. */
+   colorMap?: StringProp;
+
+   /** Name used to resolve the color. If not provided, `name` is used instead. */
+   colorName?: StringProp;
+
+   /** Name of the item as it will appear in the legend. */
+   name?: StringProp;
+
+   /** Used to indicate if an item is active or not. Inactive items are shown only in the legend. */
+   active?: boolean;
+
+   /** Name of the horizontal axis. Default value is `x`. */
+   xAxis?: string;
+
+   /** Name of the vertical axis. Default value is `y`. */
+   yAxis?: string;
+
+   /** Name of the property which holds the x value. Default value is `x`. */
+   xField?: string;
+
+   /** Name of the property which holds the y value. Default value is `y`. */
+   yField?: string;
+
+   /** Name of the property which holds the size value. */
+   sizeField?: string | false;
+
+   /** Name of the legend to be used. Default is `legend`. Set to `false` to hide the legend entry. */
+   legend?: string | false;
+
+   /** Action to perform on legend item click. Default is `auto`. */
+   legendAction?: string;
+
+   /** Selection configuration. */
+   selection?: any;
+}
+
+export interface ScatterGraphInstance extends Instance {
+   xAxis: any;
+   yAxis: any;
+   colorMap: any;
+}
 
 export class ScatterGraph extends Widget {
-   init() {
+   declare baseClass: string;
+   declare xAxis: string;
+   declare yAxis: string;
+   declare xField: string;
+   declare yField: string;
+   declare sizeField: string | false;
+   declare size: number;
+   declare shape: string;
+   declare legend: string | false;
+   declare legendAction: string;
+   declare selection: Selection;
+   declare data: any;
+
+   constructor(config: ScatterGraphConfig) {
+      super(config);
+   }
+
+   init(): void {
       this.selection = Selection.create(this.selection, {
          records: this.data,
       });
       super.init();
    }
 
-   declareData() {
+   declareData(...args: any[]): void {
       var selection = this.selection.configureWidget(this);
 
       super.declareData(
-         ...arguments,
+         ...args,
          {
             data: undefined,
             size: undefined,
@@ -32,7 +111,7 @@ export class ScatterGraph extends Widget {
       );
    }
 
-   prepareData(context, instance) {
+   prepareData(context: RenderingContext, instance: ScatterGraphInstance): void {
       let { data } = instance;
 
       if (data.name && !data.colorName) data.colorName = data.name;
@@ -40,7 +119,7 @@ export class ScatterGraph extends Widget {
       super.prepareData(context, instance);
    }
 
-   explore(context, instance) {
+   explore(context: RenderingContext, instance: ScatterGraphInstance): void {
       super.explore(context, instance);
 
       var xAxis = (instance.xAxis = context.axes[this.xAxis]);
@@ -52,14 +131,14 @@ export class ScatterGraph extends Widget {
       if (instance.colorMap && data.colorName) instance.colorMap.acknowledge(data.colorName);
 
       if (data.active && isArray(data.data)) {
-         data.data.forEach((p) => {
+         data.data.forEach((p: any) => {
             xAxis.acknowledge(p[this.xField]);
             yAxis.acknowledge(p[this.yField]);
          });
       }
    }
 
-   prepare(context, instance) {
+   prepare(context: RenderingContext, instance: ScatterGraphInstance): void {
       var { data, xAxis, yAxis, colorMap } = instance;
 
       if (xAxis.shouldUpdate || yAxis.shouldUpdate) instance.markShouldUpdate(context);
@@ -77,27 +156,27 @@ export class ScatterGraph extends Widget {
             disabled: data.disabled,
             style: data.style,
             shape: data.shape,
-            onClick: (e) => {
+            onClick: (e: MouseEvent) => {
                this.onLegendClick(e, instance);
             },
          });
 
       if (data.active) {
          if (context.pointReducer && isArray(data.data)) {
-            data.data.forEach((p, index) => {
+            data.data.forEach((p: any, index: number) => {
                context.pointReducer(p[this.xField], p[this.yField], data.name, p, data.data, index);
             });
          }
       }
    }
 
-   onLegendClick(e, instance) {
+   onLegendClick(e: MouseEvent, instance: ScatterGraphInstance): void {
       var allActions = this.legendAction == "auto";
       var { data } = instance;
       if (allActions || this.legendAction == "toggle") instance.set("active", !data.active);
    }
 
-   render(context, instance, key) {
+   render(context: RenderingContext, instance: ScatterGraphInstance, key: string): React.ReactNode {
       var { data } = instance;
       return (
          <g key={key} className={data.classNames}>
@@ -106,7 +185,7 @@ export class ScatterGraph extends Widget {
       );
    }
 
-   renderData(context, instance) {
+   renderData(context: RenderingContext, instance: ScatterGraphInstance): React.ReactNode {
       var { data, xAxis, yAxis, store } = instance;
 
       if (!data.active) return null;
@@ -117,7 +196,7 @@ export class ScatterGraph extends Widget {
 
       return (
          isArray(data.data) &&
-         data.data.map((p, i) => {
+         data.data.map((p: any, i: number) => {
             var classes = CSS.element(this.baseClass, "shape", {
                selected: isSelected(p, i),
                selectable: !this.selection.isDummy,
@@ -126,13 +205,13 @@ export class ScatterGraph extends Widget {
 
             var cx = xAxis.map(p[this.xField]),
                cy = yAxis.map(p[this.yField]),
-               size = this.sizeField ? p[this.sizeField] : data.size;
+               size = this.sizeField ? p[this.sizeField as string] : data.size;
 
             return shape(cx, cy, size, {
                key: i,
                className: classes,
                style: p.style || data.style,
-               onClick: (e) => {
+               onClick: (e: React.MouseEvent) => {
                   this.handleItemClick(e, instance, i);
                },
             });
@@ -140,7 +219,7 @@ export class ScatterGraph extends Widget {
       );
    }
 
-   handleItemClick(e, { data, store }, index) {
+   handleItemClick(e: React.MouseEvent, { data, store }: ScatterGraphInstance, index: number): void {
       var bubble = data.data[index];
       this.selection.select(store, bubble, index, {
          toggle: e.ctrlKey,
