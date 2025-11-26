@@ -10,7 +10,7 @@ import { CSSHelper } from "./CSSHelper";
 import { RenderingContext } from "./RenderingContext";
 import type { Controller, ControllerConfig } from "./Controller";
 
-import { BooleanProp, ClassProp, StyleProp } from "./Prop";
+import { BooleanProp, ClassProp, ModProp, StyleProp } from "./Prop";
 import { Instance } from "./Instance";
 import { VDOM as vdom } from "./VDOM";
 import { ViewMethods } from "../data/View";
@@ -27,19 +27,28 @@ export type ControllerProp =
    | ((config: ViewMethods) => ControllerConfig);
 
 export interface WidgetConfig {
-   styles?: StyleProp;
-   style?: StyleProp;
+   /** Visibility of the widget. Defaults to `true`. */
    visible?: BooleanProp;
+
+   /** Visibility of the widget. Defaults to `true`. */
    if?: BooleanProp;
-   styled?: boolean;
+
+   /** Outer (wrapper) layout used to display the widget in. */
    outerLayout?: unknown;
+
+   /** Inner layout used to display children inside the widget. */
    layout?: unknown;
+
+   /** Name of the ContentPlaceholder that should be used to display the widget. */
    contentFor?: string;
+
+   /** Name of the ContentPlaceholder that should be used to display the widget. */
    putInto?: string;
-   isContent?: boolean;
-   class?: ClassProp;
-   className?: ClassProp;
+
+   /** Key that will be used as the key when rendering the React component.  */
    vdomKey?: string;
+
+   /** Controller. */
    controller?: ControllerProp;
 
    onInit?(context: RenderingContext): void;
@@ -47,6 +56,33 @@ export interface WidgetConfig {
    onPrepare?(context: RenderingContext, instance: Instance): void;
    onCleanup?(context: RenderingContext, instance: Instance): void;
    onDestroy?(instance: Instance): void;
+}
+
+/** Style-related config properties for widgets that support styling. */
+export interface WidgetStyleConfig {
+   /**
+    * Additional CSS classes to be applied to the element.
+    * If an object is provided, all keys with a "truthy" value will be added to the CSS class list.
+    */
+   class?: ClassProp;
+
+   /**
+    * Additional CSS classes to be applied to the element.
+    * If an object is provided, all keys with a "truthy" value will be added to the CSS class list.
+    */
+   className?: ClassProp;
+
+   /** Style object applied to the element. */
+   style?: StyleProp;
+
+   /** Style object applied to the element. */
+   styles?: StyleProp;
+
+   /** Base CSS class to be applied to the element. For example, value 'button' will add a class 'cxb-button' to the element. */
+   baseClass?: string;
+
+   /** Appearance modifier. For example, mod="big" will add the CSS class .cxm-big to the block element. */
+   mod?: ModProp;
 }
 
 export abstract class Widget<

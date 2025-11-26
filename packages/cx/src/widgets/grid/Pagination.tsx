@@ -1,10 +1,27 @@
 //@ts-nocheck
-import {Widget, VDOM} from '../../ui/Widget';
+import {Widget, VDOM, WidgetStyleConfig} from '../../ui/Widget';
 import {KeyCode} from '../../util/KeyCode';
 import {preventFocusOnTouch} from '../../ui/FocusManager';
 import ForwardIcon from '../icons/forward';
+import {NumberProp} from '../../ui/Prop';
+import {StyledContainerConfig} from '../../ui/Container';
 
-export class Pagination extends Widget {
+export interface PaginationConfig extends StyledContainerConfig {
+   /** Current page number. */
+   page?: NumberProp;
+
+   /** Total number of pages. */
+   pageCount?: NumberProp;
+
+   /** Number of page buttons to display. */
+   length?: NumberProp;
+}
+
+export class Pagination extends Widget<PaginationConfig> {
+   constructor(config?: PaginationConfig) {
+      super(config);
+   }
+
 
    declareData() {
       super.declareData({

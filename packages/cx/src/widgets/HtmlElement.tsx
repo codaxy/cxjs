@@ -37,7 +37,7 @@ export interface HtmlElementConfig extends StyledContainerConfig {
    id?: StringProp | NumberProp;
 
    /** Inner text contents. */
-   text?: Cx.StringProp | Cx.NumberProp;
+   text?: StringProp | NumberProp;
 
    /** Tooltip configuration. */
    tooltip?: StringProp | TooltipConfig;

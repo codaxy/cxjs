@@ -4,7 +4,7 @@ import { BoundedObject, BoundedObjectConfig, BoundedObjectInstance } from "../sv
 import { parseStyle } from "../util/parseStyle";
 import { VDOM } from "../ui/Widget";
 import { RenderingContext, CxChild } from "../ui/RenderingContext";
-import { NumberProp, StyleProp } from "../core";
+import { NumberProp, StyleProp } from "../ui/Prop";
 
 export interface SwimlanesConfig extends BoundedObjectConfig {
    /**

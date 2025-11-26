@@ -11,11 +11,11 @@ import { PureContainer } from "./PureContainer";
 import { onIdleCallback } from "../util/onIdleCallback";
 import { getCurrentCulture, pushCulture, popCulture, CultureInfo, ResolvedCultureInfo } from "./Culture";
 import { View } from "../data/View";
-import * as CxCore from "../core";
+import { Config } from "./Prop";
 
 export interface CxProps {
-   widget?: CxCore.Config;
-   items?: CxCore.Config;
+   widget?: Config;
+   items?: Config;
    store?: View;
    instance?: Instance;
    parentInstance?: Instance;

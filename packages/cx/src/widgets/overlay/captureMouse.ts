@@ -1,6 +1,12 @@
 import { batchUpdates } from "../../ui/batchUpdates";
 import { getParentFrameBoundingClientRect } from "../../util/getParentFrameBoundingClientRect";
 
+/** Cursor position with client coordinates */
+export interface CursorPosition {
+   clientX: number;
+   clientY: number;
+}
+
 /**
  * Configuration options for mouse capture
  */
@@ -179,10 +185,7 @@ export function captureMouseOrTouch(
  * @param e - Mouse or touch event (React or native)
  * @returns Object with clientX and clientY coordinates adjusted for parent frame offset
  */
-export function getCursorPos(e: React.MouseEvent | React.TouchEvent | MouseEvent | TouchEvent): {
-   clientX: number;
-   clientY: number;
-} {
+export function getCursorPos(e: React.MouseEvent | React.TouchEvent | MouseEvent | TouchEvent): CursorPosition {
    let p = (e as TouchEvent).touches?.[0] || (e as MouseEvent);
    let offset = getParentFrameBoundingClientRect(e.target as Element);
    return {

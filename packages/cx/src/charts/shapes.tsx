@@ -2,7 +2,7 @@
 
 import { VDOM } from "../ui/Widget";
 import { debug } from "../util/Debug";
-import { Config } from "../core";
+import { Config } from "../ui/Prop";
 
 export type ShapeRender = (
    cx: number,

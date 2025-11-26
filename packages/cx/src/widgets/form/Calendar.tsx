@@ -23,11 +23,83 @@ import {
    tooltipParentWillReceiveProps,
    tooltipParentWillUnmount,
 } from "../overlay/tooltip-ops";
-import { Field, getFieldTooltip, FieldInstance } from "./Field";
+import { Field, FieldConfig, getFieldTooltip, FieldInstance } from "./Field";
 import type { Instance } from "../../ui/Instance";
 import type { RenderingContext } from "../../ui/RenderingContext";
+import { BooleanProp, DataRecord, Prop } from "../../ui/Prop";
 
-export class Calendar extends Field {
+interface DayInfo {
+   mod?: string;
+   className?: string;
+   style?: DataRecord | string;
+   unselectable?: boolean;
+   disabled?: boolean;
+}
+
+interface DayData {
+   [day: string]: DayInfo;
+}
+
+export interface CalendarConfig extends FieldConfig {
+   /** Selected date. This should be a `Date` object or a valid date string consumable by `Date.parse` function. */
+   value?: Prop<string | Date>;
+
+   /** View reference date. If no date is selected, this date is used to determine which month to show in the calendar. */
+   refDate?: Prop<string | Date>;
+
+   /** Minimum date value. This should be a `Date` object or a valid date string consumable by `Date.parse` function. */
+   minValue?: Prop<string | Date>;
+
+   /** Set to `true` to disallow the `minValue`. Default value is `false`. */
+   minExclusive?: BooleanProp;
+
+   /** Maximum date value. This should be a `Date` object or a valid date string consumable by `Date.parse` function. */
+   maxValue?: Prop<string | Date>;
+
+   /** Set to `true` to disallow the `maxValue`. Default value is `false`. */
+   maxExclusive?: BooleanProp;
+
+   /** Base CSS class to be applied to the calendar. Defaults to `calendar`. */
+   baseClass?: string;
+
+   /** Highlight today's date. Default is true. */
+   highlightToday?: boolean;
+
+   /** Maximum value error text. */
+   maxValueErrorText?: string;
+
+   /** Maximum exclusive value error text. */
+   maxExclusiveErrorText?: string;
+
+   /** Minimum value error text. */
+   minValueErrorText?: string;
+
+   /** Minimum exclusive value error text. */
+   minExclusiveErrorText?: string;
+
+   /** The function that will be used to convert Date objects before writing data to the store.
+    * Default implementation is Date.toISOString.
+    * See also Culture.setDefaultDateEncoding.
+    */
+   encoding?: (date: Date) => any;
+
+   /** Set to true to show the button for quickly selecting today's date. */
+   showTodayButton?: boolean;
+
+   /** Localizable text for the todayButton. Defaults to `"Today"`. */
+   todayButtonText?: string;
+
+   /** Defines which days of week should be displayed as disabled, i.e. `[0, 6]` will make Sunday and Saturday unselectable. */
+   disabledDaysOfWeek?: number[];
+
+   /** Set to true to show weeks starting from Monday. */
+   startWithMonday?: boolean;
+
+   /** Map of days to additional day information such as style, className, mod, unselectable and disabled. */
+   dayData?: Prop<DayData>;
+}
+
+export class Calendar extends Field<CalendarConfig> {
    declare public baseClass: string;
    declare public unfocusable?: boolean;
    declare public focusable?: boolean;
@@ -47,6 +119,10 @@ export class Calendar extends Field {
    declare public disabledDaysOfWeek?: number[];
    declare public partial?: boolean;
    declare public encoding?: (date: Date) => string;
+
+   constructor(config?: CalendarConfig) {
+      super(config);
+   }
 
    declareData(...args: Record<string, unknown>[]) {
       super.declareData(
@@ -116,7 +192,8 @@ export class Calendar extends Field {
          }
 
          if (calendarWidget.disabledDaysOfWeek) {
-            if (calendarWidget.disabledDaysOfWeek.includes(data.date.getDay())) data.error = this.disabledDaysOfWeekErrorText;
+            if (calendarWidget.disabledDaysOfWeek.includes(data.date.getDay()))
+               data.error = this.disabledDaysOfWeekErrorText;
          }
 
          if (data.dayData) {
@@ -129,7 +206,11 @@ export class Calendar extends Field {
 
    renderInput(context: RenderingContext, instance: any, key: string): React.ReactElement {
       return (
-         <CalendarCmp key={key} instance={instance} handleSelect={(e: React.MouseEvent, date: Date) => this.handleSelect(e, instance, date)} />
+         <CalendarCmp
+            key={key}
+            instance={instance}
+            handleSelect={(e: React.MouseEvent, date: Date) => this.handleSelect(e, instance, date)}
+         />
       );
    }
 
@@ -176,14 +257,6 @@ Calendar.prototype.startWithMonday = false;
 Calendar.prototype.focusable = true;
 
 Localization.registerPrototype("cx/widgets/Calendar", Calendar);
-
-interface DayInfo {
-   className?: string;
-   style?: string;
-   mod?: string;
-   disabled?: boolean;
-   unselectable?: boolean;
-}
 
 interface CalendarData {
    maxValue?: Date;

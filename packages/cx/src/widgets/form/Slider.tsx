@@ -72,6 +72,9 @@ export interface SliderConfig extends FieldConfig {
 
    /** Increment percentage. Default value is `0.01` (1%). */
    incrementPercentage?: number;
+
+   /** Set to `true` to make the slider read-only. */
+   readOnly?: BooleanProp;
 }
 
 export class Slider extends Field<SliderConfig, FieldInstance<Slider>> {

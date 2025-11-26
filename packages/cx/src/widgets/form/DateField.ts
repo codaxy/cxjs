@@ -1,10 +1,16 @@
 import { Widget } from "../../ui/Widget";
 import { Localization } from "../../ui/Localization";
-import { DateTimeField } from "./DateTimeField";
+import { DateTimeField, DateTimeFieldConfig } from "./DateTimeField";
+
+export interface DateFieldConfig extends DateTimeFieldConfig {}
 
 export class DateField extends DateTimeField {
    declare public picker: string;
    declare public segment: string;
+
+   constructor(config?: DateFieldConfig) {
+      super(config);
+   }
 }
 
 DateField.prototype.picker = "calendar";

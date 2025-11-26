@@ -1,5 +1,6 @@
 import { PointReducer, PointReducerConfig, PointReducerInstance, PointReducerAccumulator } from "./PointReducer";
-import { NumberProp, StringProp, Bind, AccessorChain } from "../../core";
+import { NumberProp, StringProp, Bind } from "../../ui/Prop";
+import { AccessorChain } from "../../data/createAccessorModelProxy";
 
 export interface ValueAtAccumulator extends PointReducerAccumulator {
    at: number;

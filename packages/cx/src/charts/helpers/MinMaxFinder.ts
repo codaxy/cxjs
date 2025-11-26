@@ -1,5 +1,6 @@
 import { PointReducer, PointReducerConfig, PointReducerInstance, PointReducerAccumulator } from "./PointReducer";
-import { Bind, AccessorChain, StructuredProp } from "../../core";
+import { Bind, StructuredProp } from "../../ui/Prop";
+import { AccessorChain } from "../../data/createAccessorModelProxy";
 
 export interface MinMaxAccumulator extends PointReducerAccumulator {
    params: any;

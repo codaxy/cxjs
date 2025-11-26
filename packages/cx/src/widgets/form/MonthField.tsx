@@ -32,7 +32,7 @@ import { MonthPicker } from "./MonthPicker";
 import { getActiveElement } from "../../util/getActiveElement";
 import type { RenderingContext } from "../../ui/RenderingContext";
 import type { Instance, DropdownWidgetProps } from "../../ui/Instance";
-import type { Prop, BooleanProp, StringProp } from "../../ui/Prop";
+import type { Config, Prop, BooleanProp, StringProp } from "../../ui/Prop";
 
 export class MonthFieldInstance<F extends MonthField = MonthField>
    extends FieldInstance<F>
@@ -45,30 +45,83 @@ export class MonthFieldInstance<F extends MonthField = MonthField>
 }
 
 export interface MonthFieldConfig extends FieldConfig {
-   mode?: string;
-   range?: BooleanProp;
-   from?: Prop<string | Date>;
-   to?: Prop<string | Date>;
+   /** Selected month. This should be a Date object or a valid date string consumable by Date.parse function. */
    value?: Prop<string | Date>;
-   culture?: string;
-   hideClear?: boolean;
-   showClear?: boolean;
-   alwaysShowClear?: boolean;
-   encoding?: (date: Date) => string;
-   dropdownOptions?: Record<string, any>;
-   inclusiveTo?: boolean;
-   monthPickerOptions?: Record<string, any>;
-   maxValueErrorText?: string;
-   maxExclusiveErrorText?: string;
-   minValueErrorText?: string;
-   minExclusiveErrorText?: string;
-   inputErrorText?: string;
-   minExclusive?: BooleanProp;
-   maxExclusive?: BooleanProp;
-   minValue?: Prop<string | Date>;
-   maxValue?: Prop<string | Date>;
+
+   /** Set to `true` to allow range select. */
+   range?: BooleanProp;
+
+   /** Start of the selected month range. Used only if `range` is set to `true`. */
+   from?: Prop<string | Date>;
+
+   /** End of the selected month range. Used only if `range` is set to `true`. */
+   to?: Prop<string | Date>;
+
+   /** Defaults to `false`. Used to make the field read-only. */
+   readOnly?: BooleanProp;
+
+   /** The opposite of `disabled`. */
+   enabled?: BooleanProp;
+
+   /** Default text displayed when the field is empty. */
    placeholder?: StringProp;
-   reactOn?: string;
+
+   /** Minimum date value. */
+   minValue?: Prop<string | Date>;
+
+   /** Set to `true` to disallow the `minValue`. Default value is `false`. */
+   minExclusive?: BooleanProp;
+
+   /** Maximum date value. */
+   maxValue?: Prop<string | Date>;
+
+   /** Set to `true` to disallow the `maxValue`. Default value is `false`. */
+   maxExclusive?: BooleanProp;
+
+   /** String representing culture. Default is `en`. */
+   culture?: string;
+
+   /** Set to `true` to hide the clear button. Default value is `false`. */
+   hideClear?: boolean;
+
+   /** Base CSS class to be applied on the field. Defaults to `monthfield`. */
+   baseClass?: string;
+
+   /** Maximum value error text. */
+   maxValueErrorText?: string;
+
+   /** Maximum exclusive value error text. */
+   maxExclusiveErrorText?: string;
+
+   /** Minimum value error text. */
+   minValueErrorText?: string;
+
+   /** Minimum exclusive value error text. */
+   minExclusiveErrorText?: string;
+
+   /** Invalid input error text. */
+   inputErrorText?: string;
+
+   /** Name or configuration of the icon to be put on the left side of the input. */
+   icon?: StringProp | Config;
+
+   /** Set to `false` to hide the clear button. Default value is `true`. */
+   showClear?: boolean;
+
+   /** Set to `true` to display the clear button even if `required` is set. Default is `false`. */
+   alwaysShowClear?: boolean;
+
+   /** The function that will be used to convert Date objects before writing data to the store. */
+   encoding?: (date: Date) => any;
+
+   /** Additional configuration to be passed to the dropdown. */
+   dropdownOptions?: Config;
+
+   /** A boolean flag that determines whether the `to` date is included in the range. */
+   inclusiveTo?: boolean;
+
+   /** Optional configuration options for the MonthPicker component rendered within the dropdown. */
+   monthPickerOptions?: Config;
 }
 
 export class MonthField<Config extends MonthFieldConfig = MonthFieldConfig> extends Field<Config, MonthFieldInstance> {

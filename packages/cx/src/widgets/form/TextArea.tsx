@@ -1,7 +1,7 @@
 /** @jsxImportSource react */
 
 import { Widget, VDOM, getContent } from "../../ui/Widget";
-import { TextField } from "./TextField";
+import { TextField, TextFieldConfig } from "./TextField";
 import { getFieldTooltip, FieldInstance } from "./Field";
 import type { RenderingContext } from "../../ui/RenderingContext";
 import type { Instance } from "../../ui/Instance";
@@ -16,8 +16,24 @@ import { stopPropagation } from "../../util/eventCallbacks";
 import { KeyCode } from "../../util/KeyCode";
 import { autoFocus } from "../autoFocus";
 import { getActiveElement } from "../../util/getActiveElement";
+import { NumberProp } from "../../ui/Prop";
 
-export class TextArea extends TextField {
+export interface TextAreaConfig extends TextFieldConfig {
+   /** Specifies the number of visible lines. */
+   rows?: NumberProp;
+
+   /** Event used to report on a new value. Defaults to `blur`. Other permitted value is `input`. */
+   reactOn?: string;
+
+   /** Base CSS class to be applied to the element. Defaults to `textarea`. */
+   baseClass?: string;
+}
+
+export class TextArea extends TextField<TextAreaConfig> {
+   constructor(config?: TextAreaConfig) {
+      super(config);
+   }
+
    declareData(...args: Record<string, unknown>[]): void {
       super.declareData(...args, {
          rows: undefined,

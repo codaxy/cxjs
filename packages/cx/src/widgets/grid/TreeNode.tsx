@@ -2,9 +2,46 @@
 import {Widget, VDOM} from '../../ui/Widget';
 import {Icon} from '../Icon';
 import {stopPropagation} from "../../util/eventCallbacks";
-import {Container} from "../../ui/Container";
+import {ContainerBase, StyledContainerConfig} from "../../ui/Container";
+import {BooleanProp, NumberProp, StringProp} from "../../ui/Prop";
 
-export class TreeNode extends Container {
+export interface TreeNodeConfig extends StyledContainerConfig {
+   /** Indentation level of the node. */
+   level?: NumberProp;
+
+   /** Set to `true` if the node is expanded. */
+   expanded?: BooleanProp;
+
+   /** Set to `true` if the node is a leaf (has no children). */
+   leaf?: BooleanProp;
+
+   /** Text to be displayed. */
+   text?: StringProp;
+
+   /** Set to `true` if the node is loading. */
+   loading?: BooleanProp;
+
+   /** Icon to be displayed. */
+   icon?: StringProp;
+
+   /** Icon for leaf nodes. */
+   leafIcon?: StringProp;
+
+   /** Icon for open folder. */
+   openFolderIcon?: StringProp;
+
+   /** Icon for folder. */
+   folderIcon?: StringProp;
+
+   /** Set to `true` to hide the arrow. */
+   hideArrow?: BooleanProp;
+}
+
+export class TreeNode extends ContainerBase<TreeNodeConfig> {
+   constructor(config?: TreeNodeConfig) {
+      super(config);
+   }
+
 
    init() {
       if (this.itemIcon)

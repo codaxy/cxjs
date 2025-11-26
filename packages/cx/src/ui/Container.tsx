@@ -1,4 +1,5 @@
-import { contentAppend, Widget, WidgetConfig } from "./Widget";
+import { contentAppend, Widget, WidgetConfig, WidgetStyleConfig } from "./Widget";
+import { ClassProp, ModProp, StyleProp } from "./Prop";
 import { StaticText } from "./StaticText";
 import { Text } from "./Text";
 import { innerTextTrim } from "../util/innerTextTrim";
@@ -7,7 +8,6 @@ import { isArray } from "../util/isArray";
 import { exploreChildren } from "./layout/exploreChildren";
 import { Instance } from "./Instance";
 import { CxChild, RenderingContext } from "./RenderingContext";
-import { ClassProp, ModProp, StyleProp } from "./Prop";
 
 export interface ContainerConfig extends WidgetConfig {
    /** Keep whitespace in text based children. Default is `false`. See also `trimWhitespace`. */
@@ -28,31 +28,7 @@ export interface ContainerConfig extends WidgetConfig {
    plainText?: boolean;
 }
 
-export interface StyledContainerConfig extends ContainerConfig {
-   /**
-    * Additional CSS classes to be applied to the element.
-    * If an object is provided, all keys with a "truthy" value will be added to the CSS class list.
-    */
-   class?: ClassProp;
-
-   /**
-    * Additional CSS classes to be applied to the element.
-    * If an object is provided, all keys with a "truthy" value will be added to the CSS class list.
-    */
-   className?: ClassProp;
-
-   /** Style object applied to the element */
-   style?: StyleProp;
-
-   /** Style object applied to the element */
-   styles?: StyleProp;
-
-   /** Base CSS class to be applied to the element. For example, value 'button' will add a class 'cxb-button' to the element. */
-   baseClass?: string;
-
-   /** Appearance modifier. For example, mod="big" will add the CSS class .cxm-big to the block element. */
-   mod?: ModProp;
-}
+export interface StyledContainerConfig extends ContainerConfig, WidgetStyleConfig {}
 
 // Base class for extending with custom Config types
 export class ContainerBase<
@@ -222,3 +198,21 @@ ContainerBase.prototype.styled = false;
 
 // Closed type for direct usage - preserves ControllerProp ThisType
 export class Container extends ContainerBase<ContainerConfig, Instance> {}
+
+// Base class for styled containers with custom Config types
+export class StyledContainerBase<
+   Config extends StyledContainerConfig = StyledContainerConfig,
+   InstanceType extends Instance = Instance,
+> extends ContainerBase<Config, InstanceType> {
+   declare public class?: ClassProp;
+   declare public className?: ClassProp;
+   declare public style?: StyleProp;
+   declare public styles?: StyleProp;
+   declare public baseClass?: string;
+   declare public mod?: ModProp;
+}
+
+StyledContainerBase.prototype.styled = true;
+
+// Closed type for direct usage
+export class StyledContainer extends StyledContainerBase<StyledContainerConfig, Instance> {}

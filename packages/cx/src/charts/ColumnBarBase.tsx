@@ -1,7 +1,7 @@
 /** @jsxImportSource react */
 
 import { VDOM } from "../ui/Widget";
-import { PureContainer, PureContainerConfig } from "../ui/PureContainer";
+import { StyledContainerBase, StyledContainerConfig } from "../ui/Container";
 import { tooltipMouseMove, tooltipMouseLeave, TooltipParentInstance } from "../widgets/overlay/tooltip-ops";
 import { Selection } from "../ui/selection/Selection";
 import { withHoverSync } from "../ui/HoverSync";
@@ -10,7 +10,7 @@ import { Instance } from "../ui/Instance";
 import { RenderingContext } from "../ui/RenderingContext";
 import { Rect } from "../svg/util/Rect";
 
-export interface ColumnBarBaseConfig extends PureContainerConfig {
+export interface ColumnBarBaseConfig extends StyledContainerConfig {
    /** The `x` value binding or expression. */
    x?: Prop<string | number>;
 
@@ -87,7 +87,7 @@ export interface ColumnBarBaseInstance extends Instance, TooltipParentInstance {
    bounds: Rect;
 }
 
-export class ColumnBarBase extends PureContainer {
+export class ColumnBarBase extends StyledContainerBase<ColumnBarBaseConfig> {
    declare baseClass: string;
    declare xAxis: string;
    declare yAxis: string;

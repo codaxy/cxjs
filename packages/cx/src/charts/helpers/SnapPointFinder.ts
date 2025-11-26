@@ -1,6 +1,7 @@
 import { PointReducer, PointReducerConfig, PointReducerInstance, PointReducerAccumulator } from "./PointReducer";
 import { RenderingContext } from "../../ui/RenderingContext";
-import { NumberProp, Bind, AccessorChain, Prop, Record } from "../../core";
+import { NumberProp, Bind, Prop, DataRecord } from "../../ui/Prop";
+import { AccessorChain } from "../../data/createAccessorModelProxy";
 
 export interface SnapAccumulator extends PointReducerAccumulator {
    cursor: {
@@ -37,7 +38,7 @@ export interface SnapPointFinderConfig extends PointReducerConfig {
    snapY?: Bind | AccessorChain<number> | AccessorChain<string>;
 
    /** A binding used to receive the record prop */
-   snapRecord?: Prop<Record>;
+   snapRecord?: Prop<DataRecord>;
 
    /** Maximum distance between cursor and the snap point. Default value is 50. Adjust accordingly for large distances, e.g. set to Infinity when using TimeAxis */
    maxDistance?: number;

@@ -7,52 +7,10 @@ import { parseStyle } from "../../util/parseStyle";
 import { StringProp, StyleProp, ClassProp, Prop } from "../../ui/Prop";
 import { Instance } from "../../ui/Instance";
 import { RenderingContext } from "../../ui/RenderingContext";
-import { HtmlElementConfig, HtmlElementInstance } from "../HtmlElement";
+import { ButtonConfig } from "../Button";
+import { HtmlElementInstance } from "../HtmlElement";
 
-export interface LinkButtonConfig extends HtmlElementConfig {
-   /** Confirmation text or configuration object. See MsgBox.yesNo for more details. */
-   confirm?: Prop<string | any>;
-
-   /** If true button appears in pressed state. Useful for implementing toggle buttons. */
-   pressed?: Prop<boolean>;
-
-   /** Name of the icon to be put on the left side of the button. */
-   icon?: StringProp;
-
-   /** HTML tag to be used. Default is `button`. */
-   tag?: string;
-
-   /** Base CSS class to be applied to the element. Default is 'button'. */
-   baseClass?: string;
-
-   /**
-    * Determines if button should receive focus on mousedown event.
-    * Default is `false`, which means that focus can be set only using the keyboard `Tab` key.
-    */
-   focusOnMouseDown?: boolean;
-
-   /** Add type="submit" to the button. */
-   submit?: boolean;
-
-   /** Set to `true` to disable the button. */
-   disabled?: Prop<boolean>;
-
-   /** Set to `false` to disable the button. */
-   enabled?: Prop<boolean>;
-
-   onClick?: string | ((e: MouseEvent, instance: Instance) => void);
-   onMouseDown?: string | ((e: MouseEvent, instance: Instance) => void);
-
-   /** Button type. */
-   type?: "submit" | "button";
-
-   /** If set to `true`, the Button will cause its parent Overlay (if one exists) to close. This, however, can be prevented if `onClick` explicitly returns `false`. */
-   dismiss?: boolean;
-
-   /** The form attribute specifies the form the button belongs to.
-    * The value of this attribute must be equal to the `id` attribute of a `<form>` element in the same document.
-    */
-   form?: StringProp;
+export interface LinkButtonConfig extends ButtonConfig {
    /** Url to the link's target location. Should start with `~/` or `#/` for pushState/hash based navigation. */
    href?: StringProp;
 
@@ -66,16 +24,16 @@ export interface LinkButtonConfig extends HtmlElementConfig {
     */
    match?: "equal" | "prefix" | "subroute";
 
-   /** Additional CSS style to aplied when the link is active. */
+   /** Additional CSS style to applied when the link is active. */
    activeStyle?: StyleProp;
 
-   /** Additional CSS style to aplied when the link is inactive. */
+   /** Additional CSS style to applied when the link is inactive. */
    inactiveStyle?: StyleProp;
 
-   /** Additional CSS class to aplied when the link is active. */
+   /** Additional CSS class to applied when the link is active. */
    activeClass?: ClassProp;
 
-   /** Additional CSS class to aplied when the link is inactive. */
+   /** Additional CSS class to applied when the link is inactive. */
    inactiveClass?: ClassProp;
 
    /** Where to display the linked URL, as the name for a browsing context (a tab, window, or <iframe>) */
@@ -83,11 +41,16 @@ export interface LinkButtonConfig extends HtmlElementConfig {
 }
 
 export class LinkButton extends Button {
+   constructor(config?: LinkButtonConfig) {
+      super(config);
+   }
+
    declare match: "equal" | "prefix" | "subroute";
    declare activeStyle: any;
    declare inactiveStyle: any;
    declare onClick?: string | ((e: MouseEvent, instance: Instance) => void);
    declare tag: string;
+
    init() {
       this.activeStyle = parseStyle(this.activeStyle);
       this.inactiveStyle = parseStyle(this.inactiveStyle);

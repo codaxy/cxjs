@@ -30,10 +30,91 @@ import {
 } from "../overlay/tooltip-ops";
 import { Calendar } from "./Calendar";
 import { DateTimePicker } from "./DateTimePicker";
-import { Field, getFieldTooltip } from "./Field";
+import { Field, FieldConfig, getFieldTooltip } from "./Field";
 import { TimeList } from "./TimeList";
+import { BooleanProp, Config, Prop, StringProp } from "../../ui/Prop";
 
-export class DateTimeField extends Field {
+export interface DateTimeFieldConfig extends FieldConfig {
+   /** Selected date. This should be a Date object or a valid date string consumable by Date.parse function. */
+   value?: Prop<string | Date>;
+
+   /** Defaults to false. Used to make the field read-only. */
+   readOnly?: BooleanProp;
+
+   /** The opposite of `disabled`. */
+   enabled?: BooleanProp;
+
+   /** Default text displayed when the field is empty. */
+   placeholder?: StringProp;
+
+   /** Minimum date value. This should be a Date object or a valid date string consumable by Date.parse function. */
+   minValue?: Prop<string | Date>;
+
+   /** Set to `true` to disallow the `minValue`. Default value is `false`. */
+   minExclusive?: BooleanProp;
+
+   /** Maximum date value. This should be a Date object or a valid date string consumable by Date.parse function. */
+   maxValue?: Prop<string | Date>;
+
+   /** Set to `true` to disallow the `maxValue`. Default value is `false`. */
+   maxExclusive?: BooleanProp;
+
+   /** Date format used to display the selected date. */
+   format?: StringProp;
+
+   /** Base CSS class to be applied to the field. Defaults to `datefield`. */
+   baseClass?: string;
+
+   /** Maximum value error text. */
+   maxValueErrorText?: string;
+
+   /** Maximum exclusive value error text. */
+   maxExclusiveErrorText?: string;
+
+   /** Minimum value error text. */
+   minValueErrorText?: string;
+
+   /** Minimum exclusive value error text. */
+   minExclusiveErrorText?: string;
+
+   /** Error message used to indicate wrong user input. */
+   inputErrorText?: string;
+
+   /** Name or configuration of the icon to be put on the left side of the input. */
+   icon?: StringProp | Config;
+
+   /** Set to false to hide the clear button. Default value is true. */
+   showClear?: boolean;
+
+   /** Set to `true` to display the clear button even if `required` is set. Default is `false`. */
+   alwaysShowClear?: boolean;
+
+   /** Set to true to hide the clear button. Default value is false. */
+   hideClear?: boolean;
+
+   /** Determines which segment of date/time is used. Default value is `datetime`. */
+   segment?: "date" | "time" | "datetime";
+
+   /** Set to `true` to indicate that only one segment of the selected date is affected. */
+   partial?: boolean;
+
+   /** The function that will be used to convert Date objects before writing data to the store. */
+   encoding?: (date: Date) => any;
+
+   /** Defines which days of week should be displayed as disabled. */
+   disabledDaysOfWeek?: number[];
+
+   /** Set to true to focus the input field instead of the picker first. */
+   focusInputFirst?: boolean;
+
+   /** Set to true to enable seconds segment in the picker. */
+   showSeconds?: boolean;
+
+   /** Additional configuration to be passed to the dropdown. */
+   dropdownOptions?: Config;
+}
+
+export class DateTimeField extends Field<DateTimeFieldConfig> {
    declare public showClear?: boolean;
    declare public alwaysShowClear?: boolean;
    declare public hideClear?: boolean;
@@ -60,6 +141,10 @@ export class DateTimeField extends Field {
    declare public onParseInput?: string | ((date: unknown, instance: Instance) => Date | undefined);
    declare public showSeconds?: boolean;
    declare public step?: number;
+
+   constructor(config?: DateTimeFieldConfig) {
+      super(config);
+   }
 
    declareData(...args: Record<string, unknown>[]): void {
       super.declareData(

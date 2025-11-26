@@ -1,4 +1,5 @@
-import { Bind, AccessorChain } from "../core";
+import { Bind } from "./Prop";
+import { AccessorChain } from "../data/createAccessorModelProxy";
 
 export function bind(path: string | AccessorChain<unknown>, defaultValue?: unknown): Bind {
    return {

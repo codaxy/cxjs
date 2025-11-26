@@ -4,7 +4,7 @@ import { isDefined } from "../util/isDefined";
 import { StoreRef } from "./StoreRef";
 import { isObject } from "../util/isObject";
 import { isFunction } from "../util/isFunction";
-import { AccessorChain } from "../core";
+import { AccessorChain } from "./createAccessorModelProxy";
 import { Ref } from "./Ref";
 
 type Path = string | Binding;

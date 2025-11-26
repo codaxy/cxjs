@@ -41,7 +41,11 @@ export interface TextConfig extends BoundedObjectConfig {
    autoTextAnchor?: boolean;
 }
 
-export class Text extends BoundedObject {
+export class Text extends BoundedObject<TextConfig> {
+   constructor(config?: TextConfig) {
+      super(config);
+   }
+
    declare value?: StringProp;
    declare bind?: string;
    declare tpl?: string;

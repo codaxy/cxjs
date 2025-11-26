@@ -1,6 +1,8 @@
 import { Binding } from "../data/Binding";
 import { isString } from "../util/isString";
-import { AccessorChain, Selector, Expr } from "../core";
+import { AccessorChain } from "../data/createAccessorModelProxy";
+import { Selector } from "../data/Selector";
+import { Expr } from "./Prop";
 
 export function expr(code: string): Expr;
 export function expr<V1, R>(arg1: AccessorChain<V1>, compute: (v1: V1) => R): Selector<R>;

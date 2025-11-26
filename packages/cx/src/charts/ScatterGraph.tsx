@@ -7,7 +7,7 @@ import { getShape } from "./shapes";
 import { isArray } from "../util/isArray";
 import { Instance } from "../ui/Instance";
 import { RenderingContext } from "../ui/RenderingContext";
-import { NumberProp, StringProp, RecordsProp } from "../ui/Prop";
+import { BooleanProp, NumberProp, StringProp, RecordsProp } from "../ui/Prop";
 
 export interface ScatterGraphConfig extends WidgetConfig {
    /** Data for the graph. Each entry should be an object with at least two properties
@@ -34,7 +34,7 @@ export interface ScatterGraphConfig extends WidgetConfig {
    name?: StringProp;
 
    /** Used to indicate if an item is active or not. Inactive items are shown only in the legend. */
-   active?: boolean;
+   active?: BooleanProp;
 
    /** Name of the horizontal axis. Default value is `x`. */
    xAxis?: string;

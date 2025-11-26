@@ -1,10 +1,16 @@
 //@ts-nocheck
-import { Container } from "../../ui/Container";
+import { ContainerBase, StyledContainerConfig } from "../../ui/Container";
 import { VDOM } from "../../ui/VDOM";
 import { findFirstChild, isFocusable, isFocusedDeep } from "../../util/DOM";
 import { getActiveElement } from "../../util/getActiveElement";
 
-export class GridCellEditor extends Container {
+export interface GridCellEditorConfig extends StyledContainerConfig {}
+
+export class GridCellEditor extends ContainerBase<GridCellEditorConfig> {
+   constructor(config?: GridCellEditorConfig) {
+      super(config);
+   }
+
    render(context, instance, key) {
       let { data } = instance;
       return (

@@ -51,7 +51,7 @@ import { parseStyle } from "../../util/parseStyle";
 import { StaticText } from "../../ui/StaticText";
 import { unfocusElement } from "../../ui/FocusManager";
 import { tooltipMouseMove, tooltipMouseLeave } from "../overlay/tooltip-ops";
-import { Container, StyledContainerConfig } from "../../ui/Container";
+import { Container, ContainerBase, StyledContainerConfig } from "../../ui/Container";
 import { findFirstChild } from "../../util/DOM";
 import { Binding } from "../../data/Binding";
 import { DataAdapterRecord } from "../../ui/adapter/DataAdapter";
@@ -316,8 +316,8 @@ export interface GridConfig<T = any> extends StyledContainerConfig {
    /** Selection configuration. */
    selection?: DataRecord;
 
-   /** An array of grouping level definitions. Check allowed grouping level properties in the section below. */
-   grouping?: GridGroupingConfig<T>[];
+   /** A grouping definition, field name, or an array of grouping level definitions. */
+   grouping?: string | GridGroupingConfig<T> | (string | GridGroupingConfig<T>)[];
 
    /** Params for grouping. Whenever params change grouping is recalculated using the onGetGrouping callback. */
    groupingParams?: StructuredProp;
@@ -384,7 +384,7 @@ export interface GridConfig<T = any> extends StyledContainerConfig {
    showBorder?: boolean;
 
    /** Data adapter used to convert data in list of records. Used to enable grouping and tree operations. */
-   dataAdapter?: DataAdapter;
+   dataAdapter?: DataAdapter | Config;
 
    /** Additional CSS class to be added to each grid row. */
    rowClass?: ClassProp;
@@ -543,7 +543,11 @@ export interface GridInstance<T = any> extends Instance<Grid<T>> {
    fixedFooterOverlap?: boolean;
 }
 
-export class Grid<T = unknown> extends Container {
+export class Grid<T = unknown> extends ContainerBase<GridConfig<T>, GridInstance<T>> {
+   constructor(config?: GridConfig<T>) {
+      super(config);
+   }
+
    declare records?: any;
    declare scrollable?: boolean;
    declare sorters?: any;
@@ -560,7 +564,7 @@ export class Grid<T = unknown> extends Container {
    declare columns?: any[];
    declare columnParams?: any;
    declare selection: any;
-   declare grouping?: any[];
+   declare grouping?: string | GridGroupingConfig<any> | (string | GridGroupingConfig<any>)[];
    declare groupingParams?: any;
    declare headerMode?: any;
    declare border?: any;

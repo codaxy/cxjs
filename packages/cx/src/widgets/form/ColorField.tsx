@@ -10,7 +10,41 @@ import { isTouchDevice } from "../../util/isTouchDevice";
 import { isTouchEvent } from "../../util/isTouchEvent";
 import { Dropdown } from "../overlay/Dropdown";
 import { ColorPicker } from "./ColorPicker";
-import { Field, getFieldTooltip, FieldInstance } from "./Field";
+import { Field, FieldConfig, getFieldTooltip, FieldInstance } from "./Field";
+import { BooleanProp, StringProp } from "../../ui/Prop";
+import { Config } from "../../ui/Prop";
+
+export interface ColorFieldConfig extends FieldConfig {
+   /** Either `rgba`, `hsla` or `hex` value of the selected color. */
+   value?: StringProp;
+
+   /** Defaults to `false`. Used to make the field read-only. */
+   readOnly?: BooleanProp;
+
+   /** The opposite of `disabled`. */
+   enabled?: BooleanProp;
+
+   /** Default text displayed when the field is empty. */
+   placeholder?: StringProp;
+
+   /** Set to `true` to hide the clear button. Default value is `false`. */
+   hideClear?: boolean;
+
+   /** Set to `false` to hide the clear button. Default value is `true`. */
+   showClear?: boolean;
+
+   /** Set to `true` to display the clear button even if `required` is set. Default is `false`. */
+   alwaysShowClear?: boolean;
+
+   /** Base CSS class to be applied to the element. Defaults to `colorfield`. */
+   baseClass?: string;
+
+   /** Format of the color representation. Either `rgba`, `hsla` or `hex`. */
+   format?: "rgba" | "hsla" | "hex";
+
+   /** Additional configuration to be passed to the dropdown, such as `style`, `positioning`, etc. */
+   dropdownOptions?: Config;
+}
 
 export class ColorFieldInstance<F extends ColorField = ColorField> extends FieldInstance<F> implements DropdownWidgetProps {
    lastDropdown?: Instance;
@@ -51,15 +85,19 @@ interface ColorInputState {
    focus: boolean;
 }
 
-export class ColorField extends Field {
+export class ColorField extends Field<ColorFieldConfig> {
    declare public baseClass: string;
    declare public showClear?: boolean;
    declare public alwaysShowClear?: boolean;
    declare public hideClear?: boolean;
-   declare public format: string ;
+   declare public format: string;
    declare public lastDropdown?: string;
    declare public value?: string;
    declare public dropdownOptions?: Record<string, any>;
+
+   constructor(config?: ColorFieldConfig) {
+      super(config);
+   }
 
    declareData(...args: Record<string, unknown>[]): void {
       super.declareData(

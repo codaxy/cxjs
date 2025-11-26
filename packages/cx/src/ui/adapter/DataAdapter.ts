@@ -2,7 +2,7 @@ import { Component } from "../../util/Component";
 import { Instance } from "../Instance";
 import { View } from "../../data/View";
 import { RenderingContext } from "../RenderingContext";
-import * as Cx from "../../core";
+import { Sorter } from "../Prop";
 
 export type DataAdapterRecordType = "data" | "group-header" | "group-footer";
 
@@ -44,7 +44,7 @@ export abstract class DataAdapter<T = any> extends Component {
       this.filterFn = filterFn;
    }
 
-   public sort(sorters?: Cx.Sorter[]): void {}
+   public sort(sorters?: Sorter[]): void {}
 }
 
 DataAdapter.prototype.recordName = "$record";

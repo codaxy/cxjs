@@ -10,15 +10,49 @@ import { KeyCode } from "../../util/KeyCode";
 import CheckIcon from "../icons/check";
 import SquareIcon from "../icons/square";
 import { tooltipMouseLeave, tooltipMouseMove } from "../overlay/tooltip-ops";
-import { Field, getFieldTooltip, FieldInstance } from "./Field";
+import { Field, FieldConfig, getFieldTooltip, FieldInstance } from "./Field";
+import { BooleanProp, StringProp } from "../../ui/Prop";
 
-export class Checkbox extends Field {
+export interface CheckboxConfig extends FieldConfig {
+   /** Value of the checkbox. */
+   value?: BooleanProp;
+
+   /** Set to `true` to make the checkbox read-only. */
+   readOnly?: BooleanProp;
+
+   /** Base CSS class to be applied to the element. Defaults to `checkbox`. */
+   baseClass?: string;
+
+   /** Use native checkbox HTML element. */
+   native?: boolean;
+
+   /** Set to `true` to display a square icon to indicate `null` or `undefined` value. */
+   indeterminate?: boolean;
+
+   /** Checked value alias for `value`. */
+   checked?: BooleanProp;
+
+   /** Text description. */
+   text?: StringProp;
+
+   /** Set to true to disable focusing on the checkbox. Used in grids to avoid conflicts. */
+   unfocusable?: boolean;
+
+   /** View mode text. */
+   viewText?: StringProp;
+}
+
+export class Checkbox extends Field<CheckboxConfig> {
    declare public baseClass: string;
    declare public checked?: unknown;
    declare public value?: unknown;
    declare public indeterminate?: boolean;
    declare public unfocusable?: boolean;
    declare public native?: boolean;
+
+   constructor(config?: CheckboxConfig) {
+      super(config);
+   }
 
    init(): void {
       if (this.checked) this.value = this.checked;

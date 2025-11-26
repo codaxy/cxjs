@@ -1,7 +1,7 @@
 import { PureContainerBase, PureContainerConfig } from "../../ui/PureContainer";
 import { Instance } from "../../ui/Instance";
 import { RenderingContext } from "../../ui/RenderingContext";
-import { Record, StructuredProp } from "../../core";
+import { DataRecord, StructuredProp } from "../../ui/Prop";
 
 export type PointReducerFunction = (
    x: any,
@@ -28,15 +28,15 @@ export interface PointReducerInstance<TAccumulator extends PointReducerAccumulat
 
 export interface PointReducerConfig extends PureContainerConfig {
    /** A callback function used to initialize the accumulator. */
-   onInitAccumulator?: string | ((accumulator: Record, instance?: Instance) => void);
+   onInitAccumulator?: string | ((accumulator: DataRecord, instance?: Instance) => void);
 
    /** A callback function used to collect information about all data points. */
    onMap?:
       | string
-      | ((accumulator: Record, x?: any, y?: any, name?: string, data?: any, array?: any[], index?: number) => void);
+      | ((accumulator: DataRecord, x?: any, y?: any, name?: string, data?: any, array?: any[], index?: number) => void);
 
    /** A callback function used to process accumulated information and write results. */
-   onReduce?: string | ((accumulator: Record, instance?: Instance) => void);
+   onReduce?: string | ((accumulator: DataRecord, instance?: Instance) => void);
 
    /** Parameters that trigger filter predicate re-creation. */
    filterParams?: StructuredProp;

@@ -24,7 +24,7 @@ import { yesNo } from "../overlay/alerts";
 import { isTextInputElement, stopPropagation } from "../../util";
 import { unfocusElement } from "../../ui/FocusManager";
 import { BooleanProp, Prop, StringProp } from "../../ui/Prop";
-import { Config } from "../../core";
+import { Config } from "../../ui/Prop";
 
 /*
  Functionality:

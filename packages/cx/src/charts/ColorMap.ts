@@ -2,11 +2,11 @@ import { Widget, WidgetConfig } from "../ui/Widget";
 import { PureContainer, PureContainerBase, PureContainerConfig } from "../ui/PureContainer";
 import { Instance } from "../ui/Instance";
 import { RenderingContext } from "../ui/RenderingContext";
-import { Prop, NumberProp, Record } from "../core";
+import { Prop, NumberProp, DataRecord } from "../ui/Prop";
 
 export interface ColorMapConfig extends WidgetConfig {
    /** A callback function used to get a cache object for storing color maps across renders. */
-   onGetCache?: string | (() => Record);
+   onGetCache?: string | (() => DataRecord);
 
    /** An array of names to pre-register in the color map. */
    names?: Prop<string[]>;

@@ -5,7 +5,7 @@ import { Instance, PartialInstance } from "../../ui/Instance";
 import { Localization } from "../../ui/Localization";
 import { PureContainerBase, PureContainerConfig } from "../../ui/PureContainer";
 import type { RenderingContext } from "../../ui/RenderingContext";
-import { getContent } from "../../ui/Widget";
+import { getContent, WidgetStyleConfig } from "../../ui/Widget";
 import { coalesce } from "../../util/coalesce";
 import { Console } from "../../util/Console";
 import { stopPropagation } from "../../util/eventCallbacks";
@@ -18,37 +18,106 @@ import { FieldIcon } from "./FieldIcon";
 import { HelpText } from "./HelpText";
 import { Label } from "./Label";
 import { ValidationError } from "./ValidationError";
-import { BooleanProp, Prop, StringProp, StyleProp } from "../../ui/Prop";
+import { BooleanProp, ClassProp, Config, Prop, StringProp, StructuredProp, StyleProp } from "../../ui/Prop";
 import type { TooltipInstance } from "../overlay";
 
-export interface FieldConfig extends PureContainerConfig {
+export interface FieldConfig extends PureContainerConfig, WidgetStyleConfig {
+   /** Field label. For advanced use cases. */
+   label?: StringProp | Config;
+
+   /** Set to `material` to use custom label placement instruction. Used in Material theme to implement animated labels. */
+   labelPlacement?: "material";
+
+   /** Set to `material` to use custom help placement instruction. Used in Material theme to implement absolutely positioned validation messages. */
+   helpPlacement?: "material";
+
+   /** Either `view` or `edit` (default). In `view` mode, the field is displayed as plain text. */
+   mode?: Prop<"view" | "edit">;
+
+   /** Set to `true` to switch to widget view mode. Same as `mode="view"`. Default is false. */
+   viewMode?: BooleanProp;
+
+   id?: Prop<string | number>;
+
+   /** Used for validation. If error evaluates to non-null, the field is marked in red. */
+   error?: StringProp;
+
+   /** Style object applied to the input element. Used for setting visual elements, such as borders and backgrounds. */
    inputStyle?: StyleProp;
-   validationMode?: StringProp;
-   errorTooltip?: Prop<Record<string, unknown>>;
-   tooltip?: Prop<TooltipConfig>;
-   help?: Prop<Record<string, unknown> | string>;
-   label?: Prop<Record<string, unknown> | string>;
-   mod?: Prop<Record<string, unknown>>;
-   disabled?: BooleanProp;
-   required?: BooleanProp;
-   asterisk?: BooleanProp;
-   labelStyle?: StyleProp;
-   labelClass?: StringProp;
-   icon?: Prop<null | string>;
+
+   /** Additional CSS class applied to the input element. Used for setting visual elements, such as borders and backgrounds. */
+   inputClass?: ClassProp;
+
+   /** Additional attributes that should be rendered on the input element. E.g. inputAttrs={{ autoComplete: "off" }}. */
+   inputAttrs?: Config;
+
+   /** Text to be rendered in view mode when the field is empty. */
+   emptyText?: StringProp;
+
+   /** Set to `true` to make error indicators visible in pristine state. By default, validation errors are not shown until the user visits the field. */
    visited?: BooleanProp;
-   labelPlacement?: StringProp;
-   helpPlacement?: StringProp;
-   emptyValue?: Prop<unknown>;
-   requiredText?: StringProp;
-   validatingText?: StringProp;
-   onValidate?: string | ((value: unknown, instance: Instance, validationParams: Record<string, unknown>) => unknown);
-   validationExceptionText?: StringProp;
-   onValidationException?: string | ((error: unknown, instance: FieldInstance) => void);
-   onKeyDown?: string | ((e: React.KeyboardEvent, instance: FieldInstance) => boolean | void);
-   suppressErrorsUntilVisited?: BooleanProp;
+
+   /** Set to `true` to automatically focus the field, after it renders for the first time. */
    autoFocus?: BooleanProp;
-   helpSpacer?: StringProp;
-   trackFocus?: BooleanProp;
+
+   /** Defines how to present validation errors. Default mode is `tooltip`. Other options are `help` and `help-block`. */
+   validationMode?: "tooltip" | "help" | "help-block";
+
+   /** Defaults to `false`. Set to `true` to disable the field. */
+   disabled?: BooleanProp;
+
+   /** Defaults to `false`. Used to make the field required. */
+   required?: BooleanProp;
+
+   /** Used to indicate that required fields should not be marked as invalid before the user visits them. */
+   suppressErrorsUntilVisited?: boolean;
+
+   /** Error message used to indicate that field is required. */
+   requiredText?: string;
+
+   /** Append asterisk to the label to indicate a required field. */
+   asterisk?: BooleanProp;
+
+   /** Text displayed to the user to indicate that server-side validation is in progress. */
+   validatingText?: string;
+
+   /** Text displayed to the user to indicate that server-side validation has thrown an exception. */
+   validationExceptionText?: string;
+
+   /** Configuration of the tooltip used to indicate validation errors. */
+   errorTooltip?: Config;
+
+   /** Tooltip configuration. */
+   tooltip?: StringProp | StructuredProp;
+
+   /** Indicates that `help` should be separated from the input with a whitespace. Default is `true`. */
+   helpSpacer?: boolean;
+
+   /** If set to `true` top level element will get additional CSS class indicating that input is focused. Default is `false`. */
+   trackFocus?: boolean;
+
+   /** Custom tab index */
+   tabIndex?: StringProp;
+
+   /** Additional content to be displayed next to the field. */
+   help?: string | Config;
+
+   /** Custom validation function. */
+   onValidate?: string | ((value: unknown, instance: Instance, validationParams: Record<string, unknown>) => unknown);
+
+   /** Validation parameters to be passed to the validation function. */
+   validationParams?: Config;
+
+   onValidationException?: string | ((error: unknown, instance: FieldInstance) => void);
+
+   /** Value to be set in the store if the field is empty. Default value is null. */
+   emptyValue?: unknown;
+
+   /** Additional CSS style to be passed to the label object. */
+   labelStyle?: StyleProp;
+
+   /** Additional CSS class to be passed to the label object. */
+   labelClass?: ClassProp;
 }
 
 export class FieldInstance<F extends Field<any, any> = Field<any, any>>

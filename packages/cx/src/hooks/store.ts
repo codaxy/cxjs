@@ -1,4 +1,4 @@
-import { Selector } from "../core";
+import { Selector } from "../data/Selector";
 import { BindingObject, isBindingObject } from "../data/Binding";
 import { expression } from "../data/Expression";
 import { getSelector } from "../data/getSelector";

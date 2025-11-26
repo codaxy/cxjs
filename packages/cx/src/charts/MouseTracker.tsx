@@ -6,7 +6,7 @@ import { tooltipMouseMove, tooltipMouseLeave, TooltipParentInstance } from "../w
 import { closest } from "../util/DOM";
 import { getTopLevelBoundingClientRect } from "../util/getTopLevelBoundingClientRect";
 import { RenderingContext, CxChild } from "../ui/RenderingContext";
-import { NumberProp } from "../core";
+import { NumberProp } from "../ui/Prop";
 
 export interface MouseTrackerConfig extends BoundedObjectConfig {
    /** The binding that is used to store the mouse x coordinate. */

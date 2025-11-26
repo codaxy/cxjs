@@ -5,7 +5,7 @@ import { parseStyle } from "../util/parseStyle";
 import { VDOM } from "../ui/Widget";
 import { Rect } from "../svg/util/Rect";
 import { RenderingContext, CxChild } from "../ui/RenderingContext";
-import { Prop, NumberProp, StyleProp } from "../core";
+import { Prop, NumberProp, StyleProp } from "../ui/Prop";
 
 export interface SwimlaneConfig extends BoundedObjectConfig {
    /** The `x` value binding or expression. */

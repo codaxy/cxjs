@@ -10,7 +10,7 @@ import { isObject } from "../../util/isObject";
 import { RenderingContext } from "../RenderingContext";
 import { Instance } from "../Instance";
 import { View } from "../../data/View";
-import { Prop, SortDirection, StructuredProp } from "../Prop";
+import { Prop, Sorter, SortDirection, StructuredProp } from "../Prop";
 import { isDataRecord } from "../../util";
 
 export interface GroupKey {
@@ -47,7 +47,7 @@ export interface GroupAdapterRecord<T = any> extends DataAdapterRecord<T> {
 }
 
 export interface GroupAdapterConfig extends ArrayAdapterConfig {
-   aggregates?: Cx.StructuredProp;
+   aggregates?: StructuredProp;
    groupRecordsAlias?: string;
    groupRecordsName?: string;
    groupings?: GroupingConfig[] | null;
@@ -55,7 +55,7 @@ export interface GroupAdapterConfig extends ArrayAdapterConfig {
 }
 
 export class GroupAdapter<T = any> extends ArrayAdapter<T> {
-   declare public aggregates?: Cx.StructuredProp;
+   declare public aggregates?: StructuredProp;
    declare public groupRecordsAlias?: string;
    declare public groupRecordsName?: string;
    declare public groupings?: ResolvedGrouping[] | null;
@@ -183,16 +183,16 @@ export class GroupAdapter<T = any> extends ArrayAdapter<T> {
       } else if (isArray(groupings)) {
          this.groupings = groupings as unknown as ResolvedGrouping[];
          this.groupings.forEach((g) => {
-            const groupSorters: Cx.Sorter[] = [];
-            const key: Record<string, Cx.Prop<any>> = {};
+            const groupSorters: Sorter[] = [];
+            const key: Record<string, Prop<any>> = {};
 
             for (const name in g.key) {
                const keyConfig = g.key[name];
                if (!keyConfig || typeof keyConfig !== "object" || !("value" in keyConfig)) {
-                  g.key[name] = { value: keyConfig as Cx.Prop<any>, direction: "ASC" };
+                  g.key[name] = { value: keyConfig as Prop<any>, direction: "ASC" };
                }
 
-               const resolvedKey = g.key[name] as { value: Cx.Prop<any>; direction: Cx.SortDirection };
+               const resolvedKey = g.key[name] as { value: Prop<any>; direction: SortDirection };
                key[name] = resolvedKey.value;
                groupSorters.push({
                   field: name,

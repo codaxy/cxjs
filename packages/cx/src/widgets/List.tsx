@@ -4,7 +4,7 @@ import type { RenderingContext } from "../ui/RenderingContext";
 import { getAccessor } from "../data/getAccessor";
 import { GroupAdapter, GroupingConfig } from "../ui/adapter/GroupAdapter";
 import { batchUpdates } from "../ui/batchUpdates";
-import { Container } from "../ui/Container";
+import { Container, StyledContainerBase, StyledContainerConfig } from "../ui/Container";
 import { FocusManager, offFocusOut, oneFocusOut, preventFocusOnTouch } from "../ui/FocusManager";
 import { Selection } from "../ui/selection/Selection";
 import { VDOM, Widget, getContent } from "../ui/Widget";
@@ -13,6 +13,96 @@ import { isArray } from "../util/isArray";
 import { isString } from "../util/isString";
 import { KeyCode } from "../util/KeyCode";
 import { scrollElementIntoView } from "../util/scrollElementIntoView";
+import {
+   BooleanProp,
+   ClassProp,
+   CollatorOptions,
+   Prop,
+   RecordAlias,
+   StringProp,
+   StructuredProp,
+   StyleProp,
+} from "../ui/Prop";
+
+export interface ListConfig<T = any> extends StyledContainerConfig {
+   /** An array of records to be displayed in the list. */
+   records?: Prop<T[]>;
+
+   /** Record alias. Default is `$record`. */
+   recordName?: RecordAlias;
+
+   /** Index alias. Default is `$index`. */
+   indexName?: RecordAlias;
+
+   /** Style to be applied to each list item. */
+   itemStyle?: StyleProp;
+
+   /** CSS class to be applied to each list item. */
+   itemClass?: ClassProp;
+
+   /** CSS class to be applied to each list item. */
+   itemClassName?: ClassProp;
+
+   /** Text to be displayed when the list is empty. */
+   emptyText?: StringProp;
+
+   /** A grouping definition, field name, or an array of grouping level definitions. */
+   grouping?: string | GroupingConfig | (string | GroupingConfig)[];
+
+   /** Base CSS class to be applied to the element. Default is 'list'. */
+   baseClass?: string;
+
+   /** Set to `true` to allow focus on the list. */
+   focusable?: BooleanProp;
+
+   /** Boolean for focus state. */
+   focused?: BooleanProp;
+
+   /** Boolean for item padding. */
+   itemPad?: BooleanProp;
+
+   /** Set to `true` to enable row caching. */
+   cached?: BooleanProp;
+
+   /** Selection configuration. */
+   selection?: StructuredProp;
+
+   /** Parameters that affect filtering. */
+   filterParams?: StructuredProp;
+
+   /** Callback to create a filter function for given filter params. */
+   onCreateFilter?: (filterParams: any, instance?: Instance) => (record: T) => boolean;
+
+   /** Scroll selection into the view. Default value is false. */
+   scrollSelectionIntoView?: BooleanProp;
+
+   /** Options for data sorting. */
+   sortOptions?: CollatorOptions;
+
+   /** Parameter for disabling specific items. */
+   itemDisabled?: BooleanProp;
+
+   /** Automatic selection without cursor navigation. */
+   selectMode?: BooleanProp;
+
+   /** Tab key selects item under cursor. */
+   selectOnTab?: BooleanProp;
+
+   /** Callback invoked during scrolling. */
+   onScroll?: string | ((event: Event, instance: Instance) => void);
+
+   /** Callback for item click. */
+   onItemClick?: string | ((e: React.MouseEvent, instance: Instance) => void);
+
+   /** Callback for item double click. */
+   onItemDoubleClick?: string | ((e: React.MouseEvent, instance: Instance) => void);
+
+   /** Callback for keyboard down events. */
+   pipeKeyDown?: string | ((handler: ((e: React.KeyboardEvent) => void) | null, instance: Instance) => void);
+
+   /** A field used to get the unique identifier of the record. */
+   keyField?: string;
+}
 
 /*
  - renders list of items
@@ -21,15 +111,17 @@ import { scrollElementIntoView } from "../util/scrollElementIntoView";
  - fake focus - list appears focused and receives keyboard inputs redirected from other control (dropdown scenario)
  */
 
-export class List extends Widget {
+export class List extends StyledContainerBase<ListConfig> {
+   constructor(config?: ListConfig) {
+      super(config);
+   }
+
    declare public recordAlias?: string;
    declare public recordName: string;
    declare public indexAlias?: string;
    declare public indexName: string;
    declare public adapter: GroupAdapter;
    declare public child: ListItem;
-   declare public items?: Widget[];
-   declare public children?: Widget[];
    declare public selection: Selection;
    declare public itemClass?: string;
    declare public itemClassName?: string;
@@ -40,7 +132,7 @@ export class List extends Widget {
    declare public keyField?: string;
    declare public records?: any[];
    declare public sortOptions?: any;
-   declare public grouping?: GroupingConfig[];
+   declare public grouping?: string | GroupingConfig | (string | GroupingConfig)[];
    declare public focusable?: boolean;
    declare public focused?: boolean;
    declare public itemPad?: boolean;
@@ -48,11 +140,16 @@ export class List extends Widget {
    declare public scrollSelectionIntoView?: boolean;
    declare public selectMode?: boolean;
    declare public selectOnTab?: boolean;
-   declare public pipeKeyDown?: string | ((handler: ((e: React.KeyboardEvent) => void) | null, instance: Instance) => void);
+   declare public pipeKeyDown?:
+      | string
+      | ((handler: ((e: React.KeyboardEvent) => void) | null, instance: Instance) => void);
    declare public autoFocus?: boolean;
    declare public baseClass: string;
    declare public filter?: (item: unknown, filterParams: Record<string, unknown>) => boolean;
-   declare public onCreateFilter?: (filterParams: Record<string, unknown>, instance: Instance) => (record: unknown) => boolean;
+   declare public onCreateFilter?: (
+      filterParams: Record<string, unknown>,
+      instance: Instance,
+   ) => (record: unknown) => boolean;
    declare public onItemClick?: (e: React.MouseEvent, instance: Instance) => void;
    declare public onItemDoubleClick?: (e: React.MouseEvent, instance: Instance) => void;
    declare public onKeyDown?: (e: React.KeyboardEvent, instance: Instance) => void;
@@ -165,7 +262,7 @@ export class List extends Widget {
       if (instance.cached) delete instance.cached.rawData;
    }
 
-   explore(context: RenderingContext, instance: Instance, data: Record<string, unknown>): void {
+   explore(context: RenderingContext, instance: Instance): void {
       let instances: Instance[] = [];
       let isSelected = this.selection.getIsSelectedDelegate(instance.store);
       instance.mappedRecords!.forEach((record) => {
@@ -212,13 +309,13 @@ export class List extends Widget {
       );
    }
 
-   groupBy(grouping: GroupingConfig[]): void {
+   groupBy(grouping: string | GroupingConfig | (string | GroupingConfig)[]): void {
       if (!isArray(grouping)) {
          if (isString(grouping) || typeof grouping == "object") return this.groupBy([grouping]);
          throw new Error("DynamicGrouping should be an array of grouping objects");
       }
 
-      grouping = grouping.map((g, i) => {
+      let normalized = grouping.map((g) => {
          if (isString(g)) {
             return {
                key: {
@@ -226,18 +323,18 @@ export class List extends Widget {
                      bind: this.recordName + "." + g,
                   },
                },
-            };
+            } as GroupingConfig;
          }
          return g;
       });
 
-      grouping.forEach((g) => {
+      normalized.forEach((g) => {
          if (g.header) g.header = Widget.create(g.header);
 
          if (g.footer) g.footer = Widget.create(g.footer);
       });
 
-      this.adapter.groupBy(grouping);
+      this.adapter.groupBy(normalized);
       this.update();
    }
 }

@@ -1,7 +1,9 @@
-import * as Cx from '../../packages/cx/src/core';
+import { Container } from 'cx/ui';
+import { StyledContainerConfig } from 'cx/ui';
+import { StringProp } from 'cx/ui';
 
-export interface ScrollIntoViewProps extends Cx.StyledContainerProps {
-   selector?: Cx.StringProp
+export interface ScrollIntoViewProps extends StyledContainerConfig {
+   selector?: StringProp
 }
 
-export class ScrollIntoView extends Cx.Widget<ScrollIntoViewProps> {}
+export class ScrollIntoView extends Container {}

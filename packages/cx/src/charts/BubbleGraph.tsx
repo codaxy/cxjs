@@ -8,11 +8,11 @@ import { CSS } from "../ui/CSS";
 import { isArray } from "../util/isArray";
 import { Instance } from "../ui/Instance";
 import { RenderingContext, CxChild } from "../ui/RenderingContext";
-import { Prop, StyleProp, Record } from "../core";
+import { Prop, StyleProp, DataRecord } from "../ui/Prop";
 
 export interface BubbleGraphConfig extends WidgetConfig {
    /** Data array for the bubbles. */
-   data?: Prop<Record[]>;
+   data?: Prop<DataRecord[]>;
 
    /** Default bubble radius. Default is 10. */
    bubbleRadius?: number;
@@ -86,7 +86,7 @@ export class BubbleGraph extends Widget<BubbleGraphConfig> {
       var { data } = instance;
       const d = data as any;
       if (isArray(d.data)) {
-         d.data.forEach((p: Record) => {
+         d.data.forEach((p: DataRecord) => {
             (instance.axes as any)[this.xAxis].acknowledge(p[this.xField]);
             (instance.axes as any)[this.yAxis].acknowledge(p[this.yField]);
          });
@@ -117,7 +117,7 @@ export class BubbleGraph extends Widget<BubbleGraphConfig> {
 
       return (
          isArray(d.data) &&
-         d.data.map((p: Record, i: number) => {
+         d.data.map((p: DataRecord, i: number) => {
             var selected = this.selection && this.selection.isSelected(store, p, i);
             var classes = CSS.element(this.baseClass, "bubble", {
                selected: selected,

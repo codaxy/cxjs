@@ -8,7 +8,8 @@ import { Format } from "../../util/Format";
 import { RenderingContext } from "../../ui/RenderingContext";
 import { BooleanProp, NumberProp, StringProp, Prop } from "../../ui/Prop";
 import { Binding } from "../../data/Binding";
-import { AccessorChain, GetSet } from "../../core";
+import { GetSet } from "../../ui/Prop";
+import { AccessorChain } from "../../data/createAccessorModelProxy";
 
 export interface CategoryAxisConfig extends AxisConfig {
    /** Uniform axes provide exact size and offset for all entries. */

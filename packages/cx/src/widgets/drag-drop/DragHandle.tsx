@@ -1,18 +1,21 @@
 /** @jsxImportSource react */
 import { Widget, VDOM } from '../../ui/Widget';
-import { Container } from '../../ui/Container';
+import { StyledContainerBase, StyledContainerConfig } from '../../ui/Container';
 import { ddHandle } from '../drag-drop/ops';
 import { isArray } from '../../util/isArray';
 import { RenderingContext } from '../../ui/RenderingContext';
 import { Instance } from '../../ui/Instance';
-import * as Cx from '../../core';
 
-export interface DragHandleProps extends Cx.StyledContainerProps {
+export interface DragHandleConfig extends StyledContainerConfig {
    /** Base CSS class to be applied to the element. Defaults to 'draghandle'. */
    baseClass?: string;
 }
 
-export class DragHandle extends Container {
+export class DragHandle extends StyledContainerBase<DragHandleConfig> {
+   constructor(config?: DragHandleConfig) {
+      super(config);
+   }
+
    explore(context: RenderingContext, instance: Instance) {
       if (isArray(context.dragHandles)) context.dragHandles.push(instance);
       super.explore(context, instance);

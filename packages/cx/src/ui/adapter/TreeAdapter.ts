@@ -5,7 +5,7 @@ import { DataAdapterRecord } from "./DataAdapter";
 import { RenderingContext } from "../RenderingContext";
 import { Instance } from "../Instance";
 import { View } from "../../data/View";
-import * as Cx from "../../core";
+import { Sorter } from "../Prop";
 
 export interface TreeNode {
    $level?: number;
@@ -163,7 +163,7 @@ export class TreeAdapter<T extends TreeNode = TreeNode> extends ArrayAdapter<T> 
       }
    }
 
-   public sort(sorters?: Cx.Sorter[]): void {
+   public sort(sorters?: Sorter[]): void {
       if (this.foldersFirst) {
          if (!sorters || !isArray(sorters)) {
             sorters = [];

@@ -1,7 +1,7 @@
 /** @jsxImportSource react */
 
 import { Widget, VDOM, WidgetConfig } from "../ui/Widget";
-import { Container, ContainerConfig } from "../ui/Container";
+import { Container, ContainerConfig, StyledContainerConfig } from "../ui/Container";
 import { BoundedObject, BoundedObjectConfig, BoundedObjectInstance } from "../svg/BoundedObject";
 import { Rect } from "../svg/util/Rect";
 import { Selection } from "../ui/selection/Selection";
@@ -349,7 +349,7 @@ PieChart.prototype.angle = 360;
 PieChart.prototype.startAngle = 0;
 PieChart.prototype.gap = 0;
 
-export interface PieSliceConfig extends ContainerConfig {
+export interface PieSliceConfig extends StyledContainerConfig {
    /** Used to indicate if a slice is active or not. Inactive slices are not rendered. */
    active?: BooleanProp;
 

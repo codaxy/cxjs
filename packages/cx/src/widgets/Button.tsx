@@ -72,6 +72,10 @@ export interface ButtonConfig extends HtmlElementConfig {
 }
 
 export class Button extends HtmlElement<ButtonConfig, HtmlElementInstance> {
+   constructor(config?: ButtonConfig) {
+      super(config);
+   }
+
    declare icon?: boolean | string;
    declare focusOnMouseDown?: boolean;
    declare submit?: boolean;

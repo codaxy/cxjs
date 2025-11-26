@@ -13,6 +13,7 @@ import { getTopLevelBoundingClientRect } from "../../util/getTopLevelBoundingCli
 import PixelPickerIcon from "../icons/pixel-picker";
 import type { RenderingContext } from "../../ui/RenderingContext";
 import type { Instance } from "../../ui/Instance";
+import { StringProp } from "../../ui/Prop";
 
 // Type declaration for EyeDropper API
 declare global {
@@ -39,7 +40,7 @@ interface ColorState {
 
 export interface ColorPickerConfig extends FieldConfig {
    /** Either `rgba`, `hsla` or `hex` value of the selected color. */
-   value?: string;
+   value?: StringProp;
 
    /** Format of the color representation. Either `rgba`, `hsla` or `hex`. */
    format?: "rgba" | "hsla" | "hex";

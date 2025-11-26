@@ -13,7 +13,7 @@ This document captures patterns and best practices learned during the migration 
 7. [Component Props and State](#component-props-and-state)
 8. [Common Fixes](#common-fixes)
 9. [JSX Components](#jsx-components)
-10. [Class Constructors](#class-constructors)
+10.   [Class Constructors](#class-constructors)
 
 ---
 
@@ -36,10 +36,12 @@ export class Button extends HtmlElement<ButtonConfig, HtmlElementInstance> {
 ```
 
 ### Config Naming Convention
+
 - Use `{WidgetName}Config` for the interface name
 - Extend the parent widget's config (e.g., `HtmlElementConfig`, `PureContainerConfig`, `ContainerConfig`)
 
 ### Property Types in Config
+
 - Use `Prop<T>` for bindable properties that accept values, bindings, or selectors
 - Use `StringProp`, `BooleanProp`, `NumberProp` for common typed props
 - Use `BindingInput<T>` when the property is specifically used with `Binding.get()`
@@ -60,12 +62,15 @@ export interface SandboxInstance extends Instance {
 
 export class Sandbox extends PureContainerBase<SandboxConfig, SandboxInstance> {
    initInstance(context: RenderingContext, instance: SandboxInstance): void {
-      instance.store = new ExposedValueView({ /* ... */ });
+      instance.store = new ExposedValueView({
+         /* ... */
+      });
    }
 }
 ```
 
 ### Standard Instance Types
+
 - `Instance` - Base instance type for most widgets
 - `HtmlElementInstance` - For HTML-based widgets, includes `tooltips` property
 - Custom interfaces extending `Instance` for specialized needs
@@ -88,11 +93,11 @@ export interface TooltipParentInstance extends Instance {
 
 CxJS provides both generic and non-generic versions of base classes:
 
-| Non-Generic | Generic |
-|-------------|---------|
-| `Container` | `ContainerBase<Config, Instance>` |
-| `PureContainer` | `PureContainerBase<Config, Instance>` |
-| `HtmlElement` | `HtmlElement<Config, Instance>` (already generic) |
+| Non-Generic     | Generic                                           |
+| --------------- | ------------------------------------------------- |
+| `Container`     | `ContainerBase<Config, Instance>`                 |
+| `PureContainer` | `PureContainerBase<Config, Instance>`             |
+| `HtmlElement`   | `HtmlElement<Config, Instance>` (already generic) |
 
 **Use the generic Base version when creating typed widgets:**
 
@@ -122,6 +127,7 @@ export class FlexBox extends ContainerBase<FlexBoxConfig, Instance> {
 ```
 
 ### When to Use `declare`
+
 - Properties initialized via prototype assignment
 - Properties set by the framework during initialization
 - Properties from config that are copied to the instance
@@ -249,6 +255,7 @@ interface MyComponentProps {
 **Problem:** Using non-generic base class with type parameters.
 
 **Fix:** Use the generic `Base` version:
+
 ```typescript
 // Wrong
 class MyWidget extends Container<MyConfig, Instance> {}
@@ -262,6 +269,7 @@ class MyWidget extends ContainerBase<MyConfig, Instance> {}
 **Problem:** Accessing custom instance properties.
 
 **Fix:** Create custom instance interface or use type assertion:
+
 ```typescript
 // Option 1: Custom interface
 interface MyInstance extends Instance {
@@ -269,7 +277,7 @@ interface MyInstance extends Instance {
 }
 
 // Option 2: Type assertion
-(instance as any).customProp
+(instance as any).customProp;
 ```
 
 ### 3. "Object literal may only specify known properties"
@@ -277,6 +285,7 @@ interface MyInstance extends Instance {
 **Problem:** Passing extra properties to a constructor.
 
 **Fix:** Extend the config interface:
+
 ```typescript
 export interface ExtendedConfig extends BaseConfig {
    extraProp?: string;
@@ -288,12 +297,16 @@ export interface ExtendedConfig extends BaseConfig {
 **Problem:** Accessing potentially undefined properties.
 
 **Fix:** Use optional chaining or non-null assertion:
+
 ```typescript
 // Optional chaining
-if (components?.header) { /* ... */ }
+if (components?.header) {
+   /* ... */
+}
 
 // Or declare as non-nullable if always defined
-declare baseClass: string;
+declare;
+baseClass: string;
 ```
 
 ### 5. Method Signature Mismatches
@@ -301,6 +314,7 @@ declare baseClass: string;
 **Problem:** Overridden methods have incompatible signatures.
 
 **Fix:** Match parameter types with parent class or use compatible subtypes:
+
 ```typescript
 // Parent uses Instance, child can use more specific type
 prepareData(context: RenderingContext, instance: HtmlElementInstance): void {
@@ -326,6 +340,7 @@ import { BoundedObject, BoundedObjectConfig } from "../svg/BoundedObject";
 This tells TypeScript/Babel to use React's JSX factory for transforming JSX syntax.
 
 ### When to Add the Pragma
+
 - Any `.tsx` file that contains JSX syntax (e.g., `<g>`, `<div>`, `<rect>`)
 - Files with `render()` methods that return JSX elements
 - Files that use VDOM components
@@ -349,6 +364,7 @@ export class MyWidget extends BoundedObject<MyWidgetConfig, MyWidgetInstance> {
 ```
 
 ### Why Add Constructors
+
 - Provides proper type inference when creating widgets
 - Ensures config properties are correctly typed
 - Makes the class API explicit and self-documenting
@@ -384,6 +400,22 @@ After migration, each widget should have:
 Index files (`index.ts`) should re-export all public types:
 
 ```typescript
-export { Button, ButtonConfig } from './Button';
-export { FlexBox, FlexBoxConfig } from './FlexBox';
+export { Button, ButtonConfig } from "./Button";
+export { FlexBox, FlexBoxConfig } from "./FlexBox";
 ```
+
+## Nice to Have Improvements
+
+[ ] Typed RenderingContext usage
+[ ] Better StructuredProp and typed ContentResolver
+[ ] dropdownOptions might typed as DropdownConfig?
+[ ] Properly type Component.create, Widget.create, etc.
+
+## Finalization
+
+[ ] Check online .d.ts files for all widgets at the end
+[ ] Migrate gallery
+[ ] Migrate all docs examples to typescript
+[ ] Figure out a fiddle replacement (with AI :)
+[ ] Write detailed documentation and migration paths
+[ ] Migrate some of the libraries (Google Maps, Diagrams)

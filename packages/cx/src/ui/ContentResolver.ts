@@ -1,10 +1,30 @@
-import {PureContainer} from './PureContainer';
+import {PureContainerBase, PureContainerConfig} from './PureContainer';
 import {isPromise} from '../util/isPromise';
 import {RenderingContext} from './RenderingContext';
+import {BooleanProp, StructuredProp} from './Prop';
+import {Instance} from './Instance';
 
-export class ContentResolver extends PureContainer {
+export interface ContentResolverConfig extends PureContainerConfig {
+   /** Parameters that trigger content resolution when changed. */
+   params?: StructuredProp;
+
+   /** Callback function that resolves content based on params. Can return content directly or a Promise. */
+   onResolve?: string | ((params: any, instance: Instance) => any);
+
+   /** How to combine resolved content with initial content. Default is 'replace'. */
+   mode?: "replace" | "prepend" | "append";
+
+   /** Indicates if content is being loaded. */
+   loading?: BooleanProp;
+}
+
+export class ContentResolver extends PureContainerBase<ContentResolverConfig> {
+   constructor(config?: ContentResolverConfig) {
+      super(config);
+   }
+
    declare mode: "replace" | "prepend" | "append";
-   onResolve?: (params: any, instance: any) => any;
+   onResolve?: string | ((params: any, instance: Instance) => any);
    declare initialItems: any;
 
    declareData(...args: any[]): void {

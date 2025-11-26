@@ -2,20 +2,50 @@
 import type { RenderingContext } from "../../ui/RenderingContext";
 import type { Instance } from "../../ui/Instance";
 import { Widget, VDOM, getContent } from "../../ui/Widget";
-import { Field, getFieldTooltip, FieldInstance } from "./Field";
+import { Field, FieldConfig, getFieldTooltip, FieldInstance } from "./Field";
 import { tooltipMouseMove, tooltipMouseLeave } from "../overlay/tooltip-ops";
 import { stopPropagation } from "../../util/eventCallbacks";
 import { KeyCode } from "../../util/KeyCode";
 import { isUndefined } from "../../util/isUndefined";
 import * as React from "react";
-import { Prop } from "../../ui/Prop";
+import { BooleanProp, Prop, StringProp } from "../../ui/Prop";
 
-export class Radio extends Field {
+export interface RadioConfig extends FieldConfig {
+   /** Selected value. If the value is equal to `option`, the radio button appears checked. */
+   value?: Prop<number | string | boolean>;
+
+   /** Selected value. If the value is equal to `option`, the radio button appears checked. */
+   selection?: Prop<number | string | boolean>;
+
+   /** Value to be written into `value` if radio button is clicked. */
+   option?: Prop<number | string | boolean>;
+
+   /** Defaults to `false`. Used to make the field read-only. */
+   readOnly?: BooleanProp;
+
+   /** Text description. */
+   text?: StringProp;
+
+   /** Base CSS class to be applied to the field. Defaults to `radio`. */
+   baseClass?: string;
+
+   /** Use native radio HTML element. Default is `false`. */
+   native?: boolean;
+
+   /** Set to `true` to make the radio initially selected. */
+   default?: boolean;
+}
+
+export class Radio extends Field<RadioConfig> {
    declare public selection?: Prop<number | string | boolean>;
    declare public option?: Prop<number | string | boolean>;
    declare public native?: boolean;
    declare public default?: boolean;
    declare public value?: Prop<number | string | boolean>;
+
+   constructor(config?: RadioConfig) {
+      super(config);
+   }
 
    declareData(...args: Record<string, unknown>[]): void {
       super.declareData(
