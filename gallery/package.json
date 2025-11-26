@@ -5,7 +5,7 @@
    "scripts": {
       "start": "webpack-dev-server --config config/webpack.dev.js --open",
       "build": "webpack --config config/webpack.prod.js",
-      "check-types": "tsc --no-emit"
+      "check-types": "tsc --noEmit"
    },
    "dependencies": {
       "casual": "^1.6.2",
@@ -50,7 +50,7 @@
       "style-loader": "^4.0.0",
       "svg-url-loader": "^8.0.0",
       "ts-loader": "^9.5.1",
-      "typescript": "^5.7.2",
+      "typescript": "^5.9.3",
       "url-loader": "^4.1.1",
       "webpack": "^5.97.1",
       "webpack-bundle-analyzer": "^4.10.2",

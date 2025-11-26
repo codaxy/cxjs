@@ -1,7 +1,6 @@
-import { cx, ContentResolver } from "cx/widgets";
-import { loadTheme } from "../themes";
 import { createFunctionalComponent } from "cx/ui";
-import { StringProp } from "cx/src/core";
+import { ContentResolver } from "cx/widgets";
+import { loadTheme } from "../themes";
 
 function importTheme(theme) {
    switch (theme) {

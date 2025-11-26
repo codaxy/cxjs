@@ -15,7 +15,7 @@ module.exports = function (manifest, paths, pkgSrc) {
                   var localImports = imports[fileName];
                   if (!localImports) localImports = imports[fileName] = {};
                   var resolvedPath = pathResolve(p.dirname(scope.file.opts.filename), path.node.source.value);
-                  if (!/\.(ts|tsx)^/.test(resolvedPath)) resolvedPath += ".ts";
+                  if (!/\.(js|jsx)^/.test(resolvedPath)) resolvedPath += ".js";
                   localImports[spec.local.name] = resolvedPath;
                });
             },
@@ -51,7 +51,7 @@ module.exports = function (manifest, paths, pkgSrc) {
 
                   for (var key in paths) {
                      if (path.indexOf(key) == 0) {
-                        var jsPath = "src/" + srcPath.substring(pkgSrc.length + 1);
+                        var jsPath = "build/" + srcPath.substring(pkgSrc.length + 1);
 
                         var expName = paths[key].substring(3) + "/" + name;
 
@@ -60,8 +60,8 @@ module.exports = function (manifest, paths, pkgSrc) {
                         if (!manifest[expName].js) {
                            manifest[expName].js = jsPath;
 
-                           if (fs.existsSync(srcPath.replace(/\.ts(x)?$/, ".scss")))
-                              manifest[expName].scss = jsPath.replace(/\.ts(x)?$/, ".scss");
+                           if (fs.existsSync(srcPath.replace(/\.js(x)?$/, ".scss")))
+                              manifest[expName].scss = jsPath.replace(/\.js(x)?$/, ".scss");
                         }
 
                         break;

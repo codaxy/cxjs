@@ -5611,7 +5611,7 @@ __metadata:
     style-loader: "npm:^4.0.0"
     svg-url-loader: "npm:^8.0.0"
     ts-loader: "npm:^9.5.1"
-    typescript: "npm:^5.7.2"
+    typescript: "npm:^5.9.3"
     url-loader: "npm:^4.1.1"
     webpack: "npm:^5.97.1"
     webpack-bundle-analyzer: "npm:^4.10.2"

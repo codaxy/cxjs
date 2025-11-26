@@ -15,7 +15,7 @@
    },
    "sideEffects": false,
    "scripts": {
-      "build": "node build/index",
+      "build": "node build",
       "build2": "tsc",
       "check-types": "tsc --noEmit",
       "test": "ts-mocha -p tsconfig.mocha.json"
