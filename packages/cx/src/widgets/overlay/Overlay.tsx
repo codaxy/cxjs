@@ -18,7 +18,7 @@ import { KeyCode } from "../../util/KeyCode";
 import { parseStyle } from "../../util/parseStyle";
 import { SubscriberList } from "../../util/SubscriberList";
 import { ddDetect, ddMouseDown, ddMouseUp } from "../drag-drop/ops";
-import { captureMouseOrTouch } from "./captureMouse";
+import { captureMouseOrTouch, getCursorPos } from "./captureMouse";
 
 /*
  Features:
@@ -603,10 +603,10 @@ export class OverlayComponent<
       widget.handleKeyDown(e, this.props.instance, this);
    }
 
-   getResizePrefix(e: React.MouseEvent | React.TouchEvent) {
+   getResizePrefix(e: MouseEvent | React.MouseEvent | React.TouchEvent) {
       let { widget, data } = this.props.instance;
       if (!data.resizable) return "";
-      let cursor = this.getCursorPos(e);
+      let cursor = getCursorPos(e);
       let bounds = getTopLevelBoundingClientRect(this.el!);
       let leftMargin = cursor.clientX - bounds.left;
       let rightMargin = bounds.right - cursor.clientX;
@@ -632,7 +632,7 @@ export class OverlayComponent<
       if (prefix) {
          //e.preventDefault();
          let rect = getTopLevelBoundingClientRect(this.el!);
-         let cursor = this.getCursorPos(e);
+         let cursor = getCursorPos(e);
          let captureData = {
             prefix: prefix,
             dl: cursor.clientX - rect.left,
@@ -667,7 +667,7 @@ export class OverlayComponent<
       e.stopPropagation();
    }
 
-   onMouseMove(e: React.MouseEvent, captureData: any) {
+   onMouseMove(e: MouseEvent, captureData: any) {
       // handle dragging
       let { instance } = this.props;
       let { data, widget } = instance;
@@ -679,7 +679,7 @@ export class OverlayComponent<
 
       if (captureData && captureData.prefix) {
          let { prefix, rect, dl, dt, dr, db } = captureData;
-         let cursor = this.getCursorPos(e);
+         let cursor = getCursorPos(e);
 
          if (prefix.indexOf("w") != -1)
             this.setCustomStyle({
@@ -720,19 +720,11 @@ export class OverlayComponent<
       }
    }
 
-   getCursorPos(e: React.MouseEvent | React.TouchEvent) {
-      let x: any = ("touches" in e && e.touches && e.touches[0]) || e;
-      return {
-         clientX: x.clientX,
-         clientY: x.clientY,
-      };
-   }
-
-   startMoveOperation(e: React.MouseEvent | React.TouchEvent) {
+   startMoveOperation(e: MouseEvent | React.MouseEvent | React.TouchEvent) {
       if (this.el && !this.getResizePrefix(e)) {
          e.stopPropagation();
          let rect = getTopLevelBoundingClientRect(this.el);
-         let cursor = this.getCursorPos(e);
+         let cursor = getCursorPos(e);
          let data = {
             dx: cursor.clientX - rect.left,
             dy: cursor.clientY - rect.top,
@@ -748,9 +740,9 @@ export class OverlayComponent<
       }
    }
 
-   onMove(e: React.MouseEvent, data: any) {
+   onMove(e: MouseEvent, data: any) {
       if (data) {
-         let cursor = this.getCursorPos(e);
+         let cursor = getCursorPos(e);
          e.preventDefault();
          this.setCustomStyle({
             left: cursor.clientX - data.dx + "px",

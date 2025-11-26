@@ -13,7 +13,7 @@ import { Instance } from "../ui/Instance";
 import { RenderingContext } from "../ui/RenderingContext";
 import { StringProp, StyleProp, BooleanProp } from "../ui/Prop";
 
-export interface LegendEntry {
+export interface LegendEntryData {
    name: string;
    displayText?: string;
    active?: boolean;
@@ -29,6 +29,7 @@ export interface LegendEntry {
    onClick?: (e: MouseEvent) => void;
    value?: number;
 }
+
 
 export interface LegendConfig extends HtmlElementConfig {
    /** Name of the legend. Default is `legend`. */
@@ -66,7 +67,7 @@ export interface LegendConfig extends HtmlElementConfig {
 }
 
 export interface LegendInstance extends HtmlElementInstance {
-   legends: Record<string, { entries: LegendEntry[]; names: Record<string, LegendEntry> }>;
+   legends: Record<string, { entries: LegendEntryData[]; names: Record<string, LegendEntryData> }>;
 }
 
 export class Legend extends HtmlElement {
@@ -135,7 +136,7 @@ export class Legend extends HtmlElement {
 
       instance.legends = context.legends;
 
-      context.addLegendEntry = (legendName: string | false, entry: LegendEntry) => {
+      context.addLegendEntry = (legendName: string | false, entry: LegendEntryData) => {
          if (!legendName) return;
 
          //case when all legends are scoped and new entry is added outside the scope
@@ -170,7 +171,7 @@ export class Legend extends HtmlElement {
       let entryTextClass = CSS.element(this.baseClass, "entry-text");
 
       if (isNonEmptyArray(entries)) {
-         list = entries.map((e: LegendEntry, i: number) =>
+         list = entries.map((e: LegendEntryData, i: number) =>
             withHoverSync(i, e.hoverSync, e.hoverChannel, e.hoverId, ({ onMouseMove, onMouseLeave, hover }) => (
                <div
                   key={i}
@@ -203,7 +204,7 @@ export class Legend extends HtmlElement {
       return [list, super.renderChildren(context, instance)];
    }
 
-   renderShape(entry: LegendEntry, legendEntriesShape: string | null | undefined): React.ReactNode {
+   renderShape(entry: LegendEntryData, legendEntriesShape: string | null | undefined): React.ReactNode {
       const className = this.CSS.element(this.baseClass, "shape", {
          [`color-${entry.colorIndex}`]: entry.colorIndex != null && (isUndefined(entry.active) || entry.active),
       });
@@ -244,7 +245,7 @@ Legend.prototype.valueFormat = "s";
 Widget.alias("legend", Legend);
 
 interface LegendScopeInstance extends Instance {
-   legends: Record<string, { entries: LegendEntry[]; names: Record<string, LegendEntry> }>;
+   legends: Record<string, { entries: LegendEntryData[]; names: Record<string, LegendEntryData> }>;
 }
 
 Legend.Scope = class extends PureContainer {

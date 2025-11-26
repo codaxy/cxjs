@@ -1,4 +1,3 @@
-//@ts-nocheck
 export * from "./Chart";
 
 export * from "./PieChart";

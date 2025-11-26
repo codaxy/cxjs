@@ -1,5 +1,4 @@
-//@ts-nocheck
-export * from './Axis';
-export * from './NumericAxis';
-export * from './CategoryAxis';
-export * from './TimeAxis';
+export * from "./Axis";
+export * from "./NumericAxis";
+export * from "./CategoryAxis";
+export * from "./TimeAxis";

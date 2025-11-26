@@ -70,7 +70,7 @@ export interface TooltipParentInstance {
  */
 export interface TooltipOperations {
    tooltipMouseMove(
-      e: MouseEvent | React.MouseEvent | Element,
+      e: MouseEvent | TouchEvent | React.MouseEvent | React.TouchEvent | Element,
       parentInstance: Instance & TooltipParentInstance,
       tooltip: TooltipProp | undefined,
       options?: TooltipOptions,
@@ -109,7 +109,7 @@ export interface TooltipOperations {
 let impl: TooltipOperations | false = false;
 
 export function tooltipMouseMove(
-   e: MouseEvent | TouchEvent | React.MouseEvent | Element,
+   e: MouseEvent | TouchEvent | React.MouseEvent | React.TouchEvent | Element,
    parentInstance: Instance & TooltipParentInstance,
    tooltip: TooltipProp | undefined,
    options?: TooltipOptions,

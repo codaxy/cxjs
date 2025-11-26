@@ -1,15 +1,67 @@
-//@ts-nocheck
-import { Widget, VDOM } from "../ui/Widget";
+/** @jsxImportSource react */
+
+import { Widget, VDOM, WidgetConfig } from "../ui/Widget";
 import { Selection } from "../ui/selection/Selection";
+import { PropertySelection } from "../ui/selection/PropertySelection";
+import { KeySelection } from "../ui/selection/KeySelection";
 import { CSS } from "../ui/CSS";
 import { isArray } from "../util/isArray";
+import { Instance } from "../ui/Instance";
+import { RenderingContext, CxChild } from "../ui/RenderingContext";
+import { Prop, StyleProp, Record } from "../core";
 
-export class BubbleGraph extends Widget {
-   declareData() {
-      var selection = this.selection.configureWidget(this);
+export interface BubbleGraphConfig extends WidgetConfig {
+   /** Data array for the bubbles. */
+   data?: Prop<Record[]>;
+
+   /** Default bubble radius. Default is 10. */
+   bubbleRadius?: number;
+
+   /** Style object applied to all bubbles. */
+   bubbleStyle?: StyleProp;
+
+   /** Name of the x-axis. Default is 'x'. */
+   xAxis?: string;
+
+   /** Name of the y-axis. Default is 'y'. */
+   yAxis?: string;
+
+   /** Name of the field in data objects that contains x values. Default is 'x'. */
+   xField?: string;
+
+   /** Name of the field in data objects that contains y values. Default is 'y'. */
+   yField?: string;
+
+   /** Name of the field in data objects that contains radius values. Default is 'r'. */
+   rField?: string;
+
+   /** Selection configuration. */
+   selection?: PropertySelection | KeySelection | { type?: string; [key: string]: any };
+}
+
+export interface BubbleGraphInstance extends Instance {
+   axes?: { [key: string]: any };
+}
+
+export class BubbleGraph extends Widget<BubbleGraphConfig> {
+   declare baseClass: string;
+   declare xAxis: string;
+   declare yAxis: string;
+   declare xField: string;
+   declare yField: string;
+   declare rField: string;
+   declare bubbleRadius: number;
+   declare selection: Selection;
+
+   constructor(config?: BubbleGraphConfig) {
+      super(config);
+   }
+
+   declareData(...args: any[]) {
+      var selection = this.selection!.configureWidget(this);
 
       super.declareData(
-         ...arguments,
+         ...args,
          {
             data: undefined,
             bubbleRadius: undefined,
@@ -22,48 +74,50 @@ export class BubbleGraph extends Widget {
    }
 
    init() {
-      this.selection = Selection.create(this.selection, {
-         records: this.data,
+      this.selection = Selection.create(this.selection as any, {
+         records: (this as any).data,
       });
       super.init();
    }
 
-   explore(context, instance) {
-      instance.axes = context.axes;
+   explore(context: RenderingContext, instance: BubbleGraphInstance) {
+      instance.axes = context.axes as any;
       super.explore(context, instance);
       var { data } = instance;
-      if (isArray(data.data)) {
-         data.data.forEach((p) => {
-            instance.axes[this.xAxis].acknowledge(p[this.xField]);
-            instance.axes[this.yAxis].acknowledge(p[this.yField]);
+      const d = data as any;
+      if (isArray(d.data)) {
+         d.data.forEach((p: Record) => {
+            (instance.axes as any)[this.xAxis].acknowledge(p[this.xField]);
+            (instance.axes as any)[this.yAxis].acknowledge(p[this.yField]);
          });
       }
    }
 
-   prepare(context, instance) {
-      super.prepare(context, instance);
-      if (instance.axes[this.xAxis].shouldUpdate || instance.axes[this.yAxis].shouldUpdate)
+   prepare(context: RenderingContext, instance: BubbleGraphInstance) {
+      super.prepare?.(context, instance);
+      if ((instance.axes as any)[this.xAxis].shouldUpdate || (instance.axes as any)[this.yAxis].shouldUpdate)
          instance.markShouldUpdate(context);
    }
 
-   render(context, instance, key) {
+   render(context: RenderingContext, instance: BubbleGraphInstance, key: string): CxChild {
       var { data } = instance;
       return (
-         <g key={key} className={data.classNames}>
+         <g key={key} className={(data as any).classNames}>
             {this.renderData(context, instance)}
          </g>
       );
    }
 
-   renderData(context, instance) {
+   renderData(context: RenderingContext, instance: BubbleGraphInstance): any {
       var { data, axes, store } = instance;
+      const d = data as any;
 
-      var xAxis = axes[this.xAxis];
-      var yAxis = axes[this.yAxis];
+      var xAxis = (axes as any)[this.xAxis];
+      var yAxis = (axes as any)[this.yAxis];
 
       return (
-         isArray(data.data) &&
-         data.data.map((p, i) => {
+         isArray(d.data) &&
+         d.data.map((p: Record, i: number) => {
             var selected = this.selection && this.selection.isSelected(store, p, i);
             var classes = CSS.element(this.baseClass, "bubble", {
                selected: selected,
@@ -74,8 +128,8 @@ export class BubbleGraph extends Widget {
                   className={classes}
                   cx={xAxis.map(p[this.xField])}
                   cy={yAxis.map(p[this.yField])}
-                  r={p[this.rField] || data.bubbleRadius}
-                  style={p.style || data.bubbleStyle}
+                  r={(p as any)[this.rField] || d.bubbleRadius}
+                  style={(p as any).style || d.bubbleStyle}
                   onClick={(e) => {
                      this.onBubbleClick(e, instance, i);
                   }}
@@ -85,8 +139,10 @@ export class BubbleGraph extends Widget {
       );
    }
 
-   onBubbleClick(e, { data, store }, index) {
-      var bubble = data.data[index];
+   onBubbleClick(e: React.MouseEvent, instance: BubbleGraphInstance, index: number) {
+      const { data, store } = instance;
+      const d = data as any;
+      var bubble = d.data[index];
       this.selection.select(store, bubble, index, {
          toggle: e.ctrlKey,
       });

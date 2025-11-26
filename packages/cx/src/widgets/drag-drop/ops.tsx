@@ -359,7 +359,7 @@ export function ddMouseUp(): void {
    dragCandidate = {};
 }
 
-export function ddDetect(e: React.SyntheticEvent<any>): void | true {
+export function ddDetect(e: MouseEvent | TouchEvent | React.TouchEvent | React.MouseEvent): void | true {
    let cursor = getCursorPos(e);
    if (
       e.currentTarget == dragCandidate.el &&

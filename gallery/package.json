@@ -4,7 +4,8 @@
    "version": "1.0.0",
    "scripts": {
       "start": "webpack-dev-server --config config/webpack.dev.js --open",
-      "build": "webpack --config config/webpack.prod.js"
+      "build": "webpack --config config/webpack.prod.js",
+      "check-types": "tsc --no-emit"
    },
    "dependencies": {
       "casual": "^1.6.2",

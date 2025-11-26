@@ -6,9 +6,9 @@ import { getParentFrameBoundingClientRect } from "../../util/getParentFrameBound
  */
 interface CaptureMouseOptions {
    /** Callback function called on mouse move events */
-   onMouseMove?: (e: MouseEvent | TouchEvent, captureData?: any) => void;
+   onMouseMove?: (e: MouseEvent, captureData?: any) => void;
    /** Callback function called on mouse up events */
-   onMouseUp?: (e: MouseEvent | TouchEvent, captureData?: any) => void;
+   onMouseUp?: (e: MouseEvent, captureData?: any) => void;
    /** Callback function called on double click events */
    onDblClick?: (e: MouseEvent) => void;
    /** Additional data passed to callbacks */
@@ -22,7 +22,10 @@ interface CaptureMouseOptions {
  * @param e - The initial mouse event that triggered the capture
  * @param options - Configuration options for the capture behavior
  */
-export function captureMouse2(e: React.MouseEvent, options: CaptureMouseOptions): void {
+export function captureMouse2(
+   e: React.MouseEvent | React.TouchEvent | MouseEvent | TouchEvent,
+   options: CaptureMouseOptions,
+): void {
    let surface = document.createElement("div");
    surface.className = "cxb-mousecapture";
    surface.style.cursor = options.cursor || getComputedStyle(e.currentTarget as Element).cursor;
@@ -98,13 +101,16 @@ export function captureMouse2(e: React.MouseEvent, options: CaptureMouseOptions)
  * @param e - The initial mouse or touch event that triggered the capture
  * @param options - Configuration options for the capture behavior
  */
-export function captureMouseOrTouch2(e: React.MouseEvent | React.TouchEvent, options: CaptureMouseOptions): void {
+export function captureMouseOrTouch2(
+   e: React.MouseEvent | React.TouchEvent | MouseEvent | TouchEvent,
+   options: CaptureMouseOptions,
+): void {
    if (e.type.indexOf("touch") == 0) {
-      let el = e.currentTarget as Element;
+      let el = e.currentTarget as HTMLElement;
 
       let move = (e: TouchEvent) => {
          batchUpdates(() => {
-            if (options.onMouseMove) options.onMouseMove(e, options.captureData);
+            if (options.onMouseMove) options.onMouseMove(e as any, options.captureData);
             e.preventDefault();
          });
       };
@@ -114,7 +120,7 @@ export function captureMouseOrTouch2(e: React.MouseEvent | React.TouchEvent, opt
             el.removeEventListener("touchmove", move);
             el.removeEventListener("touchend", end);
 
-            if (options.onMouseUp) options.onMouseUp(e);
+            if (options.onMouseUp) options.onMouseUp(e as any);
 
             e.preventDefault();
          });
@@ -124,7 +130,7 @@ export function captureMouseOrTouch2(e: React.MouseEvent | React.TouchEvent, opt
       el.addEventListener("touchend", end);
 
       e.stopPropagation();
-   } else captureMouse2(e as React.MouseEvent, options);
+   } else captureMouse2(e, options);
 }
 
 /**
@@ -140,7 +146,7 @@ export function captureMouse(
    onMouseMove?: (e: MouseEvent | TouchEvent, captureData?: any) => void,
    onMouseUp?: (e: MouseEvent | TouchEvent, captureData?: any) => void,
    captureData?: any,
-   cursor?: string
+   cursor?: string,
 ): void {
    captureMouse2(e, {
       onMouseMove,
@@ -159,11 +165,11 @@ export function captureMouse(
  * @param cursor - CSS cursor style for the capture surface
  */
 export function captureMouseOrTouch(
-   e: React.MouseEvent | React.TouchEvent,
-   onMouseMove?: (e: MouseEvent | TouchEvent, captureData?: any) => void,
-   onMouseUp?: (e: MouseEvent | TouchEvent, captureData?: any) => void,
+   e: React.MouseEvent | React.TouchEvent | MouseEvent | TouchEvent,
+   onMouseMove?: (e: MouseEvent, captureData?: any) => void,
+   onMouseUp?: (e: MouseEvent, captureData?: any) => void,
    captureData?: any,
-   cursor?: string
+   cursor?: string,
 ): void {
    captureMouseOrTouch2(e, { onMouseMove, onMouseUp, captureData, cursor });
 }
@@ -173,9 +179,10 @@ export function captureMouseOrTouch(
  * @param e - Mouse or touch event (React or native)
  * @returns Object with clientX and clientY coordinates adjusted for parent frame offset
  */
-export function getCursorPos(
-   e: React.MouseEvent | React.TouchEvent | MouseEvent | TouchEvent
-): { clientX: number; clientY: number } {
+export function getCursorPos(e: React.MouseEvent | React.TouchEvent | MouseEvent | TouchEvent): {
+   clientX: number;
+   clientY: number;
+} {
    let p = (e as TouchEvent).touches?.[0] || (e as MouseEvent);
    let offset = getParentFrameBoundingClientRect(e.target as Element);
    return {

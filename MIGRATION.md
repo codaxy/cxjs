@@ -12,6 +12,8 @@ This document captures patterns and best practices learned during the migration 
 6. [Type Casting Patterns](#type-casting-patterns)
 7. [Component Props and State](#component-props-and-state)
 8. [Common Fixes](#common-fixes)
+9. [JSX Components](#jsx-components)
+10. [Class Constructors](#class-constructors)
 
 ---
 
@@ -308,20 +310,67 @@ prepareData(context: RenderingContext, instance: HtmlElementInstance): void {
 
 ---
 
+## JSX Components
+
+### Adding the JSX Pragma
+
+For components that render JSX in their `render` method, add the JSX pragma at the top of the file:
+
+```typescript
+/** @jsxImportSource react */
+
+import { BoundedObject, BoundedObjectConfig } from "../svg/BoundedObject";
+// ... rest of imports
+```
+
+This tells TypeScript/Babel to use React's JSX factory for transforming JSX syntax.
+
+### When to Add the Pragma
+- Any `.tsx` file that contains JSX syntax (e.g., `<g>`, `<div>`, `<rect>`)
+- Files with `render()` methods that return JSX elements
+- Files that use VDOM components
+
+---
+
+## Class Constructors
+
+### Always Add a Constructor
+
+Every widget class should have an explicit constructor that accepts the config type:
+
+```typescript
+export class MyWidget extends BoundedObject<MyWidgetConfig, MyWidgetInstance> {
+   constructor(config?: MyWidgetConfig) {
+      super(config);
+   }
+
+   // ... rest of the class
+}
+```
+
+### Why Add Constructors
+- Provides proper type inference when creating widgets
+- Ensures config properties are correctly typed
+- Makes the class API explicit and self-documenting
+
+---
+
 ## Migration Checklist
 
 When migrating a widget from JS to TS:
 
 1. [ ] Remove `//@ts-nocheck` directive
-2. [ ] Create `{WidgetName}Config` interface extending appropriate parent
-3. [ ] Add generic type parameters to base class if needed
-4. [ ] Add `declare` statements for all class properties
-5. [ ] Add type annotations to all methods
-6. [ ] Create custom instance interface if needed
-7. [ ] Fix prototype initializations (use `undefined` not `null` where needed)
-8. [ ] Declare `baseClass` as non-nullable if defined in prototype
-9. [ ] Verify with `npx tsc --noEmit`
-10. [ ] Delete the corresponding `.d.ts` file
+2. [ ] Add JSX pragma `/** @jsxImportSource react */` if file contains JSX
+3. [ ] Create `{WidgetName}Config` interface extending appropriate parent
+4. [ ] Add generic type parameters to base class if needed
+5. [ ] Add constructor accepting the config type
+6. [ ] Add `declare` statements for all class properties
+7. [ ] Add type annotations to all methods
+8. [ ] Create custom instance interface if needed
+9. [ ] Fix prototype initializations (use `undefined` not `null` where needed)
+10. [ ] Declare `baseClass` as non-nullable if defined in prototype
+11. [ ] Verify with `yarn check-types` in packages/cx
+12. [ ] Delete the corresponding `.d.ts` file
 
 ---
 

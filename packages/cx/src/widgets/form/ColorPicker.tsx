@@ -397,7 +397,7 @@ class ColorPickerComponent extends VDOM.Component<ColorPickerComponentProps, Col
       let el = e.currentTarget;
       let bounds = el.getBoundingClientRect();
 
-      let move = (e: React.MouseEvent | React.TouchEvent) => {
+      let move = (e: MouseEvent) => {
          let pos = getCursorPos(e);
          let x = Math.max(0, Math.min(1, (pos.clientX + 1 - bounds.left) / (el as HTMLElement).offsetWidth));
          this.setColorProp({
@@ -406,7 +406,7 @@ class ColorPickerComponent extends VDOM.Component<ColorPickerComponentProps, Col
       };
 
       captureMouseOrTouch(e, move);
-      move(e);
+      move(e as any);
    }
 
    onAlphaSelect(e: React.MouseEvent | React.TouchEvent): void {
@@ -416,7 +416,7 @@ class ColorPickerComponent extends VDOM.Component<ColorPickerComponentProps, Col
       let el = e.currentTarget;
       let bounds = getTopLevelBoundingClientRect(el);
 
-      let move = (e: React.MouseEvent | React.TouchEvent) => {
+      let move = (e: MouseEvent | React.MouseEvent) => {
          let pos = getCursorPos(e);
          let x = Math.max(0, Math.min(1, (pos.clientX + 1 - bounds.left) / (el as HTMLElement).offsetWidth));
          this.setColorProp({
@@ -425,7 +425,7 @@ class ColorPickerComponent extends VDOM.Component<ColorPickerComponentProps, Col
       };
 
       captureMouseOrTouch(e, move);
-      move(e);
+      move(e as any);
    }
 
    onSLSelect(e: React.MouseEvent | React.TouchEvent): void {
@@ -435,7 +435,7 @@ class ColorPickerComponent extends VDOM.Component<ColorPickerComponentProps, Col
       let el = e.currentTarget;
       let bounds = getTopLevelBoundingClientRect(el);
 
-      let move = (e: React.MouseEvent | React.TouchEvent) => {
+      let move = (e: MouseEvent) => {
          let pos = getCursorPos(e);
          let x = Math.max(0, Math.min(1, (pos.clientX + 1 - bounds.left) / (el as HTMLElement).offsetWidth));
          let y = Math.max(0, Math.min(1, (pos.clientY + 1 - bounds.top) / (el as HTMLElement).offsetWidth));
@@ -448,7 +448,7 @@ class ColorPickerComponent extends VDOM.Component<ColorPickerComponentProps, Col
       };
 
       captureMouseOrTouch(e, move);
-      move(e);
+      move(e as any);
    }
 
    fix255(v: number): number {
