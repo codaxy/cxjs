@@ -1,5 +1,4 @@
 import {Md} from 'docs/components/Md';
-import {ShapeRender} from "cx/src/charts";
 
 export default {
     active: {

@@ -13,9 +13,12 @@
       "react-dom": "^18.3.1"
    },
    "devDependencies": {
+      "@babel/core": "^7.26.0",
       "@types/node": "^22.10.1",
       "@types/react": "^18.3.14",
       "@types/webpack-env": "^1.18.8",
+      "babel-loader": "^9.2.1",
+      "babel-plugin-transform-cx-imports": "^24.11.0",
       "copy-webpack-plugin": "^12.0.2",
       "css-loader": "^7.1.2",
       "file-loader": "^6.2.0",

@@ -18,13 +18,16 @@
       "./charts/": "./build/charts/",
       "./charts": "./build/charts/index.js",
       "./jsx-runtime": "./build/jsx-runtime.js",
+      "./jsx-runtime.js": "./build/jsx-runtime.js",
       "./src/": "./src/",
+      "./build/": "./build/",
+      "./locale/": "./build/locale/",
       "./manifest.js": "./dist/manifest.js"
    },
    "sideEffects": false,
    "scripts": {
       "build": "node build",
-      "build2": "tsc",
+      "compile": "tsc",
       "check-types": "tsc --noEmit",
       "test": "ts-mocha -p tsconfig.mocha.json"
    },

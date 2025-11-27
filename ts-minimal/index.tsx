@@ -1,8 +1,10 @@
 import { Store } from "cx/data";
-import { bind, History, startHotAppLoop, Widget } from "cx/ui";
+import { bind, History, Widget } from "cx/ui";
 import { Debug, Timing } from "cx/util";
-import { Restate, TextField, ValidationGroup } from "cx/widgets";
+import { enableMsgBoxAlerts, enableTooltips, Restate, TextField, ValidationGroup } from "cx/widgets";
 import { TestWidget } from "./TestWidget";
+import "cx/locale/de-de.js";
+import { startHotAppLoop } from "cx/ui/app/startHotAppLoop.js";
 
 let store = new Store();
 
@@ -12,6 +14,9 @@ Widget.resetCounter();
 //Timing.enable('vdom-render');
 Timing.enable("app-loop");
 Debug.enable("app-data");
+
+enableTooltips();
+enableMsgBoxAlerts();
 
 History.connect(store, "url");
 

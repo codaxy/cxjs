@@ -26,7 +26,8 @@
       "strictPropertyInitialization": false,
       "noImplicitThis": true,
       "alwaysStrict": true,
-      "downlevelIteration": true
+      "downlevelIteration": true,
+      "removeComments": false
    },
    "exclude": ["dist", "build", "**/*.spec.*"],
    "include": ["src"]

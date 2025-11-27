@@ -22,28 +22,17 @@ let common = {
          },
          {
             test: /\.(ts|tsx)$/,
-            include: /(ts-minimal)/,
             exclude: /node_modules/,
-            use: [
-               {
-                  loader: "babel-loader",
-                  options: {
-                     plugins: [["transform-cx-imports", { useSrc: true }]],
-                  },
-               },
-               {
-                  loader: "ts-loader",
-                  options: {
-                     colors: false,
-                     logLevel: "info",
-                  },
-               },
-            ],
+            loader: "ts-loader",
+            options: {
+               colors: false,
+               logLevel: "info",
+            },
          },
       ],
    },
    entry: {
-      app: [__dirname + "/index.tsx", __dirname + "/index.scss"],
+      app: __dirname + "/index.tsx",
    },
    output: {
       path: __dirname,
@@ -85,19 +74,7 @@ if (production) {
          rules: [
             {
                test: /\.scss$/,
-               use: [
-                  MiniCssExtractPlugin.loader,
-                  "css-loader",
-                  {
-                     loader: "sass-loader",
-                     options: {
-                        sassOptions: {
-                           quietDeps: true,
-                           silenceDeprecations: ["legacy-js-api", "import", "global-builtin"],
-                        },
-                     },
-                  },
-               ],
+               use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
             },
             {
                test: /\.css$/,
@@ -132,19 +109,7 @@ if (production) {
          rules: [
             {
                test: /\.scss$/,
-               use: [
-                  "style-loader",
-                  "css-loader",
-                  {
-                     loader: "sass-loader",
-                     options: {
-                        sassOptions: {
-                           quietDeps: true,
-                           silenceDeprecations: ["legacy-js-api", "import", "global-builtin"],
-                        },
-                     },
-                  },
-               ],
+               use: ["style-loader", "css-loader", "sass-loader"],
             },
             {
                test: /\.css$/,
@@ -170,7 +135,7 @@ if (production) {
       devServer: {
          //contentBase: "/",
          hot: true,
-         port: 8090,
+         port: 8088,
          //noInfo: false,
          //inline: true,
          historyApiFallback: true,

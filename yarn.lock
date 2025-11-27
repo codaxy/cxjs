@@ -4594,7 +4594,7 @@ __metadata:
     "@types/node": "npm:^22.10.1"
     "@types/react": "npm:^18.3.14"
     babel-loader: "npm:^9.2.1"
-    babel-plugin-transform-cx-imports: "npm:^21.3.0"
+    babel-plugin-transform-cx-imports: "npm:^24.11.0"
     babel-plugin-transform-cx-jsx: "npm:^21.3.0"
     babel-preset-cx-env: "npm:^24.0.0"
     casual: "npm:^1.6.2"
@@ -5492,11 +5492,11 @@ __metadata:
     ts-loader: "npm:^9.5.1"
     typescript: "npm:^5.9.3"
     url-loader: "npm:^4.1.1"
-    webpack: "npm:^5.97.1"
+    webpack: "npm:^5.103.0"
     webpack-bundle-analyzer: "npm:^4.10.2"
     webpack-cli: "npm:^5.1.4"
     webpack-combine-loaders: "npm:^2.0.4"
-    webpack-dev-server: "npm:^5.1.0"
+    webpack-dev-server: "npm:^5.2.2"
     webpack-merge: "npm:^6.0.1"
     whatwg-fetch: "npm:^3.6.20"
   languageName: unknown
@@ -9677,9 +9677,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "ts-minimal@workspace:ts-minimal"
   dependencies:
+    "@babel/core": "npm:^7.26.0"
     "@types/node": "npm:^22.10.1"
     "@types/react": "npm:^18.3.14"
     "@types/webpack-env": "npm:^1.18.8"
+    babel-loader: "npm:^9.2.1"
+    babel-plugin-transform-cx-imports: "npm:^24.11.0"
     copy-webpack-plugin: "npm:^12.0.2"
     css-loader: "npm:^7.1.2"
     cx: "npm:^25.10.0"
@@ -10190,7 +10193,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"webpack-dev-server@npm:^5.1.0, webpack-dev-server@npm:^5.2.2":
+"webpack-dev-server@npm:^5.2.2":
   version: 5.2.2
   resolution: "webpack-dev-server@npm:5.2.2"
   dependencies:
@@ -10273,7 +10276,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"webpack@npm:^5.103.0, webpack@npm:^5.97.1":
+"webpack@npm:^5.103.0":
   version: 5.103.0
   resolution: "webpack@npm:5.103.0"
   dependencies:

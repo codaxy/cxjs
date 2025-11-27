@@ -4,7 +4,7 @@ import { Timing, Debug } from "cx/util";
 import { enableTooltips } from "cx/widgets";
 //css
 //import "./style";
-//import Routes from "./routes";
+import Routes from "./routes";
 import { registerStore } from "./routes/hmr";
 
 enableTooltips();
@@ -25,14 +25,7 @@ function start() {
    registerStore(store);
 
    //app loop
-   let stop = startHotAppLoop(
-      module,
-      document.getElementById("app"),
-      store,
-      <cx>
-         <div>Test</div>
-      </cx>,
-   );
+   let stop = startHotAppLoop(module, document.getElementById("app"), store, Routes);
 }
 
 start();

@@ -1,8 +1,8 @@
-import {PureContainerBase, PureContainerConfig} from './PureContainer';
-import {isPromise} from '../util/isPromise';
-import {RenderingContext} from './RenderingContext';
-import {BooleanProp, StructuredProp} from './Prop';
-import {Instance} from './Instance';
+import { PureContainerBase, PureContainerConfig } from "./PureContainer";
+import { isPromise } from "../util/isPromise";
+import { RenderingContext } from "./RenderingContext";
+import { BooleanProp, StructuredProp } from "./Prop";
+import { Instance } from "./Instance";
 
 export interface ContentResolverConfig extends PureContainerConfig {
    /** Parameters that trigger content resolution when changed. */
@@ -24,14 +24,14 @@ export class ContentResolver extends PureContainerBase<ContentResolverConfig> {
    }
 
    declare mode: "replace" | "prepend" | "append";
-   onResolve?: string | ((params: any, instance: Instance) => any);
+   declare onResolve?: string | ((params: any, instance: Instance) => any);
    declare initialItems: any;
 
    declareData(...args: any[]): void {
       super.declareData(...args, {
-         params: {structured: true},
-         loading: undefined
-      })
+         params: { structured: true },
+         loading: undefined,
+      });
    }
 
    init(): void {
@@ -46,22 +46,20 @@ export class ContentResolver extends PureContainerBase<ContentResolverConfig> {
    }
 
    prepareData(context: RenderingContext, instance: any): void {
-      let {data} = instance;
+      let { data } = instance;
 
       if (data.params !== instance.cachedParams && this.onResolve) {
          instance.cachedParams = data.params;
          let content = instance.invoke("onResolve", data.params, instance);
          if (isPromise(content)) {
-            instance.set('loading', true);
+            instance.set("loading", true);
             this.setContent(instance, null);
             content.then((cnt: any) => {
                this.setContent(instance, cnt);
-               instance.setState({cacheBuster: {}});
-               instance.set('loading', false);
-            })
-         }
-         else
-            this.setContent(instance, content);
+               instance.setState({ cacheBuster: {} });
+               instance.set("loading", false);
+            });
+         } else this.setContent(instance, content);
       }
    }
 
@@ -69,12 +67,12 @@ export class ContentResolver extends PureContainerBase<ContentResolverConfig> {
       if (content) {
          this.clear();
          switch (this.mode) {
-            case 'prepend':
+            case "prepend":
                this.add(content);
                this.add(this.initialItems);
                break;
 
-            case 'append':
+            case "append":
                this.add(this.initialItems);
                this.add(content);
                break;
@@ -85,19 +83,15 @@ export class ContentResolver extends PureContainerBase<ContentResolverConfig> {
          }
          instance.content = this.layout ? this.layout.items : this.items;
          this.clear();
-      }
-      else
-         instance.content = this.initialItems;
+      } else instance.content = this.initialItems;
    }
 
    explore(context: RenderingContext, instance: any): void {
       //a little bit hacky
-      if (this.layout)
-         this.layout.items = instance.content;
-      else
-         this.items = instance.content;
+      if (this.layout) this.layout.items = instance.content;
+      else this.items = instance.content;
       super.explore(context, instance);
    }
 }
 
-ContentResolver.prototype.mode = 'replace';
+ContentResolver.prototype.mode = "replace";
