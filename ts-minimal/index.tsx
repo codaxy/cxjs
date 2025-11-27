@@ -1,7 +1,7 @@
 import { Store } from "cx/data";
 import { bind, History, startHotAppLoop, Widget } from "cx/ui";
 import { Debug, Timing } from "cx/util";
-import { Restate, TextField, ValidationGroup, Validator } from "cx/widgets";
+import { Restate, TextField, ValidationGroup } from "cx/widgets";
 import { TestWidget } from "./TestWidget";
 
 let store = new Store();

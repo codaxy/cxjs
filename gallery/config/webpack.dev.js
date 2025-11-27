@@ -4,9 +4,9 @@ var webpack = require("webpack"),
    path = require("path");
 
 var specific = {
-   module: {
-      rules: [],
-   },
+   // module: {
+   //    rules: [],
+   // },
    mode: "development",
    optimization: { moduleIds: "named" },
    output: {
@@ -14,7 +14,7 @@ var specific = {
    },
    devtool: "eval",
    devServer: {
-      //contentBase: path.join(__dirname, ".."),
+      //static: path.join(__dirname, ".."),
       hot: true,
       port: 8088,
       historyApiFallback: true,

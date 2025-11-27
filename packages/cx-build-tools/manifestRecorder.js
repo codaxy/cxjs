@@ -49,10 +49,6 @@ module.exports = function (manifest, paths, pkgSrc) {
                      srcPath = imports[path][name];
                   }
 
-                  if (name == "jsx") {
-                     console.log(name, srcPath, paths);
-                  }
-
                   for (var key in paths) {
                      if (path.indexOf(key) == 0) {
                         var jsPath = srcPath.substring(pkgSrc.length + 1);

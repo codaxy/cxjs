@@ -22,7 +22,7 @@ let common = {
          },
          {
             test: /\.(ts|tsx)$/,
-            //include: /(ts-minimal)/,
+            include: /(ts-minimal)/,
             exclude: /node_modules/,
             loader: "ts-loader",
             options: {

@@ -22,7 +22,6 @@
       "intl": "^1.2.5",
       "plural": "^1.1.0",
       "react": "^18.3.1",
-      "react-dev-utils": "^12.0.1",
       "react-dom": "^18.3.1",
       "whatwg-fetch": "^3.6.20"
    },
@@ -46,17 +45,17 @@
       "mini-css-extract-plugin": "^2.9.2",
       "modify-babel-preset": "^3.2.1",
       "sass": "^1.77.8",
-      "sass-loader": "^16.0.1",
+      "sass-loader": "^16.0.6",
       "style-loader": "^4.0.0",
       "svg-url-loader": "^8.0.0",
       "ts-loader": "^9.5.1",
       "typescript": "^5.9.3",
       "url-loader": "^4.1.1",
-      "webpack": "^5.97.1",
+      "webpack": "^5.103.0",
       "webpack-bundle-analyzer": "^4.10.2",
       "webpack-cli": "^5.1.4",
       "webpack-combine-loaders": "^2.0.4",
-      "webpack-dev-server": "^5.1.0",
+      "webpack-dev-server": "^5.2.2",
       "webpack-merge": "^6.0.1"
    }
 }

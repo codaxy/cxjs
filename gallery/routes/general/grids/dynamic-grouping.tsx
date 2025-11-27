@@ -1,5 +1,5 @@
-import { Grid, HtmlElement, LookupField, Section, cx } from "cx/widgets";
 import { Controller, bind } from "cx/ui";
+import { Grid, LookupField, Section } from "cx/widgets";
 import casual from "../../../util/casual";
 import "../../../util/plural";
 

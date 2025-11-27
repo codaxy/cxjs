@@ -7,7 +7,7 @@
       "moduleResolution": "bundler",
       "esModuleInterop": true,
       "allowJs": true,
-      "types": ["node", "webpack-env"],
+      "types": ["webpack-env"],
       "outDir": "dist",
       "target": "esnext"
    },
