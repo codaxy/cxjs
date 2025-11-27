@@ -3290,7 +3290,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-plugin-transform-cx-imports@workspace:packages/babel-plugin-transform-cx-imports":
+"babel-plugin-transform-cx-imports@npm:^24.11.0, babel-plugin-transform-cx-imports@workspace:packages/babel-plugin-transform-cx-imports":
   version: 0.0.0-use.local
   resolution: "babel-plugin-transform-cx-imports@workspace:packages/babel-plugin-transform-cx-imports"
   dependencies:
@@ -5265,6 +5265,7 @@ __metadata:
     inline-manifest-webpack-plugin: "npm:^4.0.2"
     json-loader: "npm:^0.5.7"
     mini-css-extract-plugin: "npm:^2.9.2"
+    mocha: "npm:^10.8.2"
     modify-babel-preset: "npm:^3.2.1"
     path-browserify: "npm:^1.0.1"
     prettier: "npm:^3.3.3"
@@ -5578,7 +5579,7 @@ __metadata:
     "@types/node": "npm:^22.10.1"
     "@types/react": "npm:^18.3.14"
     babel-loader: "npm:^9.2.1"
-    babel-plugin-transform-cx-imports: "npm:^21.3.0"
+    babel-plugin-transform-cx-imports: "npm:^24.11.0"
     babel-plugin-transform-cx-jsx: "npm:^21.3.0"
     babel-preset-cx-env: "npm:^24.0.0"
     casual: "npm:^1.6.2"

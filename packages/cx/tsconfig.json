@@ -28,6 +28,6 @@
       "alwaysStrict": true,
       "downlevelIteration": true
    },
-   "exclude": ["dist", "build"],
+   "exclude": ["dist", "build", "**/*.spec.*"],
    "include": ["src"]
 }

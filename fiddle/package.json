@@ -7,7 +7,8 @@
    "scripts": {
       "build": "webpack",
       "build:root": "webpack",
-      "start": "webpack-dev-server --open"
+      "start": "webpack-dev-server --open",
+      "test": "mocha --require @babel/register app/**/*.spec.js"
    },
    "repository": {
       "type": "git",
@@ -64,6 +65,7 @@
       "inline-manifest-webpack-plugin": "^4.0.2",
       "json-loader": "^0.5.7",
       "mini-css-extract-plugin": "^2.9.2",
+      "mocha": "^10.8.2",
       "modify-babel-preset": "^3.2.1",
       "sass": "^1.77.8",
       "sass-loader": "^16.0.1",

@@ -1,6 +1,6 @@
-import { isAccessorChain } from "../../../src/data/createAccessorModelProxy";
 import { Selection, SelectionOptions } from "./Selection";
 import { View } from "../../data/View";
+import { isAccessorChain } from "../../data/createAccessorModelProxy";
 
 export class PropertySelection extends Selection {
    records?: any;

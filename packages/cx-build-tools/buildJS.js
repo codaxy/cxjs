@@ -48,13 +48,19 @@ module.exports = function build(srcPath, distPath, entries, paths, externals) {
          }),
          babel({
             babelHelpers: "bundled",
-            presets: babelConfig.presets,
-            plugins: [...babelConfig.plugins, manifestRecorder(manifest, paths, (build ?? src)("."))],
-            extensions: [".js", ".jsx", ".ts", ".tsx"],
+            //presets: babelConfig.presets,
+            plugins: [
+               //...babelConfig.plugins,
+               manifestRecorder(manifest, paths, (build ?? src)(".")),
+            ],
+            extensions: [
+               ".js",
+               //".jsx", ".ts", ".tsx"
+            ],
          }),
          importAlias({
             paths: paths,
-            path: srcPath, //src('./' + e.name + '/')
+            path: build("."), //src('./' + e.name + '/')
          }),
          prettier({
             tabWidth: 2,

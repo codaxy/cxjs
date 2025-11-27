@@ -57,6 +57,13 @@ const entries = [
       },
       output: {},
    },
+   {
+      name: "jsx-runtime",
+      options: {
+         input: cxBuild("jsx-runtime.js"),
+      },
+      output: {},
+   },
 ];
 
 const externalPaths = {
@@ -67,6 +74,7 @@ const externalPaths = {
    [cxBuild("./charts")]: "cx/charts",
    [cxBuild("./svg/")]: "cx/svg",
    [cxBuild("./hooks/")]: "cx/hooks",
+   [cxBuild("./jsx-runtime")]: "cx/jsx-runtime",
 };
 
 (async function buildAll() {
