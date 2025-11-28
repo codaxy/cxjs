@@ -1,20 +1,20 @@
 /** @jsxImportSource react */
 
 import { PureContainer } from "./PureContainer";
-import { SubscribableView } from "../data/SubscribableView";
+import { SubscribableView, SubscribableViewConfig } from "../data/SubscribableView";
 import { getSelector } from "../data/getSelector";
 import { Cx } from "./Cx";
 import { VDOM } from "./Widget";
-import { IsolatedScope } from "./IsolatedScope";
+import { IsolatedScope, IsolatedScopeConfig } from "./IsolatedScope";
 import { Instance } from "./Instance";
-import { SubscribableViewConfig } from "../data/SubscribableView";
+import { StructuredProp } from "./Prop";
 
 interface ContainmentStoreConfig extends SubscribableViewConfig {
    selector: any;
 }
 
 class ContainmentStore extends SubscribableView<any> {
-   selector: any;
+   declare selector: any;
    declare cache: {
       version: number;
       data?: any;
@@ -24,6 +24,11 @@ class ContainmentStore extends SubscribableView<any> {
       parentStoreData?: any;
       containedData?: any;
    };
+
+   constructor(config: ContainmentStoreConfig) {
+      super(config);
+      this.selector = config.selector;
+   }
 
    getData() {
       return this.store!.getData();
@@ -61,13 +66,37 @@ export interface DetachedScopeInstance extends Instance {
    subStore: ContainmentStore;
 }
 
-export class DetachedScope extends IsolatedScope<any, DetachedScopeInstance> {
+export interface DetachedScopeConfig extends IsolatedScopeConfig {
+   /**
+    * A single binding path or a list of paths to be monitored for changes.
+    * Use `exclusive` as a shorthand for defining the `exclusiveData` object.
+    */
    exclusive?: string | string[];
-   exclusiveData?: any;
-   container?: any;
+
+   /**
+    * Exclusive data selector. If only exclusive data change, the scope will be re-rendered
+    * without recalculating other elements on the page.
+    * Use in case if the scope uses both exclusive and shared data.
+    */
+   exclusiveData?: StructuredProp;
+
+   /** Name of the scope used for debugging/reporting purposes. */
    name?: string;
+
+   /** Options passed to the Cx component. */
    options?: any;
-   onError?: any;
+
+   /** Error handler for the detached scope. */
+   onError?: (error: Error, instance: Instance, info: any) => void;
+}
+
+export class DetachedScope extends IsolatedScope<DetachedScopeConfig, DetachedScopeInstance> {
+   declare exclusive?: string | string[];
+   declare exclusiveData?: any;
+   declare container?: any;
+   declare name?: string;
+   declare options?: any;
+   declare onError?: any;
 
    declareData(...args: any[]) {
       return super.declareData(...args, {
@@ -103,7 +132,7 @@ export class DetachedScope extends IsolatedScope<any, DetachedScopeInstance> {
 
    initInstance(context: any, instance: DetachedScopeInstance) {
       const config: ContainmentStoreConfig = {
-         store: instance.store,
+         store: instance.parentStore,
          selector: getSelector(this.exclusiveData || this.data),
       };
       instance.subStore = new ContainmentStore(config);

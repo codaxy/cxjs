@@ -17,7 +17,14 @@
       "Bash(cat package.json)",
       "Bash(curl:*)",
       "Bash(yarn check-types:*)",
-      "Bash(yarn test)"
+      "Bash(yarn test)",
+      "Bash(claude mcp list:*)",
+      "mcp__playwright__browser_navigate",
+      "mcp__playwright__browser_tabs",
+      "mcp__playwright__browser_console_messages",
+      "mcp__playwright__browser_network_requests",
+      "mcp__playwright__browser_snapshot",
+      "mcp__playwright__browser_wait_for"
     ],
     "deny": [],
     "ask": []

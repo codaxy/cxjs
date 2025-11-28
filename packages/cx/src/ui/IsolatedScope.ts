@@ -1,13 +1,25 @@
 import { PureContainerBase, PureContainerConfig } from "./PureContainer";
 import { isArray } from "../util/isArray";
 import { Instance } from "./Instance";
+import { StructuredProp } from "./Prop";
+
+export interface IsolatedScopeConfig extends PureContainerConfig {
+   /**
+    * A single binding path or a list of paths to be monitored for changes.
+    * Use `bind` as a shorthand for defining the `data` object.
+    */
+   bind?: string | string[];
+
+   /** Data object selector. The children will update only if `data` change. */
+   data?: StructuredProp;
+}
 
 export class IsolatedScope<
-   Config extends PureContainerConfig = PureContainerConfig,
+   Config extends IsolatedScopeConfig = IsolatedScopeConfig,
    InstanceType extends Instance = Instance,
 > extends PureContainerBase<Config, InstanceType> {
    declare bind?: string | string[];
-   declare data?: any;
+   declare data?: StructuredProp;
 
    declareData(...args: any[]) {
       return super.declareData(...args, {
@@ -18,10 +30,11 @@ export class IsolatedScope<
    init() {
       if (typeof this.bind === "string") this.data = { bind: this.bind };
       else if (isArray(this.bind)) {
-         this.data = {};
+         let data: Record<string, any> = {};
          this.bind.forEach((x, i) => {
-            this.data[String(i)] = { bind: x };
+            data[String(i)] = { bind: x };
          });
+         this.data = data;
       }
       super.init();
    }
