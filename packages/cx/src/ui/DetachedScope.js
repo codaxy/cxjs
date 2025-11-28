@@ -39,7 +39,7 @@ export class DetachedScope extends IsolatedScope {
 
    initInstance(context, instance) {
       instance.subStore = new ContainmentStore({
-         store: instance.store,
+         store: instance.parentStore,
          selector: getSelector(this.exclusiveData || this.data),
       });
    }
