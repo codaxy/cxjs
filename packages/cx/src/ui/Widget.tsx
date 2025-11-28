@@ -91,8 +91,8 @@ export abstract class Widget<
 > extends Component {
    public widgetId?: number;
    declare public vdomKey?: string | number;
-   public jsxSpread?: Record<string, any>[];
-   public jsxAttributes?: string[];
+   declare public jsxSpread?: Record<string, any>[];
+   declare public jsxAttributes?: string[];
    declare public styles?: any;
    declare public style?: any;
    declare public styled: boolean;
@@ -101,7 +101,7 @@ export abstract class Widget<
    declare public outerLayout?: Widget;
    declare public contentFor?: string;
    declare public putInto?: string;
-   public isContent?: boolean;
+   declare public isContent?: boolean;
    declare public CSS: typeof CSS;
    public initialized?: boolean;
    public components?: Record<string, any>;

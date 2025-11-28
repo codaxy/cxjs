@@ -34,7 +34,7 @@ export class LabelsLeftLayout extends PureContainer {
       let { children, data } = instance;
       let { CSS, baseClass } = this;
 
-      let labelClass = CSS!.expand(CSS!.element(baseClass!, "label"), data.labelClass);
+      let labelClass = CSS.expand(CSS.element(baseClass!, "label"), data.labelClass);
 
       const addItem = (r: any, key: string) => {
          if (!r) return;
@@ -46,7 +46,7 @@ export class LabelsLeftLayout extends PureContainer {
                   <td className={labelClass} style={data.labelStyle}>
                      {getContent(r.label)}
                   </td>
-                  <td className={CSS!.element(baseClass!, "field")}>{validContent(r)}</td>
+                  <td className={CSS.element(baseClass!, "field")}>{validContent(r)}</td>
                </tr>,
             );
          }

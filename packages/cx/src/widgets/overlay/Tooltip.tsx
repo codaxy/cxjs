@@ -194,7 +194,7 @@ export function getTooltipInstance(
    tooltip: TooltipProp | undefined,
    options: TooltipHelperOptions = {},
 ) {
-   let target = options.target || (e instanceof Element ? e : e.currentTarget) || e;
+   let target = options.target || (e instanceof Element ? e : e?.currentTarget) || e;
 
    debug(tooltipsFlag, "mouse-move", target, parentInstance);
 

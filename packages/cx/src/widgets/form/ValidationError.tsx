@@ -1,7 +1,8 @@
-import type { RenderingContext } from "../../ui/RenderingContext";
+/** @jsxImportSource react */
+
 import type { Instance } from "../../ui/Instance";
-import { Widget, VDOM } from "../../ui/Widget";
-import * as React from "react";
+import type { RenderingContext } from "../../ui/RenderingContext";
+import { Widget } from "../../ui/Widget";
 
 interface ValidationErrorData {
    visible?: boolean;
@@ -52,7 +53,12 @@ export class ValidationError extends Widget {
    render(context: RenderingContext, instance: ValidationErrorInstance, key: string): React.ReactElement {
       var { data } = instance;
       return (
-         <label key={key} className={data.classNames as string} htmlFor={data.fieldId} style={data.style as React.CSSProperties}>
+         <label
+            key={key}
+            className={data.classNames as string}
+            htmlFor={data.fieldId}
+            style={data.style as React.CSSProperties}
+         >
             {data.errorMessage}
          </label>
       );
