@@ -411,6 +411,48 @@ export { FlexBox, FlexBoxConfig } from "./FlexBox";
 [ ] dropdownOptions might typed as DropdownConfig?
 [ ] Properly type Component.create, Widget.create, etc.
 
+---
+
+## Documentation Comparison Testing
+
+After migrating widgets, compare the local documentation site against the production site to detect runtime errors.
+
+### Setup
+
+1. **Start documentation server:**
+   ```bash
+   cd docs && yarn start
+   ```
+   Local server runs at http://localhost:8065
+
+2. **Start TypeScript watch compilation (optional):**
+   ```bash
+   cd packages/cx && yarn compile -w
+   ```
+
+3. **Set up Playwright MCP for browser automation:**
+   ```bash
+   claude mcp add --transport stdio --scope local playwright -- npx -y @playwright/mcp@latest
+   ```
+
+### Testing Process
+
+1. Navigate through documentation pages on both local (localhost:8065) and production (docs.cxjs.io)
+2. Check browser console for errors on local site
+3. Compare rendered output between sites
+4. After fixing bugs, run `yarn compile` in `packages/cx` (HMR will reload)
+
+### Common Migration Bugs
+
+1. **Missing declare statements** - TypeScript class fields without `declare` overwrite values from `Object.assign(this, config)` in parent constructors, causing undefined properties
+
+2. **Missing Config interfaces** - Widgets need proper Config interfaces extending parent configs. Reference online `.d.ts` files for proper typing:
+   ```
+   https://github.com/codaxy/cxjs/blob/master/packages/cx/src/ui/{WidgetName}.d.ts
+   ```
+
+---
+
 ## Finalization
 
 [ ] Check online .d.ts files for all widgets at the end
