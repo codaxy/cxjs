@@ -1,10 +1,10 @@
-import type { RenderingContext } from "../../ui/RenderingContext";
-import type { Instance, RenderProps } from "../../ui/Instance";
-import { Widget, VDOM } from "../../ui/Widget";
-import { HtmlElement, HtmlElementInstance } from "../HtmlElement";
+/** @jsxImportSource react */
 import { FocusManager } from "../../ui/FocusManager";
-import { isArray } from "../../util/isArray";
+import type { Instance, RenderProps } from "../../ui/Instance";
+import type { RenderingContext } from "../../ui/RenderingContext";
 import { coalesce } from "../../util/coalesce";
+import { isArray } from "../../util/isArray";
+import { HtmlElement, HtmlElementInstance } from "../HtmlElement";
 
 export class Label extends HtmlElement {
    declareData(...args: Record<string, unknown>[]): void {

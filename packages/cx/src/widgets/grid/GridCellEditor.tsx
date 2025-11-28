@@ -1,8 +1,9 @@
-//@ts-nocheck
+/** @jsxImportSource react */
 import { ContainerBase, StyledContainerConfig } from "../../ui/Container";
 import { VDOM } from "../../ui/VDOM";
 import { findFirstChild, isFocusable, isFocusedDeep } from "../../util/DOM";
-import { getActiveElement } from "../../util/getActiveElement";
+import { Instance } from "../../ui/Instance";
+import { RenderingContext } from "../../ui/RenderingContext";
 
 export interface GridCellEditorConfig extends StyledContainerConfig {}
 
@@ -11,7 +12,7 @@ export class GridCellEditor extends ContainerBase<GridCellEditorConfig> {
       super(config);
    }
 
-   render(context, instance, key) {
+   render(context: RenderingContext, instance: Instance, key: string) {
       let { data } = instance;
       return (
          <GridCellEditorCmp key={key} className={data.className} style={data.style}>
@@ -23,7 +24,15 @@ export class GridCellEditor extends ContainerBase<GridCellEditorConfig> {
 
 GridCellEditor.prototype.styled = true;
 
-class GridCellEditorCmp extends VDOM.Component {
+interface GridCellEditorCmpProps {
+   className?: string;
+   style?: React.CSSProperties;
+   children?: React.ReactNode;
+}
+
+class GridCellEditorCmp extends VDOM.Component<GridCellEditorCmpProps> {
+   el: HTMLDivElement | null = null;
+
    render() {
       let { className, style, children } = this.props;
 
@@ -35,8 +44,8 @@ class GridCellEditorCmp extends VDOM.Component {
    }
 
    componentDidMount() {
-      if (!isFocusedDeep(this.el)) {
-         let focusableChild = findFirstChild(this.el, isFocusable);
+      if (!isFocusedDeep(this.el!)) {
+         let focusableChild = findFirstChild(this.el!, isFocusable);
          if (focusableChild) focusableChild.focus();
       }
    }

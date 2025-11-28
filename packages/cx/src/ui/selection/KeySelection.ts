@@ -3,14 +3,42 @@ import { isArray } from "../../util/isArray";
 import { isNonEmptyArray } from "../../util/isNonEmptyArray";
 import { shallowEquals } from "../../util/shallowEquals";
 import { View } from "../../data/View";
+import { Prop } from "../Prop";
+
+export interface KeySelectionConfig {
+   /** Binding path for selection state. */
+   bind?: string;
+
+   /** Set to `true` to allow multiple selection. */
+   multiple?: boolean;
+
+   /** Name of the field used as a key. Default is `id`. */
+   keyField?: string;
+
+   /** Storage format. Can be `array` or `hash`. Default is `array`. */
+   storage?: string;
+
+   /** Selection binding configuration. */
+   selection?: Prop<any>;
+
+   /** Record binding. */
+   record?: Prop<any>;
+
+   /** Index binding. */
+   index?: Prop<any>;
+}
 
 export class KeySelection extends Selection {
-   selection?: any;
-   key?: any;
-   keyField?: string | false;
-   keyFields?: string[];
-   initialized?: boolean;
-   storage?: string;
+   declare selection: any;
+   declare key: any;
+   declare keyField: string | false;
+   declare keyFields: string[];
+   declare initialized: boolean;
+   declare storage: string;
+
+   constructor(config?: KeySelectionConfig) {
+      super(config);
+   }
 
    init(): void {
       if (this.bind && !this.selection)
@@ -52,7 +80,7 @@ export class KeySelection extends Selection {
          {
             $selection: { structured: true },
          },
-         ...args
+         ...args,
       );
    }
 
@@ -134,4 +162,4 @@ KeySelection.prototype.keyField = "id";
 KeySelection.prototype.storage = "array";
 (KeySelection as any).autoInit = true;
 
-(Selection as any).alias("key", KeySelection);
+Selection.alias("key", KeySelection);

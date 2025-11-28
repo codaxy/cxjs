@@ -1,3 +1,4 @@
+/** @jsxImportSource react */
 import { Instance } from "../ui/Instance";
 import type { RenderingContext } from "../ui/RenderingContext";
 import { Widget, WidgetConfig } from "../ui/Widget";

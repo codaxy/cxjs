@@ -1,3 +1,4 @@
+/** @jsxImportSource react */
 import { TooltipConfig, TooltipOptions, TooltipParentInstance } from "../overlay/tooltip-ops";
 import { isSelector } from "../../data/isSelector";
 import { FocusManager } from "../../ui/FocusManager";
@@ -156,7 +157,9 @@ export class Field<
    declare public emptyValue?: unknown;
    declare public requiredText?: string;
    declare public validatingText?: string;
-   declare public onValidate?: string | ((value: unknown, instance: Instance, validationParams: Record<string, unknown>) => unknown);
+   declare public onValidate?:
+      | string
+      | ((value: unknown, instance: Instance, validationParams: Record<string, unknown>) => unknown);
    declare public validationExceptionText?: string;
    declare public onValidationException?: string | ((error: unknown, instance: Instance) => void);
    declare public onKeyDown?: string | ((e: React.KeyboardEvent, instance: Instance) => boolean | void);

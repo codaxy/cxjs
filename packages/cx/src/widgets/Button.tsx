@@ -1,3 +1,4 @@
+/** @jsxImportSource react */
 import { Widget, VDOM, getContentArray } from "../ui/Widget";
 import { HtmlElement, HtmlElementConfig, HtmlElementInstance } from "./HtmlElement";
 import { yesNo } from "./overlay/alerts";

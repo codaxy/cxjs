@@ -1,10 +1,38 @@
 import { Selection, SelectionOptions } from "./Selection";
 import { View } from "../../data/View";
 import { isAccessorChain } from "../../data/createAccessorModelProxy";
+import { Binding } from "../Prop";
+
+export interface PropertySelectionConfig {
+   /** Name of the field used to indicate selection. Default is `selected`. */
+   selectedField?: string;
+
+   /** Set to `true` to allow multiple selection. */
+   multiple?: boolean;
+
+   /** Name of the field used as a key. */
+   keyField?: string;
+
+   /** Record binding. */
+   record?: Binding;
+
+   /** Records binding. */
+   records?: Binding;
+
+   /** Index binding. */
+   index?: Binding;
+
+   /** Binding path for selection state. */
+   bind?: string;
+}
 
 export class PropertySelection extends Selection {
-   records?: any;
-   selectedField: string;
+   declare records: any;
+   declare selectedField: string;
+
+   constructor(config?: PropertySelectionConfig) {
+      super(config);
+   }
 
    selectMultiple(store: View, records: any[], indexes: any[], { toggle, add }: SelectionOptions = {}): any {
       if (this.toggle) toggle = true;
