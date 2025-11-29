@@ -1,12 +1,13 @@
-//@ts-nocheck
-import { SubscriberList } from "../../util/SubscriberList";
+/** @jsxImportSource react */
 import { getCursorPos, captureMouseOrTouch, CursorPosition } from "../overlay/captureMouse";
 import { startAppLoop } from "../../ui/app/startAppLoop";
 import { View } from "../../data/View";
+import type { RenderingContext } from "../../ui/RenderingContext";
+import type { Instance } from "../../ui/Instance";
 
 export interface DragEvent {
    type: "dragstart" | "dragmove" | "dragdrop";
-   event: React.SyntheticEvent<any>;
+   event: MouseEvent | TouchEvent | React.MouseEvent | React.TouchEvent;
    cursor: CursorPosition;
    source: {
       width: number;
@@ -36,6 +37,7 @@ export interface IDropZone {
    onDropTest?: (e: DragEvent) => boolean;
    onDragStart?: DragEventHandler;
    onDragAway?: DragEventHandler;
+   onDragNear?: DragEventHandler;
    onDragEnd?: DragEventHandler;
    onDragMeasure?: (
       e: DragEvent,
@@ -60,22 +62,37 @@ import { getTopLevelBoundingClientRect } from "../../util/getTopLevelBoundingCli
 import { VDOM } from "../../ui/VDOM";
 import { Container } from "../../ui/Container";
 import { Console } from "../../util";
+import { WidgetConfig } from "../../ui";
 
-let dropZones = new SubscriberList(),
-   dragStartedZones,
-   activeZone,
-   nearZones,
-   puppet,
-   scrollTimer,
-   vscrollParent,
-   hscrollParent;
+interface Puppet {
+   deltaX: number;
+   deltaY: number;
+   el: HTMLDivElement;
+   clone: any;
+   source: any;
+   onDragEnd?: (e?: DragEvent) => void;
+   stop?: () => void;
+}
+
+let dropZones: IDropZone[] = [];
+let dragStartedZones: WeakMap<IDropZone, boolean> | null = null;
+let activeZone: IDropZone | null = null;
+let nearZones: WeakMap<IDropZone, boolean> | null = null;
+let puppet: Puppet | null = null;
+let scrollTimer: number | null = null;
+let vscrollParent: Element | null = null;
+let hscrollParent: Element | null = null;
 
 export function registerDropZone(dropZone: IDropZone): UnregisterFunction {
-   return dropZones.subscribe(dropZone);
+   dropZones.push(dropZone);
+   return () => {
+      let index = dropZones.indexOf(dropZone);
+      if (index !== -1) dropZones.splice(index, 1);
+   };
 }
 
 export function initiateDragDrop(
-   e: React.MouseEvent | React.TouchEvent,
+   e: MouseEvent | TouchEvent | React.MouseEvent | React.TouchEvent,
    options: DragDropOptions = {},
    onDragEnd?: (e?: DragEvent) => void,
 ): void {
@@ -84,7 +101,7 @@ export function initiateDragDrop(
       notifyDragDrop(e);
    }
 
-   let sourceEl = options.sourceEl || e.currentTarget;
+   let sourceEl = options.sourceEl || (e.currentTarget as Element);
    let sourceBounds = getTopLevelBoundingClientRect(sourceEl);
    let cursor = getCursorPos(e);
 
@@ -103,7 +120,7 @@ export function initiateDragDrop(
 
    if (clone.matchSize || clone.matchHeight) cloneEl.style.height = `${Math.ceil(sourceBounds.height)}px`;
 
-   cloneEl.style.zIndex = ZIndexManager.next() + 1000;
+   cloneEl.style.zIndex = String(ZIndexManager.next() + 1000);
 
    if (clone.cloneContent) {
       cloneEl.appendChild(sourceEl.cloneNode(true));
@@ -140,11 +157,7 @@ export function initiateDragDrop(
    };
 
    if (clone.widget && clone.store && !clone.cloneContent) {
-      let content = (
-         <cx>
-            <ContextWrap value={{ disabled: true }}>{clone.widget}</ContextWrap>
-         </cx>
-      );
+      let content = { $type: ContextWrap, value: { disabled: true }, children: clone.widget } as WidgetConfig;
       puppet.stop = startAppLoop(cloneEl, clone.store, content, {
          removeParentDOMElement: true,
       });
@@ -158,7 +171,7 @@ export function initiateDragDrop(
 
    dragStartedZones = new WeakMap();
 
-   dropZones.execute((zone) => {
+   dropZones.forEach((zone) => {
       if (zone.onDropTest)
          try {
             if (!zone.onDropTest(event)) return;
@@ -169,35 +182,36 @@ export function initiateDragDrop(
 
       if (zone.onDragStart) zone.onDragStart(event);
 
-      dragStartedZones.set(zone, true);
+      dragStartedZones!.set(zone, true);
    });
 
-   notifyDragMove(e);
+   notifyDragMove(e, null);
 
    captureMouseOrTouch(e, notifyDragMove, notifyDragDrop);
 }
 
-function notifyDragMove(e, captureData) {
+function notifyDragMove(e: React.MouseEvent | React.TouchEvent | MouseEvent | TouchEvent, _captureData: any): void {
    let event = getDragEvent(e, "dragmove");
-   let over = null,
-      overTest = null,
-      best = null;
+   let over: IDropZone | null = null,
+      overTest: any = null,
+      best: number | null = null;
 
-   let near = [],
-      away = [];
+   let near: IDropZone[] = [],
+      away: IDropZone[] = [];
 
-   dropZones.execute((zone) => {
+   for (let zone of dropZones) {
       let test;
       try {
          test = zone.onDropTest && zone.onDropTest(event);
-         if (!test) return;
+         if (!test) continue;
       } catch (err) {
          //the problem is already reported, so here we just swallow the bug to avoid spammming the console too much
-         return;
+         continue;
       }
 
       if (zone.onDragMeasure) {
-         let result = zone.onDragMeasure(event, { test }) || {};
+         let result = zone.onDragMeasure(event, { test });
+         if (!result) continue;
 
          if (result.near) near.push(zone);
          else away.push(zone);
@@ -208,19 +222,19 @@ function notifyDragMove(e, captureData) {
             best = result.over;
          }
       }
-   });
+   }
 
-   let newNear = new WeakMap();
+   let newNear = new WeakMap<IDropZone, boolean>();
 
    if (nearZones != null) {
       away.forEach((z) => {
-         if (z.onDragAway && nearZones.has(z)) z.onDragAway(z);
+         if (z.onDragAway && nearZones!.has(z)) z.onDragAway(event);
       });
    }
 
    near.forEach((z) => {
       if (z.onDragNear && z != over && (nearZones == null || !nearZones.has(z))) {
-         z.onDragNear(z);
+         z.onDragNear(event);
          newNear.set(z, true);
       }
    });
@@ -237,8 +251,8 @@ function notifyDragMove(e, captureData) {
    if (over != activeZone && over) {
       if (over.onDragEnter) over.onDragEnter(event);
 
-      vscrollParent = over.onGetVScrollParent && over.onGetVScrollParent({ test: overTest });
-      hscrollParent = over.onGetHScrollParent && over.onGetHScrollParent({ test: overTest });
+      vscrollParent = (over.onGetVScrollParent && over.onGetVScrollParent({ test: overTest })) || null;
+      hscrollParent = (over.onGetHScrollParent && over.onGetHScrollParent({ test: overTest })) || null;
    }
 
    activeZone = over;
@@ -249,8 +263,8 @@ function notifyDragMove(e, captureData) {
 
    //do it last to avoid forced redraw if nothing changed
    let cursor = getCursorPos(e);
-   puppet.el.style.left = `${cursor.clientX - puppet.deltaX}px`;
-   puppet.el.style.top = `${cursor.clientY - puppet.deltaY}px`;
+   puppet!.el.style.left = `${cursor.clientX - puppet!.deltaX}px`;
+   puppet!.el.style.top = `${cursor.clientY - puppet!.deltaY}px`;
 
    if (vscrollParent || hscrollParent) {
       let scrollX = 0,
@@ -275,20 +289,20 @@ function notifyDragMove(e, captureData) {
          if (!scrollTimer) {
             let cb = () => {
                if (scrollY) {
-                  let current = vscrollParent.scrollTop;
+                  let current = vscrollParent!.scrollTop;
                   let next = Math.min(
-                     vscrollParent.scrollHeight,
+                     vscrollParent!.scrollHeight,
                      Math.max(0, current + (scrollY * 5 * Math.min(200, Math.max(50, event.source.height))) / 60),
                   ); //60 FPS
-                  vscrollParent.scrollTop = next;
+                  vscrollParent!.scrollTop = next;
                }
                if (scrollX) {
-                  let current = hscrollParent.scrollLeft;
+                  let current = hscrollParent!.scrollLeft;
                   let next = Math.min(
-                     hscrollParent.scrollWidth,
+                     hscrollParent!.scrollWidth,
                      Math.max(0, current + (scrollX * 5 * Math.min(200, Math.max(50, event.source.width))) / 60),
                   ); //60 FPS
-                  hscrollParent.scrollLeft = next;
+                  hscrollParent!.scrollLeft = next;
                }
                scrollTimer = requestAnimationFrame(cb);
             };
@@ -307,24 +321,24 @@ function clearScrollTimer() {
    }
 }
 
-function notifyDragDrop(e) {
+function notifyDragDrop(e: MouseEvent | TouchEvent | React.MouseEvent | React.TouchEvent): void {
    clearScrollTimer();
 
    let event = getDragEvent(e, "dragdrop");
 
-   if (puppet.stop) puppet.stop();
+   if (puppet!.stop) puppet!.stop();
 
    if (activeZone && activeZone.onDrop) event.result = activeZone.onDrop(event);
 
-   dropZones.execute((zone) => {
-      if (nearZones != null && zone.onDragAway && nearZones.has(zone)) zone.onDragAway(e);
+   dropZones.forEach((zone) => {
+      if (nearZones != null && zone.onDragAway && nearZones.has(zone)) zone.onDragAway(event);
 
-      if (!dragStartedZones.has(zone)) return;
+      if (!dragStartedZones!.has(zone)) return;
 
       if (zone.onDragEnd) zone.onDragEnd(event);
    });
 
-   if (puppet.onDragEnd) puppet.onDragEnd(event);
+   if (puppet!.onDragEnd) puppet!.onDragEnd(event);
 
    nearZones = null;
    activeZone = null;
@@ -332,21 +346,30 @@ function notifyDragDrop(e) {
    dragStartedZones = null;
 }
 
-function getDragEvent(e, type) {
+function getDragEvent(
+   event: MouseEvent | TouchEvent | React.MouseEvent | React.TouchEvent,
+   type: DragEvent["type"],
+): DragEvent {
    return {
       type: type,
-      event: e,
-      cursor: getCursorPos(e),
-      source: puppet.source,
+      event,
+      cursor: getCursorPos(event),
+      source: puppet!.source,
    };
 }
 
-let dragCandidate = {};
+interface DragCandidate {
+   el?: EventTarget | null;
+   start?: CursorPosition;
+   timeStamp?: number;
+}
 
-export function ddMouseDown(e: React.SyntheticEvent<any>): void {
+let dragCandidate: DragCandidate = {};
+
+export function ddMouseDown(e: React.MouseEvent | React.TouchEvent): void {
    //do not allow that the same event is processed by multiple drag sources
    //the first (top-level) source should be a drag-candidate
-   if (e.timeStamp <= dragCandidate.timeStamp) return;
+   if (dragCandidate.timeStamp != null && e.timeStamp <= dragCandidate.timeStamp) return;
 
    dragCandidate = {
       el: e.currentTarget,
@@ -362,6 +385,7 @@ export function ddMouseUp(): void {
 export function ddDetect(e: MouseEvent | TouchEvent | React.TouchEvent | React.MouseEvent): void | true {
    let cursor = getCursorPos(e);
    if (
+      dragCandidate.start &&
       e.currentTarget == dragCandidate.el &&
       Math.abs(cursor.clientX - dragCandidate.start.clientX) + Math.abs(cursor.clientY - dragCandidate.start.clientY) >=
          2
@@ -381,12 +405,14 @@ export function isDragHandleEvent(e: React.SyntheticEvent<any>): boolean {
    return lastDragHandle && (e.target == lastDragHandle || lastDragHandle.contains(e.target));
 }
 
-export const DragDropContext = VDOM.createContext
-   ? VDOM.createContext({ disabled: false })
-   : ({ children }) => children;
+export const DragDropContext = (
+   VDOM.createContext ? VDOM.createContext({ disabled: false }) : ({ children }: { children: any }) => children
+) as React.Context<{ disabled: boolean }>;
 
 class ContextWrap extends Container {
-   render(context, instance, key) {
+   declare value: any;
+
+   render(context: RenderingContext, instance: Instance, key: string): React.ReactNode {
       return (
          <DragDropContext.Provider value={this.value} key={key}>
             {this.renderChildren(context, instance)}

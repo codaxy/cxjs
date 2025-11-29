@@ -22,7 +22,7 @@ import {
    DragEvent,
    DragDropOperationContext,
 } from "../drag-drop/ops";
-import { GridRow, GridRowComponent } from "./GridRow";
+import { GridRow, GridRowComponent, GridRowInstance } from "./GridRow";
 import { Localization } from "../../ui/Localization";
 import { SubscriberList } from "../../util/SubscriberList";
 import { RenderingContext } from "../../ui/RenderingContext";
@@ -79,7 +79,7 @@ import { HtmlElement } from "../HtmlElement";
 type FetchRecordsResult<T> = T[] | { records: T[]; lastPage?: boolean; totalRecordCount?: number };
 
 interface MappedGridRecord<T = any> extends DataAdapterRecord<T> {
-   row?: Instance;
+   row?: GridRowInstance;
    vdom?: any;
    fixedVdom?: any;
    grouping?: any;
@@ -1001,7 +1001,7 @@ export class Grid<T = unknown> extends ContainerBase<GridConfig<T>, GridInstance
          for (let i = 0; i < instance.records!.length; i++) {
             let record = instance.records![i];
             if (record.type == "data") {
-               let row = (record.row = instance.getChild(context, instance.row, record.key, record.store));
+               let row = (record.row = instance.getChild(context, instance.row, record.key, record.store) as GridRowInstance);
                row.selected = instance.isSelected(record.data, record.index);
                let changed = false;
                if (row.cache("selected", row.selected)) changed = true;
@@ -2056,7 +2056,7 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
                   className={CSS.state(mod)}
                   store={store}
                   dragSource={dragSource}
-                  instance={row}
+                  instance={row!}
                   grid={instance}
                   record={record}
                   parent={this}
@@ -3745,7 +3745,7 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
             instance.row,
             "DD:" + mappedRecord.key,
             mappedRecord.store,
-         ));
+         ) as GridRowInstance);
          row.selected = true;
          selected.push(mappedRecord);
       };

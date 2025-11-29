@@ -152,8 +152,8 @@ export class Field<
    declare public labelClass?: string;
    declare public icon?: null | string;
    declare public visited?: boolean;
-   declare public labelPlacement?: string;
-   declare public helpPlacement?: string;
+   declare public labelPlacement?: string | boolean;
+   declare public helpPlacement?: string | boolean;
    declare public emptyValue?: unknown;
    declare public requiredText?: string;
    declare public validatingText?: string;
@@ -165,7 +165,7 @@ export class Field<
    declare public onKeyDown?: string | ((e: React.KeyboardEvent, instance: Instance) => boolean | void);
    declare public suppressErrorsUntilVisited?: boolean;
    declare public autoFocus?: boolean;
-   declare public helpSpacer?: string;
+   declare public helpSpacer?: boolean;
    declare public trackFocus?: boolean;
    declare public baseClass: string;
 
@@ -576,10 +576,10 @@ Field.prototype.autoFocus = false;
 Field.prototype.asterisk = false;
 Field.prototype.validatingText = "Validation is in progress...";
 Field.prototype.validationExceptionText = "Something went wrong during input validation. Check log for more details.";
-Field.prototype.helpSpacer = "true";
+Field.prototype.helpSpacer = true;
 Field.prototype.trackFocus = false; //add cxs-focus on parent element
-Field.prototype.labelPlacement = "false";
-Field.prototype.helpPlacement = "false";
+Field.prototype.labelPlacement = false;
+Field.prototype.helpPlacement = false;
 Field.prototype.emptyValue = null;
 Field.prototype.styled = true;
 

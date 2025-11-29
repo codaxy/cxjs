@@ -14,7 +14,7 @@ export interface ValidationErrorData {
    type: string;
 }
 
-interface ValidationGroupInstance extends Instance {
+export interface ValidationGroupInstance extends Instance {
    validation: {
       errors: ValidationErrorData[];
    };

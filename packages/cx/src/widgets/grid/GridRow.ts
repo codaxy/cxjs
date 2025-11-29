@@ -1,26 +1,59 @@
-//@ts-nocheck
 import { preventFocusOnTouch, unfocusElement } from "../../ui/FocusManager";
+import type { RenderingContext } from "../../ui/RenderingContext";
 import { VDOM } from "../../ui/Widget";
 import { closest } from "../../util/DOM";
 import { isTouchEvent } from "../../util/isTouchEvent";
 import { KeyCode } from "../../util/KeyCode";
-import { ValidationGroup } from "../../widgets/form/ValidationGroup";
+import { ValidationGroup, ValidationGroupConfig, ValidationGroupInstance } from "../../widgets/form/ValidationGroup";
 import { ddDetect, ddMouseDown, ddMouseUp, isDragHandleEvent } from "../drag-drop/ops";
-import { GridRowLine } from "./GridRowLine";
+import { GridRowLine, GridRowLineConfig } from "./GridRowLine";
+import type { GridInstance } from "./Grid";
 
-export class GridRow extends ValidationGroup {
-   declareData(...args) {
+export interface GridRowInstance extends ValidationGroupInstance {
+   dragHandles: any[];
+}
+
+export interface GridRowConfig extends ValidationGroupConfig {
+   hoverId?: any;
+   line0?: GridRowLineConfig;
+   line1?: GridRowLineConfig;
+   line2?: GridRowLineConfig;
+   line3?: GridRowLineConfig;
+   line4?: GridRowLineConfig;
+   line5?: GridRowLineConfig;
+   line6?: GridRowLineConfig;
+   line7?: GridRowLineConfig;
+   line8?: GridRowLineConfig;
+   line9?: GridRowLineConfig;
+   recordName?: string;
+}
+
+export class GridRow extends ValidationGroup<GridRowConfig> {
+   declare recordName?: string;
+   declare line0?: GridRowLineConfig;
+   declare line1?: GridRowLineConfig;
+   declare line2?: GridRowLineConfig;
+   declare line3?: GridRowLineConfig;
+   declare line4?: GridRowLineConfig;
+   declare line5?: GridRowLineConfig;
+   declare line6?: GridRowLineConfig;
+   declare line7?: GridRowLineConfig;
+   declare line8?: GridRowLineConfig;
+   declare line9?: GridRowLineConfig;
+
+   declareData(...args: Record<string, unknown>[]): void {
       super.declareData(...args, {
          hoverId: undefined,
       });
    }
 
-   init() {
+   init(): void {
       this.items = [];
       for (let i = 0; i < 10; i++) {
-         if (this["line" + i])
+         const lineKey = ("line" + i) as keyof GridRow;
+         if (this[lineKey])
             this.items.push(
-               GridRowLine.create(this["line" + i], {
+               GridRowLine.create(this[lineKey] as GridRowLineConfig, {
                   recordName: this.recordName,
                }),
             );
@@ -28,12 +61,12 @@ export class GridRow extends ValidationGroup {
       super.init();
    }
 
-   explore(context, instance) {
+   explore(context: RenderingContext, instance: GridRowInstance): void {
       context.push("dragHandles", (instance.dragHandles = []));
       super.explore(context, instance);
    }
 
-   exploreCleanup(context, instance) {
+   exploreCleanup(context: RenderingContext, instance: GridRowInstance): void {
       super.exploreCleanup(context, instance);
       context.pop("dragHandles");
    }
@@ -46,27 +79,35 @@ export interface GridRowComponentProps {
    className?: string;
    store?: any;
    dragSource?: any;
-   instance?: any;
-   grid?: any;
-   record?: any;
-   parent?: any;
+   instance: GridRowInstance;
+   grid: GridInstance;
+   record: any;
+   parent: any;
    cursorIndex?: number;
    selected?: boolean;
    isBeingDragged?: any;
    isDraggedOver?: boolean;
    cursor?: boolean;
-   cursorCellIndex?: any;
+   cursorCellIndex?: number | false;
    cellEdit?: any;
    onMouseLeave?: any;
-   useTrTag?: any;
-   shouldUpdate?: any;
-   dimensionsVersion?: any;
-   fixed?: any;
-   children?: any;
+   useTrTag?: boolean;
+   shouldUpdate?: boolean;
+   dimensionsVersion?: number;
+   fixed?: boolean;
+   children?: React.ReactNode;
 }
 
-export class GridRowComponent extends VDOM.Component<GridRowComponentProps> {
-   constructor(props) {
+interface GridRowComponentState {
+   hover?: boolean;
+}
+
+export class GridRowComponent extends VDOM.Component<GridRowComponentProps, GridRowComponentState> {
+   onDoubleClick?: (e: React.MouseEvent) => void;
+   onRowContextMenu?: (e: React.MouseEvent) => void;
+   unsubscribeHoverSync?: () => void;
+
+   constructor(props: GridRowComponentProps) {
       super(props);
       this.onMouseMove = this.onMouseMove.bind(this);
       this.onMouseDown = this.onMouseDown.bind(this);
@@ -95,11 +136,14 @@ export class GridRowComponent extends VDOM.Component<GridRowComponentProps> {
          };
    }
 
-   render() {
+   render(): React.ReactNode {
       let { className, dragSource, instance, record, useTrTag, children } = this.props;
       let { data, widget } = instance;
       let { CSS } = widget;
-      let move, up, keyDown, leave;
+      let move: ((e: React.MouseEvent | React.TouchEvent) => void) | undefined,
+         up: ((e: React.MouseEvent | React.TouchEvent) => void) | undefined,
+         keyDown: ((e: React.KeyboardEvent) => void) | undefined,
+         leave: ((e: React.MouseEvent) => void) | undefined;
 
       if (dragSource || data.hoverId != null) {
          move = this.onMouseMove;
@@ -110,7 +154,7 @@ export class GridRowComponent extends VDOM.Component<GridRowComponentProps> {
          leave = this.onMouseLeave;
       }
 
-      if (widget.onRowClick) keyDown = this.onKeyDown;
+      if (this.props.grid.widget.onRowClick) keyDown = this.onKeyDown;
 
       return VDOM.createElement(
          useTrTag ? "tr" : "tbody",
@@ -134,7 +178,7 @@ export class GridRowComponent extends VDOM.Component<GridRowComponentProps> {
       );
    }
 
-   onMouseDown(e) {
+   onMouseDown(e: React.MouseEvent | React.TouchEvent): void {
       let { grid, record, instance, parent, cursorIndex } = this.props;
 
       if (this.props.dragSource) {
@@ -144,7 +188,7 @@ export class GridRowComponent extends VDOM.Component<GridRowComponentProps> {
             e.stopPropagation();
 
             //close context menu
-            unfocusElement(e.target, false);
+            unfocusElement(e.target as Element, false);
          }
       }
 
@@ -167,30 +211,30 @@ export class GridRowComponent extends VDOM.Component<GridRowComponentProps> {
       if (e.shiftKey && !isTouchEvent()) e.preventDefault();
    }
 
-   onMouseMove(e) {
+   onMouseMove(e: React.MouseEvent | React.TouchEvent): void {
       let { grid, instance, parent, record } = this.props;
       if (ddDetect(e) && (isDragHandleEvent(e) || instance.dragHandles.length == 0)) parent.beginDragDrop(e, record);
       if (grid.hoverSync && instance.data.hoverId != null)
          grid.hoverSync.report(grid.widget.hoverChannel, instance.data.hoverId, true);
    }
 
-   onMouseLeave(e) {
+   onMouseLeave(e: React.MouseEvent): void {
       let { grid, instance } = this.props;
       if (grid.hoverSync && instance.data.hoverId != null)
          grid.hoverSync.report(grid.widget.hoverChannel, instance.data.hoverId, false);
    }
 
-   getCellIndex(e) {
-      let td = closest(e.target, (node) => node.tagName == "TD");
+   getCellIndex(e: React.MouseEvent | React.TouchEvent | React.KeyboardEvent): number {
+      let td = closest(e.target as Element, (node) => (node as Element).tagName == "TD") as HTMLTableCellElement | null;
       if (td)
          return (
             (this.props.fixed ? 0 : this.props.grid.fixedColumnCount) +
-            Array.from(td.parentElement.children).indexOf(td)
+            Array.from(td.parentElement!.children).indexOf(td)
          );
       return -1;
    }
 
-   onKeyDown(e) {
+   onKeyDown(e: React.KeyboardEvent): void {
       let { grid, instance } = this.props;
 
       if (e.keyCode == KeyCode.enter && grid.invoke("onRowClick", e, instance) === false) {
@@ -198,7 +242,7 @@ export class GridRowComponent extends VDOM.Component<GridRowComponentProps> {
       }
    }
 
-   onClick(e) {
+   onClick(e: React.MouseEvent): void {
       let { grid, record, instance, parent, cursorIndex } = this.props;
       let { store, widget } = grid;
 
@@ -221,7 +265,7 @@ export class GridRowComponent extends VDOM.Component<GridRowComponentProps> {
       });
    }
 
-   shouldComponentUpdate(props, state) {
+   shouldComponentUpdate(props: GridRowComponentProps, state: GridRowComponentState): boolean {
       return (
          props.shouldUpdate !== false ||
          props.record != this.props.record ||
@@ -237,14 +281,14 @@ export class GridRowComponent extends VDOM.Component<GridRowComponentProps> {
       );
    }
 
-   componentWillUnmount() {
+   componentWillUnmount(): void {
       this.unsubscribeHoverSync && this.unsubscribeHoverSync();
    }
 
-   componentDidMount() {
+   componentDidMount(): void {
       let { grid } = this.props;
       if (grid.hoverSync) {
-         this.unsubscribeHoverSync = grid.hoverSync.subscribe(grid.widget.hoverChannel, (hoverId) => {
+         this.unsubscribeHoverSync = grid.hoverSync.subscribe(grid.widget.hoverChannel, (hoverId: any) => {
             let hover = hoverId === this.props.instance.data.hoverId;
             if (!this.state || hover !== this.state.hover) this.setState({ hover });
          });
