@@ -1,5 +1,5 @@
 import { Repeater, Link } from "cx/widgets";
-import { createFunctionalComponent, computable, DataProxy } from "cx/ui";
+import { bind, createFunctionalComponent, computable } from "cx/ui";
 import { ref } from "cx/hooks";
 
 export const NavTree = createFunctionalComponent(({ tree, url, showCategory }: any) => {
@@ -23,11 +23,11 @@ export const NavTree = createFunctionalComponent(({ tree, url, showCategory }: a
             <Link href={(data) => visibleNode(data).href} text={(data) => visibleNode(data).text} url="dummy" />
          </div>
          <Repeater records={(data) => visibleNode(data).children} recordAlias="$group">
-            <div text-bind="$group.text" class="sidenav_group" />
-            <Repeater records-bind="$group.children" recordAlias="$item">
-               <Link href-bind="$item.url" url={url} text-bind="$item.text" />
+            <div text={bind("$group.text")} class="sidenav_group" />
+            <Repeater records={bind("$group.children")} recordAlias="$item">
+               <Link href={bind("$item.url")} url={url} text={bind("$item.text")} />
             </Repeater>
-            <div text-bind="$group.text" class="sidenav_group-text" />
+            <div text={bind("$group.text")} class="sidenav_group-text" />
          </Repeater>
       </cx>
    );

@@ -8,7 +8,7 @@ import Logo from "./cxjs.svg";
 // @ts-ignore
 import CodeSandboxIcon from "./CodeSandbox.svg";
 import { GitHubStarCount } from "../components/GitHubStarCount";
-import { computable, createFunctionalComponent } from "cx/ui";
+import { bind, computable, createFunctionalComponent, expr } from "cx/ui";
 import { isArray } from "cx/util";
 
 const TopLinks = createFunctionalComponent(({ topLinks, mod, alternativeLinks, children }: any) => (
@@ -19,7 +19,7 @@ const TopLinks = createFunctionalComponent(({ topLinks, mod, alternativeLinks, c
                <Link
                   href={url}
                   text={topLinks[url]}
-                  url-bind="url"
+                  url={bind("url")}
                   match="subroute"
                   mod={mod}
                   active={
@@ -64,16 +64,16 @@ export const MasterLayout = createFunctionalComponent(
                      />
                   </div>
                   <img class="master_logo" src={Logo} />
-                  <Link href="https://cxjs.io" url-bind="url" active={app == "site"}>
+                  <Link href="https://cxjs.io" url={bind("url")} active={app == "site"}>
                      Home
                   </Link>
-                  <Link href="https://docs.cxjs.io" url-bind="url" active={app == "docs"}>
+                  <Link href="https://docs.cxjs.io" url={bind("url")} active={app == "docs"}>
                      Docs
                   </Link>
-                  <Link href="https://gallery.cxjs.io" url-bind="url" active={app == "gallery"}>
+                  <Link href="https://gallery.cxjs.io" url={bind("url")} active={app == "gallery"}>
                      Gallery
                   </Link>
-                  <Link href="https://fiddle.cxjs.io" url-bind="url" active={app == "fiddle"}>
+                  <Link href="https://fiddle.cxjs.io" url={bind("url")} active={app == "fiddle"}>
                      Fiddle
                   </Link>
 
@@ -110,7 +110,7 @@ export const MasterLayout = createFunctionalComponent(
                </div>
             </div>
             {children}
-            <SideDrawer out-bind="master.drawer.icon">
+            <SideDrawer out={bind("master.drawer.icon")}>
                <div
                   class="sidenav"
                   style="height: 100%;"
@@ -118,10 +118,10 @@ export const MasterLayout = createFunctionalComponent(
                      if (e.target.nodeName == "A") store.delete("master.drawer.icon");
                   }}
                >
-                  <ContentPlaceholder name="navtree" visible-expr="{master.drawer.icon} == 'arrow'">
-                     <NavTree tree={navTree} url-bind="url" showCategory />
+                  <ContentPlaceholder name="navtree" visible={expr("{master.drawer.icon} == 'arrow'")}>
+                     <NavTree tree={navTree} url={bind("url")} showCategory />
                   </ContentPlaceholder>
-                  <div visible-expr="{master.drawer.icon} == 'close'">
+                  <div visible={expr("{master.drawer.icon} == 'close'")}>
                      <div class="sidenav_section">
                         <Link href="https://cxjs.io">Home</Link>
                      </div>
