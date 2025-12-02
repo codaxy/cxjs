@@ -6,7 +6,7 @@
       "start": "cd docs && webpack-dev-server --config webpack.config.js --open",
       "test": "yarn workspaces foreach -A --include cx --include babel-plugin-transform-cx-jsx --include babel-plugin-transform-cx-imports run test",
       "docs": "webpack-dev-server --config docs/webpack.config.js --open",
-      "build": "node packages/cx/build/index.js",
+      "build": "yarn workspace cx run compile && yarn workspace cx run build",
       "build:docs": "webpack --config docs/webpack.config.js",
       "build:docs:root": "webpack --config docs/webpack.config.js",
       "measure:docs": "webpack-dev-server --config docs/webpack.config.js --open",
