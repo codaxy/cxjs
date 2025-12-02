@@ -22,7 +22,4 @@ var specific = {
    },
 };
 
-const configuration = merge(common(false), specific);
-
-console.log(configuration);
-module.exports = configuration;
+module.exports = merge(common(false), specific);
