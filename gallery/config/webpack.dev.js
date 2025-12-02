@@ -11,6 +11,7 @@ var specific = {
    //optimization: { moduleIds: "named" },
    output: {
       publicPath: "/",
+      path: path.join(__dirname, ".."), //required for unknown reasons
    },
    //devtool: "eval",
    devServer: {
@@ -21,4 +22,7 @@ var specific = {
    },
 };
 
-module.exports = merge(common(false), specific);
+const configuration = merge(common(false), specific);
+
+console.log(configuration);
+module.exports = configuration;

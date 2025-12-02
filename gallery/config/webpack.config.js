@@ -1,7 +1,5 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin"),
-   merge = require("webpack-merge"),
    path = require("path"),
-   babelCfg = require("./babel-config"),
    p = (p) => path.join(__dirname, "../", p || ""),
    gtm = require("../../misc/tracking/gtm.js"),
    reactScripts = require("../../misc/reactScripts"),
@@ -73,6 +71,10 @@ module.exports = (production) => ({
                   loader: "sass-loader",
                   options: {
                      sourceMap: !production,
+                     sassOptions: {
+                        quietDeps: true,
+                        silenceDeprecations: ["import", "global-builtin", "color-functions", "slash-div"],
+                     },
                   },
                },
             ],
@@ -88,7 +90,6 @@ module.exports = (production) => ({
       app: [p("index.tsx")],
    },
    output: {
-      path: p("dist"),
       filename: "[name].js",
    },
    externals: {

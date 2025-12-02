@@ -3,7 +3,7 @@
    "private": true,
    "version": "1.0.0",
    "scripts": {
-      "start": "webpack-dev-server --config webpack.config.js --open",
+      "start": "webpack-dev-server --config config/webpack.dev.js --open",
       "build": "webpack --config config/webpack.prod.js",
       "check-types": "tsc --noEmit"
    },
