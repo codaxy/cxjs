@@ -6,6 +6,7 @@ const getPathResolver = require("cx-build-tools/getPathResolver"),
 
 let theme = getPathResolver(resolvePath(__dirname));
 let themeSrc = getPathResolver(theme("src"));
+let themeBuild = getPathResolver(theme("build"));
 
 async function build() {
    try {
@@ -18,7 +19,7 @@ async function build() {
                {
                   name: "index",
                   options: {
-                     input: [themeSrc("index.js")]
+                     input: [themeBuild("index.js")]
                   },
                   output: {}
                }

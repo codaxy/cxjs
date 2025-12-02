@@ -8,11 +8,11 @@ var specific = {
    //    rules: [],
    // },
    mode: "development",
-   optimization: { moduleIds: "named" },
+   //optimization: { moduleIds: "named" },
    output: {
       publicPath: "/",
    },
-   devtool: "eval",
+   //devtool: "eval",
    devServer: {
       //static: path.join(__dirname, ".."),
       hot: true,

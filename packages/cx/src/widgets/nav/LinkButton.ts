@@ -24,6 +24,9 @@ export interface LinkButtonConfig extends ButtonConfig {
     */
    match?: "equal" | "prefix" | "subroute";
 
+   /** Explicitly set the active state of the link. If not set, the active state is determined by comparing `href` and `url`. */
+   active?: Prop<boolean>;
+
    /** Additional CSS style to applied when the link is active. */
    activeStyle?: StyleProp;
 

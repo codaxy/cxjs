@@ -1,6 +1,7 @@
+/** @jsxImportSource react */
 import { VDOM } from "cx/ui";
 
-export class GitHubStarCount extends VDOM.Component {
+export class GitHubStarCount extends VDOM.Component<any> {
    render() {
       return (
          <div className="master_githubstars">

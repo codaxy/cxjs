@@ -1,5 +1,7 @@
 //@ts-nocheck
 export * from './Grid';
+export * from './GridRow';
+export * from './GridRowLine';
 export * from './TreeNode';
 export * from './Pagination';
 

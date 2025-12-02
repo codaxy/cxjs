@@ -31,7 +31,6 @@ async function build() {
             [
                themeSrc("variables.scss"),
                resolvePath("../cx-build-tools/reset.scss")
-               //themeSrc("reset.scss")
             ],
             theme("dist/reset.css")
          ),
@@ -41,7 +40,6 @@ async function build() {
                cxSrc("variables.scss"),
                cxSrc("widgets/index.scss"),
                cxSrc("ui/index.scss")
-               //themeSrc("widgets.scss")
             ],
             theme("dist/widgets.css")
          ),
@@ -50,7 +48,6 @@ async function build() {
                themeSrc("variables.scss"),
                cxSrc("variables.scss"),
                cxSrc("charts/index.scss")
-               //themeSrc("charts.scss")
             ],
             theme("dist/charts.css")
          ),
@@ -59,7 +56,6 @@ async function build() {
                themeSrc("variables.scss"),
                cxSrc("variables.scss"),
                cxSrc("svg/index.scss")
-               //themeSrc("svg.scss")
             ],
             theme("dist/svg.css")
          )

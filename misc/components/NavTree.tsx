@@ -2,15 +2,17 @@ import { Repeater, Link } from "cx/widgets";
 import { createFunctionalComponent, computable, DataProxy } from "cx/ui";
 import { ref } from "cx/hooks";
 
-export const NavTree = createFunctionalComponent(({ tree, url, showCategory }) => {
+export const NavTree = createFunctionalComponent(({ tree, url, showCategory }: any) => {
    let treeRef = ref(tree);
    let urlRef = ref(url);
 
    let visibleNode = computable(treeRef, urlRef, (tree, url) => {
       let node =
          tree &&
+         url &&
          tree?.find(
-            (item) => item.url && (url.startsWith(item.url) || item.alternativeUrls?.some((alt) => url.startsWith(alt)))
+            (item) =>
+               item.url && (url.startsWith(item.url) || item.alternativeUrls?.some((alt) => url.startsWith(alt))),
          );
       return node || { children: [] };
    });

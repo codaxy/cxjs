@@ -17,11 +17,14 @@ let common = {
    module: {
       rules: [
          {
-            test: /\.json$/,
-            loader: "json-loader",
+            test: /\.(png|jpg|svg)/,
+            loader: "file-loader",
+            options: {
+               name: "[name].ltc.[hash].[ext]",
+            },
          },
          {
-            test: /\.(ts|tsx)$/,
+            test: /\.(js|ts|tsx)$/,
             exclude: /node_modules/,
             loader: "ts-loader",
             options: {
@@ -74,7 +77,19 @@ if (production) {
          rules: [
             {
                test: /\.scss$/,
-               use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
+               use: [
+                  MiniCssExtractPlugin.loader,
+                  "css-loader",
+                  {
+                     loader: "sass-loader",
+                     options: {
+                        sassOptions: {
+                           quietDeps: true,
+                           silenceDeprecations: ["import", "global-builtin", "color-functions", "slash-div"],
+                        },
+                     },
+                  },
+               ],
             },
             {
                test: /\.css$/,
@@ -109,7 +124,24 @@ if (production) {
          rules: [
             {
                test: /\.scss$/,
-               use: ["style-loader", "css-loader", "sass-loader"],
+               use: [
+                  {
+                     loader: "style-loader",
+                     options: {
+                        injectType: "lazyStyleTag",
+                     },
+                  },
+                  "css-loader",
+                  {
+                     loader: "sass-loader",
+                     options: {
+                        sassOptions: {
+                           quietDeps: true,
+                           silenceDeprecations: ["import", "global-builtin", "color-functions", "slash-div"],
+                        },
+                     },
+                  },
+               ],
             },
             {
                test: /\.css$/,

@@ -28,7 +28,7 @@
    "scripts": {
       "build": "node build",
       "compile": "tsc",
-      "check-types": "tsc --noEmit",
+      "check-types": "tsc --noEmit -p tsconfig.check.json",
       "test": "ts-mocha -p tsconfig.mocha.json"
    },
    "author": "Codaxy",

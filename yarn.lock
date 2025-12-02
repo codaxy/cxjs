@@ -4272,45 +4272,73 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"cx-theme-aquamarine@npm:^18.7.3, cx-theme-aquamarine@workspace:packages/cx-theme-aquamarine":
+"cx-theme-aquamarine@npm:^25.12.0, cx-theme-aquamarine@workspace:packages/cx-theme-aquamarine":
   version: 0.0.0-use.local
   resolution: "cx-theme-aquamarine@workspace:packages/cx-theme-aquamarine"
+  dependencies:
+    typescript: "npm:^5.9.3"
+  peerDependencies:
+    cx: "*"
   languageName: unknown
   linkType: soft
 
-"cx-theme-dark@npm:^18.7.1, cx-theme-dark@workspace:packages/cx-theme-dark":
+"cx-theme-dark@npm:^25.12.0, cx-theme-dark@workspace:packages/cx-theme-dark":
   version: 0.0.0-use.local
   resolution: "cx-theme-dark@workspace:packages/cx-theme-dark"
+  dependencies:
+    typescript: "npm:^5.9.3"
+  peerDependencies:
+    cx: "*"
   languageName: unknown
   linkType: soft
 
-"cx-theme-frost@npm:^18.7.1, cx-theme-frost@workspace:packages/cx-theme-frost":
+"cx-theme-frost@npm:^25.12.0, cx-theme-frost@workspace:packages/cx-theme-frost":
   version: 0.0.0-use.local
   resolution: "cx-theme-frost@workspace:packages/cx-theme-frost"
+  dependencies:
+    typescript: "npm:^5.9.3"
+  peerDependencies:
+    cx: "*"
   languageName: unknown
   linkType: soft
 
-"cx-theme-material-dark@npm:^20.1.0, cx-theme-material-dark@workspace:packages/cx-theme-material-dark":
+"cx-theme-material-dark@npm:^25.12.0, cx-theme-material-dark@workspace:packages/cx-theme-material-dark":
   version: 0.0.0-use.local
   resolution: "cx-theme-material-dark@workspace:packages/cx-theme-material-dark"
+  dependencies:
+    typescript: "npm:^5.9.3"
+  peerDependencies:
+    cx: "*"
   languageName: unknown
   linkType: soft
 
-"cx-theme-material@npm:^18.7.0, cx-theme-material@workspace:packages/cx-theme-material":
+"cx-theme-material@npm:^25.12.0, cx-theme-material@workspace:packages/cx-theme-material":
   version: 0.0.0-use.local
   resolution: "cx-theme-material@workspace:packages/cx-theme-material"
+  dependencies:
+    typescript: "npm:^5.9.3"
+  peerDependencies:
+    cx: "*"
   languageName: unknown
   linkType: soft
 
-"cx-theme-packed-dark@npm:^24.4.1, cx-theme-packed-dark@workspace:packages/cx-theme-packed-dark":
+"cx-theme-packed-dark@npm:^25.12.0, cx-theme-packed-dark@workspace:packages/cx-theme-packed-dark":
   version: 0.0.0-use.local
   resolution: "cx-theme-packed-dark@workspace:packages/cx-theme-packed-dark"
+  dependencies:
+    typescript: "npm:^5.9.3"
+  peerDependencies:
+    cx: "*"
   languageName: unknown
   linkType: soft
 
-"cx-theme-space-blue@npm:^24.5.1, cx-theme-space-blue@workspace:packages/cx-theme-space-blue":
+"cx-theme-space-blue@npm:^25.12.0, cx-theme-space-blue@workspace:packages/cx-theme-space-blue":
   version: 0.0.0-use.local
   resolution: "cx-theme-space-blue@workspace:packages/cx-theme-space-blue"
+  dependencies:
+    typescript: "npm:^5.9.3"
+  peerDependencies:
+    cx: "*"
   languageName: unknown
   linkType: soft
 
@@ -4604,6 +4632,7 @@ __metadata:
     css-loader: "npm:^7.1.2"
     cx: "npm:^25.10.0"
     cx-react: "npm:^24.7.1"
+    cx-theme-aquamarine: "npm:^25.12.0"
     file-loader: "npm:^6.2.0"
     html-webpack-plugin: "npm:^5.6.3"
     if-loader: "npm:^1.0.2"
@@ -5468,13 +5497,13 @@ __metadata:
     css-loader: "npm:^7.1.2"
     cx: "npm:^25.10.0"
     cx-react: "npm:^24.7.1"
-    cx-theme-aquamarine: "npm:^18.7.3"
-    cx-theme-dark: "npm:^18.7.1"
-    cx-theme-frost: "npm:^18.7.1"
-    cx-theme-material: "npm:^18.7.0"
-    cx-theme-material-dark: "npm:^20.1.0"
-    cx-theme-packed-dark: "npm:^24.4.1"
-    cx-theme-space-blue: "npm:^24.5.1"
+    cx-theme-aquamarine: "npm:^25.12.0"
+    cx-theme-dark: "npm:^25.12.0"
+    cx-theme-frost: "npm:^25.12.0"
+    cx-theme-material: "npm:^25.12.0"
+    cx-theme-material-dark: "npm:^25.12.0"
+    cx-theme-packed-dark: "npm:^25.12.0"
+    cx-theme-space-blue: "npm:^25.12.0"
     file-loader: "npm:^6.2.0"
     html-webpack-plugin: "npm:^5.6.3"
     if-loader: "npm:^1.0.2"

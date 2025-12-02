@@ -82,9 +82,9 @@ type CxIntrinsicElements = {
 export namespace JSX {
    /**
     * Base class for JSX element instances.
-    * All widgets must extend from Widget class.
+    * All widgets must extend from Widget class or React.Component.
     */
-   export interface ElementClass extends Widget<any> {}
+   export type ElementClass = Widget<any> | React.Component<any, any>;
 
    /**
     * Intrinsic JSX elements (HTML-like tags).

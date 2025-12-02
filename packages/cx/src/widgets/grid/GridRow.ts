@@ -8,12 +8,14 @@ import { ValidationGroup, ValidationGroupConfig, ValidationGroupInstance } from 
 import { ddDetect, ddMouseDown, ddMouseUp, isDragHandleEvent } from "../drag-drop/ops";
 import { GridRowLine, GridRowLineConfig } from "./GridRowLine";
 import type { GridInstance } from "./Grid";
+import { BooleanProp, StringProp, Prop, StructuredProp } from "../../ui/Prop";
+import { WidgetStyleConfig } from "../../ui/Widget";
 
 export interface GridRowInstance extends ValidationGroupInstance {
    dragHandles: any[];
 }
 
-export interface GridRowConfig extends ValidationGroupConfig {
+export interface GridRowConfig extends ValidationGroupConfig, WidgetStyleConfig {
    hoverId?: any;
    line0?: GridRowLineConfig;
    line1?: GridRowLineConfig;
@@ -26,6 +28,9 @@ export interface GridRowConfig extends ValidationGroupConfig {
    line8?: GridRowLineConfig;
    line9?: GridRowLineConfig;
    recordName?: string;
+   invalid?: BooleanProp;
+   valid?: BooleanProp;
+   mod?: StringProp | Prop<string[]> | StructuredProp;
 }
 
 export class GridRow extends ValidationGroup<GridRowConfig> {

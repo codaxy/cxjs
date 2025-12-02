@@ -1,8 +1,14 @@
-import { HtmlElement } from 'cx/widgets';
+/** @jsxImportSource react */
+import { HtmlElement, HtmlElementConfig } from 'cx/widgets';
 import { closest } from 'cx/util';
 import { VDOM } from 'cx/ui';
+import { StructuredProp } from 'cx/ui';
 
-export class ScrollReset extends HtmlElement {
+export interface ScrollResetConfig extends HtmlElementConfig {
+    trigger?: StructuredProp;
+}
+
+export class ScrollReset extends HtmlElement<ScrollResetConfig> {
 
     declareData() {
         super.declareData(...arguments, {
@@ -26,9 +32,11 @@ export class ScrollReset extends HtmlElement {
     }
 }
 
-class ScrollResetComponent extends VDOM.Component {
+class ScrollResetComponent extends VDOM.Component<any> {
+    el: HTMLElement | null = null;
+    trigger: any;
 
-    shouldComponentUpdate(props) {
+    shouldComponentUpdate(props: any) {
         return props.shouldUpdate;
     }
 
@@ -49,7 +57,7 @@ class ScrollResetComponent extends VDOM.Component {
         var trigger = this.props.data.trigger;
         if (this.trigger != trigger) {
             this.trigger = trigger;
-            var parent = closest(this.el, x => x.scrollTop != 0);
+            var parent = closest(this.el, (x: HTMLElement) => x.scrollTop != 0);
             if (parent)
                 parent.scrollTop = 0;
         }

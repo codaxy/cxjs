@@ -1,17 +1,37 @@
 {
-  "name": "cx-theme-aquamarine",
-  "version": "18.7.3",
-  "description": "Aquamarine theme CSS styles for Cx applications",
-  "main": "./dist/index.js",
-  "author": "Codaxy",
-  "license": "SEE LICENSE.md",
-  "scripts": {
-    "build": "node build"
-  },
-  "files": [
-    "README.md",
-    "LICENSE.md",
-    "src",
-    "dist"
-  ]
+   "name": "cx-theme-aquamarine",
+   "version": "25.12.0",
+   "description": "Aquamarine theme CSS styles for Cx applications",
+   "main": "./build/index.js",
+   "types": "./build/index.d.ts",
+   "exports": {
+      ".": {
+         "types": "./build/index.d.ts",
+         "default": "./build/index.js"
+      },
+      "./src/": "./src/",
+      "./build/": "./build/",
+      "./dist/": "./dist/"
+   },
+   "sideEffects": true,
+   "author": "Codaxy",
+   "license": "SEE LICENSE.md",
+   "scripts": {
+      "build": "node build",
+      "compile": "tsc",
+      "check-types": "tsc --noEmit"
+   },
+   "files": [
+      "README.md",
+      "LICENSE.md",
+      "src",
+      "dist",
+      "build"
+   ],
+   "peerDependencies": {
+      "cx": "*"
+   },
+   "devDependencies": {
+      "typescript": "^5.9.3"
+   }
 }

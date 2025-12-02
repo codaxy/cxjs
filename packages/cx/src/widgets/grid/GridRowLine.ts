@@ -1,23 +1,27 @@
 import { Container, ContainerConfig } from "../../ui/Container";
 import { Widget } from "../../ui/Widget";
-import { GridCell, GridCellConfig } from "./GridCell";
+import { GridCell } from "./GridCell";
+import type { GridColumnConfig } from "./Grid";
 import { RenderingContext } from "../../ui/RenderingContext";
 import { Instance } from "../../ui/Instance";
 import { BooleanProp } from "../../ui/Prop";
 
 export interface GridRowLineConfig extends ContainerConfig {
    /** Array of column configurations for this row line. */
-   columns?: GridCellConfig[];
+   columns?: GridColumnConfig[];
 
    /** Record alias used for data binding. */
    recordName?: string;
 
    /** Whether this row line is visible. */
    visible?: BooleanProp;
+
+   /** Whether to show the header row for this line. */
+   showHeader?: BooleanProp;
 }
 
 export class GridRowLine extends Container {
-   declare columns?: GridCellConfig[];
+   declare columns?: GridColumnConfig[];
    declare recordName?: string;
 
    constructor(config?: GridRowLineConfig) {

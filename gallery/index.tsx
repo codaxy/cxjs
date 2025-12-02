@@ -3,7 +3,7 @@ import { Url, History, startHotAppLoop, enableCultureSensitiveFormatting } from 
 import { Timing, Debug } from "cx/util";
 import { enableTooltips } from "cx/widgets";
 //css
-//import "./style";
+import "./style";
 import Routes from "./routes";
 import { registerStore } from "./routes/hmr";
 

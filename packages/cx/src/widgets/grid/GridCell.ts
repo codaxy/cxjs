@@ -1,11 +1,11 @@
-import { PureContainerBase, PureContainerConfig } from "../../ui/PureContainer";
+import { StyledContainerBase, StyledContainerConfig } from "../../ui";
 import { Format } from "../../ui/Format";
-import { isUndefined } from "../../util/isUndefined";
 import { Instance } from "../../ui/Instance";
-import { RenderingContext } from "../../ui/RenderingContext";
 import { BooleanProp, NumberProp, Prop, StringProp } from "../../ui/Prop";
+import { RenderingContext } from "../../ui/RenderingContext";
+import { isUndefined } from "../../util/isUndefined";
 
-export interface GridCellConfig extends PureContainerConfig {
+export interface GridCellConfig extends StyledContainerConfig {
    /** Selector used to obtain the value that should be displayed inside the cell. Not required if `field` is used. */
    value?: StringProp | NumberProp;
 
@@ -61,7 +61,7 @@ export interface GridCellConfig extends PureContainerConfig {
    uniqueColumnId?: string;
 }
 
-export class GridCell extends PureContainerBase<GridCellConfig> {
+export class GridCell extends StyledContainerBase<GridCellConfig> {
    declare value?: StringProp | NumberProp;
    declare field?: string;
    declare recordName?: string;
@@ -139,6 +139,5 @@ export class GridCell extends PureContainerBase<GridCellConfig> {
 }
 
 GridCell.prototype.pad = true;
-GridCell.prototype.styled = true;
 GridCell.prototype.fixed = false;
 GridCell.prototype.merged = false;

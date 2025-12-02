@@ -1,60 +1,20 @@
 /** @jsxImportSource react */
 import * as React from "react";
-import { Widget, VDOM, getContent, WidgetConfig } from "../../ui/Widget";
-import { PureContainer, PureContainerBase, PureContainerConfig } from "../../ui/PureContainer";
+import { View } from "../../data";
+import { Binding } from "../../data/Binding";
+import { getAccessor } from "../../data/getAccessor";
 import { getSelector } from "../../data/getSelector";
 import { isSelector } from "../../data/isSelector";
-import { Format } from "../../ui/Format";
-import { Selection } from "../../ui/selection/Selection";
-import { DataAdapter } from "../../ui/adapter/DataAdapter";
+import { ArrayAdapter } from "../../ui/adapter/ArrayAdapter";
+import { DataAdapter, DataAdapterRecord } from "../../ui/adapter/DataAdapter";
 import { GroupAdapter } from "../../ui/adapter/GroupAdapter";
-import { ResizeManager } from "../../ui/ResizeManager";
-import { KeyCode } from "../../util/KeyCode";
-import { scrollElementIntoView } from "../../util/scrollElementIntoView";
-import { findScrollableParent } from "../../util/findScrollableParent";
-import { FocusManager, oneFocusOut, offFocusOut } from "../../ui/FocusManager";
-import DropDownIcon from "../icons/sort-asc";
-import {
-   ddMouseDown,
-   ddDetect,
-   initiateDragDrop,
-   registerDropZone,
-   DragEvent,
-   DragDropOperationContext,
-} from "../drag-drop/ops";
-import { GridRow, GridRowComponent, GridRowInstance } from "./GridRow";
-import { Localization } from "../../ui/Localization";
-import { SubscriberList } from "../../util/SubscriberList";
-import { RenderingContext } from "../../ui/RenderingContext";
-import { isNonEmptyArray } from "../../util/isNonEmptyArray";
-import { isObject } from "../../util/isObject";
-import { isString } from "../../util/isString";
-import { isDefined } from "../../util/isDefined";
-import { isArray } from "../../util/isArray";
-import { isNumber } from "../../util/isNumber";
-import { debounce } from "../../util/debounce";
-import { shallowEquals } from "../../util/shallowEquals";
-import { InstanceCache, Instance } from "../../ui/Instance";
-import { Cx } from "../../ui/Cx";
-import { Console } from "../../util/Console";
-import { getTopLevelBoundingClientRect } from "../../util/getTopLevelBoundingClientRect";
-import { getParentFrameBoundingClientRect } from "../../util/getParentFrameBoundingClientRect";
-import { ValidationGroup } from "../form/ValidationGroup";
-import { closest } from "../../util/DOM";
-import { captureMouse2, getCursorPos } from "../overlay/captureMouse";
-import { getAccessor } from "../../data/getAccessor";
-import { getActiveElement } from "../../util/getActiveElement";
-import { GridCellEditor } from "./GridCellEditor";
-import { createGridCellEditor } from "./createGridCellEditor";
 import { batchUpdates } from "../../ui/batchUpdates";
-import { parseStyle } from "../../util/parseStyle";
-import { StaticText } from "../../ui/StaticText";
-import { unfocusElement } from "../../ui/FocusManager";
-import { tooltipMouseMove, tooltipMouseLeave } from "../overlay/tooltip-ops";
-import { Container, ContainerBase, StyledContainerConfig } from "../../ui/Container";
-import { findFirstChild } from "../../util/DOM";
-import { Binding } from "../../data/Binding";
-import { DataAdapterRecord } from "../../ui/adapter/DataAdapter";
+import { ContainerBase, StyledContainerConfig } from "../../ui/Container";
+import { Cx } from "../../ui/Cx";
+import { FocusManager, offFocusOut, oneFocusOut, unfocusElement } from "../../ui/FocusManager";
+import { Format } from "../../ui/Format";
+import { Instance, InstanceCache } from "../../ui/Instance";
+import { Localization } from "../../ui/Localization";
 import {
    BooleanProp,
    ClassProp,
@@ -71,10 +31,46 @@ import {
    StyleProp,
    UnknownProp,
 } from "../../ui/Prop";
-import { ArrayAdapter } from "../../ui/adapter/ArrayAdapter";
+import { PureContainer, PureContainerBase, PureContainerConfig } from "../../ui/PureContainer";
+import { RenderingContext } from "../../ui/RenderingContext";
+import { ResizeManager } from "../../ui/ResizeManager";
+import { Selection } from "../../ui/selection/Selection";
+import { StaticText } from "../../ui/StaticText";
+import { getContent, VDOM, Widget, WidgetConfig } from "../../ui/Widget";
+import { Console } from "../../util/Console";
+import { debounce } from "../../util/debounce";
+import { closest, findFirstChild } from "../../util/DOM";
+import { findScrollableParent } from "../../util/findScrollableParent";
+import { getActiveElement } from "../../util/getActiveElement";
+import { getParentFrameBoundingClientRect } from "../../util/getParentFrameBoundingClientRect";
+import { getTopLevelBoundingClientRect } from "../../util/getTopLevelBoundingClientRect";
+import { isArray } from "../../util/isArray";
+import { isDefined } from "../../util/isDefined";
+import { isNonEmptyArray } from "../../util/isNonEmptyArray";
+import { isNumber } from "../../util/isNumber";
+import { isObject } from "../../util/isObject";
+import { isString } from "../../util/isString";
 import { isTextInputElement } from "../../util/isTextInputElement";
-import { View } from "../../data";
+import { KeyCode } from "../../util/KeyCode";
+import { parseStyle } from "../../util/parseStyle";
+import { scrollElementIntoView } from "../../util/scrollElementIntoView";
+import { shallowEquals } from "../../util/shallowEquals";
+import { SubscriberList } from "../../util/SubscriberList";
+import {
+   ddDetect,
+   ddMouseDown,
+   DragDropOperationContext,
+   DragEvent,
+   initiateDragDrop,
+   registerDropZone,
+} from "../drag-drop/ops";
 import { HtmlElement } from "../HtmlElement";
+import DropDownIcon from "../icons/sort-asc";
+import { captureMouse2, getCursorPos } from "../overlay/captureMouse";
+import { tooltipMouseLeave, tooltipMouseMove } from "../overlay/tooltip-ops";
+import { createGridCellEditor } from "./createGridCellEditor";
+import { GridRow, GridRowComponent, GridRowConfig, GridRowInstance } from "./GridRow";
+export { GridRowConfig };
 
 type FetchRecordsResult<T> = T[] | { records: T[]; lastPage?: boolean; totalRecordCount?: number };
 
@@ -248,23 +244,6 @@ export interface GridColumnConfig {
 
    mergeCells?: Prop<null | false | "same-value" | "always">;
    primarySortDirection?: "ASC" | "DESC";
-}
-
-export interface GridRowLineConfig {
-   visible?: BooleanProp;
-   columns: GridColumnConfig[];
-}
-
-export interface GridRowConfig {
-   invalid?: BooleanProp;
-   valid?: BooleanProp;
-   style?: StyleProp;
-   class?: ClassProp;
-   className?: ClassProp;
-   line1?: GridRowLineConfig;
-   line2?: GridRowLineConfig;
-   line3?: GridRowLineConfig;
-   mod?: StringProp | Prop<string[]> | StructuredProp;
 }
 
 export interface GridConfig<T = any> extends StyledContainerConfig {
@@ -1001,7 +980,12 @@ export class Grid<T = unknown> extends ContainerBase<GridConfig<T>, GridInstance
          for (let i = 0; i < instance.records!.length; i++) {
             let record = instance.records![i];
             if (record.type == "data") {
-               let row = (record.row = instance.getChild(context, instance.row, record.key, record.store) as GridRowInstance);
+               let row = (record.row = instance.getChild(
+                  context,
+                  instance.row,
+                  record.key,
+                  record.store,
+               ) as GridRowInstance);
                row.selected = instance.isSelected(record.data, record.index);
                let changed = false;
                if (row.cache("selected", row.selected)) changed = true;
@@ -3077,7 +3061,8 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
                }
                break;
 
-            default: Console.warn("UNPROCESSED RECORD TYPE", record);
+            default:
+               Console.warn("UNPROCESSED RECORD TYPE", record);
                break;
          }
 

@@ -158,6 +158,7 @@ var common = {
          ),
          docs: __dirname,
       },
+      extensions: [".js", ".ts", ".tsx"],
    },
 
    module: {

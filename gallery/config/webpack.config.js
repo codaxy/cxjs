@@ -10,7 +10,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin"),
 module.exports = (production) => ({
    resolve: {
       alias: {
-         app: p("."),
+         //app: p("."),
          //"cx/src": p("../packages/cx/src"),
          //cx: p("../packages/cx"),
          //"cx-react": p("../packages/cx-react"),
@@ -85,7 +85,7 @@ module.exports = (production) => ({
    },
    entry: {
       //vendor: ['cx-react', p('polyfill.js')],
-      app: [p("../misc/babelHelpers"), p("index")],
+      app: [p("index.tsx")],
    },
    output: {
       path: p("dist"),
@@ -103,23 +103,11 @@ module.exports = (production) => ({
    plugins: [
       new HtmlWebpackPlugin({
          template: p("index.html"),
-         // gtmh: gtm.head,
-         // gtmb: gtm.body,
-         // reactScripts: production ? reactScripts : reactScriptsDev,
-         // favicon: p("assets/favicon.png"),
+         gtmh: gtm.head,
+         gtmb: gtm.body,
+         reactScripts: production ? reactScripts : reactScriptsDev,
+         favicon: p("assets/favicon.png"),
       }),
-      //new InlineManifestWebpackPlugin(),
-      // new ScriptExtHtmlWebpackPlugin({
-      //    async: /\.js$/,
-      //    preload: {
-      //       test: /(aquamarine)/,
-      //       chunks: "async"
-      //    },
-      //    prefetch: {
-      //       test: /\.js$/,
-      //       chunks: "async"
-      //    }
-      // })
    ],
 
    cache: {

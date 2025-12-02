@@ -15,5 +15,6 @@
       // },
       "outDir": "./build/"
    },
+   "include": [".", "../misc"],
    "exclude": ["node_modules", "dist"]
 }

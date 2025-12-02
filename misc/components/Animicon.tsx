@@ -1,7 +1,7 @@
-import { computable } from "cx/ui";
+import { computable, createFunctionalComponent } from "cx/ui";
 import { getSelector } from "cx/data";
 
-export const Animicon = ({ shape, onClick }) => (
+export const Animicon = createFunctionalComponent(({ shape, onClick }: any) => (
    <cx>
       <div
          onClick={onClick}
@@ -17,4 +17,4 @@ export const Animicon = ({ shape, onClick }) => (
          <span class="lines" />
       </div>
    </cx>
-);
+));
