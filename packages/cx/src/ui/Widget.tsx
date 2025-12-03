@@ -89,7 +89,7 @@ export abstract class Widget<
    Config extends WidgetConfig = WidgetConfig,
    InstanceType extends Instance = Instance,
 > extends Component {
-   public widgetId?: number;
+   // config props
    declare public vdomKey?: string | number;
    declare public jsxSpread?: Record<string, any>[];
    declare public jsxAttributes?: string[];
@@ -103,14 +103,20 @@ export abstract class Widget<
    declare public putInto?: string;
    declare public isContent?: boolean;
    declare public CSS: typeof CSS;
+   declare public baseClass?: string;
+   declare public memoize: boolean;
+   declare public controller?: Controller;
+   declare public isPureContainer?: boolean;
+   declare public useParentLayout?: boolean;
+
+   // runtime values
+   public widgetId?: number;
    public initialized?: boolean;
    public components?: Record<string, any>;
    public helpers?: Record<string, any>;
    public selector?: StructuredSelector;
    public nameMap?: any;
-   declare public baseClass?: string;
    public version?: number;
-   declare public memoize: boolean;
 
    // Lifecycle hooks - callbacks that can be set in configuration
    declare public onInit?: (context: RenderingContext, instance: Instance) => void;
@@ -124,13 +130,6 @@ export abstract class Widget<
    public prepareCleanup?(context: RenderingContext, instance: InstanceType): void;
    public cleanup?(context: RenderingContext, instance: InstanceType): void;
    public prepare?(context: RenderingContext, instance: InstanceType): void;
-
-   // Controller (initialized instance)
-   declare public controller?: Controller;
-
-   // Pure container flag
-   declare public isPureContainer?: boolean;
-   declare public useParentLayout?: boolean;
 
    public static optimizePrepare?: boolean;
 

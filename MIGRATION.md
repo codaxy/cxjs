@@ -420,12 +420,15 @@ After migrating widgets, compare the local documentation site against the produc
 ### Setup
 
 1. **Start documentation server:**
+
    ```bash
    cd docs && yarn start
    ```
+
    Local server runs at http://localhost:8065
 
 2. **Start TypeScript watch compilation (optional):**
+
    ```bash
    cd packages/cx && yarn compile -w
    ```
@@ -453,10 +456,15 @@ After migrating widgets, compare the local documentation site against the produc
 
 ---
 
+### Active Bugs
+
+- Infinite Grid repeating row values (Docs)
+- Missing search icon in Aquamarine theme (Gallery)
+
 ## Finalization
 
-[ ] Check online .d.ts files for all widgets at the end
-[ ] Migrate gallery
+[x] Check online .d.ts files for all widgets at the end
+[x] Migrate gallery
 [ ] Migrate all docs examples to typescript
 [ ] Figure out a fiddle replacement (with AI :)
 [ ] Write detailed documentation and migration paths
