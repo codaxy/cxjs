@@ -169,11 +169,6 @@ export class OverlayBase<
    declare style?: any;
    declare pad?: boolean;
 
-   // Overload create to return Overlay type instead of any
-   public static create(typeAlias?: any, config?: any, more?: any): Overlay {
-      return super.create(typeAlias, config, more) as Overlay;
-   }
-
    init() {
       if (this.center) this.centerX = this.centerY = this.center;
 

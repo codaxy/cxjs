@@ -409,7 +409,9 @@ export { FlexBox, FlexBoxConfig } from "./FlexBox";
 [ ] Typed RenderingContext usage
 [ ] Better StructuredProp and typed ContentResolver
 [ ] dropdownOptions might typed as DropdownConfig?
-[ ] Properly type Component.create, Widget.create, etc.
+[x] Properly type Component.create, Widget.create, etc.
+[ ] Find controller by type
+[ ] Use Creatable in various places
 
 ---
 

@@ -2,13 +2,12 @@
 
 import { Widget, VDOM, WidgetConfig } from "../ui/Widget";
 import { Selection } from "../ui/selection/Selection";
-import { PropertySelection } from "../ui/selection/PropertySelection";
-import { KeySelection } from "../ui/selection/KeySelection";
 import { CSS } from "../ui/CSS";
 import { isArray } from "../util/isArray";
 import { Instance } from "../ui/Instance";
 import { RenderingContext, CxChild } from "../ui/RenderingContext";
 import { Prop, StyleProp, DataRecord } from "../ui/Prop";
+import { CreatableOrInstance } from "../util/Component";
 
 export interface BubbleGraphConfig extends WidgetConfig {
    /** Data array for the bubbles. */
@@ -36,11 +35,11 @@ export interface BubbleGraphConfig extends WidgetConfig {
    rField?: string;
 
    /** Selection configuration. */
-   selection?: PropertySelection | KeySelection | { type?: string; [key: string]: any };
+   selection?: CreatableOrInstance<Selection>;
 }
 
 export interface BubbleGraphInstance extends Instance {
-   axes?: { [key: string]: any };
+   axes: { [key: string]: any };
 }
 
 export class BubbleGraph extends Widget<BubbleGraphConfig> {
@@ -52,13 +51,14 @@ export class BubbleGraph extends Widget<BubbleGraphConfig> {
    declare rField: string;
    declare bubbleRadius: number;
    declare selection: Selection;
+   declare data?: Prop<DataRecord[]>;
 
    constructor(config?: BubbleGraphConfig) {
       super(config);
    }
 
    declareData(...args: any[]) {
-      var selection = this.selection!.configureWidget(this);
+      var selection = this.selection.configureWidget(this);
 
       super.declareData(
          ...args,
@@ -74,28 +74,28 @@ export class BubbleGraph extends Widget<BubbleGraphConfig> {
    }
 
    init() {
-      this.selection = Selection.create(this.selection as any, {
-         records: (this as any).data,
+      this.selection = Selection.create(this.selection as CreatableOrInstance<Selection>, {
+         records: this.data,
       });
       super.init();
    }
 
    explore(context: RenderingContext, instance: BubbleGraphInstance) {
-      instance.axes = context.axes as any;
+      instance.axes = context.axes;
       super.explore(context, instance);
       var { data } = instance;
       const d = data as any;
       if (isArray(d.data)) {
          d.data.forEach((p: DataRecord) => {
-            (instance.axes as any)[this.xAxis].acknowledge(p[this.xField]);
-            (instance.axes as any)[this.yAxis].acknowledge(p[this.yField]);
+            instance.axes[this.xAxis].acknowledge(p[this.xField]);
+            instance.axes[this.yAxis].acknowledge(p[this.yField]);
          });
       }
    }
 
    prepare(context: RenderingContext, instance: BubbleGraphInstance) {
       super.prepare?.(context, instance);
-      if ((instance.axes as any)[this.xAxis].shouldUpdate || (instance.axes as any)[this.yAxis].shouldUpdate)
+      if (instance.axes[this.xAxis].shouldUpdate || (instance.axes as any)[this.yAxis].shouldUpdate)
          instance.markShouldUpdate(context);
    }
 

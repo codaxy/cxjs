@@ -2,13 +2,52 @@ import { isString } from "./isString";
 import { isFunction } from "./isFunction";
 import { isArray } from "./isArray";
 
-interface Config {
-   [prop: string]: any;
-}
-
 interface DecoratorFactory<T> {
    (t: T): T;
 }
+
+/** A Component class constructor */
+export interface ComponentConstructor<T extends Component = Component> {
+   new (config?: any): T;
+   isComponentType: true;
+}
+
+/** Extract the config type from a Component class constructor */
+export type ComponentConfigType<T> = T extends { new (config?: infer C): any } ? C : unknown;
+
+/** Extract the instance type from a Component class constructor */
+export type ComponentInstanceType<T> = T extends { new (config?: any): infer I } ? I : Component;
+
+/**
+ * Type representing any valid input to Component.create that will produce an instance of T.
+ *
+ * Accepts:
+ * - An instance of T (pass-through)
+ * - A constructor for T or any subtype
+ * - A config object for T (when T has a known config type)
+ * - A config object with `type` or `$type` property specifying the constructor
+ *
+ * @example
+ * // In a Chart widget config:
+ * interface ChartConfig {
+ *    xAxis?: Creatable<Axis>;  // Accepts NumericAxis, CategoryAxis, etc.
+ *    yAxis?: Creatable<Axis>;
+ * }
+ *
+ * // Usage:
+ * <Chart xAxis={NumericAxis} />  // Just the type
+ * <Chart xAxis={{ type: NumericAxis, min: 0, max: 100 }} />  // Config with type
+ * <Chart xAxis={new NumericAxis({ min: 0 })} />  // Instance
+ */
+
+export type Creatable<T extends Component, TConfig = ComponentConfigType<ComponentConstructor<T>>> =
+   | ComponentConstructor<T> // Constructor for T or subtype
+   | (TConfig & { type: ComponentConstructor<T>; $type?: never }) // Config object with type
+   | (TConfig & { $type: ComponentConstructor<T>; type?: never }); // Config object with $type
+
+export type CreatableOrInstance<T extends Component> =
+   | T // Instance pass-through
+   | Creatable<T>;
 
 const componentAlias: Record<string, any> = {};
 
@@ -16,10 +55,10 @@ export class Component {
    public static namespace: string;
    public static isComponentType: boolean;
    public static autoInit: boolean;
-   public static factory: (alias: string, config?: Config, more?: Config) => Component;
+   public static factory: (alias: string, config?: any, more?: any) => Component;
    declare public isComponent: boolean;
 
-   constructor(config?: Config) {
+   constructor(config?: any) {
       if (config && config.$props) {
          Object.assign(config, config.$props);
          delete config.$props;
@@ -49,12 +88,88 @@ export class Component {
    }
 
    /**
+    * Creates a component instance from various input types.
     *
-    * @param type
-    * @param config
-    * @param more
+    * Supported signatures:
+    * - Pass-through: If input is already a component instance, returns it unchanged
+    * - Array: Maps over array elements, creating components for each
+    * - Class type: Creates instance of the specified class with config
+    * - Config with type/$type: Creates instance of the type specified in config
+    * - String alias: Looks up registered alias and creates that type
+    * - Plain config: Creates instance of the class `create` was called on
+    *
+    * @example
+    * // Pass-through
+    * const btn = new Button();
+    * Button.create(btn) // returns btn as Button
+    *
+    * // Class type with config
+    * Button.create(Button, { text: "Click" }) // returns Button
+    *
+    * // Config with type property
+    * Widget.create({ type: Button, text: "Click" }) // returns Button
+    *
+    * // Plain config on specific class
+    * Button.create({ text: "Click" }) // returns Button with ButtonConfig typing
     */
-   static create(typeAlias?: any, config?: Config, more?: Config): any {
+
+   // Pass-through: already a component instance
+   static create<T extends Component>(instance: T, discard?: any): T;
+
+   // Array of configs - returns array of instances of this class (this-bound)
+   static create<T extends Component>(
+      this: ComponentConstructor<T>,
+      configs: ComponentConfigType<ComponentConstructor<T>>[],
+      more?: Partial<ComponentConfigType<ComponentConstructor<T>>>,
+   ): T[];
+
+   // Config object - returns instance of this class (this-bound)
+   static create<T extends Component>(
+      this: ComponentConstructor<T>,
+      config: ComponentConfigType<ComponentConstructor<T>>,
+      more?: Partial<ComponentConfigType<ComponentConstructor<T>>>,
+   ): T;
+
+   // Array of config objects with type or $type property (each item can have different type)
+   static create<
+      T extends ({ type: ComponentConstructor; $type?: never } | { $type: ComponentConstructor; type?: never })[],
+   >(
+      configs: [...T],
+      more?: Record<string, any>,
+   ): {
+      [K in keyof T]: T[K] extends { type: ComponentConstructor<infer U> }
+         ? U
+         : T[K] extends { $type: ComponentConstructor<infer U> }
+           ? U
+           : Component;
+   };
+
+   // Config object with type or $type property
+   static create<T extends Component>(
+      config: ({ type: ComponentConstructor<T>; $type?: never } | { $type: ComponentConstructor<T>; type?: never }) &
+         Partial<ComponentConfigType<ComponentConstructor<T>>>,
+      more?: Partial<ComponentConfigType<ComponentConstructor<T>>>,
+   ): T;
+
+   // Class type with array of configs - returns array of instances
+   static create<T extends Component>(
+      type: ComponentConstructor<T>,
+      configs: ComponentConfigType<ComponentConstructor<T>>[],
+      more?: Partial<ComponentConfigType<ComponentConstructor<T>>>,
+   ): T[];
+
+   // Explicit class type as first argument with typed config
+   static create<T extends Component>(
+      type: ComponentConstructor<T>,
+      config?: ComponentConfigType<ComponentConstructor<T>>,
+      more?: Partial<ComponentConfigType<ComponentConstructor<T>>>,
+   ): T;
+
+   // Any other usage - returns any to allow flexibility
+   static create(typeAlias?: any, config?: any, more?: any): any;
+
+   // Implementation
+   static create(typeAlias?: any, config?: any, more?: any): any {
       if (!typeAlias) return this.factory(typeAlias, config, more);
 
       if (typeAlias.isComponent) return typeAlias;
@@ -107,7 +222,7 @@ Component.isComponentType = true;
 Component.namespace = "";
 Component.autoInit = false;
 
-Component.factory = (alias: string, _config?: Config, _more?: Config): Component => {
+Component.factory = (alias: string, _config?: any, _more?: any): Component => {
    throw new Error(`Unknown component alias ${alias}.`);
 };
 

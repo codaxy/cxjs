@@ -8,6 +8,7 @@ import { isArray } from "../util/isArray";
 import { exploreChildren } from "./layout/exploreChildren";
 import { Instance } from "./Instance";
 import { CxChild, RenderingContext } from "./RenderingContext";
+import { CreatableOrInstance } from "../util";
 
 export interface ContainerConfig extends WidgetConfig {
    /** Keep whitespace in text based children. Default is `false`. See also `trimWhitespace`. */
@@ -20,10 +21,10 @@ export interface ContainerConfig extends WidgetConfig {
    preserveWhitespace?: boolean;
 
    /** List of child elements. */
-   items?: any;
+   items?: CreatableOrInstance<Widget>[];
 
    /** List of child elements. */
-   children?: any;
+   children?: CreatableOrInstance<Widget>[];
 
    plainText?: boolean;
 }
@@ -55,7 +56,7 @@ export class ContainerBase<
       this.items = [];
 
       if (this.layout) {
-         let layout = Container.create({ type: this.layout, items }, {});
+         let layout = Container.create(this.layout as CreatableOrInstance<Container>, { items });
          layout.init(context);
          this.layout = null;
          if ("noLayout" in layout && (layout as any).noLayout) {
@@ -125,11 +126,6 @@ export class ContainerBase<
    public clear(): void {
       if (this.layout) this.layout.clear();
       else this.items = [];
-   }
-
-   // Overload create to return Container type instead of any
-   public static create(typeAlias?: any, config?: any, more?: any): Container {
-      return super.create(typeAlias, config, more) as Container;
    }
 
    public add(...args: any[]): void {

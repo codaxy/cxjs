@@ -9,9 +9,6 @@ export interface ToastConfig extends OverlayConfig {
 
    message?: StringProp;
 
-   /** List of child elements. */
-   items?: RecordsProp;
-
    /** Add default padding. Default is `true`. */
    pad?: boolean;
 
