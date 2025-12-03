@@ -84,7 +84,7 @@ export interface ColumnBarGraphBaseInstance extends Instance {
    colorMap: any;
 }
 
-export class ColumnBarGraphBase extends Widget {
+export class ColumnBarGraphBase extends Widget<ColumnBarGraphBaseConfig> {
    declare baseClass: string;
    declare xAxis: string;
    declare yAxis: string;
@@ -104,7 +104,7 @@ export class ColumnBarGraphBase extends Widget {
    declare data: any;
    declare onClick: ColumnBarGraphBaseConfig["onClick"];
 
-   constructor(config: ColumnBarGraphBaseConfig) {
+   constructor(config?: ColumnBarGraphBaseConfig) {
       super(config);
    }
 

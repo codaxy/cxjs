@@ -1,9 +1,15 @@
-import { Widget } from '../../ui/Widget';
-import { HtmlElement } from '../HtmlElement';
+import { Widget } from "../../ui/Widget";
+import { HtmlElement, HtmlElementConfig } from "../HtmlElement";
 
-export class HelpText extends HtmlElement {}
+export interface HelpTextConfig extends HtmlElementConfig {}
 
-HelpText.prototype.tag = 'span';
-HelpText.prototype.baseClass = 'helptext';
+export class HelpText extends HtmlElement {
+   constructor(config?: HelpTextConfig) {
+      super(config);
+   }
+}
 
-Widget.alias('help-text', HelpText);
+HelpText.prototype.tag = "span";
+HelpText.prototype.baseClass = "helptext";
+
+Widget.alias("help-text", HelpText);

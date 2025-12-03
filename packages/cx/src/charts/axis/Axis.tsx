@@ -156,6 +156,10 @@ export class Axis extends BoundedObject<AxisConfig, AxisInstance> {
    declare onCreateLabelFormatter: AxisConfig["onCreateLabelFormatter"];
    declare onMeasured: AxisConfig["onMeasured"];
 
+   constructor(config?: AxisConfig) {
+      super(config);
+   }
+
    init(): void {
       if (this.labelAnchor == "auto") this.labelAnchor = this.vertical ? (this.secondary ? "start" : "end") : "middle";
 

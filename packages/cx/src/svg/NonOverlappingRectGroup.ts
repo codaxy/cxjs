@@ -3,11 +3,17 @@ import { RenderingContext } from "../ui/RenderingContext";
 import { Instance } from "../ui/Instance";
 import { NonOverlappingRectInstance } from "./NonOverlappingRect";
 
+export interface NonOverlappingRectGroupConfig extends PureContainerConfig {}
+
 interface NonOverlappingRectGroupInstance extends Instance {
    nonOverlappingObjects: NonOverlappingRectInstance[];
 }
 
-export class NonOverlappingRectGroup extends PureContainerBase<PureContainerConfig, NonOverlappingRectGroupInstance> {
+export class NonOverlappingRectGroup extends PureContainerBase<NonOverlappingRectGroupConfig, NonOverlappingRectGroupInstance> {
+   constructor(config?: NonOverlappingRectGroupConfig) {
+      super(config);
+   }
+
    prepare(context: RenderingContext, instance: NonOverlappingRectGroupInstance) {
       instance.nonOverlappingObjects = [];
       context.push("addNonOverlappingBoundingObject", (objectInstance: NonOverlappingRectInstance) => {

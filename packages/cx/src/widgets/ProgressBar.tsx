@@ -1,12 +1,12 @@
 /** @jsxImportSource react */
-import { Widget, VDOM, WidgetConfig } from "../ui/Widget";
+import { Widget, VDOM, WidgetConfig, WidgetStyleConfig } from "../ui/Widget";
 import { parseStyle } from "../util/parseStyle";
 import { isNumber } from "../util/isNumber";
 import { RenderingContext } from "../ui/RenderingContext";
 import { Instance } from "../ui/Instance";
 import { NumberProp, BooleanProp, StringProp } from "../ui/Prop";
 
-export interface ProgressBarConfig extends WidgetConfig {
+export interface ProgressBarConfig extends WidgetConfig, WidgetStyleConfig {
    /** Progress value, a number between `0` and `1`. Default value is `0`. */
    value?: NumberProp;
 
@@ -20,6 +20,10 @@ export interface ProgressBarConfig extends WidgetConfig {
 export class ProgressBar extends Widget<ProgressBarConfig> {
    declare baseClass: string;
    declare disabled?: BooleanProp;
+
+   constructor(config?: ProgressBarConfig) {
+      super(config);
+   }
 
    declareData(...args: Record<string, unknown>[]): void {
       super.declareData(

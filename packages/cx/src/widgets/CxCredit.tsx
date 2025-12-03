@@ -9,6 +9,10 @@ export interface CxCreditConfig extends HtmlElementConfig {}
 export class CxCredit extends HtmlElement<CxCreditConfig, HtmlElementInstance> {
    declare baseClass: string;
 
+   constructor(config?: CxCreditConfig) {
+      super(config);
+   }
+
    init(): void {
       this.tooltip = {
          mouseTrap: true,

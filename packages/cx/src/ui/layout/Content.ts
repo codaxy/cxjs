@@ -1,13 +1,23 @@
 import { Widget } from "../Widget";
-import { PureContainer } from "../PureContainer";
+import { PureContainerBase, PureContainerConfig } from "../PureContainer";
+import { Instance } from "../Instance";
 
-export class Content extends PureContainer {
+export interface ContentConfig extends PureContainerConfig {
+   name?: string;
+   for?: string;
+}
+
+export class Content extends PureContainerBase<ContentConfig, Instance> {
    declare name?: string;
    declare for?: string;
 
+   constructor(config?: ContentConfig) {
+      super(config);
+   }
+
    init(): void {
       super.init();
-      this.putInto = this.for || this.name;
+      if (!this.putInto) this.putInto = this.for || this.name;
    }
 }
 

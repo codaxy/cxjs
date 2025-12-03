@@ -1,8 +1,8 @@
 /** @jsxImportSource react */
 
 import { VDOM, getContent, contentAppend } from "../Widget";
-import { Container } from "../Container";
-import { PureContainer } from "../PureContainer";
+import { StyledContainerBase, StyledContainerConfig } from "../Container";
+import { Instance } from "../Instance";
 import { isArray } from "../../util/isArray";
 import { isUndefined } from "../../util/isUndefined";
 import { isNumber } from "../../util/isNumber";
@@ -22,10 +22,18 @@ interface LayoutState {
    rowCapacities: number[];
 }
 
-export class LabelsTopLayout extends Container {
+export interface LabelsTopLayoutConfig extends StyledContainerConfig {
+   vertical?: boolean;
+   columns?: number;
+}
+
+export class LabelsTopLayout extends StyledContainerBase<LabelsTopLayoutConfig, Instance> {
    declare vertical?: boolean;
    declare columns?: number;
-   // baseClass, styled, CSS inherited from Widget
+
+   constructor(config?: LabelsTopLayoutConfig) {
+      super(config);
+   }
 
    init(): void {
       if (this.vertical && isUndefined(this.columns)) this.columns = 1;
@@ -112,9 +120,20 @@ export class LabelsTopLayout extends Container {
 LabelsTopLayout.prototype.baseClass = "labelstoplayout";
 LabelsTopLayout.prototype.vertical = false;
 LabelsTopLayout.prototype.columns = undefined;
-LabelsTopLayout.prototype.styled = true;
 
-export class LabelsTopLayoutCell extends PureContainer {
+export interface LabelsTopLayoutCellConfig extends StyledContainerConfig {
+   colSpan?: number;
+   rowSpan?: number;
+}
+
+export class LabelsTopLayoutCell extends StyledContainerBase<LabelsTopLayoutCellConfig, Instance> {
+   declare colSpan?: number;
+   declare rowSpan?: number;
+
+   constructor(config?: LabelsTopLayoutCellConfig) {
+      super(config);
+   }
+
    declareData(...args: any[]): void {
       super.declareData(...args, {
          colSpan: undefined,
@@ -134,5 +153,4 @@ export class LabelsTopLayoutCell extends PureContainer {
    }
 }
 
-LabelsTopLayoutCell.prototype.styled = true;
 LabelsTopLayoutCell.prototype.useParentLayout = true;

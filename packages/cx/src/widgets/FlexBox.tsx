@@ -82,6 +82,10 @@ export class FlexBox extends ContainerBase<FlexBoxConfig, Instance> {
    declare nested?: boolean;
    declare direction?: string;
 
+   constructor(config?: FlexBoxConfig) {
+      super(config);
+   }
+
    init(): void {
       if (this.padding) this.pad = this.padding;
 

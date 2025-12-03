@@ -12,6 +12,10 @@ export interface HighlightedSearchTextConfig extends WidgetConfig {
 }
 
 export class HighlightedSearchText extends Widget<HighlightedSearchTextConfig> {
+   constructor(config?: HighlightedSearchTextConfig) {
+      super(config);
+   }
+
    declareData(...args: Record<string, unknown>[]) {
       super.declareData(...args, {
          text: undefined,

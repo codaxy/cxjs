@@ -1,11 +1,17 @@
 import { BoundedObject, BoundedObjectInstance, BoundedObjectConfig } from "./BoundedObject";
 import { RenderingContext } from "../ui/RenderingContext";
 
+export interface NonOverlappingRectConfig extends BoundedObjectConfig {}
+
 export interface NonOverlappingRectInstance extends BoundedObjectInstance {
    overlapping?: boolean;
 }
 
-export class NonOverlappingRect extends BoundedObject<BoundedObjectConfig, NonOverlappingRectInstance> {
+export class NonOverlappingRect extends BoundedObject<NonOverlappingRectConfig, NonOverlappingRectInstance> {
+   constructor(config?: NonOverlappingRectConfig) {
+      super(config);
+   }
+
    prepare(context: RenderingContext, instance: NonOverlappingRectInstance) {
       super.prepare(context, instance); //calculate bounds
       if (!context.addNonOverlappingBoundingObject)

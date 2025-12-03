@@ -2,11 +2,34 @@
 import { FocusManager } from "../../ui/FocusManager";
 import type { Instance, RenderProps } from "../../ui/Instance";
 import type { RenderingContext } from "../../ui/RenderingContext";
+import { BooleanProp, StringProp } from "../../ui/Prop";
 import { coalesce } from "../../util/coalesce";
 import { isArray } from "../../util/isArray";
-import { HtmlElement, HtmlElementInstance } from "../HtmlElement";
+import { HtmlElement, HtmlElementConfig, HtmlElementInstance } from "../HtmlElement";
+
+export interface LabelConfig extends HtmlElementConfig {
+   /** Used in combination with `asterisk` to indicate required fields. */
+   required?: BooleanProp;
+
+   /** Set to true to disable the label. */
+   disabled?: BooleanProp;
+
+   /** Id of the field. */
+   htmlFor?: StringProp;
+
+   /** Set to `true` to add red asterisk for required fields. */
+   asterisk?: BooleanProp;
+}
 
 export class Label extends HtmlElement {
+   declare required?: BooleanProp;
+   declare disabled?: BooleanProp;
+   declare htmlFor?: StringProp;
+   declare asterisk?: BooleanProp;
+
+   constructor(config?: LabelConfig) {
+      super(config);
+   }
    declareData(...args: Record<string, unknown>[]): void {
       super.declareData(...args, {
          required: undefined,

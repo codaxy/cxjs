@@ -128,6 +128,10 @@ export class DropZone extends ContainerBase<DropZoneConfig, DropZoneInstance> {
    declare onDragStart?: string | ((event?: DragEvent, instance?: Instance) => void);
    declare onDragEnd?: string | ((event?: DragEvent, instance?: Instance) => void);
 
+   constructor(config?: DropZoneConfig) {
+      super(config);
+   }
+
    init() {
       this.overStyle = parseStyle(this.overStyle);
       this.nearStyle = parseStyle(this.nearStyle);

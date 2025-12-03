@@ -6,6 +6,10 @@ import { Instance } from "../ui/Instance";
 export interface ClipRectConfig extends BoundedObjectConfig {}
 
 export class ClipRect extends BoundedObject {
+   constructor(config?: ClipRectConfig) {
+      super(config);
+   }
+
    prepareBounds(context: RenderingContext, instance: Instance) {
       super.prepareBounds(context, instance);
       const { data } = instance;

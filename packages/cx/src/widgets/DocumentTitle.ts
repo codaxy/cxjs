@@ -17,6 +17,10 @@ export class DocumentTitle extends Widget<DocumentTitleConfig> {
    declare action?: "append" | "replace" | "prepend";
    declare separator?: StringProp;
 
+   constructor(config?: DocumentTitleConfig) {
+      super(config);
+   }
+
    init(): void {
       if (this.value) this.text = this.value;
 

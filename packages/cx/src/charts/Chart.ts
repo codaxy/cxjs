@@ -20,6 +20,10 @@ export class Chart extends BoundedObject<ChartConfig, ChartInstance> {
    declare axes: Record<string, any>;
    declare axesOnTop: boolean;
 
+   constructor(config?: ChartConfig) {
+      super(config);
+   }
+
    init(): void {
       super.init();
 

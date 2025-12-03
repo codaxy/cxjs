@@ -66,6 +66,10 @@ export class DragSource extends ContainerBase<DragSourceConfig, DragSourceInstan
    declare onDragStart?: (e: React.MouseEvent | React.TouchEvent, instance: DragSourceInstance) => any;
    declare onDragEnd?: (e: React.MouseEvent | React.TouchEvent, instance: DragSourceInstance) => void;
 
+   constructor(config?: DragSourceConfig) {
+      super(config);
+   }
+
    init() {
       this.cloneStyle = parseStyle(this.cloneStyle);
       this.draggedStyle = parseStyle(this.draggedStyle);

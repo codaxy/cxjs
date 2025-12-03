@@ -2,9 +2,11 @@
 
 import { isArray } from "../../util/isArray";
 import { parseStyle } from "../../util/parseStyle";
-import { PureContainer } from "../PureContainer";
+import { StyledContainerBase, StyledContainerConfig } from "../Container";
+import { Instance } from "../Instance";
 import { RenderingContext } from "../RenderingContext";
 import { contentAppend, getContent } from "../Widget";
+import { StyleProp, ClassProp } from "../Prop";
 
 function validContent(r: any): any {
    if (!r.hasOwnProperty("content")) return r;
@@ -13,9 +15,18 @@ function validContent(r: any): any {
    return content;
 }
 
-export class LabelsLeftLayout extends PureContainer {
-   declare labelStyle?: any;
-   // baseClass, styled, CSS inherited from Widget
+export interface LabelsLeftLayoutConfig extends StyledContainerConfig {
+   labelStyle?: StyleProp;
+   labelClass?: ClassProp;
+}
+
+export class LabelsLeftLayout extends StyledContainerBase<LabelsLeftLayoutConfig, Instance> {
+   declare labelStyle?: StyleProp;
+   declare labelClass?: ClassProp;
+
+   constructor(config?: LabelsLeftLayoutConfig) {
+      super(config);
+   }
 
    init(): void {
       this.labelStyle = parseStyle(this.labelStyle);
@@ -63,4 +74,3 @@ export class LabelsLeftLayout extends PureContainer {
 }
 
 LabelsLeftLayout.prototype.baseClass = "labelsleftlayout";
-LabelsLeftLayout.prototype.styled = true;

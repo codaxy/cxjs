@@ -60,6 +60,10 @@ export class ColorPicker extends Field<ColorPickerConfig, FieldInstance<ColorPic
    declare reportOn: string;
    declare onColorClick?: (e: React.MouseEvent, instance: FieldInstance<ColorPicker>) => void;
 
+   constructor(config?: ColorPickerConfig) {
+      super(config);
+   }
+
    declareData(...args: Record<string, unknown>[]): void {
       super.declareData(
          {

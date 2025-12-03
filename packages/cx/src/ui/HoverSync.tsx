@@ -10,11 +10,18 @@
 import { dummyCallback } from "../util/dummyCallback";
 import { parseStyle } from "../util/parseStyle";
 import { SubscriberList } from "../util/SubscriberList";
-import { Container } from "./Container";
-import { PureContainer } from "./PureContainer";
+import { StyledContainerBase, StyledContainerConfig } from "./Container";
+import { PureContainerBase, PureContainerConfig } from "./PureContainer";
+import { Instance } from "./Instance";
 import { VDOM } from "./VDOM";
+import { Prop, StyleProp, ClassProp } from "./Prop";
 
-export class HoverSync extends PureContainer {
+export interface HoverSyncConfig extends PureContainerConfig {}
+
+export class HoverSync extends PureContainerBase<HoverSyncConfig, Instance> {
+   constructor(config?: HoverSyncConfig) {
+      super(config);
+   }
    initInstance(context: any, instance: any) {
       let channels: any = {};
       instance.hoverSync = {
@@ -113,8 +120,22 @@ export function withHoverSync(
    );
 }
 
-export class HoverSyncElement extends Container {
+export interface HoverSyncElementConfig extends StyledContainerConfig {
+   hoverChannel?: string;
+   hoverId?: Prop<any>;
+   hoverClass?: ClassProp;
+   hoverStyle?: StyleProp;
+}
+
+export class HoverSyncElement extends StyledContainerBase<HoverSyncElementConfig, Instance> {
    declare hoverChannel: string;
+   declare hoverId?: Prop<any>;
+   declare hoverClass?: ClassProp;
+   declare hoverStyle?: StyleProp;
+
+   constructor(config?: HoverSyncElementConfig) {
+      super(config);
+   }
 
    declareData(...args: any[]) {
       super.declareData(...args, {
@@ -165,5 +186,4 @@ export class HoverSyncElement extends Container {
 }
 
 HoverSyncElement.prototype.baseClass = "hoversyncelement";
-HoverSyncElement.prototype.styled = true;
 HoverSyncElement.prototype.hoverChannel = "default";

@@ -1,9 +1,15 @@
-import { Dropdown } from "./Dropdown";
+import { Dropdown, DropdownConfig } from "./Dropdown";
 import { getCursorPos } from "./captureMouse";
 import { View } from "../../data/View";
 import { Instance } from "../../ui/Instance";
 
-export class ContextMenu extends Dropdown {}
+export interface ContextMenuConfig extends DropdownConfig {}
+
+export class ContextMenu extends Dropdown {
+   constructor(config?: ContextMenuConfig) {
+      super(config);
+   }
+}
 ContextMenu.prototype.trackMouse = true;
 ContextMenu.prototype.dismissOnFocusOut = true;
 ContextMenu.prototype.firstChildDefinesWidth = true;

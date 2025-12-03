@@ -50,6 +50,10 @@ export class Svg extends BoundedObject<SvgConfig, SvgInstance> {
    declare aspectRatio?: number;
    declare onWheelActive?: (e: WheelEvent, instance: SvgInstance) => void;
 
+   constructor(config?: SvgConfig) {
+      super(config);
+   }
+
    initState(context: RenderingContext, instance: SvgInstance) {
       const size = {
          width: 0,

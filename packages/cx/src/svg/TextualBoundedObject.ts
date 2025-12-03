@@ -6,6 +6,10 @@ import {innerTextTrim} from '../util/innerTextTrim';
 export interface TextualBoundedObjectConfig extends BoundedObjectConfig {}
 
 export class TextualBoundedObject extends BoundedObject {
+   constructor(config?: TextualBoundedObjectConfig) {
+      super(config);
+   }
+
    add(widget: any): any {
       if (typeof widget != 'string')
          return super.add(...arguments);

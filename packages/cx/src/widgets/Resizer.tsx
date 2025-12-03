@@ -2,10 +2,10 @@
 import { Instance } from "../ui/Instance";
 import { NumberProp } from "../ui/Prop";
 import { RenderingContext } from "../ui/RenderingContext";
-import { VDOM, Widget, WidgetConfig } from "../ui/Widget";
+import { VDOM, Widget, WidgetConfig, WidgetStyleConfig } from "../ui/Widget";
 import { captureMouseOrTouch, getCursorPos } from "./overlay/captureMouse";
 
-export interface ResizerConfig extends WidgetConfig {
+export interface ResizerConfig extends WidgetConfig, WidgetStyleConfig {
    /** Make resizer horizontal. */
    horizontal?: boolean;
 
@@ -32,6 +32,10 @@ export class Resizer extends Widget<ResizerConfig> {
    declare defaultSize?: NumberProp | null;
    declare minSize?: NumberProp;
    declare maxSize?: NumberProp;
+
+   constructor(config?: ResizerConfig) {
+      super(config);
+   }
 
    declareData(...args: Record<string, unknown>[]): void {
       super.declareData(...args, {
