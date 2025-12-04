@@ -1,9 +1,17 @@
-//@ts-nocheck
 import { isAccessorChain } from "./createAccessorModelProxy";
-import { Ref } from "./Ref";
+import { Ref, RefConfig } from "./Ref";
+import { View } from "./View";
 
-export class StoreRef extends Ref {
-   constructor(config) {
+interface StoreRefConfig<T> extends RefConfig<T> {
+   store: View;
+   path: string;
+}
+
+export class StoreRef<T = any> extends Ref<T> {
+   declare store: View;
+   declare path: string;
+
+   constructor(config: StoreRefConfig<T>) {
       super(config);
       if (isAccessorChain(this.path)) this.path = this.path.toString();
    }
@@ -12,11 +20,14 @@ export class StoreRef extends Ref {
       return this.store.get(this.path);
    }
 
-   set(value) {
+   set(value: T): boolean {
       return this.store.set(this.path, value);
    }
 
-   init(value) {
+   init(): void;
+   init(value: T): boolean;
+   init(value?: T): boolean | void {
+      if (value === undefined) return;
       return this.store.init(this.path, value);
    }
 
@@ -28,8 +39,8 @@ export class StoreRef extends Ref {
       return this.store.delete(this.path);
    }
 
-   update(...args) {
-      return this.store.update(this.path, ...args);
+   update(cb: (currentValue: T, ...args: any[]) => T, ...args: any[]): boolean {
+      return this.store.update(this.path, cb, ...args);
    }
 
    //allows the function to be passed as a selector, e.g. to computable or addTrigger
@@ -37,14 +48,14 @@ export class StoreRef extends Ref {
       return this.get;
    }
 
-   ref(path) {
-      return new StoreRef({
+   ref<ST = any>(path: string): StoreRef<ST> {
+      return new StoreRef<ST>({
          path: `${this.path}.${path}`,
          store: this.store,
       });
    }
 
-   as(config) {
+   as(config: RefConfig<T>) {
       return StoreRef.create(config, {
          path: this.path,
          store: this.store,

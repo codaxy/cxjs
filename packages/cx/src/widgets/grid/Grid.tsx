@@ -70,6 +70,7 @@ import { captureMouse2, getCursorPos } from "../overlay/captureMouse";
 import { tooltipMouseLeave, tooltipMouseMove } from "../overlay/tooltip-ops";
 import { createGridCellEditor } from "./createGridCellEditor";
 import { GridRow, GridRowComponent, GridRowConfig, GridRowInstance } from "./GridRow";
+import { CreatableOrInstance } from "../../util";
 export { GridRowConfig };
 
 type FetchRecordsResult<T> = T[] | { records: T[]; lastPage?: boolean; totalRecordCount?: number };
@@ -363,7 +364,7 @@ export interface GridConfig<T = any> extends StyledContainerConfig {
    showBorder?: boolean;
 
    /** Data adapter used to convert data in list of records. Used to enable grouping and tree operations. */
-   dataAdapter?: DataAdapter | Config;
+   dataAdapter?: CreatableOrInstance<DataAdapter>;
 
    /** Additional CSS class to be added to each grid row. */
    rowClass?: ClassProp;
@@ -567,7 +568,7 @@ export class Grid<T = unknown> extends ContainerBase<GridConfig<T>, GridInstance
    declare lockColumnWidthsRequiredRowCount: number;
    declare focused: boolean;
    declare showBorder: boolean;
-   declare dataAdapter?: Config;
+   declare dataAdapter?: DataAdapter;
    declare rowClass?: any;
    declare rowStyle?: any;
    declare onDrop?: any;
@@ -793,19 +794,21 @@ export class Grid<T = unknown> extends ContainerBase<GridConfig<T>, GridInstance
             );
       }
 
-      instance.dataAdapter = DataAdapter.create(
-         {
-            type: (this.dataAdapter && this.dataAdapter.type) || GroupAdapter,
-            recordsAccessor: this.recordsAccessor,
-            keyField: this.keyField,
-            aggregates: aggregates,
-            recordName: this.recordName,
-            indexName: this.indexName,
-            sortOptions: this.sortOptions,
-            groupings: grouping,
-         },
-         this.dataAdapter,
-      );
+      instance.dataAdapter =
+         this.dataAdapter instanceof ArrayAdapter
+            ? this.dataAdapter
+            : GroupAdapter.create(
+                 {
+                    recordsAccessor: this.recordsAccessor,
+                    keyField: this.keyField,
+                    aggregates: aggregates,
+                    recordName: this.recordName,
+                    indexName: this.indexName,
+                    sortOptions: this.sortOptions,
+                    groupings: grouping,
+                 },
+                 this.dataAdapter,
+              );
 
       instance.dataAdapter.initInstance(context, instance);
 

@@ -29,6 +29,6 @@
       "downlevelIteration": true,
       "removeComments": false
    },
-   "exclude": ["dist", "build", "**/*.spec.*"],
+   "exclude": ["dist", "build"],
    "include": ["src"]
 }

@@ -3,11 +3,12 @@ import { Component, ComponentConstructor, ComponentConfigType, CreatableOrInstan
 
 // Test classes for type checking
 interface TestWidgetConfig {
-   text?: string;
+   text: string;
    value?: number;
 }
 
 class TestWidget extends Component {
+   static isComponentType = true as const;
    declare text?: string;
    declare value?: number;
 

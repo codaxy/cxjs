@@ -4,7 +4,7 @@ import { Binding } from "./Binding";
 import { View } from "./View";
 import { CanMemoize } from "./Selector";
 
-interface RefConfig<T> {
+export interface RefConfig<T> {
    store?: View;
    path?: string;
    get?: () => T;
@@ -67,7 +67,7 @@ export class Ref<T = any> extends Component implements CanMemoize<T> {
             if (data === newData) return false;
             return this.set(newData as T);
          },
-      });
+      }) as Ref<ST>;
    }
 
    //allows the function to be passed as a selector, e.g. to computable or addTrigger

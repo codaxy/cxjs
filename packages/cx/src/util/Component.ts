@@ -6,14 +6,17 @@ interface DecoratorFactory<T> {
    (t: T): T;
 }
 
-/** A Component class constructor */
-export interface ComponentConstructor<T extends Component = Component> {
+/** A Component class constructor (supports abstract classes) */
+export type ComponentConstructor<T extends Component = Component> = {
    new (config?: any): T;
    isComponentType: true;
-}
+   prototype: T;
+};
 
 /** Extract the config type from a Component class constructor */
-export type ComponentConfigType<T> = T extends { new (config?: infer C): any } ? C : unknown;
+export type ComponentConfigType<T> = T extends { new (config?: infer C): any }
+   ? C & { isComponentType?: never }
+   : unknown;
 
 /** Extract the instance type from a Component class constructor */
 export type ComponentInstanceType<T> = T extends { new (config?: any): infer I } ? I : Component;
@@ -53,7 +56,7 @@ const componentAlias: Record<string, any> = {};
 
 export class Component {
    public static namespace: string;
-   public static isComponentType: boolean;
+   public static isComponentType: true;
    public static autoInit: boolean;
    public static factory: (alias: string, config?: any, more?: any) => Component;
    declare public isComponent: boolean;
@@ -114,21 +117,7 @@ export class Component {
     */
 
    // Pass-through: already a component instance
-   static create<T extends Component>(instance: T, discard?: any): T;
-
-   // Array of configs - returns array of instances of this class (this-bound)
-   static create<T extends Component>(
-      this: ComponentConstructor<T>,
-      configs: ComponentConfigType<ComponentConstructor<T>>[],
-      more?: Partial<ComponentConfigType<ComponentConstructor<T>>>,
-   ): T[];
-
-   // Config object - returns instance of this class (this-bound)
-   static create<T extends Component>(
-      this: ComponentConstructor<T>,
-      config: ComponentConfigType<ComponentConstructor<T>>,
-      more?: Partial<ComponentConfigType<ComponentConstructor<T>>>,
-   ): T;
+   static create<T extends Component>(instance: T, unused?: any): T;
 
    // Array of config objects with type or $type property (each item can have different type)
    static create<
@@ -165,8 +154,27 @@ export class Component {
       more?: Partial<ComponentConfigType<ComponentConstructor<T>>>,
    ): T;
 
-   // Any other usage - returns any to allow flexibility
-   static create(typeAlias?: any, config?: any, more?: any): any;
+   // Array of configs - returns array of instances of this class (this-bound)
+   static create<T extends Component>(
+      this: ComponentConstructor<T>,
+      configs: ComponentConfigType<ComponentConstructor<T>>[],
+      more?: Partial<ComponentConfigType<ComponentConstructor<T>>>,
+   ): T[];
+
+   // Config object - returns instance of this class (this-bound)
+   static create<T extends Component>(
+      this: ComponentConstructor<T>,
+      config: ComponentConfigType<ComponentConstructor<T>>,
+      more?: Partial<ComponentConfigType<ComponentConstructor<T>>>,
+   ): T;
+
+   // String alias (e.g., "div", "button") - returns instance of this class
+   static create<T extends Component>(
+      this: ComponentConstructor<T>,
+      alias: string,
+      config?: ComponentConfigType<ComponentConstructor<T>>,
+      more?: Partial<ComponentConfigType<ComponentConstructor<T>>>,
+   ): T;
 
    // Implementation
    static create(typeAlias?: any, config?: any, more?: any): any {
@@ -176,7 +184,7 @@ export class Component {
 
       if (isComponentFactory(typeAlias)) return this.create(typeAlias.create(config), config, more);
 
-      if (isArray(typeAlias)) return typeAlias.map((c) => this.create(c, config, more));
+      if (isArray(typeAlias)) return typeAlias.map((c) => this.create(c as any, config, more));
 
       if (typeAlias.$type) return this.create(typeAlias.$type, typeAlias, config);
 

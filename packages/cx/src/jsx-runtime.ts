@@ -1,10 +1,10 @@
 import type { JSX as ReactJSX } from "react";
+import { Instance } from "./ui/Instance";
 import type { Prop } from "./ui/Prop";
-import { Widget, WidgetConfig } from "./ui/Widget";
+import { Widget } from "./ui/Widget";
 import { isArray } from "./util/isArray";
 import { isString } from "./util/isString";
 import { HtmlElement, HtmlElementConfig } from "./widgets/HtmlElement";
-import { Instance } from "./ui/Instance";
 
 export function jsx(typeName: any, props: any, key?: string): any {
    if (isArray(typeName)) return typeName;
@@ -33,30 +33,6 @@ export function jsx(typeName: any, props: any, key?: string): any {
 }
 
 export const jsxs = jsx;
-
-/**
- * Type constraint for Widget constructor functions.
- * Ensures type safety for widget creation with optional configuration.
- */
-export type WidgetConstructor<C extends WidgetConfig = WidgetConfig> = new (config?: C) => Widget<C>;
-
-/**
- * Represents a widget node in the component tree.
- * Contains the widget constructor and optional children.
- * Supports both widget nodes and HTML element nodes.
- */
-export interface CxNode {
-   type: WidgetConstructor;
-   children?: CxChild[];
-   tagName?: string; // Present for HTML elements
-   [key: string]: any; // Allow any attributes for HTML elements
-}
-
-/**
- * Valid child types that can be used within widget children arrays.
- * Supports CxNodes (JSX elements), Widget instances, primitives, and null/undefined for conditional rendering.
- */
-export type CxChild = CxNode | Widget<any> | string | number | boolean | null | undefined;
 
 type ReactIntrinsicElements = ReactJSX.IntrinsicElements;
 // Check if a key is an event handler (starts with "on" and is a function)

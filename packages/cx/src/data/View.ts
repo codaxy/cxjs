@@ -268,7 +268,7 @@ export class View<D = any> implements ViewMethods<D> {
       return StoreRef.create({
          store: this,
          path,
-      });
+      }) as Ref<T>;
    }
 
    getMethods(): ViewMethods<D> {

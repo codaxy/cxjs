@@ -10,6 +10,8 @@ import { Instance } from "./Instance";
 import { CxChild, RenderingContext } from "./RenderingContext";
 import { CreatableOrInstance } from "../util";
 
+export type ChildNode = CreatableOrInstance<Widget> | string | number | boolean | null | undefined;
+
 export interface ContainerConfig extends WidgetConfig {
    /** Keep whitespace in text based children. Default is `false`. See also `trimWhitespace`. */
    ws?: boolean;
@@ -21,10 +23,10 @@ export interface ContainerConfig extends WidgetConfig {
    preserveWhitespace?: boolean;
 
    /** List of child elements. */
-   items?: CreatableOrInstance<Widget>[];
+   items?: ChildNode | ChildNode[];
 
    /** List of child elements. */
-   children?: CreatableOrInstance<Widget>[];
+   children?: ChildNode | ChildNode[];
 
    plainText?: boolean;
 }

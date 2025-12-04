@@ -1,6 +1,6 @@
 /** @jsxImportSource react */
 import { Widget, VDOM, getContent } from "../ui/Widget";
-import { ContainerBase, StyledContainerConfig } from "../ui/Container";
+import { ChildNode, ContainerBase, StyledContainerConfig } from "../ui/Container";
 import { Heading } from "./Heading";
 import { isString } from "../util/isString";
 import { parseStyle } from "../util/parseStyle";
@@ -36,10 +36,10 @@ export interface SectionConfig extends StyledContainerConfig {
    title?: StringProp;
 
    /** Contents that should go in the header. */
-   header?: Record<string, unknown>;
+   header?: ChildNode;
 
    /** Contents that should go in the footer. */
-   footer?: Record<string, unknown>;
+   footer?: ChildNode;
 
    /** Title heading level (1-6) */
    hLevel?: number;
@@ -50,8 +50,8 @@ export class Section extends ContainerBase<SectionConfig, Instance> {
    declare footerStyle?: StyleProp;
    declare bodyStyle?: StyleProp;
    declare title?: StringProp;
-   declare header?: Record<string, unknown>;
-   declare footer?: Record<string, unknown>;
+   declare header?: ChildNode;
+   declare footer?: ChildNode;
    declare hLevel?: number;
    declare pad?: BooleanProp;
    declare baseClass: string;
@@ -168,7 +168,10 @@ export class Section extends ContainerBase<SectionConfig, Instance> {
             {...eventHandlers}
          >
             {header}
-            <div className={CSS.expand(CSS.element(this.baseClass, "body"), data.bodyClass)} style={data.bodyStyle as any}>
+            <div
+               className={CSS.expand(CSS.element(this.baseClass, "body"), data.bodyClass)}
+               style={data.bodyStyle as any}
+            >
                {this.renderChildren(context, instance)}
             </div>
             {footer}
@@ -177,8 +180,7 @@ export class Section extends ContainerBase<SectionConfig, Instance> {
    }
 }
 
-
 Section.prototype.styled = true;
 Section.prototype.pad = true;
-Section.prototype.baseClass = 'section';
+Section.prototype.baseClass = "section";
 Section.prototype.hLevel = 3;

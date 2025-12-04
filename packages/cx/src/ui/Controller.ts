@@ -1,10 +1,10 @@
 import { computable, ComputableSelector, InferSelectorValue } from "../data/computable";
-import { Component } from "../util/Component";
+import { Component, ComponentConstructor, ComponentConfigType } from "../util/Component";
 import { isArray } from "../util/isArray";
 import { isFunction } from "../util/isFunction";
 import { StoreProxy } from "../data/StoreProxy";
 import { RenderingContext } from "./RenderingContext";
-import { View } from "../data/View";
+import { View, ViewMethods } from "../data/View";
 import { Widget } from "./Widget";
 import { Instance } from "./Instance";
 
@@ -39,6 +39,13 @@ export interface ControllerMethods {
 // Controller config object type with Controller methods AND its own methods available on 'this'
 export type ControllerConfig<T extends object = {}> = T & ThisType<ControllerMethods & T>;
 
+/** Controller factory function type */
+export type ControllerFactory<T extends object = {}> = (config: ViewMethods) => ControllerConfig<T>;
+
+export type ControllerCreatable<T extends Controller> =
+   | ({ type: ComponentConstructor<T>; $type?: never } & ComponentConfigType<ComponentConstructor<T>>) // Config with type
+   | ({ $type: ComponentConstructor<T>; type?: never } & ComponentConfigType<ComponentConstructor<T>>); // Config with $type
+
 export class Controller extends Component implements ControllerMethods {
    initialized?: boolean;
    onInit?(context: RenderingContext): void;
@@ -50,6 +57,10 @@ export class Controller extends Component implements ControllerMethods {
    declare store: View;
    declare widget?: Widget;
    computables?: Record<string, ComputableEntry>;
+
+   constructor(config?: ControllerConfig) {
+      super(config);
+   }
 
    init(context?: RenderingContext): void {
       if (!this.initialized) {

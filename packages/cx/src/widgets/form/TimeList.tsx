@@ -12,6 +12,7 @@ import { isFunction } from "../../util/isFunction";
 import { bind } from "../../ui/bind";
 import { Widget } from "../../ui/Widget";
 import type { Instance } from "../../ui/Instance";
+import { HtmlElement } from "../HtmlElement";
 
 interface TimeListProps {
    value?: unknown;
@@ -84,7 +85,7 @@ export const TimeList = createFunctionalComponent(({ value, step, format, encodi
                      if (isString(onSelect)) instance.invokeControllerMethod(onSelect, e, instance, date);
                      else if (isFunction(onSelect)) onSelect(e, instance, date);
                   },
-                  children: Widget.create("div", { text: bind("$time.text") }),
+                  children: HtmlElement.create("div", { text: bind("$time.text") }),
                }),
             }),
          });

@@ -8,23 +8,21 @@ import { parseStyle } from "../util/parseStyle";
 import { CSS } from "./CSS";
 import { CSSHelper } from "./CSSHelper";
 import { RenderingContext } from "./RenderingContext";
-import type { Controller, ControllerConfig } from "./Controller";
+import type { Controller, ControllerConfig, ControllerFactory } from "./Controller";
 
 import { BooleanProp, ClassProp, ModProp, StyleProp } from "./Prop";
 import { Instance } from "./Instance";
 import { VDOM as vdom } from "./VDOM";
-import { ViewMethods } from "../data/View";
 
 export const VDOM = vdom;
 
 let widgetId = 100;
 
-// Controller property accepts: class, instance, config object, or factory function
+// Controller property accepts: class, config object, or factory function
 export type ControllerProp =
    | typeof Controller
-   | Controller
    | ControllerConfig
-   | ((config: ViewMethods) => ControllerConfig);
+   | ControllerFactory;
 
 export interface WidgetConfig {
    /** Visibility of the widget. Defaults to `true`. */
@@ -265,11 +263,6 @@ export abstract class Widget<
 
       // check when this is actually needed, perhaps this is needed only for tables and repeated elements
       // if (instance.cached) delete instance.cached.rawData; // force prepareData to execute again
-   }
-
-   // Overload create to return Widget type instead of any
-   public static create(typeAlias?: any, config?: any, more?: any): Widget {
-      return super.create(typeAlias, config, more) as Widget;
    }
 
    public static resetCounter(): void {

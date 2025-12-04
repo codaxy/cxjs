@@ -269,7 +269,7 @@ describe("Controller", () => {
          };
       };
 
-      let c = Controller.create(controllerFactory, { store });
+      let c = Controller.create(controllerFactory, { store }) as any;
 
       c.increment();
       assert.equal(store.get("x"), 1);
@@ -423,4 +423,111 @@ describe("Controller", () => {
       // let tree = component.toJSON();
       assert.deepStrictEqual(testValid, [1, 2]);
    });
+});
+
+describe("Controller types", () => {
+   // Type-level tests - these verify that types work correctly at compile time
+   // If these compile, the types are working
+
+   interface MyControllerConfig extends ControllerConfig {
+      customValue?: number;
+      customMethod?(): void;
+   }
+
+   class MyController extends Controller {
+      declare customValue: number;
+
+      constructor(config?: MyControllerConfig) {
+         super(config);
+      }
+
+      customMethod() {
+         return this.customValue * 2;
+      }
+   }
+
+   it("accepts Controller class directly", () => {
+      let store = new Store();
+
+      const component = createTestRenderer(
+         store,
+         <cx>
+            <div controller={MyController} />
+         </cx>,
+      );
+
+      let tree = component.toJSON();
+      assert.ok(tree);
+   });
+
+   it("accepts config with type property", () => {
+      let store = new Store();
+      let initCalled = false;
+
+      class TypedController extends Controller {
+         declare customValue: number;
+
+         constructor(config?: MyControllerConfig) {
+            super(config);
+         }
+
+         onInit() {
+            initCalled = true;
+            assert.equal(this.customValue, 42);
+         }
+      }
+
+      const component = createTestRenderer(
+         store,
+         <cx>
+            <div controller={{ type: TypedController, customValue: 42 }} />
+         </cx>,
+      );
+
+      let tree = component.toJSON();
+      assert.ok(tree);
+      assert.equal(initCalled, true);
+   });
+
+   it("accepts inline config object with ThisType", () => {
+      let store = new Store({ data: { count: 0 } });
+
+      const component = createTestRenderer(
+         store,
+         <cx>
+            <div
+               controller={{
+                  onInit() {
+                     // This should have access to ControllerMethods via ThisType
+                     this.store.set("count", 1);
+                  },
+               }}
+            />
+         </cx>,
+      );
+
+      let tree = component.toJSON();
+      assert.equal(store.get("count"), 1);
+   });
+
+   it("accepts factory function", () => {
+      let store = new Store({ data: { count: 0 } });
+
+      const component = createTestRenderer(
+         store,
+         <cx>
+            <div
+               controller={({ set }) => ({
+                  onInit() {
+                     set("count", 5);
+                  },
+               })}
+            />
+         </cx>,
+      );
+
+      let tree = component.toJSON();
+      assert.equal(store.get("count"), 5);
+   });
+
 });
