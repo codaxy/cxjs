@@ -1,5 +1,5 @@
 import assert from "assert";
-import { Component, ComponentConstructor, ComponentConfigType, CreatableOrInstance } from "./Component";
+import { Component, ComponentConstructor, ComponentConfigType, Create } from "./Component";
 
 // Test classes for type checking
 interface TestWidgetConfig {
@@ -51,8 +51,7 @@ describe("Component.create", function () {
 
    describe("array input", function () {
       it("creates an array of components from array of configs", function () {
-         const configs = [{ text: "One" }, { text: "Two" }];
-         const results = TestWidget.create(configs);
+         const results = TestWidget.create([{ text: "One" }, { text: "Two" }]);
          assert.equal(results.length, 2);
          assert.equal(results[0].text, "One");
          assert.equal(results[1].text, "Two");
@@ -259,7 +258,7 @@ describe("Component.create", function () {
 
 describe("Creatable type", function () {
    // Helper function that accepts Creatable
-   function createAxis<T extends Component>(creatable: CreatableOrInstance<T>): T {
+   function createAxis<T extends Component>(creatable: Create<T>): T {
       return Component.create(creatable as any);
    }
 

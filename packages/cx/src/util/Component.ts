@@ -43,14 +43,14 @@ export type ComponentInstanceType<T> = T extends { new (config?: any): infer I }
  * <Chart xAxis={new NumericAxis({ min: 0 })} />  // Instance
  */
 
-export type Creatable<T extends Component> =
+export type CreateConfig<T extends Component> =
    | ComponentConstructor<T> // Constructor for T or subtype
    | (ComponentConfigType<ComponentConstructor<T>> & { type: ComponentConstructor<T>; $type?: never }) // Config object with type
    | (ComponentConfigType<ComponentConstructor<T>> & { $type: ComponentConstructor<T>; type?: never }); // Config object with $type
 
-export type CreatableOrInstance<T extends Component> =
+export type Create<T extends Component> =
    | T // Instance pass-through
-   | Creatable<T>;
+   | CreateConfig<T>;
 
 const componentAlias: Record<string, any> = {};
 
@@ -138,7 +138,8 @@ export class Component {
       config: (
          | { type: TCtor; $type?: never; isComponentType?: never }
          | { $type: TCtor; type?: never; isComponentType?: never }
-      ) & Partial<ComponentConfigType<ComponentConstructor<T>>>,
+      ) &
+         Partial<ComponentConfigType<ComponentConstructor<T>>>,
       more?: Partial<ComponentConfigType<ComponentConstructor<T>>>,
    ): T;
 

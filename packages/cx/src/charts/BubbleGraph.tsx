@@ -7,7 +7,7 @@ import { isArray } from "../util/isArray";
 import { Instance } from "../ui/Instance";
 import { RenderingContext, CxChild } from "../ui/RenderingContext";
 import { Prop, StyleProp, DataRecord } from "../ui/Prop";
-import { CreatableOrInstance } from "../util/Component";
+import { Create } from "../util/Component";
 
 export interface BubbleGraphConfig extends WidgetConfig {
    /** Data array for the bubbles. */
@@ -35,7 +35,7 @@ export interface BubbleGraphConfig extends WidgetConfig {
    rField?: string;
 
    /** Selection configuration. */
-   selection?: CreatableOrInstance<Selection>;
+   selection?: Create<Selection>;
 }
 
 export interface BubbleGraphInstance extends Instance {
@@ -74,7 +74,7 @@ export class BubbleGraph extends Widget<BubbleGraphConfig> {
    }
 
    init() {
-      this.selection = Selection.create(this.selection as CreatableOrInstance<Selection>, {
+      this.selection = Selection.create(this.selection as Create<Selection>, {
          records: this.data,
       });
       super.init();

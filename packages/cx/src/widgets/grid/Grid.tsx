@@ -70,7 +70,7 @@ import { captureMouse2, getCursorPos } from "../overlay/captureMouse";
 import { tooltipMouseLeave, tooltipMouseMove } from "../overlay/tooltip-ops";
 import { createGridCellEditor } from "./createGridCellEditor";
 import { GridRow, GridRowComponent, GridRowConfig, GridRowInstance } from "./GridRow";
-import { CreatableOrInstance } from "../../util";
+import { Create } from "../../util";
 export { GridRowConfig };
 
 type FetchRecordsResult<T> = T[] | { records: T[]; lastPage?: boolean; totalRecordCount?: number };
@@ -364,7 +364,7 @@ export interface GridConfig<T = any> extends StyledContainerConfig {
    showBorder?: boolean;
 
    /** Data adapter used to convert data in list of records. Used to enable grouping and tree operations. */
-   dataAdapter?: CreatableOrInstance<DataAdapter>;
+   dataAdapter?: Create<DataAdapter>;
 
    /** Additional CSS class to be added to each grid row. */
    rowClass?: ClassProp;

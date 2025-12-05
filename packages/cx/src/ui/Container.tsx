@@ -8,9 +8,9 @@ import { isArray } from "../util/isArray";
 import { exploreChildren } from "./layout/exploreChildren";
 import { Instance } from "./Instance";
 import { CxChild, RenderingContext } from "./RenderingContext";
-import { CreatableOrInstance } from "../util";
+import { Create } from "../util";
 
-export type ChildNode = CreatableOrInstance<Widget> | string | number | boolean | null | undefined;
+export type ChildNode = Create<Widget> | string | number | boolean | null | undefined;
 
 export interface ContainerConfig extends WidgetConfig {
    /** Keep whitespace in text based children. Default is `false`. See also `trimWhitespace`. */
@@ -58,7 +58,7 @@ export class ContainerBase<
       this.items = [];
 
       if (this.layout) {
-         let layout = Container.create(this.layout as CreatableOrInstance<Container>, { items });
+         let layout = Container.create(this.layout as Create<Container>, { items });
          layout.init(context);
          this.layout = null;
          if ("noLayout" in layout && (layout as any).noLayout) {
