@@ -35,7 +35,7 @@ export interface BubbleGraphConfig extends WidgetConfig {
    rField?: string;
 
    /** Selection configuration. */
-   selection?: Create<Selection>;
+   selection?: Create<typeof Selection>;
 }
 
 export interface BubbleGraphInstance extends Instance {
@@ -74,7 +74,7 @@ export class BubbleGraph extends Widget<BubbleGraphConfig> {
    }
 
    init() {
-      this.selection = Selection.create(this.selection as Create<Selection>, {
+      this.selection = Selection.create(this.selection as Create<typeof Selection>, {
          records: this.data,
       });
       super.init();

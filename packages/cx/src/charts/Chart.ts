@@ -2,10 +2,11 @@ import { Widget, VDOM, getContent } from "../ui/Widget";
 import { BoundedObject, BoundedObjectConfig, BoundedObjectInstance } from "../svg/BoundedObject";
 import { Axis } from "./axis/Axis";
 import { RenderingContext } from "../ui/RenderingContext";
+import { Create } from "../util/Component";
 
 export interface ChartConfig extends BoundedObjectConfig {
    /** Axis definition. Each key represent an axis, and each value hold axis configuration. */
-   axes?: Record<string, any>;
+   axes?: Record<string, Create<typeof Axis>>;
 
    /** Put axes over data series. */
    axesOnTop?: boolean;

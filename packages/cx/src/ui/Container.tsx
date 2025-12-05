@@ -10,7 +10,7 @@ import { Instance } from "./Instance";
 import { CxChild, RenderingContext } from "./RenderingContext";
 import { Create } from "../util";
 
-export type ChildNode = Create<Widget> | string | number | boolean | null | undefined;
+export type ChildNode = Create<typeof Widget> | string | number | boolean | null | undefined;
 
 export interface ContainerConfig extends WidgetConfig {
    /** Keep whitespace in text based children. Default is `false`. See also `trimWhitespace`. */
@@ -58,7 +58,7 @@ export class ContainerBase<
       this.items = [];
 
       if (this.layout) {
-         let layout = Container.create(this.layout as Create<Container>, { items });
+         let layout = Container.create(this.layout as Create<typeof Container>, { items });
          layout.init(context);
          this.layout = null;
          if ("noLayout" in layout && (layout as any).noLayout) {

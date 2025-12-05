@@ -69,9 +69,7 @@
       "@babel/plugin-transform-react-jsx": "^7.25.9",
       "@babel/preset-env": "^7.26.0",
       "@babel/register": "^7.25.9",
-      "babel-jest": "29.7.0",
       "env-test": "^1.0.0",
-      "mocha": "^10.8.2",
       "prettier": "^3.3.3",
       "webpack-dev-server": "^5.2.2"
    },

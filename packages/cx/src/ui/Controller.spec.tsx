@@ -530,4 +530,37 @@ describe("Controller types", () => {
       assert.equal(store.get("count"), 5);
    });
 
+   it("accepts CreateConfig with type and required properties", () => {
+      let store = new Store({ data: { result: 0 } });
+
+      interface RequiredPropControllerConfig extends ControllerConfig {
+         multiplier: number; // Required property
+      }
+
+      class RequiredPropController extends Controller {
+         declare multiplier: number;
+
+         constructor(config?: RequiredPropControllerConfig) {
+            super(config);
+         }
+
+         onInit() {
+            this.store.set("result", 10 * this.multiplier);
+         }
+      }
+
+      const component = createTestRenderer(
+         store,
+         <cx>
+            <div
+               controller={{
+                  type: RequiredPropController,
+                  multiplier: 5,
+               }}
+            />
+         </cx>,
+      );
+
+      assert.equal(store.get("result"), 50);
+   });
 });

@@ -7,6 +7,7 @@ import { parseStyle } from "../util/parseStyle";
 import { RenderingContext } from "../ui/RenderingContext";
 import { Instance } from "../ui/Instance";
 import { BooleanProp, StringProp, StyleProp, ClassProp, Prop } from "../ui/Prop";
+import { Create } from "../util/Component";
 
 export interface SectionConfig extends StyledContainerConfig {
    id?: Prop<string | number>;
@@ -36,10 +37,10 @@ export interface SectionConfig extends StyledContainerConfig {
    title?: StringProp;
 
    /** Contents that should go in the header. */
-   header?: ChildNode;
+   header?: Create<typeof Widget>;
 
    /** Contents that should go in the footer. */
-   footer?: ChildNode;
+   footer?: Create<typeof Widget>;
 
    /** Title heading level (1-6) */
    hLevel?: number;
@@ -50,8 +51,8 @@ export class Section extends ContainerBase<SectionConfig, Instance> {
    declare footerStyle?: StyleProp;
    declare bodyStyle?: StyleProp;
    declare title?: StringProp;
-   declare header?: ChildNode;
-   declare footer?: ChildNode;
+   declare header?: Create<typeof Widget>;
+   declare footer?: Create<typeof Widget>;
    declare hLevel?: number;
    declare pad?: BooleanProp;
    declare baseClass: string;
@@ -106,13 +107,13 @@ export class Section extends ContainerBase<SectionConfig, Instance> {
             level: this.hLevel,
          }) as Widget;
 
-      if (this.header) return Heading.create(this.header) as Widget;
+      if (this.header) return Heading.create(this.header);
 
       return null;
    }
 
    getFooter(): Widget | null {
-      if (this.footer) return Widget.create(this.footer) as Widget;
+      if (this.footer) return Widget.create(this.footer);
 
       return null;
    }

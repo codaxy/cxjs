@@ -1,5 +1,5 @@
 import { StructuredSelector } from "../data/StructuredSelector";
-import { Component } from "../util/Component";
+import { Component, CreateConfig } from "../util/Component";
 import { Console } from "../util/Console";
 import { isArray } from "../util/isArray";
 import { isDefined } from "../util/isDefined";
@@ -18,10 +18,11 @@ export const VDOM = vdom;
 
 let widgetId = 100;
 
-// Controller property accepts: class, config object, or factory function
+// Controller property accepts: class, config object with type/$type, inline config, or factory function
+// ControllerConfig is intersected with { type?: never; $type?: never } to ensure objects with type/$type match CreateConfig
 export type ControllerProp =
-   | typeof Controller
-   | ControllerConfig
+   | CreateConfig<typeof Controller>
+   | (ControllerConfig & { type?: never; $type?: never })
    | ControllerFactory;
 
 export interface WidgetConfig {

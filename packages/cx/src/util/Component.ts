@@ -7,19 +7,18 @@ interface DecoratorFactory<T> {
 }
 
 /** A Component class constructor (supports abstract classes) */
-export type ComponentConstructor<T extends Component = Component> = {
-   new (config?: any): T;
+export type ComponentConstructor<T extends Component = Component> = (abstract new (config?: any) => T) & {
    isComponentType: true;
    prototype: T;
 };
 
 /** Extract the config type from a Component class constructor */
-export type ComponentConfigType<T> = T extends { new (config?: infer C): any }
+export type ComponentConfigType<T> = T extends abstract new (config?: infer C) => any
    ? C & { isComponentType?: never }
    : unknown;
 
 /** Extract the instance type from a Component class constructor */
-export type ComponentInstanceType<T> = T extends { new (config?: any): infer I } ? I : Component;
+export type ComponentInstanceType<T> = T extends abstract new (config?: any) => infer I ? I : Component;
 
 /**
  * Type representing any valid input to Component.create that will produce an instance of T.
@@ -43,14 +42,42 @@ export type ComponentInstanceType<T> = T extends { new (config?: any): infer I }
  * <Chart xAxis={new NumericAxis({ min: 0 })} />  // Instance
  */
 
-export type CreateConfig<T extends Component> =
-   | ComponentConstructor<T> // Constructor for T or subtype
-   | (ComponentConfigType<ComponentConstructor<T>> & { type: ComponentConstructor<T>; $type?: never }) // Config object with type
-   | (ComponentConfigType<ComponentConstructor<T>> & { $type: ComponentConstructor<T>; type?: never }); // Config object with $type
+// Helper type: constructor for T or any subclass
+type SubclassConstructor<TBaseCtor extends ComponentConstructor> = ComponentConstructor<
+   ComponentInstanceType<TBaseCtor>
+>;
 
-export type Create<T extends Component> =
-   | T // Instance pass-through
-   | CreateConfig<T>;
+// Helper: get config type, falling back to base if subclass config is `any`
+type ResolveConfigType<TBaseCtor extends ComponentConstructor, TSubCtor extends ComponentConstructor> = 0 extends 1 &
+   ComponentConfigType<TSubCtor>
+   ? ComponentConfigType<TBaseCtor> // TSubCtor config is `any`, use base config
+   : ComponentConfigType<TSubCtor>; // Use specific subclass config
+
+// Config with type property - uses inference to capture the actual subclass constructor
+// When a specific subclass is provided, its config is used; otherwise base config + extra props allowed
+type ConfigWithType<TBaseCtor extends ComponentConstructor, TSubCtor extends SubclassConstructor<TBaseCtor>> = {
+   type: TSubCtor;
+} & ResolveConfigType<TBaseCtor, TSubCtor> &
+   // Allow extra properties when using generic subclass (enables subclass-specific props)
+   (0 extends 1 & ComponentConfigType<TSubCtor> ? { [key: string]: unknown } : {});
+
+type ConfigWith$Type<TBaseCtor extends ComponentConstructor, TSubCtor extends SubclassConstructor<TBaseCtor>> = {
+   $type: TSubCtor;
+} & ResolveConfigType<TBaseCtor, TSubCtor> &
+   // Allow extra properties when using generic subclass (enables subclass-specific props)
+   (0 extends 1 & ComponentConfigType<TSubCtor> ? { [key: string]: unknown } : {});
+
+export type CreateConfig<
+   TBaseCtor extends ComponentConstructor,
+   TSubCtor extends SubclassConstructor<TBaseCtor> = SubclassConstructor<TBaseCtor>,
+> =
+   | TSubCtor // Constructor for T or subclass
+   | ConfigWithType<TBaseCtor, TSubCtor> // Config object with type
+   | ConfigWith$Type<TBaseCtor, TSubCtor>; // Config object with $type
+
+export type Create<TCtor extends ComponentConstructor> =
+   | ComponentInstanceType<TCtor> // Instance pass-through
+   | CreateConfig<TCtor>;
 
 const componentAlias: Record<string, any> = {};
 
@@ -159,21 +186,21 @@ export class Component {
 
    // Array of configs - returns array of instances of this class (this-bound)
    static create<T extends Component>(
-      this: ComponentConstructor<T>,
+      this: { prototype: T; isComponentType: true },
       configs: ComponentConfigType<ComponentConstructor<T>>[],
       more?: Partial<ComponentConfigType<ComponentConstructor<T>>>,
    ): T[];
 
    // Config object - returns instance of this class (this-bound)
    static create<T extends Component>(
-      this: ComponentConstructor<T>,
+      this: { prototype: T; isComponentType: true },
       config: ComponentConfigType<ComponentConstructor<T>>,
       more?: Partial<ComponentConfigType<ComponentConstructor<T>>>,
    ): T;
 
    // String alias (e.g., "div", "button") - returns instance of this class
    static create<T extends Component>(
-      this: ComponentConstructor<T>,
+      this: { prototype: T; isComponentType: true },
       alias: string,
       config?: ComponentConfigType<ComponentConstructor<T>>,
       more?: Partial<ComponentConfigType<ComponentConstructor<T>>>,

@@ -1,5 +1,5 @@
 import assert from "assert";
-import { Component, ComponentConstructor, ComponentConfigType, Create } from "./Component";
+import { Component, ComponentConstructor, ComponentConfigType, ComponentInstanceType, Create, CreateConfig } from "./Component";
 
 // Test classes for type checking
 interface TestWidgetConfig {
@@ -25,6 +25,19 @@ class TestButton extends TestWidget {
    declare onClick?: () => void;
 
    constructor(config?: TestButtonConfig) {
+      super(config);
+   }
+}
+
+// Unrelated class (not in TestWidget hierarchy) for type testing
+interface UnrelatedConfig {
+   name: string;
+}
+
+class UnrelatedComponent extends Component {
+   declare name?: string;
+
+   constructor(config?: UnrelatedConfig) {
       super(config);
    }
 }
@@ -256,32 +269,113 @@ describe("Component.create", function () {
    });
 });
 
-describe("Creatable type", function () {
-   // Helper function that accepts Creatable
-   function createAxis<T extends Component>(creatable: Create<T>): T {
+describe("Create type", function () {
+   // Helper function that accepts Create
+   function createComponent<TCtor extends ComponentConstructor>(
+      creatable: Create<TCtor>,
+   ): ComponentInstanceType<TCtor> {
       return Component.create(creatable as any);
    }
 
    it("accepts instance pass-through", function () {
       const widget = new TestWidget({ text: "Instance" });
-      const result = createAxis(widget);
+      const result = createComponent<typeof TestWidget>(widget);
       assert.strictEqual(result, widget);
    });
 
    it("accepts constructor", function () {
-      const result = createAxis(TestButton);
+      const result = createComponent<typeof TestWidget>(TestButton);
       assert.ok(result instanceof TestButton);
    });
 
    it("accepts config with type", function () {
-      const result = createAxis({ type: TestButton, text: "Typed" });
+      const result = createComponent<typeof TestWidget>({ type: TestButton, text: "Typed" });
       assert.ok(result instanceof TestButton);
       assert.equal(result.text, "Typed");
    });
 
    it("accepts config with $type", function () {
-      const result = createAxis({ $type: TestButton, text: "DollarTyped" });
+      const result = createComponent<typeof TestWidget>({ $type: TestButton, text: "DollarTyped" });
       assert.ok(result instanceof TestButton);
       assert.equal(result.text, "DollarTyped");
+   });
+});
+
+describe("CreateConfig type safety", function () {
+   it("rejects config with type from unrelated class", function () {
+      // @ts-expect-error - UnrelatedComponent is not a subclass of TestWidget
+      const config: CreateConfig<typeof TestWidget> = { type: UnrelatedComponent, name: "test" };
+   });
+
+   it("rejects config missing required properties", function () {
+      // @ts-expect-error - text is required in TestWidgetConfig
+      const config: CreateConfig<typeof TestWidget> = { type: TestButton };
+   });
+
+   it("accepts config with type from subclass and required properties", function () {
+      const config: CreateConfig<typeof TestWidget> = { type: TestButton, text: "valid" };
+      assert.ok(config);
+   });
+
+   it("accepts constructor from subclass", function () {
+      const config: CreateConfig<typeof TestWidget> = TestButton;
+      assert.ok(config);
+   });
+});
+
+describe("Create type as property (like Chart.axes)", function () {
+   // Simulates how Chart uses Create<typeof Axis> for its axes property
+   interface ContainerConfig {
+      items?: Record<string, Create<typeof TestWidget>>;
+   }
+
+   it("accepts constructor as property value", function () {
+      const config: ContainerConfig = {
+         items: {
+            a: TestWidget,
+            b: TestButton,
+         },
+      };
+      assert.ok(config);
+   });
+
+   it("accepts config with type as property value", function () {
+      const config: ContainerConfig = {
+         items: {
+            a: { type: TestWidget, text: "widget" },
+            b: { type: TestButton, text: "button", onClick: () => {} },
+         },
+      };
+      assert.ok(config);
+   });
+
+   it("accepts config with $type as property value", function () {
+      const config: ContainerConfig = {
+         items: {
+            a: { $type: TestWidget, text: "widget" },
+            b: { $type: TestButton, text: "button" },
+         },
+      };
+      assert.ok(config);
+   });
+
+   it("accepts instance as property value", function () {
+      const config: ContainerConfig = {
+         items: {
+            a: new TestWidget({ text: "instance" }),
+            b: new TestButton({ text: "button" }),
+         },
+      };
+      assert.ok(config);
+   });
+
+   it("accepts config with extra properties", function () {
+      const config: ContainerConfig = {
+         items: {
+            // Extra property (like snapToTicks on NumericAxis)
+            a: { type: TestButton, text: "button", onClick: () => {}, value: 42 },
+         },
+      };
+      assert.ok(config);
    });
 });
