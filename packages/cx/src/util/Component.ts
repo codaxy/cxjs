@@ -43,10 +43,10 @@ export type ComponentInstanceType<T> = T extends { new (config?: any): infer I }
  * <Chart xAxis={new NumericAxis({ min: 0 })} />  // Instance
  */
 
-export type Creatable<T extends Component, TConfig = ComponentConfigType<ComponentConstructor<T>>> =
+export type Creatable<T extends Component> =
    | ComponentConstructor<T> // Constructor for T or subtype
-   | (TConfig & { type: ComponentConstructor<T>; $type?: never }) // Config object with type
-   | (TConfig & { $type: ComponentConstructor<T>; type?: never }); // Config object with $type
+   | (ComponentConfigType<ComponentConstructor<T>> & { type: ComponentConstructor<T>; $type?: never }) // Config object with type
+   | (ComponentConfigType<ComponentConstructor<T>> & { $type: ComponentConstructor<T>; type?: never }); // Config object with $type
 
 export type CreatableOrInstance<T extends Component> =
    | T // Instance pass-through
