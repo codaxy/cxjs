@@ -134,22 +134,24 @@ export class Component {
    };
 
    // Config object with type or $type property
-   static create<T extends Component>(
-      config: ({ type: ComponentConstructor<T>; $type?: never } | { $type: ComponentConstructor<T>; type?: never }) &
-         Partial<ComponentConfigType<ComponentConstructor<T>>>,
+   static create<TCtor extends ComponentConstructor, T extends Component = ComponentInstanceType<TCtor>>(
+      config: (
+         | { type: TCtor; $type?: never; isComponentType?: never }
+         | { $type: TCtor; type?: never; isComponentType?: never }
+      ) & Partial<ComponentConfigType<ComponentConstructor<T>>>,
       more?: Partial<ComponentConfigType<ComponentConstructor<T>>>,
    ): T;
 
    // Class type with array of configs - returns array of instances
-   static create<T extends Component>(
-      type: ComponentConstructor<T>,
+   static create<TCtor extends ComponentConstructor, T extends Component = ComponentInstanceType<TCtor>>(
+      type: TCtor,
       configs: ComponentConfigType<ComponentConstructor<T>>[],
       more?: Partial<ComponentConfigType<ComponentConstructor<T>>>,
    ): T[];
 
    // Explicit class type as first argument with typed config
-   static create<T extends Component>(
-      type: ComponentConstructor<T>,
+   static create<TCtor extends ComponentConstructor, T extends Component = ComponentInstanceType<TCtor>>(
+      type: TCtor,
       config?: ComponentConfigType<ComponentConstructor<T>>,
       more?: Partial<ComponentConfigType<ComponentConstructor<T>>>,
    ): T;

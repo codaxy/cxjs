@@ -111,6 +111,29 @@ describe("Component.create", function () {
       });
    });
 
+   describe("class type with config and empty more object", function () {
+      it("creates instance with config and empty more object", function () {
+         const result = Component.create(TestWidget, { text: "Hello" }, {});
+         assert.ok(result instanceof TestWidget);
+         assert.equal(result.text, "Hello");
+      });
+   });
+
+   describe("parent class calling create with child class", function () {
+      it("creates child instance when called on parent class", function () {
+         // Pattern: ParentClass.create(ChildClass, config, more)
+         // This is how Widget.create(StaticText, { text }, {}) is used
+         const result = TestWidget.create(TestButton, { text: "Child" }, {});
+         assert.ok(result instanceof TestButton);
+         assert.equal(result.text, "Child");
+      });
+
+      it("returns properly typed child instance", function () {
+         const result: TestButton = TestWidget.create(TestButton, { text: "Typed" });
+         assert.ok(result instanceof TestButton);
+      });
+   });
+
    describe("string alias", function () {
       it("creates instance from registered alias", function () {
          const result = Component.create("test-button", { text: "Aliased" });
