@@ -12,6 +12,7 @@ import { withHoverSync } from "../ui/HoverSync";
 import { Instance } from "../ui/Instance";
 import { RenderingContext } from "../ui/RenderingContext";
 import { NumberProp, BooleanProp, StringProp } from "../ui/Prop";
+import { CreateConfig } from "../util/Component";
 
 export interface PieChartConfig extends BoundedObjectConfig {
    /** Total angle of the pie chart in degrees. Default is `360`. */
@@ -121,7 +122,15 @@ class PieCalculator {
 
    acknowledge(stack: string, value: number, r: number, r0: number, percentageRadius: boolean): void {
       let s = this.stacks[stack];
-      if (!s) s = this.stacks[stack] = { total: 0, r0s: this.gap > 0 ? [] : null, r0ps: this.gap > 0 ? [] : null, gap: 0, angleFactor: 0, lastAngle: 0 };
+      if (!s)
+         s = this.stacks[stack] = {
+            total: 0,
+            r0s: this.gap > 0 ? [] : null,
+            r0ps: this.gap > 0 ? [] : null,
+            gap: 0,
+            angleFactor: 0,
+            lastAngle: 0,
+         };
       if (value > 0) {
          s.total += value;
          if (this.gap > 0 && r0 > 0)
@@ -205,7 +214,16 @@ class PieCalculator {
    }
 }
 
-function createSvgArc(cx: number, cy: number, r0: number = 0, r: number, startAngle: number, endAngle: number, br: number = 0, gap: number = 0): string {
+function createSvgArc(
+   cx: number,
+   cy: number,
+   r0: number = 0,
+   r: number,
+   startAngle: number,
+   endAngle: number,
+   br: number = 0,
+   gap: number = 0,
+): string {
    let gap2 = gap / 2;
 
    if (startAngle > endAngle) {
@@ -417,7 +435,7 @@ export interface PieSliceConfig extends StyledContainerConfig {
    hoverChannel?: string;
 
    /** Selection configuration. */
-   selection?: any;
+   selection?: CreateConfig<typeof Selection>;
 
    /** Tooltip configuration. */
    tooltip?: any;

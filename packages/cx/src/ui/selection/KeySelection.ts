@@ -1,11 +1,11 @@
-import { Selection, SelectionOptions } from "./Selection";
+import { Selection, SelectionConfig, SelectionOptions } from "./Selection";
 import { isArray } from "../../util/isArray";
 import { isNonEmptyArray } from "../../util/isNonEmptyArray";
 import { shallowEquals } from "../../util/shallowEquals";
 import { View } from "../../data/View";
 import { Prop } from "../Prop";
 
-export interface KeySelectionConfig {
+export interface KeySelectionConfig extends SelectionConfig {
    /** Binding path for selection state. */
    bind?: string;
 

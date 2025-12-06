@@ -6,6 +6,14 @@ export interface SelectionOptions {
    add?: boolean;
 }
 
+export interface SelectionConfig {
+   bind?: string;
+   record?: any;
+   index?: any;
+   toggle?: boolean;
+   multiple?: boolean;
+}
+
 export class Selection extends Component {
    declare bind?: string;
    declare record?: any;
@@ -13,6 +21,10 @@ export class Selection extends Component {
    declare toggle: boolean;
    declare isDummy: boolean;
    declare multiple: boolean;
+
+   constructor(config?: SelectionConfig) {
+      super(config);
+   }
 
    isSelected(store: View, record: any, index: any): boolean {
       return !!this.bind && store.get(this.bind) === record;

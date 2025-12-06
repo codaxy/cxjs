@@ -36,11 +36,26 @@ export interface ControllerMethods {
    ): void;
 }
 
+export interface BaseControllerConfig {
+   store?: View;
+   instance?: Instance;
+   widget?: Widget;
+
+   onInit?: (context: RenderingContext) => void;
+   onExplore?: (context: RenderingContext) => void;
+   onPrepare?: (context: RenderingContext) => void;
+   onCleanup?: (context: RenderingContext) => void;
+   onDestroy?: () => void;
+}
+
 // Controller config object type with Controller methods AND its own methods available on 'this'
-export type ControllerConfig<T extends object = {}> = T & ThisType<ControllerMethods & T>;
+export type ControllerConfig<T extends BaseControllerConfig = BaseControllerConfig> = T &
+   ThisType<ControllerMethods & T>;
 
 /** Controller factory function type */
-export type ControllerFactory<T extends object = {}> = (config: ViewMethods) => ControllerConfig<T>;
+export type ControllerFactory<T extends BaseControllerConfig = BaseControllerConfig> = (
+   config: ViewMethods,
+) => ControllerConfig<T>;
 
 export type ControllerCreatable<T extends Controller> =
    | ({ type: ComponentConstructor<T>; $type?: never } & ComponentConfigType<ComponentConstructor<T>>) // Config with type
@@ -58,7 +73,7 @@ export class Controller extends Component implements ControllerMethods {
    declare widget?: Widget;
    computables?: Record<string, ComputableEntry>;
 
-   constructor(config?: ControllerConfig) {
+   constructor(config?: BaseControllerConfig) {
       super(config);
    }
 
