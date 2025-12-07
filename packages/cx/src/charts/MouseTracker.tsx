@@ -7,6 +7,7 @@ import { closest } from "../util/DOM";
 import { getTopLevelBoundingClientRect } from "../util/getTopLevelBoundingClientRect";
 import { RenderingContext, CxChild } from "../ui/RenderingContext";
 import { NumberProp } from "../ui/Prop";
+import type { ChartRenderingContext } from "./Chart";
 
 export interface MouseTrackerConfig extends BoundedObjectConfig {
    /** The binding that is used to store the mouse x coordinate. */
@@ -47,9 +48,9 @@ export class MouseTracker extends BoundedObject<MouseTrackerConfig, MouseTracker
       });
    }
 
-   explore(context: RenderingContext, instance: MouseTrackerInstance) {
-      instance.xAxis = (context.axes as any)?.[this.xAxis];
-      instance.yAxis = (context.axes as any)?.[this.yAxis];
+   explore(context: ChartRenderingContext, instance: MouseTrackerInstance) {
+      instance.xAxis = context.axes?.[this.xAxis];
+      instance.yAxis = context.axes?.[this.yAxis];
       super.explore(context, instance);
    }
 

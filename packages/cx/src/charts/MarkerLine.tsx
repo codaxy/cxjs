@@ -6,6 +6,7 @@ import { isDefined } from "../util/isDefined";
 import { Rect } from "../svg/util/Rect";
 import { RenderingContext } from "../ui/RenderingContext";
 import { NumberProp, BooleanProp, StringProp } from "../ui/Prop";
+import type { ChartRenderingContext } from "./Chart";
 
 export interface MarkerLineConfig extends BoundedObjectConfig {
    /** X coordinate for vertical line. */

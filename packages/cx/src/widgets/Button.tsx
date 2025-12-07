@@ -11,6 +11,7 @@ import type { RenderingContext } from "../ui/RenderingContext";
 import type { Instance, WidgetData, RenderProps } from "../ui/Instance";
 import { YesNoResult } from "../ui/Instance";
 import { BooleanProp, StringProp, Prop, ModProp } from "../ui/Prop";
+import type { FormRenderingContext } from "./form/ValidationGroup";
 
 interface ButtonData extends WidgetData {
    pressed?: boolean;
@@ -105,7 +106,7 @@ export class Button extends HtmlElement<ButtonConfig, HtmlElementInstance> {
       super.prepareData(context, instance);
    }
 
-   explore(context: RenderingContext, instance: HtmlElementInstance): void {
+   explore(context: FormRenderingContext, instance: HtmlElementInstance): void {
       instance.data.parentDisabled = context.parentDisabled;
       instance.data.parentStrict = context.parentStrict;
 

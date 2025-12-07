@@ -6,6 +6,7 @@ import { BooleanProp, StringProp } from "../../ui/Prop";
 import { coalesce } from "../../util/coalesce";
 import { isArray } from "../../util/isArray";
 import { HtmlElement, HtmlElementConfig, HtmlElementInstance } from "../HtmlElement";
+import type { FormRenderingContext } from "./ValidationGroup";
 
 export interface LabelConfig extends HtmlElementConfig {
    /** Used in combination with `asterisk` to indicate required fields. */
@@ -49,7 +50,7 @@ export class Label extends HtmlElement {
       super.prepareData(context, instance);
    }
 
-   explore(context: RenderingContext, instance: Instance): void {
+   explore(context: FormRenderingContext, instance: Instance): void {
       let { data } = instance;
 
       if (!data.htmlFor) data.htmlFor = context.lastFieldId;

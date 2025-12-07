@@ -21,6 +21,7 @@ import { Label } from "./Label";
 import { ValidationError } from "./ValidationError";
 import { BooleanProp, ClassProp, Config, Prop, StringProp, StructuredProp, StyleProp } from "../../ui/Prop";
 import type { TooltipInstance } from "../overlay";
+import type { FormRenderingContext } from "./ValidationGroup";
 
 export interface FieldConfig extends PureContainerConfig, WidgetStyleConfig {
    /** Field label. For advanced use cases. */
@@ -128,7 +129,7 @@ export class FieldInstance<F extends Field<any, any> = Field<any, any>>
    declare state: Record<string, any>;
    declare parentDisabled?: boolean;
    declare parentReadOnly?: boolean;
-   declare parentViewMode?: string;
+   declare parentViewMode?: boolean | string;
    declare parentTabOnEnterKey?: boolean;
    declare parentVisited?: boolean;
    declare tooltips: { [key: string]: TooltipInstance };
@@ -273,7 +274,7 @@ export class Field<
       };
    }
 
-   public prepareData(context: RenderingContext, instance: InstanceType, ...args: Record<string, unknown>[]): void {
+   public prepareData(context: FormRenderingContext, instance: InstanceType, ...args: Record<string, unknown>[]): void {
       let { data, state } = instance;
       if (!data.id) data.id = "fld-" + instance.id;
 
@@ -303,7 +304,7 @@ export class Field<
       super.prepareData(context, instance);
    }
 
-   protected disableOrValidate(context: RenderingContext, instance: Instance): void {
+   protected disableOrValidate(context: FormRenderingContext, instance: Instance): void {
       let { data, state } = instance;
 
       //if the parent is strict and sets some flag to true, it is not allowed to overrule that flag by field settings
@@ -345,7 +346,7 @@ export class Field<
       };
    }
 
-   explore(context: RenderingContext, instance: InstanceType): void {
+   explore(context: FormRenderingContext, instance: InstanceType): void {
       let { data, state } = instance;
 
       instance.parentDisabled = context.parentDisabled;
@@ -361,7 +362,7 @@ export class Field<
          instance.cache("parentTabOnEnterKey", context.parentTabOnEnterKey) ||
          instance.cache("parentVisited", context.parentVisited)
       ) {
-         (instance as any).markShouldUpdate(context);
+         instance.markShouldUpdate(context);
          this.disableOrValidate(context, instance);
          this.prepareCSS(context, instance);
       }
@@ -384,7 +385,7 @@ export class Field<
       super.explore(context, instance);
    }
 
-   exploreCleanup(context: RenderingContext, instance: Instance): void {
+   exploreCleanup(context: FormRenderingContext, instance: Instance): void {
       context.pop("lastFieldId");
    }
 
@@ -392,7 +393,7 @@ export class Field<
       return data.value == null || data.value === this.emptyValue;
    }
 
-   validateRequired(context: RenderingContext, instance: Instance): string | undefined {
+   validateRequired(context: FormRenderingContext, instance: Instance): string | undefined {
       let { data } = instance;
       if (this.isEmpty(data)) return this.requiredText;
    }
@@ -401,7 +402,7 @@ export class Field<
       return data.value;
    }
 
-   validate(context: RenderingContext, instance: Instance): void {
+   validate(context: FormRenderingContext, instance: Instance): void {
       let { data } = instance;
       let state = instance.state || {};
 

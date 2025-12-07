@@ -6,6 +6,7 @@ import { parseStyle } from "../util/parseStyle";
 import { Instance } from "../ui/Instance";
 import { RenderingContext } from "../ui/RenderingContext";
 import { NumberProp, BooleanProp, StringProp, RecordsProp, StyleProp } from "../ui/Prop";
+import type { ChartRenderingContext } from "./Chart";
 
 interface LinePoint {
    x: number;
@@ -162,7 +163,7 @@ export class LineGraph extends Widget {
       super.prepareData(context, instance);
    }
 
-   explore(context: RenderingContext, instance: LineGraphInstance): void {
+   explore(context: ChartRenderingContext, instance: LineGraphInstance): void {
       let { data } = instance;
 
       instance.colorMap = data.colorMap && context.getColorMap && context.getColorMap(data.colorMap);
@@ -170,7 +171,7 @@ export class LineGraph extends Widget {
       if (instance.colorMap && data.colorName) instance.colorMap.acknowledge(data.colorName);
 
       if (data.active) {
-         instance.axes = context.axes;
+         instance.axes = context.axes!;
          instance.xAxis = instance.axes[this.xAxis];
          instance.yAxis = instance.axes[this.yAxis];
          super.explore(context, instance);
@@ -192,7 +193,7 @@ export class LineGraph extends Widget {
       }
    }
 
-   prepare(context: RenderingContext, instance: LineGraphInstance): void {
+   prepare(context: ChartRenderingContext, instance: LineGraphInstance): void {
       let { data, colorMap } = instance;
 
       if (colorMap && data.colorName) {

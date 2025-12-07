@@ -132,6 +132,37 @@ export default (
          typed controller instance, enabling full autocomplete and compile-time type checking for
          controller methods and their parameters.
 
+         ### Typed RenderingContext
+
+         CxJS uses a `RenderingContext` object to pass information down the widget tree during rendering.
+         Different widget families define typed context interfaces that extend `RenderingContext` for
+         type-safe access to context properties.
+
+         **Available typed contexts:**
+
+         - `FormRenderingContext` - Form validation context (`parentDisabled`, `parentReadOnly`, `validation`, etc.)
+         - `SvgRenderingContext` - SVG layout context (`parentRect`, `inSvg`, `addClipRect`)
+         - `ChartRenderingContext` - Chart context extending SVG (`axes`)
+
+         When creating custom widgets that consume these context properties, import and use the typed
+         context interface in your method signatures:
+
+         <CodeSplit>
+            <CodeSnippet copy={false}>{`
+import type { FormRenderingContext } from "cx/widgets";
+
+export class MyFormWidget extends Field<MyFormWidgetConfig> {
+   explore(context: FormRenderingContext, instance: Instance) {
+      // Type-safe access to form context properties
+      if (context.parentDisabled) {
+         // handle disabled state
+      }
+      super.explore(context, instance);
+   }
+}
+            `}</CodeSnippet>
+         </CodeSplit>
+
          ## Authoring Widgets
 
          Previously, CxJS widgets had to be written in JavaScript with optional

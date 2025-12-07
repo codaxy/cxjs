@@ -9,6 +9,7 @@ import { Prop, BooleanProp, NumberProp, StringProp } from "../ui/Prop";
 import { Instance } from "../ui/Instance";
 import { RenderingContext } from "../ui/RenderingContext";
 import { Rect } from "../svg/util/Rect";
+import type { ChartRenderingContext } from "./Chart";
 
 export interface ColumnBarBaseConfig extends StyledContainerConfig {
    /** The `x` value binding or expression. */
@@ -141,10 +142,10 @@ export class ColumnBarBase extends StyledContainerBase<ColumnBarBaseConfig> {
       );
    }
 
-   prepareData(context: RenderingContext, instance: ColumnBarBaseInstance): void {
-      instance.axes = context.axes;
-      instance.xAxis = context.axes[this.xAxis];
-      instance.yAxis = context.axes[this.yAxis];
+   prepareData(context: ChartRenderingContext, instance: ColumnBarBaseInstance): void {
+      instance.axes = context.axes!;
+      instance.xAxis = context.axes![this.xAxis];
+      instance.yAxis = context.axes![this.yAxis];
       instance.hoverSync = context.hoverSync;
       var { data } = instance;
       data.valid = this.checkValid(data);
@@ -156,7 +157,7 @@ export class ColumnBarBase extends StyledContainerBase<ColumnBarBaseConfig> {
       return true;
    }
 
-   prepare(context: RenderingContext, instance: ColumnBarBaseInstance): void {
+   prepare(context: ChartRenderingContext, instance: ColumnBarBaseInstance): void {
       let { data, colorMap } = instance;
 
       if (colorMap && data.colorName) {
@@ -190,7 +191,7 @@ export class ColumnBarBase extends StyledContainerBase<ColumnBarBaseConfig> {
          });
    }
 
-   prepareCleanup(context: RenderingContext, instance: ColumnBarBaseInstance): void {
+   prepareCleanup(context: ChartRenderingContext, instance: ColumnBarBaseInstance): void {
       let { data } = instance;
       if (data.valid && data.active) context.pop("parentRect");
    }

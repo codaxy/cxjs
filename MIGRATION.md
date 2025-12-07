@@ -404,9 +404,67 @@ export { Button, ButtonConfig } from "./Button";
 export { FlexBox, FlexBoxConfig } from "./FlexBox";
 ```
 
+## Typed RenderingContext Usage
+
+RenderingContext uses `[key: string]: any` to allow dynamic property access. Parent widgets set context properties that children consume. To add type safety, define typed context interfaces that extend RenderingContext and use them directly in method signatures.
+
+### Pattern: Typed Method Signatures
+
+Define a typed context interface next to the widget that sets the context properties, then use it in method signatures:
+
+```typescript
+// In ValidationGroup.ts
+import { RenderingContext } from "../../ui/RenderingContext";
+
+/** Typed context interface for form-related context properties */
+export interface FormRenderingContext extends RenderingContext {
+   parentDisabled?: boolean;
+   parentReadOnly?: boolean;
+   parentViewMode?: boolean | string;
+   parentTabOnEnterKey?: boolean;
+   parentVisited?: boolean;
+   parentStrict?: boolean;
+   parentAsterisk?: boolean;
+   validation?: { errors: ValidationErrorData[] };
+   lastFieldId?: string;
+}
+
+export class ValidationGroup extends PureContainerBase<...> {
+   // Use typed context directly in method signature
+   explore(context: FormRenderingContext, instance: ValidationGroupInstance): void {
+      context.push("parentStrict", coalesce(instance.data.strict, context.parentStrict));
+      context.push("parentDisabled", coalesce(instance.data.disabled, context.parentDisabled));
+      super.explore(context, instance);
+   }
+}
+```
+
+### Existing Typed Contexts
+
+**FormRenderingContext** (ValidationGroup.ts):
+- Used by: ValidationGroup, Field, Label, ValidationError, Button
+- Properties: `parentDisabled`, `parentReadOnly`, `parentViewMode`, `parentTabOnEnterKey`, `parentVisited`, `parentStrict`, `parentAsterisk`, `validation`, `lastFieldId`
+
+**SvgRenderingContext** (BoundedObject.ts):
+- Used by: Svg, BoundedObject and all SVG components
+- Properties: `parentRect`, `inSvg`, `addClipRect`
+
+**ChartRenderingContext** (Chart.ts) - extends SvgRenderingContext:
+- Used by: Chart, all chart components (LineGraph, ScatterGraph, Gridlines, Marker, etc.)
+- Properties: `axes` (Record of axis calculators)
+
+### Guidelines
+
+1. **Define locally**: Keep context interfaces next to the widgets that define them
+2. **Export for consumers**: Export the interface so child widgets can import and use it
+3. **Extend appropriately**: ChartRenderingContext extends SvgRenderingContext since charts need `parentRect`
+4. **Use non-null assertion**: When accessing context properties that must exist, use `context.axes!`
+
+---
+
 ## Nice to Have Improvements
 
-[ ] Typed RenderingContext usage
+[x] Typed RenderingContext usage
 [ ] Better StructuredProp and typed ContentResolver
 [ ] dropdownOptions might typed as DropdownConfig?
 [x] Properly type Component.create, Widget.create, etc.

@@ -21,6 +21,7 @@ import { getTopLevelBoundingClientRect } from "../util/getTopLevelBoundingClient
 import { RenderingContext } from "../ui/RenderingContext";
 import { NumberProp, BooleanProp, StringProp, StructuredProp } from "../ui/Prop";
 import { Instance } from "../ui/Instance";
+import type { ChartRenderingContext } from "./Chart";
 
 export interface MarkerConfig extends BoundedObjectConfig {
    /** The `x` value binding or expression. */

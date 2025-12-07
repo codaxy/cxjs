@@ -6,6 +6,7 @@ import { VDOM } from "../ui/Widget";
 import { Rect } from "../svg/util/Rect";
 import { RenderingContext, CxChild } from "../ui/RenderingContext";
 import { Prop, NumberProp, StyleProp } from "../ui/Prop";
+import type { ChartRenderingContext } from "./Chart";
 
 export interface SwimlaneConfig extends BoundedObjectConfig {
    /** The `x` value binding or expression. */
@@ -70,11 +71,11 @@ export class Swimlane extends BoundedObject<SwimlaneConfig, SwimlaneInstance> {
       });
    }
 
-   explore(context: RenderingContext, instance: SwimlaneInstance) {
+   explore(context: ChartRenderingContext, instance: SwimlaneInstance) {
       let { data } = instance;
       super.explore(context, instance);
-      instance.xAxis = (context.axes as any)?.[this.xAxis];
-      instance.yAxis = (context.axes as any)?.[this.yAxis];
+      instance.xAxis = context.axes?.[this.xAxis];
+      instance.yAxis = context.axes?.[this.yAxis];
 
       const d = data as any;
       if (d.vertical) {

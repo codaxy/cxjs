@@ -5,6 +5,7 @@ import { parseStyle } from "../util/parseStyle";
 import { VDOM } from "../ui/Widget";
 import { RenderingContext, CxChild } from "../ui/RenderingContext";
 import { NumberProp, StyleProp } from "../ui/Prop";
+import type { ChartRenderingContext } from "./Chart";
 
 export interface SwimlanesConfig extends BoundedObjectConfig {
    /**
@@ -79,10 +80,10 @@ export class Swimlanes extends BoundedObject<SwimlanesConfig, SwimlanesInstance>
       });
    }
 
-   explore(context: RenderingContext, instance: SwimlanesInstance) {
+   explore(context: ChartRenderingContext, instance: SwimlanesInstance) {
       super.explore(context, instance);
-      instance.xAxis = (context.axes as any)?.[this.xAxis];
-      instance.yAxis = (context.axes as any)?.[this.yAxis];
+      instance.xAxis = context.axes?.[this.xAxis];
+      instance.yAxis = context.axes?.[this.yAxis];
    }
 
    prepare(context: RenderingContext, instance: SwimlanesInstance) {

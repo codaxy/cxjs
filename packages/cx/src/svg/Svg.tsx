@@ -1,11 +1,10 @@
 /** @jsxImportSource react */
-import { Widget, VDOM } from "../ui/Widget";
-import { BoundedObject, BoundedObjectConfig, BoundedObjectInstance } from "./BoundedObject";
-import { Rect } from "./util/Rect";
-import { ResizeManager } from "../ui/ResizeManager";
-import { addEventListenerWithOptions } from "../util/addEventListenerWithOptions";
 import { RenderingContext } from "../ui/RenderingContext";
-import { Instance } from "../ui/Instance";
+import { ResizeManager } from "../ui/ResizeManager";
+import { VDOM, Widget } from "../ui/Widget";
+import { addEventListenerWithOptions } from "../util/addEventListenerWithOptions";
+import { BoundedObject, BoundedObjectConfig, BoundedObjectInstance, SvgRenderingContext } from "./BoundedObject";
+import { Rect } from "./util/Rect";
 
 interface SvgInstance extends BoundedObjectInstance {
    state: {
@@ -62,16 +61,16 @@ export class Svg extends BoundedObject<SvgConfig, SvgInstance> {
       instance.state = { size };
    }
 
-   explore(context: RenderingContext, instance: SvgInstance) {
+   explore(context: SvgRenderingContext, instance: SvgInstance) {
       context.push("inSvg", true);
       super.explore(context, instance);
    }
 
-   exploreCleanup(context: RenderingContext, instance: SvgInstance) {
+   exploreCleanup(context: SvgRenderingContext, instance: SvgInstance) {
       context.pop("inSvg");
    }
 
-   prepare(context: RenderingContext, instance: SvgInstance) {
+   prepare(context: SvgRenderingContext, instance: SvgInstance) {
       const size = instance.state.size;
 
       context.parentRect = new Rect({
@@ -92,7 +91,7 @@ export class Svg extends BoundedObject<SvgConfig, SvgInstance> {
       super.prepare(context, instance);
    }
 
-   prepareCleanup(context: RenderingContext, instance: SvgInstance) {
+   prepareCleanup(context: SvgRenderingContext, instance: SvgInstance) {
       super.prepareCleanup(context, instance);
       context.pop("addClipRect");
       context.pop("inSvg");

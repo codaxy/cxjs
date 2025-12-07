@@ -1,4 +1,4 @@
-import type { RenderingContext } from "../../ui/RenderingContext";
+import { RenderingContext } from "../../ui/RenderingContext";
 import type { Instance } from "../../ui/Instance";
 import { Widget } from "../../ui/Widget";
 import { PureContainerBase, PureContainerConfig } from "../../ui/PureContainer";
@@ -6,6 +6,19 @@ import { isDefined } from "../../util/isDefined";
 import { shallowEquals } from "../../util/shallowEquals";
 import { coalesce } from "../../util/coalesce";
 import { BooleanProp, Prop } from "../../ui/Prop";
+
+/** Typed context interface for form-related context properties */
+export interface FormRenderingContext extends RenderingContext {
+   parentDisabled?: boolean;
+   parentReadOnly?: boolean;
+   parentViewMode?: boolean | string;
+   parentTabOnEnterKey?: boolean;
+   parentVisited?: boolean;
+   parentStrict?: boolean;
+   parentAsterisk?: boolean;
+   validation?: { errors: ValidationErrorData[] };
+   lastFieldId?: string;
+}
 
 export interface ValidationErrorData {
    fieldId: string;
@@ -82,7 +95,7 @@ export class ValidationGroup<
       });
    }
 
-   explore(context: RenderingContext, instance: ValidationGroupInstance): void {
+   explore(context: FormRenderingContext, instance: ValidationGroupInstance): void {
       if (isDefined(instance.data.enabled)) instance.data.disabled = !instance.data.enabled;
 
       instance.validation = {
@@ -101,7 +114,7 @@ export class ValidationGroup<
       super.explore(context, instance);
    }
 
-   exploreCleanup(context: RenderingContext, instance: ValidationGroupInstance): void {
+   exploreCleanup(context: FormRenderingContext, instance: ValidationGroupInstance): void {
       context.pop("validation");
       context.pop("parentVisited");
       context.pop("parentDisabled");

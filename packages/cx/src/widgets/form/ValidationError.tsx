@@ -3,6 +3,7 @@
 import type { Instance } from "../../ui/Instance";
 import type { RenderingContext } from "../../ui/RenderingContext";
 import { Widget } from "../../ui/Widget";
+import type { FormRenderingContext } from "./ValidationGroup";
 
 interface ValidationErrorData {
    visible?: boolean;
@@ -23,7 +24,7 @@ interface ValidationErrorInstance extends Instance {
 }
 
 export class ValidationError extends Widget {
-   checkVisible(context: RenderingContext, instance: ValidationErrorInstance, data: ValidationErrorData): boolean {
+   checkVisible(context: FormRenderingContext, instance: ValidationErrorInstance, data: ValidationErrorData): boolean {
       if (
          data.visible &&
          context.lastFieldId &&
@@ -38,7 +39,7 @@ export class ValidationError extends Widget {
       return false;
    }
 
-   explore(context: RenderingContext, instance: ValidationErrorInstance): void {
+   explore(context: FormRenderingContext, instance: ValidationErrorInstance): void {
       var { data, lastError } = instance;
       let c1 = instance.cache("lastErrorMessage", lastError?.message);
       let c2 = instance.cache("lastErrorFieldId", lastError?.fieldId);

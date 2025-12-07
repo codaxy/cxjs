@@ -8,6 +8,7 @@ import { Instance } from "../ui/Instance";
 import { RenderingContext, CxChild } from "../ui/RenderingContext";
 import { Prop, StyleProp, DataRecord } from "../ui/Prop";
 import { Create } from "../util/Component";
+import type { ChartRenderingContext } from "./Chart";
 
 export interface BubbleGraphConfig extends WidgetConfig {
    /** Data array for the bubbles. */
@@ -80,8 +81,8 @@ export class BubbleGraph extends Widget<BubbleGraphConfig> {
       super.init();
    }
 
-   explore(context: RenderingContext, instance: BubbleGraphInstance) {
-      instance.axes = context.axes;
+   explore(context: ChartRenderingContext, instance: BubbleGraphInstance) {
+      instance.axes = context.axes!;
       super.explore(context, instance);
       var { data } = instance;
       const d = data as any;
@@ -93,13 +94,13 @@ export class BubbleGraph extends Widget<BubbleGraphConfig> {
       }
    }
 
-   prepare(context: RenderingContext, instance: BubbleGraphInstance) {
+   prepare(context: ChartRenderingContext, instance: BubbleGraphInstance) {
       super.prepare?.(context, instance);
       if (instance.axes[this.xAxis].shouldUpdate || (instance.axes as any)[this.yAxis].shouldUpdate)
          instance.markShouldUpdate(context);
    }
 
-   render(context: RenderingContext, instance: BubbleGraphInstance, key: string): CxChild {
+   render(context: ChartRenderingContext, instance: BubbleGraphInstance, key: string): CxChild {
       var { data } = instance;
       return (
          <g key={key} className={(data as any).classNames}>
@@ -108,7 +109,7 @@ export class BubbleGraph extends Widget<BubbleGraphConfig> {
       );
    }
 
-   renderData(context: RenderingContext, instance: BubbleGraphInstance): any {
+   renderData(context: ChartRenderingContext, instance: BubbleGraphInstance): any {
       var { data, axes, store } = instance;
       const d = data as any;
 

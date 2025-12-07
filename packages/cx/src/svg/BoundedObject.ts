@@ -4,6 +4,13 @@ import { RenderingContext } from "../ui/RenderingContext";
 import { Prop } from "../ui/Prop";
 import { IRect, Rect } from "./util/Rect";
 
+/** Typed context interface for SVG/layout-related context properties */
+export interface SvgRenderingContext extends RenderingContext {
+   parentRect?: Rect;
+   inSvg?: boolean;
+   addClipRect?: (rect: Rect) => string;
+}
+
 export interface BoundedObjectConfig extends StyledContainerConfig {
    /**
     * Anchor defines how child bounds are tied to the parent. Zero aligns with the top/left edge.
@@ -55,12 +62,12 @@ export class BoundedObject<
       data.padding = Rect.convertMargin(data.padding);
    }
 
-   calculateBounds(context: RenderingContext, instance: InstanceType) {
+   calculateBounds(context: SvgRenderingContext, instance: InstanceType) {
       var { data } = instance;
       return Rect.add(Rect.add(Rect.multiply(instance.parentRect, data.anchors), data.offset), data.margin);
    }
 
-   prepareBounds(context: RenderingContext, instance: InstanceType) {
+   prepareBounds(context: SvgRenderingContext, instance: InstanceType) {
       var { data } = instance;
       if (
          instance.shouldUpdate ||
@@ -77,12 +84,12 @@ export class BoundedObject<
       }
    }
 
-   prepare(context: RenderingContext, instance: InstanceType) {
+   prepare(context: SvgRenderingContext, instance: InstanceType) {
       this.prepareBounds(context, instance);
       context.push("parentRect", instance.data.childrenBounds);
    }
 
-   prepareCleanup(context: RenderingContext, instance: InstanceType) {
+   prepareCleanup(context: SvgRenderingContext, instance: InstanceType) {
       context.pop("parentRect");
    }
 }

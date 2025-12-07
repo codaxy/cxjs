@@ -6,6 +6,7 @@ import { Widget, VDOM } from "../ui/Widget";
 import { parseStyle } from "../util/parseStyle";
 import { RenderingContext } from "../ui/RenderingContext";
 import { NumberProp, BooleanProp, StringProp, StyleProp } from "../ui/Prop";
+import type { ChartRenderingContext } from "./Chart";
 
 export interface RangeMarkerConfig extends BoundedObjectConfig {
    /** The `x` value binding or expression. */

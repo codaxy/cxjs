@@ -5,6 +5,7 @@ import { Selection } from "../ui/selection/Selection";
 import { Instance } from "../ui/Instance";
 import { RenderingContext } from "../ui/RenderingContext";
 import { NumberProp, BooleanProp, StringProp, RecordsProp } from "../ui/Prop";
+import type { ChartRenderingContext } from "./Chart";
 
 export interface ColumnBarGraphBaseConfig extends WidgetConfig {
    /**
@@ -148,9 +149,9 @@ export class ColumnBarGraphBase extends Widget<ColumnBarGraphBaseConfig> {
       super.prepareData(context, instance);
    }
 
-   explore(context: RenderingContext, instance: ColumnBarGraphBaseInstance): void {
-      instance.xAxis = context.axes[this.xAxis];
-      instance.yAxis = context.axes[this.yAxis];
+   explore(context: ChartRenderingContext, instance: ColumnBarGraphBaseInstance): void {
+      instance.xAxis = context.axes![this.xAxis];
+      instance.yAxis = context.axes![this.yAxis];
 
       var { data } = instance;
 
@@ -160,7 +161,7 @@ export class ColumnBarGraphBase extends Widget<ColumnBarGraphBaseConfig> {
       super.explore(context, instance);
    }
 
-   prepare(context: RenderingContext, instance: ColumnBarGraphBaseInstance): void {
+   prepare(context: ChartRenderingContext, instance: ColumnBarGraphBaseInstance): void {
       let { data, colorMap, xAxis, yAxis } = instance;
 
       if (colorMap && data.name) {

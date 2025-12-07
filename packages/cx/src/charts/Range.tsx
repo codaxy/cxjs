@@ -9,6 +9,7 @@ import { RenderingContext } from "../ui/RenderingContext";
 import { Rect } from "../svg/util/Rect";
 import { NumberProp, BooleanProp, StringProp } from "../ui/Prop";
 import { Instance } from "../ui/Instance";
+import type { ChartRenderingContext } from "./Chart";
 
 export interface RangeConfig extends BoundedObjectConfig {
    /** The `x1` value binding or expression. */

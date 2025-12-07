@@ -8,6 +8,7 @@ import { isArray } from "../util/isArray";
 import { Instance } from "../ui/Instance";
 import { RenderingContext } from "../ui/RenderingContext";
 import { BooleanProp, NumberProp, StringProp, RecordsProp } from "../ui/Prop";
+import type { ChartRenderingContext } from "./Chart";
 
 export interface ScatterGraphConfig extends WidgetConfig {
    /** Data for the graph. Each entry should be an object with at least two properties
@@ -119,11 +120,11 @@ export class ScatterGraph extends Widget {
       super.prepareData(context, instance);
    }
 
-   explore(context: RenderingContext, instance: ScatterGraphInstance): void {
+   explore(context: ChartRenderingContext, instance: ScatterGraphInstance): void {
       super.explore(context, instance);
 
-      var xAxis = (instance.xAxis = context.axes[this.xAxis]);
-      var yAxis = (instance.yAxis = context.axes[this.yAxis]);
+      var xAxis = (instance.xAxis = context.axes![this.xAxis]);
+      var yAxis = (instance.yAxis = context.axes![this.yAxis]);
 
       var { data } = instance;
 
@@ -138,7 +139,7 @@ export class ScatterGraph extends Widget {
       }
    }
 
-   prepare(context: RenderingContext, instance: ScatterGraphInstance): void {
+   prepare(context: ChartRenderingContext, instance: ScatterGraphInstance): void {
       var { data, xAxis, yAxis, colorMap } = instance;
 
       if (xAxis.shouldUpdate || yAxis.shouldUpdate) instance.markShouldUpdate(context);

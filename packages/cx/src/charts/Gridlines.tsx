@@ -3,6 +3,7 @@
 import { BoundedObject, BoundedObjectConfig, BoundedObjectInstance } from "../svg/BoundedObject";
 import { VDOM } from "../ui/Widget";
 import { RenderingContext, CxChild } from "../ui/RenderingContext";
+import type { ChartRenderingContext } from "./Chart";
 
 export interface GridlinesConfig extends BoundedObjectConfig {
    /**
@@ -38,13 +39,13 @@ export class Gridlines extends BoundedObject<GridlinesConfig, GridlinesInstance>
       super(config);
    }
 
-   explore(context: RenderingContext, instance: GridlinesInstance) {
+   explore(context: ChartRenderingContext, instance: GridlinesInstance) {
       super.explore(context, instance);
-      instance.xAxis = (context.axes as any)?.[this.xAxis];
-      instance.yAxis = (context.axes as any)?.[this.yAxis];
+      instance.xAxis = context.axes?.[this.xAxis];
+      instance.yAxis = context.axes?.[this.yAxis];
    }
 
-   prepare(context: RenderingContext, instance: GridlinesInstance) {
+   prepare(context: ChartRenderingContext, instance: GridlinesInstance) {
       super.prepare(context, instance);
       let { xAxis, yAxis } = instance;
       if ((xAxis && xAxis.shouldUpdate) || (yAxis && yAxis.shouldUpdate)) instance.markShouldUpdate(context);
