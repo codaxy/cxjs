@@ -11,7 +11,7 @@ export const docsNavTree = [
             ],
          },
          {
-            text: "Pre-requsites",
+            text: "About",
             children: [
                { text: "JSX", url: "~/intro/jsx" },
                { text: "CLI", url: "~/intro/command-line" },
@@ -19,6 +19,10 @@ export const docsNavTree = [
                {
                   text: "Breaking Changes",
                   url: "~/intro/breaking-changes",
+               },
+               {
+                  text: "TypeScript Migration",
+                  url: "~/intro/type-script-migration",
                },
                {
                   text: "Step by Step Tutorial",
