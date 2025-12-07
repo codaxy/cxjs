@@ -21,6 +21,8 @@
       "build:theme:material": "webpack --config themes/material/webpack.config.js",
       "build:theme:marine": "webpack --config themes/marine/webpack.config.js",
       "build:theme:playground": "webpack --config themes/playground/webpack.config.js",
+      "compile:themes": "yarn workspaces foreach -A --include 'cx-theme-*' run compile",
+      "build:themes": "yarn workspaces foreach -A --include 'cx-theme-*' run build",
       "gallery": "webpack-dev-server --config gallery/config/webpack.dev.js --open",
       "build:gallery": "webpack --config gallery/config/webpack.prod.js",
       "build:gallery:root": "webpack --config gallery/config/webpack.prod.js",

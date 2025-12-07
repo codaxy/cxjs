@@ -87,8 +87,7 @@ export default (
                               mod="flat-primary"
                               data-id={bind("$record.id")}
                               onClick={(e, instance) => {
-                                 let { data, controller } = instance;
-                                 (controller as PageController).removeRecord(data.data.id);
+                                 instance.getControllerByType(PageController).removeRecord(instance.data.data.id);
                               }}
                            >
                               Remove
@@ -101,8 +100,8 @@ export default (
             <br />
             <Button
                type="button"
-               onClick={(e, { controller }) => {
-                  (controller as PageController).newRecord();
+               onClick={(e, instance) => {
+                  instance.getControllerByType(PageController).newRecord();
                }}
                style={{}}
             >
@@ -116,7 +115,9 @@ export default (
                <TextField label="Phone" value={bind("$page.form.phone")} />
                <TextField label="City" value={bind("$page.form.city")} />
                <Checkbox label="Notified" value={bind("$page.form.notified")} />
-               <Button onClick="saveRecord">Save</Button>
+               <Button onClick={(e, instance) => instance.getControllerByType(PageController).saveRecord()}>
+                  Save
+               </Button>
             </ValidationGroup>
          </Section>
       </FlexRow>

@@ -168,12 +168,12 @@ export default (
                   align: "center",
                   items: (
                      <cx>
-                        <Button mod="hollow" onClick="editRow" visible={expr("!{$record.$editing}")}>
+                        <Button mod="hollow" onClick={(e, instance) => instance.getControllerByType(PageController).editRow(e, instance)} visible={expr("!{$record.$editing}")}>
                            Edit
                         </Button>
                         <Button
                            mod="hollow"
-                           onClick="deleteRow"
+                           onClick={(e, instance) => instance.getControllerByType(PageController).deleteRow(e, instance)}
                            visible={expr("!{$record.$editing}")}
                            confirm="Are you sure?"
                         >
@@ -181,13 +181,13 @@ export default (
                         </Button>
                         <Button
                            mod={expr("{$root.$route.theme} == 'aquamarine' ? 'flat-primary' : 'primary'")}
-                           onClick="saveRow"
+                           onClick={(e, instance) => instance.getControllerByType(PageController).saveRow(e, instance)}
                            visible={expr("!!{$record.$editing}")}
                            disabled={expr("!{$record.valid}")}
                         >
                            Save
                         </Button>
-                        <Button mod="hollow" onClick="cancelRowEditing" visible={expr("!!{$record.$editing}")}>
+                        <Button mod="hollow" onClick={(e, instance) => instance.getControllerByType(PageController).cancelRowEditing(e, instance)} visible={expr("!!{$record.$editing}")}>
                            Cancel
                         </Button>
                      </cx>
@@ -197,7 +197,7 @@ export default (
          />
          <br />
          <p>
-            <Button onClick="addRow">Add</Button>
+            <Button onClick={(e, instance) => instance.getControllerByType(PageController).addRow(e)}>Add</Button>
          </p>
       </Section>
    </cx>

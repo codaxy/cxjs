@@ -714,21 +714,71 @@ export class Instance<WidgetType extends Widget<any, any> = Widget<any, any>> {
       return callback.bind(scope);
    }
 
+   /**
+    * Finds the first controller in the instance tree matching the predicate
+    * @param predicate Function to test each controller
+    * @returns The matching controller or undefined
+    */
+   public findController(predicate: (controller: Controller) => boolean): Controller | undefined {
+      let at: Instance | undefined = this;
+      while (at?.controller != null) {
+         if (predicate(at.controller)) {
+            return at.controller;
+         }
+         at = at.parent;
+      }
+      return undefined;
+   }
+
+   /**
+    * Finds a controller of the specified type in the instance tree
+    * @param type Controller class/constructor to find
+    * @returns The matching controller cast to the specified type, or undefined
+    */
+   public findControllerByType<T extends Controller>(type: new (...args: any[]) => T): T | undefined {
+      return this.findController((c) => c instanceof type) as T | undefined;
+   }
+
+   /**
+    * Gets the first controller in the instance tree matching the predicate
+    * @param predicate Function to test each controller
+    * @returns The matching controller
+    * @throws Error if no matching controller is found
+    */
+   public getController(predicate: (controller: Controller) => boolean): Controller {
+      const controller = this.findController(predicate);
+      if (!controller)
+         throw new Error("Cannot find a controller matching the given predicate in the instance tree.");
+      return controller;
+   }
+
+   /**
+    * Gets a controller of the specified type in the instance tree
+    * @param type Controller class/constructor to find
+    * @returns The matching controller cast to the specified type
+    * @throws Error if no controller of the specified type is found
+    */
+   public getControllerByType<T extends Controller>(type: new (...args: any[]) => T): T {
+      const controller = this.findControllerByType(type);
+      if (!controller)
+         throw new Error(`Cannot find a controller of type "${type.name}" in the instance tree.`);
+      return controller;
+   }
+
    public getControllerMethod(methodName: string): (...args: any[]) => any {
       if (!this.controller)
          throw new Error(
             `Cannot invoke controller method "${methodName}" as controller is not assigned to the widget.`,
          );
 
-      let at: Instance | undefined = this;
-      while (at != null && at.controller && !(at.controller as any)[methodName]) at = at.parent;
+      const controller = this.findController((c) => !!(c as any)[methodName]);
 
-      if (!at || !at.controller || !(at.controller as any)[methodName])
+      if (!controller)
          throw new Error(
             `Cannot invoke controller method "${methodName}". The method cannot be found in any of the assigned controllers.`,
          );
 
-      return (at.controller as any)[methodName].bind(at.controller);
+      return (controller as any)[methodName].bind(controller);
    }
 
    public invoke(methodName: string, ...args: any[]): any {
