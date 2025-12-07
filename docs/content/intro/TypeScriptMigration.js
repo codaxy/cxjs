@@ -163,6 +163,51 @@ export class MyFormWidget extends Field<MyFormWidgetConfig> {
             `}</CodeSnippet>
          </CodeSplit>
 
+         ### Typed ContentResolver
+
+         The `ContentResolver` widget now supports type inference for the `onResolve` callback params.
+         TypeScript automatically infers the resolved types from your params definition:
+
+         <CodeSplit>
+            <CodeSnippet copy={false}>{`
+import { ContentResolver } from "cx/widgets";
+import { createAccessorModelProxy } from "cx/data";
+
+interface AppModel {
+   user: { name: string; age: number };
+}
+
+const model = createAccessorModelProxy<AppModel>();
+
+<ContentResolver
+   params={{
+      name: model.user.name,  // AccessorChain<string>
+      age: model.user.age,    // AccessorChain<number>
+      limit: 10,              // number literal
+   }}
+   onResolve={(params) => {
+      // TypeScript infers:
+      // params.name: string
+      // params.age: number
+      // params.limit: number
+      return <div>{params.name} is {params.age} years old</div>;
+   }}
+/>
+            `}</CodeSnippet>
+         </CodeSplit>
+
+         **Type resolution behavior:**
+
+         | Param Type | Resolved Type |
+         |------------|---------------|
+         | Literal values (`42`, `"text"`) | Preserves type (`number`, `string`) |
+         | `AccessorChain&lt;T&gt;` | `T` |
+         | `Selector&lt;T&gt;` / `GetSet&lt;T&gt;` | `T` |
+         | `bind()` / `tpl()` / `expr()` | `any` (runtime-only) |
+
+         The utility types `ResolveProp&lt;P&gt;` and `ResolveStructuredProp&lt;S&gt;` are exported from `cx/ui`
+         if you need to use them in your own generic components.
+
          ## Authoring Widgets
 
          Previously, CxJS widgets had to be written in JavaScript with optional
@@ -313,17 +358,16 @@ export class MyWidget extends HtmlElement<MyWidgetConfig, MyWidgetInstance> {
 
          When migrating a widget from JavaScript to TypeScript:
 
-         1. Remove `//@ts-nocheck` directive
-         2. Add JSX pragma `/** @jsxImportSource react */` if file contains JSX
-         3. Create `[WidgetName]Config` interface extending appropriate parent
-         4. Add generic type parameters to base class if needed
-         5. Add constructor accepting the config type
-         6. Add `declare` statements for all class properties
-         7. Add type annotations to all methods
-         8. Create custom instance interface if needed
-         9. Fix prototype initializations (use `undefined` not `null` where needed)
-         10. Declare `baseClass` as non-nullable if defined in prototype
-         11. Delete the corresponding `.d.ts` file
+         1. Add JSX pragma `/** @jsxImportSource react */` if file contains JSX
+         2. Create `[WidgetName]Config` interface extending appropriate parent
+         3. Add generic type parameters to base class if needed
+         4. Add constructor accepting the config type
+         5. Add `declare` statements for all class properties
+         6. Add type annotations to all methods
+         7. Create custom instance interface if needed
+         8. Fix prototype initializations (use `undefined` not `null` where needed)
+         9. Declare `baseClass` as non-nullable if defined in prototype
+         10. Delete the corresponding `.d.ts` file
 
          ### File Organization
 

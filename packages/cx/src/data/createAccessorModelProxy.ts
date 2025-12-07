@@ -1,9 +1,6 @@
-import { isObject } from "../util";
-import { isDataRecord } from "../util/isDataRecord";
-
 interface AccessorChainMethods {
    toString(): string;
-   valueOf(): string;
+   valueOf(): unknown;
    nameOf(): string;
 }
 

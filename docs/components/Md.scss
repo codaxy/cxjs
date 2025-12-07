@@ -1,0 +1,26 @@
+.cxe-md-block > table {
+   max-width: 50em;
+   border-collapse: collapse;
+   margin: 1em 0;
+
+   th,
+   td {
+      border: 1px solid #ddd;
+      padding: 8px 12px;
+      text-align: left;
+      font-size: 13px;
+   }
+
+   th {
+      background: #f5f5f5;
+      font-weight: 600;
+   }
+
+   tr:nth-child(even) {
+      background: #fafafa;
+   }
+
+   code {
+      background: rgba(128, 128, 128, 0.15);
+   }
+}

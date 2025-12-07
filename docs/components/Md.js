@@ -66,6 +66,7 @@ export class Md extends HtmlElement {
       return super.add({
          type: HtmlElement,
          innerHtml: md,
+         className: "cxe-md-block",
       });
    }
 }

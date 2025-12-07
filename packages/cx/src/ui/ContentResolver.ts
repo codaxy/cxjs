@@ -1,15 +1,40 @@
 import { PureContainerBase, PureContainerConfig } from "./PureContainer";
 import { isPromise } from "../util/isPromise";
 import { RenderingContext } from "./RenderingContext";
-import { BooleanProp, StructuredProp } from "./Prop";
+import { BooleanProp, StructuredProp, ResolveStructuredProp } from "./Prop";
 import { Instance } from "./Instance";
 
-export interface ContentResolverConfig extends PureContainerConfig {
+/**
+ * Configuration for ContentResolver widget.
+ *
+ * The params type parameter enables type inference for the onResolve callback:
+ * - Literal values (numbers, strings, booleans) preserve their types
+ * - AccessorChain<T> resolves to T
+ * - Bind/Tpl/Expr resolve to any (type cannot be determined at compile time)
+ *
+ * @example
+ * ```typescript
+ * <ContentResolver
+ *    params={{
+ *       count: 42,           // number
+ *       name: model.user.name // AccessorChain<string> -> string
+ *    }}
+ *    onResolve={(params) => {
+ *       // params.count is number, params.name is string
+ *    }}
+ * />
+ * ```
+ */
+export interface ContentResolverConfig<P extends StructuredProp = StructuredProp> extends PureContainerConfig {
    /** Parameters that trigger content resolution when changed. */
-   params?: StructuredProp;
+   params?: P;
 
-   /** Callback function that resolves content based on params. Can return content directly or a Promise. */
-   onResolve?: string | ((params: any, instance: Instance) => any);
+   /**
+    * Callback function that resolves content based on params. Can return content directly or a Promise.
+    * The params type is inferred from the params property - literal values and AccessorChain<T>
+    * preserve their types, while bindings (bind/tpl/expr) resolve to `any`.
+    */
+   onResolve?: string | ((params: ResolveStructuredProp<P>, instance: Instance) => any);
 
    /** How to combine resolved content with initial content. Default is 'replace'. */
    mode?: "replace" | "prepend" | "append";
@@ -18,13 +43,15 @@ export interface ContentResolverConfig extends PureContainerConfig {
    loading?: BooleanProp;
 }
 
-export class ContentResolver extends PureContainerBase<ContentResolverConfig> {
-   constructor(config?: ContentResolverConfig) {
+export class ContentResolver<P extends StructuredProp = StructuredProp> extends PureContainerBase<
+   ContentResolverConfig<P>
+> {
+   constructor(config?: ContentResolverConfig<P>) {
       super(config);
    }
 
    declare mode: "replace" | "prepend" | "append";
-   declare onResolve?: string | ((params: any, instance: Instance) => any);
+   declare onResolve?: string | ((params: ResolveStructuredProp<P>, instance: Instance) => any);
    declare initialItems: any;
 
    declareData(...args: any[]): void {

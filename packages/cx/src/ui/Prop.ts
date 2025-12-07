@@ -48,6 +48,40 @@ export interface StructuredProp {
    [prop: string]: Prop<any>;
 }
 
+/**
+ * Utility type that extracts the resolved value type from a Prop<T>.
+ * Used to derive the runtime type of structured props.
+ */
+export type ResolveProp<P> = P extends Selector<infer T>
+   ? T
+   : P extends AccessorChain<infer T>
+     ? T
+     : P extends GetSet<infer T>
+       ? T
+       : P extends Bind
+         ? any
+         : P extends Tpl
+           ? string
+           : P extends Expr
+             ? any
+             : P;
+
+/**
+ * Utility type that resolves a structured prop object to its runtime value types.
+ * Transforms { name: StringProp, count: NumberProp } to { name: string, count: number }
+ */
+export type ResolveStructuredProp<S> = {
+   [K in keyof S]: ResolveProp<S[K]>;
+};
+
+/**
+ * Generic structured prop type that provides type safety for params and their resolved values.
+ * Use with ContentResolver and similar widgets to type the onResolve callback params.
+ */
+export type TypedStructuredProp<T extends Record<string, any>> = {
+   [K in keyof T]: Prop<T[K]>;
+};
+
 export type StringProp = Prop<string>;
 export type StyleProp = Prop<string | React.CSSProperties> | StructuredProp;
 export type NumberProp = Prop<number>;

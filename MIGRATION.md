@@ -465,7 +465,7 @@ export class ValidationGroup extends PureContainerBase<...> {
 ## Nice to Have Improvements
 
 [x] Typed RenderingContext usage
-[ ] Better StructuredProp and typed ContentResolver
+[x] Better StructuredProp and typed ContentResolver
 [ ] dropdownOptions might typed as DropdownConfig?
 [x] Properly type Component.create, Widget.create, etc.
 [x] Find controller by type
