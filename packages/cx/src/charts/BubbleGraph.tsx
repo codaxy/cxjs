@@ -1,7 +1,9 @@
 /** @jsxImportSource react */
 
 import { Widget, VDOM, WidgetConfig } from "../ui/Widget";
-import { Selection } from "../ui/selection/Selection";
+import { Selection, SimpleSelection } from "../ui/selection/Selection";
+import type { KeySelection } from "../ui/selection/KeySelection";
+import type { PropertySelection } from "../ui/selection/PropertySelection";
 import { CSS } from "../ui/CSS";
 import { isArray } from "../util/isArray";
 import { Instance } from "../ui/Instance";
@@ -36,7 +38,7 @@ export interface BubbleGraphConfig extends WidgetConfig {
    rField?: string;
 
    /** Selection configuration. */
-   selection?: Create<typeof Selection>;
+   selection?: Create<typeof Selection> | Create<typeof KeySelection> | Create<typeof PropertySelection> | Create<typeof SimpleSelection>;
 }
 
 export interface BubbleGraphInstance extends Instance {

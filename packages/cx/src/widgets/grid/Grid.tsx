@@ -34,7 +34,9 @@ import {
 import { PureContainer, PureContainerBase, PureContainerConfig } from "../../ui/PureContainer";
 import { RenderingContext } from "../../ui/RenderingContext";
 import { ResizeManager } from "../../ui/ResizeManager";
-import { Selection } from "../../ui/selection/Selection";
+import { Selection, SimpleSelection } from "../../ui/selection/Selection";
+import type { KeySelection } from "../../ui/selection/KeySelection";
+import type { PropertySelection } from "../../ui/selection/PropertySelection";
 import { StaticText } from "../../ui/StaticText";
 import { getContent, VDOM, Widget, WidgetConfig } from "../../ui/Widget";
 import { Console } from "../../util/Console";
@@ -71,6 +73,7 @@ import { tooltipMouseLeave, tooltipMouseMove } from "../overlay/tooltip-ops";
 import { createGridCellEditor } from "./createGridCellEditor";
 import { GridRow, GridRowComponent, GridRowConfig, GridRowInstance } from "./GridRow";
 import { Create, CreateConfig } from "../../util";
+import type { TreeAdapter } from "../../ui/adapter/TreeAdapter";
 export { GridRowConfig };
 
 type FetchRecordsResult<T> = T[] | { records: T[]; lastPage?: boolean; totalRecordCount?: number };
@@ -294,7 +297,11 @@ export interface GridConfig<T = any> extends StyledContainerConfig {
    columnParams?: StructuredProp;
 
    /** Selection configuration. */
-   selection?: CreateConfig<typeof Selection>;
+   selection?:
+      | CreateConfig<typeof Selection>
+      | CreateConfig<typeof KeySelection>
+      | CreateConfig<typeof PropertySelection>
+      | CreateConfig<typeof SimpleSelection>;
 
    /** A grouping definition, field name, or an array of grouping level definitions. */
    grouping?: string | GridGroupingConfig<T> | (string | GridGroupingConfig<T>)[];
@@ -364,7 +371,11 @@ export interface GridConfig<T = any> extends StyledContainerConfig {
    showBorder?: boolean;
 
    /** Data adapter used to convert data in list of records. Used to enable grouping and tree operations. */
-   dataAdapter?: Create<typeof DataAdapter>;
+   dataAdapter?:
+      | Create<typeof DataAdapter>
+      | Create<typeof ArrayAdapter>
+      | Create<typeof TreeAdapter>
+      | Create<typeof GroupAdapter>;
 
    /** Additional CSS class to be added to each grid row. */
    rowClass?: ClassProp;

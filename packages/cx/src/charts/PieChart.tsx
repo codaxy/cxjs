@@ -4,7 +4,9 @@ import { Widget, VDOM, WidgetConfig } from "../ui/Widget";
 import { Container, ContainerConfig, StyledContainerConfig } from "../ui/Container";
 import { BoundedObject, BoundedObjectConfig, BoundedObjectInstance } from "../svg/BoundedObject";
 import { Rect } from "../svg/util/Rect";
-import { Selection } from "../ui/selection/Selection";
+import { Selection, SimpleSelection } from "../ui/selection/Selection";
+import type { KeySelection } from "../ui/selection/KeySelection";
+import type { PropertySelection } from "../ui/selection/PropertySelection";
 import { tooltipMouseMove, tooltipMouseLeave, TooltipParentInstance } from "../widgets/overlay/tooltip-ops";
 import { isNumber } from "../util/isNumber";
 import { shallowEquals } from "../util/shallowEquals";
@@ -435,7 +437,7 @@ export interface PieSliceConfig extends StyledContainerConfig {
    hoverChannel?: string;
 
    /** Selection configuration. */
-   selection?: CreateConfig<typeof Selection>;
+   selection?: CreateConfig<typeof Selection> | CreateConfig<typeof KeySelection> | CreateConfig<typeof PropertySelection> | CreateConfig<typeof SimpleSelection>;
 
    /** Tooltip configuration. */
    tooltip?: any;
