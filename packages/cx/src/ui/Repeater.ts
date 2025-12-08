@@ -5,9 +5,22 @@ import { ArrayAdapter } from "./adapter/ArrayAdapter";
 import { UseParentLayout } from "./layout/UseParentLayout";
 import { getAccessor } from "../data/getAccessor";
 import { RenderingContext } from "./RenderingContext";
-import { Prop, StringProp, BooleanProp, StructuredProp, RecordAlias, SortersProp, CollatorOptions, SortDirection, DataRecord } from "./Prop";
+import {
+   Prop,
+   StringProp,
+   BooleanProp,
+   StructuredProp,
+   RecordAlias,
+   SortersProp,
+   CollatorOptions,
+   SortDirection,
+   DataRecord,
+} from "./Prop";
 import { Instance } from "./Instance";
-import { DataAdapterRecord } from "./adapter/DataAdapter";
+import { DataAdapter, DataAdapterRecord } from "./adapter/DataAdapter";
+import type { GroupAdapter } from "./adapter/GroupAdapter";
+import type { TreeAdapter } from "./adapter/TreeAdapter";
+import { Create } from "../util/Component";
 
 export interface RepeaterConfig<T = DataRecord> extends ContainerConfig {
    records?: Prop<T[]>;
@@ -26,7 +39,12 @@ export interface RepeaterConfig<T = DataRecord> extends ContainerConfig {
    onTrackMappedRecords?: string | ((records: DataAdapterRecord<T>[], instance: Instance) => void);
    sortOptions?: CollatorOptions;
    keyField?: StringProp;
-   dataAdapter?: any;
+   /** Data adapter used to convert data in list of records. Used to enable grouping and tree operations. */
+   dataAdapter?:
+      | Create<typeof DataAdapter>
+      | Create<typeof ArrayAdapter>
+      | Create<typeof TreeAdapter>
+      | Create<typeof GroupAdapter>;
 }
 
 export class Repeater<Config extends RepeaterConfig = RepeaterConfig> extends ContainerBase<Config> {

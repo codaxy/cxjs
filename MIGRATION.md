@@ -442,14 +442,17 @@ export class ValidationGroup extends PureContainerBase<...> {
 ### Existing Typed Contexts
 
 **FormRenderingContext** (ValidationGroup.ts):
+
 - Used by: ValidationGroup, Field, Label, ValidationError, Button
 - Properties: `parentDisabled`, `parentReadOnly`, `parentViewMode`, `parentTabOnEnterKey`, `parentVisited`, `parentStrict`, `parentAsterisk`, `validation`, `lastFieldId`
 
 **SvgRenderingContext** (BoundedObject.ts):
+
 - Used by: Svg, BoundedObject and all SVG components
 - Properties: `parentRect`, `inSvg`, `addClipRect`
 
 **ChartRenderingContext** (Chart.ts) - extends SvgRenderingContext:
+
 - Used by: Chart, all chart components (LineGraph, ScatterGraph, Gridlines, Marker, etc.)
 - Properties: `axes` (Record of axis calculators)
 
@@ -466,10 +469,11 @@ export class ValidationGroup extends PureContainerBase<...> {
 
 [x] Typed RenderingContext usage
 [x] Better StructuredProp and typed ContentResolver
-[ ] dropdownOptions might typed as DropdownConfig?
+[x] dropdownOptions might typed as DropdownConfig?
 [x] Properly type Component.create, Widget.create, etc.
 [x] Find controller by type
 [x] Use Creatable in various places
+[ ] Typed selection and dataAdapters
 [ ] Full Creatable typing (probably impossible)
 
 ---
@@ -519,14 +523,16 @@ After migrating widgets, compare the local documentation site against the produc
 
 ### Active Bugs
 
-- Infinite Grid repeating row values (Docs)
-- Missing search icon in Aquamarine theme (Gallery)
+[x] Infinite Grid repeating row values (Docs)
+[x] Missing search icon in Aquamarine theme (Gallery)
 
 ## Finalization
 
 [x] Check online .d.ts files for all widgets at the end
+[ ] Check all Config files without comments if comments are available online
 [x] Migrate gallery
+[x] Migrate changes independently done to master
+[x] Write detailed documentation and migration paths
 [ ] Migrate all docs examples to typescript
 [ ] Figure out a fiddle replacement (with AI :)
-[ ] Write detailed documentation and migration paths
 [ ] Migrate some of the libraries (Google Maps, Diagrams)

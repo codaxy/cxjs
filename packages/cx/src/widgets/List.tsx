@@ -23,6 +23,7 @@ import {
    StructuredProp,
    StyleProp,
 } from "../ui/Prop";
+import { Create } from "../util/Component";
 
 export interface ListConfig<T = any> extends StyledContainerConfig {
    /** An array of records to be displayed in the list. */
@@ -102,6 +103,9 @@ export interface ListConfig<T = any> extends StyledContainerConfig {
 
    /** A field used to get the unique identifier of the record. */
    keyField?: string;
+
+   /** Data adapter used to convert data in list of records. Used to enable grouping and tree operations. */
+   dataAdapter?: Create<typeof GroupAdapter>;
 }
 
 /*

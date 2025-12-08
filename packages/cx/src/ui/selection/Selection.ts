@@ -65,7 +65,7 @@ export class Selection extends Component {
       var { store, data } = instance;
       if (!data.$selection)
          throw new Error(
-            "Selection model not properly configured. Using the selectInstance method without specified record and index bindings."
+            "Selection model not properly configured. Using the selectInstance method without specified record and index bindings.",
          );
       return this.select(store, data.$selection.record, data.$selection.index, options);
    }
@@ -78,7 +78,7 @@ export class Selection extends Component {
 
 Selection.prototype.toggle = false;
 
-(Selection as any).namespace = "ui.selection.";
+Selection.namespace = "ui.selection.";
 
 export class SimpleSelection extends Selection {
    isSelected(store: View, record: any, index: any): boolean {
@@ -111,8 +111,8 @@ class DummySelection extends Selection {
 
 DummySelection.prototype.isDummy = true;
 
-(Selection as any).factory = (name: any): Selection => {
-   if (typeof name == "object") return new (SimpleSelection as any)(name);
+Selection.factory = (name: any): Selection => {
+   if (typeof name == "object") return new SimpleSelection(name);
 
    return new DummySelection();
 };
