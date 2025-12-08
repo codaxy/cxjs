@@ -19,7 +19,7 @@ import { isTouchEvent } from "../../util/isTouchEvent";
 import { autoFocus } from "../autoFocus";
 import ClearIcon from "../icons/clear";
 import DropdownIcon from "../icons/drop-down";
-import { Dropdown } from "../overlay/Dropdown";
+import { Dropdown, DropdownConfig } from "../overlay/Dropdown";
 import {
    tooltipMouseLeave,
    tooltipMouseMove,
@@ -115,7 +115,7 @@ export interface MonthFieldConfig extends FieldConfig {
    encoding?: (date: Date) => any;
 
    /** Additional configuration to be passed to the dropdown. */
-   dropdownOptions?: Config;
+   dropdownOptions?: Partial<DropdownConfig>;
 
    /** A boolean flag that determines whether the `to` date is included in the range. */
    inclusiveTo?: boolean;
@@ -136,7 +136,7 @@ export class MonthField<Config extends MonthFieldConfig = MonthFieldConfig> exte
    declare public showClear?: boolean;
    declare public alwaysShowClear?: boolean;
    declare public encoding?: (date: Date) => string;
-   declare public dropdownOptions?: Record<string, any>;
+   declare public dropdownOptions?: Partial<DropdownConfig>;
    declare public inclusiveTo?: boolean;
    declare public monthPickerOptions?: Record<string, any>;
    declare public maxValueErrorText: string;

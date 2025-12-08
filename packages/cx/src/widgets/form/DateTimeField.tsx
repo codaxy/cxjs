@@ -20,7 +20,7 @@ import { KeyCode } from "../../util/KeyCode";
 import { autoFocus } from "../autoFocus";
 import ClearIcon from "../icons/clear";
 import DropdownIcon from "../icons/drop-down";
-import { Dropdown } from "../overlay/Dropdown";
+import { Dropdown, DropdownConfig } from "../overlay/Dropdown";
 import {
    tooltipMouseLeave,
    tooltipMouseMove,
@@ -111,7 +111,7 @@ export interface DateTimeFieldConfig extends FieldConfig {
    showSeconds?: boolean;
 
    /** Additional configuration to be passed to the dropdown. */
-   dropdownOptions?: Config;
+   dropdownOptions?: Partial<DropdownConfig>;
 }
 
 export class DateTimeField extends Field<DateTimeFieldConfig> {
@@ -137,7 +137,7 @@ export class DateTimeField extends Field<DateTimeFieldConfig> {
    declare public disabledDaysOfWeek?: number[] | null;
    declare public reactOn?: string;
    declare public focusInputFirst?: boolean;
-   declare public dropdownOptions?: Record<string, any>;
+   declare public dropdownOptions?: Partial<DropdownConfig>;
    declare public onParseInput?: string | ((date: unknown, instance: Instance) => Date | undefined);
    declare public showSeconds?: boolean;
    declare public step?: number;

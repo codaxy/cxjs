@@ -8,7 +8,7 @@ import { VDOM, Widget, getContent } from "../../ui/Widget";
 import { parseColor } from "../../util/color/parseColor";
 import { isTouchDevice } from "../../util/isTouchDevice";
 import { isTouchEvent } from "../../util/isTouchEvent";
-import { Dropdown } from "../overlay/Dropdown";
+import { Dropdown, DropdownConfig } from "../overlay/Dropdown";
 import { ColorPicker } from "./ColorPicker";
 import { Field, FieldConfig, getFieldTooltip, FieldInstance } from "./Field";
 import { BooleanProp, StringProp } from "../../ui/Prop";
@@ -43,7 +43,7 @@ export interface ColorFieldConfig extends FieldConfig {
    format?: "rgba" | "hsla" | "hex";
 
    /** Additional configuration to be passed to the dropdown, such as `style`, `positioning`, etc. */
-   dropdownOptions?: Config;
+   dropdownOptions?: Partial<DropdownConfig>;
 }
 
 export class ColorFieldInstance<F extends ColorField = ColorField> extends FieldInstance<F> implements DropdownWidgetProps {
@@ -93,7 +93,7 @@ export class ColorField extends Field<ColorFieldConfig> {
    declare public format: string;
    declare public lastDropdown?: string;
    declare public value?: string;
-   declare public dropdownOptions?: Record<string, any>;
+   declare public dropdownOptions?: Partial<DropdownConfig>;
 
    constructor(config?: ColorFieldConfig) {
       super(config);

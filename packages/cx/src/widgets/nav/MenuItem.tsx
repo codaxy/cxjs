@@ -5,7 +5,7 @@ import { HtmlElement, HtmlElementConfig, HtmlElementInstance } from "../HtmlElem
 import { Instance } from "../../ui/Instance";
 import { RenderingContext } from "../../ui/RenderingContext";
 import { findFirstChild, isFocusable, isSelfOrDescendant, closest, isFocusedDeep, isFocused } from "../../util/DOM";
-import { Dropdown } from "../overlay/Dropdown";
+import { Dropdown, DropdownConfig } from "../overlay/Dropdown";
 import { FocusManager, oneFocusOut, offFocusOut } from "../../ui/FocusManager";
 import { debug, menuFlag } from "../../util/Debug";
 import DropdownIcon from "../icons/drop-down";
@@ -42,7 +42,7 @@ export interface MenuItemConfig extends HtmlElementConfig {
    hoverToOpen?: boolean;
    horizontal?: boolean;
    arrow?: BooleanProp;
-   dropdownOptions?: Config;
+   dropdownOptions?: Partial<DropdownConfig>;
    showCursor?: boolean;
    pad?: boolean;
    placement?: string;
@@ -77,7 +77,7 @@ export class MenuItem extends HtmlElement<MenuItemConfig, MenuItemInstance> {
    declare public hoverToOpen: boolean;
    declare public horizontal: boolean;
    declare public arrow: BooleanProp;
-   declare public dropdownOptions: Config | null;
+   declare public dropdownOptions: Partial<DropdownConfig> | null;
    declare public showCursor: boolean;
    declare public pad: boolean;
    declare public placement: string | null;

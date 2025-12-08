@@ -6,7 +6,7 @@ import { ReadOnlyDataView } from "../../data/ReadOnlyDataView";
 import { HtmlElement, HtmlElementInstance } from "../HtmlElement";
 import { Binding, BindingInput } from "../../data/Binding";
 import { debug } from "../../util/Debug";
-import { Dropdown } from "../overlay/Dropdown";
+import { Dropdown, DropdownConfig } from "../overlay/Dropdown";
 import { FocusManager } from "../../ui/FocusManager";
 import { isFocused } from "../../util/DOM";
 import { isTouchDevice } from "../../util/isTouchDevice";
@@ -96,6 +96,9 @@ export interface LookupFieldConfig extends FieldConfig {
    onCreateVisibleOptionsFilter?:
       | string
       | ((filterParams: unknown, instance: Instance) => (option: Record<string, any>) => boolean);
+
+   /** Additional configuration to be passed to the dropdown. */
+   dropdownOptions?: Partial<DropdownConfig>;
 }
 
 export class LookupField<Config extends LookupFieldConfig = LookupFieldConfig> extends Field<Config> {
@@ -146,7 +149,7 @@ export class LookupField<Config extends LookupFieldConfig = LookupFieldConfig> e
    declare public enabled?: boolean;
    declare public placeholder?: string;
    declare public readOnly?: boolean;
-   declare public dropdownOptions?: Record<string, any>;
+   declare public dropdownOptions?: Partial<DropdownConfig>;
    declare public bindings?: BindingConfig[];
    declare public keyBindings?: BindingConfig[];
    declare public itemConfig?: CxChild;
