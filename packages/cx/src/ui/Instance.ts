@@ -210,14 +210,11 @@ export class Instance<WidgetType extends Widget<any, any> = Widget<any, any>> {
       // widget is initialized when the first instance is initialized
       if (!this.widget.initialized) {
          this.widget.init();
-
-         // init default values
-         this.widget.selector!.init(this.parentStore);
-
          this.widget.initialized = true;
       }
 
       if (!this.dataSelector) {
+         this.widget.selector!.init(this.parentStore);
          this.dataSelector = this.widget.selector!.createStoreSelector();
       }
 

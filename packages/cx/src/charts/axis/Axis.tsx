@@ -363,7 +363,7 @@ export class Axis extends BoundedObject<AxisConfig, AxisInstance> {
       return lines;
    }
 
-   renderLabels(lines: { text: string; style?: any; className?: string }[], x: number, dy: number | string, dx: number | string, offsetClass: string): React.ReactNode[] {
+   renderLabels(lines: { text: string; style?: any; className?: string; data?: Record<string, any> }[], x: number, dy: number | string, dx: number | string, offsetClass: string): React.ReactNode[] {
       let offset = (this.labelLineCountDyFactor as number) * (lines.length - 1);
       let result = [];
 
@@ -376,6 +376,13 @@ export class Axis extends BoundedObject<AxisConfig, AxisInstance> {
       }
 
       lines.forEach((p, i) => {
+         let data =
+            p.data != null
+               ? Object.entries(p.data).reduce((acc, [key, val]) => {
+                    acc[`data-${key}`] = val;
+                    return acc;
+                 }, {} as Record<string, any>)
+               : null;
          result.push(
             <tspan
                key={i}
@@ -384,6 +391,7 @@ export class Axis extends BoundedObject<AxisConfig, AxisInstance> {
                style={p.style}
                className={p.className}
                dx={dx}
+               {...data}
             >
                {p.text}
             </tspan>,

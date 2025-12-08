@@ -482,6 +482,9 @@ export interface GridConfig<T = any> extends StyledContainerConfig {
 
    /** Callback function to get grid component and instance references on component init. */
    onRef?: string | ((element: any, instance: Instance) => void);
+
+   /** When enabled, groups are shown in the same order as the source records. */
+   preserveGroupOrder?: boolean;
 }
 
 export interface GridCellInfo {
@@ -611,6 +614,7 @@ export class Grid<T = unknown> extends ContainerBase<GridConfig<T>, GridInstance
    declare onTrackMappedRecords?: any;
    declare onCreateIsRecordDraggable?: any;
    declare onRef?: any;
+   declare preserveGroupOrder: boolean;
    declare styled: boolean;
    declare selectable?: boolean;
    declare recordsAccessor: any;
@@ -806,6 +810,7 @@ export class Grid<T = unknown> extends ContainerBase<GridConfig<T>, GridInstance
                     indexName: this.indexName,
                     sortOptions: this.sortOptions,
                     groupings: grouping,
+                    preserveOrder: this.preserveGroupOrder,
                  },
                  this.dataAdapter,
               );
@@ -1863,6 +1868,7 @@ Grid.prototype.preciseMeasurements = false;
 Grid.prototype.hoverChannel = "default";
 Grid.prototype.focusable = null; // automatically resolved
 Grid.prototype.allowsFileDrops = false;
+Grid.prototype.preserveGroupOrder = false;
 
 Widget.alias("grid", Grid);
 Localization.registerPrototype("cx/widgets/Grid", Grid);

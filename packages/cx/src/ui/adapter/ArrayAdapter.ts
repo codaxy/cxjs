@@ -23,6 +23,7 @@ export interface ArrayAdapterConfig extends DataAdapterConfig {
    keyField?: string;
    cacheByKeyField?: boolean;
    sortOptions?: CollatorOptions;
+   preserveOrder?: boolean;
 }
 
 export interface ExtendedSorter extends Sorter {
@@ -42,6 +43,7 @@ export class ArrayAdapter<T = any> extends DataAdapter<T> {
    declare public keyField: string | null;
    declare public cacheByKeyField: boolean;
    declare public sortOptions?: CollatorOptions;
+   declare public preserveOrder?: boolean;
    declare isTreeAdapter: boolean;
 
    declare protected sorter?: (data: DataAdapterRecord<T>[]) => DataAdapterRecord<T>[];
@@ -104,7 +106,7 @@ export class ArrayAdapter<T = any> extends DataAdapter<T> {
          });
       }
 
-      if (this.sorter) {
+      if (this.sorter && !this.preserveOrder) {
          result = this.sorter(result);
       }
 

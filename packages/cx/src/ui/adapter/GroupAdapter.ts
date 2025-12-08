@@ -104,6 +104,7 @@ export class GroupAdapter<T = any> extends ArrayAdapter<T> {
       const inverseLevel = this.groupings!.length - level;
 
       if (inverseLevel === 0) {
+         if (this.preserveOrder && this.sorter) records = this.sorter(records);
          for (let i = 0; i < records.length; i++) {
             (records[i].store as ReadOnlyDataView).setStore(parentStore);
             result.push(records[i]);
@@ -117,7 +118,7 @@ export class GroupAdapter<T = any> extends ArrayAdapter<T> {
       grouper.processAll(records);
       let results = grouper.getResults();
 
-      if (grouping.comparer) {
+      if (grouping.comparer && !this.preserveOrder) {
          results.sort(grouping.comparer);
       }
 
@@ -222,6 +223,7 @@ export class GroupAdapter<T = any> extends ArrayAdapter<T> {
 }
 
 GroupAdapter.prototype.groupName = "$group";
+GroupAdapter.prototype.preserveOrder = false;
 
 function serializeKey(data: any): string {
    if (isDataRecord(data)) {
