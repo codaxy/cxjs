@@ -1,6 +1,6 @@
 {
    "name": "cx",
-   "version": "25.10.0",
+   "version": "26.0.2",
    "description": "Advanced JavaScript UI framework for admin and dashboard applications with ready to use grid, form and chart components.",
    "exports": {
       "./data/": "./build/data/",
@@ -49,7 +49,7 @@
    },
    "repository": {
       "type": "git",
-      "url": "git@github.com:codaxy/cxjs.git"
+      "url": "git+ssh://git@github.com/codaxy/cxjs.git"
    },
    "devDependencies": {
       "@types/jest": "^30.0.0",
