@@ -1,4 +1,3 @@
-//@ts-nocheck
 import assert from "assert";
 import { Store } from "./Store";
 import { Ref } from "./Ref";
@@ -40,20 +39,20 @@ describe("Ref", () => {
 
    it("can cast itself to a ref of another type", () => {
       class ArrayRef extends StoreRef {
-         append(...args) {
+         append(...args: any[]) {
             this.update(append, ...args);
          }
       }
       let store = getStore();
       let array = store.ref("array").as(ArrayRef);
-      array.append(1, 2, 3);
+      (array as ArrayRef).append(1, 2, 3);
       assert.deepEqual(array.get(), [1, 2, 3]);
    });
 
    it("can extend itself in a functional way", () => {
       let store = getStore();
-      let array = store.ref("array").as(({ update, set, path }) => ({
-         append(...args) {
+      let array = store.ref("array").as(({ update, set, path }: { update: any; set: any; path: string }) => ({
+         append(...args: any[]) {
             update(path, append, ...args);
          },
 
@@ -61,9 +60,9 @@ describe("Ref", () => {
             set(path, []);
          },
       }));
-      array.append(1, 2, 3);
+      (array as any).append(1, 2, 3);
       assert.deepEqual(array.get(), [1, 2, 3]);
-      array.clear();
+      (array as any).clear();
       assert.deepEqual(array.get(), []);
    });
 

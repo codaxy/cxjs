@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { Widget } from "../ui/Widget";
 import { Text } from "../ui/Text";
 import { StaticText } from "../ui/StaticText";

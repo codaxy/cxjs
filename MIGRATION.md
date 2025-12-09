@@ -475,6 +475,7 @@ export class ValidationGroup extends PureContainerBase<...> {
 [x] Use Creatable in various places
 [x] Typed selection and dataAdapters
 [ ] Full Creatable typing (probably impossible)
+[ ] Resolve tree-shaking
 
 ---
 
@@ -533,6 +534,7 @@ After migrating widgets, compare the local documentation site against the produc
 [x] Migrate gallery
 [x] Migrate changes independently done to master
 [x] Write detailed documentation and migration paths
+[x] Publish under cx@ts tag and test in other applications
 [ ] Migrate all docs examples to typescript
 [ ] Figure out a fiddle replacement (with AI :)
 [ ] Migrate some of the libraries (Google Maps, Diagrams)

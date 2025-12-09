@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { StructuredSelector } from "./StructuredSelector";
 import assert from "assert";
 import { createAccessorModelProxy } from "./createAccessorModelProxy";
@@ -16,7 +15,7 @@ describe("StructuredSelector", function () {
                a: 1,
                b: 2,
             },
-         }).create(x);
+         }).create();
 
          assert.deepEqual(s(x), { a: 1, b: 2 });
       });
@@ -32,7 +31,7 @@ describe("StructuredSelector", function () {
                a: { bind: "b" },
                b: { bind: "a" },
             },
-         }).create(x);
+         }).create();
 
          assert.deepEqual(s(x), { a: 2, b: 1 });
       });
@@ -48,7 +47,7 @@ describe("StructuredSelector", function () {
                a: { tpl: "b{a}" },
                b: { tpl: "a{b}" },
             },
-         }).create(x);
+         }).create();
 
          assert.deepEqual(s(x), { a: "b1", b: "a2" });
       });
@@ -69,7 +68,7 @@ describe("StructuredSelector", function () {
                },
                b: { tpl: "a{b}" },
             },
-         }).create(x);
+         }).create();
 
          assert.deepEqual(s(x), { a: { x: true, y: false }, b: "a2" });
       });
@@ -90,7 +89,7 @@ describe("StructuredSelector", function () {
             },
             b: { tpl: "a{b}" },
          },
-      }).create(x);
+      }).create();
 
       let r1 = s(x);
       let r2 = s(x);
@@ -98,9 +97,9 @@ describe("StructuredSelector", function () {
       assert.equal(r1, r2);
    });
 
-   it("structures do not change if data doesn't change", function () {
+   it("accessor model proxy works", function () {
       var x = { a: { b: 2 } };
-      var m = createAccessorModelProxy();
+      var m = createAccessorModelProxy<typeof x>();
       var s = new StructuredSelector({
          props: {
             b: undefined,
@@ -108,7 +107,7 @@ describe("StructuredSelector", function () {
          values: {
             b: m.a.b,
          },
-      }).create(x);
+      }).create();
       assert.deepEqual(s(x), { b: 2 });
    });
 });

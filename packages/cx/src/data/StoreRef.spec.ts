@@ -1,4 +1,3 @@
-//@ts-nocheck
 import assert from "assert";
 import { Store } from "./Store";
 import { StoreRef } from "./StoreRef";
@@ -18,8 +17,8 @@ describe("StoreRef", () => {
       let store = getStore();
       let person = store.ref("person");
       let name = person.ref("name");
-      assert.equal(name.get("person"), "Jack");
+      assert.equal(name.get(), "Jack");
       name.set("John");
-      assert.equal(name.get("person"), "John");
+      assert.equal(name.get(), "John");
    });
 });

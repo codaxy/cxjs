@@ -1,8 +1,7 @@
 import { Binding } from "./Binding";
-import { SubscribableView } from "./SubscribableView";
+import { SubscribableView, SubscribableViewConfig } from "./SubscribableView";
 
-interface StoreConfig<D = any> {
-   async?: boolean;
+export interface StoreConfig<D = any> extends Omit<SubscribableViewConfig, "store"> {
    data?: D;
 }
 

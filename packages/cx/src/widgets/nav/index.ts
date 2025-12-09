@@ -1,4 +1,3 @@
-//@ts-nocheck
 export * from './Route';
 export * from './RedirectRoute';
 export * from './Tab';

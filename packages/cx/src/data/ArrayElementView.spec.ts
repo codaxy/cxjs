@@ -1,4 +1,3 @@
-//@ts-nocheck
 import assert from "assert";
 import { ArrayElementView } from "./ArrayElementView";
 import { getAccessor } from "./getAccessor";

@@ -1,4 +1,3 @@
-//@ts-nocheck
 import "./calendar";
 import "./check";
 import "./clear";

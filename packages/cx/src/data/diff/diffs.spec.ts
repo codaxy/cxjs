@@ -1,11 +1,10 @@
-//@ts-nocheck
 import assert from 'assert';
 import {diffArrays} from './diffArrays';
 
 
 describe('diffArrays', function() {
    it('should detect new elements', function () {
-      var a = [];
+      var a: {k: number, v?: number}[] = [];
       var b = [{k: 1}, {k: 2}]
       var d = diffArrays(a, b);
       assert.deepEqual(d, {
@@ -17,7 +16,7 @@ describe('diffArrays', function() {
    });
 
    it('should detect removed elements', function () {
-      var a = [];
+      var a: {k: number}[] = [];
       var b = [{k: 1}, {k: 2}]
       var d = diffArrays(b, a);
       assert.deepEqual(d, {
