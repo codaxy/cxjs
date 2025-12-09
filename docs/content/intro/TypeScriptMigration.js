@@ -208,6 +208,96 @@ const model = createAccessorModelProxy<AppModel>();
          The utility types `ResolveProp&lt;P&gt;` and `ResolveStructuredProp&lt;S&gt;` are exported from `cx/ui`
          if you need to use them in your own generic components.
 
+         ### Typed Config Properties
+
+         Several widget config properties now have improved type definitions that provide better
+         autocomplete and type checking when using the `type` or `$type` pattern.
+
+         #### Selection
+
+         Grid, PieChart, and BubbleGraph support typed `selection` configs:
+
+         <CodeSplit>
+            <CodeSnippet copy={false}>{`
+import { Grid } from "cx/widgets";
+import { KeySelection } from "cx/ui";
+
+<Grid
+   selection={{
+      type: KeySelection,
+      bind: "selection",
+      keyField: "id"  // KeySelection-specific prop, fully typed
+   }}
+   // ...
+/>
+            `}</CodeSnippet>
+         </CodeSplit>
+
+         Supported selection types: `Selection`, `KeySelection`, `PropertySelection`, `SimpleSelection`.
+
+         #### Chart Axes
+
+         Chart axes support typed configs for different axis types:
+
+         <CodeSplit>
+            <CodeSnippet copy={false}>{`
+import { Chart } from "cx/charts";
+import { NumericAxis, CategoryAxis } from "cx/charts";
+
+<Chart
+   axes={{
+      x: { type: CategoryAxis, labelAnchor: "end" },
+      y: { type: NumericAxis, min: 0, max: 100 }  // NumericAxis-specific props
+   }}
+>
+   {/* chart content */}
+</Chart>
+            `}</CodeSnippet>
+         </CodeSplit>
+
+         Supported axis types: `Axis`, `NumericAxis`, `CategoryAxis`, `TimeAxis`.
+
+         #### Data Adapters
+
+         Grid and List support typed `dataAdapter` configs:
+
+         <CodeSplit>
+            <CodeSnippet copy={false}>{`
+import { Grid } from "cx/widgets";
+import { GroupAdapter } from "cx/ui";
+
+<Grid
+   dataAdapter={{
+      type: GroupAdapter,
+      groupings: [{ key: { bind: "category" } }]  // GroupAdapter-specific props
+   }}
+   // ...
+/>
+            `}</CodeSnippet>
+         </CodeSplit>
+
+         Supported adapter types: `ArrayAdapter`, `GroupAdapter`, `TreeAdapter`.
+
+         #### Dropdown Options
+
+         Form fields with dropdowns (ColorField, DateTimeField, MonthField, LookupField) accept
+         typed `dropdownOptions`:
+
+         <CodeSplit>
+            <CodeSnippet copy={false}>{`
+import { DateTimeField } from "cx/widgets";
+
+<DateTimeField
+   value-bind="date"
+   dropdownOptions={{
+      placement: "down-right",
+      offset: 10,
+      touchFriendly: true
+   }}
+/>
+            `}</CodeSnippet>
+         </CodeSplit>
+
          ## Authoring Widgets
 
          Previously, CxJS widgets had to be written in JavaScript with optional
