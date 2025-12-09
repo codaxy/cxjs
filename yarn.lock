@@ -3050,7 +3050,7 @@ __metadata:
     copy-webpack-plugin: "npm:^12.0.2"
     core-js: "npm:^3.39.0"
     css-loader: "npm:^7.1.2"
-    cx: "npm:^25.10.0"
+    cx: "npm:^25.11.1"
     cx-react: "npm:^24.7.1"
     file-loader: "npm:^6.2.0"
     html-webpack-plugin: "npm:^5.6.3"
@@ -3954,7 +3954,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"cx@npm:^25.10.0, cx@workspace:packages/cx":
+"cx@npm:^25.11.1":
+  version: 25.11.1
+  resolution: "cx@npm:25.11.1"
+  dependencies:
+    intl-io: "npm:^0.4.4"
+    route-parser: "npm:^0.0.5"
+  peerDependencies:
+    "@types/react": "*"
+    react: "*"
+    react-dom: "*"
+  checksum: 10/5d39bc80edd1b19efadb85205f6573ff09e719a34f26f2ed838d26a35f5a4bb65e576c49768539fc0162ccc6d259fb222fb4c9ebc4edc25cb85fc850e6fbd0ae
+  languageName: node
+  linkType: hard
+
+"cx@workspace:packages/cx":
   version: 0.0.0-use.local
   resolution: "cx@workspace:packages/cx"
   dependencies:
@@ -4240,7 +4254,7 @@ __metadata:
     copy-webpack-plugin: "npm:^12.0.2"
     core-js: "npm:^3.39.0"
     css-loader: "npm:^7.1.2"
-    cx: "npm:^25.10.0"
+    cx: "npm:^25.11.1"
     cx-react: "npm:^24.7.1"
     cx-theme-aquamarine: "npm:^25.12.0"
     file-loader: "npm:^6.2.0"
@@ -4811,7 +4825,7 @@ __metadata:
     copy-webpack-plugin: "npm:^12.0.2"
     core-js: "npm:^3.39.0"
     css-loader: "npm:^7.1.2"
-    cx: "npm:^25.10.0"
+    cx: "npm:^25.11.1"
     cx-react: "npm:^24.7.1"
     deep-equal: "npm:^2.2.3"
     deepmerge: "npm:^4.3.1"
@@ -5086,7 +5100,7 @@ __metadata:
     copy-webpack-plugin: "npm:^12.0.2"
     core-js: "npm:^3.39.0"
     css-loader: "npm:^7.1.2"
-    cx: "npm:^25.10.0"
+    cx: "npm:^25.11.1"
     cx-react: "npm:^24.7.1"
     cx-theme-aquamarine: "npm:^25.12.0"
     cx-theme-dark: "npm:^25.12.0"
@@ -6391,7 +6405,7 @@ __metadata:
     copy-webpack-plugin: "npm:^12.0.2"
     core-js: "npm:^3.39.0"
     css-loader: "npm:^7.1.2"
-    cx: "npm:^25.10.0"
+    cx: "npm:^25.11.1"
     cx-immer: "npm:^25.5.0"
     cx-react: "npm:^24.7.1"
     file-loader: "npm:^6.2.0"
@@ -9157,7 +9171,7 @@ __metadata:
     babel-plugin-transform-cx-imports: "npm:^24.11.0"
     copy-webpack-plugin: "npm:^12.0.2"
     css-loader: "npm:^7.1.2"
-    cx: "npm:^25.10.0"
+    cx: "npm:^25.11.1"
     cx-react: "npm:^24.7.1"
     file-loader: "npm:^6.2.0"
     html-webpack-plugin: "npm:^5.6.3"

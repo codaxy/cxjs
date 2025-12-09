@@ -7,7 +7,7 @@
       "build": "webpack"
    },
    "dependencies": {
-      "cx": "^25.10.0",
+      "cx": "^25.11.1",
       "cx-react": "^24.7.1",
       "react": "^18.3.1",
       "react-dom": "^18.3.1"
