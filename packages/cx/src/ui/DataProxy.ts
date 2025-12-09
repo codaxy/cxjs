@@ -5,11 +5,19 @@ import { StructuredInstanceDataAccessor } from "./StructuredInstanceDataAccessor
 import { StructuredProp, Bind } from "./Prop";
 
 export interface DataProxyConfig extends PureContainerConfig {
+   /** Data object with computed values to be exposed in the local store. */
    data?: StructuredProp;
+
+   /** Binding to a value to be exposed under the `alias` name. */
    value?: Bind;
+
+   /** Alias name under which `value` is exposed in the local store. */
    alias?: string;
-   cached?: boolean;
+
+   /** Indicate that parent store data should not be mutated. */
    immutable?: boolean;
+
+   /** Indicate that local store data should not be mutated. */
    sealed?: boolean;
 }
 
@@ -17,7 +25,6 @@ export class DataProxy extends PureContainerBase<DataProxyConfig> {
    declare data?: any;
    declare alias?: string;
    declare value?: any;
-   declare cached?: boolean;
    declare immutable: boolean;
    declare sealed: boolean;
 

@@ -8,7 +8,6 @@ import { RenderingContext } from "./RenderingContext";
 import {
    Prop,
    StringProp,
-   BooleanProp,
    StructuredProp,
    RecordAlias,
    SortersProp,
@@ -23,23 +22,59 @@ import type { TreeAdapter } from "./adapter/TreeAdapter";
 import { Create } from "../util/Component";
 
 export interface RepeaterConfig<T = DataRecord> extends ContainerConfig {
+   /** An array of records to be displayed. */
    records?: Prop<T[]>;
+
+   /** Alias used to expose the record in the child scope. Default is `$record`. */
    recordName?: RecordAlias;
+
+   /** Alias used to expose the record in the child scope. Default is `$record`. */
    recordAlias?: RecordAlias;
+
+   /** Alias used to expose the index of the record. Default is `$index`. */
    indexName?: RecordAlias;
+
+   /** Alias used to expose the index of the record. Default is `$index`. */
    indexAlias?: RecordAlias;
-   cached?: BooleanProp;
-   immutable?: BooleanProp;
-   sealed?: BooleanProp;
+
+   /** Set to `true` to enable caching for improved performance on large datasets. */
+   cached?: boolean;
+
+   /** Indicate that parent store data should not be mutated. */
+   immutable?: boolean;
+
+   /** Indicate that record stores should not be mutated. */
+   sealed?: boolean;
+
+   /** An array of sorter configurations. */
    sorters?: SortersProp;
+
+   /** A binding used to store the name of the field used for sorting the collection. Available only if `sorters` are not used. */
    sortField?: StringProp;
+
+   /** A binding used to store the sort direction. Available only if `sorters` are not used. Possible values are `"ASC"` and `"DESC"`. Defaults to `"ASC"`. */
    sortDirection?: Prop<SortDirection>;
+
+   /** Parameters that affect filtering. */
    filterParams?: StructuredProp;
+
+   /** Callback to create a filter function for given filter params. */
    onCreateFilter?: (filterParams: any, instance: Instance) => (record: T) => boolean;
+
+   /**
+    * Callback function to track and retrieve displayed records.
+    * Accepts new records as a first argument.
+    * If onCreateFilter callback is defined, filtered records can be retrieved using this callback.
+    */
    onTrackMappedRecords?: string | ((records: DataAdapterRecord<T>[], instance: Instance) => void);
+
+   /** Options for data sorting. See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Collator */
    sortOptions?: CollatorOptions;
-   keyField?: StringProp;
-   /** Data adapter used to convert data in list of records. Used to enable grouping and tree operations. */
+
+   /** A field used to get the unique identifier of the record. Setting keyField improves performance on sort operations as the widget is able to track movement of records inside the collection. */
+   keyField?: string;
+
+   /** Data adapter used to convert data in the list of records. Used for manipulation of records, e.g flattening the tree records. */
    dataAdapter?:
       | Create<typeof DataAdapter>
       | Create<typeof ArrayAdapter>

@@ -3,7 +3,10 @@ import { PureContainerBase, PureContainerConfig } from "../PureContainer";
 import { Instance } from "../Instance";
 
 export interface ContentConfig extends PureContainerConfig {
+   /** Placeholder name where the content is rendered. */
    name?: string;
+
+   /** Placeholder name where the content is rendered. */
    for?: string;
 }
 

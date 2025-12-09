@@ -7,9 +7,13 @@ import { StringProp } from "../Prop";
 import { Instance } from "../Instance";
 
 export interface ContentPlaceholderConfig extends PureContainerConfig {
+   /** Name of the placeholder. Default is `body`. */
    name?: StringProp;
+
+   /** Set to `true` to scope the placeholder to a local context. */
    scoped?: boolean;
-   /** Set to true to allow all registered content elements to render inside the placeholder. Otherwise only one element is rendered. */
+
+   /** Set to `true` to allow all registered content elements to render inside the placeholder. Otherwise only one element is rendered. */
    allowMultiple?: boolean;
 }
 

@@ -6,8 +6,13 @@ import { getSearchQueryHighlighter } from "../util/getSearchQueryPredicate";
 import { StringProp, Prop } from "../ui/Prop";
 
 export interface HighlightedSearchTextConfig extends WidgetConfig {
+   /** Search query used to highlight matching text. */
    query?: StringProp;
+
+   /** Text content to be searched and highlighted. */
    text?: StringProp;
+
+   /** Pre-computed text chunks where odd-indexed chunks are highlighted. */
    chunks?: Prop<string[]>;
 }
 

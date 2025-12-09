@@ -15,13 +15,28 @@ import { Instance } from "./Instance";
 let persistenceCache: any = {};
 
 export interface RestateConfig extends PureContainerConfig {
+   /** Data object to be exposed in the local store. */
    data?: StructuredProp;
+
+   /** Set to `true` to render the content in a separate, detached rendering context. */
    detached?: boolean;
+
+   /** Set to `true` to defer updates until the browser is idle. */
    deferredUntilIdle?: BooleanProp;
+
+   /** Timeout in milliseconds for idle updates. */
    idleTimeout?: NumberProp;
+
+   /** Key used to cache and persist the local store data. */
    cacheKey?: StringProp;
+
+   /** Set to `true` to disable batching of updates. */
    immediate?: boolean;
+
+   /** Error handler callback. */
    onError?: (error: Error, instance: Instance) => void;
+
+   /** Culture info to be used for formatting. */
    culture?: CultureInfo;
 }
 

@@ -4,9 +4,16 @@ import { Instance } from "../ui/Instance";
 import { StringProp } from "../ui/Prop";
 
 export interface DocumentTitleConfig extends WidgetConfig {
+   /** Text value to be used for the document title. */
    value?: StringProp;
+
+   /** Deprecated. Use `action: "append"` instead. */
    append?: boolean;
+
+   /** How to combine the title with existing document title. Default is `append`. */
    action?: "append" | "replace" | "prepend";
+
+   /** Separator used when appending or prepending to the title. Default is empty string. */
    separator?: StringProp;
 }
 

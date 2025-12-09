@@ -7,12 +7,25 @@ import { Instance } from "../ui/Instance";
 import { StringProp, WritableProp } from "../ui/Prop";
 
 export interface SandboxConfig extends PureContainerConfig {
+   /** Binding to the object that holds sandbox data. */
    storage: WritableProp<Record<string, any>>;
-   key?: any;
+
+   /** Key used to identify the sandbox instance within the storage. */
+   key?: StringProp;
+
+   /** Alias for `key`. */
    accessKey?: StringProp;
+
+   /** Alias used to expose sandbox data. Default is `$page`. */
    recordName?: string;
+
+   /** Alias for `recordName`. */
    recordAlias?: string;
+
+   /** Indicate that parent store data should not be mutated. */
    immutable?: boolean;
+
+   /** Indicate that sandbox store data should not be mutated. */
    sealed?: boolean;
 }
 
@@ -22,7 +35,7 @@ export interface SandboxInstance extends Instance {
 
 export class Sandbox extends PureContainerBase<SandboxConfig, SandboxInstance> {
    declare storage: WritableProp<Record<string, any>>;
-   declare key?: any;
+   declare key?: StringProp;
    declare recordName?: string;
    declare recordAlias?: string;
    declare accessKey?: StringProp;

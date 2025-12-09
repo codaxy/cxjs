@@ -529,7 +529,7 @@ After migrating widgets, compare the local documentation site against the produc
 ## Finalization
 
 [x] Check online .d.ts files for all widgets at the end
-[ ] Check all Config files without comments if comments are available online
+[x] Check all Config files without comments if comments are available online
 [x] Migrate gallery
 [x] Migrate changes independently done to master
 [x] Write detailed documentation and migration paths
