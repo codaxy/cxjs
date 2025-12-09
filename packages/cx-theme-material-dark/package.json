@@ -17,7 +17,7 @@
    "author": "Codaxy",
    "license": "SEE LICENSE.md",
    "scripts": {
-      "build": "node build",
+      "build": "yarn compile && node build",
       "compile": "tsc",
       "check-types": "tsc --noEmit"
    },

@@ -27,7 +27,7 @@
    },
    "sideEffects": false,
    "scripts": {
-      "build": "node build",
+      "build": "yarn compile && node build",
       "compile": "tsc -p tsconfig.compile.json",
       "check-types": "tsc --noEmit",
       "test": "ts-mocha -p tsconfig.mocha.json"
