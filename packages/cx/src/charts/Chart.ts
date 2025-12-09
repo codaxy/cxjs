@@ -1,6 +1,9 @@
 import { Widget, VDOM, getContent } from "../ui/Widget";
 import { BoundedObject, BoundedObjectConfig, BoundedObjectInstance, SvgRenderingContext } from "../svg/BoundedObject";
 import { Axis } from "./axis/Axis";
+import type { NumericAxis } from "./axis/NumericAxis";
+import type { CategoryAxis } from "./axis/CategoryAxis";
+import type { TimeAxis } from "./axis/TimeAxis";
 import { RenderingContext } from "../ui/RenderingContext";
 import { Create } from "../util/Component";
 
@@ -11,7 +14,10 @@ export interface ChartRenderingContext extends SvgRenderingContext {
 
 export interface ChartConfig extends BoundedObjectConfig {
    /** Axis definition. Each key represent an axis, and each value hold axis configuration. */
-   axes?: Record<string, Create<typeof Axis>>;
+   axes?: Record<
+      string,
+      Create<typeof Axis> | Create<typeof NumericAxis> | Create<typeof CategoryAxis> | Create<typeof TimeAxis>
+   >;
 
    /** Put axes over data series. */
    axesOnTop?: boolean;
