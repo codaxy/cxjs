@@ -79,6 +79,26 @@ export type Create<TCtor extends ComponentConstructor> =
    | ComponentInstanceType<TCtor> // Instance pass-through
    | CreateConfig<TCtor>;
 
+/**
+ * Type-checks a CreateConfig object based on its `type` or `$type` property.
+ * This is a compile-time helper that returns the input unchanged at runtime.
+ * Uses `const` type parameter (TypeScript 5.0+) to enable excess property checking.
+ *
+ * @example
+ * // With type property
+ * const axisConfig = validateConfig({ type: NumericAxis, min: 0, max: 100 });
+ *
+ * // With $type property
+ * const selectionConfig = validateConfig({ $type: KeySelection, bind: "selection" });
+ */
+export function validateConfig<const TCtor extends ComponentConstructor>(
+   config:
+      | ({ type: TCtor; $type?: never } & ComponentConfigType<TCtor>)
+      | ({ $type: TCtor; type?: never } & ComponentConfigType<TCtor>),
+): any {
+   return config;
+}
+
 const componentAlias: Record<string, any> = {};
 
 export class Component {

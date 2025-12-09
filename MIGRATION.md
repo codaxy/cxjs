@@ -473,7 +473,7 @@ export class ValidationGroup extends PureContainerBase<...> {
 [x] Properly type Component.create, Widget.create, etc.
 [x] Find controller by type
 [x] Use Creatable in various places
-[ ] Typed selection and dataAdapters
+[x] Typed selection and dataAdapters
 [ ] Full Creatable typing (probably impossible)
 
 ---

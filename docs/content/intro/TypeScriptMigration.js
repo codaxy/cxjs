@@ -298,6 +298,47 @@ import { DateTimeField } from "cx/widgets";
             `}</CodeSnippet>
          </CodeSplit>
 
+         #### Typed Controllers
+
+         The `controller` property accepts multiple forms: a class, a config object with `type`/`$type`,
+         an inline config, or a factory function. Because this type is intentionally flexible ("open"),
+         TypeScript's generic inference may not catch extra or misspelled properties in config objects.
+
+         Use the `validateConfig` helper to enable strict property checking:
+
+         <CodeSplit>
+            <CodeSnippet copy={false}>{`
+import { validateConfig } from "cx/util";
+import { Controller } from "cx/ui";
+
+interface MyControllerConfig {
+   apiEndpoint: string;
+   maxRetries: number;
+}
+
+class MyController extends Controller {
+   declare apiEndpoint: string;
+   declare maxRetries: number;
+
+   constructor(config?: MyControllerConfig) {
+      super(config);
+   }
+}
+
+// validateConfig enables strict checking
+<Section
+   controller={validateConfig({
+      type: MyController,
+      apiEndpoint: "/api",
+      maxRetires: 3,  // Error: 'maxRetires' does not exist (typo)
+   })}
+/>
+            `}</CodeSnippet>
+         </CodeSplit>
+
+         The `validateConfig` function is a compile-time helper that returns its input unchanged at runtime.
+         It can be used with any config object that follows the `&#123; type: Class, ...props &#125;` pattern.
+
          ## Authoring Widgets
 
          Previously, CxJS widgets had to be written in JavaScript with optional

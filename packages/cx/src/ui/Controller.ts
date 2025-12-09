@@ -57,10 +57,6 @@ export type ControllerFactory<T extends BaseControllerConfig = BaseControllerCon
    config: ViewMethods,
 ) => ControllerConfig<T>;
 
-export type ControllerCreatable<T extends Controller> =
-   | ({ type: ComponentConstructor<T>; $type?: never } & ComponentConfigType<ComponentConstructor<T>>) // Config with type
-   | ({ $type: ComponentConstructor<T>; type?: never } & ComponentConfigType<ComponentConstructor<T>>); // Config with $type
-
 export class Controller extends Component implements ControllerMethods {
    initialized?: boolean;
    onInit?(context: RenderingContext): void;
