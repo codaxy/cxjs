@@ -13,7 +13,8 @@
       //    "cx": ["../packages/cx/src"],
       //    "cx-react": ["../packages/cx-react"]
       // },
-      "outDir": "./build/"
+      "outDir": "./build/",
+      "types": ["node", "webpack-env"]
    },
    "include": [".", "../misc"],
    "exclude": ["node_modules", "dist"]

@@ -125,3 +125,8 @@ Configure TypeScript paths for development:
 - Use yarn for consistency with workspace configuration
 - Install dependencies at root level for shared packages
 - Individual packages have their own package.json for specific dependencies
+
+## Claude Code Notes
+
+### File Paths
+- Always use relative paths (e.g., `gallery/tsconfig.json`) instead of absolute paths (e.g., `D:/Code/CxJS/cxjs/gallery/tsconfig.json`) when reading and editing files to avoid "File has been unexpectedly modified" errors on Windows.
