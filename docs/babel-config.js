@@ -1,3 +1,5 @@
+let transformImports = require("../packages/babel-plugin-transform-cx-imports");
+
 module.exports = function (options) {
    var isProduction = options.production;
 
@@ -33,7 +35,8 @@ module.exports = function (options) {
          ],
          ["@babel/transform-react-jsx", { runtime: "automatic" }],
          "@babel/proposal-function-bind",
-         isProduction && ["transform-cx-imports", { useSrc: true }],
+         [transformImports, { useSrc: true }],
+         //isProduction && false && ["transform-cx-imports", { useSrc: true }],
       ].filter(Boolean),
    };
 };

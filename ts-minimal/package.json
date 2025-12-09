@@ -7,7 +7,7 @@
       "build": "webpack"
    },
    "dependencies": {
-      "cx": "^25.11.1",
+      "cx": "^26.0.3",
       "cx-react": "^24.7.1",
       "react": "^18.3.1",
       "react-dom": "^18.3.1"
@@ -18,7 +18,7 @@
       "@types/react": "^18.3.14",
       "@types/webpack-env": "^1.18.8",
       "babel-loader": "^9.2.1",
-      "babel-plugin-transform-cx-imports": "^24.11.0",
+      "babel-plugin-transform-cx-imports": "^26.0.1",
       "copy-webpack-plugin": "^12.0.2",
       "css-loader": "^7.1.2",
       "file-loader": "^6.2.0",

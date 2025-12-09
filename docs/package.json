@@ -10,7 +10,7 @@
    "dependencies": {
       "casual": "^1.6.2",
       "core-js": "^3.39.0",
-      "cx": "^25.11.1",
+      "cx": "^26.0.3",
       "cx-react": "^24.7.1",
       "cx-theme-aquamarine": "^25.12.0",
       "illuminate-js": "^1.0.0-alpha.2",
@@ -27,7 +27,7 @@
       "@types/node": "^22.10.1",
       "@types/react": "^18.3.14",
       "babel-loader": "^9.2.1",
-      "babel-plugin-transform-cx-imports": "^24.11.0",
+      "babel-plugin-transform-cx-imports": "^26.0.1",
       "babel-plugin-transform-cx-jsx": "^21.3.0",
       "babel-preset-cx-env": "^24.0.0",
       "clean-webpack-plugin": "^4.0.0",

@@ -1,7 +1,6 @@
-import { Content, Tab } from "cx/widgets";
-import { Md } from "../../components/Md";
-import { CodeSplit } from "../../components/CodeSplit";
 import { CodeSnippet } from "../../components/CodeSnippet";
+import { CodeSplit } from "../../components/CodeSplit";
+import { Md } from "../../components/Md";
 
 export const TypeScriptMigration = (
    <cx>
