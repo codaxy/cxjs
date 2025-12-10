@@ -4,6 +4,7 @@ import { Widget, VDOM, WidgetConfig } from "../Widget";
 import { Store } from "../../data/Store";
 import { Cx } from "../Cx";
 import { Instance } from "../Instance";
+import { Create } from "../../util/Component";
 
 export interface StartAppLoopOptions {
    destroyDelay?: number;
@@ -14,7 +15,7 @@ export interface StartAppLoopOptions {
 export function startAppLoop(
    parentDOMElement: HTMLElement,
    storeOrInstance?: Store | Instance,
-   widget?: Widget | WidgetConfig,
+   widget?: Create<typeof Widget> | Create<typeof Widget>[],
    options: StartAppLoopOptions = {},
 ): () => void {
    if (!parentDOMElement || parentDOMElement.nodeType !== 1)

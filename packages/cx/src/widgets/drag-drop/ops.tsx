@@ -157,7 +157,7 @@ export function initiateDragDrop(
    };
 
    if (clone.widget && clone.store && !clone.cloneContent) {
-      let content = { $type: ContextWrap, value: { disabled: true }, children: clone.widget } as WidgetConfig;
+      let content = { $type: ContextWrap, value: { disabled: true }, children: clone.widget };
       puppet.stop = startAppLoop(cloneEl, clone.store, content, {
          removeParentDOMElement: true,
       });
