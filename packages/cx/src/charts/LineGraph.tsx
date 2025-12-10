@@ -7,6 +7,7 @@ import { Instance } from "../ui/Instance";
 import { RenderingContext } from "../ui/RenderingContext";
 import { NumberProp, BooleanProp, StringProp, RecordsProp, StyleProp } from "../ui/Prop";
 import type { ChartRenderingContext } from "./Chart";
+import { ClassProp } from "../core";
 
 interface LinePoint {
    x: number;
@@ -88,6 +89,18 @@ export interface LineGraphConfig extends WidgetConfig {
 
    /** Shape to use in legend. */
    legendShape?: string;
+
+   /**
+    * Additional CSS classes to be applied to the field.
+    * If an object is provided, all keys with a "truthy" value will be added to the CSS class list.
+    */
+   class?: ClassProp;
+
+   /**
+    * Additional CSS classes to be applied to the field.
+    * If an object is provided, all keys with a "truthy" value will be added to the CSS class list.
+    */
+   className?: ClassProp;
 }
 
 export interface LineGraphInstance extends Instance {
@@ -437,5 +450,6 @@ LineGraph.prototype.hiddenBase = false;
 
 LineGraph.prototype.smooth = false;
 LineGraph.prototype.smoothingRatio = 0.05;
+LineGraph.prototype.styled = true;
 
 Widget.alias("line-graph", LineGraph);

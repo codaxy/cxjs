@@ -61,6 +61,7 @@ export interface MenuItemConfig extends HtmlElementConfig {
    padding?: string;
    hideCursor?: boolean;
    dropdown?: any;
+   onClick?: string | ((e: React.MouseEvent | null, instance: HtmlElementInstance<MenuItem>) => void);
 }
 
 export class MenuItemInstance extends HtmlElementInstance<MenuItem> {
