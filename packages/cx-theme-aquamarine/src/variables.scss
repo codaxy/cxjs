@@ -284,7 +284,7 @@ $cx-default-progressbar-indicator-background-color: rgba($cx-theme-primary-color
 //list
 $cx-default-list-item-padding: 8px 12px !default;
 
-@import "~cx/src/variables";
+@import "~cx/sass/variables";
 
 //VARIABLE MAPS
 //LIST
@@ -362,17 +362,16 @@ $cx-button-mods: cx-deep-map-merge(
          hover: (
             // background-color: darken($cx-theme-primary-color, 5),
             //box-shadow: 0 2px 12px rgba($cx-theme-primary-color, 0.7),
-            //background: linear-gradient(to top right, darken($cx-theme-primary-color-dark, 4), darken($cx-theme-primary-color, 4)),,,,
+             //background: linear-gradient(to top right, darken($cx-theme-primary-color-dark, 4), darken($cx-theme-primary-color, 4)),,,,
          ),
          focus: (
             //background-color: darken($cx-theme-primary-color, 10),
-            //box-shadow: 0 2px 6px rgba(darken($cx-theme-primary-color, 30), 0.5) ,,,,,
+             //box-shadow: 0 2px 6px rgba(darken($cx-theme-primary-color, 30), 0.5) ,,,,,
          ),
          active: (
             background-color: darken($cx-theme-primary-color, 9),
             box-shadow: none,
-            background:
-               linear-gradient(
+            background: linear-gradient(
                   to top right,
                   darken($cx-theme-primary-color-dark, 8),
                   darken($cx-theme-primary-color, 8)
@@ -400,15 +399,14 @@ $cx-button-mods: cx-deep-map-merge(
          hover: (
             //background-color: darken($cx-theme-danger-color, 5),
             //background: linear-gradient(to top right, darken($cx-theme-danger-color-dark, 6), darken($cx-theme-danger-color, 6)),
-            //box-shadow: 0 1px 2px rgba($cx-theme-danger-color, 0.4),,,,
+             //box-shadow: 0 1px 2px rgba($cx-theme-danger-color, 0.4),,,,
          ),
          focus: (
             background-color: darken($cx-theme-danger-color, 10),
          ),
          active: (
             background-color: darken($cx-theme-danger-color, 9),
-            background:
-               linear-gradient(
+            background: linear-gradient(
                   to top right,
                   darken($cx-theme-danger-color-dark, 10),
                   darken($cx-theme-danger-color, 10)
@@ -429,8 +427,7 @@ $cx-button-mods: cx-deep-map-merge(
             border-color: transparent,
             box-shadow: none,
          ),
-         hover:
-            map.merge(
+         hover: map.merge(
                map.get($cx-list-item, hover),
                (
                   box-shadow: none,
@@ -456,8 +453,7 @@ $cx-button-mods: cx-deep-map-merge(
             border-color: transparent,
             box-shadow: none,
          ),
-         hover:
-            map.merge(
+         hover: map.merge(
                map.get($cx-list-item, hover),
                (
                   box-shadow: none,
@@ -633,8 +629,7 @@ $cx-tab-mods: cx-deep-map-merge(
          ),
       ),
       // If a tab is inside a dark-colored container, use mod="line-accent".
-      line-accent:
-         (
+      line-accent: (
             default: (
                color: rgba(255, 255, 255, 0.7),
                border-left-color: transparent !important,
@@ -828,8 +823,8 @@ $cx-grid-header-state-style-map: cx-deep-map-merge(
       ),
       hover: (
          //color: rgba($cx-default-grid-header-color, 0.45),
-         background-color: darken($cx-default-grid-header-background-color, 3)
-            //border-color: $cx-default-grid-header-border-color,,,,,
+         background-color: darken($cx-default-grid-header-background-color, 3),
+         //border-color: $cx-default-grid-header-border-color,,,,,
       ),
       sorted: (
          color: $cx-theme-primary-text-color,
@@ -948,8 +943,8 @@ $cx-textarea-state-style-map: cx-deep-map-merge(
          border-color: $cx-default-input-border-color,
       ),
       focus: (
-         box-shadow: 0px 1px 2px rgba($cx-theme-primary-color, 0.5)
-            // background-color: rgba($cx-default-color, 0.015),,,,,
+         box-shadow: 0px 1px 2px rgba($cx-theme-primary-color, 0.5),
+         // background-color: rgba($cx-default-color, 0.015),,,,,
       ),
       hover: (
          // background-color: rgba($cx-default-color, 0.009)

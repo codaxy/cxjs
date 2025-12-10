@@ -1,5 +1,5 @@
 @use "sass:map";
-@import "~cx/src/index";
+@import "~cx/sass/index";
 
 $block: map.get($cx-besm, block);
 $element: map.get($cx-besm, element);
