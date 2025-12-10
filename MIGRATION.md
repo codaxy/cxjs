@@ -476,6 +476,7 @@ export class ValidationGroup extends PureContainerBase<...> {
 [x] Typed selection and dataAdapters
 [ ] Full Creatable typing (probably impossible)
 [ ] Resolve tree-shaking
+[ ] Allow Netlify to prerender CxJS docs so AI can consume it or make a static site somehow
 
 ---
 
@@ -524,8 +525,9 @@ After migrating widgets, compare the local documentation site against the produc
 
 ### Active Bugs
 
-[x] Infinite Grid repeating row values (Docs)
-[x] Missing search icon in Aquamarine theme (Gallery)
+[ ] Infinite Grid repeating row values (Docs)
+[ ] Missing search icon in Aquamarine theme (Gallery)
+[ ] SWC JSX plugin uses src
 
 ## Finalization
 
