@@ -7,7 +7,7 @@ import { Instance } from "../ui/Instance";
 import { RenderingContext } from "../ui/RenderingContext";
 import { NumberProp, BooleanProp, StringProp, RecordsProp, StyleProp } from "../ui/Prop";
 import type { ChartRenderingContext } from "./Chart";
-import { ClassProp } from "../core";
+import { ClassProp } from "../ui/Prop";
 
 interface LinePoint {
    x: number;

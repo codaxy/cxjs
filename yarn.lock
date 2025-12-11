@@ -3050,7 +3050,7 @@ __metadata:
     copy-webpack-plugin: "npm:^12.0.2"
     core-js: "npm:^3.39.0"
     css-loader: "npm:^7.1.2"
-    cx: "npm:^26.0.3"
+    cx: "npm:^26.0.7"
     cx-react: "npm:^24.7.1"
     file-loader: "npm:^6.2.0"
     html-webpack-plugin: "npm:^5.6.3"
@@ -3954,7 +3954,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"cx@npm:^26.0.3, cx@npm:^26.0.5, cx@workspace:packages/cx":
+"cx@npm:^26.0.3, cx@npm:^26.0.7, cx@workspace:packages/cx":
   version: 0.0.0-use.local
   resolution: "cx@workspace:packages/cx"
   dependencies:
@@ -4240,7 +4240,7 @@ __metadata:
     copy-webpack-plugin: "npm:^12.0.2"
     core-js: "npm:^3.39.0"
     css-loader: "npm:^7.1.2"
-    cx: "npm:^26.0.5"
+    cx: "npm:^26.0.7"
     cx-react: "npm:^24.7.1"
     cx-theme-aquamarine: "npm:^25.12.0"
     file-loader: "npm:^6.2.0"
@@ -4811,7 +4811,7 @@ __metadata:
     copy-webpack-plugin: "npm:^12.0.2"
     core-js: "npm:^3.39.0"
     css-loader: "npm:^7.1.2"
-    cx: "npm:^26.0.3"
+    cx: "npm:^26.0.7"
     cx-react: "npm:^24.7.1"
     deep-equal: "npm:^2.2.3"
     deepmerge: "npm:^4.3.1"
@@ -5086,7 +5086,7 @@ __metadata:
     copy-webpack-plugin: "npm:^12.0.2"
     core-js: "npm:^3.39.0"
     css-loader: "npm:^7.1.2"
-    cx: "npm:^26.0.3"
+    cx: "npm:^26.0.7"
     cx-react: "npm:^24.7.1"
     cx-theme-aquamarine: "npm:^25.12.0"
     cx-theme-dark: "npm:^25.12.0"
