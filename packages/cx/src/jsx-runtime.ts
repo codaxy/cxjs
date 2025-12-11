@@ -1,10 +1,11 @@
 import type { JSX as ReactJSX } from "react";
 import { Instance } from "./ui/Instance";
-import type { Prop } from "./ui/Prop";
+import type { ClassProp, Prop } from "./ui/Prop";
 import { Widget } from "./ui/Widget";
 import { isArray } from "./util/isArray";
 import { isString } from "./util/isString";
 import { HtmlElement, HtmlElementConfig } from "./widgets/HtmlElement";
+import { ChildNode } from "./ui/Container";
 
 export function jsx(typeName: any, props: any, key?: string): any {
    if (isArray(typeName)) return typeName;
@@ -45,10 +46,12 @@ type CxEventHandler<T> = T extends (event: infer E) => any
 
 type CxIntrinsicElement<T> = {
    [K in keyof T]: K extends "children"
-      ? any
-      : IsEventHandler<K, T[K]> extends true
-        ? CxEventHandler<T[K]>
-        : Prop<T[K]>;
+      ? ChildNode | ChildNode[]
+      : K extends "className" | "class"
+        ? ClassProp
+        : IsEventHandler<K, T[K]> extends true
+          ? CxEventHandler<T[K]>
+          : Prop<T[K]>;
 } & HtmlElementConfig;
 
 type CxIntrinsicElements = {
