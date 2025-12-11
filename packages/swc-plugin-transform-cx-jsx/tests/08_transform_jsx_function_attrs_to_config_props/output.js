@@ -1,7 +1,7 @@
 ({
     "$type": Component,
-    "onClick": function onClick(e) {},
+    "onClick": (e)=>{},
     "jsxAttributes": [
         "onClick"
     ]
-  });
+});
