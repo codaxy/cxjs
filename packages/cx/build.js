@@ -1,5 +1,6 @@
 const buildJS = require("cx-build-tools/buildJS"),
    buildSCSS = require("cx-build-tools/buildSCSS"),
+   copyFiles = require("cx-build-tools/copyFiles"),
    getPathResolver = require("cx-build-tools/getPathResolver"),
    fs = require("fs"),
    resolvePath = getPathResolver(__dirname),
@@ -84,6 +85,9 @@ const externalPaths = {
       if (!fs.existsSync(distPath)) {
          fs.mkdirSync(distPath);
       }
+
+      // Copy SCSS files from src to build
+      copyFiles(cxSrc("."), cxBuild("."), ".scss");
 
       await Promise.all([
          buildJS(resolvePath("./src"), resolvePath("./dist"), entries, externalPaths),
