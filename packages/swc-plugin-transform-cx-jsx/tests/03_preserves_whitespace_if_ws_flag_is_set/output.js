@@ -8,7 +8,7 @@
               "ws"
             ],
             "children": [
-                "\n\r\n      Text\n\r\n    "
+                "\n      Text\n    "
             ],
         },
     ],
