@@ -1,8 +1,10 @@
-use std::borrow::BorrowMut;
 use std::collections::{HashMap, HashSet};
+use std::sync::atomic::{AtomicBool, Ordering};
 
 use lazy_static::lazy_static;
 use regex::Regex;
+use serde::{Deserialize, Serialize};
+use tracing::{debug, error, info, instrument, span, trace, warn, Level};
 use swc_core::common::{SyntaxContext, DUMMY_SP};
 use swc_core::ecma::ast::{
     Program, ArrayLit, BlockStmtOrExpr, CallExpr, Expr, ExprOrSpread, Ident, IdentName, ImportDecl,
@@ -14,8 +16,74 @@ use swc_core::ecma::ast::{
 use swc_core::ecma::visit::{visit_mut_pass, VisitMut, VisitMutWith};
 use swc_core::plugin::{plugin_transform, proxies::TransformPluginProgramMetadata};
 
+// Constants for magic strings
+const CX_TAG_LOWERCASE: &str = "cx";
+const CX_TAG_CAPITALIZED: &str = "Cx";
+const HTML_ELEMENT_SYMBOL: &str = "HtmlElement";
+const CX_WIDGETS_PATH: &str = "cx/widgets";
+const CX_UI_PATH: &str = "cx/ui";
+const CREATE_FUNCTIONAL_COMPONENT: &str = "createFunctionalComponent";
+const JSX_ATTRIBUTES_KEY: &str = "jsxAttributes";
+const JSX_SPREAD_KEY: &str = "jsxSpread";
+const CHILDREN_KEY: &str = "children";
+const TYPE_KEY: &str = "$type";
+const TAG_KEY: &str = "tag";
+const ITEMS_KEY: &str = "items";
+
+lazy_static! {
+    static ref TRACING_INITIALIZED: AtomicBool = AtomicBool::new(false);
+}
+
+/// Configuration for debugging and tracing
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct DebugConfig {
+    /// Enable detailed tracing output
+    #[serde(default)]
+    pub enable_tracing: bool,
+    
+    /// Log level: "trace", "debug", "info", "warn", "error"
+    #[serde(default = "default_log_level")]
+    pub log_level: String,
+    
+    /// Print AST before transformation
+    #[serde(default)]
+    pub print_ast_before: bool,
+    
+    /// Print AST after transformation
+    #[serde(default)]
+    pub print_ast_after: bool,
+    
+    /// Log each transformation step
+    #[serde(default)]
+    pub log_transformations: bool,
+    
+    /// Log import injection details
+    #[serde(default)]
+    pub log_imports: bool,
+}
+
+fn default_log_level() -> String {
+    "info".to_string()
+}
+
+impl Default for DebugConfig {
+    fn default() -> Self {
+        Self {
+            enable_tracing: false,
+            log_level: default_log_level(),
+            print_ast_before: false,
+            print_ast_after: false,
+            log_transformations: false,
+            log_imports: false,
+        }
+    }
+}
+
 pub struct TransformVisitor {
     imports: HashMap<String, HashSet<String>>,
+    debug_config: DebugConfig,
+    transform_count: usize,
 }
 
 fn create_key_value_prop(key: String, value: Box<Expr>) -> PropOrSpread {
@@ -23,6 +91,11 @@ fn create_key_value_prop(key: String, value: Box<Expr>) -> PropOrSpread {
         key: PropName::Str(Str::from(key)),
         value,
     })))
+}
+
+/// Checks if the given tag name is a cx or Cx tag
+fn is_cx_tag(tag_name: &str) -> bool {
+    matches!(tag_name, CX_TAG_LOWERCASE | CX_TAG_CAPITALIZED)
 }
 
 fn obj_key_identifier(name: &str) -> (Option<Str>, Option<Ident>) {
@@ -40,7 +113,7 @@ fn obj_key_identifier(name: &str) -> (Option<Str>, Option<Ident>) {
         });
     }
 
-    return (str, ident);
+    (str, ident)
 }
 
 lazy_static! {
@@ -50,9 +123,17 @@ lazy_static! {
 }
 
 impl TransformVisitor {
+    #[instrument(skip(self, expr), level = "debug")]
     fn transform_cx_element(&mut self, expr: &mut Expr) -> Expr {
+        let _span = span!(Level::TRACE, "transform_cx_element").entered();
+        
+        if self.debug_config.log_transformations {
+            trace!("Transforming expression of type: {:?}", std::mem::discriminant(expr));
+        }
+        
         match expr {
             Expr::JSXElement(jsx_el) => {
+                debug!("Processing JSX element");
                 let children: &mut Vec<JSXElementChild> = &mut jsx_el.children;
                 let opening: JSXOpeningElement = jsx_el.opening.clone();
                 let closing: &mut Option<JSXClosingElement> = &mut jsx_el.closing;
@@ -67,9 +148,19 @@ impl TransformVisitor {
                     _ => false,
                 });
 
+                if self.debug_config.log_transformations && ws_flag {
+                    trace!("Whitespace preservation flag detected");
+                }
+
                 if let JSXElementName::Ident(ident) = &opening.name {
                     let tag_name: String = ident.sym.to_string();
-                    if tag_name == "cx" || tag_name == "Cx" {
+                    
+                    if self.debug_config.log_transformations {
+                        debug!("Processing element with tag: {}", tag_name);
+                    }
+                    
+                    if is_cx_tag(&tag_name) {
+                        info!("Transforming Cx container element: {}", tag_name);
                         let mut transformed_children = children
                             .iter_mut()
                             .filter(|child| match *child {
@@ -99,8 +190,12 @@ impl TransformVisitor {
                                     }))
                                 }
                                 _ => {
-                                    println!("Error creating Cx react element");
-                                    panic!("Error creating Cx react element")
+                                    error!("Unexpected child type while creating Cx react element");
+                                    if self.debug_config.enable_tracing {
+                                        warn!("Child type: {:?}", std::mem::discriminant(child));
+                                    }
+                                    // Return null ExprOrSpread instead of panicking
+                                    Some(ExprOrSpread::from(NULL_LIT_EXPR.to_owned()))
                                 }
                             })
                             .collect::<Vec<_>>();
@@ -122,7 +217,7 @@ impl TransformVisitor {
 
                                 let ident_name = IdentName {
                                     span: DUMMY_SP,
-                                    sym: "items".into(),
+                                    sym: ITEMS_KEY.into(),
                                 };
 
                                 let items_attr = JSXAttr {
@@ -153,7 +248,7 @@ impl TransformVisitor {
                         return match transformed_children.len() {
                             0 => NULL_LIT_EXPR.to_owned(),
                             1 => {
-                                let only_child = transformed_children[0].borrow_mut();
+                                let only_child = &mut transformed_children[0];
 
                                 return match only_child {
                                     JSXElementChild::JSXElement(jsx_el) => {
@@ -172,8 +267,11 @@ impl TransformVisitor {
                                         }
                                     }
                                     _ => {
-                                        println!("Failed transforming only child");
-                                        panic!("Failed transforming only child.")
+                                        error!("Failed transforming only child - unexpected child type");
+                                        if self.debug_config.enable_tracing {
+                                            warn!("Child discriminant: {:?}", std::mem::discriminant(only_child));
+                                        }
+                                        NULL_LIT_EXPR.to_owned()
                                     }
                                 };
                             }
@@ -184,13 +282,15 @@ impl TransformVisitor {
                     let tag_first_char = tag_name.get(0..1).unwrap();
                     if tag_first_char.to_lowercase() == tag_first_char {
                         // HtmlElement
-                        let html_element_sym = "HtmlElement";
-                        self.insert_import("cx/widgets", html_element_sym);
+                        if self.debug_config.log_transformations {
+                            debug!("Converting lowercase tag '{}' to HtmlElement", tag_name);
+                        }
+                        self.insert_import(CX_WIDGETS_PATH, HTML_ELEMENT_SYMBOL);
                         let html_element = create_key_value_prop(
-                            String::from("$type"),
+                            String::from(TYPE_KEY),
                             Box::from(Expr::Ident(Ident {
                                 span: DUMMY_SP,
-                                sym: html_element_sym.into(),
+                                sym: HTML_ELEMENT_SYMBOL.into(),
                                 optional: false,
                                 ctxt: SyntaxContext::empty(),
                             })),
@@ -200,7 +300,7 @@ impl TransformVisitor {
 
                         if let JSXElementName::Ident(_) = opening.name {
                             let tag = create_key_value_prop(
-                                String::from("tag"),
+                                String::from(TAG_KEY),
                                 Box::from(Expr::Lit(Lit::Str(tag_name.into()))),
                             );
 
@@ -209,7 +309,7 @@ impl TransformVisitor {
                     } else {
                         if let JSXElementName::Ident(ident) = opening.name {
                             let prop = create_key_value_prop(
-                                String::from("$type"),
+                                String::from(TYPE_KEY),
                                 Box::from(Expr::Ident(ident)),
                             );
 
@@ -238,8 +338,11 @@ impl TransformVisitor {
                             let attr_name = match processed {
                                 Prop::KeyValue(kv) => self.get_prop_name(&kv),
                                 _ => {
-                                    println!("cannot parse attr_names Prop");
-                                    panic!("cannot parse attr_names Prop")
+                                    error!("Cannot parse attr_names Prop - unexpected property type");
+                                    if self.debug_config.enable_tracing {
+                                        warn!("Prop discriminant: {:?}", std::mem::discriminant(&processed));
+                                    }
+                                    String::from("unknown")
                                 }
                             };
 
@@ -250,7 +353,7 @@ impl TransformVisitor {
 
                 if !spread.is_empty() {
                     attrs.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
-                        key: PropName::Str("jsxSpread".into()),
+                        key: PropName::Str(JSX_SPREAD_KEY.into()),
                         value: Box::new(Expr::Array(ArrayLit {
                             span: DUMMY_SP,
                             elems: spread,
@@ -260,7 +363,7 @@ impl TransformVisitor {
 
                 if !attr_names.is_empty() {
                     attrs.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
-                        key: PropName::Str("jsxAttributes".into()),
+                        key: PropName::Str(JSX_ATTRIBUTES_KEY.into()),
                         value: Box::new(Expr::Array(ArrayLit {
                             span: DUMMY_SP,
                             elems: attr_names
@@ -286,7 +389,7 @@ impl TransformVisitor {
                     });
 
                     attrs.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
-                        key: PropName::Str("children".into()),
+                        key: PropName::Str(CHILDREN_KEY.into()),
                         value: Box::new(Expr::Array(ArrayLit {
                             span: DUMMY_SP,
                             elems: new_children
@@ -326,7 +429,7 @@ impl TransformVisitor {
                 if let JSXElementName::JSXMemberExpr(member_expr) = jsx_el.opening.name.to_owned() {
                     if member_expr.obj.to_owned().is_ident() {
                         let dot_prop = create_key_value_prop(
-                            String::from("$type"),
+                            String::from(TYPE_KEY),
                             Box::new(Expr::Member(MemberExpr {
                                 span: DUMMY_SP,
                                 obj: Box::new(Expr::Ident(
@@ -390,8 +493,11 @@ impl TransformVisitor {
                             Prop::Shorthand(_) => attrs.push(obj_props.to_owned()),
                             Prop::Method(_) => attrs.push(obj_props.to_owned()),
                             _ => {
-                                println!("EXPR OBJ PROPS");
-                                todo!("EXPR OBJ PROPS")
+                                warn!("Unhandled object property type encountered");
+                                if self.debug_config.enable_tracing {
+                                    debug!("Property discriminant: {:?}", std::mem::discriminant(&*prop));
+                                }
+                                attrs.push(obj_props.to_owned())
                             }
                         },
                         PropOrSpread::Spread(_) => attrs.push(obj_props.to_owned()),
@@ -406,6 +512,7 @@ impl TransformVisitor {
         }
     }
 
+    #[instrument(skip(self, kv_prop), level = "trace")]
     fn get_prop_name(&mut self, kv_prop: &KeyValueProp) -> String {
         match &kv_prop.key {
             PropName::Ident(ident) => ident.sym.as_str().to_string(),
@@ -413,13 +520,20 @@ impl TransformVisitor {
             PropName::Num(num) => num.value.to_string(),
             PropName::BigInt(big_int) => big_int.value.to_string(),
             _ => {
-                println!("cannot parse attr_names prop keyValue");
-                panic!("cannot parse attr_names prop keyValue")
+                error!("Cannot parse attr_names prop keyValue - unexpected key type");
+                if self.debug_config.enable_tracing {
+                    warn!("Key discriminant: {:?}", std::mem::discriminant(&kv_prop.key));
+                }
+                String::from("unknown_key")
             }
         }
     }
 
+    #[instrument(skip(self, attr), level = "trace")]
     fn transform_cx_attribute(&mut self, attr: JSXAttr) -> Prop {
+        if self.debug_config.log_transformations {
+            trace!("Transforming JSX attribute");
+        }
         match &attr.value {
             Some(value) => match value {
                 JSXAttrValue::Str(str_value) => {
@@ -437,8 +551,8 @@ impl TransformVisitor {
                         return self.generate_cx_property(attr.name, Box::new(processed));
                     }
                     JSXExpr::JSXEmptyExpr(_) => {
-                        println!("EMPTY PROP EXPR");
-                        todo!("EMPTY PROP EXPR")
+                        warn!("Empty JSX expression in attribute - converting to null");
+                        self.generate_cx_property(attr.name, Box::new(NULL_LIT_EXPR.to_owned()))
                     }
                 },
                 _ => self.generate_cx_property(attr.name, Box::new(NULL_LIT_EXPR.to_owned())),
@@ -564,24 +678,43 @@ impl TransformVisitor {
         }
     }
 
+    #[instrument(skip(self), level = "debug")]
     fn insert_import(&mut self, key: &str, value: &str) {
+        if self.debug_config.log_imports {
+            info!("Inserting import: {} from {}", value, key);
+        }
+        
         if self.imports.contains_key(key) {
             self.imports.get_mut(key).unwrap().insert(value.into());
+            trace!("Added '{}' to existing import from '{}'", value, key);
         } else {
             let mut import_set: HashSet<String> = HashSet::new();
             import_set.insert(value.into());
             self.imports.insert(key.into(), import_set);
+            trace!("Created new import entry for '{}' from '{}'", value, key);
         }
     }
 }
 
 impl VisitMut for TransformVisitor {
+    #[instrument(skip(self, program), level = "info")]
     fn visit_mut_program(&mut self, program: &mut Program) {
+        let _span = span!(Level::INFO, "visit_mut_program").entered();
+        
+        if self.debug_config.print_ast_before {
+            info!("AST before transformation: {:#?}", program);
+        }
+        
+        info!("Starting program transformation");
         program.visit_mut_children_with(self);
+        info!("Completed program transformation. {} transformations applied", self.transform_count);
 
         if self.imports.is_empty() {
+            debug!("No imports to add");
             return;
         }
+        
+        info!("Adding {} import declarations", self.imports.len());
 
         // Convert Script to Module if we have imports to add
         let module = match program {
@@ -630,13 +763,26 @@ impl VisitMut for TransformVisitor {
 
             // Filter out symbols that are already imported from this source
             let new_symbols: Vec<String> = if let Some(existing) = existing_imports.get(source) {
-                symbols.iter().filter(|s| !existing.contains(*s)).cloned().collect()
+                let filtered: Vec<String> = symbols.iter().filter(|s| !existing.contains(*s)).cloned().collect();
+                if self.debug_config.log_imports && !filtered.is_empty() {
+                    debug!("Filtered {} new symbols from '{}' (skipping {} existing)", 
+                           filtered.len(), source, symbols.len() - filtered.len());
+                }
+                filtered
             } else {
+                if self.debug_config.log_imports {
+                    debug!("Adding {} new symbols from '{}'", symbols.len(), source);
+                }
                 symbols.iter().cloned().collect()
             };
 
             if new_symbols.is_empty() {
+                trace!("No new symbols to import from '{}'", source);
                 return;
+            }
+            
+            if self.debug_config.log_imports {
+                info!("Creating import for symbols {:?} from '{}'", new_symbols, source);
             }
             let new_item = ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
                 span: DUMMY_SP,
@@ -685,22 +831,42 @@ impl VisitMut for TransformVisitor {
                 matches!(item, ModuleItem::ModuleDecl(ModuleDecl::Import(_)))
             }).map(|pos| pos + 1).unwrap_or(0);
 
+            debug!("Inserting {} new imports at position {}", new_imports.len(), insert_pos);
+            
             for (i, new_import) in new_imports.into_iter().enumerate() {
                 module.body.insert(insert_pos + i, new_import);
             }
         }
+        
+        if self.debug_config.print_ast_after {
+            info!("AST after transformation: {:#?}", module);
+        }
+        
+        info!("Program transformation complete");
     }
 
+    #[instrument(skip(self, el), level = "trace")]
     fn visit_mut_jsx_element(&mut self, el: &mut JSXElement) {
         if let JSXElementName::Ident(ident) = &mut el.opening.name {
             let tag_name = ident.sym.to_string();
-            if tag_name == "cx" || tag_name == "Cx" {
+            
+            if self.debug_config.log_transformations {
+                trace!("Visiting JSX element: {}", tag_name);
+            }
+            
+            if is_cx_tag(&tag_name) {
+                debug!("Found Cx tag, transforming element: {}", tag_name);
+                self.transform_count += 1;
+                
                 let tr = self
                     .transform_cx_element(&mut Expr::JSXElement(Box::new(el.to_owned())))
                     .jsx_element();
 
                 if tr.is_some() {
+                    trace!("Successfully transformed Cx element");
                     *el = *tr.unwrap();
+                } else {
+                    warn!("Transformation returned None for Cx element");
                 }
             }
         }
@@ -708,8 +874,14 @@ impl VisitMut for TransformVisitor {
         el.visit_mut_children_with(self);
     }
 
+    #[instrument(skip(self, expr), level = "trace")]
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
+        if self.debug_config.log_transformations {
+            trace!("Visiting expression type: {:?}", std::mem::discriminant(expr));
+        }
+        
         if let Expr::Arrow(arrow_fn_expr) = expr {
+            trace!("Processing arrow function expression");
             if let BlockStmtOrExpr::Expr(body_expr) = *arrow_fn_expr.to_owned().body {
                 if body_expr.is_paren() {
                     let internal_expr = body_expr.to_owned().paren().unwrap().expr;
@@ -717,7 +889,10 @@ impl VisitMut for TransformVisitor {
                         let jsx_el = internal_expr.jsx_element().unwrap();
                         if let JSXElementName::Ident(ident) = jsx_el.opening.name.to_owned() {
                             let tag_name = ident.sym.to_string();
-                            if tag_name == "cx" || tag_name == "Cx" {
+                            if is_cx_tag(&tag_name) {
+                                debug!("Converting arrow function with Cx element to functional component");
+                                self.transform_count += 1;
+                                
                                 let old_expr = arrow_fn_expr;
                                 old_expr.body = Box::new(BlockStmtOrExpr::Expr(Box::new(
                                     self.transform_cx_element(&mut Expr::JSXElement(jsx_el)),
@@ -727,7 +902,7 @@ impl VisitMut for TransformVisitor {
                                     callee: swc_core::ecma::ast::Callee::Expr(Box::new(
                                         Expr::Ident(Ident {
                                             span: DUMMY_SP,
-                                            sym: "createFunctionalComponent".into(),
+                                            sym: CREATE_FUNCTIONAL_COMPONENT.into(),
                                             optional: false,
                                             ctxt: SyntaxContext::empty(),
                                         }),
@@ -741,8 +916,8 @@ impl VisitMut for TransformVisitor {
                                 });
 
                                 self.insert_import(
-                                    "cx/ui",
-                                    "createFunctionalComponent",
+                                    CX_UI_PATH,
+                                    CREATE_FUNCTIONAL_COMPONENT,
                                 );
                             }
                         }
@@ -756,19 +931,28 @@ impl VisitMut for TransformVisitor {
         if let Expr::JSXElement(jsx_el) = expr {
             if let JSXElementName::Ident(ident) = &mut jsx_el.opening.name {
                 let tag_name = ident.sym.to_string();
-                if tag_name == "cx" || tag_name == "Cx" {
+                if is_cx_tag(&tag_name) {
+                    debug!("Transforming Cx JSX element expression: {}", tag_name);
+                    self.transform_count += 1;
                     *expr = self.transform_cx_element(expr)
                 }
             }
         }
     }
 
+    #[instrument(skip(self, expr), level = "trace")]
     fn visit_mut_call_expr(&mut self, expr: &mut CallExpr) {
+        if self.debug_config.log_transformations {
+            trace!("Visiting call expression");
+        }
+        
         match expr.callee.to_owned() {
             Callee::Expr(callee_expr) => {
                 if let Expr::Ident(identifier_option) = *callee_expr {
-                    if identifier_option.sym.as_str() == "createFunctionalComponent" {
+                    if identifier_option.sym.as_str() == CREATE_FUNCTIONAL_COMPONENT {
+                        trace!("Found createFunctionalComponent call");
                         if expr.args.len() == 1 && expr.args[0].expr.is_arrow() {
+                            debug!("Processing createFunctionalComponent with arrow function argument");
                             let arrow_expr = expr.args[0].expr.as_arrow().unwrap();
 
                             match *arrow_expr.body.to_owned() {
@@ -780,7 +964,7 @@ impl VisitMut for TransformVisitor {
                                                     jsx_el.to_owned().opening.name
                                                 {
                                                     let tag_name = ident.sym.to_string();
-                                                    if tag_name == "cx" || tag_name == "Cx" {
+                                                    if is_cx_tag(&tag_name) {
                                                         let transformed_create_func_component =
                                                             self.transform_cx_element(
                                                                 &mut Expr::from(jsx_el.to_owned()),
@@ -824,11 +1008,17 @@ impl VisitMut for TransformVisitor {
     }
 
 
+    #[instrument(skip(self, import_decl), level = "trace")]
     fn visit_mut_import_decl(&mut self, import_decl: &mut ImportDecl) {
         import_decl.visit_mut_children_with(self);
 
         if let Some(src_str) = import_decl.src.value.as_str() {
+            if self.debug_config.log_imports {
+                trace!("Processing import declaration from: {}", src_str);
+            }
+            
             if src_str.ends_with("..") {
+                debug!("Fixing import path ending with '..' -> adding '/'");
                 let mut new_src = src_str.to_string();
                 new_src.push('/');
 
@@ -836,6 +1026,7 @@ impl VisitMut for TransformVisitor {
             }
             // . imports do not work so we add the /index
             else if src_str.ends_with(".") {
+                debug!("Fixing import path ending with '.' -> adding '/index'");
                 let mut new_src = src_str.to_string();
                 new_src.insert_str(new_src.len(), "/index");
 
@@ -845,15 +1036,74 @@ impl VisitMut for TransformVisitor {
     }
 }
 
+/// Initialize tracing subscriber if configured
+fn init_tracing(config: &DebugConfig) {
+    if !config.enable_tracing {
+        return;
+    }
+    
+    // Only initialize once
+    if TRACING_INITIALIZED.swap(true, Ordering::SeqCst) {
+        return;
+    }
+    
+    use tracing_subscriber::{fmt, prelude::*, EnvFilter};
+    
+    let level = match config.log_level.as_str() {
+        "trace" => Level::TRACE,
+        "debug" => Level::DEBUG,
+        "info" => Level::INFO,
+        "warn" => Level::WARN,
+        "error" => Level::ERROR,
+        _ => Level::INFO,
+    };
+    
+    let filter = EnvFilter::from_default_env()
+        .add_directive(format!("swc_plugin_transform_cx_jsx={}", level).parse().unwrap());
+    
+    tracing_subscriber::registry()
+        .with(filter)
+        .with(fmt::layer().with_writer(std::io::stderr))
+        .init();
+        
+    info!("Tracing initialized with level: {}", config.log_level);
+}
+
 #[plugin_transform]
 pub fn process_transform(
     mut program: Program,
-    _metadata: TransformPluginProgramMetadata,
+    metadata: TransformPluginProgramMetadata,
 ) -> Program {
+    // Parse debug configuration from plugin metadata
+    let debug_config: DebugConfig = metadata
+        .get_transform_plugin_config()
+        .and_then(|config_str| {
+            let config_json = config_str.to_string();
+            serde_json::from_str::<serde_json::Value>(&config_json).ok()
+        })
+        .and_then(|config_value| {
+            config_value.get("debug")
+                .and_then(|debug_value| serde_json::from_value(debug_value.clone()).ok())
+        })
+        .unwrap_or_default();
+    
+    // Initialize tracing if enabled
+    init_tracing(&debug_config);
+    
+    let _span = span!(Level::INFO, "plugin_transform").entered();
+    info!("Starting SWC CX JSX transformation plugin");
+    
+    if debug_config.enable_tracing {
+        debug!("Debug configuration: {:?}", debug_config);
+    }
+    
     program.visit_mut_with(&mut visit_mut_pass(TransformVisitor {
         imports: HashMap::new(),
+        debug_config,
+        transform_count: 0,
     }));
 
+    info!("SWC CX JSX transformation plugin completed");
     program
 }
 
@@ -879,6 +1129,8 @@ fn exec(input: std::path::PathBuf) {
                 ),
                 visit_mut_pass(TransformVisitor {
                     imports: HashMap::new(),
+                    debug_config: DebugConfig::default(),
+                    transform_count: 0,
                 }),
             )
         },

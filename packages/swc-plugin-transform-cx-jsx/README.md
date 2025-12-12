@@ -146,3 +146,50 @@ const page = {
   },
 }
 ```
+
+## 🐛 Debugging & Tracing
+
+This plugin now includes comprehensive debugging capabilities. Enable detailed logging to understand and troubleshoot transformations:
+
+```javascript
+{
+  loader: 'swc-loader',
+  options: {
+    jsc: {
+      experimental: {
+        plugins: [
+          [
+            require.resolve('swc-plugin-transform-cx-jsx/swc_plugin_transform_cx_jsx_bg.wasm'),
+            {
+              trimWhitespace: true,
+              autoImportHtmlElement: true,
+              debug: {
+                enableTracing: true,        // Enable debug output
+                logLevel: "debug",          // trace|debug|info|warn|error
+                logTransformations: true,   // Log transformation steps
+                logImports: true,           // Log import injection
+                printAstBefore: false,      // Print AST before transform
+                printAstAfter: false,       // Print AST after transform
+              }
+            }
+          ]
+        ]
+      }
+    }
+  }
+}
+```
+
+**Quick debugging:**
+```bash
+# Enable debug output
+DEBUG_CX=true npm run build
+
+# Set log level
+DEBUG_CX=true DEBUG_CX_LEVEL=trace npm run build
+
+# Use Rust log env
+RUST_LOG=swc_plugin_transform_cx_jsx=debug npm run build
+```
+
+**📖 See [DEBUG.md](./DEBUG.md) for comprehensive debugging guide.**
