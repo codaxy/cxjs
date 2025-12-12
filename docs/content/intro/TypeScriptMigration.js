@@ -50,6 +50,17 @@ export const TypeScriptMigration = (
             `}</CodeSnippet>
          </CodeSplit>
 
+         ### Without `transform-cx-jsx` Plugin
+
+         Applications should continue to work with the `transform-cx-jsx` plugin enabled. However, if you want to run
+         your application without this plugin, the following requirements apply:
+
+         1. All functional components must be wrapped in `createFunctionalComponent` calls
+         2. The special JSX prop syntax (`-bind`, `-expr`, `-tpl`) must be converted to function calls
+            (`bind()`, `tpl()`, `expr()`) or object form like `&#123;&#123; bind: "prop" &#125;&#125;`,
+            `&#123;&#123; tpl: "template" &#125;&#125;`, or `&#123;&#123; expr: "1+1" &#125;&#125;`
+         3. All components previously developed in JavaScript must be ported to TypeScript.
+
          ### Bundle Size Optimization (Optional)
 
          While not required, you can use `babel-plugin-transform-cx-imports` to minimize bundle size
