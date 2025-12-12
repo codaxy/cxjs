@@ -193,3 +193,30 @@ RUST_LOG=swc_plugin_transform_cx_jsx=debug npm run build
 ```
 
 **📖 See [DEBUG.md](./DEBUG.md) for comprehensive debugging guide.**
+
+## 🛠️ Development
+
+### Quick Start
+
+```bash
+# Build the plugin
+npm run build-plugin
+
+# Run tests
+npm run test-plugin
+
+# Check code
+npm run check
+```
+
+### Available Scripts
+
+- `npm run build-plugin` - Build optimized WASM plugin
+- `npm run build-plugin:debug` - Build with debug symbols
+- `npm run test-plugin` - Run all tests
+- `npm run check` - Quick compilation check
+- `npm run clippy` - Run linter
+- `npm run fmt` - Format code
+- `npm run clean` - Clean build artifacts
+
+**📖 See [DEVELOPMENT.md](./DEVELOPMENT.md) for complete development guide.**

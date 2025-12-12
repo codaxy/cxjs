@@ -1,0 +1,30 @@
+{
+  "name": "swc-plugin-transform-cx-jsx-dev",
+  "version": "24.5.1",
+  "private": true,
+  "description": "Development environment for SWC CX JSX Transform Plugin",
+  "scripts": {
+    "build-plugin": "cargo build --target wasm32-wasip1 --release",
+    "build-plugin:debug": "cargo build --target wasm32-wasip1",
+    "test-plugin": "cargo test --target x86_64-unknown-linux-gnu",
+    "test-plugin:all": "cargo test --all-features --target x86_64-unknown-linux-gnu",
+    "check": "cargo check",
+    "check:wasm": "cargo check --target wasm32-wasip1",
+    "clippy": "cargo clippy --all-targets --all-features",
+    "fmt": "cargo fmt --all",
+    "fmt:check": "cargo fmt --all -- --check",
+    "clean": "cargo clean",
+    "build-wasm": "wasm-pack build --target nodejs --out-dir pkg",
+    "watch": "cargo watch -x 'check --target wasm32-wasip1'"
+  },
+  "devDependencies": {},
+  "keywords": [
+    "swc-plugin",
+    "swc",
+    "cx",
+    "jsx",
+    "rust",
+    "wasm"
+  ]
+}
+
