@@ -1,46 +1,46 @@
-# SWC CX JSX Plugin - npm Scripts Summary
+# SWC CX JSX Plugin - Make Targets Summary
 
 ## 📋 Quick Reference
 
-All commands use `npm run <script>`:
+All commands use `make <script>`:
 
 ### 🏗️ Building
 
 ```bash
-npm run build-plugin          # Production build (optimized WASM)
-npm run build-plugin:debug    # Debug build (with symbols)
+make build-plugin          # Production build (optimized WASM)
+make build-plugin:debug    # Debug build (with symbols)
 ```
 
 ### 🧪 Testing
 
 ```bash
-npm run test-plugin            # Run all 43 tests
-npm run test-plugin:all        # Run tests with all features
+make test-plugin            # Run all 43 tests
+make test-plugin:all        # Run tests with all features
 ```
 
 ### ✅ Code Quality
 
 ```bash
-npm run check                  # Quick compilation check
-npm run check:wasm             # Check WASM target
-npm run clippy                 # Lint with Clippy
-npm run fmt                    # Format code
-npm run fmt:check              # Check formatting
+make check                  # Quick compilation check
+make check:wasm             # Check WASM target
+make clippy                 # Lint with Clippy
+make fmt                    # Format code
+make fmt:check              # Check formatting
 ```
 
 ### 📦 Packaging
 
 ```bash
-npm run copy-docs              # Copy docs to pkg/
-npm run copy-wasm              # Copy WASM to pkg/
-npm run prepare-pkg            # Build + copy everything
+make copy-docs              # Copy docs to pkg/
+make copy-wasm              # Copy WASM to pkg/
+make prepare-pkg            # Build + copy everything
 ```
 
 ### 🔧 Maintenance
 
 ```bash
-npm run clean                  # Clean build artifacts
-npm run watch                  # Watch mode for development
+make clean                  # Clean build artifacts
+make watch                  # Watch mode for development
 ```
 
 ## 🚀 Common Workflows
@@ -49,27 +49,27 @@ npm run watch                  # Watch mode for development
 
 ```bash
 # Start watch mode
-npm run watch
+make watch
 
 # In another terminal, run tests when ready
-npm run test-plugin
+make test-plugin
 ```
 
 ### Before Commit
 
 ```bash
-npm run fmt
-npm run clippy
-npm run test-plugin
+make fmt
+make clippy
+make test-plugin
 ```
 
 ### Prepare for Release
 
 ```bash
-npm run clean
-npm run test-plugin
-npm run clippy
-npm run prepare-pkg
+make clean
+make test-plugin
+make clippy
+make prepare-pkg
 
 cd pkg
 npm publish --dry-run  # Verify
@@ -79,7 +79,7 @@ npm publish             # Ship it!
 ### Quick Test in Another Project
 
 ```bash
-npm run build-plugin
+make build-plugin
 
 # Then use absolute path in that project's config
 "/absolute/path/to/.../target/wasm32-wasip1/release/swc_plugin_transform_cx_jsx.wasm"
@@ -144,10 +144,10 @@ pkg/
 
 ```bash
 # Watch mode runs check automatically
-npm run watch
+make watch
 
 # Skip full build during development
-npm run check
+make check
 ```
 
 ### Test Specific Case
@@ -166,27 +166,27 @@ npm publish --dry-run
 ### Clean Everything
 
 ```bash
-npm run clean
+make clean
 rm -rf pkg/*.md pkg/*.wasm  # Clean copied files
 ```
 
 ## 🔄 Typical Development Cycle
 
 1. **Make changes** to `src/lib.rs`
-2. **Check** compilation: `npm run check`
-3. **Test** changes: `npm run test-plugin`
-4. **Format** code: `npm run fmt`
-5. **Lint** code: `npm run clippy`
-6. **Build** release: `npm run build-plugin`
+2. **Check** compilation: `make check`
+3. **Test** changes: `make test-plugin`
+4. **Format** code: `make fmt`
+5. **Lint** code: `make clippy`
+6. **Build** release: `make build-plugin`
 7. **Test** in real project (use absolute path or `npm link`)
 
 ## 📦 Typical Release Cycle
 
 1. **Update** versions in `Cargo.toml` and `pkg/package.json`
-2. **Clean** build: `npm run clean`
-3. **Test**: `npm run test-plugin`
-4. **Lint**: `npm run clippy`
-5. **Prepare**: `npm run prepare-pkg`
+2. **Clean** build: `make clean`
+3. **Test**: `make test-plugin`
+4. **Lint**: `make clippy`
+5. **Prepare**: `make prepare-pkg`
 6. **Verify**: `cd pkg && npm publish --dry-run`
 7. **Publish**: `cd pkg && npm publish`
 8. **Tag**: `git tag vX.Y.Z && git push origin vX.Y.Z`
@@ -210,13 +210,13 @@ rustup target add wasm32-wasip1
 ```bash
 # Make sure you're in the plugin directory
 cd packages/swc-plugin-transform-cx-jsx
-npm run build-plugin
+make build-plugin
 ```
 
 ### Docs not showing up in package
 ```bash
 # Run prepare-pkg to copy everything
-npm run prepare-pkg
+make prepare-pkg
 
 # Verify files array in pkg/package.json includes:
 # "README.md", "DEVELOPMENT.md", "DEBUG.md"
@@ -224,8 +224,8 @@ npm run prepare-pkg
 
 ### Old WASM file being used
 ```bash
-npm run clean
-npm run prepare-pkg
+make clean
+make prepare-pkg
 ```
 
 ## 📚 More Information

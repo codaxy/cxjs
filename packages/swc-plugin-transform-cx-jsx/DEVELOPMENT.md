@@ -7,31 +7,34 @@
 rustup target add wasm32-wasip1
 
 # Build the plugin
-npm run build-plugin
+make build-plugin
 
 # Run tests
-npm run test-plugin
+make test-plugin
 
 # Check code
-npm run check
+make check
 ```
 
-## 📋 Available Scripts
+## 📋 Available Make Targets
 
-All scripts are available via `npm run <script>`:
+All commands are available via `make <target>`:
 
-| Script | Command | Description |
+| Target | Command | Description |
 |--------|---------|-------------|
 | `build-plugin` | `cargo build --target wasm32-wasip1 --release` | Build optimized WASM plugin for production |
-| `build-plugin:debug` | `cargo build --target wasm32-wasip1` | Build WASM plugin with debug symbols |
+| `build-plugin-debug` | `cargo build --target wasm32-wasip1` | Build WASM plugin with debug symbols |
 | `test-plugin` | `cargo test --target x86_64-unknown-linux-gnu` | Run all tests on native target |
-| `test-plugin:all` | `cargo test --all-features --target x86_64-unknown-linux-gnu` | Run tests with all features enabled |
+| `test-plugin-all` | `cargo test --all-features --target x86_64-unknown-linux-gnu` | Run tests with all features enabled |
 | `check` | `cargo check` | Quick check compilation without building |
-| `check:wasm` | `cargo check --target wasm32-wasip1` | Check WASM target specifically |
+| `check-wasm` | `cargo check --target wasm32-wasip1` | Check WASM target specifically |
 | `clippy` | `cargo clippy --all-targets --all-features` | Run Clippy linter |
 | `fmt` | `cargo fmt --all` | Format code with rustfmt |
-| `fmt:check` | `cargo fmt --all -- --check` | Check code formatting |
+| `fmt-check` | `cargo fmt --all -- --check` | Check code formatting |
 | `clean` | `cargo clean` | Clean build artifacts |
+| `copy-docs` | `cp README.md DEVELOPMENT.md DEBUG.md pkg/` | Copy docs to pkg/ |
+| `copy-wasm` | `cp target/.../swc_plugin_*.wasm pkg/` | Copy WASM to pkg/ |
+| `prepare-pkg` | `build-plugin + copy-wasm + copy-docs` | Build + prepare package for publishing |
 | `watch` | `cargo watch -x 'check --target wasm32-wasip1'` | Watch mode for development |
 
 ## 🛠️ Prerequisites
@@ -72,7 +75,7 @@ All scripts are available via `npm run <script>`:
 
 ```bash
 # Using npm script (recommended)
-npm run build-plugin
+make build-plugin
 
 # Or directly with cargo
 cargo build --target wasm32-wasip1 --release
@@ -88,7 +91,7 @@ target/wasm32-wasip1/release/swc_plugin_transform_cx_jsx.wasm
 ### Debug Build
 
 ```bash
-npm run build-plugin:debug
+make build-plugin:debug
 ```
 
 **Output location:**
@@ -110,7 +113,7 @@ SWC plugins must be compiled to WebAssembly with WASI support:
 ### Run All Tests
 
 ```bash
-npm run test-plugin
+make test-plugin
 ```
 
 This runs **43 test cases** covering:
@@ -165,7 +168,7 @@ Each test has:
 
 4. Run tests:
    ```bash
-   npm run test-plugin
+   make test-plugin
    ```
 
 ### Why Test on Native Target?
@@ -185,16 +188,16 @@ cargo test --target x86_64-unknown-linux-gnu
 
 ```bash
 # Quick check (no binary output)
-npm run check
+make check
 
 # Check WASM target specifically
-npm run check:wasm
+make check:wasm
 ```
 
 ### Linting with Clippy
 
 ```bash
-npm run clippy
+make clippy
 ```
 
 Clippy catches common mistakes and suggests Rust best practices.
@@ -203,19 +206,19 @@ Clippy catches common mistakes and suggests Rust best practices.
 
 ```bash
 # Format code
-npm run fmt
+make fmt
 
 # Check if formatting is needed
-npm run fmt:check
+make fmt:check
 ```
 
 ### Pre-commit Checklist
 
 ```bash
-npm run fmt          # Format code
-npm run clippy       # Lint code
-npm run test-plugin  # Run tests
-npm run build-plugin # Build release
+make fmt          # Format code
+make clippy       # Lint code
+make test-plugin  # Run tests
+make build-plugin # Build release
 ```
 
 ## 🔧 Development Workflow
@@ -224,20 +227,20 @@ npm run build-plugin # Build release
 
 ```bash
 # Start watch mode (optional)
-npm run watch
+make watch
 
 # Edit src/lib.rs
 vim src/lib.rs
 
 # Check compilation
-npm run check
+make check
 ```
 
 ### 2. Testing Changes
 
 ```bash
 # Run tests
-npm run test-plugin
+make test-plugin
 
 # If test fails, check output
 cargo test --target x86_64-unknown-linux-gnu -- --nocapture
@@ -247,8 +250,8 @@ cargo test --target x86_64-unknown-linux-gnu -- --nocapture
 
 ```bash
 # Clean build
-npm run clean
-npm run build-plugin
+make clean
+make build-plugin
 ```
 
 ### 4. Testing in Real Project
@@ -257,7 +260,7 @@ npm run build-plugin
 
 ```bash
 # After building
-npm run build-plugin
+make build-plugin
 
 # Use absolute path in your project's webpack/swc config
 {
@@ -278,7 +281,7 @@ npm run build-plugin
 
 ```bash
 # Prepare package
-npm run prepare-pkg
+make prepare-pkg
 
 # Install in test project
 cd /path/to/test-project
@@ -295,8 +298,8 @@ npm link swc-plugin-transform-cx-jsx
 
 ```bash
 # After building
-npm run copy-wasm
-npm run copy-docs
+make copy-wasm
+make copy-docs
 
 # Copy entire pkg to test project
 cp -r pkg/* /path/to/project/node_modules/swc-plugin-transform-cx-jsx/
@@ -402,7 +405,7 @@ wasm-opt -Oz \
 
 ```bash
 # One command to prepare everything
-npm run prepare-pkg
+make prepare-pkg
 ```
 
 This will:
@@ -446,17 +449,17 @@ vim pkg/package.json  # Update "version": "24.5.2"
 ### 2. Run Quality Checks
 
 ```bash
-npm run clean
-npm run fmt
-npm run clippy
-npm run test-plugin
+make clean
+make fmt
+make clippy
+make test-plugin
 ```
 
 ### 3. Prepare Package
 
 ```bash
 # This builds plugin, copies WASM, and copies docs
-npm run prepare-pkg
+make prepare-pkg
 ```
 
 ### 4. Verify Package Contents
@@ -559,7 +562,7 @@ cargo clean --target wasm32-wasip1
 
 1. **Use cargo-watch for development:**
    ```bash
-   npm run watch
+   make watch
    ```
 
 2. **Incremental compilation** (enabled by default in debug)
@@ -599,10 +602,10 @@ cargo clean --target wasm32-wasip1
 1. Fork the repository
 2. Create feature branch
 3. Make changes
-4. Run tests: `npm run test-plugin`
-5. Run linter: `npm run clippy`
-6. Format code: `npm run fmt`
-7. Build release: `npm run build-plugin`
+4. Run tests: `make test-plugin`
+5. Run linter: `make clippy`
+6. Format code: `make fmt`
+7. Build release: `make build-plugin`
 8. Submit pull request
 
 ## ⚠️ Common Issues
@@ -620,14 +623,14 @@ rustup update
 ### Tests fail on WASM target
 ```bash
 # Use native target instead
-npm run test-plugin
+make test-plugin
 ```
 
 ### Out of memory during build
 ```bash
 # Reduce parallel jobs
 export CARGO_BUILD_JOBS=1
-npm run build-plugin
+make build-plugin
 ```
 
 ## 📝 Notes
