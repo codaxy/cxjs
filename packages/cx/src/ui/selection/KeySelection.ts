@@ -6,12 +6,6 @@ import { View } from "../../data/View";
 import { Prop } from "../Prop";
 
 export interface KeySelectionConfig extends SelectionConfig {
-   /** Binding path for selection state. */
-   bind?: string;
-
-   /** Set to `true` to allow multiple selection. */
-   multiple?: boolean;
-
    /** Name of the field used as a key. Default is `id`. */
    keyField?: string;
 
@@ -20,12 +14,6 @@ export interface KeySelectionConfig extends SelectionConfig {
 
    /** Selection binding configuration. */
    selection?: Prop<any>;
-
-   /** Record binding. */
-   record?: Prop<any>;
-
-   /** Index binding. */
-   index?: Prop<any>;
 }
 
 export class KeySelection extends Selection {

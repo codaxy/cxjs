@@ -39,6 +39,9 @@ export interface HtmlElementConfig extends StyledContainerConfig {
    /** Inner text contents. */
    text?: StringProp | NumberProp;
 
+   /** Inner html contents. */
+   html?: StringProp;
+
    /** Tooltip configuration. */
    tooltip?: StringProp | TooltipConfig;
 }
@@ -165,7 +168,8 @@ export class HtmlElement<
          case "vdomKey":
             return false;
 
-         default: if (isDataAttribute(attrName)) return false;
+         default:
+            if (isDataAttribute(attrName)) return false;
             break;
       }
 

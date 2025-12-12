@@ -86,8 +86,8 @@ const externalPaths = {
          fs.mkdirSync(distPath);
       }
 
-      // Copy SCSS files from src to build
-      copyFiles(cxSrc("."), cxBuild("."), ".scss");
+      // // Copy SCSS files from src to build
+      // copyFiles(cxSrc("."), cxBuild("."), ".scss");
 
       await Promise.all([
          buildJS(resolvePath("./src"), resolvePath("./dist"), entries, externalPaths),

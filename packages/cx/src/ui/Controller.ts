@@ -57,7 +57,7 @@ export type ControllerFactory<T extends BaseControllerConfig = BaseControllerCon
    config: ViewMethods,
 ) => ControllerConfig<T>;
 
-export class Controller extends Component implements ControllerMethods {
+export class Controller<D = any> extends Component implements ControllerMethods {
    initialized?: boolean;
    onInit?(context: RenderingContext): void;
    onExplore?(context: RenderingContext): void;
@@ -65,7 +65,7 @@ export class Controller extends Component implements ControllerMethods {
    onCleanup?(context: RenderingContext): void;
    onDestroy?(): void;
    declare instance: Instance;
-   declare store: View;
+   declare store: View<D>;
    declare widget?: Widget;
    computables?: Record<string, ComputableEntry>;
 

@@ -33,13 +33,14 @@ describe("HtmlElement", () => {
          },
       });
 
-      const component = createTestRenderer(store, (
+      const component = createTestRenderer(
+         store,
          <cx>
             <a href="#" {...{ title: { bind: "title" } }}>
                Link
             </a>
-         </cx>
-      ));
+         </cx>,
+      );
 
       let tree = component.toJSON();
       assert(tree && !Array.isArray(tree), "Expected single element");
@@ -62,13 +63,14 @@ describe("HtmlElement", () => {
 
       let store = new Store();
 
-      const component = createTestRenderer(store, (
+      const component = createTestRenderer(
+         store,
          <cx>
             <MyReactComponent>
                <span>Child content</span>
             </MyReactComponent>
-         </cx>
-      ));
+         </cx>,
+      );
 
       let tree = component.toJSON();
       assert(tree && !Array.isArray(tree), "Expected single element");

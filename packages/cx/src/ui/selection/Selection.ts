@@ -1,5 +1,7 @@
 import { Component } from "../../util/Component";
 import { View } from "../../data/View";
+import { AccessorChain } from "../../data/createAccessorModelProxy";
+import { Prop } from "../Prop";
 
 export interface SelectionOptions {
    toggle?: boolean;
@@ -7,10 +9,18 @@ export interface SelectionOptions {
 }
 
 export interface SelectionConfig {
-   bind?: string;
-   record?: any;
-   index?: any;
+   /** Binding path for selection state. */
+   bind?: string | AccessorChain<any>;
+
+   /** Record binding. */
+   record?: Prop<any>;
+
+   /** Index binding. */
+   index?: Prop<number>;
+
    toggle?: boolean;
+
+   /** Set to `true` to allow multiple selection. */
    multiple?: boolean;
 }
 
