@@ -1,4 +1,4 @@
-// Test that HtmlElement is imported from cx/widgets (not cx/src/widgets/HtmlElement.js)
+import { HtmlElement } from "cx/widgets";
 let component = [
     {
         "$type": HtmlElement,
@@ -15,4 +15,3 @@ let component = [
         ]
     }
 ];
-import { HtmlElement } from "cx/widgets";

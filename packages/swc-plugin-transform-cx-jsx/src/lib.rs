@@ -3,19 +3,16 @@ use std::collections::{HashMap, HashSet};
 
 use lazy_static::lazy_static;
 use regex::Regex;
-use swc_common::{SyntaxContext, DUMMY_SP};
-use swc_core::ecma::ast::Program;
+use swc_core::common::{SyntaxContext, DUMMY_SP};
 use swc_core::ecma::ast::{
-    ArrayLit, BlockStmtOrExpr, CallExpr, Expr, ExprOrSpread, Ident, IdentName, ImportDecl,
+    Program, ArrayLit, BlockStmtOrExpr, CallExpr, Expr, ExprOrSpread, Ident, IdentName, ImportDecl,
     ImportNamedSpecifier, ImportSpecifier, JSXAttr, JSXAttrName, JSXAttrOrSpread, JSXAttrValue,
     JSXClosingElement, JSXElement, JSXElementChild, JSXElementName, JSXExpr, JSXExprContainer,
     JSXOpeningElement, JSXText, KeyValueProp, Lit, MemberExpr, MemberProp, Module, ModuleDecl,
-    ModuleItem, Null, ObjectLit, Prop, PropName, PropOrSpread, Str,
+    ModuleItem, Null, ObjectLit, Prop, PropName, PropOrSpread, Str, Callee, ImportPhase,
 };
+use swc_core::ecma::visit::{visit_mut_pass, VisitMut, VisitMutWith};
 use swc_core::plugin::{plugin_transform, proxies::TransformPluginProgramMetadata};
-use swc_ecma_ast::{Callee, ImportPhase};
-use swc_ecma_parser::TsSyntax;
-use swc_ecma_visit::{visit_mut_pass, VisitMut, VisitMutWith};
 
 pub struct TransformVisitor {
     imports: HashMap<String, HashSet<String>>,
@@ -188,7 +185,7 @@ impl TransformVisitor {
                     if tag_first_char.to_lowercase() == tag_first_char {
                         // HtmlElement
                         let html_element_sym = "HtmlElement";
-                        self.insert_import("cx/src/widgets/HtmlElement.js", html_element_sym);
+                        self.insert_import("cx/widgets", html_element_sym);
                         let html_element = create_key_value_prop(
                             String::from("$type"),
                             Box::from(Expr::Ident(Ident {
@@ -355,7 +352,15 @@ impl TransformVisitor {
                     .elems
                     .iter_mut()
                     .filter(|el| el.is_some())
-                    .for_each(|el| elems.push(el.to_owned()));
+                    .for_each(|el| {
+                        let transformed = el.as_mut().map(|spread| {
+                            ExprOrSpread {
+                                spread: spread.spread,
+                                expr: Box::new(self.transform_cx_element(&mut spread.expr)),
+                            }
+                        });
+                        elems.push(transformed);
+                    });
 
                 return Expr::Array(ArrayLit {
                     span: DUMMY_SP,
@@ -403,8 +408,8 @@ impl TransformVisitor {
 
     fn get_prop_name(&mut self, kv_prop: &KeyValueProp) -> String {
         match &kv_prop.key {
-            PropName::Ident(ident) => ident.sym.to_string(),
-            PropName::Str(str) => str.value.to_string(),
+            PropName::Ident(ident) => ident.sym.as_str().to_string(),
+            PropName::Str(str) => str.value.as_str().unwrap_or("").to_string(),
             PropName::Num(num) => num.value.to_string(),
             PropName::BigInt(big_int) => big_int.value.to_string(),
             _ => {
@@ -417,8 +422,8 @@ impl TransformVisitor {
     fn transform_cx_attribute(&mut self, attr: JSXAttr) -> Prop {
         match &attr.value {
             Some(value) => match value {
-                JSXAttrValue::Lit(lit) => {
-                    self.generate_cx_property(attr.name, Box::new(Expr::Lit(lit.to_owned())))
+                JSXAttrValue::Str(str_value) => {
+                    self.generate_cx_property(attr.name, Box::new(Expr::Lit(Lit::Str(str_value.to_owned()))))
                 }
                 JSXAttrValue::JSXElement(jsx_element) => {
                     let processed =
@@ -571,6 +576,121 @@ impl TransformVisitor {
 }
 
 impl VisitMut for TransformVisitor {
+    fn visit_mut_program(&mut self, program: &mut Program) {
+        program.visit_mut_children_with(self);
+
+        if self.imports.is_empty() {
+            return;
+        }
+
+        // Convert Script to Module if we have imports to add
+        let module = match program {
+            Program::Module(module) => {
+                module
+            }
+            Program::Script(script) => {
+                // Convert Script to Module
+                let body = script.body.iter().map(|stmt| {
+                    ModuleItem::Stmt(stmt.clone())
+                }).collect();
+
+                *program = Program::Module(Module {
+                    span: script.span,
+                    body,
+                    shebang: script.shebang.clone(),
+                });
+
+                match program {
+                    Program::Module(m) => m,
+                    _ => unreachable!(),
+                }
+            }
+        };
+
+        // Collect already imported identifiers from the module
+        let mut existing_imports: HashMap<String, HashSet<String>> = HashMap::new();
+        for item in &module.body {
+            if let ModuleItem::ModuleDecl(ModuleDecl::Import(import_decl)) = item {
+                let src = import_decl.src.value.as_str().unwrap_or("").to_string();
+                for spec in &import_decl.specifiers {
+                    if let ImportSpecifier::Named(named) = spec {
+                        let local_name = named.local.sym.as_str().to_string();
+                        existing_imports.entry(src.clone()).or_insert_with(HashSet::new).insert(local_name);
+                    }
+                }
+            }
+        }
+
+        // Add imports only if they don't already exist
+        let mut new_imports: Vec<ModuleItem> = vec![];
+
+        self.imports.iter().for_each(|import| {
+            let source = import.0;
+            let symbols = import.1;
+
+            // Filter out symbols that are already imported from this source
+            let new_symbols: Vec<String> = if let Some(existing) = existing_imports.get(source) {
+                symbols.iter().filter(|s| !existing.contains(*s)).cloned().collect()
+            } else {
+                symbols.iter().cloned().collect()
+            };
+
+            if new_symbols.is_empty() {
+                return;
+            }
+            let new_item = ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
+                span: DUMMY_SP,
+                specifiers: new_symbols
+                    .iter()
+                    .map(|i| {
+                        ImportSpecifier::Named(ImportNamedSpecifier {
+                            span: DUMMY_SP,
+                            local: Ident {
+                                span: DUMMY_SP,
+                                sym: i.to_owned().into(),
+                                optional: false,
+                                ctxt: SyntaxContext::empty(),
+                            },
+                            imported: None,
+                            is_type_only: false,
+                        })
+                    })
+                    .collect::<Vec<_>>(),
+                src: Box::new(Str::from(source.to_owned())),
+                type_only: false,
+                with: None,
+                phase: ImportPhase::Evaluation,
+            }));
+            new_imports.push(new_item);
+        });
+
+        // Sort imports by source path for consistent ordering
+        new_imports.sort_by(|a, b| {
+            let a_src = if let ModuleItem::ModuleDecl(ModuleDecl::Import(decl)) = a {
+                decl.src.value.as_str().unwrap_or("")
+            } else {
+                ""
+            };
+            let b_src = if let ModuleItem::ModuleDecl(ModuleDecl::Import(decl)) = b {
+                decl.src.value.as_str().unwrap_or("")
+            } else {
+                ""
+            };
+            a_src.cmp(b_src)
+        });
+
+        // Insert all new imports at the end of existing imports
+        if !new_imports.is_empty() {
+            let insert_pos = module.body.iter().rposition(|item| {
+                matches!(item, ModuleItem::ModuleDecl(ModuleDecl::Import(_)))
+            }).map(|pos| pos + 1).unwrap_or(0);
+
+            for (i, new_import) in new_imports.into_iter().enumerate() {
+                module.body.insert(insert_pos + i, new_import);
+            }
+        }
+    }
+
     fn visit_mut_jsx_element(&mut self, el: &mut JSXElement) {
         if let JSXElementName::Ident(ident) = &mut el.opening.name {
             let tag_name = ident.sym.to_string();
@@ -621,7 +741,7 @@ impl VisitMut for TransformVisitor {
                                 });
 
                                 self.insert_import(
-                                    "cx/src/ui/createFunctionalComponent.js",
+                                    "cx/ui",
                                     "createFunctionalComponent",
                                 );
                             }
@@ -703,53 +823,24 @@ impl VisitMut for TransformVisitor {
         expr.visit_mut_children_with(self);
     }
 
-    fn visit_mut_module(&mut self, module: &mut Module) {
-        module.visit_mut_children_with(self);
-
-        self.imports.iter_mut().for_each(|import| {
-            let new_item = ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
-                span: DUMMY_SP,
-                specifiers: import
-                    .1
-                    .iter()
-                    .map(|i| {
-                        ImportSpecifier::Named(ImportNamedSpecifier {
-                            span: DUMMY_SP,
-                            local: Ident {
-                                span: DUMMY_SP,
-                                sym: i.to_owned().into(),
-                                optional: false,
-                                ctxt: SyntaxContext::empty(),
-                            },
-                            imported: None,
-                            is_type_only: false,
-                        })
-                    })
-                    .collect::<Vec<_>>(),
-                src: Box::new(Str::from(import.0.to_owned())),
-                type_only: false,
-                with: None,
-                phase: ImportPhase::Evaluation,
-            }));
-            module.body.push(new_item);
-        })
-    }
 
     fn visit_mut_import_decl(&mut self, import_decl: &mut ImportDecl) {
         import_decl.visit_mut_children_with(self);
 
-        if import_decl.src.value.ends_with("..") {
-            let mut new_src = import_decl.src.value.to_string();
-            new_src.push('/');
+        if let Some(src_str) = import_decl.src.value.as_str() {
+            if src_str.ends_with("..") {
+                let mut new_src = src_str.to_string();
+                new_src.push('/');
 
-            import_decl.src = Box::new(Str::from(new_src));
-        }
-        // . imports do not work so we add the /index
-        if import_decl.src.value.ends_with(".") {
-            let mut new_src = import_decl.src.value.to_string();
-            new_src.insert_str(new_src.len(), "/index");
+                import_decl.src = Box::new(Str::from(new_src));
+            }
+            // . imports do not work so we add the /index
+            else if src_str.ends_with(".") {
+                let mut new_src = src_str.to_string();
+                new_src.insert_str(new_src.len(), "/index");
 
-            import_decl.src = Box::new(Str::from(new_src));
+                import_decl.src = Box::new(Str::from(new_src));
+            }
         }
     }
 }
@@ -770,17 +861,20 @@ pub fn process_transform(
 #[testing::fixture("tests/**/input.js")]
 #[testing::fixture("tests/**/input.tsx")]
 fn exec(input: std::path::PathBuf) {
+    use swc_core::ecma::parser::{Syntax, TsSyntax};
+    use swc_core::common::Mark;
+
     let output = input.with_file_name("output.js");
     swc_core::ecma::transforms::testing::test_fixture(
-        swc_ecma_parser::Syntax::Typescript(TsSyntax {
+        Syntax::Typescript(TsSyntax {
             tsx: true,
             ..Default::default()
         }),
         &|_| {
             (
                 swc_core::ecma::transforms::base::resolver(
-                    swc_common::Mark::new(),
-                    swc_common::Mark::new(),
+                    Mark::new(),
+                    Mark::new(),
                     true,
                 ),
                 visit_mut_pass(TransformVisitor {

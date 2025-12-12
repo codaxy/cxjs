@@ -1,4 +1,5 @@
-// Test that createFunctionalComponent is imported from cx/ui (not cx/src/ui/createFunctionalComponent.js)
+import { createFunctionalComponent } from "cx/ui";
+import { HtmlElement } from "cx/widgets";
 let MyComponent = createFunctionalComponent((props)=>({
         "$type": HtmlElement,
         "tag": "div",
@@ -15,5 +16,3 @@ let AnotherComponent = createFunctionalComponent((props)=>({
             "text"
         ]
     }));
-import { createFunctionalComponent } from "cx/ui";
-import { HtmlElement } from "cx/widgets";

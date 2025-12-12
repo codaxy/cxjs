@@ -1,3 +1,4 @@
+import { createFunctionalComponent } from "cx/ui";
 export default createFunctionalComponent(()=>({
         "$type": Test,
         "a": true,
@@ -5,4 +6,3 @@ export default createFunctionalComponent(()=>({
             "a"
         ]
     }));
-import { createFunctionalComponent } from "cx/ui";
