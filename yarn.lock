@@ -8998,12 +8998,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"swc-plugin-transform-cx-jsx-dev@workspace:packages/swc-plugin-transform-cx-jsx":
-  version: 0.0.0-use.local
-  resolution: "swc-plugin-transform-cx-jsx-dev@workspace:packages/swc-plugin-transform-cx-jsx"
-  languageName: unknown
-  linkType: soft
-
 "tapable@npm:^2.0.0, tapable@npm:^2.2.0, tapable@npm:^2.2.1":
   version: 2.2.3
   resolution: "tapable@npm:2.2.3"
