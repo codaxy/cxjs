@@ -2,7 +2,7 @@
   "name": "swc-plugin-transform-cx-jsx",
   "type": "module",
   "description": "Transpile JSX into Cx config objects.",
-  "version": "24.5.1",
+  "version": "26.0.5",
   "license": "SEE LICENSE IN LICENSE.md",
   "repository": {
     "type": "git",
@@ -14,7 +14,9 @@
     "swc_plugin_transform_cx_jsx_bg.js",
     "swc_plugin_transform_cx_jsx.d.ts",
     "LICENSE.md",
-    "LICENSE.MD"
+    "README.md",
+    "DEVELOPMENT.md",
+    "DEBUG.md"
   ],
   "main": "swc_plugin_transform_cx_jsx.js",
   "types": "swc_plugin_transform_cx_jsx.d.ts",

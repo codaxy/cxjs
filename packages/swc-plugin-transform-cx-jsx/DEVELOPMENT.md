@@ -253,24 +253,53 @@ npm run build-plugin
 
 ### 4. Testing in Real Project
 
-```bash
-# After building, copy WASM file
-cp target/wasm32-wasip1/release/swc_plugin_transform_cx_jsx.wasm \
-   /path/to/project/node_modules/swc-plugin-transform-cx-jsx/
+#### Option A: Direct WASM Path (Quick Testing)
 
-# Or use local path in config
+```bash
+# After building
+npm run build-plugin
+
+# Use absolute path in your project's webpack/swc config
 {
   jsc: {
     experimental: {
       plugins: [
         [
-          "/absolute/path/to/swc_plugin_transform_cx_jsx.wasm",
+          "/absolute/path/to/cxjs/packages/swc-plugin-transform-cx-jsx/target/wasm32-wasip1/release/swc_plugin_transform_cx_jsx.wasm",
           { /* config */ }
         ]
       ]
     }
   }
 }
+```
+
+#### Option B: Local Package (Full Testing)
+
+```bash
+# Prepare package
+npm run prepare-pkg
+
+# Install in test project
+cd /path/to/test-project
+npm install /path/to/cxjs/packages/swc-plugin-transform-cx-jsx/pkg
+
+# Or use npm link
+cd /path/to/cxjs/packages/swc-plugin-transform-cx-jsx/pkg
+npm link
+cd /path/to/test-project
+npm link swc-plugin-transform-cx-jsx
+```
+
+#### Option C: Copy to node_modules (Quick Override)
+
+```bash
+# After building
+npm run copy-wasm
+npm run copy-docs
+
+# Copy entire pkg to test project
+cp -r pkg/* /path/to/project/node_modules/swc-plugin-transform-cx-jsx/
 ```
 
 ## 🐛 Debugging
@@ -358,6 +387,48 @@ wasm-opt -Oz \
   -o swc_plugin_transform_cx_jsx_optimized.wasm
 ```
 
+## 📦 Packaging & Publishing
+
+### Available Package Scripts
+
+| Script | Description |
+|--------|-------------|
+| `copy-docs` | Copy README, DEVELOPMENT, and DEBUG docs to pkg/ |
+| `copy-wasm` | Copy built WASM file to pkg/ |
+| `prepare-pkg` | Build plugin + copy WASM + copy docs (all-in-one) |
+| `prepublish` | Automatically runs before `npm publish` in pkg/ |
+
+### Quick Package Preparation
+
+```bash
+# One command to prepare everything
+npm run prepare-pkg
+```
+
+This will:
+1. Build the optimized WASM plugin
+2. Copy WASM file to `pkg/swc_plugin_transform_cx_jsx_bg.wasm`
+3. Copy documentation files (README.md, DEVELOPMENT.md, DEBUG.md) to `pkg/`
+
+### What Gets Published
+
+The `pkg/` directory contains everything that gets published to npm:
+
+```
+pkg/
+├── swc_plugin_transform_cx_jsx_bg.wasm  # The actual plugin
+├── swc_plugin_transform_cx_jsx.js       # JS wrapper
+├── swc_plugin_transform_cx_jsx_bg.js    # WASM loader
+├── swc_plugin_transform_cx_jsx.d.ts     # TypeScript types
+├── LICENSE.md                            # License
+├── README.md                             # User guide (copied)
+├── DEVELOPMENT.md                        # Dev guide (copied)
+├── DEBUG.md                              # Debug guide (copied)
+└── package.json                          # npm metadata
+```
+
+All files listed in `files` array in `pkg/package.json` will be included in the npm package.
+
 ## 🔄 Release Workflow
 
 ### 1. Version Bump
@@ -366,33 +437,67 @@ Update version in:
 - `Cargo.toml` - Rust package version
 - `pkg/package.json` - npm package version
 
-### 2. Build Release
+```bash
+# Example: bumping to 24.5.2
+vim Cargo.toml        # Update version = "24.5.2"
+vim pkg/package.json  # Update "version": "24.5.2"
+```
+
+### 2. Run Quality Checks
 
 ```bash
 npm run clean
-npm run test-plugin
+npm run fmt
 npm run clippy
-npm run build-plugin
+npm run test-plugin
 ```
 
-### 3. Copy to Package
+### 3. Prepare Package
 
 ```bash
-cp target/wasm32-wasip1/release/swc_plugin_transform_cx_jsx.wasm pkg/
+# This builds plugin, copies WASM, and copies docs
+npm run prepare-pkg
 ```
 
-### 4. Test Package
+### 4. Verify Package Contents
 
 ```bash
 cd pkg
 npm publish --dry-run
 ```
 
-### 5. Publish
+This shows what files will be published. Verify:
+- ✅ WASM file is present and recent
+- ✅ Documentation files are present
+- ✅ Version number is correct
+- ✅ File sizes look reasonable
+
+### 5. Test Locally (Optional but Recommended)
+
+```bash
+# In pkg/ directory
+npm pack
+
+# This creates a .tgz file
+# Install it in a test project:
+cd /path/to/test-project
+npm install /path/to/pkg/swc-plugin-transform-cx-jsx-24.5.2.tgz
+```
+
+### 6. Publish to npm
 
 ```bash
 cd pkg
 npm publish
+```
+
+The `prepublish` script will automatically run `prepare-pkg` before publishing.
+
+### 7. Tag Release in Git
+
+```bash
+git tag v24.5.2
+git push origin v24.5.2
 ```
 
 ## 🏷️ Cargo Profiles

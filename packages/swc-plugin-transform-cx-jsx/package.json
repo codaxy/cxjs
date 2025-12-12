@@ -15,7 +15,11 @@
     "fmt:check": "cargo fmt --all -- --check",
     "clean": "cargo clean",
     "build-wasm": "wasm-pack build --target nodejs --out-dir pkg",
-    "watch": "cargo watch -x 'check --target wasm32-wasip1'"
+    "watch": "cargo watch -x 'check --target wasm32-wasip1'",
+    "copy-docs": "cp README.md DEVELOPMENT.md DEBUG.md pkg/",
+    "copy-wasm": "cp target/wasm32-wasip1/release/swc_plugin_transform_cx_jsx.wasm pkg/swc_plugin_transform_cx_jsx_bg.wasm",
+    "prepare-pkg": "npm run build-plugin && npm run copy-wasm && npm run copy-docs",
+    "prepublish": "npm run prepare-pkg"
   },
   "devDependencies": {},
   "keywords": [
