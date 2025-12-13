@@ -24,3 +24,17 @@ vdom.DOM = {
 module.exports = {
    VDOM: vdom,
 };
+
+// import React from 'react';
+// import * as ReactDOM from 'react-dom';
+// import { createRoot, hydrateRoot } from 'react-dom/client';
+
+// const vdom = React;
+// vdom.DOM = {
+//     ...ReactDOM,
+//     createRoot,
+//     hydrateRoot,
+// };
+
+// export const VDOM = vdom;
+// export default { VDOM: vdom };
