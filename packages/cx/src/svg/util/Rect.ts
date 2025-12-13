@@ -42,7 +42,7 @@ export class Rect implements IRect {
       });
    }
 
-   isEqual(r: Rect): boolean {
+   isEqual(r?: Rect): boolean {
       if (!r || !r.isRect) return false;
 
       return r.l == this.l && r.r == this.r && r.t == this.t && r.b == this.b;
