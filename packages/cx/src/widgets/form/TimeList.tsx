@@ -14,12 +14,23 @@ import { Widget } from "../../ui/Widget";
 import type { Instance } from "../../ui/Instance";
 import { HtmlElement } from "../HtmlElement";
 
-interface TimeListProps {
+export interface TimeListProps {
+   /** Selected time value. Should be a Date object or a valid date string. */
    value?: unknown;
+
+   /** Time step in minutes. Default is `15`. */
    step?: number;
+
+   /** Time format string. Default is `datetime;HHmm`. */
    format?: string;
+
+   /** Function to encode the Date object before storing. */
    encoding?: (date: Date) => unknown;
+
+   /** Callback invoked when a time is selected. */
    onSelect?: string | ((e: React.MouseEvent, instance: Instance, date: Date) => void);
+
+   /** Additional properties passed to the underlying component. */
    [key: string]: unknown;
 }
 

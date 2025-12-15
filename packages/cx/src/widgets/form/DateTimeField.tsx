@@ -112,6 +112,11 @@ export interface DateTimeFieldConfig extends FieldConfig {
 
    /** Additional configuration to be passed to the dropdown. */
    dropdownOptions?: Partial<DropdownConfig>;
+
+   /** Custom validation function. */
+   onValidate?:
+      | string
+      | ((value: string | Date, instance: Instance, validationParams: Record<string, unknown>) => unknown);
 }
 
 export class DateTimeField extends Field<DateTimeFieldConfig> {

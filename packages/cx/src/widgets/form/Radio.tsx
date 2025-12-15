@@ -34,6 +34,11 @@ export interface RadioConfig extends FieldConfig {
 
    /** Set to `true` to make the radio initially selected. */
    default?: boolean;
+
+   /** Custom validation function. */
+   onValidate?:
+      | string
+      | ((value: number | string | boolean, instance: Instance, validationParams: Record<string, unknown>) => unknown);
 }
 
 export class Radio extends Field<RadioConfig> {

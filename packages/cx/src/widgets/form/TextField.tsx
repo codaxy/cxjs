@@ -6,30 +6,92 @@ import { BooleanProp, NumberProp, Prop, StringProp } from "../../ui/Prop";
 import { Instance } from "../../ui/Instance";
 
 export interface TextFieldConfig extends FieldConfig {
+   /** Textual value of the input field. */
    value?: Prop<any>;
+
+   /** Default text displayed when the field is empty. */
    placeholder?: StringProp;
+
+   /** Defaults to `false`. Set to `true` to disable the field. */
    disabled?: BooleanProp;
+
+   /** The opposite of `disabled`. */
+   enabled?: BooleanProp;
+
+   /** Defaults to `false`. Used to make the field read-only. */
    readOnly?: BooleanProp;
+
+   /** Defaults to `false`. Used to make the field required. */
    required?: BooleanProp;
+
+   /** Minimal length of the input text. */
    minLength?: NumberProp;
+
+   /** Maximal length of the input text. */
    maxLength?: NumberProp;
+
+   /** Regular expression used to validate the user's input. */
    validationRegExp?: Prop<RegExp>;
+
+   /** Error message displayed upon validation failure. */
    validationErrorText?: StringProp;
+
+   /** Error message displayed when input text is too short. */
    minLengthValidationErrorText?: StringProp;
+
+   /** Error message displayed when input text is too long. */
    maxLengthValidationErrorText?: StringProp;
+
+   /** Event triggering value updates. Possible values are `input` (default), `enter`, or `blur`. Multiple values can be separated by space. */
    reactOn?: StringProp;
+
+   /** Input type. Defaults to `text`. Other common value is `password`. */
    inputType?: StringProp;
+
+   /** Base CSS class to be applied to the field. Defaults to `textfield`. */
+   baseClass?: string;
+
+   /** Keyboard shortcut used to focus the field. */
    keyboardShortcut?: StringProp;
+
+   /** Set to `true` to remove leading and trailing whitespace. Default is `false`. */
    trim?: BooleanProp;
+
+   /** Set to `true` to hide the clear button. Default value is `false`. */
    hideClear?: BooleanProp;
+
+   /** Set to `false` to hide the clear button. Default value is `true`. */
    showClear?: BooleanProp;
+
+   /** Set to `true` to display the clear button even if `required` is set. Default is `false`. */
    alwaysShowClear?: BooleanProp;
+
+   /** Name or configuration of the icon to be put on the left side of the input. */
    icon?: Prop<any>;
+
+   /** Additional attributes to be passed to the input element. */
    inputAttrs?: Prop<any>;
+
+   /** If `trackFocus` is set, this value will be set when the field receives or loses focus. */
+   focused?: BooleanProp;
+
+   /** Callback invoked when the value changes. */
    onChange?: string | ((value: any, instance: Instance) => void);
+
+   /** Callback invoked on each input event. */
    onInput?: string | ((value: any, instance: Instance) => void);
+
+   /** Callback invoked when the field receives focus. */
    onFocus?: string | ((e: FocusEvent, instance: Instance) => void);
+
+   /** Callback invoked when the field loses focus. */
    onBlur?: string | ((e: FocusEvent, instance: Instance) => void);
+
+   /** Handler triggered on key down events. Return `false` to prevent default behavior. */
+   onKeyDown?: string | ((e: KeyboardEvent, instance: Instance) => boolean | void);
+
+   /** Custom validation function. */
+   onValidate?: string | ((value: string, instance: Instance, validationParams: Record<string, unknown>) => unknown);
 }
 
 // Legacy alias for backward compatibility

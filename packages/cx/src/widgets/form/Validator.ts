@@ -1,8 +1,16 @@
-import { Field } from "./Field";
+import { Field, FieldConfig } from "./Field";
 import type { RenderingContext } from "../../ui/RenderingContext";
 import type { Instance } from "../../ui/Instance";
 
-export class Validator extends Field {
+export interface ValidatorConfig extends FieldConfig {
+   /** Custom validation function. */
+   onValidate?: string | ((value: unknown, instance: Instance, validationParams: Record<string, unknown>) => unknown);
+}
+
+export class Validator extends Field<ValidatorConfig> {
+   constructor(config?: ValidatorConfig) {
+      super(config);
+   }
    declareData(...args: Record<string, unknown>[]): void {
       return super.declareData(...args, { 
          value: {

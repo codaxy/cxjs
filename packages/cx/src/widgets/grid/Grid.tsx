@@ -76,9 +76,9 @@ import { Create, CreateConfig } from "../../util";
 import type { TreeAdapter } from "../../ui/adapter/TreeAdapter";
 export { GridRowConfig };
 
-type FetchRecordsResult<T> = T[] | { records: T[]; lastPage?: boolean; totalRecordCount?: number };
+export type GridFetchRecordsResult<T> = T[] | { records: T[]; lastPage?: boolean; totalRecordCount?: number };
 
-interface MappedGridRecord<T = any> extends DataAdapterRecord<T> {
+export interface MappedGridRecord<T = any> extends DataAdapterRecord<T> {
    row?: GridRowInstance;
    vdom?: any;
    fixedVdom?: any;
@@ -87,7 +87,7 @@ interface MappedGridRecord<T = any> extends DataAdapterRecord<T> {
    group?: any;
 }
 
-interface GridDragEvent<T> extends DragEvent {
+export interface GridDragEvent<T> extends DragEvent {
    target: {
       recordBefore?: MappedGridRecord<T>;
       recordAfter?: MappedGridRecord<T>;
@@ -97,14 +97,14 @@ interface GridDragEvent<T> extends DragEvent {
    };
 }
 
-interface GridRowDragEvent<T> extends DragEvent {
+export interface GridRowDragEvent<T> extends DragEvent {
    target: {
       record: MappedGridRecord<T>;
       index: number;
    };
 }
 
-interface GridColumnDropEvent extends DragEvent {
+export interface GridColumnDropEvent extends DragEvent {
    target: {
       grid: any;
       instance: Instance;
@@ -132,7 +132,7 @@ interface GridMoveCursorOptions {
    cancelEdit?: boolean;
 }
 
-interface GridGroupingKey {
+export interface GridGroupingKey {
    [key: string]:
       | Prop<any>
       | {
@@ -149,9 +149,9 @@ interface GroupingResult<T> {
    records: MappedGridRecord<T>[];
 }
 
-type GridColumnAlignment = "left" | "right" | "center";
+export type GridColumnAlignment = "left" | "right" | "center";
 
-interface GridGroupingConfig<T> {
+export interface GridGroupingConfig<T> {
    key: GridGroupingKey;
    aggregates?: StructuredProp;
    showCaption?: boolean;
@@ -162,9 +162,6 @@ interface GridGroupingConfig<T> {
    text?: StringProp;
    comparer?: (a: GroupingResult<T>, b: GroupingResult<T>) => number;
 }
-
-// TODO: Check Column config
-// Props are in order based on docs
 
 export interface GridColumnHeaderConfig {
    text?: StringProp;
@@ -422,7 +419,7 @@ export interface GridConfig<T = any> extends StyledContainerConfig {
          sortDirection?: string;
       },
       instance?: Instance,
-   ) => FetchRecordsResult<T> | Promise<FetchRecordsResult<T>>;
+   ) => GridFetchRecordsResult<T> | Promise<GridFetchRecordsResult<T>>;
 
    /** Callback function to be executed when a row is double-clicked. */
    onRowDoubleClick?: string | ((e: React.SyntheticEvent<any>, instance: Instance) => void);

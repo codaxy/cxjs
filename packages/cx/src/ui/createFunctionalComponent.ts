@@ -1,14 +1,27 @@
-import { createComponentFactory, isComponentFactory } from "../util/Component";
 import { flattenProps } from "../ui/flattenProps";
-import { PureContainer } from "./PureContainer";
-import { UseParentLayout } from "./layout/UseParentLayout";
+import { createComponentFactory, isComponentFactory } from "../util/Component";
 import { isDefined } from "../util/isDefined";
+import { ChildNode } from "./Container";
+import { PureContainerBase, PureContainerConfig } from "./PureContainer";
+import { UseParentLayout } from "./layout/UseParentLayout";
 
 let currentInstance: any = null;
 
-class FunctionalComponent extends PureContainer {
+export interface FunctionalComponentConfig extends PureContainerConfig {
+   /** Factory function that creates children based on props. */
+   childrenFactory?: (props: any) => ChildNode | ChildNode[];
+
+   /** Props passed to the children factory. */
+   props?: any;
+}
+
+class FunctionalComponent extends PureContainerBase<FunctionalComponentConfig> {
    declare childrenFactory: (props: any) => any;
    declare props: any;
+
+   constructor(config?: FunctionalComponentConfig) {
+      super(config);
+   }
 
    initInstance(context: any, instance: any) {
       instance.store = instance.parentStore;
@@ -30,8 +43,10 @@ class FunctionalComponent extends PureContainer {
    }
 }
 
-export function createFunctionalComponent(factory: any) {
-   if (isComponentFactory(factory)) return factory;
+export function createFunctionalComponent<Props = any>(
+   factory: (props: Props) => ChildNode | ChildNode[],
+): (props: Props & PureContainerConfig) => any {
+   if (isComponentFactory(factory)) return factory as any;
 
    return createComponentFactory(factory, (props: any = {}) => {
       let innerProps = flattenProps(props);

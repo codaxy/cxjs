@@ -44,6 +44,9 @@ export interface ColorFieldConfig extends FieldConfig {
 
    /** Additional configuration to be passed to the dropdown, such as `style`, `positioning`, etc. */
    dropdownOptions?: Partial<DropdownConfig>;
+
+   /** Custom validation function. */
+   onValidate?: string | ((value: string, instance: Instance, validationParams: Record<string, unknown>) => unknown);
 }
 
 export class ColorFieldInstance<F extends ColorField = ColorField> extends FieldInstance<F> implements DropdownWidgetProps {

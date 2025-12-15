@@ -40,6 +40,9 @@ export interface CheckboxConfig extends FieldConfig {
 
    /** View mode text. */
    viewText?: StringProp;
+
+   /** Custom validation function. */
+   onValidate?: string | ((value: boolean, instance: Instance, validationParams: Record<string, unknown>) => unknown);
 }
 
 export class Checkbox extends Field<CheckboxConfig> {

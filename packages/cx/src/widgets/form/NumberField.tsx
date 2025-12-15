@@ -57,6 +57,9 @@ export interface NumberFieldConfig extends FieldConfig {
    inputErrorText?: string;
    scale?: number;
    offset?: number;
+
+   /** Custom validation function. */
+   onValidate?: string | ((value: number, instance: Instance, validationParams: Record<string, unknown>) => unknown);
 }
 
 export class NumberField<Config extends NumberFieldConfig = NumberFieldConfig> extends Field<Config> {

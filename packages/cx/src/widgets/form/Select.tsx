@@ -34,6 +34,11 @@ export interface SelectConfig extends FieldConfig {
    multiple?: boolean;
    convertValues?: boolean;
    nullString?: string;
+
+   /** Custom validation function. */
+   onValidate?:
+      | string
+      | ((value: number | string, instance: Instance, validationParams: Record<string, unknown>) => unknown);
 }
 
 export class Select<Config extends SelectConfig = SelectConfig> extends Field<Config> {

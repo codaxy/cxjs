@@ -1,16 +1,17 @@
 /** @jsxImportSource react */
 import { isBinding, isBindingObject } from "../../data/Binding";
+import { Store } from "../../data/Store";
 import { startAppLoop } from "../../ui/app/startAppLoop";
-import { ContainerBase, ContainerConfig, StyledContainerConfig } from "../../ui/Container";
+import { ContainerBase, StyledContainerConfig } from "../../ui/Container";
 import { FocusManager, offFocusOut, oneFocusOut } from "../../ui/FocusManager";
 import { Instance } from "../../ui/Instance";
-import { BooleanProp, ModProp, NumberProp } from "../../ui/Prop";
+import { BooleanProp, NumberProp } from "../../ui/Prop";
 import { RenderingContext } from "../../ui/RenderingContext";
 import { VDOM, Widget } from "../../ui/Widget";
 import { ZIndexManager } from "../../ui/ZIndexManager";
-import { getActiveElement } from "../../util";
 import { addEventListenerWithOptions } from "../../util/addEventListenerWithOptions";
 import { closest, isSelfOrDescendant } from "../../util/DOM";
+import { getActiveElement } from "../../util/getActiveElement";
 import { getTopLevelBoundingClientRect } from "../../util/getTopLevelBoundingClientRect";
 import { isDataRecord } from "../../util/isDataRecord";
 import { isNumber } from "../../util/isNumber";
@@ -300,7 +301,7 @@ export class OverlayBase<
       return el;
    }
 
-   open(storeOrInstance: any, options?: any): () => void {
+   open(storeOrInstance?: Store | Instance, options?: any): () => void {
       if (!this.initialized) this.init();
 
       let el = this.containerFactory();

@@ -122,6 +122,11 @@ export interface MonthFieldConfig extends FieldConfig {
 
    /** Optional configuration options for the MonthPicker component rendered within the dropdown. */
    monthPickerOptions?: Config;
+
+   /** Custom validation function. */
+   onValidate?:
+      | string
+      | ((value: string | Date, instance: Instance, validationParams: Record<string, unknown>) => unknown);
 }
 
 export class MonthField<Config extends MonthFieldConfig = MonthFieldConfig> extends Field<Config, MonthFieldInstance> {

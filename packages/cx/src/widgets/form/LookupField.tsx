@@ -40,7 +40,7 @@ import { AccessorChain, isAccessorChain } from "../../data/createAccessorModelPr
 import type { CxChild, RenderingContext } from "../../ui/RenderingContext";
 import type { DropdownInstance, Instance } from "../../ui/Instance";
 import { FieldConfig } from "./Field";
-import { Prop, BooleanProp, StringProp, DataRecord } from "../../ui/Prop";
+import { Prop, BooleanProp, StringProp, StructuredProp, DataRecord } from "../../ui/Prop";
 
 export interface LookupBinding {
    local: string;
@@ -49,56 +49,149 @@ export interface LookupBinding {
 }
 
 export interface LookupFieldConfig extends FieldConfig {
+   /** Defaults to `false`. Set to `true` to enable multiple selection. */
    multiple?: BooleanProp;
+
+   /** Selected value. Used only if `multiple` is set to `false`. */
    value?: Prop<number | string>;
+
+   /** A list of selected ids. Used only if `multiple` is set to `true`. */
    values?: Prop<(number | string)[]>;
+
+   /** A list of selected records. Used only if `multiple` is set to `true`. */
    records?: Prop<Record<string, any>[]>;
+
+   /** Text associated with the selection. Used only if `multiple` is set to `false`. */
    text?: StringProp;
+
+   /** The opposite of `disabled`. */
    enabled?: BooleanProp;
+
+   /** Defaults to `false`. Used to make the field read-only. */
+   readOnly?: BooleanProp;
+
+   /** Default text displayed when the field is empty. */
    placeholder?: StringProp;
+
+   /** A list of available options. */
    options?: Prop<Record<string, any>[]>;
+
+   /** Set to `true` to hide the clear button. Default value is `false`. */
    hideClear?: boolean;
+
+   /** Set to `false` to hide the clear button. Default value is `true`. */
    showClear?: boolean;
+
+   /** Set to `true` to display the clear button even if `required` is set. Default is `false`. */
    alwaysShowClear?: boolean;
+
+   /** Base CSS class to be applied to the field. Defaults to `lookupfield`. */
    baseClass?: string;
+
+   /** Name or configuration of the icon to be put on the left side of the input. */
+   icon?: StringProp | Record<string, any>;
+
+   /** Additional config to be applied to all items. */
    itemConfig?: any;
+
+   /** An array of objects describing the mapping of option data to store data. */
    bindings?: LookupBinding[];
+
+   /** A delay in milliseconds between typing stop and query. Default is `150`. */
    queryDelay?: number;
+
+   /** Minimal number of characters required before query is made. */
    minQueryLength?: number;
+
+   /** Set to `true` to hide the search field. */
    hideSearchField?: boolean;
+
+   /** Number of options required to show search field. Defaults to `7`. */
    minOptionsForSearchField?: number;
+
+   /** Text to display while data is being loaded. */
    loadingText?: string;
+
+   /** Error message displayed if server query throws an exception. */
    queryErrorText?: string;
+
+   /** Message to be displayed if no entries match the user query. */
    noResultsText?: string;
+
+   /** Name of the field which holds the id of the option. Default is `id`. */
    optionIdField?: string;
+
+   /** Name of the field which holds the display text of the option. Default is `text`. */
    optionTextField?: string;
+
+   /** Name of the field to store id of selected value in multiple mode. Default is `id`. */
    valueIdField?: string;
+
+   /** Name of the field to store display text of selected value. Default is `text`. */
    valueTextField?: string;
+
+   /** `onQuery` will be called once to fetch all options; filtering occurs client-side. */
    fetchAll?: boolean;
+
+   /** When set with `fetchAll`, fetched options are cached for widget lifetime. */
    cacheAll?: boolean;
+
+   /** Close the dropdown after selection. Default is `true`. */
    closeOnSelect?: boolean;
+
+   /** Message displayed if the entered search query is too short. */
    minQueryLengthMessageText?: string;
+
+   /** Query function called to fetch options. */
    onQuery?:
       | string
       | ((
            query: string | { query: string; page: number; pageSize: number },
            instance: Instance,
         ) => Record<string, any>[] | Promise<Record<string, any>[]>);
+
+   /** Set to `true` to sort dropdown options. */
    sort?: boolean;
+
+   /** Additional list options, such as grouping configuration, custom sorting, etc. */
    listOptions?: Record<string, any>;
+
+   /** Show dropdown immediately after component mount; useful for cell editing. */
    autoOpen?: BooleanProp;
+
+   /** Allow enter key events to propagate; useful for forms or grid cell editors. */
    submitOnEnterKey?: BooleanProp;
+
+   /** Allow dropdown enter key events to propagate for form submission. */
    submitOnDropdownEnterKey?: BooleanProp;
+
+   /** Number of additional items loaded in `infinite` mode. Default is `100`. */
    pageSize?: number;
+
+   /** Set to `true` to enable loading additional options when scroll reaches end. */
    infinite?: boolean;
+
+   /** Allow quick selection of all displayed items on `Ctrl + A` key combination. */
    quickSelectAll?: boolean;
+
+   /** Parameters that affect filtering. */
+   filterParams?: StructuredProp;
+
+   /** Used in multiple selection lookups to construct display text from multiple fields. */
    onGetRecordDisplayText?: ((record: Record<string, any>, instance: Instance) => string) | null;
+
+   /** Callback to create a filter function for given filter params. */
    onCreateVisibleOptionsFilter?:
       | string
       | ((filterParams: unknown, instance: Instance) => (option: Record<string, any>) => boolean);
 
-   /** Additional configuration to be passed to the dropdown. */
+   /** Additional configuration to be passed to the dropdown, such as `style`, `positioning`, etc. */
    dropdownOptions?: Partial<DropdownConfig>;
+
+   /** Custom validation function. */
+   onValidate?:
+      | string
+      | ((value: number | string, instance: Instance, validationParams: Record<string, unknown>) => unknown);
 }
 
 export class LookupField<Config extends LookupFieldConfig = LookupFieldConfig> extends Field<Config> {

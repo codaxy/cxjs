@@ -2,16 +2,63 @@
 
 import { Widget, VDOM } from "../../ui/Widget";
 import { Icon } from "../Icon";
-import { Field, FieldInstance } from "./Field";
+import { Field, FieldConfig, FieldInstance } from "./Field";
 import { Url } from "../../ui/app/Url";
 import { Localization } from "../../ui/Localization";
 import type { RenderingContext } from "../../ui/RenderingContext";
 import type { Instance } from "../../ui/Instance";
 import { isNonEmptyArray } from "../../util/isNonEmptyArray";
+import { BooleanProp, StringProp } from "../../ui/Prop";
 
 //TODO: Implement UploadStatus which will enable canceling
 
-export class UploadButton extends Field {
+export interface UploadButtonConfig extends FieldConfig {
+   /** Set to `true` to allow multiple file selection. Default is `false`. */
+   multiple?: boolean;
+
+   /** HTTP method used for upload. Default is `POST`. */
+   method?: string;
+
+   /** Set to `true` to abort uploads when the component is destroyed. Default is `false`. */
+   abortOnDestroy?: boolean;
+
+   /** Text displayed while upload is in progress. */
+   uploadInProgressText?: string;
+
+   /** URL to upload files to. */
+   url?: StringProp;
+
+   /** Text displayed on the button. */
+   text?: StringProp;
+
+   /** Name or configuration of the icon to be displayed on the button. */
+   icon?: StringProp;
+
+   /** File types accepted for upload. E.g. `image/*`, `.pdf`, etc. */
+   accept?: StringProp;
+
+   /** Base CSS class to be applied to the button. Defaults to `uploadbutton`. */
+   baseClass?: string;
+
+   /** Callback to resolve the upload URL for each file. */
+   onResolveUrl?: string | ((file: File, instance: Instance) => string | Promise<string>);
+
+   /** Callback invoked before upload starts. Return `false` to cancel the upload. */
+   onUploadStarting?:
+      | string
+      | ((xhr: XMLHttpRequest, instance: Instance, file: File, formData: FormData) => boolean | Promise<boolean>);
+
+   /** Callback invoked when upload completes successfully. */
+   onUploadComplete?: string | ((xhr: XMLHttpRequest, instance: Instance, file: File, formData: FormData) => void);
+
+   /** Callback invoked to report upload progress. */
+   onUploadProgress?: string | ((event: ProgressEvent, instance: Instance, file: File, formData: FormData) => void);
+
+   /** Callback invoked when an upload error occurs. */
+   onUploadError?: string | ((error: unknown, instance: Instance, file: File, formData: FormData) => void);
+}
+
+export class UploadButton extends Field<UploadButtonConfig> {
    declare public multiple: boolean;
    declare public method: string;
    declare public abortOnDestroy: boolean;
@@ -27,6 +74,10 @@ export class UploadButton extends Field {
       | string
       | ((event: ProgressEvent, instance: Instance, file: File, formData: FormData) => void);
    declare public onUploadError?: string | ((error: unknown, instance: Instance, file: File, formData: FormData) => void);
+
+   constructor(config?: UploadButtonConfig) {
+      super(config);
+   }
 
    declareData(...args: Record<string, unknown>[]): void {
       super.declareData(

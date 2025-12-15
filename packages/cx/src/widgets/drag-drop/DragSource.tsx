@@ -1,7 +1,7 @@
 /** @jsxImportSource react */
 
 import { Widget, VDOM } from "../../ui/Widget";
-import { ContainerBase, ContainerConfig } from "../../ui/Container";
+import { ContainerBase, ContainerConfig, StyledContainerBase, StyledContainerConfig } from "../../ui/Container";
 import { ddMouseDown, ddDetect, ddMouseUp, initiateDragDrop, isDragHandleEvent } from "./ops";
 import { preventFocus } from "../../ui/FocusManager";
 import { parseStyle } from "../../util/parseStyle";
@@ -9,7 +9,7 @@ import { Instance } from "../../ui/Instance";
 import { StringProp, StyleProp, ClassProp, Config } from "../../ui/Prop";
 import { RenderingContext } from "../../ui/RenderingContext";
 
-export interface DragSourceConfig extends ContainerConfig {
+export interface DragSourceConfig extends StyledContainerConfig {
    /**
     * Data about the drag source that can be used by drop zones to test if
     * drag source is acceptable and to perform drop operations.
@@ -54,7 +54,7 @@ export interface DragSourceInstance extends Instance<DragSource> {
    dragHandles: any[];
 }
 
-export class DragSource extends ContainerBase<DragSourceConfig, DragSourceInstance> {
+export class DragSource extends StyledContainerBase<DragSourceConfig, DragSourceInstance> {
    declare styled: boolean;
    declare baseClass: string;
    declare hideOnDrag: boolean;
@@ -105,7 +105,6 @@ export class DragSource extends ContainerBase<DragSourceConfig, DragSourceInstan
    }
 }
 
-DragSource.prototype.styled = true;
 DragSource.prototype.baseClass = "dragsource";
 DragSource.prototype.hideOnDrag = false;
 DragSource.prototype.handled = false;

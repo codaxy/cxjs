@@ -1,7 +1,7 @@
 /** @jsxImportSource react */
 
 import { Widget, VDOM } from "../../ui/Widget";
-import { ContainerBase, ContainerConfig } from "../../ui/Container";
+import { ContainerBase, ContainerConfig, StyledContainerBase, StyledContainerConfig } from "../../ui/Container";
 import { parseStyle } from "../../util/parseStyle";
 import { registerDropZone, DragDropContext, DragEvent } from "./ops";
 import { findScrollableParent } from "../../util/findScrollableParent";
@@ -11,7 +11,7 @@ import { Instance } from "../../ui/Instance";
 import { StyleProp, ClassProp, StructuredProp } from "../../ui/Prop";
 import { RenderingContext } from "../../ui/RenderingContext";
 
-export interface DropZoneConfig extends ContainerConfig {
+export interface DropZoneConfig extends StyledContainerConfig {
    /** CSS styles to be applied when drag cursor is over the drop zone. */
    overStyle?: StyleProp;
 
@@ -105,7 +105,7 @@ export interface DropZoneConfig extends ContainerConfig {
 
 export interface DropZoneInstance extends Instance<DropZone> {}
 
-export class DropZone extends ContainerBase<DropZoneConfig, DropZoneInstance> {
+export class DropZone extends StyledContainerBase<DropZoneConfig, DropZoneInstance> {
    declare styled: boolean;
    declare nearDistance: number;
    declare hinflate: number;
@@ -166,7 +166,6 @@ export class DropZone extends ContainerBase<DropZoneConfig, DropZoneInstance> {
    }
 }
 
-DropZone.prototype.styled = true;
 DropZone.prototype.nearDistance = 0;
 DropZone.prototype.hinflate = 0;
 DropZone.prototype.vinflate = 0;

@@ -104,9 +104,6 @@ export interface FieldConfig extends PureContainerConfig, WidgetStyleConfig {
    /** Additional content to be displayed next to the field. */
    help?: string | Config;
 
-   /** Custom validation function. */
-   onValidate?: string | ((value: unknown, instance: Instance, validationParams: Record<string, unknown>) => unknown);
-
    /** Validation parameters to be passed to the validation function. */
    validationParams?: Config;
 

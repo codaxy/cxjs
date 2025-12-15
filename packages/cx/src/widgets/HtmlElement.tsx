@@ -1,29 +1,29 @@
 /** @jsxImportSource react */
 
-import { Widget, VDOM } from "../ui/Widget";
-import { ContainerBase, StyledContainerConfig } from "../ui/Container";
+import { Url } from "../ui/app/Url";
+import { StyledContainerBase, StyledContainerConfig } from "../ui/Container";
+import type { RenderProps, WidgetData } from "../ui/Instance";
+import { Instance } from "../ui/Instance";
+import { BooleanProp, NumberProp, StringProp, StructuredProp } from "../ui/Prop";
+import type { CxChild, RenderingContext } from "../ui/RenderingContext";
+import { VDOM, Widget } from "../ui/Widget";
+import { debug } from "../util/Debug";
+import { isArray } from "../util/isArray";
+import { isDefined } from "../util/isDefined";
+import { isString } from "../util/isString";
+import { isUndefined } from "../util/isUndefined";
+import { autoFocus } from "./autoFocus";
+import type { TooltipInstance } from "./overlay/Tooltip";
+import type { TooltipConfig, TooltipProp } from "./overlay/tooltip-ops";
 import {
-   tooltipMouseMove,
-   tooltipParentWillUnmount,
    tooltipMouseLeave,
-   tooltipParentWillReceiveProps,
+   tooltipMouseMove,
    tooltipParentDidMount,
    tooltipParentDidUpdate,
    TooltipParentInstance,
+   tooltipParentWillReceiveProps,
+   tooltipParentWillUnmount,
 } from "./overlay/tooltip-ops";
-import type { TooltipInstance } from "./overlay/Tooltip";
-import { Url } from "../ui/app/Url";
-import { debug } from "../util/Debug";
-import { isString } from "../util/isString";
-import { isUndefined } from "../util/isUndefined";
-import { isDefined } from "../util/isDefined";
-import { isArray } from "../util/isArray";
-import { autoFocus } from "./autoFocus";
-import type { CxChild, RenderingContext } from "../ui/RenderingContext";
-import type { WidgetData, RenderProps } from "../ui/Instance";
-import { Instance } from "../ui/Instance";
-import type { TooltipConfig, TooltipProp } from "./overlay/tooltip-ops";
-import { StringProp, NumberProp, StructuredProp } from "../ui/Prop";
 
 const isDataAttribute = (attr: string): string | false => (attr.indexOf("data-") === 0 ? attr.substring(5) : false);
 
@@ -40,10 +40,25 @@ export interface HtmlElementConfig extends StyledContainerConfig {
    text?: StringProp | NumberProp;
 
    /** Inner html contents. */
+   innerHtml?: StringProp;
+
+   /** Inner html contents. */
    html?: StringProp;
 
    /** Tooltip configuration. */
    tooltip?: StringProp | TooltipConfig;
+
+   /** Additional attributes to be applied. */
+   attrs?: StructuredProp;
+
+   /** Additional data attributes. */
+   data?: StructuredProp;
+
+   //** Set to true to automatically focus the element when mounted. */
+   autoFocus?: BooleanProp;
+
+   //** Callback to receive the HTMLElement where this component is mounted. */
+   onRef?: string | ((element: HTMLElement | null, instance: Instance) => void);
 }
 
 export class HtmlElementInstance<E extends HtmlElement<any, any> = HtmlElement<any, any>>
@@ -57,7 +72,7 @@ export class HtmlElementInstance<E extends HtmlElement<any, any> = HtmlElement<a
 export class HtmlElement<
    Config extends HtmlElementConfig = HtmlElementConfig,
    InstanceType extends HtmlElementInstance<any> = HtmlElementInstance<any>,
-> extends ContainerBase<Config, InstanceType> {
+> extends StyledContainerBase<Config, InstanceType> {
    declare public tag?: string;
    declare public html?: string;
    declare public innerText?: string;
@@ -69,7 +84,7 @@ export class HtmlElement<
    declare public urlAttributes?: string[];
    declare public extraProps?: Record<string, unknown>;
    declare public tooltip?: TooltipProp;
-   declare public onRef?: (element: HTMLElement | null, instance: Instance) => void;
+   declare public onRef?: string | ((element: HTMLElement | null, instance: Instance) => void);
    declare public autoFocus?: boolean | string;
    [key: string]: unknown; // Index signature for dynamic properties
 
@@ -253,7 +268,6 @@ export class HtmlElement<
 }
 
 HtmlElement.prototype.tag = "div";
-HtmlElement.prototype.styled = true;
 
 interface ContainerComponentProps {
    tag: string | React.ComponentType;

@@ -17,6 +17,7 @@ import {
    type TooltipConfig,
 } from "../overlay/tooltip-ops";
 import { Field, FieldConfig, FieldInstance, getFieldTooltip } from "./Field";
+import type { Instance } from "../../ui/Instance";
 
 export interface SliderConfig extends FieldConfig {
    /** Low value of the slider range. */
@@ -75,6 +76,9 @@ export interface SliderConfig extends FieldConfig {
 
    /** Set to `true` to make the slider read-only. */
    readOnly?: BooleanProp;
+
+   /** Custom validation function. */
+   onValidate?: string | ((value: number, instance: Instance, validationParams: Record<string, unknown>) => unknown);
 }
 
 export class Slider extends Field<SliderConfig, FieldInstance<Slider>> {

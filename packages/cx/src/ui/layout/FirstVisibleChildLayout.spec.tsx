@@ -129,7 +129,7 @@ describe("FirstVisibleChildLayout", () => {
       let widget = (
          <cx>
             <div layout={FirstVisibleChildLayout}>
-               <FC dummy>
+               <FC>
                   <header visible={false}></header>
                </FC>
                <main></main>

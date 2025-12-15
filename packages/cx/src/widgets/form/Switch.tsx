@@ -38,6 +38,9 @@ export interface SwitchConfig extends FieldConfig {
 
    /** Determines if button should receive focus on mousedown event. Default is `false`. */
    focusOnMouseDown?: boolean;
+
+   /** Custom validation function. */
+   onValidate?: string | ((value: boolean, instance: Instance, validationParams: Record<string, unknown>) => unknown);
 }
 
 export class Switch extends Field<SwitchConfig> {

@@ -1,7 +1,7 @@
+import { Store } from "../../data/Store";
+import { Instance } from "../../ui/Instance";
 import { Dropdown, DropdownConfig } from "./Dropdown";
 import { getCursorPos } from "./captureMouse";
-import { View } from "../../data/View";
-import { Instance } from "../../ui/Instance";
 
 export interface ContextMenuConfig extends DropdownConfig {}
 
@@ -23,7 +23,7 @@ ContextMenu.prototype.focusable = true;
 export const openContextMenu = (
    e: React.MouseEvent,
    content: any,
-   storeOrInstance?: View | Instance,
+   storeOrInstance?: Store | Instance,
    options?: any,
 ) => {
    e.preventDefault();
