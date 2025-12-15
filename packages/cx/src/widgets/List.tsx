@@ -32,8 +32,14 @@ export interface ListConfig<T = any> extends StyledContainerConfig {
    /** Record alias. Default is `$record`. */
    recordName?: RecordAlias;
 
+   /** Record alias. Alias for `recordName`. Default is `$record`. */
+   recordAlias?: RecordAlias;
+
    /** Index alias. Default is `$index`. */
    indexName?: RecordAlias;
+
+   /** Index alias. Alias for `indexName`. Default is `$index`. */
+   indexAlias?: RecordAlias;
 
    /** Style to be applied to each list item. */
    itemStyle?: StyleProp;
