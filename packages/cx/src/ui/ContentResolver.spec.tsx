@@ -4,6 +4,7 @@ import { createTestRenderer } from "../util/test/createTestRenderer";
 import assert from "assert";
 import { bind } from "./bind";
 import { createAccessorModelProxy } from "../data/createAccessorModelProxy";
+import { Prop } from "./Prop";
 
 interface TestModel {
    user: {
@@ -423,6 +424,135 @@ describe("ContentResolver", () => {
                type: "span",
                props: {},
                children: ["42 items"],
+            },
+         ],
+      });
+   });
+
+   it("supports simple Prop params (non-structured)", () => {
+      const model = createAccessorModelProxy<TestModel>();
+
+      // Test using a single AccessorChain as params instead of an object
+      let widget = (
+         <cx>
+            <div>
+               <ContentResolver
+                  params={model.user.name}
+                  onResolve={(name) => {
+                     // name should be typed as string (from AccessorChain<string>)
+                     const typedName: string = name;
+                     return <span text={`Hello, ${typedName}!`} />;
+                  }}
+               />
+            </div>
+         </cx>
+      );
+
+      let store = new Store({
+         data: {
+            user: {
+               name: "Alice",
+               age: 25,
+               active: true,
+            },
+         },
+      });
+
+      const component = createTestRenderer(store, widget);
+
+      let tree = component.toJSON();
+      assert.deepEqual(tree, {
+         type: "div",
+         props: {},
+         children: [
+            {
+               type: "span",
+               props: {},
+               children: ["Hello, Alice!"],
+            },
+         ],
+      });
+   });
+
+   it("supports simple bind() as params", () => {
+      let widget = (
+         <cx>
+            <div>
+               <ContentResolver
+                  params={bind("count")}
+                  onResolve={(count) => {
+                     return <span text={`Count: ${count}`} />;
+                  }}
+               />
+            </div>
+         </cx>
+      );
+
+      let store = new Store({
+         data: {
+            count: 42,
+         },
+      });
+
+      const component = createTestRenderer(store, widget);
+
+      let tree = component.toJSON();
+      assert.deepEqual(tree, {
+         type: "div",
+         props: {},
+         children: [
+            {
+               type: "span",
+               props: {},
+               children: ["Count: 42"],
+            },
+         ],
+      });
+   });
+
+   it("resolves Prop<string> to string (not any)", () => {
+      const model = createAccessorModelProxy<TestModel>();
+
+      // When params is typed as Prop<string>, onResolve should receive string (not any)
+      // This tests that the union type Prop<T> correctly extracts T
+      const typedParam: Prop<string> = model.user.name;
+
+      let widget = (
+         <cx>
+            <div>
+               <ContentResolver
+                  params={typedParam}
+                  onResolve={(name) => {
+                     // name should be typed as string, not any
+                     const typedName: string = name;
+                     return <span text={`Hello, ${typedName}!`} />;
+                  }}
+               />
+            </div>
+         </cx>
+      );
+
+      let store = new Store({
+         data: {
+            user: {
+               name: "Bob",
+               age: 35,
+               active: false,
+            },
+         },
+      });
+
+      const component = createTestRenderer(store, widget);
+
+      let tree = component.toJSON();
+      assert.deepEqual(tree, {
+         type: "div",
+         props: {},
+         children: [
+            {
+               type: "span",
+               props: {},
+               children: ["Hello, Bob!"],
             },
          ],
       });

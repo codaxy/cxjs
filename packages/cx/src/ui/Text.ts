@@ -1,10 +1,29 @@
-import { Widget } from './Widget';
+import { Widget, WidgetConfig } from './Widget';
+import { StringProp } from './Prop';
 
-export class Text extends Widget {
+export interface TextConfig extends WidgetConfig {
+   /** The value to be rendered as text. */
+   value?: StringProp;
+
+   /** Template string for the text value. */
+   tpl?: string;
+
+   /** Expression for the text value. */
+   expr?: string;
+
+   /** Binding path for the text value. */
+   bind?: string;
+}
+
+export class Text extends Widget<TextConfig> {
    declare value?: any;
    declare tpl?: string;
    declare expr?: any;
    declare bind?: string;
+
+   constructor(config?: TextConfig) {
+      super(config);
+   }
 
    init() {
       if (!this.value && (this.tpl || this.expr || this.bind))

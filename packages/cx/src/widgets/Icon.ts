@@ -1,4 +1,4 @@
-import { Widget, VDOM, WidgetConfig } from "../ui/Widget";
+import { Widget, VDOM, WidgetConfig, WidgetStyleConfig } from "../ui/Widget";
 import {
    registerIcon,
    registerIconFactory,
@@ -10,25 +10,11 @@ import {
 import "./icons/index";
 import { RenderingContext } from "../ui/RenderingContext";
 import { Instance } from "../ui/Instance";
-import { StringProp, ClassProp, StyleProp } from "../ui/Prop";
+import { StringProp } from "../ui/Prop";
 
-export interface IconConfig extends WidgetConfig {
+export interface IconConfig extends WidgetConfig, WidgetStyleConfig {
    /** Name under which the icon is registered. */
    name?: StringProp;
-
-   /** Additional CSS classes to be applied to the field.
-    * If an object is provided, all keys with a "truthy" value will be added to the CSS class list. */
-   className?: ClassProp;
-
-   /** Additional CSS classes to be applied to the field.
-    * If an object is provided, all keys with a "truthy" value will be added to the CSS class list. */
-   class?: ClassProp;
-
-   /** Style object applied to the wrapper div. Used for setting the dimensions of the field. */
-   style?: StyleProp;
-
-   /** Base CSS class to be applied to the element. Default is `icon`. */
-   baseClass?: string;
 }
 
 export class Icon extends Widget<IconConfig> {
