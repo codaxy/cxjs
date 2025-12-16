@@ -28,7 +28,11 @@
       "./manifest": "./dist/manifest.js",
       "./manifest.js": "./dist/manifest.js"
    },
-   "sideEffects": false,
+   "sideEffects": [
+      "./src/widgets/icons/*.tsx",
+      "./src/widgets/icons/*.ts",
+      "./build/widgets/icons/*.js"
+   ],
    "scripts": {
       "build": "yarn compile && node build",
       "compile": "tsc -p tsconfig.compile.json",
