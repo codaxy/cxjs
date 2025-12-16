@@ -152,7 +152,10 @@ export class ArrayAdapter<T = any> extends DataAdapter<T> {
             });
          } else {
             (recordStore as ReadOnlyDataView).setStore(parentStore);
-            (recordStore as ReadOnlyDataView).setData(data);
+            (recordStore as ReadOnlyDataView).setData({
+               [this.recordName]: data,
+               [this.indexName]: index,
+            });
          }
       }
 
