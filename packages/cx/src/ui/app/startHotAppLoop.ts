@@ -31,7 +31,7 @@ export function startHotAppLoop(
       });
 
       //apply data on hot replace
-      if (appModule.hot.data) store.load(appModule.hot.data.state);
+      if (appModule.hot.data?.state) store.load(appModule.hot.data.state);
    }
 
    Widget.resetCounter();
