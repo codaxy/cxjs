@@ -39,6 +39,7 @@ export * from "./adapter/index";
 export * from "./bind";
 export * from "./tpl";
 export * from "./expr";
+export * from "./exprHelpers";
 
 //re-export computable here
 import { computable } from "../data/computable";
