@@ -86,7 +86,10 @@ export class ArrayAdapter extends DataAdapter {
             });
          else {
             recordStore.setStore(parentStore);
-            recordStore.setData(data);
+            recordStore.setData({
+               [this.recordName]: data,
+               [this.indexName]: index,
+            });
          }
       }
 
