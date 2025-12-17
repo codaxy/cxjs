@@ -48,6 +48,9 @@ type CxEventHandler<T> = T extends (event: infer E) => any
      : string | T;
 
 // Transform React element props to CxJS props
+// Note: For string literal union props (like SVG's strokeLinecap), we also accept `string`
+// because TypeScript widens string literals to `string` in JSX attribute syntax.
+// This is a known TypeScript behavior where `<path strokeLinecap="round"/>` infers "round" as string.
 export type CxTransformProps<T> = {
    [K in keyof T]: K extends "children"
       ? ChildNode | ChildNode[]
@@ -55,7 +58,11 @@ export type CxTransformProps<T> = {
         ? ClassProp
         : IsEventHandler<K, T[K]> extends true
           ? CxEventHandler<T[K]>
-          : Prop<T[K]>;
+          : string extends T[K]
+            ? Prop<T[K]> // Plain string props - no change needed
+            : NonNullable<T[K]> extends string
+              ? Prop<T[K]> | string // String literal unions - accept string for JSX compatibility
+              : Prop<T[K]>;
 };
 
 /** Base HtmlElement configuration - core CxJS properties for extension by widgets */

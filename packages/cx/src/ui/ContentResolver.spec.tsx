@@ -5,6 +5,7 @@ import assert from "assert";
 import { bind } from "./bind";
 import { createAccessorModelProxy } from "../data/createAccessorModelProxy";
 import { Prop } from "./Prop";
+import { stringTemplate } from "../data/StringTemplate";
 
 interface TestModel {
    user: {
@@ -19,10 +20,7 @@ describe("ContentResolver", () => {
       let widget = (
          <cx>
             <div>
-               <ContentResolver
-                  params={{ name: bind("name") }}
-                  onResolve={(params) => <span text={params.name} />}
-               />
+               <ContentResolver params={{ name: bind("name") }} onResolve={(params) => <span text={params.name} />} />
             </div>
          </cx>
       );
@@ -178,11 +176,7 @@ describe("ContentResolver", () => {
       let widget = (
          <cx>
             <div>
-               <ContentResolver
-                  mode="prepend"
-                  params={{ show: true }}
-                  onResolve={() => <span>Prepended</span>}
-               >
+               <ContentResolver mode="prepend" params={{ show: true }} onResolve={() => <span>Prepended</span>}>
                   <span>Original</span>
                </ContentResolver>
             </div>
@@ -216,11 +210,7 @@ describe("ContentResolver", () => {
       let widget = (
          <cx>
             <div>
-               <ContentResolver
-                  mode="append"
-                  params={{ show: true }}
-                  onResolve={() => <span>Appended</span>}
-               >
+               <ContentResolver mode="append" params={{ show: true }} onResolve={() => <span>Appended</span>}>
                   <span>Original</span>
                </ContentResolver>
             </div>
@@ -355,11 +345,7 @@ describe("ContentResolver", () => {
                      const name: string = params.name;
                      const age: number = params.age;
                      const active: boolean = params.active;
-                     return (
-                        <span
-                           text={`${name} is ${age} years old and ${active ? "active" : "inactive"}`}
-                        />
-                     );
+                     return <span text={`${name} is ${age} years old and ${active ? "active" : "inactive"}`} />;
                   }}
                />
             </div>
@@ -507,6 +493,43 @@ describe("ContentResolver", () => {
                children: ["Count: 42"],
             },
          ],
+      });
+   });
+
+   it("resolves Selector<string> | null to string | null", () => {
+      const text: string | null = "Hello {user.name}";
+
+      let widget = (
+         <cx>
+            <div>
+               <ContentResolver
+                  params={{
+                     text: text ? stringTemplate(text) : null,
+                  }}
+                  onResolve={(params) => {
+                     // params.text should be string | null
+                     const typedText: string | null = params.text;
+                     // @ts-expect-error - params.text should not be 'any' or broader type
+                     const shouldFail: number = params.text;
+                     return <span text={typedText ?? "no text"} />;
+                  }}
+               />
+            </div>
+         </cx>
+      );
+
+      let store = new Store({
+         data: {
+            user: { name: "World", age: 30, active: true },
+         },
+      });
+
+      const component = createTestRenderer(store, widget);
+      let tree = component.toJSON();
+      assert.deepEqual(tree, {
+         type: "div",
+         props: {},
+         children: [{ type: "span", props: {}, children: ["Hello World"] }],
       });
    });
 

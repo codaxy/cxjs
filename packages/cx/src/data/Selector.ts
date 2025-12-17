@@ -7,4 +7,4 @@ export interface CanMemoize<T = any> {
    memoize(warmupData?: unknown): Selector<T>;
 }
 
-export type MemoSelector<T = any> = Selector<T> & CanMemoize<Selector<T>>;
+export type MemoSelector<T = any> = Selector<T> & CanMemoize<T>;

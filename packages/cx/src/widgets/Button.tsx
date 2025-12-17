@@ -15,7 +15,7 @@ import type { FormRenderingContext } from "./form/ValidationGroup";
 
 export interface ButtonConfig extends Omit<HtmlElementConfig<"button">, "disabled" | "type" | "form"> {
    /** Confirmation text or configuration object. See MsgBox.yesNo for more details. */
-   confirm?: Prop<string | Record<string, unknown>>;
+   confirm?: Prop<string | Record<string, unknown> | false>;
 
    /** If true button appears in pressed state. Useful for implementing toggle buttons. */
    pressed?: BooleanProp;

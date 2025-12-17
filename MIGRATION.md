@@ -525,9 +525,9 @@ After migrating widgets, compare the local documentation site against the produc
 
 ### Active Bugs
 
-[ ] Infinite Grid repeating row values (Docs)
-[ ] Missing search icon in Aquamarine theme (Gallery)
-[ ] SWC JSX plugin uses src
+[x] Infinite Grid repeating row values (Docs)
+[x] Missing search icon in Aquamarine theme (Gallery)
+[x] SWC JSX plugin uses src
 
 ## Finalization
 
@@ -539,4 +539,4 @@ After migrating widgets, compare the local documentation site against the produc
 [ ] Publish under cx@ts tag and test in other applications
 [ ] Migrate all docs examples to typescript
 [ ] Figure out a fiddle replacement (with AI :)
-[ ] Migrate some of the libraries (Google Maps, Diagrams)
+[x] Migrate some of the libraries (Google Maps, Diagrams)

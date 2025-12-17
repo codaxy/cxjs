@@ -91,7 +91,7 @@ export interface TextFieldConfig extends FieldConfig {
    onKeyDown?: string | ((e: KeyboardEvent, instance: Instance) => boolean | void);
 
    /** Custom validation function. */
-   onValidate?: string | ((value: string, instance: Instance, validationParams: Record<string, unknown>) => unknown);
+   onValidate?: string | ((value: string, instance: Instance, validationParams: any) => string | undefined | false);
 }
 
 // Legacy alias for backward compatibility

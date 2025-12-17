@@ -49,14 +49,26 @@ describe("computable", function () {
    it("works with accessors", function () {
       var m = createAccessorModelProxy<{ person: { name: string } }>();
       let state = { person: { name: "Joe" } };
-      let nameLength = computable(m.person.name, (name) => name.length);
+      let nameLength = computable(m.person.name, (name) => {
+         // name should be inferred as string
+         const typedName: string = name;
+         // @ts-expect-error - name should not be number
+         const wrongType: number = name;
+         return typedName.length;
+      });
       assert.equal(nameLength(state), 3);
    });
 
    it("works with array length accessor", function () {
       var m = createAccessorModelProxy<{ items: string[] }>();
       let state = { items: ["a", "b", "c"] };
-      let itemCount = computable(m.items.length, (length) => length);
+      let itemCount = computable(m.items.length, (length) => {
+         // length should be inferred as number
+         const typedLength: number = length;
+         // @ts-expect-error - length should not be string
+         const wrongType: string = length;
+         return typedLength;
+      });
       assert.equal(itemCount(state), 3);
    });
 });

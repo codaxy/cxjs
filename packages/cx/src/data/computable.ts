@@ -11,12 +11,9 @@ export type ComputableSelector<T = any> = string | Selector<T> | AccessorChain<T
 export type InferSelectorValue<T> =
    T extends Selector<infer R> ? R : T extends AccessorChain<infer R> ? R : T extends string ? any : never;
 
-// Generic overload - handles all cases with proper type inference
-export function computable<Selectors extends readonly any[], R>(
-   ...args: [
-      ...selectors: ComputableSelector[],
-      compute: (...values: { [K in keyof Selectors]: InferSelectorValue<Selectors[K]> }) => R,
-   ]
+// Generic function with proper type inference for selectors
+export function computable<T extends ComputableSelector[], R>(
+   ...args: [...T, (...values: { [K in keyof T]: InferSelectorValue<T[K]> }) => R]
 ): MemoSelector<R>;
 
 export function computable(...selectorsAndCompute: any[]): MemoSelector {

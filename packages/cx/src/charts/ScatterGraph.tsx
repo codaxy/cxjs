@@ -1,16 +1,16 @@
 /** @jsxImportSource react */
 
-import { Widget, VDOM, WidgetConfig } from "../ui/Widget";
-import { Selection } from "../ui/selection/Selection";
 import { CSS } from "../ui/CSS";
-import { getShape } from "./shapes";
-import { isArray } from "../util/isArray";
 import { Instance } from "../ui/Instance";
+import { BooleanProp, NumberProp, RecordsProp, StringProp } from "../ui/Prop";
 import { RenderingContext } from "../ui/RenderingContext";
-import { BooleanProp, NumberProp, StringProp, RecordsProp } from "../ui/Prop";
+import { Widget, WidgetConfig, WidgetStyleConfig } from "../ui/Widget";
+import { Selection } from "../ui/selection/Selection";
+import { isArray } from "../util/isArray";
 import type { ChartRenderingContext } from "./Chart";
+import { getShape } from "./shapes";
 
-export interface ScatterGraphConfig extends WidgetConfig {
+export interface ScatterGraphConfig extends WidgetConfig, WidgetStyleConfig {
    /** Data for the graph. Each entry should be an object with at least two properties
     * whose names should match the `xField` and `yField` values.
     */

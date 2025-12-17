@@ -54,6 +54,39 @@ describe("HtmlElement", () => {
       });
    });
 
+   it("supports SVG elements with camelCase attributes", () => {
+      let store = new Store();
+
+      const component = createTestRenderer(
+         store,
+         <cx>
+            <svg>
+               <path
+                  d="M200,176V64a23.9,23.9,0,0,0-24-24H40"
+                  fill="none"
+                  stroke="#343434"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="12"
+               />
+            </svg>
+         </cx>,
+      );
+
+      let tree = component.toJSON();
+      assert(tree && !Array.isArray(tree), "Expected single element");
+      assert.equal(tree.type, "svg");
+      assert(tree.children && tree.children.length === 1, "Expected one child");
+      let path = tree.children[0] as any;
+      assert.equal(path.type, "path");
+      assert.equal(path.props.d, "M200,176V64a23.9,23.9,0,0,0-24-24H40");
+      assert.equal(path.props.fill, "none");
+      assert.equal(path.props.stroke, "#343434");
+      assert.equal(path.props.strokeLinecap, "round");
+      assert.equal(path.props.strokeLinejoin, "round");
+      assert.equal(path.props.strokeWidth, "12");
+   });
+
    it("allows React components as tag", () => {
       class MyReactComponent extends VDOM.Component<any> {
          render() {

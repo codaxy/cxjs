@@ -7,6 +7,9 @@ export interface DocumentTitleConfig extends WidgetConfig {
    /** Text value to be used for the document title. */
    value?: StringProp;
 
+   /** Text value to be used for the document title. */
+   text?: StringProp;
+
    /** Deprecated. Use `action: "append"` instead. */
    append?: boolean;
 
