@@ -1,10 +1,11 @@
 /** @jsxImportSource react */
 
+import type { JSX as ReactJSX } from "react";
 import { Url } from "../ui/app/Url";
-import { StyledContainerBase, StyledContainerConfig } from "../ui/Container";
+import { ChildNode, StyledContainerBase, StyledContainerConfig } from "../ui/Container";
 import type { RenderProps, WidgetData } from "../ui/Instance";
 import { Instance } from "../ui/Instance";
-import { BooleanProp, NumberProp, StringProp, StructuredProp } from "../ui/Prop";
+import { BooleanProp, ClassProp, NumberProp, Prop, StringProp, StructuredProp } from "../ui/Prop";
 import type { CxChild, RenderingContext } from "../ui/RenderingContext";
 import { VDOM, Widget } from "../ui/Widget";
 import { debug } from "../util/Debug";
@@ -33,8 +34,36 @@ export let urlAttributes: Record<string, boolean> = {
    "iframe.src": true,
 };
 
-export interface HtmlElementConfig extends StyledContainerConfig {
+type ReactIntrinsicElements = ReactJSX.IntrinsicElements;
+
+// Check if a key is an event handler (starts with "on" and is a function)
+// Use NonNullable to handle optional event handlers (T | undefined)
+type IsEventHandler<K, T> = K extends `on${string}` ? (NonNullable<T> extends Function ? true : false) : false;
+
+// CxJS event handler type - can be string (controller method) or callback with Instance
+type CxEventHandler<T> = T extends (event: infer E) => any
+   ? string | ((event: E, instance: Instance) => void)
+   : T extends undefined
+     ? undefined
+     : string | T;
+
+// Transform React element props to CxJS props
+type CxTransformProps<T> = {
+   [K in keyof T]: K extends "children"
+      ? ChildNode | ChildNode[]
+      : K extends "className" | "class"
+        ? ClassProp
+        : IsEventHandler<K, T[K]> extends true
+          ? CxEventHandler<T[K]>
+          : Prop<T[K]>;
+};
+
+/** Base HtmlElement configuration - core CxJS properties for extension by widgets */
+export interface HtmlElementConfigBase extends StyledContainerConfig {
    id?: StringProp | NumberProp;
+
+   /** HTML tag name */
+   tag?: string;
 
    /** Inner text contents. */
    text?: StringProp | NumberProp;
@@ -61,6 +90,13 @@ export interface HtmlElementConfig extends StyledContainerConfig {
    onRef?: string | ((element: HTMLElement | null, instance: Instance) => void);
 }
 
+/** HtmlElement configuration with tag-specific attributes and events */
+export type HtmlElementConfig<Tag extends keyof ReactIntrinsicElements = "div"> = Omit<
+   HtmlElementConfigBase,
+   "tag"
+> &
+   CxTransformProps<ReactIntrinsicElements[Tag]> & { tag?: Tag };
+
 export class HtmlElementInstance<E extends HtmlElement<any, any> = HtmlElement<any, any>>
    extends Instance<E>
    implements TooltipParentInstance
@@ -70,7 +106,7 @@ export class HtmlElementInstance<E extends HtmlElement<any, any> = HtmlElement<a
 }
 
 export class HtmlElement<
-   Config extends HtmlElementConfig = HtmlElementConfig,
+   Config extends HtmlElementConfigBase = HtmlElementConfig,
    InstanceType extends HtmlElementInstance<any> = HtmlElementInstance<any>,
 > extends StyledContainerBase<Config, InstanceType> {
    declare public tag?: string;

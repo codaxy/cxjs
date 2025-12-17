@@ -52,27 +52,55 @@ export interface StructuredProp {
  * Utility type that extracts the resolved value type from a Prop<T>.
  * Used to derive the runtime type of structured props.
  */
-export type ResolveProp<P> = P extends Selector<infer T>
-   ? T
-   : P extends AccessorChain<infer T>
-     ? T
-     : P extends GetSet<infer T>
-       ? T
-       : P extends Bind
-         ? any
-         : P extends Tpl
-           ? string
-           : P extends Expr
-             ? any
-             : P;
+export type ResolveProp<P> =
+   P extends Selector<infer T>
+      ? T
+      : P extends AccessorChain<infer T>
+        ? T
+        : P extends GetSet<infer T>
+          ? T
+          : P extends Bind
+            ? any
+            : P extends Tpl
+              ? string
+              : P extends Expr
+                ? any
+                : P;
 
 /**
  * Utility type that resolves a structured prop object to its runtime value types.
  * Transforms { name: StringProp, count: NumberProp } to { name: string, count: number }
  */
-export type ResolveStructuredProp<S> = {
+export type ResolveStructuredPropType<S> = {
    [K in keyof S]: ResolveProp<S[K]>;
 };
+
+/**
+ * Resolves the runtime value type from either a Prop<T> or a StructuredProp.
+ * Use this for generic widgets like ContentResolver and Validator where the
+ * input can be either a single prop or a structured object.
+ *
+ * - For Prop<T> (Selector, AccessorChain, GetSet), resolves to T
+ * - For bindings (Bind, Tpl, Expr), resolves to any/string/any
+ * - For structured objects, recursively resolves each property via ResolveStructuredProp
+ * - For literal values, returns them as-is
+ */
+export type ResolvePropType<P> =
+   P extends Selector<infer T>
+      ? T
+      : P extends AccessorChain<infer T>
+        ? T
+        : P extends GetSet<infer T>
+          ? T
+          : P extends Bind
+            ? any
+            : P extends Tpl
+              ? string
+              : P extends Expr
+                ? any
+                : P extends object
+                  ? ResolveStructuredPropType<P>
+                  : P;
 
 /**
  * Generic structured prop type that provides type safety for params and their resolved values.

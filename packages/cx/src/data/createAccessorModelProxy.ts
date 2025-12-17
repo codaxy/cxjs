@@ -8,12 +8,19 @@ type AccessorChainMap<M extends object> = {
    [prop in Exclude<keyof M, keyof AccessorChainMethods>]: AccessorChain<M[prop]>;
 };
 
+// Check if a type is `any` using the intersection trick
+type IsAny<T> = 0 extends 1 & T ? true : false;
+
 export type AccessorChain<M> = {
    toString(): string;
    valueOf(): string;
    nameOf(): string;
    __accessorChainType?: M; // Type-only marker for inference
-} & (M extends object ? AccessorChainMap<M> : {});
+} & (IsAny<M> extends true
+   ? { [key: string]: any } // Allow any property access for `any` type
+   : M extends object
+     ? AccessorChainMap<M>
+     : {});
 
 const emptyFn = () => {};
 

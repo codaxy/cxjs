@@ -1,4 +1,4 @@
-export function findTreePath<T extends Record<string, any>>(
+export function findTreePath<T = any>(
    array: T[] | undefined,
    criteria: (node: T) => boolean,
    childrenField: keyof T = "$children" as keyof T,

@@ -1,8 +1,4 @@
-export function findTreeNode<T extends Record<string, any>>(
-   array: T[],
-   criteria: (node: T) => boolean,
-   childrenField: keyof T = "$children" as keyof T,
-): T | false {
+export function findTreeNode<T = any>(array: T[], criteria: (node: T) => boolean, childrenField: keyof T): T | false {
    if (!Array.isArray(array)) return false;
 
    for (const node of array) {

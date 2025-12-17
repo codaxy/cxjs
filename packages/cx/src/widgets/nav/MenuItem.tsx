@@ -1,7 +1,7 @@
 /** @jsxImportSource react */
 import { Widget, VDOM } from "../../ui/Widget";
 import { Cx } from "../../ui/Cx";
-import { HtmlElement, HtmlElementConfig, HtmlElementInstance } from "../HtmlElement";
+import { HtmlElement, HtmlElementConfigBase, HtmlElementInstance } from "../HtmlElement";
 import { Instance } from "../../ui/Instance";
 import { RenderingContext } from "../../ui/RenderingContext";
 import { findFirstChild, isFocusable, isSelfOrDescendant, closest, isFocusedDeep, isFocused } from "../../util/DOM";
@@ -35,7 +35,7 @@ import { Config } from "../../ui/Prop";
  - automatically opens the dropdown if mouse is held over for a period of time
  */
 
-export interface MenuItemConfig extends HtmlElementConfig {
+export interface MenuItemConfig extends HtmlElementConfigBase {
    baseClass?: string;
    hoverFocusTimeout?: number;
    clickToOpen?: boolean;

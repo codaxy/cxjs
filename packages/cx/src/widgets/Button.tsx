@@ -8,19 +8,12 @@ import { isFunction } from "../util/isFunction";
 import { isDefined } from "../util/isDefined";
 import { coalesce } from "../util/coalesce";
 import type { RenderingContext } from "../ui/RenderingContext";
-import type { Instance, WidgetData, RenderProps } from "../ui/Instance";
+import type { Instance, RenderProps } from "../ui/Instance";
 import { YesNoResult } from "../ui/Instance";
 import { BooleanProp, StringProp, Prop, ModProp } from "../ui/Prop";
 import type { FormRenderingContext } from "./form/ValidationGroup";
 
-interface ButtonData extends WidgetData {
-   pressed?: boolean;
-   icon?: string | boolean;
-   disabled?: boolean;
-   enabled?: boolean;
-}
-
-export interface ButtonConfig extends HtmlElementConfig {
+export interface ButtonConfig extends Omit<HtmlElementConfig<"button">, "disabled" | "type" | "form"> {
    /** Confirmation text or configuration object. See MsgBox.yesNo for more details. */
    confirm?: Prop<string | Record<string, unknown>>;
 
@@ -29,9 +22,6 @@ export interface ButtonConfig extends HtmlElementConfig {
 
    /** Name of the icon to be put on the left side of the button. */
    icon?: StringProp;
-
-   /** HTML tag to be used. Default is `button`. */
-   tag?: string;
 
    /** Base CSS class to be applied to the element. Default is 'button'. */
    baseClass?: string;
@@ -57,9 +47,7 @@ export interface ButtonConfig extends HtmlElementConfig {
     * @param e - Event.
     * @param instance - Cx widget instance that fired the event.
     */
-   onClick?: string | ((e: MouseEvent, instance: Instance) => void);
-
-   onMouseDown?: string | ((e: MouseEvent, instance: Instance) => void);
+   onClick?: string | ((e: React.MouseEvent, instance: Instance) => void);
 
    /** Button type. */
    type?: "submit" | "button";
@@ -121,7 +109,7 @@ export class Button extends HtmlElement<ButtonConfig, HtmlElementInstance> {
 
       if (!this.focusOnMouseDown) {
          props.onMouseDown = (e: React.MouseEvent) => {
-            if (this.onMouseDown && instance.invoke("onMouseDown", e.nativeEvent, instance) === false) return;
+            if (this.onMouseDown && instance.invoke("onMouseDown", e, instance) === false) return;
             preventFocus(e);
          };
       }

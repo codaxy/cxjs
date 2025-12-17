@@ -41,4 +41,15 @@ describe("createAccessorModelProxy", () => {
       let model = createAccessorModelProxy<Model>();
       assert.strictEqual(model["@crazy"].nameOf(), "@crazy");
    });
+
+   it("AccessorChain<any> allows access to any property", () => {
+      // When using an untyped model (any), all property access should be allowed
+      let model = createAccessorModelProxy<any>();
+
+      // These should all be valid - no TypeScript errors
+      assert.strictEqual(model.foo.toString(), "foo");
+      assert.strictEqual(model.bar.baz.toString(), "bar.baz");
+      assert.strictEqual(model.deeply.nested.property.toString(), "deeply.nested.property");
+      assert.strictEqual(model.anyName.anyChild.anyGrandchild.toString(), "anyName.anyChild.anyGrandchild");
+   });
 });

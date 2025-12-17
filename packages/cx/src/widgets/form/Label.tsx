@@ -31,6 +31,7 @@ export class Label extends HtmlElement {
    constructor(config?: LabelConfig) {
       super(config);
    }
+
    declareData(...args: Record<string, unknown>[]): void {
       super.declareData(...args, {
          required: undefined,

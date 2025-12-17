@@ -1,7 +1,7 @@
-import { HtmlElement, HtmlElementConfig, HtmlElementInstance } from "./HtmlElement";
+import { HtmlElement, HtmlElementConfigBase, HtmlElementInstance } from "./HtmlElement";
 import { RenderingContext } from "../ui/RenderingContext";
 
-export interface HeadingConfig extends HtmlElementConfig {
+export interface HeadingConfig extends HtmlElementConfigBase {
    /** Name of the HTML element to be rendered. Default is `div`. */
    tag?: string;
 

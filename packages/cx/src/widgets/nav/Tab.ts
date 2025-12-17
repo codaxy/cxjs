@@ -1,12 +1,12 @@
 import { Widget, VDOM } from "../../ui/Widget";
-import { HtmlElement, HtmlElementConfig, HtmlElementInstance } from "../HtmlElement";
+import { HtmlElement, HtmlElementConfigBase, HtmlElementInstance } from "../HtmlElement";
 import { Instance } from "../../ui/Instance";
 import { RenderingContext } from "../../ui/RenderingContext";
 import { preventFocusOnTouch } from "../../ui/FocusManager";
 import { isUndefined } from "../../util/isUndefined";
 import { BooleanProp, Prop, StringProp } from "../../ui/Prop";
 
-export interface TabConfig extends HtmlElementConfig {
+export interface TabConfig extends HtmlElementConfigBase {
    /** A value to be written to the `value` property if the tab is clicked. */
    tab?: Prop<string | number>;
 

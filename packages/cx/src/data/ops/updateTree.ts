@@ -1,6 +1,6 @@
 import { updateArray } from "./updateArray";
 
-export function updateTree<T extends Record<string, any> = any>(
+export function updateTree<T = any>(
    array: T[] | undefined,
    updateCallback: (item: T) => T,
    itemFilter: ((item: T) => boolean) | null,

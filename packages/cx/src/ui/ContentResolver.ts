@@ -1,49 +1,8 @@
 import { PureContainerBase, PureContainerConfig } from "./PureContainer";
 import { isPromise } from "../util/isPromise";
 import { RenderingContext } from "./RenderingContext";
-import { BooleanProp, StructuredProp, ResolveStructuredProp, Bind, Tpl, Expr, GetSet } from "./Prop";
-import { Selector } from "../data/Selector";
-import { AccessorChain } from "../data/createAccessorModelProxy";
+import { BooleanProp, StructuredProp, ResolvePropType } from "./Prop";
 import { Instance } from "./Instance";
-
-/**
- * Helper type that extracts the value type from typed props (Selector, AccessorChain, GetSet).
- * Returns never for bindings (Bind, Tpl, Expr) since they don't carry type information.
- * This is used to properly resolve Prop<T> unions where we want to extract T.
- */
-type ExtractTypedPropValue<P> = P extends Selector<infer T>
-   ? T
-   : P extends AccessorChain<infer T>
-     ? T
-     : P extends GetSet<infer T>
-       ? T
-       : P extends Bind
-         ? never
-         : P extends Tpl
-           ? never
-           : P extends Expr
-             ? never
-             : P extends Record<string, any>
-               ? never
-               : P;
-
-/**
- * Utility type that resolves params which can be either a simple Prop<T> or a StructuredProp.
- * - For Prop<T> unions (including Selector, AccessorChain, GetSet, bindings), extracts T
- * - For plain bindings (Bind, Expr) used directly, resolves to any
- * - For structured props (objects), applies ResolveStructuredProp to resolve each property
- */
-type ResolveParams<P> = ExtractTypedPropValue<P> extends never
-   ? P extends Bind
-      ? any
-      : P extends Tpl
-        ? string
-        : P extends Expr
-          ? any
-          : P extends Record<string, any>
-            ? ResolveStructuredProp<P>
-            : P
-   : ExtractTypedPropValue<P>;
 
 /**
  * Configuration for ContentResolver widget.
@@ -85,7 +44,7 @@ export interface ContentResolverConfig<P = StructuredProp> extends PureContainer
     * The params type is inferred from the params property - literal values and AccessorChain<T>
     * preserve their types, while bindings (bind/tpl/expr) resolve to `any`.
     */
-   onResolve?: string | ((params: ResolveParams<P>, instance: Instance) => any);
+   onResolve?: string | ((params: ResolvePropType<P>, instance: Instance) => any);
 
    /** How to combine resolved content with initial content. Default is 'replace'. */
    mode?: "replace" | "prepend" | "append";
@@ -100,7 +59,7 @@ export class ContentResolver<P = StructuredProp> extends PureContainerBase<Conte
    }
 
    declare mode: "replace" | "prepend" | "append";
-   declare onResolve?: string | ((params: ResolveParams<P>, instance: Instance) => any);
+   declare onResolve?: string | ((params: ResolvePropType<P>, instance: Instance) => any);
    declare initialItems: any;
 
    declareData(...args: any[]): void {
