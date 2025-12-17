@@ -1,8 +1,9 @@
-import type { JSX as ReactJSX } from "react";
+import type { JSX as ReactJSX, ComponentType, ComponentProps, FunctionComponent, ComponentClass } from "react";
 import { Widget } from "./ui/Widget";
 import { isArray } from "./util/isArray";
 import { isString } from "./util/isString";
-import { HtmlElement, HtmlElementConfig } from "./widgets/HtmlElement";
+import { HtmlElement, HtmlElementConfig, HtmlElementConfigBase, CxTransformProps } from "./widgets/HtmlElement";
+import type { CxFunctionalComponent } from "./ui/createFunctionalComponent";
 
 export function jsx(typeName: any, props: any, key?: string): any {
    if (isArray(typeName)) return typeName;
@@ -38,6 +39,20 @@ type CxIntrinsicElements = {
    [K in keyof ReactIntrinsicElements]: HtmlElementConfig<K>;
 };
 
+/** Config type for React components used inside CxJS JSX */
+export type ReactComponentConfig<C extends ComponentType<any>> = Omit<HtmlElementConfigBase, "tag"> &
+   CxTransformProps<ComponentProps<C>> & { tag?: C };
+
+// Helper type to transform props for React components (but not CxJS functional components)
+// Uses a workaround to avoid TypeScript inference issues with conditional types in LibraryManagedAttributes
+type TransformReactComponentProps<C, P> = [C] extends [CxFunctionalComponent<any>]
+   ? P // CxJS functional components already have proper types
+   : [C] extends [FunctionComponent<any>]
+     ? ReactComponentConfig<C & FunctionComponent<any>>
+     : [C] extends [ComponentClass<any>]
+       ? ReactComponentConfig<C & ComponentClass<any>>
+       : P;
+
 export namespace JSX {
    /**
     * Base class for JSX element instances.
@@ -52,4 +67,10 @@ export namespace JSX {
    export interface IntrinsicElements extends CxIntrinsicElements {
       cx: any;
    }
+
+   /**
+    * Transform props for React function components used in CxJS JSX.
+    * Adds standard WidgetConfig properties and transforms React props to Prop<X>.
+    */
+   export type LibraryManagedAttributes<C, P> = TransformReactComponentProps<C, P>;
 }

@@ -1,28 +1,28 @@
 /** @jsxImportSource react */
-import * as React from "react";
 import { Icon } from "../Icon";
 import { VDOM } from "../../ui/Widget";
-import { Container, ContainerConfig } from "../../ui/Container";
+import { StyledContainerBase, StyledContainerConfig } from "../../ui/Container";
 import { ResizeManager } from "../../ui/ResizeManager";
 import { isString, scrollElementIntoView } from "../../util";
 import { RenderingContext } from "../../ui/RenderingContext";
 import { Instance } from "../../ui/Instance";
 import { BooleanProp, StringProp } from "../../ui/Prop";
 
-export interface ScrollerConfig extends ContainerConfig {
-   /** Base CSS class. Default is `hscroller`. */
-   baseClass?: string;
+export interface ScrollerConfig extends StyledContainerConfig {
    horizontal?: BooleanProp;
    vertical?: BooleanProp;
    scrollIntoViewSelector?: StringProp;
 }
 
-export class Scroller extends Container {
-   declare public baseClass: string;
-   declare public styled: boolean;
+export class Scroller extends StyledContainerBase<ScrollerConfig> {
+   declare baseClass: string;
    declare public horizontal?: any;
    declare public vertical?: any;
    declare public scrollIntoViewSelector?: any;
+
+   constructor(config?: ScrollerConfig) {
+      super(config);
+   }
 
    init() {
       if (!this.vertical) this.horizontal = true; //default
@@ -45,7 +45,6 @@ export class Scroller extends Container {
    }
 }
 
-Scroller.prototype.styled = true;
 Scroller.prototype.baseClass = "scroller";
 
 interface HScrollerComponentProps {

@@ -43,9 +43,15 @@ class FunctionalComponent extends PureContainerBase<FunctionalComponentConfig> {
    }
 }
 
+/** Brand type to mark CxJS functional components */
+export interface CxFunctionalComponent<Props = any> {
+   (props: Props & PureContainerConfig): any;
+   __cxFunctionalComponent: true;
+}
+
 export function createFunctionalComponent<Props = any>(
    factory: (props: Props) => ChildNode | ChildNode[],
-): (props: Props & PureContainerConfig) => any {
+): CxFunctionalComponent<Props> {
    if (isComponentFactory(factory)) return factory as any;
 
    return createComponentFactory(factory, (props: any = {}) => {
