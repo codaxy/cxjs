@@ -7,6 +7,7 @@ import { RenderingContext } from "./RenderingContext";
 import { View, ViewMethods } from "../data/View";
 import { Widget } from "./Widget";
 import { Instance } from "./Instance";
+import { AccessorChain } from "../data/createAccessorModelProxy";
 
 const computablePrefix = "computable-";
 const triggerPrefix = "trigger-";
@@ -28,6 +29,11 @@ export interface ControllerMethods {
       args: [...Selectors],
       callback: (...values: { [K in keyof Selectors]: InferSelectorValue<Selectors[K]> }) => any,
       autoRun?: boolean,
+   ): void;
+   addComputable<T, Selectors extends readonly ComputableSelector[]>(
+      name: AccessorChain<T>,
+      args: [...Selectors],
+      callback: (...values: { [K in keyof Selectors]: InferSelectorValue<Selectors[K]> }) => T,
    ): void;
    addComputable<Selectors extends readonly ComputableSelector[]>(
       name: string,
@@ -115,15 +121,22 @@ export class Controller<D = any> extends Component implements ControllerMethods 
       }
    }
 
+   addComputable<T, Selectors extends readonly ComputableSelector[]>(
+      name: AccessorChain<T>,
+      args: [...Selectors],
+      callback: (...values: { [K in keyof Selectors]: InferSelectorValue<Selectors[K]> }) => T,
+   ): void;
    addComputable<Selectors extends readonly ComputableSelector[]>(
       name: string,
       args: [...Selectors],
       callback: (...values: { [K in keyof Selectors]: InferSelectorValue<Selectors[K]> }) => any,
-   ): void {
+   ): void;
+   addComputable(name: string | AccessorChain<any>, args: ComputableSelector[], callback: (...values: any[]) => any): void {
       if (!isArray(args)) throw new Error("Second argument to the addComputable method should be an array.");
       let selector = computable(...args, callback).memoize();
       if (!this.computables) this.computables = {};
-      this.computables[computablePrefix + name] = { name, selector, type: "computable" };
+      let nameStr = String(name);
+      this.computables[computablePrefix + nameStr] = { name: nameStr, selector, type: "computable" };
    }
 
    addTrigger<Selectors extends readonly ComputableSelector[]>(

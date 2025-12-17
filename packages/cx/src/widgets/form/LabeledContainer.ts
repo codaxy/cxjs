@@ -3,13 +3,13 @@ import type { Instance } from "../../ui/Instance";
 import type { CxChild, RenderingContext } from "../../ui/RenderingContext";
 import { Widget } from "../../ui/Widget";
 import { FieldGroup, FieldGroupConfig } from "./FieldGroup";
-import { Label } from "./Label";
+import { Label, LabelConfig } from "./Label";
 import { StringProp, Config, BooleanProp, ModProp } from "../../ui/Prop";
 import { Create } from "../../util/Component";
 
 export interface LabeledContainerConfig extends FieldGroupConfig {
    /** The label. */
-   label?: StringProp | Create<typeof Label>;
+   label?: StringProp | Create<typeof Widget> | LabelConfig;
 
    /** Set to true to disable the field. */
    disabled?: BooleanProp;

@@ -5,23 +5,14 @@ import { ArrayAdapter } from "./adapter/ArrayAdapter";
 import { UseParentLayout } from "./layout/UseParentLayout";
 import { getAccessor } from "../data/getAccessor";
 import { RenderingContext } from "./RenderingContext";
-import {
-   Prop,
-   StringProp,
-   StructuredProp,
-   RecordAlias,
-   SortersProp,
-   CollatorOptions,
-   SortDirection,
-   DataRecord,
-} from "./Prop";
+import { Prop, StringProp, StructuredProp, RecordAlias, SortersProp, CollatorOptions, SortDirection } from "./Prop";
 import { Instance } from "./Instance";
 import { DataAdapter, DataAdapterRecord } from "./adapter/DataAdapter";
 import type { GroupAdapter } from "./adapter/GroupAdapter";
 import type { TreeAdapter } from "./adapter/TreeAdapter";
 import { Create } from "../util/Component";
 
-export interface RepeaterConfig<T = DataRecord> extends ContainerConfig {
+export interface RepeaterConfig<T = any> extends ContainerConfig {
    /** An array of records to be displayed. */
    records?: Prop<T[]>;
 
@@ -82,7 +73,7 @@ export interface RepeaterConfig<T = DataRecord> extends ContainerConfig {
       | Create<typeof GroupAdapter>;
 }
 
-export class Repeater<Config extends RepeaterConfig = RepeaterConfig> extends ContainerBase<Config> {
+export class Repeater<T = any> extends ContainerBase<RepeaterConfig<T>> {
    declare records?: any;
    recordsAccessor: any;
    declare recordAlias?: string;

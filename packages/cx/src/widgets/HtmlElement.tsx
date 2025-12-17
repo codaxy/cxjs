@@ -48,7 +48,7 @@ type CxEventHandler<T> = T extends (event: infer E) => any
      : string | T;
 
 // Transform React element props to CxJS props
-type CxTransformProps<T> = {
+export type CxTransformProps<T> = {
    [K in keyof T]: K extends "children"
       ? ChildNode | ChildNode[]
       : K extends "className" | "class"

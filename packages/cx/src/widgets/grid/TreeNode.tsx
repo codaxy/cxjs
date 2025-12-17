@@ -26,14 +26,23 @@ export interface TreeNodeConfig extends StyledContainerConfig {
    /** Icon to be displayed. */
    icon?: StringProp;
 
+   /** Icon for items (sets leafIcon). */
+   itemIcon?: StringProp;
+
    /** Icon for leaf nodes. */
    leafIcon?: StringProp;
+
+   /** Icon displayed when the node is loading. */
+   loadingIcon?: string;
 
    /** Icon for open folder. */
    openFolderIcon?: StringProp;
 
    /** Icon for folder. */
    folderIcon?: StringProp;
+
+   /** Set to `true` to hide the icon. */
+   hideIcon?: boolean;
 
    /** Set to `true` to hide the arrow. */
    hideArrow?: BooleanProp;

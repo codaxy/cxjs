@@ -48,7 +48,7 @@ export interface LookupBinding {
    key?: boolean;
 }
 
-export interface LookupFieldConfig extends FieldConfig {
+export interface LookupFieldConfig<TOption = unknown, TRecord = unknown> extends FieldConfig {
    /** Defaults to `false`. Set to `true` to enable multiple selection. */
    multiple?: BooleanProp;
 
@@ -59,7 +59,7 @@ export interface LookupFieldConfig extends FieldConfig {
    values?: Prop<(number | string)[]>;
 
    /** A list of selected records. Used only if `multiple` is set to `true`. */
-   records?: Prop<Record<string, any>[]>;
+   records?: Prop<TRecord[]>;
 
    /** Text associated with the selection. Used only if `multiple` is set to `false`. */
    text?: StringProp;
@@ -74,7 +74,7 @@ export interface LookupFieldConfig extends FieldConfig {
    placeholder?: StringProp;
 
    /** A list of available options. */
-   options?: Prop<Record<string, any>[]>;
+   options?: Prop<TOption[]>;
 
    /** Set to `true` to hide the clear button. Default value is `false`. */
    hideClear?: boolean;
@@ -148,7 +148,7 @@ export interface LookupFieldConfig extends FieldConfig {
       | ((
            query: string | { query: string; page: number; pageSize: number },
            instance: Instance,
-        ) => Record<string, any>[] | Promise<Record<string, any>[]>);
+        ) => TOption[] | Promise<TOption[]>);
 
    /** Set to `true` to sort dropdown options. */
    sort?: boolean;
@@ -178,12 +178,12 @@ export interface LookupFieldConfig extends FieldConfig {
    filterParams?: StructuredProp;
 
    /** Used in multiple selection lookups to construct display text from multiple fields. */
-   onGetRecordDisplayText?: ((record: Record<string, any>, instance: Instance) => string) | null;
+   onGetRecordDisplayText?: ((record: TRecord, instance: Instance) => string) | null;
 
    /** Callback to create a filter function for given filter params. */
    onCreateVisibleOptionsFilter?:
       | string
-      | ((filterParams: unknown, instance: Instance) => (option: Record<string, any>) => boolean);
+      | ((filterParams: unknown, instance: Instance) => (option: TOption) => boolean);
 
    /** Additional configuration to be passed to the dropdown, such as `style`, `positioning`, etc. */
    dropdownOptions?: Partial<DropdownConfig>;
@@ -194,7 +194,9 @@ export interface LookupFieldConfig extends FieldConfig {
       | ((value: number | string, instance: Instance, validationParams: Record<string, unknown>) => unknown);
 }
 
-export class LookupField<Config extends LookupFieldConfig = LookupFieldConfig> extends Field<Config> {
+export class LookupField<TOption = unknown, TRecord = unknown> extends Field<
+   LookupFieldConfig<TOption, TRecord>
+> {
    declare public baseClass: string;
    declare public multiple: boolean;
    declare public hideClear?: boolean;

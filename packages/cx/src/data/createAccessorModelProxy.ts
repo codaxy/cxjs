@@ -13,9 +13,8 @@ type IsAny<T> = 0 extends 1 & T ? true : false;
 
 export type AccessorChain<M> = {
    toString(): string;
-   valueOf(): string;
+   valueOf(): M | undefined;
    nameOf(): string;
-   __accessorChainType?: M; // Type-only marker for inference
 } & (IsAny<M> extends true
    ? { [key: string]: any } // Allow any property access for `any` type
    : M extends object
