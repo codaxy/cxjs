@@ -218,6 +218,69 @@ const model = createAccessorModelProxy<AppModel>();
          The utility types `ResolveProp&lt;P&gt;` and `ResolveStructuredProp&lt;S&gt;` are exported from `cx/ui`
          if you need to use them in your own generic components.
 
+         ### Expression Helpers
+
+         CxJS provides a set of helper functions for creating type-safe selectors from accessor chains.
+         These are useful for boolean props like `visible`, `disabled`, or `readOnly`:
+
+         <CodeSplit>
+            <CodeSnippet copy={false}>{`
+import { createAccessorModelProxy } from "cx/data";
+import { truthy, isEmpty, equal, greaterThan } from "cx/ui";
+import { TextField, NumberField, Button } from "cx/widgets";
+
+interface FormModel {
+   name: string;
+   age: number;
+   items: string[];
+}
+
+const m = createAccessorModelProxy<FormModel>();
+
+<cx>
+   <TextField value={m.name} label="Name" />
+   <NumberField value={m.age} label="Age" />
+
+   {/* Show warning if name is empty */}
+   <div visible={isEmpty(m.name)} class="warning">
+      Name is required
+   </div>
+
+   {/* Enable button only if age >= 18 */}
+   <Button disabled={lessThan(m.age, 18)}>
+      Submit
+   </Button>
+
+   {/* Show special message for specific age */}
+   <div visible={equal(m.age, 21)}>
+      Welcome to adulthood!
+   </div>
+</cx>
+            `}</CodeSnippet>
+         </CodeSplit>
+
+         **Available helpers:**
+
+         | Helper | Description |
+         |--------|-------------|
+         | `truthy(accessor)` | True if value is truthy (`!!x`) |
+         | `falsy(accessor)` | True if value is falsy (`!x`) |
+         | `isTrue(accessor)` | True if value is strictly `true` |
+         | `isFalse(accessor)` | True if value is strictly `false` |
+         | `hasValue(accessor)` | True if value is not null/undefined |
+         | `isEmpty(accessor)` | True if string/array is empty or null |
+         | `isNonEmpty(accessor)` | True if string/array has content |
+         | `equal(accessor, value)` | True if `x == value` (loose) |
+         | `notEqual(accessor, value)` | True if `x != value` (loose) |
+         | `strictEqual(accessor, value)` | True if `x === value` |
+         | `strictNotEqual(accessor, value)` | True if `x !== value` |
+         | `lessThan(accessor, value)` | True if `x &lt; value` |
+         | `lessThanOrEqual(accessor, value)` | True if `x &lt;= value` |
+         | `greaterThan(accessor, value)` | True if `x &gt; value` |
+         | `greaterThanOrEqual(accessor, value)` | True if `x &gt;= value` |
+
+         These helpers return `Selector&lt;boolean&gt;` which can be used anywhere a boolean binding is expected.
+
          ### Typed Config Properties
 
          Several widget config properties now have improved type definitions that provide better

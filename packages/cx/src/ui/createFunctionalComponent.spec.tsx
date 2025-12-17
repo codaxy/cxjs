@@ -12,6 +12,59 @@ import { Repeater } from "./Repeater";
 import { FirstVisibleChildLayout } from "./layout/FirstVisibleChildLayout";
 import { useStoreMethods } from "../hooks";
 
+describe("createFunctionalComponent type safety", () => {
+   interface MyComponentProps {
+      title: string;
+      count: number;
+      optional?: boolean;
+   }
+
+   const TypedComponent = createFunctionalComponent<MyComponentProps>(({ title, count, optional }) => (
+      <cx>
+         <div text={title} />
+         <div text={String(count)} />
+         {optional && <div text="optional shown" />}
+      </cx>
+   ));
+
+   it("rejects non-existing properties", () => {
+      const widget = (
+         <cx>
+            <TypedComponent
+               title="Test"
+               count={5}
+               // @ts-expect-error - nonExisting does not exist on MyComponentProps
+               nonExisting="invalid"
+            />
+         </cx>
+      );
+      assert.ok(widget);
+   });
+
+   it("rejects wrong property type", () => {
+      const widget = (
+         <cx>
+            <TypedComponent
+               title="Test"
+               // @ts-expect-error - count should be number, not string
+               count="wrong"
+            />
+         </cx>
+      );
+      assert.ok(widget);
+   });
+
+   it("rejects missing required properties", () => {
+      const widget = (
+         <cx>
+            {/* @ts-expect-error - count is required but missing */}
+            <TypedComponent title="Test" />
+         </cx>
+      );
+      assert.ok(widget);
+   });
+});
+
 describe("createFunctionalComponent", () => {
    it("allows spread", () => {
       const SuperDiv = createFunctionalComponent(({ ...props }) => {
