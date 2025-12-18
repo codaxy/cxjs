@@ -4,6 +4,9 @@ import { AccessorChain } from "../data/createAccessorModelProxy";
 import { Selector } from "../data/Selector";
 import { Expr } from "./Prop";
 
+// Helper type to infer value type from AccessorChain, handling `any` correctly
+type InferAccessorValue<T> = 0 extends 1 & T ? any : T extends AccessorChain<infer V> ? V : never;
+
 export function expr(code: string): Expr;
 export function expr<V1, R>(arg1: AccessorChain<V1>, compute: (v1: V1) => R): Selector<R>;
 export function expr<V1, V2, R>(
@@ -25,7 +28,7 @@ export function expr<V1, V2, V3, V4, R>(
    compute: (v1: V1, v2: V2, v3: V3, v4: V4) => R,
 ): Selector<R>;
 export function expr<T extends AccessorChain<any>[], R>(
-   ...args: [...accessors: T, compute: (...values: { [K in keyof T]: T[K] extends AccessorChain<infer V> ? V : never }) => R]
+   ...args: [...accessors: T, compute: (...values: { [K in keyof T]: InferAccessorValue<T[K]> }) => R]
 ): Selector<R>;
 export function expr(...args: any[]): any {
    let text = args[0];

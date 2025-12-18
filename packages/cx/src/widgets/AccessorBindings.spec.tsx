@@ -61,4 +61,30 @@ describe("Accessors", () => {
       assert(tree.type === "div");
       assert.deepStrictEqual(tree.children, ["4"]);
    });
+
+   it("expr infers correct types from accessor chains", () => {
+      let selector = expr($page.a, $page.b, (a, b) => {
+         // a and b should be inferred as number | undefined
+         const typedA: number | undefined = a;
+         const typedB: number | undefined = b;
+         // @ts-expect-error - a should not be string
+         const wrongA: string = a;
+         // @ts-expect-error - b should not be string
+         const wrongB: string = b;
+         return (typedA ?? 0) + (typedB ?? 0);
+      });
+      assert.ok(selector);
+   });
+
+   it("expr resolves AccessorChain<any> and nested properties to any", () => {
+      let m = createAccessorModelProxy<{ data: any }>();
+      let selector = expr(m.data.nested.value, (value) => {
+         // value should be any, so all assignments should work
+         const asString: string = value;
+         const asNumber: number = value;
+         const asBoolean: boolean = value;
+         return value;
+      });
+      assert.ok(selector);
+   });
 });

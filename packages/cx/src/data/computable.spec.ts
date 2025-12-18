@@ -71,4 +71,17 @@ describe("computable", function () {
       });
       assert.equal(itemCount(state), 3);
    });
+
+   it("resolves AccessorChain<any> and nested properties to any", function () {
+      var m = createAccessorModelProxy<{ data: any }>();
+      let state = { data: { nested: { value: 42 } } };
+      let result = computable(m.data.nested.value, (value) => {
+         // value should be any, so all assignments should work
+         const asString: string = value;
+         const asNumber: number = value;
+         const asBoolean: boolean = value;
+         return value;
+      });
+      assert.equal(result(state), 42);
+   });
 });
