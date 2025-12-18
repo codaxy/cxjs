@@ -3,28 +3,49 @@
    "version": "26.0.12",
    "description": "Advanced JavaScript UI framework for admin and dashboard applications with ready to use grid, form and chart components.",
    "exports": {
-      "./data/": "./build/data/",
-      "./data": "./build/data/index.js",
-      "./util/": "./build/util/",
-      "./util": "./build/util/index.js",
-      "./widgets/": "./build/widgets/",
-      "./widgets": "./build/widgets/index.js",
-      "./ui/": "./build/ui/",
-      "./ui": "./build/ui/index.js",
-      "./hooks/": "./build/hooks/",
-      "./hooks": "./build/hooks/index.js",
-      "./svg/": "./build/svg/",
-      "./svg": "./build/svg/index.js",
-      "./charts/": "./build/charts/",
-      "./charts": "./build/charts/index.js",
+      "./data": {
+         "types": "./build/data/index.d.ts",
+         "default": "./build/data/index.js"
+      },
+      "./data/*": "./build/data/*",
+      "./util": {
+         "types": "./build/util/index.d.ts",
+         "default": "./build/util/index.js"
+      },
+      "./util/*": "./build/util/*",
+      "./widgets": {
+         "types": "./build/widgets/index.d.ts",
+         "default": "./build/widgets/index.js"
+      },
+      "./widgets/*": "./build/widgets/*",
+      "./ui": {
+         "types": "./build/ui/index.d.ts",
+         "default": "./build/ui/index.js"
+      },
+      "./ui/*": "./build/ui/*",
+      "./hooks": {
+         "types": "./build/hooks/index.d.ts",
+         "default": "./build/hooks/index.js"
+      },
+      "./hooks/*": "./build/hooks/*",
+      "./svg": {
+         "types": "./build/svg/index.d.ts",
+         "default": "./build/svg/index.js"
+      },
+      "./svg/*": "./build/svg/*",
+      "./charts": {
+         "types": "./build/charts/index.d.ts",
+         "default": "./build/charts/index.js"
+      },
+      "./charts/*": "./build/charts/*",
       "./jsx-runtime": "./build/jsx-runtime.js",
       "./jsx-runtime.js": "./build/jsx-runtime.js",
       "./jsx-dev-runtime": "./build/jsx-dev-runtime.js",
       "./jsx-dev-runtime.js": "./build/jsx-dev-runtime.js",
-      "./src/": "./src/",
-      "./sass/": "./src/",
-      "./build/": "./build/",
-      "./locale/": "./build/locale/",
+      "./src/*": "./src/*",
+      "./sass/*": "./src/*",
+      "./build/*": "./build/*",
+      "./locale/*": "./build/locale/*",
       "./manifest": "./dist/manifest.js",
       "./manifest.js": "./dist/manifest.js"
    },
