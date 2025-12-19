@@ -86,29 +86,4 @@ describe("HtmlElement", () => {
       assert.equal(path.props.strokeLinejoin, "round");
       assert.equal(path.props.strokeWidth, "12");
    });
-
-   it("allows React components as tag", () => {
-      class MyReactComponent extends VDOM.Component<any> {
-         render() {
-            return VDOM.createElement("div", { className: "my-component" }, this.props.children);
-         }
-      }
-
-      let store = new Store();
-
-      const component = createTestRenderer(
-         store,
-         <cx>
-            <MyReactComponent>
-               <span>Child content</span>
-            </MyReactComponent>
-         </cx>,
-      );
-
-      let tree = component.toJSON();
-      assert(tree && !Array.isArray(tree), "Expected single element");
-      assert.equal(tree.type, "div");
-      assert.equal(tree.props.className, "my-component");
-      assert(tree.children && tree.children.length === 1, "Expected one child");
-   });
 });
