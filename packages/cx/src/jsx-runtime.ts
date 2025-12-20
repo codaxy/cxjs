@@ -4,7 +4,11 @@ import { Widget } from "./ui/Widget";
 import { isArray } from "./util/isArray";
 import { isString } from "./util/isString";
 import { HtmlElement, HtmlElementConfig } from "./widgets/HtmlElement";
-import { ReactElementWrapper, ReactElementWrapperConfig } from "./widgets/ReactElementWrapper";
+import {
+   ReactElementWrapper,
+   ReactElementWrapperConfig,
+   TransformReactElementProps,
+} from "./widgets/ReactElementWrapper";
 
 export function jsx(typeName: any, props: any, key?: string): any {
    if (isArray(typeName)) return typeName;
@@ -51,9 +55,9 @@ type CxIntrinsicElements = {
 type TransformReactComponentProps<C, P> = [C] extends [CxFunctionalComponent<any>]
    ? P // CxJS functional components already have proper types
    : [C] extends [FunctionComponent<any>]
-     ? ReactElementWrapperConfig<C & FunctionComponent<any>>
+     ? ReactElementWrapperConfig<P>
      : [C] extends [ComponentClass<any>]
-       ? ReactElementWrapperConfig<C & ComponentClass<any>>
+       ? ReactElementWrapperConfig<P>
        : P;
 
 export namespace JSX {

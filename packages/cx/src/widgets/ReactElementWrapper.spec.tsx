@@ -147,7 +147,7 @@ describe("ReactElementWrapper", () => {
          store,
          <cx>
             <ReactRefEffectComponent
-               onMount={(el: HTMLDivElement | null) => {
+               onMount={(el) => {
                   mountedElement = el;
                }}
             />
