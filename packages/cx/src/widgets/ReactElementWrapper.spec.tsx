@@ -429,5 +429,24 @@ describe("ReactElementWrapper", () => {
          );
          assert.ok(widget);
       });
+
+      it("provides instance through this", () => {
+         class TestController extends Controller {
+            change(_v: number) {}
+         }
+         const widget = (
+            <cx>
+               <RequiredPropsComponent
+                  label={"label"}
+                  value={100}
+                  controller={TestController}
+                  onChange={function (v) {
+                     this.getControllerByType(TestController).change(v);
+                  }}
+               />
+            </cx>
+         );
+         assert.ok(widget);
+      });
    });
 });

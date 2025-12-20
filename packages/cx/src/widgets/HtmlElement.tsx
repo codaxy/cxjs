@@ -51,7 +51,7 @@ type CxEventHandler<T> = T extends (event: infer E) => any
 // Note: For string literal union props (like SVG's strokeLinecap), we also accept `string`
 // because TypeScript widens string literals to `string` in JSX attribute syntax.
 // This is a known TypeScript behavior where `<path strokeLinecap="round"/>` infers "round" as string.
-export type TransformHtmlElementProps<T> = {
+type TransformHtmlElementProps<T> = {
    [K in keyof T]: K extends "children"
       ? ChildNode | ChildNode[]
       : K extends "className" | "class"
@@ -98,10 +98,7 @@ export interface HtmlElementConfigBase extends StyledContainerConfig {
 }
 
 /** HtmlElement configuration with tag-specific attributes and events */
-export type HtmlElementConfig<Tag extends keyof ReactIntrinsicElements = "div"> = Omit<
-   HtmlElementConfigBase,
-   "tag"
-> &
+export type HtmlElementConfig<Tag extends keyof ReactIntrinsicElements = "div"> = Omit<HtmlElementConfigBase, "tag"> &
    TransformHtmlElementProps<ReactIntrinsicElements[Tag]> & { tag?: Tag };
 
 export class HtmlElementInstance<E extends HtmlElement<any, any> = HtmlElement<any, any>>

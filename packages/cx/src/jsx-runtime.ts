@@ -4,11 +4,7 @@ import { Widget } from "./ui/Widget";
 import { isArray } from "./util/isArray";
 import { isString } from "./util/isString";
 import { HtmlElement, HtmlElementConfig } from "./widgets/HtmlElement";
-import {
-   ReactElementWrapper,
-   ReactElementWrapperConfig,
-   TransformReactElementProps,
-} from "./widgets/ReactElementWrapper";
+import { ReactElementWrapper, ReactElementWrapperConfig } from "./widgets/ReactElementWrapper";
 
 export function jsx(typeName: any, props: any, key?: string): any {
    if (isArray(typeName)) return typeName;

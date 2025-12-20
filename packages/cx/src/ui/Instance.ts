@@ -1,20 +1,20 @@
-import { Controller } from "./Controller";
-import { debug, renderFlag, processDataFlag, destroyFlag } from "../util/Debug";
+import { isAccessorChain } from "../data/createAccessorModelProxy";
+import { View } from "../data/View";
+import { debug, destroyFlag, processDataFlag, renderFlag } from "../util/Debug";
 import { GlobalCacheIdentifier } from "../util/GlobalCacheIdentifier";
+import { isArray } from "../util/isArray";
+import { isDefined } from "../util/isDefined";
+import { isFunction } from "../util/isFunction";
+import { isNonEmptyArray } from "../util/isNonEmptyArray";
+import { isObject } from "../util/isObject";
+import { isString } from "../util/isString";
+import { isUndefined } from "../util/isUndefined";
 import { throttle } from "../util/throttle";
 import { validatedDebounce } from "../util/validatedDebounce";
 import { batchUpdates } from "./batchUpdates";
-import { isString } from "../util/isString";
-import { isFunction } from "../util/isFunction";
-import { isDefined } from "../util/isDefined";
-import { isArray } from "../util/isArray";
-import { isObject } from "../util/isObject";
-import { isNonEmptyArray } from "../util/isNonEmptyArray";
-import { isUndefined } from "../util/isUndefined";
-import { isAccessorChain } from "../data/createAccessorModelProxy";
-import { CxChild, RenderingContext } from "./RenderingContext";
+import { Controller } from "./Controller";
+import { RenderingContext } from "./RenderingContext";
 import type { Widget } from "./Widget";
-import { View } from "../data/View";
 
 /**
  * Serializable value types that can be safely passed through the framework
@@ -744,8 +744,7 @@ export class Instance<WidgetType extends Widget<any, any> = Widget<any, any>> {
     */
    public getController(predicate: (controller: Controller) => boolean): Controller {
       const controller = this.findController(predicate);
-      if (!controller)
-         throw new Error("Cannot find a controller matching the given predicate in the instance tree.");
+      if (!controller) throw new Error("Cannot find a controller matching the given predicate in the instance tree.");
       return controller;
    }
 
@@ -757,8 +756,7 @@ export class Instance<WidgetType extends Widget<any, any> = Widget<any, any>> {
     */
    public getControllerByType<T extends Controller>(type: new (...args: any[]) => T): T {
       const controller = this.findControllerByType(type);
-      if (!controller)
-         throw new Error(`Cannot find a controller of type "${type.name}" in the instance tree.`);
+      if (!controller) throw new Error(`Cannot find a controller of type "${type.name}" in the instance tree.`);
       return controller;
    }
 
