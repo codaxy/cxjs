@@ -1,10 +1,10 @@
-import type { JSX as ReactJSX, ComponentType, FunctionComponent, ComponentClass } from "react";
+import type { ComponentClass, FunctionComponent, JSX as ReactJSX } from "react";
+import type { CxFunctionalComponent } from "./ui/createFunctionalComponent";
 import { Widget } from "./ui/Widget";
 import { isArray } from "./util/isArray";
 import { isString } from "./util/isString";
 import { HtmlElement, HtmlElementConfig } from "./widgets/HtmlElement";
 import { ReactElementWrapper, ReactElementWrapperConfig } from "./widgets/ReactElementWrapper";
-import type { CxFunctionalComponent } from "./ui/createFunctionalComponent";
 
 export function jsx(typeName: any, props: any, key?: string): any {
    if (isArray(typeName)) return typeName;
@@ -51,9 +51,9 @@ type CxIntrinsicElements = {
 type TransformReactComponentProps<C, P> = [C] extends [CxFunctionalComponent<any>]
    ? P // CxJS functional components already have proper types
    : [C] extends [FunctionComponent<any>]
-     ? Omit<ReactElementWrapperConfig<C & FunctionComponent<any>>, "componentType">
+     ? ReactElementWrapperConfig<C & FunctionComponent<any>>
      : [C] extends [ComponentClass<any>]
-       ? Omit<ReactElementWrapperConfig<C & ComponentClass<any>>, "componentType">
+       ? ReactElementWrapperConfig<C & ComponentClass<any>>
        : P;
 
 export namespace JSX {

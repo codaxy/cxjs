@@ -5,6 +5,7 @@ import { Button } from "./widgets/Button";
 import { Checkbox } from "./widgets/form/Checkbox";
 import { bind } from "./ui/bind";
 import { expr } from "./ui/expr";
+import { createFunctionalComponent } from "./ui/createFunctionalComponent";
 
 /**
  * These tests verify that widget props are correctly typed in JSX.
@@ -329,6 +330,70 @@ describe("jsx-runtime type inference", () => {
             <cx>
                {/* @ts-expect-error - visible should be BooleanProp, not a string */}
                <div visible="true" />
+            </cx>
+         );
+         assert.ok(widget);
+      });
+   });
+
+   describe("Required props", () => {
+      interface RequiredPropsConfig {
+         title: string;
+         count: number;
+         optional?: boolean;
+      }
+
+      const ComponentWithRequiredProps = createFunctionalComponent<RequiredPropsConfig>(({ title, count, optional }) => (
+         <cx>
+            <div text={title} />
+            <div text={String(count)} />
+            {optional && <div text="optional shown" />}
+         </cx>
+      ));
+
+      it("accepts all required props provided", () => {
+         const widget = (
+            <cx>
+               <ComponentWithRequiredProps title="Hello" count={42} />
+            </cx>
+         );
+         assert.ok(widget);
+      });
+
+      it("accepts required props with optional prop", () => {
+         const widget = (
+            <cx>
+               <ComponentWithRequiredProps title="Hello" count={42} optional={true} />
+            </cx>
+         );
+         assert.ok(widget);
+      });
+
+      it("rejects missing required prop (title)", () => {
+         const widget = (
+            <cx>
+               {/* @ts-expect-error - title is required but missing */}
+               <ComponentWithRequiredProps count={42} />
+            </cx>
+         );
+         assert.ok(widget);
+      });
+
+      it("rejects missing required prop (count)", () => {
+         const widget = (
+            <cx>
+               {/* @ts-expect-error - count is required but missing */}
+               <ComponentWithRequiredProps title="Hello" />
+            </cx>
+         );
+         assert.ok(widget);
+      });
+
+      it("rejects missing all required props", () => {
+         const widget = (
+            <cx>
+               {/* @ts-expect-error - title and count are required but missing */}
+               <ComponentWithRequiredProps optional={true} />
             </cx>
          );
          assert.ok(widget);

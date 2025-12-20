@@ -349,4 +349,85 @@ describe("ReactElementWrapper", () => {
       assert.deepEqual(tree2.children[1].children, ["99"]);
       assert.deepEqual(tree2.children[2].children, ["yes"]);
    });
+
+   describe("React component type inference", () => {
+      interface RequiredPropsComponentProps {
+         label: string;
+         value: number;
+         onChange: (value: number) => void;
+         disabled?: boolean;
+      }
+
+      function RequiredPropsComponent(_props: RequiredPropsComponentProps) {
+         return null;
+      }
+
+      it("accepts all required props", () => {
+         const widget = (
+            <cx>
+               <RequiredPropsComponent label="Amount" value={100} onChange={(v) => console.log(v)} />
+            </cx>
+         );
+         assert.ok(widget);
+      });
+
+      it("accepts required props with optional prop", () => {
+         const widget = (
+            <cx>
+               <RequiredPropsComponent label="Amount" value={100} onChange={(v) => console.log(v)} disabled={true} />
+            </cx>
+         );
+         assert.ok(widget);
+      });
+
+      it("rejects missing required prop (label)", () => {
+         const widget = (
+            <cx>
+               {/* @ts-expect-error - label is required but missing */}
+               <RequiredPropsComponent value={100} onChange={(v) => console.log(v)} />
+            </cx>
+         );
+         assert.ok(widget);
+      });
+
+      it("rejects missing required prop (onChange)", () => {
+         const widget = (
+            <cx>
+               {/* @ts-expect-error - onChange is required but missing */}
+               <RequiredPropsComponent label="Amount" value={100} />
+            </cx>
+         );
+         assert.ok(widget);
+      });
+
+      it("rejects missing all required props", () => {
+         const widget = (
+            <cx>
+               {/* @ts-expect-error - label, value, and onChange are required but missing */}
+               <RequiredPropsComponent disabled={true} />
+            </cx>
+         );
+         assert.ok(widget);
+      });
+
+      it("rejects wrong prop type (string for number)", () => {
+         const widget = (
+            <cx>
+               {/* @ts-expect-error - value should be number, not string */}
+               <RequiredPropsComponent label="Amount" value="100" onChange={(v) => console.log(v)} />
+            </cx>
+         );
+         assert.ok(widget);
+      });
+
+      it("rejects wrong prop type (number for string)", () => {
+         const widget = (
+            <cx>
+               {/* @ts-expect-error - label should be string, not number */}
+               <RequiredPropsComponent label={123} value={100} onChange={(v) => console.log(v)} />
+            </cx>
+         );
+         assert.ok(widget);
+      });
+   });
 });
