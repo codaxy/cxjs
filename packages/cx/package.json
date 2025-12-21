@@ -1,6 +1,6 @@
 {
    "name": "cx",
-   "version": "26.0.12",
+   "version": "26.0.13",
    "description": "Advanced JavaScript UI framework for admin and dashboard applications with ready to use grid, form and chart components.",
    "exports": {
       "./data": {
@@ -42,9 +42,10 @@
       "./jsx-runtime.js": "./build/jsx-runtime.js",
       "./jsx-dev-runtime": "./build/jsx-dev-runtime.js",
       "./jsx-dev-runtime.js": "./build/jsx-dev-runtime.js",
+      "./build/*": "./build/*",
+      "./src/core": "./src/core.d.ts",
       "./src/*": "./src/*",
       "./sass/*": "./src/*",
-      "./build/*": "./build/*",
       "./locale/*": "./build/locale/*",
       "./manifest": "./dist/manifest.js",
       "./manifest.js": "./dist/manifest.js"
