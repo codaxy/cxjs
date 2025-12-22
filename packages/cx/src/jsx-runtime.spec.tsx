@@ -1,7 +1,34 @@
 import assert from "assert";
-import { TextField } from "./widgets/form/TextField";
-import { NumberField } from "./widgets/form/NumberField";
 import { Button } from "./widgets/Button";
+import { Widget, WidgetConfig } from "./ui/Widget";
+import { StringProp, NumberProp, BooleanProp } from "./core";
+
+// Minimal mock implementations to avoid side effects from importing real widgets
+
+interface TextFieldConfig extends WidgetConfig {
+   value?: StringProp;
+   placeholder?: StringProp;
+   disabled?: BooleanProp;
+   readOnly?: BooleanProp;
+   required?: BooleanProp;
+   minLength?: NumberProp;
+   maxLength?: NumberProp;
+   validationErrorText?: StringProp;
+}
+
+class TextField extends Widget<TextFieldConfig> {}
+
+interface NumberFieldConfig extends WidgetConfig {
+   value?: NumberProp;
+   placeholder?: StringProp;
+   minValue?: NumberProp;
+   maxValue?: NumberProp;
+   format?: StringProp;
+   disabled?: BooleanProp;
+   increment?: NumberProp;
+}
+
+class NumberField extends Widget<NumberFieldConfig> {}
 import { Checkbox } from "./widgets/form/Checkbox";
 import { bind } from "./ui/bind";
 import { expr } from "./ui/expr";
@@ -343,13 +370,15 @@ describe("jsx-runtime type inference", () => {
          optional?: boolean;
       }
 
-      const ComponentWithRequiredProps = createFunctionalComponent<RequiredPropsConfig>(({ title, count, optional }) => (
-         <cx>
-            <div text={title} />
-            <div text={String(count)} />
-            {optional && <div text="optional shown" />}
-         </cx>
-      ));
+      const ComponentWithRequiredProps = createFunctionalComponent<RequiredPropsConfig>(
+         ({ title, count, optional }) => (
+            <cx>
+               <div text={title} />
+               <div text={String(count)} />
+               {optional && <div text="optional shown" />}
+            </cx>
+         ),
+      );
 
       it("accepts all required props provided", () => {
          const widget = (
