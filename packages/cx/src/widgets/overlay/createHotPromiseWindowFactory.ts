@@ -44,7 +44,6 @@ export function createHotPromiseWindowFactoryWithProps<Props, R = any>(
             let window = Window.create(factory(props)(resolve, reject) as any) as any;
             window.overlayWillDismiss = () => {
                if (!reloading && unsubscribe) unsubscribe();
-               return false;
             };
             dismiss = window.open(store);
          }
