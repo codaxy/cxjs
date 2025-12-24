@@ -18,9 +18,9 @@
    "license": "MIT",
    "homepage": "https://github.com/codaxy/cxjs",
    "peerDependencies": {
+      "@types/react": ">=18",
       "react": ">=18",
-      "react-dom": ">=18",
-      "@types/react": ">=18"
+      "react-dom": ">=18"
    },
    "devDependencies": {
       "@types/react": "^19.2.7",

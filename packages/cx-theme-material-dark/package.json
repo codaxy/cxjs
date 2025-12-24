@@ -1,6 +1,6 @@
 {
    "name": "cx-theme-material-dark",
-   "version": "25.12.0",
+   "version": "26.1.0",
    "description": "Material Dark theme CSS styles for Cx applications",
    "main": "./build/index.js",
    "types": "./build/index.d.ts",

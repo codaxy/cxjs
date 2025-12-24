@@ -73,10 +73,11 @@
       "route-parser": "^0.0.5"
    },
    "peerDependencies": {
+      "@types/react": ">=18",
+      "@types/react-dom": ">=18",
       "cx-react": ">=26",
       "react": ">=18",
-      "react-dom": ">=18",
-      "@types/react": ">=18"
+      "react-dom": ">=18"
    },
    "repository": {
       "type": "git",
@@ -88,7 +89,8 @@
       "@types/node": "^25.0.3",
       "@types/react-dom": "^19.2.3",
       "@types/react-test-renderer": "^19.1.0",
-      "react-test-renderer": "^18.3.1",
+      "mocha": "^11.7.5",
+      "react-test-renderer": "^19.2.3",
       "ts-mocha": "^11.1.0",
       "ts-node": "^10.9.2",
       "tsconfig-paths": "^4.2.0",

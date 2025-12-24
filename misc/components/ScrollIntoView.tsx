@@ -1,5 +1,5 @@
 /** @jsxImportSource react */
-import { StyledContainerBase, StyledContainerConfig, VDOM, StringProp, Instance } from "cx/ui";
+import { StyledContainerBase, StyledContainerConfig, VDOM, StringProp, Instance, RenderingContext } from "cx/ui";
 import { scrollElementIntoView } from "cx/util";
 
 export interface ScrollIntoViewConfig extends StyledContainerConfig {

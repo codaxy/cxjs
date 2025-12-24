@@ -1,6 +1,6 @@
 {
    "name": "cx-theme-packed-dark",
-   "version": "25.12.0",
+   "version": "26.1.0",
    "description": "Packed dark theme CSS styles for Cx applications",
    "main": "./build/index.js",
    "types": "./build/index.d.ts",

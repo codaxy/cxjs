@@ -92,10 +92,10 @@ module.exports = (production) => ({
    output: {
       filename: "[name].js",
    },
-   externals: {
-      react: "React",
-      "react-dom": "ReactDOM",
-   },
+   // externals: {
+   //    react: "React",
+   //    "react-dom": "ReactDOM",
+   // },
 
    optimization: {
       runtimeChunk: "single",
