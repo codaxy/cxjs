@@ -4067,6 +4067,7 @@ __metadata:
     typescript: "npm:^5.9.3"
   peerDependencies:
     "@types/react": ">=18"
+    "@types/react-dom": ">=18"
     cx-react: ">=26"
     react: ">=18"
     react-dom: ">=18"
