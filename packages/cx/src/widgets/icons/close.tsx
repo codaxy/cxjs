@@ -4,9 +4,9 @@ import { registerIcon } from "./registry";
 
 export default registerIcon(
    "close",
-   (props: any) => {
+   ({ key, ...props }: any) => {
       return (
-         <svg {...props} viewBox="0 0 32 32">
+         <svg key={key} {...props} viewBox="0 0 32 32">
             <path
                fill="currentColor"
                strokeWidth="1"

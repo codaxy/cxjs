@@ -2,8 +2,9 @@
 import {VDOM} from '../../ui/Widget';
 import {registerIcon} from './registry';
 
-export default registerIcon('menu', (props: any) => {
+export default registerIcon('menu', ({ key, ...props }: any) => {
    return <svg
+      key={key}
       {...props}
       viewBox="0 0 24 24">
 
