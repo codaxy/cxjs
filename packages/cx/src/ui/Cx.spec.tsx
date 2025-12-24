@@ -3,12 +3,12 @@ import { VDOM } from "./VDOM";
 import { Container, ContainerBase, ContainerConfig } from "./Container";
 import { Store } from "../data/Store";
 import { bind } from "./bind";
-import { createTestRenderer, createTestWidget } from "../util/test/createTestRenderer";
+import { createTestRenderer, createTestWidget, act } from "../util/test/createTestRenderer";
 import assert from "assert";
 import { HtmlElement } from "../widgets/HtmlElement";
 
 describe("Cx", () => {
-   it("can render cx content", () => {
+   it("can render cx content", async () => {
       let widget = (
          <cx>
             <div>Test</div>
@@ -17,7 +17,7 @@ describe("Cx", () => {
 
       let store = new Store();
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -27,7 +27,7 @@ describe("Cx", () => {
       });
    });
 
-   it("store changes preserve the instance", () => {
+   it("store changes preserve the instance", async () => {
       let instanceLog: any[] = [];
       let storeLog: any[] = [];
 
@@ -46,7 +46,7 @@ describe("Cx", () => {
       let store1 = new Store({ data: { text: "Test1" } });
       let store2 = new Store({ data: { text: "Test2" } });
 
-      const component = createTestRenderer(store1, widget);
+      const component = await createTestRenderer(store1, widget);
 
       let tree1 = component.toJSON();
       assert.deepEqual(tree1, {
@@ -55,7 +55,9 @@ describe("Cx", () => {
          children: ["Test1"],
       });
 
-      component.update(createTestWidget(store2, widget));
+      await act(async () => {
+         component.update(createTestWidget(store2, widget));
+      });
 
       let tree2 = component.toJSON();
       assert.deepEqual(tree2, {
@@ -70,7 +72,7 @@ describe("Cx", () => {
       assert(storeLog[1] === store2);
    });
 
-   it("invokes lifetime methods in the right order", () => {
+   it("invokes lifetime methods in the right order", async () => {
       let events: any[] = [];
 
       interface TestWidgetConfig extends ContainerConfig {
@@ -123,7 +125,7 @@ describe("Cx", () => {
 
       let store = new Store();
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {

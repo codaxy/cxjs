@@ -1,6 +1,6 @@
 import { Store } from "../../data/Store";
 import { expr } from "../expr";
-import { createTestRenderer } from "../../util/test/createTestRenderer";
+import { createTestRenderer, act } from "../../util/test/createTestRenderer";
 
 import assert from "assert";
 import { FirstVisibleChildLayout } from "./FirstVisibleChildLayout";
@@ -9,7 +9,7 @@ import { PureContainer } from "../PureContainer";
 import { createFunctionalComponent } from "../createFunctionalComponent";
 
 describe("FirstVisibleChildLayout", () => {
-   it("renders only the first child", () => {
+   it("renders only the first child", async () => {
       let widget = (
          <cx>
             <div layout={FirstVisibleChildLayout}>
@@ -22,7 +22,7 @@ describe("FirstVisibleChildLayout", () => {
 
       let store = new Store();
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -32,7 +32,7 @@ describe("FirstVisibleChildLayout", () => {
       });
    });
 
-   it("does not process other widgets", () => {
+   it("does not process other widgets", async () => {
       let h = false,
          m = false,
          f = false;
@@ -61,7 +61,7 @@ describe("FirstVisibleChildLayout", () => {
 
       let store = new Store();
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -75,7 +75,7 @@ describe("FirstVisibleChildLayout", () => {
       assert.equal(f, false);
    });
 
-   it("skips the first child if not visible", () => {
+   it("skips the first child if not visible", async () => {
       let widget = (
          <cx>
             <div layout={FirstVisibleChildLayout}>
@@ -88,7 +88,7 @@ describe("FirstVisibleChildLayout", () => {
 
       let store = new Store();
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -98,7 +98,7 @@ describe("FirstVisibleChildLayout", () => {
       });
    });
 
-   it("skips pure containers which use parent layouts", () => {
+   it("skips pure containers which use parent layouts", async () => {
       let widget = (
          <cx>
             <div layout={FirstVisibleChildLayout}>
@@ -113,7 +113,7 @@ describe("FirstVisibleChildLayout", () => {
 
       let store = new Store();
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -123,7 +123,7 @@ describe("FirstVisibleChildLayout", () => {
       });
    });
 
-   it("works with functional components", () => {
+   it("works with functional components", async () => {
       let FC = createFunctionalComponent(({ children }: { children?: any }) => <cx>{children}</cx>);
 
       let widget = (
@@ -140,7 +140,7 @@ describe("FirstVisibleChildLayout", () => {
 
       let store = new Store();
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -150,7 +150,7 @@ describe("FirstVisibleChildLayout", () => {
       });
    });
 
-   it("properly destroys invisible items", () => {
+   it("properly destroys invisible items", async () => {
       let destroyList: number[] = [];
       let widget = (
          <cx>
@@ -166,29 +166,41 @@ describe("FirstVisibleChildLayout", () => {
 
       let store = new Store();
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
-      store.set("index", 0);
+      await act(async () => {
+         store.set("index", 0);
+      });
       component.toJSON();
       assert.deepEqual(destroyList, []);
 
-      store.set("index", 3);
+      await act(async () => {
+         store.set("index", 3);
+      });
       component.toJSON();
       assert.deepEqual(destroyList, [0]);
 
-      store.set("index", 1);
+      await act(async () => {
+         store.set("index", 1);
+      });
       component.toJSON();
       assert.deepEqual(destroyList, [0, 3]);
 
-      store.set("index", 4);
+      await act(async () => {
+         store.set("index", 4);
+      });
       component.toJSON();
       assert.deepEqual(destroyList, [0, 3, 1]);
 
-      store.set("index", 0);
+      await act(async () => {
+         store.set("index", 0);
+      });
       component.toJSON();
       assert.deepEqual(destroyList, [0, 3, 1, 4]);
 
-      store.set("index", -1);
+      await act(async () => {
+         store.set("index", -1);
+      });
       component.toJSON();
       assert.deepEqual(destroyList, [0, 3, 1, 4, 0]);
    });

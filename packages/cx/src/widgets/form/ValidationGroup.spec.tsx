@@ -7,7 +7,7 @@ import { createTestRenderer } from "../../util/test/createTestRenderer";
 import assert from "assert";
 
 describe("ValidationGroup", () => {
-   it("performs validation and sets the flags", () => {
+   it("performs validation and sets the flags", async () => {
       let widget = (
          <cx>
             <ValidationGroup invalid={bind("invalid")} valid={bind("valid")}>
@@ -19,7 +19,7 @@ describe("ValidationGroup", () => {
 
       let store = new Store();
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert(tree && !Array.isArray(tree));
@@ -28,7 +28,7 @@ describe("ValidationGroup", () => {
       assert.equal(store.get("valid"), false);
    });
 
-   it("nested validation works", () => {
+   it("nested validation works", async () => {
       let widget = (
          <cx>
             <div>
@@ -46,7 +46,7 @@ describe("ValidationGroup", () => {
 
       let store = new Store();
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.equal(store.get("invalid"), true);
@@ -54,7 +54,7 @@ describe("ValidationGroup", () => {
       assert.equal(store.get("invalid2"), false);
    });
 
-   it("isolated validation group does not affect the parent", () => {
+   it("isolated validation group does not affect the parent", async () => {
       let widget = (
          <cx>
             <div>
@@ -72,7 +72,7 @@ describe("ValidationGroup", () => {
 
       let store = new Store();
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.equal(store.get("invalid"), false);
@@ -80,7 +80,7 @@ describe("ValidationGroup", () => {
       assert.equal(store.get("invalid2"), false);
    });
 
-   it("visited flag is propagated into nested validation groups", () => {
+   it("visited flag is propagated into nested validation groups", async () => {
       let visited = false;
 
       let widget = (
@@ -101,13 +101,13 @@ describe("ValidationGroup", () => {
 
       let store = new Store();
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert(visited);
    });
 
-   it("disabled flag can be overruled by the field props", () => {
+   it("disabled flag can be overruled by the field props", async () => {
       let widget = (
          <cx>
             <div>
@@ -120,13 +120,13 @@ describe("ValidationGroup", () => {
 
       let store = new Store();
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.equal(store.get("invalid"), true);
    });
 
-   it("strict flag is used to enforce disabled flag", () => {
+   it("strict flag is used to enforce disabled flag", async () => {
       let widget = (
          <cx>
             <div>
@@ -139,7 +139,7 @@ describe("ValidationGroup", () => {
 
       let store = new Store();
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.equal(store.get("invalid"), false);

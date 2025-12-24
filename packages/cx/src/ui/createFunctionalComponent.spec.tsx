@@ -2,7 +2,7 @@ import { Store } from "../data/Store";
 import { createFunctionalComponent } from "./createFunctionalComponent";
 import { bind } from "./bind";
 import { expr } from "./expr";
-import { createTestRenderer } from "../util/test/createTestRenderer";
+import { createTestRenderer, act } from "../util/test/createTestRenderer";
 
 import assert from "assert";
 import { Rescope } from "./Rescope";
@@ -66,7 +66,7 @@ describe("createFunctionalComponent type safety", () => {
 });
 
 describe("createFunctionalComponent", () => {
-   it("allows spread", () => {
+   it("allows spread", async () => {
       const SuperDiv = createFunctionalComponent(({ ...props }) => {
          return (
             <cx>
@@ -88,7 +88,7 @@ describe("createFunctionalComponent", () => {
 
       let store = new Store();
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -103,7 +103,7 @@ describe("createFunctionalComponent", () => {
       });
    });
 
-   it("visible and Rescope behave as expected", () => {
+   it("visible and Rescope behave as expected", async () => {
       const RootRescope = createFunctionalComponent(({}) => {
          return (
             <cx>
@@ -128,7 +128,7 @@ describe("createFunctionalComponent", () => {
          },
       });
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -138,7 +138,7 @@ describe("createFunctionalComponent", () => {
       });
    });
 
-   it("visible and multiple items behave as expected", () => {
+   it("visible and multiple items behave as expected", async () => {
       const FComponent = createFunctionalComponent(({}) => {
          return (
             <cx>
@@ -157,7 +157,7 @@ describe("createFunctionalComponent", () => {
 
       let store = new Store();
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, [
@@ -174,7 +174,7 @@ describe("createFunctionalComponent", () => {
       ]);
    });
 
-   it("respects inner layouts", () => {
+   it("respects inner layouts", async () => {
       const FComponent = createFunctionalComponent(({}) => {
          return (
             <cx>
@@ -194,7 +194,7 @@ describe("createFunctionalComponent", () => {
 
       let store = new Store();
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
 
@@ -279,7 +279,7 @@ describe("createFunctionalComponent", () => {
       });
    });
 
-   it("can use refs for data bindings", () => {
+   it("can use refs for data bindings", async () => {
       const X = createFunctionalComponent(({}) => {
          let { ref } = useStoreMethods();
          let x = ref("x", "OK");
@@ -298,7 +298,7 @@ describe("createFunctionalComponent", () => {
 
       let store = new Store();
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -308,7 +308,7 @@ describe("createFunctionalComponent", () => {
       });
    });
 
-   it("adds children at the right place", () => {
+   it("adds children at the right place", async () => {
       const X = createFunctionalComponent(({ children }: { children: any }) => (
          <cx>
             <header />
@@ -327,7 +327,7 @@ describe("createFunctionalComponent", () => {
 
       let store = new Store();
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
 
@@ -356,7 +356,7 @@ describe("createFunctionalComponent", () => {
       ]);
    });
 
-   it("works well with repeaters", () => {
+   it("works well with repeaters", async () => {
       const X = createFunctionalComponent(({}) => {
          let { ref } = useStoreMethods();
          let text = ref("$record.text");
@@ -377,7 +377,7 @@ describe("createFunctionalComponent", () => {
 
       let store = new Store({ data: { array: [{ text: "0" }, { text: "1" }, { text: "2" }] } });
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
 
@@ -399,7 +399,9 @@ describe("createFunctionalComponent", () => {
          },
       ]);
 
-      store.update("array", (array) => [array[0], { text: "10" }, array[2]]);
+      await act(async () => {
+         store.update("array", (array) => [array[0], { text: "10" }, array[2]]);
+      });
 
       tree = component.toJSON();
 
@@ -422,7 +424,7 @@ describe("createFunctionalComponent", () => {
       ]);
    });
 
-   it("can have its own layout", () => {
+   it("can have its own layout", async () => {
       const X = createFunctionalComponent(() => (
          <cx>
             <div>1</div>
@@ -439,7 +441,7 @@ describe("createFunctionalComponent", () => {
 
       let store = new Store();
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
 

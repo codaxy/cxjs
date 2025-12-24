@@ -5,7 +5,7 @@ import { createTestRenderer } from "../util/test/createTestRenderer";
 import { resolveCallback } from "./resolveCallback";
 
 describe("resolveCallback", () => {
-   it("works with functions", () => {
+   it("works with functions", async () => {
       const FComp = createFunctionalComponent(({ onTest }: { onTest: (value: string) => void }) => {
          let callback = resolveCallback(onTest);
          assert(typeof callback === "function");
@@ -19,7 +19,7 @@ describe("resolveCallback", () => {
 
       let store = new Store();
       let value;
-      const component = createTestRenderer(
+      const component = await createTestRenderer(
          store,
          <cx>
             <FComp
@@ -34,7 +34,7 @@ describe("resolveCallback", () => {
       assert.equal(value, "works");
    });
 
-   it("works with controller methods", () => {
+   it("works with controller methods", async () => {
       const FComp = createFunctionalComponent(({ onTest }: { onTest: string | ((value: string) => void) }) => {
          let callback = resolveCallback(onTest);
          assert(typeof callback === "function");
@@ -51,7 +51,7 @@ describe("resolveCallback", () => {
 
       let store = new Store();
       let value;
-      const component = createTestRenderer(
+      const component = await createTestRenderer(
          store,
          <cx>
             <FComp

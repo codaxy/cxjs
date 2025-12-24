@@ -2,13 +2,13 @@ import { Store } from "../../data/Store";
 import { ContentPlaceholder, ContentPlaceholderScope } from "./ContentPlaceholder";
 import assert from "assert";
 import { PureContainer } from "../PureContainer";
-import { createTestRenderer } from "../../util/test/createTestRenderer";
+import { createTestRenderer, act } from "../../util/test/createTestRenderer";
 import { bind } from "../bind";
 
 describe("ContentPlaceholder", () => {
-   it("allows putting content inside", () => {
+   it("allows putting content inside", async () => {
       let store = new Store();
-      const component = createTestRenderer(
+      const component = await createTestRenderer(
          store,
          <cx>
             <div>
@@ -47,13 +47,13 @@ describe("ContentPlaceholder", () => {
       });
    });
 
-   it("updates content on change", () => {
+   it("updates content on change", async () => {
       let store = new Store({
          data: {
             headerText: "Header",
          },
       });
-      const component = createTestRenderer(
+      const component = await createTestRenderer(
          store,
          <cx>
             <div>
@@ -76,13 +76,15 @@ describe("ContentPlaceholder", () => {
       });
 
       assert.deepEqual(component.toJSON(), getTree("Header"));
-      store.set("headerText", "Footer");
+      await act(async () => {
+         store.set("headerText", "Footer");
+      });
       assert.deepEqual(component.toJSON(), getTree("Footer"));
    });
 
-   it("allows putting multiple entries inside", () => {
+   it("allows putting multiple entries inside", async () => {
       let store = new Store();
-      const component = createTestRenderer(
+      const component = await createTestRenderer(
          store,
          <cx>
             <div>
@@ -127,9 +129,9 @@ describe("ContentPlaceholder", () => {
       });
    });
 
-   it("allows putting multiple entries inside when content is defined before and after the placeholder", () => {
+   it("allows putting multiple entries inside when content is defined before and after the placeholder", async () => {
       let store = new Store();
-      const component = createTestRenderer(
+      const component = await createTestRenderer(
          store,
          <cx>
             <div>
@@ -183,9 +185,9 @@ describe("ContentPlaceholder", () => {
       });
    });
 
-   it("allows putting multiple entries into separate placeholders using content placeholder scopes", () => {
+   it("allows putting multiple entries into separate placeholders using content placeholder scopes", async () => {
       let store = new Store();
-      const component = createTestRenderer(
+      const component = await createTestRenderer(
          store,
          <cx>
             <div>
@@ -249,7 +251,7 @@ describe("ContentPlaceholder", () => {
       });
    });
 
-   it("is used for defining body position in outer layouts", () => {
+   it("is used for defining body position in outer layouts", async () => {
       let store = new Store();
 
       let layout = (
@@ -262,7 +264,7 @@ describe("ContentPlaceholder", () => {
          </cx>
       );
 
-      const component = createTestRenderer(
+      const component = await createTestRenderer(
          store,
          <cx>
             <main outerLayout={layout} />
@@ -292,7 +294,7 @@ describe("ContentPlaceholder", () => {
       });
    });
 
-   it("data in deeply nested placeholders is correctly updated", () => {
+   it("data in deeply nested placeholders is correctly updated", async () => {
       let store = new Store({
          data: {
             header: "H",
@@ -315,7 +317,7 @@ describe("ContentPlaceholder", () => {
          </cx>
       );
 
-      const component = createTestRenderer(
+      const component = await createTestRenderer(
          store,
          <cx>
             <main outerLayout={layout}>
@@ -353,15 +355,21 @@ describe("ContentPlaceholder", () => {
       });
 
       assert.deepEqual(component.toJSON(), getTree("H", "B", "F"));
-      store.set("header", "H2");
+      await act(async () => {
+         store.set("header", "H2");
+      });
       assert.deepEqual(component.toJSON(), getTree("H2", "B", "F"));
-      store.set("footer", "F2");
+      await act(async () => {
+         store.set("footer", "F2");
+      });
       assert.deepEqual(component.toJSON(), getTree("H2", "B", "F2"));
-      store.set("body", "B2");
+      await act(async () => {
+         store.set("body", "B2");
+      });
       assert.deepEqual(component.toJSON(), getTree("H2", "B2", "F2"));
    });
 
-   it("inside a two-level deep outer-layout works", () => {
+   it("inside a two-level deep outer-layout works", async () => {
       let store = new Store();
 
       let outerLayout = (
@@ -380,7 +388,7 @@ describe("ContentPlaceholder", () => {
          </cx>
       );
 
-      const component = createTestRenderer(
+      const component = await createTestRenderer(
          store,
          <cx>
             <section outerLayout={innerLayout} />
@@ -388,7 +396,6 @@ describe("ContentPlaceholder", () => {
       );
 
       let tree = component.toJSON();
-      //console.log(tree);
 
       assert.deepEqual(tree, {
          type: "div",
@@ -409,10 +416,10 @@ describe("ContentPlaceholder", () => {
       });
    });
 
-   it("works in strange order", () => {
+   it("works in strange order", async () => {
       let store = new Store();
 
-      const component = createTestRenderer(
+      const component = await createTestRenderer(
          store,
          <cx>
             <div>
@@ -427,7 +434,6 @@ describe("ContentPlaceholder", () => {
       );
 
       let tree = component.toJSON();
-      //console.log(tree);
 
       assert.deepEqual(tree, {
          type: "div",
@@ -436,7 +442,7 @@ describe("ContentPlaceholder", () => {
       });
    });
 
-   it("inside a complex two-level-deep outer-layout works", () => {
+   it("inside a complex two-level-deep outer-layout works", async () => {
       let store = new Store();
 
       let outerLayout = (
@@ -457,7 +463,7 @@ describe("ContentPlaceholder", () => {
          </cx>
       );
 
-      const component = createTestRenderer(
+      const component = await createTestRenderer(
          store,
          <cx>
             <section outerLayout={innerLayout} />
@@ -471,7 +477,7 @@ describe("ContentPlaceholder", () => {
       });
    });
 
-   it("each level use an outer-layout", () => {
+   it("each level use an outer-layout", async () => {
       let store = new Store();
 
       let outerLayout1 = (
@@ -490,7 +496,7 @@ describe("ContentPlaceholder", () => {
          </cx>
       );
 
-      const component = createTestRenderer(
+      const component = await createTestRenderer(
          store,
          <cx>
             <PureContainer outerLayout={outerLayout1}>
@@ -506,7 +512,7 @@ describe("ContentPlaceholder", () => {
       });
    });
 
-   it("data in a two-level deep outer-layout is correctly updated", () => {
+   it("data in a two-level deep outer-layout is correctly updated", async () => {
       let store = new Store({
          data: {
             header: "H",
@@ -539,7 +545,7 @@ describe("ContentPlaceholder", () => {
          </cx>
       );
 
-      const component = createTestRenderer(
+      const component = await createTestRenderer(
          store,
          <cx>
             <main outerLayout={innerLayout}>
@@ -577,11 +583,17 @@ describe("ContentPlaceholder", () => {
       });
 
       assert.deepEqual(component.toJSON(), getTree("H", "B", "F"));
-      store.set("header", "H2");
+      await act(async () => {
+         store.set("header", "H2");
+      });
       assert.deepEqual(component.toJSON(), getTree("H2", "B", "F"));
-      store.set("footer", "F2");
+      await act(async () => {
+         store.set("footer", "F2");
+      });
       assert.deepEqual(component.toJSON(), getTree("H2", "B", "F2"));
-      store.set("body", "B2");
+      await act(async () => {
+         store.set("body", "B2");
+      });
       assert.deepEqual(component.toJSON(), getTree("H2", "B2", "F2"));
    });
 });

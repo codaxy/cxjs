@@ -15,7 +15,7 @@ interface Model {
 let { $page } = createAccessorModelProxy<Model>();
 
 describe("Accessors", () => {
-   it("work as regular bindings", () => {
+   it("work as regular bindings", async () => {
       let widget = (
          <cx>
             <div text={$page.text} />
@@ -30,7 +30,7 @@ describe("Accessors", () => {
          },
       });
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert(tree && !Array.isArray(tree));
@@ -38,7 +38,7 @@ describe("Accessors", () => {
       assert.deepStrictEqual(tree.children, ["Test"]);
    });
 
-   it("support expressions", () => {
+   it("support expressions", async () => {
       let widget = (
          <cx>
             <div text={expr($page.a, $page.b, (a, b) => a + b)} />
@@ -54,7 +54,7 @@ describe("Accessors", () => {
          },
       });
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert(tree && !Array.isArray(tree));

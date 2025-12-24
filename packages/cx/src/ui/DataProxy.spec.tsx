@@ -11,7 +11,7 @@ import { bind } from "./bind";
 import { tpl } from "./tpl";
 
 describe("DataProxy", () => {
-   it("can calculate values", () => {
+   it("can calculate values", async () => {
       let widget = (
          <cx>
             <DataProxy
@@ -30,7 +30,7 @@ describe("DataProxy", () => {
          },
       });
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -40,7 +40,7 @@ describe("DataProxy", () => {
       });
    });
 
-   it("can write into values aliased with bind", () => {
+   it("can write into values aliased with bind", async () => {
       class TestController extends Controller {
          onInit() {
             this.store.set("$value", "excellent");
@@ -66,7 +66,7 @@ describe("DataProxy", () => {
          },
       });
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
 
@@ -79,7 +79,7 @@ describe("DataProxy", () => {
       });
    });
 
-   it("can write into aliased values using provided setters", () => {
+   it("can write into aliased values using provided setters", async () => {
       class TestController extends Controller {
          onInit() {
             this.store.set("$value", "excellent");
@@ -110,7 +110,7 @@ describe("DataProxy", () => {
          },
       });
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
 
@@ -123,7 +123,7 @@ describe("DataProxy", () => {
       });
    });
 
-   it("allows shorter syntax", () => {
+   it("allows shorter syntax", async () => {
       let widget = (
          <cx>
             <DataProxy alias="$value" value={bind("value")}>
@@ -138,7 +138,7 @@ describe("DataProxy", () => {
          },
       });
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -148,7 +148,7 @@ describe("DataProxy", () => {
       });
    });
 
-   it("correctly updates aliased data after write", () => {
+   it("correctly updates aliased data after write", async () => {
       class TestController extends Controller {
          onInit() {
             this.store.set("$value", "excellent");
@@ -175,7 +175,7 @@ describe("DataProxy", () => {
          },
       });
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
 
@@ -188,7 +188,7 @@ describe("DataProxy", () => {
       });
    });
 
-   it("properly binds structures", () => {
+   it("properly binds structures", async () => {
       class TestController extends Controller {
          onInit() {
             this.store.set("$person.firstName", "Jim");
@@ -214,7 +214,7 @@ describe("DataProxy", () => {
          },
       });
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
 
@@ -227,7 +227,7 @@ describe("DataProxy", () => {
       });
    });
 
-   it("works with Store refs", () => {
+   it("works with Store refs", async () => {
       let widget = createFunctionalComponent(() => {
          let valueRef = useState("a");
          return (
@@ -256,7 +256,7 @@ describe("DataProxy", () => {
          },
       });
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -266,7 +266,7 @@ describe("DataProxy", () => {
       });
    });
 
-   it("controllers set on the DataProxy can see calculated values", () => {
+   it("controllers set on the DataProxy can see calculated values", async () => {
       let value;
       let widget = Widget.create(
          <cx>
@@ -285,13 +285,13 @@ describe("DataProxy", () => {
 
       let store = new Store();
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.equal(value, 5);
    });
 
-   it("correctly propagates undefined values over a previous value (bug)", () => {
+   it("correctly propagates undefined values over a previous value (bug)", async () => {
       let widget = (
          <cx>
             <DataProxy
@@ -317,7 +317,7 @@ describe("DataProxy", () => {
          },
       });
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
 

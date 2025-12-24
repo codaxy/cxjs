@@ -8,7 +8,7 @@ import assert from "assert";
 import { PureContainer } from "./PureContainer";
 
 describe("Rescope", () => {
-   it("allows simple access to nested data", () => {
+   it("allows simple access to nested data", async () => {
       let store = new Store({
          data: {
             $page: {
@@ -27,7 +27,7 @@ describe("Rescope", () => {
          </cx>
       );
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -37,7 +37,7 @@ describe("Rescope", () => {
       });
    });
 
-   it("allows parent access through $root", () => {
+   it("allows parent access through $root", async () => {
       let store = new Store({
          data: {
             layout: {
@@ -59,7 +59,7 @@ describe("Rescope", () => {
          </cx>
       );
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -69,7 +69,7 @@ describe("Rescope", () => {
       });
    });
 
-   it("allows nested data access through data", () => {
+   it("allows nested data access through data", async () => {
       let store = new Store({
          data: {
             layout: {
@@ -86,7 +86,7 @@ describe("Rescope", () => {
          </cx>
       );
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -96,7 +96,7 @@ describe("Rescope", () => {
       });
    });
 
-   it("nested data mutations are correctly propagated to the parent store", () => {
+   it("nested data mutations are correctly propagated to the parent store", async () => {
       let store = new Store({
          data: {
             item: {
@@ -108,7 +108,7 @@ describe("Rescope", () => {
       let widget = (
          <cx>
             <Rescope bind="$page" data={{ $value: { bind: "item.value" } }}>
-               <PureContainer               
+               <PureContainer
                   controller={{
                      onInit() {
                         this.store.set("$value", 2);
@@ -120,7 +120,7 @@ describe("Rescope", () => {
          </cx>
       );
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -130,7 +130,7 @@ describe("Rescope", () => {
       });
    });
 
-   it("visible is calculated based on the inner scope", () => {
+   it("visible is calculated based on the inner scope", async () => {
       let store = new Store({
          data: {
             layout: {
@@ -153,7 +153,7 @@ describe("Rescope", () => {
          </cx>
       );
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -163,7 +163,7 @@ describe("Rescope", () => {
       });
    });
 
-   it("controllers see inner scope", () => {
+   it("controllers see inner scope", async () => {
       let store = new Store({
          data: {
             $page: {
@@ -191,7 +191,7 @@ describe("Rescope", () => {
          </cx>
       );
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       component.toJSON();
       assert.equal(testName, "John");

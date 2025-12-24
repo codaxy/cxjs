@@ -1,11 +1,11 @@
 import { Store } from "../data/Store";
 import assert from "assert";
-import { createTestRenderer } from "../util/test/createTestRenderer";
+import { createTestRenderer, act } from "../util/test/createTestRenderer";
 import { bind } from "./bind";
 import { PureContainer } from "./PureContainer";
 
 describe("PureContainer", () => {
-   it("renders static text children", () => {
+   it("renders static text children", async () => {
       let widget = (
          <cx>
             <PureContainer>
@@ -15,7 +15,7 @@ describe("PureContainer", () => {
       );
 
       let store = new Store();
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert(tree && !Array.isArray(tree), "Expected single element");
@@ -26,7 +26,7 @@ describe("PureContainer", () => {
       });
    });
 
-   it("renders multiple children", () => {
+   it("renders multiple children", async () => {
       let widget = (
          <cx>
             <PureContainer>
@@ -38,7 +38,7 @@ describe("PureContainer", () => {
       );
 
       let store = new Store();
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert(Array.isArray(tree), "Expected array of elements");
@@ -62,7 +62,7 @@ describe("PureContainer", () => {
       ]);
    });
 
-   it("renders children with data bindings", () => {
+   it("renders children with data bindings", async () => {
       let widget = (
          <cx>
             <PureContainer>
@@ -77,7 +77,7 @@ describe("PureContainer", () => {
          },
       });
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert(tree && !Array.isArray(tree), "Expected single element");
@@ -88,7 +88,7 @@ describe("PureContainer", () => {
       });
    });
 
-   it("renders nested containers", () => {
+   it("renders nested containers", async () => {
       let widget = (
          <cx>
             <PureContainer>
@@ -102,7 +102,7 @@ describe("PureContainer", () => {
       );
 
       let store = new Store();
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert(tree && !Array.isArray(tree), "Expected single element");
@@ -119,7 +119,7 @@ describe("PureContainer", () => {
       });
    });
 
-   it("conditionally renders children based on visible binding", () => {
+   it("conditionally renders children based on visible binding", async () => {
       let widget = (
          <cx>
             <PureContainer>
@@ -135,7 +135,7 @@ describe("PureContainer", () => {
          },
       });
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert(tree && !Array.isArray(tree), "Expected single element");
@@ -146,7 +146,7 @@ describe("PureContainer", () => {
       });
    });
 
-   it("handles empty children", () => {
+   it("handles empty children", async () => {
       let widget = (
          <cx>
             <PureContainer>
@@ -156,7 +156,7 @@ describe("PureContainer", () => {
       );
 
       let store = new Store();
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert(tree && !Array.isArray(tree), "Expected single element");
@@ -167,7 +167,7 @@ describe("PureContainer", () => {
       });
    });
 
-   it("renders children from items property", () => {
+   it("renders children from items property", async () => {
       let widget = (
          <cx>
             <PureContainer items={[<div key="1">Item 1</div>, <div key="2">Item 2</div>]} />
@@ -175,7 +175,7 @@ describe("PureContainer", () => {
       );
 
       let store = new Store();
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert(Array.isArray(tree), "Expected array of elements");
@@ -192,7 +192,7 @@ describe("PureContainer", () => {
       });
    });
 
-   it("updates children when store data changes", () => {
+   it("updates children when store data changes", async () => {
       let widget = (
          <cx>
             <PureContainer>
@@ -207,7 +207,7 @@ describe("PureContainer", () => {
          },
       });
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -217,7 +217,9 @@ describe("PureContainer", () => {
       });
 
       // Update the store
-      store.set("count", 5);
+      await act(async () => {
+         store.set("count", 5);
+      });
 
       // Re-render
       tree = component.toJSON();

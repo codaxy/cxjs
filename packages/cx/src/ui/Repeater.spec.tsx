@@ -1,12 +1,12 @@
 import { Store } from "../data/Store";
 import { Repeater } from "./Repeater";
 import { bind } from "./bind";
-import { createTestRenderer } from "../util/test/createTestRenderer";
+import { createTestRenderer, act } from "../util/test/createTestRenderer";
 
 import assert from "assert";
 
 describe("Repeater", () => {
-   it("allows sorting", () => {
+   it("allows sorting", async () => {
       let data = [
          {
             value: "C",
@@ -31,7 +31,7 @@ describe("Repeater", () => {
 
       let store = new Store();
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -57,7 +57,7 @@ describe("Repeater", () => {
       });
    });
 
-   it("changes are properly updated", () => {
+   it("changes are properly updated", async () => {
       let divInstances: any[] = [];
       let widget = (
          <cx>
@@ -87,7 +87,7 @@ describe("Repeater", () => {
          },
       });
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -109,7 +109,9 @@ describe("Repeater", () => {
 
       divInstances = [];
 
-      store.update("data", (data) => [{ value: "A" }, ...data]);
+      await act(async () => {
+         store.update("data", (data) => [{ value: "A" }, ...data]);
+      });
 
       assert.deepEqual(component.toJSON(), {
          type: "div",

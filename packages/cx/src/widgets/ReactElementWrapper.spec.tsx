@@ -1,8 +1,7 @@
 import { Store } from "../data/Store";
 import assert from "assert";
-import { createTestRenderer } from "../util/test/createTestRenderer";
+import { createTestRenderer, act } from "../util/test/createTestRenderer";
 import { VDOM } from "../ui/Widget";
-import { act } from "react-test-renderer";
 import {
    ReactFunctionComponent,
    ReactCounterComponent,
@@ -17,7 +16,7 @@ import { createAccessorModelProxy } from "../data/createAccessorModelProxy";
 import { ReactElementWrapper } from "./ReactElementWrapper";
 
 describe("ReactElementWrapper", () => {
-   it("renders React components as tag", () => {
+   it("renders React components as tag", async () => {
       class MyReactComponent extends VDOM.Component<any> {
          render() {
             return VDOM.createElement("div", { className: "my-component" }, this.props.children);
@@ -26,7 +25,7 @@ describe("ReactElementWrapper", () => {
 
       let store = new Store();
 
-      const component = createTestRenderer(
+      const component = await createTestRenderer(
          store,
          <cx>
             <MyReactComponent>
@@ -42,10 +41,10 @@ describe("ReactElementWrapper", () => {
       assert(tree.children && tree.children.length === 1, "Expected one child");
    });
 
-   it("renders React function components with props", () => {
+   it("renders React function components with props", async () => {
       let store = new Store();
 
-      const component = createTestRenderer(
+      const component = await createTestRenderer(
          store,
          <cx>
             <ReactFunctionComponent title="Test Title">
@@ -69,10 +68,10 @@ describe("ReactElementWrapper", () => {
       assert.equal(contentDiv.props.className, "content");
    });
 
-   it("renders React function components with hooks", () => {
+   it("renders React function components with hooks", async () => {
       let store = new Store();
 
-      const component = createTestRenderer(
+      const component = await createTestRenderer(
          store,
          <cx>
             <ReactCounterComponent initialCount={5} />
@@ -94,10 +93,10 @@ describe("ReactElementWrapper", () => {
       assert.equal(button.type, "button");
    });
 
-   it("renders React class components with props", () => {
+   it("renders React class components with props", async () => {
       let store = new Store();
 
-      const component = createTestRenderer(
+      const component = await createTestRenderer(
          store,
          <cx>
             <ReactClassComponent label="Test Label">
@@ -122,10 +121,10 @@ describe("ReactElementWrapper", () => {
       assert.equal(bodyDiv.props.className, "body");
    });
 
-   it("renders React PureComponent", () => {
+   it("renders React PureComponent", async () => {
       let store = new Store();
 
-      const component = createTestRenderer(
+      const component = await createTestRenderer(
          store,
          <cx>
             <ReactPureComponent value="Pure Value" />
@@ -139,11 +138,11 @@ describe("ReactElementWrapper", () => {
       assert.deepEqual(tree.children, ["Pure Value"]);
    });
 
-   it("renders React function component with useRef and useEffect", () => {
+   it("renders React function component with useRef and useEffect", async () => {
       let store = new Store();
       let mountedElement: HTMLDivElement | null = null;
 
-      const component = createTestRenderer(
+      const component = await createTestRenderer(
          store,
          <cx>
             <ReactRefEffectComponent
@@ -161,20 +160,17 @@ describe("ReactElementWrapper", () => {
       assert.deepEqual(tree.children, ["Component with ref and effect"]);
    });
 
-   it("renders React function component with useEffect that updates state", () => {
+   it("renders React function component with useEffect that updates state", async () => {
       let store = new Store();
-      let component: ReturnType<typeof createTestRenderer>;
 
-      act(() => {
-         component = createTestRenderer(
-            store,
-            <cx>
-               <ReactEffectStateComponent value="Test" />
-            </cx>,
-         );
-      });
+      const component = await createTestRenderer(
+         store,
+         <cx>
+            <ReactEffectStateComponent value="Test" />
+         </cx>,
+      );
 
-      let tree = component!.toJSON();
+      let tree = component.toJSON();
       assert(tree && !Array.isArray(tree), "Expected single element");
       assert.equal(tree.type, "div");
       assert.equal(tree.props.className, "react-effect-state-component");
@@ -187,7 +183,7 @@ describe("ReactElementWrapper", () => {
       assert.deepEqual(processedSpan.children, ["Processed: Test"]);
    });
 
-   it("translates CxJS accessor bindings to React component props", () => {
+   it("translates CxJS accessor bindings to React component props", async () => {
       interface StoreModel {
          text: string;
          count: number;
@@ -219,7 +215,7 @@ describe("ReactElementWrapper", () => {
          },
       });
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert(tree && !Array.isArray(tree), "Expected single element");
@@ -238,7 +234,7 @@ describe("ReactElementWrapper", () => {
       assert.deepEqual(tagsSpan.children, ["a, b, c"]);
    });
 
-   it("supports visible prop on React components", () => {
+   it("supports visible prop on React components", async () => {
       interface StoreModel {
          show: boolean;
       }
@@ -251,7 +247,7 @@ describe("ReactElementWrapper", () => {
          },
       });
 
-      const component = createTestRenderer(
+      const component = await createTestRenderer(
          store,
          <cx>
             <div>
@@ -268,13 +264,15 @@ describe("ReactElementWrapper", () => {
       assert.equal((tree.children![0] as any).type, "span");
 
       // Update store to make component visible
-      store.set("show", true);
+      await act(async () => {
+         store.set("show", true);
+      });
       let tree2 = component.toJSON();
       assert(tree2 && !Array.isArray(tree2), "Expected single element");
       assert.equal(tree2.children!.length, 2, "Expected both children to be visible");
    });
 
-   it("supports controller prop on React components", () => {
+   it("supports controller prop on React components", async () => {
       let controllerInitialized = false;
 
       class TestController extends Controller {
@@ -295,7 +293,7 @@ describe("ReactElementWrapper", () => {
          },
       });
 
-      const component = createTestRenderer(
+      const component = await createTestRenderer(
          store,
          <cx>
             <ReactPropsComponent text={$store.text} count={10} enabled={true} controller={TestController} />
@@ -310,7 +308,7 @@ describe("ReactElementWrapper", () => {
       assert.deepEqual(textSpan.children, ["Controller Test"]);
    });
 
-   it("updates React component when bound store data changes", () => {
+   it("updates React component when bound store data changes", async () => {
       interface StoreModel {
          text: string;
          count: number;
@@ -327,7 +325,7 @@ describe("ReactElementWrapper", () => {
          },
       });
 
-      const component = createTestRenderer(
+      const component = await createTestRenderer(
          store,
          <cx>
             <ReactPropsComponent text={$store.text} count={$store.count} enabled={$store.enabled} />
@@ -340,9 +338,11 @@ describe("ReactElementWrapper", () => {
       assert.deepEqual(tree1.children[2].children, ["no"]);
 
       // Update store
-      store.set("text", "Updated");
-      store.set("count", 99);
-      store.set("enabled", true);
+      await act(async () => {
+         store.set("text", "Updated");
+         store.set("count", 99);
+         store.set("enabled", true);
+      });
 
       let tree2 = component.toJSON() as any;
       assert.deepEqual(tree2.children[0].children, ["Updated"]);

@@ -1,6 +1,6 @@
 import { Store } from "../data/Store";
 import { Controller, ControllerConfig } from "./Controller";
-import { createTestRenderer } from "../util/test/createTestRenderer";
+import { createTestRenderer, act } from "../util/test/createTestRenderer";
 import { VDOM, Widget, WidgetConfig } from "./Widget";
 import { Instance } from "./Instance";
 import { bind } from "./bind";
@@ -8,7 +8,7 @@ import assert from "assert";
 import { RenderingContext } from "./RenderingContext";
 
 describe("Controller", () => {
-   it("invokes lifetime methods", () => {
+   it("invokes lifetime methods", async () => {
       let init = 0,
          prepare = 0,
          explore = 0,
@@ -34,7 +34,7 @@ describe("Controller", () => {
 
       let store = new Store();
 
-      const component = createTestRenderer(
+      const component = await createTestRenderer(
          store,
          <cx>
             <div controller={TestController} />
@@ -48,7 +48,7 @@ describe("Controller", () => {
       assert.equal(cleanup, 1);
    });
 
-   it("widgets invoke controller methods specified as strings", () => {
+   it("widgets invoke controller methods specified as strings", async () => {
       let callback = 0;
 
       class TestController extends Controller {
@@ -70,7 +70,7 @@ describe("Controller", () => {
 
       let store = new Store();
 
-      const component = createTestRenderer(
+      const component = await createTestRenderer(
          store,
          <cx>
             <Cmp controller={TestController} onTest="callback" />
@@ -81,7 +81,7 @@ describe("Controller", () => {
       assert.equal(callback, 1);
    });
 
-   it("widgets can access controller methods specified in ancestor controllers", () => {
+   it("widgets can access controller methods specified in ancestor controllers", async () => {
       let callback1 = 0;
       let callback2 = 0;
 
@@ -110,7 +110,7 @@ describe("Controller", () => {
 
       let store = new Store();
 
-      const component = createTestRenderer(
+      const component = await createTestRenderer(
          store,
          <cx>
             <div controller={TestController1}>
@@ -124,7 +124,7 @@ describe("Controller", () => {
       assert.equal(callback2, 0);
    });
 
-   it("ancestor controllers are initialized first", () => {
+   it("ancestor controllers are initialized first", async () => {
       let order: string[] = [];
 
       class TestController1 extends Controller {
@@ -141,7 +141,7 @@ describe("Controller", () => {
 
       let store = new Store();
 
-      const component = createTestRenderer(
+      const component = await createTestRenderer(
          store,
          <cx>
             <div controller={TestController1}>
@@ -154,7 +154,7 @@ describe("Controller", () => {
       assert.deepEqual(order, ["1", "2"]);
    });
 
-   it("controllers on invisible elements are not initialized", () => {
+   it("controllers on invisible elements are not initialized", async () => {
       let order: string[] = [];
 
       class TestController1 extends Controller {
@@ -171,7 +171,7 @@ describe("Controller", () => {
 
       let store = new Store();
 
-      const component = createTestRenderer(
+      const component = await createTestRenderer(
          store,
          <cx>
             <div controller={TestController1}>
@@ -184,7 +184,7 @@ describe("Controller", () => {
       assert.deepEqual(order, ["1"]);
    });
 
-   it("invokes triggers and computables in order of definition", () => {
+   it("invokes triggers and computables in order of definition", async () => {
       let log: string[] = [];
 
       class TestController extends Controller {
@@ -216,7 +216,7 @@ describe("Controller", () => {
 
       let store = new Store();
 
-      const component = createTestRenderer(
+      const component = await createTestRenderer(
          store,
          <cx>
             <div controller={TestController} />
@@ -227,7 +227,7 @@ describe("Controller", () => {
       assert.deepEqual(log, ["t1", "c1", "t2"]);
    });
 
-   it("is recreated if a component is hidden and shown", () => {
+   it("is recreated if a component is hidden and shown", async () => {
       let initCount = 0;
 
       class TestController extends Controller {
@@ -239,7 +239,7 @@ describe("Controller", () => {
       let store = new Store();
       store.set("visible", true);
 
-      const component = createTestRenderer(
+      const component = await createTestRenderer(
          store,
          <cx>
             <div visible={bind("visible")} controller={TestController} />
@@ -249,11 +249,15 @@ describe("Controller", () => {
       let tree1 = component.toJSON();
       assert.equal(initCount, 1);
 
-      store.set("visible", false);
+      await act(async () => {
+         store.set("visible", false);
+      });
       let tree2 = component.toJSON();
       assert.equal(tree2, null);
 
-      store.set("visible", true);
+      await act(async () => {
+         store.set("visible", true);
+      });
       let tree3 = component.toJSON();
       assert.equal(initCount, 2);
    });
@@ -275,7 +279,7 @@ describe("Controller", () => {
       assert.equal(store.get("x"), 1);
    });
 
-   it("lifetime methods of a functional controller are properly invoked", () => {
+   it("lifetime methods of a functional controller are properly invoked", async () => {
       let initCount = 0,
          destroyCount = 0;
 
@@ -292,7 +296,7 @@ describe("Controller", () => {
       let store = new Store();
       store.set("visible", true);
 
-      const component = createTestRenderer(
+      const component = await createTestRenderer(
          store,
          <cx>
             <div visible={bind("visible")} controller={testController} />
@@ -302,19 +306,23 @@ describe("Controller", () => {
       let tree1 = component.toJSON();
       assert.equal(initCount, 1);
 
-      store.set("visible", false);
+      await act(async () => {
+         store.set("visible", false);
+      });
       let tree2 = component.toJSON();
       assert.equal(destroyCount, 1);
 
-      store.set("visible", true);
+      await act(async () => {
+         store.set("visible", true);
+      });
       let tree3 = component.toJSON();
       assert.equal(initCount, 2);
    });
 
-   it("widgets can easily define controller methods", () => {
+   it("widgets can easily define controller methods", async () => {
       let store = new Store({ data: { x: 0 } });
 
-      const component = createTestRenderer(
+      const component = await createTestRenderer(
          store,
          <cx>
             <div
@@ -339,10 +347,10 @@ describe("Controller", () => {
       assert.equal(store.get("x"), 1);
    });
 
-   it("functional controllers get store methods through configuration", () => {
+   it("functional controllers get store methods through configuration", async () => {
       let store = new Store({ data: { x: 0 } });
 
-      const component = createTestRenderer(
+      const component = await createTestRenderer(
          store,
          <cx>
             <div
@@ -367,10 +375,10 @@ describe("Controller", () => {
       assert.equal(store.get("x"), 1);
    });
 
-   it("addComputable accepts refs", () => {
+   it("addComputable accepts refs", async () => {
       let store = new Store({ data: { x: 0 } });
 
-      const component = createTestRenderer(
+      const component = await createTestRenderer(
          store,
          <cx>
             <div
@@ -390,7 +398,7 @@ describe("Controller", () => {
       assert.equal(store.get("y"), 1);
    });
 
-   it("invokeParentMethod is invoked on parent instance", () => {
+   it("invokeParentMethod is invoked on parent instance", async () => {
       let testValid: number[] = [];
 
       class TestController1 extends Controller {
@@ -411,7 +419,7 @@ describe("Controller", () => {
 
       let store = new Store();
 
-      const component = createTestRenderer(
+      const component = await createTestRenderer(
          store,
          <cx>
             <div controller={TestController2}>
@@ -446,10 +454,10 @@ describe("Controller types", () => {
       }
    }
 
-   it("accepts Controller class directly", () => {
+   it("accepts Controller class directly", async () => {
       let store = new Store();
 
-      const component = createTestRenderer(
+      const component = await createTestRenderer(
          store,
          <cx>
             <div controller={MyController} />
@@ -460,7 +468,7 @@ describe("Controller types", () => {
       assert.ok(tree);
    });
 
-   it("accepts config with type property", () => {
+   it("accepts config with type property", async () => {
       let store = new Store();
       let initCalled = false;
 
@@ -477,7 +485,7 @@ describe("Controller types", () => {
          }
       }
 
-      const component = createTestRenderer(
+      const component = await createTestRenderer(
          store,
          <cx>
             <div controller={{ type: TypedController, customValue: 42 }} />
@@ -489,10 +497,10 @@ describe("Controller types", () => {
       assert.equal(initCalled, true);
    });
 
-   it("accepts inline config object with ThisType", () => {
+   it("accepts inline config object with ThisType", async () => {
       let store = new Store({ data: { count: 0 } });
 
-      const component = createTestRenderer(
+      const component = await createTestRenderer(
          store,
          <cx>
             <div
@@ -510,10 +518,10 @@ describe("Controller types", () => {
       assert.equal(store.get("count"), 1);
    });
 
-   it("accepts factory function", () => {
+   it("accepts factory function", async () => {
       let store = new Store({ data: { count: 0 } });
 
-      const component = createTestRenderer(
+      const component = await createTestRenderer(
          store,
          <cx>
             <div
@@ -530,7 +538,7 @@ describe("Controller types", () => {
       assert.equal(store.get("count"), 5);
    });
 
-   it("accepts CreateConfig with type and required properties", () => {
+   it("accepts CreateConfig with type and required properties", async () => {
       let store = new Store({ data: { result: 0 } });
 
       interface RequiredPropControllerConfig extends ControllerConfig {
@@ -549,7 +557,7 @@ describe("Controller types", () => {
          }
       }
 
-      const component = createTestRenderer(
+      const component = await createTestRenderer(
          store,
          <cx>
             <div

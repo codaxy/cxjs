@@ -7,7 +7,7 @@ import { createFunctionalComponent } from "../ui/createFunctionalComponent";
 import { ref } from "./store";
 
 describe("ref", () => {
-   it("allows store references in functional components", () => {
+   it("allows store references in functional components", async () => {
       const FComp = createFunctionalComponent(({}) => {
          let testValue = ref({ bind: "x", defaultValue: 10 });
          return (
@@ -19,7 +19,7 @@ describe("ref", () => {
 
       let store = new Store();
 
-      const component = createTestRenderer(store, FComp);
+      const component = await createTestRenderer(store, FComp);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -29,7 +29,7 @@ describe("ref", () => {
       });
    });
 
-   it("can be used to adapt any prop passed to a functional component", () => {
+   it("can be used to adapt any prop passed to a functional component", async () => {
       const FComp = createFunctionalComponent(({ value }: { value: Prop<any> }) => {
          return (
             <cx>
@@ -40,8 +40,8 @@ describe("ref", () => {
 
       let store = new Store({ data: { value: 100 } });
 
-      function test(value: Prop<any>, expectation: any) {
-         const component = createTestRenderer(store, <FComp value={value} />);
+      async function test(value: Prop<any>, expectation: any) {
+         const component = await createTestRenderer(store, <FComp value={value} />);
          let tree = component.toJSON();
          assert.deepEqual(tree, {
             type: "div",
@@ -50,18 +50,18 @@ describe("ref", () => {
          });
       }
 
-      test({ bind: "value" }, "x100");
-      test({ expr: "{value}" }, "x100");
-      test({ tpl: "{value:n;2}" }, "x100.00");
-      test(200, "x200");
-      test(() => 500, "x500");
-      test(
+      await test({ bind: "value" }, "x100");
+      await test({ expr: "{value}" }, "x100");
+      await test({ tpl: "{value:n;2}" }, "x100.00");
+      await test(200, "x200");
+      await test(() => 500, "x500");
+      await test(
          computable("value", (value: string) => value + 100),
          "x200",
       );
-      test(null, "xnull");
-      test(undefined, "xundefined");
-      test(0, "x0");
-      test(false, "xfalse");
+      await test(null, "xnull");
+      await test(undefined, "xundefined");
+      await test(0, "x0");
+      await test(false, "xfalse");
    });
 });

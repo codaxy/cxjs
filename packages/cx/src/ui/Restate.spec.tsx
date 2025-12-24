@@ -1,13 +1,13 @@
 import { Restate } from "./Restate";
 import { Store } from "../data/Store";
-import { createTestRenderer } from "../util/test/createTestRenderer";
+import { createTestRenderer, act } from "../util/test/createTestRenderer";
 import assert from "assert";
 import { Controller } from "./Controller";
 import { bind } from "./bind";
 import { FirstVisibleChildLayout } from "./layout/FirstVisibleChildLayout";
 
 describe("Restate", () => {
-   it("provides a blank slate", () => {
+   it("provides a blank slate", async () => {
       let widget = (
          <cx>
             <div>
@@ -30,7 +30,7 @@ describe("Restate", () => {
          },
       });
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -51,7 +51,7 @@ describe("Restate", () => {
       });
    });
 
-   it("wires declared data", () => {
+   it("wires declared data", async () => {
       let widget = (
          <cx>
             <div>
@@ -80,7 +80,7 @@ describe("Restate", () => {
          changed = true;
       });
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
 
@@ -89,7 +89,7 @@ describe("Restate", () => {
       assert(changed);
    });
 
-   it("causes a global update if internal data changes", () => {
+   it("causes a global update if internal data changes", async () => {
       let controller: TestController | undefined;
 
       class TestController extends Controller {
@@ -122,7 +122,7 @@ describe("Restate", () => {
          changed = true;
       });
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -137,7 +137,9 @@ describe("Restate", () => {
          ],
       });
 
-      controller!.setNickname("Sale");
+      await act(async () => {
+         controller!.setNickname("Sale");
+      });
 
       let tree2 = component.toJSON();
       assert.deepEqual(tree2, {
@@ -153,7 +155,7 @@ describe("Restate", () => {
       });
    });
 
-   it("doesn't notify parent if not necessary in detached mode", () => {
+   it("doesn't notify parent if not necessary in detached mode", async () => {
       class TestController extends Controller {
          onInit() {
             this.store.init("nickname", "Sale");
@@ -181,13 +183,13 @@ describe("Restate", () => {
          changed = true;
       });
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert(!changed);
    });
 
-   it("shared state can be used across components inside and outside Restate", () => {
+   it("shared state can be used across components inside and outside Restate", async () => {
       let widget = (
          <cx>
             <div>
@@ -213,7 +215,7 @@ describe("Restate", () => {
          //console.log(store.getData());
       });
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(store.getData(), {
@@ -226,8 +228,8 @@ describe("Restate", () => {
       });
    });
 
-   it("updates if shared state is changed from outside", () => {
-      [true, false].forEach((detached) => {
+   it("updates if shared state is changed from outside", async () => {
+      for (const detached of [true, false]) {
          let widget = (
             <cx>
                <div>
@@ -246,7 +248,7 @@ describe("Restate", () => {
 
          let store = new Store();
 
-         const component = createTestRenderer(store, widget);
+         const component = await createTestRenderer(store, widget);
 
          let tree = component.toJSON();
          assert.deepEqual(tree, {
@@ -265,7 +267,9 @@ describe("Restate", () => {
                },
             ],
          });
-         store.set("person.firstName", "Jack");
+         await act(async () => {
+            store.set("person.firstName", "Jack");
+         });
 
          tree = component.toJSON();
          assert.deepEqual(tree, {
@@ -284,11 +288,11 @@ describe("Restate", () => {
                },
             ],
          });
-      });
+      }
    });
 
-   it("allows field initialization in data declaration", () => {
-      [true, false].forEach((detached) => {
+   it("allows field initialization in data declaration", async () => {
+      for (const detached of [true, false]) {
          let widget = (
             <cx>
                <div>
@@ -306,7 +310,7 @@ describe("Restate", () => {
 
          let store = new Store();
 
-         const component = createTestRenderer(store, widget);
+         const component = await createTestRenderer(store, widget);
 
          let tree = component.toJSON();
          assert.deepEqual(tree, {
@@ -320,10 +324,10 @@ describe("Restate", () => {
                },
             ],
          });
-      });
+      }
    });
 
-   it("updates if internal data changes", () => {
+   it("updates if internal data changes", async () => {
       class TestController extends Controller {
          onInit() {
             this.store.init("nickname", "Sale");
@@ -348,7 +352,7 @@ describe("Restate", () => {
          changed = true;
       });
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -364,7 +368,7 @@ describe("Restate", () => {
       });
    });
 
-   it("works with FirstVisibleChildLayout", () => {
+   it("works with FirstVisibleChildLayout", async () => {
       let widget = (
          <cx>
             <div>
@@ -380,7 +384,7 @@ describe("Restate", () => {
 
       let store = new Store();
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -390,7 +394,7 @@ describe("Restate", () => {
       });
    });
 
-   it("is transparent to FirstVisibleChildLayout", () => {
+   it("is transparent to FirstVisibleChildLayout", async () => {
       let widget = (
          <cx>
             <div>
@@ -406,7 +410,7 @@ describe("Restate", () => {
 
       let store = new Store();
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {

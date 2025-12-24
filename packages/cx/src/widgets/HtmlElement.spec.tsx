@@ -5,7 +5,7 @@ import { bind } from "../ui/bind";
 import { VDOM } from "../ui/Widget";
 
 describe("HtmlElement", () => {
-   it("renders textual content provided through the text property", () => {
+   it("renders textual content provided through the text property", async () => {
       let widget = (
          <cx>
             <div text={bind("text")} />
@@ -18,7 +18,7 @@ describe("HtmlElement", () => {
          },
       });
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert(tree && !Array.isArray(tree), "Expected single element");
@@ -26,14 +26,14 @@ describe("HtmlElement", () => {
       assert.deepEqual(tree.children, ["Test"]);
    });
 
-   it("allows spread bindings", () => {
+   it("allows spread bindings", async () => {
       let store = new Store({
          data: {
             title: "title",
          },
       });
 
-      const component = createTestRenderer(
+      const component = await createTestRenderer(
          store,
          <cx>
             <a href="#" {...{ title: { bind: "title" } }}>
@@ -54,10 +54,10 @@ describe("HtmlElement", () => {
       });
    });
 
-   it("supports SVG elements with camelCase attributes", () => {
+   it("supports SVG elements with camelCase attributes", async () => {
       let store = new Store();
 
-      const component = createTestRenderer(
+      const component = await createTestRenderer(
          store,
          <cx>
             <svg>

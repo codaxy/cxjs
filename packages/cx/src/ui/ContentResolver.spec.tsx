@@ -1,6 +1,6 @@
 import { ContentResolver } from "./ContentResolver";
 import { Store } from "../data/Store";
-import { createTestRenderer } from "../util/test/createTestRenderer";
+import { createTestRenderer, act } from "../util/test/createTestRenderer";
 import assert from "assert";
 import { bind } from "./bind";
 import { createAccessorModelProxy } from "../data/createAccessorModelProxy";
@@ -16,7 +16,7 @@ interface TestModel {
 }
 
 describe("ContentResolver", () => {
-   it("resolves content based on params", () => {
+   it("resolves content based on params", async () => {
       let widget = (
          <cx>
             <div>
@@ -31,7 +31,7 @@ describe("ContentResolver", () => {
          },
       });
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -47,7 +47,7 @@ describe("ContentResolver", () => {
       });
    });
 
-   it("re-resolves when params change", () => {
+   it("re-resolves when params change", async () => {
       let resolveCount = 0;
 
       let widget = (
@@ -70,7 +70,7 @@ describe("ContentResolver", () => {
          },
       });
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -86,7 +86,9 @@ describe("ContentResolver", () => {
       });
       assert.equal(resolveCount, 1);
 
-      store.set("value", 2);
+      await act(async () => {
+         store.set("value", 2);
+      });
       tree = component.toJSON();
       assert.deepEqual(tree, {
          type: "div",
@@ -102,7 +104,7 @@ describe("ContentResolver", () => {
       assert.equal(resolveCount, 2);
    });
 
-   it("does not re-resolve if params are unchanged", () => {
+   it("does not re-resolve if params are unchanged", async () => {
       let resolveCount = 0;
 
       let widget = (
@@ -126,7 +128,7 @@ describe("ContentResolver", () => {
          },
       });
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
       assert.equal(resolveCount, 1);
 
       // Change unrelated data
@@ -135,7 +137,7 @@ describe("ContentResolver", () => {
       assert.equal(resolveCount, 1);
    });
 
-   it("supports literal values in params", () => {
+   it("supports literal values in params", async () => {
       let receivedParams: any = null;
 
       let widget = (
@@ -154,7 +156,7 @@ describe("ContentResolver", () => {
 
       let store = new Store();
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -172,7 +174,7 @@ describe("ContentResolver", () => {
       assert.equal(receivedParams.name, "test");
    });
 
-   it("supports mode=prepend", () => {
+   it("supports mode=prepend", async () => {
       let widget = (
          <cx>
             <div>
@@ -185,7 +187,7 @@ describe("ContentResolver", () => {
 
       let store = new Store();
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -206,7 +208,7 @@ describe("ContentResolver", () => {
       });
    });
 
-   it("supports mode=append", () => {
+   it("supports mode=append", async () => {
       let widget = (
          <cx>
             <div>
@@ -219,7 +221,7 @@ describe("ContentResolver", () => {
 
       let store = new Store();
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -240,7 +242,7 @@ describe("ContentResolver", () => {
       });
    });
 
-   it("supports mode=replace (default)", () => {
+   it("supports mode=replace (default)", async () => {
       let widget = (
          <cx>
             <div>
@@ -253,7 +255,7 @@ describe("ContentResolver", () => {
 
       let store = new Store();
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -295,7 +297,7 @@ describe("ContentResolver", () => {
          },
       });
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       // Initially loading should be true
       assert.equal(store.get("loading"), true);
@@ -323,7 +325,7 @@ describe("ContentResolver", () => {
       });
    });
 
-   it("supports typed params with accessor chains", () => {
+   it("supports typed params with accessor chains", async () => {
       const model = createAccessorModelProxy<TestModel>();
 
       // This test verifies type inference works correctly.
@@ -362,7 +364,7 @@ describe("ContentResolver", () => {
          },
       });
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -378,7 +380,7 @@ describe("ContentResolver", () => {
       });
    });
 
-   it("infers types from literal params", () => {
+   it("infers types from literal params", async () => {
       // When using literal values, TypeScript can infer their types
       let widget = (
          <cx>
@@ -399,7 +401,7 @@ describe("ContentResolver", () => {
 
       let store = new Store();
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -415,7 +417,7 @@ describe("ContentResolver", () => {
       });
    });
 
-   it("supports simple Prop params (non-structured)", () => {
+   it("supports simple Prop params (non-structured)", async () => {
       const model = createAccessorModelProxy<TestModel>();
 
       // Test using a single AccessorChain as params instead of an object
@@ -444,7 +446,7 @@ describe("ContentResolver", () => {
          },
       });
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -460,7 +462,7 @@ describe("ContentResolver", () => {
       });
    });
 
-   it("supports simple bind() as params", () => {
+   it("supports simple bind() as params", async () => {
       let widget = (
          <cx>
             <div>
@@ -480,7 +482,7 @@ describe("ContentResolver", () => {
          },
       });
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {
@@ -496,7 +498,7 @@ describe("ContentResolver", () => {
       });
    });
 
-   it("resolves Selector<string> | null to string | null", () => {
+   it("resolves Selector<string> | null to string | null", async () => {
       const text: string | null = "Hello {user.name}";
 
       let widget = (
@@ -524,7 +526,7 @@ describe("ContentResolver", () => {
          },
       });
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
       let tree = component.toJSON();
       assert.deepEqual(tree, {
          type: "div",
@@ -533,7 +535,7 @@ describe("ContentResolver", () => {
       });
    });
 
-   it("resolves Prop<string> to string (not any)", () => {
+   it("resolves Prop<string> to string (not any)", async () => {
       const model = createAccessorModelProxy<TestModel>();
 
       // When params is typed as Prop<string>, onResolve should receive string (not any)
@@ -565,7 +567,7 @@ describe("ContentResolver", () => {
          },
       });
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(tree, {

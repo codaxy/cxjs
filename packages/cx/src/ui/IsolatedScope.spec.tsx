@@ -1,22 +1,25 @@
 import { Store } from "../data/Store";
-import { createTestRenderer } from "../util/test/createTestRenderer";
+import { createTestRenderer, act } from "../util/test/createTestRenderer";
 import assert from "assert";
 import { IsolatedScope } from "./IsolatedScope";
 import { bind } from "./bind";
 
 describe("IsolatedScope", () => {
-   it("prevents multiple re-renders", () => {
+   it("prevents multiple re-renders", async () => {
       let list: any[] = [];
       let widget = (
          <cx>
             <IsolatedScope
                data={{
-                  value: { bind: 'value' }
+                  value: { bind: "value" },
                }}
             >
-               <span text={bind("value")} onExplore={(context, { store }) => {
-                  list.push(store.get("value"));
-               }} />
+               <span
+                  text={bind("value")}
+                  onExplore={(context, { store }) => {
+                     list.push(store.get("value"));
+                  }}
+               />
             </IsolatedScope>
          </cx>
       );
@@ -27,7 +30,7 @@ describe("IsolatedScope", () => {
          },
       });
 
-      const component = createTestRenderer(store, widget);
+      const component = await createTestRenderer(store, widget);
 
       let tree = component.toJSON();
       assert.deepEqual(list, ["bad"]);
@@ -38,12 +41,16 @@ describe("IsolatedScope", () => {
       });
 
       //component should not re-render if unrelated data changes
-      store.set("dummy", "dummy");
+      await act(async () => {
+         store.set("dummy", "dummy");
+      });
       tree = component.toJSON();
       assert.deepEqual(list, ["bad"]);
 
       //component should not re-render if unrelated data changes
-      store.set("value", "good");
+      await act(async () => {
+         store.set("value", "good");
+      });
       tree = component.toJSON();
       assert.deepEqual(list, ["bad", "good"]);
       assert.deepEqual(tree, {
