@@ -152,13 +152,6 @@ export abstract class Widget<
       if (this.styles) this.style = this.styles;
 
       if (this.styled) this.style = parseStyle(this.style);
-      else if (this.style) {
-         Console.warn(
-            "Components that allow use of the style attribute should set styled = true on their prototype. This will be an error in future versions.",
-         );
-         this.style = parseStyle(this.style);
-         this.styled = true;
-      }
 
       if (typeof this.if !== "undefined") this.visible = this.if;
 
