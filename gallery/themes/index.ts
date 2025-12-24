@@ -1,14 +1,12 @@
-import {bump} from '../routes/hmr.js';
+import { bump } from "../routes/hmr.js";
 let activeStyle = null;
-import {Icon} from 'cx/widgets';
-import {Localization} from 'cx/ui';
+import { Icon } from "cx/widgets";
+import { Localization } from "cx/ui";
 
 Localization.trackDefaults();
 
 export function loadTheme(name) {
-
-   if (activeStyle)
-      activeStyle.unuse();
+   if (activeStyle) activeStyle.unuse();
 
    let style = themes[name];
    activeStyle = style;
@@ -18,8 +16,7 @@ export function loadTheme(name) {
    Icon.restoreDefaultIcons();
    Localization.restoreDefaults();
 
-   if (callbacks[name])
-      callbacks[name]();
+   if (callbacks[name]) callbacks[name]();
 
    bump();
 }
@@ -27,7 +24,7 @@ export function loadTheme(name) {
 const themes = {};
 const callbacks = {};
 
-export function registerTheme(name, style, callback) {
+export function registerTheme(name: string, style: any, callback?: () => void) {
    themes[name] = style;
    callbacks[name] = callback;
 }

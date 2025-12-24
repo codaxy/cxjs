@@ -4,17 +4,18 @@ var webpack = require("webpack"),
    path = require("path");
 
 var specific = {
-   module: {
-      rules: [],
-   },
+   // module: {
+   //    rules: [],
+   // },
    mode: "development",
-   optimization: { moduleIds: "named" },
+   //optimization: { moduleIds: "named" },
    output: {
       publicPath: "/",
+      path: path.join(__dirname, ".."), //required for unknown reasons
    },
-   devtool: "eval",
+   //devtool: "eval",
    devServer: {
-      //contentBase: path.join(__dirname, ".."),
+      //static: path.join(__dirname, ".."),
       hot: true,
       port: 8088,
       historyApiFallback: true,

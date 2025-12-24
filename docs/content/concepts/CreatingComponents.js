@@ -1,10 +1,9 @@
 import { Md } from "../../components/Md";
-import { Content, FlexCol, Slider, Tab } from "cx/widgets";
+import { Content, FlexCol, Slider, Tab, Widget } from "cx/widgets";
 import { CodeSplit } from "../../components/CodeSplit";
 import { CodeSnippet } from "../../components/CodeSnippet";
-import { Widget } from "../../../packages/cx/src/ui/Widget";
 
-class Square extends Widget {
+class Square extends Widget{
     declareData(...args) {
         super.declareData(
             {

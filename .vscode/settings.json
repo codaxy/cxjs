@@ -1,3 +1,39 @@
 {
-   "cSpell.words": ["flexbox", "hscroll", "immer", "lookupfield", "resizer", "trello"]
+   "cSpell.words": ["flexbox", "hscroll", "immer", "lookupfield", "resizer", "trello"],
+   "explorer.autoRevealExclude": {
+      "**/node_modules": false
+   },
+   "javascript.preferences.importModuleSpecifier": "relative",
+   "files.watcherExclude": {
+      "**/node_modules": true,
+      "**/dist": true,
+      "**/build": true,
+      "**/.git/objects/**": true,
+      "**/.git/subtree-cache/**": true
+   },
+   "search.exclude": {
+      "**/node_modules": true,
+      "**/dist": true,
+      "**/build": true
+   },
+   "workbench.colorCustomizations": {
+      "activityBar.activeBackground": "#1c95fe",
+      "activityBar.background": "#1c95fe",
+      "activityBar.foreground": "#e7e7e7",
+      "activityBar.inactiveForeground": "#e7e7e799",
+      "activityBarBadge.background": "#be0166",
+      "activityBarBadge.foreground": "#e7e7e7",
+      "commandCenter.border": "#e7e7e799",
+      "sash.hoverBorder": "#1c95fe",
+      "statusBar.background": "#017ce6",
+      "statusBar.foreground": "#e7e7e7",
+      "statusBarItem.hoverBackground": "#1c95fe",
+      "statusBarItem.remoteBackground": "#017ce6",
+      "statusBarItem.remoteForeground": "#e7e7e7",
+      "titleBar.activeBackground": "#017ce6",
+      "titleBar.activeForeground": "#e7e7e7",
+      "titleBar.inactiveBackground": "#017ce699",
+      "titleBar.inactiveForeground": "#e7e7e799"
+   },
+   "peacock.color": "#017ce6"
 }

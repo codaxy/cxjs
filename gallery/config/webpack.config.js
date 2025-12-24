@@ -1,7 +1,5 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin"),
-   merge = require("webpack-merge"),
    path = require("path"),
-   babelCfg = require("./babel-config"),
    p = (p) => path.join(__dirname, "../", p || ""),
    gtm = require("../../misc/tracking/gtm.js"),
    reactScripts = require("../../misc/reactScripts"),
@@ -10,43 +8,43 @@ const HtmlWebpackPlugin = require("html-webpack-plugin"),
 module.exports = (production) => ({
    resolve: {
       alias: {
-         app: p("."),
-         "cx/src": p("../packages/cx/src"),
-         cx: p("../packages/cx"),
-         "cx-react": p("../packages/cx-react"),
-         "cx-theme-material": p("../packages/cx-theme-material"),
-         "cx-theme-frost": p("../packages/cx-theme-frost"),
-         "cx-theme-dark": p("../packages/cx-theme-dark"),
-         "cx-theme-aquamarine": p("../packages/cx-theme-aquamarine"),
-         "cx-theme-material-dark": p("../packages/cx-theme-material-dark"),
-         "cx-theme-space-blue": p("../packages/cx-theme-space-blue"),
-         "cx-theme-packed-dark": p("../packages/cx-theme-packed-dark"),
+         //app: p("."),
+         //"cx/src": p("../packages/cx/src"),
+         //cx: p("../packages/cx"),
+         //"cx-react": p("../packages/cx-react"),
+         // "cx-theme-material": p("../packages/cx-theme-material"),
+         // "cx-theme-frost": p("../packages/cx-theme-frost"),
+         // "cx-theme-dark": p("../packages/cx-theme-dark"),
+         // "cx-theme-aquamarine": p("../packages/cx-theme-aquamarine"),
+         // "cx-theme-material-dark": p("../packages/cx-theme-material-dark"),
+         // "cx-theme-space-blue": p("../packages/cx-theme-space-blue"),
+         // "cx-theme-packed-dark": p("../packages/cx-theme-packed-dark"),
          //uncomment the line below to alias cx-react to cx-preact or some other React replacement library
          //'cx-react': 'cx-preact',
       },
-      extensions: [".js", ".ts", ".tsx", ".json"],
+      extensions: [".ts", ".js", ".tsx", ".json"],
    },
 
    module: {
       rules: [
          {
-            test: /\.tsx?$/,
-            include: /gallery/,
+            test: /\.(ts|tsx)?$/,
+            //include: /gallery/,
             use: [
-               {
-                  loader: "babel-loader",
-                  options: babelCfg,
-               },
+               // {
+               //    loader: "babel-loader",
+               //    options: babelCfg,
+               // },
                "ts-loader",
             ],
          },
-         {
-            test: /\.js$/,
-            //add here any ES6 based library
-            include: /[\\\/](cx|cx-react|gallery|misc|cx-theme-.*)[\\\/]/,
-            loader: "babel-loader",
-            options: babelCfg,
-         },
+         // {
+         //    test: /\.js$/,
+         //    //add here any ES6 based library
+         //    include: /[\\\/](cx|cx-react|gallery|misc|cx-theme-.*)[\\\/]/,
+         //    loader: "babel-loader",
+         //    options: babelCfg,
+         // },
          {
             test: /\.(png|jpg|svg)/,
             loader: "file-loader",
@@ -73,6 +71,10 @@ module.exports = (production) => ({
                   loader: "sass-loader",
                   options: {
                      sourceMap: !production,
+                     sassOptions: {
+                        quietDeps: true,
+                        silenceDeprecations: ["import", "global-builtin", "color-functions", "slash-div"],
+                     },
                   },
                },
             ],
@@ -85,16 +87,15 @@ module.exports = (production) => ({
    },
    entry: {
       //vendor: ['cx-react', p('polyfill.js')],
-      app: [p("../misc/babelHelpers"), p("index")],
+      app: [p("index.tsx")],
    },
    output: {
-      path: p("dist"),
       filename: "[name].js",
    },
-   externals: {
-      react: "React",
-      "react-dom": "ReactDOM",
-   },
+   // externals: {
+   //    react: "React",
+   //    "react-dom": "ReactDOM",
+   // },
 
    optimization: {
       runtimeChunk: "single",
@@ -108,18 +109,6 @@ module.exports = (production) => ({
          reactScripts: production ? reactScripts : reactScriptsDev,
          favicon: p("assets/favicon.png"),
       }),
-      //new InlineManifestWebpackPlugin(),
-      // new ScriptExtHtmlWebpackPlugin({
-      //    async: /\.js$/,
-      //    preload: {
-      //       test: /(aquamarine)/,
-      //       chunks: "async"
-      //    },
-      //    prefetch: {
-      //       test: /\.js$/,
-      //       chunks: "async"
-      //    }
-      // })
    ],
 
    cache: {

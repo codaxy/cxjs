@@ -38,6 +38,10 @@
         color: #414340;
         font-size: 24px;
         scroll-margin-top: 200px;
+
+        & ~ p {
+            margin-top:24px;
+        }
     }
 
     h2 {

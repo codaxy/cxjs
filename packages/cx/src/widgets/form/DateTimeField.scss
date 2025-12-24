@@ -1,4 +1,6 @@
 
+@use "sass:map";
+
 @mixin cx-datetimefield(
    $name: 'datetimefield',
    $input-state-style-map: $cx-std-field-state-style-map,
@@ -11,9 +13,9 @@
    $width: $cx-default-input-width,
    $besm: $cx-besm
 ) {
-   $block: map-get($besm, block);
-   $element: map-get($besm, element);
-   $state: map-get($besm, state);
+   $block: map.get($besm, block);
+   $element: map.get($besm, element);
+   $state: map.get($besm, state);
 
    .#{$block}#{$name} {
       @include cxb-field($besm, $input-state-style-map, $width: $width, $input: true);

@@ -13,6 +13,61 @@ export const BreakingChanges = <cx>
             This page will provide information about breaking changes and how to migrate your applications to the latest
             versions of the framework.
 
+            ## 26.1.0
+
+            ### TypeScript Migration
+
+            The CxJS framework has been fully migrated to TypeScript. This is a major change that brings
+            improved type safety, better IDE support, and enhanced developer experience.
+
+            ### Separation from React JSX Types
+
+            CxJS now provides its own JSX type definitions instead of relying on React's JSX types.
+            This separation was necessary because CxJS JSX has fundamental differences from React JSX.
+
+            To use the new JSX types, update your `tsconfig.json`:
+
+            <CodeSplit>
+                <CodeSnippet copy={false}>{`
+{
+   "compilerOptions": {
+      "jsx": "react-jsx",
+      "jsxImportSource": "cx"
+   }
+}
+                `}</CodeSnippet>
+            </CodeSplit>
+
+            With this configuration, TypeScript will use CxJS-specific JSX types, providing proper
+            type checking for CxJS attributes and components.
+
+            ### Package Upgrades Required
+
+            The following packages have been updated and should be upgraded to version 26.x:
+
+            - `cx` - Core framework package
+            - `cx-react` - React adapter (now written in TypeScript)
+            - `babel-plugin-transform-cx-imports` - Babel plugin for optimizing imports
+            - `swc-plugin-transform-cx-jsx` - SWC plugin for CxJS JSX transformation
+            - `swc-plugin-transform-cx-imports` - SWC plugin for optimizing imports
+            - `cx-scss-manifest-webpack-plugin` - Webpack plugin for SCSS manifest generation
+
+            &gt; **Note:** Some projects have copied `cx-scss-manifest-webpack-plugin` and used it in source form.
+            These projects should now transition to using the official npm package instead. These versions will not work
+            with the 26.x releases due to internal path changes and CSS will appear broken. Alternatively, the plugin can be patched to use the `build`
+            folder instead of the `src` folder to detect which components are actually being used in the project.
+
+            ### React 18+ Required
+
+            CxJS 26.x requires React 18 or later. The framework now uses the modern React 18 APIs including
+            `createRoot` from `react-dom/client`. If your application is still using React 17
+            or earlier, you will need to upgrade React before upgrading to CxJS 26.x.
+
+            ### Migration Guide
+
+            For a comprehensive guide on migrating your applications to TypeScript and taking advantage of the new
+            type system, please refer to the [TypeScript Migration Guide](~/intro/type-script-migration).
+
             ## 24.10.0
 
             ### Legend and LegendEntry rendering

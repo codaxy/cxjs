@@ -1,17 +1,37 @@
 {
    "name": "cx-theme-space-blue",
-   "version": "24.5.1",
+   "version": "26.1.0",
    "description": "Space Blue theme CSS styles for Cx applications",
-   "main": "./dist/index.js",
+   "main": "./build/index.js",
+   "types": "./build/index.d.ts",
+   "exports": {
+      ".": {
+         "types": "./build/index.d.ts",
+         "default": "./build/index.js"
+      },
+      "./src/": "./src/",
+      "./build/": "./build/",
+      "./dist/": "./dist/"
+   },
+   "sideEffects": true,
    "author": "Codaxy",
    "license": "SEE LICENSE.md",
    "scripts": {
-      "build": "node build"
+      "build": "yarn compile && node build",
+      "compile": "tsc",
+      "check-types": "tsc --noEmit"
    },
    "files": [
       "README.md",
       "LICENSE.md",
       "src",
-      "dist"
-   ]
+      "dist",
+      "build"
+   ],
+   "peerDependencies": {
+      "cx": "*"
+   },
+   "devDependencies": {
+      "typescript": "^5.9.3"
+   }
 }

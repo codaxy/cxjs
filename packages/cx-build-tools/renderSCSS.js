@@ -1,30 +1,39 @@
-var sass = require("sass"),
-   path = require("path");
+const sass = require("sass");
+const path = require("path");
 
-function getImport(path) {
-   return `@import "${path}";`;
+function getImport(importPath) {
+   return `@import "${importPath}";`;
 }
 
-module.exports = function renderSCSS(paths) {
-   return new Promise((resolve, reject) => {
-      let data = paths.map(getImport).join("\n");
-      sass.render(
-         {
-            data,
-            importer: function (name, prev, done) {
-               if (name.indexOf("~cx/") == 0) {
-                  let resolvedFile = path.resolve(__dirname, "../cx/" + name.substring(4) + ".scss");
-                  return {
-                     file: resolvedFile,
-                  };
-               }
-               return { file: name };
+module.exports = async function renderSCSS(paths) {
+   try {
+      const data = paths.map(getImport).join("\n");
+
+      const result = await sass.compileStringAsync(data, {
+         importers: [
+            {
+               findFileUrl(url) {
+                  if (url.startsWith("~cx/")) {
+                     const resolvedFile = path.resolve(__dirname, "../cx/" + url.substring(4) + ".scss");
+                     return new URL(`file://${resolvedFile.replace(/\\/g, "/")}`);
+                  }
+                  // Handle absolute paths (Unix-style starting with /)
+                  if (url.startsWith("/")) {
+                     return new URL(`file://${url}`);
+                  }
+                  // Handle Windows absolute paths (e.g., C:/...)
+                  if (/^[a-zA-Z]:/.test(url)) {
+                     return new URL(`file:///${url}`);
+                  }
+                  return null;
+               },
             },
-         },
-         function (err, result) {
-            if (err) reject(err);
-            else resolve(result);
-         }
-      );
-   });
+         ],
+         silenceDeprecations: ["import", "global-builtin"],
+      });
+
+      return result;
+   } catch (err) {
+      throw err;
+   }
 };

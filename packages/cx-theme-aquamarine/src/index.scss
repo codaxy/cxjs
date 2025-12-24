@@ -1,9 +1,10 @@
-@import "~cx/src/index";
+@use "sass:map";
+@import "~cx/sass/index";
 
-$block: map-get($cx-besm, block);
-$element: map-get($cx-besm, element);
-$state: map-get($cx-besm, state);
-$mod: map-get($cx-besm, mod);
+$block: map.get($cx-besm, block);
+$element: map.get($cx-besm, element);
+$state: map.get($cx-besm, state);
+$mod: map.get($cx-besm, mod);
 
 @if (cx-included("cx/widgets/Section")) {
    //SECTION
@@ -197,13 +198,17 @@ $mod: map-get($cx-besm, mod);
       &.#{$state}animate {
          opacity: 0;
          transform: scale(0.3);
-         transition: opacity 0.2s, transform 0.2s;
+         transition:
+            opacity 0.2s,
+            transform 0.2s;
       }
 
       &.#{$state}animated {
          opacity: 1;
          transform: none;
-         transition: opacity 0.3s, transform 0.3s;
+         transition:
+            opacity 0.3s,
+            transform 0.3s;
       }
    }
 

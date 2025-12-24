@@ -11,5 +11,7 @@ node_modules
 *.hot-update.js
 *.log
 dist
+build
 
 Thumbs.db
+.playwright-mcp

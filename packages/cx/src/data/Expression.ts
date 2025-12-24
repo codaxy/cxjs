@@ -1,0 +1,233 @@
+import { computable } from "./computable";
+import { Format } from "../util/Format";
+import { Binding } from "./Binding";
+
+import { quoteStr } from "../util/quote";
+import { isFunction } from "../util/isFunction";
+import { isValidIdentifierName } from "../util/isValidIdentifierName";
+import { MemoSelector, Selector } from "./Selector";
+
+/*
+   Helper usage example
+
+   Expression.registerHelper('_', _);
+   let e = Expression.compile('_.min({data})');
+ */
+
+let helpers: Record<string, any> = {},
+   helperNames: string[] = [],
+   helperValues: any[] = [],
+   expFatArrows: null | ((body: string) => string) = null;
+
+function getExpr(expr: Selector): MemoSelector {
+   if (expr.memoize) return expr as MemoSelector;
+
+   function memoize(): Selector {
+      let lastValue: any,
+         lastRunBindings: Record<string, Selector> = {},
+         lastRunResults: Record<string, any> = {},
+         getters: Record<string, Selector> = {},
+         currentData: any,
+         len = -1;
+
+      let get = function (bindingWithFormat: string) {
+         let getter = getters[bindingWithFormat];
+         if (!getter) {
+            let binding = bindingWithFormat,
+               format;
+            let colonIndex = bindingWithFormat.indexOf(":");
+            if (colonIndex != -1) {
+               format = Format.parse(bindingWithFormat.substring(colonIndex + 1));
+               binding = bindingWithFormat.substring(0, colonIndex);
+            } else {
+               let nullSeparatorIndex = bindingWithFormat.indexOf(":");
+               if (nullSeparatorIndex != -1) {
+                  format = Format.parse(bindingWithFormat.substring(nullSeparatorIndex));
+                  binding = bindingWithFormat.substring(0, nullSeparatorIndex - 1);
+               }
+            }
+            let b = Binding.get(binding);
+            getter = (data) => {
+               let value = b.value(data);
+               lastRunBindings[len] = b.value;
+               lastRunResults[len] = value;
+               len++;
+               return value;
+            };
+
+            if (format) {
+               let valueGetter = getter;
+               getter = (data) => format(valueGetter(data));
+            }
+
+            getters[bindingWithFormat] = getter;
+         }
+         return getter(currentData);
+      };
+
+      return function (data) {
+         let i = 0;
+         for (; i < len; i++) if (lastRunBindings[i](data) !== lastRunResults[i]) break;
+         if (i !== len) {
+            len = 0;
+            currentData = data;
+            lastValue = expr(get);
+         }
+         return lastValue;
+      };
+   }
+
+   let result: Selector = memoize();
+   result.memoize = memoize;
+   return result as MemoSelector;
+}
+
+export function expression(str: string | Selector): MemoSelector {
+   if (isFunction(str)) return getExpr(str);
+
+   let cache = getExpressionCache();
+   let r = cache[str];
+   if (r) return r;
+
+   let quote: string | false = false;
+
+   let termStart = -1,
+      curlyBrackets = 0,
+      percentExpression;
+
+   let fb = ["return ("];
+
+   let args: Record<string, string | Selector> = {};
+   let formats = [];
+   let subExprCount = 0;
+   let invalidNameCount = 0;
+
+   for (let i = 0; i < str.length; i++) {
+      let c = str[i];
+      switch (c) {
+         case "{":
+            if (curlyBrackets > 0 && !quote) curlyBrackets++;
+            else if (!quote && termStart < 0 && (str[i + 1] != "{" || str[i - 1] == "%")) {
+               termStart = i + 1;
+               curlyBrackets = 1;
+               percentExpression = str[i - 1] == "%";
+               if (percentExpression) fb.pop(); //%
+            } else if (termStart < 0 && (quote || str[i - 1] != "{")) fb.push(c);
+            break;
+
+         case "}":
+            if (termStart >= 0) {
+               if (quote) continue;
+               if (--curlyBrackets == 0) {
+                  let term = str.substring(termStart, i);
+                  let formatStart = 0;
+                  if (term[0] == "[") formatStart = term.indexOf("]");
+                  let colon = term.indexOf(":", formatStart > 0 ? formatStart : 0);
+                  let binding = colon == -1 ? term : term.substring(0, colon);
+                  let format = colon == -1 ? null : term.substring(colon + 1);
+                  if (colon == -1) {
+                     let nullSepIndex = binding.indexOf("|", formatStart);
+                     if (nullSepIndex != -1) {
+                        format = binding.substring(nullSepIndex);
+                        binding = binding.substring(0, nullSepIndex);
+                     }
+                  }
+                  let argName = binding.replace(/\./g, "_");
+                  if (!isValidIdentifierName(argName)) argName = "inv" + ++invalidNameCount;
+                  if (percentExpression || (binding[0] == "[" && binding[binding.length - 1] == "]")) {
+                     argName = `expr${++subExprCount}`;
+                     args[argName] = expression(percentExpression ? binding : binding.substring(1, binding.length - 1));
+                  } else args[argName] = binding;
+                  if (format) {
+                     let formatter = "fmt" + formats.length;
+                     fb.push(formatter, "(", argName, ", ", quoteStr(format), ")");
+                     formats.push(Format.parse(format));
+                  } else fb.push(argName);
+                  termStart = -1;
+               }
+            } else fb.push(c);
+
+            break;
+
+         case '"':
+         case "'":
+            if (!quote) quote = c;
+            else if (quote == c) {
+               let at = i - 1;
+               let slashCount = 0;
+               while (at >= 0 && str[at] === "\\") {
+                  slashCount++;
+                  at--;
+               }
+               if (slashCount % 2 == 0) quote = false;
+            }
+
+            if (curlyBrackets == 0) fb.push(c);
+
+            break;
+
+         default:
+            if (termStart < 0) fb.push(c);
+            break;
+      }
+   }
+
+   fb.push(")");
+
+   let body = fb.join("");
+
+   if (expFatArrows) body = expFatArrows(body);
+
+   //console.log(body);
+   let keys = Object.keys(args);
+
+   try {
+      let compute = new Function("fmt", ...formats.map((f, i) => "fmt" + i), ...helperNames, ...keys, body).bind(
+         Format,
+         Format.value,
+         ...formats,
+         ...helperValues,
+      );
+
+      let selector = computable(...keys.map((k) => args[k]), compute);
+      cache[str] = selector;
+      return selector;
+   } catch (err) {
+      throw new Error(`Failed to parse expression: '${str}'. ${err}`);
+   }
+}
+
+export type GetFunction = (bindingPath: string) => any;
+export type SelectorFunction = (get: GetFunction) => any;
+
+export const Expression = {
+   get: function (str: string | SelectorFunction): MemoSelector {
+      return expression(str);
+   },
+
+   compile: function (str: string | SelectorFunction): Selector {
+      return this.get(str).memoize();
+   },
+
+   registerHelper: function (name: string, helper: any) {
+      helpers[name] = helper;
+      helperNames = Object.keys(helpers);
+      helperValues = helperNames.map((n) => helpers[n]);
+   },
+};
+
+export function plugFatArrowExpansion(impl: (body: string) => string) {
+   expFatArrows = impl;
+}
+
+export function invalidateExpressionCache() {
+   expCache = {};
+}
+
+let expCache: Record<string, MemoSelector> = {};
+
+let getExpressionCache = () => expCache;
+
+export function setGetExpressionCacheCallback(callback: () => Record<string, MemoSelector>) {
+   getExpressionCache = callback;
+}

@@ -10,7 +10,8 @@
          "request": "launch",
          "name": "Debug Tests",
          "skipFiles": ["<node_internals>/**"],
-         "runtimeArgs": ["test", "--inspect"]
+         "runtimeArgs": ["test", "--inspect"],
+         "cwd": "${workspaceFolder}/packages/cx"
       },
       {
          "type": "node",

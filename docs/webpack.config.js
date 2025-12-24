@@ -23,7 +23,19 @@ if (production) {
          rules: [
             {
                test: /\.scss$/,
-               use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
+               use: [
+                  MiniCssExtractPlugin.loader,
+                  "css-loader",
+                  {
+                     loader: "sass-loader",
+                     options: {
+                        sassOptions: {
+                           quietDeps: true,
+                           silenceDeprecations: ["import", "global-builtin"],
+                        },
+                     },
+                  },
+               ],
             },
             {
                test: /\.css$/,
@@ -82,7 +94,19 @@ if (production) {
          rules: [
             {
                test: /\.scss$/,
-               use: ["style-loader", "css-loader", "sass-loader"],
+               use: [
+                  "style-loader",
+                  "css-loader",
+                  {
+                     loader: "sass-loader",
+                     options: {
+                        sassOptions: {
+                           quietDeps: true,
+                           silenceDeprecations: ["import", "global-builtin"],
+                        },
+                     },
+                  },
+               ],
             },
             {
                test: /\.css$/,
@@ -123,24 +147,13 @@ if (production) {
 
 var common = {
    resolve: {
-      alias: {
-         "cx/src": path.resolve(path.join(__dirname, "../packages/cx/src")),
-         "cx/locale": path.resolve(path.join(__dirname, "../packages/cx/locale")),
-         cx: path.resolve(path.join(__dirname, "../packages/cx/src")),
-         "cx-react": path.resolve(path.join(__dirname, "../packages/cx-react")),
-         //'cx-react': path.resolve(path.join(__dirname, '../packages/cx-inferno')),
-         //'cx-react': path.resolve(path.join(__dirname, '../packages/cx-preact')),
-         "cx-react-css-transition-group": path.resolve(
-            path.join(__dirname, "../packages/cx-react-css-transition-group"),
-         ),
-         docs: __dirname,
-      },
+      extensions: [".js", ".ts", ".tsx"],
    },
 
    module: {
       rules: [
          {
-            test: /\.js$/,
+            test: /\.(js|ts|tsx)$/,
             include: /[\\\/](misc|docs|cx|cx-react)[\\\/]/,
             //exclude: /(babelHelpers)/,
             use: [
@@ -169,10 +182,10 @@ var common = {
       path: __dirname,
       filename: "[name].js",
    },
-   externals: {
-      react: "React",
-      "react-dom": "ReactDOM",
-   },
+   //    externals: {
+   //       react: "React",
+   //       "react-dom": "ReactDOM",
+   //    },
    plugins: [
       new HtmlWebpackPlugin({
          template: path.join(__dirname, "index.html"),
@@ -198,7 +211,7 @@ var common = {
 
       buildDependencies: {
          // 2. Add your config as buildDependency to get cache invalidation on config change
-         config: [__filename],
+         config: [__filename, path.join(__dirname, "./babel-config.js")],
 
          // 3. If you have other things the build depends on you can add them here
          // Note that webpack, loaders and all modules referenced from your config are automatically added

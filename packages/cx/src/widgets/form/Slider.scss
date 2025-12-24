@@ -1,3 +1,6 @@
+
+@use "sass:map";
+
 @mixin cx-slider(
    $name: "slider",
    $state-style-map: $cx-input-state-style-map,
@@ -9,9 +12,9 @@
    $range-background-color: $cx-default-slider-range-background-color,
    $besm: $cx-besm
 ) {
-   $block: map-get($besm, block);
-   $element: map-get($besm, element);
-   $state: map-get($besm, state);
+   $block: map.get($besm, block);
+   $element: map.get($besm, element);
+   $state: map.get($besm, state);
 
    .#{$block}#{$name} {
       width: $width;

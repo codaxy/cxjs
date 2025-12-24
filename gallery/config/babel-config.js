@@ -19,7 +19,7 @@ module.exports = {
             useBuiltIns: "usage",
             cx: {
                imports: {
-                  useSrc: true,
+                  //useSrc: true,
                },
             },
          },

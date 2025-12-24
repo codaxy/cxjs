@@ -1,20 +1,25 @@
 {
-  "compilerOptions": {
-    "target": "es6",
-    "jsx": "react",
-    "allowJs": true,
-    "moduleResolution": "node",
-    "module": "esnext",
-    "sourceMap": false,
-    "jsxFactory": "cx",
-    "baseUrl": ".",
-    "paths": {
-      "cx": [ "../packages/cx/src" ],
-      "cx-react": [ "../packages/cx-react" ]
-    },
-    "outDir": "./build/"
-  },
-  "exclude": [
-    "node_modules", "dist"
-  ]
+   "compilerOptions": {
+      "target": "es2024",
+      "jsx": "react-jsx",
+      //"jsxFactory": "cx",
+      "jsxImportSource": "cx",
+      "allowJs": true,
+      "moduleResolution": "bundler",
+      "module": "esnext",
+      "sourceMap": false,
+      "baseUrl": ".",
+      "paths": {
+         "cx-theme-aquamarine": ["../packages/cx-theme-aquamarine"],
+         "cx-theme-frost": ["../packages/cx-theme-frost"],
+         "cx-theme-material": ["../packages/cx-theme-material"],
+         "cx-theme-material-dark": ["../packages/cx-theme-material-dark"],
+         "cx-theme-packed-dark": ["../packages/cx-theme-packed-dark"],
+         "cx-theme-space-blue": ["../packages/cx-theme-space-blue"]
+      },
+      "outDir": "./build/",
+      "types": ["node", "webpack-env"]
+   },
+   "include": [".", "../misc"],
+   "exclude": ["node_modules", "dist"]
 }

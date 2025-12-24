@@ -199,7 +199,7 @@ export default {
     onCreateLabelFormatter: {
         type: "function",
         description: <cx><Md>
-            A function used to create a formatter function for axis labels. See See [Complex Labels](~/examples/charts/axis/complex-labels) example for more info.
+            A function used to create a formatter function for axis labels. See [Complex Labels](~/examples/charts/axis/complex-labels) example for more info.
         </Md></cx>
     }
 };

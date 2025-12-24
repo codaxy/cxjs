@@ -1,0 +1,36 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(yarn build)",
+      "Bash(for f in packages/cx/src/util/date/*.ts)",
+      "Bash(do [ ! -f \"$f%.ts.d.ts\" ])",
+      "Bash(echo:*)",
+      "Bash(done)",
+      "Bash(find:*)",
+      "Bash(head:*)",
+      "Bash(npx tsc:*)",
+      "Bash(cut:*)",
+      "WebFetch(domain:github.com)",
+      "Bash(curl -s https://raw.githubusercontent.com/codaxy/cxjs/master/packages/cx/src/data/View.d.ts)",
+      "Bash(yarn build2:*)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(cat package.json)",
+      "Bash(curl:*)",
+      "Bash(yarn check-types:*)",
+      "Bash(yarn test)",
+      "Bash(claude mcp list:*)",
+      "mcp__playwright__browser_navigate",
+      "mcp__playwright__browser_tabs",
+      "mcp__playwright__browser_console_messages",
+      "mcp__playwright__browser_network_requests",
+      "mcp__playwright__browser_snapshot",
+      "mcp__playwright__browser_wait_for",
+      "mcp__playwright__browser_run_code",
+      "mcp__playwright__browser_click",
+      "mcp__playwright__browser_take_screenshot",
+      "Bash(yarn compile:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

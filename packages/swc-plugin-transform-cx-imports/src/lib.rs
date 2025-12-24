@@ -3,13 +3,13 @@ use std::collections::{HashMap, HashSet};
 use lazy_static::lazy_static;
 use regex::Regex;
 
-use swc_common::{util::take::Take, DUMMY_SP};
+use swc_core::common::{util::take::Take, DUMMY_SP};
 use swc_core::plugin::{plugin_transform, proxies::TransformPluginProgramMetadata};
-use swc_ecma_ast::{
-    ImportDecl, ImportPhase, ImportSpecifier, ModuleDecl, ModuleExportName, ModuleItem, Program,
+use swc_core::ecma::ast::{
+    ImportDecl, ImportPhase, ImportSpecifier, Module, ModuleDecl, ModuleExportName, ModuleItem, Program,
     Str,
 };
-use swc_ecma_visit::{visit_mut_pass, VisitMut, VisitMutWith};
+use swc_core::ecma::visit::{visit_mut_pass, VisitMut, VisitMutWith};
 
 lazy_static! {
     static ref QUOTES_REGEX: Regex = Regex::new(r#""|'"#).unwrap();
@@ -62,12 +62,10 @@ impl TransformVisitor {
 }
 
 impl VisitMut for TransformVisitor {
-    fn visit_mut_import_decl(&mut self, n: &mut swc_ecma_ast::ImportDecl) {
+    fn visit_mut_import_decl(&mut self, n: &mut ImportDecl) {
         let source = *n.src.clone();
         let mut changes = false;
-        match source.raw {
-            Some(source_atom) => {
-                let src = source_atom.as_str();
+        if let Some(src) = source.value.as_str() {
                 let replaced = QUOTES_REGEX.replace_all(src, r"").to_string();
                 if true {
                     let stripped_format = &replaced[3..replaced.len()]; // Strip the cx/ part and the quotes
@@ -83,7 +81,7 @@ impl VisitMut for TransformVisitor {
                                                 component_name = ident.sym.as_str();
                                             }
                                             ModuleExportName::Str(str) => {
-                                                component_name = str.value.as_str();
+                                                component_name = str.value.as_str().unwrap_or("");
                                             }
                                         };
                                     }
@@ -128,8 +126,6 @@ impl VisitMut for TransformVisitor {
                         }
                     });
                 }
-            }
-            None => {}
         }
 
         if changes == true {
@@ -139,7 +135,7 @@ impl VisitMut for TransformVisitor {
         n.visit_mut_children_with(self);
     }
 
-    fn visit_mut_module(&mut self, n: &mut swc_ecma_ast::Module) {
+    fn visit_mut_module(&mut self, n: &mut Module) {
         n.visit_mut_children_with(self);
 
         let new_imports = self
@@ -176,8 +172,10 @@ impl VisitMut for TransformVisitor {
             ModuleItem::ModuleDecl(decl) => match decl.to_owned() {
                 ModuleDecl::Import(import) => {
                     let str = *import.src;
-                    if str.value.to_owned().is_empty() {
-                        return false;
+                    if let Some(value) = str.value.as_str() {
+                        if value.is_empty() {
+                            return false;
+                        }
                     }
 
                     return true;
@@ -267,7 +265,7 @@ fn exec(input: std::path::PathBuf) {
                 serde_json::from_str(value.as_str()).unwrap();
 
             swc_core::ecma::transforms::testing::test_fixture(
-                swc_ecma_parser::Syntax::Typescript(Default::default()),
+                swc_core::ecma::parser::Syntax::Typescript(Default::default()),
                 &|_| {
                     (
                         swc_core::ecma::transforms::base::resolver(

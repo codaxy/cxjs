@@ -1,3 +1,5 @@
+@use "sass:map";
+
 // Padding
 $cx-default-padding-extra-small: 3px !default;
 $cx-default-padding-small: 5px !default;
@@ -132,7 +134,7 @@ $cx-highlightedsearchtext-style-map: (
    @extend .cxm-card !optional;
 }
 
-$cx-dependencies: map-merge(
+$cx-dependencies: map.merge(
    $cx-dependencies,
    (
       "cx/widgets/FlexRow": "cx/widgets/FlexBox",

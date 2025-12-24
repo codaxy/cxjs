@@ -1,7 +1,7 @@
 let rollup = require("rollup"),
-   path = require("path"),
    fs = require("fs"),
    babel = require("@rollup/plugin-babel"),
+   { nodeResolve } = require("@rollup/plugin-node-resolve"),
    babelConfig = require("./babel.config"),
    importAlias = require("./importAlias"),
    manifestRecorder = require("./manifestRecorder"),
@@ -10,6 +10,8 @@ let rollup = require("rollup"),
 
 module.exports = function build(srcPath, distPath, entries, paths, externals) {
    let src = getPathResolver(srcPath);
+   let build = getPathResolver(src("../build"));
+   if (!fs.existsSync(build("."))) build = null;
    let dist = getPathResolver(distPath);
    let manifest = {};
 
@@ -37,25 +39,35 @@ module.exports = function build(srcPath, distPath, entries, paths, externals) {
             },
             plugins: [],
          },
-         e.options
+         e.options,
       );
 
       options.plugins.push(
+         nodeResolve({
+            extensions: [".js", ".jsx", ".ts", ".tsx"],
+         }),
          babel({
             babelHelpers: "bundled",
-            presets: babelConfig.presets,
-            plugins: [...babelConfig.plugins, manifestRecorder(manifest, paths, src("."))],
+            //presets: babelConfig.presets,
+            plugins: [
+               //...babelConfig.plugins,
+               manifestRecorder(manifest, paths, (build ?? src)(".")),
+            ],
+            extensions: [
+               ".js",
+               //".jsx", ".ts", ".tsx"
+            ],
          }),
          importAlias({
             paths: paths,
-            path: srcPath, //src('./' + e.name + '/')
+            path: build("."), //src('./' + e.name + '/')
          }),
          prettier({
             tabWidth: 2,
             printWidth: 120,
             useTabs: true,
             parser: "babel",
-         })
+         }),
          //buble(),
       );
 

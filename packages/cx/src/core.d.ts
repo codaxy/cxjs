@@ -2,80 +2,73 @@ export = Cx;
 export as namespace Cx;
 
 import * as React from "react";
+import { Instance } from "./ui/Instance";
+import { RenderingContext } from "./ui/RenderingContext";
+import { AccessorChain as AccessorChainType } from "./data/createAccessorModelProxy";
+import { Selector as SelectorType } from "./data/Selector";
+import type {
+   Bind as BindType,
+   Tpl as TplType,
+   Expr as ExprType,
+   Binding as BindingType,
+   GetSet as GetSetType,
+   Prop as PropType,
+   StructuredSelector as StructuredSelectorType,
+   DataRecord,
+   Config as ConfigType,
+   StructuredProp as StructuredPropType,
+   StringProp as StringPropType,
+   StyleProp as StylePropType,
+   NumberProp as NumberPropType,
+   BooleanProp as BooleanPropType,
+   ClassProp as ClassPropType,
+   RecordsProp as RecordsPropType,
+   SortersProp as SortersPropType,
+   UnknownProp as UnknownPropType,
+   RecordAlias as RecordAliasType,
+   SortDirection as SortDirectionType,
+   Sorter as SorterType,
+   CollatorOptions as CollatorOptionsType,
+} from "./ui/Prop";
 
+/** @deprecated */
 declare namespace Cx {
-   type Bind = {
-      bind: string;
-      defaultValue?: any;
-      throttle?: number;
-      debounce?: number;
-   };
+   // Re-export AccessorChain type from createAccessorModelProxy
+   type AccessorChain<M> = AccessorChainType<M>;
 
-   type Tpl = {
-      tpl: string;
-   };
+   // Re-export Selector type from data/Selector
+   type Selector<T> = SelectorType<T>;
 
-   type Expr = {
-      expr: string;
-      set?: (value: any, instance?: any) => boolean;
-      throttle?: number;
-      debounce?: number;
-   };
+   // Re-export binding types from Prop.ts
+   type Bind = BindType;
+   type Tpl = TplType;
+   type Expr = ExprType;
+   type Binding = BindingType;
+   type GetSet<T> = GetSetType<T>;
 
-   type Binding = Bind | Tpl | Expr;
+   // Re-export types from Prop.ts
+   type Prop<T> = PropType<T>;
 
-   type Selector<T> = (data: any) => T;
+   interface StructuredSelector extends StructuredSelectorType {}
 
-   type GetSet<T> = {
-      get: Selector<T>;
-      set?: (value: T, instance?: any) => boolean;
-      throttle?: number;
-      debounce?: number;
-   };
+   interface Record extends DataRecord {}
 
-   interface StructuredSelector {
-      [prop: string]: Selector<any>;
-   }
+   interface Config extends ConfigType {}
 
-   interface AccessorChainMethods {
-      toString(): string;
-      valueOf(): string;
-      nameOf(): string;
-   }
+   interface StructuredProp extends StructuredPropType {}
 
-   type AccessorChainMap<M> = { [prop in keyof M]: AccessorChain<M[prop]> };
+   type StringProp = StringPropType;
+   type StyleProp = StylePropType;
+   type NumberProp = NumberPropType;
+   type BooleanProp = BooleanPropType;
+   type ClassProp = ClassPropType;
+   type RecordsProp = RecordsPropType;
+   type SortersProp = SortersPropType;
+   type UnknownProp = UnknownPropType;
 
-   type AccessorChain<M> = {
-      toString(): string;
-      valueOf(): string;
-      nameOf(): string;
-   } & Omit<AccessorChainMap<M>, keyof AccessorChainMethods>;
+   type RecordAlias = RecordAliasType;
 
-   type Prop<T> = T | Binding | Selector<T> | AccessorChain<T> | GetSet<T>;
-
-   interface Record {
-      [prop: string]: any;
-   }
-
-   interface Config {
-      [prop: string]: any;
-   }
-
-   interface StructuredProp {
-      [prop: string]: Prop<any>;
-   }
-
-   type StringProp = Prop<string>;
-   type StyleProp = Prop<string | React.CSSProperties> | StructuredProp;
-   type NumberProp = Prop<number>;
-   type BooleanProp = Prop<boolean>;
-   type ClassProp = Prop<string> | StructuredProp;
-   type RecordsProp = Prop<Record[]>;
-   type SortersProp = Prop<Sorter[]>;
-   type UnknownProp = Prop<unknown>;
-
-   type RecordAlias = string | { toString(): string };
-
+   /** @deprecated */
    interface WidgetProps {
       /** Inner layout used to display children inside the widget. */
       layout?: any;
@@ -119,6 +112,7 @@ declare namespace Cx {
       onDestroy?(): void;
    }
 
+   /** @deprecated */
    interface PureContainerProps extends WidgetProps {
       /** Keep whitespace in text based children. Default is `false`. See also `trimWhitespace`. */
       ws?: boolean;
@@ -138,6 +132,7 @@ declare namespace Cx {
       plainText?: boolean;
    }
 
+   /** @deprecated */
    interface StyledContainerProps extends PureContainerProps {
       /**
        * Additional CSS classes to be applied to the element.
@@ -158,6 +153,7 @@ declare namespace Cx {
       styles?: StyleProp;
    }
 
+   /** @deprecated */
    interface HtmlElementProps extends StyledContainerProps {
       /** Id of the element */
       id?: Cx.StringProp | Cx.NumberProp;
@@ -168,143 +164,19 @@ declare namespace Cx {
       /** Tooltip configuration. */
       tooltip?: StringProp | StructuredProp;
 
-      onMouseDown?: string | ((event: MouseEvent, instance: any) => void);
-      onMouseMove?: string | ((event: MouseEvent, instance: any) => void);
-      onMouseUp?: string | ((event: MouseEvent, instance: any) => void);
-      onTouchStart?: string | ((event: TouchEvent, instance: any) => void);
-      onTouchMove?: string | ((event: TouchEvent, instance: any) => void);
-      onTouchEnd?: string | ((event: TouchEvent, instance: any) => void);
-      onClick?: string | ((event: MouseEvent, instance: any) => void);
-      onContextMenu?: string | ((event: MouseEvent, instance: any) => void);
+      // onMouseDown?: string | ((event: MouseEvent, instance: any) => void);
+      // onMouseMove?: string | ((event: MouseEvent, instance: any) => void);
+      // onMouseUp?: string | ((event: MouseEvent, instance: any) => void);
+      // onTouchStart?: string | ((event: TouchEvent, instance: any) => void);
+      // onTouchMove?: string | ((event: TouchEvent, instance: any) => void);
+      // onTouchEnd?: string | ((event: TouchEvent, instance: any) => void);
+      // onClick?: string | ((event: MouseEvent, instance: any) => void);
+      // onContextMenu?: string | ((event: MouseEvent, instance: any) => void);
    }
 
-   type SortDirection = "ASC" | "DESC";
+   type SortDirection = SortDirectionType;
 
-   interface Sorter {
-      field?: string;
-      value?: (Record) => any;
-      direction: SortDirection;
-   }
+   interface Sorter extends SorterType {}
 
-   interface CollatorOptions {
-      localeMatcher?: "lookup" | "best fit";
-      usage?: "sort" | "search";
-      sensitivity?: "base" | "accent" | "case" | "variant";
-      ignorePunctuation?: boolean;
-      numeric?: boolean;
-      caseFirst?: "upper" | "lower" | "false";
-   }
-
-   class Widget<P extends WidgetProps> {
-      props: P;
-      state: any;
-      context: any;
-      refs: any;
-
-      constructor(props: P);
-
-      render();
-
-      setState(state: any);
-
-      forceUpdate();
-
-      static create(typeAlias?: any, config?: Cx.Config, more?: Cx.Config): any;
-   }
-}
-
-declare global {
-   namespace JSX {
-      interface IntrinsicElements {
-         cx: any;
-      }
-
-      interface IntrinsicAttributes {
-         /** Inner layout used to display children inside the widget. */
-         layout?: any;
-
-         /** Outer (wrapper) layout used to display the widget in. */
-         outerLayout?: any;
-
-         /** Name of the ContentPlaceholder that should be used to display the widget. */
-         putInto?: string;
-
-         /** Name of the ContentPlaceholder that should be used to display the widget. */
-         contentFor?: string;
-
-         /** Controller. */
-         controller?: any;
-
-         /** Visibility of the widget. Defaults to `true`. */
-         visible?: Cx.BooleanProp;
-
-         /** Visibility of the widget. Defaults to `true`. */
-         if?: Cx.BooleanProp;
-
-         /** Appearance modifier. For example, mod="big" will add the CSS class `.cxm-big` to the block element. */
-         mod?: Cx.StringProp | Cx.Prop<string[]> | Cx.StructuredProp;
-
-         /** Cache render output. Default is `true`. */
-         memoize?: Cx.BooleanProp;
-
-         /** Tooltip configuration. */
-         tooltip?: Cx.StringProp | Cx.StructuredProp;
-      }
-   }
-
-   interface JSON {
-      /* JSON doesn't support symbol keys, and number keys
-       * are coerced to strings, even in arrays */
-
-      /**
-       * Converts a JavaScript Object Notation (JSON) string into an object.
-       * @param text A valid JSON string.
-       * @param reviver A function that transforms the results. This function is called for each member of the object.
-       * If a member contains nested objects, the nested objects are transformed before the parent object is.
-       */
-      parse(text: string, reviver?: (this: unknown, key: string, value: unknown) => unknown): unknown;
-
-      /**
-       * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
-       * @param value A JavaScript value, usually an object or array, to be converted.
-       * @param replacer A function that transforms the results.
-       * @param space Adds indentation, white space, and line break characters to the return-value JSON text to make it easier to read.
-       */
-      stringify(
-         text: unknown,
-         replacer?: (this: unknown, key: string, value: unknown) => unknown,
-         space?: string | number,
-      ): string;
-   }
-
-   interface ArrayConstructor {
-      isArray(a: unknown): a is unknown[];
-   }
-
-   interface Body {
-      json(): Promise<unknown>;
-   }
-}
-
-declare module "react" {
-   interface ClassAttributes<T> extends Cx.PureContainerProps {
-      class?: Cx.ClassProp;
-      styles?: Cx.StyleProp;
-      text?: Cx.StringProp | Cx.NumberProp;
-      innerText?: Cx.StringProp;
-      html?: Cx.StringProp;
-      innerHtml?: Cx.StringProp;
-      tooltip?: Cx.StringProp | Cx.StructuredProp;
-   }
-   namespace React {
-      interface ImgHTMLAttributes<T> extends HTMLAttributes<T> {
-         alt?: Cx.StringProp | undefined;
-         src?: Cx.StringProp | undefined;
-      }
-   }
-
-   //this doesn't work, however, it would be nice if it does
-   // interface EventHandler<E extends React.SyntheticEvent<any>> {
-   //    (event: E, instance?: any): void;
-   // }
+   interface CollatorOptions extends CollatorOptionsType {}
 }

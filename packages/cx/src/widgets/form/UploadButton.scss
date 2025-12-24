@@ -1,4 +1,6 @@
 
+@use "sass:map";
+
 @import "../Button";
 
 @mixin cx-uploadbutton(
@@ -7,9 +9,9 @@
    $mods: $cx-button-mods,
    $besm: $cx-besm
 ) {
-   $block: map-get($besm, block);
-   $element: map-get($besm, element);
-   $state: map-get($besm, state);
+   $block: map.get($besm, block);
+   $element: map.get($besm, element);
+   $state: map.get($besm, state);
 
    @include cx-button($name,
       $mods: $mods,

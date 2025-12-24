@@ -1,12 +1,14 @@
+@use "sass:map";
+
 @mixin cx-wheel-elements(
    $name: "wheel",
    $tool-size: $cx-default-input-tool-size,
    $icon-size: $cx-default-input-icon-size,
    $besm: $cx-besm
 ) {
-   $element: map-get($besm, element);
-   $state: map-get($besm, state);
-   $mod: map-get($besm, mod);
+   $element: map.get($besm, element);
+   $state: map.get($besm, state);
+   $mod: map.get($besm, mod);
 
    .#{$element}#{$name}-container {
       position: relative;
@@ -117,10 +119,10 @@
    $icon-size: $cx-default-input-icon-size,
    $besm: $cx-besm
 ) {
-   $block: map-get($besm, block);
-   $element: map-get($besm, element);
-   $state: map-get($besm, state);
-   $mod: map-get($besm, mod);
+   $block: map.get($besm, block);
+   $element: map.get($besm, element);
+   $state: map.get($besm, state);
+   $mod: map.get($besm, mod);
 
    .#{$block}#{$name} {
       display: inline-block;
