@@ -8,7 +8,6 @@ import { Field, FieldConfig, getFieldTooltip, FieldInstance } from "./Field";
 import { tooltipMouseMove, tooltipMouseLeave } from "../overlay/tooltip-ops";
 import { preventFocus } from "../../ui/FocusManager";
 import { isDefined } from "../../util/isDefined";
-import * as React from "react";
 import { BooleanProp, StringProp, StyleProp } from "../../ui/Prop";
 
 export interface SwitchConfig extends FieldConfig {
@@ -72,7 +71,7 @@ export class Switch extends Field<SwitchConfig> {
                structured: true,
             },
          },
-         ...args
+         ...args,
       );
    }
 
@@ -116,7 +115,7 @@ export class Switch extends Field<SwitchConfig> {
             className={data.classNames}
             style={data.style}
             id={data.id}
-            tabIndex={data.disabled ? undefined : ((data.tabIndex as number) || 0)}
+            tabIndex={data.disabled ? undefined : (data.tabIndex as number) || 0}
             onMouseDown={(e: React.MouseEvent) => {
                e.stopPropagation();
                if (!this.focusOnMouseDown) preventFocus(e);

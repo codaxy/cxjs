@@ -1,6 +1,6 @@
 {
    "name": "cx",
-   "version": "26.0.14",
+   "version": "26.1.0",
    "description": "Advanced JavaScript UI framework for admin and dashboard applications with ready to use grid, form and chart components.",
    "exports": {
       "./data": {
@@ -73,9 +73,10 @@
       "route-parser": "^0.0.5"
    },
    "peerDependencies": {
-      "@types/react": "*",
-      "react": "*",
-      "react-dom": "*"
+      "cx-react": ">=26",
+      "react": ">=18",
+      "react-dom": ">=18",
+      "@types/react": ">=18"
    },
    "repository": {
       "type": "git",
@@ -84,9 +85,9 @@
    "devDependencies": {
       "@types/jest": "^30.0.0",
       "@types/mocha": "^10.0.10",
-      "@types/node": "^22.10.2",
-      "@types/react-dom": "^18.3.1",
-      "@types/react-test-renderer": "^18.3.1",
+      "@types/node": "^25.0.3",
+      "@types/react-dom": "^19.2.3",
+      "@types/react-test-renderer": "^19.1.0",
       "react-test-renderer": "^18.3.1",
       "ts-mocha": "^11.1.0",
       "ts-node": "^10.9.2",

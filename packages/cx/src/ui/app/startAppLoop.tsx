@@ -1,6 +1,7 @@
 /** @jsxImportSource react */
 
-import { Widget, VDOM, WidgetConfig } from "../Widget";
+import type { Root } from "cx-react";
+import { Widget, VDOM } from "../Widget";
 import { Store } from "../../data/Store";
 import { Cx } from "../Cx";
 import { Instance } from "../Instance";
@@ -44,11 +45,8 @@ export function startAppLoop(
       />
    ) as any;
 
-   let root: any = null;
-   if (VDOM.DOM.createRoot) {
-      root = VDOM.DOM.createRoot(parentDOMElement);
-      root.render(content);
-   } else VDOM.DOM.render(content, parentDOMElement);
+   let root = VDOM.DOM.createRoot(parentDOMElement);
+   root.render(content);
 
    let stopped = false;
 
@@ -66,10 +64,8 @@ export function startAppLoop(
    };
 }
 
-function destroy(parentDOMElement: HTMLElement, options: StartAppLoopOptions, root: any): void {
+function destroy(parentDOMElement: HTMLElement, options: StartAppLoopOptions, root: Root): void {
    if (root) root.unmount();
-   else VDOM.DOM.unmountComponentAtNode(parentDOMElement);
-
    if (options.removeParentDOMElement && parentDOMElement.parentNode)
       parentDOMElement.parentNode.removeChild(parentDOMElement);
 }

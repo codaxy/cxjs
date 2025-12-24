@@ -37,7 +37,13 @@ class GridCellEditorCmp extends VDOM.Component<GridCellEditorCmpProps> {
       let { className, style, children } = this.props;
 
       return (
-         <div ref={(el) => (this.el = el)} className={className} style={style}>
+         <div
+            ref={(el) => {
+               this.el = el;
+            }}
+            className={className}
+            style={style}
+         >
             {children}
          </div>
       );

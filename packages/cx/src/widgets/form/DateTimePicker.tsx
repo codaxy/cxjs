@@ -1,6 +1,4 @@
 /** @jsxImportSource react */
-
-import * as React from "react";
 import { Culture } from "../../ui/Culture";
 import { offFocusOut, oneFocusOut } from "../../ui/FocusManager";
 import { enableCultureSensitiveFormatting } from "../../ui/Format";

@@ -1,6 +1,4 @@
 /** @jsxImportSource react */
-
-import * as React from "react";
 import { StringTemplate } from "../../data/StringTemplate";
 import { Culture } from "../../ui/Culture";
 import { Cx } from "../../ui/Cx";

@@ -7,7 +7,7 @@ export const TypeScriptMigration = (
       <Md>
          # TypeScript Migration Guide
 
-         Starting with CxJS 25.x, the core framework has been migrated to TypeScript. This guide covers the patterns
+         Starting with CxJS 26.x, the core framework has been migrated to TypeScript. This guide covers the patterns
          and best practices for working with TypeScript in CxJS applications, whether you're migrating an existing
          project or starting fresh.
 
@@ -37,8 +37,8 @@ export const TypeScriptMigration = (
 
          ### Webpack Configuration
 
-         With TypeScript, you no longer need `babel-loader` or special Babel plugins for CxJS.
-         Simply use `ts-loader` to handle TypeScript files:
+         With TypeScript, you technically no longer need `babel-loader` or special Babel plugins for CxJS.
+         You can use just `ts-loader` to handle TypeScript files:
 
          <CodeSplit>
             <CodeSnippet copy={false}>{`
@@ -50,10 +50,15 @@ export const TypeScriptMigration = (
             `}</CodeSnippet>
          </CodeSplit>
 
+         However, removing `babel-loader` and the `transform-cx-jsx` plugin requires significant
+         refactoring of your application, as described in the next section. For most existing projects,
+         we recommend keeping the Babel plugins during the migration process.
+
          ### Without `transform-cx-jsx` Plugin
 
-         Applications should continue to work with the `transform-cx-jsx` plugin enabled. However, if you want to run
-         your application without this plugin, the following requirements apply:
+         Applications can continue to work with the `transform-cx-jsx` plugin enabled, which is the
+         recommended approach for existing projects. However, if you want to run your application
+         without this plugin, the following requirements apply:
 
          1. All functional components must be wrapped in `createFunctionalComponent` calls
          2. The special JSX prop syntax (`-bind`, `-expr`, `-tpl`) must be converted to function calls
@@ -91,6 +96,12 @@ npm install babel-plugin-transform-cx-imports --save-dev
 }
             `}</CodeSnippet>
          </CodeSplit>
+
+         ### Vite
+
+         Besides Webpack, CxJS now also supports Vite as a build tool. Vite offers faster development server
+         startup and hot module replacement. For a ready-to-use Vite template, check out the
+         [CxJS Vite Template](https://github.com/codaxy/cxjs-vite-template).
 
          ## General Improvements
 
@@ -415,7 +426,7 @@ class MyController extends Controller {
          ## Authoring Widgets
 
          Previously, CxJS widgets had to be written in JavaScript with optional
-         TypeScript declaration files (`.d.ts`) for typing. With CxJS 25.x, you can now author
+         TypeScript declaration files (`.d.ts`) for typing. With CxJS 26.x, you can now author
          widgets entirely in TypeScript.
 
          &gt; **Important:** Widget files must use the `/** @jsxImportSource react */` pragma because

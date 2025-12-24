@@ -247,7 +247,9 @@ class SliderComponent extends VDOM.Component<SliderComponentProps, SliderCompone
             style={data.style}
             id={data.id}
             onClick={(e: React.MouseEvent) => this.onClick(e)}
-            ref={(el: HTMLDivElement | null) => (this.dom.el = el || undefined)}
+            ref={(el: HTMLDivElement | null) => {
+               this.dom.el = el || undefined;
+            }}
             onMouseMove={(e: React.MouseEvent) => tooltipMouseMove(e, ...getFieldTooltip(instance))}
             onMouseLeave={(e: React.MouseEvent) => tooltipMouseLeave(e, ...getFieldTooltip(instance))}
          >
@@ -257,7 +259,9 @@ class SliderComponent extends VDOM.Component<SliderComponentProps, SliderCompone
                <div
                   key="space"
                   className={CSS.element(baseClass, "space")}
-                  ref={(c: HTMLDivElement | null) => (this.dom.range = c || undefined)}
+                  ref={(c: HTMLDivElement | null) => {
+                     this.dom.range = c || undefined;
+                  }}
                >
                   {widget.showFrom && (
                      <div
@@ -271,7 +275,9 @@ class SliderComponent extends VDOM.Component<SliderComponentProps, SliderCompone
                         }
                         onMouseLeave={(e: React.MouseEvent) => this.onHandleMouseLeave(e, "from")}
                         onTouchStart={(e: React.TouchEvent) => this.onHandleMouseDown(e, "from")}
-                        ref={(c: HTMLDivElement | null) => (this.dom.from = c || undefined)}
+                        ref={(c: HTMLDivElement | null) => {
+                           this.dom.from = c || undefined;
+                        }}
                      />
                   )}
                   {widget.showTo && (
@@ -286,7 +292,9 @@ class SliderComponent extends VDOM.Component<SliderComponentProps, SliderCompone
                         }
                         onMouseLeave={(e: React.MouseEvent) => this.onHandleMouseLeave(e, "to")}
                         onTouchStart={(e: React.TouchEvent) => this.onHandleMouseDown(e, "to")}
-                        ref={(c: HTMLDivElement | null) => (this.dom.to = c || undefined)}
+                        ref={(c: HTMLDivElement | null) => {
+                           this.dom.to = c || undefined;
+                        }}
                      />
                   )}
                </div>

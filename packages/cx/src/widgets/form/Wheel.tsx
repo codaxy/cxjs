@@ -8,7 +8,6 @@ import { addEventListenerWithOptions } from "../../util";
 import type { RenderingContext } from "../../ui/RenderingContext";
 import type { Instance } from "../../ui/Instance";
 import type { CSS } from "../../ui/CSS";
-import * as React from "react";
 import { Prop, StructuredProp } from "../../ui/Prop";
 
 export interface WheelConfig extends PureContainerConfig {

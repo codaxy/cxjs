@@ -1,0 +1,29 @@
+{
+   "compilerOptions": {
+      "target": "es2024",
+      "jsx": "react-jsx",
+      "allowJs": false,
+      "moduleResolution": "bundler",
+      "module": "esnext",
+      "lib": ["dom", "dom.iterable", "ESNext"],
+      "allowSyntheticDefaultImports": true,
+      "esModuleInterop": true,
+      "forceConsistentCasingInFileNames": true,
+      "skipLibCheck": true,
+      "baseUrl": ".",
+      "outDir": "./dist",
+      "rootDir": "./src",
+      "declaration": true,
+      "strict": true,
+      "noImplicitAny": true,
+      "strictNullChecks": true,
+      "strictFunctionTypes": true,
+      "strictBindCallApply": true,
+      "strictPropertyInitialization": false,
+      "noImplicitThis": true,
+      "alwaysStrict": true,
+      "removeComments": false
+   },
+   "exclude": ["dist"],
+   "include": ["src"]
+}

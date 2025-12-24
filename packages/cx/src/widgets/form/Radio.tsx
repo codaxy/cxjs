@@ -7,7 +7,6 @@ import { tooltipMouseMove, tooltipMouseLeave } from "../overlay/tooltip-ops";
 import { stopPropagation } from "../../util/eventCallbacks";
 import { KeyCode } from "../../util/KeyCode";
 import { isUndefined } from "../../util/isUndefined";
-import * as React from "react";
 import { BooleanProp, Prop, StringProp } from "../../ui/Prop";
 
 export interface RadioConfig extends FieldConfig {

@@ -1,4 +1,5 @@
 /** @jsxImportSource react */
+import type { Root } from "cx-react";
 import { isBinding, isBindingObject } from "../../data/Binding";
 import { Store } from "../../data/Store";
 import { startAppLoop } from "../../ui/app/startAppLoop";
@@ -469,6 +470,7 @@ export class OverlayComponent<
    onPopState?: () => void;
    unsubscribeWheelBlock?: () => void;
    declare customStyle: any;
+   declare root: Root;
 
    constructor(props: Props) {
       super(props);
@@ -865,6 +867,7 @@ export class OverlayComponent<
 
       if (this.ownedEl) {
          setTimeout(() => {
+            this.root?.unmount();
             if (this.ownedEl?.parentNode) this.ownedEl.parentNode.removeChild(this.ownedEl);
             this.ownedEl = null;
          }, widget.destroyDelay);
@@ -936,7 +939,8 @@ export class OverlayComponent<
 
    componentDidUpdate() {
       if (this.containerEl && !VDOM.DOM.createPortal) {
-         VDOM.DOM.render(this.renderOverlay(), this.containerEl);
+         this.root = VDOM.DOM.createRoot(this.containerEl);
+         this.root.render(this.renderOverlay());
       }
       this.overlayDidUpdate();
    }

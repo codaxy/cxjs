@@ -2159,21 +2159,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^22.10.1":
-  version: 22.18.6
-  resolution: "@types/node@npm:22.18.6"
+"@types/node@npm:^25.0.3":
+  version: 25.0.3
+  resolution: "@types/node@npm:25.0.3"
   dependencies:
-    undici-types: "npm:~6.21.0"
-  checksum: 10/d816882476fa4f2d2db238139e9d65299414ac54bf81aa85dae850589b480cfe0c1722dc845295d446e2babd6ddfe64b79a8c56d771bf5345ddb1c48950f029e
-  languageName: node
-  linkType: hard
-
-"@types/node@npm:^22.10.2":
-  version: 22.18.12
-  resolution: "@types/node@npm:22.18.12"
-  dependencies:
-    undici-types: "npm:~6.21.0"
-  checksum: 10/41b8853302deac6895aa978193fcab53bf8d1f6f5df5fad38e2a33c2c853c3689e905c9dde373e45bb87273b2690e5ac2d6f40809fe72f45264952ba3ae3b196
+    undici-types: "npm:~7.16.0"
+  checksum: 10/5889b00f398eff4d4af28c3e5e97976f65c39a63fa3d7011f35cbf8640675fa6835e5dd47dce94d6ba48667711ddcd1f5c9bc5d93233e6a8e9ea1e502e8aa5a4
   languageName: node
   linkType: hard
 
@@ -2181,13 +2172,6 @@ __metadata:
   version: 2.7.3
   resolution: "@types/prettier@npm:2.7.3"
   checksum: 10/cda84c19acc3bf327545b1ce71114a7d08efbd67b5030b9e8277b347fa57b05178045f70debe1d363ff7efdae62f237260713aafc2d7217e06fc99b048a88497
-  languageName: node
-  linkType: hard
-
-"@types/prop-types@npm:*":
-  version: 15.7.15
-  resolution: "@types/prop-types@npm:15.7.15"
-  checksum: 10/31aa2f59b28f24da6fb4f1d70807dae2aedfce090ec63eaf9ea01727a9533ef6eaf017de5bff99fbccad7d1c9e644f52c6c2ba30869465dd22b1a7221c29f356
   languageName: node
   linkType: hard
 
@@ -2205,41 +2189,30 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:^18.3.1":
-  version: 18.3.7
-  resolution: "@types/react-dom@npm:18.3.7"
+"@types/react-dom@npm:^19.2.3":
+  version: 19.2.3
+  resolution: "@types/react-dom@npm:19.2.3"
   peerDependencies:
-    "@types/react": ^18.0.0
-  checksum: 10/317569219366d487a3103ba1e5e47154e95a002915fdcf73a44162c48fe49c3a57fcf7f57fc6979e70d447112681e6b13c6c3c1df289db8b544df4aab2d318f3
+    "@types/react": ^19.2.0
+  checksum: 10/616c4a8aee250ea05fb1e7b98e7e00475dd3a6c1c30d7be18b4b93caba832f4203106b3a496a6b147e5acc2da14575eca47bce234c633bca1f8430ef8ffb234a
   languageName: node
   linkType: hard
 
-"@types/react-test-renderer@npm:^18.3.1":
-  version: 18.3.1
-  resolution: "@types/react-test-renderer@npm:18.3.1"
+"@types/react-test-renderer@npm:^19.1.0":
+  version: 19.1.0
+  resolution: "@types/react-test-renderer@npm:19.1.0"
   dependencies:
-    "@types/react": "npm:^18"
-  checksum: 10/f8cc23cc8decdb6068cdc8f8c306e189eab8e569443ce97b216e757ee42eb20b18d2280ef41e2955668413f14be92765a3ba86cfcfeeae6b20c965acd9674786
+    "@types/react": "npm:*"
+  checksum: 10/2ef3aec0f2fd638902cda606d70c8531d66f8e8944334427986b99dcac9755ee60b700c5c3a19ac354680f9c45669e98077b84f79cac60e950bdb7d38aebffde
   languageName: node
   linkType: hard
 
-"@types/react@npm:^18":
-  version: 18.3.26
-  resolution: "@types/react@npm:18.3.26"
+"@types/react@npm:*, @types/react@npm:^19.2.7":
+  version: 19.2.7
+  resolution: "@types/react@npm:19.2.7"
   dependencies:
-    "@types/prop-types": "npm:*"
-    csstype: "npm:^3.0.2"
-  checksum: 10/04852f5a93f1ac5140313e6c3bb7ce1abad84425709df838154102d0ed3d422c78f7c6ea114c1ee183cba6db0475a371d7dc9c0fdf991697c42da5cc24ca0512
-  languageName: node
-  linkType: hard
-
-"@types/react@npm:^18.3.14":
-  version: 18.3.24
-  resolution: "@types/react@npm:18.3.24"
-  dependencies:
-    "@types/prop-types": "npm:*"
-    csstype: "npm:^3.0.2"
-  checksum: 10/3f8529961afa40696f4a677e0f4399cb5da1fca9828c00634f884db261fc29a68af0b0397611fff4dd81847ac85036a1b72e987eafd994cdf4ddb1a1bcce7d61
+    csstype: "npm:^3.2.2"
+  checksum: 10/dc0b756eee2c9782d282ae47eaa8d537b2a569eb889a6808c4b172d70fb690b2b1d8fe6239db451aa1c90d2a947cc21c9b537ce177ba9e6121468e403e4079c5
   languageName: node
   linkType: hard
 
@@ -3040,8 +3013,8 @@ __metadata:
     "@babel/core": "npm:^7.26.0"
     "@babel/preset-env": "npm:^7.26.0"
     "@babel/preset-typescript": "npm:^7.26.0"
-    "@types/node": "npm:^22.10.1"
-    "@types/react": "npm:^18.3.14"
+    "@types/node": "npm:^25.0.3"
+    "@types/react": "npm:^19.2.7"
     babel-loader: "npm:^9.2.1"
     babel-plugin-transform-cx-imports: "npm:^21.3.0"
     babel-plugin-transform-cx-jsx: "npm:^21.3.0"
@@ -3050,8 +3023,8 @@ __metadata:
     copy-webpack-plugin: "npm:^12.0.2"
     core-js: "npm:^3.39.0"
     css-loader: "npm:^7.1.2"
-    cx: "npm:^26.0.7"
-    cx-react: "npm:^24.7.1"
+    cx: "workspace:*"
+    cx-react: "workspace:*"
     file-loader: "npm:^6.2.0"
     html-webpack-plugin: "npm:^5.6.3"
     if-loader: "npm:^1.0.2"
@@ -3820,10 +3793,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"csstype@npm:^3.0.2":
-  version: 3.1.3
-  resolution: "csstype@npm:3.1.3"
-  checksum: 10/f593cce41ff5ade23f44e77521e3a1bcc2c64107041e1bf6c3c32adc5187d0d60983292fda326154d20b01079e24931aa5b08e4467cc488b60bb1e7f6d478ade
+"csstype@npm:^3.2.2":
+  version: 3.2.3
+  resolution: "csstype@npm:3.2.3"
+  checksum: 10/ad41baf7e2ffac65ab544d79107bf7cd1a4bb9bab9ac3302f59ab4ba655d5e30942a8ae46e10ba160c6f4ecea464cc95b975ca2fefbdeeacd6ac63f12f99fe1f
   languageName: node
   linkType: hard
 
@@ -3859,7 +3832,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"cx-immer@npm:^25.5.0, cx-immer@workspace:packages/cx-immer":
+"cx-immer@workspace:*, cx-immer@workspace:packages/cx-immer":
   version: 0.0.0-use.local
   resolution: "cx-immer@workspace:packages/cx-immer"
   peerDependencies:
@@ -3867,9 +3840,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"cx-react@npm:^24.7.1, cx-react@workspace:packages/cx-react":
+"cx-react@workspace:*, cx-react@workspace:packages/cx-react":
   version: 0.0.0-use.local
   resolution: "cx-react@workspace:packages/cx-react"
+  dependencies:
+    "@types/react": "npm:^19.2.7"
+    "@types/react-dom": "npm:^19.2.3"
+    typescript: "npm:^5.9.3"
   peerDependencies:
     react: ">=18"
     react-dom: ">=18"
@@ -3954,15 +3931,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"cx@npm:^26.0.3, cx@npm:^26.0.7, cx@workspace:packages/cx":
+"cx@workspace:*, cx@workspace:packages/cx":
   version: 0.0.0-use.local
   resolution: "cx@workspace:packages/cx"
   dependencies:
     "@types/jest": "npm:^30.0.0"
     "@types/mocha": "npm:^10.0.10"
-    "@types/node": "npm:^22.10.2"
-    "@types/react-dom": "npm:^18.3.1"
-    "@types/react-test-renderer": "npm:^18.3.1"
+    "@types/node": "npm:^25.0.3"
+    "@types/react-dom": "npm:^19.2.3"
+    "@types/react-test-renderer": "npm:^19.1.0"
     "@types/route-parser": "npm:^0.1.7"
     intl-io: "npm:^0.4.4"
     react-test-renderer: "npm:^18.3.1"
@@ -3987,7 +3964,7 @@ __metadata:
     "@babel/preset-env": "npm:^7.26.0"
     "@babel/register": "npm:^7.25.9"
     "@rollup/plugin-node-resolve": "npm:^16.0.1"
-    "@types/react": "npm:^18.3.14"
+    "@types/react": "npm:^19.2.7"
     env-test: "npm:^1.0.0"
     prettier: "npm:^3.3.3"
     react: "npm:^18.3.1"
@@ -4229,8 +4206,8 @@ __metadata:
     "@babel/core": "npm:^7.26.0"
     "@babel/preset-env": "npm:^7.26.0"
     "@babel/preset-typescript": "npm:^7.26.0"
-    "@types/node": "npm:^22.10.1"
-    "@types/react": "npm:^18.3.14"
+    "@types/node": "npm:^25.0.3"
+    "@types/react": "npm:^19.2.7"
     babel-loader: "npm:^9.2.1"
     babel-plugin-transform-cx-imports: "npm:^26.0.1"
     babel-plugin-transform-cx-jsx: "npm:^21.3.0"
@@ -4240,8 +4217,8 @@ __metadata:
     copy-webpack-plugin: "npm:^12.0.2"
     core-js: "npm:^3.39.0"
     css-loader: "npm:^7.1.2"
-    cx: "npm:^26.0.7"
-    cx-react: "npm:^24.7.1"
+    cx: "workspace:*"
+    cx-react: "workspace:*"
     cx-theme-aquamarine: "npm:^25.12.0"
     file-loader: "npm:^6.2.0"
     html-webpack-plugin: "npm:^5.6.3"
@@ -4798,8 +4775,8 @@ __metadata:
     "@babel/runtime": "npm:^7.26.0"
     "@babel/runtime-corejs2": "npm:^7.26.0"
     "@babel/runtime-corejs3": "npm:^7.26.0"
-    "@types/node": "npm:^22.10.1"
-    "@types/react": "npm:^18.3.14"
+    "@types/node": "npm:^25.0.3"
+    "@types/react": "npm:^19.2.7"
     assert: "npm:^2.1.0"
     babel-loader: "npm:^9.2.1"
     babel-plugin-transform-cx-imports: "npm:^21.3.0"
@@ -4811,8 +4788,8 @@ __metadata:
     copy-webpack-plugin: "npm:^12.0.2"
     core-js: "npm:^3.39.0"
     css-loader: "npm:^7.1.2"
-    cx: "npm:^26.0.7"
-    cx-react: "npm:^24.7.1"
+    cx: "workspace:*"
+    cx-react: "workspace:*"
     deep-equal: "npm:^2.2.3"
     deepmerge: "npm:^4.3.1"
     file-loader: "npm:^6.2.0"
@@ -5075,8 +5052,8 @@ __metadata:
     "@babel/core": "npm:^7.26.0"
     "@babel/preset-env": "npm:^7.26.0"
     "@babel/preset-typescript": "npm:^7.26.0"
-    "@types/node": "npm:^22.10.1"
-    "@types/react": "npm:^18.3.14"
+    "@types/node": "npm:^25.0.3"
+    "@types/react": "npm:^19.2.7"
     babel-loader: "npm:^9.2.1"
     babel-plugin-transform-cx-imports: "npm:^26.0.1"
     babel-plugin-transform-cx-jsx: "npm:^21.3.0"
@@ -5086,8 +5063,8 @@ __metadata:
     copy-webpack-plugin: "npm:^12.0.2"
     core-js: "npm:^3.39.0"
     css-loader: "npm:^7.1.2"
-    cx: "npm:^26.0.7"
-    cx-react: "npm:^24.7.1"
+    cx: "workspace:*"
+    cx-react: "workspace:*"
     cx-theme-aquamarine: "npm:^25.12.0"
     cx-theme-dark: "npm:^25.12.0"
     cx-theme-frost: "npm:^25.12.0"
@@ -6381,8 +6358,8 @@ __metadata:
     "@babel/core": "npm:^7.26.0"
     "@babel/preset-env": "npm:^7.26.0"
     "@babel/preset-typescript": "npm:^7.26.0"
-    "@types/node": "npm:^22.10.1"
-    "@types/react": "npm:^18.3.14"
+    "@types/node": "npm:^25.0.3"
+    "@types/react": "npm:^19.2.7"
     babel-loader: "npm:^9.2.1"
     babel-plugin-transform-cx-imports: "npm:^21.3.0"
     babel-plugin-transform-cx-jsx: "npm:^21.3.0"
@@ -6391,9 +6368,9 @@ __metadata:
     copy-webpack-plugin: "npm:^12.0.2"
     core-js: "npm:^3.39.0"
     css-loader: "npm:^7.1.2"
-    cx: "npm:^26.0.3"
-    cx-immer: "npm:^25.5.0"
-    cx-react: "npm:^24.7.1"
+    cx: "workspace:*"
+    cx-immer: "workspace:*"
+    cx-react: "workspace:*"
     file-loader: "npm:^6.2.0"
     html-webpack-plugin: "npm:^5.6.3"
     if-loader: "npm:^1.0.2"
@@ -9150,15 +9127,15 @@ __metadata:
   resolution: "ts-minimal@workspace:ts-minimal"
   dependencies:
     "@babel/core": "npm:^7.26.0"
-    "@types/node": "npm:^22.10.1"
-    "@types/react": "npm:^18.3.14"
+    "@types/node": "npm:^25.0.3"
+    "@types/react": "npm:^19.2.7"
     "@types/webpack-env": "npm:^1.18.8"
     babel-loader: "npm:^9.2.1"
     babel-plugin-transform-cx-imports: "npm:^26.0.1"
     copy-webpack-plugin: "npm:^12.0.2"
     css-loader: "npm:^7.1.2"
-    cx: "npm:^26.0.3"
-    cx-react: "npm:^24.7.1"
+    cx: "workspace:*"
+    cx-react: "workspace:*"
     file-loader: "npm:^6.2.0"
     html-webpack-plugin: "npm:^5.6.3"
     mini-css-extract-plugin: "npm:^2.9.2"
@@ -9326,17 +9303,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"undici-types@npm:~6.21.0":
-  version: 6.21.0
-  resolution: "undici-types@npm:6.21.0"
-  checksum: 10/ec8f41aa4359d50f9b59fa61fe3efce3477cc681908c8f84354d8567bb3701fafdddf36ef6bff307024d3feb42c837cf6f670314ba37fc8145e219560e473d14
-  languageName: node
-  linkType: hard
-
 "undici-types@npm:~7.12.0":
   version: 7.12.0
   resolution: "undici-types@npm:7.12.0"
   checksum: 10/4a0f927c98828f76fb0d64f356e36e5ac6e074ae4c7bec08d6de8bc36b7cf08ae27a3518fa8eb703f51c1a675241e2d07359bbce63f5575299148a270cea7e43
+  languageName: node
+  linkType: hard
+
+"undici-types@npm:~7.16.0":
+  version: 7.16.0
+  resolution: "undici-types@npm:7.16.0"
+  checksum: 10/db43439f69c2d94cc29f75cbfe9de86df87061d6b0c577ebe9bb3255f49b22c50162a7d7eb413b0458b6510b8ca299ac7cff38c3a29fbd31af9f504bcf7fbc0d
   languageName: node
   linkType: hard
 

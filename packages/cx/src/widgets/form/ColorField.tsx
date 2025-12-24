@@ -1,6 +1,5 @@
 /** @jsxImportSource react */
 
-import * as React from "react";
 import { Cx } from "../../ui/Cx";
 import { DropdownInstance, DropdownWidgetProps, Instance } from "../../ui/Instance";
 import type { RenderingContext } from "../../ui/RenderingContext";
@@ -49,7 +48,10 @@ export interface ColorFieldConfig extends FieldConfig {
    onValidate?: string | ((value: string, instance: Instance, validationParams: Record<string, unknown>) => unknown);
 }
 
-export class ColorFieldInstance<F extends ColorField = ColorField> extends FieldInstance<F> implements DropdownWidgetProps {
+export class ColorFieldInstance<F extends ColorField = ColorField>
+   extends FieldInstance<F>
+   implements DropdownWidgetProps
+{
    lastDropdown?: Instance;
    dropdownOpen?: boolean;
    selectedIndex?: number;
@@ -231,10 +233,7 @@ class ColorInput extends VDOM.Component<ColorInputProps, ColorInputState> {
 
       let insideButton;
       if (!data.readOnly && !data.disabled) {
-         if (
-            showClear &&
-            (((!data.required || alwaysShowClear) && !data.empty) || instance.state?.inputError)
-         )
+         if (showClear && (((!data.required || alwaysShowClear) && !data.empty) || instance.state?.inputError))
             insideButton = (
                <div
                   className={CSS.element(baseClass, "clear")}
@@ -301,14 +300,18 @@ class ColorInput extends VDOM.Component<ColorInputProps, ColorInputState> {
                type="text"
                className={CSS.expand(CSS.element(baseClass, "input"), data.inputClass)}
                style={data.inputStyle as React.CSSProperties}
-               defaultValue={this.trim(data.value as string || "")}
+               defaultValue={this.trim((data.value as string) || "")}
                disabled={data.disabled as boolean}
                readOnly={data.readOnly as boolean}
                tabIndex={data.tabIndex as number}
                placeholder={data.placeholder as string}
-               {...data.inputAttrs as Record<string, any>}
-               onInput={(e: React.ChangeEvent<HTMLInputElement>) => this.onChange((e.target as HTMLInputElement).value, "input")}
-               onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.onChange((e.target as HTMLInputElement).value, "change")}
+               {...(data.inputAttrs as Record<string, any>)}
+               onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  this.onChange((e.target as HTMLInputElement).value, "input")
+               }
+               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  this.onChange((e.target as HTMLInputElement).value, "change")
+               }
                onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => this.onKeyDown(e)}
                onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
                   this.onBlur(e);
@@ -355,7 +358,7 @@ class ColorInput extends VDOM.Component<ColorInputProps, ColorInputState> {
       let { instance } = this.props;
       let { widget } = instance;
       const colorFieldWidget = widget as ColorField;
-      
+
       if (colorFieldWidget.trackFocus) {
          this.setState({
             focus: true,
@@ -430,7 +433,7 @@ class ColorInput extends VDOM.Component<ColorInputProps, ColorInputState> {
    UNSAFE_componentWillReceiveProps(props: ColorInputProps): void {
       let { data, instance } = props;
       let { state } = instance;
-      let nv = this.trim(data.value as string || "");
+      let nv = this.trim((data.value as string) || "");
       if (nv != this.input.value && (this.data.value != data.value || !state?.inputError)) {
          this.input.value = nv;
          instance.setState({

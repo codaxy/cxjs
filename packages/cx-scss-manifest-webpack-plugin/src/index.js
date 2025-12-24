@@ -19,77 +19,72 @@ function CxScssManifestPlugin(options) {
    }
 }
 
-let ns1 = /cx[\\\/]src[\\\/](\w*)[\\\/]/;
-let ns2 = /cx[\\\/](\w*)[\\\/]/;
+let ns1 = /cx[\\\/]build[\\\/](\w*)[\\\/]/;
+let ns2 = /cx[\\\/]src[\\\/](\w*)[\\\/]/;
+let ns3 = /cx[\\\/](\w*)[\\\/]/;
 
-CxScssManifestPlugin.prototype.apply = function(compiler) {
+CxScssManifestPlugin.prototype.apply = function (compiler) {
    let manifest = this.manifest;
    let dirty = false;
 
-   compiler.hooks.compilation.tap(pluginName, compilation => {
-      compilation.hooks.additionalAssets.tap(pluginName, () => {
-         compilation.chunks.forEach(chunk => {
-            for (const module of chunk.modulesIterable) {
-               if (
-                  !module.resource ||
-                  module.resource.indexOf("node_modules") !== -1
-               )
-                  return;
+   const write = () => {
+      let content = "//THIS FILE IS AUTO-GENERATED USING cx-scss-manifest-webpack-plugin\n\n";
+      content += "$cx-include-all: false;\n\n";
 
-               module.dependencies.forEach(dep => {
-                  /*
-                     It would be better to use usedExports but they are missing in webpack 4
-                   */
+      let keys = Object.keys(manifest);
+      keys.sort();
 
-                  if (
-                     !dep.module ||
-                     !dep.module.buildMeta ||
-                     !dep.module.buildMeta.providedExports ||
-                     !dep.module.resource
-                  )
-                     return;
+      content += "@include cx-widgets(\n";
+      content += keys.map((k) => '\t"cx/' + k + '"').join(",\n");
+      content += "\n);\n";
 
-                  let ns =
-                     dep.module.resource.match(ns1) ||
-                     dep.module.resource.match(ns2);
-                  if (!ns) return;
+      let previousContent = fs.readFileSync(this.opts.outputPath, "utf8");
+      if (content != previousContent) {
+         console.log("CxJS SCSS manifest update.");
+         fs.writeFileSync(this.opts.outputPath, content);
+         return true;
+      }
+      return false;
+   };
 
-                  dep.module.buildMeta.providedExports.forEach(exp => {
-                     let cxModule = ns[1] + "/" + exp;
-                     if (!manifest[cxModule] && cxManifest[cxModule]) {
-                        dirty = true;
-                        manifest[cxModule] = true;
-                     }
-                  });
-               });
+   compiler.hooks.compilation.tap(pluginName, (compilation) => {
+      compilation.hooks.finishModules.tap(pluginName, (modules) => {
+         for (const module of modules) {
+            let moduleResource = getResource(module);
+            if (!moduleResource || moduleResource.indexOf("node_modules") !== -1) continue;
+            //console.log('M', moduleResource);
+            for (let dependency of module.dependencies) {
+               if (!dependency.name) continue;
+               let depModule = compilation.moduleGraph.getModule(dependency);
+               let resource = getResource(depModule);
+               //console.log('  D', dependency.name, resource);
+               if (!resource) continue;
+               let ns = resource.match(ns1) || resource.match(ns2) || resource.match(ns3);
+               if (!ns) continue;
+               let cxModule = ns[1] + "/" + dependency.name;
+               //console.log('  I', cxModule);
+               if (!manifest[cxModule] && cxManifest[cxModule]) {
+                  dirty = true;
+                  manifest[cxModule] = true;
+               }
             }
-         });
+         }
+         //console.log('MODULES');
       });
 
       compilation.hooks.needAdditionalPass.tap(pluginName, () => {
-         let content =
-            "//THIS FILE IS AUTO-GENERATED USING cx-scss-manifest-webpack-plugin\n\n";
-         content += "$cx-include-all: false;\n\n";
-
-         let keys = Object.keys(manifest);
-         keys.sort();
-
-         content += "@include cx-widgets(\n";
-         content += keys.map(k => '\t"cx/' + k + '"').join(",\n");
-         content += "\n);\n";
-
-         if (dirty) {
-            let previousContent = fs.readFileSync(this.opts.outputPath, "utf8");
-            if (content != previousContent) {
-               console.log("CxJS SCSS manifest update.");
-               fs.writeFileSync(this.opts.outputPath, content);
-            }
-            dirty = false;
+         //console.log('NEED-EXTRA PASS', dirty);
+         if (write()) {
+            //TODO: Figure out how to trigger a new SCSS round
          }
-
-         return dirty;
+         return false;
       });
    });
 };
+
+function getResource(module) {
+   if (!module) return null;
+   return module.rootModule ? module.rootModule.resource : module.resource;
+}
 
 module.exports = CxScssManifestPlugin;

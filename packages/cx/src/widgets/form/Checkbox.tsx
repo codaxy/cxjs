@@ -1,6 +1,5 @@
 /** @jsxImportSource react */
 
-import * as React from "react";
 import { VDOM } from "../../ui/VDOM";
 import type { Instance } from "../../ui/Instance";
 import type { RenderingContext } from "../../ui/RenderingContext";

@@ -1,5 +1,4 @@
 /** @jsxImportSource react */
-import * as React from "react";
 import { View } from "../../data";
 import { Binding } from "../../data/Binding";
 import { getAccessor } from "../../data/getAccessor";

@@ -7,15 +7,15 @@
       "build": "webpack"
    },
    "dependencies": {
-      "cx": "^26.0.3",
-      "cx-react": "^24.7.1",
+      "cx": "workspace:*",
+      "cx-react": "workspace:*",
       "react": "^18.3.1",
       "react-dom": "^18.3.1"
    },
    "devDependencies": {
       "@babel/core": "^7.26.0",
-      "@types/node": "^22.10.1",
-      "@types/react": "^18.3.14",
+      "@types/node": "^25.0.3",
+      "@types/react": "^19.2.7",
       "@types/webpack-env": "^1.18.8",
       "babel-loader": "^9.2.1",
       "babel-plugin-transform-cx-imports": "^26.0.1",

@@ -1,5 +1,5 @@
 /** @jsxImportSource react */
-import { StyledContainerBase, StyledContainerConfig, VDOM, StringProp } from "cx/ui";
+import { StyledContainerBase, StyledContainerConfig, VDOM, StringProp, Instance } from "cx/ui";
 import { scrollElementIntoView } from "cx/util";
 
 export interface ScrollIntoViewConfig extends StyledContainerConfig {
@@ -13,7 +13,7 @@ export class ScrollIntoView extends StyledContainerBase<ScrollIntoViewConfig> {
       });
    }
 
-   render(context, instance, key) {
+   render(context: RenderingContext, instance: Instance, key: string) {
       let { data } = instance;
       return (
          <ScrollIntoViewCmp key={key} selector={data.selector} style={data.style} className={data.classNames}>
@@ -29,7 +29,13 @@ class ScrollIntoViewCmp extends VDOM.Component<any> {
    render() {
       let { style, className, children } = this.props;
       return (
-         <div ref={(el) => (this.el = el)} style={style} className={className}>
+         <div
+            ref={(el) => {
+               this.el = el;
+            }}
+            style={style}
+            className={className}
+         >
             {children}
          </div>
       );
