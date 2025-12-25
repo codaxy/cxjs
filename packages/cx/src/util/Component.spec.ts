@@ -211,6 +211,36 @@ describe("Component.create", function () {
       });
    });
 
+   describe("type in second argument (more)", function () {
+      it("should create instance of type specified in second argument", function () {
+         const result = TestWidget.create({ text: "hello" }, { type: TestButton });
+         assert.ok(result instanceof TestButton);
+         assert.equal(result.text, "hello");
+      });
+
+      it("should create instance of $type specified in second argument", function () {
+         const result = TestWidget.create({ text: "world" }, { $type: TestButton });
+         assert.ok(result instanceof TestButton);
+         assert.equal(result.text, "world");
+      });
+
+      it("should work when first argument is an array and second has type", function () {
+         const results = Component.create([{ text: "A" }, { text: "B" }], { type: TestButton });
+         assert.equal(results.length, 2);
+         assert.ok(results[0] instanceof TestButton);
+         assert.ok(results[1] instanceof TestButton);
+         assert.equal(results[0].text, "A");
+         assert.equal(results[1].text, "B");
+      });
+
+      it("should work when type is passed as first arg with array config and type in more", function () {
+         const results = Component.create(TestWidget, [{ text: "X" }], { type: TestButton });
+         assert.equal(results.length, 1);
+         assert.ok(results[0] instanceof TestButton);
+         assert.equal(results[0].text, "X");
+      });
+   });
+
    describe("heterogeneous array with type property", function () {
       it("creates array of different component types", function () {
          const results = Component.create([

@@ -3981,6 +3981,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "cx-theme-aquamarine@workspace:packages/cx-theme-aquamarine"
   dependencies:
+    cx: "workspace:*"
     typescript: "npm:^5.9.3"
   peerDependencies:
     cx: "*"

@@ -268,6 +268,11 @@ export class Component {
 
       if (more) cfg = Object.assign({}, config, more);
 
+      // Check if merged cfg has type/$type that should override cmpType
+      // Only redirect if cfgType is a class (not a string alias or factory) to prevent infinite recursion
+      let cfgType = cfg && (cfg.type || cfg.$type);
+      if (cfgType && cfgType.isComponentType && cfgType !== cmpType) return this.create(cfg);
+
       let cmp = new cmpType(cfg);
       if (cmpType.autoInit && cmp.init) cmp.init();
       return cmp;
