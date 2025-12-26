@@ -1,6 +1,6 @@
 import { Widget } from "../../ui/Widget";
 import { PureContainerBase, PureContainerConfig } from "../../ui/PureContainer";
-import RouteMatcher from "route-parser";
+import RouteMatcher from "route-parser-ts";
 import { ReadOnlyDataView } from "../../data/ReadOnlyDataView";
 import { routeAppend } from "../../util/routeAppend";
 import { StringProp, BooleanProp, Prop } from "../../ui/Prop";

@@ -1,5 +1,5 @@
 import { Url } from "./Url";
-import Route from "route-parser";
+import Route from "route-parser-ts";
 import assert from "assert";
 describe("Url", function () {
    describe(".unresolve", function () {
