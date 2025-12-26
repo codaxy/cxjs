@@ -70,7 +70,7 @@
    "dependencies": {
       "@types/route-parser": "^0.1.7",
       "intl-io": "^0.4.4",
-      "route-parser": "^0.0.5"
+      "route-parser-ts": "^1.0.0"
    },
    "peerDependencies": {
       "@types/react": ">=18",
@@ -89,12 +89,12 @@
       "@types/node": "^25.0.3",
       "@types/react-dom": "^19.2.3",
       "@types/react-test-renderer": "^19.1.0",
+      "cx-react": "workspace:*",
       "mocha": "^11.7.5",
       "react-test-renderer": "^19.2.3",
       "ts-mocha": "^11.1.0",
       "ts-node": "^10.9.2",
       "tsconfig-paths": "^4.2.0",
-      "typescript": "^5.9.3",
-      "cx-react": "workspace:*"
+      "typescript": "^5.9.3"
    }
 }

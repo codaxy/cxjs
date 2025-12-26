@@ -4058,10 +4058,11 @@ __metadata:
     "@types/react-dom": "npm:^19.2.3"
     "@types/react-test-renderer": "npm:^19.1.0"
     "@types/route-parser": "npm:^0.1.7"
+    cx-react: "workspace:*"
     intl-io: "npm:^0.4.4"
     mocha: "npm:^11.7.5"
     react-test-renderer: "npm:^19.2.3"
-    route-parser: "npm:^0.0.5"
+    route-parser-ts: "npm:^1.0.0"
     ts-mocha: "npm:^11.1.0"
     ts-node: "npm:^10.9.2"
     tsconfig-paths: "npm:^4.2.0"
@@ -8324,10 +8325,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"route-parser@npm:^0.0.5":
-  version: 0.0.5
-  resolution: "route-parser@npm:0.0.5"
-  checksum: 10/d66f1b9e8ea4f22097f17a3a4a998acc02734aa3874194cbd46561ca355df7e78769c8d589a2bcb2bc2caa855a1f52dc46cf1affb6b2e6ab71826920cd8fe41c
+"route-parser-ts@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "route-parser-ts@npm:1.0.0"
+  checksum: 10/6225f2d0092d3f747fa2b9a4125c76acc4fa1cd303a4b8366aaf1d4bca914b48356709ae78f20bc67e7a48f79685f070e56adcf6d2c9f9e18273abc3f7d2c8fc
   languageName: node
   linkType: hard
 
