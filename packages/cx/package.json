@@ -1,6 +1,6 @@
 {
    "name": "cx",
-   "version": "26.1.1",
+   "version": "26.1.2",
    "description": "Advanced JavaScript UI framework for admin and dashboard applications with ready to use grid, form and chart components.",
    "exports": {
       "./data": {
@@ -89,12 +89,12 @@
       "@types/node": "^25.0.3",
       "@types/react-dom": "^19.2.3",
       "@types/react-test-renderer": "^19.1.0",
+      "cx-react": "workspace:*",
       "mocha": "^11.7.5",
       "react-test-renderer": "^19.2.3",
       "ts-mocha": "^11.1.0",
       "ts-node": "^10.9.2",
       "tsconfig-paths": "^4.2.0",
-      "typescript": "^5.9.3",
-      "cx-react": "workspace:*"
+      "typescript": "^5.9.3"
    }
 }

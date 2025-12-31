@@ -2,7 +2,7 @@ import { Component } from "../../util/Component";
 import { Instance } from "../Instance";
 import { View } from "../../data/View";
 import { RenderingContext } from "../RenderingContext";
-import { Sorter } from "../Prop";
+import { Sorter, RecordAlias } from "../Prop";
 
 export type DataAdapterRecordType = "data" | "group-header" | "group-footer";
 
@@ -15,8 +15,8 @@ export interface DataAdapterRecord<T = any> {
 }
 
 export interface DataAdapterConfig {
-   recordName?: string;
-   indexName?: string;
+   recordName?: RecordAlias;
+   indexName?: RecordAlias;
    immutable?: boolean;
    sealed?: boolean;
 }
