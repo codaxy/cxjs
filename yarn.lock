@@ -4058,6 +4058,7 @@ __metadata:
     "@types/react-dom": "npm:^19.2.3"
     "@types/react-test-renderer": "npm:^19.1.0"
     "@types/route-parser": "npm:^0.1.7"
+    cx-react: "workspace:*"
     intl-io: "npm:^0.4.4"
     mocha: "npm:^11.7.5"
     react-test-renderer: "npm:^19.2.3"
