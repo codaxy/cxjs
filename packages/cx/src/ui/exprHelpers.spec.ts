@@ -14,6 +14,7 @@ import {
    notEqual,
    strictEqual,
    strictNotEqual,
+   format,
 } from "./exprHelpers";
 import assert from "assert";
 import { createAccessorModelProxy } from "../data/createAccessorModelProxy";
@@ -374,6 +375,38 @@ describe("exprHelpers", function () {
          const selector = strictNotEqual(m.nullable, null);
          assert.strictEqual(selector({ nullable: null }), false);
          assert.strictEqual(selector({ nullable: undefined }), true);
+      });
+   });
+
+   describe("format", function () {
+      it("formats numbers with specified decimal places", function () {
+         const selector = format(m.value, "n;2");
+         assert.strictEqual(selector({ value: 1234.5 }), "1234.50");
+      });
+
+      it("formats percentages", function () {
+         const selector = format(m.value, "p;0");
+         assert.strictEqual(selector({ value: 0.5 }), "50%");
+      });
+
+      it("returns empty string for null values", function () {
+         const selector = format(m.nullable, "n;2");
+         assert.strictEqual(selector({ nullable: null }), "");
+      });
+
+      it("returns empty string for undefined values", function () {
+         const selector = format(m.nullable, "n;2");
+         assert.strictEqual(selector({ nullable: undefined }), "");
+      });
+
+      it("returns custom null text for null values", function () {
+         const selector = format(m.nullable, "n;2", "N/A");
+         assert.strictEqual(selector({ nullable: null }), "N/A");
+      });
+
+      it("returns custom null text for undefined values", function () {
+         const selector = format(m.nullable, "n;2", "-");
+         assert.strictEqual(selector({ nullable: undefined }), "-");
       });
    });
 });

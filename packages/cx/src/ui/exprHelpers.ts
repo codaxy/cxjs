@@ -1,5 +1,7 @@
+import { computable } from "../data/computable";
 import { AccessorChain } from "../data/createAccessorModelProxy";
 import { Selector } from "../data/Selector";
+import { Format } from "../util/Format";
 import { expr } from "./expr";
 
 /** Returns a selector that converts the value to boolean using !! */
@@ -75,4 +77,20 @@ export function strictEqual<V>(arg: AccessorChain<V>, value: V): Selector<boolea
 /** Returns a selector that checks if the value strictly does not equal the given value using !== */
 export function strictNotEqual<V>(arg: AccessorChain<V>, value: V): Selector<boolean> {
    return expr(arg, (x) => x !== value);
+}
+
+/** Returns a selector that formats the value using the specified format string.
+ * Format strings use semicolon-separated syntax: "formatType;param1;param2"
+ * @param arg - The accessor chain to the value
+ * @param fmt - The format string
+ * @param nullText - Optional text to display for null/undefined values
+ * @example
+ * format(m.price, "n;2") // formats as number with 2 decimal places
+ * format(m.date, "d") // formats as date
+ * format(m.value, "p;0;2") // formats as percentage with 0-2 decimal places
+ * format(m.value, "n;2", "N/A") // shows "N/A" for null values
+ */
+export function format<V>(arg: AccessorChain<V>, fmt: string, nullText?: string): Selector<string> {
+   let f = nullText != null ? `${fmt}|${nullText}` : fmt;
+   return computable(arg, (x) => Format.value(x, f));
 }
