@@ -1,3 +1,4 @@
+import type { Instance } from "./Instance";
 import { Selector } from "../data/Selector";
 import { AccessorChain } from "../data/createAccessorModelProxy";
 
@@ -14,7 +15,7 @@ export type Tpl = {
 
 export type Expr = {
    expr: string;
-   set?: (value: any, instance?: any) => boolean;
+   set?: (value: any, instance?: Instance) => boolean;
    throttle?: number;
    debounce?: number;
 };
@@ -23,7 +24,7 @@ export type Binding = Bind | Tpl | Expr;
 
 export type GetSet<T> = {
    get: Selector<T>;
-   set?: (value: T, instance?: any) => boolean;
+   set?: (value: T, instance?: Instance) => boolean;
    throttle?: number;
    debounce?: number;
 };

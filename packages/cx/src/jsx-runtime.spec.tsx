@@ -34,6 +34,12 @@ import { bind } from "./ui/bind";
 import { expr } from "./ui/expr";
 import { createFunctionalComponent } from "./ui/createFunctionalComponent";
 
+interface SandboxConfig extends WidgetConfig {
+   key: StringProp;
+}
+
+class Sandbox extends Widget<SandboxConfig> {}
+
 /**
  * These tests verify that widget props are correctly typed in JSX.
  * Negative tests use @ts-expect-error to verify that incorrect types are rejected.
@@ -426,6 +432,37 @@ describe("jsx-runtime type inference", () => {
             </cx>
          );
          assert.ok(widget);
+      });
+   });
+
+   describe("key prop", () => {
+      it("accepts key prop on widgets", () => {
+         const widget = (
+            <cx>
+               <Sandbox key="field1" />
+            </cx>
+         );
+         assert.ok(widget);
+         assert.equal(widget.key, "field1");
+      });
+
+      it("accepts key prop on intrinsic elements", () => {
+         const widget = (
+            <cx>
+               <div key="div1" text="Hello" />
+            </cx>
+         );
+         assert.ok(widget);
+         assert.equal(widget.key, "div1");
+      });
+
+      it("includes key in jsxAttributes", () => {
+         const widget = (
+            <cx>
+               <div key="div1" text="Hello" />
+            </cx>
+         );
+         assert.ok(widget.jsxAttributes.includes("key"));
       });
    });
 });

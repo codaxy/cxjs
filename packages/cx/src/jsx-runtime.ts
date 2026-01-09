@@ -9,8 +9,13 @@ import { ReactElementWrapper, ReactElementWrapperConfig } from "./widgets/ReactE
 export function jsx(typeName: any, props: any, key?: string): any {
    if (isArray(typeName)) return typeName;
 
-   // if (isFunction(typeName) && isUndefined(props))
-   //    return createFunctionalComponent((config) => typeName(flattenProps(config)));
+   if (key) {
+      // key is allowed in CxJS, i.e. Sandbox use it
+      props = {
+         ...props,
+         key,
+      };
+   }
 
    if (typeName.type || typeName.$type) return typeName;
 
