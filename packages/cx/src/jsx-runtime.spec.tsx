@@ -439,11 +439,11 @@ describe("jsx-runtime type inference", () => {
       it("accepts key prop on widgets", () => {
          const widget = (
             <cx>
-               <Sandbox key="field1" />
+               <Sandbox key={bind("field1")} />
             </cx>
          );
          assert.ok(widget);
-         assert.equal(widget.key, "field1");
+         assert.deepEqual(widget.key, { bind: "field1", defaultValue: undefined });
       });
 
       it("accepts key prop on intrinsic elements", () => {

@@ -1,9 +1,6 @@
 @use "sass:map";
 
-@mixin cx-dropzone(
-   $name: 'dropzone',
-   $besm: $cx-besm
-) {
+@mixin cx-dropzone($name: "dropzone", $besm: $cx-besm) {
    $block: map.get($besm, block);
    $element: map.get($besm, element);
    $state: map.get($besm, state);
@@ -39,7 +36,7 @@
       }
 
       &.#{$mod}block {
-         height: 1px;
+         min-height: 1px;
          margin-top: -1px;
          align-self: stretch;
 
@@ -60,7 +57,7 @@
          align-self: stretch;
 
          &:after {
-            content: ' ';
+            content: " ";
          }
 
          &.#{$state}over {
@@ -72,6 +69,6 @@
    }
 }
 
-@if (cx-should-include('cx/widgets/DropZone')) {
+@if (cx-should-include("cx/widgets/DropZone")) {
    @include cx-dropzone();
 }
