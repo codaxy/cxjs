@@ -1,0 +1,29 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: LabelsLeftLayout
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import LabelsLeftLayoutStyledExample from "../../../examples/layout/LabelsLeftLayoutStyledExample.tsx";
+import LabelsLeftLayoutStyledExampleCode from "../../../examples/layout/LabelsLeftLayoutStyledExample.tsx?raw";
+
+# LabelsLeftLayout
+
+<ImportPath path="import { LabelsLeftLayout } from 'cx/ui';" />
+
+`LabelsLeftLayout` is used for horizontal form layouts. It renders children inside a table where labels go into the first column and inputs go into the second column.
+
+<CodeExample code={LabelsLeftLayoutStyledExampleCode}>
+  <LabelsLeftLayoutStyledExample client:load />
+</CodeExample>
+
+Use [LabeledContainer](/docs/forms/labeled-container) when multiple widgets need to share a single label.
+
+## Configuration
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `labelStyle` | `StyleProp` | Style applied to label cells. |
+| `labelClass` | `ClassProp` | CSS class applied to label cells. |

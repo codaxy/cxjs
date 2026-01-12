@@ -112,6 +112,16 @@ export const navigation = [
         ],
       },
       {
+        title: "Inner Layouts",
+        items: [
+          { title: "Overview", slug: "inner-layouts" },
+          { title: "LabelsLeftLayout", slug: "labels-left-layout" },
+          { title: "LabelsTopLayout", slug: "labels-top-layout" },
+          { title: "FirstVisibleChildLayout", slug: "first-visible-child-layout" },
+          { title: "UseParentLayout", slug: "use-parent-layout" },
+        ],
+      },
+      {
         title: "Overlays",
         items: [
           { title: "Window", slug: "window" },

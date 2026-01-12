@@ -27,6 +27,7 @@ This document outlines the plan for the new CxJS documentation website. CxJS has
 ### 🚧 Layout (In Progress)
 
 - App Layout
+- Inner Layouts ✅
 - Overlays
 - Menus
 - Content

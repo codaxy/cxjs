@@ -65,6 +65,12 @@ Category / Group / Page
   - Outer Layouts
   - ContentPlaceholder
   - Content
+- Inner Layouts
+  - Overview
+  - LabelsLeftLayout
+  - LabelsTopLayout
+  - FirstVisibleChildLayout
+  - UseParentLayout
 - Overlays
   - Window
   - Overlay

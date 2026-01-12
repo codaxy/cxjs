@@ -1,0 +1,37 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Inner Layouts
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+
+import NoLayoutExample from "../../../examples/layout/NoLayoutExample.tsx";
+import NoLayoutExampleCode from "../../../examples/layout/NoLayoutExample.tsx?raw";
+
+import LabelsLeftLayoutExample from "../../../examples/layout/LabelsLeftLayoutExample.tsx";
+import LabelsLeftLayoutExampleCode from "../../../examples/layout/LabelsLeftLayoutExample.tsx?raw";
+
+# Inner Layouts
+
+Inner layouts define how a widget's children are arranged. They are typically used as container components.
+
+| Layout | Purpose |
+| ------ | ------- |
+| [LabelsLeftLayout](labels-left-layout) | Horizontal form layout with labels on the left |
+| [LabelsTopLayout](labels-top-layout) | Form layout with labels above inputs |
+| [FirstVisibleChildLayout](first-visible-child-layout) | Shows only the first visible child |
+| [UseParentLayout](use-parent-layout) | Delegates layout to the parent container |
+
+## Default Behavior (No Layout)
+
+When no layout is specified, children render in the order they are defined. For form fields, this means the label appears inline before the input:
+
+<CodeExample code={NoLayoutExampleCode}>
+  <NoLayoutExample client:load />
+</CodeExample>
+
+This default behavior doesn't work well for structured forms. Use a layout component to arrange form fields properly:
+
+<CodeExample code={LabelsLeftLayoutExampleCode}>
+  <LabelsLeftLayoutExample client:load />
+</CodeExample>

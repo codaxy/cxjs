@@ -105,3 +105,12 @@ The `@index` section is shown by default. If no section markers are present, the
 
 - Refer to PLAN.md for tasks and priorities
 - Keep this file tidy and well-organized
+
+### Component Documentation
+
+When working on a component page:
+
+1. **Read existing docs** - Check `docs/content/` for existing documentation on the component
+2. **Read source code** - Read the component's TypeScript source in `packages/cx/src/` to understand all config props
+3. **Create examples** - Build CodeExample files with typed models and section markers
+4. **Add configuration table** - Document all relevant props with types and descriptions
