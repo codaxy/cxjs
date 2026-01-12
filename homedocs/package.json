@@ -11,6 +11,7 @@
     "prettify": "prettier --write ."
   },
   "dependencies": {
+    "@4hse/astro-llms-txt": "^1.0.4",
     "@astrojs/mdx": "^4.3.13",
     "@astrojs/react": "^4.4.2",
     "@heroicons/react": "^2.2.0",
