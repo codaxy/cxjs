@@ -30,7 +30,8 @@
       "mcp__playwright__browser_take_screenshot",
       "Bash(yarn compile:*)",
       "Bash(cat:*)",
-      "Bash(yarn remove:*)"
+      "Bash(yarn remove:*)",
+      "Bash(yarn add:*)"
     ],
     "deny": [],
     "ask": []

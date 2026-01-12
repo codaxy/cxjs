@@ -22,19 +22,13 @@
     "astro-pagefind": "^1.8.5",
     "cx": "workspace:*",
     "cx-react": "workspace:*",
-    "jsdom": "^27.4.0",
+    "gray-matter": "^4.0.3",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
-    "rehype-parse": "^9.0.1",
-    "rehype-remark": "^10.0.1",
-    "remark-gfm": "^4.0.1",
-    "remark-stringify": "^11.0.0",
     "sass": "^1.96.0",
-    "tailwindcss": "^4.1.18",
-    "unified": "^11.0.5"
+    "tailwindcss": "^4.1.18"
   },
   "devDependencies": {
-    "@types/jsdom": "^27",
     "prettier": "^3.7.4"
   }
 }
