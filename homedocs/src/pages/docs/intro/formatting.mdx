@@ -19,6 +19,30 @@ Widgets like `NumberField` and `DateField` accept a `format` property that contr
   <FormattingExample client:load />
 </CodeExample>
 
+Use the `tpl` function to format multiple values into a single text property:
+
+```tsx
+import { createAccessorModelProxy } from "cx/data";
+import { tpl } from "cx/ui";
+
+interface Person {
+  firstName: string;
+  lastName: string;
+  age: number;
+}
+
+const m = createAccessorModelProxy<Person>();
+
+// Positional placeholders {0}, {1}, etc.
+<div text={tpl(m.firstName, m.lastName, "{0} {1}")} />
+
+// With formatting
+<div text={tpl(m.firstName, m.age, "{0} is {1:n;0} years old")} />
+
+// With null text fallback
+<div text={tpl(m.firstName, "Hello, {0|Guest}!")} />
+```
+
 ## Culture-Sensitive Formatting
 
 Date, currency, and number formats depend on culture settings. Enable culture-sensitive formatting before use:
