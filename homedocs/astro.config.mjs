@@ -5,7 +5,7 @@ import mdx from "@astrojs/mdx";
 import tailwindcss from "@tailwindcss/vite";
 import pagefind from "astro-pagefind";
 import cxjs from "./src/integrations/cxjs";
-import astroLlmsTxt from "@4hse/astro-llms-txt";
+import llmsTxt from "./src/integrations/llms-txt";
 
 // https://astro.build/config
 export default defineConfig({
@@ -15,32 +15,11 @@ export default defineConfig({
     react(),
     mdx(),
     pagefind(),
-    astroLlmsTxt({
+    llmsTxt({
       title: "CxJS",
       description:
         "CxJS is a feature-rich JavaScript framework for building complex web front-ends, such as BI tools, dashboards and admin apps.",
-      details:
-        "CxJS offers declarative data binding, comprehensive widget library, advanced charting capabilities, and flexible theming system.",
-      notes:
-        "- This content is auto-generated from the official CxJS documentation.",
-      docSet: [
-        {
-          title: "Complete Documentation",
-          description: "Full CxJS documentation including all guides and API references",
-          url: "/llms-full.txt",
-          include: ["docs/", "docs/**"],
-          promote: ["docs/intro/what-is-cxjs", "docs/intro/installation"],
-        },
-        {
-          title: "Documentation Structure",
-          description: "Index of key documentation pages and sections",
-          url: "/llms-small.txt",
-          include: ["docs/", "docs/**"],
-          onlyStructure: true,
-          promote: ["docs/intro/what-is-cxjs"],
-        },
-      ],
-      pageSeparator: "\n\n---\n\n",
+      site: "https://cxjs.io",
     }),
   ],
   build: {
