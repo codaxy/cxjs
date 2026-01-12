@@ -30,12 +30,11 @@ export default () => (
       title="Contact"
       visible={m.contact.visible}
       center
-      style={{ width: "500px" }}
       modal
       draggable
       closeOnEscape
     >
-      <div style={{ padding: "20px" }}>
+      <div>
         <LabelsLeftLayout>
           <TextField value={m.contact.name} label="Name" />
           <TextField value={m.contact.email} label="Email" />
