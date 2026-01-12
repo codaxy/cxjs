@@ -1,0 +1,48 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: LabeledContainer
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import LabeledContainerBasic from "../../../examples/widgets/labeledcontainer/Basic.tsx";
+import LabeledContainerDateRange from "../../../examples/widgets/labeledcontainer/DateRange.tsx";
+
+# LabeledContainer
+
+The `LabeledContainer` widget groups multiple form fields under a single label.
+
+**Import:** `import { LabeledContainer } from 'cx/widgets';`
+
+## Basic Usage
+
+Group related fields under a single label.
+
+<CodeExample
+  code={`<LabeledContainer label="Full Name">
+  <TextField value={bind("firstName")} placeholder="First" />
+  <TextField value={bind("lastName")} placeholder="Last" />
+</LabeledContainer>`}
+>
+  <LabeledContainerBasic client:load />
+</CodeExample>
+
+## Date Range
+
+Group date fields for selecting a range.
+
+<CodeExample
+  code={`<LabeledContainer label="Date Range">
+  <DateField value={bind("startDate")} placeholder="Start" />
+  <DateField value={bind("endDate")} placeholder="End" />
+</LabeledContainer>`}
+>
+  <LabeledContainerDateRange client:load />
+</CodeExample>
+
+## Properties
+
+| Property         | Type               | Default     | Description                      |
+| ---------------- | ------------------ | ----------- | -------------------------------- |
+| `label`          | `string \| object` | `undefined` | The label text or configuration  |
+| `trimWhitespace` | `boolean`          | `true`      | Trim whitespace between children |
+| `asterisk`       | `boolean`          | `false`     | Show required indicator          |

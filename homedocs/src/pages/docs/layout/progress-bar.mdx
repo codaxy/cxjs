@@ -1,0 +1,22 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: ProgressBar
+---
+
+import CodePreview from "../../../components/CodePreview.astro";
+import ProgressBarsExample from "../../../examples/widgets/ProgressBarsExample.tsx";
+import ProgressBarsExampleCode from "../../../examples/widgets/ProgressBarsExample.tsx?raw";
+
+**Import:** `import { ProgressBar } from 'cx/widgets';`
+
+The `ProgressBar` accepts values between `0` and `1` to indicate the state of progress.
+
+## Example
+
+<CodePreview code={ProgressBarsExampleCode} filterLines={["ProgressBar"]}>
+  <ProgressBarsExample client:load />
+</CodePreview>
+
+## Configuration
+
+For configuration options, see the ProgressBar widget documentation.

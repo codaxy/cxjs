@@ -1,0 +1,36 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: SimpleSelection
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import ImportPath from "../../../components/ImportPath.astro";
+import SimpleSelectionExample from "../../../examples/concepts/SimpleSelectionExample.tsx";
+import SimpleSelectionExampleCode from "../../../examples/concepts/SimpleSelectionExample.tsx?raw";
+
+# SimpleSelection
+
+<ImportPath path="import { SimpleSelection } from 'cx/ui';" />
+
+SimpleSelection is the most basic selection model. It stores the entire selected object in the bound variable. Only single selection is supported.
+
+## When to Use
+
+- Simple single-select scenarios
+- When you need immediate access to the full selected object
+- Quick prototyping or simple lists
+
+Note that selection is lost if the selected object changes in the data source, since the reference will no longer match. For more robust selection, consider [KeySelection](/core/key-selection).
+
+## Example
+
+<CodeExample code={SimpleSelectionExampleCode}>
+  <SimpleSelectionExample client:load />
+</CodeExample>
+
+## Configuration
+
+| Property | Type        | Default | Description                                              |
+| -------- | ----------- | ------- | -------------------------------------------------------- |
+| `bind`   | `Prop<any>` | —       | Binding for the selected object                          |
+| `toggle` | `boolean`   | `false` | Enable toggle mode (clicking selected item deselects it) |

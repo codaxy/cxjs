@@ -1,0 +1,34 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: MinMaxFinder
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import MinMaxFinderExample from "../../../examples/charts/MinMaxFinderExample.tsx";
+
+# MinMaxFinder
+
+Determines minimum and maximum values displayed on a graph.
+
+**Import:** `import { MinMaxFinder } from 'cx/charts';`
+
+## Example
+
+<CodeExample
+  code={`<MinMaxFinder minY-bind="minValue" maxY-bind="maxValue">
+  <LineGraph data-bind="points" colorIndex={0} />
+</MinMaxFinder>
+<MarkerLine y-bind="minValue" colorIndex={8} />
+<MarkerLine y-bind="maxValue" colorIndex={4} />`}
+>
+  <MinMaxFinderExample client:load />
+</CodeExample>
+
+## Properties
+
+| Property | Type         | Default     | Description        |
+| -------- | ------------ | ----------- | ------------------ |
+| `minX`   | `Sx<number>` | `undefined` | Bind for minimum X |
+| `maxX`   | `Sx<number>` | `undefined` | Bind for maximum X |
+| `minY`   | `Sx<number>` | `undefined` | Bind for minimum Y |
+| `maxY`   | `Sx<number>` | `undefined` | Bind for maximum Y |

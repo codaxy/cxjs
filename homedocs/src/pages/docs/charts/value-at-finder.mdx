@@ -1,0 +1,34 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: ValueAtFinder
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import ValueAtFinderExample from "../../../examples/charts/ValueAtFinderExample.tsx";
+
+# ValueAtFinder
+
+Reads interpolated values from a line graph at a given position.
+
+**Import:** `import { ValueAtFinder } from 'cx/charts';`
+
+## Example
+
+<CodeExample
+  code={`<MouseTracker x-bind="cursor.x">
+  <ValueAtFinder at-bind="cursor.x" value-bind="trackedValue">
+    <LineGraph data-bind="points" colorIndex={0} />
+  </ValueAtFinder>
+  <MarkerLine x-bind="cursor.x" colorIndex={0} />
+  <Marker x-bind="cursor.x" y-bind="trackedValue" colorIndex={0} />
+</MouseTracker>`}
+>
+  <ValueAtFinderExample client:load />
+</CodeExample>
+
+## Properties
+
+| Property | Type         | Default     | Description             |
+| -------- | ------------ | ----------- | ----------------------- |
+| `at`     | `Sx<number>` | `undefined` | X position to read      |
+| `value`  | `Sx<number>` | `undefined` | Bind for interpolated Y |

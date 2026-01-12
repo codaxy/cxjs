@@ -1,0 +1,82 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: TextArea
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import TextAreaBasic from "../../../examples/widgets/textarea/Basic.tsx";
+import TextAreaDisabled from "../../../examples/widgets/textarea/Disabled.tsx";
+import TextAreaPlaceholder from "../../../examples/widgets/textarea/Placeholder.tsx";
+import TextAreaRequired from "../../../examples/widgets/textarea/Required.tsx";
+
+# TextArea
+
+The `TextArea` widget is used for larger text inputs. Besides allowing multi-line input, it's practically the same as the `TextField` control.
+
+**Import:** `import { TextArea } from 'cx/widgets';`
+
+## Basic Usage
+
+A simple multi-line text input with data binding.
+
+<CodeExample
+  code={`<TextArea
+  value={bind("text")}
+  rows={3}
+/>`}
+>
+  <TextAreaBasic client:load />
+</CodeExample>
+
+## Placeholder
+
+Show hint text when the field is empty.
+
+<CodeExample
+  code={`<TextArea
+  value={bind("text")}
+  placeholder="Enter your message..."
+  rows={3}
+/>`}
+>
+  <TextAreaPlaceholder client:load />
+</CodeExample>
+
+## Disabled State
+
+Prevent user interaction with the disabled prop.
+
+<CodeExample
+  code={`<TextArea
+  value="This text cannot be edited"
+  disabled
+/>`}
+>
+  <TextAreaDisabled client:load />
+</CodeExample>
+
+## Required Validation
+
+Mark the field as required for form validation.
+
+<CodeExample
+  code={`<TextArea
+  value={bind("text")}
+  required
+/>`}
+>
+  <TextAreaRequired client:load />
+</CodeExample>
+
+## Properties
+
+| Property      | Type         | Default     | Description                 |
+| ------------- | ------------ | ----------- | --------------------------- |
+| `value`       | `Sx<string>` | `undefined` | The text value              |
+| `rows`        | `number`     | `undefined` | Number of visible text rows |
+| `placeholder` | `string`     | `undefined` | Placeholder text            |
+| `disabled`    | `boolean`    | `false`     | Disables the input          |
+| `readOnly`    | `boolean`    | `false`     | Makes the input read-only   |
+| `required`    | `boolean`    | `false`     | Marks as required           |
+| `minLength`   | `number`     | `undefined` | Minimum text length         |
+| `maxLength`   | `number`     | `undefined` | Maximum text length         |

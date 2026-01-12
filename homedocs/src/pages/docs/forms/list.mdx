@@ -1,0 +1,26 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Lists
+---
+
+import CodePreview from "../../../components/CodePreview.astro";
+import ListsExample from "../../../examples/widgets/ListsExample.tsx";
+import ListsExampleCode from "../../../examples/widgets/ListsExample.tsx?raw";
+
+**Import:** `import { List } from 'cx/widgets';`
+
+The `List` control displays a collection of items and offers navigation and selection.
+
+## Example
+
+<CodePreview code={ListsExampleCode} filterLines={["List"]}>
+  <ListsExample client:load />
+</CodePreview>
+
+## Examples
+
+- [Grouping](/examples/list/grouping)
+
+## Configuration
+
+For configuration options, see the List widget documentation.

@@ -1,0 +1,125 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Store
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import ImportPath from "../../../components/ImportPath.astro";
+import Note from "../../../components/Note.astro";
+import StoreBasicsExample from "../../../examples/intro/StoreBasicsExample.tsx";
+import StoreBasicsExampleCode from "../../../examples/intro/StoreBasicsExample.tsx?raw";
+import StoreMethodsExample from "../../../examples/intro/StoreMethodsExample.tsx";
+import StoreMethodsExampleCode from "../../../examples/intro/StoreMethodsExample.tsx?raw";
+
+# Store
+
+<ImportPath path="import { Store } from 'cx/data';" />
+
+The **Store** is the central state container in CxJS. It holds all application data and notifies widgets when data changes, triggering automatic UI updates.
+
+## Accessing the Store
+
+Every CxJS widget has access to the store through its instance. In event handlers, access it via the second parameter:
+
+<CodeExample code={StoreBasicsExampleCode}>
+  <StoreBasicsExample client:load />
+</CodeExample>
+
+The store is available in event handlers like `onClick`, `onChange`, and others. Use `store.get()` to read values and `store.set()` to write them.
+
+When using typed models with `createAccessorModelProxy`, all store methods are fully typed. TypeScript catches type mismatches at compile time:
+
+```tsx
+interface PageModel {
+  count: number;
+  name: string;
+}
+
+const m = createAccessorModelProxy<PageModel>();
+
+store.set(m.count, 5); // ✓ OK
+store.set(m.count, "five"); // ✗ Type error
+store.set(m.name, "John"); // ✓ OK
+```
+
+## Store Methods
+
+The store provides several methods for working with data:
+
+| Method                         | Description                                                        |
+| ------------------------------ | ------------------------------------------------------------------ |
+| `get(accessor)`                | Returns the value at the given path                                |
+| `set(accessor, value)`         | Sets the value at the given path                                   |
+| `init(accessor, value)`        | Sets the value only if currently undefined                         |
+| `update(accessor, fn)`         | Applies a function to the current value and stores the result      |
+| `delete(accessor)`             | Removes the value at the given path                                |
+| `toggle(accessor)`             | Inverts a boolean value                                            |
+| `copy(from, to)`               | Copies a value from one path to another                            |
+| `move(from, to)`               | Moves a value from one path to another                             |
+| `batch(fn)`                    | Batches multiple updates, notifying listeners only once at the end |
+| `silently(fn)`                 | Executes updates without triggering any notifications              |
+| `notify(path?)`                | Manually triggers change notifications                             |
+| `subscribe(fn)`                | Registers a listener for changes; returns an unsubscribe function  |
+| `ref(accessor, defaultValue?)` | Creates a reactive reference to store data                         |
+| `getData()`                    | Returns the entire store data object                               |
+
+<CodeExample code={StoreMethodsExampleCode}>
+  <StoreMethodsExample client:load />
+</CodeExample>
+
+## Immutability
+
+The store treats all data as immutable. When you call `set()` or `update()`, CxJS creates new object references along the path to the changed value. This enables efficient change detection — widgets only re-render when their bound data actually changes.
+
+<Note type="warning">
+  When updating objects or arrays, you must create new instances. Mutating
+  existing objects directly will not trigger UI updates.
+</Note>
+
+```tsx
+// Updating an object - spread the original and override properties
+store.update(m.user, (user) => ({ ...user, name: "John" }));
+
+// Adding to an array - create a new array
+store.update(m.items, (items) => [...items, newItem]);
+
+// Removing from an array - filter returns a new array
+store.update(m.items, (items) => items.filter((item) => item.id !== id));
+```
+
+## Immer Integration
+
+For complex nested updates, manually spreading objects can become tedious. The `cx-immer` package provides a `mutate` method that lets you write mutable-style code while CxJS handles immutability behind the scenes:
+
+```tsx
+import { enableImmerMutate } from "cx-immer";
+enableImmerMutate();
+
+// Now you can use mutate with mutable syntax
+store.mutate(m.user, (user) => {
+  user.name = "John";
+  user.scores.push(100);
+  user.address.city = "New York";
+});
+```
+
+The `mutate` method uses [Immer](https://immerjs.github.io/immer/) to produce immutable updates from mutable code. This is especially useful when updating deeply nested structures or performing multiple changes at once.
+
+## Creating a Store
+
+In most applications, CxJS creates the store automatically. If you need to create one manually (for testing or advanced scenarios), use the `Store` constructor:
+
+```tsx
+import { Store } from "cx/data";
+
+const store = new Store({
+  data: {
+    count: 0,
+    user: { name: "Guest" },
+  },
+});
+
+// Read and write data
+const count = store.get(m.count);
+store.set(m.count, count + 1);
+```

@@ -1,0 +1,66 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Keyboard Shortcuts
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import ImportPath from "../../../components/ImportPath.astro";
+import Note from "../../../components/Note.astro";
+import KeyboardShortcutsExample from "../../../examples/concepts/KeyboardShortcutsExample.tsx";
+import KeyboardShortcutsExampleCode from "../../../examples/concepts/KeyboardShortcutsExample.tsx?raw";
+
+# Keyboard Shortcuts
+
+<ImportPath path="import { registerKeyboardShortcut } from 'cx/ui';" />
+
+CxJS provides `registerKeyboardShortcut` for listening to keyboard shortcuts. Shortcuts only trigger when the document body has focus (not when focused on input fields).
+
+## Example
+
+<CodeExample code={KeyboardShortcutsExampleCode}>
+  <KeyboardShortcutsExample client:load />
+</CodeExample>
+
+## Key Argument
+
+The first argument can be a simple key code or an object for key combinations:
+
+```tsx
+// Simple key
+registerKeyboardShortcut(KeyCode.enter, callback);
+
+// Key combination
+registerKeyboardShortcut({ keyCode: KeyCode.a, shiftKey: true }, callback);
+```
+
+The object form accepts:
+
+- `keyCode` (required) - A value from the `KeyCode` class
+- `shiftKey` - Require Shift key
+- `ctrlKey` - Require Ctrl key
+- `altKey` - Require Alt key
+
+## KeyCode
+
+<ImportPath path="import { KeyCode } from 'cx/util';" />
+
+Common key codes:
+
+| Key          | Code                                                          |
+| ------------ | ------------------------------------------------------------- |
+| Enter        | `KeyCode.enter`                                               |
+| Escape       | `KeyCode.esc`                                                 |
+| Space        | `KeyCode.space`                                               |
+| Tab          | `KeyCode.tab`                                                 |
+| Backspace    | `KeyCode.backspace`                                           |
+| Delete       | `KeyCode.delete`                                              |
+| Arrow keys   | `KeyCode.up`, `KeyCode.down`, `KeyCode.left`, `KeyCode.right` |
+| Page Up/Down | `KeyCode.pageUp`, `KeyCode.pageDown`                          |
+| Home/End     | `KeyCode.home`, `KeyCode.end`                                 |
+| Letter A     | `KeyCode.a`                                                   |
+
+<Note type="warning">
+  Always unregister keyboard shortcuts when they're no longer needed to prevent
+  memory leaks. Call the unregister function returned by
+  `registerKeyboardShortcut` in the controller's `onDestroy` method.
+</Note>

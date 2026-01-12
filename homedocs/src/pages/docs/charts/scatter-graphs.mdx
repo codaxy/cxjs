@@ -1,0 +1,36 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: ScatterGraph
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import ScatterGraphExample from "../../../examples/charts/ScatterGraphExample.tsx";
+
+# ScatterGraph
+
+The `ScatterGraph` widget is used for rendering scatter plots.
+
+**Import:** `import { ScatterGraph } from 'cx/charts';`
+
+## Example
+
+<CodeExample
+  code={`<Chart axes={{ x: { type: NumericAxis }, y: { type: NumericAxis, vertical: true } }}>
+  <Gridlines />
+  <ScatterGraph data-bind="data" colorIndex={6} sizeField="size" />
+</Chart>`}
+>
+  <ScatterGraphExample client:load />
+</CodeExample>
+
+## Properties
+
+| Property     | Type        | Default     | Description             |
+| ------------ | ----------- | ----------- | ----------------------- |
+| `data`       | `Sx<Array>` | `undefined` | Array of data points    |
+| `xField`     | `string`    | `"x"`       | Field for x-axis values |
+| `yField`     | `string`    | `"y"`       | Field for y-axis values |
+| `sizeField`  | `string`    | `undefined` | Field for point size    |
+| `colorIndex` | `number`    | `undefined` | Color palette index     |
+| `size`       | `number`    | `5`         | Default point size      |
+| `shape`      | `string`    | `"circle"`  | Point shape             |

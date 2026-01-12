@@ -1,0 +1,444 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Changelog
+---
+
+# Changelog
+
+## cx@26.1.0
+
+**Features**
+
+- Complete TypeScript rewrite with full type safety
+- New typed model system with `createAccessorModelProxy`
+- Improved JSX syntax - `<cx>` wrapper no longer required
+- Modern build tooling support (Vite, esbuild, SWC)
+- Split HTML and React elements for better type inference
+
+See [Breaking Changes](/intro/breaking-changes#2610) for migration details.
+
+---
+
+## cx@25.1.0
+
+**Features**
+
+- Date only (2025-01-01) strings are now parsed as local time, instead of UTC.
+- `encodeDate` function can be used to format date objects as date only strings, i.e. 2025-01-01. This function can be set as `encoding` for the `DateField`, `MonthField`, `Calendar`, and `MonthPicker` components.
+- `MonthField` and `MonthPicker` now include a flag `inclusiveTo` which allow month ranges to end with the last day of the month, instead of the first day of the next month.
+
+---
+
+## cx@24.6.2
+
+**Features**
+
+- Add SnapPointFinder convertX and convertY functions
+
+---
+
+## cx@24.6.1
+
+**Fixes**
+
+- Fix on validate arguments for multiple lookups
+
+---
+
+## cx@24.5.2
+
+**Features**
+
+- New formats: `capitalize` and `titleCase`.
+
+---
+
+## cx@24.5.1
+
+**Features**
+
+- `Window.pad` option. See [Breaking changes](/intro/breaking-changes).
+
+---
+
+## cx@24.4.9
+
+**Features**
+
+- Swimlane component
+
+---
+
+## cx@24.4.8
+
+**Features**
+
+- Set caption style and class even when caption is defined as items/children.
+
+**Fixes**
+
+- Fix grid grouping text property description.
+
+---
+
+## cx@24.4.7
+
+**Features**
+
+- Improve selection of dropzone based on distance to the center.
+- Allow grid column caption to be specified as false.
+- Support dynamic chart height based on the number of categories.
+
+**Fixes**
+
+- Avoid rendering shape prop.
+- Fix grid rendering when column caption is defined via items only.
+
+---
+
+## cx@24.4.6
+
+**Features**
+
+- Allow grid column caption to be specified as false.
+- Support dynamic chart height based on the number of categories.
+
+**Fixes**
+
+- Fix grid rendering when column caption is defined via items only.
+
+---
+
+## cx@24.4.5
+
+**Features**
+
+- Introduce new feature for grid: merging cells.
+
+---
+
+## cx@24.4.4
+
+**Features**
+
+- Introducing the new `zeropad` format.
+
+---
+
+## cx@24.4.3
+
+**Fixes**
+
+- Corrected distortion in pie-chart shapes caused by mathematical errors.
+- Resolved grid resize issues by implementing element existence checks prior to resizing.
+
+---
+
+## cx@24.4.2
+
+**Fixes**
+
+- Addressed a bug where RangeMarkers were not functioning correctly when used alongside SWC.
+
+---
+
+## cx@24.4.1
+
+**Features**
+
+- Enhanced dropInsertionIndex positioning within the grid
+- Introduced CultureScope widget
+- Introduced RangeMarker widget
+- Added functionality for adjusting pie chart gaps
+
+**Fixes**
+
+- Types for ColumnGraph and LineGraph
+
+---
+
+## cx@24.3.3
+
+**Features**
+
+- Swimlanes widget
+- Allow aggregates via aggregateAlias inside Grid
+
+**Fixes**
+
+- Fix getCursorPos properly resolves position within iframes in Firefox
+- Fix drag and drop within iframes
+
+---
+
+## cx@24.3.0
+
+**Features**
+
+- Support specifying `borderRadius` on `PieChart` slices.
+
+---
+
+## cx@24.2.0
+
+**Features**
+
+- Documentation updates and additions
+- Currency formatting features
+- Field configurations and enhancements
+- Localization examples and updates
+- Row reordering, drag-and-drop for CodeSnippet
+- Configuration props for data views
+- Copy button tooltip and display enhancements
+
+---
+
+## cx@24.1.3
+
+**Features**
+
+- Support tooltips and additional configuration on field icons
+
+---
+
+## cx@24.1.0
+
+**Features**
+
+- Allow using the `fmt` function inside expressions and string templates. For example, this template works: `{[fmt({amount}, "currency;${currency};0;2")]}`
+- Add number formatting flags, i.e. `n;0;2;+ca;` - `+` to show sign for positive number, `c` for compact number formatting, `a` for accounting mode (brackets for negative numbers)
+- Add `Culture.setNumberCulture` and `Culture.setDateTimeCulture` methods which enable using different cultures for numbers and date formatting.
+
+---
+
+## cx@23.4.1
+
+**Features**
+
+- Allow Validator to render children, i.e. ValidationError
+
+---
+
+## cx@23.4.0
+
+**Fixes**
+
+- Expose SimpleSelection
+
+---
+
+## cx@23.3.1
+
+**Fixes**
+
+- Allow up to eight typed parameters in triggers and computables
+- Allow entering negative decimal numbers in NumberFields with reactOn="change"
+
+---
+
+## cx@23.3.0
+
+**Fixes**
+
+- Fix `quoteStr` handling of special characters (used for multiline string templates)
+
+---
+
+## cx@23.2.1
+
+**Features**
+
+- Allow Grid to render children, i.e. loading mask
+
+**Fixes**
+
+- Make AccessorChain&lt;T&gt; assignable to AccessorChain&lt;any&gt;
+
+---
+
+## cx@23.2.0
+
+**Features**
+
+- Dart Sass compatibility (see [Breaking Changes](/intro/breaking-changes))
+- Dropping IE support
+
+---
+
+## cx@22.11.3
+
+**Fixes**
+
+- Typing for `Dropdown.relatedElement`
+- Typing for `List.keyField`
+
+---
+
+## cx@22.11.2
+
+**Features**
+
+- Add the `constrain` property to limit NumberField inputs
+
+**Fixes**
+
+- Typing for Url.setBaseFromScript
+- Typing for the `bind` function
+- Typing for the LineGraph
+- Propagate colSpan to grid column footers
+
+---
+
+## cx@22.11.1
+
+**Features**
+
+- Add the `dayData` property for calendar day styling
+
+**Fixes**
+
+- Add typing for LookupField bindings
+- Improve typing for openContextMenu
+
+---
+
+## cx@22.10.3
+
+**Features**
+
+- Add LookupField onCreateVisibleOptionsFilter callback docs and example
+
+---
+
+## cx@22.10.2
+
+**Fixes**
+
+- Properly sort by the second column if the values in first column are null
+
+---
+
+## cx@22.10.1
+
+**Features**
+
+- Add the onTrackMappedRecords callback for easier manipulation of sorted and filtered grid data
+- Document onGetGrouping
+
+**Fixes**
+
+- Recalculate the widget on store change to correctly propagate the new store to widget's children
+
+---
+
+## cx@22.10.0
+
+**Fixes**
+
+- Prevent late autofocus for touch devices
+
+---
+
+## cx@22.9.0
+
+**Fixes**
+
+- Add text ellipsis to all form fields
+- Fix problems with datetime field dropdowns
+
+---
+
+## cx@22.8.2
+
+**Fixes**
+
+- Various typing improvements
+
+---
+
+## cx@22.8.0
+
+**Fixes**
+
+- Allow onContextMenu on all HTML elements in TypeScript
+- Properly handle context menus within windows and dropdowns
+- Allow get/set props in TypeScript
+- Allow accessor chains for the Sandbox.storage prop
+- Orient vertical Sliders to be bottom up, instead of top to bottom with the invert flag to control the behavior
+
+---
+
+## cx@22.7.1
+
+**Fixes**
+
+- Render overlay backdrop before the body and allow propagation of `mousedown` event to allow integration of other libraries (i.e. prosemirror) which catch events on the document level.
+
+---
+
+## cx@22.7.0
+
+**Features**
+
+- TreeAdapter now supports preserving expanded state through a flag `restoreExpandedNodesOnLoad`
+- Added an example for stateful tree grids
+
+---
+
+## cx@22.6.3
+
+**Features**
+
+- TreeAdapter now support the flag `hideRootNodes`
+- Added the function `findTreePath` to `cx/data`.
+
+**Fixes**
+
+- Typings for MenuItem
+- Typings for PieSlice
+- Skip focusing disabled LookupField options
+- Typings for Window
+
+---
+
+## cx@22.6.0
+
+**Fixes**
+
+- Fix for onCellEdited firing twice
+- Fix for grid cell editing not working in the first column
+- Allow accessor chains for `value` and `text` props in lookup fields
+
+---
+
+## cx@22.5.3
+
+**Features**
+
+- Allow tooltips in grid headers
+
+---
+
+## cx@22.5.2
+
+**Fixes**
+
+- Fix MenuItem typing
+
+---
+
+## cx@22.5.1
+
+**Fixes**
+
+- Fix typings for the `Repeater` widget
+
+---
+
+## cx@22.5.0
+
+**Fixes**
+
+- Fix bugs related to `startWithMonday` in `Calendar` widgets
+- Typing improvements
+- Fix detection of touch events inside modal windows

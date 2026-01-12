@@ -1,0 +1,57 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Functional Components
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import ImportPath from "../../../components/ImportPath.astro";
+import FunctionalComponentExample from "../../../examples/intro/FunctionalComponentExample.tsx";
+import FunctionalComponentExampleCode from "../../../examples/intro/FunctionalComponentExample.tsx?raw";
+import FunctionalComponentChartExample from "../../../examples/intro/FunctionalComponentChartExample.tsx";
+import FunctionalComponentChartExampleCode from "../../../examples/intro/FunctionalComponentChartExample.tsx?raw";
+import CreateFunctionalComponentExample from "../../../examples/intro/CreateFunctionalComponentExample.tsx";
+import CreateFunctionalComponentExampleCode from "../../../examples/intro/CreateFunctionalComponentExample.tsx?raw";
+
+# Functional Components
+
+<ImportPath path="import { createFunctionalComponent } from 'cx/ui';" />
+
+Functional components provide a simple way to create reusable structures composed of CxJS widgets. Use `createFunctionalComponent` to define a CxJS functional component:
+
+<CodeExample code={FunctionalComponentExampleCode}>
+  <FunctionalComponentExample client:load />
+</CodeExample>
+
+The `Counter` component can be reused with different props, each instance maintaining its own state through different store bindings.
+
+## Example 2
+
+Functional components are useful for creating reusable chart configurations:
+
+<CodeExample code={FunctionalComponentChartExampleCode}>
+  <FunctionalComponentChartExample client:load />
+</CodeExample>
+
+The same `LineChart` component renders three different chart styles by passing different props.
+
+## Conditional Logic
+
+Functional components can contain conditional logic:
+
+<CodeExample code={CreateFunctionalComponentExampleCode}>
+  <CreateFunctionalComponentExample client:load />
+</CodeExample>
+
+The `vertical` prop changes the layout at render time.
+
+## Reserved Properties
+
+These properties are handled by the framework and should not be used inside the function body:
+
+| Property      | Type         | Description                                                                              |
+| ------------- | ------------ | ---------------------------------------------------------------------------------------- |
+| `visible`     | `boolean`    | If `false`, the component won't render and its controller won't initialize. Alias: `if`. |
+| `controller`  | `Controller` | Controller that will be initialized with the component.                                  |
+| `layout`      | `Layout`     | Inner layout applied to child elements.                                                  |
+| `outerLayout` | `Layout`     | Outer layout that wraps the component.                                                   |
+| `putInto`     | `string`     | Content placeholder name for outer layouts. Alias: `contentFor`.                         |

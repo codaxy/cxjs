@@ -1,0 +1,345 @@
+---
+import { Code } from "astro:components";
+import * as prettier from "prettier";
+
+interface Props {
+  code: string;
+  lang?: string;
+  filterLines?: string[];
+  printWidth?: number;
+}
+
+const { code, lang = "jsx", filterLines, printWidth = 50 } = Astro.props;
+
+// Parse sections from code using // @section and // @section-end markers
+function parseSections(codeStr: string): {
+  model?: string;
+  controller?: string;
+  index?: string;
+} {
+  const sections: { model?: string; controller?: string; index?: string } = {};
+
+  const sectionRegex =
+    /\/\/\s*@(model|controller|index)[^\n]*\n([\s\S]*?)\/\/\s*@\1-end/g;
+  let match;
+
+  while ((match = sectionRegex.exec(codeStr)) !== null) {
+    const sectionName = match[1] as "model" | "controller" | "index";
+    sections[sectionName] = match[2].trim();
+  }
+
+  return sections;
+}
+
+// Extract complete JSX elements matching the filter tags
+function getFilteredCode(codeStr: string, filters?: string[]): string {
+  if (!filters || filters.length === 0) return codeStr;
+
+  const results: string[] = [];
+
+  for (const tag of filters) {
+    // Match self-closing tags: <Tag ... />
+    const selfClosingRegex = new RegExp(`<${tag}\\b[^>]*/>`, "gs");
+    let match;
+    while ((match = selfClosingRegex.exec(codeStr)) !== null) {
+      results.push(match[0]);
+    }
+
+    // Match tags with content: <Tag ...>...</Tag>
+    const openCloseRegex = new RegExp(
+      `<${tag}\\b[^>]*>[\\s\\S]*?</${tag}>`,
+      "g",
+    );
+    while ((match = openCloseRegex.exec(codeStr)) !== null) {
+      results.push(match[0]);
+    }
+  }
+
+  const unique = [...new Set(results)];
+  return unique.join("\n");
+}
+
+// Format code with Prettier and normalize indentation
+async function formatCode(codeStr: string, width: number): Promise<string> {
+  if (!codeStr.trim()) return codeStr;
+
+  try {
+    const wrapped = `<>${codeStr}</>`;
+    const formatted = await prettier.format(wrapped, {
+      parser: "babel",
+      printWidth: width,
+      tabWidth: 2,
+      semi: false,
+      singleQuote: false,
+    });
+
+    // Remove fragment wrapper and filter empty/fragment lines
+    let lines = formatted.split("\n").filter((line) => {
+      const t = line.trim();
+      return (
+        t !== "" && t !== "<>" && t !== ";<>" && t !== "</>" && t !== ";</>"
+      );
+    });
+
+    // Normalize indentation - remove minimum indent from all lines
+    const minIndent = lines.reduce((min, line) => {
+      const indent = line.match(/^(\s*)/)?.[1].length || 0;
+      return Math.min(min, indent);
+    }, Infinity);
+
+    if (minIndent > 0 && minIndent !== Infinity) {
+      lines = lines.map((line) => line.slice(minIndent));
+    }
+
+    return lines.join("\n");
+  } catch {
+    return codeStr;
+  }
+}
+
+// Normalize indentation for non-JSX code
+function normalizeIndent(codeStr: string): string {
+  if (!codeStr.trim()) return codeStr;
+
+  const lines = codeStr.split("\n");
+  const nonEmptyLines = lines.filter((l) => l.trim() !== "");
+  if (nonEmptyLines.length === 0) return codeStr;
+
+  const minIndent = nonEmptyLines.reduce((min, line) => {
+    const indent = line.match(/^(\s*)/)?.[1].length || 0;
+    return Math.min(min, indent);
+  }, Infinity);
+
+  if (minIndent > 0 && minIndent !== Infinity) {
+    return lines
+      .map((line) => line.slice(minIndent))
+      .join("\n")
+      .trim();
+  }
+
+  return codeStr.trim();
+}
+
+// Parse sections from code
+const sections = parseSections(code);
+
+// Get index code (JSX part) - either from @index section or use whole code
+const indexCode =
+  sections.index ||
+  code.replace(/\/\*\*\s*@jsxImportSource\s+\w+\s*\*\/\n?/, "").trim();
+const filteredCode = getFilteredCode(indexCode, filterLines);
+const displayCode = await formatCode(filteredCode, printWidth);
+
+// Get controller and model code
+const controllerCode = sections.controller
+  ? normalizeIndent(sections.controller)
+  : null;
+const modelCode = sections.model ? normalizeIndent(sections.model) : null;
+
+const hasTabs = controllerCode || modelCode;
+---
+
+<div class="code-preview my-8">
+  <div
+    class="grid grid-cols-1 lg:grid-cols-2 rounded-lg overflow-hidden border border-border"
+  >
+    <!-- Code Panel -->
+    <div class="code-panel flex flex-col bg-[hsl(var(--code-bg))]">
+      {
+        hasTabs ? (
+          <div class="code-tabs flex border-b border-[hsl(var(--code-border))]">
+            <button
+              class="code-tab active px-4 py-2 text-xs font-medium text-muted-foreground uppercase hover:text-foreground transition-colors"
+              data-tab="code"
+            >
+              TSX
+            </button>
+            {controllerCode && (
+              <button
+                class="code-tab px-4 py-2 text-xs font-medium text-muted-foreground uppercase hover:text-foreground transition-colors"
+                data-tab="controller"
+              >
+                Controller
+              </button>
+            )}
+            {modelCode && (
+              <button
+                class="code-tab px-4 py-2 text-xs font-medium text-muted-foreground uppercase hover:text-foreground transition-colors"
+                data-tab="model"
+              >
+                Model
+              </button>
+            )}
+          </div>
+        ) : (
+          <div class="px-4 py-2 text-xs font-medium text-muted-foreground uppercase border-b border-[hsl(var(--code-border))]">
+            {lang.toUpperCase()}
+          </div>
+        )
+      }
+
+      <div class="code-content-wrapper flex-1 overflow-auto">
+        <div class="code-content" data-content="code">
+          <Code code={displayCode} lang="tsx" theme="github-dark-dimmed" />
+        </div>
+        {
+          controllerCode && (
+            <div class="code-content hidden" data-content="controller">
+              <Code
+                code={controllerCode}
+                lang="tsx"
+                theme="github-dark-dimmed"
+              />
+            </div>
+          )
+        }
+        {
+          modelCode && (
+            <div class="code-content hidden" data-content="model">
+              <Code code={modelCode} lang="tsx" theme="github-dark-dimmed" />
+            </div>
+          )
+        }
+      </div>
+    </div>
+
+    <!-- Preview Panel -->
+    <div
+      class="preview-panel p-6 bg-card border-t lg:border-t-0 lg:border-l border-border flex items-start"
+    >
+      <div class="w-full">
+        <slot />
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .code-panel {
+    display: flex;
+    flex-direction: column;
+    min-height: 200px;
+  }
+
+  /* On mobile/tablet, limit code panel height */
+  @media (max-width: 1279px) {
+    .code-panel {
+      max-height: 400px;
+    }
+  }
+
+  .code-tab {
+    position: relative;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+  }
+
+  .code-tab.active {
+    color: hsl(var(--foreground));
+  }
+
+  .code-tab.active::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--cx-c-brand);
+  }
+
+  .code-content-wrapper {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--border)) transparent;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .code-content:not(.hidden) {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .code-content :global(pre) {
+    margin: 0 !important;
+    padding: 1rem 1rem 1rem 0 !important;
+    font-size: 0.8125rem !important;
+    line-height: 1.7 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    overflow-x: auto;
+    flex: 1;
+  }
+
+  .code-content :global(code) {
+    font-family: "Fira Code", "Monaco", "Consolas", monospace !important;
+    counter-reset: line;
+  }
+
+  .code-content :global(.line) {
+    display: inline-block;
+    width: 100%;
+    padding-left: 3.5rem;
+    position: relative;
+    min-height: 1.7em;
+  }
+
+  .code-content :global(.line)::before {
+    counter-increment: line;
+    content: counter(line);
+    position: absolute;
+    left: 1rem;
+    width: 1.5rem;
+    text-align: right;
+    color: hsl(var(--muted-foreground) / 0.4);
+    font-size: 0.75rem;
+  }
+
+  .code-content-wrapper::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .code-content-wrapper::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .code-content-wrapper::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--border));
+    border-radius: 3px;
+  }
+</style>
+
+<script>
+  function initCodePreviewTabs() {
+    document.querySelectorAll(".code-preview").forEach(function (preview) {
+      var tabs = preview.querySelectorAll(".code-tab");
+      var contents = preview.querySelectorAll(".code-content");
+
+      tabs.forEach(function (tab) {
+        tab.addEventListener("click", function () {
+          var targetTab = tab.dataset.tab;
+
+          tabs.forEach(function (t) {
+            t.classList.remove("active");
+          });
+          tab.classList.add("active");
+
+          contents.forEach(function (content) {
+            var contentTab = content.dataset.content;
+            if (contentTab === targetTab) {
+              content.classList.remove("hidden");
+            } else {
+              content.classList.add("hidden");
+            }
+          });
+        });
+      });
+    });
+  }
+
+  initCodePreviewTabs();
+  document.addEventListener("astro:page-load", initCodePreviewTabs);
+</script>

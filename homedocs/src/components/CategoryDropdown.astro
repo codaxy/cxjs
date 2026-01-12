@@ -1,0 +1,107 @@
+---
+import { navigation, getCurrentCategory } from '../data/navigation.js';
+
+interface Props {
+  class?: string;
+  fullWidth?: boolean;
+}
+
+const { class: className, fullWidth = false } = Astro.props;
+const pathname = Astro.url.pathname;
+const currentCategory = getCurrentCategory(pathname);
+---
+
+<div class:list={["category-dropdown relative", className]}>
+  <button
+    type="button"
+    class:list={[
+      "category-dropdown-trigger flex items-center gap-2 px-3 text-sm font-medium rounded-md bg-secondary text-foreground hover:bg-secondary/80 transition-colors",
+      fullWidth ? "w-full justify-between py-2.5 border border-border" : "py-1.5"
+    ]}
+    aria-expanded="false"
+    aria-haspopup="true"
+  >
+    <span class="category-dropdown-label">{currentCategory?.title ?? 'Select Category'}</span>
+    <svg class="h-4 w-4 opacity-60 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+    </svg>
+  </button>
+
+  <div class:list={[
+    "category-dropdown-menu hidden absolute left-0 top-full mt-1 py-1 rounded-md border border-border bg-popover shadow-lg z-50",
+    fullWidth ? "w-full" : "min-w-48"
+  ]}>
+    {navigation.map((category) => (
+      <a
+        href={`/docs/${category.slug}/${category.groups[0].items[0].slug}`}
+        class:list={[
+          "block px-3 py-2 text-sm transition-colors",
+          currentCategory?.slug === category.slug
+            ? "bg-secondary text-foreground font-medium"
+            : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
+        ]}
+      >
+        {category.title}
+      </a>
+    ))}
+  </div>
+</div>
+
+<script is:inline>
+  (function() {
+    function closeAllDropdowns() {
+      document.querySelectorAll('.category-dropdown-menu').forEach((menu) => {
+        menu.classList.add('hidden');
+      });
+      document.querySelectorAll('.category-dropdown-trigger svg').forEach((chevron) => {
+        chevron.classList.remove('rotate-180');
+      });
+      document.querySelectorAll('.category-dropdown-trigger').forEach((trigger) => {
+        trigger.setAttribute('aria-expanded', 'false');
+      });
+    }
+
+    // Only add global listeners once
+    if (!window._categoryDropdownInitialized) {
+      window._categoryDropdownInitialized = true;
+
+      // Handle dropdown trigger clicks via event delegation
+      document.addEventListener('click', (e) => {
+        const trigger = e.target.closest('.category-dropdown-trigger');
+        if (trigger) {
+          e.stopPropagation();
+          const dropdown = trigger.closest('.category-dropdown');
+          const menu = dropdown?.querySelector('.category-dropdown-menu');
+          const chevron = trigger.querySelector('svg');
+
+          if (!menu) return;
+
+          const isOpen = menu.classList.contains('hidden');
+
+          // Close all dropdowns first
+          closeAllDropdowns();
+
+          // Open this one if it was closed
+          if (isOpen) {
+            menu.classList.remove('hidden');
+            chevron?.classList.add('rotate-180');
+            trigger.setAttribute('aria-expanded', 'true');
+          }
+        } else {
+          // Click outside - close all dropdowns
+          closeAllDropdowns();
+        }
+      });
+
+      // Close on escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          closeAllDropdowns();
+        }
+      });
+    }
+
+    // Close dropdowns on page load/navigation
+    closeAllDropdowns();
+  })();
+</script>

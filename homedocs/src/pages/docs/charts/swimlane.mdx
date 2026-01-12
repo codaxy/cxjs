@@ -1,0 +1,34 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Swimlane
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import SwimlaneExample from "../../../examples/charts/SwimlaneExample.tsx";
+
+# Swimlane
+
+Individual swimlane element for custom swimlane charts.
+
+**Import:** `import { Swimlane } from 'cx/charts';`
+
+## Example
+
+<CodeExample
+  code={`<Repeater records-bind="lanes" recordAlias="$lane">
+  <Swimlane y-bind="$lane.name" size={0.8} colorIndex-expr="{$index} % 2">
+    <Column x-bind="$lane.month" y-bind="$lane.value" colorIndex={2} />
+  </Swimlane>
+</Repeater>`}
+>
+  <SwimlaneExample client:load />
+</CodeExample>
+
+## Properties
+
+| Property     | Type         | Default     | Description            |
+| ------------ | ------------ | ----------- | ---------------------- |
+| `y`          | `Sx<string>` | `undefined` | Category position      |
+| `size`       | `number`     | `1`         | Swimlane size (0-1)    |
+| `colorIndex` | `number`     | `undefined` | Background color index |
+| `vertical`   | `boolean`    | `false`     | Vertical orientation   |

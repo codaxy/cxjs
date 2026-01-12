@@ -1,0 +1,34 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Swimlanes
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import SwimlanesExample from "../../../examples/charts/SwimlanesExample.tsx";
+
+# Swimlanes
+
+Draws horizontal and vertical swimlane backgrounds on charts.
+
+**Import:** `import { Swimlanes } from 'cx/charts';`
+
+## Example
+
+<CodeExample
+  code={`<Chart axes={{ x: { type: CategoryAxis }, y: { type: NumericAxis, vertical: true } }}>
+  <Swimlanes xAxis="x" />
+  <Gridlines />
+  <ColumnGraph data-bind="data" xField="month" yField="value" colorIndex={2} />
+</Chart>`}
+>
+  <SwimlanesExample client:load />
+</CodeExample>
+
+## Properties
+
+| Property | Type     | Default     | Description                   |
+| -------- | -------- | ----------- | ----------------------------- |
+| `xAxis`  | `string` | `undefined` | Axis for vertical swimlanes   |
+| `yAxis`  | `string` | `undefined` | Axis for horizontal swimlanes |
+| `size`   | `number` | `1`         | Swimlane size                 |
+| `step`   | `number` | `1`         | Step between swimlanes        |

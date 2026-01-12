@@ -1,0 +1,27 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Tree Grid
+---
+
+import CodePreview from "../../../components/CodePreview.astro";
+import TreeGridExample from "../../../examples/widgets/TreeGridExample.tsx";
+import TreeGridExampleCode from "../../../examples/widgets/TreeGridExample.tsx?raw";
+
+The following example shows how to make a tree out of a grid control.
+
+## Example
+
+<CodePreview
+  code={TreeGridExampleCode}
+  filterLines={["Grid", "TreeAdapter", "Column"]}
+>
+  <TreeGridExample client:load />
+</CodePreview>
+
+## Searching Tree Grids
+
+Check out [this example](/examples/grid/searching-and-filtering#searching-tree-grid) to find out how to implement search functionality in a Tree Grid.
+
+## TreeNode Configuration
+
+For configuration options, see the TreeNode widget documentation.

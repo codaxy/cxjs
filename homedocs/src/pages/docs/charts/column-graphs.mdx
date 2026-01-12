@@ -1,0 +1,36 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: ColumnGraph
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import ColumnGraphExample from "../../../examples/charts/ColumnGraphExample.tsx";
+
+# ColumnGraph
+
+The `ColumnGraph` widget is used to display a series of vertical bars.
+
+**Import:** `import { ColumnGraph } from 'cx/charts';`
+
+## Example
+
+<CodeExample
+  code={`<Chart axes={{ x: { type: CategoryAxis }, y: { type: NumericAxis, vertical: true } }}>
+  <Gridlines />
+  <ColumnGraph data-bind="data" xField="month" yField="sales" colorIndex={2} size={0.6} />
+</Chart>`}
+>
+  <ColumnGraphExample client:load />
+</CodeExample>
+
+## Properties
+
+| Property     | Type        | Default     | Description                        |
+| ------------ | ----------- | ----------- | ---------------------------------- |
+| `data`       | `Sx<Array>` | `undefined` | Array of data points               |
+| `xField`     | `string`    | `"x"`       | Field for x-axis (category) values |
+| `yField`     | `string`    | `"y"`       | Field for y-axis values            |
+| `colorIndex` | `number`    | `undefined` | Color palette index                |
+| `size`       | `number`    | `0.5`       | Column width (0-1)                 |
+| `stacked`    | `boolean`   | `false`     | Stack multiple column series       |
+| `autoSize`   | `boolean`   | `false`     | Auto-adjust column size            |

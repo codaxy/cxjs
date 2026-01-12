@@ -1,0 +1,158 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Custom Components
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import ImportPath from "../../../components/ImportPath.astro";
+import { Code } from "astro:components";
+import CustomComponentExample from "../../../examples/intro/CustomComponentExample.tsx";
+import CustomComponentExampleCode from "../../../examples/intro/CustomComponentExample.tsx?raw";
+import SquareCode from "../../../examples/intro/Square.tsx?raw";
+
+# Custom Components
+
+<ImportPath path="import { Widget } from 'cx/ui';" />
+
+CxJS includes many built-in components, but you can create custom ones when needed. Custom components extend base classes like `Widget`, `HtmlElement`, `Field`, or `PureContainer`.
+
+## Example
+
+This example creates a `Square` component with bindable color properties. Click the square to set a random color.
+
+**Square.tsx** - The widget class (uses React JSX):
+
+<Code code={SquareCode} lang="tsx" theme="github-dark-dimmed" />
+
+**Usage** - CxJS application code:
+
+<CodeExample code={CustomComponentExampleCode}>
+  <CustomComponentExample client:load />
+</CodeExample>
+
+## React JSX Pragma
+
+Widget files must use the React JSX pragma because the `render` method returns React elements:
+
+```tsx
+/** @jsxImportSource react */
+```
+
+## Config Interface
+
+Define a config interface for your component's properties. Use prop types like `StringProp`, `NumberProp`, `BooleanProp` for bindable properties:
+
+```tsx
+interface SquareConfig extends WidgetConfig {
+  red?: NumberProp;
+  green?: NumberProp;
+  blue?: NumberProp;
+}
+```
+
+## Widget Class
+
+Extend `Widget` (or another base class) with your config type. Use `declare` for properties to avoid overwriting config values:
+
+```tsx
+class Square extends Widget<SquareConfig> {
+  declare red: number;
+  declare green: number;
+  declare blue: number;
+}
+```
+
+## Widget Methods
+
+### declareData
+
+Register bindable properties. Properties declared here can use data binding:
+
+```tsx
+declareData(...args) {
+   super.declareData(...args, {
+      red: undefined,
+      green: undefined,
+      blue: undefined,
+   });
+}
+```
+
+Use `{ structured: true }` for object properties with bindable sub-properties.
+
+### render
+
+Returns React elements for the component's visual representation:
+
+```tsx
+render(context: RenderingContext, instance: Instance, key: string) {
+   const { data } = instance;
+   return (
+      <div key={key} style={{ backgroundColor: `rgb(${data.red}, ${data.green}, ${data.blue})` }} />
+   );
+}
+```
+
+Parameters:
+
+- `context` - Passes information between parent and child widgets
+- `instance` - Contains `data`, `store`, and instance-specific properties
+- `key` - Unique identifier for React reconciliation
+
+### init
+
+Called once when the widget class is initialized, before any rendering.
+
+### initInstance
+
+Called for each widget instance. Use this to set up instance-specific data:
+
+```tsx
+initInstance(context: RenderingContext, instance: Instance) {
+   instance.customData = {};
+   super.initInstance(context, instance);
+}
+```
+
+### initState
+
+Sets the initial internal state for stateful components.
+
+### explore
+
+Evaluates data-bound attributes and explores children. Called before `prepare`:
+
+```tsx
+explore(context: RenderingContext, instance: Instance) {
+   super.explore(context, instance);
+   // Access instance.data here
+}
+```
+
+### prepare
+
+Additional preparation after `explore`, before `render`. Use to get information from context.
+
+### cleanup
+
+Called after rendering to perform cleanup work.
+
+## Prototype Defaults
+
+Set default property values on the prototype:
+
+```tsx
+Square.prototype.red = 0;
+Square.prototype.green = 0;
+Square.prototype.blue = 0;
+```
+
+## Base Classes
+
+| Base Class      | Use Case                                             |
+| --------------- | ---------------------------------------------------- |
+| `Widget`        | Basic widgets                                        |
+| `HtmlElement`   | Widgets rendering HTML elements with styling support |
+| `Field`         | Form input widgets with validation                   |
+| `PureContainer` | Containers without HTML wrapper                      |
+| `Container`     | Containers with HTML wrapper                         |

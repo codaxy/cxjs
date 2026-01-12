@@ -1,0 +1,22 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: FieldGroup
+---
+
+import CodePreview from "../../../components/CodePreview.astro";
+import FieldGroupsExample from "../../../examples/widgets/FieldGroupsExample.tsx";
+import FieldGroupsExampleCode from "../../../examples/widgets/FieldGroupsExample.tsx?raw";
+
+**Import:** `import { FieldGroup } from 'cx/widgets';`
+
+The `FieldGroup` widget is a pure container which allows disabling of multiple form elements using a single property. `ValidationGroup` widget may be used for this purpose too, under the hood, `FieldGroup` is just an alias for it.
+
+## Example
+
+<CodePreview code={FieldGroupsExampleCode} filterLines={["FieldGroup"]}>
+  <FieldGroupsExample client:load />
+</CodePreview>
+
+## Configuration
+
+For configuration options, see the FieldGroup widget documentation.

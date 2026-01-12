@@ -1,0 +1,33 @@
+{
+  "name": "cxjs-homepage-and-documentation",
+  "private": true,
+  "type": "module",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "prettify": "prettier --write ."
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^4.3.13",
+    "@astrojs/react": "^4.4.2",
+    "@heroicons/react": "^2.2.0",
+    "@tailwindcss/typography": "^0.5.19",
+    "@tailwindcss/vite": "^4.1.18",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "astro": "^5.16.6",
+    "astro-pagefind": "^1.8.5",
+    "cx": "workspace:*",
+    "cx-react": "workspace:*",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "sass": "^1.96.0",
+    "tailwindcss": "^4.1.18"
+  },
+  "devDependencies": {
+    "prettier": "^3.7.4"
+  }
+}

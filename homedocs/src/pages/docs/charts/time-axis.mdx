@@ -1,0 +1,34 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: TimeAxis
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import TimeAxisExample from "../../../examples/charts/TimeAxisExample.tsx";
+
+# TimeAxis
+
+Maps date/time data along the horizontal or vertical axis of a chart.
+
+**Import:** `import { TimeAxis } from 'cx/charts';`
+
+## Example
+
+<CodeExample
+  code={`<Chart axes={{ x: { type: TimeAxis }, y: { type: NumericAxis, vertical: true } }}>
+  <Gridlines />
+  <LineGraph data-bind="data" xField="date" yField="value" colorIndex={0} area />
+</Chart>`}
+>
+  <TimeAxisExample client:load />
+</CodeExample>
+
+## Properties
+
+| Property      | Type      | Default     | Description            |
+| ------------- | --------- | ----------- | ---------------------- |
+| `min`         | `Date`    | `undefined` | Minimum date           |
+| `max`         | `Date`    | `undefined` | Maximum date           |
+| `vertical`    | `boolean` | `false`     | Vertical orientation   |
+| `format`      | `string`  | `undefined` | Date format            |
+| `snapToTicks` | `number`  | `undefined` | Snap to tick divisions |

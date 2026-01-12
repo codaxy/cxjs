@@ -1,0 +1,34 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: MouseTracker
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import MouseTrackerExample from "../../../examples/charts/MouseTrackerExample.tsx";
+
+# MouseTracker
+
+Tracks mouse position on the chart and provides coordinates.
+
+**Import:** `import { MouseTracker } from 'cx/charts';`
+
+## Example
+
+<CodeExample
+  code={`<MouseTracker x={$page.cursor.x} y={$page.cursor.y}>
+  <Marker x={$page.cursor.x} y={$page.cursor.y} size={10} colorIndex={0} />
+  <MarkerLine x={$page.cursor.x} y1={0} y2={$page.cursor.y} colorIndex={0} />
+</MouseTracker>`}
+>
+  <MouseTrackerExample client:load />
+</CodeExample>
+
+Commonly used with [point reducers](/charts/point-reducers) to track values on the graph.
+
+## Properties
+
+| Property  | Type         | Default     | Description           |
+| --------- | ------------ | ----------- | --------------------- |
+| `x`       | `Sx<number>` | `undefined` | Bind for x coordinate |
+| `y`       | `Sx<number>` | `undefined` | Bind for y coordinate |
+| `tooltip` | `object`     | `undefined` | Tooltip configuration |

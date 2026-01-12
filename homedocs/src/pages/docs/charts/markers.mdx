@@ -1,0 +1,35 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Marker
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import MarkersExample from "../../../examples/charts/MarkersExample.tsx";
+
+# Marker
+
+Markers are commonly used for scatter charts. They can be dragged and customized.
+
+**Import:** `import { Marker } from 'cx/charts';`
+
+## Example
+
+<CodeExample
+  code={`<Repeater records-bind="points" recordAlias="$point">
+  <Marker x-bind="$point.x" y-bind="$point.y" size-bind="$point.size" colorIndex={2} draggableX draggableY tooltip-tpl="({$point.x:n;1}, {$point.y:n;1})" />
+</Repeater>`}
+>
+  <MarkersExample client:load />
+</CodeExample>
+
+## Properties
+
+| Property     | Type         | Default     | Description                     |
+| ------------ | ------------ | ----------- | ------------------------------- |
+| `x`          | `Sx<number>` | `undefined` | X-axis position                 |
+| `y`          | `Sx<number>` | `undefined` | Y-axis position                 |
+| `size`       | `Sx<number>` | `5`         | Marker size                     |
+| `shape`      | `string`     | `"circle"`  | Shape: circle, square, triangle |
+| `colorIndex` | `number`     | `undefined` | Color palette index             |
+| `draggableX` | `boolean`    | `false`     | Enable horizontal dragging      |
+| `draggableY` | `boolean`    | `false`     | Enable vertical dragging        |

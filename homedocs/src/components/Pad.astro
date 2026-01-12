@@ -1,0 +1,12 @@
+---
+// Pad component - simple padding wrapper
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<div class:list={["px-6 py-6", className]}>
+  <slot />
+</div>

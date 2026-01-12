@@ -1,0 +1,74 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: DropZone
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import ImportPath from "../../../components/ImportPath.astro";
+import DropZoneExample from "../../../examples/concepts/DropZoneExample.tsx";
+import DropZoneExampleCode from "../../../examples/concepts/DropZoneExample.tsx?raw";
+
+# DropZone
+
+<ImportPath path="import { DropZone } from 'cx/widgets';" />
+
+`DropZone` defines areas where dragged items can be dropped. The `onDrop` callback receives the dropped data and allows you to handle the drop action.
+
+## Example
+
+This example demonstrates `onDropTest` to restrict which items can be dropped in each zone. Fruits and Vegetables zones only accept matching types, while Anything accepts all items.
+
+<CodeExample code={DropZoneExampleCode}>
+  <DropZoneExample client:load />
+</CodeExample>
+
+## Sizing Options
+
+Control how the drop zone matches its content:
+
+```tsx
+<DropZone
+  matchWidth // Match the width of the child element
+  matchHeight // Match the height of the child element
+  matchMargin // Include margins when calculating dimensions
+  inflate={5} // Expand the drop zone by 5 pixels
+>
+  <div>Content</div>
+</DropZone>
+```
+
+## Block Mode
+
+Use `mod="block"` for invisible drop zones used in list reordering. In block mode, the drop zone has a height of 1px and spans the full width. Use `inflate` to expand the hit area:
+
+```tsx
+<DropZone mod="block" inflate={50} onDrop={handleDrop} />
+```
+
+## Configuration
+
+| Property       | Type       | Description                                                        |
+| -------------- | ---------- | ------------------------------------------------------------------ |
+| `data`         | `Prop`     | Bindable data related to the DropZone, available in callbacks.     |
+| `onDrop`       | `function` | Callback invoked when an item is dropped.                          |
+| `onDropTest`   | `function` | Test if dragged source is acceptable. Return `false` to reject.    |
+| `onDragStart`  | `function` | Callback invoked when any drag operation begins.                   |
+| `onDragEnd`    | `function` | Callback invoked when any drag operation ends.                     |
+| `onDragEnter`  | `function` | Callback invoked when source enters the drop zone.                 |
+| `onDragLeave`  | `function` | Callback invoked when source leaves the drop zone.                 |
+| `onDragOver`   | `function` | Callback invoked continuously while source is over the zone.       |
+| `onDragNear`   | `function` | Callback invoked when source gets close to the zone.               |
+| `onDragAway`   | `function` | Callback invoked when source moves away from the zone.             |
+| `overStyle`    | `Style`    | CSS styles applied when cursor is over the drop zone.              |
+| `overClass`    | `Class`    | CSS class applied when cursor is over the drop zone.               |
+| `nearStyle`    | `Style`    | CSS styles applied when cursor is near the drop zone.              |
+| `nearClass`    | `Class`    | CSS class applied when cursor is near the drop zone.               |
+| `farStyle`     | `Style`    | CSS styles applied when drag begins to highlight drop zones.       |
+| `farClass`     | `Class`    | CSS class applied when drag begins to highlight drop zones.        |
+| `nearDistance` | `number`   | Distance in pixels to consider the cursor "near". Defaults to `0`. |
+| `inflate`      | `number`   | Inflate bounding box by this many pixels in all directions.        |
+| `hinflate`     | `number`   | Inflate bounding box horizontally.                                 |
+| `vinflate`     | `number`   | Inflate bounding box vertically.                                   |
+| `matchWidth`   | `boolean`  | Match width of the item being dragged.                             |
+| `matchHeight`  | `boolean`  | Match height of the item being dragged.                            |
+| `matchMargin`  | `boolean`  | Match margin of the item being dragged.                            |

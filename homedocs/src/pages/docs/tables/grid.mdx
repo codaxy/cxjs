@@ -1,0 +1,46 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Grid
+---
+
+import CodePreview from "../../../components/CodePreview.astro";
+import GridsExample from "../../../examples/widgets/GridsExample.tsx";
+import GridsExampleCode from "../../../examples/widgets/GridsExample.tsx?raw";
+
+**Import:** `import { Grid } from 'cx/widgets';`
+
+Grid is a versatile component used to display tabular data. Grid control in Cx has many features such as fixed headers, single and multiple selection modes, sorting, filtering, grouping and aggregation, rich cell content (including headers), tree columns, etc.
+
+## Example
+
+<CodePreview code={GridsExampleCode} filterLines={["Grid", "Column"]}>
+  <GridsExample client:load />
+</CodePreview>
+
+## Examples
+
+- [Searching and Filtering](/examples/grid/searching-and-filtering)
+- [Pagination](/examples/grid/pagination)
+- [Multiple selection](/examples/grid/multiple-selection)
+- [Grouping](/examples/grid/grouping)
+- [Dynamic Grouping](/examples/grid/dynamic-grouping)
+- [Form Editing](/examples/grid/form-edit)
+- [Row Editing](/examples/grid/row-editing)
+- [Cell Editing](/examples/grid/cell-editing)
+- [Inline Editing](/examples/grid/inline-edit)
+- [Tree Grid](/examples/grid/tree-grid)
+- [Stateful Tree Grid](/examples/grid/stateful-tree-grid)
+- [Header Menu](/examples/grid/header-menu)
+- [Complex Header](/examples/grid/complex-headers)
+- [Buffering 5000 rows](/examples/grid/buffering)
+- [Infinite scrolling](/examples/grid/infinite-scrolling)
+- [Row Expanding](/examples/grid/row-expanding)
+- [Row Drag & Drop](/examples/grid/row-drag-and-drop)
+- [Column Resizing](/examples/grid/column-resizing)
+- [Column Reordering (Drag & Drop)](/examples/grid/column-reordering)
+- [Fixed Columns](/examples/grid/fixed-columns)
+- [Dynamic Columns](/examples/grid/dynamic-columns)
+
+## Configuration
+
+For configuration options, see the Grid, Column, Column Header, Grouping, and Drag & Drop documentation.

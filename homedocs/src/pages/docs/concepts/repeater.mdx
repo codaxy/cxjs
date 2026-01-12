@@ -1,0 +1,93 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Repeater
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import ImportPath from "../../../components/ImportPath.astro";
+import RepeaterExample from "../../../examples/concepts/RepeaterExample.tsx";
+import RepeaterExampleCode from "../../../examples/concepts/RepeaterExample.tsx?raw";
+import RepeaterSortingExample from "../../../examples/concepts/RepeaterSortingExample.tsx";
+import RepeaterSortingExampleCode from "../../../examples/concepts/RepeaterSortingExample.tsx?raw";
+import RepeaterNestedExample from "../../../examples/concepts/RepeaterNestedExample.tsx";
+import RepeaterNestedExampleCode from "../../../examples/concepts/RepeaterNestedExample.tsx?raw";
+
+# Repeater
+
+<ImportPath path="import { Repeater } from 'cx/widgets';" />
+
+Repeater renders its children for each record in a collection. Use `recordAlias` to specify an accessor for accessing record data within the repeater.
+
+## Example
+
+<CodeExample code={RepeaterExampleCode}>
+  <RepeaterExample client:load />
+</CodeExample>
+
+## Typed Model
+
+Add `$record` to your model interface to get type-safe access to record data:
+
+```tsx
+interface PageModel {
+  items: Item[];
+  $record: Item;
+}
+
+const m = createAccessorModelProxy<PageModel>();
+```
+
+Then use `recordAlias={m.$record}` to bind the record accessor:
+
+```tsx
+<Repeater records={m.items} recordAlias={m.$record}>
+  <Checkbox value={m.$record.checked} text={m.$record.text} />
+</Repeater>
+```
+
+## Accessing the Record Store
+
+Event handlers like `onClick` receive an instance object as the second argument. This instance contains a `store` that provides access to the record-specific data view. Use this to manipulate individual records:
+
+```tsx
+<Button
+  onClick={(e, { store }) => {
+    store.delete(m.$record);
+  }}
+/>
+```
+
+The `store.delete(m.$record)` call removes the current record from the parent array.
+
+## Sorting and Filtering
+
+Use `sortField` and `sortDirection` for sorting. For filtering, use `filterParams` with `onCreateFilter`:
+
+<CodeExample code={RepeaterSortingExampleCode}>
+  <RepeaterSortingExample client:load />
+</CodeExample>
+
+## Nested Repeaters
+
+For nested repeaters, define separate record aliases in your model:
+
+<CodeExample code={RepeaterNestedExampleCode}>
+  <RepeaterNestedExample client:load />
+</CodeExample>
+
+## Configuration
+
+| Property               | Type                    | Description                                                                                                                                                                                |
+| ---------------------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `records`              | `Prop<any[]>`           | An array of records to be displayed                                                                                                                                                        |
+| `recordAlias`          | `AccessorChain`         | Alias used to expose record data. Defaults to `$record`.                                                                                                                                   |
+| `indexAlias`           | `AccessorChain`         | Alias used to expose record index. Defaults to `$index`.                                                                                                                                   |
+| `sortField`            | `StringProp`            | A binding used to store the name of the field used for sorting the collection. Available only if `sorters` are not used.                                                                   |
+| `sortDirection`        | `Prop<"ASC" \| "DESC">` | A binding used to store the sort direction. Available only if `sorters` are not used. Possible values are `"ASC"` and `"DESC"`. Defaults to `"ASC"`.                                       |
+| `sorters`              | `SortersProp`           | A binding used to store the sorting order list. This should be an array of objects with `field` and `direction` properties (equivalent to `sortField` and `sortDirection`).                |
+| `sortOptions`          | `object`                | Options for data sorting. See [Intl.Collator options](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Collator) for more info.                            |
+| `filterParams`         | `StructuredProp`        | Parameters that affect filtering                                                                                                                                                           |
+| `onCreateFilter`       | `function`              | Callback to create a filter function for given filter params                                                                                                                               |
+| `onTrackMappedRecords` | `function`              | Callback function to track and retrieve displayed records. Accepts new records as a first argument. If `onCreateFilter` is defined, filtered records can be retrieved using this callback. |
+| `keyField`             | `string`                | Field used to get the unique identifier. Improves performance on sort operations.                                                                                                          |
+| `cached`               | `boolean`               | Set to `true` to enable caching for improved performance on large datasets                                                                                                                 |

@@ -1,0 +1,36 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: BarGraph
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import BarGraphExample from "../../../examples/charts/BarGraphExample.tsx";
+
+# BarGraph
+
+The `BarGraph` widget is used to display a series of horizontal bars.
+
+**Import:** `import { BarGraph } from 'cx/charts';`
+
+## Example
+
+<CodeExample
+  code={`<Chart axes={{ x: { type: NumericAxis }, y: { type: CategoryAxis, vertical: true } }}>
+  <Gridlines />
+  <BarGraph data-bind="data" xField="value" yField="city" colorIndex={0} size={0.6} />
+</Chart>`}
+>
+  <BarGraphExample client:load />
+</CodeExample>
+
+## Properties
+
+| Property     | Type        | Default     | Description                        |
+| ------------ | ----------- | ----------- | ---------------------------------- |
+| `data`       | `Sx<Array>` | `undefined` | Array of data points               |
+| `xField`     | `string`    | `"x"`       | Field for x-axis values            |
+| `yField`     | `string`    | `"y"`       | Field for y-axis (category) values |
+| `colorIndex` | `number`    | `undefined` | Color palette index                |
+| `size`       | `number`    | `0.5`       | Bar width (0-1)                    |
+| `stacked`    | `boolean`   | `false`     | Stack multiple bar series          |
+| `autoSize`   | `boolean`   | `false`     | Auto-adjust bar size               |

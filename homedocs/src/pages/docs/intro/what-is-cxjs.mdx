@@ -1,0 +1,44 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: What is CxJS
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import SalesGridExample from "../../../examples/intro/SalesGridExample.tsx";
+import SalesGridExampleCode from "../../../examples/intro/SalesGridExample.tsx?raw";
+
+# What is CxJS
+
+CxJS is a high-level TypeScript framework for building data-intensive web applications. Built on top of React, it provides widgets, forms, grids, charts, routing, and state management out of the box.
+
+## Framework vs Library
+
+Unlike React, which is a library focused on rendering UI, CxJS is a full-featured framework. You don't need to search for compatible packages or worry about integration issues. Everything works together seamlessly.
+
+| React (Library)                       | CxJS (Framework)              |
+| ------------------------------------- | ----------------------------- |
+| UI rendering only                     | Full application stack        |
+| Choose your own router, forms, tables | Router, forms, grids included |
+| Integrate multiple packages           | Single cohesive package       |
+| Flexible, but requires decisions      | Opinionated, but productive   |
+
+## Built for Business Applications
+
+CxJS is designed for rapid development of business applications that typically include:
+
+- **Forms** with validation, labels, and various input types
+- **Data tables** with sorting, filtering, grouping, and inline editing
+- **Charts** for data visualization
+- **Complex layouts** with navigation, tabs, and overlays
+
+If your application has many tables, forms, and charts, CxJS will significantly speed up your development.
+
+<CodeExample code={SalesGridExampleCode}>
+  <SalesGridExample client:load />
+</CodeExample>
+
+## Battle-Tested
+
+CxJS has been used in production for years, powering admin dashboards, business intelligence tools, data management applications, and internal enterprise tools. The framework is mature, stable, and continuously improved based on real-world usage.
+
+Beyond the rich widget library, CxJS offers declarative data binding, client-side routing, TypeScript-first development with full type safety, and theming support with multiple built-in themes.

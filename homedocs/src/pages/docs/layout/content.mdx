@@ -1,0 +1,40 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Content
+---
+
+# Content
+
+```tsx
+import { Content } from "cx/ui";
+```
+
+Content sends child elements to a named [ContentPlaceholder](/layout/content-placeholder) inside an [outer layout](/layout/outer-layouts).
+
+## Usage
+
+```tsx
+<div outerLayout={AppLayout}>
+  <Content for="sidebar">
+    <nav>Navigation here</nav>
+  </Content>
+  Main content here
+</div>
+```
+
+## Alternative: putInto
+
+Instead of wrapping content in a Content component, you can use the `putInto` or `contentFor` attribute on any element:
+
+```tsx
+<div outerLayout={AppLayout}>
+  <nav putInto="sidebar">Navigation here</nav>
+  Main content here
+</div>
+```
+
+## Configuration
+
+| Property       | Type     | Description             |
+| -------------- | -------- | ----------------------- |
+| `for` / `name` | `string` | Target placeholder name |

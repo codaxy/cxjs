@@ -1,0 +1,89 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: NumberField
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import NumberFieldBasic from "../../../examples/widgets/numberfield/Basic.tsx";
+import NumberFieldDisabled from "../../../examples/widgets/numberfield/Disabled.tsx";
+import NumberFieldPlaceholder from "../../../examples/widgets/numberfield/Placeholder.tsx";
+import NumberFieldMinMax from "../../../examples/widgets/numberfield/MinMax.tsx";
+import NumberFieldCurrency from "../../../examples/widgets/numberfield/Currency.tsx";
+import NumberFieldPercentage from "../../../examples/widgets/numberfield/Percentage.tsx";
+
+# NumberField
+
+The `NumberField` widget is used for numeric inputs, including currencies and percentages.
+
+**Import:** `import { NumberField } from 'cx/widgets';`
+
+## Basic Usage
+
+A simple numeric input with data binding.
+
+<CodeExample code={`<NumberField value={bind("number")} />`}>
+  <NumberFieldBasic client:load />
+</CodeExample>
+
+## Placeholder
+
+Show hint text when the field is empty.
+
+<CodeExample
+  code={`<NumberField value={bind("number")} placeholder="Enter a number..." />`}
+>
+  <NumberFieldPlaceholder client:load />
+</CodeExample>
+
+## Min/Max Value
+
+Restrict input to a specific range.
+
+<CodeExample
+  code={`<NumberField value={bind("age")} minValue={0} maxValue={120} placeholder="Age (0-120)" />`}
+>
+  <NumberFieldMinMax client:load />
+</CodeExample>
+
+## Currency Format
+
+Display values as currency with locale formatting.
+
+<CodeExample
+  code={`<NumberField value={bind("price")} format="currency;EUR" />`}
+>
+  <NumberFieldCurrency client:load />
+</CodeExample>
+
+## Percentage Format
+
+Display values as percentages using scale and format.
+
+<CodeExample
+  code={`<NumberField value={bind("percent")} scale={0.01} format="p" />`}
+>
+  <NumberFieldPercentage client:load />
+</CodeExample>
+
+## Disabled State
+
+Prevent user interaction with the disabled prop.
+
+<CodeExample code={`<NumberField value={42} disabled />`}>
+  <NumberFieldDisabled client:load />
+</CodeExample>
+
+## Properties
+
+| Property      | Type         | Default     | Description                              |
+| ------------- | ------------ | ----------- | ---------------------------------------- |
+| `value`       | `Sx<number>` | `undefined` | The numeric value                        |
+| `placeholder` | `string`     | `undefined` | Placeholder text                         |
+| `disabled`    | `boolean`    | `false`     | Disables the input                       |
+| `readOnly`    | `boolean`    | `false`     | Makes the input read-only                |
+| `required`    | `boolean`    | `false`     | Marks as required                        |
+| `minValue`    | `number`     | `undefined` | Minimum allowed value                    |
+| `maxValue`    | `number`     | `undefined` | Maximum allowed value                    |
+| `format`      | `string`     | `undefined` | Number format (e.g. "currency;EUR", "p") |
+| `scale`       | `number`     | `1`         | Value multiplier for display             |
+| `increment`   | `number`     | `undefined` | Step increment for arrow keys            |

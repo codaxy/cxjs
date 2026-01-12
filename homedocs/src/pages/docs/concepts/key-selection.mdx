@@ -1,0 +1,37 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: KeySelection
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import ImportPath from "../../../components/ImportPath.astro";
+import KeySelectionExample from "../../../examples/concepts/KeySelectionExample.tsx";
+import KeySelectionExampleCode from "../../../examples/concepts/KeySelectionExample.tsx?raw";
+
+# KeySelection
+
+<ImportPath path="import { KeySelection } from 'cx/ui';" />
+
+KeySelection stores selected keys separately from the data. Only the key values are stored, not the entire objects. This is similar to how select controls work and is ideal when you need selection to survive data changes.
+
+## When to Use
+
+- Selection must survive after records are updated (keys remain stable while object references change)
+- Grid or List with selection synced to other components (e.g., master-detail views)
+- When you need to persist selection independently of the data
+
+## Example
+
+<CodeExample code={KeySelectionExampleCode}>
+  <KeySelectionExample client:load />
+</CodeExample>
+
+## Configuration
+
+| Property             | Type        | Default   | Description                                              |
+| -------------------- | ----------- | --------- | -------------------------------------------------------- |
+| `keyField`           | `string`    | —         | Field on each record used as the unique key              |
+| `bind` / `selection` | `Prop<any>` | —         | Binding for the selected key(s)                          |
+| `storage`            | `string`    | `"array"` | Storage format: `array` or `hash`                        |
+| `multiple`           | `boolean`   | `false`   | Enable multiple selection                                |
+| `toggle`             | `boolean`   | `false`   | Enable toggle mode (clicking selected item deselects it) |

@@ -1,0 +1,24 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Section
+---
+
+import CodePreview from "../../../components/CodePreview.astro";
+import SectionsExample from "../../../examples/widgets/SectionsExample.tsx";
+import SectionsExampleCode from "../../../examples/widgets/SectionsExample.tsx?raw";
+
+**Import:** `import { Section } from 'cx/widgets';`
+
+Sections are used to divide a larger body into distinct parts. A section optionally may have a header (title) and a footer.
+
+## Example
+
+<CodePreview code={SectionsExampleCode} filterLines={["Section"]}>
+  <SectionsExample client:load />
+</CodePreview>
+
+> FlexRow is commonly used to either arrange multiple sections horizontally or to arrange inner contents of a section or a header.
+
+## Configuration
+
+For configuration options, see the Section widget documentation.

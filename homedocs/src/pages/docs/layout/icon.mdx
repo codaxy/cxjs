@@ -1,0 +1,38 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Icons
+---
+
+import CodePreview from "../../../components/CodePreview.astro";
+import IconsExample from "../../../examples/widgets/IconsExample.tsx";
+import IconsExampleCode from "../../../examples/widgets/IconsExample.tsx?raw";
+
+**Import:** `import { Icon } from 'cx/widgets';`
+
+The `Icon` is used to render icons.
+
+## Example
+
+<CodePreview code={IconsExampleCode} filterLines={["Icon"]}>
+  <IconsExample client:load />
+</CodePreview>
+
+## Configuration
+
+For configuration options, see the Icon widget documentation.
+
+## Registering Icons
+
+Cx includes only a couple of icons. Additional icon sets need to be registered.
+
+The following example shows how to register FontAwesome icon set.
+
+```jsx
+Icon.registerFactory((name, props) => {
+  props = { ...props };
+  props.className = `fa fa-${name} ${props.className || ""}`;
+  return <i {...props} />;
+});
+```
+
+Individual icons can be registered using `Icon.register` method.

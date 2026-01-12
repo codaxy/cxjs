@@ -1,0 +1,33 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Buttons
+---
+
+import CodePreview from "../../../components/CodePreview.astro";
+import ButtonsExample from "../../../examples/widgets/ButtonsExample.tsx";
+import ButtonsExampleCode from "../../../examples/widgets/ButtonsExample.tsx?raw";
+
+**Import:** `import { Button } from 'cx/widgets';`
+
+Buttons are commonly used UI elements.
+
+## Example
+
+<CodePreview code={ButtonsExampleCode} filterLines={["Button"]}>
+  <ButtonsExample client:load />
+</CodePreview>
+
+### Enabling Message Box Alerts
+
+To enable Cx based message box alerts, call `enableMsgBoxAlerts()` at startup of your application.
+
+```js
+import { enableMsgBoxAlerts } from "cx/widgets";
+enableMsgBoxAlerts();
+```
+
+> To enable Cx based message box alerts, call `enableMsgBoxAlerts()` at startup of your application.
+
+## Configuration
+
+For configuration options, see the Button widget documentation.

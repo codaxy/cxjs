@@ -1,0 +1,118 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Installation
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import EntryPointExample from "../../../examples/intro/EntryPointExample.tsx";
+import EntryPointCode from "../../../examples/intro/EntryPointCode.txt?raw";
+
+# Installation
+
+CxJS is distributed as npm packages and works with modern build tools like Vite and webpack.
+
+## Packages
+
+The main packages you'll need:
+
+| Package    | Description                                           |
+| ---------- | ----------------------------------------------------- |
+| `cx`       | Core framework with widgets, charts, and data-binding |
+| `cx-react` | React integration for rendering                       |
+
+Install both packages:
+
+```bash
+npm install cx cx-react
+```
+
+### Themes
+
+CxJS includes several [themes](/intro/themes). Install one to get started:
+
+```bash
+npm install cx-theme-aquamarine
+```
+
+## TypeScript Configuration
+
+CxJS is written in TypeScript and provides full type definitions. Configure your `tsconfig.json`:
+
+```json
+{
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "cx",
+    "moduleResolution": "bundler",
+    "esModuleInterop": true
+  }
+}
+```
+
+The key setting is `jsxImportSource: "cx"` which enables CxJS-specific JSX types and attributes like `visible`, `controller`, `layout`, and data-binding functions.
+
+## Build Configuration
+
+### Vite
+
+Vite is the recommended build tool for new projects. Create `vite.config.ts`:
+
+```typescript
+import { defineConfig } from "vite";
+
+export default defineConfig({
+  esbuild: {
+    jsxImportSource: "cx",
+  },
+});
+```
+
+### webpack
+
+For webpack projects, configure TypeScript and JSX handling:
+
+```javascript
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.(ts|tsx)$/,
+        loader: "ts-loader",
+      },
+    ],
+  },
+};
+```
+
+For large applications, consider using `swc-loader` instead of `ts-loader` for faster builds:
+
+```javascript
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.(ts|tsx)$/,
+        loader: "swc-loader",
+        options: {
+          jsc: {
+            transform: {
+              react: {
+                runtime: "automatic",
+                importSource: "cx",
+              },
+            },
+          },
+        },
+      },
+    ],
+  },
+};
+```
+
+## Entry Point
+
+In your main entry file, import the theme and start the application:
+
+<CodeExample code={EntryPointCode}>
+  <EntryPointExample />
+</CodeExample>

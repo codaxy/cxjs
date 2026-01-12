@@ -1,0 +1,25 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: HighlightedSearchText
+---
+
+import CodePreview from "../../../components/CodePreview.astro";
+import HighlightedSearchTextExample from "../../../examples/widgets/HighlightedSearchTextExample.tsx";
+import HighlightedSearchTextExampleCode from "../../../examples/widgets/HighlightedSearchTextExample.tsx?raw";
+
+**Import:** `import { HighlightedSearchText } from 'cx/widgets';`
+
+The `HighlightedSearchText` is used to render text with highlighted search terms. Check how this works in the following example:
+
+## Example
+
+<CodePreview
+  code={HighlightedSearchTextExampleCode}
+  filterLines={["HighlightedSearchText", "TextField"]}
+>
+  <HighlightedSearchTextExample client:load />
+</CodePreview>
+
+## Configuration
+
+For configuration options, see the HighlightedSearchText widget documentation.

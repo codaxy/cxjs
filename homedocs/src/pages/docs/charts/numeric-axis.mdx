@@ -1,0 +1,35 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: NumericAxis
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import NumericAxisExample from "../../../examples/charts/NumericAxisExample.tsx";
+
+# NumericAxis
+
+The `NumericAxis` widget is used to map numeric data along the horizontal or vertical axis of a chart.
+
+**Import:** `import { NumericAxis } from 'cx/charts';`
+
+## Example
+
+<CodeExample
+  code={`<Chart axes={{ x: { type: NumericAxis, min: 0, max: 100 }, y: { type: NumericAxis, vertical: true, min: 0, max: 500 } }}>
+  <Gridlines />
+</Chart>`}
+>
+  <NumericAxisExample client:load />
+</CodeExample>
+
+## Properties
+
+| Property      | Type      | Default     | Description            |
+| ------------- | --------- | ----------- | ---------------------- |
+| `min`         | `number`  | `undefined` | Minimum value          |
+| `max`         | `number`  | `undefined` | Maximum value          |
+| `vertical`    | `boolean` | `false`     | Vertical orientation   |
+| `inverted`    | `boolean` | `false`     | Invert axis direction  |
+| `labelAnchor` | `string`  | `"middle"`  | Label anchor position  |
+| `labelOffset` | `number`  | `10`        | Label offset from axis |
+| `format`      | `string`  | `undefined` | Number format          |

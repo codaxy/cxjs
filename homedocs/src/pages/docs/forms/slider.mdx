@@ -1,0 +1,76 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Slider
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import SliderBasic from "../../../examples/widgets/slider/Basic.tsx";
+import SliderSteps from "../../../examples/widgets/slider/Steps.tsx";
+import SliderRange from "../../../examples/widgets/slider/Range.tsx";
+import SliderDisabled from "../../../examples/widgets/slider/Disabled.tsx";
+import SliderMinMax from "../../../examples/widgets/slider/MinMax.tsx";
+
+# Slider
+
+The `Slider` widget allows selecting numerical values by dragging the slider handle.
+
+**Import:** `import { Slider } from 'cx/widgets';`
+
+## Basic Usage
+
+A simple slider with data binding.
+
+<CodeExample code={`<Slider value={bind("volume")} />`}>
+  <SliderBasic client:load />
+</CodeExample>
+
+## With Steps
+
+Snap to specific increments using the step prop.
+
+<CodeExample code={`<Slider value={bind("stepped")} step={10} />`}>
+  <SliderSteps client:load />
+</CodeExample>
+
+## Range Selection
+
+Select a range using from and to bindings.
+
+<CodeExample code={`<Slider from={bind("min")} to={bind("max")} />`}>
+  <SliderRange client:load />
+</CodeExample>
+
+## Custom Range
+
+Limit the slider to a specific value range.
+
+<CodeExample
+  code={`<Slider
+  value={bind("value")}
+  minValue={20}
+  maxValue={80}
+/>`}
+>
+  <SliderMinMax client:load />
+</CodeExample>
+
+## Disabled State
+
+Prevent user interaction with the disabled prop.
+
+<CodeExample code={`<Slider value={50} disabled />`}>
+  <SliderDisabled client:load />
+</CodeExample>
+
+## Properties
+
+| Property   | Type         | Default     | Description                  |
+| ---------- | ------------ | ----------- | ---------------------------- |
+| `value`    | `Sx<number>` | `undefined` | The slider value             |
+| `from`     | `Sx<number>` | `undefined` | Start value for range slider |
+| `to`       | `Sx<number>` | `undefined` | End value for range slider   |
+| `minValue` | `number`     | `0`         | Minimum allowed value        |
+| `maxValue` | `number`     | `100`       | Maximum allowed value        |
+| `step`     | `number`     | `1`         | Step increment               |
+| `disabled` | `boolean`    | `false`     | Disables the slider          |
+| `wheel`    | `boolean`    | `false`     | Enable mouse wheel control   |

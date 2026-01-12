@@ -1,0 +1,28 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Tooltips
+---
+
+import CodePreview from "../../../components/CodePreview.astro";
+import TooltipsExample from "../../../examples/widgets/TooltipsExample.tsx";
+import TooltipsExampleCode from "../../../examples/widgets/TooltipsExample.tsx?raw";
+
+**Import:** `import { enableTooltips } from 'cx/widgets';`
+
+Tooltips provide additional information regarding the element under the mouse pointer. In Cx, tooltips are used as a default way to display validation errors on form fields.
+
+> To enable tooltips execute the `enableTooltips` method at startup of your application. Tooltips are not automatically enabled to preserve small bundle sizes for applications where they are not needed.
+
+## Example
+
+<CodePreview code={TooltipsExampleCode} filterLines={["tooltip"]}>
+  <TooltipsExample client:load />
+</CodePreview>
+
+Touch devices do not offer precise mouse pointer location, so tooltips are shown/hidden when the user taps the element containing the tooltip. Sometimes, this is not the desired behavior and you can make tooltips to ignore touch events, by setting `touchBehavior` to `ignore`.
+
+> To make all tooltips ignore touch events by default, set `Tooltip.prototype.touchBehavior = 'ignore';`.
+
+## Configuration
+
+For configuration options, see the Tooltip widget documentation.

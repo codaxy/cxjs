@@ -1,0 +1,164 @@
+---
+import { navigation } from '../data/navigation.js';
+
+interface NavPage {
+  href: string;
+  title: string;
+}
+
+// Build flat pages list from navigation structure
+const pages: NavPage[] = navigation.flatMap(category =>
+  category.groups.flatMap(group =>
+    group.items.map(item => ({
+      href: `/docs/${category.slug}/${item.slug}`,
+      title: item.title
+    }))
+  )
+);
+
+const pathname = Astro.url.pathname;
+const normalizedPath = pathname.replace(/\/$/, '') || '/';
+
+const currentIndex = pages.findIndex(p => p.href === normalizedPath);
+const prevPage = currentIndex > 0 ? pages[currentIndex - 1] : null;
+const nextPage = currentIndex < pages.length - 1 ? pages[currentIndex + 1] : null;
+---
+
+<nav class="page-nav">
+  {prevPage ? (
+    <a href={prevPage.href} class="nav-link prev">
+      <svg class="nav-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+      </svg>
+      <div class="nav-content">
+        <div class="nav-label">Previous</div>
+        <div class="nav-title">{prevPage.title}</div>
+      </div>
+    </a>
+  ) : <div />}
+
+  {nextPage ? (
+    <a href={nextPage.href} class="nav-link next">
+      <div class="nav-content">
+        <div class="nav-label">Next</div>
+        <div class="nav-title">{nextPage.title}</div>
+      </div>
+      <svg class="nav-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+      </svg>
+    </a>
+  ) : <div />}
+</nav>
+
+<style>
+  .page-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 3rem 0 0;
+    border-top: 1px solid var(--sl-color-gray-5, #e5e7eb);
+    margin-top: 3rem;
+    gap: 1rem;
+  }
+
+  :global(.dark) .page-nav {
+    border-color: var(--sl-color-gray-5, #374151);
+  }
+
+  .nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    color: var(--sl-color-gray-2, #4b5563);
+    text-decoration: none;
+    transition: all 0.15s ease;
+    border: 1px solid var(--sl-color-gray-5, #e5e7eb);
+    border-radius: 6px;
+    background: var(--vp-c-bg-soft, #f6f6f7);
+  }
+
+  .nav-link:hover {
+    color: var(--sl-color-text-accent, #2563eb);
+    border-color: var(--sl-color-text-accent, #2563eb);
+    background: var(--vp-c-bg, #ffffff);
+  }
+
+  :global(.dark) .nav-link {
+    color: var(--sl-color-gray-3, #9ca3af);
+    background: var(--vp-c-bg-soft, #202127);
+    border-color: var(--sl-color-gray-5, #374151);
+  }
+
+  :global(.dark) .nav-link:hover {
+    color: var(--sl-color-text-accent, #60a5fa);
+    border-color: var(--sl-color-text-accent, #60a5fa);
+    background: var(--vp-c-bg, #1b1b1f);
+  }
+
+  .nav-link {
+    flex: 0 0 50%;
+    max-width: calc(50% - 0.5rem);
+  }
+
+  .nav-link.next {
+    margin-left: auto;
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+
+  .nav-link.next .nav-content {
+    text-align: right;
+  }
+
+  .nav-link.prev {
+    margin-right: auto;
+  }
+
+  .nav-link.prev .nav-content {
+    text-align: left;
+  }
+
+  .nav-icon {
+    flex-shrink: 0;
+    opacity: 0.7;
+  }
+
+  .nav-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .nav-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--sl-color-gray-3, #9ca3af);
+    margin-bottom: 0.125rem;
+  }
+
+  .nav-title {
+    font-weight: 500;
+    font-size: 0.875rem;
+  }
+
+  @media (max-width: 640px) {
+    .page-nav {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.75rem;
+    }
+
+    .nav-link {
+      flex: 0 0 100%;
+      max-width: 100%;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .nav-link.next,
+    .nav-link.prev {
+      margin: 0;
+    }
+  }
+</style>

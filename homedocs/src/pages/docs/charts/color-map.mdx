@@ -1,0 +1,33 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: ColorMap
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import ColorMapExample from "../../../examples/charts/ColorMapExample.tsx";
+
+# ColorMap
+
+Assigns different colors to chart elements from the color palette dynamically.
+
+**Import:** `import { ColorMap } from 'cx/charts';`
+
+## Example
+
+<CodeExample
+  code={`<ColorMap />
+<Repeater records-bind="series">
+  <LineGraph name-bind="$record.name" data-bind="$record.points" colorMap="lines" />
+</Repeater>`}
+>
+  <ColorMapExample client:load />
+</CodeExample>
+
+**Note:** `ColorMap` must be placed above the elements that use it. Use `ColorMap.Scope` to isolate overlapping color maps.
+
+## Properties
+
+| Property | Type     | Default     | Description           |
+| -------- | -------- | ----------- | --------------------- |
+| `offset` | `number` | `0`         | Starting color offset |
+| `step`   | `number` | `undefined` | Color step size       |

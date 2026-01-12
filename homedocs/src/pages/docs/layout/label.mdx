@@ -1,0 +1,64 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Labels
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import LabelStandard from "../../../examples/widgets/label/Standard.tsx";
+import LabelStyled from "../../../examples/widgets/label/Styled.tsx";
+import LabelRequired from "../../../examples/widgets/label/Required.tsx";
+
+# Labels
+
+Labels are used to associate text with form controls. In CxJS, labels can be configured as strings, objects with styling, or even custom JSX content.
+
+**Import:** `import { LabelsLeftLayout } from 'cx/ui';`
+
+## Standard Label
+
+A simple text label next to a form field.
+
+<CodeExample code={`<TextField label="Name" value={bind("name")} />`}>
+  <LabelStandard client:load />
+</CodeExample>
+
+## Styled Label
+
+Customize label appearance using the object syntax.
+
+<CodeExample
+  code={`<TextField
+  label={{
+    text: "Styled Label",
+    style: "color: #0ea5e9; font-weight: bold"
+  }}
+  value={bind("text")}
+/>`}
+>
+  <LabelStyled client:load />
+</CodeExample>
+
+## Required with Asterisk
+
+Show a required indicator next to the label.
+
+<CodeExample
+  code={`<TextField
+  label="Email"
+  value={bind("email")}
+  required
+  asterisk
+/>`}
+>
+  <LabelRequired client:load />
+</CodeExample>
+
+## Label Configuration
+
+Labels can be configured in multiple ways:
+
+| Format | Example                                        | Description               |
+| ------ | ---------------------------------------------- | ------------------------- |
+| String | `label="Name"`                                 | Simple text label         |
+| Object | `label={{ text: "Name", style: "..." }}`       | Label with custom styling |
+| JSX    | `label={<cx><Checkbox>Enable</Checkbox></cx>}` | Custom JSX content        |

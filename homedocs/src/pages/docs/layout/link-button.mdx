@@ -1,0 +1,22 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: LinkButton
+---
+
+import CodePreview from "../../../components/CodePreview.astro";
+import LinkButtonsExample from "../../../examples/widgets/LinkButtonsExample.tsx";
+import LinkButtonsExampleCode from "../../../examples/widgets/LinkButtonsExample.tsx?raw";
+
+**Import:** `import { LinkButton } from 'cx/widgets';`
+
+Link buttons look like buttons and behave like [Links](/widgets/links). `LinkButton` inherits `Button` options such as `confirm`, `icon` or `disabled` state.
+
+## Example
+
+<CodePreview code={LinkButtonsExampleCode} filterLines={["LinkButton"]}>
+  <LinkButtonsExample client:load />
+</CodePreview>
+
+## Configuration
+
+For configuration options, see the LinkButton widget documentation.

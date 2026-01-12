@@ -1,0 +1,57 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: MonthField
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import MonthFieldBasic from "../../../examples/widgets/monthfield/Basic.tsx";
+import MonthFieldRange from "../../../examples/widgets/monthfield/Range.tsx";
+import MonthFieldDisabled from "../../../examples/widgets/monthfield/Disabled.tsx";
+
+# MonthField
+
+The `MonthField` widget allows selecting a month and year from a dropdown picker.
+
+**Import:** `import { MonthField } from 'cx/widgets';`
+
+## Basic Usage
+
+A simple month picker with data binding.
+
+<CodeExample code={`<MonthField value={bind("month")} />`}>
+  <MonthFieldBasic client:load />
+</CodeExample>
+
+## Range Selection
+
+Select a month range using from and to bindings.
+
+<CodeExample
+  code={`<MonthField
+  range
+  from={bind("fromMonth")}
+  to={bind("toMonth")}
+/>`}
+>
+  <MonthFieldRange client:load />
+</CodeExample>
+
+## Disabled State
+
+Prevent user interaction with the disabled prop.
+
+<CodeExample code={`<MonthField value="2024-06" disabled />`}>
+  <MonthFieldDisabled client:load />
+</CodeExample>
+
+## Properties
+
+| Property   | Type         | Default     | Description                         |
+| ---------- | ------------ | ----------- | ----------------------------------- |
+| `value`    | `Sx<string>` | `undefined` | The selected month (YYYY-MM format) |
+| `from`     | `Sx<string>` | `undefined` | Start month for range               |
+| `to`       | `Sx<string>` | `undefined` | End month for range                 |
+| `range`    | `boolean`    | `false`     | Enable range selection              |
+| `disabled` | `boolean`    | `false`     | Disables the input                  |
+| `minValue` | `string`     | `undefined` | Minimum selectable month            |
+| `maxValue` | `string`     | `undefined` | Maximum selectable month            |

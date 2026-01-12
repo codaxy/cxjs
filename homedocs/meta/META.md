@@ -1,0 +1,107 @@
+# AI Agent Instructions
+
+Guidelines for AI agents working on the CxJS documentation project.
+
+## Project Context
+
+- Documentation website for CxJS (TypeScript rewrite)
+- Built with Astro
+- Reference docs: https://github.com/codaxy/cxjs/tree/master/docs/content
+
+## Code Rules
+
+### TypeScript Only
+
+- All code examples must use TypeScript
+- Avoid JavaScript
+
+### JSX Syntax (Breaking Change)
+
+- React JSX and CxJS JSX are now separated
+- The `<cx>` wrapper tag can be omitted in examples
+
+### Bindings (Breaking Change)
+
+Binding attributes (`-bind`, `-tpl`, `-expr`) are deprecated without plugins.
+
+Use function syntax instead:
+
+- `bind("path")` instead of `value-bind="path"`
+- `expr("...")` instead of `value-expr="..."`
+- `tpl("...")` instead of `value-tpl="..."`
+
+## Content Guidelines
+
+- Avoid "Next Steps" sections - the site has next/previous navigation buttons
+- Avoid excessive headings where content is low - use sentences instead
+- Prefer using `CodeExample` component to show code with a live preview
+- Avoid headings (`<h1>`-`<h6>`) inside code examples - use bold text instead to avoid messing up document layout
+
+### ImportPath Component
+
+Use `ImportPath` immediately below page titles to show the import statement. It includes copy-to-clipboard functionality.
+
+```mdx
+import ImportPath from "../../components/ImportPath.astro";
+
+# ComponentName
+
+<ImportPath path="import { ComponentName } from 'cx/widgets';" />
+```
+
+### CodeExample Component
+
+Use `CodeExample` to display code alongside a running example. This is more meaningful for users than static code blocks.
+
+```mdx
+import CodeExample from "../../components/CodeExample.astro";
+import MyExample from "../../examples/MyExample.tsx";
+import MyExampleCode from "../../examples/MyExample.tsx?raw";
+
+<CodeExample code={MyExampleCode}>
+  <MyExample client:load />
+</CodeExample>
+```
+
+### Section Markers
+
+Use comments in the source code to split it into tabs (Model, Components, Controller, Index):
+
+- `@model` / `@model-end` - For model interfaces and proxy definitions
+- `@components` / `@components-end` - For functional components and layouts
+- `@controller` / `@controller-end` - For controller classes
+- `@index` / `@index-end` - For the main export
+
+```tsx
+// @model
+interface PageModel {
+  name: string;
+}
+const m = createAccessorModelProxy<PageModel>();
+// @model-end
+
+// @components
+const MyComponent = createFunctionalComponent(({ ... }) => (
+  <div>...</div>
+));
+// @components-end
+
+// @controller
+class PageController extends Controller {
+  onInit() { ... }
+}
+// @controller-end
+
+// @index
+export default () => (
+  <div>...</div>
+);
+// @index-end
+```
+
+The `@index` section is shown by default. If no section markers are present, the entire file is displayed.
+
+## Workflow
+
+- Refer to PLAN.md for tasks and priorities
+- Keep this file tidy and well-organized

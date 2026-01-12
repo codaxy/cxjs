@@ -1,0 +1,465 @@
+---
+import '../styles/tailwind.css';
+import '../styles/global.scss';
+import { ClientRouter } from 'astro:transitions';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CxJS - Advanced JavaScript UI Framework</title>
+    <meta name="description" content="CxJS is a modern JavaScript framework for building data-oriented web applications with a complete set of widgets, charts, and powerful data-binding." />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <ClientRouter />
+    <script is:inline data-astro-rerun>
+      (function() {
+        const theme = localStorage.getItem('theme') ||
+          (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        if (theme === 'dark') {
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
+    <style>
+      /* Animations */
+      @keyframes float {
+        0%, 100% { transform: translateY(0) rotate(0deg); }
+        50% { transform: translateY(-20px) rotate(5deg); }
+      }
+      @keyframes float-reverse {
+        0%, 100% { transform: translateY(0) rotate(0deg); }
+        50% { transform: translateY(20px) rotate(-5deg); }
+      }
+      @keyframes pulse-glow {
+        0%, 100% { opacity: 0.3; transform: scale(1); }
+        50% { opacity: 0.5; transform: scale(1.05); }
+      }
+      @keyframes fade-in-up {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes slide-in-left {
+        from { opacity: 0; transform: translateX(-50px); }
+        to { opacity: 1; transform: translateX(0); }
+      }
+      @keyframes slide-in-right {
+        from { opacity: 0; transform: translateX(50px); }
+        to { opacity: 1; transform: translateX(0); }
+      }
+      @keyframes grid-fade {
+        0%, 100% { opacity: 0.03; }
+        50% { opacity: 0.08; }
+      }
+      .float-1 { animation: float 6s ease-in-out infinite; }
+      .float-2 { animation: float-reverse 8s ease-in-out infinite; }
+      .float-3 { animation: float 10s ease-in-out infinite 1s; }
+      .float-4 { animation: float-reverse 7s ease-in-out infinite 0.5s; }
+      .pulse-glow { animation: pulse-glow 4s ease-in-out infinite; }
+      .fade-in-up { animation: fade-in-up 0.8s ease-out forwards; }
+      .slide-in-left { animation: slide-in-left 0.8s ease-out forwards; }
+      .slide-in-right { animation: slide-in-right 0.8s ease-out forwards; }
+      .animate-delay-100 { animation-delay: 0.1s; opacity: 0; }
+      .animate-delay-200 { animation-delay: 0.2s; opacity: 0; }
+      .animate-delay-300 { animation-delay: 0.3s; opacity: 0; }
+      .animate-delay-400 { animation-delay: 0.4s; opacity: 0; }
+
+      /* Grid pattern */
+      .grid-pattern {
+        background-image:
+          linear-gradient(to right, hsl(var(--border)) 1px, transparent 1px),
+          linear-gradient(to bottom, hsl(var(--border)) 1px, transparent 1px);
+        background-size: 60px 60px;
+        animation: grid-fade 8s ease-in-out infinite;
+      }
+
+      /* Gradient text */
+      .gradient-text {
+        background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(197 78% 65%) 50%, hsl(var(--primary)) 100%);
+        background-size: 200% 200%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: gradient-shift 5s ease infinite;
+      }
+      @keyframes gradient-shift {
+        0%, 100% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+      }
+
+      /* Card hover effects */
+      .feature-card {
+        transition: all 0.3s ease;
+      }
+      .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px -15px hsl(var(--primary) / 0.2);
+      }
+      .feature-card:hover .feature-icon {
+        transform: scale(1.1) rotate(5deg);
+      }
+      .feature-icon {
+        transition: transform 0.3s ease;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="min-h-screen bg-background overflow-x-hidden">
+      <!-- Header -->
+      <header class="border-b border-border bg-background/80 backdrop-blur-sm sticky top-0 z-50">
+        <div class="container mx-auto flex h-16 items-center px-4">
+          <a href="/" class="flex items-center gap-2 group">
+            <img src="/favicon.svg" alt="CxJS" class="h-9 w-9 transition-transform group-hover:scale-110" />
+            <span class="text-xl font-semibold text-foreground">CxJS</span>
+          </a>
+          <nav class="flex-1 flex items-center justify-center gap-6">
+            <a href="/docs/intro/what-is-cxjs" class="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              Docs
+            </a>
+            <a href="https://gallery.cxjs.io/" class="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              Gallery
+            </a>
+            <a href="/docs/intro/changelog" class="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              Changelog
+            </a>
+          </nav>
+          <div class="flex items-center gap-4">
+            <a
+              href="https://github.com/codaxy/cxjs"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+              </svg>
+            </a>
+            <button
+              id="theme-toggle"
+              class="p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+              title="Toggle theme"
+            >
+              <svg class="sun-icon h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+              </svg>
+              <svg class="moon-icon h-5 w-5 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Hero -->
+      <section class="relative overflow-hidden py-24 lg:py-36">
+        <!-- Grid pattern background -->
+        <div class="absolute inset-0 grid-pattern"></div>
+
+        <!-- Animated gradient orbs -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/20 rounded-full blur-3xl pulse-glow"></div>
+        <div class="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-cyan-500/10 rounded-full blur-3xl float-1"></div>
+        <div class="absolute bottom-1/4 right-1/4 w-[300px] h-[300px] bg-purple-500/10 rounded-full blur-3xl float-2"></div>
+
+        <!-- Floating decorative elements -->
+        <div class="absolute top-20 left-[10%] opacity-20 float-1">
+          <svg class="w-16 h-16 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+            <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+            <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+            <rect x="14" y="14" width="7" height="7" rx="1"></rect>
+          </svg>
+        </div>
+        <div class="absolute top-40 right-[15%] opacity-20 float-2">
+          <svg class="w-20 h-20 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+          </svg>
+        </div>
+        <div class="absolute bottom-32 left-[20%] opacity-15 float-3">
+          <svg class="w-14 h-14 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M12 2 L12 12 L18 18"></path>
+          </svg>
+        </div>
+        <div class="absolute bottom-20 right-[10%] opacity-20 float-4">
+          <svg class="w-12 h-12 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+          </svg>
+        </div>
+
+        <div class="container relative mx-auto px-4 text-center">
+          <div class="fade-in-up inline-flex items-center gap-2 rounded-full border border-border bg-secondary/50 backdrop-blur-sm px-4 py-1.5 text-sm text-muted-foreground mb-6">
+            <span class="h-2 w-2 rounded-full bg-primary animate-pulse"></span>
+            Version 26 Now Available
+          </div>
+
+          <h1 class="fade-in-up animate-delay-100 text-4xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight">
+            Build <span class="gradient-text">Data-Driven</span> Apps
+            <br />
+            <span class="text-heading">With Ease</span>
+          </h1>
+
+          <p class="fade-in-up animate-delay-200 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10">
+            CxJS is a complete JavaScript framework for building sophisticated business applications.
+            Widgets, charts, forms, grids, and powerful data-binding — all in one package.
+          </p>
+
+          <div class="fade-in-up animate-delay-300 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a
+              href="/docs/intro/hello-world"
+              class="group inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary text-primary-foreground font-semibold hover:bg-primary/90 transition-all shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5"
+            >
+              Get Started
+              <svg class="h-4 w-4 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </a>
+            <a
+              href="https://github.com/codaxy/cxjs"
+              target="_blank"
+              rel="noopener"
+              class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-secondary/80 backdrop-blur-sm text-secondary-foreground font-semibold hover:bg-secondary transition-all border border-border hover:-translate-y-0.5"
+            >
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+              </svg>
+              GitHub
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Features -->
+      <section class="py-24 border-t border-border relative">
+        <div class="container mx-auto px-4">
+          <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-heading mb-4">
+              Everything You Need
+            </h2>
+            <p class="text-lg text-muted-foreground max-w-2xl mx-auto">
+              CxJS provides all the tools and components you need to build
+              modern, data-driven web applications.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Feature 1 -->
+            <div class="feature-card p-6 rounded-xl border border-border bg-card/50 backdrop-blur-sm">
+              <div class="feature-icon h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
+                <svg class="h-6 w-6 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="7" height="7"></rect>
+                  <rect x="14" y="3" width="7" height="7"></rect>
+                  <rect x="14" y="14" width="7" height="7"></rect>
+                  <rect x="3" y="14" width="7" height="7"></rect>
+                </svg>
+              </div>
+              <h3 class="text-lg font-semibold text-heading mb-2">50+ Widgets</h3>
+              <p class="text-sm text-muted-foreground">
+                Forms, grids, trees, menus, tooltips, and more — ready to use.
+              </p>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="feature-card p-6 rounded-xl border border-border bg-card/50 backdrop-blur-sm">
+              <div class="feature-icon h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
+                <svg class="h-6 w-6 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="18" y1="20" x2="18" y2="10"></line>
+                  <line x1="12" y1="20" x2="12" y2="4"></line>
+                  <line x1="6" y1="20" x2="6" y2="14"></line>
+                </svg>
+              </div>
+              <h3 class="text-lg font-semibold text-heading mb-2">SVG Charts</h3>
+              <p class="text-sm text-muted-foreground">
+                Line, bar, pie, scatter charts with animations and interactivity.
+              </p>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="feature-card p-6 rounded-xl border border-border bg-card/50 backdrop-blur-sm">
+              <div class="feature-icon h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
+                <svg class="h-6 w-6 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="4 17 10 11 4 5"></polyline>
+                  <line x1="12" y1="19" x2="20" y2="19"></line>
+                </svg>
+              </div>
+              <h3 class="text-lg font-semibold text-heading mb-2">TypeScript First</h3>
+              <p class="text-sm text-muted-foreground">
+                Full TypeScript support with typed models and accessor chains.
+              </p>
+            </div>
+
+            <!-- Feature 4 -->
+            <div class="feature-card p-6 rounded-xl border border-border bg-card/50 backdrop-blur-sm">
+              <div class="feature-icon h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
+                <svg class="h-6 w-6 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                </svg>
+              </div>
+              <h3 class="text-lg font-semibold text-heading mb-2">Two-Way Binding</h3>
+              <p class="text-sm text-muted-foreground">
+                Reactive data binding that keeps your UI and state in perfect sync.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Code Preview -->
+      <section class="py-24 border-t border-border bg-secondary/20 relative overflow-hidden">
+        <!-- Decorative background -->
+        <div class="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-primary/5 to-transparent"></div>
+
+        <div class="container mx-auto px-4 relative">
+          <div class="grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 class="text-3xl md:text-4xl font-bold text-heading mb-4">
+                Intuitive JSX Syntax
+              </h2>
+              <p class="text-lg text-muted-foreground mb-6">
+                Write clean, declarative code with CxJS's extended JSX syntax.
+                Two-way binding and computed values make state management a breeze.
+              </p>
+              <ul class="space-y-3 text-muted-foreground">
+                <li class="flex items-center gap-3">
+                  <div class="h-2 w-2 rounded-full bg-primary"></div>
+                  Familiar JSX with powerful extensions
+                </li>
+                <li class="flex items-center gap-3">
+                  <div class="h-2 w-2 rounded-full bg-primary"></div>
+                  Reactive two-way data binding
+                </li>
+                <li class="flex items-center gap-3">
+                  <div class="h-2 w-2 rounded-full bg-primary"></div>
+                  Computed values and expressions
+                </li>
+              </ul>
+            </div>
+
+            <div class="relative group">
+              <div class="absolute -inset-4 bg-gradient-to-r from-primary/20 via-cyan-500/20 to-purple-500/20 rounded-2xl blur-2xl opacity-50 group-hover:opacity-75 transition-opacity"></div>
+              <pre class="relative overflow-x-auto p-6 rounded-xl border border-code-border bg-code-bg font-mono text-sm shadow-2xl">
+<code class="text-gray-300"><span class="text-cyan-400">import</span><span class="text-gray-300"> &#123; TextField, Button &#125; </span><span class="text-cyan-400">from</span><span class="text-green-400"> 'cx/widgets'</span><span class="text-gray-300">;</span>
+<span class="text-cyan-400">import</span><span class="text-gray-300"> &#123; $page &#125; </span><span class="text-cyan-400">from</span><span class="text-green-400"> './stores'</span><span class="text-gray-300">;</span>
+
+<span class="text-purple-400">&lt;cx&gt;</span>
+  <span class="text-yellow-400">&lt;TextField</span>
+    <span class="text-cyan-400">value</span><span class="text-gray-300">=&#123;</span><span class="text-orange-400">$page</span><span class="text-gray-300">.</span><span class="text-cyan-400">user</span><span class="text-gray-300">.</span><span class="text-cyan-400">name</span><span class="text-gray-300">&#125;</span>
+    <span class="text-cyan-400">placeholder</span><span class="text-gray-300">=</span><span class="text-green-400">"Enter name"</span>
+  <span class="text-yellow-400">/&gt;</span>
+  <span class="text-yellow-400">&lt;Button</span>
+    <span class="text-cyan-400">text</span><span class="text-gray-300">=&#123;&#123; </span><span class="text-cyan-400">tpl</span><span class="text-gray-300">: </span><span class="text-green-400">"Hello &#123;user.name&#125;!"</span><span class="text-gray-300"> &#125;&#125;</span>
+  <span class="text-yellow-400">/&gt;</span>
+<span class="text-purple-400">&lt;/cx&gt;</span></code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="py-24 border-t border-border relative overflow-hidden">
+        <!-- Background decoration -->
+        <div class="absolute inset-0 grid-pattern opacity-50"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-primary/10 rounded-full blur-3xl"></div>
+
+        <div class="container mx-auto px-4 text-center relative">
+          <h2 class="text-3xl md:text-4xl font-bold text-heading mb-4">
+            Ready to Build?
+          </h2>
+          <p class="text-lg text-muted-foreground max-w-xl mx-auto mb-8">
+            Start building your next application with CxJS today.
+            Comprehensive docs and examples await.
+          </p>
+          <a
+            href="/docs/intro/hello-world"
+            class="group inline-flex items-center gap-2 px-8 py-4 rounded-lg bg-primary text-primary-foreground font-semibold hover:bg-primary/90 transition-all shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-1"
+          >
+            Get Started
+            <svg class="h-5 w-5 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </a>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="border-t border-border py-8 bg-secondary/30">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
+          <div class="flex items-center gap-2 text-muted-foreground">
+            <img src="/favicon.svg" alt="CxJS" class="h-6 w-6" />
+            <span class="text-sm">CxJS Documentation</span>
+          </div>
+          <div class="flex items-center gap-6 text-sm text-muted-foreground">
+            <a href="https://github.com/codaxy/cxjs" class="hover:text-foreground transition-colors">
+              GitHub
+            </a>
+            <a href="https://codaxy.com" class="hover:text-foreground transition-colors">
+              Codaxy
+            </a>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script is:inline>
+      function initHomePage() {
+        const toggle = document.getElementById('theme-toggle');
+        if (!toggle) {
+          return;
+        }
+
+        const sunIcon = toggle.querySelector('.sun-icon');
+        const moonIcon = toggle.querySelector('.moon-icon');
+
+        function updateIcons() {
+          const isDark = document.documentElement.classList.contains('dark');
+          if (sunIcon && moonIcon) {
+            sunIcon.classList.toggle('hidden', isDark);
+            moonIcon.classList.toggle('hidden', !isDark);
+          }
+        }
+
+        toggle.onclick = () => {
+          document.documentElement.classList.toggle('dark');
+          const isDark = document.documentElement.classList.contains('dark');
+          localStorage.setItem('theme', isDark ? 'dark' : 'light');
+          updateIcons();
+        };
+
+        updateIcons();
+
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+          threshold: 0.1,
+          rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('fade-in-up');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, observerOptions);
+
+        document.querySelectorAll('.feature-card').forEach(card => {
+          card.style.opacity = '0';
+          observer.observe(card);
+        });
+      }
+
+      document.addEventListener('astro:page-load', initHomePage);
+    </script>
+  </body>
+</html>
