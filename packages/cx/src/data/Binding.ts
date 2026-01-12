@@ -13,7 +13,11 @@ export interface BindingObject {
    debounce?: number;
 }
 
-export type BindingInput<T = any> = string | BindingObject | Binding<T> | AccessorChain<T>;
+export type BindingInput<T = any> =
+   | string
+   | BindingObject
+   | Binding<T>
+   | AccessorChain<T>;
 
 export type ValueGetter<T> = (state: any) => T | undefined;
 
@@ -26,7 +30,8 @@ export class Binding<T = any> {
       this.path = path;
       this.parts = path.split(".") as readonly string[];
       let body = "return x";
-      for (let i = 0; i < this.parts.length; i++) body += '?.["' + this.parts[i] + '"]';
+      for (let i = 0; i < this.parts.length; i++)
+         body += '?.["' + this.parts[i] + '"]';
       this.value = new Function("x", body) as ValueGetter<T>;
    }
 
@@ -39,7 +44,8 @@ export class Binding<T = any> {
 
       for (let i = 0; i < this.parts.length; i++) {
          const part = this.parts[i];
-         const no = i === this.parts.length - 1 ? value : Object.assign({}, o[part]);
+         const no =
+            i === this.parts.length - 1 ? value : Object.assign({}, o[part]);
          o[part] = no;
          o = no;
       }
@@ -81,17 +87,16 @@ export class Binding<T = any> {
 
       if (path instanceof Binding) return path as Binding<T>;
 
-      if (isAccessorChain(path)) return this.get<T>((path as AccessorChain<T>).toString());
+      if (isAccessorChain(path))
+         return this.get<T>((path as AccessorChain<T>).toString());
 
       throw new Error("Invalid binding definition provided.");
    }
 }
 
 export function isBinding(value: unknown): value is BindingInput {
-   if (isObject(value)) {
-      if (hasStringAtKey(value, "bind")) return true;
-      if (hasValueAtKey(value, "isAccessorChain", true)) return true;
-   }
+   if (isObject(value) && hasStringAtKey(value, "bind")) return true;
+   if (isAccessorChain(value)) return true;
    return value instanceof Binding;
 }
 
@@ -100,5 +105,3 @@ export type BindingValue<B> = B extends Binding<infer T> ? T : unknown;
 export function isBindingObject(value: unknown): value is BindingObject {
    return isObject(value) && hasStringAtKey(value, "bind");
 }
-
-export { bindingCache };

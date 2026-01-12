@@ -1,0 +1,39 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Window
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import WindowExample from "../../../examples/layout/WindowExample.tsx";
+import WindowExampleCode from "../../../examples/layout/WindowExample.tsx?raw";
+
+# Window
+
+<ImportPath path="import { Window } from 'cx/widgets';" />
+
+Windows are overlays with headers, footers, and special appearance. They provide a familiar dialog-like experience for displaying forms, messages, or complex content.
+
+<CodeExample code={WindowExampleCode}>
+  <WindowExample client:load />
+</CodeExample>
+
+Use `putInto="footer"` to place content in the window footer. Add the `dismiss` prop to buttons that should close the window.
+
+## Configuration
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `title` | `string` | Text displayed in the header. |
+| `header` | `object` | Custom Cx component for advanced headers. |
+| `visible` | `boolean` | Controls window visibility. |
+| `modal` | `boolean` | Adds a backdrop that masks mouse events for the rest of the page. |
+| `backdrop` | `boolean` | Adds a backdrop that dismisses the window when clicked. |
+| `center` | `boolean` | Centers the window on the page. |
+| `draggable` | `boolean` | Enables dragging the window by its header. |
+| `resizable` | `boolean` | Enables window resizing. |
+| `closable` | `boolean` | Controls close button visibility. Defaults to `true`. |
+| `closeOnEscape` | `boolean` | Closes the window when Escape key is pressed. |
+| `fixed` | `boolean` | Disables moving the window by dragging the header. |
+| `pad` | `boolean` | Adds default padding to the window body. |
