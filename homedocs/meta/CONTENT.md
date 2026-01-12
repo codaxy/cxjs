@@ -8,85 +8,63 @@ Category / Group / Page
 
 ### Introduction
 
-- Overview
+- Getting Started
   - What is CxJS
-  - Installation
   - Hello World
+  - Installation
   - Themes
-  - Application Templates
   - Tailwind CSS
-- Migration
-  - Breaking Changes
-  - Migration Guide
-- Resources
-  - Community
-  - Example Applications
-
-### Core
-
-- Concepts
+  - Application Templates
+- Basics
   - JSX Syntax
   - Typed Models
   - Store
   - Data Binding
   - Controllers
   - Formatting
-  - Selections
-  - CSS
-- App Layout
-  - Layouts
-  - ContentPlaceholder
-  - Router
-- Data View Components
-  - Repeater
-  - Rescope
-  - Sandbox
-  - PrivateStore
-  - DataProxy
 - Authoring Widgets
   - Functional Components
   - Custom Components
-  - Component Lifecycle
+- Migration
+  - Changelog
+  - Breaking Changes
+  - Migration Guide
+
+### Concepts
+
+- Data Views
+  - Overview
+  - Repeater
+  - Sandbox
+  - PrivateStore
+  - DataProxy
+  - Rescope
+- Selections
+  - Overview
+  - KeySelection
+  - SimpleSelection
+  - PropertySelection
+- Routing
+  - Overview
+  - Route
+  - RedirectRoute
+  - Url
+  - History
+- Drag & Drop
+  - Overview
+  - DragSource
+  - DropZone
+  - DragHandle
 - Advanced
-  - Drag and Drop
   - Keyboard Shortcuts
   - Localization
-  - Bundle Optimization
-
-### Forms
-
-- Components
-  - TextField
-  - NumberField
-  - TextArea
-  - DateField
-  - DateTimeField
-  - MonthField
-  - SelectField
-  - LookupField
-  - Checkbox
-  - Radio
-  - Switch
-  - ColorField
-  - UploadButton
-- Layout
-  - LabelsLeftLayout
-  - LabelsTopLayout
-  - FieldGroup
-  - LabeledContainer
-- Validation
-  - Validators
-  - ValidationGroup
-  - Validation Options
-- Examples
-  - Custom Lookup Bindings
-  - Infinite Lookup List
-  - Lookup Options Filter
-  - Lookup Options Grouping
-  - Multi-file Upload
 
 ### Layout
 
+- App Layout
+  - Outer Layouts
+  - ContentPlaceholder
+  - Content
 - Overlays
   - Window
   - Overlay
@@ -114,12 +92,46 @@ Category / Group / Page
   - FlexBox
   - Section
 
-### Lists & Tables
+### Forms
+
+- Components
+  - TextField
+  - NumberField
+  - TextArea
+  - DateField
+  - DateTimeField
+  - MonthField
+  - SelectField
+  - LookupField
+  - Checkbox
+  - Radio
+  - Switch
+  - ColorField
+  - UploadButton
+  - List
+  - Slider
+  - HighlightedSearchText
+- Layout
+  - LabelsLeftLayout
+  - LabelsTopLayout
+  - FieldGroup
+  - LabeledContainer
+- Validation
+  - Validators
+  - ValidationGroup
+  - Validation Options
+- Examples
+  - Custom Lookup Bindings
+  - Infinite Lookup List
+  - Lookup Options Filter
+  - Lookup Options Grouping
+  - Multi-file Upload
+
+### Tables
 
 - Components
   - Grid
   - TreeGrid
-  - List
 - Examples
   - Buffering
   - Cell Editing

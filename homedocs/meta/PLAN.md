@@ -7,6 +7,52 @@ This document outlines the plan for the new CxJS documentation website. CxJS has
 - Framework: Astro-based documentation site
 - Purpose: Document the TypeScript rewrite of CxJS
 
-## Tasks
+## Progress
 
-_Tasks will be added as the project progresses._
+### ✅ Introduction (Complete)
+
+- Getting Started
+- Basics
+- Authoring Widgets
+- Migration
+
+### ✅ Concepts (Complete)
+
+- Data Views
+- Selections
+- Routing
+- Drag & Drop
+- Advanced
+
+### 🚧 Layout (In Progress)
+
+- App Layout
+- Overlays
+- Menus
+- Content
+- Scrolling
+- Containers
+
+### ⬚ Forms
+
+- Components
+- Layout
+- Validation
+- Examples
+
+### ⬚ Tables
+
+- Components
+- Examples
+
+### ⬚ Charts
+
+- Chart Elements
+- Graphs
+- Utilities
+- SVG Primitives
+- Examples
+
+### ⬚ Utilities
+
+- Functions
