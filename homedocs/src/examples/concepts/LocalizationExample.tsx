@@ -53,14 +53,12 @@ export default () => (
     <LabelsTopLayout columns={2} controller={PageController}>
       <LookupField
         value={m.culture.id}
-        text={m.culture.text}
         options={m.cultures}
         label="Culture"
         required
       />
       <LookupField
         value={m.currency.id}
-        text={m.currency.text}
         options={m.currencies}
         label="Currency"
         required
@@ -69,7 +67,7 @@ export default () => (
     <ContentResolver
       params={{ culture: m.culture.id, currency: m.currency.id }}
       onResolve={async ({ culture, currency }) => {
-        console.log(culture, currency);
+        //console.log(culture, currency);
         Culture.setCulture(culture);
         Culture.setDefaultCurrency(currency);
 

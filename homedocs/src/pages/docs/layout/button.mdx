@@ -1,33 +1,79 @@
 ---
 layout: ../../../layouts/DocsLayout.astro
-title: Buttons
+title: Button
 ---
 
-import CodePreview from "../../../components/CodePreview.astro";
-import ButtonsExample from "../../../examples/widgets/ButtonsExample.tsx";
-import ButtonsExampleCode from "../../../examples/widgets/ButtonsExample.tsx?raw";
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
 
-**Import:** `import { Button } from 'cx/widgets';`
+import ButtonBasicExample from "../../../examples/layout/ButtonBasicExample.tsx";
+import ButtonBasicExampleCode from "../../../examples/layout/ButtonBasicExample.tsx?raw";
 
-Buttons are commonly used UI elements.
+import ButtonModsExample from "../../../examples/layout/ButtonModsExample.tsx";
+import ButtonModsExampleCode from "../../../examples/layout/ButtonModsExample.tsx?raw";
 
-## Example
+import ButtonIconsExample from "../../../examples/layout/ButtonIconsExample.tsx";
+import ButtonIconsExampleCode from "../../../examples/layout/ButtonIconsExample.tsx?raw";
 
-<CodePreview code={ButtonsExampleCode} filterLines={["Button"]}>
-  <ButtonsExample client:load />
-</CodePreview>
+import ButtonConfirmExample from "../../../examples/layout/ButtonConfirmExample.tsx";
+import ButtonConfirmExampleCode from "../../../examples/layout/ButtonConfirmExample.tsx?raw";
 
-### Enabling Message Box Alerts
+# Button
 
-To enable Cx based message box alerts, call `enableMsgBoxAlerts()` at startup of your application.
+<ImportPath path="import { Button } from 'cx/widgets';" />
+
+Buttons trigger actions when clicked. They support various visual styles, icons, and built-in confirmation dialogs.
+
+<CodeExample code={ButtonBasicExampleCode}>
+  <ButtonBasicExample client:load />
+</CodeExample>
+
+Use `pressed` to show a toggled state, and `disabled` to prevent interaction.
+
+## Mods
+
+Buttons support visual modifiers: `primary` for main actions, `danger` for destructive actions, and `hollow` for secondary actions.
+
+<CodeExample code={ButtonModsExampleCode}>
+  <ButtonModsExample client:load />
+</CodeExample>
+
+## Icons
+
+Add icons using the `icon` prop. Buttons can have both icon and text, or just an icon.
+
+<CodeExample code={ButtonIconsExampleCode}>
+  <ButtonIconsExample client:load />
+</CodeExample>
+
+## Confirmation
+
+Use the `confirm` prop to show a confirmation dialog before executing the `onClick` handler.
+
+<CodeExample code={ButtonConfirmExampleCode}>
+  <ButtonConfirmExample client:load />
+</CodeExample>
+
+To enable CxJS-based confirmation dialogs, call `enableMsgBoxAlerts()` at application startup:
 
 ```js
 import { enableMsgBoxAlerts } from "cx/widgets";
 enableMsgBoxAlerts();
 ```
 
-> To enable Cx based message box alerts, call `enableMsgBoxAlerts()` at startup of your application.
-
 ## Configuration
 
-For configuration options, see the Button widget documentation.
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `text` | `StringProp` | Button text content. |
+| `icon` | `StringProp` | Name of the icon to display. |
+| `mod` | `string` | Visual modifier: `primary`, `danger`, `hollow`. |
+| `pressed` | `BooleanProp` | Shows the button in a pressed/toggled state. |
+| `disabled` | `BooleanProp` | Disables the button. |
+| `enabled` | `BooleanProp` | Inverse of disabled. |
+| `confirm` | `string \| object` | Confirmation message or MsgBox configuration. |
+| `dismiss` | `boolean` | If true, closes the parent overlay when clicked. |
+| `submit` | `boolean` | Sets `type="submit"` for form submission. |
+| `type` | `string` | Button type: `submit` or `button`. Default: `button`. |
+| `focusOnMouseDown` | `boolean` | Allow focus on mouse click. Default: `false`. |
+| `onClick` | `function` | Click handler: `(e, instance) => void`. |

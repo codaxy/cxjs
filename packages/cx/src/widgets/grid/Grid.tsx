@@ -397,7 +397,10 @@ export interface GridConfig<T = any> extends StyledContainerConfig {
    filterParams?: StructuredProp;
 
    /** Callback function to be executed when a row is right-clicked.  */
-   onRowContextMenu?: string | ((e: React.SyntheticEvent<any>, instance: Instance) => void);
+   onRowContextMenu?: string | ((e: React.MouseEvent<any>, instance: Instance) => void);
+
+   /** Callback function to be executed when a column header is right-clicked.  */
+   onColumnContextMenu?: string | ((e: React.MouseEvent<any>, columnInstance: Instance) => void);
 
    /** Callback to create a filter function for given filter params. */
    onCreateFilter?: (filterParams: any, instance?: Instance) => (record: T) => boolean;

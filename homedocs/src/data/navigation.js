@@ -104,6 +104,20 @@ export const navigation = [
     slug: "layout",
     groups: [
       {
+        title: "General Purpose",
+        items: [
+          { title: "Button", slug: "button" },
+          { title: "LinkButton", slug: "link-button" },
+          { title: "Link", slug: "link" },
+          { title: "Icon", slug: "icon" },
+          { title: "Heading", slug: "heading" },
+          { title: "Text", slug: "text" },
+          { title: "Label", slug: "label" },
+          { title: "ProgressBar", slug: "progress-bar" },
+          { title: "Tabs", slug: "tabs" },
+        ],
+      },
+      {
         title: "App Layout",
         items: [
           { title: "Outer Layouts", slug: "outer-layouts" },
@@ -138,20 +152,6 @@ export const navigation = [
           { title: "Menu", slug: "menu" },
           { title: "ContextMenu", slug: "context-menu" },
           { title: "Dropdown", slug: "dropdown" },
-        ],
-      },
-      {
-        title: "Content",
-        items: [
-          { title: "Tabs", slug: "tabs" },
-          { title: "Text", slug: "text" },
-          { title: "Label", slug: "label" },
-          { title: "Heading", slug: "heading" },
-          { title: "Icon", slug: "icon" },
-          { title: "Link", slug: "link" },
-          { title: "Button", slug: "button" },
-          { title: "LinkButton", slug: "link-button" },
-          { title: "ProgressBar", slug: "progress-bar" },
         ],
       },
       {

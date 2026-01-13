@@ -276,6 +276,33 @@ const importsCode = hasTabs ? extractImports(code) : null;
 </div>
 
 <style>
+  /* Reset prose list styles in not-prose areas */
+  :global(.not-prose ul) {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  :global(.not-prose ul > li) {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+  }
+
+  :global(.not-prose ol > li) {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+  }
+
+  :global(.not-prose .cxe-list-item) {
+    padding-left: 20px;
+  }
+
+  :global(.not-prose hr) {
+    margin: 0.5rem;
+  }
+
+
   .code-tab {
     position: relative;
     background: transparent;

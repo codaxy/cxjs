@@ -1,0 +1,67 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: ContextMenu
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import ContextMenuExample from "../../../examples/layout/ContextMenuExample.tsx";
+import ContextMenuExampleCode from "../../../examples/layout/ContextMenuExample.tsx?raw";
+
+import ContextMenuGridExample from "../../../examples/layout/ContextMenuGridExample.tsx";
+import ContextMenuGridExampleCode from "../../../examples/layout/ContextMenuGridExample.tsx?raw";
+
+# ContextMenu
+
+<ImportPath path="import { openContextMenu } from 'cx/widgets';" />
+
+Context menus appear at the mouse position when the user right-clicks. Use the `openContextMenu` helper function to create and display a context menu with minimal code.
+
+<CodeExample code={ContextMenuExampleCode}>
+  <ContextMenuExample client:load />
+</CodeExample>
+
+The `openContextMenu` function takes three arguments:
+- The mouse event (to get the click position and prevent default behavior)
+- The menu content (typically a `Menu` with `MenuItem` children)
+- The instance (accessed via `e.instance`) — this allows the menu to access the store and controller methods
+
+## Grid Context Menus
+
+Context menus are commonly used with grids for row and column actions. Use `onRowContextMenu` for row menus and `onContextMenu` on column definitions for header menus.
+
+<CodeExample code={ContextMenuGridExampleCode}>
+  <ContextMenuGridExample client:load />
+</CodeExample>
+
+Use `<hr />` elements to add visual separators between menu groups.
+
+## openContextMenu
+
+```ts
+openContextMenu(
+  event: MouseEvent,
+  content: any,
+  instance?: Store | Instance,
+  options?: object
+): Promise
+```
+
+| Argument | Description |
+| -------- | ----------- |
+| `event` | The mouse event from `onContextMenu`. Used to position the menu and prevent default browser context menu. |
+| `content` | Menu content — typically a `Menu` with `MenuItem` children. |
+| `instance` | Instance for data binding and controller access. Access via `e.instance`. |
+| `options` | Optional configuration passed to the dropdown. |
+
+## Configuration
+
+`ContextMenu` extends `Dropdown` with these defaults:
+
+| Property | Default | Description |
+| -------- | ------- | ----------- |
+| `trackMouse` | `true` | Position menu at cursor location. |
+| `dismissOnFocusOut` | `true` | Close when focus leaves the menu. |
+| `autoFocus` | `true` | Focus the menu when opened. |
+| `placementOrder` | `"down-right right up-right..."` | Preferred placement directions. |
