@@ -129,6 +129,7 @@ export const navigation = [
           { title: "Tooltip", slug: "tooltip" },
           { title: "Toast", slug: "toast" },
           { title: "MsgBox", slug: "msgbox" },
+          { title: "FlyweightTooltipTracker", slug: "flyweight-tooltip-tracker" },
         ],
       },
       {
