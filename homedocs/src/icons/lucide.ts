@@ -1,6 +1,6 @@
 import { Icon } from "cx/widgets";
 import { VDOM } from "cx/ui";
-import { Search, Plus, Pencil, RefreshCw, X, Folder } from "lucide";
+import { Search, Plus, Pencil, RefreshCw, X, Folder, Calendar, Calculator, Bug } from "lucide";
 
 type IconNode = [tag: string, attrs: Record<string, string | number>][];
 
@@ -42,3 +42,6 @@ Icon.register("pencil", renderLucideIcon(Pencil));
 Icon.register("refresh-cw", renderLucideIcon(RefreshCw));
 Icon.register("x", renderLucideIcon(X));
 Icon.register("folder", renderLucideIcon(Folder));
+Icon.register("calendar", renderLucideIcon(Calendar));
+Icon.register("calculator", renderLucideIcon(Calculator));
+Icon.register("bug", renderLucideIcon(Bug));

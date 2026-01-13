@@ -1,38 +1,47 @@
 ---
 layout: ../../../layouts/DocsLayout.astro
-title: Icons
+title: Icon
 ---
 
-import CodePreview from "../../../components/CodePreview.astro";
-import IconsExample from "../../../examples/widgets/IconsExample.tsx";
-import IconsExampleCode from "../../../examples/widgets/IconsExample.tsx?raw";
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
 
-**Import:** `import { Icon } from 'cx/widgets';`
+import IconExample from "../../../examples/layout/IconExample.tsx";
+import IconExampleCode from "../../../examples/layout/IconExample.tsx?raw";
 
-The `Icon` is used to render icons.
+# Icon
 
-## Example
+<ImportPath path="import { Icon } from 'cx/widgets';" />
 
-<CodePreview code={IconsExampleCode} filterLines={["Icon"]}>
-  <IconsExample client:load />
-</CodePreview>
+The `Icon` component is used to render icons. CxJS includes only a few built-in icons; additional icon sets need to be registered.
 
-## Configuration
-
-For configuration options, see the Icon widget documentation.
+<CodeExample code={IconExampleCode}>
+  <IconExample client:load />
+</CodeExample>
 
 ## Registering Icons
 
-Cx includes only a couple of icons. Additional icon sets need to be registered.
+Icon sets like FontAwesome can be registered using `Icon.registerFactory`:
 
-The following example shows how to register FontAwesome icon set.
-
-```jsx
+```tsx
 Icon.registerFactory((name, props) => {
   props = { ...props };
-  props.className = `fa fa-${name} ${props.className || ""}`;
-  return <i {...props} />;
+  props.className = `fa fa-${name} ${props.className || ''}`;
+  return <i {...props} />
 });
 ```
 
-Individual icons can be registered using `Icon.register` method.
+Individual icons can be registered using `Icon.register`:
+
+```tsx
+Icon.register("custom-icon", (props) => <svg {...props}>...</svg>);
+```
+
+## Configuration
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `name` | `string` | Name under which the icon is registered. |
+| `baseClass` | `string` | Base CSS class. Default is `icon`. |
+| `className` | `string` | Additional CSS class to apply to the icon. |
+| `style` | `string \| object` | Additional styles to apply to the icon. |
