@@ -200,7 +200,16 @@ export class MonthPicker<Config extends MonthPickerConfig = MonthPickerConfig> e
    }
 
    renderInput(context: RenderingContext, instance: MonthPickerInstance, key: string): React.ReactNode {
-      return <MonthPickerComponent key={key} instance={instance} autoFocus={this.autoFocus} />;
+      return (
+         <MonthPickerComponent
+            key={key}
+            instance={instance}
+            onBlur={this.onBlur}
+            onFocusOut={this.onFocusOut}
+            onKeyDown={this.onKeyDown}
+            autoFocus={this.autoFocus}
+         />
+      );
    }
 
    handleSelect(
