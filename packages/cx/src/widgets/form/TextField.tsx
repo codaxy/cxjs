@@ -1,194 +1,229 @@
 /** @jsxImportSource react */
 
+import { Instance } from "../../ui/Instance";
+import { BooleanProp, NumberProp, Prop, StringProp } from "../../ui/Prop";
 import { Widget, getContent } from "../../ui/Widget";
 import { Field, FieldConfig, getFieldTooltip } from "./Field";
-import { BooleanProp, NumberProp, Prop, StringProp } from "../../ui/Prop";
-import { Instance } from "../../ui/Instance";
 
 export interface TextFieldConfig extends FieldConfig {
-   /** Textual value of the input field. */
-   value?: Prop<any>;
+  /** Textual value of the input field. */
+  value?: Prop<any>;
 
-   /** Default text displayed when the field is empty. */
-   placeholder?: StringProp;
+  /** Default text displayed when the field is empty. */
+  placeholder?: StringProp;
 
-   /** Defaults to `false`. Set to `true` to disable the field. */
-   disabled?: BooleanProp;
+  /** Defaults to `false`. Set to `true` to disable the field. */
+  disabled?: BooleanProp;
 
-   /** The opposite of `disabled`. */
-   enabled?: BooleanProp;
+  /** The opposite of `disabled`. */
+  enabled?: BooleanProp;
 
-   /** Defaults to `false`. Used to make the field read-only. */
-   readOnly?: BooleanProp;
+  /** Defaults to `false`. Used to make the field read-only. */
+  readOnly?: BooleanProp;
 
-   /** Defaults to `false`. Used to make the field required. */
-   required?: BooleanProp;
+  /** Defaults to `false`. Used to make the field required. */
+  required?: BooleanProp;
 
-   /** Minimal length of the input text. */
-   minLength?: NumberProp;
+  /** Minimal length of the input text. */
+  minLength?: NumberProp;
 
-   /** Maximal length of the input text. */
-   maxLength?: NumberProp;
+  /** Maximal length of the input text. */
+  maxLength?: NumberProp;
 
-   /** Regular expression used to validate the user's input. */
-   validationRegExp?: Prop<RegExp>;
+  /** Regular expression used to validate the user's input. */
+  validationRegExp?: Prop<RegExp>;
 
-   /** Error message displayed upon validation failure. */
-   validationErrorText?: StringProp;
+  /** Error message displayed upon validation failure. */
+  validationErrorText?: StringProp;
 
-   /** Error message displayed when input text is too short. */
-   minLengthValidationErrorText?: StringProp;
+  /** Error message displayed when input text is too short. */
+  minLengthValidationErrorText?: StringProp;
 
-   /** Error message displayed when input text is too long. */
-   maxLengthValidationErrorText?: StringProp;
+  /** Error message displayed when input text is too long. */
+  maxLengthValidationErrorText?: StringProp;
 
-   /** Event triggering value updates. Possible values are `input` (default), `enter`, or `blur`. Multiple values can be separated by space. */
-   reactOn?: StringProp;
+  /** Event triggering value updates. Possible values are `input` (default), `enter`, or `blur`. Multiple values can be separated by space. */
+  reactOn?: StringProp;
 
-   /** Input type. Defaults to `text`. Other common value is `password`. */
-   inputType?: StringProp;
+  /** Input type. Defaults to `text`. Other common value is `password`. */
+  inputType?: StringProp;
 
-   /** Base CSS class to be applied to the field. Defaults to `textfield`. */
-   baseClass?: string;
+  /** Base CSS class to be applied to the field. Defaults to `textfield`. */
+  baseClass?: string;
 
-   /** Keyboard shortcut used to focus the field. */
-   keyboardShortcut?: StringProp;
+  /** Keyboard shortcut used to focus the field. */
+  keyboardShortcut?: StringProp;
 
-   /** Set to `true` to remove leading and trailing whitespace. Default is `false`. */
-   trim?: BooleanProp;
+  /** Set to `true` to remove leading and trailing whitespace. Default is `false`. */
+  trim?: BooleanProp;
 
-   /** Set to `true` to hide the clear button. Default value is `false`. */
-   hideClear?: BooleanProp;
+  /** Set to `true` to hide the clear button. Default value is `false`. */
+  hideClear?: BooleanProp;
 
-   /** Set to `false` to hide the clear button. Default value is `true`. */
-   showClear?: BooleanProp;
+  /** Set to `false` to hide the clear button. Default value is `true`. */
+  showClear?: BooleanProp;
 
-   /** Set to `true` to display the clear button even if `required` is set. Default is `false`. */
-   alwaysShowClear?: BooleanProp;
+  /** Set to `true` to display the clear button even if `required` is set. Default is `false`. */
+  alwaysShowClear?: BooleanProp;
 
-   /** Name or configuration of the icon to be put on the left side of the input. */
-   icon?: Prop<any>;
+  /** Name or configuration of the icon to be put on the left side of the input. */
+  icon?: string | FieldIconConfig;
 
-   /** Additional attributes to be passed to the input element. */
-   inputAttrs?: Prop<any>;
+  /** Additional attributes to be passed to the input element. */
+  inputAttrs?: Prop<any>;
 
-   /** If `trackFocus` is set, this value will be set when the field receives or loses focus. */
-   focused?: BooleanProp;
+  /** If `trackFocus` is set, this value will be set when the field receives or loses focus. */
+  focused?: BooleanProp;
 
-   /** Callback invoked when the value changes. */
-   onChange?: string | ((value: any, instance: Instance) => void);
+  /** Callback invoked when the value changes. */
+  onChange?: string | ((value: any, instance: Instance) => void);
 
-   /** Callback invoked on each input event. */
-   onInput?: string | ((value: any, instance: Instance) => void);
+  /** Callback invoked on each input event. */
+  onInput?: string | ((value: any, instance: Instance) => void);
 
-   /** Callback invoked when the field receives focus. */
-   onFocus?: string | ((e: FocusEvent, instance: Instance) => void);
+  /** Callback invoked when the field receives focus. */
+  onFocus?: string | ((e: FocusEvent, instance: Instance) => void);
 
-   /** Callback invoked when the field loses focus. */
-   onBlur?: string | ((e: FocusEvent, instance: Instance) => void);
+  /** Callback invoked when the field loses focus. */
+  onBlur?: string | ((e: FocusEvent, instance: Instance) => void);
 
-   /** Handler triggered on key down events. Return `false` to prevent default behavior. */
-   onKeyDown?: string | ((e: KeyboardEvent, instance: Instance) => boolean | void);
+  /** Handler triggered on key down events. Return `false` to prevent default behavior. */
+  onKeyDown?:
+    | string
+    | ((e: KeyboardEvent, instance: Instance) => boolean | void);
 
-   /** Custom validation function. */
-   onValidate?: string | ((value: string, instance: Instance, validationParams: any) => string | undefined | false);
+  /** Custom validation function. */
+  onValidate?:
+    | string
+    | ((
+        value: string,
+        instance: Instance,
+        validationParams: any
+      ) => string | undefined | false);
 }
 
 // Legacy alias for backward compatibility
 export interface TextFieldProps extends TextFieldConfig {}
 
-import {
-   tooltipParentWillReceiveProps,
-   tooltipParentWillUnmount,
-   tooltipMouseMove,
-   tooltipMouseLeave,
-   tooltipParentDidMount,
-} from "../overlay/tooltip-ops";
-import { stopPropagation, preventDefault } from "../../util/eventCallbacks";
 import { StringTemplate } from "../../data/StringTemplate";
-import { Icon } from "../Icon";
-import { KeyCode } from "../../util/KeyCode";
 import { Localization } from "../../ui/Localization";
-import ClearIcon from "../icons/clear";
-import { autoFocus } from "../autoFocus";
-import { isString } from "../../util/isString";
-import { getActiveElement } from "../../util/getActiveElement";
 import { VDOM } from "../../ui/VDOM";
+import { preventDefault, stopPropagation } from "../../util/eventCallbacks";
+import { getActiveElement } from "../../util/getActiveElement";
+import { isString } from "../../util/isString";
+import { KeyCode } from "../../util/KeyCode";
+import { autoFocus } from "../autoFocus";
+import ClearIcon from "../icons/clear";
+import {
+  tooltipMouseLeave,
+  tooltipMouseMove,
+  tooltipParentDidMount,
+  tooltipParentWillReceiveProps,
+  tooltipParentWillUnmount,
+} from "../overlay/tooltip-ops";
+import { FieldIconConfig } from "./FieldIcon";
 
-export class TextField<Config extends TextFieldConfig = TextFieldConfig> extends Field<Config> {
-   declare public hideClear?: boolean;
-   declare public showClear?: boolean;
-   declare public alwaysShowClear?: boolean;
-   declare public validationRegExp?: RegExp;
-   declare public validationErrorText?: string;
-   declare public minLengthValidationErrorText: string;
-   declare public maxLengthValidationErrorText: string;
-   declare public reactOn: string;
-   declare public inputType?: string;
-   declare public keyboardShortcut?: string;
-   declare public trim?: boolean;
+export class TextField<
+  Config extends TextFieldConfig = TextFieldConfig,
+> extends Field<Config> {
+  declare public hideClear?: boolean;
+  declare public showClear?: boolean;
+  declare public alwaysShowClear?: boolean;
+  declare public validationRegExp?: RegExp;
+  declare public validationErrorText?: string;
+  declare public minLengthValidationErrorText: string;
+  declare public maxLengthValidationErrorText: string;
+  declare public reactOn: string;
+  declare public inputType?: string;
+  declare public keyboardShortcut?: string;
+  declare public trim?: boolean;
 
-   public init(): void {
-      if (typeof this.hideClear !== "undefined") this.showClear = !this.hideClear;
+  public init(): void {
+    if (typeof this.hideClear !== "undefined") this.showClear = !this.hideClear;
 
-      if (this.alwaysShowClear) this.showClear = true;
+    if (this.alwaysShowClear) this.showClear = true;
 
-      super.init();
-   }
+    super.init();
+  }
 
-   public declareData(...args: any[]): void {
-      super.declareData(
-         {
-            value: this.emptyValue,
-            disabled: undefined,
-            readOnly: undefined,
-            enabled: undefined,
-            placeholder: undefined,
-            required: undefined,
-            minLength: undefined,
-            maxLength: undefined,
-            icon: undefined,
-            trim: undefined,
-         },
-         ...args,
-      );
-   }
+  public declareData(...args: any[]): void {
+    super.declareData(
+      {
+        value: this.emptyValue,
+        disabled: undefined,
+        readOnly: undefined,
+        enabled: undefined,
+        placeholder: undefined,
+        required: undefined,
+        minLength: undefined,
+        maxLength: undefined,
+        trim: undefined,
+        inputType: undefined,
+      },
+      ...args
+    );
+  }
 
-   public renderInput(context: any, instance: any, key?: any): any {
-      return (
-         <Input
-            key={key}
-            instance={instance}
-            data={instance.data}
-            label={this.labelPlacement && getContent(this.renderLabel(context, instance, "label"))}
-            help={this.helpPlacement && getContent(this.renderHelp(context, instance, "help"))}
-            icon={this.renderIcon(context, instance, "icon")}
-         />
-      );
-   }
+  public renderInput(context: any, instance: any, key?: any): any {
+    return (
+      <Input
+        key={key}
+        instance={instance}
+        data={instance.data}
+        label={
+          this.labelPlacement &&
+          getContent(this.renderLabel(context, instance, "label"))
+        }
+        help={
+          this.helpPlacement &&
+          getContent(this.renderHelp(context, instance, "help"))
+        }
+        icon={this.renderIcon(context, instance, "icon")}
+      />
+    );
+  }
 
-   public validate(context: any, instance: any): void {
-      super.validate(context, instance);
+  public validate(context: any, instance: any): void {
+    super.validate(context, instance);
 
-      let { data } = instance;
+    let { data } = instance;
 
-      if (!data.error && data.value) {
-         if (this.validationRegExp) this.validationRegExp.lastIndex = 0;
-         if (this.validationRegExp && !this.validationRegExp.test(data.value)) data.error = this.validationErrorText;
-         else if (typeof data.value === "string" && data.minLength != null && data.value.length < data.minLength)
-            data.error = StringTemplate.format(this.minLengthValidationErrorText, data.minLength, data.value.length);
-         else if (typeof data.value === "string" && data.maxLength != null && data.value.length > data.maxLength)
-            data.error = StringTemplate.format(this.maxLengthValidationErrorText, data.maxLength, data.value.length);
-      }
-   }
+    if (!data.error && data.value) {
+      if (this.validationRegExp) this.validationRegExp.lastIndex = 0;
+      if (this.validationRegExp && !this.validationRegExp.test(data.value))
+        data.error = this.validationErrorText;
+      else if (
+        typeof data.value === "string" &&
+        data.minLength != null &&
+        data.value.length < data.minLength
+      )
+        data.error = StringTemplate.format(
+          this.minLengthValidationErrorText,
+          data.minLength,
+          data.value.length
+        );
+      else if (
+        typeof data.value === "string" &&
+        data.maxLength != null &&
+        data.value.length > data.maxLength
+      )
+        data.error = StringTemplate.format(
+          this.maxLengthValidationErrorText,
+          data.maxLength,
+          data.value.length
+        );
+    }
+  }
 }
 
 TextField.prototype.baseClass = "textfield";
 TextField.prototype.reactOn = "change input blur enter";
 TextField.prototype.inputType = "text";
 TextField.prototype.validationErrorText = "The entered value is not valid.";
-TextField.prototype.minLengthValidationErrorText = "Enter {[{0}-{1}]} more character(s).";
-TextField.prototype.maxLengthValidationErrorText = "Use {0} characters or fewer.";
+TextField.prototype.minLengthValidationErrorText =
+  "Enter {[{0}-{1}]} more character(s).";
+TextField.prototype.maxLengthValidationErrorText =
+  "Use {0} characters or fewer.";
 TextField.prototype.suppressErrorsUntilVisited = true;
 TextField.prototype.icon = null;
 TextField.prototype.showClear = false;
@@ -199,209 +234,232 @@ TextField.prototype.trim = false;
 Localization.registerPrototype("cx/widgets/TextField", TextField);
 
 class Input extends VDOM.Component<any, any> {
-   public input?: HTMLInputElement;
+  public input?: HTMLInputElement;
 
-   constructor(props: any) {
-      super(props);
-      this.state = {
-         focus: false,
-      };
-   }
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      focus: false,
+    };
+  }
 
-   render(): any {
-      let { instance, data, label, help, icon: iconVDOM } = this.props;
-      let { widget, state } = instance;
-      let { CSS, baseClass, suppressErrorsUntilVisited } = widget;
+  render(): any {
+    let { instance, data, label, help, icon: iconVDOM } = this.props;
+    let { widget, state } = instance;
+    let { CSS, baseClass, suppressErrorsUntilVisited } = widget;
 
-      let icon = iconVDOM && (
-         <div
-            className={CSS.element(baseClass, "left-icon")}
-            onMouseDown={preventDefault}
-            onClick={(e: any) => this.onChange((e.target as any).value, "enter")}
-         >
-            {iconVDOM}
-         </div>
+    let icon = iconVDOM && (
+      <div
+        className={CSS.element(baseClass, "left-icon")}
+        onMouseDown={preventDefault}
+        onClick={(e: any) => this.onChange((e.target as any).value, "enter")}
+      >
+        {iconVDOM}
+      </div>
+    );
+
+    let insideButton;
+    if (
+      widget.showClear &&
+      !data.empty &&
+      !data.readOnly &&
+      !data.disabled &&
+      (widget.alwaysShowClear || !data.required)
+    ) {
+      insideButton = (
+        <div
+          className={CSS.element(baseClass, "clear")}
+          onMouseDown={(e: any) => e.preventDefault()}
+          onClick={(e: any) => this.onClearClick(e)}
+        >
+          <ClearIcon className={CSS.element(baseClass, "icon")} />
+        </div>
       );
+    }
 
-      let insideButton;
-      if (
-         widget.showClear &&
-         !data.empty &&
-         !data.readOnly &&
-         !data.disabled &&
-         (widget.alwaysShowClear || !data.required)
-      ) {
-         insideButton = (
-            <div
-               className={CSS.element(baseClass, "clear")}
-               onMouseDown={(e: any) => e.preventDefault()}
-               onClick={(e: any) => this.onClearClick(e)}
-            >
-               <ClearIcon className={CSS.element(baseClass, "icon")} />
-            </div>
-         );
+    let empty = this.input ? !this.trimmed(this.input.value) : data.empty;
+
+    return (
+      <div
+        className={CSS.expand(
+          data.classNames,
+          CSS.state({
+            visited: state.visited,
+            focus: this.state.focus,
+            icon: !!icon,
+            clear: insideButton != null,
+            empty: empty && !data.placeholder,
+            error:
+              data.error &&
+              (state.visited || !suppressErrorsUntilVisited || !empty),
+          })
+        )}
+        style={data.style}
+        onMouseDown={stopPropagation}
+        onTouchStart={stopPropagation}
+      >
+        <input
+          ref={(el: HTMLInputElement | null) => {
+            this.input = el || undefined;
+          }}
+          className={CSS.expand(
+            CSS.element(baseClass, "input"),
+            data.inputClass
+          )}
+          defaultValue={data.value}
+          id={data.id}
+          style={data.inputStyle}
+          type={data.inputType}
+          disabled={data.disabled}
+          readOnly={data.readOnly}
+          tabIndex={data.tabIndex}
+          placeholder={data.placeholder}
+          {...data.inputAttrs}
+          onMouseMove={this.onMouseMove.bind(this)}
+          onMouseLeave={this.onMouseLeave.bind(this)}
+          onInput={(e: any) => this.onChange(e.target.value, "input")}
+          onChange={(e: any) =>
+            this.onChange((e.target as any).value, "change")
+          }
+          onKeyDown={this.onKeyDown.bind(this)}
+          onFocus={this.onFocus.bind(this)}
+          onBlur={this.onBlur.bind(this)}
+          onClick={stopPropagation}
+        />
+        {insideButton}
+        {icon}
+        {label}
+        {help}
+      </div>
+    );
+  }
+
+  onFocus(): void {
+    let { instance, data } = this.props;
+    let { widget } = instance;
+    if (widget.trackFocus) {
+      this.setState({
+        focus: true,
+      });
+      instance.set("focused", true);
+    }
+    if (data.error && data.value) instance.setState({ visited: true });
+  }
+
+  onBlur(e: any): void {
+    if (this.state.focus) {
+      this.setState({
+        focus: false,
+      });
+      this.props.instance.set("focused", false);
+    }
+    this.onChange((e.target as any).value, "blur");
+  }
+
+  onClearClick(_e: any): void {
+    if (this.input) this.input.value = ""; // prevent onChange call with old text value on blur or component unmount
+    this.props.instance.set("value", this.props.instance.widget.emptyValue, {
+      immediate: true,
+    });
+  }
+
+  onMouseMove(e: any): void {
+    const tooltip = getFieldTooltip(this.props.instance);
+    tooltipMouseMove(e, tooltip[0], tooltip[1], tooltip[2]);
+  }
+
+  onMouseLeave(e: any): void {
+    const tooltip = getFieldTooltip(this.props.instance);
+    tooltipMouseLeave(e, tooltip[0], tooltip[1], tooltip[2]);
+  }
+
+  componentDidMount(): void {
+    const tooltip = getFieldTooltip(this.props.instance);
+    tooltipParentDidMount(this.input!, tooltip[0], tooltip[1], tooltip[2]);
+    autoFocus(this.input, this);
+  }
+
+  componentDidUpdate(): void {
+    autoFocus(this.input, this);
+  }
+
+  componentWillUnmount(): void {
+    if (
+      this.input == getActiveElement() &&
+      this.input &&
+      this.input.value != this.props.data.value
+    )
+      this.onChange(this.input.value, "blur");
+    tooltipParentWillUnmount(this.props.instance);
+  }
+
+  onKeyDown(e: any): void {
+    let { instance } = this.props;
+    if (instance.widget.handleKeyDown(e, instance) === false) return;
+
+    switch (e.keyCode) {
+      case KeyCode.enter:
+        this.onChange(e.target.value, "enter");
+        break;
+
+      case KeyCode.left:
+      case KeyCode.right:
+        e.stopPropagation();
+        break;
+    }
+  }
+
+  UNSAFE_componentWillReceiveProps(props: any): void {
+    let { data } = props;
+    // The second check is required for debouncing, sometimes the value in the store lags after the input
+    // and update may be caused by some other property, i.e. visited
+    if (
+      this.input &&
+      data.value != this.input.value &&
+      data.value != this.props.data.value
+    )
+      this.input.value = data.value || "";
+    const tooltip = getFieldTooltip(props.instance);
+    tooltipParentWillReceiveProps(
+      this.input!,
+      tooltip[0],
+      tooltip[1],
+      tooltip[2]
+    );
+  }
+
+  onChange(textValue: any, change: string): void {
+    let { instance, data } = this.props;
+
+    let immediate = change == "blur" || change == "enter";
+
+    if (immediate) {
+      instance.setState({ visited: true });
+    }
+
+    let { widget } = instance;
+
+    if (widget.reactOn.indexOf(change) != -1) {
+      let text = this.trimmed(textValue);
+      if (data.maxLength != null && text.length > data.maxLength) {
+        text = text.substring(0, data.maxLength);
+        if (this.input) this.input.value = text;
       }
 
-      let empty = this.input ? !this.trimmed(this.input.value) : data.empty;
-
-      return (
-         <div
-            className={CSS.expand(
-               data.classNames,
-               CSS.state({
-                  visited: state.visited,
-                  focus: this.state.focus,
-                  icon: !!icon,
-                  clear: insideButton != null,
-                  empty: empty && !data.placeholder,
-                  error: data.error && (state.visited || !suppressErrorsUntilVisited || !empty),
-               }),
-            )}
-            style={data.style}
-            onMouseDown={stopPropagation}
-            onTouchStart={stopPropagation}
-         >
-            <input
-               ref={(el: HTMLInputElement | null) => {
-                  this.input = el || undefined;
-               }}
-               className={CSS.expand(CSS.element(baseClass, "input"), data.inputClass)}
-               defaultValue={data.value}
-               id={data.id}
-               style={data.inputStyle}
-               type={widget.inputType}
-               disabled={data.disabled}
-               readOnly={data.readOnly}
-               tabIndex={data.tabIndex}
-               placeholder={data.placeholder}
-               {...data.inputAttrs}
-               onMouseMove={this.onMouseMove.bind(this)}
-               onMouseLeave={this.onMouseLeave.bind(this)}
-               onInput={(e: any) => this.onChange(e.target.value, "input")}
-               onChange={(e: any) => this.onChange((e.target as any).value, "change")}
-               onKeyDown={this.onKeyDown.bind(this)}
-               onFocus={this.onFocus.bind(this)}
-               onBlur={this.onBlur.bind(this)}
-               onClick={stopPropagation}
-            />
-            {insideButton}
-            {icon}
-            {label}
-            {help}
-         </div>
-      );
-   }
-
-   onFocus(): void {
-      let { instance, data } = this.props;
-      let { widget } = instance;
-      if (widget.trackFocus) {
-         this.setState({
-            focus: true,
-         });
-         instance.set("focused", true);
+      let value = text || widget.emptyValue;
+      if (!instance.set("value", value, { immediate })) {
+        if (this.input && text != this.input.value && immediate)
+          this.input.value = text;
+      } else {
+        if (value) instance.setState({ visited: true });
       }
-      if (data.error && data.value) instance.setState({ visited: true });
-   }
+    }
+  }
 
-   onBlur(e: any): void {
-      if (this.state.focus) {
-         this.setState({
-            focus: false,
-         });
-         this.props.instance.set("focused", false);
-      }
-      this.onChange((e.target as any).value, "blur");
-   }
-
-   onClearClick(_e: any): void {
-      if (this.input) this.input.value = ""; // prevent onChange call with old text value on blur or component unmount
-      this.props.instance.set("value", this.props.instance.widget.emptyValue, { immediate: true });
-   }
-
-   onMouseMove(e: any): void {
-      const tooltip = getFieldTooltip(this.props.instance);
-      tooltipMouseMove(e, tooltip[0], tooltip[1], tooltip[2]);
-   }
-
-   onMouseLeave(e: any): void {
-      const tooltip = getFieldTooltip(this.props.instance);
-      tooltipMouseLeave(e, tooltip[0], tooltip[1], tooltip[2]);
-   }
-
-   componentDidMount(): void {
-      const tooltip = getFieldTooltip(this.props.instance);
-      tooltipParentDidMount(this.input!, tooltip[0], tooltip[1], tooltip[2]);
-      autoFocus(this.input, this);
-   }
-
-   componentDidUpdate(): void {
-      autoFocus(this.input, this);
-   }
-
-   componentWillUnmount(): void {
-      if (this.input == getActiveElement() && this.input && this.input.value != this.props.data.value)
-         this.onChange(this.input.value, "blur");
-      tooltipParentWillUnmount(this.props.instance);
-   }
-
-   onKeyDown(e: any): void {
-      let { instance } = this.props;
-      if (instance.widget.handleKeyDown(e, instance) === false) return;
-
-      switch (e.keyCode) {
-         case KeyCode.enter:
-            this.onChange(e.target.value, "enter");
-            break;
-
-         case KeyCode.left:
-         case KeyCode.right:
-            e.stopPropagation();
-            break;
-      }
-   }
-
-   UNSAFE_componentWillReceiveProps(props: any): void {
-      let { data } = props;
-      // The second check is required for debouncing, sometimes the value in the store lags after the input
-      // and update may be caused by some other property, i.e. visited
-      if (this.input && data.value != this.input.value && data.value != this.props.data.value)
-         this.input.value = data.value || "";
-      const tooltip = getFieldTooltip(props.instance);
-      tooltipParentWillReceiveProps(this.input!, tooltip[0], tooltip[1], tooltip[2]);
-   }
-
-   onChange(textValue: any, change: string): void {
-      let { instance, data } = this.props;
-
-      let immediate = change == "blur" || change == "enter";
-
-      if (immediate) {
-         instance.setState({ visited: true });
-      }
-
-      let { widget } = instance;
-
-      if (widget.reactOn.indexOf(change) != -1) {
-         let text = this.trimmed(textValue);
-         if (data.maxLength != null && text.length > data.maxLength) {
-            text = text.substring(0, data.maxLength);
-            if (this.input) this.input.value = text;
-         }
-
-         let value = text || widget.emptyValue;
-         if (!instance.set("value", value, { immediate })) {
-            if (this.input && text != this.input.value && immediate) this.input.value = text;
-         } else {
-            if (value) instance.setState({ visited: true });
-         }
-      }
-   }
-
-   trimmed(value: any): any {
-      if (this.props.data.trim && isString(value)) return value.trim();
-      return value;
-   }
+  trimmed(value: any): any {
+    if (this.props.data.trim && isString(value)) return value.trim();
+    return value;
+  }
 }
 
 Widget.alias("textfield", TextField);

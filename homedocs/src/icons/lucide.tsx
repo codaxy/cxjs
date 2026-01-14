@@ -7,6 +7,8 @@ import {
   Bug,
   Calculator,
   Calendar,
+  Eye,
+  EyeOff,
   Folder,
   Pencil,
   Plus,
@@ -45,3 +47,5 @@ Icon.register("folder", getRenderer(Folder));
 Icon.register("calendar", getRenderer(Calendar));
 Icon.register("calculator", getRenderer(Calculator));
 Icon.register("bug", getRenderer(Bug));
+Icon.register("eye", getRenderer(Eye));
+Icon.register("eye-off", getRenderer(EyeOff));

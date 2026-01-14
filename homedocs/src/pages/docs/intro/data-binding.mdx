@@ -26,6 +26,16 @@ The primary way to bind data in CxJS is through **accessor chains** created with
 
 When you assign `m.name` to the `value` property, CxJS creates a two-way binding. The TextField displays the current value and writes changes back to the store.
 
+### Default Values with bind
+
+Use `bind` to provide a default value when the store path is undefined:
+
+<CodeExample code={BindDefaultExampleCode}>
+  <BindDefaultExample client:load />
+</CodeExample>
+
+When the widget initializes, if the store path is undefined, the default value is automatically written to the store.
+
 ## Computed Values with expr
 
 Use `expr` to compute values from one or more store paths. The function recalculates whenever any of its dependencies change:
@@ -55,6 +65,34 @@ const total = computable(m.items, m.taxRate, (items, taxRate) => {
 ```
 
 Use `computable` when the calculation is expensive or when the same value is used in multiple places.
+
+## Formatting Values
+
+Use `format` to apply format strings to bound values:
+
+```tsx
+import { format } from "cx/ui";
+
+<span text={format(m.price, "currency;USD")} />
+<span text={format(m.date, "d;yyyyMMdd")} />
+```
+
+Use `tpl` to combine multiple values into formatted text:
+
+```tsx
+import { tpl } from "cx/ui";
+
+// Positional placeholders
+<p text={tpl(m.firstName, m.lastName, "{0} {1}")} />
+
+// With formatting
+<p text={tpl(m.age, "{0:n;0} years old")} />
+
+// With null fallback
+<p text={tpl(m.name, "Hello, {0|Guest}!")} />
+```
+
+See [Formatting](/docs/intro/formatting) for the complete format syntax reference.
 
 ## Expression Helpers
 
@@ -87,16 +125,6 @@ import { truthy, isEmpty, greaterThan } from "cx/ui";
 | `lessThanOrEqual(accessor, value)`    | Numeric less than or equal                             |
 | `format(accessor, formatString)`      | Formats value using [format strings](/core/formatting) |
 
-## Default Values with bind
-
-Use `bind` to provide a default value when the store path is undefined:
-
-<CodeExample code={BindDefaultExampleCode}>
-  <BindDefaultExample client:load />
-</CodeExample>
-
-When the widget initializes, if the store path is undefined, the default value is automatically written to the store.
-
 ## Legacy Binding Syntax
 
 <Note type="info" title="Legacy">
@@ -118,18 +146,18 @@ import { bind } from "cx/data";
 <TextField value={m.user.name} />
 ```
 
-### Templates with tpl
+### String-path templates
 
-The `tpl` function creates string templates with embedded bindings:
+The `tpl` function also supports string-path syntax:
 
 ```tsx
 import { tpl } from "cx/data";
 
-// Legacy template syntax
+// Legacy string-path template
 <div text={tpl("Hello, {user.name}!")} />
 
-// Modern expr syntax (preferred)
-<div text={expr(m.user.name, name => `Hello, ${name}!`)} />
+// Modern typed accessor (preferred)
+<div text={tpl(m.user.name, "Hello, {0}!")} />
 ```
 
 ### Attribute suffixes

@@ -1,0 +1,117 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: LookupField
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import LookupFieldExample from "../../../examples/forms/LookupFieldExample.tsx";
+import LookupFieldExampleCode from "../../../examples/forms/LookupFieldExample.tsx?raw";
+
+import LookupFieldQueryExample from "../../../examples/forms/LookupFieldQueryExample.tsx";
+import LookupFieldQueryExampleCode from "../../../examples/forms/LookupFieldQueryExample.tsx?raw";
+
+# LookupField
+
+<ImportPath path="import { LookupField } from 'cx/widgets';" />
+
+The `LookupField` widget offers selection from a list of available options. It's similar to the native HTML `select` element but provides additional features:
+
+- Searching/filtering the list
+- Querying remote data
+- User-friendly multiple selection with tags
+
+<CodeExample code={LookupFieldExampleCode}>
+  <LookupFieldExample client:load />
+</CodeExample>
+
+## Remote Data
+
+Use `onQuery` to fetch options from a server. The callback receives the search query and should return a list of options or a Promise.
+
+Use `fetchAll` to fetch all data once and filter client-side, which is more efficient for moderate-sized datasets. Add `cacheAll` to keep the fetched data cached for the widget's lifetime, avoiding refetches when the dropdown reopens.
+
+<CodeExample code={LookupFieldQueryExampleCode}>
+  <LookupFieldQueryExample client:load />
+</CodeExample>
+
+## Data Binding
+
+| Selection Mode | Local (options)              | Remote (onQuery)       |
+| -------------- | ---------------------------- | ---------------------- |
+| Single         | `value` and/or `text`        | `value` and `text`     |
+| Multiple       | `values` and/or `records`    | `records`              |
+
+## Examples
+
+- [Custom Bindings](/docs/examples/lookup-custom-bindings) - Passing additional fields to the selection
+- [Infinite Lists](/docs/examples/lookup-infinite-list) - Handling large datasets with pagination
+- [Options Filter](/docs/examples/lookup-options-filter) - Filtering options based on external criteria
+- [Options Grouping](/docs/examples/lookup-options-grouping) - Grouping options in the dropdown
+
+## Configuration
+
+### Core Properties
+
+| Property         | Type       | Default | Description                                               |
+| ---------------- | ---------- | ------- | --------------------------------------------------------- |
+| `value`          | `any`      |         | Selected value ID (single mode)                           |
+| `text`           | `string`   |         | Selected value text (single mode)                         |
+| `values`         | `array`    |         | Array of selected IDs (multiple mode)                     |
+| `records`        | `array`    |         | Array of selected records (multiple mode)                 |
+| `options`        | `array`    |         | Array of available options                                |
+| `multiple`       | `boolean`  | `false` | Enable multiple selection                                 |
+| `placeholder`    | `string`   |         | Placeholder text when empty                               |
+| `disabled`       | `boolean`  | `false` | Disables the field                                        |
+| `readOnly`       | `boolean`  | `false` | Makes the field read-only                                 |
+
+### Option Fields
+
+| Property          | Type     | Default  | Description                                      |
+| ----------------- | -------- | -------- | ------------------------------------------------ |
+| `optionIdField`   | `string` | `"id"`   | Field name for option ID                         |
+| `optionTextField` | `string` | `"text"` | Field name for option display text               |
+| `valueIdField`    | `string` | `"id"`   | Field name for storing ID in selection           |
+| `valueTextField`  | `string` | `"text"` | Field name for storing text in selection         |
+
+### Query Options
+
+| Property          | Type       | Default | Description                                                 |
+| ----------------- | ---------- | ------- | ----------------------------------------------------------- |
+| `onQuery`         | `function` |         | `(query, instance) => options[]` - Fetch options            |
+| `queryDelay`      | `number`   | `150`   | Delay in ms before query is executed                        |
+| `minQueryLength`  | `number`   | `0`     | Minimum characters before query is made                     |
+| `fetchAll`        | `boolean`  | `false` | Fetch all options once, filter client-side                  |
+| `cacheAll`        | `boolean`  | `false` | Cache fetched options for widget lifetime                   |
+| `infinite`        | `boolean`  | `false` | Enable infinite scrolling for large datasets                |
+| `pageSize`        | `number`   | `100`   | Number of items per page in infinite mode                   |
+
+### Appearance
+
+| Property                   | Type      | Default | Description                                        |
+| -------------------------- | --------- | ------- | -------------------------------------------------- |
+| `icon`                     | `string`  |         | Icon displayed on the left side                    |
+| `showClear`                | `boolean` | `true`  | Shows clear button when value is present           |
+| `hideClear`                | `boolean` | `false` | Hides the clear button                             |
+| `alwaysShowClear`          | `boolean` | `false` | Shows clear button even when required              |
+| `hideSearchField`          | `boolean` | `false` | Hide the search input in dropdown                  |
+| `minOptionsForSearchField` | `number`  | `7`     | Minimum options before search field is shown       |
+
+### Behavior
+
+| Property         | Type      | Default | Description                                           |
+| ---------------- | --------- | ------- | ----------------------------------------------------- |
+| `closeOnSelect`  | `boolean` | `true`  | Close dropdown after selection                        |
+| `autoOpen`       | `boolean` | `false` | Open dropdown on focus                                |
+| `quickSelectAll` | `boolean` | `false` | Allow Ctrl+A to select all visible options            |
+| `sort`           | `boolean` | `false` | Sort dropdown options alphabetically                  |
+
+### Messages
+
+| Property                    | Type     | Default                                  | Description                       |
+| --------------------------- | -------- | ---------------------------------------- | --------------------------------- |
+| `loadingText`               | `string` | `"Loading..."`                           | Text shown while loading          |
+| `noResultsText`             | `string` | `"No results found."`                    | Text when no options match        |
+| `queryErrorText`            | `string` | `"Error occurred while querying..."`     | Text on query error               |
+| `minQueryLengthMessageText` | `string` | `"Type in at least {0} character(s)."` | Text when query is too short      |

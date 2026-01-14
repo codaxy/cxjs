@@ -3,87 +3,107 @@ layout: ../../../layouts/DocsLayout.astro
 title: NumberField
 ---
 
+import ImportPath from "../../../components/ImportPath.astro";
 import CodeExample from "../../../components/CodeExample.astro";
-import NumberFieldBasic from "../../../examples/widgets/numberfield/Basic.tsx";
-import NumberFieldDisabled from "../../../examples/widgets/numberfield/Disabled.tsx";
-import NumberFieldPlaceholder from "../../../examples/widgets/numberfield/Placeholder.tsx";
-import NumberFieldMinMax from "../../../examples/widgets/numberfield/MinMax.tsx";
-import NumberFieldCurrency from "../../../examples/widgets/numberfield/Currency.tsx";
-import NumberFieldPercentage from "../../../examples/widgets/numberfield/Percentage.tsx";
+
+import NumberFieldExample from "../../../examples/forms/NumberFieldExample.tsx";
+import NumberFieldExampleCode from "../../../examples/forms/NumberFieldExample.tsx?raw";
+
+import NumberFieldFormattingExample from "../../../examples/forms/NumberFieldFormattingExample.tsx";
+import NumberFieldFormattingExampleCode from "../../../examples/forms/NumberFieldFormattingExample.tsx?raw";
 
 # NumberField
 
-The `NumberField` widget is used for numeric inputs, including currencies and percentages.
+<ImportPath path="import { NumberField } from 'cx/widgets';" />
 
-**Import:** `import { NumberField } from 'cx/widgets';`
+The `NumberField` widget is used for numeric inputs. It supports formatting for currencies, percentages, and decimal places, with built-in validation for min/max values.
 
-## Basic Usage
-
-A simple numeric input with data binding.
-
-<CodeExample code={`<NumberField value={bind("number")} />`}>
-  <NumberFieldBasic client:load />
+<CodeExample code={NumberFieldExampleCode}>
+  <NumberFieldExample client:load />
 </CodeExample>
 
-## Placeholder
+## Formatting
 
-Show hint text when the field is empty.
+NumberField supports various number formats including currencies and percentages. Use `scale` to convert between display and stored values (e.g., 0.01 for percentages).
 
-<CodeExample
-  code={`<NumberField value={bind("number")} placeholder="Enter a number..." />`}
->
-  <NumberFieldPlaceholder client:load />
+<CodeExample code={NumberFieldFormattingExampleCode}>
+  <NumberFieldFormattingExample client:load />
 </CodeExample>
 
-## Min/Max Value
+## Configuration
 
-Restrict input to a specific range.
+### Core Properties
 
-<CodeExample
-  code={`<NumberField value={bind("age")} minValue={0} maxValue={120} placeholder="Age (0-120)" />`}
->
-  <NumberFieldMinMax client:load />
-</CodeExample>
+| Property      | Type      | Default  | Description                                                   |
+| ------------- | --------- | -------- | ------------------------------------------------------------- |
+| `value`       | `number`  | `null`   | Numeric value                                                 |
+| `format`      | `string`  | `"n"`    | Display format. See [Formatting](/docs/intro/formatting)      |
+| `scale`       | `number`  | `1`      | Multiplier for converting between stored and displayed value  |
+| `offset`      | `number`  | `0`      | Offset added after scaling                                    |
+| `placeholder` | `string`  |          | Hint text displayed when the field is empty                   |
+| `disabled`    | `boolean` | `false`  | Disables the input                                            |
+| `enabled`     | `boolean` |          | Opposite of `disabled`                                        |
+| `readOnly`    | `boolean` | `false`  | Makes the input read-only                                     |
+| `required`    | `boolean` | `false`  | Marks the field as required                                   |
+| `label`       | `string`  |          | Field label text                                              |
+| `viewMode`    | `boolean` | `false`  | Display as plain text instead of interactive input            |
+| `emptyText`   | `string`  |          | Text shown in view mode when the field is empty               |
 
-## Currency Format
+### Value Constraints
 
-Display values as currency with locale formatting.
+| Property       | Type      | Default | Description                                          |
+| -------------- | --------- | ------- | ---------------------------------------------------- |
+| `minValue`     | `number`  |         | Minimum allowed value                                |
+| `minExclusive` | `boolean` | `false` | If `true`, the minimum value itself is not allowed   |
+| `maxValue`     | `number`  |         | Maximum allowed value                                |
+| `maxExclusive` | `boolean` | `false` | If `true`, the maximum value itself is not allowed   |
+| `constrain`    | `boolean` | `false` | If `true`, automatically clamps value to min/max     |
 
-<CodeExample
-  code={`<NumberField value={bind("price")} format="currency;EUR" />`}
->
-  <NumberFieldCurrency client:load />
-</CodeExample>
+### Increment Behavior
 
-## Percentage Format
+| Property              | Type      | Default | Description                                                       |
+| --------------------- | --------- | ------- | ----------------------------------------------------------------- |
+| `increment` / `step`  | `number`  |         | Step size for arrow keys and mouse wheel                          |
+| `incrementPercentage` | `number`  | `0.1`   | Auto-calculated increment as percentage of current value          |
+| `snapToIncrement`     | `boolean` | `true`  | If `true`, values snap to increment multiples on wheel change     |
 
-Display values as percentages using scale and format.
+### Validation
 
-<CodeExample
-  code={`<NumberField value={bind("percent")} scale={0.01} format="p" />`}
->
-  <NumberFieldPercentage client:load />
-</CodeExample>
+| Property                | Type     | Default                              | Description                                               |
+| ----------------------- | -------- | ------------------------------------ | --------------------------------------------------------- |
+| `minValueErrorText`     | `string` | `"Enter {0} or more."`               | Error message when value is below minimum                 |
+| `minExclusiveErrorText` | `string` | `"Enter a number greater than {0}."` | Error message when value equals exclusive minimum         |
+| `maxValueErrorText`     | `string` | `"Enter {0} or less."`               | Error message when value is above maximum                 |
+| `maxExclusiveErrorText` | `string` | `"Enter a number less than {0}."`    | Error message when value equals exclusive maximum         |
+| `inputErrorText`        | `string` | `"Invalid number entered."`          | Error message for invalid number input                    |
+| `error`                 | `string` |                                      | Custom error message. Field is marked invalid if set      |
+| `visited`               | `boolean`|                                      | If `true`, shows validation errors immediately            |
+| `validationMode`        | `string` | `"tooltip"`                          | How to show errors: `"tooltip"`, `"help"`, `"help-block"` |
 
-## Disabled State
+### Appearance
 
-Prevent user interaction with the disabled prop.
+| Property          | Type            | Default | Description                                     |
+| ----------------- | --------------- | ------- | ----------------------------------------------- |
+| `icon`            | `string/object` |         | Icon on the left side                           |
+| `showClear`       | `boolean`       | `false` | Shows a clear button when the field has a value |
+| `hideClear`       | `boolean`       | `false` | Opposite of `showClear`                         |
+| `alwaysShowClear` | `boolean`       | `false` | Shows clear button even when field is required  |
+| `tooltip`         | `string/object` |         | Tooltip text or configuration                   |
+| `inputStyle`      | `string/object` |         | CSS styles applied to the input element         |
+| `inputClass`      | `string`        |         | CSS class applied to the input element          |
 
-<CodeExample code={`<NumberField value={42} disabled />`}>
-  <NumberFieldDisabled client:load />
-</CodeExample>
+### Behavior
 
-## Properties
+| Property       | Type      | Default        | Description                                         |
+| -------------- | --------- | -------------- | --------------------------------------------------- |
+| `autoFocus`    | `boolean` | `false`        | Automatically focuses the field on mount            |
+| `reactOn`      | `string`  | `"enter blur"` | Events that trigger value updates                   |
+| `trackFocus`   | `boolean` | `false`        | Adds `cxs-focus` CSS class when input is focused    |
+| `inputType`    | `string`  | `"text"`       | HTML input type                                     |
+| `onParseInput` | `function`|                | Custom parser for text input                        |
 
-| Property      | Type         | Default     | Description                              |
-| ------------- | ------------ | ----------- | ---------------------------------------- |
-| `value`       | `Sx<number>` | `undefined` | The numeric value                        |
-| `placeholder` | `string`     | `undefined` | Placeholder text                         |
-| `disabled`    | `boolean`    | `false`     | Disables the input                       |
-| `readOnly`    | `boolean`    | `false`     | Makes the input read-only                |
-| `required`    | `boolean`    | `false`     | Marks as required                        |
-| `minValue`    | `number`     | `undefined` | Minimum allowed value                    |
-| `maxValue`    | `number`     | `undefined` | Maximum allowed value                    |
-| `format`      | `string`     | `undefined` | Number format (e.g. "currency;EUR", "p") |
-| `scale`       | `number`     | `1`         | Value multiplier for display             |
-| `increment`   | `number`     | `undefined` | Step increment for arrow keys            |
+### Callbacks
+
+| Property     | Type       | Description                                                                   |
+| ------------ | ---------- | ----------------------------------------------------------------------------- |
+| `onValidate` | `function` | `(value, instance, validationParams) => string|undefined` - Custom validation |

@@ -1,0 +1,64 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Select
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import SelectExample from "../../../examples/forms/SelectExample.tsx";
+import SelectExampleCode from "../../../examples/forms/SelectExample.tsx?raw";
+
+# Select
+
+<ImportPath path="import { Select } from 'cx/widgets';" />
+
+The `Select` widget is a wrapper around the native HTML `<select>` element. It provides standard field features like validation, labels, and data binding while using native browser rendering for the dropdown.
+
+For more advanced selection scenarios with search, multiple selection, or custom rendering, consider using [LookupField](/docs/forms/lookup-field) instead.
+
+<CodeExample code={SelectExampleCode}>
+  <SelectExample client:load />
+</CodeExample>
+
+## Configuration
+
+### Core Properties
+
+| Property        | Type      | Default | Description                                                    |
+| --------------- | --------- | ------- | -------------------------------------------------------------- |
+| `value`         | `any`     | `null`  | Selected value                                                 |
+| `emptyValue`    | `any`     | `null`  | Value used when selection is cleared                           |
+| `placeholder`   | `string`  |         | Placeholder text shown when no value is selected               |
+| `disabled`      | `boolean` | `false` | Disables the select                                            |
+| `multiple`      | `boolean` | `false` | Enable multiple selection (native browser multi-select)        |
+| `convertValues` | `boolean` | `true`  | Automatically convert string values to numbers/booleans        |
+
+### Appearance
+
+| Property          | Type      | Default | Description                                        |
+| ----------------- | --------- | ------- | -------------------------------------------------- |
+| `icon`            | `string`  |         | Icon displayed on the left side                    |
+| `showClear`       | `boolean` | `true`  | Shows clear button when value is present           |
+| `hideClear`       | `boolean` | `false` | Hides the clear button                             |
+| `alwaysShowClear` | `boolean` | `false` | Shows clear button even when field is required     |
+| `inputStyle`      | `object`  |         | CSS styles for the select element                  |
+| `inputClass`      | `string`  |         | CSS class for the select element                   |
+
+### Validation
+
+| Property   | Type      | Default | Description                     |
+| ---------- | --------- | ------- | ------------------------------- |
+| `required` | `boolean` | `false` | Makes selection required        |
+
+## Options
+
+Options are defined using standard HTML `<option>` elements as children:
+
+```jsx
+<Select value={bind(m.selection)}>
+  <option value={1}>Option 1</option>
+  <option value={2}>Option 2</option>
+  <option value={3}>Option 3</option>
+</Select>
+```
