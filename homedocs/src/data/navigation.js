@@ -115,10 +115,10 @@ export const navigation = [
           { title: "Label", slug: "label" },
           { title: "ProgressBar", slug: "progress-bar" },
           { title: "Tabs", slug: "tabs" },
-          { title: "FlexBox", slug: "flexbox" },
-          { title: "Section", slug: "section" },
           { title: "Resizer", slug: "resizer" },
           { title: "HScroller", slug: "hscroller" },
+          { title: "FlexBox", slug: "flexbox" },
+          { title: "Section", slug: "section" },
         ],
       },
       {

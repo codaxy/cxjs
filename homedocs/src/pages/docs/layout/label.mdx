@@ -34,7 +34,13 @@ Most form fields support a `label` prop that can be configured in multiple ways:
 
 Use `asterisk` and `required` on form fields to show a required indicator next to the label.
 
-The following example shows a checkbox used as a label that enables/disables the field:
+To automatically show asterisks on all required fields, add this to your initialization code:
+
+```tsx
+Label.prototype.asterisk = true;
+```
+
+The following example shows a styled label and a checkbox used as a label that enables/disables the field:
 
 <CodeExample code={LabelCheckboxExampleCode}>
   <LabelCheckboxExample client:load />
