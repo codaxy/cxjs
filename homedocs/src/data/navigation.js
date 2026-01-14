@@ -115,6 +115,10 @@ export const navigation = [
           { title: "Label", slug: "label" },
           { title: "ProgressBar", slug: "progress-bar" },
           { title: "Tabs", slug: "tabs" },
+          { title: "FlexBox", slug: "flexbox" },
+          { title: "Section", slug: "section" },
+          { title: "Resizer", slug: "resizer" },
+          { title: "HScroller", slug: "hscroller" },
         ],
       },
       {
@@ -152,20 +156,6 @@ export const navigation = [
           { title: "Menu", slug: "menu" },
           { title: "ContextMenu", slug: "context-menu" },
           { title: "Dropdown", slug: "dropdown" },
-        ],
-      },
-      {
-        title: "Scrolling",
-        items: [
-          { title: "Resizer", slug: "resizer" },
-          { title: "HScroller", slug: "hscroller" },
-        ],
-      },
-      {
-        title: "Containers",
-        items: [
-          { title: "FlexBox", slug: "flexbox" },
-          { title: "Section", slug: "section" },
         ],
       },
     ],
