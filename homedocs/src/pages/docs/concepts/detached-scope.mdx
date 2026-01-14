@@ -1,0 +1,44 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: DetachedScope
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+import Note from "../../../components/Note.astro";
+
+import DetachedScopeExample from "../../../examples/concepts/DetachedScopeExample.tsx";
+import DetachedScopeExampleCode from "../../../examples/concepts/DetachedScopeExample.tsx?raw";
+
+# DetachedScope
+
+<ImportPath path="import { DetachedScope } from 'cx/widgets';" />
+
+<Note type="info">
+For most performance optimization scenarios, consider using [PrivateStore](/docs/concepts/private-store) instead, which is more commonly used and easier to work with.
+</Note>
+
+`DetachedScope` improves performance by detaching certain areas from the main render loop. Detached contents render in their own render loop and use a data declaration to specify which changes can flow in or out.
+
+Use this for heavy components like grids, charts, or rich popups that might be negatively affected by other elements on the page.
+
+<CodeExample code={DetachedScopeExampleCode}>
+  <DetachedScopeExample client:load />
+</CodeExample>
+
+## How It Works
+
+1. The `bind` prop specifies the data paths this scope depends on
+2. The scope renders independently from the rest of the page
+3. Only changes to the bound data trigger re-renders inside the scope
+4. Changes inside the scope don't trigger re-renders outside
+
+## Configuration
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `bind` | `string \| array` | Binding path(s) to monitor for changes. Shorthand for `data`. |
+| `data` | `object` | Data selector object. Children update only when this data changes. |
+| `exclusive` | `string \| array` | Paths for exclusive data that only affects this scope. |
+| `exclusiveData` | `object` | Exclusive data selector for data used only within this scope. |
+| `name` | `string` | Name of the scope for debugging purposes. |

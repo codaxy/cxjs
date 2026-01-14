@@ -1,0 +1,56 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: ContentResolver
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import ContentResolverExample from "../../../examples/intro/ContentResolverExample.tsx";
+import ContentResolverExampleCode from "../../../examples/intro/ContentResolverExample.tsx?raw";
+
+# ContentResolver
+
+<ImportPath path="import { ContentResolver } from 'cx/widgets';" />
+
+`ContentResolver` dynamically resolves content at runtime based on data. Use it when the content to display is unknown at build time, depends on data values, or needs to be lazy loaded.
+
+<CodeExample code={ContentResolverExampleCode}>
+  <ContentResolverExample client:load />
+</CodeExample>
+
+## How It Works
+
+1. The `params` prop binds to a value in the store
+2. When `params` changes, `onResolve` is called with the new value
+3. `onResolve` returns the widget configuration to render
+4. For async loading, `onResolve` can return a Promise
+5. Children are displayed as default content while loading
+
+## Structured Params
+
+The `params` prop can be a structured object with multiple bindings:
+
+```jsx
+<ContentResolver
+  params={{
+    type: m.fieldType,
+    required: m.isRequired,
+  }}
+  onResolve={({ type, required }) => {
+    // resolve based on multiple parameters
+  }}
+/>
+```
+
+When any of the bound values change, `onResolve` is called with the updated object.
+
+## Configuration
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `params` | `any` | Parameter binding. Can be a single value or structured object. Content is recreated when params change. |
+| `onResolve` | `function` | Callback taking `params` and returning widget configuration or a Promise. |
+| `mode` | `string` | How resolved content combines with children: `replace`, `prepend`, or `append`. Default is `replace`. |
+| `loading` | `boolean` | Writable binding set to `true` while a Promise is resolving. |
+| `children` | `any` | Default content displayed while `onResolve` Promise is loading. |

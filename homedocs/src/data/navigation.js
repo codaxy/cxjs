@@ -31,6 +31,14 @@ export const navigation = [
         ],
       },
       {
+        title: "Core Components",
+        items: [
+          { title: "HtmlElement", slug: "html-element" },
+          { title: "PureContainer", slug: "pure-container" },
+          { title: "ContentResolver", slug: "content-resolver" },
+        ],
+      },
+      {
         title: "Authoring Widgets",
         items: [
           { title: "Functional Components", slug: "functional-components" },
@@ -95,6 +103,8 @@ export const navigation = [
         items: [
           { title: "Keyboard Shortcuts", slug: "keyboard-shortcuts" },
           { title: "Localization", slug: "localization" },
+          { title: "DetachedScope", slug: "detached-scope" },
+          { title: "IsolatedScope", slug: "isolated-scope" },
         ],
       },
     ],
@@ -171,14 +181,17 @@ export const navigation = [
           { title: "NumberField", slug: "number-field" },
           { title: "TextArea", slug: "text-area" },
           { title: "DateField", slug: "date-field" },
+          { title: "Calendar", slug: "calendar" },
           { title: "DateTimeField", slug: "date-time-field" },
           { title: "MonthField", slug: "month-field" },
+          { title: "MonthPicker", slug: "month-picker" },
           { title: "SelectField", slug: "select-field" },
           { title: "LookupField", slug: "lookup-field" },
           { title: "Checkbox", slug: "checkbox" },
           { title: "Radio", slug: "radio" },
           { title: "Switch", slug: "switch" },
           { title: "ColorField", slug: "color-field" },
+          { title: "ColorPicker", slug: "color-picker" },
           { title: "UploadButton", slug: "upload-button" },
           { title: "List", slug: "list" },
           { title: "Slider", slug: "slider" },
