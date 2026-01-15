@@ -451,4 +451,90 @@ describe("createFunctionalComponent", () => {
          props: {},
       });
    });
+
+   it("passes type config property to the factory function", async () => {
+      const CustomInput = createFunctionalComponent(({ type }: { type?: string }) => (
+         <cx>
+            <input type={type || "text"} />
+         </cx>
+      ));
+
+      const widget = (
+         <cx>
+            <CustomInput type="password" />
+         </cx>
+      );
+
+      let store = new Store();
+
+      const component = await createTestRenderer(store, widget);
+
+      let tree = component.toJSON();
+      assert.deepEqual(tree, {
+         type: "input",
+         children: null,
+         props: {
+            type: "password",
+         },
+      });
+   });
+
+   it("passes type config property with other props", async () => {
+      interface ButtonProps {
+         type?: "button" | "submit";
+         label: string;
+      }
+
+      const CustomButton = createFunctionalComponent(({ type, label }: ButtonProps) => (
+         <cx>
+            <button type={type || "button"}>{label}</button>
+         </cx>
+      ));
+
+      const widget = (
+         <cx>
+            <CustomButton type="submit" label="Submit Form" />
+         </cx>
+      );
+
+      let store = new Store();
+
+      const component = await createTestRenderer(store, widget);
+
+      let tree = component.toJSON();
+      assert.deepEqual(tree, {
+         type: "button",
+         children: ["Submit Form"],
+         props: {
+            type: "submit",
+         },
+      });
+   });
+
+   it("defaults type when not provided", async () => {
+      const CustomInput = createFunctionalComponent(({ type = "text" }: { type?: string }) => (
+         <cx>
+            <input type={type} />
+         </cx>
+      ));
+
+      const widget = (
+         <cx>
+            <CustomInput />
+         </cx>
+      );
+
+      let store = new Store();
+
+      const component = await createTestRenderer(store, widget);
+
+      let tree = component.toJSON();
+      assert.deepEqual(tree, {
+         type: "input",
+         children: null,
+         props: {
+            type: "text",
+         },
+      });
+   });
 });
