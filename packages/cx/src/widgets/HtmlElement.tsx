@@ -256,6 +256,11 @@ export class HtmlElement<
       case "vdomKey":
         return false;
 
+      case "type":
+        // allow type like in <input type="text" /> only if it's set as an attribute
+        if (this.jsxAttributes?.includes("type") !== true) return false;
+        break;
+
       default:
         if (isDataAttribute(attrName)) return false;
         break;
