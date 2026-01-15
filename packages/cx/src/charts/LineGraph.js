@@ -178,8 +178,8 @@ export class LineGraph extends Widget {
                   i == 0
                      ? `M ${p.x} ${p.y}`
                      : !data.smooth || span.length < 2
-                       ? `L ${p.x} ${p.y}`
-                       : this.getCurvedPathSegment(p, span, i - 1, i - 2, i - 1, i + 1, r);
+                        ? `L ${p.x} ${p.y}`
+                        : this.getCurvedPathSegment(p, span, i - 1, i - 2, i - 1, i + 1, r);
             });
          });
 
@@ -293,6 +293,7 @@ LineGraph.prototype.legendAction = "auto";
 LineGraph.prototype.legendShape = "rect";
 LineGraph.prototype.stack = "stack";
 LineGraph.prototype.hiddenBase = false;
+LineGraph.prototype.styled = true;
 
 LineGraph.prototype.smooth = false;
 LineGraph.prototype.smoothingRatio = 0.05;
