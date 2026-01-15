@@ -90,6 +90,20 @@ If using this plugin, chain `babel-loader` after `ts-loader`:
 
 ## General Improvements
 
+### Renamed: createModel
+
+The `createAccessorModelProxy` function has been renamed to `createModel` for brevity. The old name remains available as an alias for backward compatibility, but `createModel` is now preferred.
+
+```typescript
+// Before
+import { createAccessorModelProxy } from "cx/data";
+const m = createAccessorModelProxy<Model>();
+
+// After (preferred)
+import { createModel } from "cx/data";
+const m = createModel<Model>();
+```
+
 ### Typed Controller Methods
 
 With TypeScript, you can use `getControllerByType` to get a typed controller reference instead of

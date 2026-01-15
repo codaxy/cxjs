@@ -53,6 +53,10 @@ export const navigation = [
           { title: "Migration Guide", slug: "migration-guide" },
         ],
       },
+      {
+        title: "Resources",
+        items: [{ title: "Sample Applications", slug: "sample-applications" }],
+      },
     ],
   },
   {
