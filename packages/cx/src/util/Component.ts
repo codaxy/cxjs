@@ -267,8 +267,13 @@ export class Component {
 
       if (typeAlias.isComponent) return typeAlias;
 
-      if (isComponentFactory(typeAlias))
-         return this.create(typeAlias.create(config), config, more);
+      if (isComponentFactory(typeAlias)) {
+         let result = typeAlias.create(config);
+         if (more) {
+            result = Object.assign({}, result, more);
+         }
+         return this.create(result);
+      }
 
       if (isArray(typeAlias))
          return typeAlias.map((c) => this.create(c as any, config, more));
