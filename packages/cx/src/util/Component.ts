@@ -88,7 +88,7 @@ type ConfigWith$Type<
 export type CreateConfig<
    TBaseCtor extends ComponentConstructor,
    TSubCtor extends
-   SubclassConstructor<TBaseCtor> = SubclassConstructor<TBaseCtor>,
+      SubclassConstructor<TBaseCtor> = SubclassConstructor<TBaseCtor>,
 > =
    | TSubCtor // Constructor for T or subclass
    | ConfigWithType<TBaseCtor, TSubCtor> // Config object with type
@@ -139,7 +139,7 @@ export class Component {
       Object.assign(this, config);
    }
 
-   init() { }
+   init() {}
 
    /**
     *
@@ -199,12 +199,12 @@ export class Component {
       configs: [...T],
       more?: Record<string, any>,
    ): {
-         [K in keyof T]: T[K] extends { type: ComponentConstructor<infer U> }
+      [K in keyof T]: T[K] extends { type: ComponentConstructor<infer U> }
          ? U
          : T[K] extends { $type: ComponentConstructor<infer U> }
-         ? U
-         : Component;
-      };
+           ? U
+           : Component;
+   };
 
    // Config object with type or $type property
    static create<
@@ -268,23 +268,20 @@ export class Component {
       if (typeAlias.isComponent) return typeAlias;
 
       if (isComponentFactory(typeAlias)) {
+         if (more) config = Object.assign({}, config, more);
          let result = typeAlias.create(config);
-         if (more) {
-            result = Object.assign({}, result, more);
-         }
          return this.create(result);
       }
 
       if (isArray(typeAlias))
          return typeAlias.map((c) => this.create(c as any, config, more));
 
-      if (typeAlias.$type)
-         return this.create(typeAlias.$type, typeAlias, config);
+      if (typeAlias.$type) {
+         let { $type, ...rest } = typeAlias;
+         return this.create($type, rest, config);
+      }
 
-      if (
-         typeAlias.type &&
-         (typeAlias.type.isComponentType || isComponentFactory(typeAlias.type))
-      ) {
+      if (typeAlias.type) {
          let { type, ...rest } = typeAlias;
          return this.create(type, rest, config);
       }
