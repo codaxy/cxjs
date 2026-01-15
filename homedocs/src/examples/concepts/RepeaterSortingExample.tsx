@@ -1,4 +1,4 @@
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 import { expr } from "cx/ui";
 import { getSearchQueryPredicate } from "cx/util";
 import { HighlightedSearchText, Repeater, TextField } from "cx/widgets";
@@ -15,7 +15,7 @@ interface PageModel {
   search: string;
 }
 
-const m = createAccessorModelProxy<PageModel>();
+const m = createModel<PageModel>();
 // @model-end
 
 // @controller

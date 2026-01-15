@@ -1,4 +1,4 @@
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 import { Button, Dropdown } from "cx/widgets";
 
 // @model
@@ -6,7 +6,7 @@ interface PageModel {
   showDropdown: boolean;
 }
 
-const m = createAccessorModelProxy<PageModel>();
+const m = createModel<PageModel>();
 // @model-end
 
 // @index

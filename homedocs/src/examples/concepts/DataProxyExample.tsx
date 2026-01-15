@@ -1,4 +1,4 @@
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 import { DataProxy, LabelsTopLayout } from "cx/ui";
 import { Slider } from "cx/widgets";
 
@@ -7,13 +7,13 @@ interface PageModel {
   level: number;
 }
 
-const m = createAccessorModelProxy<PageModel>();
+const m = createModel<PageModel>();
 
 interface ProxyModel {
   $level: number;
 }
 
-const mProxy = createAccessorModelProxy<ProxyModel>();
+const mProxy = createModel<ProxyModel>();
 // @model-end
 
 // @index

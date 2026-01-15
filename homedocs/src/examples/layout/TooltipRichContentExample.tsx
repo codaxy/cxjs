@@ -1,4 +1,4 @@
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 import { Controller } from "cx/ui";
 import { enableTooltips, Link, Grid } from "cx/widgets";
 
@@ -9,7 +9,7 @@ interface PageModel {
   records: Array<{ id: number; name: string; phone: string }>;
 }
 
-const m = createAccessorModelProxy<PageModel>();
+const m = createModel<PageModel>();
 // @model-end
 
 // @controller

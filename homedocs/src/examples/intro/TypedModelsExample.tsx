@@ -1,4 +1,4 @@
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 import { TextField, Button } from "cx/widgets";
 
 // @model
@@ -12,7 +12,7 @@ interface PageModel {
   message: string;
 }
 
-const m = createAccessorModelProxy<PageModel>();
+const m = createModel<PageModel>();
 // @model-end
 
 // @index

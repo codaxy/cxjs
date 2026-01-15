@@ -1,4 +1,4 @@
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 import { LabelsTopLayout } from "cx/ui";
 import { getSearchQueryPredicate } from "cx/util";
 import { LookupField } from "cx/widgets";
@@ -10,7 +10,7 @@ interface Model {
   cities: { id: number; text: string }[];
 }
 
-const m = createAccessorModelProxy<Model>();
+const m = createModel<Model>();
 
 const cities = ["New York", "Los Angeles", "Chicago", "Houston", "Phoenix", "Philadelphia", "San Diego", "Dallas"].map(
   (text, id) => ({ id, text }),

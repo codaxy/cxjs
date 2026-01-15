@@ -1,4 +1,4 @@
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 import { LabelsTopLayout, Rescope } from "cx/ui";
 import { TextField } from "cx/widgets";
 
@@ -20,10 +20,10 @@ interface PageModel {
   };
 }
 
-const m = createAccessorModelProxy<PageModel>();
+const m = createModel<PageModel>();
 
 // Model for rescoped context (bound to company.team.manager)
-const mManager = createAccessorModelProxy<Manager>();
+const mManager = createModel<Manager>();
 // @model-end
 
 // @controller

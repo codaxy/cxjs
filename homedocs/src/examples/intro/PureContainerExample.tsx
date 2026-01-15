@@ -1,4 +1,4 @@
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 import { LabelsTopLayout, PureContainer } from "cx/ui";
 import { Checkbox, TextField } from "cx/widgets";
 
@@ -8,7 +8,7 @@ interface Model {
   phone: string;
 }
 
-const m = createAccessorModelProxy<Model>();
+const m = createModel<Model>();
 
 // @model
 export const model = {

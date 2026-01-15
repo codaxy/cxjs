@@ -1,4 +1,4 @@
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 import { bind, LabelsTopLayout } from "cx/ui";
 import { DateField, TimeField } from "cx/widgets";
 
@@ -7,7 +7,7 @@ interface Model {
   datetime: string;
 }
 
-const m = createAccessorModelProxy<Model>();
+const m = createModel<Model>();
 // @model-end
 
 // @index

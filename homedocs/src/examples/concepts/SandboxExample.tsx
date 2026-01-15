@@ -1,4 +1,4 @@
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 import { LabelsTopLayout, tpl } from "cx/ui";
 import { Radio, Sandbox, TextField } from "cx/widgets";
 
@@ -14,7 +14,7 @@ interface PageModel {
   $contestant: Contestant;
 }
 
-const m = createAccessorModelProxy<PageModel>();
+const m = createModel<PageModel>();
 // @model-end
 
 // @index

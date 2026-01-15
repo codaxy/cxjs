@@ -31,7 +31,7 @@ interface PageModel {
   $contestant: Contestant;
 }
 
-const m = createAccessorModelProxy<PageModel>();
+const m = createModel<PageModel>();
 ```
 
 Then use `recordAlias={m.$contestant}` to bind the record accessor:

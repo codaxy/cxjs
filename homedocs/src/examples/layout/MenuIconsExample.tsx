@@ -1,4 +1,4 @@
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 import { Menu, MenuItem } from "cx/widgets";
 import "../../icons/lucide";
 
@@ -9,7 +9,7 @@ interface PageModel {
   autoSave: boolean;
 }
 
-const m = createAccessorModelProxy<PageModel>();
+const m = createModel<PageModel>();
 // @model-end
 
 // @index

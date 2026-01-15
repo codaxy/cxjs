@@ -1,4 +1,4 @@
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 import { LabelsTopLayout } from "cx/ui";
 import { TextField } from "cx/widgets";
 
@@ -9,7 +9,7 @@ interface AddressModel {
   zip: string;
 }
 
-const m = createAccessorModelProxy<AddressModel>();
+const m = createModel<AddressModel>();
 // @model-end
 
 // @index

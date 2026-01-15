@@ -77,7 +77,7 @@ Use comments in the source code to split it into tabs (Model, Components, Contro
 interface PageModel {
   name: string;
 }
-const m = createAccessorModelProxy<PageModel>();
+const m = createModel<PageModel>();
 // @model-end
 
 // @components

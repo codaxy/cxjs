@@ -1,11 +1,11 @@
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 import { Resizer } from "cx/widgets";
 
 interface Model {
   leftWidth: number;
 }
 
-const { $model } = createAccessorModelProxy<Model>();
+const { $model } = createModel<Model>();
 
 // @model
 export const model = {

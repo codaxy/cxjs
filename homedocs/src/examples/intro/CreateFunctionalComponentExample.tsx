@@ -1,4 +1,4 @@
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 import {
   createFunctionalComponent,
   LabelsLeftLayout,
@@ -13,7 +13,7 @@ interface PageModel {
   };
 }
 
-const m = createAccessorModelProxy<PageModel>();
+const m = createModel<PageModel>();
 
 // @components
 interface MyFormProps {

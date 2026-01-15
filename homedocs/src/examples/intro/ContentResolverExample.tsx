@@ -1,4 +1,4 @@
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 import {
   Checkbox,
   ContentResolver,
@@ -17,7 +17,7 @@ interface Model {
   checked: boolean;
 }
 
-const m = createAccessorModelProxy<Model>();
+const m = createModel<Model>();
 
 const fieldTypes = [
   { id: "textfield", text: "TextField" },

@@ -1,4 +1,4 @@
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 import { Format } from "cx/util";
 import { bind, expr, format, LabelsTopLayout } from "cx/ui";
 import { NumberField, DateField } from "cx/widgets";
@@ -10,7 +10,7 @@ interface PageModel {
   date: Date;
 }
 
-const m = createAccessorModelProxy<PageModel>();
+const m = createModel<PageModel>();
 // @model-end
 
 // @index

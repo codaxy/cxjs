@@ -1,4 +1,4 @@
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 import { Controller } from "cx/ui";
 import { DragSource, DropZone, Repeater } from "cx/widgets";
 
@@ -17,7 +17,7 @@ interface PageModel {
   $item: Item;
 }
 
-const m = createAccessorModelProxy<PageModel>();
+const m = createModel<PageModel>();
 
 function removeItem(store: any, item: Item) {
   store.set(

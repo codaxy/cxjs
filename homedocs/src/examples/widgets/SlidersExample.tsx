@@ -1,7 +1,7 @@
 /** @jsxImportSource cx */
 
 // @model
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 
 interface SliderModel {
   volume: number;
@@ -10,7 +10,7 @@ interface SliderModel {
   max: number;
 }
 
-export const $page = createAccessorModelProxy<SliderModel>();
+export const $page = createModel<SliderModel>();
 // @model-end
 
 // @controller

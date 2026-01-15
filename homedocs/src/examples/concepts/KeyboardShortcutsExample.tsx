@@ -1,4 +1,4 @@
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 import { Controller, registerKeyboardShortcut } from "cx/ui";
 import { KeyCode } from "cx/util";
 import { Checkbox } from "cx/widgets";
@@ -9,7 +9,7 @@ interface PageModel {
   shiftAPressed: boolean;
 }
 
-const m = createAccessorModelProxy<PageModel>();
+const m = createModel<PageModel>();
 // @model-end
 
 // @controller

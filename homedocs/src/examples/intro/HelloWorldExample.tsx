@@ -1,6 +1,6 @@
 import { DateField, TextField } from "cx/widgets";
 import {
-  createAccessorModelProxy,
+  createModel,
   expr,
   hasValue,
   LabelsTopLayout,
@@ -13,7 +13,7 @@ interface PageModel {
   dob: string;
 }
 
-const m = createAccessorModelProxy<PageModel>();
+const m = createModel<PageModel>();
 // @model-end
 
 // @index

@@ -1,4 +1,4 @@
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 import { SimpleSelection, Controller } from "cx/ui";
 import { List } from "cx/widgets";
 
@@ -14,7 +14,7 @@ interface PageModel {
   $record: Item;
 }
 
-const m = createAccessorModelProxy<PageModel>();
+const m = createModel<PageModel>();
 // @model-end
 
 // @controller

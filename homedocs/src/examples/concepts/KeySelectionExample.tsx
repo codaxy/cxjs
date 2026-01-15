@@ -1,4 +1,4 @@
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 import { KeySelection, Controller } from "cx/ui";
 import { Grid } from "cx/widgets";
 
@@ -13,7 +13,7 @@ interface PageModel {
   selection: number[];
 }
 
-const m = createAccessorModelProxy<PageModel>();
+const m = createModel<PageModel>();
 // @model-end
 
 // @controller

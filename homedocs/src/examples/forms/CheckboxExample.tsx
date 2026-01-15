@@ -1,4 +1,4 @@
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 import { bind, LabelsTopLayout } from "cx/ui";
 import { Checkbox } from "cx/widgets";
 
@@ -8,7 +8,7 @@ interface Model {
   indeterminate: boolean;
 }
 
-const m = createAccessorModelProxy<Model>();
+const m = createModel<Model>();
 // @model-end
 
 // @index

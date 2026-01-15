@@ -172,13 +172,13 @@ TypeScript automatically infers the resolved types from your params definition:
 
 ```typescript
 import { ContentResolver } from "cx/widgets";
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 
 interface AppModel {
    user: { name: string; age: number };
 }
 
-const model = createAccessorModelProxy<AppModel>();
+const model = createModel<AppModel>();
 
 <ContentResolver
    params={{
@@ -215,14 +215,14 @@ CxJS provides type-safe selector functions for reactive bindings. These helpers 
 
 ```typescript
 import { truthy, isEmpty, equal, greaterThan } from "cx/ui";
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 
 interface AppModel {
    user: { name: string; age: number };
    items: string[];
 }
 
-const model = createAccessorModelProxy<AppModel>();
+const model = createModel<AppModel>();
 
 // Using expression helpers for type-safe boolean bindings
 <div visible={truthy(model.user.name)}>
@@ -264,7 +264,7 @@ The `format` helper creates a selector that formats values using CxJS format str
 This is useful for displaying formatted numbers, dates, or percentages in text props:
 
 ```typescript
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 import { format } from "cx/ui";
 
 interface Product {
@@ -273,7 +273,7 @@ interface Product {
    discount: number;
 }
 
-const m = createAccessorModelProxy<Product>();
+const m = createModel<Product>();
 
 // Format as number with 2 decimal places
 <div text={format(m.price, "n;2")} />
@@ -294,7 +294,7 @@ The `tpl` function now supports accessor chains in addition to its original stri
 This allows you to create formatted strings from multiple values with full type safety:
 
 ```typescript
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 import { tpl } from "cx/ui";
 
 interface Person {
@@ -303,7 +303,7 @@ interface Person {
    age: number;
 }
 
-const m = createAccessorModelProxy<Person>();
+const m = createModel<Person>();
 
 // Original string-only form still works
 <div text={tpl("{firstName} {lastName}")} />

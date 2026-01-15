@@ -1,4 +1,4 @@
-import { Controller, createAccessorModelProxy, expr } from "cx/ui";
+import { Controller, createModel, expr } from "cx/ui";
 import { Grid } from "cx/widgets";
 
 // @model
@@ -18,7 +18,7 @@ interface PageModel {
   };
 }
 
-const m = createAccessorModelProxy<PageModel>();
+const m = createModel<PageModel>();
 // @model-end
 
 // @controller
