@@ -803,12 +803,15 @@ $cx-dropdown-styles: cx-deep-map-merge(
 // Section
 .cxb-section {
   background-color: hsl(var(--card));
-  border-color: hsl(var(--border));
   border-radius: var(--radius);
   overflow: hidden;
 
+  &.cxm-card {
+    border-color: hsl(var(--border));
+    border-width: 1px;
+  }
+
   .cxe-section-header {
-    background-color: hsl(var(--muted));
     color: hsl(var(--foreground));
     border-color: hsl(var(--border));
     font-weight: 500;

@@ -1,0 +1,29 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: HScroller
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import HScrollerExample from "../../../examples/layout/HScrollerExample.tsx";
+import HScrollerExampleCode from "../../../examples/layout/HScrollerExample.tsx?raw";
+
+# HScroller
+
+<ImportPath path="import { HScroller, VScroller, Scroller } from 'cx/widgets';" />
+
+Horizontal scrollers are commonly used with tabs when there are too many tabs to fit the screen. Use the `scrollIntoViewSelector` property to specify a CSS selector for the element that should be scrolled into view.
+
+<CodeExample code={HScrollerExampleCode}>
+  <HScrollerExample client:load />
+</CodeExample>
+
+## Configuration
+
+| Property                 | Type      | Description                                                   |
+| ------------------------ | --------- | ------------------------------------------------------------- |
+| `horizontal`             | `boolean` | Enable horizontal scrolling. Default is `true` for HScroller. |
+| `vertical`               | `boolean` | Enable vertical scrolling. Default is `true` for VScroller.   |
+| `scrollIntoViewSelector` | `string`  | CSS selector for an element to scroll into view.              |
+| `baseClass`              | `string`  | Base CSS class. Default is `scroller`.                        |

@@ -48,7 +48,10 @@ export class History {
       reload = true;
    }
 
-   static addNavigateConfirmation(callback: NavigateConfirmationCallback, permanent = false): void {
+   static addNavigateConfirmation(
+      callback: NavigateConfirmationCallback,
+      permanent = false,
+   ): void {
       navigateConfirmationCallback = callback;
       permanentNavigateConfirmation = permanent;
    }
@@ -59,7 +62,8 @@ export class History {
       let result = navigateConfirmationCallback(state);
       Promise.resolve(result).then((value) => {
          if (value) {
-            if (!permanentNavigateConfirmation) navigateConfirmationCallback = null;
+            if (!permanentNavigateConfirmation)
+               navigateConfirmationCallback = null;
             continueCallback();
          }
       });
@@ -67,11 +71,21 @@ export class History {
       return false;
    }
 
-   static confirmAndNavigate(state: any, title: string | null, url: string, replace?: boolean): boolean {
+   static confirmAndNavigate(
+      state: any,
+      title: string | null,
+      url: string,
+      replace?: boolean,
+   ): boolean {
       return this.confirm(() => this.navigate(state, title, url, replace), url);
    }
 
-   static navigate(state: any, title: string | null, url: string, replace = false): boolean {
+   static navigate(
+      state: any,
+      title: string | null,
+      url: string,
+      replace = false,
+   ): boolean {
       url = Url.resolve(url);
 
       if (!window.history.pushState || reload) {
@@ -115,7 +129,7 @@ export class History {
    }
 
    static updateStore(href?: string): boolean {
-      let url = Url.unresolve(href || document.location.href);
+      let url = Url.unresolve(href ?? document?.location.href ?? "");
       let hash: string | null = null;
       let hashIndex = url.indexOf("#");
       if (hashIndex !== -1) {

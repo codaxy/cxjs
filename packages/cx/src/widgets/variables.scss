@@ -60,6 +60,7 @@ $cx-section-mods: (
       default: (
          background-color: rgba(255, 255, 255, 0.9),
          border-radius: 3px,
+         border-color: $cx-default-border-color,
       ),
    ),
    warning: (

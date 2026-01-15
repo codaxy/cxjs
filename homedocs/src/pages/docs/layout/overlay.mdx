@@ -1,0 +1,59 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Overlay
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import OverlayContextualExample from "../../../examples/layout/OverlayContextualExample.tsx";
+import OverlayContextualExampleCode from "../../../examples/layout/OverlayContextualExample.tsx?raw";
+
+import OverlayIndependentExample from "../../../examples/layout/OverlayIndependentExample.tsx";
+import OverlayIndependentExampleCode from "../../../examples/layout/OverlayIndependentExample.tsx?raw";
+
+# Overlay
+
+<ImportPath path="import { Overlay } from 'cx/widgets';" />
+
+Overlays are page elements displayed on top of the main UI. They include windows, message boxes, dropdowns, tooltips, etc. Overlays may be defined in the widget tree context or opened independently. In either case, overlays are appended inside the `body` element.
+
+## Contextual Overlays
+
+Contextual overlays are defined inside the widget tree and controlled using the `visible` property. A contextual overlay will not be shown unless its parent is visible.
+
+<CodeExample code={OverlayContextualExampleCode}>
+  <OverlayContextualExample client:load />
+</CodeExample>
+
+Use the `style` property to control the position on the page. Use `inline` to render the overlay inline instead of appending to the body element.
+
+## Independent Overlays
+
+Independent overlays are explicitly opened and remain visible until explicitly closed. They start their own application loop and require a `store` parameter.
+
+<CodeExample code={OverlayIndependentExampleCode}>
+  <OverlayIndependentExample client:load />
+</CodeExample>
+
+The `open` method returns a `close` function that can be called to dismiss the overlay.
+
+## Configuration
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `visible` | `boolean` | Controls overlay visibility for contextual overlays. |
+| `modal` | `boolean` | Adds a modal backdrop that masks mouse events for the rest of the page. |
+| `backdrop` | `boolean` | Adds a backdrop that dismisses the overlay when clicked. |
+| `center` | `boolean` | Initially places the overlay in the center of the page. |
+| `draggable` | `boolean` | Enables dragging the overlay. |
+| `resizable` | `boolean` | Enables resizing the overlay. |
+| `inline` | `boolean` | Forces the overlay to render inline instead of appending to body. |
+| `closeOnEscape` | `boolean` | Closes the overlay when Escape key is pressed. |
+| `dismissOnFocusOut` | `boolean` | Dismisses the overlay when it loses focus. |
+| `dismissOnPopState` | `boolean` | Dismisses the overlay if the user presses the browser back button. |
+| `animate` | `boolean` | Appends the `animate` state after initial render for CSS animations. |
+| `destroyDelay` | `number` | Milliseconds to wait before removing from DOM (use with `animate`). |
+| `autoFocus` | `boolean` | Automatically focuses the overlay when shown. |
+| `autoFocusFirstChild` | `boolean` | Automatically focuses the first child element when shown. |
+| `zIndex` | `number` | Custom z-index value for the overlay. |

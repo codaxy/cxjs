@@ -1,0 +1,89 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: DateField
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import DateFieldExample from "../../../examples/forms/DateFieldExample.tsx";
+import DateFieldExampleCode from "../../../examples/forms/DateFieldExample.tsx?raw";
+
+# DateField
+
+<ImportPath path="import { DateField } from 'cx/widgets';" />
+
+The `DateField` widget is used for selecting dates. It supports both text input and picking from a dropdown calendar.
+
+<CodeExample code={DateFieldExampleCode}>
+  <DateFieldExample client:load />
+</CodeExample>
+
+## Configuration
+
+### Core Properties
+
+| Property      | Type      | Default          | Description                                        |
+| ------------- | --------- | ---------------- | -------------------------------------------------- |
+| `value`       | `string`  | `null`           | Selected date. Accepts Date objects or ISO strings |
+| `format`      | `string`  | `"date;yyyyMMMdd"` | Display format. See [Formatting](/docs/intro/formatting) |
+| `placeholder` | `string`  |                  | Hint text displayed when the field is empty        |
+| `disabled`    | `boolean` | `false`          | Disables the input                                 |
+| `enabled`     | `boolean` |                  | Opposite of `disabled`                             |
+| `readOnly`    | `boolean` | `false`          | Makes the input read-only                          |
+| `required`    | `boolean` | `false`          | Marks the field as required                        |
+| `label`       | `string`  |                  | Field label text                                   |
+| `viewMode`    | `boolean` | `false`          | Display as plain text instead of interactive input |
+| `emptyText`   | `string`  |                  | Text shown in view mode when the field is empty    |
+
+### Date Constraints
+
+| Property             | Type       | Default | Description                                                      |
+| -------------------- | ---------- | ------- | ---------------------------------------------------------------- |
+| `minValue`           | `string`   |         | Minimum selectable date                                          |
+| `minExclusive`       | `boolean`  | `false` | If `true`, the minimum date itself is not selectable             |
+| `maxValue`           | `string`   |         | Maximum selectable date                                          |
+| `maxExclusive`       | `boolean`  | `false` | If `true`, the maximum date itself is not selectable             |
+| `disabledDaysOfWeek` | `number[]` |         | Days of week that cannot be selected. Sunday is 0, Saturday is 6 |
+
+### Validation
+
+| Property                | Type     | Default                           | Description                                               |
+| ----------------------- | -------- | --------------------------------- | --------------------------------------------------------- |
+| `minValueErrorText`     | `string` | `"Select {0:d} or later."`        | Error message when date is before minimum                 |
+| `minExclusiveErrorText` | `string` | `"Select a date after {0:d}."`    | Error message when date equals exclusive minimum          |
+| `maxValueErrorText`     | `string` | `"Select {0:d} or before."`       | Error message when date is after maximum                  |
+| `maxExclusiveErrorText` | `string` | `"Select a date before {0:d}."`   | Error message when date equals exclusive maximum          |
+| `inputErrorText`        | `string` | `"Invalid date entered."`         | Error message for invalid date input                      |
+| `error`                 | `string` |                                   | Custom error message. Field is marked invalid if set      |
+| `visited`               | `boolean`|                                   | If `true`, shows validation errors immediately            |
+| `validationMode`        | `string` | `"tooltip"`                       | How to show errors: `"tooltip"`, `"help"`, `"help-block"` |
+
+### Appearance
+
+| Property        | Type            | Default      | Description                                     |
+| --------------- | --------------- | ------------ | ----------------------------------------------- |
+| `icon`          | `string/object` | `"calendar"` | Icon on the left side                           |
+| `showClear`     | `boolean`       | `true`       | Shows a clear button when the field has a value |
+| `hideClear`     | `boolean`       | `false`      | Opposite of `showClear`                         |
+| `alwaysShowClear` | `boolean`     | `false`      | Shows clear button even when field is required  |
+| `tooltip`       | `string/object` |              | Tooltip text or configuration                   |
+| `inputStyle`    | `string/object` |              | CSS styles applied to the input element         |
+| `inputClass`    | `string`        |              | CSS class applied to the input element          |
+
+### Behavior
+
+| Property          | Type       | Default        | Description                                                                     |
+| ----------------- | ---------- | -------------- | ------------------------------------------------------------------------------- |
+| `autoFocus`       | `boolean`  | `false`        | Automatically focuses the field on mount                                        |
+| `focusInputFirst` | `boolean`  | `false`        | Focus the text input instead of the calendar when opened                        |
+| `partial`         | `boolean`  | `false`        | Preserves time segment when combined with a time field                          |
+| `encoding`        | `function` |                | Custom function to encode Date objects before storing. Default: `toISOString()` |
+| `onParseInput`    | `function` |                | Custom parser for text input, e.g., to handle "today"                           |
+| `dropdownOptions` | `object`   |                | Additional configuration for the dropdown                                       |
+
+### Callbacks
+
+| Property     | Type       | Description                                                                     |
+| ------------ | ---------- | ------------------------------------------------------------------------------- |
+| `onValidate` | `function` | `(value, instance, validationParams) => string|undefined` - Custom validation   |

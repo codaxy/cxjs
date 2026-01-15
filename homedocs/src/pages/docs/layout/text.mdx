@@ -1,0 +1,29 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Text
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import TextExample from "../../../examples/layout/TextExample.tsx";
+import TextExampleCode from "../../../examples/layout/TextExample.tsx?raw";
+
+# Text
+
+<ImportPath path="import { Text } from 'cx/widgets';" />
+
+The `Text` component renders dynamic text content with data binding support. Use it when you need to display text values from the store.
+
+<CodeExample code={TextExampleCode}>
+  <TextExample client:load />
+</CodeExample>
+
+## Configuration
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `value` | `string` | Text value to display. Supports data binding. |
+| `bind` | `string` | Store path containing the text value. Equivalent to `value={bind("path")}`. |
+| `tpl` | `string` | Template string. Equivalent to `value={tpl("template")}`. |
+| `expr` | `string` | Expression string. Equivalent to `value={expr("expression")}`. |

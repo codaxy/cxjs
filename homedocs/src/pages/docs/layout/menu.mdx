@@ -3,29 +3,86 @@ layout: ../../../layouts/DocsLayout.astro
 title: Menu
 ---
 
-import CodePreview from "../../../components/CodePreview.astro";
-import MenusExample from "../../../examples/widgets/MenusExample.tsx";
-import MenusExampleCode from "../../../examples/widgets/MenusExample.tsx?raw";
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
 
-**Import:** `import { Menu, Submenu, MenuItem } from 'cx/widgets';`
+import MenuHorizontalExample from "../../../examples/layout/MenuHorizontalExample.tsx";
+import MenuHorizontalExampleCode from "../../../examples/layout/MenuHorizontalExample.tsx?raw";
 
-The `Menu` widget is used to present a list of options or commands in a horizontal or a vertical form. The `Submenu` widget is used when multiple options need to be shown under a single menu item.
+import MenuVerticalExample from "../../../examples/layout/MenuVerticalExample.tsx";
+import MenuVerticalExampleCode from "../../../examples/layout/MenuVerticalExample.tsx?raw";
 
-Menus are completely driven by focus. If the menu loses focus, all sub-menus are closed.
+import MenuIconsExample from "../../../examples/layout/MenuIconsExample.tsx";
+import MenuIconsExampleCode from "../../../examples/layout/MenuIconsExample.tsx?raw";
 
-## Example
+import MenuOverflowExample from "../../../examples/layout/MenuOverflowExample.tsx";
+import MenuOverflowExampleCode from "../../../examples/layout/MenuOverflowExample.tsx?raw";
 
-<CodePreview
-  code={MenusExampleCode}
-  filterLines={["Menu", "Submenu", "MenuItem", "a "]}
->
-  <MenusExample client:load />
-</CodePreview>
+# Menu
 
-Horizontal menus are made smaller to match toolbar items, unless `size` is explicitly set. The `menu` modifier is used to add margin/padding to menu items.
+<ImportPath path="import { Menu, Submenu, MenuItem, MenuSpacer } from 'cx/widgets';" />
 
-Use `MenuSpacer` to push some items to the right. Use `overflow` to display an overflow menu which will hold items which cannot fit the designated menu area.
+The `Menu` widget displays a list of options or commands in horizontal or vertical form. Use `Submenu` to create nested menus, and `MenuItem` for individual actions.
 
-## Configuration
+Menus are focus-driven — when focus leaves the menu, all submenus close automatically. To programmatically close a menu, call `document.activeElement.blur()`.
 
-For configuration options, see the Menu and MenuItem widget documentation.
+## Horizontal Menu
+
+<CodeExample code={MenuHorizontalExampleCode}>
+  <MenuHorizontalExample client:load />
+</CodeExample>
+
+Use the `horizontal` prop on `Menu` to create a horizontal menu bar. Submenus are defined by nesting a `Menu` with `putInto="dropdown"` inside a `Submenu`. Add `arrow` to submenus to show an expansion indicator.
+
+## Vertical Menu
+
+<CodeExample code={MenuVerticalExampleCode}>
+  <MenuVerticalExample client:load />
+</CodeExample>
+
+Vertical menus are the default orientation. They work well for sidebar navigation or context menus.
+
+## Icons and Checkboxes
+
+<CodeExample code={MenuIconsExampleCode}>
+  <MenuIconsExample client:load />
+</CodeExample>
+
+Add `icons` to `Menu` to reserve space for icons. Use `icon` on `MenuItem` for action icons, or `checked` with a binding to create checkbox items.
+
+## Overflow
+
+<CodeExample code={MenuOverflowExampleCode}>
+  <MenuOverflowExample client:load />
+</CodeExample>
+
+Set `overflow` on horizontal menus to automatically move items that don't fit into an overflow submenu. Use `MenuSpacer` to push items to the right side.
+
+## Menu Configuration
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `horizontal` | `boolean` | Set to `true` for horizontal menus. Default is `false`. |
+| `itemPadding` | `string` | Size of menu items: `xsmall`, `small`, `medium`, `large`, `xlarge`. Default is `small` for horizontal, `medium` for vertical. |
+| `icons` | `boolean` | Reserve space for icons in menu items. Default is `false`. |
+| `overflow` | `boolean` | Enable overflow menu for items that don't fit. Horizontal menus only. |
+| `overflowIcon` | `string` | Icon for the overflow menu button. |
+| `autoFocus` | `boolean` | Auto-focus first menu item on mount. |
+
+## MenuItem Configuration
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `autoClose` | `boolean` | Close the menu when this item is clicked. |
+| `icon` | `StringProp` | Icon to display before the item text. |
+| `checked` | `BooleanProp` | Bind to create a checkbox menu item. |
+| `disabled` | `BooleanProp` | Disable the menu item. |
+| `arrow` | `BooleanProp` | Show an arrow indicating a submenu. |
+| `onClick` | `function` | Handler called when the item is clicked. |
+| `tooltip` | `string \| object` | Tooltip configuration. |
+| `keyboardShortcut` | `KeyCode` | Register a keyboard shortcut for this item. |
+| `openOnFocus` | `boolean` | Open dropdown when focused. Default is `true`. |
+| `hoverToOpen` | `boolean` | Open submenu on hover instead of focus. |
+| `clickToOpen` | `boolean` | Require click to open submenu instead of hover. |
+| `placement` | `string` | Dropdown placement: `up`, `down`, `left`, `right`, or corners like `down-right`. |
+| `confirm` | `string \| object` | Show confirmation dialog before executing onClick. |

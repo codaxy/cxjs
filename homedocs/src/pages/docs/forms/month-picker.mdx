@@ -1,0 +1,97 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: MonthPicker
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import MonthPickerExample from "../../../examples/forms/MonthPickerExample.tsx";
+import MonthPickerExampleCode from "../../../examples/forms/MonthPickerExample.tsx?raw";
+
+import MonthPickerRangeExample from "../../../examples/forms/MonthPickerRangeExample.tsx";
+import MonthPickerRangeExampleCode from "../../../examples/forms/MonthPickerRangeExample.tsx?raw";
+
+# MonthPicker
+
+<ImportPath path="import { MonthPicker } from 'cx/widgets';" />
+
+The `MonthPicker` widget is a standalone component for selecting months or month ranges. It's commonly used in reporting scenarios where users need to select reporting periods such as fiscal years, quarters, or custom month ranges. It's also used internally by `MonthField`.
+
+<CodeExample code={MonthPickerExampleCode}>
+  <MonthPickerExample client:load />
+</CodeExample>
+
+## Range Selection
+
+In range mode, the picker provides quick selection options:
+
+- **Click on a year** to select the entire year (Jan - Dec)
+- **Click on a quarter** (Q1, Q2, Q3, Q4) to select all three months in that quarter
+- **Drag across months** to select a custom range
+
+<CodeExample code={MonthPickerRangeExampleCode}>
+  <MonthPickerRangeExample client:load />
+</CodeExample>
+
+## Keyboard Navigation
+
+The MonthPicker is fully keyboard accessible:
+
+| Key         | Action                          |
+| ----------- | ------------------------------- |
+| ← →         | Move cursor between columns     |
+| ↑ ↓         | Move cursor within column       |
+| Page Up     | Previous year                   |
+| Page Down   | Next year                       |
+| Enter       | Select focused month/quarter/year |
+
+## Configuration
+
+### Core Properties
+
+| Property      | Type      | Default | Description                                                  |
+| ------------- | --------- | ------- | ------------------------------------------------------------ |
+| `value`       | `string`  | `null`  | Selected month (for single mode). Accepts Date or ISO string |
+| `range`       | `boolean` | `false` | Enable range selection mode                                  |
+| `from`        | `string`  |         | Start of selected range (when `range` is `true`)             |
+| `to`          | `string`  |         | End of selected range (when `range` is `true`)               |
+| `inclusiveTo` | `boolean` | `false` | Whether the `to` date is included in the range               |
+| `refDate`     | `string`  |         | Reference date for initial scroll position                   |
+| `disabled`    | `boolean` | `false` | Disables the picker                                          |
+
+### Date Constraints
+
+| Property       | Type      | Default | Description                                           |
+| -------------- | --------- | ------- | ----------------------------------------------------- |
+| `minValue`     | `string`  |         | Minimum selectable month                              |
+| `minExclusive` | `boolean` | `false` | If `true`, the minimum month itself is not selectable |
+| `maxValue`     | `string`  |         | Maximum selectable month                              |
+| `maxExclusive` | `boolean` | `false` | If `true`, the maximum month itself is not selectable |
+
+### Appearance
+
+| Property       | Type      | Default | Description                               |
+| -------------- | --------- | ------- | ----------------------------------------- |
+| `startYear`    | `number`  | `1980`  | First year shown in the picker            |
+| `endYear`      | `number`  | `2030`  | Last year shown in the picker             |
+| `bufferSize`   | `number`  | `15`    | Number of years rendered at once          |
+| `hideQuarters` | `boolean` | `false` | Hide the quarter selection column         |
+
+### Validation
+
+| Property               | Type     | Default                          | Description                                       |
+| ---------------------- | -------- | -------------------------------- | ------------------------------------------------- |
+| `minValueErrorText`    | `string` | `"Select {0:d} or later."`       | Error message when value is before minimum        |
+| `minExclusiveErrorText`| `string` | `"Select a date after {0:d}."`   | Error message when value equals exclusive minimum |
+| `maxValueErrorText`    | `string` | `"Select {0:d} or before."`      | Error message when value is after maximum         |
+| `maxExclusiveErrorText`| `string` | `"Select a date before {0:d}."`  | Error message when value equals exclusive maximum |
+
+### Callbacks
+
+| Property         | Type       | Description                                                            |
+| ---------------- | ---------- | ---------------------------------------------------------------------- |
+| `onSelect`       | `function` | `(instance, dateFrom, dateTo) => void` - Called when selection is made |
+| `onBeforeSelect` | `function` | `(e, instance, dateFrom, dateTo) => boolean` - Return `false` to prevent selection |
+| `onBlur`         | `function` | `(e, instance) => void` - Called when picker loses focus               |
+| `onFocusOut`     | `function` | `(e, instance) => void` - Called when focus leaves the picker          |

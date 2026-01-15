@@ -22,6 +22,10 @@ Category / Group / Page
   - Data Binding
   - Controllers
   - Formatting
+- Core Components
+  - HtmlElement
+  - PureContainer
+  - ContentResolver
 - Authoring Widgets
   - Functional Components
   - Custom Components
@@ -58,9 +62,25 @@ Category / Group / Page
 - Advanced
   - Keyboard Shortcuts
   - Localization
+  - DetachedScope
+  - IsolatedScope
 
 ### Layout
 
+- General Purpose
+  - Button
+  - LinkButton
+  - Link
+  - Icon
+  - Heading
+  - Text
+  - Label
+  - ProgressBar
+  - Tabs
+  - Resizer
+  - HScroller
+  - FlexBox
+  - Section
 - App Layout
   - Outer Layouts
   - ContentPlaceholder
@@ -77,26 +97,11 @@ Category / Group / Page
   - Tooltip
   - Toast
   - MsgBox
+  - FlyweightTooltipTracker
 - Menus
   - Menu
   - ContextMenu
   - Dropdown
-- Content
-  - Tabs
-  - Text
-  - Label
-  - Heading
-  - Icon
-  - Link
-  - Button
-  - LinkButton
-  - ProgressBar
-- Scrolling
-  - Resizer
-  - HScroller
-- Containers
-  - FlexBox
-  - Section
 
 ### Forms
 
@@ -105,14 +110,17 @@ Category / Group / Page
   - NumberField
   - TextArea
   - DateField
+  - Calendar
   - DateTimeField
   - MonthField
+  - MonthPicker
   - SelectField
   - LookupField
   - Checkbox
   - Radio
   - Switch
   - ColorField
+  - ColorPicker
   - UploadButton
   - List
   - Slider
@@ -207,3 +215,4 @@ Category / Group / Page
   - Date
   - DOM
   - Misc
+

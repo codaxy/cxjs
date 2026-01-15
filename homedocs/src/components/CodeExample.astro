@@ -153,58 +153,56 @@ const importsCode = hasTabs ? extractImports(code) : null;
     <div
       class="code-block rounded-lg overflow-hidden border border-border bg-[hsl(var(--code-bg))]"
     >
-      <div class="code-tabs flex border-b border-[hsl(var(--code-border))]">
-        {
-          hasTabs && (
-            <>
+      {
+        hasTabs && (
+          <div class="code-tabs flex border-b border-[hsl(var(--code-border))]">
+            <button
+              class="code-tab active px-4 py-2 text-xs font-medium uppercase transition-colors"
+              data-tab="code"
+            >
+              Index
+            </button>
+            {modelCode && (
               <button
-                class="code-tab active px-4 py-2 text-xs font-medium uppercase transition-colors"
-                data-tab="code"
+                class="code-tab px-4 py-2 text-xs font-medium uppercase transition-colors"
+                data-tab="model"
               >
-                Index
+                Model
               </button>
-              {modelCode && (
-                <button
-                  class="code-tab px-4 py-2 text-xs font-medium uppercase transition-colors"
-                  data-tab="model"
-                >
-                  Model
-                </button>
-              )}
-              {componentsCode && (
-                <button
-                  class="code-tab px-4 py-2 text-xs font-medium uppercase transition-colors"
-                  data-tab="components"
-                >
-                  Components
-                </button>
-              )}
-              {controllerCode && (
-                <button
-                  class="code-tab px-4 py-2 text-xs font-medium uppercase transition-colors"
-                  data-tab="controller"
-                >
-                  Controller
-                </button>
-              )}
-              {importsCode && (
-                <button
-                  class="code-tab px-4 py-2 text-xs font-medium uppercase transition-colors"
-                  data-tab="imports"
-                >
-                  Imports
-                </button>
-              )}
-            </>
-          )
-        }
-        <span
-          class="ml-auto px-4 py-2 text-xs font-medium uppercase"
-          style="color: rgba(255, 255, 255, 0.5);"
-        >
-          TSX
-        </span>
-      </div>
+            )}
+            {componentsCode && (
+              <button
+                class="code-tab px-4 py-2 text-xs font-medium uppercase transition-colors"
+                data-tab="components"
+              >
+                Components
+              </button>
+            )}
+            {controllerCode && (
+              <button
+                class="code-tab px-4 py-2 text-xs font-medium uppercase transition-colors"
+                data-tab="controller"
+              >
+                Controller
+              </button>
+            )}
+            {importsCode && (
+              <button
+                class="code-tab px-4 py-2 text-xs font-medium uppercase transition-colors"
+                data-tab="imports"
+              >
+                Imports
+              </button>
+            )}
+            <span
+              class="ml-auto px-4 py-2 text-xs font-medium uppercase"
+              style="color: rgba(255, 255, 255, 0.5);"
+            >
+              TSX
+            </span>
+          </div>
+        )
+      }
 
       <div class="code-content-wrapper max-h-96 overflow-y-auto">
         <div class="code-content" data-content="code">
@@ -267,7 +265,7 @@ const importsCode = hasTabs ? extractImports(code) : null;
       </div>
 
       <div
-        class="preview-box not-prose p-4 bg-card border border-border rounded-lg grow"
+        class="preview-box not-prose p-4 bg-card border border-border rounded-lg grow overflow-hidden"
       >
         <slot />
       </div>
@@ -276,6 +274,33 @@ const importsCode = hasTabs ? extractImports(code) : null;
 </div>
 
 <style>
+  /* Reset prose list styles in not-prose areas */
+  :global(.not-prose ul) {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  :global(.not-prose ul > li) {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+  }
+
+  :global(.not-prose ol > li) {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+  }
+
+  :global(.not-prose .cxe-list-item) {
+    padding-left: 20px;
+  }
+
+  :global(.not-prose hr) {
+    margin: 0.5rem;
+  }
+
+
   .code-tab {
     position: relative;
     background: transparent;

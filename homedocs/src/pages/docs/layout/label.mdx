@@ -1,64 +1,58 @@
 ---
 layout: ../../../layouts/DocsLayout.astro
-title: Labels
+title: Label
 ---
 
+import ImportPath from "../../../components/ImportPath.astro";
 import CodeExample from "../../../components/CodeExample.astro";
-import LabelStandard from "../../../examples/widgets/label/Standard.tsx";
-import LabelStyled from "../../../examples/widgets/label/Styled.tsx";
-import LabelRequired from "../../../examples/widgets/label/Required.tsx";
 
-# Labels
+import LabelExample from "../../../examples/layout/LabelExample.tsx";
+import LabelExampleCode from "../../../examples/layout/LabelExample.tsx?raw";
 
-Labels are used to associate text with form controls. In CxJS, labels can be configured as strings, objects with styling, or even custom JSX content.
+import LabelCheckboxExample from "../../../examples/layout/LabelCheckboxExample.tsx";
+import LabelCheckboxExampleCode from "../../../examples/layout/LabelCheckboxExample.tsx?raw";
 
-**Import:** `import { LabelsLeftLayout } from 'cx/ui';`
+# Label
 
-## Standard Label
+<ImportPath path="import { Label } from 'cx/widgets';" />
 
-A simple text label next to a form field.
+The `Label` component renders a label element. It's typically used with form fields, but can also be used standalone.
 
-<CodeExample code={`<TextField label="Name" value={bind("name")} />`}>
-  <LabelStandard client:load />
+<CodeExample code={LabelExampleCode}>
+  <LabelExample client:load />
 </CodeExample>
 
-## Styled Label
+## Form Field Labels
 
-Customize label appearance using the object syntax.
+Most form fields support a `label` prop that can be configured in multiple ways:
 
-<CodeExample
-  code={`<TextField
-  label={{
-    text: "Styled Label",
-    style: "color: #0ea5e9; font-weight: bold"
-  }}
-  value={bind("text")}
-/>`}
->
-  <LabelStyled client:load />
+| Format | Example                                  | Description               |
+| ------ | ---------------------------------------- | ------------------------- |
+| String | `label="Name"`                           | Simple text label         |
+| Object | `label={{ text: "Name", style: "..." }}` | Label with custom styling |
+| JSX    | `label={<Checkbox>Enable</Checkbox>}`    | Custom JSX content        |
+
+Use `asterisk` and `required` on form fields to show a required indicator next to the label.
+
+To automatically show asterisks on all required fields, add this to your initialization code:
+
+```tsx
+Label.prototype.asterisk = true;
+```
+
+The following example shows a styled label and a checkbox used as a label that enables/disables the field:
+
+<CodeExample code={LabelCheckboxExampleCode}>
+  <LabelCheckboxExample client:load />
 </CodeExample>
 
-## Required with Asterisk
+## Configuration
 
-Show a required indicator next to the label.
-
-<CodeExample
-  code={`<TextField
-  label="Email"
-  value={bind("email")}
-  required
-  asterisk
-/>`}
->
-  <LabelRequired client:load />
-</CodeExample>
-
-## Label Configuration
-
-Labels can be configured in multiple ways:
-
-| Format | Example                                        | Description               |
-| ------ | ---------------------------------------------- | ------------------------- |
-| String | `label="Name"`                                 | Simple text label         |
-| Object | `label={{ text: "Name", style: "..." }}`       | Label with custom styling |
-| JSX    | `label={<cx><Checkbox>Enable</Checkbox></cx>}` | Custom JSX content        |
+| Property    | Type               | Description                                              |
+| ----------- | ------------------ | -------------------------------------------------------- |
+| `text`      | `string`           | Text content of the label. Supports data binding.        |
+| `asterisk`  | `boolean`          | Set to `true` to add a red asterisk for required fields. |
+| `required`  | `boolean`          | Alias for `asterisk`.                                    |
+| `baseClass` | `string`           | Base CSS class. Default is `label`.                      |
+| `className` | `string`           | Additional CSS class to apply.                           |
+| `style`     | `string \| object` | Additional styles to apply.                              |

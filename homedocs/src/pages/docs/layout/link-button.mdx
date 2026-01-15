@@ -3,20 +3,35 @@ layout: ../../../layouts/DocsLayout.astro
 title: LinkButton
 ---
 
-import CodePreview from "../../../components/CodePreview.astro";
-import LinkButtonsExample from "../../../examples/widgets/LinkButtonsExample.tsx";
-import LinkButtonsExampleCode from "../../../examples/widgets/LinkButtonsExample.tsx?raw";
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
 
-**Import:** `import { LinkButton } from 'cx/widgets';`
+import LinkButtonExample from "../../../examples/layout/LinkButtonExample.tsx";
+import LinkButtonExampleCode from "../../../examples/layout/LinkButtonExample.tsx?raw";
 
-Link buttons look like buttons and behave like [Links](/widgets/links). `LinkButton` inherits `Button` options such as `confirm`, `icon` or `disabled` state.
+# LinkButton
 
-## Example
+<ImportPath path="import { LinkButton } from 'cx/widgets';" />
 
-<CodePreview code={LinkButtonsExampleCode} filterLines={["LinkButton"]}>
-  <LinkButtonsExample client:load />
-</CodePreview>
+Link buttons look like buttons and behave like [Links](/docs/layout/link). `LinkButton` inherits `Button` options such as `confirm`, `icon` or `disabled` state.
+
+<CodeExample code={LinkButtonExampleCode}>
+  <LinkButtonExample client:load />
+</CodeExample>
 
 ## Configuration
 
-For configuration options, see the LinkButton widget documentation.
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `href` | `string` | URL to the link's target location. Use `~/` or `#/` prefix for pushState/hash based navigation. Use `+/` prefix for URLs relative to the parent route. |
+| `url` | `string` | Binding to the current URL location in the store. If `href` matches `url`, the `active` CSS class is applied. |
+| `match` | `string` | Determines how `href` is matched against `url` to detect active state. Supported values are `equal` (default), `prefix`, and `subroute`. |
+| `disabled` | `boolean` | Set to `true` to disable the link button. |
+| `target` | `string` | Specifies where to open the linked document (e.g., `_blank`). |
+| `confirm` | `string` | Confirmation message to show before navigation. Inherited from `Button`. |
+| `icon` | `string` | Icon to display inside the button. Inherited from `Button`. |
+| `mod` | `string` | Visual modifier. Common values: `primary`, `danger`, `hollow`. |
+| `activeClass` | `string \| object` | Additional CSS class applied when the link is active. |
+| `activeStyle` | `string \| object` | Additional CSS style applied when the link is active. |
+| `inactiveClass` | `string \| object` | Additional CSS class applied when the link is not active. |
+| `inactiveStyle` | `string \| object` | Additional CSS style applied when the link is not active. |

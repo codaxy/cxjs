@@ -1,38 +1,98 @@
 ---
 layout: ../../../layouts/DocsLayout.astro
-title: Icons
+title: Icon
 ---
 
-import CodePreview from "../../../components/CodePreview.astro";
-import IconsExample from "../../../examples/widgets/IconsExample.tsx";
-import IconsExampleCode from "../../../examples/widgets/IconsExample.tsx?raw";
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
 
-**Import:** `import { Icon } from 'cx/widgets';`
+import IconExample from "../../../examples/layout/IconExample.tsx";
+import IconExampleCode from "../../../examples/layout/IconExample.tsx?raw";
 
-The `Icon` is used to render icons.
+# Icon
 
-## Example
+<ImportPath path="import { Icon } from 'cx/widgets';" />
 
-<CodePreview code={IconsExampleCode} filterLines={["Icon"]}>
-  <IconsExample client:load />
-</CodePreview>
+The `Icon` component is used to render icons. CxJS includes only a few built-in icons; additional icon sets need to be registered.
 
-## Configuration
+<CodeExample code={IconExampleCode}>
+  <IconExample client:load />
+</CodeExample>
 
-For configuration options, see the Icon widget documentation.
+## Preregistered Icons
+
+CxJS includes the following built-in icons: `calendar`, `check`, `clear`, `close`, `cx`, `drop-down`, `file`, `folder`, `folder-open`, `forward`, `loading`, `menu`, `pixel-picker`, `search`, `sort-asc`, and `square`.
+
+To unregister icons (e.g., to replace them with custom versions):
+
+```tsx
+Icon.unregister("search", "calendar");
+```
 
 ## Registering Icons
 
-Cx includes only a couple of icons. Additional icon sets need to be registered.
+Individual icons can be registered using `Icon.register`:
 
-The following example shows how to register FontAwesome icon set.
+```tsx
+Icon.register("custom-icon", ({ key, ...props }) => (
+  <svg key={key} {...props}>
+    ...
+  </svg>
+));
+```
 
-```jsx
-Icon.registerFactory((name, props) => {
-  props = { ...props };
-  props.className = `fa fa-${name} ${props.className || ""}`;
-  return <i {...props} />;
+### FontAwesome
+
+FontAwesome icons can be registered using `Icon.registerFactory`:
+
+```tsx
+Icon.registerFactory((name, { key, className, ...props }) => {
+  return (
+    <i key={key} className={`fa fa-${name} ${className || ""}`} {...props} />
+  );
 });
 ```
 
-Individual icons can be registered using `Icon.register` method.
+### Lucide
+
+Lucide icons need to be registered individually:
+
+```tsx
+import { VDOM } from "cx/ui";
+import { Icon } from "cx/widgets";
+import type { IconNode } from "lucide";
+import { Search, Plus, Pencil } from "lucide";
+
+function getRenderer(iconNode: IconNode) {
+  return ({ key, ...rest }: Record<string, any>) => (
+    <svg
+      key={key}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...rest}
+    >
+      {iconNode.map(([tag, attrs], i) =>
+        VDOM.createElement(tag, { key: i, ...attrs }),
+      )}
+    </svg>
+  );
+}
+
+Icon.register("search", getRenderer(Search));
+Icon.register("plus", getRenderer(Plus));
+Icon.register("pencil", getRenderer(Pencil));
+```
+
+## Configuration
+
+| Property    | Type               | Description                                                   |
+| ----------- | ------------------ | ------------------------------------------------------------- |
+| `name`      | `string`           | Name under which the icon is registered.                      |
+| `key`       | `string`           | Unique key for the icon element. Passed to the icon renderer. |
+| `baseClass` | `string`           | Base CSS class. Default is `icon`.                            |
+| `className` | `string`           | Additional CSS class to apply to the icon.                    |
+| `style`     | `string \| object` | Additional styles to apply to the icon.                       |

@@ -34,15 +34,15 @@ export default () => (
     <div class="flex gap-2">
       <TextField value={m.name} />
       <Button
-        onClick={(e, { controller }) => {
-          controller.greet();
+        onClick={(e, instance) => {
+          instance.getControllerByType(PageController).greet();
         }}
       >
         Greet
       </Button>
       <Button
-        onClick={(e, { controller }) => {
-          controller.clear();
+        onClick={(e, instance) => {
+          instance.getControllerByType(PageController).clear();
         }}
       >
         Clear

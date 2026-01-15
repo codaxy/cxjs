@@ -5672,6 +5672,7 @@ __metadata:
     cx: "workspace:*"
     cx-react: "workspace:*"
     gray-matter: "npm:^4.0.3"
+    lucide: "npm:^0.562.0"
     prettier: "npm:^3.7.4"
     react: "npm:^19.2.3"
     react-dom: "npm:^19.2.3"
@@ -9106,6 +9107,13 @@ __metadata:
   dependencies:
     yallist: "npm:^3.0.2"
   checksum: 10/951d2673dcc64a7fb888bf3d13bc2fdf923faca97d89cdb405ba3dfff77e2b26e5798d405e78fcd7094c9e7b8b4dab2ddc5a4f8a11928af24a207b7c738ca3f8
+  languageName: node
+  linkType: hard
+
+"lucide@npm:^0.562.0":
+  version: 0.562.0
+  resolution: "lucide@npm:0.562.0"
+  checksum: 10/88eadfcf1e6a54e246b0f20e7ec71302458642dcd599f9bde6aeceddc022dcd1dc64dc8d6f15809fe2d868d5194746f47025f887ae8c7b367e768bd64942a727
   languageName: node
   linkType: hard
 

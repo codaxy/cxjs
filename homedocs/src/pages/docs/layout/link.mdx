@@ -1,0 +1,43 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Link
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import LinkExample from "../../../examples/layout/LinkExample.tsx";
+import LinkExampleCode from "../../../examples/layout/LinkExample.tsx?raw";
+
+# Link
+
+<ImportPath path="import { Link } from 'cx/widgets';" />
+
+Links are used for `pushState` navigation between pages. The `Link` component renders an anchor element that integrates with CxJS routing.
+
+<CodeExample code={LinkExampleCode}>
+  <LinkExample client:load />
+</CodeExample>
+
+## Active State
+
+Links can automatically detect when they point to the current page and apply additional styling. Use `activeClass` or `activeStyle` to highlight active links in navigation menus. The `match` property controls how the URL is compared:
+
+- `equal` (default) - Link is active only when URLs match exactly
+- `prefix` - Link is active when `href` is a prefix of the current URL
+- `subroute` - Like `prefix`, but requires a `/` after the match (indicating a subroute)
+
+## Configuration
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `href` | `string` | URL to the link's target location. Use `~/` or `#/` prefix for pushState/hash based navigation. Use `+/` prefix for URLs relative to the parent route. |
+| `url` | `string` | Binding to the current URL location in the store. If `href` matches `url`, the `active` CSS class is applied. |
+| `match` | `string` | Determines how `href` is matched against `url` to detect active state. Supported values are `equal` (default), `prefix`, and `subroute`. |
+| `disabled` | `boolean` | Set to `true` to disable the link. |
+| `target` | `string` | Specifies where to open the linked document (e.g., `_blank`). |
+| `activeClass` | `string \| object` | Additional CSS class applied when the link is active. |
+| `activeStyle` | `string \| object` | Additional CSS style applied when the link is active. |
+| `inactiveClass` | `string \| object` | Additional CSS class applied when the link is not active. |
+| `inactiveStyle` | `string \| object` | Additional CSS style applied when the link is not active. |
+| `baseClass` | `string` | Base CSS class. Default is `link`. |

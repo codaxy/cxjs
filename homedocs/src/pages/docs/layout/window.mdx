@@ -9,6 +9,9 @@ import CodeExample from "../../../components/CodeExample.astro";
 import WindowExample from "../../../examples/layout/WindowExample.tsx";
 import WindowExampleCode from "../../../examples/layout/WindowExample.tsx?raw";
 
+import WindowProgrammaticExample from "../../../examples/layout/WindowProgrammaticExample.tsx";
+import WindowProgrammaticExampleCode from "../../../examples/layout/WindowProgrammaticExample.tsx?raw";
+
 # Window
 
 <ImportPath path="import { Window } from 'cx/widgets';" />
@@ -19,7 +22,47 @@ Windows are overlays with headers, footers, and special appearance. They provide
   <WindowExample client:load />
 </CodeExample>
 
-Use `putInto="footer"` to place content in the window footer. Add the `dismiss` prop to buttons that should close the window.
+Use `putInto="footer"` or `putInto="header"` to place content in the window footer or header. Add the `dismiss` prop to buttons that should close the window.
+
+## Programmatic Windows
+
+Windows can also be opened programmatically using `Widget.create` and the `open` method. This approach creates an independent window with its own store:
+
+<CodeExample code={WindowProgrammaticExampleCode}>
+  <WindowProgrammaticExample client:load />
+</CodeExample>
+
+### Hot Module Replacement (HMR)
+
+Programmatic windows have issues with HMR during development - changes to the window content won't reflect until you close and reopen the window. Use `createHotPromiseWindowFactory` or `createHotPromiseWindowFactoryWithProps` to solve this:
+
+```tsx
+import { createHotPromiseWindowFactoryWithProps, Window, Button } from "cx/widgets";
+
+const openUserDialog = createHotPromiseWindowFactoryWithProps(
+  module,
+  (userId: string) => (resolve, reject) => {
+    let result = null;
+    return Window.create({
+      title: `User ${userId}`,
+      onDestroy: () => resolve(result),
+      children: (
+        <div>
+          <p>Edit user details here...</p>
+          <Button onClick={() => { result = "saved"; }} dismiss>
+            Save
+          </Button>
+        </div>
+      ),
+    });
+  }
+);
+
+// Usage
+const result = await openUserDialog("123");
+```
+
+The factory returns a Promise that resolves when the window is closed, making it easy to get results back from dialog windows.
 
 ## Configuration
 

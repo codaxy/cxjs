@@ -3,22 +3,50 @@ layout: ../../../layouts/DocsLayout.astro
 title: Section
 ---
 
-import CodePreview from "../../../components/CodePreview.astro";
-import SectionsExample from "../../../examples/widgets/SectionsExample.tsx";
-import SectionsExampleCode from "../../../examples/widgets/SectionsExample.tsx?raw";
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+import Note from "../../../components/Note.astro";
 
-**Import:** `import { Section } from 'cx/widgets';`
+import SectionExample from "../../../examples/layout/SectionExample.tsx";
+import SectionExampleCode from "../../../examples/layout/SectionExample.tsx?raw";
+
+import SectionModsExample from "../../../examples/layout/SectionModsExample.tsx";
+import SectionModsExampleCode from "../../../examples/layout/SectionModsExample.tsx?raw";
+
+# Section
+
+<ImportPath path="import { Section } from 'cx/widgets';" />
 
 Sections are used to divide a larger body into distinct parts. A section optionally may have a header (title) and a footer.
 
-## Example
+<Note>
+Section predates Tailwind CSS and is rarely used when Tailwind is available. Consider using Tailwind's card utilities instead.
+</Note>
 
-<CodePreview code={SectionsExampleCode} filterLines={["Section"]}>
-  <SectionsExample client:load />
-</CodePreview>
+<CodeExample code={SectionExampleCode}>
+  <SectionExample client:load />
+</CodeExample>
 
-> FlexRow is commonly used to either arrange multiple sections horizontally or to arrange inner contents of a section or a header.
+## Mods
+
+<CodeExample code={SectionModsExampleCode}>
+  <SectionModsExample client:load />
+</CodeExample>
 
 ## Configuration
 
-For configuration options, see the Section widget documentation.
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `title` | `string` | Section's title text. |
+| `header` | `config` | Custom content for the header. Use `putInto="header"` on child elements. |
+| `footer` | `config` | Custom content for the footer. Use `putInto="footer"` on child elements. |
+| `pad` | `boolean` | Add default padding to the section body. Default is `true`. |
+| `mod` | `string` | Visual modifier. Values: `card`, `primary`, `success`, `warning`, `error`. |
+| `hLevel` | `number` | Heading level for the title. Default is `3`. |
+| `headerStyle` | `string \| object` | Custom style for the header. |
+| `headerClass` | `string \| object` | Additional CSS class for the header. |
+| `bodyStyle` | `string \| object` | Custom style for the body. |
+| `bodyClass` | `string \| object` | Additional CSS class for the body. |
+| `footerStyle` | `string \| object` | Custom style for the footer. |
+| `footerClass` | `string \| object` | Additional CSS class for the footer. |
+| `baseClass` | `string` | Base CSS class. Default is `section`. |

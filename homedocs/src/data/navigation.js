@@ -31,6 +31,14 @@ export const navigation = [
         ],
       },
       {
+        title: "Core Components",
+        items: [
+          { title: "HtmlElement", slug: "html-element" },
+          { title: "PureContainer", slug: "pure-container" },
+          { title: "ContentResolver", slug: "content-resolver" },
+        ],
+      },
+      {
         title: "Authoring Widgets",
         items: [
           { title: "Functional Components", slug: "functional-components" },
@@ -52,17 +60,6 @@ export const navigation = [
     slug: "concepts",
     groups: [
       {
-        title: "Data Views",
-        items: [
-          { title: "Overview", slug: "data-views" },
-          { title: "Repeater", slug: "repeater" },
-          { title: "Sandbox", slug: "sandbox" },
-          { title: "PrivateStore", slug: "private-store" },
-          { title: "DataProxy", slug: "data-proxy" },
-          { title: "Rescope", slug: "rescope" },
-        ],
-      },
-      {
         title: "Selections",
         items: [
           { title: "Overview", slug: "selections" },
@@ -82,6 +79,17 @@ export const navigation = [
         ],
       },
       {
+        title: "Data Views",
+        items: [
+          { title: "Overview", slug: "data-views" },
+          { title: "Repeater", slug: "repeater" },
+          { title: "Sandbox", slug: "sandbox" },
+          { title: "PrivateStore", slug: "private-store" },
+          { title: "DataProxy", slug: "data-proxy" },
+          { title: "Rescope", slug: "rescope" },
+        ],
+      },
+      {
         title: "Drag & Drop",
         items: [
           { title: "Overview", slug: "drag-and-drop" },
@@ -95,6 +103,8 @@ export const navigation = [
         items: [
           { title: "Keyboard Shortcuts", slug: "keyboard-shortcuts" },
           { title: "Localization", slug: "localization" },
+          { title: "DetachedScope", slug: "detached-scope" },
+          { title: "IsolatedScope", slug: "isolated-scope" },
         ],
       },
     ],
@@ -103,6 +113,24 @@ export const navigation = [
     title: "Layout",
     slug: "layout",
     groups: [
+      {
+        title: "General Purpose",
+        items: [
+          { title: "Button", slug: "button" },
+          { title: "Tab", slug: "tabs" },
+          { title: "Heading", slug: "heading" },
+          { title: "Text", slug: "text" },
+          { title: "Link", slug: "link" },
+          { title: "LinkButton", slug: "link-button" },
+          { title: "Icon", slug: "icon" },
+          { title: "Label", slug: "label" },
+          { title: "ProgressBar", slug: "progress-bar" },
+          { title: "Resizer", slug: "resizer" },
+          { title: "HScroller", slug: "hscroller" },
+          { title: "FlexBox", slug: "flexbox" },
+          { title: "Section", slug: "section" },
+        ],
+      },
       {
         title: "App Layout",
         items: [
@@ -117,7 +145,10 @@ export const navigation = [
           { title: "Overview", slug: "inner-layouts" },
           { title: "LabelsLeftLayout", slug: "labels-left-layout" },
           { title: "LabelsTopLayout", slug: "labels-top-layout" },
-          { title: "FirstVisibleChildLayout", slug: "first-visible-child-layout" },
+          {
+            title: "FirstVisibleChildLayout",
+            slug: "first-visible-child-layout",
+          },
           { title: "UseParentLayout", slug: "use-parent-layout" },
         ],
       },
@@ -129,6 +160,10 @@ export const navigation = [
           { title: "Tooltip", slug: "tooltip" },
           { title: "Toast", slug: "toast" },
           { title: "MsgBox", slug: "msgbox" },
+          {
+            title: "FlyweightTooltipTracker",
+            slug: "flyweight-tooltip-tracker",
+          },
         ],
       },
       {
@@ -137,34 +172,6 @@ export const navigation = [
           { title: "Menu", slug: "menu" },
           { title: "ContextMenu", slug: "context-menu" },
           { title: "Dropdown", slug: "dropdown" },
-        ],
-      },
-      {
-        title: "Content",
-        items: [
-          { title: "Tabs", slug: "tabs" },
-          { title: "Text", slug: "text" },
-          { title: "Label", slug: "label" },
-          { title: "Heading", slug: "heading" },
-          { title: "Icon", slug: "icon" },
-          { title: "Link", slug: "link" },
-          { title: "Button", slug: "button" },
-          { title: "LinkButton", slug: "link-button" },
-          { title: "ProgressBar", slug: "progress-bar" },
-        ],
-      },
-      {
-        title: "Scrolling",
-        items: [
-          { title: "Resizer", slug: "resizer" },
-          { title: "HScroller", slug: "hscroller" },
-        ],
-      },
-      {
-        title: "Containers",
-        items: [
-          { title: "FlexBox", slug: "flexbox" },
-          { title: "Section", slug: "section" },
         ],
       },
     ],
@@ -177,38 +184,39 @@ export const navigation = [
         title: "Components",
         items: [
           { title: "TextField", slug: "text-field" },
-          { title: "NumberField", slug: "number-field" },
           { title: "TextArea", slug: "text-area" },
-          { title: "DateField", slug: "date-field" },
-          { title: "DateTimeField", slug: "date-time-field" },
-          { title: "MonthField", slug: "month-field" },
-          { title: "SelectField", slug: "select-field" },
-          { title: "LookupField", slug: "lookup-field" },
+          { title: "NumberField", slug: "number-field" },
           { title: "Checkbox", slug: "checkbox" },
           { title: "Radio", slug: "radio" },
+          { title: "LookupField", slug: "lookup-field" },
+          { title: "Select", slug: "select" },
           { title: "Switch", slug: "switch" },
+          { title: "DateField", slug: "date-field" },
+          { title: "Calendar", slug: "calendar" },
+          { title: "DateTimeField", slug: "date-time-field" },
+          { title: "MonthField", slug: "month-field" },
+          { title: "MonthPicker", slug: "month-picker" },
           { title: "ColorField", slug: "color-field" },
+          { title: "ColorPicker", slug: "color-picker" },
           { title: "UploadButton", slug: "upload-button" },
           { title: "List", slug: "list" },
           { title: "Slider", slug: "slider" },
-          { title: "HighlightedSearchText", slug: "highlighted-search-text" },
-        ],
-      },
-      {
-        title: "Layout",
-        items: [
-          { title: "LabelsLeftLayout", slug: "labels-left-layout" },
-          { title: "LabelsTopLayout", slug: "labels-top-layout" },
-          { title: "FieldGroup", slug: "field-group" },
-          { title: "LabeledContainer", slug: "labeled-container" },
         ],
       },
       {
         title: "Validation",
         items: [
-          { title: "Validators", slug: "validators" },
           { title: "ValidationGroup", slug: "validation-group" },
+          { title: "Validator", slug: "validator" },
           { title: "Validation Options", slug: "validation-options" },
+        ],
+      },
+      {
+        title: "Utilities",
+        items: [
+          { title: "FieldGroup", slug: "field-group" },
+          { title: "LabeledContainer", slug: "labeled-container" },
+          { title: "HighlightedSearchText", slug: "highlighted-search-text" },
         ],
       },
       {
