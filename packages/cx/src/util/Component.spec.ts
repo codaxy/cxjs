@@ -168,7 +168,7 @@ describe("Component.create", function () {
       });
 
       it("works with subclasses", function () {
-         const result = TestButton.create({ text: "Sub", onClick: () => {} });
+         const result = TestButton.create({ text: "Sub", onClick: () => { } });
          assert.ok(result instanceof TestButton);
          assert.equal(result.text, "Sub");
       });
@@ -188,7 +188,7 @@ describe("Component.create", function () {
          // This is a compile-time check - if it compiles, the types are correct
          const config: ComponentConfigType<typeof TestButton> = {
             text: "Hello",
-            onClick: () => {},
+            onClick: () => { },
          };
          const result = Component.create(TestButton, config);
          assert.ok(result instanceof TestButton);
@@ -245,7 +245,7 @@ describe("Component.create", function () {
       it("creates array of different component types", function () {
          const results = Component.create([
             { type: TestWidget, text: "Widget" },
-            { type: TestButton, text: "Button", onClick: () => {} },
+            { type: TestButton, text: "Button", onClick: () => { } },
          ]);
          assert.equal(results.length, 2);
          assert.ok(results[0] instanceof TestWidget);
@@ -269,7 +269,7 @@ describe("Component.create", function () {
 
    describe("this-bound create with config", function () {
       it("creates instance when called on specific class", function () {
-         const result = TestButton.create({ text: "Bound", onClick: () => {} });
+         const result = TestButton.create({ text: "Bound", onClick: () => { } });
          assert.ok(result instanceof TestButton);
          assert.equal(result.text, "Bound");
       });
@@ -373,7 +373,7 @@ describe("Create type as property (like Chart.axes)", function () {
       const config: ContainerConfig = {
          items: {
             a: { type: TestWidget, text: "widget" },
-            b: { type: TestButton, text: "button", onClick: () => {} },
+            b: { type: TestButton, text: "button", onClick: () => { } },
          },
       };
       assert.ok(config);
@@ -403,9 +403,42 @@ describe("Create type as property (like Chart.axes)", function () {
       const config: ContainerConfig = {
          items: {
             // Extra property (like snapToTicks on NumericAxis)
-            a: { type: TestButton, text: "button", onClick: () => {}, value: 42 },
+            a: { type: TestButton, text: "button", onClick: () => { }, value: 42 },
          },
       };
       assert.ok(config);
+   });
+});
+
+describe("Component.create with non-component type property", function () {
+   it("should not treat string 'type' property as component type", function () {
+      interface ConfigWithTypeString {
+         text: string;
+         type?: string;
+      }
+
+      class WidgetWithTypeProperty extends Component {
+         declare text?: string;
+         declare type?: string;
+
+         constructor(config?: ConfigWithTypeString) {
+            super(config);
+         }
+      }
+
+      // Register so Component.create can find it
+      WidgetWithTypeProperty.isComponentType = true;
+      Component.alias("widget-with-type", WidgetWithTypeProperty);
+
+      // This should NOT treat 'type: "text"' as a component type reference
+      // It should be treated as a plain config object for WidgetWithTypeProperty
+      const result = WidgetWithTypeProperty.create({
+         text: "Hello",
+         type: "password" // This is a config property, not a component type
+      });
+
+      assert.ok(result instanceof WidgetWithTypeProperty);
+      assert.equal(result.text, "Hello");
+      assert.equal(result.type, "password");
    });
 });
