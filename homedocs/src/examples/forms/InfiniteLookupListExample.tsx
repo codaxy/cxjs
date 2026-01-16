@@ -51,7 +51,7 @@ const cityDb: City[] = Array.from({ length: 5000 }, (_, i) => ({
 // @model-end
 
 // @controller
-class PageController extends Controller<typeof m> {
+class PageController extends Controller {
   onQueryPage(params: { query: string; pageSize: number; page: number }) {
     let { query, pageSize, page } = params;
     let regex = new RegExp(query, "gi");

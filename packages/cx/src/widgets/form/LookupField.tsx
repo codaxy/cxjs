@@ -65,23 +65,7 @@ export interface LookupFieldPagedQueryParams {
 }
 
 /** Common LookupField properties shared across all variants */
-interface LookupFieldBaseConfig<TOption = unknown, TRecord = unknown>
-  extends FieldConfig {
-  /** Defaults to `false`. Set to `true` to enable multiple selection. */
-  multiple?: BooleanProp;
-
-  /** Selected value. Used only if `multiple` is set to `false`. */
-  value?: Prop<number | string>;
-
-  /** A list of selected ids. Used only if `multiple` is set to `true`. */
-  values?: Prop<(number | string)[]>;
-
-  /** A list of selected records. Used only if `multiple` is set to `true`. */
-  records?: Prop<TRecord[]>;
-
-  /** Text associated with the selection. Used only if `multiple` is set to `false`. */
-  text?: StringProp;
-
+interface LookupFieldBaseConfig<TOption = unknown> extends FieldConfig {
   /** The opposite of `disabled`. */
   enabled?: BooleanProp;
 
@@ -175,19 +159,11 @@ interface LookupFieldBaseConfig<TOption = unknown, TRecord = unknown>
   /** Allow dropdown enter key events to propagate for form submission. */
   submitOnDropdownEnterKey?: BooleanProp;
 
-  /** Number of items per page. Default is `100`. */
-  pageSize?: number;
-
   /** Allow quick selection of all displayed items on `Ctrl + A` key combination. */
   quickSelectAll?: boolean;
 
   /** Parameters that affect filtering. */
   filterParams?: StructuredProp;
-
-  /** Used in multiple selection lookups to construct display text from multiple fields. */
-  onGetRecordDisplayText?:
-    | ((record: TRecord, instance: Instance) => string)
-    | null;
 
   /** Callback to create a filter function for given filter params. */
   onCreateVisibleOptionsFilter?:
@@ -210,42 +186,104 @@ interface LookupFieldBaseConfig<TOption = unknown, TRecord = unknown>
       ) => unknown);
 }
 
-/** LookupField with infinite scrolling - uses onQueryPage */
-interface LookupFieldInfiniteConfig<TOption = unknown, TRecord = unknown>
-  extends LookupFieldBaseConfig<TOption, TRecord> {
+// =============================================================================
+// Composable interfaces for discriminated union
+// =============================================================================
+
+/** Props for infinite mode: uses onQueryPage */
+interface LookupFieldInfiniteProps<TOption = unknown> {
   /** Enable infinite scrolling. */
   infinite: true;
-
-  /** Query function for infinite mode - receives paged query params. */
+  /** Number of items per page. Default is `100`. */
+  pageSize?: number;
+  /** Query function for infinite mode. */
   onQueryPage:
     | string
     | ((
         params: LookupFieldPagedQueryParams,
         instance: Instance
       ) => TOption[] | Promise<TOption[]>);
-
-  /** Not available in infinite mode. Use onQueryPage instead. */
+  /** Not available in infinite mode. */
   onQuery?: never;
 }
 
-/** LookupField standard mode - uses onQuery */
-interface LookupFieldStandardConfig<TOption = unknown, TRecord = unknown>
-  extends LookupFieldBaseConfig<TOption, TRecord> {
+/** Props for standard mode: uses onQuery */
+interface LookupFieldStandardProps<TOption = unknown> {
   /** Standard mode (no infinite scrolling). */
   infinite?: false;
-
-  /** Query function for standard mode - receives string query. */
+  /** Not available in standard mode. */
+  pageSize?: never;
+  /** Query function for standard mode. */
   onQuery?:
     | string
     | ((query: string, instance: Instance) => TOption[] | Promise<TOption[]>);
-
-  /** Not available in standard mode. Set infinite: true to use onQueryPage. */
+  /** Not available in standard mode. */
   onQueryPage?: never;
 }
 
+/** Props for multiple selection mode */
+interface LookupFieldMultipleProps<TRecord = unknown> {
+  /** Enable multiple selection. */
+  multiple: true;
+  /** A list of selected ids. */
+  values?: Prop<(number | string)[]>;
+  /** A list of selected records. */
+  records?: Prop<TRecord[]>;
+  /** Custom display text for records. */
+  onGetRecordDisplayText?:
+    | ((record: TRecord, instance: Instance) => string)
+    | null;
+  /** Not available in multiple mode. */
+  value?: never;
+  /** Not available in multiple mode. */
+  text?: never;
+}
+
+/** Props for single selection mode */
+interface LookupFieldSingleProps {
+  /** Single selection (default). */
+  multiple?: false;
+  /** Selected value. */
+  value?: Prop<number | string>;
+  /** Text associated with the selection. */
+  text?: StringProp;
+  /** Not available in single mode. */
+  values?: never;
+  /** Not available in single mode. */
+  records?: never;
+  /** Not available in single mode. */
+  onGetRecordDisplayText?: never;
+}
+
+// =============================================================================
+// 4 Discriminated Union Variants (2 infinite × 2 multiple)
+// =============================================================================
+
+type LookupFieldInfiniteMultipleConfig<TOption = unknown, TRecord = unknown> =
+  LookupFieldBaseConfig<TOption> &
+    LookupFieldInfiniteProps<TOption> &
+    LookupFieldMultipleProps<TRecord>;
+
+type LookupFieldInfiniteSingleConfig<TOption = unknown> =
+  LookupFieldBaseConfig<TOption> &
+    LookupFieldInfiniteProps<TOption> &
+    LookupFieldSingleProps;
+
+type LookupFieldStandardMultipleConfig<TOption = unknown, TRecord = unknown> =
+  LookupFieldBaseConfig<TOption> &
+    LookupFieldStandardProps<TOption> &
+    LookupFieldMultipleProps<TRecord>;
+
+type LookupFieldStandardSingleConfig<TOption = unknown> =
+  LookupFieldBaseConfig<TOption> &
+    LookupFieldStandardProps<TOption> &
+    LookupFieldSingleProps;
+
 export type LookupFieldConfig<TOption = unknown, TRecord = unknown> =
-  | LookupFieldInfiniteConfig<TOption, TRecord>
-  | LookupFieldStandardConfig<TOption, TRecord>;
+  | LookupFieldInfiniteMultipleConfig<TOption, TRecord>
+  | LookupFieldInfiniteSingleConfig<TOption>
+  | LookupFieldStandardMultipleConfig<TOption, TRecord>
+  | LookupFieldStandardSingleConfig<TOption>;
 
 export class LookupField<TOption = unknown, TRecord = unknown> extends Field<
   LookupFieldConfig<TOption, TRecord>

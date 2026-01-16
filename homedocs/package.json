@@ -9,7 +9,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "prettify": "prettier --write .",
-    "check-types": "tsc --noEmit"
+    "check-types": "npx tsc --noEmit"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.13",
