@@ -184,32 +184,15 @@ export const navigation = [
     slug: "forms",
     groups: [
       {
-        title: "Components",
+        title: "Fields",
         items: [
           { title: "TextField", slug: "text-field" },
           { title: "TextArea", slug: "text-area" },
           { title: "NumberField", slug: "number-field" },
           { title: "Checkbox", slug: "checkbox" },
           { title: "Radio", slug: "radio" },
-          { title: "LookupField", slug: "lookup-field" },
           { title: "Select", slug: "select" },
           { title: "Switch", slug: "switch" },
-          { title: "DateField", slug: "date-field" },
-          { title: "Calendar", slug: "calendar" },
-          { title: "DateTimeField", slug: "date-time-field" },
-          { title: "MonthField", slug: "month-field" },
-          { title: "MonthPicker", slug: "month-picker" },
-          { title: "ColorField", slug: "color-field" },
-          { title: "ColorPicker", slug: "color-picker" },
-          { title: "UploadButton", slug: "upload-button" },
-          { title: "Slider", slug: "slider" },
-        ],
-      },
-      {
-        title: "Lists",
-        items: [
-          { title: "List", slug: "list" },
-          { title: "Grouping", slug: "list-grouping" },
         ],
       },
       {
@@ -222,22 +205,49 @@ export const navigation = [
         ],
       },
       {
-        title: "Utilities",
+        title: "Lookups",
         items: [
+          { title: "LookupField", slug: "lookup-field" },
+          { title: "Custom Bindings", slug: "custom-lookup-bindings" },
+          { title: "Infinite List", slug: "infinite-lookup-list" },
+          { title: "Options Filter", slug: "lookup-options-filter" },
+          { title: "Options Grouping", slug: "lookup-options-grouping" },
+        ],
+      },
+      {
+        title: "Date & Time",
+        items: [
+          { title: "DateField", slug: "date-field" },
+          { title: "Calendar", slug: "calendar" },
+          { title: "DateTimeField", slug: "date-time-field" },
+          { title: "MonthField", slug: "month-field" },
+          { title: "MonthPicker", slug: "month-picker" },
+        ],
+      },
+      {
+        title: "File Upload",
+        items: [
+          { title: "UploadButton", slug: "upload-button" },
+          { title: "Multi-file Upload", slug: "multi-file-upload" },
+        ],
+      },
+      {
+        title: "Lists",
+        items: [
+          { title: "List", slug: "list" },
+          { title: "Grouping", slug: "list-grouping" },
+        ],
+      },
+      {
+        title: "General",
+        items: [
+          { title: "ColorField", slug: "color-field" },
+          { title: "ColorPicker", slug: "color-picker" },
+          { title: "Slider", slug: "slider" },
           { title: "Label", slug: "label" },
           { title: "FieldGroup", slug: "field-group" },
           { title: "LabeledContainer", slug: "labeled-container" },
           { title: "HighlightedSearchText", slug: "highlighted-search-text" },
-        ],
-      },
-      {
-        title: "Examples",
-        items: [
-          { title: "Custom Lookup Bindings", slug: "custom-lookup-bindings" },
-          { title: "Infinite Lookup List", slug: "infinite-lookup-list" },
-          { title: "Lookup Options Filter", slug: "lookup-options-filter" },
-          { title: "Lookup Options Grouping", slug: "lookup-options-grouping" },
-          { title: "Multi-file Upload", slug: "multi-file-upload" },
         ],
       },
     ],

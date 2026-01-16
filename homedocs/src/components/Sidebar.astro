@@ -82,6 +82,8 @@ const currentSlug = pathParts[pathParts.length - 1];
 
 <script is:inline>
   (function() {
+    const SCROLL_KEY = 'sidebar-scroll';
+
     function closeMobileMenu() {
       const sidebar = document.getElementById('sidebar');
       const overlay = document.getElementById('sidebar-overlay');
@@ -93,6 +95,25 @@ const currentSlug = pathParts[pathParts.length - 1];
       overlay?.classList.add('hidden');
       menuIcon?.classList.remove('hidden');
       closeIcon?.classList.add('hidden');
+    }
+
+    function getScrollContainer() {
+      return document.querySelector('#sidebar > div');
+    }
+
+    function saveScrollPosition() {
+      const container = getScrollContainer();
+      if (container) {
+        sessionStorage.setItem(SCROLL_KEY, container.scrollTop.toString());
+      }
+    }
+
+    function restoreScrollPosition() {
+      const container = getScrollContainer();
+      const saved = sessionStorage.getItem(SCROLL_KEY);
+      if (container && saved) {
+        container.scrollTop = parseInt(saved, 10);
+      }
     }
 
     // Only add listeners once
@@ -132,10 +153,19 @@ const currentSlug = pathParts[pathParts.length - 1];
 
       observeSidebar();
       document.addEventListener('astro:page-load', observeSidebar);
+
+      // Save scroll position before navigation
+      document.addEventListener('astro:before-preparation', saveScrollPosition);
+
+      // Restore scroll position after page load
+      document.addEventListener('astro:page-load', restoreScrollPosition);
     }
 
     // Reset overlay state on page load
     const overlay = document.getElementById('sidebar-overlay');
     overlay?.classList.add('hidden');
+
+    // Restore scroll on initial load
+    restoreScrollPosition();
   })();
 </script>
