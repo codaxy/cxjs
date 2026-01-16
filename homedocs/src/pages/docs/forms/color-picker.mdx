@@ -1,0 +1,52 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: ColorPicker
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import ColorPickerExample from "../../../examples/forms/ColorPickerExample.tsx";
+import ColorPickerExampleCode from "../../../examples/forms/ColorPickerExample.tsx?raw";
+
+# ColorPicker
+
+<ImportPath path="import { ColorPicker } from 'cx/widgets';" />
+
+The `ColorPicker` widget provides an interactive interface for selecting colors. It displays a saturation/lightness picker, hue slider, alpha slider, and input fields for HSL, RGB, and hex values. On supported browsers, it also includes an eye-dropper tool for picking colors from anywhere on the screen.
+
+<CodeExample code={ColorPickerExampleCode}>
+  <ColorPickerExample client:load />
+</CodeExample>
+
+## Configuration
+
+### Properties
+
+| Property   | Type            | Default        | Description                                                    |
+| ---------- | --------------- | -------------- | -------------------------------------------------------------- |
+| `value`    | `string`        | `null`         | Color value in rgba, hsla, or hex format                       |
+| `format`   | `string`        | `"rgba"`       | Output format: `"rgba"`, `"hsla"`, or `"hex"`                  |
+| `reportOn` | `string`        | `"blur change"`| Events that trigger value updates (space-separated)            |
+| `style`    | `string/object` |                | CSS styles applied to the picker                               |
+| `class`    | `string`        |                | CSS class applied to the picker                                |
+
+### Callbacks
+
+| Property       | Type       | Description                                                    |
+| -------------- | ---------- | -------------------------------------------------------------- |
+| `onColorClick` | `function` | `(e, instance) => void` - Called when color preview is clicked |
+
+## Features
+
+The ColorPicker includes:
+- **Saturation/Lightness picker** - Click and drag to select saturation and lightness
+- **Hue slider** - Horizontal slider for selecting hue (0-360)
+- **Alpha slider** - Horizontal slider for selecting opacity (0-1)
+- **HSL inputs** - Direct input for Hue, Saturation, Lightness values
+- **RGB inputs** - Direct input for Red, Green, Blue values
+- **Color preview** - Shows the currently selected color
+- **Value display** - Read-only fields showing HSLA, RGBA, and Hex values
+- **Eye-dropper** - Pick colors from anywhere on screen (Chrome/Edge only)
+
+All inputs support mouse wheel for quick adjustments.

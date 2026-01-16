@@ -7,6 +7,7 @@ import {
   Bug,
   Calculator,
   Calendar,
+  Check,
   Eye,
   EyeOff,
   Folder,
@@ -14,6 +15,7 @@ import {
   Plus,
   RefreshCw,
   Search,
+  Upload,
   X,
 } from "lucide";
 
@@ -46,6 +48,8 @@ Icon.register("x", getRenderer(X));
 Icon.register("folder", getRenderer(Folder));
 Icon.register("calendar", getRenderer(Calendar));
 Icon.register("calculator", getRenderer(Calculator));
+Icon.register("check", getRenderer(Check));
 Icon.register("bug", getRenderer(Bug));
 Icon.register("eye", getRenderer(Eye));
 Icon.register("eye-off", getRenderer(EyeOff));
+Icon.register("upload", getRenderer(Upload));

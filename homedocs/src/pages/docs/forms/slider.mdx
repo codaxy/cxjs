@@ -3,74 +3,56 @@ layout: ../../../layouts/DocsLayout.astro
 title: Slider
 ---
 
+import ImportPath from "../../../components/ImportPath.astro";
 import CodeExample from "../../../components/CodeExample.astro";
-import SliderBasic from "../../../examples/widgets/slider/Basic.tsx";
-import SliderSteps from "../../../examples/widgets/slider/Steps.tsx";
-import SliderRange from "../../../examples/widgets/slider/Range.tsx";
-import SliderDisabled from "../../../examples/widgets/slider/Disabled.tsx";
-import SliderMinMax from "../../../examples/widgets/slider/MinMax.tsx";
+
+import SliderExample from "../../../examples/forms/SliderExample.tsx";
+import SliderExampleCode from "../../../examples/forms/SliderExample.tsx?raw";
 
 # Slider
 
-The `Slider` widget allows selecting numerical values by dragging the slider handle.
+<ImportPath path="import { Slider } from 'cx/widgets';" />
 
-**Import:** `import { Slider } from 'cx/widgets';`
+The `Slider` widget allows selecting numerical values by dragging the slider handle. It supports single values, ranges, stepping, mouse wheel control, and vertical orientation.
 
-## Basic Usage
-
-A simple slider with data binding.
-
-<CodeExample code={`<Slider value={bind("volume")} />`}>
-  <SliderBasic client:load />
+<CodeExample code={SliderExampleCode}>
+  <SliderExample client:load />
 </CodeExample>
 
-## With Steps
+## Configuration
 
-Snap to specific increments using the step prop.
+### Value Properties
 
-<CodeExample code={`<Slider value={bind("stepped")} step={10} />`}>
-  <SliderSteps client:load />
-</CodeExample>
+| Property   | Type     | Default | Description                              |
+| ---------- | -------- | ------- | ---------------------------------------- |
+| `value`    | `number` |         | Single value (alias for `to`)            |
+| `from`     | `number` |         | Low value for range slider               |
+| `to`       | `number` |         | High value for range slider              |
+| `minValue` | `number` | `0`     | Minimum allowed value                    |
+| `maxValue` | `number` | `100`   | Maximum allowed value                    |
+| `step`     | `number` |         | Rounding step for discrete values        |
 
-## Range Selection
+### Behavior
 
-Select a range using from and to bindings.
+| Property    | Type      | Default | Description                                           |
+| ----------- | --------- | ------- | ----------------------------------------------------- |
+| `wheel`     | `boolean` | `false` | Enable mouse wheel control (not with range sliders)   |
+| `increment` | `number`  | 1%      | Value change per wheel tick                           |
+| `disabled`  | `boolean` | `false` | Disable the slider                                    |
+| `vertical`  | `boolean` | `false` | Orient the slider vertically                          |
+| `invert`    | `boolean` | `false` | Invert vertical slider (top to bottom)                |
 
-<CodeExample code={`<Slider from={bind("min")} to={bind("max")} />`}>
-  <SliderRange client:load />
-</CodeExample>
+### Appearance
 
-## Custom Range
+| Property      | Type            | Description                              |
+| ------------- | --------------- | ---------------------------------------- |
+| `handleStyle` | `string/object` | CSS style for the slider handle          |
+| `rangeStyle`  | `string/object` | CSS style for the selected range         |
 
-Limit the slider to a specific value range.
+### Tooltips
 
-<CodeExample
-  code={`<Slider
-  value={bind("value")}
-  minValue={20}
-  maxValue={80}
-/>`}
->
-  <SliderMinMax client:load />
-</CodeExample>
-
-## Disabled State
-
-Prevent user interaction with the disabled prop.
-
-<CodeExample code={`<Slider value={50} disabled />`}>
-  <SliderDisabled client:load />
-</CodeExample>
-
-## Properties
-
-| Property   | Type         | Default     | Description                  |
-| ---------- | ------------ | ----------- | ---------------------------- |
-| `value`    | `Sx<number>` | `undefined` | The slider value             |
-| `from`     | `Sx<number>` | `undefined` | Start value for range slider |
-| `to`       | `Sx<number>` | `undefined` | End value for range slider   |
-| `minValue` | `number`     | `0`         | Minimum allowed value        |
-| `maxValue` | `number`     | `100`       | Maximum allowed value        |
-| `step`     | `number`     | `1`         | Step increment               |
-| `disabled` | `boolean`    | `false`     | Disables the slider          |
-| `wheel`    | `boolean`    | `false`     | Enable mouse wheel control   |
+| Property       | Type            | Description                              |
+| -------------- | --------------- | ---------------------------------------- |
+| `valueTooltip` | `string/object` | Tooltip config for the value handle      |
+| `fromTooltip`  | `string/object` | Tooltip config for the `from` handle     |
+| `toTooltip`    | `string/object` | Tooltip config for the `to` handle       |

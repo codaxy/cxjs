@@ -36,6 +36,7 @@ Use function syntax instead:
 - Avoid excessive headings where content is low - use sentences instead
 - Prefer using `CodeExample` component to show code with a live preview
 - Avoid headings (`<h1>`-`<h6>`) inside code examples - use bold text instead to avoid messing up document layout
+- Configuration tables should always go last on documentation pages
 
 ### ImportPath Component
 

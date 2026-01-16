@@ -127,7 +127,6 @@ export const navigation = [
           { title: "Link", slug: "link" },
           { title: "LinkButton", slug: "link-button" },
           { title: "Icon", slug: "icon" },
-          { title: "Label", slug: "label" },
           { title: "ProgressBar", slug: "progress-bar" },
           { title: "Resizer", slug: "resizer" },
           { title: "HScroller", slug: "hscroller" },
@@ -203,21 +202,29 @@ export const navigation = [
           { title: "ColorField", slug: "color-field" },
           { title: "ColorPicker", slug: "color-picker" },
           { title: "UploadButton", slug: "upload-button" },
-          { title: "List", slug: "list" },
           { title: "Slider", slug: "slider" },
+        ],
+      },
+      {
+        title: "Lists",
+        items: [
+          { title: "List", slug: "list" },
+          { title: "Grouping", slug: "list-grouping" },
         ],
       },
       {
         title: "Validation",
         items: [
+          { title: "Overview", slug: "validation" },
           { title: "ValidationGroup", slug: "validation-group" },
           { title: "Validator", slug: "validator" },
-          { title: "Validation Options", slug: "validation-options" },
+          { title: "ValidationError", slug: "validation-error" },
         ],
       },
       {
         title: "Utilities",
         items: [
+          { title: "Label", slug: "label" },
           { title: "FieldGroup", slug: "field-group" },
           { title: "LabeledContainer", slug: "labeled-container" },
           { title: "HighlightedSearchText", slug: "highlighted-search-text" },

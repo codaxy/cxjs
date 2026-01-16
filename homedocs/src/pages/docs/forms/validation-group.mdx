@@ -1,0 +1,55 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: ValidationGroup
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import ValidationGroupExample from "../../../examples/forms/ValidationGroupExample.tsx";
+import ValidationGroupExampleCode from "../../../examples/forms/ValidationGroupExample.tsx?raw";
+
+import ValidationGroupErrorsExample from "../../../examples/forms/ValidationGroupErrorsExample.tsx";
+import ValidationGroupErrorsExampleCode from "../../../examples/forms/ValidationGroupErrorsExample.tsx?raw";
+
+# ValidationGroup
+
+<ImportPath path="import { ValidationGroup } from 'cx/widgets';" />
+
+The `ValidationGroup` is a container that tracks the validation state of all form fields inside it. It reports whether all fields are valid and can propagate settings like `disabled`, `readOnly`, or `viewMode` to all child fields.
+
+<CodeExample code={ValidationGroupExampleCode}>
+  <ValidationGroupExample client:load />
+</CodeExample>
+
+## Error Summary
+
+The `errors` binding collects all validation errors from child fields. Use it with a `Repeater` to display an error summary.
+
+<CodeExample code={ValidationGroupErrorsExampleCode}>
+  <ValidationGroupErrorsExample client:load />
+</CodeExample>
+
+## Configuration
+
+### Validation State
+
+| Property   | Type                    | Description                                                        |
+| ---------- | ----------------------- | ------------------------------------------------------------------ |
+| `valid`    | `boolean`               | Binding set to `true` if all child fields are valid                |
+| `invalid`  | `boolean`               | Binding set to `true` if any child field has a validation error    |
+| `errors`   | `ValidationErrorData[]` | Binding to store the array of validation errors                    |
+| `visited`  | `boolean`               | If `true`, forces all children to show validation errors           |
+| `isolated` | `boolean`               | If `true`, isolates children from outer validation scopes          |
+
+### Field State Propagation
+
+| Property        | Type      | Default | Description                                              |
+| --------------- | --------- | ------- | -------------------------------------------------------- |
+| `disabled`      | `boolean` | `false` | Disables all inner elements that support `disabled`      |
+| `enabled`       | `boolean` |         | Opposite of `disabled`                                   |
+| `readOnly`      | `boolean` | `false` | Makes all inner elements read-only                       |
+| `viewMode`      | `boolean` | `false` | Switches all inner fields to view mode                   |
+| `strict`        | `boolean` | `false` | Forces children to respect group-level flags             |
+| `asterisk`      | `boolean` | `false` | Adds red asterisk for all required fields                |
+| `tabOnEnterKey` | `boolean` | `false` | Moves focus to the next field when Enter is pressed      |
