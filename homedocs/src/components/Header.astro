@@ -37,16 +37,12 @@ const currentCategory = getCurrentCategory(pathname);
     <CategoryDropdown class="hidden md:block xl:hidden" />
 
     <!-- Category tabs (xl and above) -->
-    <nav class="hidden xl:flex items-center gap-1">
+    <nav id="category-tabs" class="hidden xl:flex items-center gap-1">
       {navigation.map((category) => (
         <a
           href={`/docs/${category.slug}/${category.groups[0].items[0].slug}`}
-          class:list={[
-            "px-3 py-1.5 text-sm font-medium rounded-md transition-colors",
-            currentCategory?.slug === category.slug
-              ? "bg-secondary text-foreground"
-              : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
-          ]}
+          data-category={category.slug}
+          class="category-tab px-3 py-1.5 text-sm font-medium rounded-md transition-colors text-muted-foreground hover:text-foreground hover:bg-secondary/50"
         >
           {category.title}
         </a>
@@ -170,5 +166,25 @@ const currentCategory = getCurrentCategory(pathname);
     }
 
     closeSearchOnResultClick();
+
+    // Update active category tab on navigation
+    function updateActiveCategory() {
+      const match = window.location.pathname.match(/\/docs\/([^/]+)\//);
+      const currentCategory = match ? match[1] : null;
+
+      document.querySelectorAll('.category-tab').forEach(tab => {
+        const tabCategory = tab.getAttribute('data-category');
+        if (tabCategory === currentCategory) {
+          tab.classList.remove('text-muted-foreground', 'hover:text-foreground', 'hover:bg-secondary/50');
+          tab.classList.add('bg-secondary', 'text-foreground');
+        } else {
+          tab.classList.remove('bg-secondary', 'text-foreground');
+          tab.classList.add('text-muted-foreground', 'hover:text-foreground', 'hover:bg-secondary/50');
+        }
+      });
+    }
+
+    document.addEventListener('astro:page-load', updateActiveCategory);
+    updateActiveCategory();
   })();
 </script>
