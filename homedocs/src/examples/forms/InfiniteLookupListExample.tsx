@@ -52,17 +52,8 @@ const cityDb: City[] = Array.from({ length: 5000 }, (_, i) => ({
 
 // @controller
 class PageController extends Controller<typeof m> {
-  onQuery(
-    q:
-      | string
-      | {
-          query: string;
-          pageSize: number;
-          page: number;
-        },
-  ) {
-    if (isString(q)) throw new Error("Paging info expected.");
-    let { query, pageSize, page } = q;
+  onQueryPage(params: { query: string; pageSize: number; page: number }) {
+    let { query, pageSize, page } = params;
     let regex = new RegExp(query, "gi");
     let filtered = cityDb.filter((x) => x.text.match(regex));
     let data = filtered.slice((page - 1) * pageSize, page * pageSize);
@@ -80,8 +71,8 @@ export default () => (
     <LookupField
       label="Select Cities"
       records={m.selectedCities}
-      onQuery={(query, instance) =>
-        instance.getControllerByType(PageController).onQuery(query)
+      onQueryPage={(params, instance) =>
+        instance.getControllerByType(PageController).onQueryPage(params)
       }
       multiple
       infinite

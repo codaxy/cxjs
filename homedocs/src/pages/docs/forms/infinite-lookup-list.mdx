@@ -18,11 +18,11 @@ When the list of options is too large to load at once, use the `infinite` flag t
 
 ## How It Works
 
-With `infinite` enabled, the `onQuery` callback receives additional parameters:
+With `infinite` enabled, use `onQueryPage` instead of `onQuery`. The callback receives paged query parameters:
 
 ```tsx
 class PageController extends Controller {
-  onQuery({ query, pageSize, page }: { query: string; pageSize: number; page: number }) {
+  onQueryPage({ query, pageSize, page }: { query: string; pageSize: number; page: number }) {
     // query - the search text
     // pageSize - number of items per page
     // page - current page number (1-based)
@@ -31,7 +31,7 @@ class PageController extends Controller {
 }
 
 <LookupField
-  onQuery={(args, instance) => instance.getControllerByType(PageController).onQuery(args)}
+  onQueryPage={(params, instance) => instance.getControllerByType(PageController).onQueryPage(params)}
   infinite
   pageSize={50}
 />

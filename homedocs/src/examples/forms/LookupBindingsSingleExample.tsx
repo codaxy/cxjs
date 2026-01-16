@@ -31,8 +31,8 @@ export default () => (
   <LabelsTopLayout vertical>
     <LookupField
       label="Select a City"
-      value={bind(m.city.id)}
-      text={bind(m.city.text)}
+      value={m.city.id}
+      text={m.city.text}
       options={options}
       bindings={[
         { key: true, local: m.city.id, remote: "$option.id" },
