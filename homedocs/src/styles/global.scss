@@ -1317,12 +1317,16 @@ $cx-dropdown-styles: cx-deep-map-merge(
   --pagefind-ui-tag: hsl(var(--muted));
   --pagefind-ui-border-width: 1px;
   --pagefind-ui-border-radius: 0.375rem;
-  --pagefind-ui-font: inherit;
+  --pagefind-ui-font: "Inter", system-ui, sans-serif;
   position: relative;
 }
 
 .pagefind-ui .pagefind-ui__form {
   position: relative;
+}
+
+.pagefind-ui .pagefind-ui__results-area {
+  margin-top: 0 !important;
 }
 
 .pagefind-ui .pagefind-ui__search-input {
@@ -1414,7 +1418,6 @@ $cx-dropdown-styles: cx-deep-map-merge(
     0 4px 24px -4px rgba(0, 0, 0, 0.15),
     0 8px 32px -8px rgba(0, 0, 0, 0.1);
   z-index: 100;
-  padding: 8px;
 }
 
 .pagefind-ui .pagefind-ui__message {
@@ -1425,14 +1428,27 @@ $cx-dropdown-styles: cx-deep-map-merge(
 }
 
 .pagefind-ui .pagefind-ui__result {
-  padding: 8px 12px !important;
-  border-radius: 6px;
+  position: relative;
+  padding: 12px 16px !important;
   transition: background 0.15s ease;
   list-style: none !important;
 
   &:hover {
     background: hsl(var(--secondary));
   }
+}
+
+.pagefind-ui__button {
+  margin: 16px !important;
+  width: calc(100% - 32px) !important;
+}
+
+// Make the entire result clickable by stretching the link
+.pagefind-ui .pagefind-ui__result-link::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
 }
 
 .pagefind-ui .pagefind-ui__results {
@@ -1444,6 +1460,7 @@ $cx-dropdown-styles: cx-deep-map-merge(
   display: flex;
   flex-direction: column;
   gap: 4px;
+  margin: 0 !important;
 }
 
 .pagefind-ui .pagefind-ui__result-title {
@@ -1454,7 +1471,7 @@ $cx-dropdown-styles: cx-deep-map-merge(
   color: hsl(var(--foreground));
   font-weight: 600;
   font-size: 14px;
-  text-decoration: none;
+  text-decoration: none !important;
 
   &:hover {
     color: hsl(var(--primary));

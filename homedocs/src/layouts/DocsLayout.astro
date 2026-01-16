@@ -5,6 +5,7 @@ import PageNav from '../components/PageNav.astro';
 import { ClientRouter } from 'astro:transitions';
 import '../styles/tailwind.css';
 import '../styles/global.scss';
+import '@pagefind/default-ui/css/ui.css';
 
 interface Props {
   frontmatter?: {
@@ -50,7 +51,7 @@ const title = frontmatter?.title || directTitle || '';
 
         <main id="main-content" class="flex-1 lg:pl-72 pt-14 min-h-screen overflow-y-auto">
           <div class="max-w-3xl xl:mr-80 2xl:mr-96 px-6 lg:px-12 py-8 pb-16">
-            <article class="prose max-w-none">
+            <article class="prose max-w-none" data-pagefind-body>
               <slot />
               <PageNav />
             </article>
