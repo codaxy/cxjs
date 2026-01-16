@@ -83,6 +83,7 @@ const currentSlug = pathParts[pathParts.length - 1];
 <script is:inline>
   (function() {
     const SCROLL_KEY = 'sidebar-scroll';
+    const CATEGORY_KEY = 'sidebar-category';
 
     function closeMobileMenu() {
       const sidebar = document.getElementById('sidebar');
@@ -101,18 +102,30 @@ const currentSlug = pathParts[pathParts.length - 1];
       return document.querySelector('#sidebar > div');
     }
 
+    function getCurrentCategory() {
+      // Extract category from URL pattern: /docs/{category}/{slug}
+      const match = window.location.pathname.match(/\/docs\/([^/]+)\//);
+      return match ? match[1] : null;
+    }
+
     function saveScrollPosition() {
       const container = getScrollContainer();
-      if (container) {
+      const category = getCurrentCategory();
+      if (container && category) {
         sessionStorage.setItem(SCROLL_KEY, container.scrollTop.toString());
+        sessionStorage.setItem(CATEGORY_KEY, category);
       }
     }
 
     function restoreScrollPosition() {
       const container = getScrollContainer();
-      const saved = sessionStorage.getItem(SCROLL_KEY);
-      if (container && saved) {
-        container.scrollTop = parseInt(saved, 10);
+      const savedScroll = sessionStorage.getItem(SCROLL_KEY);
+      const savedCategory = sessionStorage.getItem(CATEGORY_KEY);
+      const currentCategory = getCurrentCategory();
+
+      // Only restore scroll if staying in the same category
+      if (container && savedScroll && savedCategory === currentCategory) {
+        container.scrollTop = parseInt(savedScroll, 10);
       }
     }
 
