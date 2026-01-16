@@ -19,8 +19,8 @@ export type AccessorChain<M> = {
    nameOf(): string;
 } & (IsAny<M> extends true
    ? { [key: string]: any } // Allow any property access for `any` type
-   : M extends object
-     ? AccessorChainMap<M>
+   : NonNullable<M> extends object
+     ? AccessorChainMap<NonNullable<M>>
      : {});
 
 const emptyFn = () => {};

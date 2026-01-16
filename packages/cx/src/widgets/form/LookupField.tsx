@@ -168,10 +168,7 @@ interface LookupFieldBaseConfig<TOption = unknown> extends FieldConfig {
   /** Callback to create a filter function for given filter params. */
   onCreateVisibleOptionsFilter?:
     | string
-    | ((
-        filterParams: unknown,
-        instance: Instance
-      ) => (option: TOption) => boolean);
+    | ((filterParams: any, instance: Instance) => (option: TOption) => boolean);
 
   /** Additional configuration to be passed to the dropdown, such as `style`, `positioning`, etc. */
   dropdownOptions?: Partial<DropdownConfig>;
@@ -259,20 +256,24 @@ interface LookupFieldSingleProps {
 // 4 Discriminated Union Variants (2 infinite × 2 multiple)
 // =============================================================================
 
-type LookupFieldInfiniteMultipleConfig<TOption = unknown, TRecord = unknown> =
-  LookupFieldBaseConfig<TOption> &
-    LookupFieldInfiniteProps<TOption> &
-    LookupFieldMultipleProps<TRecord>;
+type LookupFieldInfiniteMultipleConfig<
+  TOption = unknown,
+  TRecord = unknown,
+> = LookupFieldBaseConfig<TOption> &
+  LookupFieldInfiniteProps<TOption> &
+  LookupFieldMultipleProps<TRecord>;
 
 type LookupFieldInfiniteSingleConfig<TOption = unknown> =
   LookupFieldBaseConfig<TOption> &
     LookupFieldInfiniteProps<TOption> &
     LookupFieldSingleProps;
 
-type LookupFieldStandardMultipleConfig<TOption = unknown, TRecord = unknown> =
-  LookupFieldBaseConfig<TOption> &
-    LookupFieldStandardProps<TOption> &
-    LookupFieldMultipleProps<TRecord>;
+type LookupFieldStandardMultipleConfig<
+  TOption = unknown,
+  TRecord = unknown,
+> = LookupFieldBaseConfig<TOption> &
+  LookupFieldStandardProps<TOption> &
+  LookupFieldMultipleProps<TRecord>;
 
 type LookupFieldStandardSingleConfig<TOption = unknown> =
   LookupFieldBaseConfig<TOption> &
