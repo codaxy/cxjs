@@ -1,4 +1,4 @@
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 import { LabelsLeftLayout, LabelsTopLayout, expr } from "cx/ui";
 import { Checkbox, TextField } from "cx/widgets";
 
@@ -9,7 +9,7 @@ interface PageModel {
   name: string;
 }
 
-const m = createAccessorModelProxy<PageModel>();
+const m = createModel<PageModel>();
 // @model-end
 
 // @index

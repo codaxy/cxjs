@@ -27,7 +27,7 @@ Every CxJS widget has access to the store through its instance. In event handler
 
 The store is available in event handlers like `onClick`, `onChange`, and others. Use `store.get()` to read values and `store.set()` to write them.
 
-When using typed models with `createAccessorModelProxy`, all store methods are fully typed. TypeScript catches type mismatches at compile time:
+When using typed models with `createModel`, all store methods are fully typed. TypeScript catches type mismatches at compile time:
 
 ```tsx
 interface PageModel {
@@ -35,7 +35,7 @@ interface PageModel {
   name: string;
 }
 
-const m = createAccessorModelProxy<PageModel>();
+const m = createModel<PageModel>();
 
 store.set(m.count, 5); // ✓ OK
 store.set(m.count, "five"); // ✗ Type error

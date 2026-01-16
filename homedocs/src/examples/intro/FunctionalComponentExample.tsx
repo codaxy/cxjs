@@ -1,4 +1,4 @@
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 import type { AccessorChain } from "cx/ui";
 import { bind, createFunctionalComponent } from "cx/ui";
 import { Button } from "cx/widgets";
@@ -8,7 +8,7 @@ interface PageModel {
   count2: number;
 }
 
-const m = createAccessorModelProxy<PageModel>();
+const m = createModel<PageModel>();
 
 // @components
 interface CounterProps {

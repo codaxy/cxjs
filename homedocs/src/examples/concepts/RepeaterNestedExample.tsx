@@ -1,4 +1,4 @@
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 import { Repeater } from "cx/widgets";
 
 // @model
@@ -19,7 +19,7 @@ interface PageModel {
   $transaction: Transaction;
 }
 
-const m = createAccessorModelProxy<PageModel>();
+const m = createModel<PageModel>();
 // @model-end
 
 // @controller

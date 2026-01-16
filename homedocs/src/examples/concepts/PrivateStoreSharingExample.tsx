@@ -1,4 +1,4 @@
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 import { LabelsTopLayout } from "cx/ui";
 import { PrivateStore, Slider } from "cx/widgets";
 
@@ -7,14 +7,14 @@ interface PageModel {
   slider: number;
 }
 
-const m = createAccessorModelProxy<PageModel>();
+const m = createModel<PageModel>();
 
 interface PrivateModel {
   globalValue: number;
   localValue: number;
 }
 
-const mPrivate = createAccessorModelProxy<PrivateModel>();
+const mPrivate = createModel<PrivateModel>();
 // @model-end
 
 // @index

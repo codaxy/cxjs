@@ -1,4 +1,4 @@
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 import { Controller, FirstVisibleChildLayout, equal, tpl } from "cx/ui";
 import { Button } from "cx/widgets";
 
@@ -10,7 +10,7 @@ interface PageModel {
   };
 }
 
-const m = createAccessorModelProxy<PageModel>();
+const m = createModel<PageModel>();
 // @model-end
 
 // @controller

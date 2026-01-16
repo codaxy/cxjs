@@ -1,4 +1,4 @@
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 import { tpl } from "cx/ui";
 import { HtmlElement, TextField } from "cx/widgets";
 
@@ -6,7 +6,7 @@ interface Model {
   name: string;
 }
 
-const m = createAccessorModelProxy<Model>();
+const m = createModel<Model>();
 
 // @model
 export const model = {

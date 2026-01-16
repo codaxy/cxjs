@@ -1,4 +1,4 @@
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 import { LabelsTopLayout } from "cx/ui";
 import { TextField, Select } from "cx/widgets";
 
@@ -9,7 +9,7 @@ interface FormModel {
   lastName: string;
 }
 
-const m = createAccessorModelProxy<FormModel>();
+const m = createModel<FormModel>();
 // @model-end
 
 // @index

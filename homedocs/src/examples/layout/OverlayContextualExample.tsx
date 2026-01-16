@@ -1,4 +1,4 @@
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 import { Checkbox, Overlay } from "cx/widgets";
 
 // @model
@@ -6,7 +6,7 @@ interface PageModel {
   showOverlay: boolean;
 }
 
-const m = createAccessorModelProxy<PageModel>();
+const m = createModel<PageModel>();
 // @model-end
 
 // @index

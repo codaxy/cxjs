@@ -1,4 +1,4 @@
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 import { Controller } from "cx/ui";
 import { DragHandle, DragSource, DropZone, Repeater } from "cx/widgets";
 
@@ -14,7 +14,7 @@ interface PageModel {
   $index: number;
 }
 
-const m = createAccessorModelProxy<PageModel>();
+const m = createModel<PageModel>();
 // @model-end
 
 // @controller

@@ -1,4 +1,4 @@
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 import { TextField, Dropdown } from "cx/widgets";
 
 // @model
@@ -7,7 +7,7 @@ interface PageModel {
   showSuggestions: boolean;
 }
 
-const m = createAccessorModelProxy<PageModel>();
+const m = createModel<PageModel>();
 // @model-end
 
 // @index

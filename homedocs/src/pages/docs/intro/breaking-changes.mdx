@@ -11,6 +11,53 @@ Sometimes we are forced to introduce breaking changes to the framework.
 This page will provide information about breaking changes and how to migrate your applications to the latest
 versions of the framework.
 
+## 26.2.0
+
+### LookupField: Improved TypeScript discrimination
+
+The `LookupField` component now uses TypeScript discriminated unions based on the `infinite` and `multiple` props. This provides better type inference and catches invalid prop combinations at compile time.
+
+#### `onQueryPage` replaces `onQuery` for infinite mode
+
+When using `LookupField` with `infinite: true`, you must now use the `onQueryPage` prop instead of `onQuery`.
+
+**Before:**
+```tsx
+<LookupField
+  infinite
+  onQuery={({ query, page, pageSize }) => fetchData(query, page, pageSize)}
+/>
+```
+
+**After:**
+```tsx
+<LookupField
+  infinite
+  onQueryPage={({ query, page, pageSize }) => fetchData(query, page, pageSize)}
+/>
+```
+
+The `onQuery` prop now only accepts a string query parameter for standard (non-infinite) mode:
+
+```tsx
+<LookupField
+  onQuery={(query) => fetchData(query)}
+/>
+```
+
+**Backwards Compatibility:** The runtime includes a compatibility shim that copies `onQuery` to `onQueryPage` when `infinite: true` is set. This allows existing code to continue working, but TypeScript will report type errors. We recommend updating your code to use the new API.
+
+#### `pageSize` is now exclusive to infinite mode
+
+The `pageSize` prop is now only available when `infinite: true`. If you were using `pageSize` without `infinite`, remove it as it had no effect.
+
+#### Props are now discriminated by `multiple`
+
+- When `multiple: true`: use `records` and/or `values` props
+- When `multiple` is not set or `false`: use `value` and `text` props
+
+TypeScript will now report errors if you mix props from different modes (e.g., using `value` with `multiple: true`).
+
 ## 26.1.0
 
 ### TypeScript Migration

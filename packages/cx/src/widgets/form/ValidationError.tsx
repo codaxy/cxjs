@@ -2,8 +2,10 @@
 
 import type { Instance } from "../../ui/Instance";
 import type { RenderingContext } from "../../ui/RenderingContext";
-import { Widget } from "../../ui/Widget";
+import { Widget, WidgetConfig, WidgetStyleConfig } from "../../ui/Widget";
 import type { FormRenderingContext } from "./ValidationGroup";
+
+export interface ValidationErrorConfig extends WidgetConfig, WidgetStyleConfig {}
 
 interface ValidationErrorData {
    visible?: boolean;
@@ -23,7 +25,14 @@ interface ValidationErrorInstance extends Instance {
    data: ValidationErrorData;
 }
 
-export class ValidationError extends Widget {
+export class ValidationError extends Widget<ValidationErrorConfig, ValidationErrorInstance> {
+   declare baseClass: string;
+   declare styled: boolean;
+
+   constructor(config?: ValidationErrorConfig) {
+      super(config);
+   }
+
    checkVisible(context: FormRenderingContext, instance: ValidationErrorInstance, data: ValidationErrorData): boolean {
       if (
          data.visible &&

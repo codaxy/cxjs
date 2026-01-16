@@ -1,4 +1,4 @@
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 import { openContextMenu, Menu, MenuItem, Grid } from "cx/widgets";
 
 // @model
@@ -6,7 +6,7 @@ interface PageModel {
   records: { id: number; name: string; value: number }[];
 }
 
-const m = createAccessorModelProxy<PageModel>();
+const m = createModel<PageModel>();
 // @model-end
 
 // @index

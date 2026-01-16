@@ -1,4 +1,4 @@
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 
-export const $page = createAccessorModelProxy("$page");
-export const $record = createAccessorModelProxy("$record");
+export const $page = createModel("$page");
+export const $record = createModel("$record");

@@ -1,4 +1,4 @@
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 import { enableTooltips, TextField } from "cx/widgets";
 
 enableTooltips();
@@ -8,7 +8,7 @@ interface PageModel {
   text: string;
 }
 
-const m = createAccessorModelProxy<PageModel>();
+const m = createModel<PageModel>();
 // @model-end
 
 // @index

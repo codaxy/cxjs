@@ -1,6 +1,7 @@
 ---
 import '../styles/tailwind.css';
 import '../styles/global.scss';
+import '@pagefind/default-ui/css/ui.css';
 import { ClientRouter } from 'astro:transitions';
 ---
 
@@ -112,11 +113,28 @@ import { ClientRouter } from 'astro:transitions';
       <!-- Header -->
       <header class="border-b border-border bg-background/80 backdrop-blur-sm sticky top-0 z-50">
         <div class="container mx-auto flex h-16 items-center px-4">
+          <!-- Mobile menu button -->
+          <button
+            id="home-mobile-menu-btn"
+            type="button"
+            class="sm:hidden mr-2 p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+            aria-label="Toggle menu"
+          >
+            <svg class="menu-icon h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+            <svg class="close-icon h-5 w-5 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+
           <a href="/" class="flex items-center gap-2 group">
             <img src="/favicon.svg" alt="CxJS" class="h-9 w-9 transition-transform group-hover:scale-110" />
             <span class="text-xl font-semibold text-foreground">CxJS</span>
           </a>
-          <nav class="flex-1 flex items-center justify-center gap-6">
+
+          <!-- Desktop nav -->
+          <nav class="hidden sm:flex flex-1 items-center justify-center gap-6">
             <a href="/docs/intro/what-is-cxjs" class="text-sm text-muted-foreground hover:text-foreground transition-colors">
               Docs
             </a>
@@ -127,7 +145,8 @@ import { ClientRouter } from 'astro:transitions';
               Changelog
             </a>
           </nav>
-          <div class="flex items-center gap-4">
+
+          <div class="flex items-center gap-4 ml-auto">
             <a
               href="https://github.com/codaxy/cxjs"
               target="_blank"
@@ -160,6 +179,21 @@ import { ClientRouter } from 'astro:transitions';
             </button>
           </div>
         </div>
+
+        <!-- Mobile menu dropdown -->
+        <nav id="home-mobile-menu" class="hidden sm:hidden border-t border-border bg-background">
+          <div class="container mx-auto px-4 py-4 flex flex-col gap-3">
+            <a href="/docs/intro/what-is-cxjs" class="text-sm text-muted-foreground hover:text-foreground transition-colors py-2">
+              Docs
+            </a>
+            <a href="https://gallery.cxjs.io/" class="text-sm text-muted-foreground hover:text-foreground transition-colors py-2">
+              Gallery
+            </a>
+            <a href="/docs/intro/changelog" class="text-sm text-muted-foreground hover:text-foreground transition-colors py-2">
+              Changelog
+            </a>
+          </div>
+        </nav>
       </header>
 
       <!-- Hero -->
@@ -413,6 +447,28 @@ import { ClientRouter } from 'astro:transitions';
 
     <script is:inline>
       function initHomePage() {
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('home-mobile-menu-btn');
+        const mobileMenu = document.getElementById('home-mobile-menu');
+        const menuIcon = mobileMenuBtn?.querySelector('.menu-icon');
+        const closeIcon = mobileMenuBtn?.querySelector('.close-icon');
+
+        if (mobileMenuBtn && mobileMenu) {
+          mobileMenuBtn.onclick = () => {
+            const isOpen = !mobileMenu.classList.contains('hidden');
+            if (isOpen) {
+              mobileMenu.classList.add('hidden');
+              menuIcon?.classList.remove('hidden');
+              closeIcon?.classList.add('hidden');
+            } else {
+              mobileMenu.classList.remove('hidden');
+              menuIcon?.classList.add('hidden');
+              closeIcon?.classList.remove('hidden');
+            }
+          };
+        }
+
+        // Theme toggle
         const toggle = document.getElementById('theme-toggle');
         if (!toggle) {
           return;

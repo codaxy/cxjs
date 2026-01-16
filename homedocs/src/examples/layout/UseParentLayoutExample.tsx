@@ -1,4 +1,4 @@
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 import { LabelsLeftLayout, UseParentLayout } from "cx/ui";
 import { TextField, Checkbox, PureContainer } from "cx/widgets";
 
@@ -10,7 +10,7 @@ interface FormModel {
   showMore: boolean;
 }
 
-const m = createAccessorModelProxy<FormModel>();
+const m = createModel<FormModel>();
 // @model-end
 
 // @index

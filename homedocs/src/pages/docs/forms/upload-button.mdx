@@ -1,0 +1,61 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: UploadButton
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import UploadButtonExample from "../../../examples/forms/UploadButtonExample.tsx";
+import UploadButtonExampleCode from "../../../examples/forms/UploadButtonExample.tsx?raw";
+
+# UploadButton
+
+<ImportPath path="import { UploadButton } from 'cx/widgets';" />
+
+The `UploadButton` widget provides file selection and upload functionality. It displays a styled button that opens a file picker, then uploads selected files to a specified URL using XMLHttpRequest. The button shows upload progress and supports validation before upload.
+
+<CodeExample code={UploadButtonExampleCode}>
+  <UploadButtonExample client:load />
+</CodeExample>
+
+## Dynamic URLs
+
+For cloud uploads that require pre-signed URLs, use `onResolveUrl`:
+
+```tsx
+onResolveUrl={async (file, instance) => {
+  const response = await fetch("/api/get-upload-url", {
+    method: "POST",
+    body: JSON.stringify({ filename: file.name }),
+  });
+  const { url } = await response.json();
+  return url;
+}}
+```
+
+## Configuration
+
+### Core Properties
+
+| Property               | Type      | Default                    | Description                                           |
+| ---------------------- | --------- | -------------------------- | ----------------------------------------------------- |
+| `url`                  | `string`  |                            | URL to upload files to                                |
+| `text`                 | `string`  |                            | Text displayed on the button                          |
+| `icon`                 | `string`  |                            | Icon name or configuration                            |
+| `accept`               | `string`  |                            | File types accepted (e.g., `"image/*"`, `".pdf"`)     |
+| `multiple`             | `boolean` | `false`                    | Allow multiple file selection                         |
+| `method`               | `string`  | `"POST"`                   | HTTP method used for upload                           |
+| `disabled`             | `boolean` | `false`                    | Disables the button                                   |
+| `abortOnDestroy`       | `boolean` | `false`                    | Abort pending uploads when component is destroyed     |
+| `uploadInProgressText` | `string`  | `"Upload is in progress."` | Validation message shown during upload                |
+
+### Callbacks
+
+| Property           | Type       | Description                                                                                   |
+| ------------------ | ---------- | --------------------------------------------------------------------------------------------- |
+| `onResolveUrl`     | `function` | `(file, instance) => string\|Promise<string>` - Resolve dynamic upload URL for each file     |
+| `onUploadStarting` | `function` | `(xhr, instance, file, formData) => boolean\|Promise<boolean>` - Return `false` to cancel    |
+| `onUploadComplete` | `function` | `(xhr, instance, file, formData) => void` - Called when upload completes                     |
+| `onUploadProgress` | `function` | `(event, instance, file, formData) => void` - Called with progress updates                   |
+| `onUploadError`    | `function` | `(error, instance, file, formData) => void` - Called when an error occurs                    |

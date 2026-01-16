@@ -1,4 +1,4 @@
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 import { bind, LabelsLeftLayout } from "cx/ui";
 import { Slider } from "cx/widgets";
 import { Square } from "./Square";
@@ -10,7 +10,7 @@ interface PageModel {
   blue: number;
 }
 
-const m = createAccessorModelProxy<PageModel>();
+const m = createModel<PageModel>();
 // @model-end
 
 // @index

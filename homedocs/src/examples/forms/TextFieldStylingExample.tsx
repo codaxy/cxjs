@@ -1,4 +1,4 @@
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 import { bind, expr, LabelsTopLayout } from "cx/ui";
 import { TextField } from "cx/widgets";
 import "../../icons/lucide";
@@ -11,7 +11,7 @@ interface Model {
   showPassword: boolean;
 }
 
-const m = createAccessorModelProxy<Model>();
+const m = createModel<Model>();
 // @model-end
 
 // @index

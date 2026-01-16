@@ -34,7 +34,7 @@ interface PageModel {
   $record: Item;
 }
 
-const m = createAccessorModelProxy<PageModel>();
+const m = createModel<PageModel>();
 ```
 
 Then use `recordAlias={m.$record}` to bind the record accessor:

@@ -1,4 +1,4 @@
-import { createAccessorModelProxy, Store } from "cx/data";
+import { createModel, Store } from "cx/data";
 import { Button } from "cx/widgets";
 
 // @model
@@ -6,7 +6,7 @@ interface PageModel {
   count: number;
 }
 
-const m = createAccessorModelProxy<PageModel>();
+const m = createModel<PageModel>();
 // @model-end
 
 // @index

@@ -1,4 +1,4 @@
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 import { bind } from "cx/ui";
 import { Radio } from "cx/widgets";
 
@@ -7,7 +7,7 @@ interface Model {
   size: string;
 }
 
-const m = createAccessorModelProxy<Model>();
+const m = createModel<Model>();
 // @model-end
 
 // @index
