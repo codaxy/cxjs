@@ -1338,6 +1338,7 @@ $cx-dropdown-styles: cx-deep-map-merge(
   border: 1px solid hsl(var(--border)) !important;
   border-radius: 6px !important;
   color: hsl(var(--foreground)) !important;
+  font-weight: 400 !important;
 
   &::placeholder {
     color: hsl(var(--muted-foreground));
