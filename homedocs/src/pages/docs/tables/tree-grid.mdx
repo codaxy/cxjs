@@ -36,17 +36,17 @@ To display hierarchical data, configure the `dataAdapter` property with `TreeAda
 
 If your data is already a tree structure with children nested in each record, that's all you need. The `TreeAdapter` will flatten the tree for display and manage expand/collapse state.
 
-For lazy loading, implement the `load` callback to fetch children when a node is expanded:
+For lazy loading, implement the `onLoad` callback to fetch children when a node is expanded:
 
 ```tsx
 dataAdapter={{
   type: TreeAdapter,
-  load: (context, instance, node) =>
+  onLoad: (context, instance, node) =>
     instance.getControllerByType(PageController).loadChildren(node),
 }}
 ```
 
-Return an array of child records or `undefined` for leaf nodes.
+Return an array of child records or a Promise that resolves to an array.
 
 ## TreeNode
 

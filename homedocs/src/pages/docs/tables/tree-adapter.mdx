@@ -38,17 +38,17 @@ The example above uses `childrenField: "entries"` to store children in the `entr
 
 ## Lazy Loading
 
-For large trees, load children on demand using the `load` callback:
+For large trees, load children on demand using the `onLoad` callback:
 
 ```tsx
 dataAdapter={{
   type: TreeAdapter,
-  load: (context, instance, node) =>
+  onLoad: (context, instance, node) =>
     instance.getControllerByType(PageController).loadChildren(node),
 }}
 ```
 
-The `load` callback should return an array of child records or `undefined` for leaf nodes.
+The `onLoad` callback should return an array of child records or a Promise that resolves to an array.
 
 ## Configuration
 
@@ -64,7 +64,7 @@ The `load` callback should return an array of child records or `undefined` for l
 | `foldersFirst` | `boolean` | Display folders before leaf nodes. Default is `true`. |
 | `hideRootNodes` | `boolean` | Hide root nodes and show their children as top level. Default is `false`. |
 | `restoreExpandedNodesOnLoad` | `boolean` | Restore expanded state when data is reloaded. |
-| `load` | `function` | Callback to load child nodes. Receives `(context, instance, node)`. |
+| `onLoad` | `function` | Callback to load child nodes. Receives `(context, instance, node)`. Should return an array or Promise. |
 | `onLoadError` | `function` | Callback when loading children fails. |
 | `immutable` | `boolean` | Prevents aliased data from being written to the parent store. |
 | `sealed` | `boolean` | Prevents child components from writing aliased data. |
