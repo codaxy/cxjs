@@ -2,6 +2,7 @@
 import type { Root } from "cx-react";
 import { isBinding, isBindingObject } from "../../data/Binding";
 import { Store } from "../../data/Store";
+import { View } from "../../data/View";
 import { startAppLoop } from "../../ui/app/startAppLoop";
 import { ContainerBase, StyledContainerConfig } from "../../ui/Container";
 import { FocusManager, offFocusOut, oneFocusOut } from "../../ui/FocusManager";
@@ -302,7 +303,7 @@ export class OverlayBase<
       return el;
    }
 
-   open(storeOrInstance?: Store | Instance, options?: any): () => void {
+   open(storeOrInstance?: View | Instance, options?: any): () => void {
       if (!this.initialized) this.init();
 
       let el = this.containerFactory();

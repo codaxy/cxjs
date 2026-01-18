@@ -1,4 +1,5 @@
 import { createModel } from "cx/data";
+import { Controller } from "cx/ui";
 import { Repeater } from "cx/widgets";
 
 // @model
@@ -23,7 +24,7 @@ const m = createModel<PageModel>();
 // @model-end
 
 // @controller
-const controller = {
+class PageController extends Controller {
   onInit() {
     this.store.init(m.accounts, [
       {
@@ -42,13 +43,13 @@ const controller = {
         ],
       },
     ]);
-  },
-};
+  }
+}
 // @controller-end
 
 // @index
 export default () => (
-  <div class="flex flex-col gap-4" controller={controller}>
+  <div class="flex flex-col gap-4" controller={PageController}>
     <Repeater records={m.accounts} recordAlias={m.$account}>
       <div class="border rounded p-3">
         <div class="font-medium mb-2 leading-none" text={m.$account.name} />

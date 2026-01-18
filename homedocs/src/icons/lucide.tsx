@@ -11,7 +11,12 @@ import {
   Eye,
   EyeOff,
   File,
+  FileCode,
+  FileJson,
+  FileText,
   Folder,
+  FolderOpen,
+  LoaderCircle,
   Pencil,
   Plus,
   RefreshCw,
@@ -58,4 +63,9 @@ Icon.register("eye-off", getRenderer(EyeOff));
 Icon.register("upload", getRenderer(Upload));
 Icon.register("star", getRenderer(Star));
 Icon.register("file", getRenderer(File));
+Icon.register("file-code", getRenderer(FileCode));
+Icon.register("file-json", getRenderer(FileJson));
+Icon.register("file-text", getRenderer(FileText));
 Icon.register("trash", getRenderer(Trash2));
+Icon.register("folder-open", getRenderer(FolderOpen));
+Icon.register("loading", getRenderer(LoaderCircle));

@@ -3,44 +3,326 @@ layout: ../../../layouts/DocsLayout.astro
 title: Grid
 ---
 
-import CodePreview from "../../../components/CodePreview.astro";
-import GridsExample from "../../../examples/widgets/GridsExample.tsx";
-import GridsExampleCode from "../../../examples/widgets/GridsExample.tsx?raw";
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
 
-**Import:** `import { Grid } from 'cx/widgets';`
+import GridExample from "../../../examples/tables/GridExample.tsx";
+import GridExampleCode from "../../../examples/tables/GridExample.tsx?raw";
 
-Grid is a versatile component used to display tabular data. Grid control in Cx has many features such as fixed headers, single and multiple selection modes, sorting, filtering, grouping and aggregation, rich cell content (including headers), tree columns, etc.
+# Grid
 
-## Example
+<ImportPath path="import { Grid } from 'cx/widgets';" />
 
-<CodePreview code={GridsExampleCode} filterLines={["Grid", "Column"]}>
-  <GridsExample client:load />
-</CodePreview>
+The `Grid` widget displays tabular data with features like fixed headers, single and multiple selection modes, sorting, filtering, grouping, aggregation, rich cell content, tree columns, and more.
+
+<CodeExample code={GridExampleCode}>
+  <GridExample client:load />
+</CodeExample>
+
+Click on column headers to sort. Hold Ctrl (or Cmd on macOS) and click to select multiple rows.
+
+## Columns
+
+Columns define what data is displayed and how. The simplest column configuration uses the `field` property to display a record property:
+
+```tsx
+columns={[
+  { header: "Name", field: "fullName" },
+  { header: "Age", field: "age", align: "right" }
+]}
+```
+
+For custom cell content, use the `children` property to render any widget inside the cell. The current record is available via `$record`:
+
+```tsx
+columns={[
+  {
+    header: "Name",
+    field: "fullName",
+    children: <strong text={m.$record.fullName} />
+  },
+  {
+    header: "Actions",
+    children: <Button text="Edit" onClick={(e, { store }) => edit(store.get(m.$record))} />
+  }
+]}
+```
+
+Use `value` for computed display values while keeping `field` for sorting:
+
+```tsx
+{
+  header: "Status",
+  field: "active",
+  value: { expr: "{$record.active} ? 'Yes' : 'No'" }
+}
+```
+
+### Headers
+
+The `header` property can be a simple string or a configuration object for advanced scenarios like multi-row headers, custom tools, or spanning columns:
+
+```tsx
+columns={[
+  {
+    header: {
+      text: "Name",
+      colSpan: 2,
+      align: "center"
+    },
+    field: "fullName"
+  },
+  {
+    header: {
+      text: "Sales",
+      tool: <Icon name="drop-down" />,
+      allowSorting: false
+    },
+    field: "sales"
+  }
+]}
+```
+
+Use `colSpan` and `rowSpan` to create complex multi-row headers. The `tool` property allows adding custom components like filter dropdowns or menus inside the header.
+
+### Dynamic Columns
+
+Use `columnParams` and `onGetColumns` to dynamically generate columns based on data or user preferences:
+
+```tsx
+<Grid
+  records={m.records}
+  columnParams={m.visibleColumns}
+  onGetColumns={(params) => {
+    const baseColumns = [
+      { header: "Name", field: "name" },
+    ];
+    const dynamicColumns = params.map(col => ({
+      header: col.label,
+      field: col.field,
+    }));
+    return [...baseColumns, ...dynamicColumns];
+  }}
+/>
+```
+
+Whenever `columnParams` changes, `onGetColumns` is called to recalculate the column configuration. This is useful for user-configurable column visibility, pivot tables, or data-driven column generation.
+
+See also: [Complex Headers](/docs/tables/complex-headers), [Column Resizing](/docs/tables/column-resizing), [Column Reordering](/docs/tables/column-reordering), [Fixed Columns](/docs/tables/fixed-columns), [Dynamic Columns](/docs/tables/dynamic-columns)
+
+## Grouping
+
+Grids support multi-level grouping with aggregates. Define grouping levels using the `grouping` property:
+
+```tsx
+<Grid
+  records={m.records}
+  grouping={[
+    {
+      key: { continent: m.$record.continent },
+      showFooter: true,
+    },
+  ]}
+  columns={[
+    { header: "Continent", field: "continent" },
+    { header: "Name", field: "fullName" },
+    {
+      header: "Sales",
+      field: "sales",
+      aggregate: "sum",
+      footer: { tpl: "{$group.sales:n;2}" }
+    },
+  ]}
+/>
+```
+
+Each grouping level supports the following options:
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `key` | `object` | Object with name/selector pairs defining how records are grouped. Values are available as `$group.keyName`. |
+| `showFooter` | `boolean` | Show a footer row with aggregate values after each group. |
+| `showHeader` | `boolean` | Show a header row within each group. Useful for long printable reports. |
+| `showCaption` | `boolean` | Show a caption row at the start of each group. Caption content is defined in the column's `caption` property. |
+| `text` | `string` | A selector for text available as `$group.$name` in templates. |
+| `comparer` | `function` | A function to determine group ordering. |
+
+Column aggregates (`sum`, `count`, `avg`, `distinct`) are automatically calculated and available in footer/caption templates via `$group`.
+
+For dynamic grouping, use `groupingParams` and `onGetGrouping`:
+
+```tsx
+<Grid
+  records={m.records}
+  groupingParams={m.selectedGrouping}
+  onGetGrouping={(params) => {
+    if (!params) return null;
+    return [
+      {
+        key: { value: m.$record[params.field] },
+        showFooter: true,
+      },
+    ];
+  }}
+  columns={columns}
+/>
+```
+
+Whenever `groupingParams` changes, `onGetGrouping` is called to recalculate the grouping configuration. This allows users to change grouping at runtime.
+
+See also: [Grouping](/docs/tables/grouping), [Dynamic Grouping](/docs/tables/dynamic-grouping)
+
+## Drag & Drop
+
+Grids support drag and drop for reordering rows, moving data between grids, and column reordering. Configure `dragSource` and `dropZone` to enable this functionality:
+
+```tsx
+<Grid
+  records={m.records}
+  dragSource={{ mode: "move", data: { type: "record" } }}
+  dropZone={{ mode: "insertion" }}
+  onDrop={(e, { store }) => {
+    // Handle the drop - reorder records
+    store.update(m.records, records => {
+      // Move record from e.source.recordIndex to e.target.insertionIndex
+    });
+  }}
+  columns={columns}
+/>
+```
+
+The `dropZone.mode` can be `insertion` (shows insertion line between rows) or `preview` (highlights the target row). Use `onDropTest` to control which drops are allowed.
+
+See also: [Row Drag and Drop](/docs/tables/row-drag-and-drop)
 
 ## Examples
 
-- [Searching and Filtering](/examples/grid/searching-and-filtering)
-- [Pagination](/examples/grid/pagination)
-- [Multiple selection](/examples/grid/multiple-selection)
-- [Grouping](/examples/grid/grouping)
-- [Dynamic Grouping](/examples/grid/dynamic-grouping)
-- [Form Editing](/examples/grid/form-edit)
-- [Row Editing](/examples/grid/row-editing)
-- [Cell Editing](/examples/grid/cell-editing)
-- [Inline Editing](/examples/grid/inline-edit)
-- [Tree Grid](/examples/grid/tree-grid)
-- [Stateful Tree Grid](/examples/grid/stateful-tree-grid)
-- [Header Menu](/examples/grid/header-menu)
-- [Complex Header](/examples/grid/complex-headers)
-- [Buffering 5000 rows](/examples/grid/buffering)
-- [Infinite scrolling](/examples/grid/infinite-scrolling)
-- [Row Expanding](/examples/grid/row-expanding)
-- [Row Drag & Drop](/examples/grid/row-drag-and-drop)
-- [Column Resizing](/examples/grid/column-resizing)
-- [Column Reordering (Drag & Drop)](/examples/grid/column-reordering)
-- [Fixed Columns](/examples/grid/fixed-columns)
-- [Dynamic Columns](/examples/grid/dynamic-columns)
+- [Searching and Filtering](/docs/tables/searching-and-filtering)
+- [Pagination](/docs/tables/pagination)
+- [Multiple Selection](/docs/tables/multiple-selection)
+- [Form Edit](/docs/tables/form-edit)
+- [Row Editing](/docs/tables/row-editing)
+- [Cell Editing](/docs/tables/cell-editing)
+- [Inline Edit](/docs/tables/inline-edit)
+- [Tree Grid](/docs/tables/tree-grid)
+- [Stateful TreeGrid](/docs/tables/stateful-tree-grid)
+- [Header Menu](/docs/tables/header-menu)
+- [Buffering](/docs/tables/buffering)
+- [Infinite Scrolling](/docs/tables/infinite-scrolling)
+- [Row Expanding](/docs/tables/row-expanding)
 
-## Configuration
+## Grid Configuration
 
-For configuration options, see the Grid, Column, Column Header, Grouping, and Drag & Drop documentation.
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `records` | `Prop<T[]>` | An array of records to be displayed in the grid. |
+| `columns` | `array` | An array of column configurations. See Column Configuration below. |
+| `scrollable` | `BooleanProp` | Set to `true` to add a vertical scroll and fixed header. Grid should have `height` or `max-height` set. |
+| `selection` | `object` | Selection configuration. See [Selections](/docs/concepts/selections) for details. |
+| `sortField` | `StringProp` | Binding to store the name of the field used for sorting. |
+| `sortDirection` | `StringProp` | Binding to store the sort direction (`ASC` or `DESC`). |
+| `sorters` | `Prop<array>` | Binding to store multiple sorters for server-side sorting. |
+| `grouping` | `array` | An array of grouping level definitions. |
+| `emptyText` | `string` | Text displayed when grid has no records. |
+| `border` | `BooleanProp` | Set to `true` to add default border. Automatically set if `scrollable`. |
+| `vlines` | `BooleanProp` | Set to `true` to add vertical gridlines. |
+| `headerMode` | `string` | Header appearance: `plain` or `default`. |
+| `cached` | `BooleanProp` | Set to `true` to enable row caching for better performance. |
+| `buffered` | `BooleanProp` | Set to `true` to render only visible rows. Requires `scrollable`. |
+| `bufferSize` | `number` | Number of rendered rows in buffered grids. Default is `60`. |
+| `lockColumnWidths` | `boolean` | Lock column widths after first render. Useful for pagination. |
+| `remoteSort` | `boolean` | Set to `true` if sorting is done server-side. |
+| `clearableSort` | `boolean` | Allow clearing sort by clicking header a third time. |
+| `filterParams` | `Prop` | Parameters passed to `onCreateFilter` callback. |
+| `onCreateFilter` | `function` | Callback to create a filter predicate from `filterParams`. |
+| `onRowClick` | `function` | Callback executed when a row is clicked. |
+| `onRowDoubleClick` | `function` | Callback executed when a row is double-clicked. |
+| `onRowContextMenu` | `function` | Callback executed when a row is right-clicked. |
+
+## Column Configuration
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `field` | `string` | Name of the property inside the record to display. |
+| `header` | `string \| object` | Text or configuration object for the column header. |
+| `format` | `string` | Format string for cell values. |
+| `align` | `string` | Column alignment: `left`, `right`, or `center`. |
+| `sortable` | `boolean` | Set to `true` to make the column sortable. |
+| `sortField` | `string` | Alternative field used for sorting. |
+| `primarySortDirection` | `string` | Initial sort direction on first click: `ASC` or `DESC`. |
+| `aggregate` | `string` | Aggregate function: `sum`, `count`, `distinct`, `avg`. |
+| `aggregateField` | `string` | Field used for aggregation if different from `field`. |
+| `footer` | `string` | Value to render in the footer. |
+| `editable` | `boolean` | Indicate if cell is editable. Default is `true`. |
+| `editor` | `object` | Cell editor configuration. |
+| `draggable` | `boolean` | Make column draggable for reordering. |
+| `resizable` | `boolean` | Make column resizable. |
+| `mergeCells` | `string` | Merge adjacent cells: `same-value` or `always`. |
+
+## Column Header Configuration
+
+When `header` is an object, the following properties are available:
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `text` | `string` | Header text. |
+| `align` | `string` | Header text alignment: `left`, `right`, or `center`. |
+| `allowSorting` | `boolean` | Enable or disable sorting on the column. Default is `true`. |
+| `colSpan` | `number` | Number of columns the header cell should span. Default is `1`. |
+| `rowSpan` | `number` | Number of rows the header cell should span. Default is `1`. |
+| `tool` | `object` | A component rendered inside the header for custom menus or filters. |
+| `resizable` | `boolean` | Set to `true` to make the column resizable. |
+| `width` | `Prop<number>` | Binding to store column width after resize. |
+| `tooltip` | `string \| object` | Tooltip configuration for the header. |
+
+## Drag & Drop Configuration
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `dragSource` | `object` | Drag source configuration. Define `mode` as `move` or `copy` and additional `data`. |
+| `dropZone` | `object` | Drop zone configuration. Define `mode` as `insertion` or `preview`. |
+| `allowsFileDrops` | `boolean` | Allow grid to receive drag and drop operations containing files. |
+
+### Drag & Drop Callbacks
+
+**`onDragStart(e: DragEvent, instance: Instance)`** - Called when the user starts dragging a row.
+- `e` - The native drag event.
+- `instance` - The grid instance.
+
+**`onDragEnd(e: DragEvent, instance: Instance)`** - Called when the user stops dragging.
+- `e` - The native drag event.
+- `instance` - The grid instance.
+
+**`onDragOver(e: GridDragEvent, instance: Instance): boolean?`** - Called when the user drags over another item. Return `false` to prevent dropping.
+- `e` - Grid drag event containing `source` and `target` with record indices.
+- `instance` - The grid instance.
+
+**`onDrop(e: GridDragEvent, instance: Instance)`** - Called when a drop occurs. Use it to update data such as rearranging the list.
+- `e` - Grid drag event containing `source` and `target` with record indices and insertion index.
+- `instance` - The grid instance.
+
+**`onDropTest(e: DragEvent, instance: Instance): boolean`** - Checks whether a drop action is allowed. Return `false` to reject.
+- `e` - The native drag event.
+- `instance` - The grid instance.
+
+**`onRowDragOver(e: GridRowDragEvent, instance: Instance): boolean?`** - Called when dragging over a specific row. Useful for tree grids.
+- `e` - Grid row drag event containing source record and target row info.
+- `instance` - The grid instance.
+
+**`onRowDrop(e: GridRowDragEvent, instance: Instance): boolean?`** - Called when dropping onto a row. Use it to attach a node to a subtree.
+- `e` - Grid row drag event containing source record and target row info.
+- `instance` - The grid instance.
+
+**`onRowDropTest(e: DragEvent, instance: Instance): boolean`** - Checks whether a row drop action is allowed.
+- `e` - The native drag event.
+- `instance` - The grid instance.
+
+**`onColumnDrop(e: GridColumnDropEvent, instance: Instance): boolean?`** - Called when a column is dropped. Use it for column reordering.
+- `e` - Column drop event containing column info.
+- `instance` - The grid instance.
+
+**`onColumnDropTest(e: DragEvent, instance: Instance): boolean`** - Checks whether a column drop is valid.
+- `e` - The native drag event.
+- `instance` - The grid instance.
+
+**`onCreateIsRecordDraggable(): (record) => boolean`** - Returns a predicate function that determines which records can be dragged.

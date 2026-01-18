@@ -1,13 +1,17 @@
 import { Accessor, getAccessor } from "../../data/getAccessor";
 import { isArray } from "../../util/isArray";
-import { ArrayAdapter, ArrayAdapterConfig, RecordStoreCache } from "./ArrayAdapter";
+import {
+   ArrayAdapter,
+   ArrayAdapterConfig,
+   RecordStoreCache,
+} from "./ArrayAdapter";
 import { DataAdapterRecord } from "./DataAdapter";
 import { RenderingContext } from "../RenderingContext";
 import { Instance } from "../Instance";
 import { View } from "../../data/View";
 import { Sorter } from "../Prop";
 
-export interface TreeNode {
+export interface DefaultTreeNode {
    $level?: number;
    $expanded?: boolean;
    $leaf?: boolean;
@@ -31,10 +35,21 @@ export interface TreeAdapterConfig extends ArrayAdapterConfig {
    foldersFirst?: boolean;
    hideRootNodes?: boolean;
    restoreExpandedNodesOnLoad?: boolean;
-   load?: (context: RenderingContext, instance: Instance, data: TreeNode) => Promise<any[]> | any[];
+   load?: (
+      context: RenderingContext,
+      instance: Instance,
+      node: any,
+   ) => Promise<any[]> | any[];
+   onLoad?: (
+      context: RenderingContext,
+      instance: Instance,
+      node: any,
+   ) => Promise<any[]> | any[];
 }
 
-export class TreeAdapter<T extends TreeNode = TreeNode> extends ArrayAdapter<T> {
+export class TreeAdapter<
+   T extends object = DefaultTreeNode,
+> extends ArrayAdapter<T> {
    declare public childrenField: string;
    declare public expandedField: string;
    declare public leafField: string;
@@ -44,7 +59,17 @@ export class TreeAdapter<T extends TreeNode = TreeNode> extends ArrayAdapter<T> 
    declare public foldersFirst: boolean;
    declare public hideRootNodes: boolean;
    declare public restoreExpandedNodesOnLoad?: boolean;
-   declare public load?: (context: RenderingContext, instance: Instance, data: T) => Promise<any[]> | any[];
+   declare public load?: (
+      context: RenderingContext,
+      instance: Instance,
+      data: T,
+   ) => Promise<any[]> | any[];
+
+   declare public onLoad?: (
+      context: RenderingContext,
+      instance: Instance,
+      data: T,
+   ) => Promise<any[]> | any[];
 
    declare protected childrenAccessor?: Accessor;
    declare protected expandedState?: ExpandedState;
@@ -55,7 +80,9 @@ export class TreeAdapter<T extends TreeNode = TreeNode> extends ArrayAdapter<T> 
 
    public init(): void {
       super.init();
-      this.childrenAccessor = getAccessor({ bind: `${this.recordName}.${this.childrenField}` });
+      this.childrenAccessor = getAccessor({
+         bind: `${this.recordName}.${this.childrenField}`,
+      });
 
       if (this.restoreExpandedNodesOnLoad) {
          if (!this.keyField) {
@@ -68,6 +95,8 @@ export class TreeAdapter<T extends TreeNode = TreeNode> extends ArrayAdapter<T> 
             next: new Set(),
          };
       }
+
+      if (this.load) this.onLoad = this.load;
    }
 
    public mapRecords(
@@ -77,7 +106,13 @@ export class TreeAdapter<T extends TreeNode = TreeNode> extends ArrayAdapter<T> 
       parentStore: View,
       recordsAccessor?: Accessor,
    ): DataAdapterRecord<T>[] {
-      const nodes = super.mapRecords(context, instance, data, parentStore, recordsAccessor);
+      const nodes = super.mapRecords(
+         context,
+         instance,
+         data,
+         parentStore,
+         recordsAccessor,
+      );
       const result: DataAdapterRecord<T>[] = [];
 
       if (this.restoreExpandedNodesOnLoad) {
@@ -123,8 +158,13 @@ export class TreeAdapter<T extends TreeNode = TreeNode> extends ArrayAdapter<T> 
       dataRecord.$level = this.hideRootNodes ? level - 1 : level;
 
       if (!dataRecord[this.leafField]) {
-         if (this.restoreExpandedNodesOnLoad && dataRecord[this.expandedField] == null) {
-            dataRecord[this.expandedField] = this.expandedState!.current!.has(dataRecord[this.keyField!]);
+         if (
+            this.restoreExpandedNodesOnLoad &&
+            dataRecord[this.expandedField] == null
+         ) {
+            dataRecord[this.expandedField] = this.expandedState!.current!.has(
+               dataRecord[this.keyField!],
+            );
          }
 
          if (dataRecord[this.expandedField] || isHiddenRootNode) {
@@ -140,18 +180,38 @@ export class TreeAdapter<T extends TreeNode = TreeNode> extends ArrayAdapter<T> 
                   store,
                   this.childrenAccessor,
                );
-               this.processList(context, instance, level + 1, record.key + ":", childNodes, result);
-            } else if (this.load && !dataRecord[this.loadedField] && !dataRecord[this.loadingField]) {
+               this.processList(
+                  context,
+                  instance,
+                  level + 1,
+                  record.key + ":",
+                  childNodes,
+                  result,
+               );
+            } else if (
+               this.onLoad &&
+               !dataRecord[this.loadedField] &&
+               !dataRecord[this.loadingField]
+            ) {
                store.set(`${this.recordName}.${this.loadingField}`, true);
-               const response = this.load(context, instance, data);
+               const response = this.onLoad(context, instance, data);
                Promise.resolve(response)
                   .then((children) => {
-                     store.set(`${this.recordName}.${this.childrenField}`, children);
+                     store.set(
+                        `${this.recordName}.${this.childrenField}`,
+                        children,
+                     );
                      store.set(`${this.recordName}.${this.loadedField}`, true);
-                     store.set(`${this.recordName}.${this.loadingField}`, false);
+                     store.set(
+                        `${this.recordName}.${this.loadingField}`,
+                        false,
+                     );
                   })
                   .catch((response) => {
-                     store.set(`${this.recordName}.${this.loadingField}`, false);
+                     store.set(
+                        `${this.recordName}.${this.loadingField}`,
+                        false,
+                     );
                      if (this.onLoadError) {
                         this.onLoadError(response);
                      }

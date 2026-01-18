@@ -4,12 +4,12 @@ import { Button, Toast } from "cx/widgets";
 export default () => (
   <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
     <Button
-      onClick={(e, { store }) => {
+      onClick={(e) => {
         Toast.create({
           message: "Primary notification",
           mod: "primary",
           timeout: 3000,
-        }).open(store);
+        }).open();
       }}
     >
       Primary
@@ -20,29 +20,29 @@ export default () => (
           message: "Success! Operation completed.",
           mod: "success",
           timeout: 3000,
-        }).open(store);
+        }).open();
       }}
     >
       Success
     </Button>
     <Button
-      onClick={(e, { store }) => {
+      onClick={(e) => {
         Toast.create({
           message: "Warning: Please review your input.",
           mod: "warning",
           timeout: 3000,
-        }).open(store);
+        }).open();
       }}
     >
       Warning
     </Button>
     <Button
-      onClick={(e, { store }) => {
+      onClick={(e) => {
         Toast.create({
           message: "Error: Something went wrong.",
           mod: "error",
           timeout: 3000,
-        }).open(store);
+        }).open();
       }}
     >
       Error

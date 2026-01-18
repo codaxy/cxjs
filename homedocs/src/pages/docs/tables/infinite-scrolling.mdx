@@ -1,0 +1,75 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Infinite Scrolling
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import InfiniteScrollingExample from "../../../examples/tables/InfiniteScrollingExample.tsx";
+import InfiniteScrollingExampleCode from "../../../examples/tables/InfiniteScrollingExample.tsx?raw";
+
+# Infinite Scrolling
+
+<ImportPath path="import { Grid } from 'cx/widgets';" />
+
+Infinite scrolling dynamically loads data as the user scrolls. The grid fetches additional pages of data based on scroll position, providing a seamless experience for large datasets.
+
+<CodeExample code={InfiniteScrollingExampleCode}>
+  <InfiniteScrollingExample client:load />
+</CodeExample>
+
+Scroll down to load more records. This grid can display up to 10,000 records, loaded on demand.
+
+## How It Works
+
+Enable infinite scrolling by setting the `infinite` flag and implementing the `onFetchRecords` callback:
+
+```tsx
+<Grid
+  infinite
+  style="height: 400px"
+  onFetchRecords={({ page, pageSize, sorters }) =>
+    fetchFromServer(page, pageSize, sorters).then((data) => ({
+      records: data.items,
+      totalRecordCount: data.total,
+    }))
+  }
+  columns={columns}
+/>
+```
+
+The `onFetchRecords` callback receives fetch parameters and should return a Promise that resolves to an object with the fetched records and pagination info.
+
+## Fetch Parameters
+
+The `onFetchRecords` callback receives an object with:
+
+- `page` - Current page number (1-indexed)
+- `pageSize` - Number of records per page
+- `sorters` - Array of active sorters `[{ field, direction }]`
+- `state` - Custom state passed from previous fetch result
+
+## Fetch Result
+
+The callback should return a Promise resolving to:
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `records` | `array` | Array of records for the current page. |
+| `totalRecordCount` | `number` | Total number of records available. Used to calculate scroll height. |
+| `lastPage` | `boolean` | Alternative to `totalRecordCount`. Set to `true` when there are no more records. |
+| `state` | `any` | Custom state (e.g., cursor or token) passed to the next fetch call. |
+
+## Configuration
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `infinite` | `boolean` | Enables infinite scrolling mode. |
+| `onFetchRecords` | `function` | Callback that fetches records. Receives fetch parameters and returns a Promise. |
+| `pageSize` | `number` | Number of records to fetch per page. Default is `100`. |
+| `lockColumnWidths` | `boolean` | Locks column widths to prevent layout shifts during data loads. |
+| `lockColumnWidthsRequiredRowCount` | `number` | Minimum number of rows required before column widths are locked. |
+| `cached` | `boolean` | Prevents row re-renders when unrelated store data changes. |
+
+See also: [Buffering](/docs/tables/buffering), [Pagination](/docs/tables/pagination)

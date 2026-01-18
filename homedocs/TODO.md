@@ -2,3 +2,4 @@
 [ ] Add SEO data
 [ ] Add Google Analytics
 [ ] Preserve @jsxImportSource in llms.txt
+[ ] try export default {} instead of export () => {}

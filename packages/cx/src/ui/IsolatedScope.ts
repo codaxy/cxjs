@@ -2,13 +2,14 @@ import { PureContainerBase, PureContainerConfig } from "./PureContainer";
 import { isArray } from "../util/isArray";
 import { Instance } from "./Instance";
 import { StructuredProp } from "./Prop";
+import { AccessorChain } from "../data";
 
 export interface IsolatedScopeConfig extends PureContainerConfig {
    /**
     * A single binding path or a list of paths to be monitored for changes.
     * Use `bind` as a shorthand for defining the `data` object.
     */
-   bind?: string | string[];
+   bind?: string | string[] | AccessorChain<any>;
 
    /** Data object selector. The children will update only if `data` change. */
    data?: StructuredProp;
@@ -44,7 +45,8 @@ export class IsolatedScope<
          super.explore(context, instance);
       } else if (instance.children) {
          // mark children to prevent sweeping them away
-         for (let i = 0; i < instance.children.length; i++) instance.instanceCache.addChild(instance.children[i]);
+         for (let i = 0; i < instance.children.length; i++)
+            instance.instanceCache.addChild(instance.children[i]);
       }
    }
 }

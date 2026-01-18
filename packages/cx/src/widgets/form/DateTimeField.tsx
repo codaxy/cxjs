@@ -111,6 +111,12 @@ export interface DateTimeFieldConfig extends FieldConfig {
    /** Additional configuration to be passed to the dropdown. */
    dropdownOptions?: Partial<DropdownConfig>;
 
+   /** Type of picker to show. Can be `calendar`, `time`, `list`, or `auto`. Default is `auto`. */
+   picker?: "calendar" | "time" | "list" | "auto";
+
+   /** Time step in minutes for the time picker. */
+   step?: number;
+
    /** Custom validation function. */
    onValidate?:
       | string

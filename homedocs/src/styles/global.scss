@@ -964,14 +964,6 @@ $cx-dropdown-styles: cx-deep-map-merge(
 .cxb-treenode {
   color: hsl(var(--foreground));
   transition: background-color 0.15s;
-
-  &:hover {
-    background-color: hsl(var(--muted));
-  }
-
-  &.cxs-selected {
-    background-color: hsl(var(--accent));
-  }
 }
 
 // ColorPicker

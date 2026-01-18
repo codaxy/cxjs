@@ -1,5 +1,5 @@
 import { createModel } from "cx/data";
-import { LabelsTopLayout, Rescope } from "cx/ui";
+import { Controller, LabelsTopLayout, Rescope } from "cx/ui";
 import { TextField } from "cx/widgets";
 
 // @model
@@ -27,7 +27,7 @@ const mManager = createModel<Manager>();
 // @model-end
 
 // @controller
-const controller = {
+class PageController extends Controller {
   onInit() {
     this.store.set(m.company, {
       name: "Acme Corp",
@@ -39,13 +39,13 @@ const controller = {
         size: 10,
       },
     });
-  },
-};
+  }
+}
 // @controller-end
 
 // @index
 export default () => (
-  <div class="" controller={controller}>
+  <div class="" controller={PageController}>
     <div class="text-sm">Without Rescope (long paths):</div>
     <div class="flex gap-4" layout={LabelsTopLayout}>
       <TextField value={m.company.team.manager.name} label="Manager Name" />

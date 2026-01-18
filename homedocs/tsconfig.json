@@ -6,6 +6,7 @@
     "moduleResolution": "bundler",
     "module": "esnext",
     "esModuleInterop": true,
+    "verbatimModuleSyntax": false,
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]

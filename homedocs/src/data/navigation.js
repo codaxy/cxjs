@@ -257,36 +257,66 @@ export const navigation = [
     slug: "tables",
     groups: [
       {
-        title: "Components",
+        title: "Basics",
         items: [
           { title: "Grid", slug: "grid" },
-          { title: "TreeGrid", slug: "tree-grid" },
+          { title: "Searching and Filtering", slug: "searching-and-filtering" },
+          { title: "Pagination", slug: "pagination" },
+          { title: "Multiple Selection", slug: "multiple-selection" },
+          { title: "Buffering", slug: "buffering" },
+          { title: "Infinite Scrolling", slug: "infinite-scrolling" },
         ],
       },
       {
-        title: "Examples",
+        title: "Data Adapters",
         items: [
-          { title: "Buffering", slug: "buffering" },
-          { title: "Cell Editing", slug: "cell-editing" },
-          { title: "Column Reordering", slug: "column-reordering" },
-          { title: "Column Resizing", slug: "column-resizing" },
+          { title: "Overview", slug: "data-adapters" },
+          { title: "ArrayAdapter", slug: "array-adapter" },
+          { title: "GroupAdapter", slug: "group-adapter" },
+          { title: "TreeAdapter", slug: "tree-adapter" },
+        ],
+      },
+      {
+        title: "Trees",
+        items: [
+          { title: "TreeNode", slug: "tree-node" },
+          { title: "Tree Grid", slug: "tree-grid" },
+          { title: "Searching Tree Grids", slug: "searching-tree-grids" },
+          { title: "Tree Operations", slug: "tree-operations" },
+        ],
+      },
+      {
+        title: "Columns",
+        items: [
           { title: "Complex Headers", slug: "complex-headers" },
-          { title: "Dynamic Columns", slug: "dynamic-columns" },
-          { title: "Dynamic Grouping", slug: "dynamic-grouping" },
-          { title: "Fixed Columns", slug: "fixed-columns" },
-          { title: "Form Edit", slug: "form-edit" },
-          { title: "Grouping", slug: "grouping" },
           { title: "Header Menu", slug: "header-menu" },
-          { title: "Infinite Scrolling", slug: "infinite-scrolling" },
-          { title: "Inline Edit", slug: "inline-edit" },
-          { title: "Multiple Selection", slug: "multiple-selection" },
-          { title: "Pagination", slug: "pagination" },
-          { title: "Row Drag and Drop", slug: "row-drag-and-drop" },
+          { title: "Column Resizing", slug: "column-resizing" },
+          { title: "Column Reordering", slug: "column-reordering" },
+          { title: "Fixed Columns", slug: "fixed-columns" },
+          { title: "Dynamic Columns", slug: "dynamic-columns" },
+        ],
+      },
+      {
+        title: "Grouping",
+        items: [
+          { title: "Grouping", slug: "grouping" },
+          { title: "Dynamic Grouping", slug: "dynamic-grouping" },
+        ],
+      },
+      {
+        title: "Editing",
+        items: [
+          { title: "Cell Editing", slug: "cell-editing" },
           { title: "Row Editing", slug: "row-editing" },
+          { title: "Inline Edit", slug: "inline-edit" },
+          { title: "Form Edit", slug: "form-edit" },
+        ],
+      },
+      {
+        title: "Rows",
+        items: [
           { title: "Row Expanding", slug: "row-expanding" },
-          { title: "Searching and Filtering", slug: "searching-and-filtering" },
-          { title: "Stateful TreeGrid", slug: "stateful-tree-grid" },
-          { title: "List Grouping", slug: "list-grouping" },
+          { title: "Row Drag and Drop", slug: "row-drag-and-drop" },
         ],
       },
     ],
@@ -357,6 +387,14 @@ export const navigation = [
     title: "Utilities",
     slug: "utilities",
     groups: [
+      {
+        title: "Data",
+        items: [
+          { title: "updateTree", slug: "update-tree" },
+          { title: "findTreeNode", slug: "find-tree-node" },
+          { title: "removeTreeNodes", slug: "remove-tree-nodes" },
+        ],
+      },
       {
         title: "Functions",
         items: [

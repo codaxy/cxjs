@@ -1,5 +1,5 @@
 import { createModel } from "cx/data";
-import { computable, DataProxy, LabelsTopLayout } from "cx/ui";
+import { computable, DataProxy, Instance, LabelsTopLayout } from "cx/ui";
 import { Slider } from "cx/widgets";
 
 // @model
@@ -28,7 +28,7 @@ export default () => (
       data={{
         $inverted: {
           expr: computable(m.level, (v) => 100 - v),
-          set: (value, { store }) => {
+          set: (value: number, { store }: Instance) => {
             store.set(m.level, 100 - value);
           },
         },

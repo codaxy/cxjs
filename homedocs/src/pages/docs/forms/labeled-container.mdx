@@ -3,46 +3,31 @@ layout: ../../../layouts/DocsLayout.astro
 title: LabeledContainer
 ---
 
+import ImportPath from "../../../components/ImportPath.astro";
 import CodeExample from "../../../components/CodeExample.astro";
-import LabeledContainerBasic from "../../../examples/widgets/labeledcontainer/Basic.tsx";
-import LabeledContainerDateRange from "../../../examples/widgets/labeledcontainer/DateRange.tsx";
+
+import LabeledContainerExample from "../../../examples/forms/LabeledContainerExample.tsx";
+import LabeledContainerExampleCode from "../../../examples/forms/LabeledContainerExample.tsx?raw";
 
 # LabeledContainer
 
-The `LabeledContainer` widget groups multiple form fields under a single label.
+<ImportPath path="import { LabeledContainer } from 'cx/widgets';" />
 
-**Import:** `import { LabeledContainer } from 'cx/widgets';`
+The `LabeledContainer` widget groups multiple form fields under a single label. This is useful for related fields like name parts (first/last) or date ranges (start/end).
 
-## Basic Usage
-
-Group related fields under a single label.
-
-<CodeExample
-  code={`<LabeledContainer label="Full Name">
-  <TextField value={bind("firstName")} placeholder="First" />
-  <TextField value={bind("lastName")} placeholder="Last" />
-</LabeledContainer>`}
->
-  <LabeledContainerBasic client:load />
+<CodeExample code={LabeledContainerExampleCode}>
+  <LabeledContainerExample client:load />
 </CodeExample>
 
-## Date Range
+`LabeledContainer` extends `FieldGroup`, so it inherits all field group properties like `disabled`, `readOnly`, and `viewMode`.
 
-Group date fields for selecting a range.
+## Configuration
 
-<CodeExample
-  code={`<LabeledContainer label="Date Range">
-  <DateField value={bind("startDate")} placeholder="Start" />
-  <DateField value={bind("endDate")} placeholder="End" />
-</LabeledContainer>`}
->
-  <LabeledContainerDateRange client:load />
-</CodeExample>
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `label` | `StringProp \| LabelConfig` | The label text or Label widget configuration. |
+| `disabled` | `BooleanProp` | Set to `true` to disable all inner elements. |
+| `mod` | `ModProp` | CSS modifier classes for the label. |
+| `asterisk` | `BooleanProp` | Show required indicator next to the label. |
 
-## Properties
-
-| Property         | Type               | Default     | Description                      |
-| ---------------- | ------------------ | ----------- | -------------------------------- |
-| `label`          | `string \| object` | `undefined` | The label text or configuration  |
-| `trimWhitespace` | `boolean`          | `true`      | Trim whitespace between children |
-| `asterisk`       | `boolean`          | `false`     | Show required indicator          |
+Additionally, all `FieldGroup` properties are available: `enabled`, `readOnly`, `viewMode`, `visited`, `strict`, etc.

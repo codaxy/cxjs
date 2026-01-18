@@ -1,6 +1,6 @@
 import { Instance } from "../../ui/Instance";
 import { RenderingContext } from "../../ui/RenderingContext";
-import { Widget } from "../../ui/Widget";
+import { Widget, WidgetConfig } from "../../ui/Widget";
 import { closest } from "../../util";
 import type { TooltipInstance } from "./Tooltip";
 import {
@@ -10,8 +10,12 @@ import {
    TooltipProp,
 } from "./tooltip-ops";
 
-export interface FlyweightTooltipTrackerConfig {
-   onGetTooltip?: (element: Element, instance: Instance) => TooltipProp;
+export interface FlyweightTooltipTrackerConfig extends WidgetConfig {
+   /** Callback invoked to get tooltip configuration for an element. */
+   onGetTooltip?: (
+      element: Element,
+      instance: Instance,
+   ) => TooltipProp | undefined;
 }
 
 export class FlyweightTooltipTrackerInstance
@@ -24,11 +28,18 @@ export class FlyweightTooltipTrackerInstance
    declare tooltips: { [key: string]: TooltipInstance };
 }
 
-export class FlyweightTooltipTracker extends Widget {
+export class FlyweightTooltipTracker extends Widget<
+   FlyweightTooltipTrackerConfig,
+   FlyweightTooltipTrackerInstance
+> {
    declare onGetTooltip?: (
       element: Element,
       instance: Instance,
    ) => TooltipProp | undefined;
+
+   constructor(config?: FlyweightTooltipTrackerConfig) {
+      super(config);
+   }
 
    initInstance(
       context: RenderingContext,
