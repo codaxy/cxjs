@@ -19,7 +19,13 @@ import type { Widget } from "./Widget";
 /**
  * Serializable value types that can be safely passed through the framework
  */
-export type SerializableValue = string | number | boolean | object | null | undefined;
+export type SerializableValue =
+   | string
+   | number
+   | boolean
+   | object
+   | null
+   | undefined;
 
 /**
  * Core instance data structure used by widgets
@@ -190,7 +196,12 @@ export class Instance<WidgetType extends Widget<any, any> = Widget<any, any>> {
    declare public instances?: Instance[];
    declare public selected?: boolean;
 
-   constructor(widget: WidgetType, key: string, parent?: Instance, parentStore?: any) {
+   constructor(
+      widget: WidgetType,
+      key: string,
+      parent?: Instance,
+      parentStore?: any,
+   ) {
       this.widget = widget;
       this.key = key;
       this.id = String(++instanceId);
@@ -198,7 +209,8 @@ export class Instance<WidgetType extends Widget<any, any> = Widget<any, any>> {
       this.parent = parent;
       this.parentStore = parentStore ?? parent?.store;
 
-      if (this.parentStore == null) throw new Error("Cannot create instance without a parent store.");
+      if (this.parentStore == null)
+         throw new Error("Cannot create instance without a parent store.");
    }
 
    public setParentStore(parentStore: any): void {
@@ -242,8 +254,10 @@ export class Instance<WidgetType extends Widget<any, any> = Widget<any, any>> {
          this.widget.prepareCleanup
       )
          this.needsExploreCleanup = true;
-      if (this.widget.prepare || this.widget.controller) this.needsPrepare = true;
-      if (this.widget.cleanup || this.widget.controller) this.needsCleanup = true;
+      if (this.widget.prepare || this.widget.controller)
+         this.needsPrepare = true;
+      if (this.widget.cleanup || this.widget.controller)
+         this.needsCleanup = true;
       this.initialized = true;
    }
 
@@ -253,7 +267,8 @@ export class Instance<WidgetType extends Widget<any, any> = Widget<any, any>> {
       const wasVisible = this.visible;
       this.rawData = this.dataSelector!(this.store);
       this.visible = this.widget.checkVisible(context, this, this.rawData);
-      if (this.visible && !this.detached) this.parent!.instanceCache!.addChild(this);
+      if (this.visible && !this.detached)
+         this.parent!.instanceCache!.addChild(this);
       this.explored = false;
       this.prepared = false;
 
@@ -311,9 +326,11 @@ export class Instance<WidgetType extends Widget<any, any> = Widget<any, any>> {
       if (this.explored) {
          if (this.widget.prepareCleanup) context.prepareList.push(this);
 
-         if (this.widget.exploreCleanup) this.widget.exploreCleanup(context, this);
+         if (this.widget.exploreCleanup)
+            this.widget.exploreCleanup(context, this);
 
-         if (this.parent?.outerLayout === this) context.popNamedValue("content", "body");
+         if (this.parent?.outerLayout === this)
+            context.popNamedValue("content", "body");
 
          if (this.widget.controller) context.pop("controller");
 
@@ -334,7 +351,8 @@ export class Instance<WidgetType extends Widget<any, any> = Widget<any, any>> {
 
       if (!this.controller) {
          if (context.controller) this.controller = context.controller;
-         else if (this.parent?.controller) this.controller = this.parent?.controller;
+         else if (this.parent?.controller)
+            this.controller = this.parent?.controller;
       }
 
       this.destroyTracked = false;
@@ -347,13 +365,21 @@ export class Instance<WidgetType extends Widget<any, any> = Widget<any, any>> {
             }
             context.push("controller", this.controller);
             this.controller.explore(context);
-            if (this.controller.onDestroy && this.controller.widget == this.widget) this.trackDestroy();
+            if (
+               this.controller.onDestroy &&
+               this.controller.widget == this.widget
+            )
+               this.trackDestroy();
          }
       }
 
-      if (this.widget.onDestroy || isNonEmptyArray(this.destroySubscriptions)) this.trackDestroy();
+      if (this.widget.onDestroy || isNonEmptyArray(this.destroySubscriptions))
+         this.trackDestroy();
 
-      this.renderList = this.assignedRenderList || this.parent?.renderList || context.getRootRenderList();
+      this.renderList =
+         this.assignedRenderList ||
+         this.parent?.renderList ||
+         context.getRootRenderList();
 
       let shouldUpdate =
          this.rawData !== this.cached.rawData ||
@@ -376,14 +402,22 @@ export class Instance<WidgetType extends Widget<any, any> = Widget<any, any>> {
       }
 
       if (this.widget.outerLayout) {
-         this.outerLayout = this.getChild(context, this.widget.outerLayout, null, this.store);
+         this.outerLayout = this.getChild(
+            context,
+            this.widget.outerLayout,
+            null,
+            this.store,
+         );
          this.outerLayout.scheduleExploreIfVisible(context);
          this.renderList = this.renderList.insertLeft();
       }
 
       if (this.widget.isContent) {
-         this.contentPlaceholder = context.contentPlaceholder && context.contentPlaceholder[this.widget.putInto!];
-         if (this.contentPlaceholder) context.contentPlaceholder[this.widget.putInto!](this);
+         this.contentPlaceholder =
+            context.contentPlaceholder &&
+            context.contentPlaceholder[this.widget.putInto!];
+         if (this.contentPlaceholder)
+            context.contentPlaceholder[this.widget.putInto!](this);
          else {
             this.renderList = this.renderList.insertLeft();
             context.pushNamedValue("content", this.widget.putInto!, this);
@@ -395,7 +429,8 @@ export class Instance<WidgetType extends Widget<any, any> = Widget<any, any>> {
       }
 
       this.shouldUpdate = false;
-      if (shouldUpdate || this.childStateDirty || !this.widget.memoize) this.markShouldUpdate(context);
+      if (shouldUpdate || this.childStateDirty || !this.widget.memoize)
+         this.markShouldUpdate(context);
 
       context.exploreStack.hop();
 
@@ -405,7 +440,8 @@ export class Instance<WidgetType extends Widget<any, any> = Widget<any, any>> {
             let helper = this.widget.helpers[cmp];
             if (helper) {
                let ins = this.getChild(context, helper);
-               if (ins.scheduleExploreIfVisible(context)) this.helpers[cmp] = ins;
+               if (ins.scheduleExploreIfVisible(context))
+                  this.helpers[cmp] = ins;
             }
          }
       }
@@ -418,22 +454,28 @@ export class Instance<WidgetType extends Widget<any, any> = Widget<any, any>> {
       if (!this.visible) throw new Error("Prepare invisible!");
 
       if (this.prepared) {
-         if (this.widget.prepareCleanup) this.widget.prepareCleanup(context, this);
+         if (this.widget.prepareCleanup)
+            this.widget.prepareCleanup(context, this);
          return;
       }
 
       this.prepared = true;
       if (this.widget.prepare) this.widget.prepare(context, this);
 
-      if (this.widget.controller && this.controller?.prepare) this.controller.prepare(context);
+      if (this.widget.controller && this.controller?.prepare)
+         this.controller.prepare(context);
    }
 
-   public render(context: RenderingContext): null | Record<string, React.ReactNode> | React.ReactNode[] {
+   public render(
+      context: RenderingContext,
+   ): null | Record<string, React.ReactNode> | React.ReactNode[] {
       if (!this.visible) throw new Error("Render invisible!");
 
       if (this.shouldUpdate) {
          debug(renderFlag, this.widget, this.key);
-         const vdom = renderResultFix(this.widget.render(context, this, this.key));
+         const vdom = renderResultFix(
+            this.widget.render(context, this, this.key),
+         );
          if (this.widget.isContent || this.outerLayout) this.contentVDOM = vdom;
          else this.vdom = vdom;
       }
@@ -466,7 +508,8 @@ export class Instance<WidgetType extends Widget<any, any> = Widget<any, any>> {
    }
 
    public cleanup(context: RenderingContext): void {
-      if (this.widget.controller && this.controller?.cleanup) this.controller.cleanup(context);
+      if (this.widget.controller && this.controller?.cleanup)
+         this.controller.cleanup(context);
 
       if (this.widget.cleanup) this.widget.cleanup(context, this);
    }
@@ -474,7 +517,8 @@ export class Instance<WidgetType extends Widget<any, any> = Widget<any, any>> {
    private trackDestroy(): void {
       if (!this.destroyTracked) {
          this.destroyTracked = true;
-         if (this.parent && !this.detached) this.parent.trackDestroyableChild(this);
+         if (this.parent && !this.detached)
+            this.parent.trackDestroyableChild(this);
       }
    }
 
@@ -489,7 +533,9 @@ export class Instance<WidgetType extends Widget<any, any> = Widget<any, any>> {
       this.trackDestroy();
       return () => {
          if (this.destroySubscriptions) {
-            this.destroySubscriptions = this.destroySubscriptions.filter((cb) => cb !== callback);
+            this.destroySubscriptions = this.destroySubscriptions.filter(
+               (cb) => cb !== callback,
+            );
          }
       };
    }
@@ -547,7 +593,11 @@ export class Instance<WidgetType extends Widget<any, any> = Widget<any, any>> {
       });
    }
 
-   public set(prop: string, value: any, options: { internal?: boolean; immediate?: boolean } = {}): boolean {
+   public set(
+      prop: string,
+      value: any,
+      options: { internal?: boolean; immediate?: boolean } = {},
+   ): boolean {
       //skip re-rendering (used for reading state from uncontrolled components)
       if (options.internal && this.rawData) {
          this.rawData[prop] = value;
@@ -622,10 +672,17 @@ export class Instance<WidgetType extends Widget<any, any> = Widget<any, any>> {
       return changed;
    }
 
-   public nestedDataSet(key: string, value: any, dataConfig: Record<string, any>, useParentStore?: boolean): boolean {
+   public nestedDataSet(
+      key: string,
+      value: any,
+      dataConfig: Record<string, any>,
+      useParentStore?: boolean,
+   ): boolean {
       let config = dataConfig[key];
       if (!config)
-         throw new Error(`Unknown nested data key ${key}. Known keys are ${Object.keys(dataConfig).join(", ")}.`);
+         throw new Error(
+            `Unknown nested data key ${key}. Known keys are ${Object.keys(dataConfig).join(", ")}.`,
+         );
 
       if (isAccessorChain(config)) config = { bind: config.toString() };
 
@@ -633,14 +690,17 @@ export class Instance<WidgetType extends Widget<any, any> = Widget<any, any>> {
          let store = this.store;
          //in case of Rescope or DataProxy, bindings point to the data in the parent store
          if (useParentStore && store.store) store = store.store;
-         return isUndefined(value) ? store.deleteItem(config.bind) : store.setItem(config.bind, value);
+         return isUndefined(value)
+            ? store.deleteItem(config.bind)
+            : store.setItem(config.bind, value);
       }
 
       if (!config.set)
          throw new Error(
             `Cannot change nested data value for ${key} as it's read-only. Either define it as a binding or define a set function.`,
          );
-      if (isString(config.set)) this.getControllerMethod(config.set)(value, this);
+      if (isString(config.set))
+         this.getControllerMethod(config.set)(value, this);
       else if (isFunction(config.set)) config.set(value, this);
       else
          throw new Error(
@@ -658,7 +718,10 @@ export class Instance<WidgetType extends Widget<any, any> = Widget<any, any>> {
 
    public getInstanceCache(): InstanceCache {
       if (!this.instanceCache)
-         this.instanceCache = new InstanceCache(this, this.widget.isPureContainer ? this.key : null);
+         this.instanceCache = new InstanceCache(
+            this,
+            this.widget.isPureContainer ? this.key : null,
+         );
       return this.instanceCache;
    }
 
@@ -676,13 +739,23 @@ export class Instance<WidgetType extends Widget<any, any> = Widget<any, any>> {
    }
 
    public getDetachedChild(widget: Widget, key: string, store?: any): Instance {
-      const child = new Instance(widget, key, this, store ?? this.store);
+      const child = widget.createInstance(key, this, store ?? this.store);
       child.detached = true;
       return child;
    }
 
-   public prepareRenderCleanupChild(widget: any, store?: any, keyPrefix?: string, options?: any): any {
-      return widget.prepareRenderCleanup(store ?? this.store, options, keyPrefix, this);
+   public prepareRenderCleanupChild(
+      widget: any,
+      store?: any,
+      keyPrefix?: string,
+      options?: any,
+   ): any {
+      return widget.prepareRenderCleanup(
+         store ?? this.store,
+         options,
+         keyPrefix,
+         this,
+      );
    }
 
    public getJsxEventProps(): Record<string, any> | null {
@@ -703,10 +776,13 @@ export class Instance<WidgetType extends Widget<any, any> = Widget<any, any>> {
       const scope = this.widget as any;
       const callback = scope[methodName];
 
-      if (typeof callback === "string") return this.getControllerMethod(callback);
+      if (typeof callback === "string")
+         return this.getControllerMethod(callback);
 
       if (typeof callback !== "function")
-         throw new Error(`Cannot invoke callback method ${methodName} as assigned value is not a function.`);
+         throw new Error(
+            `Cannot invoke callback method ${methodName} as assigned value is not a function.`,
+         );
 
       return callback.bind(scope);
    }
@@ -716,7 +792,9 @@ export class Instance<WidgetType extends Widget<any, any> = Widget<any, any>> {
     * @param predicate Function to test each controller
     * @returns The matching controller or undefined
     */
-   public findController(predicate: (controller: Controller) => boolean): Controller | undefined {
+   public findController(
+      predicate: (controller: Controller) => boolean,
+   ): Controller | undefined {
       let at: Instance | undefined = this;
       while (at?.controller != null) {
          if (predicate(at.controller)) {
@@ -732,7 +810,9 @@ export class Instance<WidgetType extends Widget<any, any> = Widget<any, any>> {
     * @param type Controller class/constructor to find
     * @returns The matching controller cast to the specified type, or undefined
     */
-   public findControllerByType<T extends Controller>(type: new (...args: any[]) => T): T | undefined {
+   public findControllerByType<T extends Controller>(
+      type: new (...args: any[]) => T,
+   ): T | undefined {
       return this.findController((c) => c instanceof type) as T | undefined;
    }
 
@@ -742,9 +822,14 @@ export class Instance<WidgetType extends Widget<any, any> = Widget<any, any>> {
     * @returns The matching controller
     * @throws Error if no matching controller is found
     */
-   public getController(predicate: (controller: Controller) => boolean): Controller {
+   public getController(
+      predicate: (controller: Controller) => boolean,
+   ): Controller {
       const controller = this.findController(predicate);
-      if (!controller) throw new Error("Cannot find a controller matching the given predicate in the instance tree.");
+      if (!controller)
+         throw new Error(
+            "Cannot find a controller matching the given predicate in the instance tree.",
+         );
       return controller;
    }
 
@@ -754,9 +839,14 @@ export class Instance<WidgetType extends Widget<any, any> = Widget<any, any>> {
     * @returns The matching controller cast to the specified type
     * @throws Error if no controller of the specified type is found
     */
-   public getControllerByType<T extends Controller>(type: new (...args: any[]) => T): T {
+   public getControllerByType<T extends Controller>(
+      type: new (...args: any[]) => T,
+   ): T {
       const controller = this.findControllerByType(type);
-      if (!controller) throw new Error(`Cannot find a controller of type "${type.name}" in the instance tree.`);
+      if (!controller)
+         throw new Error(
+            `Cannot find a controller of type "${type.name}" in the instance tree.`,
+         );
       return controller;
    }
 
@@ -804,16 +894,23 @@ export class InstanceCache {
       this.keyPrefix = keyPrefix != null ? keyPrefix + "-" : "";
    }
 
-   public getChild(widget: Widget, parentStore: any, key?: string | number | null): Instance {
-      const k = this.keyPrefix + (key != null ? key : widget.vdomKey || widget.widgetId);
+   public getChild(
+      widget: Widget,
+      parentStore: View,
+      key?: string | number | null,
+   ): Instance {
+      const k =
+         this.keyPrefix +
+         (key != null ? key : widget.vdomKey || widget.widgetId);
       let instance = this.children[k];
 
       if (
          !instance ||
          instance.widget !== widget ||
-         (!instance.visible && (instance.widget.controller || instance.widget.onInit))
+         (!instance.visible &&
+            (instance.widget.controller || instance.widget.onInit))
       ) {
-         instance = new Instance(widget, k, this.parent, parentStore);
+         instance = widget.createInstance(k, this.parent, parentStore);
          this.children[k] = instance;
       } else if (instance.parentStore !== parentStore) {
          instance.setParentStore(parentStore);

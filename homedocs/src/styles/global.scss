@@ -172,13 +172,14 @@ $cx-default-list-item-padding: 8px 12px;
 
 $cx-default-switch-range-background-color: #1f99f8;
 
-$cx-default-grid-data-padding: 8px 16px;
+$cx-default-grid-data-padding: 8px 12px;
 $cx-default-grid-header-font-weight: 700;
 $cx-default-grid-header-font-size: 11px;
 $cx-default-grid-header-background-color: rgba(#eee, 0.25) !default;
 $cx-default-grid-header-color: rgba(black, 0.6);
 $cx-default-grid-border-color: rgb(237, 242, 247);
-$cx-default-grid-header-border-color: #ddd;
+$cx-default-grid-header-border-color: hsl(var(--border));
+$cx-default-grid-border-color: hsl(var(--border));
 
 $cx-default-window-footer-background-color: transparent;
 $cx-default-window-header-background-color: transparent;
@@ -749,19 +750,19 @@ $cx-dropdown-styles: cx-deep-map-merge(
 // Grid
 .cxb-grid {
   background-color: hsl(var(--card));
-  border-color: hsl(var(--border));
-  border-radius: var(--radius);
+  //border-color: hsl(var(--border));
+  //border-radius: var(--radius);
   overflow: hidden;
 
   .cxe-grid-header {
     background-color: hsl(var(--muted));
-    border-color: hsl(var(--border));
+    //border-color: hsl(var(--border));
     color: hsl(var(--muted-foreground));
     font-weight: 500;
   }
 
-  .cxe-grid-header-cell {
-    border-color: hsl(var(--border));
+  &.cxs-vlines .cxe-grid-col-header:not(:last-child) {
+    border-right-color: hsl(var(--border));
   }
 
   .cxe-grid-data {
@@ -787,16 +788,12 @@ $cx-dropdown-styles: cx-deep-map-merge(
 
 // Menu
 .cxb-menu {
-  background-color: hsl(var(--popover));
-  border-color: hsl(var(--border));
-  border-radius: var(--radius);
+  // background-color: hsl(var(--popover));
+  // border-color: hsl(var(--border));
+  // border-radius: var(--radius);
 
   .cxe-menu-item {
     color: hsl(var(--popover-foreground));
-
-    &:hover {
-      background-color: hsl(var(--muted));
-    }
   }
 }
 

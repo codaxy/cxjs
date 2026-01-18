@@ -546,7 +546,7 @@ export interface GridConfig<T = any> extends StyledContainerConfig {
   ) => (record: T) => boolean;
 
   /** Callback function to get grid component and instance references on component init. */
-  onRef?: string | ((element: any, instance: Instance) => void);
+  onRef?: string | ((element: any, instance: GridInstance) => void);
 
   /** When enabled, groups are shown in the same order as the source records. */
   preserveGroupOrder?: boolean;
@@ -566,29 +566,32 @@ export interface GridCellEditInfo<T> extends GridCellInfo {
   newData: T;
 }
 
-export interface GridInstance<T = any> extends Instance<Grid<T>> {
-  widget: Grid<T>;
-  isRecordSelectable?: (record: any, options?: any) => boolean;
-  visibleColumns: any[];
-  isRecordDraggable?: (record: any) => boolean;
-  row?: any;
-  fixedFooterVDOM?: any;
-  fixedColumnsFixedFooterVDOM?: any;
-  hasFixedColumns?: boolean;
-  recordInstanceCache?: any;
-  records?: MappedGridRecord<T>[];
-  isSelected: (record: any, index?: number) => boolean;
-  v: number;
-  buffer?: any;
-  dataAdapter: ArrayAdapter<T>;
-  fixedFooterIsGroupFooter?: boolean;
-  state?: any;
-  fixedColumnCount: number;
-  fixedHeaderResizeEvent?: any;
-  hoverSync?: any;
-  header?: any;
-  cached: any;
-  fixedFooterOverlap?: boolean;
+export class GridInstance<T = any> extends Instance<Grid<T>> {
+  declare isRecordSelectable?: (record: any, options?: any) => boolean;
+  declare visibleColumns: any[];
+  declare isRecordDraggable?: (record: any) => boolean;
+  declare row?: any;
+  declare fixedFooterVDOM?: any;
+  declare fixedColumnsFixedFooterVDOM?: any;
+  declare hasFixedColumns?: boolean;
+  declare recordInstanceCache?: any;
+  declare records?: MappedGridRecord<T>[];
+  declare isSelected: (record: any, index?: number) => boolean;
+  declare v: number;
+  declare buffer?: any;
+  declare dataAdapter: ArrayAdapter<T>;
+  declare fixedFooterIsGroupFooter?: boolean;
+
+  declare fixedColumnCount: number;
+  declare fixedHeaderResizeEvent?: any;
+  declare hoverSync?: any;
+  declare header?: any;
+  declare fixedFooterOverlap?: boolean;
+  declare state: any;
+
+  resetColumnWidths() {
+    this.setState({ colWidth: {} });
+  }
 }
 
 export class Grid<T = unknown> extends ContainerBase<
@@ -744,6 +747,10 @@ export class Grid<T = unknown> extends ContainerBase<
       this.focusable = !this.selection.isDummy || this.cellEditable;
 
     super.init();
+  }
+
+  createInstance(key: string, parent: Instance, parentStore?: View): GridInstance<T> {
+    return new GridInstance(this, key, parent, parentStore);
   }
 
   initState(context: RenderingContext, instance: GridInstance) {

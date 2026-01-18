@@ -266,7 +266,10 @@
             @include cx-add-state-rules($header-state-style-map, sorted);
 
             &:hover {
-               @include cx-add-state-rules($header-state-style-map, sorted-hover);
+               @include cx-add-state-rules(
+                  $header-state-style-map,
+                  sorted-hover
+               );
             }
          }
 
@@ -279,7 +282,10 @@
             &.#{$state}sorted-asc,
             &.#{$state}sorted-desc {
                &:hover {
-                  @include cx-add-state-rules($header-state-style-map, sorted-hover);
+                  @include cx-add-state-rules(
+                     $header-state-style-map,
+                     sorted-hover
+                  );
                }
             }
          }
@@ -335,7 +341,11 @@
 
    .#{$element}#{$name}-data {
       -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-      background-color: cx-get-state-rule($data-state-style-map, default, background-color);
+      background-color: cx-get-state-rule(
+         $data-state-style-map,
+         default,
+         background-color
+      );
 
       &.#{$state}alternate {
          @include cx-add-state-rules($data-state-style-map, alternate);
@@ -343,10 +353,23 @@
 
       td {
          padding: 0;
-         border-top: 1px solid cx-get-state-rule($data-state-style-map, default, border-color);
-         line-height: cx-get-state-rule($data-state-style-map, default, line-height);
-         font-weight: cx-get-state-rule($data-state-style-map, default, font-weight);
-         font-size: cx-get-state-rule($data-state-style-map, default, font-size);
+         border-top: 1px solid
+            cx-get-state-rule($data-state-style-map, default, border-color);
+         line-height: cx-get-state-rule(
+            $data-state-style-map,
+            default,
+            line-height
+         );
+         font-weight: cx-get-state-rule(
+            $data-state-style-map,
+            default,
+            font-weight
+         );
+         font-size: cx-get-state-rule(
+            $data-state-style-map,
+            default,
+            font-size
+         );
 
          &:empty::before {
             content: "-";
@@ -468,7 +491,10 @@
 
    @for $i from 1 through 4 {
       .#{$element}#{$name}-group-caption.#{$state}level-#{$i} td {
-         @include cx-add-state-rules($cx-grid-group-caption-level-style-map, level-#{$i});
+         @include cx-add-state-rules(
+            $cx-grid-group-caption-level-style-map,
+            level-#{$i}
+         );
       }
    }
 
@@ -483,7 +509,10 @@
 
    @for $i from 1 through 4 {
       .#{$element}#{$name}-group-footer.#{$state}level-#{$i} td {
-         @include cx-add-state-rules($cx-grid-group-footer-level-style-map, level-#{$i});
+         @include cx-add-state-rules(
+            $cx-grid-group-footer-level-style-map,
+            level-#{$i}
+         );
       }
    }
 
@@ -615,7 +644,11 @@
       left: 0;
       width: 0;
       border-right: 3px solid $cx-default-grid-border-color;
-      background: rgba($cx-default-grid-border-color, 0.15);
+      background: color-mix(
+         in srgb,
+         $cx-default-grid-border-color 15%,
+         transparent
+      );
       box-sizing: border-box;
    }
 
