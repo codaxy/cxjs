@@ -71,7 +71,7 @@ export default () => (
       scrollable
       dataAdapter={{
         type: TreeAdapter,
-        onLoad: (context, instance, node: TreeRecord) =>
+        onLoad: (context, instance, node) =>
           instance.getControllerByType(PageController).generateRecords(node),
       }}
       selection={{ type: KeySelection, bind: m.selection, keyField: "id" }}

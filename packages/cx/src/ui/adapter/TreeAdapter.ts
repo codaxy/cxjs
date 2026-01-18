@@ -39,12 +39,12 @@ export interface TreeAdapterConfig extends ArrayAdapterConfig {
       context: RenderingContext,
       instance: Instance,
       node: any,
-   ) => Promise<any[]> | any[];
+   ) => Promise<any[] | null | undefined> | any[] | null | undefined;
    onLoad?: (
       context: RenderingContext,
       instance: Instance,
       node: any,
-   ) => Promise<any[]> | any[];
+   ) => Promise<any[] | null | undefined> | any[] | null | undefined;
 }
 
 export class TreeAdapter<
