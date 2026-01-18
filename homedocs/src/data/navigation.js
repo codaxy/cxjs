@@ -268,39 +268,21 @@ export const navigation = [
         ],
       },
       {
-        title: "Data Adapters",
-        items: [
-          { title: "Overview", slug: "data-adapters" },
-          { title: "ArrayAdapter", slug: "array-adapter" },
-          { title: "GroupAdapter", slug: "group-adapter" },
-          { title: "TreeAdapter", slug: "tree-adapter" },
-        ],
-      },
-      {
-        title: "Trees",
-        items: [
-          { title: "TreeNode", slug: "tree-node" },
-          { title: "Tree Grid", slug: "tree-grid" },
-          { title: "Searching Tree Grids", slug: "searching-tree-grids" },
-          { title: "Tree Operations", slug: "tree-operations" },
-        ],
-      },
-      {
         title: "Columns",
         items: [
           { title: "Complex Headers", slug: "complex-headers" },
           { title: "Header Menu", slug: "header-menu" },
           { title: "Column Resizing", slug: "column-resizing" },
+          { title: "Dynamic Columns", slug: "dynamic-columns" },
           { title: "Column Reordering", slug: "column-reordering" },
           { title: "Fixed Columns", slug: "fixed-columns" },
-          { title: "Dynamic Columns", slug: "dynamic-columns" },
         ],
       },
       {
-        title: "Grouping",
+        title: "Rows",
         items: [
-          { title: "Grouping", slug: "grouping" },
-          { title: "Dynamic Grouping", slug: "dynamic-grouping" },
+          { title: "Row Expanding", slug: "row-expanding" },
+          { title: "Row Drag and Drop", slug: "row-drag-and-drop" },
         ],
       },
       {
@@ -313,10 +295,29 @@ export const navigation = [
         ],
       },
       {
-        title: "Rows",
+        title: "Data Adapters",
         items: [
-          { title: "Row Expanding", slug: "row-expanding" },
-          { title: "Row Drag and Drop", slug: "row-drag-and-drop" },
+          { title: "Overview", slug: "data-adapters" },
+          { title: "ArrayAdapter", slug: "array-adapter" },
+          { title: "GroupAdapter", slug: "group-adapter" },
+          { title: "TreeAdapter", slug: "tree-adapter" },
+        ],
+      },
+      {
+        title: "Grouping",
+        items: [
+          { title: "Grouping", slug: "grouping" },
+          { title: "Dynamic Grouping", slug: "dynamic-grouping" },
+        ],
+      },
+      {
+        title: "Trees",
+        items: [
+          { title: "TreeNode", slug: "tree-node" },
+          { title: "Tree Grid", slug: "tree-grid" },
+          { title: "Searching Tree Grids", slug: "searching-tree-grids" },
+          { title: "Tree Operations", slug: "tree-operations" },
+          { title: "Tree Drag and Drop", slug: "tree-drag-and-drop" },
         ],
       },
     ],

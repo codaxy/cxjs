@@ -19,13 +19,13 @@ import { updateArray } from "./updateArray";
  * // Add a child to a specific node
  * updateTree(data, node => ({ ...node, $children: [...node.$children, newChild] }), node => node.id === parentId, "$children");
  */
-export function updateTree<T = any>(
-   array: T[] | undefined,
+export function updateTree<T = any, A extends T[] | undefined = T[] | undefined>(
+   array: A,
    updateCallback: (item: T) => T,
    itemFilter: ((item: T) => boolean) | null,
-   childrenField: keyof T,
+   childrenField: NoInfer<keyof T>,
    removeFilter?: (item: T) => boolean,
-): T[] | undefined {
+): A {
    return updateArray(
       array,
       (item: T) => {

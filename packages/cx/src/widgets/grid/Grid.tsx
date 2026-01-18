@@ -202,6 +202,7 @@ export interface GridColumnFooterConfig {
   style?: StyleProp;
   class?: StyleProp;
   expand?: boolean;
+  colSpan?: NumberProp;
 }
 
 export interface GridColumnCaptionConfig {
@@ -209,9 +210,10 @@ export interface GridColumnCaptionConfig {
   format?: StringProp;
   style?: StyleProp;
   class?: StyleProp;
-  children?: React.ReactNode;
-  items?: React.ReactNode;
+  children?: any;
+  items?: any;
   expand?: boolean;
+  colSpan?: NumberProp;
 }
 
 export interface GridColumnConfig {
@@ -228,13 +230,13 @@ export interface GridColumnConfig {
   aggregateAlias?: string;
   aggregateField?: string;
   aggregateValue?: UnknownProp;
-  caption?: GridColumnCaptionConfig | StringProp | false;
+  caption?: GridColumnCaptionConfig | StringProp | NumberProp | false;
   class?: ClassProp;
   className?: ClassProp;
   draggable?: boolean;
   editable?: boolean;
   editor?: React.ReactNode;
-  footer?: GridColumnFooterConfig | StringProp | false;
+  footer?: GridColumnFooterConfig | StringProp | NumberProp | false;
   items?: React.ReactNode;
   children?: React.ReactNode;
   key?: string;
@@ -519,7 +521,7 @@ export interface GridConfig<T = any> extends StyledContainerConfig {
   focusable?: boolean;
 
   /** Callback function to retrieve grouping data. */
-  onGetGrouping?: (params: any, instance: Instance) => GridGroupingConfig<T>[];
+  onGetGrouping?: (params: any, instance: Instance) => (string | GridGroupingConfig<T>)[];
 
   /** Callback function to dynamically calculate columns.  */
   onGetColumns?: (
@@ -749,7 +751,11 @@ export class Grid<T = unknown> extends ContainerBase<
     super.init();
   }
 
-  createInstance(key: string, parent: Instance, parentStore?: View): GridInstance<T> {
+  createInstance(
+    key: string,
+    parent: Instance,
+    parentStore?: View,
+  ): GridInstance<T> {
     return new GridInstance(this, key, parent, parentStore);
   }
 
@@ -3650,7 +3656,7 @@ class GridComponent extends VDOM.Component<
             copyCellSize(srcTableBody, dstTableBody, fixedFooterOverlap);
 
             let scrollColumnEl = dstTableBody.firstElementChild
-              ?.firstElementChild as HTMLElement;
+              ?.lastElementChild as HTMLElement;
             if (scrollColumnEl)
               scrollColumnEl.style.minWidth = scrollColumnEl.style.maxWidth =
                 this.scrollWidth + "px";
