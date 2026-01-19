@@ -8923,6 +8923,42 @@ __metadata:
   languageName: node
   linkType: hard
 
+"litmus-ts@workspace:litmus-ts":
+  version: 0.0.0-use.local
+  resolution: "litmus-ts@workspace:litmus-ts"
+  dependencies:
+    "@babel/core": "npm:^7.28.5"
+    "@types/node": "npm:^25.0.3"
+    "@types/react": "npm:^19.2.7"
+    "@types/webpack-env": "npm:^1.18.8"
+    babel-loader: "npm:^10.0.0"
+    babel-plugin-transform-cx-imports: "npm:^26.0.1"
+    copy-webpack-plugin: "npm:^12.0.2"
+    css-loader: "npm:^7.1.2"
+    cx: "workspace:*"
+    cx-react: "workspace:*"
+    file-loader: "npm:^6.2.0"
+    html-webpack-plugin: "npm:^5.6.5"
+    mini-css-extract-plugin: "npm:^2.9.2"
+    react: "npm:^19.2.3"
+    react-dom: "npm:^19.2.3"
+    sass: "npm:^1.77.8"
+    sass-loader: "npm:^16.0.6"
+    style-loader: "npm:^4.0.0"
+    svg-url-loader: "npm:^8.0.0"
+    ts-loader: "npm:9.5.4"
+    typescript: "npm:^5.7.2"
+    url-loader: "npm:^4.1.1"
+    webpack: "npm:^5.103.0"
+    webpack-bundle-analyzer: "npm:^4.10.2"
+    webpack-cleanup-plugin: "npm:^0.5.1"
+    webpack-cli: "npm:^5.1.4"
+    webpack-combine-loaders: "npm:^2.0.4"
+    webpack-dev-server: "npm:^5.2.2"
+    webpack-merge: "npm:^6.0.1"
+  languageName: unknown
+  linkType: soft
+
 "litmus@workspace:litmus":
   version: 0.0.0-use.local
   resolution: "litmus@workspace:litmus"
