@@ -43,13 +43,7 @@ export default defineConfig({
       jsx: "automatic",
       jsxImportSource: "cx",
     },
-    optimizeDeps: {
-      include: ["route-parser", "cx-react"],
-      exclude: ["cx"],
-    },
-    ssr: {
-      external: ["route-parser"],
-    },
+    ssr: {},
     css: {
       preprocessorOptions: {
         scss: {
