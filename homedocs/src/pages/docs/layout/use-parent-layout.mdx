@@ -1,0 +1,24 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: UseParentLayout
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import UseParentLayoutExample from "../../../examples/layout/UseParentLayoutExample.tsx";
+import UseParentLayoutExampleCode from "../../../examples/layout/UseParentLayoutExample.tsx?raw";
+
+# UseParentLayout
+
+<ImportPath path="import { UseParentLayout } from 'cx/ui';" />
+
+`UseParentLayout` instructs a widget to use its parent's layout instead of its own. It can only be used on widgets that render only their children without adding markup (pure containers).
+
+This is commonly used with `LabelsLeftLayout` or `LabelsTopLayout` when you need conditionally visible form sections that should integrate seamlessly with the parent layout.
+
+<CodeExample code={UseParentLayoutExampleCode}>
+  <UseParentLayoutExample client:load />
+</CodeExample>
+
+Notice how the nested `PureContainer` widgets integrate with the parent `LabelsLeftLayout`, maintaining consistent label-input alignment even when content is conditionally shown or hidden.

@@ -1,0 +1,30 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Gridlines
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import GridlinesExample from "../../../examples/charts/GridlinesExample.tsx";
+
+# Gridlines
+
+The `Gridlines` widget draws horizontal and vertical gridlines in the chart background.
+
+**Import:** `import { Gridlines } from 'cx/charts';`
+
+## Example
+
+<CodeExample
+  code={`<Chart axes={{ x: { type: NumericAxis }, y: { type: NumericAxis, vertical: true } }}>
+  <Gridlines />
+</Chart>`}
+>
+  <GridlinesExample client:load />
+</CodeExample>
+
+## Properties
+
+| Property | Type     | Default | Description        |
+| -------- | -------- | ------- | ------------------ |
+| `xAxis`  | `string` | `"x"`   | Name of the x-axis |
+| `yAxis`  | `string` | `"y"`   | Name of the y-axis |

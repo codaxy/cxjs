@@ -1,0 +1,67 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Route
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import ImportPath from "../../../components/ImportPath.astro";
+import RouteExample from "../../../examples/concepts/RouteExample.tsx";
+import RouteExampleCode from "../../../examples/concepts/RouteExample.tsx?raw";
+
+# Route
+
+<ImportPath path="import { Route } from 'cx/widgets';" />
+
+Route is a container that renders its children only when the current URL matches the specified pattern.
+
+## Example
+
+<CodeExample code={RouteExampleCode}>
+  <RouteExample client:load />
+</CodeExample>
+
+## Route Patterns
+
+Routes support parameters, splats, and optional parts using [route-parser](https://github.com/rcs/route-parser#what-can-i-use-in-my-routes) syntax:
+
+| Pattern         | Description          | Example Match                    |
+| --------------- | -------------------- | -------------------------------- |
+| `~/users`       | Exact match          | `/users`                         |
+| `~/users/:id`   | Named parameter      | `/users/123` → `id: "123"`       |
+| `~/files/*path` | Splat (rest of path) | `/files/a/b/c` → `path: "a/b/c"` |
+| `~/users(/:id)` | Optional parameter   | `/users` or `/users/123`         |
+
+## Prefix Matching
+
+Use `prefix` to match routes that start with a pattern:
+
+```tsx
+<Route route="~/admin" url={m.url} prefix>
+  {/* Matches ~/admin, ~/admin/users, ~/admin/settings, etc. */}
+  <AdminLayout />
+</Route>
+```
+
+## Nested Routes
+
+Use `+/` to define routes relative to the parent:
+
+```tsx
+<Route route="~/admin" url={m.url} prefix>
+  <Route route="+/users" url={m.url}>
+    <UsersPage />
+  </Route>
+  <Route route="+/settings" url={m.url}>
+    <SettingsPage />
+  </Route>
+</Route>
+```
+
+## Configuration
+
+| Property         | Type           | Description                                                                                                                                |
+| ---------------- | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `route` / `path` | `string`       | Target route, e.g. `~/user/:userId`. Use `~/` to denote the application root path and `+/` in nested routes to append to the parent route. |
+| `url`            | `Prop<string>` | Url binding. Bind this to the global `url` variable.                                                                                       |
+| `prefix`         | `boolean`      | Match route even if given `route` is only a prefix of the current `url`. Used when a route contains nested subroutes.                      |
+| `params`         | `Prop<object>` | Params binding. Matched route parameters will be stored inside.                                                                            |

@@ -1,0 +1,75 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Tree Drag and Drop
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import TreeDragAndDropExample from "../../../examples/tables/TreeDragAndDropExample.tsx";
+import TreeDragAndDropExampleCode from "../../../examples/tables/TreeDragAndDropExample.tsx?raw";
+
+# Tree Drag and Drop
+
+Tree grids support drag and drop for moving nodes into folders and reordering within the hierarchy.
+
+<CodeExample code={TreeDragAndDropExampleCode}>
+  <TreeDragAndDropExample client:load />
+</CodeExample>
+
+Drag files into folders to move them.
+
+## Validating Drops
+
+Use `onRowDropTest` to validate the drag source type and `onRowDragOver` to control where items can be dropped:
+
+```tsx
+onRowDropTest={(e) => e.source?.data?.type === "file"}
+
+onRowDragOver={(e) => {
+  const targetNode = e.target?.record?.data;
+  const sourceNode = e.source?.record?.data;
+  // Only allow dropping onto folders, not leaves or self
+  if (targetNode?.$leaf || sourceNode?.id === targetNode?.id) {
+    return false;
+  }
+}}
+```
+
+## Handling Drops
+
+Use `onRowDrop` with `updateTree` to modify the tree structure:
+
+```tsx
+import { updateTree } from "cx/data";
+
+onRowDrop={(e) => {
+  const sourceNode = e.source.record.data;
+  const targetNode = e.target.record.data;
+
+  const newTree = updateTree(
+    store.get(m.files),
+    (node) => ({
+      ...node,
+      $children: [...(node.$children || []), { ...sourceNode, id: nextId++ }],
+    }),
+    (node) => node.id === targetNode.id,
+    "$children",
+    (node) => node.id === sourceNode.id,
+  );
+
+  store.set(m.files, newTree);
+}}
+```
+
+## Configuration
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `dragSource` | `object` | Configuration for row dragging. Use `mode: "copy"` for tree operations. |
+| `onRowDropTest` | `function` | Test if dropping on a specific row is valid. |
+| `onRowDrop` | `function` | Handle drop on a specific row. |
+| `onRowDragOver` | `function` | Called when dragging over a row. |
+| `onDragEnd` | `function` | Called when drag operation ends. |
+
+See also: [Row Drag and Drop](/docs/tables/row-drag-and-drop), [Tree Grid](/docs/tables/tree-grid)

@@ -2,14 +2,15 @@ import { AugmentedViewBase } from "./AugmentedViewBase";
 import { isArray } from "../util/isArray";
 import { Binding } from "./Binding";
 import { View } from "./View";
+import { RecordAlias } from "../ui/Prop";
 
 export interface ArrayElementViewConfig {
    store: View;
    arrayAccessor: any;
    immutable?: boolean;
-   recordAlias?: string;
-   indexAlias?: string;
-   lengthAlias?: string;
+   recordAlias?: RecordAlias;
+   indexAlias?: RecordAlias;
+   lengthAlias?: RecordAlias;
    hasNestedAliases?: boolean;
    recordBinding?: any;
    indexBinding?: any;

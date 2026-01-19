@@ -1,0 +1,65 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Sandbox
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import ImportPath from "../../../components/ImportPath.astro";
+import SandboxExample from "../../../examples/concepts/SandboxExample.tsx";
+import SandboxExampleCode from "../../../examples/concepts/SandboxExample.tsx?raw";
+
+# Sandbox
+
+<ImportPath path="import { Sandbox } from 'cx/widgets';" />
+
+Sandbox acts as a data multiplexer. It selects a value from a `storage` object based on a dynamic `key` and exposes it through a `recordAlias`. When the key changes, Sandbox automatically switches to the corresponding data in storage.
+
+## Example
+
+<CodeExample code={SandboxExampleCode}>
+  <SandboxExample client:load />
+</CodeExample>
+
+## Typed Model
+
+Add `$contestant` (or your chosen alias) to your model interface:
+
+```tsx
+interface PageModel {
+  place: string;
+  results: Record<string, Contestant>;
+  $contestant: Contestant;
+}
+
+const m = createModel<PageModel>();
+```
+
+Then use `recordAlias={m.$contestant}` to bind the record accessor:
+
+```tsx
+<Sandbox key={m.place} storage={m.results} recordAlias={m.$contestant}>
+  <TextField value={m.$contestant.firstName} label="First Name" />
+</Sandbox>
+```
+
+## Sandboxed Routes
+
+Sandbox is commonly used in single-page applications to isolate data belonging to different pages identified by URL parameters. See [Routing](/docs/core/routing) for more info.
+
+```tsx
+<Route route="~/user/:userId" url={m.url}>
+  <Sandbox key={m.$route.userId} storage={m.users} recordAlias={m.$page}>
+    <UserProfile />
+  </Sandbox>
+</Route>
+```
+
+## Configuration
+
+| Property          | Type      | Description                                                                |
+| ----------------- | --------- | -------------------------------------------------------------------------- |
+| `storage`         | `Prop`    | Storage binding. All data will be stored inside.                           |
+| `key`/`accessKey` | `Prop`    | Key value used to access the data from the `storage`.                      |
+| `recordAlias`     | `string`  | Alias used to expose local data. Defaults to `$page`.                      |
+| `immutable`       | `boolean` | Indicate that the data in the parent store should not be mutated.          |
+| `sealed`          | `boolean` | Indicate that the data in the store should not be mutated by child stores. |

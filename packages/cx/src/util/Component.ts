@@ -7,18 +7,25 @@ interface DecoratorFactory<T> {
 }
 
 /** A Component class constructor (supports abstract classes) */
-export type ComponentConstructor<T extends Component = Component> = (abstract new (config?: any) => T) & {
-   isComponentType: true;
-   prototype: T;
-};
+export type ComponentConstructor<T extends Component = Component> =
+   (abstract new (config?: any) => T) & {
+      isComponentType: true;
+      prototype: T;
+   };
 
 /** Extract the config type from a Component class constructor */
-export type ComponentConfigType<T> = T extends abstract new (config?: infer C) => any
+export type ComponentConfigType<T> = T extends abstract new (
+   config?: infer C,
+) => any
    ? C & { isComponentType?: never }
    : unknown;
 
 /** Extract the instance type from a Component class constructor */
-export type ComponentInstanceType<T> = T extends abstract new (config?: any) => infer I ? I : Component;
+export type ComponentInstanceType<T> = T extends abstract new (
+   config?: any,
+) => infer I
+   ? I
+   : Component;
 
 /**
  * Type representing any valid input to Component.create that will produce an instance of T.
@@ -43,33 +50,45 @@ export type ComponentInstanceType<T> = T extends abstract new (config?: any) => 
  */
 
 // Helper type: constructor for T or any subclass
-type SubclassConstructor<TBaseCtor extends ComponentConstructor> = ComponentConstructor<
-   ComponentInstanceType<TBaseCtor>
->;
+type SubclassConstructor<TBaseCtor extends ComponentConstructor> =
+   ComponentConstructor<ComponentInstanceType<TBaseCtor>>;
 
 // Helper: get config type, falling back to base if subclass config is `any`
-type ResolveConfigType<TBaseCtor extends ComponentConstructor, TSubCtor extends ComponentConstructor> = 0 extends 1 &
-   ComponentConfigType<TSubCtor>
+type ResolveConfigType<
+   TBaseCtor extends ComponentConstructor,
+   TSubCtor extends ComponentConstructor,
+> = 0 extends 1 & ComponentConfigType<TSubCtor>
    ? ComponentConfigType<TBaseCtor> // TSubCtor config is `any`, use base config
    : ComponentConfigType<TSubCtor>; // Use specific subclass config
 
 // Config with type property - uses inference to capture the actual subclass constructor
 // When a specific subclass is provided, its config is used; otherwise base config + extra props allowed
-type ConfigWithType<TBaseCtor extends ComponentConstructor, TSubCtor extends SubclassConstructor<TBaseCtor>> = {
+type ConfigWithType<
+   TBaseCtor extends ComponentConstructor,
+   TSubCtor extends SubclassConstructor<TBaseCtor>,
+> = {
    type: TSubCtor;
 } & ResolveConfigType<TBaseCtor, TSubCtor> &
    // Allow extra properties when using generic subclass (enables subclass-specific props)
-   (0 extends 1 & ComponentConfigType<TSubCtor> ? { [key: string]: unknown } : {});
+   (0 extends 1 & ComponentConfigType<TSubCtor>
+      ? { [key: string]: unknown }
+      : {});
 
-type ConfigWith$Type<TBaseCtor extends ComponentConstructor, TSubCtor extends SubclassConstructor<TBaseCtor>> = {
+type ConfigWith$Type<
+   TBaseCtor extends ComponentConstructor,
+   TSubCtor extends SubclassConstructor<TBaseCtor>,
+> = {
    $type: TSubCtor;
 } & ResolveConfigType<TBaseCtor, TSubCtor> &
    // Allow extra properties when using generic subclass (enables subclass-specific props)
-   (0 extends 1 & ComponentConfigType<TSubCtor> ? { [key: string]: unknown } : {});
+   (0 extends 1 & ComponentConfigType<TSubCtor>
+      ? { [key: string]: unknown }
+      : {});
 
 export type CreateConfig<
    TBaseCtor extends ComponentConstructor,
-   TSubCtor extends SubclassConstructor<TBaseCtor> = SubclassConstructor<TBaseCtor>,
+   TSubCtor extends
+      SubclassConstructor<TBaseCtor> = SubclassConstructor<TBaseCtor>,
 > =
    | TSubCtor // Constructor for T or subclass
    | ConfigWithType<TBaseCtor, TSubCtor> // Config object with type
@@ -105,7 +124,11 @@ export class Component {
    public static namespace: string;
    public static isComponentType: true;
    public static autoInit: boolean;
-   public static factory: (alias: string, config?: any, more?: any) => Component;
+   public static factory: (
+      alias: string,
+      config?: any,
+      more?: any,
+   ) => Component;
    declare public isComponent: boolean;
 
    constructor(config?: any) {
@@ -168,7 +191,10 @@ export class Component {
 
    // Array of config objects with type or $type property (each item can have different type)
    static create<
-      T extends ({ type: ComponentConstructor; $type?: never } | { $type: ComponentConstructor; type?: never })[],
+      T extends (
+         | { type: ComponentConstructor; $type?: never }
+         | { $type: ComponentConstructor; type?: never }
+      )[],
    >(
       configs: [...T],
       more?: Record<string, any>,
@@ -181,7 +207,10 @@ export class Component {
    };
 
    // Config object with type or $type property
-   static create<TCtor extends ComponentConstructor, T extends Component = ComponentInstanceType<TCtor>>(
+   static create<
+      TCtor extends ComponentConstructor,
+      T extends Component = ComponentInstanceType<TCtor>,
+   >(
       config: (
          | { type: TCtor; $type?: never; isComponentType?: never }
          | { $type: TCtor; type?: never; isComponentType?: never }
@@ -191,14 +220,20 @@ export class Component {
    ): T;
 
    // Class type with array of configs - returns array of instances
-   static create<TCtor extends ComponentConstructor, T extends Component = ComponentInstanceType<TCtor>>(
+   static create<
+      TCtor extends ComponentConstructor,
+      T extends Component = ComponentInstanceType<TCtor>,
+   >(
       type: TCtor,
       configs: ComponentConfigType<ComponentConstructor<T>>[],
       more?: Partial<ComponentConfigType<ComponentConstructor<T>>>,
    ): T[];
 
    // Explicit class type as first argument with typed config
-   static create<TCtor extends ComponentConstructor, T extends Component = ComponentInstanceType<TCtor>>(
+   static create<
+      TCtor extends ComponentConstructor,
+      T extends Component = ComponentInstanceType<TCtor>,
+   >(
       type: TCtor,
       config?: ComponentConfigType<ComponentConstructor<T>>,
       more?: Partial<ComponentConfigType<ComponentConstructor<T>>>,
@@ -232,13 +267,24 @@ export class Component {
 
       if (typeAlias.isComponent) return typeAlias;
 
-      if (isComponentFactory(typeAlias)) return this.create(typeAlias.create(config), config, more);
+      if (isComponentFactory(typeAlias)) {
+         if (more) config = Object.assign({}, config, more);
+         let result = typeAlias.create(config);
+         return this.create(result);
+      }
 
-      if (isArray(typeAlias)) return typeAlias.map((c) => this.create(c as any, config, more));
+      if (isArray(typeAlias))
+         return typeAlias.map((c) => this.create(c as any, config, more));
 
-      if (typeAlias.$type) return this.create(typeAlias.$type, typeAlias, config);
+      if (typeAlias.$type) {
+         let { $type, ...rest } = typeAlias;
+         return this.create($type, rest, config);
+      }
 
-      if (typeAlias.type) return this.create(typeAlias.type, typeAlias, config);
+      if (typeAlias.type) {
+         let { type, ...rest } = typeAlias;
+         return this.create(type, rest, config);
+      }
 
       let cmpType: any, alias: string;
 
@@ -250,19 +296,19 @@ export class Component {
          alias = this.namespace + typeAlias;
          cmpType = componentAlias[alias];
          if (!cmpType) {
-            if (typeAlias && this.factory) return this.factory(typeAlias, config, more);
+            if (typeAlias && this.factory)
+               return this.factory(typeAlias, config, more);
             throw new Error(`Unknown component alias ${alias}.`);
          }
       } else if (typeof typeAlias == "object") {
-         cmpType = typeAlias.type || typeAlias.$type;
-         if (!cmpType) {
-            cmpType = this;
-            more = more ? Object.assign({}, config, more) : config;
-            config = typeAlias;
-         }
+         // typeAlias.type and typeAlias.$type are handled above, so this is a plain config object
+         cmpType = this;
+         more = more ? Object.assign({}, config, more) : config;
+         config = typeAlias;
       }
 
-      if (isArray(config)) return config.map((cfg: any) => this.create(cmpType, cfg, more));
+      if (isArray(config))
+         return config.map((cfg: any) => this.create(cmpType, cfg, more));
 
       let cfg = config;
 
@@ -271,7 +317,8 @@ export class Component {
       // Check if merged cfg has type/$type that should override cmpType
       // Only redirect if cfgType is a class (not a string alias or factory) to prevent infinite recursion
       let cfgType = cfg && (cfg.type || cfg.$type);
-      if (cfgType && cfgType.isComponentType && cfgType !== cmpType) return this.create(cfg);
+      if (cfgType && cfgType.isComponentType && cfgType !== cmpType)
+         return this.create(cfg);
 
       let cmp = new cmpType(cfg);
       if (cmpType.autoInit && cmp.init) cmp.init();
@@ -289,7 +336,11 @@ Component.factory = (alias: string, _config?: any, _more?: any): Component => {
    throw new Error(`Unknown component alias ${alias}.`);
 };
 
-export function createComponentFactory(factory: any, jsxDriver: any, meta?: any) {
+export function createComponentFactory(
+   factory: any,
+   jsxDriver: any,
+   meta?: any,
+) {
    factory.$isComponentFactory = true;
    factory.$meta = meta;
    factory.create = jsxDriver;

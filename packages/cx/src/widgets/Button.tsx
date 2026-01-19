@@ -41,14 +41,6 @@ export interface ButtonConfig extends Omit<HtmlElementConfig<"button">, "disable
    /** Set to `false` to disable the button. */
    enabled?: BooleanProp;
 
-   /**
-    * Click handler.
-    *
-    * @param e - Event.
-    * @param instance - Cx widget instance that fired the event.
-    */
-   onClick?: string | ((e: React.MouseEvent, instance: Instance) => void);
-
    /** Button type. */
    type?: "submit" | "button";
 

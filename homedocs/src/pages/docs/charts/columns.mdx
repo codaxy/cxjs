@@ -1,0 +1,33 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Column
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import ColumnsExample from "../../../examples/charts/ColumnsExample.tsx";
+
+# Column
+
+Individual column element for custom column charts with unique properties per column.
+
+**Import:** `import { Column } from 'cx/charts';`
+
+## Example
+
+<CodeExample
+  code={`<Repeater records-bind="data" recordAlias="$point">
+  <Column name="Sales" colorIndex={2} width={0.6} x-bind="$point.month" y-bind="$point.value" tooltip-tpl="{$point.month}: {$point.value}" />
+</Repeater>`}
+>
+  <ColumnsExample client:load />
+</CodeExample>
+
+## Properties
+
+| Property     | Type         | Default     | Description                    |
+| ------------ | ------------ | ----------- | ------------------------------ |
+| `x`          | `Sx<string>` | `undefined` | Category position              |
+| `y`          | `Sx<number>` | `undefined` | Column height (y-axis value)   |
+| `width`      | `number`     | `0.5`       | Column width (0-1)             |
+| `offset`     | `number`     | `0`         | Horizontal offset for grouping |
+| `colorIndex` | `number`     | `undefined` | Color palette index            |

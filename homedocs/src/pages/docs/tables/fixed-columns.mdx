@@ -1,0 +1,87 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Fixed Columns
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import FixedColumnsExample from "../../../examples/tables/FixedColumnsExample.tsx";
+import FixedColumnsExampleCode from "../../../examples/tables/FixedColumnsExample.tsx?raw";
+
+# Fixed Columns
+
+Grid supports fixing columns to the left side. Fixed columns remain visible while scrolling horizontally through other columns.
+
+<CodeExample code={FixedColumnsExampleCode}>
+  <FixedColumnsExample client:load />
+</CodeExample>
+
+Scroll horizontally to see the fixed columns stay in place.
+
+## Enabling Fixed Columns
+
+Set `fixed: true` on columns that should remain visible:
+
+```tsx
+columns={[
+  { header: "#", field: "id", fixed: true },
+  { header: "Name", field: "fullName", fixed: true },
+  { header: "Continent", field: "continent" },
+  // ... more scrollable columns
+]}
+```
+
+Fixed columns appear on the left side of the grid in the order they are defined.
+
+## Required Grid Properties
+
+For fixed columns to work properly, the Grid should be configured with:
+
+```tsx
+<Grid
+  scrollable
+  lockColumnWidths
+  fixedFooter
+  mod="fixed-layout"
+  columns={columns}
+/>
+```
+
+- `scrollable` - Enables horizontal scrolling
+- `lockColumnWidths` - Prevents column width changes during scroll
+- `fixedFooter` - Keeps the footer row visible at the bottom
+- `mod="fixed-layout"` - Uses fixed table layout for consistent column widths
+
+## Footer with Aggregation
+
+Use `aggregate` and `footer` on columns to show aggregated values in a fixed footer:
+
+```tsx
+{
+  header: "Visits",
+  field: "visits",
+  aggregate: "sum",
+  footer: { tpl: "{$group.visits}" }
+}
+```
+
+Available aggregate types: `sum`, `count`, `avg`, `min`, `max`.
+
+## Configuration
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `fixed` | `boolean` | Fix this column to the left side. |
+| `aggregate` | `string` | Aggregation type: `sum`, `count`, `avg`, `min`, `max`. |
+| `footer` | `object` | Footer cell configuration. Use `tpl` for template strings. |
+| `lockColumnWidths` | `boolean` | Grid property to lock column widths during scroll. |
+| `fixedFooter` | `boolean` | Grid property to keep the footer visible at the bottom. |
+| `mod` | `string` | Set to `"fixed-layout"` for fixed table layout. |
+
+## Limitations
+
+- Fixed columns do not support row grouping
+- All fixed columns must be defined before non-fixed columns
+
+See also: [Column Resizing](/docs/tables/column-resizing), [Grid](/docs/tables/grid)

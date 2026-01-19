@@ -42,25 +42,44 @@ export interface ViewMethods<D = Record<string, any>> {
    delete(paths: Path[]): boolean;
    delete(...paths: Path[]): boolean;
    delete<V>(path: AccessorChain<V>): boolean;
-   delete<T extends any[]>(...paths: { [K in keyof T]: AccessorChain<T[K]> }): boolean;
-   delete<T extends any[]>(paths: { [K in keyof T]: AccessorChain<T[K]> }): boolean;
+   delete<T extends any[]>(
+      ...paths: { [K in keyof T]: AccessorChain<T[K]> }
+   ): boolean;
+   delete<T extends any[]>(paths: {
+      [K in keyof T]: AccessorChain<T[K]>;
+   }): boolean;
 
    toggle(path: Path): boolean;
    toggle(path: AccessorChain<boolean>): boolean;
 
-   update(updateFn: (currentValue: D, ...args: any[]) => any, ...args: any): boolean;
-   update<A extends any[]>(path: Path, updateFn: (currentValue: any, ...args: A) => any, ...args: A): boolean;
+   update<V>(path: AccessorChain<V>, updateFn: (currentValue: V) => V): boolean;
    update<V, A extends any[]>(
       path: AccessorChain<V>,
       updateFn: (currentValue: V, ...args: A) => V,
+      ...args: A
+   ): boolean;
+   update<A extends any[]>(
+      updateFn: (currentValue: D, ...args: A) => D,
+      ...args: any
+   ): boolean;
+   update<A extends any[]>(
+      path: Path,
+      updateFn: (currentValue: any, ...args: A) => any,
       ...args: A
    ): boolean;
 
    /**
     *  Mutates the content of the store using Immer
     */
-   mutate(updateFn: (currentValue: D, ...args: any[]) => void, ...args: any[]): boolean;
-   mutate<A extends any[]>(path: Path, updateFn: (currentValue: any, ...args: A) => void, ...args: A): boolean;
+   mutate(
+      updateFn: (currentValue: D, ...args: any[]) => void,
+      ...args: any[]
+   ): boolean;
+   mutate<A extends any[]>(
+      path: Path,
+      updateFn: (currentValue: any, ...args: A) => void,
+      ...args: A
+   ): boolean;
    mutate<V, A extends any[]>(
       path: AccessorChain<V>,
       updateFn: (currentValue: V, ...args: A) => void,
@@ -74,7 +93,14 @@ export class View<D = any> implements ViewMethods<D> {
    declare store?: View;
    declare meta: any;
    declare sealed: boolean;
-   cache: { version: number; data?: any; result?: any; itemIndex?: number; key?: string; parentStoreData?: any };
+   cache: {
+      version: number;
+      data?: any;
+      result?: any;
+      itemIndex?: number;
+      key?: string;
+      parentStoreData?: any;
+   };
    notificationsSuspended: number = 0;
    dirty: boolean = false;
 
@@ -97,11 +123,17 @@ export class View<D = any> implements ViewMethods<D> {
       if (typeof path == "object" && path != null) {
          let changed = false;
          for (let key in path)
-            if (path.hasOwnProperty(key) && this.get(key) === undefined && this.setItem(key, path[key])) changed = true;
+            if (
+               path.hasOwnProperty(key) &&
+               this.get(key) === undefined &&
+               this.setItem(key, path[key])
+            )
+               changed = true;
          return changed;
       }
       let binding = Binding.get(path);
-      if (this.get(binding.path) === undefined) return this.setItem(binding.path, value);
+      if (this.get(binding.path) === undefined)
+         return this.setItem(binding.path, value);
       return false;
    }
 
@@ -111,7 +143,9 @@ export class View<D = any> implements ViewMethods<D> {
    set(path: any, value?: any): boolean {
       if (typeof path == "object" && path != null) {
          let changed = false;
-         for (let key in path) if (path.hasOwnProperty(key) && this.setItem(key, path[key])) changed = true;
+         for (let key in path)
+            if (path.hasOwnProperty(key) && this.setItem(key, path[key]))
+               changed = true;
          return changed;
       }
       let binding = Binding.get(path);
@@ -144,11 +178,16 @@ export class View<D = any> implements ViewMethods<D> {
    delete(paths: Path[]): boolean;
    delete(...paths: Path[]): boolean;
    delete<V>(path: AccessorChain<V>): boolean;
-   delete<T extends any[]>(...paths: { [K in keyof T]: AccessorChain<T[K]> }): boolean;
-   delete<T extends any[]>(paths: { [K in keyof T]: AccessorChain<T[K]> }): boolean;
+   delete<T extends any[]>(
+      ...paths: { [K in keyof T]: AccessorChain<T[K]> }
+   ): boolean;
+   delete<T extends any[]>(paths: {
+      [K in keyof T]: AccessorChain<T[K]>;
+   }): boolean;
    delete(path?: any): boolean {
       if (arguments.length > 1) path = Array.from(arguments);
-      if (isArray(path)) return path.map((arg) => this.delete(arg as Path)).some(Boolean);
+      if (isArray(path))
+         return path.map((arg) => this.delete(arg as Path)).some(Boolean);
 
       let binding = Binding.get(path);
       return this.deleteItem(binding.path);
@@ -178,7 +217,8 @@ export class View<D = any> implements ViewMethods<D> {
 
       if (arguments.length > 1) path = Array.from(arguments);
 
-      if (isArray(path)) return path.map((arg) => Binding.get(arg as any).value(storeData));
+      if (isArray(path))
+         return path.map((arg) => Binding.get(arg as any).value(storeData));
 
       return Binding.get(path).value(storeData);
    }
@@ -189,21 +229,38 @@ export class View<D = any> implements ViewMethods<D> {
       return this.set(path, !this.get(path));
    }
 
-   update(updateFn: (currentValue: D, ...args: any[]) => any, ...args: any): boolean;
-   update<A extends any[]>(path: Path, updateFn: (currentValue: any, ...args: A) => any, ...args: A): boolean;
+   update<V>(path: AccessorChain<V>, updateFn: (currentValue: V) => V): boolean;
    update<V, A extends any[]>(
       path: AccessorChain<V>,
       updateFn: (currentValue: V, ...args: A) => V,
       ...args: A
    ): boolean;
+   update(
+      updateFn: (currentValue: D, ...args: any[]) => any,
+      ...args: any
+   ): boolean;
+   update<A extends any[]>(
+      path: Path,
+      updateFn: (currentValue: any, ...args: A) => any,
+      ...args: A
+   ): boolean;
    update(path: any, updateFn?: any, ...args: any[]): boolean {
       if (arguments.length == 1 && isFunction(path))
-         return this.load(path.apply(null, [this.getData(), updateFn, ...args]));
+         return this.load(
+            path.apply(null, [this.getData(), updateFn, ...args]),
+         );
       return this.set(path, updateFn.apply(null, [this.get(path), ...args]));
    }
 
-   mutate(updateFn: (currentValue: D, ...args: any[]) => void, ...args: any[]): boolean;
-   mutate<A extends any[]>(path: Path, updateFn: (currentValue: any, ...args: A) => void, ...args: A): boolean;
+   mutate(
+      updateFn: (currentValue: D, ...args: any[]) => void,
+      ...args: any[]
+   ): boolean;
+   mutate<A extends any[]>(
+      path: Path,
+      updateFn: (currentValue: any, ...args: A) => void,
+      ...args: A
+   ): boolean;
    mutate<V, A extends any[]>(
       path: AccessorChain<V>,
       updateFn: (currentValue: V, ...args: A) => void,

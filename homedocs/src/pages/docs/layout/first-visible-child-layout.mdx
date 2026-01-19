@@ -1,0 +1,24 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: FirstVisibleChildLayout
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import FirstVisibleChildLayoutExample from "../../../examples/layout/FirstVisibleChildLayoutExample.tsx";
+import FirstVisibleChildLayoutExampleCode from "../../../examples/layout/FirstVisibleChildLayoutExample.tsx?raw";
+
+# FirstVisibleChildLayout
+
+<ImportPath path="import { FirstVisibleChildLayout } from 'cx/ui';" />
+
+`FirstVisibleChildLayout` renders only the first visible child. It works like a complex `if ... else ...` statement, useful for displaying different content based on application state.
+
+<CodeExample code={FirstVisibleChildLayoutExampleCode}>
+  <FirstVisibleChildLayoutExample client:load />
+</CodeExample>
+
+Initially, `fetch.status` is undefined, so the first three `div` elements are not visible and the default message appears.
+
+After clicking Fetch, the default message disappears and the loading message displays until the result is fetched. The default message disappears even without a `visible` condition because the layout stops processing after the first visible child is rendered.

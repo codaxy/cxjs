@@ -1,0 +1,151 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Row Drag and Drop
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import RowDragAndDropExample from "../../../examples/tables/RowDragAndDropExample.tsx";
+import RowDragAndDropExampleCode from "../../../examples/tables/RowDragAndDropExample.tsx?raw";
+
+# Row Drag and Drop
+
+Grid supports drag and drop for reordering rows and transferring rows between grids.
+
+<CodeExample code={RowDragAndDropExampleCode}>
+  <RowDragAndDropExample client:load />
+</CodeExample>
+
+Drag rows to reorder within a grid or transfer between grids. Use the drag handle to initiate dragging.
+
+## Drag Handle
+
+Use `DragHandle` to create a specific grab area instead of making the entire row draggable:
+
+```tsx
+import { DragHandle } from "cx/widgets";
+
+columns={[
+  {
+    header: "",
+    items: (
+      <DragHandle class="cursor-move text-gray-400 hover:text-gray-600 px-1">
+        ⋮⋮
+      </DragHandle>
+    ),
+  },
+  // ... other columns
+]}
+```
+
+This provides better control and prevents accidental drags when clicking on other parts of the row.
+
+## Insertion Mode
+
+Use `dropZone={{ mode: "insertion" }}` to show insertion indicators between rows:
+
+```tsx
+<Grid
+  dragSource={{ data: { type: "record" } }}
+  dropZone={{ mode: "insertion" }}
+  onDropTest={(e) => /* validate drop */}
+  onDrop={(e) => /* handle drop */}
+/>
+```
+
+## Enabling Row Drag
+
+Configure `dragSource` to make rows draggable:
+
+```tsx
+<Grid
+  records={m.records}
+  dragSource={{ data: { type: "record" } }}
+  row={{ style: { cursor: "move" } }}
+/>
+```
+
+## Handling Drops
+
+Implement `onDropTest` to validate drops and `onDrop` to handle the reordering:
+
+```tsx
+<Grid
+  onDropTest={(e) => e.source?.data?.type === "record"}
+  onDrop={(e, { controller }) => controller.onDrop(e)}
+/>
+```
+
+The `onDrop` handler receives information about the source records and target position:
+
+```tsx
+onDrop(e) {
+  const draggedRecords = e.source.records.map((r) => r.data);
+  const insertionIndex = e.target.insertionIndex;
+
+  // Remove and reinsert records at new position
+  this.store.update(m.records, (records) => {
+    // ... reordering logic
+  });
+}
+```
+
+## Drag Source Configuration
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `data` | `object` | Custom data attached to the drag operation. |
+| `mode` | `string` | Drag mode: `"move"` (default) or `"copy"`. |
+
+## Drop Event Properties
+
+| Property | Description |
+| -------- | ----------- |
+| `e.source.records` | Array of dragged record objects with `data` and `index`. |
+| `e.source.data` | Custom data from `dragSource`. |
+| `e.target.insertionIndex` | Index where items should be inserted. |
+
+## Transferring Between Grids
+
+Include a `source` identifier in the drag data to track which grid the row came from:
+
+```tsx
+dragSource={{ data: { type: "person", source: "left" } }}
+```
+
+In the drop handler, use the source to remove from the correct grid:
+
+```tsx
+onDrop(e, targetPath) {
+  const sourcePath = e.source.data.source;
+
+  // Remove from source grid
+  this.store.update(sourcePath, (records) =>
+    records.filter((r) => !draggedRecords.includes(r))
+  );
+
+  // Insert into target grid
+  this.store.update(targetPath, (records) =>
+    insertElement(records, insertionIndex, ...draggedRecords)
+  );
+}
+```
+
+## Configuration
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `dragSource` | `object` | Configuration for row dragging. |
+| `dropZone` | `object` | Drop zone configuration. Use `mode: "insertion"` for visual indicators. |
+| `onDropTest` | `function` | Test if a drop is valid. Return `true` to allow. |
+| `onDrop` | `function` | Handle the drop operation. |
+
+## Drop Zone Modes
+
+| Mode | Description |
+| ---- | ----------- |
+| `preview` | Default mode. Shows a preview of the drop position. |
+| `insertion` | Shows insertion lines between rows for reordering. |
+
+See also: [Grid](/docs/tables/grid), [Tree Drag and Drop](/docs/tables/tree-drag-and-drop), [DragHandle](/docs/concepts/drag-handle)

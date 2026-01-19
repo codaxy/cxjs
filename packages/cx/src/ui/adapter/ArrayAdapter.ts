@@ -53,7 +53,7 @@ export class ArrayAdapter<T = any> extends DataAdapter<T> {
    }
 
    public init(): void {
-      this.recordsAccessor = getAccessor(this.recordsBinding ?? this.recordsAccessor);
+      this.recordsAccessor = this.recordsBinding ? getAccessor(this.recordsBinding) : getAccessor(this.recordsAccessor);
       this.recordName = this.recordName?.toString() || "$record";
       this.indexName = this.indexName?.toString() || "$index";
    }

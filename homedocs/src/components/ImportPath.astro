@@ -1,0 +1,103 @@
+---
+interface Props {
+   path: string;
+}
+
+const { path } = Astro.props;
+---
+
+<div class="import-path" data-pagefind-ignore>
+   <code data-path={path}>
+      {path}
+      <svg
+         class="copy-icon"
+         viewBox="0 0 24 24"
+         fill="none"
+         stroke="currentColor"
+         stroke-width="2"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+      >
+         <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+         <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+      </svg>
+   </code>
+   <span class="copied-tooltip">Copied</span>
+</div>
+
+<style>
+   .import-path {
+      display: block;
+      margin-top: -1rem;
+   }
+
+   .import-path > code {
+      background: none;
+      color: #9f9f9f;
+      padding: 0;
+      font-size: 14px;
+      cursor: pointer;
+   }
+
+   .import-path > code:hover {
+      color: #666;
+   }
+
+   .copy-icon {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      margin-left: 6px;
+      vertical-align: middle;
+      visibility: hidden;
+   }
+
+   .import-path > code:hover .copy-icon {
+      visibility: visible;
+   }
+
+   .copied-tooltip {
+      opacity: 0;
+      margin-left: 8px;
+      font-size: 12px;
+      color: #666;
+      transition: opacity 0.3s;
+   }
+
+   .copied-tooltip.show {
+      opacity: 1;
+   }
+</style>
+
+<script>
+   function initImportPaths() {
+      document.querySelectorAll(".import-path code").forEach((code) => {
+         code.addEventListener("click", async () => {
+            const path = code.getAttribute("data-path");
+            if (!path) return;
+
+            try {
+               await navigator.clipboard.writeText(path);
+               const tooltip = code.parentElement?.querySelector(".copied-tooltip");
+               if (tooltip) {
+                  tooltip.classList.add("show");
+                  setTimeout(() => {
+                     tooltip.classList.remove("show");
+                  }, 1500);
+               }
+            } catch (err) {
+               const range = document.createRange();
+               range.selectNodeContents(code);
+               const selection = window.getSelection();
+               selection?.removeAllRanges();
+               selection?.addRange(range);
+               document.execCommand("copy");
+               selection?.removeAllRanges();
+            }
+         });
+      });
+   }
+
+   initImportPaths();
+   document.addEventListener("astro:page-load", initImportPaths);
+</script>

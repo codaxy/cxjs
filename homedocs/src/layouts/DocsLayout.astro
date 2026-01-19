@@ -1,0 +1,99 @@
+---
+import Header from '../components/Header.astro';
+import Sidebar from '../components/Sidebar.astro';
+import PageNav from '../components/PageNav.astro';
+import { ClientRouter } from 'astro:transitions';
+import '../styles/tailwind.css';
+import '../styles/global.scss';
+import '@pagefind/default-ui/css/ui.css';
+
+interface Props {
+  frontmatter?: {
+    title?: string;
+  };
+  title?: string;
+}
+
+const { frontmatter, title: directTitle } = Astro.props;
+const title = frontmatter?.title || directTitle || '';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title} - CxJS</title>
+    <ClientRouter />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <script is:inline data-astro-rerun>
+      (function() {
+        const theme = localStorage.getItem('theme') ||
+          (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        if (theme === 'dark') {
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div class="min-h-screen bg-background">
+      <!-- Scroll progress indicator -->
+      <div id="scroll-progress" class="fixed top-14 left-0 h-0.5 bg-gradient-to-r from-primary to-primary/70 w-0 z-50 transition-all duration-100"></div>
+
+      <Header />
+
+      <div class="flex">
+        <Sidebar />
+
+        <main id="main-content" class="flex-1 lg:pl-72 pt-14 min-h-screen overflow-y-auto">
+          <div class="max-w-3xl xl:mr-80 2xl:mr-96 px-6 lg:px-12 py-8 pb-16">
+            <article class="prose max-w-none" data-pagefind-body>
+              <slot />
+              <PageNav />
+            </article>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <script>
+      function initPage() {
+        const main = document.getElementById('main-content');
+        const progressBar = document.getElementById('scroll-progress');
+
+        if (main && progressBar) {
+          main.scrollTop = 0;
+          progressBar.style.width = '0%';
+
+          main.addEventListener('scroll', () => {
+            const scrollTop = main.scrollTop;
+            const scrollHeight = main.scrollHeight - main.clientHeight;
+            const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+            progressBar.style.width = `${progress}%`;
+          });
+        }
+
+        // Add anchor links to headings
+        document.querySelectorAll('.prose h2, .prose h3').forEach(heading => {
+          if (!heading.id) {
+            heading.id = heading.textContent?.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '') || '';
+          }
+
+          if (!heading.querySelector('.heading-anchor')) {
+            const anchor = document.createElement('a');
+            anchor.href = `#${heading.id}`;
+            anchor.className = 'heading-anchor';
+            anchor.innerHTML = '#';
+            heading.appendChild(anchor);
+          }
+        });
+      }
+
+      document.addEventListener('astro:page-load', initPage);
+    </script>
+  </body>
+</html>

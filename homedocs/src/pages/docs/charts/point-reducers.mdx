@@ -1,0 +1,37 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: PointReducer
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import PointReducersExample from "../../../examples/charts/PointReducersExample.tsx";
+
+# PointReducer
+
+Calculates aggregate values from points displayed on the chart.
+
+**Import:** `import { PointReducer } from 'cx/charts';`
+
+## Example
+
+<CodeExample
+  code={`<PointReducer onInitAccumulator={(acc) => { acc.sumX = 0; acc.sumY = 0; }} onMap={(acc, x, y) => { acc.sumX += x; acc.sumY += y; }} onReduce={(acc, { store }) => { store.set("avgX", acc.sumX / acc.count); }}>
+  <Marker x-bind="avgX" y-bind="avgY" colorIndex={9} size={12} />
+</PointReducer>`}
+>
+  <PointReducersExample client:load />
+</CodeExample>
+
+Predefined variants:
+
+- [`ValueAtFinder`](/charts/value-at-finder) - track values on line graphs
+- [`SnapPointFinder`](/charts/snap-point-finder) - snap to data points
+- [`MinMaxFinder`](/charts/min-max-finder) - find min/max values
+
+## Properties
+
+| Property            | Type       | Default     | Description            |
+| ------------------- | ---------- | ----------- | ---------------------- |
+| `onInitAccumulator` | `function` | `undefined` | Initialize accumulator |
+| `onMap`             | `function` | `undefined` | Process each point     |
+| `onReduce`          | `function` | `undefined` | Calculate final values |

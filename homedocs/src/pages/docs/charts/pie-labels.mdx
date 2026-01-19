@@ -1,0 +1,39 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: PieLabel
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import PieLabelsExample from "../../../examples/charts/PieLabelsExample.tsx";
+
+# PieLabel
+
+Displays values for each pie slice with automatic position adjustment.
+
+**Import:** `import { PieLabelsContainer, PieLabel } from 'cx/charts';`
+
+## Example
+
+<CodeExample
+  code={`<PieLabelsContainer>
+  <PieChart>
+    <PieSlice value-bind="$record.value" innerPointRadius={70} outerPointRadius={80}>
+      <Line style="stroke: gray" />
+      <PieLabel distance={50} lineStroke="gray">
+        <Text tpl="{$record.name}" textAnchor="middle" />
+      </PieLabel>
+    </PieSlice>
+  </PieChart>
+</PieLabelsContainer>`}
+>
+  <PieLabelsExample client:load />
+</CodeExample>
+
+## Properties
+
+| Property         | Type      | Default     | Description               |
+| ---------------- | --------- | ----------- | ------------------------- |
+| `distance`       | `number`  | `undefined` | Distance from pie chart   |
+| `offset`         | `string`  | `undefined` | Label bounding box offset |
+| `lineStroke`     | `string`  | `undefined` | Connection line color     |
+| `autoTextAnchor` | `boolean` | `true`      | Auto-align left/right     |

@@ -11,6 +11,10 @@ interface Model {
    };
    "@crazy": string;
    users: User[];
+   form?: {
+      invalid?: boolean;
+      files?: { name: string }[];
+   };
 }
 
 interface User {
@@ -49,6 +53,14 @@ describe("createAccessorModelProxy", () => {
    it("allows non-standard property identifiers ", () => {
       let model = createAccessorModelProxy<Model>();
       assert.strictEqual(model["@crazy"].nameOf(), "@crazy");
+   });
+
+   it("allows access to properties of optional object properties", () => {
+      let model = createAccessorModelProxy<Model>();
+      // form is optional, but we should still be able to access its properties
+      assert.strictEqual(model.form.toString(), "form");
+      assert.strictEqual(model.form.invalid.toString(), "form.invalid");
+      assert.strictEqual(model.form.files.toString(), "form.files");
    });
 
    it("AccessorChain<any> allows access to any property", () => {

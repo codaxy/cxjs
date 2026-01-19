@@ -1,0 +1,72 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Dynamic Columns
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import DynamicColumnsExample from "../../../examples/tables/DynamicColumnsExample.tsx";
+import DynamicColumnsExampleCode from "../../../examples/tables/DynamicColumnsExample.tsx?raw";
+
+# Dynamic Columns
+
+Grid columns can be dynamically generated based on user selection or other runtime conditions.
+
+<CodeExample code={DynamicColumnsExampleCode}>
+  <DynamicColumnsExample client:load />
+</CodeExample>
+
+Use the dropdown to select which columns are visible.
+
+## Why Use Dynamic Columns?
+
+The `columns` property is not bindable, so you cannot simply bind it to store data. Using `columnParams` and `onGetColumns` allows:
+
+- Dynamic column visibility based on user preferences
+- Preserving grid state (scroll position, column widths) when columns change
+- Generating columns from runtime data
+
+## Using columnParams and onGetColumns
+
+Pass your column configuration data to `columnParams` and generate columns in `onGetColumns`:
+
+```tsx
+<Grid
+  records={m.records}
+  columnParams={m.visibleColumns}
+  onGetColumns={(visibleColumns: string[]) =>
+    allColumns.filter((c) => visibleColumns.includes(c.field))
+  }
+/>
+```
+
+When `columnParams` changes, `onGetColumns` is called to regenerate the column list. The grid preserves its internal state during this update.
+
+## Column Definition
+
+Define all possible columns in an array:
+
+```tsx
+const allColumns = [
+  { header: "Name", field: "fullName", sortable: true },
+  { header: "Continent", field: "continent", sortable: true },
+  { header: "Browser", field: "browser", sortable: true },
+  { header: "Visits", field: "visits", sortable: true, align: "right" },
+];
+```
+
+The `onGetColumns` callback filters or transforms this array based on `columnParams`.
+
+## Configuration
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `columnParams` | `any` | Data passed to `onGetColumns`. Changes trigger column regeneration. |
+| `onGetColumns` | `function` | Callback that receives `columnParams` and returns the columns array. |
+
+## Alternative: ContentResolver
+
+For more complex scenarios, you can use `ContentResolver` to regenerate the entire grid. However, this approach loses grid state (scroll position, resized column widths) on each change.
+
+See also: [Column Reordering](/docs/tables/column-reordering), [Grid](/docs/tables/grid)

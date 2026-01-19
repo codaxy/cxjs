@@ -5,6 +5,7 @@ import { ExposedValueView, ExposedValueViewConfig } from "../data/ExposedValueVi
 import { RenderingContext } from "../ui/RenderingContext";
 import { Instance } from "../ui/Instance";
 import { StringProp, WritableProp } from "../ui/Prop";
+import { AccessorChain } from "../data/createAccessorModelProxy";
 
 export interface SandboxConfig extends PureContainerConfig {
    /** Binding to the object that holds sandbox data. */
@@ -17,10 +18,10 @@ export interface SandboxConfig extends PureContainerConfig {
    accessKey?: StringProp;
 
    /** Alias used to expose sandbox data. Default is `$page`. */
-   recordName?: string;
+   recordName?: string | AccessorChain<any>;
 
    /** Alias for `recordName`. */
-   recordAlias?: string;
+   recordAlias?: string | AccessorChain<any>;
 
    /** Indicate that parent store data should not be mutated. */
    immutable?: boolean;

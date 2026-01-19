@@ -289,8 +289,80 @@ const m = createAccessorModelProxy<FormModel>();
          | `lessThanOrEqual(accessor, value)` | True if `x &lt;= value` |
          | `greaterThan(accessor, value)` | True if `x &gt; value` |
          | `greaterThanOrEqual(accessor, value)` | True if `x &gt;= value` |
+         | `format(accessor, fmt, nullText?)` | Formats value using format string |
 
-         These helpers return `Selector&lt;boolean&gt;` which can be used anywhere a boolean binding is expected.
+         These helpers return `Selector&lt;boolean&gt;` (or `Selector&lt;string&gt;` for `format`) which can be used anywhere a binding is expected.
+
+         ### Format Helper
+
+         The `format` helper creates a selector that formats values using CxJS format strings.
+         This is useful for displaying formatted numbers, dates, or percentages in text props:
+
+         <CodeSplit>
+            <CodeSnippet copy={false}>{`
+import { createAccessorModelProxy } from "cx/data";
+import { format } from "cx/ui";
+
+interface Product {
+   name: string;
+   price: number;
+   discount: number;
+}
+
+const m = createAccessorModelProxy<Product>();
+
+<cx>
+   {/* Format as number with 2 decimal places */}
+   <div text={format(m.price, "n;2")} />
+
+   {/* Format as percentage */}
+   <div text={format(m.discount, "p;0")} />
+
+   {/* With custom null text */}
+   <div text={format(m.price, "n;2", "N/A")} />
+</cx>
+            `}</CodeSnippet>
+         </CodeSplit>
+
+         The format string uses CxJS format syntax (e.g., `"n;2"` for numbers, `"p;0"` for percentages,
+         `"d"` for dates). The optional third parameter specifies text to display for null/undefined values.
+
+         ### Template Helper with Accessor Chains
+
+         The `tpl` function now supports accessor chains in addition to its original string-only form.
+         This allows you to create formatted strings from multiple values with full type safety:
+
+         <CodeSplit>
+            <CodeSnippet copy={false}>{`
+import { createAccessorModelProxy } from "cx/data";
+import { tpl } from "cx/ui";
+
+interface Person {
+   firstName: string;
+   lastName: string;
+   age: number;
+}
+
+const m = createAccessorModelProxy<Person>();
+
+<cx>
+   {/* Original string-only form still works */}
+   <div text={tpl("{firstName} {lastName}")} />
+
+   {/* New accessor chain form with positional placeholders */}
+   <div text={tpl(m.firstName, m.lastName, "{0} {1}")} />
+
+   {/* Supports formatting in placeholders */}
+   <div text={tpl(m.firstName, m.age, "{0} is {1:n;0} years old")} />
+
+   {/* Supports null text */}
+   <div text={tpl(m.firstName, "Hello, {0|Guest}!")} />
+</cx>
+            `}</CodeSnippet>
+         </CodeSplit>
+
+         The accessor chain form uses positional placeholders (&#123;0&#125;, &#123;1&#125;, etc.) and supports
+         all StringTemplate features including formatting (`:format`) and null text (`|nullText`).
 
          ### Typed Config Properties
 

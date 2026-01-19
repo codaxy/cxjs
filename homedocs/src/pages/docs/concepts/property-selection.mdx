@@ -1,0 +1,36 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: PropertySelection
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import ImportPath from "../../../components/ImportPath.astro";
+import PropertySelectionExample from "../../../examples/concepts/PropertySelectionExample.tsx";
+import PropertySelectionExampleCode from "../../../examples/concepts/PropertySelectionExample.tsx?raw";
+
+# PropertySelection
+
+<ImportPath path="import { PropertySelection } from 'cx/ui';" />
+
+PropertySelection tracks selection state using a boolean property on each record. When an item is selected, its `selected` property (or custom field) is set to `true`.
+
+## When to Use
+
+- Checkbox-based selection where each row has a checkbox
+- When selection state should be saved with the data
+- When you need to easily filter or count selected items
+- Scatter graphs and other charts with selectable points
+
+## Example
+
+<CodeExample code={PropertySelectionExampleCode}>
+  <PropertySelectionExample client:load />
+</CodeExample>
+
+## Configuration
+
+| Property        | Type      | Default      | Description                                               |
+| --------------- | --------- | ------------ | --------------------------------------------------------- |
+| `selectedField` | `string`  | `"selected"` | Field name on each record that stores the selection state |
+| `multiple`      | `boolean` | `false`      | Enable multiple selection                                 |
+| `toggle`        | `boolean` | `false`      | Enable toggle mode (clicking selected item deselects it)  |

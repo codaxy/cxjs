@@ -1,0 +1,535 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Breaking Changes
+---
+
+import Note from "../../../components/Note.astro";
+
+# Breaking Changes
+
+Sometimes we are forced to introduce breaking changes to the framework.
+This page will provide information about breaking changes and how to migrate your applications to the latest
+versions of the framework.
+
+## 26.2.0
+
+### LookupField: Improved TypeScript discrimination
+
+The `LookupField` component now uses TypeScript discriminated unions based on the `infinite` and `multiple` props. This provides better type inference and catches invalid prop combinations at compile time.
+
+#### `onQueryPage` replaces `onQuery` for infinite mode
+
+When using `LookupField` with `infinite: true`, you must now use the `onQueryPage` prop instead of `onQuery`.
+
+**Before:**
+```tsx
+<LookupField
+  infinite
+  onQuery={({ query, page, pageSize }) => fetchData(query, page, pageSize)}
+/>
+```
+
+**After:**
+```tsx
+<LookupField
+  infinite
+  onQueryPage={({ query, page, pageSize }) => fetchData(query, page, pageSize)}
+/>
+```
+
+The `onQuery` prop now only accepts a string query parameter for standard (non-infinite) mode:
+
+```tsx
+<LookupField
+  onQuery={(query) => fetchData(query)}
+/>
+```
+
+**Backwards Compatibility:** The runtime includes a compatibility shim that copies `onQuery` to `onQueryPage` when `infinite: true` is set. This allows existing code to continue working, but TypeScript will report type errors. We recommend updating your code to use the new API.
+
+#### `pageSize` is now exclusive to infinite mode
+
+The `pageSize` prop is now only available when `infinite: true`. If you were using `pageSize` without `infinite`, remove it as it had no effect.
+
+#### Props are now discriminated by `multiple`
+
+- When `multiple: true`: use `records` and/or `values` props
+- When `multiple` is not set or `false`: use `value` and `text` props
+
+TypeScript will now report errors if you mix props from different modes (e.g., using `value` with `multiple: true`).
+
+## 26.1.0
+
+### TypeScript Migration
+
+The CxJS framework has been fully migrated to TypeScript. This is a major change that brings improved type safety, better IDE support, and enhanced developer experience.
+
+### Separation from React JSX Types
+
+CxJS now provides its own JSX type definitions instead of relying on React's JSX types. This separation was necessary because CxJS JSX has fundamental differences from React JSX.
+
+To use the new JSX types, update your `tsconfig.json`:
+
+```json
+{
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "cx"
+  }
+}
+```
+
+With this configuration, TypeScript will use CxJS-specific JSX types, providing proper type checking for CxJS attributes and components.
+
+### Package Upgrades Required
+
+The following packages have been updated and should be upgraded to version 26.x:
+
+| Package                             | Description                                 |
+| ----------------------------------- | ------------------------------------------- |
+| `cx`                                | Core framework package                      |
+| `cx-react`                          | React adapter (now written in TypeScript)   |
+| `babel-plugin-transform-cx-imports` | Babel plugin for optimizing imports         |
+| `swc-plugin-transform-cx-jsx`       | SWC plugin for CxJS JSX transformation      |
+| `swc-plugin-transform-cx-imports`   | SWC plugin for optimizing imports           |
+| `cx-scss-manifest-webpack-plugin`   | Webpack plugin for SCSS manifest generation |
+
+<Note type="warning">
+  Some projects have copied `cx-scss-manifest-webpack-plugin` and used it in
+  source form. These projects should now transition to using the official npm
+  package instead. These versions will not work with the 26.x releases due to
+  internal path changes and CSS will appear broken. Alternatively, the plugin
+  can be patched to use the `build` folder instead of the `src` folder to detect
+  which components are actually being used in the project.
+</Note>
+
+### React 18+ Required
+
+CxJS 26.x requires React 18 or later. The framework now uses the modern React 18 APIs including `createRoot` from `react-dom/client`. If your application is still using React 17 or earlier, you will need to upgrade React before upgrading to CxJS 26.x.
+
+### Migration Guide
+
+For a comprehensive guide on migrating your applications to TypeScript and taking advantage of the new type system, please refer to the [Migration Guide](/intro/migration-guide).
+
+---
+
+## 24.10.0
+
+### Legend and LegendEntry rendering
+
+Legend and LegendEntry components have been refactored to use the flexbox layout. This change might affect the appearance
+if you have custom styles applied to these components.
+
+## 24.5.1
+
+### Default Window body padding
+
+The Window body now have a default padding. Previously, a few options were used to add padding such as
+`bodyStyle`, `bodyClass`, or adding margin/padding to the inner content.
+All these options lead to problems with layout consistency across different themes.
+
+If you want to revert to the old behavior, you can set the `pad` property to `false` on the prototype of the Window widget.
+This will effectively remove the default padding from the Window body, unless `pad` is explicitly set to `true` on the Window.
+
+```javascript
+import { Window } from "cx/widgets";
+Window.prototype.pad = false;
+```
+
+Alternatively, you can reset the Sass variable to remove default padding, before importing the CxJS variables.
+
+```scss
+$cx-default-window-body-padding: 0;
+
+@import "~cx/src/variables";
+```
+
+However, the best way forward would be to go through your codebase and remove `bodyStyle`, `bodyClass` values, or padding/margins used for this purpose
+within the window content.
+
+## 23.2.0
+
+### Dropped support for Internet Explorer
+
+If you need to support Internet Explorer please use an older version of CxJS.
+
+### Dart Sass Transition
+
+CxJS theming support is based on Sass. Since the beginning, the `node-sass` package was used to compile `.scss` files
+to CSS. This package is [deprecated](https://sass-lang.com/blog/libsass-is-deprecated) for some time and we're gradually
+replacing it with the [`sass`](https://www.npmjs.com/package/sass) package which doesn't rely on native
+code and therefore offers less compatibility problems, but has some of its own quirks.
+
+In the first phase both `node-sass` and `sass` will be supported. Later on, we're going to make a permanent switch
+after which `node-sass` will not work anymore.
+
+These are the steps required to start using `sass` today in your project:
+
+1. remove `node-sass` from `package.json`
+2. install `sass`
+3. make the following changes in the root `index.scss` file:
+
+- add `@use 'sass:math';` at the top of the file
+- replace `cx-divide` function, after it's been imported
+
+```scss
+@use 'sass:math';
+
+# define variables
+...
+
+@import '~cx/src/variables';
+
+@function cx-divide($a, $b) {
+    @return math.div($a, $b);
+}
+```
+
+Voila, your project now compiles CSS using `sass`. No more annoying `node-sass` issues.
+
+## 21.3.0
+
+### Babel 7
+
+The source code now uses the optional chaining operator. Please upgrade Babel to the latest version or add this plugin to your existing configuration.
+
+### JSX runtime
+
+This release contains a new version of `babel-preset-cx-env` plugin which uses the new React JSX transform.
+This should result in slightly smaller bundle sizes and in some cases it's not required to import VDOM for React components.
+For more information check [this post on the official React blog](https://reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html).
+
+The new release also removes Babel plugins which are now part of the @babel/preset-env preset out of the box, i.e. `@babel/transform-object-spread`.
+
+### Whitespace trimming on generated `cx` code
+
+There are new version of `babel-plugin-cx-env` and `babel-plugin-transfrom-cx-jsx` which allow whitespace trimming in the generated code.
+This might help a bit with the generated bundle sizes.
+
+You can set this up in your `babel-config.js` file:
+
+```javascript
+{
+  presets: [
+    [
+      "babel-preset-cx-env",
+      {
+        cx: {
+          jsx: {
+            trimWhitespace: true,
+            trimWhitespaceExceptions: ["Md", "CodeSnippet", "CodeSplit"],
+          },
+          imports: {
+            useSrc: true,
+          },
+        },
+      },
+    ],
+  ];
+}
+```
+
+For more information, check the NPM page for [babel-plugin-transform-cx-jsx](https://www.npmjs.com/package/babel-plugin-transform-cx-jsx).
+
+## 21.1.0
+
+### Change in invokeParentMethod
+
+Previously [`invokeParentMethod`](/concepts/controllers#-code-invokeparentmethod-code-) could be used to invoke Controller's own method. If the specified method was not found on current
+Controller instance, parent instances would be checked until the one with the specified method is found.
+
+With this change, `invokeParentMethod` now **skips** the current Controller instance and tries to invoke the specified method
+in one of the parent instances, as the name suggests.
+This can cause the code to break if, for example, `invokeParentMethod` was used in one of the inline event handlers:
+
+```javascript
+<div
+  controller={{
+    onSubmit(val) {
+      console.log("val", val);
+    },
+  }}
+>
+  <Button
+    onClick={(e, instance) => {
+      let controller = instance.controller;
+      // This will cause an error:
+      // Uncaught Error: Cannot invoke controller
+      // method "onSubmit" as controller is not assigned to the widget.
+      controller.invokeParentMethod("onSubmit", 1);
+    }}
+    text="Submit"
+  />
+</div>
+```
+
+To fix this, make the following change in the `onClick` handler:
+
+```javascript
+onClick={(e, instance) => {
+    let controller = instance.controller;
+    // Use invokeMethod instead of invokeParentMethod
+    controller.invokeMethod('onSubmit', 1);
+}}
+```
+
+[`invokeMethod`](/concepts/controllers#-code-invokemethod-code-) has the same behaviour as the previous implementation of `invokeParentMethod`, hence it can be used as a fail-safe replacement for
+`invokeParentMethod` in this version of CxJS.
+
+## 20.1.0
+
+### Format change for DateTimeField
+
+`DateTimeField` now expects regular formats, e.g. `datetime;yyyyMMMdd` (previously only `yyyyMMMdd` part was required).
+This change enables non-standard, custom formats to be used.
+
+## 19.1.0
+
+### Babel 7
+
+Starting with this version CxJS tooling requires Babel 7. New versions of the `babel-preset-cx-env`, `babel-plugin-transform-cx-jsx`,
+and `babel-plugin-transform-cx-imports` packages do not support Babel 6 anymore.
+
+These are the steps required to migrate your applications to Babel 7:
+
+In `package.json`, update the following packages:
+
+- `"babel-core"` => `"@babel/core": "^7.2.2"`,
+- `"babel-preset-env"` => `"@babel/preset-env": "^7.2.3"`
+- `"babel-polyfill"` => `"@babel/polyfill": "^7.2.5"`
+
+In `babel.config`, replace `useBuiltIns: true` with `useBuiltIns: 'usage'`.
+
+In `polyfill.js`, remove `import "babel-polyfill";`
+
+If some other Babel plugins are used please make sure that these are also upgraded to versions which target Babel 7.
+
+That's it.
+
+#### TypeScript
+
+One of the benefits that Babel 7 brings is support for TypeScript without the TypeScript tooling.
+You can easily enable TypeScript in your project by installing the `@babel/preset-typescript` npm package
+and registering the preset in your `babel.config` file.
+You'll also have to tweak rules in `webpack.config.js` to support `.ts` and `.tsx` files.
+
+Replace
+
+```javascript
+test: /\.js$/,
+loader: 'babel-loader',
+```
+
+with:
+
+```javascript
+test: /\.(js|ts|tsx)$/,
+loader: 'babel-loader',
+```
+
+You can now mix `.js`, `.ts` and `.tsx` files. However,
+some of the [JSX in TS related quirks still apply](https://github.com/codaxy/cx-typescript-boilerplate).
+
+## 18.12.0
+
+### Functional Components and CxJS attributes
+
+In order to support [store refs](https://github.com/codaxy/cxjs/issues/487) some changes were made to how
+functional components handle CxJS-specific attributes such as `visible`, `controller` and `layout`.
+
+For example, let's take a simple Tab component.
+
+```javascript
+const TabCmp = ({ prop1, children }) => (
+  <cx>
+    <div class="tab">{children}</div>
+  </cx>
+);
+```
+
+In previous versions of CxJS, if the `visible` attribute is used on a functional component,
+it would be applied on all top-level elements.
+
+```javascript
+<TabCmp visible-expr="{tab} == 'tab1'">Tab1 Content</TabCmp>
+```
+
+This example above would expand to:
+
+```javascript
+<div visible-expr="{tab} == 'tab1'" class="tab">
+  Tab1 Content
+</div>
+```
+
+From this version, a PureContainer wrapper is added to all functional components and all CxJS-specific attributes
+are applied on the wrapper element.
+
+```javascript
+<PureContainer visible-expr="{tab} == 'tab1'">
+  <div class="tab">Tab1 Content</div>
+</PureContainer>
+```
+
+Please note that this is a breaking change only if top-level component is `Rescope`, `Restate` or `DataProxy`.
+
+With this change, both functional components and functional controllers can receive the `store` prop which
+enables [an alternative syntax for accessing data using store references](https://github.com/codaxy/cxjs/issues/487).
+
+## 17.12.0
+
+### `babel-preset-env`
+
+`babel-preset-env` is now a peer dependency of `babel-preset-cx-env`. Therefore it needs
+to be installed in your project.
+This change enables the `babel-preset-env` package to be updated independently from the
+`babel-preset-cx-env`
+package.
+
+```
+npm install babel-preset-env --saveDev
+yarn add babel-preset-env --dev
+```
+
+### `-bind`, `-tpl`, `-expr` syntax
+
+Data-binding attributes can now be written in an alternative syntax with a dash instead of a colon, for
+example `value:bind` instead of `value-bind`. Although not necessarily a breaking change, both methods are
+supported which solves a long standing problem of syntax errors that [Visual Studio
+Code](https://code.visualstudio.com) reports if XML namespaces are used inside JSX.
+
+## 17.7.0
+
+This release adds support for CxJS applications with an extremely short start up time such as [CxJS Hacker
+News](https://github.com/codaxy/cxjs-hackernews).
+Bigger applications will improve startup time through incremental app loading and adopting [the app shell
+architecture](https://developers.google.com/web/fundamentals/architecture/app-shell).
+
+In order for us to support minimal application shells some internal CxJS dependencies had to be broken.
+
+### Confirmation Dialogs
+
+The `Button` requires `MsgBox` and `Window` components in order to support user confirmation dialogs.
+This (`confirm`) function is not always necessary, but when needed. it's better to load these additional
+classes
+after the application launch.
+
+In order to enable CxJS based confirmation dialogs, use the `enableMsgBoxAlerts` method.
+Otherwise, the browser default `prompt` dialog will appear.
+
+To enable the confirmation function on application startup, use the following snippet:
+
+```javascript
+import { enableMsgBoxAlerts } from "cx/widgets";
+
+enableMsgBoxAlerts();
+```
+
+### Tooltips
+
+Tooltips are not automatically loaded anymore. The following example will not work because
+tooltips first need to be enabled using the `enableTooltips` method.
+
+```jsx
+<div tooltip="Some tooltip" />
+```
+
+Use the following code to enable tooltips:
+
+```javascript
+import { enableTooltips } from "cx/widgets";
+
+enableTooltips();
+```
+
+### Culture-Sensitive Number, Date and Currency Formatting
+
+Culture-sensitive formats for dates and numbers are not automatically registered.
+Formatting is auto-enabled if `NumberField`, `DateField` or any other culture dependent widget is used;
+otherwise it needs to be enabled using the `enableCultureSensitiveFormatting` method.
+
+```javascript
+import { enableCultureSensitiveFormatting } from "cx/ui";
+
+enableCultureSensitiveFormatting();
+```
+
+### Fat Arrow Expansion
+
+In order to support fat arrows in expressions CxJS includes a transformer which rewrites fat arrows into
+the standard function notation. This allows fat arrows to be used in Internet Explorer and older
+versions of Safari, like in the following example.
+
+```jsx
+<div text:expr="{data}.filter(a=>a.value > 10).join(', ')" />
+```
+
+Code from the snippet above will not work in IE anymore because fat arrow expansion is now optional and
+needs to be enabled using the `enableFatArrowExpansion` method.
+
+```javascript
+import { enableFatArrowExpansion } from "cx/data";
+
+enableFatArrowExpansion();
+```
+
+### Enable All
+
+For apps that do not use code-splitting and the developers want to enable all internal dependencies,
+you may use `enableAllInternalDependencies` and everything will be as it was in previous versions.
+
+```javascript
+import { enableAllInternalDependencies } from "cx/widgets";
+
+enableAllInternalDependencies();
+```
+
+## 17.4.0
+
+We're proud to announce that we obtained ownership of the `cx` package at
+[npmjs](https://www.npmjs.com/package/cx)
+and therefore our `cx-core` package will be replaced with `cx` and deprecated.
+
+To migrate your apps, please do the following:
+
+In `package.json` replace `cx-core` with `cx`.
+
+```
+yarn remove cx-core
+yarn add cx
+```
+
+Additionally, if `babel-plugin-transform-cx-imports` is used with `useSrc` option,
+in `webpack.config.js` `cx` package should be whitelisted
+instead of `cx-core` in the `babel-loader` configuration.
+
+```js
+test: /\.js$/,
+loader: 'babel-loader',
+include: /(app|cx)/, //previously (app|cx-core)
+```
+
+If `cx-core` reference is used in `.scss` files, replace it with `cx`.
+
+```scss
+@import "~cx/src/variables"; //cx-core => cx
+@import "~cx/src/index"; //cx-core => cx
+```
+
+After you're done, please upgrade all Cx related packages to the latest version.
+
+```bash
+yarn upgrade-interactive
+```
+
+Also, upgrade `cx-cli` tools globally.
+
+```bash
+yarn global add cx-cli
+```
+
+That's it.
+
+The `cx-core` package will continue to work, but we recommend that all users to switch
+to the new package. The benefit of this change is that the code completion will now work as IDEs will now be
+able to find the `cx` package.

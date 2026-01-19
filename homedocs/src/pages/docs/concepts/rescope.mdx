@@ -1,0 +1,58 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Rescope
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import ImportPath from "../../../components/ImportPath.astro";
+import RescopeExample from "../../../examples/concepts/RescopeExample.tsx";
+import RescopeExampleCode from "../../../examples/concepts/RescopeExample.tsx?raw";
+
+# Rescope
+
+<ImportPath path="import { Rescope } from 'cx/ui';" />
+
+Rescope selects a common prefix for data bindings, enabling shorter paths within its scope. This is useful when working with deeply nested data structures.
+
+## Example
+
+<CodeExample code={RescopeExampleCode}>
+  <RescopeExample client:load />
+</CodeExample>
+
+## Typed Model
+
+When using Rescope, create a separate model proxy for the rescoped context:
+
+```tsx
+const m = createModel<PageModel>();
+
+// Model for rescoped context
+const mManager = createModel<Manager>();
+```
+
+Then use the rescoped model within the Rescope children:
+
+```tsx
+<Rescope bind={m.company.team.manager}>
+  <TextField value={mManager.name} />
+</Rescope>
+```
+
+## Accessing Outside Data
+
+Within the scope, outside data can be accessed using the `$root.` prefix or by using the `data` property to explicitly bring in external bindings:
+
+```tsx
+<Rescope bind={m.team} data={{ companyName: m.company.name }}>
+  <div text={mTeam.companyName} />
+</Rescope>
+```
+
+## Configuration
+
+| Property   | Type     | Description                                                   |
+| ---------- | -------- | ------------------------------------------------------------- |
+| `bind`     | `string` | Prefix path to be used for data binding. Defaults to `$page`. |
+| `data`     | `object` | Outside data that will be carried into this scope.            |
+| `rootName` | `string` | Alias used to expose root data. Defaults to `$root`.          |

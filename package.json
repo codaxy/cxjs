@@ -50,7 +50,8 @@
       "litmus",
       "benchmark",
       "fiddle",
-      "ts-minimal"
+      "ts-minimal",
+      "homedocs"
    ],
    "jest": {
       "transform": {

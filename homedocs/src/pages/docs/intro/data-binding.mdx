@@ -1,0 +1,172 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Data Binding
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import Note from "../../../components/Note.astro";
+import DataBindingExample from "../../../examples/intro/DataBindingExample.tsx";
+import DataBindingExampleCode from "../../../examples/intro/DataBindingExample.tsx?raw";
+import ExprExample from "../../../examples/intro/ExprExample.tsx";
+import ExprExampleCode from "../../../examples/intro/ExprExample.tsx?raw";
+import BindDefaultExample from "../../../examples/intro/BindDefaultExample.tsx";
+import BindDefaultExampleCode from "../../../examples/intro/BindDefaultExample.tsx?raw";
+
+# Data Binding
+
+Data binding connects your UI to the store, enabling automatic synchronization between widgets and application state. When store data changes, bound widgets update automatically. When users interact with widgets, their changes flow back to the store.
+
+## Accessor Chains
+
+The primary way to bind data in CxJS is through **accessor chains** created with `createModel`. Pass an accessor directly to widget properties for two-way binding:
+
+<CodeExample code={DataBindingExampleCode}>
+  <DataBindingExample client:load />
+</CodeExample>
+
+When you assign `m.name` to the `value` property, CxJS creates a two-way binding. The TextField displays the current value and writes changes back to the store.
+
+### Default Values with bind
+
+Use `bind` to provide a default value when the store path is undefined:
+
+<CodeExample code={BindDefaultExampleCode}>
+  <BindDefaultExample client:load />
+</CodeExample>
+
+When the widget initializes, if the store path is undefined, the default value is automatically written to the store.
+
+## Computed Values with expr
+
+Use `expr` to compute values from one or more store paths. The function recalculates whenever any of its dependencies change:
+
+<CodeExample code={ExprExampleCode}>
+  <ExprExample client:load />
+</CodeExample>
+
+The `expr` function takes accessor chains as arguments, followed by a compute function that receives the current values:
+
+```tsx
+expr(m.firstName, m.lastName, (first, last) => `${first} ${last}`);
+```
+
+## Computed Values with computable
+
+For complex calculations, use `computable` instead of `expr`. It works the same way but adds **memoization** — the result is cached and only recalculated when dependencies actually change:
+
+```tsx
+import { computable } from "cx/data";
+
+// Memoized computation - result cached until items or taxRate changes
+const total = computable(m.items, m.taxRate, (items, taxRate) => {
+  const subtotal = items.reduce((sum, item) => sum + item.price * item.qty, 0);
+  return subtotal * (1 + taxRate);
+});
+```
+
+Use `computable` when the calculation is expensive or when the same value is used in multiple places.
+
+## Formatting Values
+
+Use `format` to apply format strings to bound values:
+
+```tsx
+import { format } from "cx/ui";
+
+<span text={format(m.price, "currency;USD")} />
+<span text={format(m.date, "d;yyyyMMdd")} />
+```
+
+Use `tpl` to combine multiple values into formatted text:
+
+```tsx
+import { tpl } from "cx/ui";
+
+// Positional placeholders
+<p text={tpl(m.firstName, m.lastName, "{0} {1}")} />
+
+// With formatting
+<p text={tpl(m.age, "{0:n;0} years old")} />
+
+// With null fallback
+<p text={tpl(m.name, "Hello, {0|Guest}!")} />
+```
+
+See [Formatting](/docs/intro/formatting) for the complete format syntax reference.
+
+## Expression Helpers
+
+CxJS provides type-safe helper functions for common boolean expressions. These return `Selector<boolean>` and are useful for properties like `visible`, `disabled`, and `readOnly`:
+
+```tsx
+import { truthy, isEmpty, greaterThan } from "cx/ui";
+
+<div visible={truthy(m.user.name)}>User has a name</div>
+<div visible={isEmpty(m.items)}>No items available</div>
+<div visible={greaterThan(m.user.age, 18)}>User is an adult</div>
+```
+
+| Helper                                | Description                                            |
+| ------------------------------------- | ------------------------------------------------------ |
+| `truthy(accessor)`                    | Evaluates truthiness                                   |
+| `falsy(accessor)`                     | Evaluates falsiness                                    |
+| `isTrue(accessor)`                    | Strict `true` check                                    |
+| `isFalse(accessor)`                   | Strict `false` check                                   |
+| `hasValue(accessor)`                  | Checks for non-null/undefined                          |
+| `isEmpty(accessor)`                   | Checks for empty strings/arrays                        |
+| `isNonEmpty(accessor)`                | Checks for non-empty strings/arrays                    |
+| `equal(accessor, value)`              | Loose equality comparison                              |
+| `notEqual(accessor, value)`           | Loose inequality comparison                            |
+| `strictEqual(accessor, value)`        | Strict equality comparison                             |
+| `strictNotEqual(accessor, value)`     | Strict inequality comparison                           |
+| `greaterThan(accessor, value)`        | Numeric greater than                                   |
+| `lessThan(accessor, value)`           | Numeric less than                                      |
+| `greaterThanOrEqual(accessor, value)` | Numeric greater than or equal                          |
+| `lessThanOrEqual(accessor, value)`    | Numeric less than or equal                             |
+| `format(accessor, formatString)`      | Formats value using [format strings](/core/formatting) |
+
+## Legacy Binding Syntax
+
+<Note type="info" title="Legacy">
+  The following binding methods are supported for backwards compatibility but
+  are not recommended for new code.
+</Note>
+
+### String-based bind
+
+Before typed models, bindings used string paths:
+
+```tsx
+import { bind } from "cx/data";
+
+// Legacy string-based binding
+<TextField value={bind("user.name")} />
+
+// Modern accessor chain (preferred)
+<TextField value={m.user.name} />
+```
+
+### String-path templates
+
+The `tpl` function also supports string-path syntax:
+
+```tsx
+import { tpl } from "cx/data";
+
+// Legacy string-path template
+<div text={tpl("Hello, {user.name}!")} />
+
+// Modern typed accessor (preferred)
+<div text={tpl(m.user.name, "Hello, {0}!")} />
+```
+
+### Attribute suffixes
+
+In older CxJS code, you may see attribute suffixes like `-bind`, `-expr`, and `-tpl`. These require Babel plugins and are not supported in the TypeScript-first approach:
+
+```tsx
+// Legacy attribute suffixes (requires Babel plugin)
+<TextField value-bind="user.name" />
+<div text-tpl="Hello, {user.name}!" />
+<div visible-expr="{items.length} > 0" />
+```

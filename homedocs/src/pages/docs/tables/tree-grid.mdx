@@ -1,0 +1,73 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: TreeGrid
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import TreeGridExample from "../../../examples/tables/TreeGridExample.tsx";
+import TreeGridExampleCode from "../../../examples/tables/TreeGridExample.tsx?raw";
+
+# TreeGrid
+
+<ImportPath path="import { Grid, TreeNode } from 'cx/widgets';" />
+
+A TreeGrid is a Grid with hierarchical data displayed using the `TreeAdapter` and `TreeNode` components. It supports lazy loading, expand/collapse, and all standard Grid features.
+
+<CodeExample code={TreeGridExampleCode}>
+  <TreeGridExample client:load />
+</CodeExample>
+
+Click the arrows to expand/collapse nodes. The tree loads child nodes lazily when expanded.
+
+## TreeAdapter
+
+To display hierarchical data, configure the `dataAdapter` property with `TreeAdapter`:
+
+```tsx
+<Grid
+  records={m.data}
+  mod="tree"
+  dataAdapter={{ type: TreeAdapter }}
+  columns={columns}
+/>
+```
+
+If your data is already a tree structure with children nested in each record, that's all you need. The `TreeAdapter` will flatten the tree for display and manage expand/collapse state.
+
+For lazy loading, implement the `onLoad` callback to fetch children when a node is expanded:
+
+```tsx
+dataAdapter={{
+  type: TreeAdapter,
+  onLoad: (context, instance, node) =>
+    instance.getControllerByType(PageController).loadChildren(node),
+}}
+```
+
+Return an array of child records or a Promise that resolves to an array.
+
+## TreeNode
+
+Use [TreeNode](/docs/tables/tree-node) in the column's `children` to render the expand/collapse arrow and indentation:
+
+```tsx
+{
+  header: "Name",
+  field: "name",
+  children: (
+    <TreeNode
+      expanded={m.$record.$expanded}
+      leaf={m.$record.$leaf}
+      level={m.$record.$level}
+      loading={m.$record.$loading}
+      text={m.$record.name}
+    />
+  )
+}
+```
+
+The `TreeAdapter` manages special properties on each record (`$expanded`, `$leaf`, `$level`, `$loading`) that TreeNode uses for rendering.
+
+See also: [TreeNode](/docs/tables/tree-node), [Stateful TreeGrid](/docs/tables/stateful-tree-grid), [Searching Tree Grids](/docs/tables/searching-tree-grids)

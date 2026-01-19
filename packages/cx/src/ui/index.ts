@@ -43,5 +43,9 @@ export * from "./exprHelpers";
 
 //re-export computable here
 import { computable } from "../data/computable";
-import { createAccessorModelProxy, AccessorChain } from "../data/createAccessorModelProxy";
-export { computable, createAccessorModelProxy, AccessorChain };
+import {
+   createAccessorModelProxy,
+   createModel,
+   AccessorChain,
+} from "../data/createAccessorModelProxy";
+export { computable, createAccessorModelProxy, createModel, AccessorChain };

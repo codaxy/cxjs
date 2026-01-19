@@ -1,0 +1,72 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: TreeAdapter
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import TreeAdapterExample from "../../../examples/tables/TreeAdapterExample.tsx";
+import TreeAdapterExampleCode from "../../../examples/tables/TreeAdapterExample.tsx?raw";
+
+# TreeAdapter
+
+<ImportPath path="import { TreeAdapter } from 'cx/ui';" />
+
+TreeAdapter manages hierarchical data with parent-child relationships. It handles expand/collapse state and supports lazy loading of child nodes.
+
+<CodeExample code={TreeAdapterExampleCode}>
+  <TreeAdapterExample client:load />
+</CodeExample>
+
+Click the arrows to expand or collapse nodes.
+
+## Node Fields
+
+TreeAdapter uses special fields on each record to manage tree state. Field names can be customized via configuration (defaults shown):
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| `$children` | `array` | Child nodes. Customize with `childrenField`. |
+| `$expanded` | `boolean` | Whether the node is expanded. Customize with `expandedField`. |
+| `$leaf` | `boolean` | Whether the node is a leaf. Leaf nodes cannot be expanded and `load` is not called for them. Customize with `leafField`. |
+| `$level` | `number` | Depth level in the tree (0 = root). |
+| `$loading` | `boolean` | Whether child nodes are currently loading. Customize with `loadingField`. |
+| `$loaded` | `boolean` | Whether child nodes have been loaded. Customize with `loadedField`. |
+
+The example above uses `childrenField: "entries"` to store children in the `entries` field instead of the default `$children`.
+
+## Lazy Loading
+
+For large trees, load children on demand using the `onLoad` callback:
+
+```tsx
+dataAdapter={{
+  type: TreeAdapter,
+  onLoad: (context, instance, node) =>
+    instance.getControllerByType(PageController).loadChildren(node),
+}}
+```
+
+The `onLoad` callback should return an array of child records or a Promise that resolves to an array.
+
+## Configuration
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `recordName` | `string` | Alias used to expose record data. Default is `$record`. |
+| `keyField` | `string` | Field used as the unique record key. |
+| `childrenField` | `string` | Field containing child nodes. Default is `$children`. |
+| `expandedField` | `string` | Field indicating expansion state. Default is `$expanded`. |
+| `leafField` | `string` | Field indicating if node is a leaf. Default is `$leaf`. |
+| `loadingField` | `string` | Field indicating loading state. Default is `$loading`. |
+| `loadedField` | `string` | Field indicating if children are loaded. Default is `$loaded`. |
+| `foldersFirst` | `boolean` | Display folders before leaf nodes. Default is `true`. |
+| `hideRootNodes` | `boolean` | Hide root nodes and show their children as top level. Default is `false`. |
+| `restoreExpandedNodesOnLoad` | `boolean` | Restore expanded state when data is reloaded. |
+| `onLoad` | `function` | Callback to load child nodes. Receives `(context, instance, node)`. Should return an array or Promise. |
+| `onLoadError` | `function` | Callback when loading children fails. |
+| `immutable` | `boolean` | Prevents aliased data from being written to the parent store. |
+| `sealed` | `boolean` | Prevents child components from writing aliased data. |
+
+See also: [Data Adapters](/docs/tables/data-adapters), [Tree Grid](/docs/tables/tree-grid), [TreeNode](/docs/tables/tree-node)

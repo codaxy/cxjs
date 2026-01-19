@@ -1,0 +1,50 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: DragSource
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import ImportPath from "../../../components/ImportPath.astro";
+import DragSourceExample from "../../../examples/concepts/DragSourceExample.tsx";
+import DragSourceExampleCode from "../../../examples/concepts/DragSourceExample.tsx?raw";
+import DragSourceAdvancedExample from "../../../examples/concepts/DragSourceAdvancedExample.tsx";
+import DragSourceAdvancedExampleCode from "../../../examples/concepts/DragSourceAdvancedExample.tsx?raw";
+
+# DragSource
+
+<ImportPath path="import { DragSource } from 'cx/widgets';" />
+
+`DragSource` wraps elements that can be dragged. The `data` property specifies what data is passed to the drop zone when the element is dropped.
+
+## Example
+
+<CodeExample code={DragSourceExampleCode}>
+  <DragSourceExample client:load />
+</CodeExample>
+
+## Dashboard Example
+
+This example demonstrates advanced features:
+
+- `handled` - Only the handle initiates drag, allowing text selection
+- `clone` - Custom lightweight widget shown during drag instead of cloning the entire content
+
+<CodeExample code={DragSourceAdvancedExampleCode}>
+  <DragSourceAdvancedExample client:load />
+</CodeExample>
+
+## Configuration
+
+| Property       | Type       | Description                                                                        |
+| -------------- | ---------- | ---------------------------------------------------------------------------------- |
+| `data`         | `Prop`     | Data passed to the drop zone on drop.                                              |
+| `hideOnDrag`   | `boolean`  | Hide the source element while dragging. Defaults to `false`.                       |
+| `handled`      | `boolean`  | If `true`, dragging is initiated only through a `DragHandle`. Defaults to `false`. |
+| `onDragStart`  | `function` | Callback invoked when drag starts. Return `false` to cancel.                       |
+| `onDragEnd`    | `function` | Callback invoked when drag ends.                                                   |
+| `clone`        | `Config`   | Custom widget to display during drag instead of cloning the source.                |
+| `cloneStyle`   | `Style`    | CSS styles applied to the drag clone.                                              |
+| `cloneClass`   | `Class`    | CSS class applied to the drag clone.                                               |
+| `draggedStyle` | `Style`    | CSS styles applied to the source element while being dragged.                      |
+| `draggedClass` | `Class`    | CSS class applied to the source element while being dragged.                       |
+| `id`           | `string`   | ID attribute for the element.                                                      |

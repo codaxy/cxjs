@@ -41,6 +41,9 @@ export interface MenuConfig extends HtmlElementConfig {
 
    /** Auto focus first menu item. */
    autoFocus?: boolean;
+
+   /** Set to `true` to enable icons in menu items. */
+   icons?: boolean;
 }
 
 /*

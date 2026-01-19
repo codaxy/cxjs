@@ -1,0 +1,251 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Formatting
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import FormattingExample from "../../../examples/intro/FormattingExample.tsx";
+import FormattingExampleCode from "../../../examples/intro/FormattingExample.tsx?raw";
+
+# Formatting
+
+CxJS provides built-in support for formatting numbers, dates, and currencies. Formats can be applied to widgets via the `format` property or programmatically using `Format.value()`.
+
+## Using Formats
+
+Widgets like `NumberField` and `DateField` accept a `format` property that controls how values are displayed:
+
+<CodeExample code={FormattingExampleCode}>
+  <FormattingExample client:load />
+</CodeExample>
+
+For formatting bound values in text, see the [Formatting Values](/docs/intro/data-binding#formatting-values) section in Data Binding.
+
+## Culture-Sensitive Formatting
+
+Date, currency, and number formats depend on culture settings. Enable culture-sensitive formatting before use:
+
+```tsx
+import { enableCultureSensitiveFormatting } from "cx/ui";
+
+enableCultureSensitiveFormatting();
+```
+
+This ensures formats respect locale-specific conventions for decimal separators, date order, currency symbols, and month/day names.
+
+## Format Syntax
+
+Format strings use semicolons to separate parameters:
+
+```
+formatType;param1;param2
+```
+
+Use a pipe `|` to specify text for null values:
+
+```
+n;2|N/A
+```
+
+Chain multiple formats with colons (applied left-to-right):
+
+```
+n;2:suffix; USD
+```
+
+## Number Formats
+
+Number formats support min and max decimal places, plus optional flags: `n;minDecimals;maxDecimals;flags`. If only one decimal value is provided, it's used for both min and max.
+
+| Format    | Description                 | Example Input | Example Output |
+| --------- | --------------------------- | ------------- | -------------- |
+| `n`       | Number                      | `1234.5`      | `1,234.5`      |
+| `n;0`     | No decimals                 | `1234.5`      | `1,235`        |
+| `n;2`     | Exactly 2 decimals          | `1234.5`      | `1,234.50`     |
+| `n;0;2`   | 0-2 decimals                | `1234.5`      | `1,234.5`      |
+| `n;0;0;+` | Plus sign for positive      | `1234`        | `+1,234`       |
+| `n;0;0;a` | Accounting format           | `-1234`       | `(1,234)`      |
+| `n;0;0;c` | Compact notation            | `105000`      | `105K`         |
+| `p`       | Percentage (×100)           | `0.25`        | `25%`          |
+| `p;0;2`   | Percentage, 0-2 decimals    | `0.256`       | `25.6%`        |
+| `ps;0;2`  | Percent sign only (no ×100) | `25.6`        | `25.6%`        |
+
+## Currency Format
+
+The `currency` format supports an optional currency code, decimal places, and flags: `currency;code;minDecimals;maxDecimals;flags`. The currency code can be omitted to use the default currency.
+
+| Format               | Description                  | Example Input | Example Output |
+| -------------------- | ---------------------------- | ------------- | -------------- |
+| `currency`           | Default currency             | `1234.5`      | `$1,234.50`    |
+| `currency;USD`       | US Dollars                   | `1234.5`      | `$1,234.50`    |
+| `currency;EUR`       | Euros                        | `1234.5`      | `€1,234.50`    |
+| `currency;USD;0`     | USD, no decimals             | `1234.5`      | `$1,235`       |
+| `currency;;2`        | Default currency, 2 decimals | `1234.5`      | `$1,234.50`    |
+| `currency;USD;2;2;+` | Plus sign for positive       | `1234.5`      | `+$1,234.50`   |
+| `currency;USD;2;2;a` | Accounting format            | `-1234.5`     | `($1,234.50)`  |
+| `currency;;0;0;c`    | Compact notation             | `105000`      | `$105K`        |
+
+## Format Flags
+
+These flags can be added to number and currency formats:
+
+| Flag | Description                                        |
+| ---- | -------------------------------------------------- |
+| `+`  | Display plus sign for positive numbers             |
+| `a`  | Accounting format (negative values in parentheses) |
+| `c`  | Compact notation (e.g., 105K, 1M)                  |
+
+Flags can be combined, e.g., `+ac` for all three options. The default currency is determined by culture settings.
+
+## String Formats
+
+String formats allow adding prefixes, suffixes, and wrapping values:
+
+| Format       | Description          | Example Input | Example Output |
+| ------------ | -------------------- | ------------- | -------------- |
+| `prefix;Hi ` | Add prefix           | `"John"`      | `"Hi John"`    |
+| `suffix; cm` | Add suffix           | `180`         | `"180 cm"`     |
+| `wrap;(;)`   | Wrap with delimiters | `5`           | `"(5)"`        |
+
+These can be chained with other formats:
+
+```tsx
+Format.value(5, "n;2:wrap;(;)"); // "(5.00)"
+Format.value(180, "n;0:suffix; cm"); // "180 cm"
+```
+
+## Date Formats
+
+Date formats use pattern codes concatenated together. Separators are provided by the culture settings, not the pattern.
+
+| Format            | Description               | Example Output               |
+| ----------------- | ------------------------- | ---------------------------- |
+| `d`               | Default date              | `2/1/2024`                   |
+| `d;yyMd`          | Short year                | `2/1/24`                     |
+| `d;yyMMdd`        | 2-digit year, padded      | `02/01/24`                   |
+| `d;yyyyMMdd`      | Full date, padded         | `02/01/2024`                 |
+| `d;yyyyMMMd`      | Abbreviated month         | `Feb 1, 2024`                |
+| `d;yyyyMMMMdd`    | Full month name           | `February 01, 2024`          |
+| `d;DDDyyyyMd`     | Short weekday             | `Thu, 2/1/2024`              |
+| `d;DDDDyyyyMMMdd` | Full weekday, short month | `Thursday, Feb 01, 2024`     |
+| `d;DDDDyyyyMMMMd` | Full weekday and month    | `Thursday, February 1, 2024` |
+
+### Date Pattern Characters
+
+Pattern codes are concatenated without separators. Four characters means full name, three is abbreviated, two is padded, one is numeric.
+
+| Character | Description         |
+| --------- | ------------------- |
+| `yyyy`    | 4-digit year        |
+| `yy`      | 2-digit year        |
+| `MMMM`    | Full month name     |
+| `MMM`     | Abbreviated month   |
+| `MM`      | 2-digit month       |
+| `M`       | Month number        |
+| `dd`      | 2-digit day         |
+| `d`       | Day number          |
+| `DDDD`    | Full weekday name   |
+| `DDD`     | Abbreviated weekday |
+
+### Time Pattern Characters
+
+| Character | Description         |
+| --------- | ------------------- |
+| `HH`      | Hours (padded)      |
+| `H`       | Hours               |
+| `mm`      | Minutes (padded)    |
+| `m`       | Minutes             |
+| `ss`      | Seconds (padded)    |
+| `s`       | Seconds             |
+| `a` / `A` | AM/PM indicator     |
+| `N`       | 24-hour format flag |
+
+Date and time patterns can be combined: `d;yyyyMMddHHmm` formats both date and time. Add `N` for 24-hour format: `d;yyyyMMddNHHmm`.
+
+For more details on culture-sensitive formatting, see [intl-io](https://github.com/codaxy/intl-io).
+
+## Programmatic Formatting
+
+Use `Format.value()` to format values in code:
+
+```tsx
+import { Format } from "cx/util";
+
+Format.value(1234.5, "n;2"); // "1,234.50"
+Format.value(0.15, "p;0"); // "15%"
+Format.value(new Date(), "d;yyyyMMdd"); // "02/01/2024"
+```
+
+Use the `format` helper to format bound values:
+
+```tsx
+import { format } from "cx/ui";
+
+<span text={format(m.price, "currency;USD")} />;
+```
+
+Alternatively, use `expr` with `Format.value` for more control:
+
+```tsx
+import { expr } from "cx/ui";
+import { Format } from "cx/util";
+
+<span text={expr(m.price, (price) => Format.value(price, "currency;USD"))} />;
+```
+
+## String Templates
+
+Use `StringTemplate.format` when you need to combine multiple values into a single formatted string:
+
+```tsx
+import { StringTemplate } from "cx/util";
+
+// Positional arguments
+StringTemplate.format(
+  "{0} bought {1} items for {2:currency;USD}",
+  "John",
+  5,
+  49.99,
+);
+// "John bought 5 items for $49.99"
+
+// Named properties with an object
+StringTemplate.format("{name} - {date:d;yyyyMMdd}", {
+  name: "Report",
+  date: new Date(),
+});
+// "Report - 02/01/2024"
+```
+
+Use `StringTemplate.compile` to create a reusable formatter function:
+
+```tsx
+const formatter = StringTemplate.compile("{name}: {value:currency;USD}");
+formatter({ name: "Total", value: 99.99 }); // "Total: $99.99"
+formatter({ name: "Tax", value: 7.5 }); // "Tax: $7.50"
+```
+
+## Custom Formats
+
+Register custom formats using `Format.register`:
+
+```tsx
+import { Format } from "cx/util";
+
+// Simple format
+Format.register("brackets", (value) => `(${value})`);
+
+// Use it
+Format.value("test", "brackets"); // "(test)"
+```
+
+For formats with parameters, use `Format.registerFactory`:
+
+```tsx
+Format.registerFactory("suffix", (format, suffix) => {
+  return (value) => value + suffix;
+});
+
+// Use it
+Format.value(100, "suffix; kg"); // "100 kg"
+```

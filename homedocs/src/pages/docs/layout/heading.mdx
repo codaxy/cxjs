@@ -1,0 +1,30 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Heading
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import HeadingExample from "../../../examples/layout/HeadingExample.tsx";
+import HeadingExampleCode from "../../../examples/layout/HeadingExample.tsx?raw";
+
+# Heading
+
+<ImportPath path="import { Heading } from 'cx/widgets';" />
+
+The `Heading` component renders heading elements (`h1` through `h6`) with CxJS data binding support.
+
+<CodeExample code={HeadingExampleCode}>
+  <HeadingExample client:load />
+</CodeExample>
+
+## Configuration
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `level` | `number` | Heading level from 1 to 6. Default is `3`. |
+| `text` | `string` | Text content of the heading. Supports data binding. |
+| `baseClass` | `string` | Base CSS class. Default is `heading`. |
+| `className` | `string` | Additional CSS class to apply. |
+| `style` | `string \| object` | Additional styles to apply. |

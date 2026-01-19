@@ -5,11 +5,12 @@ import { ZoomIntoPropertyView } from "../data/ZoomIntoPropertyView";
 import { StructuredInstanceDataAccessor } from "./StructuredInstanceDataAccessor";
 import { isObject } from "../util/isObject";
 import { StructuredProp } from "./Prop";
+import { AccessorChain } from "../data/createAccessorModelProxy";
 
 export interface RescopeConfig extends PureContainerConfig {
-   bind: string;
-   rootName?: string;
-   rootAlias?: string;
+   bind: string | AccessorChain<any>;
+   rootName?: string | AccessorChain<any>;
+   rootAlias?: string | AccessorChain<any>;
    data?: StructuredProp;
 }
 

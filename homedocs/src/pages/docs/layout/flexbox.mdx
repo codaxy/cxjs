@@ -1,0 +1,54 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: FlexBox
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+import Note from "../../../components/Note.astro";
+
+import FlexBoxExample from "../../../examples/layout/FlexBoxExample.tsx";
+import FlexBoxExampleCode from "../../../examples/layout/FlexBoxExample.tsx?raw";
+
+# FlexBox
+
+<ImportPath path="import { FlexBox, FlexRow, FlexCol } from 'cx/widgets';" />
+
+`FlexBox` is a convenience widget for setting up simple flex-box based layouts. It provides shortcut options for justifying, aligning, and adding spacing to content.
+
+<Note>
+FlexBox predates Tailwind CSS and is rarely used when Tailwind is available. Consider using Tailwind's flex utilities instead.
+</Note>
+
+Instead of using the base `FlexBox` component, you'll typically use one of the following shortcut variants:
+
+| Component | Equivalent |
+| --------- | ---------- |
+| `FlexRow` | `FlexBox` with `direction="row"` |
+| `FlexCol` | `FlexBox` with `direction="column"` |
+
+<CodeExample code={FlexBoxExampleCode}>
+  <FlexBoxExample client:load />
+</CodeExample>
+
+<Note type="warning">
+The `spacing` option sets a negative margin which may cause unexpected behavior in some scenarios.
+</Note>
+
+## Configuration
+
+| Property    | Type                | Description                                                                                           |
+| ----------- | ------------------- | ----------------------------------------------------------------------------------------------------- |
+| `direction` | `string`            | Flex direction. Default is `row`. Other values: `column`, `column-reverse`, `row-reverse`.            |
+| `spacing`   | `string \| boolean` | Add spacing between items. Values: `xsmall`, `small`, `medium`, `large`, `xlarge`. `true` = `medium`. |
+| `hspacing`  | `string \| boolean` | Horizontal spacing between items. Same values as `spacing`.                                           |
+| `vspacing`  | `string \| boolean` | Vertical spacing between items. Same values as `spacing`.                                             |
+| `pad`       | `string \| boolean` | Add padding to the box. Values: `xsmall`, `small`, `medium`, `large`, `xlarge`. `true` = `medium`.    |
+| `hpad`      | `string \| boolean` | Horizontal padding. Same values as `pad`.                                                             |
+| `vpad`      | `string \| boolean` | Vertical padding. Same values as `pad`.                                                               |
+| `align`     | `string`            | Alignment of items. Maps to CSS `align-items`. Default is `stretch`.                                  |
+| `justify`   | `string`            | Space distribution. Maps to CSS `justify-content`. Default is `flex-start`.                           |
+| `wrap`      | `boolean`           | Set to `true` to allow content to wrap.                                                               |
+| `target`    | `string`            | Target screen size. Values: `any`, `tablet`, `desktop`. On smaller screens, flexbox breaks into rows. |
+| `nested`    | `boolean`           | Set to `true` for deeply nested flexbox calculations.                                                 |
+| `baseClass` | `string`            | Base CSS class. Default is `flexbox`.                                                                 |

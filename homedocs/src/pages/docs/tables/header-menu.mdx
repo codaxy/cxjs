@@ -1,0 +1,74 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Header Menu
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import HeaderMenuExample from "../../../examples/tables/HeaderMenuExample.tsx";
+import HeaderMenuExampleCode from "../../../examples/tables/HeaderMenuExample.tsx?raw";
+
+# Header Menu
+
+Use the `tool` property in column headers to add custom menus for filtering, column visibility, and other actions.
+
+<CodeExample code={HeaderMenuExampleCode}>
+  <HeaderMenuExample client:load />
+</CodeExample>
+
+Click the menu icon in any header to open the dropdown menu.
+
+## Adding a Header Tool
+
+The `tool` property accepts any widget content that will be rendered in the header cell:
+
+```tsx
+{
+  header: {
+    text: "Name",
+    tool: (
+      <Menu horizontal>
+        <Submenu placement="down-left">
+          <Icon name="menu" />
+          <Menu putInto="dropdown">
+            <TextField placeholder="Filter" value={m.filter.name} />
+          </Menu>
+        </Submenu>
+      </Menu>
+    ),
+  },
+  field: "fullName",
+}
+```
+
+## Column Visibility
+
+Combine header menus with the `visible` property to let users show/hide columns:
+
+```tsx
+{
+  header: {
+    text: "Browser",
+    tool: columnMenu,
+  },
+  field: "browser",
+  visible: m.visibility.browser,
+}
+```
+
+The menu can contain checkboxes bound to visibility state:
+
+```tsx
+<Checkbox value={m.visibility.browser} mod="menu">
+  Browser
+</Checkbox>
+```
+
+## Tips
+
+- Use `mod="menu"` on form controls inside menus for proper styling.
+- Use `Submenu` with `placement="down-left"` or `placement="down-right"` to control dropdown direction.
+- Combine filtering with `addTrigger` to automatically update displayed records when filters change.
+
+See also: [Complex Headers](/docs/tables/complex-headers), [Grid](/docs/tables/grid)

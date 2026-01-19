@@ -1,0 +1,63 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Complex Headers
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import ComplexHeadersExample from "../../../examples/tables/ComplexHeadersExample.tsx";
+import ComplexHeadersExampleCode from "../../../examples/tables/ComplexHeadersExample.tsx?raw";
+
+# Complex Headers
+
+Grid supports up to three header rows. Header cells can span multiple columns or rows using `colSpan` and `rowSpan` attributes, similar to HTML tables.
+
+<CodeExample code={ComplexHeadersExampleCode}>
+  <ComplexHeadersExample client:load />
+</CodeExample>
+
+## Multiple Header Rows
+
+Use `header1`, `header2`, and `header3` to define content for each header row:
+
+```tsx
+columns={[
+  {
+    header1: { text: "Name", rowSpan: 2 },
+    field: "fullName",
+  },
+  {
+    header1: { text: "Contact", colSpan: 2 },
+    header2: "Phone",
+    field: "phone",
+  },
+  {
+    header2: "Email",
+    field: "email",
+  },
+]}
+```
+
+## Header Configuration
+
+Each header can be a simple string or an object with these properties:
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `text` | `string` | Header text content. |
+| `colSpan` | `number` | Number of columns to span. |
+| `rowSpan` | `number` | Number of rows to span. |
+| `align` | `string` | Text alignment: `left`, `center`, or `right`. |
+| `allowSorting` | `boolean` | Set to `false` to disable sorting when clicking this header cell. |
+| `style` | `object` | Custom CSS styles for the header cell. |
+| `className` | `string` | Custom CSS class for the header cell. |
+| `items` | `any` | Custom content to render inside the header cell. |
+
+## Tips
+
+- When using `colSpan`, subsequent columns should not define that header row (e.g., if `header1` spans 2 columns, the next column should only define `header2`).
+- Use `rowSpan: 2` on a header to make it span both `header1` and `header2` rows.
+- Add `vlines` prop to the Grid for vertical lines between columns, which helps visualize complex headers.
+
+See also: [Grid](/docs/tables/grid), [Header Menu](/docs/tables/header-menu)

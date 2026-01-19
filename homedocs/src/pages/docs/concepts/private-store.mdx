@@ -1,0 +1,62 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: PrivateStore
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import ImportPath from "../../../components/ImportPath.astro";
+import Note from "../../../components/Note.astro";
+import PrivateStoreExample from "../../../examples/concepts/PrivateStoreExample.tsx";
+import PrivateStoreExampleCode from "../../../examples/concepts/PrivateStoreExample.tsx?raw";
+import PrivateStoreSharingExample from "../../../examples/concepts/PrivateStoreSharingExample.tsx";
+import PrivateStoreSharingExampleCode from "../../../examples/concepts/PrivateStoreSharingExample.tsx?raw";
+
+# PrivateStore
+
+<ImportPath path="import { PrivateStore } from 'cx/widgets';" />
+
+PrivateStore (also known as Restate) creates a separate, isolated data store for a part of the widget tree. This enables some parts of the application to behave independently from the rest.
+
+## Example
+
+<CodeExample code={PrivateStoreExampleCode}>
+  <PrivateStoreExample client:load />
+</CodeExample>
+
+Each PrivateStore has its own isolated data. Sliders within the same store share the same value, but don't affect sliders in other stores.
+
+## Lifespan
+
+Private stores have the lifespan of the PrivateStore component. When a PrivateStore is destroyed, its data is lost. If you navigate away and come back, only sliders in the global store will retain their values.
+
+## Sharing Data
+
+Data shared between the parent store and the private store must be explicitly defined with the `data` property. Bindings create two-way data flow, while expressions and computables are read-only.
+
+<CodeExample code={PrivateStoreSharingExampleCode}>
+  <PrivateStoreSharingExample client:load />
+</CodeExample>
+
+## Performance
+
+PrivateStore can improve performance through:
+
+- **Detached rendering** - Use `detached` to render the subtree in its own render loop. Changes inside won't trigger the main render loop and vice versa.
+- **Deferred rendering** - Use `deferredUntilIdle` to defer rendering until the browser is idle, useful for heavy content.
+
+Heavy charts or tables can be wrapped in a detached PrivateStore to prevent them from re-rendering on every store change.
+
+<Note type="warning">
+  Detached mode may break some advanced features that depend on shared context,
+  such as form validation.
+</Note>
+
+## Configuration
+
+| Property            | Type      | Description                                                                          |
+| ------------------- | --------- | ------------------------------------------------------------------------------------ |
+| `data`              | `object`  | Object mapping internal binding names to values from the parent store.               |
+| `detached`          | `boolean` | Render in a separate render loop for performance. Breaks context-dependent features. |
+| `deferredUntilIdle` | `boolean` | Defer rendering until the browser is idle.                                           |
+| `idleTimeout`       | `number`  | Time limit in milliseconds the browser can defer rendering.                          |
+| `immediate`         | `boolean` | Disable batching of updates.                                                         |

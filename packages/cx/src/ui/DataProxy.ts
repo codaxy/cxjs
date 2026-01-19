@@ -1,18 +1,18 @@
+import { AccessorChain } from "../data";
 import { NestedDataView } from "../data/NestedDataView";
-import { UseParentLayout } from "../ui/layout/UseParentLayout";
+import { StructuredProp, WritableProp } from "./Prop";
 import { PureContainerBase, PureContainerConfig } from "./PureContainer";
 import { StructuredInstanceDataAccessor } from "./StructuredInstanceDataAccessor";
-import { StructuredProp, Bind } from "./Prop";
 
 export interface DataProxyConfig extends PureContainerConfig {
    /** Data object with computed values to be exposed in the local store. */
    data?: StructuredProp;
 
    /** Binding to a value to be exposed under the `alias` name. */
-   value?: Bind;
+   value?: WritableProp<any>;
 
    /** Alias name under which `value` is exposed in the local store. */
-   alias?: string;
+   alias?: string | AccessorChain<any>;
 
    /** Indicate that parent store data should not be mutated. */
    immutable?: boolean;

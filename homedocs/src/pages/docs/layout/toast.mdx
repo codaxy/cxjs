@@ -1,0 +1,59 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Toast
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import ToastExample from "../../../examples/layout/ToastExample.tsx";
+import ToastExampleCode from "../../../examples/layout/ToastExample.tsx?raw";
+
+import ToastModsExample from "../../../examples/layout/ToastModsExample.tsx";
+import ToastModsExampleCode from "../../../examples/layout/ToastModsExample.tsx?raw";
+
+import ToastDeclarativeExample from "../../../examples/layout/ToastDeclarativeExample.tsx";
+import ToastDeclarativeExampleCode from "../../../examples/layout/ToastDeclarativeExample.tsx?raw";
+
+# Toast
+
+<ImportPath path="import { Toast } from 'cx/widgets';" />
+
+Toasts are non-blocking notifications that appear at the edge of the screen. They inform users about events and can offer quick actions. Unlike modal dialogs, toasts don't interrupt the user's workflow.
+
+<CodeExample code={ToastExampleCode}>
+  <ToastExample client:load />
+</CodeExample>
+
+Toasts are created programmatically using `Toast.create()` and opened with the `open(store)` method. The `placement` prop controls which edge of the screen the toast appears on.
+
+## Mods
+
+Toasts support visual modifiers for different notification types: `primary`, `success`, `warning`, and `error`.
+
+<CodeExample code={ToastModsExampleCode}>
+  <ToastModsExample client:load />
+</CodeExample>
+
+## Declarative Toasts
+
+Toasts can also be used declaratively with a `visible` binding. This is useful when the toast state needs to be tied to the application store:
+
+<CodeExample code={ToastDeclarativeExampleCode}>
+  <ToastDeclarativeExample client:load />
+</CodeExample>
+
+Add the `dismiss` prop to buttons that should close the toast when clicked.
+
+## Configuration
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `message` | `StringProp` | Text message to display in the toast. |
+| `placement` | `string` | Position on screen. Values: `top`, `right`, `bottom`, `left`, `top-left`, `top-right`, `bottom-left`, `bottom-right`. Default is `top`. |
+| `timeout` | `NumberProp` | Time in milliseconds before auto-dismiss. If not set, toast stays until manually closed. |
+| `pad` | `boolean` | Adds default padding. Default is `true`. |
+| `mod` | `string` | Visual modifier. Values: `primary`, `success`, `warning`, `error`. |
+| `visible` | `BooleanProp` | Controls toast visibility for declarative usage. |
+| `animate` | `boolean` | Enables enter/leave animations. Default is `true`. |
+| `destroyDelay` | `number` | Delay in milliseconds before removing from DOM after closing. Default is `300`. |

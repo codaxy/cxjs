@@ -1,0 +1,39 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Routing
+---
+
+# Routing
+
+CxJS includes built-in routing for single-page applications. Define routes that render content based on the URL, navigate programmatically, and handle deep linking.
+
+Both hash-based (`#/path`) and `pushState` based (`/path`) navigation modes are supported.
+
+## Key Components
+
+| Component                             | Description                                                                |
+| ------------------------------------- | -------------------------------------------------------------------------- |
+| [Route](/core/route)                  | Conditionally renders content when the URL matches a pattern               |
+| [RedirectRoute](/core/redirect-route) | Automatically redirects when the URL matches                               |
+| [Url](/core/url)                      | Helper class for URL path manipulation and resolution                      |
+| [History](/core/history)              | Programmatic navigation with `pushState`, confirmations, and subscriptions |
+
+## Basic Setup
+
+```tsx
+import { Route } from "cx/widgets";
+import { History } from "cx/ui";
+
+// Connect History to store
+History.connect(store, "url");
+
+// Define routes
+<Route route="~/" url={m.url}>
+  <HomePage />
+</Route>
+<Route route="~/about" url={m.url}>
+  <AboutPage />
+</Route>
+```
+
+The `~/` prefix resolves to your application's base path, making routes portable across different deployment paths.

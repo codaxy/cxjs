@@ -1,0 +1,67 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Dropdown
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import DropdownBasicExample from "../../../examples/layout/DropdownBasicExample.tsx";
+import DropdownBasicExampleCode from "../../../examples/layout/DropdownBasicExample.tsx?raw";
+
+import DropdownRelatedElementExample from "../../../examples/layout/DropdownRelatedElementExample.tsx";
+import DropdownRelatedElementExampleCode from "../../../examples/layout/DropdownRelatedElementExample.tsx?raw";
+
+import DropdownSearchExample from "../../../examples/layout/DropdownSearchExample.tsx";
+import DropdownSearchExampleCode from "../../../examples/layout/DropdownSearchExample.tsx?raw";
+
+# Dropdown
+
+<ImportPath path="import { Dropdown } from 'cx/widgets';" />
+
+The `Dropdown` widget is commonly used in lookup fields, date fields, and menus, but it can also be used independently. It positions itself relative to a trigger element and automatically adjusts placement based on available screen space.
+
+<CodeExample code={DropdownBasicExampleCode}>
+  <DropdownBasicExample client:load />
+</CodeExample>
+
+By default, the dropdown positions itself relative to its previous sibling element. Use `arrow` to show a pointer and `offset` to control the distance from the trigger.
+
+## Custom Related Element
+
+Use `onResolveRelatedElement` to position the dropdown relative to a different element than the default previous sibling.
+
+<CodeExample code={DropdownRelatedElementExampleCode}>
+  <DropdownRelatedElementExample client:load />
+</CodeExample>
+
+## Search Suggestions
+
+Combine `Dropdown` with `TextField` using `trackFocus` and `focused` bindings to create search suggestion interfaces. Set `matchWidth` to make the dropdown match the input width.
+
+<CodeExample code={DropdownSearchExampleCode}>
+  <DropdownSearchExample client:load />
+</CodeExample>
+
+## Positioning
+
+Positioning is controlled by `relatedElement` and `placement` properties. The default `relatedElement` is the element rendered prior to the dropdown. Use `onResolveRelatedElement` callback to specify a different anchor element. Placement direction is determined by available screen space and controlled by `placement` and `placementOrder` props.
+
+## Configuration
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `visible` | `BooleanProp` | Controls dropdown visibility. |
+| `placement` | `string` | Defines where the dropdown will be placed: `up`, `down`, `left`, `right`, or corners like `down-right`. |
+| `placementOrder` | `string` | Available placement options. The dropdown picks placement to maximize visibility. Default: `"up down right left"`. |
+| `offset` | `number` | Distance from the trigger element. Default: `0`. |
+| `arrow` | `boolean` | Shows an arrow pointing to the trigger element. |
+| `matchWidth` | `boolean` | Match the dropdown width to the trigger element. |
+| `matchMaxWidth` | `boolean` | Match the dropdown max-width to the trigger element. |
+| `constrain` | `boolean` | Constrain the dropdown within the viewport. |
+| `closeOnScrollDistance` | `number` | Auto-close if page scrolls this distance. Default: `50`. |
+| `relatedElement` | `Element` | DOM element used as anchor for positioning. |
+| `onResolveRelatedElement` | `function` | Callback to resolve the related element: `(beaconEl) => Element`. |
+| `autoFocus` | `boolean` | Focus first focusable element when opened. |
+| `focusable` | `boolean` | Make the dropdown focusable. |
+| `dismissOnFocusOut` | `boolean` | Close when focus leaves the dropdown. |

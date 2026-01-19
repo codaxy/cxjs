@@ -1,0 +1,73 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: MsgBox
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import MsgBoxAlertExample from "../../../examples/layout/MsgBoxAlertExample.tsx";
+import MsgBoxAlertExampleCode from "../../../examples/layout/MsgBoxAlertExample.tsx?raw";
+
+import MsgBoxYesNoExample from "../../../examples/layout/MsgBoxYesNoExample.tsx";
+import MsgBoxYesNoExampleCode from "../../../examples/layout/MsgBoxYesNoExample.tsx?raw";
+
+import MsgBoxRichContentExample from "../../../examples/layout/MsgBoxRichContentExample.tsx";
+import MsgBoxRichContentExampleCode from "../../../examples/layout/MsgBoxRichContentExample.tsx?raw";
+
+# MsgBox
+
+<ImportPath path="import { MsgBox } from 'cx/widgets';" />
+
+The `MsgBox` class provides utility methods for displaying alert and confirmation dialogs. Both methods return Promises, making it easy to handle user responses with async/await.
+
+## Alert
+
+Use `MsgBox.alert()` to display informational messages. The method accepts either a simple string or a configuration object.
+
+<CodeExample code={MsgBoxAlertExampleCode}>
+  <MsgBoxAlertExample client:load />
+</CodeExample>
+
+## Yes/No Confirmation
+
+Use `MsgBox.yesNo()` to ask the user for confirmation. The returned Promise resolves to `"yes"` or `"no"` based on the user's choice.
+
+<CodeExample code={MsgBoxYesNoExampleCode}>
+  <MsgBoxYesNoExample client:load />
+</CodeExample>
+
+## Rich Content
+
+For messages with formatted content, links, or images, use the `children` property instead of `message`.
+
+<CodeExample code={MsgBoxRichContentExampleCode}>
+  <MsgBoxRichContentExample client:load />
+</CodeExample>
+
+## Methods
+
+| Method | Description |
+| ------ | ----------- |
+| `MsgBox.alert(options)` | Displays an alert dialog. Returns a `Promise<void>` that resolves when the user clicks OK. |
+| `MsgBox.yesNo(options)` | Displays a confirmation dialog. Returns a `Promise<string>` that resolves to `"yes"` or `"no"`. |
+
+## Options
+
+Both methods accept either a message string or a configuration object with these properties:
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `message` | `string` | Text message to display. |
+| `title` | `string` | Dialog window title. |
+| `header` | `object` | Custom Cx component for the window header. |
+| `children` | `any` | Rich content (Cx components) to display instead of a plain message. |
+| `items` | `any` | Alias for `children`. |
+| `style` | `string` | CSS style for the dialog window. |
+| `store` | `Store` | Store instance to use for the dialog. |
+| `okText` | `string` | Custom text for the OK button. Default: `"OK"`. |
+| `yesText` | `string` | Custom text for the Yes button. Default: `"Yes"`. |
+| `noText` | `string` | Custom text for the No button. Default: `"No"`. |
+| `yesButtonMod` | `string` | Visual modifier for the Yes button. |
+| `noButtonMod` | `string` | Visual modifier for the No button. |
+| `callback` | `function` | Optional callback invoked before closing. Return `false` to prevent closing. |

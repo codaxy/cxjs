@@ -1,0 +1,85 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Tooltip
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import TooltipBasicExample from "../../../examples/layout/TooltipBasicExample.tsx";
+import TooltipBasicExampleCode from "../../../examples/layout/TooltipBasicExample.tsx?raw";
+
+import TooltipValidationExample from "../../../examples/layout/TooltipValidationExample.tsx";
+import TooltipValidationExampleCode from "../../../examples/layout/TooltipValidationExample.tsx?raw";
+
+import TooltipInteractiveExample from "../../../examples/layout/TooltipInteractiveExample.tsx";
+import TooltipInteractiveExampleCode from "../../../examples/layout/TooltipInteractiveExample.tsx?raw";
+
+import TooltipRichContentExample from "../../../examples/layout/TooltipRichContentExample.tsx";
+import TooltipRichContentExampleCode from "../../../examples/layout/TooltipRichContentExample.tsx?raw";
+
+# Tooltip
+
+<ImportPath path="import { enableTooltips } from 'cx/widgets';" />
+
+Tooltips provide additional information about an element when the user hovers over it. In CxJS, tooltips are also used to display validation errors on form fields.
+
+To enable tooltips, call `enableTooltips()` at application startup. Tooltips are not automatically enabled to keep bundle sizes small for applications that don't need them.
+
+## Basic Usage
+
+The `tooltip` prop accepts either a string or a configuration object with properties like `text`, `title`, and `placement`.
+
+<CodeExample code={TooltipBasicExampleCode}>
+  <TooltipBasicExample client:load />
+</CodeExample>
+
+## Form Validation
+
+Tooltips are commonly used to display validation errors. Use the `errorTooltip` prop to customize how validation errors are displayed.
+
+<CodeExample code={TooltipValidationExampleCode}>
+  <TooltipValidationExample client:load />
+</CodeExample>
+
+## Interactive Features
+
+Tooltips support advanced features like controlled visibility, mouse tracking, and rich content.
+
+<CodeExample code={TooltipInteractiveExampleCode}>
+  <TooltipInteractiveExample client:load />
+</CodeExample>
+
+## Rich Content
+
+Tooltips can contain rich content including formatted text, links, and even complex components. Use `mouseTrap: true` to keep the tooltip open while the mouse is inside it, allowing users to interact with the content.
+
+<CodeExample code={TooltipRichContentExampleCode}>
+  <TooltipRichContentExample client:load />
+</CodeExample>
+
+## Touch Devices
+
+Touch devices don't have precise mouse pointer location, so tooltips are shown/hidden when the user taps the element. To make tooltips ignore touch events, set `touchBehavior` to `"ignore"`.
+
+To make all tooltips ignore touch events by default:
+
+```tsx
+Tooltip.prototype.touchBehavior = "ignore";
+```
+
+## Configuration
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `text` | `string` | Text displayed inside the tooltip. |
+| `title` | `string` | Text displayed in the tooltip header. |
+| `children` / `items` | `any` | Rich content to display inside the tooltip. |
+| `placement` | `string` | Placement strategy. Defaults to `"right up down left"`. Also accepts `"top"` and `"bottom"`. |
+| `offset` | `number` | Distance in pixels from the related element. Default is `8`. |
+| `visible` | `boolean` | Controls tooltip visibility. |
+| `alwaysVisible` | `boolean` | Makes the tooltip always visible (useful for product tours). |
+| `mouseTrap` | `boolean` | Keeps the tooltip visible while the mouse is inside it. |
+| `trackMouse` | `boolean` | Makes the tooltip follow mouse movement. |
+| `touchBehavior` | `string` | Controls touch event behavior: `"toggle"` (default) or `"ignore"`. |
+| `globalMouseTracking` | `boolean` | Uses window `mousemove` event instead of element events for coordinates. |

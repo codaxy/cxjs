@@ -1,0 +1,32 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: RangeMarker
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import RangeMarkersExample from "../../../examples/charts/RangeMarkersExample.tsx";
+
+# RangeMarker
+
+Displays range markers on column or bar charts.
+
+**Import:** `import { RangeMarker } from 'cx/charts';`
+
+## Example
+
+<CodeExample
+  code={`<Column x-bind="$point.month" y-bind="$point.value" colorIndex={2}>
+  <RangeMarker x-bind="$point.month" y-bind="$point.max" shape="max" colorIndex={8} />
+</Column>`}
+>
+  <RangeMarkersExample client:load />
+</CodeExample>
+
+## Properties
+
+| Property     | Type         | Default     | Description           |
+| ------------ | ------------ | ----------- | --------------------- |
+| `x`          | `Sx<any>`    | `undefined` | X-axis position       |
+| `y`          | `Sx<number>` | `undefined` | Y-axis position       |
+| `shape`      | `string`     | `"line"`    | Shape: max, min, line |
+| `colorIndex` | `number`     | `undefined` | Color palette index   |

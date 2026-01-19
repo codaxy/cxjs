@@ -1,0 +1,71 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: History
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+
+# History
+
+<ImportPath path="import { History } from 'cx/ui';" />
+
+The History class handles HTML5 `pushState` navigation, connecting the browser URL to your store.
+
+## Setup
+
+Connect History to your store at application startup:
+
+```tsx
+History.connect(store, "url");
+```
+
+The store is updated whenever navigation happens, allowing the application to re-render and display relevant content.
+
+## Methods
+
+| Method                                                 | Description                                                                                                                                                                      |
+| ------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `History.connect(store, bind)`                         | Initializes a link between browser's location and store variable pointed by the `bind` argument                                                                                  |
+| `History.pushState(state, title, url)`                 | Performs navigation to a new location without refreshing the page                                                                                                                |
+| `History.replaceState(state, title, url)`              | Performs navigation to a new location. Current location will not be saved in browser's history.                                                                                  |
+| `History.subscribe(callback)`                          | Subscribe to location changes. Useful for setting up page tracking (e.g. Google Analytics). Returns an unsubscribe function.                                                     |
+| `History.reloadOnNextChange()`                         | Instructs the router to reload the page on next navigation. Commonly used with service workers.                                                                                  |
+| `History.addNavigateConfirmation(callback, permanent)` | Instructs the router to execute the given callback to confirm leaving the current page. The callback is executed only for the current page, unless `permanent` is set to `true`. |
+
+## Programmatic Navigation
+
+```tsx
+// Add to history (back button will return here)
+History.pushState({}, null, "~/dashboard");
+
+// Replace current entry (back button skips this)
+History.replaceState({}, null, "~/dashboard");
+```
+
+## Subscribing to Navigation
+
+Track page views or perform actions on navigation:
+
+```tsx
+History.subscribe((url) => {
+  analytics.trackPageView(url);
+});
+```
+
+## Navigation Confirmation
+
+Prompt users before they leave a page with unsaved changes:
+
+```tsx
+History.addNavigateConfirmation((url) => {
+  return MsgBox.yesNo("You have unsaved changes. Leave anyway?").then(
+    (answer) => answer === "yes",
+  );
+});
+```
+
+The callback receives the target URL and should return a boolean or `Promise<boolean>`. By default, the confirmation is removed when leaving the page. Pass `true` as the second argument to make it permanent.
+
+## Browser Support
+
+Browsers without `pushState` support fall back to standard navigation (full page reload).

@@ -1,0 +1,67 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: LabelsTopLayout
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import LabelsTopLayoutAddressExample from "../../../examples/layout/LabelsTopLayoutAddressExample.tsx";
+import LabelsTopLayoutAddressExampleCode from "../../../examples/layout/LabelsTopLayoutAddressExample.tsx?raw";
+
+import LabelsTopLayoutVerticalExample from "../../../examples/layout/LabelsTopLayoutVerticalExample.tsx";
+import LabelsTopLayoutVerticalExampleCode from "../../../examples/layout/LabelsTopLayoutVerticalExample.tsx?raw";
+
+import LabelsTopLayoutColumnsExample from "../../../examples/layout/LabelsTopLayoutColumnsExample.tsx";
+import LabelsTopLayoutColumnsExampleCode from "../../../examples/layout/LabelsTopLayoutColumnsExample.tsx?raw";
+
+import LabelsTopLayoutCellExample from "../../../examples/layout/LabelsTopLayoutCellExample.tsx";
+import LabelsTopLayoutCellExampleCode from "../../../examples/layout/LabelsTopLayoutCellExample.tsx?raw";
+
+# LabelsTopLayout
+
+<ImportPath path="import { LabelsTopLayout } from 'cx/ui';" />
+
+`LabelsTopLayout` is used for dense forms with long labels or when labels are placed above inputs to save horizontal space. It renders children inside a table with two rows: one for labels and one for inputs.
+
+<CodeExample code={LabelsTopLayoutAddressExampleCode}>
+  <LabelsTopLayoutAddressExample client:load />
+</CodeExample>
+
+Set the `width` style on form fields to align inputs properly. Use [LabeledContainer](/docs/forms/labeled-container) to group multiple widgets under a single label.
+
+## Vertical Mode
+
+Set `vertical` to `true` to render each field on its own row:
+
+<CodeExample code={LabelsTopLayoutVerticalExampleCode}>
+  <LabelsTopLayoutVerticalExample client:load />
+</CodeExample>
+
+## Multiple Columns
+
+Use the `columns` property to arrange fields in a grid:
+
+<CodeExample code={LabelsTopLayoutColumnsExampleCode}>
+  <LabelsTopLayoutColumnsExample client:load />
+</CodeExample>
+
+## Configuration
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `vertical` | `boolean` | If `true`, renders each field on its own row. Default is `false`. |
+| `columns` | `number` | Number of columns in the grid layout. |
+
+## LabelsTopLayoutCell
+
+Use `LabelsTopLayoutCell` to control column and row spanning for complex layouts:
+
+<CodeExample code={LabelsTopLayoutCellExampleCode}>
+  <LabelsTopLayoutCellExample client:load />
+</CodeExample>
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `colSpan` | `number` | Number of columns to span. |
+| `rowSpan` | `number` | Number of rows to span. |

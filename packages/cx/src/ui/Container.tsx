@@ -29,6 +29,10 @@ export interface ContainerConfig extends WidgetConfig {
    children?: ChildNode | ChildNode[];
 
    plainText?: boolean;
+
+   // Prevent overriding container methods via config
+   add?: never;
+   clear?: never;
 }
 
 export interface StyledContainerConfig extends ContainerConfig, WidgetStyleConfig {}

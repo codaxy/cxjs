@@ -1,0 +1,58 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Switch
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import SwitchExample from "../../../examples/forms/SwitchExample.tsx";
+import SwitchExampleCode from "../../../examples/forms/SwitchExample.tsx?raw";
+
+# Switch
+
+<ImportPath path="import { Switch } from 'cx/widgets';" />
+
+The `Switch` widget is a two-state toggle control. It offers the same functionality as a `Checkbox` but with a modern sliding appearance that's commonly used for on/off settings.
+
+<CodeExample code={SwitchExampleCode}>
+  <SwitchExample client:load />
+</CodeExample>
+
+## Configuration
+
+### Core Properties
+
+| Property   | Type      | Default | Description                                            |
+| ---------- | --------- | ------- | ------------------------------------------------------ |
+| `on`       | `boolean` | `false` | State of the switch (true = on)                        |
+| `off`      | `boolean` | `true`  | Inverse state (true = off). Alternative to `on`        |
+| `value`    | `boolean` |         | Alias for `on`                                         |
+| `text`     | `string`  |         | Text displayed next to the switch                      |
+| `label`    | `string`  |         | Label displayed before the switch                      |
+| `disabled` | `boolean` | `false` | Disables the switch                                    |
+| `readOnly` | `boolean` | `false` | Makes the switch read-only                             |
+| `required` | `boolean` | `false` | Marks the field as required                            |
+| `viewMode` | `boolean` | `false` | Display as plain text instead of interactive switch    |
+| `autoFocus`| `boolean` | `false` | Automatically focus the switch on mount                |
+
+### Appearance
+
+| Property           | Type      | Default | Description                                       |
+| ------------------ | --------- | ------- | ------------------------------------------------- |
+| `handleStyle`      | `object`  |         | CSS styles for the switch handle (knob)           |
+| `rangeStyle`       | `object`  |         | CSS styles for the track when switch is on        |
+| `emptyText`        | `string`  |         | Text shown in view mode when value is empty       |
+| `tooltip`          | `string`  |         | Tooltip text or configuration                     |
+
+### Behavior
+
+| Property           | Type      | Default | Description                                       |
+| ------------------ | --------- | ------- | ------------------------------------------------- |
+| `focusOnMouseDown` | `boolean` | `false` | Whether to focus the switch on mouse down         |
+
+### Callbacks
+
+| Property     | Type       | Description                                             |
+| ------------ | ---------- | ------------------------------------------------------- |
+| `onValidate` | `function` | Custom validation function returning error or undefined |

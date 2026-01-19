@@ -1,9 +1,9 @@
-export function updateArray<T = any>(
-   array: T[] | undefined,
+export function updateArray<T = any, A extends T[] | undefined = T[] | undefined>(
+   array: A,
    updateCallback: (item: T, index: number) => T,
    itemFilter?: null | ((item: T, index: number) => boolean),
    removeFilter?: (item: T, index: number) => boolean,
-): T[] | undefined {
+): A {
    if (!array) return array;
 
    const newArray: T[] = [];
@@ -27,5 +27,5 @@ export function updateArray<T = any>(
       }
    }
 
-   return dirty ? newArray : array;
+   return (dirty ? newArray : array) as A;
 }

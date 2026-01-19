@@ -1,0 +1,35 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: SnapPointFinder
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import SnapPointFinderExample from "../../../examples/charts/SnapPointFinderExample.tsx";
+
+# SnapPointFinder
+
+Finds and snaps to the nearest point on a graph near the cursor.
+
+**Import:** `import { SnapPointFinder } from 'cx/charts';`
+
+## Example
+
+<CodeExample
+  code={`<MouseTracker x-bind="cursor.x" y-bind="cursor.y">
+  <SnapPointFinder x-bind="cursor.x" y-bind="cursor.y" maxDistance={30} snapX-bind="snap.x" snapY-bind="snap.y">
+    <Marker x-bind="snap.x" y-bind="snap.y" size={10} colorIndex={4} />
+  </SnapPointFinder>
+</MouseTracker>`}
+>
+  <SnapPointFinderExample client:load />
+</CodeExample>
+
+## Properties
+
+| Property      | Type         | Default     | Description           |
+| ------------- | ------------ | ----------- | --------------------- |
+| `x`           | `Sx<number>` | `undefined` | Current cursor X      |
+| `y`           | `Sx<number>` | `undefined` | Current cursor Y      |
+| `snapX`       | `Sx<number>` | `undefined` | Bind for snapped X    |
+| `snapY`       | `Sx<number>` | `undefined` | Bind for snapped Y    |
+| `maxDistance` | `number`     | `undefined` | Maximum snap distance |

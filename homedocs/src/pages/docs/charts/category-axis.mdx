@@ -1,0 +1,35 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: CategoryAxis
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import CategoryAxisExample from "../../../examples/charts/CategoryAxisExample.tsx";
+
+# CategoryAxis
+
+The `CategoryAxis` widget is used to map discrete data values along the horizontal or vertical axis.
+
+**Import:** `import { CategoryAxis } from 'cx/charts';`
+
+## Example
+
+<CodeExample
+  code={`<Chart axes={{ x: { type: CategoryAxis }, y: { type: CategoryAxis, vertical: true } }}>
+  <Gridlines />
+  <Marker x="A" y="Small" shape="circle" size={15} colorIndex={0} />
+  <Marker x="B" y="Medium" shape="square" size={15} colorIndex={2} />
+</Chart>`}
+>
+  <CategoryAxisExample client:load />
+</CodeExample>
+
+## Properties
+
+| Property      | Type      | Default     | Description               |
+| ------------- | --------- | ----------- | ------------------------- |
+| `vertical`    | `boolean` | `false`     | Vertical orientation      |
+| `inverted`    | `boolean` | `false`     | Invert axis direction     |
+| `labelAnchor` | `string`  | `"middle"`  | Label anchor position     |
+| `labelOffset` | `number`  | `10`        | Label offset from axis    |
+| `names`       | `Array`   | `undefined` | Predefined category names |

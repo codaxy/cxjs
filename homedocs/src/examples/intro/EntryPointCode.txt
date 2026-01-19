@@ -1,0 +1,13 @@
+import { startAppLoop } from "cx/ui";
+import { Store } from "cx/data";
+import "cx-theme-aquamarine/dist/index.css";
+
+const store = new Store();
+
+startAppLoop(
+  document.getElementById("app"),
+  store,
+  <div>
+    <h1>Welcome to CxJS</h1>
+  </div>
+);

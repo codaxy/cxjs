@@ -1,0 +1,32 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: HoverSync
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import HoverSyncExample from "../../../examples/charts/HoverSyncExample.tsx";
+
+# HoverSync
+
+Synchronizes hover effects between chart elements, legends, and grids.
+
+**Import:** `import { HoverSync } from 'cx/ui';`
+
+## Example
+
+<CodeExample
+  code={`<HoverSync>
+  <PieSlice value-bind="$record.value" hoverId-bind="$record.id" colorMap="pie" />
+  <Bar x-bind="$record.value" y-bind="$record.name" hoverId-bind="$record.id" colorMap="pie" />
+</HoverSync>`}
+>
+  <HoverSyncExample client:load />
+</CodeExample>
+
+Elements with the same `hoverId` will highlight together.
+
+## Properties
+
+| Property       | Type     | Default     | Description       |
+| -------------- | -------- | ----------- | ----------------- |
+| `hoverChannel` | `string` | `"default"` | Isolation channel |

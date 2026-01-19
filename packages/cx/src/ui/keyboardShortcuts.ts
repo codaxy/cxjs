@@ -10,7 +10,8 @@ interface KeyDescriptor {
 
 export type KeyboardShortcut = number | KeyDescriptor;
 
-let subscribers: any, eventBan = 0;
+let subscribers: any,
+   eventBan = 0;
 
 export function executeKeyboardShortcuts(e: KeyboardEvent) {
    if (Date.now() < eventBan) return;
@@ -19,7 +20,10 @@ export function executeKeyboardShortcuts(e: KeyboardEvent) {
    subscribers && subscribers.notify(e);
 }
 
-export function registerKeyboardShortcut(key: number | KeyDescriptor, callback: (e: KeyboardEvent) => void) {
+export function registerKeyboardShortcut(
+   key: number | KeyDescriptor,
+   callback: (e: KeyboardEvent) => void,
+) {
    const keyCode = isObject(key) ? (key as KeyDescriptor).keyCode : key;
    const shiftKey = isObject(key) ? (key as KeyDescriptor).shiftKey : false;
    const ctrlKey = isObject(key) ? (key as KeyDescriptor).ctrlKey : false;
@@ -27,14 +31,20 @@ export function registerKeyboardShortcut(key: number | KeyDescriptor, callback: 
 
    if (!subscribers) {
       subscribers = new SubscriberList();
-      document.addEventListener("keydown", (e: any) => {
-         if (e.target == document.body)
-            executeKeyboardShortcuts(e);
-      });
+      if (typeof document !== "undefined") {
+         document.addEventListener("keydown", (e: any) => {
+            if (e.target == document.body) executeKeyboardShortcuts(e);
+         });
+      }
    }
 
    return subscribers.subscribe((e: any) => {
-      if (e.keyCode == keyCode && (!shiftKey || e.shiftKey) && (!ctrlKey || e.ctrlKey) && (!altKey || e.altKey))
+      if (
+         e.keyCode == keyCode &&
+         (!shiftKey || e.shiftKey) &&
+         (!ctrlKey || e.ctrlKey) &&
+         (!altKey || e.altKey)
+      )
          callback(e);
    });
 }

@@ -1,0 +1,28 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Outer Layouts
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import OuterLayoutsExample from "../../../examples/layout/OuterLayoutsExample.tsx";
+import OuterLayoutsExampleCode from "../../../examples/layout/OuterLayoutsExample.tsx?raw";
+
+# Outer Layouts
+
+Outer layouts wrap content in a reusable frame — a header, sidebar, footer, or any combination. Define the frame once, then reuse it across your application.
+
+## Example
+
+<CodeExample code={OuterLayoutsExampleCode}>
+  <OuterLayoutsExample client:load />
+</CodeExample>
+
+## How It Works
+
+1. **Define the layout** with [ContentPlaceholder](/layout/content-placeholder) components marking where content goes
+2. **Apply the layout** to any element using the `outerLayout` attribute
+3. **Fill the placeholders** using [Content](/layout/content) or `putInto`
+
+## Nested Layouts
+
+Layouts can contain other layouts. The content renders inside-out, allowing you to compose complex page structures from simple, reusable pieces.

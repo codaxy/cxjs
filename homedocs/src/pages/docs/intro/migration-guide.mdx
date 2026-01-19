@@ -1,0 +1,626 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Migration Guide
+---
+
+# Migration Guide
+
+Starting with CxJS 26.x, the core framework has been migrated to TypeScript. This guide covers the patterns
+and best practices for working with TypeScript in CxJS applications, whether you're migrating an existing
+project or starting fresh.
+
+## Project Setup
+
+### TypeScript Configuration
+
+Configure your `tsconfig.json` with the following settings for optimal CxJS support:
+
+```json
+{
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "cx",
+    "moduleResolution": "bundler",
+    "esModuleInterop": true
+  }
+}
+```
+
+The key setting is `"jsxImportSource": "cx"`. CxJS now provides its own JSX type definitions
+instead of relying on React's JSX types. This means CxJS-specific attributes like `visible`,
+`controller`, `layout`, and data-binding functions (`bind()`, `expr()`, `tpl()`) are
+properly typed without conflicts with React's typings.
+
+### Webpack Configuration
+
+With TypeScript, you no longer need `babel-loader` or special Babel plugins for CxJS.
+Simply use `ts-loader` to handle TypeScript files:
+
+```javascript
+{
+   test: /\.(ts|tsx)$/,
+   loader: 'ts-loader',
+   exclude: /node_modules/
+}
+```
+
+### Vite Support
+
+CxJS also supports Vite as a build tool. Vite provides faster development experience with
+hot module replacement. Configure Vite with the appropriate React plugin and ensure
+`jsxImportSource` is set to `cx` in your configuration.
+
+### Without `transform-cx-jsx` Plugin
+
+Applications should continue to work with the `transform-cx-jsx` plugin enabled. However, if you want to run
+your application without this plugin, the following requirements apply:
+
+1. All functional components must be wrapped in `createFunctionalComponent` calls
+2. The special JSX prop syntax (`-bind`, `-expr`, `-tpl`) must be converted to function calls
+   (`bind()`, `tpl()`, `expr()`) or object form like `{{ bind: "prop" }}`,
+   `{{ tpl: "template" }}`, or `{{ expr: "1+1" }}`
+3. All components previously developed in JavaScript must be ported to TypeScript.
+
+### Bundle Size Optimization (Optional)
+
+While not required, you can use `babel-plugin-transform-cx-imports` to minimize bundle size
+by transforming CxJS imports to more specific paths:
+
+```bash
+# Install the plugin
+npm install babel-plugin-transform-cx-imports --save-dev
+
+# In babel.config.js
+{
+   plugins: [
+      ["transform-cx-imports", { useSrc: true }]
+   ]
+}
+```
+
+If using this plugin, chain `babel-loader` after `ts-loader`:
+
+```javascript
+{
+   test: /\.(ts|tsx)$/,
+   exclude: /node_modules/,
+   use: ['babel-loader', 'ts-loader']
+}
+```
+
+## General Improvements
+
+### Renamed: createModel
+
+The `createAccessorModelProxy` function has been renamed to `createModel` for brevity. The old name remains available as an alias for backward compatibility, but `createModel` is now preferred.
+
+```typescript
+// Before
+import { createAccessorModelProxy } from "cx/data";
+const m = createAccessorModelProxy<Model>();
+
+// After (preferred)
+import { createModel } from "cx/data";
+const m = createModel<Model>();
+```
+
+### Typed Controller Methods
+
+With TypeScript, you can use `getControllerByType` to get a typed controller reference instead of
+using string method names. This provides compile-time safety and IDE autocomplete.
+
+```typescript
+import { Controller, bind } from "cx/ui";
+import { Button, Section } from "cx/widgets";
+
+class PageController extends Controller {
+   onSave() {
+      // save logic
+   }
+
+   onDelete(id: string) {
+      // delete logic
+   }
+}
+
+export default (
+   <cx>
+      <Section controller={PageController}>
+         {/* Type-safe controller method calls */}
+         <Button
+            onClick={(e, instance) =>
+               instance.getControllerByType(PageController).onSave()
+            }
+         >
+            Save
+         </Button>
+         <Button
+            onClick={(e, instance) =>
+               instance.getControllerByType(PageController).onDelete("123")
+            }
+         >
+            Delete
+         </Button>
+      </Section>
+   </cx>
+);
+```
+
+The `getControllerByType(ControllerClass)` method searches up the widget tree and returns a
+typed controller instance, enabling full autocomplete and compile-time type checking for
+controller methods and their parameters.
+
+### Typed RenderingContext
+
+CxJS uses a `RenderingContext` object to pass information down the widget tree during rendering.
+Different widget families define typed context interfaces that extend `RenderingContext` for
+type-safe access to context properties.
+
+**Available typed contexts:**
+
+- `FormRenderingContext` - Form validation context (`parentDisabled`, `parentReadOnly`, `validation`, etc.)
+- `SvgRenderingContext` - SVG layout context (`parentRect`, `inSvg`, `addClipRect`)
+- `ChartRenderingContext` - Chart context extending SVG (`axes`)
+
+When creating custom widgets that consume these context properties, import and use the typed
+context interface in your method signatures:
+
+```typescript
+import type { FormRenderingContext } from "cx/widgets";
+
+export class MyFormWidget extends Field<MyFormWidgetConfig> {
+  explore(context: FormRenderingContext, instance: Instance) {
+    // Type-safe access to form context properties
+    if (context.parentDisabled) {
+      // handle disabled state
+    }
+    super.explore(context, instance);
+  }
+}
+```
+
+### Typed ContentResolver
+
+The `ContentResolver` widget now supports type inference for the `onResolve` callback params.
+TypeScript automatically infers the resolved types from your params definition:
+
+```typescript
+import { ContentResolver } from "cx/widgets";
+import { createModel } from "cx/data";
+
+interface AppModel {
+   user: { name: string; age: number };
+}
+
+const model = createModel<AppModel>();
+
+<ContentResolver
+   params={{
+      name: model.user.name,  // AccessorChain<string>
+      age: model.user.age,    // AccessorChain<number>
+      limit: 10,              // number literal
+   }}
+   onResolve={(params) => {
+      // TypeScript infers:
+      // params.name: string
+      // params.age: number
+      // params.limit: number
+      return <div>{params.name} is {params.age} years old</div>;
+   }}
+/>
+```
+
+**Type resolution behavior:**
+
+| Param Type                      | Resolved Type                       |
+| ------------------------------- | ----------------------------------- |
+| Literal values (`42`, `"text"`) | Preserves type (`number`, `string`) |
+| `AccessorChain<T>`              | `T`                                 |
+| `Selector<T>` / `GetSet<T>`     | `T`                                 |
+| `bind()` / `tpl()` / `expr()`   | `any` (runtime-only)                |
+
+The utility types `ResolveProp<P>` and `ResolveStructuredProp<S>` are exported from `cx/ui`
+if you need to use them in your own generic components.
+
+### Expression Helpers
+
+CxJS provides type-safe selector functions for reactive bindings. These helpers return
+`Selector<boolean>` which can be used anywhere a boolean binding is expected:
+
+```typescript
+import { truthy, isEmpty, equal, greaterThan } from "cx/ui";
+import { createModel } from "cx/data";
+
+interface AppModel {
+   user: { name: string; age: number };
+   items: string[];
+}
+
+const model = createModel<AppModel>();
+
+// Using expression helpers for type-safe boolean bindings
+<div visible={truthy(model.user.name)}>
+   User has a name
+</div>
+
+<div visible={isEmpty(model.items)}>
+   No items available
+</div>
+
+<div visible={greaterThan(model.user.age, 18)}>
+   User is an adult
+</div>
+```
+
+**Available expression helpers:**
+
+| Helper                                | Description                         |
+| ------------------------------------- | ----------------------------------- |
+| `truthy(accessor)`                    | Evaluates truthiness                |
+| `falsy(accessor)`                     | Evaluates falsiness                 |
+| `isTrue(accessor)`                    | Strict true check                   |
+| `isFalse(accessor)`                   | Strict false check                  |
+| `hasValue(accessor)`                  | Checks for non-null/undefined       |
+| `isEmpty(accessor)`                   | Checks for empty strings/arrays     |
+| `isNonEmpty(accessor)`                | Checks for non-empty strings/arrays |
+| `equal(accessor, value)`              | Loose equality comparison           |
+| `notEqual(accessor, value)`           | Loose inequality comparison         |
+| `strictEqual(accessor, value)`        | Strict equality comparison          |
+| `strictNotEqual(accessor, value)`     | Strict inequality comparison        |
+| `greaterThan(accessor, value)`        | Numeric greater than                |
+| `lessThan(accessor, value)`           | Numeric less than                   |
+| `greaterThanOrEqual(accessor, value)` | Numeric greater than or equal       |
+| `lessThanOrEqual(accessor, value)`    | Numeric less than or equal          |
+
+### Format Helper
+
+The `format` helper creates a selector that formats values using CxJS format strings.
+This is useful for displaying formatted numbers, dates, or percentages in text props:
+
+```typescript
+import { createModel } from "cx/data";
+import { format } from "cx/ui";
+
+interface Product {
+   name: string;
+   price: number;
+   discount: number;
+}
+
+const m = createModel<Product>();
+
+// Format as number with 2 decimal places
+<div text={format(m.price, "n;2")} />
+
+// Format as percentage
+<div text={format(m.discount, "p;0")} />
+
+// With custom null text
+<div text={format(m.price, "n;2", "N/A")} />
+```
+
+The format string uses CxJS format syntax (e.g., `"n;2"` for numbers, `"p;0"` for percentages,
+`"d"` for dates). The optional third parameter specifies text to display for null/undefined values.
+
+### Template Helper with Accessor Chains
+
+The `tpl` function now supports accessor chains in addition to its original string-only form.
+This allows you to create formatted strings from multiple values with full type safety:
+
+```typescript
+import { createModel } from "cx/data";
+import { tpl } from "cx/ui";
+
+interface Person {
+   firstName: string;
+   lastName: string;
+   age: number;
+}
+
+const m = createModel<Person>();
+
+// Original string-only form still works
+<div text={tpl("{firstName} {lastName}")} />
+
+// New accessor chain form with positional placeholders
+<div text={tpl(m.firstName, m.lastName, "{0} {1}")} />
+
+// Supports formatting in placeholders
+<div text={tpl(m.firstName, m.age, "{0} is {1:n;0} years old")} />
+
+// Supports null text
+<div text={tpl(m.firstName, "Hello, {0|Guest}!")} />
+```
+
+The accessor chain form uses positional placeholders (`{0}`, `{1}`, etc.) and supports
+all StringTemplate features including formatting (`:format`) and null text (`|nullText`).
+
+### Typed Config Properties
+
+Several widget config properties now have improved type definitions that provide better
+autocomplete and type checking when using the `type` or `$type` pattern.
+
+#### Selection
+
+Grid, PieChart, and BubbleGraph support typed `selection` configs:
+
+```typescript
+import { Grid } from "cx/widgets";
+import { KeySelection } from "cx/ui";
+
+<Grid
+   selection={{
+      type: KeySelection,
+      bind: "selection",
+      keyField: "id"  // KeySelection-specific prop, fully typed
+   }}
+   // ...
+/>
+```
+
+Supported selection types: `Selection`, `KeySelection`, `PropertySelection`, `SimpleSelection`.
+
+#### Chart Axes
+
+Chart axes support typed configs for different axis types:
+
+```typescript
+import { Chart } from "cx/charts";
+import { NumericAxis, CategoryAxis } from "cx/charts";
+
+<Chart
+   axes={{
+      x: { type: CategoryAxis, labelAnchor: "end" },
+      y: { type: NumericAxis, min: 0, max: 100 }  // NumericAxis-specific props
+   }}
+>
+   {/* chart content */}
+</Chart>
+```
+
+Supported axis types: `Axis`, `NumericAxis`, `CategoryAxis`, `TimeAxis`.
+
+#### Data Adapters
+
+Grid and List support typed `dataAdapter` configs:
+
+```typescript
+import { Grid } from "cx/widgets";
+import { GroupAdapter } from "cx/ui";
+
+<Grid
+   dataAdapter={{
+      type: GroupAdapter,
+      groupings: [{ key: { bind: "category" } }]  // GroupAdapter-specific props
+   }}
+   // ...
+/>
+```
+
+Supported adapter types: `ArrayAdapter`, `GroupAdapter`, `TreeAdapter`.
+
+#### Dropdown Options
+
+Form fields with dropdowns (ColorField, DateTimeField, MonthField, LookupField) accept
+typed `dropdownOptions`:
+
+```typescript
+import { DateTimeField } from "cx/widgets";
+
+<DateTimeField
+   value-bind="date"
+   dropdownOptions={{
+      placement: "down-right",
+      offset: 10,
+      touchFriendly: true
+   }}
+/>
+```
+
+#### Typed Controllers
+
+The `controller` property accepts multiple forms: a class, a config object with `type`/`$type`,
+an inline config, or a factory function. Because this type is intentionally flexible ("open"),
+TypeScript's generic inference may not catch extra or misspelled properties in config objects.
+
+Use the `validateConfig` helper to enable strict property checking:
+
+```typescript
+import { validateConfig } from "cx/util";
+import { Controller } from "cx/ui";
+
+interface MyControllerConfig {
+   apiEndpoint: string;
+   maxRetries: number;
+}
+
+class MyController extends Controller {
+   declare apiEndpoint: string;
+   declare maxRetries: number;
+
+   constructor(config?: MyControllerConfig) {
+      super(config);
+   }
+}
+
+// validateConfig enables strict checking
+<Section
+   controller={validateConfig({
+      type: MyController,
+      apiEndpoint: "/api",
+      maxRetires: 3,  // Error: 'maxRetires' does not exist (typo)
+   })}
+/>
+```
+
+The `validateConfig` function is a compile-time helper that returns its input unchanged at runtime.
+It can be used with any config object that follows the `{ type: Class, ...props }` pattern.
+
+## Authoring Widgets
+
+Previously, CxJS widgets had to be written in JavaScript with optional
+TypeScript declaration files (`.d.ts`) for typing. With CxJS 26.x, you can now author
+widgets entirely in TypeScript.
+
+> **Important:** Widget files must use the `/** @jsxImportSource react */` pragma because
+> the widget's `render` method uses React JSX.
+
+### Complete Widget Example
+
+Here's a complete example showing all the steps to create a CxJS widget in TypeScript:
+
+```typescript
+/** @jsxImportSource react */
+
+import { BooleanProp, StringProp, RenderingContext, VDOM } from "cx/ui";
+import { HtmlElement, HtmlElementConfig } from "cx/widgets";
+
+// 1. Define the Config interface
+export interface MyButtonConfig extends HtmlElementConfig {
+   icon?: StringProp;
+   pressed?: BooleanProp;
+}
+
+// 2. Extend the appropriate generic base class (Instance type argument is optional)
+export class MyButton extends HtmlElement<MyButtonConfig> {
+
+   // 3. Use declare for all properties from config/prototype
+   declare icon?: string;
+   declare pressed?: boolean;
+   declare baseClass: string;
+
+   // 4. Declare bindable props in declareData
+   declareData(...args) {
+      super.declareData(...args, {
+         icon: undefined,
+         pressed: undefined,
+      });
+   }
+
+   // 5. Add constructor accepting the config type
+   constructor(config?: MyButtonConfig) {
+      super(config);
+   }
+
+   // 6. Implement render method with React JSX
+   render(
+      context: RenderingContext,
+      instance: Instance,
+      key: string
+   ): React.ReactNode {
+      return (
+         <button
+            key={key}
+            className={this.baseClass}
+            onClick={(e) => this.handleClick(e, instance)}
+         >
+            {this.icon && <span className="icon">{Icon.render(instance.data.icon)}</span>}
+            {this.renderChildren(context, instance)}
+         </button>
+      );
+   }
+}
+
+// 7. Initialize prototype properties
+MyButton.prototype.baseClass = "mybutton";
+```
+
+### Key Steps
+
+1. **Add React JSX pragma** - Use `/** @jsxImportSource react */` at the top of widget files
+2. **Define Config interface** - Name it `[WidgetName]Config` and extend the parent's config
+3. **Extend generic base class** - Use `HtmlElement<Config>`, `ContainerBase<Config>`, etc.
+4. **Use `declare` for properties** - Prevents TypeScript from overwriting config/prototype values
+5. **Declare bindable props in `declareData`** - Register props that support data binding
+6. **Add typed constructor** - Accepts the config type for proper type inference
+7. **Implement render method** - Returns React JSX elements
+
+### Config Property Types
+
+Use these types for bindable properties in your Config interface:
+
+| Type          | Usage                              |
+| ------------- | ---------------------------------- |
+| `StringProp`  | Bindable string property           |
+| `BooleanProp` | Bindable boolean property          |
+| `NumberProp`  | Bindable number property           |
+| `Prop<T>`     | Bindable property of custom type T |
+| `RecordsProp` | Array data (Grid, List)            |
+
+### Using `declare` for Properties
+
+> **Important:** Widget properties must use `declare` to avoid being overwritten. Without `declare`,
+> TypeScript class fields will override values passed through the config (via `Object.assign` in the
+> constructor) or values defined on the prototype.
+
+```typescript
+// WRONG - these fields will override config values with undefined
+export class MyWidget extends HtmlElement<MyWidgetConfig> {
+  icon?: string; // Overwrites config.icon!
+  pressed?: boolean; // Overwrites config.pressed!
+}
+
+// CORRECT - declare tells TypeScript the field exists without initializing it
+export class MyWidget extends HtmlElement<MyWidgetConfig> {
+  declare icon?: string;
+  declare pressed?: boolean;
+  declare baseClass: string; // Non-nullable when defined in prototype
+}
+```
+
+### Base Classes
+
+CxJS provides generic base classes for creating typed widgets. The second type argument (Instance) is optional:
+
+| Base Class                  | Use Case                         |
+| --------------------------- | -------------------------------- |
+| `HtmlElement<Config>`       | Widgets rendering HTML elements  |
+| `ContainerBase<Config>`     | Widgets containing other widgets |
+| `PureContainerBase<Config>` | Containers without HTML wrapper  |
+| `Field<Config>`             | Form input widgets               |
+
+### Custom Instance Types
+
+When a widget needs custom properties on its instance, create a custom instance interface:
+
+```typescript
+export interface MyWidgetInstance extends Instance {
+  customData: SomeType;
+}
+
+export class MyWidget extends HtmlElement<MyWidgetConfig, MyWidgetInstance> {
+  initInstance(context: RenderingContext, instance: MyWidgetInstance): void {
+    instance.customData = initializeSomething();
+    super.initInstance(context, instance);
+  }
+}
+```
+
+### Migration Checklist
+
+When migrating a widget from JavaScript to TypeScript:
+
+1. Add JSX pragma `/** @jsxImportSource react */` if file contains JSX
+2. Create `[WidgetName]Config` interface extending appropriate parent
+3. Add generic type parameters to base class if needed
+4. Add constructor accepting the config type
+5. Add `declare` statements for all class properties
+6. Add type annotations to all methods
+7. Create custom instance interface if needed
+8. Fix prototype initializations (use `undefined` not `null` where needed)
+9. Declare `baseClass` as non-nullable if defined in prototype
+10. Delete the corresponding `.d.ts` file
+
+### File Organization
+
+After migration, each widget should have:
+
+- `Widget.tsx` - The implementation with inline types
+- No separate `Widget.d.ts` - Types are in the source file
+
+Index files (`index.ts`) should re-export all public types:
+
+```typescript
+export { Button, ButtonConfig } from "./Button";
+export { FlexBox, FlexBoxConfig } from "./FlexBox";
+```

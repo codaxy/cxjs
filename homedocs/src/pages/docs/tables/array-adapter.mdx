@@ -1,0 +1,35 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: ArrayAdapter
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+
+# ArrayAdapter
+
+<ImportPath path="import { ArrayAdapter } from 'cx/ui';" />
+
+ArrayAdapter is the simplest data adapter, designed for flat lists. It handles sorting, mapping, and basic record operations. It's the default adapter for Repeater.
+
+```tsx
+<Repeater
+  records={m.items}
+  dataAdapter={{ type: ArrayAdapter }}
+>
+  <div text={m.$record.name} />
+</Repeater>
+```
+
+## Configuration
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `recordName` | `string` | Alias used to expose record data. Default is `$record`. |
+| `indexName` | `string` | Alias used to expose record index. Default is `$index`. |
+| `keyField` | `string` | Field used as the unique record key. |
+| `recordsBinding` | `string` | Specifies the store path for records. |
+| `recordsAccessor` | `object` | Configuration for accessing and modifying records data. |
+| `immutable` | `boolean` | Prevents aliased data from being written to the parent store. Default is `false`. |
+| `sealed` | `boolean` | Prevents child components from writing aliased data to this adapter's store. |
+
+See also: [Data Adapters](/docs/tables/data-adapters), [Repeater](/docs/concepts/repeater)

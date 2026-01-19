@@ -1,5 +1,12 @@
 import assert from "assert";
-import { Component, ComponentConstructor, ComponentConfigType, ComponentInstanceType, Create, CreateConfig } from "./Component";
+import {
+   Component,
+   ComponentConstructor,
+   ComponentConfigType,
+   ComponentInstanceType,
+   Create,
+   CreateConfig,
+} from "./Component";
 
 // Test classes for type checking
 interface TestWidgetConfig {
@@ -86,12 +93,18 @@ describe("Component.create", function () {
       });
 
       it("returns typed result based on class", function () {
-         const result: TestButton = Component.create(TestButton, { text: "Click" });
+         const result: TestButton = Component.create(TestButton, {
+            text: "Click",
+         });
          assert.ok(result instanceof TestButton);
       });
 
       it("merges config and more parameters", function () {
-         const result = Component.create(TestButton, { text: "Base" }, { value: 42 });
+         const result = Component.create(
+            TestButton,
+            { text: "Base" },
+            { value: 42 },
+         );
          assert.equal(result.text, "Base");
          assert.equal(result.value, 42);
       });
@@ -141,7 +154,9 @@ describe("Component.create", function () {
       });
 
       it("returns properly typed child instance", function () {
-         const result: TestButton = TestWidget.create(TestButton, { text: "Typed" });
+         const result: TestButton = TestWidget.create(TestButton, {
+            text: "Typed",
+         });
          assert.ok(result instanceof TestButton);
       });
    });
@@ -176,7 +191,10 @@ describe("Component.create", function () {
 
    describe("config array as second argument", function () {
       it("creates array when config is an array", function () {
-         const results = Component.create(TestWidget, [{ text: "A" }, { text: "B" }]);
+         const results = Component.create(TestWidget, [
+            { text: "A" },
+            { text: "B" },
+         ]);
          assert.equal(results.length, 2);
          assert.ok(results[0] instanceof TestWidget);
          assert.ok(results[1] instanceof TestWidget);
@@ -197,14 +215,20 @@ describe("Component.create", function () {
 
    describe("config with type and more argument", function () {
       it("merges config and more parameters", function () {
-         const result = Component.create({ type: TestButton, text: "Base" }, { value: 42 });
+         const result = Component.create(
+            { type: TestButton, text: "Base" },
+            { value: 42 },
+         );
          assert.ok(result instanceof TestButton);
          assert.equal(result.text, "Base");
          assert.equal(result.value, 42);
       });
 
       it("works with $type as well", function () {
-         const result = Component.create({ $type: TestButton, text: "Dollar" }, { value: 99 });
+         const result = Component.create(
+            { $type: TestButton, text: "Dollar" },
+            { value: 99 },
+         );
          assert.ok(result instanceof TestButton);
          assert.equal(result.text, "Dollar");
          assert.equal(result.value, 99);
@@ -213,19 +237,27 @@ describe("Component.create", function () {
 
    describe("type in second argument (more)", function () {
       it("should create instance of type specified in second argument", function () {
-         const result = TestWidget.create({ text: "hello" }, { type: TestButton });
+         const result = TestWidget.create(
+            { text: "hello" },
+            { type: TestButton },
+         );
          assert.ok(result instanceof TestButton);
          assert.equal(result.text, "hello");
       });
 
       it("should create instance of $type specified in second argument", function () {
-         const result = TestWidget.create({ text: "world" }, { $type: TestButton });
+         const result = TestWidget.create(
+            { text: "world" },
+            { $type: TestButton },
+         );
          assert.ok(result instanceof TestButton);
          assert.equal(result.text, "world");
       });
 
       it("should work when first argument is an array and second has type", function () {
-         const results = Component.create([{ text: "A" }, { text: "B" }], { type: TestButton });
+         const results = Component.create([{ text: "A" }, { text: "B" }], {
+            type: TestButton,
+         });
          assert.equal(results.length, 2);
          assert.ok(results[0] instanceof TestButton);
          assert.ok(results[1] instanceof TestButton);
@@ -234,7 +266,9 @@ describe("Component.create", function () {
       });
 
       it("should work when type is passed as first arg with array config and type in more", function () {
-         const results = Component.create(TestWidget, [{ text: "X" }], { type: TestButton });
+         const results = Component.create(TestWidget, [{ text: "X" }], {
+            type: TestButton,
+         });
          assert.equal(results.length, 1);
          assert.ok(results[0] instanceof TestButton);
          assert.equal(results[0].text, "X");
@@ -291,7 +325,9 @@ describe("Component.create", function () {
       });
 
       it("accepts more parameter for array", function () {
-         const results = TestButton.create([{ text: "X" }, { text: "Y" }], { value: 50 });
+         const results = TestButton.create([{ text: "X" }, { text: "Y" }], {
+            value: 50,
+         });
          assert.equal(results.length, 2);
          assert.equal(results[0].value, 50);
          assert.equal(results[1].value, 50);
@@ -319,13 +355,19 @@ describe("Create type", function () {
    });
 
    it("accepts config with type", function () {
-      const result = createComponent<typeof TestWidget>({ type: TestButton, text: "Typed" });
+      const result = createComponent<typeof TestWidget>({
+         type: TestButton,
+         text: "Typed",
+      });
       assert.ok(result instanceof TestButton);
       assert.equal(result.text, "Typed");
    });
 
    it("accepts config with $type", function () {
-      const result = createComponent<typeof TestWidget>({ $type: TestButton, text: "DollarTyped" });
+      const result = createComponent<typeof TestWidget>({
+         $type: TestButton,
+         text: "DollarTyped",
+      });
       assert.ok(result instanceof TestButton);
       assert.equal(result.text, "DollarTyped");
    });
@@ -334,7 +376,10 @@ describe("Create type", function () {
 describe("CreateConfig type safety", function () {
    it("rejects config with type from unrelated class", function () {
       // @ts-expect-error - UnrelatedComponent is not a subclass of TestWidget
-      const config: CreateConfig<typeof TestWidget> = { type: UnrelatedComponent, name: "test" };
+      const config: CreateConfig<typeof TestWidget> = {
+         type: UnrelatedComponent,
+         name: "test",
+      };
    });
 
    it("rejects config missing required properties", function () {
@@ -343,7 +388,10 @@ describe("CreateConfig type safety", function () {
    });
 
    it("accepts config with type from subclass and required properties", function () {
-      const config: CreateConfig<typeof TestWidget> = { type: TestButton, text: "valid" };
+      const config: CreateConfig<typeof TestWidget> = {
+         type: TestButton,
+         text: "valid",
+      };
       assert.ok(config);
    });
 
@@ -403,9 +451,44 @@ describe("Create type as property (like Chart.axes)", function () {
       const config: ContainerConfig = {
          items: {
             // Extra property (like snapToTicks on NumericAxis)
-            a: { type: TestButton, text: "button", onClick: () => {}, value: 42 },
+            a: {
+               type: TestButton,
+               text: "button",
+               onClick: () => {},
+               value: 42,
+            },
          },
       };
       assert.ok(config);
+   });
+});
+
+describe("Component.create with non-component type property", function () {
+   it("should allow type property when $type is present", function () {
+      interface ConfigWithTypeString {
+         text: string;
+         type?: string;
+      }
+
+      class WidgetWithTypeProperty extends Component {
+         declare text?: string;
+         declare type?: string;
+
+         constructor(config?: ConfigWithTypeString) {
+            super(config);
+         }
+      }
+
+      // This should NOT treat 'type: "text"' as a component type reference
+      // It should be treated as a plain config object for WidgetWithTypeProperty
+      const result = WidgetWithTypeProperty.create({
+         $type: WidgetWithTypeProperty,
+         text: "Hello",
+         type: "password", // This is a config property, not a component type
+      });
+
+      assert.ok(result instanceof WidgetWithTypeProperty);
+      assert.equal(result.text, "Hello");
+      assert.equal(result.type, "password");
    });
 });
