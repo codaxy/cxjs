@@ -5642,7 +5642,7 @@ __metadata:
     intl-io: "npm:^0.4.4"
     mocha: "npm:^11.7.5"
     react-test-renderer: "npm:^19.2.3"
-    route-parser: "npm:^0.0.5"
+    route-parser-ts: "npm:^1.1.0"
     ts-mocha: "npm:^11.1.0"
     ts-node: "npm:^10.9.2"
     tsconfig-paths: "npm:^4.2.0"
@@ -12110,10 +12110,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"route-parser@npm:^0.0.5":
-  version: 0.0.5
-  resolution: "route-parser@npm:0.0.5"
-  checksum: 10/d66f1b9e8ea4f22097f17a3a4a998acc02734aa3874194cbd46561ca355df7e78769c8d589a2bcb2bc2caa855a1f52dc46cf1affb6b2e6ab71826920cd8fe41c
+"route-parser-ts@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "route-parser-ts@npm:1.1.0"
+  checksum: 10/8120cd78f8091d528d86c3de2dc9cc9527dbfa6ac4d7048c085fb3e1ef3c1b2f8e84a3dae50b7b9a8ac851ad459b8fe5f3c75343c623645bc15dfadc1bded295
   languageName: node
   linkType: hard
 
