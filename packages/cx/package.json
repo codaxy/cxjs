@@ -70,7 +70,7 @@
   "dependencies": {
     "@types/route-parser": "^0.1.7",
     "intl-io": "^0.4.4",
-    "route-parser": "^0.0.5"
+    "route-parser-ts": "^1.1.0"
   },
   "peerDependencies": {
     "@types/react": ">=18",
