@@ -521,7 +521,10 @@ export interface GridConfig<T = any> extends StyledContainerConfig {
   focusable?: boolean;
 
   /** Callback function to retrieve grouping data. */
-  onGetGrouping?: (params: any, instance: Instance) => (string | GridGroupingConfig<T>)[];
+  onGetGrouping?: (
+    params: any,
+    instance: Instance,
+  ) => (string | GridGroupingConfig<T>)[];
 
   /** Callback function to dynamically calculate columns.  */
   onGetColumns?: (
@@ -2988,6 +2991,7 @@ class GridComponent extends VDOM.Component<
             pageRecords.forEach((page) => {
               if (Array.isArray(page)) {
                 records.push(...page);
+                lastPage = records.length < pageSize;
               } else {
                 if (!Array.isArray(page.records))
                   throw new Error(
@@ -3004,13 +3008,12 @@ class GridComponent extends VDOM.Component<
 
             if (!isNumber(totalRecordCount)) {
               totalRecordCount = (startPage - 1) * pageSize + records.length;
-              if (
-                !lastPage &&
-                records.length == (endPage - startPage + 1) * pageSize
-              )
-                totalRecordCount++;
-              if (data.totalRecordCount > totalRecordCount)
-                totalRecordCount = data.totalRecordCount;
+              if (!lastPage) {
+                if (records.length == (endPage - startPage + 1) * pageSize)
+                  totalRecordCount++;
+                if (data.totalRecordCount > totalRecordCount)
+                  totalRecordCount = data.totalRecordCount;
+              }
             }
 
             instance.buffer.totalRecordCount = data.totalRecordCount =
