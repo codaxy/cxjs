@@ -1,0 +1,90 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Charts Overview
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import OverviewLineChartExample from "../../../examples/charts/OverviewLineChartExample.tsx";
+import OverviewLineChartExampleCode from "../../../examples/charts/OverviewLineChartExample.tsx?raw";
+
+import OverviewPieChartExample from "../../../examples/charts/OverviewPieChartExample.tsx";
+import OverviewPieChartExampleCode from "../../../examples/charts/OverviewPieChartExample.tsx?raw";
+
+import ColorPaletteExample from "../../../examples/charts/ColorPaletteExample.tsx";
+import ColorPaletteExampleCode from "../../../examples/charts/ColorPaletteExample.tsx?raw";
+
+# Charts Overview
+
+<ImportPath path="import { Chart, LineGraph, PieChart } from 'cx/charts';" />
+
+Charts are an important part of CxJS, extending the SVG package. Rather than providing pre-built chart widgets for each type, CxJS focuses on low-level components that can be assembled into any chart. This gives developers full control over appearance and behavior.
+
+- **Line, bar, and scatter charts** are defined inside a `Chart` widget
+- **Pie charts** use the `PieChart` widget
+
+## Basic Chart
+
+The `Chart` widget defines axes and bounds for two-dimensional charts.
+
+<CodeExample code={OverviewLineChartExampleCode}>
+  <OverviewLineChartExample client:load />
+</CodeExample>
+
+The most important part is **axis configuration**. Numeric, category, and time axis types are supported.
+
+Charts consist of multiple child elements. In the example above:
+- `Rectangle` provides a white background
+- `Gridlines` adds grid lines
+- `LineGraph` presents the data
+
+Child elements inherit axis information from the chart and use it for positioning.
+
+## Pie Charts
+
+<CodeExample code={OverviewPieChartExampleCode}>
+  <OverviewPieChartExample client:load />
+</CodeExample>
+
+The `Repeater` widget iterates over an array and maps it to chart elements. A selection model enables interaction with other widgets on the page.
+
+## Legends
+
+<ImportPath path="import { Legend } from 'cx/charts';" />
+
+Legends are context-aware — all legend-aware widgets report information about themselves to populate the legend. Widgets can also report legend actions, making the legend a toggle or selection switch.
+
+Key points:
+- `Legend` is **not** SVG-based and should be placed **outside** the `Svg` widget
+- `Legend.Scope` delimits legend scopes when using multiple charts
+- Use unique legend names to separate multiple legends
+
+## Color Palettes
+
+CxJS includes a standard palette of 16 colors based on [Google Material Design](https://material.google.com/style/color.html). Colors support hover, selection, and disabled states.
+
+<CodeExample code={ColorPaletteExampleCode}>
+  <ColorPaletteExample client:load />
+</CodeExample>
+
+The `ColorMap` utility assigns different colors to chart elements with the same `colorMap` attribute, maximizing color distance between elements.
+
+## Main Components
+
+**Chart Types:**
+- [LineGraph](/docs/charts/line-graph) — Line and area charts
+- [BarGraph](/docs/charts/bar-graph) — Horizontal bar charts
+- [ColumnGraph](/docs/charts/column-graph) — Vertical column charts
+- [ScatterGraph](/docs/charts/scatter-graph) — Scatter plots
+- [PieChart](/docs/charts/pie-chart) — Pie and donut charts
+
+**Axes:**
+- [NumericAxis](/docs/charts/numeric-axis) — For numerical data
+- [CategoryAxis](/docs/charts/category-axis) — For categorical data
+- [TimeAxis](/docs/charts/time-axis) — For date/time data
+
+**Utilities:**
+- [Legend](/docs/charts/legend) — Chart legends
+- [Gridlines](/docs/charts/gridlines) — Background grid
+- [ColorMap](/docs/charts/color-map) — Automatic color assignment

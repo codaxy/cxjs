@@ -327,38 +327,6 @@ export const navigation = [
     slug: "charts",
     groups: [
       {
-        title: "Chart Elements",
-        items: [
-          { title: "Chart", slug: "chart" },
-          { title: "NumericAxis", slug: "numeric-axis" },
-          { title: "CategoryAxis", slug: "category-axis" },
-          { title: "TimeAxis", slug: "time-axis" },
-          { title: "Legend", slug: "legend" },
-          { title: "Gridlines", slug: "gridlines" },
-          { title: "Markers", slug: "markers" },
-          { title: "MarkerLines", slug: "marker-lines" },
-          { title: "RangeMarkers", slug: "range-markers" },
-        ],
-      },
-      {
-        title: "Graphs",
-        items: [
-          { title: "LineGraph", slug: "line-graph" },
-          { title: "BarGraph", slug: "bar-graph" },
-          { title: "ColumnGraph", slug: "column-graph" },
-          { title: "ScatterGraph", slug: "scatter-graph" },
-          { title: "PieChart", slug: "pie-chart" },
-        ],
-      },
-      {
-        title: "Utilities",
-        items: [
-          { title: "ColorMap", slug: "color-map" },
-          { title: "HoverSync", slug: "hover-sync" },
-          { title: "MouseTracker", slug: "mouse-tracker" },
-        ],
-      },
-      {
         title: "SVG Primitives",
         items: [
           { title: "Svg", slug: "svg" },
@@ -371,15 +339,65 @@ export const navigation = [
         ],
       },
       {
-        title: "Examples",
+        title: "Chart Basics",
         items: [
-          { title: "Stacked Line", slug: "stacked-line" },
-          { title: "Stacked Bar", slug: "stacked-bar" },
+          { title: "Overview", slug: "overview" },
+          { title: "Chart", slug: "chart" },
+          { title: "NumericAxis", slug: "numeric-axis" },
+          { title: "CategoryAxis", slug: "category-axis" },
+          { title: "TimeAxis", slug: "time-axis" },
+          { title: "Legend", slug: "legend" },
+          { title: "Gridlines", slug: "gridlines" },
+        ],
+      },
+      {
+        title: "Line Graphs",
+        items: [
+          { title: "LineGraph", slug: "line-graph" },
+          { title: "ScatterGraph", slug: "scatter-graph" },
+          { title: "Stacked Lines", slug: "stacked-lines" },
+        ],
+      },
+      {
+        title: "Bars and Columns",
+        items: [
+          { title: "BarGraph", slug: "bar-graph" },
+          { title: "Bar", slug: "bar" },
+          { title: "ColumnGraph", slug: "column-graph" },
+          { title: "Column", slug: "column" },
+          { title: "Stacked Bars", slug: "stacked-bars" },
           { title: "Bar Bullets", slug: "bar-bullets" },
-          { title: "Bar Combination", slug: "bar-combination" },
           { title: "Scrollable Bars", slug: "scrollable-bars" },
-          { title: "Bar Timeline", slug: "bar-timeline" },
+        ],
+      },
+      {
+        title: "Pie Charts",
+        items: [
+          { title: "PieChart", slug: "pie-chart" },
+          { title: "PieLabels", slug: "pie-labels" },
           { title: "Multi-level Pie", slug: "multi-level-pie" },
+        ],
+      },
+      {
+        title: "Markers and Ranges",
+        items: [
+          { title: "Marker", slug: "marker" },
+          { title: "MarkerLine", slug: "marker-line" },
+          { title: "Range", slug: "range" },
+          { title: "RangeMarker", slug: "range-marker" },
+          { title: "Swimlanes", slug: "swimlanes" },
+        ],
+      },
+      {
+        title: "Utilities",
+        items: [
+          { title: "ColorMap", slug: "color-map" },
+          { title: "HoverSync", slug: "hover-sync" },
+          { title: "MouseTracker", slug: "mouse-tracker" },
+          { title: "MinMaxFinder", slug: "min-max-finder" },
+          { title: "SnapPointFinder", slug: "snap-point-finder" },
+          { title: "ValueAtFinder", slug: "value-at-finder" },
+          { title: "PointReducers", slug: "point-reducers" },
         ],
       },
     ],

@@ -24,11 +24,31 @@ Guidelines for AI agents working on the CxJS documentation project.
 
 Binding attributes (`-bind`, `-tpl`, `-expr`) are deprecated without plugins.
 
-Use function syntax instead:
+Use typed accessor chains and helper functions:
 
-- `bind("path")` instead of `value-bind="path"`
-- `expr("...")` instead of `value-expr="..."`
-- `tpl("...")` instead of `value-tpl="..."`
+- `m.field` - Direct accessor for two-way binding
+- `bind(m.field, defaultValue)` - Accessor with default value (written to store if undefined)
+- `expr(m.field1, m.field2, (v1, v2) => ...)` - Computed value from multiple accessors
+- `tpl(m.field, "Template {0}")` - Formatted template string
+- `format(m.field, "n;2")` - Formatted value
+
+Example:
+```tsx
+// Direct binding - use when no default needed
+<TextField value={m.name} />
+
+// With default value - use bind()
+<TextField value={bind(m.name, "Default")} />
+
+// Computed value - use expr()
+<div text={expr(m.firstName, m.lastName, (f, l) => `${f} ${l}`)} />
+```
+
+### File Naming
+
+- Documentation pages and example files should match component names (singular, not plural)
+- Use kebab-case for `.mdx` files matching the navigation slug
+- Examples: `line-graph.mdx` (not `line-graphs.mdx`), `LineGraphExample.tsx`
 
 ## Content Guidelines
 
