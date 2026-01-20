@@ -1,0 +1,43 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: NonOverlappingRect
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import NonOverlappingRectExample from "../../../examples/charts/NonOverlappingRectExample.tsx";
+import NonOverlappingRectExampleCode from "../../../examples/charts/NonOverlappingRectExample.tsx?raw";
+
+# NonOverlappingRect
+
+<ImportPath path="import { NonOverlappingRect, NonOverlappingRectGroup } from 'cx/svg';" />
+
+The `NonOverlappingRect` and `NonOverlappingRectGroup` components are used to automatically hide overlapping elements. This is commonly used for chart labels where showing all labels would create visual clutter.
+
+In this example, labels that would overlap other labels are automatically hidden. Try dragging markers around to see how the visibility updates dynamically.
+
+<CodeExample code={NonOverlappingRectExampleCode}>
+  <NonOverlappingRectExample client:load />
+</CodeExample>
+
+## How It Works
+
+1. Wrap your content in a `NonOverlappingRectGroup`
+2. Use `NonOverlappingRect` around elements that should not overlap
+3. The system calculates bounding boxes and hides elements that would overlap
+
+## Configuration
+
+### NonOverlappingRectGroup
+
+Container that manages overlap detection for its children.
+
+### NonOverlappingRect
+
+| Property  | Type            | Description                                                                       |
+| --------- | --------------- | --------------------------------------------------------------------------------- |
+| `anchors` | `string/number` | Position within parent bounds. Format: `"t r b l"`. See [Svg](./svg) for details. |
+| `offset`  | `string/number` | Translate edges in pixels. Format: `"t r b l"`. See [Svg](./svg) for details.     |
+| `margin`  | `string/number` | CSS-like margin. See [Svg](./svg) for details.                                    |
+| `padding` | `string/number` | Padding applied before passing bounds to children.                                |

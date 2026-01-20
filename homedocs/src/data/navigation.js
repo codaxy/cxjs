@@ -343,11 +343,18 @@ export const navigation = [
         items: [
           { title: "Overview", slug: "overview" },
           { title: "Chart", slug: "chart" },
+          { title: "Gridlines", slug: "gridlines" },
+          { title: "Legend", slug: "legend" },
+        ],
+      },
+      {
+        title: "Axes",
+        items: [
           { title: "NumericAxis", slug: "numeric-axis" },
           { title: "CategoryAxis", slug: "category-axis" },
           { title: "TimeAxis", slug: "time-axis" },
-          { title: "Legend", slug: "legend" },
-          { title: "Gridlines", slug: "gridlines" },
+          { title: "Complex Labels", slug: "complex-axis-labels" },
+          { title: "Calculated Height", slug: "calculated-chart-height" },
         ],
       },
       {
@@ -366,8 +373,13 @@ export const navigation = [
           { title: "ColumnGraph", slug: "column-graph" },
           { title: "Column", slug: "column" },
           { title: "Stacked Bars", slug: "stacked-bars" },
+          { title: "Stacked Columns", slug: "stacked-columns" },
+          { title: "Normalized Columns", slug: "normalized-columns" },
+          { title: "Auto Width Columns", slug: "auto-width-columns" },
           { title: "Bar Bullets", slug: "bar-bullets" },
           { title: "Scrollable Bars", slug: "scrollable-bars" },
+          { title: "Timeline", slug: "timeline" },
+          { title: "Combined Chart", slug: "combined-chart" },
         ],
       },
       {

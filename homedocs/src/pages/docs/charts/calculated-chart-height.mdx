@@ -1,0 +1,32 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Calculated Chart Height
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import CalculatedChartHeightExample from "../../../examples/charts/CalculatedChartHeightExample.tsx";
+import CalculatedChartHeightExampleCode from "../../../examples/charts/CalculatedChartHeightExample.tsx?raw";
+
+# Calculated Chart Height
+
+Charts with a `CategoryAxis` can dynamically adjust their height based on the number of categories. This is done by binding the `categoryCount` output property and using `computable` to calculate the Svg height.
+
+Use the slider to add more items and observe how the chart grows to accommodate them.
+
+<CodeExample code={CalculatedChartHeightExampleCode}>
+  <CalculatedChartHeightExample client:load />
+</CodeExample>
+
+## How It Works
+
+1. The `CategoryAxis` outputs the number of categories via the `categoryCount` binding
+2. A `computable` calculates the Svg height: `(count) => count * 40 + 60`
+3. The chart automatically resizes as categories are added or removed
+
+## Configuration
+
+| Property        | Type      | Description                                              |
+| --------------- | --------- | -------------------------------------------------------- |
+| `categoryCount` | `binding` | Output binding for the number of categories on the axis. |

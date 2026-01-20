@@ -1,0 +1,50 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Text
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import TextExample from "../../../examples/charts/TextExample.tsx";
+import TextExampleCode from "../../../examples/charts/TextExample.tsx?raw";
+
+# Text
+
+<ImportPath path="import { Text } from 'cx/svg';" />
+
+The `Text` component renders SVG `text` as a [bounded object](./svg#bounded-objects). The initial cursor position is the **top-left corner** of the bounding box. Use `textAnchor` and `dominantBaseline` attributes to position the text within its bounds.
+
+This example demonstrates all 9 text alignment combinations using `anchors`, `textAnchor`, and `dominantBaseline`:
+
+<CodeExample code={TextExampleCode}>
+  <TextExample client:load />
+</CodeExample>
+
+## Alignment Guide
+
+**Horizontal alignment** is controlled by `textAnchor`:
+
+- `textAnchor="start"` — align to left edge
+- `textAnchor="middle"` — center horizontally
+- `textAnchor="end"` — align to right edge
+
+**Vertical alignment** is controlled by `dominantBaseline`:
+
+- `dominantBaseline="hanging"` — top alignment (text hangs below the anchor)
+- `dominantBaseline="middle"` — center vertically
+- Default (no value) — bottom alignment (baseline sits on the anchor)
+
+## Configuration
+
+| Property           | Type            | Description                                                                       |
+| ------------------ | --------------- | --------------------------------------------------------------------------------- |
+| `anchors`          | `string/number` | Position within parent bounds. Format: `"t r b l"`. See [Svg](./svg) for details. |
+| `offset`           | `string/number` | Translate edges in pixels. Format: `"t r b l"`. See [Svg](./svg) for details.     |
+| `margin`           | `string/number` | CSS-like margin. See [Svg](./svg) for details.                                    |
+| `textAnchor / ta`       | `string`        | Horizontal alignment: `"start"`, `"middle"`, or `"end"`.                     |
+| `dominantBaseline / db` | `string`        | Vertical alignment: `"hanging"`, `"middle"`, `"auto"`, etc.                  |
+| `dx`               | `string`        | Horizontal offset from the anchor point.                                          |
+| `dy`               | `string`        | Vertical offset from the anchor point.                                            |
+| `fill`             | `string`        | Text fill color.                                                                  |
+| `colorIndex`       | `number`        | Index in the default color palette.                                               |

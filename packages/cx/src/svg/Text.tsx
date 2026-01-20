@@ -22,11 +22,21 @@ export interface TextConfig extends BoundedObjectConfig {
     */
    dy?: Prop<string | number>;
 
-   /** Used for horizontal text alignment. Accepted values are `start`, `middle` and `end`. */
-   textAnchor?: StringProp;
+   /** Used for horizontal text alignment. */
+   textAnchor?: Prop<"start" | "middle" | "end">;
 
-   /** Used for horizontal text alignment. Accepted values are `start`, `middle` and `end`. */
-   ta?: StringProp;
+   /** Shorthand for textAnchor. */
+   ta?: Prop<"start" | "middle" | "end">;
+
+   /** Used for vertical text alignment. */
+   dominantBaseline?: Prop<
+      "auto" | "text-bottom" | "alphabetic" | "ideographic" | "middle" | "central" | "mathematical" | "hanging" | "text-top"
+   >;
+
+   /** Shorthand for dominantBaseline. */
+   db?: Prop<
+      "auto" | "text-bottom" | "alphabetic" | "ideographic" | "middle" | "central" | "mathematical" | "hanging" | "text-top"
+   >;
 
    /** Sets text-body color. */
    fill?: StringProp;
@@ -52,8 +62,14 @@ export class Text extends BoundedObject<TextConfig> {
    declare expr?: string;
    declare dx?: Prop<string | number>;
    declare dy?: Prop<string | number>;
-   declare textAnchor?: StringProp;
-   declare ta?: StringProp;
+   declare textAnchor?: Prop<"start" | "middle" | "end">;
+   declare ta?: Prop<"start" | "middle" | "end">;
+   declare dominantBaseline?: Prop<
+      "auto" | "text-bottom" | "alphabetic" | "ideographic" | "middle" | "central" | "mathematical" | "hanging" | "text-top"
+   >;
+   declare db?: Prop<
+      "auto" | "text-bottom" | "alphabetic" | "ideographic" | "middle" | "central" | "mathematical" | "hanging" | "text-top"
+   >;
    declare fill?: StringProp;
    declare stroke?: StringProp;
    declare autoTextAnchor?: boolean;
@@ -64,6 +80,7 @@ export class Text extends BoundedObject<TextConfig> {
          dx: undefined,
          dy: undefined,
          textAnchor: undefined,
+         dominantBaseline: undefined,
          fill: undefined,
          stroke: undefined,
       });
@@ -71,6 +88,7 @@ export class Text extends BoundedObject<TextConfig> {
 
    init() {
       if (this.ta) this.textAnchor = this.ta;
+      if (this.db) this.dominantBaseline = this.db;
 
       if (this.bind) {
          this.value = {
@@ -115,6 +133,7 @@ export class Text extends BoundedObject<TextConfig> {
             dx={data.dx}
             dy={data.dy}
             textAnchor={textAnchor}
+            dominantBaseline={data.dominantBaseline}
             style={data.style}
             fill={data.fill}
             stroke={data.stroke}

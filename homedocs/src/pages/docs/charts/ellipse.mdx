@@ -1,0 +1,34 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Ellipse
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import EllipseExample from "../../../examples/charts/EllipseExample.tsx";
+import EllipseExampleCode from "../../../examples/charts/EllipseExample.tsx?raw";
+
+# Ellipse
+
+<ImportPath path="import { Ellipse } from 'cx/svg';" />
+
+The `Ellipse` component is a CxJS version of the SVG `ellipse` element designed for responsive layouts. It uses [bounded object](./svg#bounded-objects) properties to automatically adapt to its container.
+
+This example shows concentric ellipses using increasing `margin` values. Each ellipse fills its bounded area minus the margin.
+
+<CodeExample code={EllipseExampleCode}>
+  <EllipseExample client:load />
+</CodeExample>
+
+## Configuration
+
+| Property     | Type            | Description                                                                       |
+| ------------ | --------------- | --------------------------------------------------------------------------------- |
+| `anchors`    | `string/number` | Position within parent bounds. Format: `"t r b l"`. See [Svg](./svg) for details. |
+| `offset`     | `string/number` | Translate edges in pixels. Format: `"t r b l"`. See [Svg](./svg) for details.     |
+| `margin`     | `string/number` | CSS-like margin. See [Svg](./svg) for details.                                    |
+| `padding`    | `string/number` | Padding applied before passing bounds to children.                                |
+| `fill`       | `string`        | Fill color for the ellipse.                                                       |
+| `stroke`     | `string`        | Stroke color for the outline.                                                     |
+| `colorIndex` | `number`        | Index in the default color palette. Sets both `fill` and `stroke`.                |

@@ -3,33 +3,35 @@ layout: ../../../layouts/DocsLayout.astro
 title: Legend
 ---
 
+import ImportPath from "../../../components/ImportPath.astro";
 import CodeExample from "../../../components/CodeExample.astro";
+
 import LegendExample from "../../../examples/charts/LegendExample.tsx";
+import LegendExampleCode from "../../../examples/charts/LegendExample.tsx?raw";
 
 # Legend
 
-The `Legend` widget displays an index of chart elements.
+<ImportPath path="import { Legend, LegendEntry } from 'cx/charts';" />
 
-**Import:** `import { Legend, LegendEntry } from 'cx/charts';`
+The `Legend` component displays an index of chart elements. Chart components like `LineGraph`, `ColumnGraph`, and `PieSlice` automatically register with the legend when they have a `name` property.
 
-## Example
+Click on legend entries to toggle visibility of the corresponding series. This requires binding the `active` property on chart components.
 
-<CodeExample
-  code={`<Legend />
-<Chart>
-  <LineGraph name="Sales" data-bind="data" colorIndex={0} yField="sales" />
-  <LineGraph name="Profit" data-bind="data" colorIndex={4} yField="profit" />
-  <LineGraph name="Costs" data-bind="data" colorIndex={8} yField="costs" />
-</Chart>`}
->
+<CodeExample code={LegendExampleCode}>
   <LegendExample client:load />
 </CodeExample>
 
-**Note:** Use `Legend.Scope` when multiple charts are on the same page.
+When multiple charts are on the same page, use `Legend.Scope` to prevent legends from interfering with each other.
 
-## Properties
+## Configuration
 
-| Property   | Type      | Default  | Description     |
-| ---------- | --------- | -------- | --------------- |
-| `vertical` | `boolean` | `false`  | Vertical layout |
-| `shape`    | `string`  | `"rect"` | Entry shape     |
+| Property      | Type            | Description                                                                  |
+| ------------- | --------------- | ---------------------------------------------------------------------------- |
+| `vertical`    | `boolean`       | Set to `true` for vertical layout.                                           |
+| `shape`       | `string`        | Shape of the symbol in legend entries (`circle`, `square`, `triangle`, etc). |
+| `showValues`  | `boolean`       | Set to `true` to show values in the legend.                                  |
+| `valueFormat` | `string`        | Format string for legend entry values. Default is `"s"`.                     |
+| `entryClass`  | `string/object` | Additional CSS classes for legend entry elements.                            |
+| `entryStyle`  | `string/object` | Additional CSS styles for legend entry elements.                             |
+| `valueClass`  | `string/object` | Additional CSS classes for legend entry values.                              |
+| `valueStyle`  | `string/object` | Additional CSS styles for legend entry values.                               |

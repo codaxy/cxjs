@@ -1,20 +1,19 @@
-/** @jsxImportSource cx */
 import { Svg, Rectangle } from "cx/svg";
 import { Chart, NumericAxis, Gridlines } from "cx/charts";
 
+// @index
 export default () => (
-  <cx>
-    <Svg style="width: 100%; height: 200px;">
-      <Chart
-        margin="20 20 40 50"
-        axes={{
-          x: { type: NumericAxis },
-          y: { type: NumericAxis, vertical: true },
-        }}
-      >
-        <Rectangle fill="white" />
-        <Gridlines />
-      </Chart>
-    </Svg>
-  </cx>
+  <Svg style="width: 400px; height: 300px; border: 1px dashed #ddd">
+    <Chart
+      margin="40 20 40 50"
+      axes={{
+        x: <NumericAxis />,
+        y: <NumericAxis vertical />,
+      }}
+    >
+      <Rectangle fill="white" />
+      <Gridlines />
+    </Chart>
+  </Svg>
 );
+// @index-end

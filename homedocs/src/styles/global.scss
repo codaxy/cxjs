@@ -191,13 +191,10 @@ $cx-default-window-footer-padding: 16px 24px;
 $cx-default-checkbox-size: 16px;
 $cx-default-radio-size: 16px;
 
-$cx-default-palette-colors: #ef4444 #ea580c #f59e0b #65a30d #16a34a #14b8a6
-  #06b6d4 #0ea5e9 #2563eb #6366f1 #8b5cf6 #a855f7 #d946ef #ec4899 #f43f5e !default;
-
-$cx-default-palette-fill-whiten: 20%;
+$cx-default-palette-fill-whiten: 40%;
 $cx-default-palette-fill-blacken: 0%;
-$cx-default-palette-stroke-whiten: 0%;
-$cx-default-palette-stroke-blacken: 0%;
+// $cx-default-palette-stroke-whiten: 0%;
+// $cx-default-palette-stroke-blacken: 0%;
 
 $cx-grid-pagination-default-outer-border-radius: 6px;
 $cx-grid-pagination-default-border-radius: 6px;

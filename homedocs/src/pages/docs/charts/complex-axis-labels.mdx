@@ -1,0 +1,44 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Complex Axis Labels
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import ComplexAxisLabelsExample from "../../../examples/charts/ComplexAxisLabelsExample.tsx";
+import ComplexAxisLabelsExampleCode from "../../../examples/charts/ComplexAxisLabelsExample.tsx?raw";
+
+# Complex Axis Labels
+
+All axis types support the `onCreateLabelFormatter` callback for creating multi-line labels with custom styling. This is useful for highlighting specific values or adding additional context to axis labels.
+
+In this example, January labels show the year in red on a second line.
+
+<CodeExample code={ComplexAxisLabelsExampleCode}>
+  <ComplexAxisLabelsExample client:load />
+</CodeExample>
+
+## How It Works
+
+The `onCreateLabelFormatter` callback returns a formatter function that receives the formatted value and returns either a string or an array of text segments:
+
+```tsx
+onCreateLabelFormatter={() => (formattedValue, rawValue) => {
+  // Return a string for simple labels
+  return formattedValue;
+
+  // Or return an array for multi-line/styled labels
+  return [
+    { text: "Line 1" },
+    { text: "Line 2", style: { fill: "red" } },
+  ];
+}}
+```
+
+## Configuration
+
+| Property                 | Type       | Description                                                              |
+| ------------------------ | ---------- | ------------------------------------------------------------------------ |
+| `onCreateLabelFormatter` | `function` | Callback that returns a formatter function for customizing axis labels.  |
+| `labelLineHeight`        | `number`   | Line height multiplier for multi-line labels. Default is `1`.            |
