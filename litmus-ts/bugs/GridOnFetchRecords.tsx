@@ -1,4 +1,9 @@
-import { createAccessorModelProxy, createFunctionalComponent } from "cx/ui";
+import {
+  bind,
+  createAccessorModelProxy,
+  createFunctionalComponent,
+  KeySelection,
+} from "cx/ui";
 import {
   Button,
   Grid,
@@ -44,33 +49,43 @@ export default createFunctionalComponent(() => (
     />
 
     <PureContainer visible={m.$page.showGrid}>
-      <LookupField
-        label="Tags"
-        options={tags}
-        value={m.$page.tag}
-        optionTextField="name"
-      />
-      <Grid
-        columns={columns}
-        filterParams={{
-          tag: m.$page.tag,
-        }}
-        infinite
-        scrollable
-        style="height: 400px"
-        onFetchRecords={async ({}, { store }) => {
-          const tag = store.get(m.$page.tag);
-          const response = await fetch(`https://dummyjson.com/posts`);
-          const data = await response.json();
-          let finalData = data.posts;
+      <PureContainer>
+        <PureContainer>
+          <LookupField
+            label="Tags"
+            options={tags}
+            value={m.$page.tag}
+            optionTextField="name"
+          />
+          <Grid
+            columns={columns}
+            filterParams={{
+              tag: m.$page.tag,
+            }}
+            infinite
+            scrollable
+            style="height: 400px"
+            cached
+            remoteSort
+            selection={{ type: KeySelection }}
+            sortDirection={bind("sortDir")}
+            sortField={bind("sortField")}
+            onFetchRecords={async ({}, { store }) => {
+              const tag = store.get(m.$page.tag);
+              await new Promise((resolve) => setTimeout(resolve, 300));
+              const response = await fetch(`https://dummyjson.com/posts`);
+              const data = await response.json();
+              let finalData = data.posts;
 
-          if (tag) {
-            finalData = finalData.filter((post) => post.tags.includes(tag));
-          }
+              if (tag) {
+                finalData = finalData.filter((post) => post.tags.includes(tag));
+              }
 
-          return finalData;
-        }}
-      />
+              return finalData;
+            }}
+          />
+        </PureContainer>
+      </PureContainer>
     </PureContainer>
   </cx>
 ));
