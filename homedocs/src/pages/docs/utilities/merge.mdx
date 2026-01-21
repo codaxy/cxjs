@@ -1,0 +1,83 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: merge
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import MergeExample from "../../../examples/utilities/MergeExample.tsx";
+import MergeExampleCode from "../../../examples/utilities/MergeExample.tsx?raw";
+
+# merge
+
+<ImportPath path="import { merge } from 'cx/data';" />
+
+`merge` performs an immutable merge of properties into an object. Supports deep paths using dot notation (e.g., `"address.city"`).
+
+<CodeExample code={MergeExampleCode}>
+  <MergeExample client:load />
+</CodeExample>
+
+## Signature
+
+```ts
+function merge<T extends object>(item: T, data?: Partial<T>): T
+```
+
+## Parameters
+
+| Parameter | Type         | Description                          |
+| --------- | ------------ | ------------------------------------ |
+| `item`    | `T`          | The object to merge into.            |
+| `data`    | `Partial<T>` | Properties to merge.                 |
+
+## Return Value
+
+Returns a new object with merged properties.
+
+## Examples
+
+### Basic usage
+
+```ts
+const user = { id: 1, name: "Alice", score: 100 };
+const updated = merge(user, { score: 150 });
+// { id: 1, name: "Alice", score: 150 }
+
+// Original is unchanged
+console.log(user.score); // 100
+```
+
+### Deep paths
+
+```ts
+const user = {
+  id: 1,
+  address: { city: "NYC", zip: "10001" },
+};
+
+const updated = merge(user, { "address.city": "LA" });
+// { id: 1, address: { city: "LA", zip: "10001" } }
+```
+
+### With updateArray
+
+```ts
+const users = [
+  { id: 1, name: "Alice", active: true },
+  { id: 2, name: "Bob", active: false },
+];
+
+const updated = updateArray(
+  users,
+  (user) => merge(user, { active: true }),
+  (user) => user.id === 2,
+);
+// [{ id: 1, name: "Alice", active: true }, { id: 2, name: "Bob", active: true }]
+```
+
+## See Also
+
+- [updateArray](/docs/utilities/update-array) - Update items in array
+- [updateTree](/docs/utilities/update-tree) - Update nodes in tree

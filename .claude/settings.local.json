@@ -32,7 +32,8 @@
       "Bash(cat:*)",
       "Bash(yarn remove:*)",
       "Bash(yarn add:*)",
-      "Bash(pushd:*)"
+      "Bash(pushd:*)",
+      "Bash(yarn --cwd \"D:/Code/CxJS/cxjs/homedocs\" check-types)"
     ],
     "deny": [],
     "ask": []

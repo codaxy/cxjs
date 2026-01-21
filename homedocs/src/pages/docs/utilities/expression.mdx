@@ -1,0 +1,141 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Expression
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+
+# Expression
+
+<ImportPath path="import { Expression } from 'cx/data';" />
+
+`Expression` compiles string expressions with embedded bindings into memoized selectors. Expressions are typically used internally by CxJS, but can also be used directly for dynamic string-based computations.
+
+## Methods
+
+### Expression.get(str)
+
+Returns a memoized selector from an expression string.
+
+```ts
+const selector = Expression.get("{firstName} {lastName}");
+const fullName = selector(store.getData()); // "John Doe"
+```
+
+### Expression.compile(str)
+
+Compiles and returns a selector function (calls `.memoize()` internally).
+
+```ts
+const getName = Expression.compile("{user.name}");
+```
+
+### Expression.registerHelper(name, helper)
+
+Registers a helper function for use in expressions.
+
+```ts
+Expression.registerHelper("_", _); // lodash
+const selector = Expression.get("_.capitalize({name})");
+```
+
+## Expression Syntax
+
+### Simple binding
+
+```ts
+"{user.name}"        // Access nested property
+"{items.length}"     // Access array length
+"{$record.id}"       // Access record in repeater
+```
+
+### With formatting
+
+```ts
+"{price:currency}"      // Format as currency
+"{date:date}"           // Format as date
+"{score:n;2}"           // Format number with 2 decimals
+"{ratio:p;1}"           // Format as percentage
+```
+
+### Null fallback
+
+```ts
+"{name|N/A}"            // Show "N/A" if name is null
+"{value:n;2|--}"        // Format or show "--" if null
+```
+
+### JavaScript expressions
+
+Use `%{ }` for inline JavaScript:
+
+```ts
+"%{firstName} %{lastName}"     // Same as "{firstName} {lastName}"
+"%{price * quantity}"          // Multiplication
+"%{items.length > 0}"          // Comparison
+"%{active ? 'Yes' : 'No'}"     // Ternary
+```
+
+### Nested expressions
+
+Use `[expression]` inside another expression:
+
+```ts
+"{[price * quantity]:currency}"  // Compute then format
+```
+
+## Usage
+
+### In code
+
+```ts
+const totalExpr = Expression.compile("{price} × {quantity} = {[price * quantity]:currency}");
+const text = totalExpr(store.getData());
+// "$25 × 3 = $75"
+```
+
+### Using helpers
+
+```ts
+import _ from "lodash";
+
+Expression.registerHelper("_", _);
+
+const selector = Expression.get("_.sortBy({items}, 'name')");
+```
+
+## Format Specifiers
+
+| Format     | Description                | Example Output      |
+| ---------- | -------------------------- | ------------------- |
+| `s`        | String (default)           | `"hello"`           |
+| `n;D`      | Number with D decimals     | `"1,234.56"`        |
+| `p;D`      | Percentage with D decimals | `"75.5%"`           |
+| `d`        | Date                       | `"1/15/2024"`       |
+| `t`        | Time                       | `"14:30"`           |
+| `dt`       | Date and time              | `"1/15/2024 14:30"` |
+| `currency` | Currency (locale-aware)    | `"$1,234.56"`       |
+
+## Modern Alternatives
+
+For new code, prefer typed accessor chains with `expr` and `tpl` helpers:
+
+```tsx
+import { createModel, expr, tpl, format } from "cx/data";
+
+const m = createModel<Model>();
+
+// Instead of Expression.get("{firstName} {lastName}")
+<span text={tpl(m.firstName, m.lastName, "{0} {1}")} />
+
+// Instead of Expression.get("{price:currency}")
+<span text={format(m.price, "currency")} />
+
+// Instead of Expression.get("%{price * quantity}")
+<span text={expr(m.price, m.quantity, (p, q) => p * q)} />
+```
+
+## See Also
+
+- [Data Binding](/docs/intro/data-binding) - Binding fundamentals
+- [Formatting](/docs/intro/formatting) - Format specifiers

@@ -1,0 +1,46 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: isArray
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+
+# isArray
+
+<ImportPath path="import { isArray } from 'cx/util';" />
+
+Type guard that checks if a value is an array.
+
+## Signature
+
+```ts
+function isArray(value: any): value is any[]
+```
+
+## Examples
+
+```ts
+isArray([1, 2, 3]);        // true
+isArray([]);               // true
+isArray("hello");          // false
+isArray({ length: 3 });    // false
+isArray(null);             // false
+isArray(undefined);        // false
+```
+
+## Use Cases
+
+```ts
+function processItems(input: unknown) {
+  if (isArray(input)) {
+    // TypeScript knows input is any[] here
+    return input.map(item => process(item));
+  }
+  return [process(input)];
+}
+```
+
+## See Also
+
+- [isNonEmptyArray](/docs/utilities/is-non-empty-array) - Check for non-empty array
+- [isObject](/docs/utilities/is-object) - Check for object

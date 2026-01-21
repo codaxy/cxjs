@@ -1,0 +1,133 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Grouper
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import GrouperExample from "../../../examples/utilities/GrouperExample.tsx";
+import GrouperExampleCode from "../../../examples/utilities/GrouperExample.tsx?raw";
+
+# Grouper
+
+<ImportPath path="import { Grouper } from 'cx/data';" />
+
+`Grouper` groups records by key fields and computes aggregate values like sum, average, count, min, and max.
+
+<CodeExample code={GrouperExampleCode}>
+  <GrouperExample client:load />
+</CodeExample>
+
+## Constructor
+
+```ts
+new Grouper(key, aggregates?, dataGetter?, nameGetter?)
+```
+
+## Parameters
+
+| Parameter     | Type       | Description                                    |
+| ------------- | ---------- | ---------------------------------------------- |
+| `key`         | `object`   | Object mapping field names to value selectors. |
+| `aggregates`  | `object`   | Optional. Aggregate definitions.               |
+| `dataGetter`  | `function` | Optional. Extract data from record.            |
+| `nameGetter`  | `function` | Optional. Extract display name for group.      |
+
+## Aggregate Types
+
+| Type    | Description                    |
+| ------- | ------------------------------ |
+| `sum`   | Sum of values.                 |
+| `avg`   | Average of values.             |
+| `count` | Count of records.              |
+| `min`   | Minimum value.                 |
+| `max`   | Maximum value.                 |
+| `distinct` | Count of distinct values.   |
+
+## Methods
+
+| Method         | Description                              |
+| -------------- | ---------------------------------------- |
+| `process(record, index)` | Process a single record.       |
+| `processAll(records)`    | Process all records at once.   |
+| `getResults()` | Get array of group results.              |
+| `reset()`      | Reset the grouper for reuse.             |
+
+## Examples
+
+### Basic grouping
+
+```ts
+const grouper = new Grouper({
+  category: (item) => item.category,
+});
+
+grouper.processAll(items);
+const groups = grouper.getResults();
+// [{ key: { category: "A" }, records: [...], indexes: [...] }, ...]
+```
+
+### With aggregates
+
+```ts
+const grouper = new Grouper(
+  { region: (s) => s.region },
+  {
+    total: { type: "sum", value: (s) => s.amount },
+    average: { type: "avg", value: (s) => s.amount },
+    count: { type: "count" },
+    minAmount: { type: "min", value: (s) => s.amount },
+    maxAmount: { type: "max", value: (s) => s.amount },
+  },
+);
+
+grouper.processAll(sales);
+const results = grouper.getResults();
+// [{
+//   key: { region: "North" },
+//   records: [...],
+//   aggregates: { total: 300, average: 150, count: 2, minAmount: 100, maxAmount: 200 }
+// }, ...]
+```
+
+### Multi-level grouping
+
+```ts
+const grouper = new Grouper({
+  year: (s) => s.date.getFullYear(),
+  month: (s) => s.date.getMonth() + 1,
+});
+```
+
+### Weighted average
+
+```ts
+const grouper = new Grouper(
+  { category: (item) => item.category },
+  {
+    weightedAvg: {
+      type: "avg",
+      value: (item) => item.price,
+      weight: (item) => item.quantity,
+    },
+  },
+);
+```
+
+## Result Structure
+
+```ts
+interface GroupResult {
+  key: object;          // Group key values
+  name?: any;           // Optional display name
+  records: any[];       // Records in this group
+  indexes: number[];    // Original indexes
+  aggregates?: object;  // Computed aggregates
+}
+```
+
+## See Also
+
+- [Grid Grouping](/docs/tables/grouping) - Grouping in Grid
+- [computable](/docs/utilities/computable) - Derived values

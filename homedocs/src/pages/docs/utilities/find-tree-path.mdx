@@ -1,0 +1,101 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: findTreePath
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+
+# findTreePath
+
+<ImportPath path="import { findTreePath } from 'cx/data';" />
+
+Finds a node in a tree structure and returns the path (array of ancestors including the found node) from the root to that node.
+
+## Signature
+
+```ts
+function findTreePath<T>(
+  array: T[],
+  criteria: (node: T) => boolean,
+  childrenField: keyof T
+): T[] | false
+```
+
+## Parameters
+
+| Parameter       | Type       | Description                                        |
+| --------------- | ---------- | -------------------------------------------------- |
+| `array`         | `T[]`      | Tree data array to search.                         |
+| `criteria`      | `function` | Predicate returning `true` for the target node.    |
+| `childrenField` | `keyof T`  | Name of the property containing child nodes.       |
+
+## Return Value
+
+Returns an array of nodes from root to the found node (inclusive), or `false` if no matching node is found.
+
+## Examples
+
+### Find path to a node by ID
+
+```ts
+const tree = [
+  {
+    id: 1,
+    name: "Root",
+    $children: [
+      {
+        id: 2,
+        name: "Child",
+        $children: [
+          { id: 3, name: "Grandchild", $children: [] }
+        ]
+      }
+    ]
+  }
+];
+
+const path = findTreePath(tree, (node) => node.id === 3, "$children");
+// [
+//   { id: 1, name: "Root", ... },
+//   { id: 2, name: "Child", ... },
+//   { id: 3, name: "Grandchild", ... }
+// ]
+```
+
+### Build breadcrumb navigation
+
+```ts
+const path = findTreePath(categories, (c) => c.id === selectedId, "children");
+
+if (path) {
+  const breadcrumb = path.map((node) => node.name).join(" > ");
+  // "Electronics > Computers > Laptops"
+}
+```
+
+### Get parent of a node
+
+```ts
+const path = findTreePath(tree, (node) => node.id === targetId, "$children");
+
+if (path && path.length > 1) {
+  const parent = path[path.length - 2];
+  console.log("Parent:", parent.name);
+}
+```
+
+### Check if node is at root level
+
+```ts
+const path = findTreePath(tree, (node) => node.id === targetId, "$children");
+
+if (path && path.length === 1) {
+  console.log("Node is at root level");
+}
+```
+
+## See Also
+
+- [findTreeNode](/docs/utilities/find-tree-node) - Find a node without the path
+- [updateTree](/docs/utilities/update-tree) - Update nodes in a tree
+- [Tree Operations](/docs/tables/tree-operations) - Working with tree grids

@@ -1,0 +1,124 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: debounce
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import DebounceExample from "../../../examples/utilities/DebounceExample.tsx";
+import DebounceExampleCode from "../../../examples/utilities/DebounceExample.tsx?raw";
+
+# debounce
+
+<ImportPath path="import { debounce } from 'cx/util';" />
+
+`debounce` delays function execution until after a specified time has elapsed since the last call. Useful for reducing the frequency of expensive operations like API calls triggered by user input.
+
+<CodeExample code={DebounceExampleCode}>
+  <DebounceExample client:load />
+</CodeExample>
+
+## Signature
+
+```ts
+function debounce<T extends (...args: any[]) => any>(
+  callback: T,
+  delay: number
+): DebouncedFunction<T>
+
+interface DebouncedFunction<T> {
+  (...args: Parameters<T>): void;
+  reset(...args: Parameters<T>): void;
+}
+```
+
+## Parameters
+
+| Parameter  | Type       | Description                              |
+| ---------- | ---------- | ---------------------------------------- |
+| `callback` | `function` | The function to debounce.                |
+| `delay`    | `number`   | Delay in milliseconds.                   |
+
+## Return Value
+
+Returns a debounced function with a `reset` method to execute immediately.
+
+## Examples
+
+### Basic usage
+
+```ts
+const search = debounce((query: string) => {
+  console.log("Searching for:", query);
+  // API call here
+}, 300);
+
+// Rapid calls - only the last one executes
+search("h");      // cancelled
+search("he");     // cancelled
+search("hel");    // cancelled
+search("help");   // executes after 300ms
+```
+
+### In a controller
+
+```ts
+class SearchController extends Controller {
+  debouncedSearch: ReturnType<typeof debounce>;
+
+  onInit() {
+    this.debouncedSearch = debounce((query: string) => {
+      this.store.set("results", this.performSearch(query));
+    }, 500);
+  }
+
+  onQueryChange(e: any, { store }: any) {
+    const query = store.get("query");
+    this.debouncedSearch(query);
+  }
+}
+```
+
+### Immediate execution with reset
+
+```ts
+const save = debounce((data) => {
+  api.save(data);
+}, 1000);
+
+// User is typing - save is delayed
+save(draft);
+
+// User clicks "Save" button - execute immediately
+save.reset(draft);
+```
+
+### Window resize handler
+
+```ts
+const handleResize = debounce(() => {
+  recalculateLayout();
+}, 200);
+
+window.addEventListener("resize", handleResize);
+```
+
+## debounce vs throttle
+
+| Function   | Behavior                                              |
+| ---------- | ----------------------------------------------------- |
+| `debounce` | Waits until calls stop, then executes once.           |
+| `throttle` | Executes at most once per interval while calls continue. |
+
+```ts
+// Debounce: good for "when user stops typing"
+const search = debounce(doSearch, 300);
+
+// Throttle: good for "while user is scrolling"
+const scroll = throttle(handleScroll, 100);
+```
+
+## See Also
+
+- [throttle](/docs/utilities/throttle) - Rate limit function calls

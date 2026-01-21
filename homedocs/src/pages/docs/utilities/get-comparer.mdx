@@ -1,0 +1,137 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: getComparer
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+
+# getComparer
+
+<ImportPath path="import { getComparer, sorter, indexSorter } from 'cx/data';" />
+
+The comparer utilities create sorting functions for arrays based on field definitions. They support multiple sort fields, custom comparers, and null handling.
+
+## getComparer
+
+Creates a comparison function for use with `Array.sort()`.
+
+```ts
+function getComparer(
+  sorters: Sorter[],
+  dataAccessor?: (x: any) => any,
+  comparer?: (a: any, b: any) => number
+): (a: any, b: any) => number
+```
+
+### Sorter Definition
+
+```ts
+interface Sorter {
+  field?: string;           // Field name to sort by
+  value?: any;              // Selector function or binding
+  direction?: "asc" | "desc";  // Sort direction (default: "asc")
+  comparer?: (a: any, b: any) => number;  // Custom compare function
+}
+```
+
+### Example
+
+```ts
+const compare = getComparer([
+  { field: "lastName", direction: "asc" },
+  { field: "firstName", direction: "asc" },
+]);
+
+const sorted = [...users].sort(compare);
+```
+
+## sorter
+
+Creates a function that returns a sorted copy of an array.
+
+```ts
+function sorter(
+  sorters: Sorter[],
+  dataAccessor?: (x: any) => any,
+  comparer?: (a: any, b: any) => number
+): (data: any[]) => any[]
+```
+
+### Example
+
+```ts
+const sortByName = sorter([
+  { field: "name", direction: "asc" },
+]);
+
+const sorted = sortByName(items);
+```
+
+## indexSorter
+
+Creates a function that returns sorted indexes instead of sorted data.
+
+```ts
+function indexSorter(
+  sorters: Sorter[],
+  dataAccessor?: (x: any) => any,
+  comparer?: (a: any, b: any) => number
+): (data: any[]) => number[]
+```
+
+### Example
+
+```ts
+const getSortedIndexes = indexSorter([
+  { field: "score", direction: "desc" },
+]);
+
+const indexes = getSortedIndexes(players);
+// [2, 0, 1] - indexes of items in sorted order
+```
+
+## Features
+
+### Multiple sort fields
+
+```ts
+const compare = getComparer([
+  { field: "department", direction: "asc" },
+  { field: "salary", direction: "desc" },
+  { field: "name", direction: "asc" },
+]);
+```
+
+### Custom value selectors
+
+```ts
+const compare = getComparer([
+  { value: (item) => item.user.name.toLowerCase(), direction: "asc" },
+]);
+```
+
+### Custom comparers
+
+```ts
+const compare = getComparer([
+  {
+    field: "date",
+    comparer: (a, b) => new Date(a).getTime() - new Date(b).getTime(),
+  },
+]);
+```
+
+### Null handling
+
+Null values are always sorted to the bottom, regardless of sort direction.
+
+```ts
+const items = [{ name: "Bob" }, { name: null }, { name: "Alice" }];
+const sorted = [...items].sort(getComparer([{ field: "name" }]));
+// [{ name: "Alice" }, { name: "Bob" }, { name: null }]
+```
+
+## See Also
+
+- [Grid](/docs/tables/grid) - Grid with built-in sorting
+- [Grouper](/docs/utilities/grouper) - Group and aggregate data

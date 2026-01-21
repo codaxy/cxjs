@@ -1,0 +1,79 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: moveElement
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import MoveElementExample from "../../../examples/utilities/MoveElementExample.tsx";
+import MoveElementExampleCode from "../../../examples/utilities/MoveElementExample.tsx?raw";
+
+# moveElement
+
+<ImportPath path="import { moveElement } from 'cx/data';" />
+
+`moveElement` moves an element from one position to another within an array, shifting other elements accordingly.
+
+<CodeExample code={MoveElementExampleCode}>
+  <MoveElementExample client:load />
+</CodeExample>
+
+## Signature
+
+```ts
+function moveElement<T>(array: T[], sourceIndex: number, targetIndex: number): T[]
+```
+
+## Parameters
+
+| Parameter     | Type     | Description                              |
+| ------------- | -------- | ---------------------------------------- |
+| `array`       | `T[]`    | The array to modify.                     |
+| `sourceIndex` | `number` | Index of the element to move.            |
+| `targetIndex` | `number` | Target position (element will be placed before this index). |
+
+## Return Value
+
+Returns a new array with the element moved. Returns the original array if source and target are the same.
+
+## Examples
+
+### Move element forward
+
+```ts
+const items = ["a", "b", "c", "d", "e"];
+const result = moveElement(items, 1, 4);
+// ["a", "c", "d", "b", "e"]
+// "b" moved from index 1 to before index 4
+```
+
+### Move element backward
+
+```ts
+const items = ["a", "b", "c", "d", "e"];
+const result = moveElement(items, 3, 1);
+// ["a", "d", "b", "c", "e"]
+// "d" moved from index 3 to index 1
+```
+
+### Move to beginning
+
+```ts
+const items = ["a", "b", "c", "d"];
+const result = moveElement(items, 2, 0);
+// ["c", "a", "b", "d"]
+```
+
+### Move to end
+
+```ts
+const items = ["a", "b", "c", "d"];
+const result = moveElement(items, 0, 4);
+// ["b", "c", "d", "a"]
+```
+
+## See Also
+
+- [insertElement](/docs/utilities/insert-element) - Insert new elements at position
+- [updateArray](/docs/utilities/update-array) - Update and reorder items

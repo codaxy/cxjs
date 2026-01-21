@@ -1,0 +1,134 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: shallowEquals
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+
+# shallowEquals
+
+<ImportPath path="import { shallowEquals } from 'cx/util';" />
+
+`shallowEquals` performs a shallow equality comparison between two values. It compares objects by their own properties and arrays element by element.
+
+## Signature
+
+```ts
+function shallowEquals(v1: any, v2: any): boolean
+```
+
+## Parameters
+
+| Parameter | Type  | Description         |
+| --------- | ----- | ------------------- |
+| `v1`      | `any` | First value.        |
+| `v2`      | `any` | Second value.       |
+
+## Return Value
+
+Returns `true` if values are shallowly equal, `false` otherwise.
+
+## Examples
+
+### Primitives
+
+```ts
+shallowEquals(1, 1);           // true
+shallowEquals("a", "a");       // true
+shallowEquals(null, null);     // true
+shallowEquals(1, 2);           // false
+shallowEquals(1, "1");         // false
+```
+
+### Objects
+
+```ts
+// Same properties and values
+shallowEquals({ a: 1, b: 2 }, { a: 1, b: 2 });  // true
+
+// Different values
+shallowEquals({ a: 1 }, { a: 2 });              // false
+
+// Different properties
+shallowEquals({ a: 1 }, { a: 1, b: 2 });        // false
+
+// Nested objects (compared by reference)
+const nested = { x: 1 };
+shallowEquals({ obj: nested }, { obj: nested }); // true (same reference)
+shallowEquals({ obj: { x: 1 } }, { obj: { x: 1 } }); // false (different references)
+```
+
+### Arrays
+
+```ts
+// Same elements
+shallowEquals([1, 2, 3], [1, 2, 3]);           // true
+
+// Different elements
+shallowEquals([1, 2], [1, 3]);                  // false
+
+// Different lengths
+shallowEquals([1, 2], [1, 2, 3]);              // false
+
+// Nested arrays (recursively compared)
+shallowEquals([[1]], [[1]]);                   // true
+```
+
+### Mixed types
+
+```ts
+shallowEquals([], {});                          // false
+shallowEquals(null, undefined);                 // false
+shallowEquals(0, false);                        // false
+```
+
+## Use Cases
+
+### Preventing unnecessary updates
+
+```ts
+function updateIfChanged(newData) {
+  const currentData = store.get("data");
+  if (!shallowEquals(currentData, newData)) {
+    store.set("data", newData);
+  }
+}
+```
+
+### Memoization comparison
+
+```ts
+function memoize(fn) {
+  let lastArgs = null;
+  let lastResult = null;
+
+  return (...args) => {
+    if (lastArgs && shallowEquals(lastArgs, args)) {
+      return lastResult;
+    }
+    lastArgs = args;
+    lastResult = fn(...args);
+    return lastResult;
+  };
+}
+```
+
+### Props comparison in custom components
+
+```ts
+shouldUpdate(instance, newProps, newState) {
+  return !shallowEquals(instance.props, newProps);
+}
+```
+
+## Notes
+
+- For primitives, uses strict equality (`===`)
+- For objects, compares own enumerable properties
+- For arrays, compares elements recursively with `shallowEquals`
+- Does not handle circular references
+- `null` and `undefined` are not equal to each other
+
+## See Also
+
+- [computable](/docs/utilities/computable) - Memoized selectors

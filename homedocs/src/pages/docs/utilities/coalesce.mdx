@@ -1,0 +1,102 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: coalesce
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+
+# coalesce
+
+<ImportPath path="import { coalesce } from 'cx/util';" />
+
+`coalesce` returns the first non-null/non-undefined value from its arguments. Similar to SQL's COALESCE or JavaScript's nullish coalescing (`??`), but works with multiple arguments.
+
+## Signature
+
+```ts
+function coalesce(...args: any[]): any
+```
+
+## Parameters
+
+| Parameter | Type    | Description              |
+| --------- | ------- | ------------------------ |
+| `args`    | `any[]` | Values to check.         |
+
+## Return Value
+
+Returns the first argument that is not `null` or `undefined`. Returns `null` if all arguments are null/undefined.
+
+## Examples
+
+### Basic usage
+
+```ts
+coalesce(null, undefined, "hello");      // "hello"
+coalesce(null, "first", "second");       // "first"
+coalesce("a", "b", "c");                 // "a"
+coalesce(null, null, null);              // null
+```
+
+### With falsy values
+
+Unlike `||`, coalesce only checks for null/undefined, not all falsy values:
+
+```ts
+coalesce(0, 10);                         // 0 (not 10)
+coalesce("", "default");                 // "" (not "default")
+coalesce(false, true);                   // false (not true)
+
+// Compare with ||
+0 || 10;                                 // 10
+"" || "default";                         // "default"
+false || true;                           // true
+```
+
+### Default values
+
+```ts
+const name = coalesce(user.nickname, user.name, "Anonymous");
+const port = coalesce(config.port, env.PORT, 3000);
+const theme = coalesce(userPrefs.theme, systemTheme, "light");
+```
+
+### With function returns
+
+```ts
+const result = coalesce(
+  cache.get(key),
+  storage.get(key),
+  computeDefault(),
+);
+```
+
+## coalesce vs ??
+
+JavaScript's `??` operator only works with two operands:
+
+```ts
+// With ??
+const value = a ?? b ?? c ?? d;
+
+// With coalesce
+const value = coalesce(a, b, c, d);
+```
+
+## coalesce vs ||
+
+The `||` operator treats all falsy values as "empty":
+
+```ts
+// || treats 0, "", false as falsy
+0 || 100;              // 100
+"" || "default";       // "default"
+
+// coalesce only treats null/undefined as empty
+coalesce(0, 100);      // 0
+coalesce("", "default"); // ""
+```
+
+## See Also
+
+- [Type Checking](/docs/utilities/type-checking) - isDefined, isUndefined

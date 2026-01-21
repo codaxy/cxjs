@@ -420,20 +420,88 @@ export const navigation = [
     slug: "utilities",
     groups: [
       {
-        title: "Data",
+        title: "Data Operations",
+        items: [
+          { title: "updateArray", slug: "update-array" },
+          { title: "append", slug: "append" },
+          { title: "merge", slug: "merge" },
+          { title: "filter", slug: "filter" },
+          { title: "moveElement", slug: "move-element" },
+          { title: "insertElement", slug: "insert-element" },
+          { title: "diffArrays", slug: "diff-arrays" },
+        ],
+      },
+      {
+        title: "Tree Operations",
         items: [
           { title: "updateTree", slug: "update-tree" },
           { title: "findTreeNode", slug: "find-tree-node" },
+          { title: "findTreePath", slug: "find-tree-path" },
           { title: "removeTreeNodes", slug: "remove-tree-nodes" },
+        ],
+      },
+      {
+        title: "Selectors & Computed",
+        items: [
+          { title: "Grouper", slug: "grouper" },
+          { title: "getComparer", slug: "get-comparer" },
+          { title: "Expression", slug: "expression" },
         ],
       },
       {
         title: "Functions",
         items: [
-          { title: "Color", slug: "color" },
-          { title: "Date", slug: "date" },
-          { title: "DOM", slug: "dom" },
-          { title: "Misc", slug: "misc" },
+          { title: "debounce", slug: "debounce" },
+          { title: "throttle", slug: "throttle" },
+          { title: "shallowEquals", slug: "shallow-equals" },
+          { title: "coalesce", slug: "coalesce" },
+        ],
+      },
+      {
+        title: "Search",
+        items: [
+          { title: "getSearchQueryPredicate", slug: "get-search-query-predicate" },
+        ],
+      },
+      {
+        title: "Color",
+        items: [
+          { title: "parseColor", slug: "parse-color" },
+          { title: "Color Conversions", slug: "color-conversions" },
+        ],
+      },
+      {
+        title: "Date",
+        items: [
+          { title: "zeroTime", slug: "zero-time" },
+          { title: "monthStart", slug: "month-start" },
+          { title: "dateDiff", slug: "date-diff" },
+          { title: "sameDate", slug: "same-date" },
+          { title: "minDate / maxDate", slug: "min-max-date" },
+          { title: "encodeDate", slug: "encode-date" },
+        ],
+      },
+      {
+        title: "DOM",
+        items: [
+          { title: "findFirst / closest", slug: "find-first-closest" },
+          { title: "isFocusable", slug: "is-focusable" },
+          { title: "scrollElementIntoView", slug: "scroll-element-into-view" },
+          { title: "findScrollableParent", slug: "find-scrollable-parent" },
+          { title: "KeyCode", slug: "key-code" },
+        ],
+      },
+      {
+        title: "Type Guards",
+        items: [
+          { title: "isArray", slug: "is-array" },
+          { title: "isObject", slug: "is-object" },
+          { title: "isString", slug: "is-string" },
+          { title: "isNumber", slug: "is-number" },
+          { title: "isFunction", slug: "is-function" },
+          { title: "isDefined", slug: "is-defined" },
+          { title: "isNonEmptyArray", slug: "is-non-empty-array" },
+          { title: "isPromise", slug: "is-promise" },
         ],
       },
     ],
