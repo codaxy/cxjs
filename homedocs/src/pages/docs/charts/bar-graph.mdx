@@ -1,0 +1,40 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: BarGraph
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import BarGraphExample from "../../../examples/charts/BarGraphExample.tsx";
+import BarGraphExampleCode from "../../../examples/charts/BarGraphExample.tsx?raw";
+
+# BarGraph
+
+<ImportPath path="import { BarGraph } from 'cx/charts';" />
+
+The `BarGraph` component renders a series of horizontal bars. Use with `CategoryAxis` on the Y axis for category labels.
+
+For multiple series, use `size` and `offset` to position bars side by side. Click legend entries to toggle series visibility.
+
+<CodeExample code={BarGraphExampleCode}>
+  <BarGraphExample client:load />
+</CodeExample>
+
+## Configuration
+
+| Property       | Type       | Description                                                        |
+| -------------- | ---------- | ------------------------------------------------------------------ |
+| `data`         | `array`    | Array of data points.                                              |
+| `xField`       | `string`   | Field name for the bar value (length). Default is `"x"`.           |
+| `yField`       | `string`   | Field name for the category. Default is `"y"`.                     |
+| `colorIndex`   | `number`   | Index of the color from the theme palette.                         |
+| `colorMap`     | `string`   | Name of the color map for automatic color assignment.              |
+| `name`         | `string`   | Series name for the legend.                                        |
+| `active`       | `boolean`  | Binding to control visibility. Works with Legend interaction.      |
+| `size`         | `number`   | Bar thickness as a fraction of available space. Default is `0.5`.  |
+| `offset`       | `number`   | Offset for positioning multiple series. Default is `0`.            |
+| `stacked`      | `boolean`  | Set to `true` to stack bars.                                       |
+| `borderRadius` | `number`   | Corner radius for rounded bars.                                    |
+| `x0Field`      | `string`   | Field name for the bar start value (for range bars).               |
+| `selection`    | `object`   | Selection configuration for interactive bars.                      |

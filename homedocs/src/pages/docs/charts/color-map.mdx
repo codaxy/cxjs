@@ -3,31 +3,34 @@ layout: ../../../layouts/DocsLayout.astro
 title: ColorMap
 ---
 
+import ImportPath from "../../../components/ImportPath.astro";
 import CodeExample from "../../../components/CodeExample.astro";
+
 import ColorMapExample from "../../../examples/charts/ColorMapExample.tsx";
+import ColorMapExampleCode from "../../../examples/charts/ColorMapExample.tsx?raw";
 
 # ColorMap
 
-Assigns different colors to chart elements from the color palette dynamically.
+<ImportPath path="import { ColorMap } from 'cx/charts';" />
 
-**Import:** `import { ColorMap } from 'cx/charts';`
+`ColorMap` automatically assigns colors from the palette to chart elements. Elements register themselves by name and receive consistent color indices. This is useful when the number of series is dynamic.
 
-## Example
-
-<CodeExample
-  code={`<ColorMap />
-<Repeater records-bind="series">
-  <LineGraph name-bind="$record.name" data-bind="$record.points" colorMap="lines" />
-</Repeater>`}
->
+<CodeExample code={ColorMapExampleCode}>
   <ColorMapExample client:load />
 </CodeExample>
 
-**Note:** `ColorMap` must be placed above the elements that use it. Use `ColorMap.Scope` to isolate overlapping color maps.
+## How It Works
 
-## Properties
+1. Place `ColorMap` above chart elements that need automatic colors
+2. Elements use `colorMap="mapName"` to register with a specific color map
+3. ColorMap assigns colors based on element names, distributing them evenly across the palette
+4. Use `ColorMap.Scope` to isolate multiple color maps in nested charts
 
-| Property | Type     | Default     | Description           |
-| -------- | -------- | ----------- | --------------------- |
-| `offset` | `number` | `0`         | Starting color offset |
-| `step`   | `number` | `undefined` | Color step size       |
+## Configuration
+
+| Property | Type       | Default | Description                                              |
+| -------- | ---------- | ------- | -------------------------------------------------------- |
+| `offset` | `number`   | `0`     | Starting offset in the color palette.                    |
+| `step`   | `number`   |         | Step between colors. Auto-calculated if not specified.   |
+| `size`   | `number`   | `16`    | Size of the color palette.                               |
+| `names`  | `string[]` |         | Pre-register names to ensure consistent color assignment.|

@@ -1,0 +1,40 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: ColumnGraph
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import ColumnGraphExample from "../../../examples/charts/ColumnGraphExample.tsx";
+import ColumnGraphExampleCode from "../../../examples/charts/ColumnGraphExample.tsx?raw";
+
+# ColumnGraph
+
+<ImportPath path="import { ColumnGraph } from 'cx/charts';" />
+
+The `ColumnGraph` component renders a series of vertical bars. Use with `CategoryAxis` on the X axis for category labels.
+
+For multiple series, use `size` and `offset` to position columns side by side. Click legend entries to toggle series visibility.
+
+<CodeExample code={ColumnGraphExampleCode}>
+  <ColumnGraphExample client:load />
+</CodeExample>
+
+## Configuration
+
+| Property       | Type       | Description                                                          |
+| -------------- | ---------- | -------------------------------------------------------------------- |
+| `data`         | `array`    | Array of data points.                                                |
+| `xField`       | `string`   | Field name for the category. Default is `"x"`.                       |
+| `yField`       | `string`   | Field name for the column value (height). Default is `"y"`.          |
+| `colorIndex`   | `number`   | Index of the color from the theme palette.                           |
+| `colorMap`     | `string`   | Name of the color map for automatic color assignment.                |
+| `name`         | `string`   | Series name for the legend.                                          |
+| `active`       | `boolean`  | Binding to control visibility. Works with Legend interaction.        |
+| `size`         | `number`   | Column width as a fraction of available space. Default is `0.5`.     |
+| `offset`       | `number`   | Offset for positioning multiple series. Default is `0`.              |
+| `stacked`      | `boolean`  | Set to `true` to stack columns.                                      |
+| `borderRadius` | `number`   | Corner radius for rounded columns.                                   |
+| `y0Field`      | `string`   | Field name for the column start value (for range columns).           |
+| `selection`    | `object`   | Selection configuration for interactive columns.                     |

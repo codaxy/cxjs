@@ -3,32 +3,38 @@ layout: ../../../layouts/DocsLayout.astro
 title: ValueAtFinder
 ---
 
+import ImportPath from "../../../components/ImportPath.astro";
 import CodeExample from "../../../components/CodeExample.astro";
+
 import ValueAtFinderExample from "../../../examples/charts/ValueAtFinderExample.tsx";
+import ValueAtFinderExampleCode from "../../../examples/charts/ValueAtFinderExample.tsx?raw";
 
 # ValueAtFinder
 
-Reads interpolated values from a line graph at a given position.
+<ImportPath path="import { ValueAtFinder } from 'cx/charts';" />
 
-**Import:** `import { ValueAtFinder } from 'cx/charts';`
+`ValueAtFinder` reads interpolated Y values from a line graph at a given X position. Use it with `MouseTracker` to display value tooltips that follow the cursor along the graph.
 
-## Example
-
-<CodeExample
-  code={`<MouseTracker x-bind="cursor.x">
-  <ValueAtFinder at-bind="cursor.x" value-bind="trackedValue">
-    <LineGraph data-bind="points" colorIndex={0} />
-  </ValueAtFinder>
-  <MarkerLine x-bind="cursor.x" colorIndex={0} />
-  <Marker x-bind="cursor.x" y-bind="trackedValue" colorIndex={0} />
-</MouseTracker>`}
->
+<CodeExample code={ValueAtFinderExampleCode}>
   <ValueAtFinderExample client:load />
 </CodeExample>
 
-## Properties
+## How It Works
 
-| Property | Type         | Default     | Description             |
-| -------- | ------------ | ----------- | ----------------------- |
-| `at`     | `Sx<number>` | `undefined` | X position to read      |
-| `value`  | `Sx<number>` | `undefined` | Bind for interpolated Y |
+1. Wrap a LineGraph inside `ValueAtFinder`
+2. Pass the cursor X position via `at` (typically from MouseTracker)
+3. Bind `value` to receive the interpolated Y value at that X position
+4. Use the tracked value to position Markers or display in tooltips
+
+## See Also
+
+- [MouseTracker](/docs/charts/mouse-tracker) - Track cursor position within a chart
+- [SnapPointFinder](/docs/charts/snap-point-finder) - Snap to nearest actual data point
+
+## Configuration
+
+| Property  | Type       | Description                                                   |
+| --------- | ---------- | ------------------------------------------------------------- |
+| `at`      | `number`   | X position to read the value at.                              |
+| `value`   | `number`   | Bind for the interpolated Y value.                            |
+| `convert` | `function` | Convert X values (e.g., dates) to numbers. Required for TimeAxis. |

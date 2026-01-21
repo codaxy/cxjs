@@ -1,0 +1,48 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Marker
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import MarkerExample from "../../../examples/charts/MarkerExample.tsx";
+import MarkerExampleCode from "../../../examples/charts/MarkerExample.tsx?raw";
+
+# Marker
+
+<ImportPath path="import { Marker } from 'cx/charts';" />
+
+`Marker` displays individual data points on a chart. Markers are commonly used for scatter charts and can be made draggable for interactive data manipulation. Click on legend entries to toggle visibility of each dataset.
+
+<CodeExample code={MarkerExampleCode}>
+  <MarkerExample client:load />
+</CodeExample>
+
+## Features
+
+- Multiple shapes: circle, square, rect, triangle
+- Variable size and color based on data
+- Draggable in X and/or Y direction with axis constraints
+- Tooltips on hover
+- Legend integration with visibility toggle
+
+## Configuration
+
+| Property       | Type      | Default     | Description                                            |
+| -------------- | --------- | ----------- | ------------------------------------------------------ |
+| `x`            | `number`  |             | X-axis position.                                       |
+| `y`            | `number`  |             | Y-axis position.                                       |
+| `size`         | `number`  | `5`         | Marker size in pixels.                                 |
+| `shape`        | `string`  | `"circle"`  | Shape: `"circle"`, `"square"`, `"triangle"`.           |
+| `colorIndex`   | `number`  |             | Color palette index.                                   |
+| `colorMap`     | `string`  |             | Name of the color map to use.                          |
+| `colorName`    | `string`  |             | Name for color map lookup.                             |
+| `name`         | `string`  |             | Name for legend. Also used as `colorName` if not set.  |
+| `legend`       | `string`  | `"legend"`  | Legend name to show in.                                |
+| `active`       | `boolean` | `true`      | Whether the marker is active (visible).                |
+| `draggableX`   | `boolean` | `false`     | Enable horizontal dragging.                            |
+| `draggableY`   | `boolean` | `false`     | Enable vertical dragging.                              |
+| `constrain`    | `boolean` | `true`      | Constrain dragging to chart bounds.                    |
+| `tooltip`      | `object`  |             | Tooltip configuration.                                 |
+| `affectsAxes`  | `boolean` | `true`      | Whether marker position affects axis range calculation.|

@@ -1,0 +1,39 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Column
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import ColumnExample from "../../../examples/charts/ColumnExample.tsx";
+import ColumnExampleCode from "../../../examples/charts/ColumnExample.tsx?raw";
+
+# Column
+
+<ImportPath path="import { Column } from 'cx/charts';" />
+
+The `Column` component renders individual vertical bars. Unlike `ColumnGraph` which takes data arrays, `Column` is used with `Repeater` for more control over each column—such as individual colors based on value.
+
+In this example, each column's color is computed from its value using `expr`.
+
+<CodeExample code={ColumnExampleCode}>
+  <ColumnExample client:load />
+</CodeExample>
+
+## Configuration
+
+| Property       | Type      | Description                                                          |
+| -------------- | --------- | -------------------------------------------------------------------- |
+| `x`            | `string`  | Category value.                                                      |
+| `y`            | `number`  | Column value (height).                                               |
+| `y0`           | `number`  | Column start value for range columns. Default is `0`.                |
+| `colorIndex`   | `number`  | Index of the color from the theme palette.                           |
+| `colorMap`     | `string`  | Name of the color map for automatic color assignment.                |
+| `name`         | `string`  | Series name for the legend.                                          |
+| `active`       | `boolean` | Binding to control visibility. Works with Legend interaction.        |
+| `width`        | `number`  | Column width as a fraction of available space. Default is `0.5`.     |
+| `offset`       | `number`  | Offset for positioning multiple series. Default is `0`.              |
+| `stacked`      | `boolean` | Set to `true` to stack columns.                                      |
+| `borderRadius` | `number`  | Corner radius for rounded columns.                                   |
+| `tooltip`      | `object`  | Tooltip configuration.                                               |

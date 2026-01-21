@@ -3,32 +3,35 @@ layout: ../../../layouts/DocsLayout.astro
 title: Swimlane
 ---
 
+import ImportPath from "../../../components/ImportPath.astro";
 import CodeExample from "../../../components/CodeExample.astro";
+
 import SwimlaneExample from "../../../examples/charts/SwimlaneExample.tsx";
+import SwimlaneExampleCode from "../../../examples/charts/SwimlaneExample.tsx?raw";
 
 # Swimlane
 
-Individual swimlane element for custom swimlane charts.
+<ImportPath path="import { Swimlane } from 'cx/charts';" />
 
-**Import:** `import { Swimlane } from 'cx/charts';`
+`Swimlane` creates individual swimlane bands where each one can have unique properties or content. Use with a `Repeater` to create swimlanes for each data record. Unlike `Swimlanes` (plural), this component gives you full control over each lane.
 
-## Example
-
-<CodeExample
-  code={`<Repeater records-bind="lanes" recordAlias="$lane">
-  <Swimlane y-bind="$lane.name" size={0.8} colorIndex-expr="{$index} % 2">
-    <Column x-bind="$lane.month" y-bind="$lane.value" colorIndex={2} />
-  </Swimlane>
-</Repeater>`}
->
+<CodeExample code={SwimlaneExampleCode}>
   <SwimlaneExample client:load />
 </CodeExample>
 
-## Properties
+## When to Use
 
-| Property     | Type         | Default     | Description            |
-| ------------ | ------------ | ----------- | ---------------------- |
-| `y`          | `Sx<string>` | `undefined` | Category position      |
-| `size`       | `number`     | `1`         | Swimlane size (0-1)    |
-| `colorIndex` | `number`     | `undefined` | Background color index |
-| `vertical`   | `boolean`    | `false`     | Vertical orientation   |
+- **Swimlane** (this) - When you need individual control over each lane (different colors, content inside lanes, custom styling per lane)
+- **Swimlanes** - When you want automatic background bands for readability
+
+## Configuration
+
+| Property     | Type      | Default | Description                                      |
+| ------------ | --------- | ------- | ------------------------------------------------ |
+| `x`          | `string`  |         | Category value for vertical swimlane position.   |
+| `y`          | `string`  |         | Category value for horizontal swimlane position. |
+| `size`       | `number`  | `1`     | Swimlane width relative to category step (0-1).  |
+| `vertical`   | `boolean` | `false` | Set to `true` for vertical swimlanes.            |
+| `colorIndex` | `number`  |         | Background color from the palette.               |
+| `style`      | `object`  |         | CSS style for the swimlane rectangle.            |
+| `class`      | `string`  |         | CSS class for the swimlane element.              |

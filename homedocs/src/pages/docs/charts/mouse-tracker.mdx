@@ -3,32 +3,37 @@ layout: ../../../layouts/DocsLayout.astro
 title: MouseTracker
 ---
 
+import ImportPath from "../../../components/ImportPath.astro";
 import CodeExample from "../../../components/CodeExample.astro";
+
 import MouseTrackerExample from "../../../examples/charts/MouseTrackerExample.tsx";
+import MouseTrackerExampleCode from "../../../examples/charts/MouseTrackerExample.tsx?raw";
 
 # MouseTracker
 
-Tracks mouse position on the chart and provides coordinates.
+<ImportPath path="import { MouseTracker } from 'cx/charts';" />
 
-**Import:** `import { MouseTracker } from 'cx/charts';`
+`MouseTracker` tracks the mouse position within a chart and writes the coordinates to the store. Use it to create crosshairs, show tooltips at cursor position, or highlight nearby data points.
 
-## Example
-
-<CodeExample
-  code={`<MouseTracker x={$page.cursor.x} y={$page.cursor.y}>
-  <Marker x={$page.cursor.x} y={$page.cursor.y} size={10} colorIndex={0} />
-  <MarkerLine x={$page.cursor.x} y1={0} y2={$page.cursor.y} colorIndex={0} />
-</MouseTracker>`}
->
+<CodeExample code={MouseTrackerExampleCode}>
   <MouseTrackerExample client:load />
 </CodeExample>
 
-Commonly used with [point reducers](/charts/point-reducers) to track values on the graph.
+## How It Works
 
-## Properties
+1. Wrap chart elements that should respond to cursor position inside `MouseTracker`
+2. Bind `x` and `y` props to store the cursor coordinates
+3. Use the bound values to position Markers, MarkerLines, or other elements
 
-| Property  | Type         | Default     | Description           |
-| --------- | ------------ | ----------- | --------------------- |
-| `x`       | `Sx<number>` | `undefined` | Bind for x coordinate |
-| `y`       | `Sx<number>` | `undefined` | Bind for y coordinate |
-| `tooltip` | `object`     | `undefined` | Tooltip configuration |
+## Configuration
+
+| Property  | Type     | Default | Description                                       |
+| --------- | -------- | ------- | ------------------------------------------------- |
+| `x`       | `number` |         | Bind for cursor x coordinate (in axis units).     |
+| `y`       | `number` |         | Bind for cursor y coordinate (in axis units).     |
+| `tooltip` | `object` |         | Tooltip configuration for showing cursor values.  |
+
+## See Also
+
+- [SnapPointFinder](/docs/charts/snap-point-finder) - Snap cursor to nearest data point
+- [ValueAtFinder](/docs/charts/value-at-finder) - Find y value at cursor x position

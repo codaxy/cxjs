@@ -1,0 +1,39 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Bar
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import BarExample from "../../../examples/charts/BarExample.tsx";
+import BarExampleCode from "../../../examples/charts/BarExample.tsx?raw";
+
+# Bar
+
+<ImportPath path="import { Bar } from 'cx/charts';" />
+
+The `Bar` component renders individual horizontal bars. Unlike `BarGraph` which takes data arrays, `Bar` is used with `Repeater` for more control over each bar.
+
+Use `height` and `offset` to position multiple series side by side. Hover over bars to see tooltips.
+
+<CodeExample code={BarExampleCode}>
+  <BarExample client:load />
+</CodeExample>
+
+## Configuration
+
+| Property       | Type      | Description                                                        |
+| -------------- | --------- | ------------------------------------------------------------------ |
+| `x`            | `number`  | Bar value (length).                                                |
+| `x0`           | `number`  | Bar start value for range bars. Default is `0`.                    |
+| `y`            | `string`  | Category value.                                                    |
+| `colorIndex`   | `number`  | Index of the color from the theme palette.                         |
+| `colorMap`     | `string`  | Name of the color map for automatic color assignment.              |
+| `name`         | `string`  | Series name for the legend.                                        |
+| `active`       | `boolean` | Binding to control visibility. Works with Legend interaction.      |
+| `height`       | `number`  | Bar thickness as a fraction of available space. Default is `0.5`.  |
+| `offset`       | `number`  | Offset for positioning multiple series. Default is `0`.            |
+| `stacked`      | `boolean` | Set to `true` to stack bars.                                       |
+| `borderRadius` | `number`  | Corner radius for rounded bars.                                    |
+| `tooltip`      | `object`  | Tooltip configuration. Use `tpl` for template strings.             |

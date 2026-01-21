@@ -1,0 +1,52 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: PieLabel
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import PieLabelExample from "../../../examples/charts/PieLabelExample.tsx";
+import PieLabelExampleCode from "../../../examples/charts/PieLabelExample.tsx?raw";
+
+# PieLabel
+
+<ImportPath path="import { PieLabelsContainer, PieLabel } from 'cx/charts';" />
+
+`PieLabel` displays values for each pie slice with automatic position adjustment to prevent overlapping. Labels must be placed inside a `PieLabelsContainer` component.
+
+Use `innerPointRadius` and `outerPointRadius` on `PieSlice` to define the label line anchor points. The `distance` property controls how far labels are pushed from the pie center. Text can be centered or auto-aligned to left/right using `autoTextAnchor`.
+
+<CodeExample code={PieLabelExampleCode}>
+  <PieLabelExample client:load />
+</CodeExample>
+
+## How It Works
+
+1. Wrap `PieChart` inside `PieLabelsContainer`
+2. Add `innerPointRadius` and `outerPointRadius` to `PieSlice` for line anchor points
+3. Place a `Line` inside `PieSlice` for the connector line from slice to label
+4. Add `PieLabel` with content (typically `Text`)
+5. Use `autoTextAnchor` on `Text` to automatically align left/right based on position
+
+## Configuration
+
+### PieLabelsContainer
+
+Container that manages label distribution to prevent overlapping.
+
+| Property  | Type     | Description                                  |
+| --------- | -------- | -------------------------------------------- |
+| `anchors` | `string` | Bounded object anchors. Default `"0 1 1 0"`. |
+
+### PieLabel
+
+| Property         | Type     | Default | Description                                          |
+| ---------------- | -------- | ------- | ---------------------------------------------------- |
+| `distance`       | `number` | `100`   | Distance from pie center in pixels.                  |
+| `offset`         | `string` |         | Label bounding box offset `"top right bottom left"`. |
+| `anchors`        | `string` |         | Label anchors relative to parent bounds.             |
+| `lineStroke`     | `string` |         | Stroke color for the connecting line.                |
+| `lineStyle`      | `object` |         | Style object for the connecting line.                |
+| `lineClass`      | `string` |         | CSS class for the connecting line.                   |
+| `lineColorIndex` | `number` |         | Color index for the connecting line.                 |

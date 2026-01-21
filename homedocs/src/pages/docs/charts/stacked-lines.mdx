@@ -1,0 +1,31 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Stacked Lines
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import StackedLinesExample from "../../../examples/charts/StackedLinesExample.tsx";
+import StackedLinesExampleCode from "../../../examples/charts/StackedLinesExample.tsx?raw";
+
+# Stacked Lines
+
+<ImportPath path="import { LineGraph } from 'cx/charts';" />
+
+Stacked line charts display multiple data series stacked on top of each other. Set `stacked` to `true` on each `LineGraph` to enable stacking. Combine with `area` to fill the area under each line.
+
+Click legend entries to toggle series visibility. Use the checkbox to toggle between stacked and regular view.
+
+<CodeExample code={StackedLinesExampleCode}>
+  <StackedLinesExample client:load />
+</CodeExample>
+
+## Configuration
+
+| Property  | Type      | Description                                                    |
+| --------- | --------- | -------------------------------------------------------------- |
+| `stacked` | `boolean` | Set to `true` to stack this series on top of previous ones.   |
+| `area`    | `boolean` | Set to `true` to fill the area under the line.                |
+| `stack`   | `string`  | Name of the stack group. Default is `"stack"`.                |
+| `active`  | `boolean` | Binding to control visibility. Works with Legend interaction. |

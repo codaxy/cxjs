@@ -1,0 +1,44 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: ScatterGraph
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import ScatterGraphExample from "../../../examples/charts/ScatterGraphExample.tsx";
+import ScatterGraphExampleCode from "../../../examples/charts/ScatterGraphExample.tsx?raw";
+
+# ScatterGraph
+
+<ImportPath path="import { ScatterGraph } from 'cx/charts';" />
+
+`ScatterGraph` renders scatter plots from an array of data points. Unlike `Marker` which renders individual points, `ScatterGraph` efficiently renders entire datasets and is better suited for visualizing large amounts of data.
+
+<CodeExample code={ScatterGraphExampleCode}>
+  <ScatterGraphExample client:load />
+</CodeExample>
+
+## Features
+
+- Efficient rendering of large datasets
+- Variable point size based on data field
+- Multiple shapes: circle, square, triangle
+- Legend integration with visibility toggle
+
+## Configuration
+
+| Property     | Type      | Default    | Description                               |
+| ------------ | --------- | ---------- | ----------------------------------------- |
+| `data`       | `array`   |            | Array of data points.                     |
+| `xField`     | `string`  | `"x"`      | Field name for x-axis values.             |
+| `yField`     | `string`  | `"y"`      | Field name for y-axis values.             |
+| `sizeField`  | `string`  |            | Field name for point size.                |
+| `size`       | `number`  | `5`        | Default point size when sizeField not set.|
+| `shape`      | `string`  | `"circle"` | Shape: `"circle"`, `"square"`, `"triangle"`.|
+| `colorIndex` | `number`  |            | Color palette index.                      |
+| `colorMap`   | `string`  |            | Name of the color map to use.             |
+| `colorName`  | `string`  |            | Name for color map lookup.                |
+| `name`       | `string`  |            | Name for legend.                          |
+| `legend`     | `string`  | `"legend"` | Legend name to show in.                   |
+| `active`     | `boolean` | `true`     | Whether the graph is active (visible).    |

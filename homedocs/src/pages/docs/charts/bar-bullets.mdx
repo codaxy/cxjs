@@ -1,0 +1,33 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Bar Bullets
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import BarBulletsExample from "../../../examples/charts/BarBulletsExample.tsx";
+import BarBulletsExampleCode from "../../../examples/charts/BarBulletsExample.tsx?raw";
+
+# Bar Bullets
+
+<ImportPath path="import { Bar } from 'cx/charts';" />
+
+Bullet charts compare a primary measure against qualitative ranges and a target marker. They are built by layering multiple `Bar` components:
+
+- Background bars at different thresholds (poor/satisfactory/good ranges)
+- A thinner bar showing the actual value
+- A vertical line marking the target (using `x` and `x0` at the same value)
+
+<CodeExample code={BarBulletsExampleCode}>
+  <BarBulletsExample client:load />
+</CodeExample>
+
+## Configuration
+
+| Property | Type     | Description                                                        |
+| -------- | -------- | ------------------------------------------------------------------ |
+| `x`      | `number` | Bar end value.                                                     |
+| `x0`     | `number` | Bar start value. Set equal to `x` to create a vertical marker line.|
+| `height` | `number` | Bar thickness. Use smaller values for the main value bar.          |
+| `style`  | `string` | CSS styles for opacity, stroke, and fill customization.            |

@@ -1,0 +1,30 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Stacked Columns
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import StackedColumnsExample from "../../../examples/charts/StackedColumnsExample.tsx";
+import StackedColumnsExampleCode from "../../../examples/charts/StackedColumnsExample.tsx?raw";
+
+# Stacked Columns
+
+<ImportPath path="import { Column } from 'cx/charts';" />
+
+Stacked column charts display multiple data series stacked vertically. Set `stacked` to `true` on each `Column` to enable stacking.
+
+Click legend entries to toggle series visibility.
+
+<CodeExample code={StackedColumnsExampleCode}>
+  <StackedColumnsExample client:load />
+</CodeExample>
+
+## Configuration
+
+| Property  | Type      | Description                                                    |
+| --------- | --------- | -------------------------------------------------------------- |
+| `stacked` | `boolean` | Set to `true` to stack this column on top of previous ones.    |
+| `stack`   | `string`  | Name of the stack group. Default is `"stack"`. Use different names to create multiple stacks side by side. |
+| `active`  | `boolean` | Binding to control visibility. Works with Legend interaction.  |

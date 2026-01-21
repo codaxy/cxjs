@@ -1,0 +1,34 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Multi-level Pie Example
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+
+import MultiLevelPieExample from "../../../examples/charts/MultiLevelPieExample.tsx";
+import MultiLevelPieExampleCode from "../../../examples/charts/MultiLevelPieExample.tsx?raw";
+
+# Multi-level Pie Example
+
+This example shows how to create a multi-level (sunburst) pie chart by nesting `PieSlice` components with different `stack` values. Click a slice to see its breakdown in the secondary legend.
+
+<CodeExample code={MultiLevelPieExampleCode}>
+  <MultiLevelPieExample client:load />
+</CodeExample>
+
+## How It Works
+
+1. **Inner ring** - Main slices using the default stack
+2. **Outer ring** - Sub-slices using `stack="outer"` to form a separate ring
+3. **Shared selection** - Both rings share the same `KeySelection` to highlight related slices
+4. **Dynamic legend** - The `legend` prop uses `expr` to show sub-slice legend only when parent is selected
+5. **Opacity variation** - Sub-slices use varying `fillOpacity` to show hierarchy within the same color
+
+## Configuration
+
+| Property      | Type     | Default | Description                                           |
+| ------------- | -------- | ------- | ----------------------------------------------------- |
+| `stack`       | `string` | `stack` | Stack name. Use different values for separate rings.  |
+| `r` / `r0`    | `number` |         | Outer/inner radius. Adjust to create ring separation. |
+| `offset`      | `number` | `0`     | Gap between rings when using different stacks.        |
+| `fillOpacity` | `number` |         | Use in `style` to vary opacity within a color.        |

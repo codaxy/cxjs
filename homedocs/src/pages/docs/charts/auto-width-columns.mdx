@@ -1,0 +1,28 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Auto Width Columns
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import AutoWidthColumnsExample from "../../../examples/charts/AutoWidthColumnsExample.tsx";
+import AutoWidthColumnsExampleCode from "../../../examples/charts/AutoWidthColumnsExample.tsx?raw";
+
+# Auto Width Columns
+
+<ImportPath path="import { Column } from 'cx/charts';" />
+
+When displaying multiple column series side by side, `autoSize` automatically calculates column widths and positions. Column positions are determined based on previously seen data, so series maintain consistent placement across categories.
+
+<CodeExample code={AutoWidthColumnsExampleCode}>
+  <AutoWidthColumnsExample client:load />
+</CodeExample>
+
+## Configuration
+
+| Property  | Type      | Description                                                                      |
+| --------- | --------- | -------------------------------------------------------------------------------- |
+| `autoSize`| `boolean` | Set to `true` to automatically calculate width and offset based on present data. |
+| `uniform` | `boolean` | Set on `CategoryAxis` to ensure equal spacing regardless of data presence.       |
+| `width`   | `number`  | Maximum width as a fraction of available space. Default is `0.5`.                |

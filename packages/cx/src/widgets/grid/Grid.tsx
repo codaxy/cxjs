@@ -237,8 +237,8 @@ export interface GridColumnConfig {
   editable?: boolean;
   editor?: React.ReactNode;
   footer?: GridColumnFooterConfig | StringProp | NumberProp | false;
-  items?: React.ReactNode;
-  children?: React.ReactNode;
+  items?: ChildNode | ChildNode[];
+  children?: ChildNode | ChildNode[];
   key?: string;
   pad?: boolean;
   sortField?: string;
@@ -521,7 +521,10 @@ export interface GridConfig<T = any> extends StyledContainerConfig {
   focusable?: boolean;
 
   /** Callback function to retrieve grouping data. */
-  onGetGrouping?: (params: any, instance: Instance) => (string | GridGroupingConfig<T>)[];
+  onGetGrouping?: (
+    params: any,
+    instance: Instance,
+  ) => (string | GridGroupingConfig<T>)[];
 
   /** Callback function to dynamically calculate columns.  */
   onGetColumns?: (

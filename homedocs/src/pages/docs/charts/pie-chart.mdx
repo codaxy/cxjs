@@ -1,0 +1,59 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: PieChart
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import PieChartExample from "../../../examples/charts/PieChartExample.tsx";
+import PieChartExampleCode from "../../../examples/charts/PieChartExample.tsx?raw";
+
+# PieChart
+
+<ImportPath path="import { PieChart, PieSlice } from 'cx/charts';" />
+
+Pie charts compare parts to the whole. Use `PieChart` as a container and `PieSlice` for each segment. The `ColorMap` component assigns unique colors to each slice. Click the legend to toggle slice visibility.
+
+<CodeExample code={PieChartExampleCode}>
+  <PieChartExample client:load />
+</CodeExample>
+
+## Configuration
+
+### PieChart
+
+| Property     | Type      | Default | Description                            |
+| ------------ | --------- | ------- | -------------------------------------- |
+| `angle`      | `number`  | `360`   | Total angle of the pie in degrees.     |
+| `startAngle` | `number`  | `0`     | Starting angle in degrees.             |
+| `clockwise`  | `boolean` | `false` | Set to `true` for clockwise direction. |
+| `gap`        | `number`  | `0`     | Gap between slices in pixels.          |
+
+### PieSlice
+
+| Property            | Type        | Default   | Description                                                        |
+| ------------------- | ----------- | --------- | ------------------------------------------------------------------ |
+| `value`             | `number`    |           | Value represented by the slice.                                    |
+| `active`            | `boolean`   | `true`    | Controls visibility. Bind to legend for toggle.                    |
+| `r`                 | `number`    | `50`      | Outer radius (percentage of available space).                      |
+| `r0`                | `number`    | `0`       | Inner radius for donut charts.                                     |
+| `offset`            | `number`    | `0`       | Offset from center to explode the slice.                           |
+| `colorIndex`        | `number`    |           | Color palette index (0-15).                                        |
+| `colorMap`          | `string`    |           | Named color map for automatic colors.                              |
+| `colorName`         | `string`    |           | Name used to resolve color. Defaults to `name`.                    |
+| `borderRadius`      | `number`    | `0`       | Corner rounding in pixels.                                         |
+| `name`              | `string`    |           | Name shown in legend.                                              |
+| `legend`            | `string`    | `legend`  | Legend name. Set to `false` to hide.                               |
+| `legendDisplayText` | `string`    |           | Custom text for legend entry.                                      |
+| `legendShape`       | `string`    | `circle`  | Shape used in legend.                                              |
+| `legendAction`      | `string`    | `auto`    | Action on legend click: `auto`, `toggle`, or `select`.             |
+| `stack`             | `string`    | `stack`   | Stack name for multi-level pies.                                   |
+| `disabled`          | `boolean`   | `false`   | Disables interaction with the slice.                               |
+| `innerPointRadius`  | `number`    |           | Inner radius for label line calculations.                          |
+| `outerPointRadius`  | `number`    |           | Outer radius for label line calculations.                          |
+| `percentageRadius`  | `boolean`   | `true`    | If `true`, `r` and `r0` are percentages of available space.        |
+| `hoverId`           | `string`    |           | ID for hover synchronization.                                      |
+| `hoverChannel`      | `string`    | `default` | Channel for hover synchronization.                                 |
+| `selection`         | `Selection` |           | Selection configuration for click handling.                        |
+| `tooltip`           | `object`    |           | Tooltip configuration.                                             |

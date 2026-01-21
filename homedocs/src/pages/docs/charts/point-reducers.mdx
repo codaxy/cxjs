@@ -3,35 +3,42 @@ layout: ../../../layouts/DocsLayout.astro
 title: PointReducer
 ---
 
+import ImportPath from "../../../components/ImportPath.astro";
 import CodeExample from "../../../components/CodeExample.astro";
+
 import PointReducersExample from "../../../examples/charts/PointReducersExample.tsx";
+import PointReducersExampleCode from "../../../examples/charts/PointReducersExample.tsx?raw";
 
 # PointReducer
 
-Calculates aggregate values from points displayed on the chart.
+<ImportPath path="import { PointReducer } from 'cx/charts';" />
 
-**Import:** `import { PointReducer } from 'cx/charts';`
+`PointReducer` calculates aggregate values from points displayed on the chart. It provides three callback hooks for initializing an accumulator, processing each point, and computing final results.
 
-## Example
-
-<CodeExample
-  code={`<PointReducer onInitAccumulator={(acc) => { acc.sumX = 0; acc.sumY = 0; }} onMap={(acc, x, y) => { acc.sumX += x; acc.sumY += y; }} onReduce={(acc, { store }) => { store.set("avgX", acc.sumX / acc.count); }}>
-  <Marker x-bind="avgX" y-bind="avgY" colorIndex={9} size={12} />
-</PointReducer>`}
->
+<CodeExample code={PointReducersExampleCode}>
   <PointReducersExample client:load />
 </CodeExample>
 
-Predefined variants:
+## How It Works
 
-- [`ValueAtFinder`](/charts/value-at-finder) - track values on line graphs
-- [`SnapPointFinder`](/charts/snap-point-finder) - snap to data points
-- [`MinMaxFinder`](/charts/min-max-finder) - find min/max values
+1. `onInitAccumulator` - Initialize the accumulator object before processing
+2. `onMap` - Called for each point with `(accumulator, x, y, name, data, array, index)`
+3. `onReduce` - Calculate final values and write them to the store
 
-## Properties
+## Predefined Variants
 
-| Property            | Type       | Default     | Description            |
-| ------------------- | ---------- | ----------- | ---------------------- |
-| `onInitAccumulator` | `function` | `undefined` | Initialize accumulator |
-| `onMap`             | `function` | `undefined` | Process each point     |
-| `onReduce`          | `function` | `undefined` | Calculate final values |
+CxJS provides specialized point reducers for common use cases:
+
+- [MinMaxFinder](/docs/charts/min-max-finder) - Find minimum and maximum values
+- [SnapPointFinder](/docs/charts/snap-point-finder) - Snap to nearest data point
+- [ValueAtFinder](/docs/charts/value-at-finder) - Track values on line graphs
+
+## Configuration
+
+| Property              | Type       | Description                                                                        |
+| --------------------- | ---------- | ---------------------------------------------------------------------------------- |
+| `onInitAccumulator`   | `function` | Initialize accumulator. Args: `(accumulator, instance)`                            |
+| `onMap`               | `function` | Process each point. Args: `(accumulator, x, y, name, data, array, index)`          |
+| `onReduce`            | `function` | Calculate final values. Args: `(accumulator, instance)`                            |
+| `filterParams`        | `object`   | Parameters passed to `onCreatePointFilter`.                                        |
+| `onCreatePointFilter` | `function` | Create a predicate for filtering points. Args: `(filterParams, instance)`          |
