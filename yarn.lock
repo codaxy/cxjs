@@ -2934,6 +2934,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@stackblitz/sdk@npm:^1.11.0":
+  version: 1.11.0
+  resolution: "@stackblitz/sdk@npm:1.11.0"
+  checksum: 10/351647b818f2e40135ff92d3de61f94a925635acb769862014f4a0eb252011f1c42ede2c6952ab4848ed7512777f3f6d3944914f5750499f35069b54231d6cb2
+  languageName: node
+  linkType: hard
+
 "@tailwindcss/node@npm:4.1.18":
   version: 4.1.18
   resolution: "@tailwindcss/node@npm:4.1.18"
@@ -5663,6 +5670,7 @@ __metadata:
     "@astrojs/mdx": "npm:^4.3.13"
     "@astrojs/react": "npm:^4.4.2"
     "@heroicons/react": "npm:^2.2.0"
+    "@stackblitz/sdk": "npm:^1.11.0"
     "@tailwindcss/typography": "npm:^0.5.19"
     "@tailwindcss/vite": "npm:^4.1.18"
     "@types/react": "npm:^19.2.0"
