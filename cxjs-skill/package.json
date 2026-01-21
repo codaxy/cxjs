@@ -1,0 +1,39 @@
+{
+  "name": "@codaxy/cxjs-skill",
+  "version": "1.0.0",
+  "description": "CxJS framework expert skill for Claude Code - code quality, maintenance, and best practices",
+  "main": "index.js",
+  "type": "module",
+  "keywords": [
+    "cxjs",
+    "claude-code",
+    "skill",
+    "framework",
+    "code-quality",
+    "javascript",
+    "typescript",
+    "web-framework"
+  ],
+  "author": "Codaxy",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/codaxy/cxjs-skill.git"
+  },
+  "bugs": {
+    "url": "https://github.com/codaxy/cxjs-skill/issues"
+  },
+  "homepage": "https://github.com/codaxy/cxjs-skill#readme",
+  "files": [
+    "prompts",
+    "manifest.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "peerDependencies": {
+    "claude-code": ">=1.0.0"
+  }
+}
