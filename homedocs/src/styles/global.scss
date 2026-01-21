@@ -1319,7 +1319,7 @@ $cx-dropdown-styles: cx-deep-map-merge(
 .pagefind-ui .pagefind-ui__search-input {
   width: 220px;
   height: 36px;
-  padding: 0 12px 0 36px !important;
+  padding: 0 60px 0 36px !important;
   font-size: 14px;
   background: hsl(var(--secondary)) !important;
   border: 1px solid hsl(var(--border)) !important;
@@ -1336,6 +1336,12 @@ $cx-dropdown-styles: cx-deep-map-merge(
     border-color: hsl(var(--primary)) !important;
     box-shadow: 0 0 0 2px hsl(var(--primary) / 0.2) !important;
   }
+}
+
+// Keyboard shortcut hint
+.search-kbd {
+  transition: opacity 0.15s ease;
+  line-height: 1;
 }
 
 // Search icon positioning

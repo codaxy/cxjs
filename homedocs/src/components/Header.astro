@@ -52,8 +52,11 @@ const currentCategory = getCurrentCategory(pathname);
     <!-- Right side -->
     <div class="ml-auto flex items-center gap-2">
       <!-- Search -->
-      <div class="hidden sm:block">
+      <div class="hidden sm:block relative">
         <Search id="search" className="pagefind-ui" uiOptions={{ showImages: false, showSubResults: false, excerptLength: 15 }} />
+        <kbd class="search-kbd absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none px-2 py-0.5 text-xs font-medium text-muted-foreground bg-secondary border border-border rounded opacity-60">
+          ⌘K
+        </kbd>
       </div>
 
       <!-- Theme toggle -->
@@ -186,5 +189,50 @@ const currentCategory = getCurrentCategory(pathname);
 
     document.addEventListener('astro:page-load', updateActiveCategory);
     updateActiveCategory();
+
+    // Keyboard shortcut for search (Ctrl/Cmd + K)
+    function setupSearchShortcut() {
+      const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+      const kbd = document.querySelector('.search-kbd');
+
+      // Update kbd text based on platform
+      if (kbd && !isMac) {
+        kbd.textContent = 'Ctrl+K';
+      }
+
+      // Add keyboard event listener
+      document.addEventListener('keydown', (e) => {
+        // Check for Ctrl+K (Windows/Linux) or Cmd+K (Mac)
+        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+          e.preventDefault();
+          const searchInput = document.querySelector('.pagefind-ui__search-input');
+          if (searchInput) {
+            searchInput.focus();
+          }
+        }
+
+        // Hide kbd hint on Escape
+        if (e.key === 'Escape') {
+          const searchInput = document.querySelector('.pagefind-ui__search-input');
+          if (searchInput && document.activeElement === searchInput) {
+            searchInput.blur();
+          }
+        }
+      });
+
+      // Hide kbd hint when search input is focused
+      const searchInput = document.querySelector('.pagefind-ui__search-input');
+      if (searchInput && kbd) {
+        searchInput.addEventListener('focus', () => {
+          kbd.style.opacity = '0';
+        });
+        searchInput.addEventListener('blur', () => {
+          kbd.style.opacity = '';
+        });
+      }
+    }
+
+    setupSearchShortcut();
+    document.addEventListener('astro:page-load', setupSearchShortcut);
   })();
 </script>
