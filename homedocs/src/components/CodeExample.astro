@@ -18,14 +18,23 @@ function parseSections(codeStr: string): {
   components?: string;
   index?: string;
 } {
-  const sections: { model?: string; controller?: string; components?: string; index?: string } = {};
+  const sections: {
+    model?: string;
+    controller?: string;
+    components?: string;
+    index?: string;
+  } = {};
 
   const sectionRegex =
     /\/\/\s*@(model|controller|components|index)[^\n]*\n([\s\S]*?)\/\/\s*@\1-end/g;
   let match;
 
   while ((match = sectionRegex.exec(codeStr)) !== null) {
-    const sectionName = match[1] as "model" | "controller" | "components" | "index";
+    const sectionName = match[1] as
+      | "model"
+      | "controller"
+      | "components"
+      | "index";
     sections[sectionName] = match[2].trim();
   }
 
@@ -60,7 +69,10 @@ function trimExportDefault(codeStr: string): string {
   const trimmed = codeStr.trim();
 
   // Handle single-line export default (with or without semicolon)
-  if (trimmed.startsWith("export default () => (") && (trimmed.endsWith(");") || trimmed.endsWith(")"))) {
+  if (
+    trimmed.startsWith("export default () => (") &&
+    (trimmed.endsWith(");") || trimmed.endsWith(")"))
+  ) {
     const endChars = trimmed.endsWith(");") ? 2 : 1;
     return trimmed.slice("export default () => (".length, -endChars).trim();
   }
@@ -113,6 +125,253 @@ const indexCode =
   sections.index ||
   code.replace(/\/\*\*\s*@jsxImportSource\s+\w+\s*\*\/\n?/, "").trim();
 
+// StackBlitz project generation functions
+function generateStackBlitzProject(
+  code: string,
+  imports: string | null,
+  sections: any,
+) {
+  return {
+    files: {
+      "package.json": generatePackageJson(),
+      "tsconfig.json": generateTsConfig(),
+      "vite.config.ts": generateViteConfig(),
+      "index.html": generateIndexHtml(),
+      "src/theme.css": generateThemeCss(),
+      "src/app.tsx": generateAppTsx(),
+      "src/index.tsx": generateIndexTsx(code, imports, sections),
+    },
+    template: "node" as const,
+    title: "CxJS Example",
+    description: "CxJS Code Example",
+  };
+}
+
+function generatePackageJson() {
+  return JSON.stringify(
+    {
+      name: "cxjs-example",
+      version: "1.0.0",
+      type: "module",
+      scripts: { dev: "vite", build: "vite build" },
+      dependencies: {
+        cx: "latest",
+        "cx-react": "latest",
+        "cx-theme-space-blue": "latest",
+        react: "^18.2.0",
+        "react-dom": "^18.2.0",
+      },
+      devDependencies: {
+        "@types/react": "^18.2.0",
+        "@types/react-dom": "^18.2.0",
+        typescript: "^5.0.0",
+        vite: "^5.0.0",
+      },
+    },
+    null,
+    2,
+  );
+}
+
+function generateTsConfig() {
+  return JSON.stringify(
+    {
+      compilerOptions: {
+        target: "ES2020",
+        module: "ESNext",
+        lib: ["ES2020", "DOM", "DOM.Iterable"],
+        jsx: "react-jsx",
+        jsxImportSource: "cx",
+        moduleResolution: "bundler",
+        resolveJsonModule: true,
+        allowImportingTsExtensions: true,
+        isolatedModules: true,
+        noEmit: true,
+        strict: true,
+        skipLibCheck: true,
+      },
+      include: ["src"],
+    },
+    null,
+    2,
+  );
+}
+
+function generateViteConfig() {
+  return `import { defineConfig } from "vite";
+
+export default defineConfig({
+  esbuild: {
+    loader: "tsx",
+    jsx: "automatic",
+    jsxImportSource: "cx",
+  },
+});`;
+}
+
+function generateIndexHtml() {
+  return `<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CxJS Example</title>
+    <style>
+      html, body { height: 100%; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+      #app { height: 100%; }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/app.tsx"></script>
+  </body>
+</html>`;
+}
+
+function generateThemeCss() {
+  return `@import "cx-theme-space-blue/dist/reset.css";
+@import "cx-theme-space-blue/dist/widgets.css";
+@import "cx-theme-space-blue/dist/charts.css";
+@import "cx-theme-space-blue/dist/svg.css";`;
+}
+
+function generateAppTsx() {
+  return `import "./theme.css";
+import { startAppLoop, createFunctionalComponent, cx } from "cx/ui";
+import { Store } from "cx/data";
+import Component from "./index";
+
+const store = new Store();
+
+const AppWrapper = createFunctionalComponent(() => (
+  <cx>
+    <div style={{ padding: "20px" }}>
+      <Component />
+    </div>
+  </cx>
+));
+
+startAppLoop(document.getElementById("app")!, store, AppWrapper);`;
+}
+
+// Check if code has complete example that can be run standalone
+function hasCompleteExample(code: string, imports: string | null): boolean {
+  // Must have imports
+  if (!imports) return false;
+
+  // Must have export default
+  if (!code.includes("export default")) return false;
+
+  // Should have some widget imports or usage
+  const hasWidgets = /import.*from\s+['"]cx\/widgets['"]/.test(code);
+  const hasJSX = /<[A-Z]/.test(code);
+
+  return hasWidgets || hasJSX;
+}
+
+function generateIndexTsx(
+  fullCode: string,
+  imports: string | null,
+  sections: any,
+) {
+  // Add createFunctionalComponent to imports if not present
+  let content = "";
+
+  if (imports) {
+    const hasCreateFunctionalComponent = imports.includes(
+      "createFunctionalComponent",
+    );
+
+    if (!hasCreateFunctionalComponent) {
+      // Find cx/ui import and add createFunctionalComponent to it
+      if (
+        imports.includes('from "cx/ui"') ||
+        imports.includes("from 'cx/ui'")
+      ) {
+        content =
+          imports.replace(
+            /import\s*\{([^}]+)\}\s*from\s*['"]cx\/ui['"]/,
+            (match, p1) =>
+              `import { ${p1.trim()}, createFunctionalComponent } from "cx/ui"`,
+          ) + "\n\n";
+      } else {
+        // No cx/ui import, add one
+        content =
+          'import { createFunctionalComponent } from "cx/ui";\n' +
+          imports +
+          "\n\n";
+      }
+    } else {
+      content = imports + "\n\n";
+    }
+  } else {
+    content = 'import { createFunctionalComponent } from "cx/ui";\n\n';
+  }
+
+  // Add model section if exists
+  if (sections.model) {
+    content += "// Model\n";
+    content += sections.model.trim() + "\n\n";
+  }
+
+  // Add controller section if exists
+  if (sections.controller) {
+    content += "// Controller\n";
+    content += sections.controller.trim() + "\n\n";
+  }
+
+  // Add components section if exists
+  if (sections.components) {
+    content += "// Components\n";
+    content += sections.components.trim() + "\n\n";
+  }
+
+  // Get the main component code
+  const indexCode =
+    sections.index ||
+    fullCode.replace(/\/\*\*\s*@jsxImportSource\s+\w+\s*\*\/\n?/, "").trim();
+
+  // Remove export default wrapper if it exists
+  const cleaned = trimExportDefault(indexCode);
+
+  // Check if code already has <cx> wrapper
+  const hasCxWrapper = cleaned.trim().startsWith("<cx>");
+
+  // Wrap the code properly
+  if (hasCxWrapper) {
+    // Code already has <cx>, just wrap in createFunctionalComponent
+    content += `export default createFunctionalComponent(() => ${cleaned.trim()});`;
+  } else {
+    // Add both <cx> wrapper and createFunctionalComponent
+    const indentedCode = cleaned
+      .split("\n")
+      .map((line) => "    " + line)
+      .join("\n");
+    content += `export default createFunctionalComponent(() => (\n  <cx>\n${indentedCode}\n  </cx>\n));`;
+  }
+
+  return content;
+}
+
+function generateModelFile(modelCode: string) {
+  const trimmed = modelCode.trim();
+  return `import { createAccessorModelProxy } from "cx/ui";
+
+${trimmed}
+
+export { m };`;
+}
+
+function generateControllerFile(controllerCode: string) {
+  const trimmed = controllerCode.trim();
+  return `import { Controller } from "cx/ui";
+import { m } from "./model";
+
+${trimmed}
+
+export { PageController };`;
+}
+
 // First trim export default wrapper, then format with Prettier
 let displayCode = trimExportDefault(indexCode);
 try {
@@ -136,12 +395,20 @@ const controllerCode = sections.controller
   ? normalizeIndent(sections.controller)
   : null;
 const modelCode = sections.model ? normalizeIndent(sections.model) : null;
-const componentsCode = sections.components ? normalizeIndent(sections.components) : null;
+const componentsCode = sections.components
+  ? normalizeIndent(sections.components)
+  : null;
 
 const hasTabs = controllerCode || modelCode || componentsCode;
 
 // Extract imports (only shown if there are other tabs)
 const importsCode = hasTabs ? extractImports(code) : null;
+
+// Check if this example is complete enough for StackBlitz
+const isCompleteExample = hasCompleteExample(code, extractImports(code));
+const stackblitzProject = isCompleteExample
+  ? generateStackBlitzProject(code, extractImports(code), sections)
+  : null;
 ---
 
 <div class="code-example my-8 relative" data-pagefind-ignore>
@@ -153,6 +420,46 @@ const importsCode = hasTabs ? extractImports(code) : null;
     <div
       class="code-block rounded-lg overflow-hidden border border-border bg-[hsl(var(--code-bg))]"
     >
+      {
+        !hasTabs && stackblitzProject && (
+          <div class="flex justify-end border-b border-[hsl(var(--code-border))]">
+            <button
+              class="stackblitz-btn px-3 py-2 text-xs font-medium transition-colors hover:text-white flex items-center gap-1.5"
+              data-project={JSON.stringify(stackblitzProject)}
+              style="color: rgba(255, 255, 255, 0.5);"
+              title="Open in StackBlitz"
+            >
+              <svg
+                class="w-3.5 h-3.5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <polyline
+                  points="15 3 21 3 21 9"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <line
+                  x1="10"
+                  x2="21"
+                  y1="14"
+                  y2="3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              <span class="hidden sm:inline">StackBlitz</span>
+            </button>
+          </div>
+        )
+      }
       {
         hasTabs && (
           <div class="code-tabs flex border-b border-[hsl(var(--code-border))]">
@@ -194,12 +501,42 @@ const importsCode = hasTabs ? extractImports(code) : null;
                 Imports
               </button>
             )}
-            <span
-              class="ml-auto px-4 py-2 text-xs font-medium uppercase"
-              style="color: rgba(255, 255, 255, 0.5);"
-            >
-              TSX
-            </span>
+            {stackblitzProject && (
+              <button
+                class="ml-auto stackblitz-btn px-3 py-2 text-xs font-medium transition-colors hover:text-white flex items-center gap-1.5 border-l border-[hsl(var(--code-border))]"
+                data-project={JSON.stringify(stackblitzProject)}
+                style="color: rgba(255, 255, 255, 0.5);"
+                title="Open in StackBlitz"
+              >
+                <svg
+                  class="w-3.5 h-3.5"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <polyline
+                    points="15 3 21 3 21 9"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <line
+                    x1="10"
+                    x2="21"
+                    y1="14"
+                    y2="3"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                <span class="hidden sm:inline">StackBlitz</span>
+              </button>
+            )}
           </div>
         )
       }
@@ -229,7 +566,11 @@ const importsCode = hasTabs ? extractImports(code) : null;
         {
           componentsCode && (
             <div class="code-content hidden" data-content="components">
-              <Code code={componentsCode} lang="tsx" theme="github-dark-dimmed" />
+              <Code
+                code={componentsCode}
+                lang="tsx"
+                theme="github-dark-dimmed"
+              />
             </div>
           )
         }
@@ -299,7 +640,6 @@ const importsCode = hasTabs ? extractImports(code) : null;
   :global(.not-prose hr) {
     margin: 0.5rem;
   }
-
 
   .code-tab {
     position: relative;
@@ -377,4 +717,33 @@ const importsCode = hasTabs ? extractImports(code) : null;
 
   initCodeExampleTabs();
   document.addEventListener("astro:page-load", initCodeExampleTabs);
+</script>
+
+<script>
+  import sdk from '@stackblitz/sdk';
+
+  function initStackBlitz() {
+    const buttons = document.querySelectorAll(".stackblitz-btn");
+
+    buttons.forEach((btn) => {
+      btn.addEventListener("click", async function () {
+        try {
+          //@ts-expect-error
+          const projectData = JSON.parse(this.dataset.project);
+
+          // Open project in new window
+          sdk.openProject(projectData, {
+            newWindow: true,
+            openFile: "src/index.tsx",
+          });
+        } catch (error) {
+          console.error("Failed to open StackBlitz:", error);
+          alert("Failed to open StackBlitz. Please try again.");
+        }
+      });
+    });
+  }
+
+  initStackBlitz();
+  document.addEventListener("astro:page-load", initStackBlitz);
 </script>
