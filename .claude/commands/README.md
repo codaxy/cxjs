@@ -2,76 +2,77 @@
 
 ## Overview
 
-CxJS Skill je specijalizovani Claude Code skill dizajniran za rad sa CxJS framework-om. Fokusira se na code quality, održavanje, i najbolje prakse.
+CxJS Skill is a specialized Claude Code skill designed for working with the CxJS framework. It focuses on code quality, maintenance, and best practices.
 
-## Funkcionalnosti
+## Features
 
 ### 1. Pattern Recognition
-- Prepoznaje CxJS pattern-e u kodu (widgets, controllers, stores)
-- Identifikuje anti-pattern-e i predlaže poboljšanja
-- Detektuje prilike za refactoring ka idiomatskom CxJS kodu
+- Recognizes CxJS patterns in code (widgets, controllers, stores)
+- Identifies anti-patterns and suggests improvements
+- Detects opportunities for refactoring to idiomatic CxJS code
 
 ### 2. Component Generation
-- Generiše CxJS komponente prema konvencijama
-- Koristi pravilne TypeScript tipove
-- Implementira proper data binding i lifecycle metode
+- Generates CxJS components following conventions
+- Uses proper TypeScript types
+- Implements proper data binding and lifecycle methods
+- **Always wraps components with `createFunctionalComponent`**
 
 ### 3. Data Binding & Store Management
-- Dizajnira efikasne store strukture
-- Implementira pravilne accessor chains
-- Postavlja computed values koristeći controllers
+- Designs efficient store structures
+- Implements proper accessor chains
+- Sets up computed values using controllers
 
 ### 4. Debugging & Troubleshooting
-- Identifikuje česte CxJS probleme
-- Nudi step-by-step debugging strategije
-- Referenciše CxJS dokumentaciju i primjere
+- Identifies common CxJS issues
+- Provides step-by-step debugging strategies
+- References CxJS documentation and examples
 
-## Kako koristiti
+## How to Use
 
-### Lokalno
+### Locally
 
-1. Skill je već konfigurisan u `.claude/commands/cxjs.md`
-2. Pozovi ga sa:
+1. The skill is already configured in `.claude/commands/cxjs.md`
+2. Invoke it with:
    ```
-   /cxjs [tvoj zahtjev]
+   /cxjs [your request]
    ```
 
-### Primjeri upotrebe
+### Usage Examples
 
-**Analiza postojećeg koda:**
+**Analyzing existing code:**
 ```
-/cxjs Analiziraj komponente u gallery/ direktoriju i predloži poboljšanja
+/cxjs Analyze components in the gallery/ directory and suggest improvements
 ```
 
-**Generisanje nove komponente:**
+**Generating a new component:**
 ```
-/cxjs Kreiraj Grid komponentu sa CRUD operacijama za user management
+/cxjs Create a Grid component with CRUD operations for user management
 ```
 
 **Debugging:**
 ```
-/cxjs Pomozi mi da debugujem zašto se binding ne ažurira u UserProfile komponenti
+/cxjs Help me debug why the binding isn't updating in the UserProfile component
 ```
 
 **Refactoring:**
 ```
-/cxjs Refaktoriši ovaj controller da koristi najbolje prakse za computed values
+/cxjs Refactor this controller to use best practices for computed values
 ```
 
-## Struktura Skill-a
+## Skill Structure
 
 ```
 .claude/
 └── commands/
-    ├── cxjs.md          # Glavni skill definicija
-    └── README.md        # Ova dokumentacija
+    ├── cxjs.md          # Main skill definition
+    └── README.md        # This documentation
 ```
 
-## Priprema za Objavu
+## Publishing Preparation
 
-Da bi CxJS skill postao javno dostupan plugin, potrebno je:
+To make the CxJS skill publicly available as a plugin, you need to:
 
-### 1. Kreirati Plugin Package
+### 1. Create Plugin Package
 
 ```json
 {
@@ -89,7 +90,7 @@ Da bi CxJS skill postao javno dostupan plugin, potrebno je:
 }
 ```
 
-### 2. Kreirati Plugin Manifest
+### 2. Create Plugin Manifest
 
 ```json
 {
@@ -115,7 +116,7 @@ Da bi CxJS skill postao javno dostupan plugin, potrebno je:
 }
 ```
 
-### 3. Organizovati Fajlove
+### 3. Organize Files
 
 ```
 cxjs-skill/
@@ -124,7 +125,7 @@ cxjs-skill/
 ├── README.md
 ├── LICENSE
 ├── prompts/
-│   └── cxjs.md           # Glavni skill prompt
+│   └── cxjs.md           # Main skill prompt
 ├── examples/
 │   ├── component-generation.md
 │   ├── debugging.md
@@ -134,29 +135,29 @@ cxjs-skill/
     └── usage.md
 ```
 
-### 4. Testiranje
+### 4. Testing
 
-Prije objave, testiraj skill sa različitim scenarijima:
-- [ ] Pattern recognition na postojećem CxJS kodu
-- [ ] Generisanje novih komponenti
-- [ ] Debugging čestih problema
-- [ ] Refactoring kompleksnih struktura
-- [ ] Integracija sa TypeScript projektima
+Before publishing, test the skill with different scenarios:
+- [ ] Pattern recognition on existing CxJS code
+- [ ] Generating new components (with `createFunctionalComponent`)
+- [ ] Debugging common issues
+- [ ] Refactoring complex structures
+- [ ] Integration with TypeScript projects
 
-### 5. Dokumentacija za Objavu
+### 5. Documentation for Publishing
 
-Pripremi:
-- Detaljnu README.md sa primjerima
-- CHANGELOG.md za verzionisanje
-- CONTRIBUTING.md za zajednicu
-- Primjere upotrebe
-- Video demonstraciju (opcionalno)
+Prepare:
+- Detailed README.md with examples
+- CHANGELOG.md for versioning
+- CONTRIBUTING.md for the community
+- Usage examples
+- Video demonstration (optional)
 
-### 6. Objava
+### 6. Publishing
 
-Opcije za distribuciju:
+Distribution options:
 
-#### A. Claude Plugin Registry (kada bude dostupan)
+#### A. Claude Plugin Registry (when available)
 ```bash
 claude plugin publish
 ```
@@ -172,36 +173,37 @@ git push origin v1.0.0
 npm publish
 ```
 
-Korisnici bi zatim mogli instalirati sa:
+Users could then install with:
 ```bash
 claude plugin install cxjs-skill
-# ili
+# or
 claude plugin install codaxy/cxjs-skill
 ```
 
-## Održavanje
+## Maintenance
 
-- Redovno ažuriraj skill sa novim CxJS pattern-ima
-- Dodaj nove primjere i use case-ove
-- Implementiraj feedback od korisnika
-- Prati CxJS releases i ažuriraj najbolje prakse
+- Regularly update the skill with new CxJS patterns
+- Add new examples and use cases
+- Implement user feedback
+- Track CxJS releases and update best practices
+- Ensure all component examples use `createFunctionalComponent`
 
-## Doprinos
+## Contributing
 
-Skill je open source i prihvata doprinose. Oblasti za poboljšanje:
-- Više template-a za komponente
-- Dodatni debugging scenariji
+The skill is open source and accepts contributions. Areas for improvement:
+- More component templates (all using `createFunctionalComponent`)
+- Additional debugging scenarios
 - Performance optimization patterns
 - Accessibility guidelines
-- Internacionalizacija primjera
+- Internationalization examples
 
-## Podrška
+## Support
 
-Za pitanja i podršku:
+For questions and support:
 - GitHub Issues: https://github.com/codaxy/cxjs
 - Discord: https://discord.gg/cxjs
 - Documentation: https://docs.cxjs.io
 
-## Licenca
+## License
 
-MIT License - Slobodno koristi, modifikuj i distribuiraj.
+MIT License - Feel free to use, modify and distribute.
