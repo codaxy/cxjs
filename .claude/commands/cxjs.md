@@ -79,7 +79,9 @@ const m = createModel<PageModel>();
 
 **IF Tailwind is available:**
 ```tsx
+import { cx, createFunctionalComponent } from 'cx/ui';
 import { createModel } from 'cx/data';
+import { TextField, Button } from 'cx/widgets';
 
 interface PageModel {
   user: { name: string };
@@ -87,18 +89,36 @@ interface PageModel {
 
 const m = createModel<PageModel>();
 
-<div className="flex flex-row gap-4 items-center">
-  <TextField label="Name" value={m.user.name} />
-  <Button>Submit</Button>
-</div>
+export const MyForm = createFunctionalComponent(() => (
+  <cx>
+    <div className="flex flex-row gap-4 items-center">
+      <TextField label="Name" value={m.user.name} />
+      <Button>Submit</Button>
+    </div>
+  </cx>
+));
 ```
 
 **IF Tailwind is NOT available:**
 ```tsx
-<div className="form-row" styles="display: flex; gap: 1rem; align-items: center">
-  <TextField label="Name" value={m.user.name} />
-  <Button>Submit</Button>
-</div>
+import { cx, createFunctionalComponent } from 'cx/ui';
+import { createModel } from 'cx/data';
+import { TextField, Button } from 'cx/widgets';
+
+interface PageModel {
+  user: { name: string };
+}
+
+const m = createModel<PageModel>();
+
+export const MyForm = createFunctionalComponent(() => (
+  <cx>
+    <div className="form-row" styles="display: flex; gap: 1rem; align-items: center">
+      <TextField label="Name" value={m.user.name} />
+      <Button>Submit</Button>
+    </div>
+  </cx>
+));
 ```
 
 ## Key CxJS Widget Properties
@@ -426,6 +446,7 @@ export const ProductGrid = createFunctionalComponent(() => (
 ## Code Quality Standards
 
 ### DO ✓
+- **ALWAYS use `createFunctionalComponent` for all components** - this is mandatory!
 - Write all code in TypeScript with proper types
 - Use `createModel<T>()` for typed accessor chains
 - Pass accessors directly to widget properties
@@ -439,6 +460,7 @@ export const ProductGrid = createFunctionalComponent(() => (
 - Use `getControllerByType()` for type-safe controller access
 
 ### DON'T ✗
+- **DON'T use plain arrow functions `() => (<cx>...</cx>)` - MUST wrap with `createFunctionalComponent`**
 - Use FlexRow or FlexCol components
 - Use string-based bindings (use accessor chains)
 - Use `bind()` everywhere (only for default values)
@@ -519,6 +541,7 @@ When analyzing CxJS code:
 
 ## Remember
 
+- **ALWAYS wrap components with `createFunctionalComponent`** - this is NOT optional!
 - **TypeScript is mandatory** for all new code
 - **Use createModel<T>()** for type-safe accessor chains
 - **Accessors ARE bindings** - pass them directly, no bind() needed
