@@ -53,6 +53,10 @@ export const navigation = [
           { title: "Migration Guide", slug: "migration-guide" },
         ],
       },
+      {
+        title: "Resources",
+        items: [{ title: "Sample Applications", slug: "sample-applications" }],
+      },
     ],
   },
   {
@@ -123,7 +127,6 @@ export const navigation = [
           { title: "Link", slug: "link" },
           { title: "LinkButton", slug: "link-button" },
           { title: "Icon", slug: "icon" },
-          { title: "Label", slug: "label" },
           { title: "ProgressBar", slug: "progress-bar" },
           { title: "Resizer", slug: "resizer" },
           { title: "HScroller", slug: "hscroller" },
@@ -181,52 +184,70 @@ export const navigation = [
     slug: "forms",
     groups: [
       {
-        title: "Components",
+        title: "Fields",
         items: [
           { title: "TextField", slug: "text-field" },
           { title: "TextArea", slug: "text-area" },
           { title: "NumberField", slug: "number-field" },
           { title: "Checkbox", slug: "checkbox" },
           { title: "Radio", slug: "radio" },
-          { title: "LookupField", slug: "lookup-field" },
           { title: "Select", slug: "select" },
           { title: "Switch", slug: "switch" },
-          { title: "DateField", slug: "date-field" },
-          { title: "Calendar", slug: "calendar" },
-          { title: "DateTimeField", slug: "date-time-field" },
-          { title: "MonthField", slug: "month-field" },
-          { title: "MonthPicker", slug: "month-picker" },
-          { title: "ColorField", slug: "color-field" },
-          { title: "ColorPicker", slug: "color-picker" },
-          { title: "UploadButton", slug: "upload-button" },
-          { title: "List", slug: "list" },
-          { title: "Slider", slug: "slider" },
         ],
       },
       {
         title: "Validation",
         items: [
+          { title: "Overview", slug: "validation" },
           { title: "ValidationGroup", slug: "validation-group" },
           { title: "Validator", slug: "validator" },
-          { title: "Validation Options", slug: "validation-options" },
+          { title: "ValidationError", slug: "validation-error" },
         ],
       },
       {
-        title: "Utilities",
+        title: "Lookups",
         items: [
+          { title: "LookupField", slug: "lookup-field" },
+          { title: "Custom Bindings", slug: "custom-lookup-bindings" },
+          { title: "Infinite List", slug: "infinite-lookup-list" },
+          { title: "Options Filter", slug: "lookup-options-filter" },
+          { title: "Options Grouping", slug: "lookup-options-grouping" },
+        ],
+      },
+      {
+        title: "Date & Time",
+        items: [
+          { title: "DateField", slug: "date-field" },
+          { title: "Calendar", slug: "calendar" },
+          { title: "DateTimeField", slug: "date-time-field" },
+          { title: "MonthField", slug: "month-field" },
+          { title: "MonthPicker", slug: "month-picker" },
+        ],
+      },
+      {
+        title: "File Upload",
+        items: [
+          { title: "UploadButton", slug: "upload-button" },
+          { title: "Multi-file Upload", slug: "multi-file-upload" },
+        ],
+      },
+      {
+        title: "Lists",
+        items: [
+          { title: "List", slug: "list" },
+          { title: "Grouping", slug: "list-grouping" },
+        ],
+      },
+      {
+        title: "General",
+        items: [
+          { title: "ColorField", slug: "color-field" },
+          { title: "ColorPicker", slug: "color-picker" },
+          { title: "Slider", slug: "slider" },
+          { title: "Label", slug: "label" },
           { title: "FieldGroup", slug: "field-group" },
           { title: "LabeledContainer", slug: "labeled-container" },
           { title: "HighlightedSearchText", slug: "highlighted-search-text" },
-        ],
-      },
-      {
-        title: "Examples",
-        items: [
-          { title: "Custom Lookup Bindings", slug: "custom-lookup-bindings" },
-          { title: "Infinite Lookup List", slug: "infinite-lookup-list" },
-          { title: "Lookup Options Filter", slug: "lookup-options-filter" },
-          { title: "Lookup Options Grouping", slug: "lookup-options-grouping" },
-          { title: "Multi-file Upload", slug: "multi-file-upload" },
         ],
       },
     ],
@@ -236,36 +257,67 @@ export const navigation = [
     slug: "tables",
     groups: [
       {
-        title: "Components",
+        title: "Basics",
         items: [
           { title: "Grid", slug: "grid" },
-          { title: "TreeGrid", slug: "tree-grid" },
+          { title: "Searching and Filtering", slug: "searching-and-filtering" },
+          { title: "Pagination", slug: "pagination" },
+          { title: "Multiple Selection", slug: "multiple-selection" },
+          { title: "Buffering", slug: "buffering" },
+          { title: "Infinite Scrolling", slug: "infinite-scrolling" },
         ],
       },
       {
-        title: "Examples",
+        title: "Columns",
         items: [
-          { title: "Buffering", slug: "buffering" },
-          { title: "Cell Editing", slug: "cell-editing" },
-          { title: "Column Reordering", slug: "column-reordering" },
-          { title: "Column Resizing", slug: "column-resizing" },
           { title: "Complex Headers", slug: "complex-headers" },
-          { title: "Dynamic Columns", slug: "dynamic-columns" },
-          { title: "Dynamic Grouping", slug: "dynamic-grouping" },
-          { title: "Fixed Columns", slug: "fixed-columns" },
-          { title: "Form Edit", slug: "form-edit" },
-          { title: "Grouping", slug: "grouping" },
           { title: "Header Menu", slug: "header-menu" },
-          { title: "Infinite Scrolling", slug: "infinite-scrolling" },
-          { title: "Inline Edit", slug: "inline-edit" },
-          { title: "Multiple Selection", slug: "multiple-selection" },
-          { title: "Pagination", slug: "pagination" },
-          { title: "Row Drag and Drop", slug: "row-drag-and-drop" },
-          { title: "Row Editing", slug: "row-editing" },
+          { title: "Column Resizing", slug: "column-resizing" },
+          { title: "Dynamic Columns", slug: "dynamic-columns" },
+          { title: "Column Reordering", slug: "column-reordering" },
+          { title: "Fixed Columns", slug: "fixed-columns" },
+        ],
+      },
+      {
+        title: "Rows",
+        items: [
           { title: "Row Expanding", slug: "row-expanding" },
-          { title: "Searching and Filtering", slug: "searching-and-filtering" },
-          { title: "Stateful TreeGrid", slug: "stateful-tree-grid" },
-          { title: "List Grouping", slug: "list-grouping" },
+          { title: "Row Drag and Drop", slug: "row-drag-and-drop" },
+        ],
+      },
+      {
+        title: "Editing",
+        items: [
+          { title: "Cell Editing", slug: "cell-editing" },
+          { title: "Row Editing", slug: "row-editing" },
+          { title: "Inline Edit", slug: "inline-edit" },
+          { title: "Form Edit", slug: "form-edit" },
+        ],
+      },
+      {
+        title: "Data Adapters",
+        items: [
+          { title: "Overview", slug: "data-adapters" },
+          { title: "ArrayAdapter", slug: "array-adapter" },
+          { title: "GroupAdapter", slug: "group-adapter" },
+          { title: "TreeAdapter", slug: "tree-adapter" },
+        ],
+      },
+      {
+        title: "Grouping",
+        items: [
+          { title: "Grouping", slug: "grouping" },
+          { title: "Dynamic Grouping", slug: "dynamic-grouping" },
+        ],
+      },
+      {
+        title: "Trees",
+        items: [
+          { title: "TreeNode", slug: "tree-node" },
+          { title: "Tree Grid", slug: "tree-grid" },
+          { title: "Searching Tree Grids", slug: "searching-tree-grids" },
+          { title: "Tree Operations", slug: "tree-operations" },
+          { title: "Tree Drag and Drop", slug: "tree-drag-and-drop" },
         ],
       },
     ],
@@ -336,6 +388,14 @@ export const navigation = [
     title: "Utilities",
     slug: "utilities",
     groups: [
+      {
+        title: "Data",
+        items: [
+          { title: "updateTree", slug: "update-tree" },
+          { title: "findTreeNode", slug: "find-tree-node" },
+          { title: "removeTreeNodes", slug: "remove-tree-nodes" },
+        ],
+      },
       {
         title: "Functions",
         items: [

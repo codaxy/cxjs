@@ -1,0 +1,86 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Column Resizing
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import ColumnResizingExample from "../../../examples/tables/ColumnResizingExample.tsx";
+import ColumnResizingExampleCode from "../../../examples/tables/ColumnResizingExample.tsx?raw";
+
+# Column Resizing
+
+Grid supports interactive column resizing. Users can drag column borders to adjust widths.
+
+<CodeExample code={ColumnResizingExampleCode}>
+  <ColumnResizingExample client:load />
+</CodeExample>
+
+Drag the column borders to resize. Double-click a border to auto-fit the column to its content.
+
+## Enabling Resizing
+
+Set `resizable: true` on a column to enable resizing:
+
+```tsx
+{
+  header: "Name",
+  field: "fullName",
+  resizable: true,
+}
+```
+
+## Persisting Column Widths
+
+Use a two-way binding for the `width` property to store column widths. Use `defaultWidth` for the initial width:
+
+```tsx
+{
+  header: {
+    text: "Name",
+    width: m.colWidth.fullName,
+    resizable: true,
+    defaultWidth: 200,
+  },
+  field: "fullName",
+}
+```
+
+When using complex headers, `width`, `resizable`, and `defaultWidth` should be defined in the header object.
+
+## Resetting Column Widths
+
+To reset column widths to defaults, clear both the store binding and the Grid's internal state:
+
+```tsx
+<Button
+  text="Reset column widths"
+  onClick={(e, instance) => {
+    // Get grid instance via controller
+    controller.gridInstance.setState({ colWidth: {} });
+    store.delete("colWidth");
+  }}
+/>
+```
+
+Use `onRef` to capture the Grid instance for state manipulation:
+
+```tsx
+<Grid
+  onRef={(el, instance) => {
+    instance.getControllerByType(PageController).gridInstance = instance;
+  }}
+  // ...
+/>
+```
+
+## Configuration
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `resizable` | `boolean` | Enable column resizing. |
+| `width` | `number` | Current column width in pixels. Can be bound to persist changes. |
+| `defaultWidth` | `number` | Initial column width before any resizing. |
+
+See also: [Column Reordering](/docs/tables/column-reordering), [Grid](/docs/tables/grid)

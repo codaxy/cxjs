@@ -9,7 +9,7 @@ export default () => (
       textAlign: "center",
       cursor: "context-menu",
     }}
-    onContextMenu={(e) => {
+    onContextMenu={(e, instance) => {
       openContextMenu(
         e,
         <Menu>
@@ -18,7 +18,7 @@ export default () => (
           <MenuItem autoClose>Paste</MenuItem>
           <MenuItem autoClose disabled>Delete</MenuItem>
         </Menu>,
-        e.instance
+        instance
       );
     }}
   >

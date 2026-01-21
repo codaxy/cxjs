@@ -1,0 +1,48 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Multiple Selection
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import MultipleSelectionExample from "../../../examples/tables/MultipleSelectionExample.tsx";
+import MultipleSelectionExampleCode from "../../../examples/tables/MultipleSelectionExample.tsx?raw";
+
+# Multiple Selection
+
+<ImportPath path="import { Grid, Checkbox } from 'cx/widgets';" />
+
+Grid supports multiple row selection using checkboxes. A "select all" checkbox in the header can toggle selection for all visible rows, with support for the indeterminate state when only some rows are selected.
+
+<CodeExample code={MultipleSelectionExampleCode}>
+  <MultipleSelectionExample client:load />
+</CodeExample>
+
+Click checkboxes to select individual rows. Use the header checkbox to select or deselect all visible rows. Try filtering to see how "select all" works with filtered data.
+
+## How It Works
+
+The example combines several features:
+
+1. **Checkbox column** - A column with checkboxes bound to each record's `selected` property
+2. **Select all checkbox** - A header checkbox that toggles all visible rows
+3. **Indeterminate state** - The header checkbox shows indeterminate when some (but not all) rows are selected
+4. **Filtered selection** - "Select all" only affects currently visible (filtered) rows
+
+The `onTrackMappedRecords` callback is called whenever the visible records change (due to filtering or sorting). It receives the current visible records, allowing the controller to track which records are visible and update the "select all" checkbox state accordingly.
+
+```tsx
+onTrackMappedRecords={(records, instance) =>
+  instance.getControllerByType(PageController).updateSelection(records)
+}
+```
+
+## Configuration
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `selection` | `object` | Selection configuration. Use `PropertySelection` with `multiple: true` for checkbox-based selection. |
+| `onTrackMappedRecords` | `string \| function` | Callback invoked when visible records change. Receives an array of record instances. |
+
+See also: [Searching and Filtering](/docs/tables/searching-and-filtering), [Selections](/docs/concepts/selections)

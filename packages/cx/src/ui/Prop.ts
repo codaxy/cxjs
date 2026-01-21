@@ -24,7 +24,7 @@ export type Binding = Bind | Tpl | Expr;
 
 export type GetSet<T> = {
    get: Selector<T>;
-   set?: (value: T, instance?: Instance) => boolean;
+   set?: (value: T, instance: Instance) => boolean;
    throttle?: number;
    debounce?: number;
 };

@@ -24,6 +24,9 @@ export interface MouseTrackerConfig extends BoundedObjectConfig {
 
    /** Name of the y-axis. Default is 'y'. */
    yAxis?: string;
+
+   /** Tooltip configuration. */
+   tooltip?: any;
 }
 
 export interface MouseTrackerInstance extends BoundedObjectInstance, TooltipParentInstance {

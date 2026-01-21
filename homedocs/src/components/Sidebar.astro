@@ -82,6 +82,9 @@ const currentSlug = pathParts[pathParts.length - 1];
 
 <script is:inline>
   (function() {
+    const SCROLL_KEY = 'sidebar-scroll';
+    const CATEGORY_KEY = 'sidebar-category';
+
     function closeMobileMenu() {
       const sidebar = document.getElementById('sidebar');
       const overlay = document.getElementById('sidebar-overlay');
@@ -93,6 +96,37 @@ const currentSlug = pathParts[pathParts.length - 1];
       overlay?.classList.add('hidden');
       menuIcon?.classList.remove('hidden');
       closeIcon?.classList.add('hidden');
+    }
+
+    function getScrollContainer() {
+      return document.querySelector('#sidebar > div');
+    }
+
+    function getCurrentCategory() {
+      // Extract category from URL pattern: /docs/{category}/{slug}
+      const match = window.location.pathname.match(/\/docs\/([^/]+)\//);
+      return match ? match[1] : null;
+    }
+
+    function saveScrollPosition() {
+      const container = getScrollContainer();
+      const category = getCurrentCategory();
+      if (container && category) {
+        sessionStorage.setItem(SCROLL_KEY, container.scrollTop.toString());
+        sessionStorage.setItem(CATEGORY_KEY, category);
+      }
+    }
+
+    function restoreScrollPosition() {
+      const container = getScrollContainer();
+      const savedScroll = sessionStorage.getItem(SCROLL_KEY);
+      const savedCategory = sessionStorage.getItem(CATEGORY_KEY);
+      const currentCategory = getCurrentCategory();
+
+      // Only restore scroll if staying in the same category
+      if (container && savedScroll && savedCategory === currentCategory) {
+        container.scrollTop = parseInt(savedScroll, 10);
+      }
     }
 
     // Only add listeners once
@@ -132,10 +166,19 @@ const currentSlug = pathParts[pathParts.length - 1];
 
       observeSidebar();
       document.addEventListener('astro:page-load', observeSidebar);
+
+      // Save scroll position before navigation
+      document.addEventListener('astro:before-preparation', saveScrollPosition);
+
+      // Restore scroll position after page load
+      document.addEventListener('astro:page-load', restoreScrollPosition);
     }
 
     // Reset overlay state on page load
     const overlay = document.getElementById('sidebar-overlay');
     overlay?.classList.add('hidden');
+
+    // Restore scroll on initial load
+    restoreScrollPosition();
   })();
 </script>

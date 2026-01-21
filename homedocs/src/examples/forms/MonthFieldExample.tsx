@@ -1,4 +1,4 @@
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 import { bind, LabelsTopLayout } from "cx/ui";
 import { MonthField } from "cx/widgets";
 
@@ -10,7 +10,7 @@ interface Model {
   placeholder: string;
 }
 
-const m = createAccessorModelProxy<Model>();
+const m = createModel<Model>();
 // @model-end
 
 // @index

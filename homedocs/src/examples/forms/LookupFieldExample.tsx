@@ -1,4 +1,4 @@
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 import { bind, LabelsTopLayout } from "cx/ui";
 import { LookupField } from "cx/widgets";
 
@@ -9,7 +9,7 @@ interface Model {
   selectedRecords: { id: number; text: string }[];
 }
 
-const m = createAccessorModelProxy<Model>();
+const m = createModel<Model>();
 
 const options = [
   { id: 1, text: "Apple" },

@@ -7,13 +7,23 @@ import {
   Bug,
   Calculator,
   Calendar,
+  Check,
   Eye,
   EyeOff,
+  File,
+  FileCode,
+  FileJson,
+  FileText,
   Folder,
+  FolderOpen,
+  LoaderCircle,
   Pencil,
   Plus,
   RefreshCw,
   Search,
+  Star,
+  Trash2,
+  Upload,
   X,
 } from "lucide";
 
@@ -46,6 +56,16 @@ Icon.register("x", getRenderer(X));
 Icon.register("folder", getRenderer(Folder));
 Icon.register("calendar", getRenderer(Calendar));
 Icon.register("calculator", getRenderer(Calculator));
+Icon.register("check", getRenderer(Check));
 Icon.register("bug", getRenderer(Bug));
 Icon.register("eye", getRenderer(Eye));
 Icon.register("eye-off", getRenderer(EyeOff));
+Icon.register("upload", getRenderer(Upload));
+Icon.register("star", getRenderer(Star));
+Icon.register("file", getRenderer(File));
+Icon.register("file-code", getRenderer(FileCode));
+Icon.register("file-json", getRenderer(FileJson));
+Icon.register("file-text", getRenderer(FileText));
+Icon.register("trash", getRenderer(Trash2));
+Icon.register("folder-open", getRenderer(FolderOpen));
+Icon.register("loading", getRenderer(LoaderCircle));

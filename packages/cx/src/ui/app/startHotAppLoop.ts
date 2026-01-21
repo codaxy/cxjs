@@ -1,7 +1,7 @@
-import { startAppLoop, StartAppLoopOptions } from "./startAppLoop";
-import { Widget, WidgetConfig } from "../Widget";
-import { Store } from "../../data/Store";
+import { View } from "../../data/View";
 import { Create } from "../../util/Component";
+import { Widget } from "../Widget";
+import { startAppLoop, StartAppLoopOptions } from "./startAppLoop";
 
 export interface HotModule {
    hot?: {
@@ -14,7 +14,7 @@ export interface HotModule {
 export function startHotAppLoop(
    appModule: HotModule,
    element: HTMLElement,
-   store: Store,
+   store: View,
    widgets: Create<typeof Widget> | Create<typeof Widget>[],
    options: StartAppLoopOptions = {},
 ): () => void {

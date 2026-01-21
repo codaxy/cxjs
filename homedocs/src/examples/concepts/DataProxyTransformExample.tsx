@@ -1,5 +1,5 @@
-import { createAccessorModelProxy } from "cx/data";
-import { computable, DataProxy, LabelsTopLayout } from "cx/ui";
+import { createModel } from "cx/data";
+import { computable, DataProxy, Instance, LabelsTopLayout } from "cx/ui";
 import { Slider } from "cx/widgets";
 
 // @model
@@ -7,14 +7,14 @@ interface PageModel {
   level: number;
 }
 
-const m = createAccessorModelProxy<PageModel>();
+const m = createModel<PageModel>();
 
 interface ProxyModel {
   $inverted: number;
   $readOnly: number;
 }
 
-const mProxy = createAccessorModelProxy<ProxyModel>();
+const mProxy = createModel<ProxyModel>();
 // @model-end
 
 // @index
@@ -28,7 +28,7 @@ export default () => (
       data={{
         $inverted: {
           expr: computable(m.level, (v) => 100 - v),
-          set: (value, { store }) => {
+          set: (value: number, { store }: Instance) => {
             store.set(m.level, 100 - value);
           },
         },

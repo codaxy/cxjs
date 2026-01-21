@@ -1,17 +1,15 @@
+import { getComparer } from "../../data/comparer";
+import { Grouper } from "../../data/Grouper";
+import { ReadOnlyDataView } from "../../data/ReadOnlyDataView";
+import { View } from "../../data/View";
+import { isDataRecord } from "../../util";
+import { isArray } from "../../util/isArray";
+import { Culture } from "../Culture";
+import { Instance } from "../Instance";
+import { Prop, SortDirection, Sorter, StructuredProp } from "../Prop";
+import { RenderingContext } from "../RenderingContext";
 import { ArrayAdapter, ArrayAdapterConfig, RecordStoreCache } from "./ArrayAdapter";
 import { DataAdapterRecord } from "./DataAdapter";
-import { ReadOnlyDataView } from "../../data/ReadOnlyDataView";
-import { Grouper } from "../../data/Grouper";
-import { isArray } from "../../util/isArray";
-import { isDefined } from "../../util/isDefined";
-import { getComparer } from "../../data/comparer";
-import { Culture } from "../Culture";
-import { isObject } from "../../util/isObject";
-import { RenderingContext } from "../RenderingContext";
-import { Instance } from "../Instance";
-import { View } from "../../data/View";
-import { Prop, Sorter, SortDirection, StructuredProp } from "../Prop";
-import { isDataRecord } from "../../util";
 
 export interface GroupKey {
    [field: string]: Prop<any> | { value: Prop<any>; direction: SortDirection };

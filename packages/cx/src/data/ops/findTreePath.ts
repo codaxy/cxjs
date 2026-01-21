@@ -1,7 +1,7 @@
 export function findTreePath<T = any>(
    array: T[] | undefined,
    criteria: (node: T) => boolean,
-   childrenField: keyof T = "$children" as keyof T,
+   childrenField: NoInfer<keyof T>,
    currentPath: T[] = [],
 ): T[] | false {
    if (!Array.isArray(array)) return false;
@@ -13,7 +13,12 @@ export function findTreePath<T = any>(
 
       const children = node[childrenField] as T[] | undefined;
 
-      const childPath = findTreePath(children, criteria, childrenField, currentPath);
+      const childPath = findTreePath(
+         children,
+         criteria,
+         childrenField,
+         currentPath,
+      );
       if (childPath) return childPath;
 
       currentPath.pop();

@@ -26,12 +26,7 @@ export default () => (
           }}
         >
           <Repeater records-bind="data" recordAlias="$point">
-            <Swimlane
-              size={0.9}
-              x-bind="$point.category"
-              vertical
-              colorIndex={11}
-            />
+            <Swimlane size={0.9} x-bind="$point.category" vertical />
             <Column
               colorIndex={0}
               width={0.5}

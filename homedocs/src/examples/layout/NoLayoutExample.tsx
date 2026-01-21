@@ -1,4 +1,4 @@
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 import { TextField, Checkbox } from "cx/widgets";
 
 // @model
@@ -7,7 +7,7 @@ interface FormModel {
   check: boolean;
 }
 
-const m = createAccessorModelProxy<FormModel>();
+const m = createModel<FormModel>();
 // @model-end
 
 // @index

@@ -1,0 +1,48 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Lookup Options Grouping
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+
+import LookupGroupingSingleExample from "../../../examples/forms/LookupGroupingSingleExample.tsx";
+import LookupGroupingSingleExampleCode from "../../../examples/forms/LookupGroupingSingleExample.tsx?raw";
+
+import LookupGroupingMultipleExample from "../../../examples/forms/LookupGroupingMultipleExample.tsx";
+import LookupGroupingMultipleExampleCode from "../../../examples/forms/LookupGroupingMultipleExample.tsx?raw";
+
+# Lookup Options Grouping
+
+Since `LookupField` uses a `List` widget internally to render dropdown contents, you can specify `grouping` configuration through the `listOptions` property to organize options into groups.
+
+## Single Level Grouping
+
+Group options by a single key with custom headers and footers. This example groups browsers by favorite status, showing favorites first with a star icon.
+
+<CodeExample code={LookupGroupingSingleExampleCode}>
+  <LookupGroupingSingleExample client:load />
+</CodeExample>
+
+## Multiple Level Grouping
+
+For hierarchical grouping, pass an array of grouping configurations. This example groups users first by operating system, then by browser.
+
+<CodeExample code={LookupGroupingMultipleExampleCode}>
+  <LookupGroupingMultipleExample client:load />
+</CodeExample>
+
+## Configuration
+
+| Property                | Type                | Description                                     |
+| ----------------------- | ------------------- | ----------------------------------------------- |
+| `listOptions.grouping`  | `object` or `array` | Single grouping config or array for multi-level |
+| `listOptions.itemStyle` | `string`            | CSS style applied to each option item           |
+
+### Grouping Object
+
+| Property     | Type     | Description                                             |
+| ------------ | -------- | ------------------------------------------------------- |
+| `key`        | `object` | Fields to group by with `value` binding and `direction` |
+| `aggregates` | `object` | Aggregate calculations (count, sum, etc.)               |
+| `header`     | `widget` | Widget rendered before each group                       |
+| `footer`     | `widget` | Widget rendered after each group                        |

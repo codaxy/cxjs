@@ -1,4 +1,4 @@
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 import { bind, expr, LabelsTopLayout } from "cx/ui";
 import { Switch } from "cx/widgets";
 
@@ -7,7 +7,7 @@ interface Model {
   enabled: boolean;
 }
 
-const m = createAccessorModelProxy<Model>();
+const m = createModel<Model>();
 // @model-end
 
 // @index

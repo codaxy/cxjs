@@ -172,13 +172,14 @@ $cx-default-list-item-padding: 8px 12px;
 
 $cx-default-switch-range-background-color: #1f99f8;
 
-$cx-default-grid-data-padding: 8px 16px;
+$cx-default-grid-data-padding: 8px 12px;
 $cx-default-grid-header-font-weight: 700;
-$cx-default-grid-header-font-size: 11px;
+$cx-default-grid-header-font-size: 12px;
 $cx-default-grid-header-background-color: rgba(#eee, 0.25) !default;
 $cx-default-grid-header-color: rgba(black, 0.6);
 $cx-default-grid-border-color: rgb(237, 242, 247);
-$cx-default-grid-header-border-color: #ddd;
+$cx-default-grid-header-border-color: hsl(var(--border));
+$cx-default-grid-border-color: hsl(var(--border));
 
 $cx-default-window-footer-background-color: transparent;
 $cx-default-window-header-background-color: transparent;
@@ -749,19 +750,19 @@ $cx-dropdown-styles: cx-deep-map-merge(
 // Grid
 .cxb-grid {
   background-color: hsl(var(--card));
-  border-color: hsl(var(--border));
-  border-radius: var(--radius);
+  //border-color: hsl(var(--border));
+  //border-radius: var(--radius);
   overflow: hidden;
 
   .cxe-grid-header {
     background-color: hsl(var(--muted));
-    border-color: hsl(var(--border));
+    //border-color: hsl(var(--border));
     color: hsl(var(--muted-foreground));
     font-weight: 500;
   }
 
-  .cxe-grid-header-cell {
-    border-color: hsl(var(--border));
+  &.cxs-vlines .cxe-grid-col-header:not(:last-child) {
+    border-right-color: hsl(var(--border));
   }
 
   .cxe-grid-data {
@@ -787,16 +788,12 @@ $cx-dropdown-styles: cx-deep-map-merge(
 
 // Menu
 .cxb-menu {
-  background-color: hsl(var(--popover));
-  border-color: hsl(var(--border));
-  border-radius: var(--radius);
+  // background-color: hsl(var(--popover));
+  // border-color: hsl(var(--border));
+  // border-radius: var(--radius);
 
   .cxe-menu-item {
     color: hsl(var(--popover-foreground));
-
-    &:hover {
-      background-color: hsl(var(--muted));
-    }
   }
 }
 
@@ -964,14 +961,6 @@ $cx-dropdown-styles: cx-deep-map-merge(
 .cxb-treenode {
   color: hsl(var(--foreground));
   transition: background-color 0.15s;
-
-  &:hover {
-    background-color: hsl(var(--muted));
-  }
-
-  &.cxs-selected {
-    background-color: hsl(var(--accent));
-  }
 }
 
 // ColorPicker
@@ -1317,12 +1306,16 @@ $cx-dropdown-styles: cx-deep-map-merge(
   --pagefind-ui-tag: hsl(var(--muted));
   --pagefind-ui-border-width: 1px;
   --pagefind-ui-border-radius: 0.375rem;
-  --pagefind-ui-font: inherit;
+  --pagefind-ui-font: "Inter", system-ui, sans-serif;
   position: relative;
 }
 
 .pagefind-ui .pagefind-ui__form {
   position: relative;
+}
+
+.pagefind-ui .pagefind-ui__results-area {
+  margin-top: 0 !important;
 }
 
 .pagefind-ui .pagefind-ui__search-input {
@@ -1334,6 +1327,7 @@ $cx-dropdown-styles: cx-deep-map-merge(
   border: 1px solid hsl(var(--border)) !important;
   border-radius: 6px !important;
   color: hsl(var(--foreground)) !important;
+  font-weight: 400 !important;
 
   &::placeholder {
     color: hsl(var(--muted-foreground));
@@ -1414,7 +1408,6 @@ $cx-dropdown-styles: cx-deep-map-merge(
     0 4px 24px -4px rgba(0, 0, 0, 0.15),
     0 8px 32px -8px rgba(0, 0, 0, 0.1);
   z-index: 100;
-  padding: 8px;
 }
 
 .pagefind-ui .pagefind-ui__message {
@@ -1425,14 +1418,27 @@ $cx-dropdown-styles: cx-deep-map-merge(
 }
 
 .pagefind-ui .pagefind-ui__result {
-  padding: 8px 12px !important;
-  border-radius: 6px;
+  position: relative;
+  padding: 12px 16px !important;
   transition: background 0.15s ease;
   list-style: none !important;
 
   &:hover {
     background: hsl(var(--secondary));
   }
+}
+
+.pagefind-ui__button {
+  margin: 16px !important;
+  width: calc(100% - 32px) !important;
+}
+
+// Make the entire result clickable by stretching the link
+.pagefind-ui .pagefind-ui__result-link::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
 }
 
 .pagefind-ui .pagefind-ui__results {
@@ -1444,6 +1450,7 @@ $cx-dropdown-styles: cx-deep-map-merge(
   display: flex;
   flex-direction: column;
   gap: 4px;
+  margin: 0 !important;
 }
 
 .pagefind-ui .pagefind-ui__result-title {
@@ -1454,7 +1461,7 @@ $cx-dropdown-styles: cx-deep-map-merge(
   color: hsl(var(--foreground));
   font-weight: 600;
   font-size: 14px;
-  text-decoration: none;
+  text-decoration: none !important;
 
   &:hover {
     color: hsl(var(--primary));

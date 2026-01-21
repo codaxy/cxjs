@@ -25,10 +25,10 @@ Rescope selects a common prefix for data bindings, enabling shorter paths within
 When using Rescope, create a separate model proxy for the rescoped context:
 
 ```tsx
-const m = createAccessorModelProxy<PageModel>();
+const m = createModel<PageModel>();
 
 // Model for rescoped context
-const mManager = createAccessorModelProxy<Manager>();
+const mManager = createModel<Manager>();
 ```
 
 Then use the rescoped model within the Rescope children:

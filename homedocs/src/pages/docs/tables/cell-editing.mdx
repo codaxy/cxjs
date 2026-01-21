@@ -1,0 +1,78 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Cell Editing
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+
+import CellEditingExample from "../../../examples/tables/CellEditingExample.tsx";
+import CellEditingExampleCode from "../../../examples/tables/CellEditingExample.tsx?raw";
+
+# Cell Editing
+
+Grid supports Excel-like cell editing where users click on a cell to edit its value.
+
+<CodeExample code={CellEditingExampleCode}>
+  <CellEditingExample client:load />
+</CodeExample>
+
+Click on any cell to edit it. Press Enter to confirm or Escape to cancel.
+
+## Enabling Cell Editing
+
+Set the `cellEditable` flag on the Grid and specify `editor` configurations for editable columns:
+
+```tsx
+<Grid
+  cellEditable
+  lockColumnWidths
+  onCellEdited={(change, record) => {
+    console.log("Cell edited:", change, record);
+  }}
+  columns={[
+    {
+      header: "Name",
+      field: "fullName",
+      editor: <TextField value={m.$record.fullName} required />,
+    },
+    {
+      header: "Browser",
+      field: "browser",
+      editor: <LookupField value={m.$record.browser} options={browserOptions} autoOpen />,
+    },
+  ]}
+/>
+```
+
+## Editor Configuration
+
+The `editor` property accepts any widget configuration. Common editors include:
+
+- `TextField` for text input
+- `NumberField` for numeric values
+- `LookupField` for dropdown selection (use `autoOpen` and `submitOnEnterKey` for better UX)
+- `Select` for simple option lists
+
+## onCellEdited Callback
+
+The `onCellEdited` callback is triggered when a cell value changes:
+
+```tsx
+onCellEdited={(change, record) => {
+  // change contains: { field, oldValue, newValue }
+  // record contains the updated record data
+  saveToDatabase(record);
+}}
+```
+
+## Configuration
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `cellEditable` | `boolean` | Enable cell editing mode. |
+| `lockColumnWidths` | `boolean` | Prevent column widths from changing when editing starts. |
+| `onCellEdited` | `function` | Callback when a cell value changes. |
+| `editor` | `Widget` | Column property specifying the editor widget. |
+| `editable` | `boolean` | Column property to disable editing for specific columns. |
+
+See also: [Row Editing](/docs/tables/row-editing), [Inline Edit](/docs/tables/inline-edit)

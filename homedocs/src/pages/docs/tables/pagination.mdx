@@ -1,0 +1,63 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Pagination
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import PaginationExample from "../../../examples/tables/PaginationExample.tsx";
+import PaginationExampleCode from "../../../examples/tables/PaginationExample.tsx?raw";
+
+# Pagination
+
+<ImportPath path="import { Grid, Pagination } from 'cx/widgets';" />
+
+Grid is commonly used with server-side pagination, sorting, and filtering. The `Pagination` widget provides navigation controls, while reactive triggers manage data fetching.
+
+<CodeExample code={PaginationExampleCode}>
+  <PaginationExample client:load />
+</CodeExample>
+
+Click column headers to sort. Type in the filter fields and press Enter to filter. Use the pagination controls to navigate between pages.
+
+## How It Works
+
+Server-side pagination requires coordination between the Grid, Pagination widget, and a controller that fetches data. The key concepts are:
+
+1. **Remote sorting** - Set `remoteSort` on the Grid to prevent client-side sorting
+2. **Filter inputs in headers** - Use `header2` with `children` for filter fields
+3. **Reactive triggers** - Use `addTrigger` to fetch data when parameters change
+4. **Lock column widths** - Use `lockColumnWidths` to prevent layout shifts during data loads
+
+```tsx
+// Reset to page 1 when filters or page size change
+this.addTrigger("resetPage", [m.pageSize, m.sorters, m.filter], () => {
+  this.store.set(m.page, 1);
+}, true);
+
+// Fetch data when any pagination parameter changes
+this.addTrigger("fetchData", [m.pageSize, m.page, m.sorters, m.filter],
+  (size, page, sorters, filter) => {
+    // Server call would go here
+    // Update m.records and m.pageCount with results
+  },
+  true
+);
+```
+
+## Grid Configuration
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `sorters` | `Prop<Sorter[]>` | Bound to the current sorting state. |
+| `remoteSort` | `boolean` | Disables client-side sorting when `true`. |
+| `lockColumnWidths` | `boolean` | Locks column widths to prevent layout shifts during data updates. |
+
+## Pagination Configuration
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `page` | `Prop<number>` | Currently selected page (1-indexed). |
+| `pageCount` | `Prop<number>` | Total number of pages. |
+| `length` | `number` | Number of page buttons to display. Default is `5`. |

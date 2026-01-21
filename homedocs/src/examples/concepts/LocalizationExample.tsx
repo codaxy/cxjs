@@ -1,4 +1,4 @@
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 import { ContentResolver, Controller, Culture, LabelsTopLayout } from "cx/ui";
 import { Calendar, LookupField, NumberField, enableTooltips } from "cx/widgets";
 
@@ -19,7 +19,7 @@ interface PageModel {
   currencies: Option[];
 }
 
-const m = createAccessorModelProxy<PageModel>();
+const m = createModel<PageModel>();
 
 // @model-end
 

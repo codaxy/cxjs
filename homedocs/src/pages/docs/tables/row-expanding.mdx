@@ -1,0 +1,96 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Row Expanding
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import RowExpandingExample from "../../../examples/tables/RowExpandingExample.tsx";
+import RowExpandingExampleCode from "../../../examples/tables/RowExpandingExample.tsx?raw";
+
+# Row Expanding
+
+Grid supports rendering rows with multiple lines. Lines can be shown or hidden dynamically, enabling drill-down functionality and on-demand content display.
+
+<CodeExample code={RowExpandingExampleCode}>
+  <RowExpandingExample client:load />
+</CodeExample>
+
+Click the arrow button to expand a row and see additional details.
+
+## Multi-line Rows
+
+Use the `row` property with `line1`, `line2`, etc. to define multiple row lines:
+
+```tsx
+<Grid
+  records={m.records}
+  row={{
+    line1: {
+      columns: [
+        { header: "Name", field: "fullName" },
+        // ... main columns
+      ],
+    },
+    line2: {
+      visible: m.$record.expanded,
+      columns: [
+        {
+          colSpan: 1000,
+          items: <div text={m.$record.details} />,
+        },
+      ],
+    },
+  }}
+/>
+```
+
+## Controlling Visibility
+
+Bind line visibility to record state:
+
+```tsx
+line2: {
+  visible: m.$record.expanded,
+  columns: [/* ... */],
+}
+```
+
+Toggle expansion with a button:
+
+```tsx
+<Button
+  icon="drop-down"
+  onClick={(e, { store }) => {
+    store.toggle(m.$record.expanded);
+  }}
+/>
+```
+
+## Styling Expanded Rows
+
+Use `expr` to conditionally style expanded rows:
+
+```tsx
+row={{
+  style: {
+    background: expr(m.$record.expanded, (expanded) =>
+      expanded ? "#fff7e6" : null
+    ),
+  },
+  // ...
+}}
+```
+
+## Configuration
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `row` | `object` | Row configuration with `line1`, `line2`, etc. |
+| `line1`, `line2`, ... | `object` | Line configuration with `columns` and `visible`. |
+| `visible` | `boolean` | Line visibility. Can be bound to record state. |
+| `colSpan` | `number` | Column span for expanded content. Use a large number like 1000 to span all columns. |
+| `lockColumnWidths` | `boolean` | Recommended when using multi-line rows to prevent layout shifts. |
+
+See also: [Grid](/docs/tables/grid), [Row Drag and Drop](/docs/tables/row-drag-and-drop)

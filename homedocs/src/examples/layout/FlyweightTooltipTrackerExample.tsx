@@ -20,6 +20,7 @@ export default () => (
       onGetTooltip={(el) => {
         // Show full text for truncated elements
         if (
+          el instanceof HTMLElement &&
           el.classList.contains("ellipsis") &&
           el.scrollWidth > el.clientWidth
         ) {
@@ -32,7 +33,7 @@ export default () => (
         // Show URL for links
         if (el.tagName === "A" && el.getAttribute("href")?.startsWith("http")) {
           return {
-            text: el.getAttribute("href"),
+            text: el.getAttribute("href")!,
             placement: "up",
           };
         }

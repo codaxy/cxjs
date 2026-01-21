@@ -1,4 +1,4 @@
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 import { bind, LabelsTopLayout } from "cx/ui";
 import { NumberField } from "cx/widgets";
 
@@ -9,7 +9,7 @@ interface Model {
   quantity: number;
 }
 
-const m = createAccessorModelProxy<Model>();
+const m = createModel<Model>();
 // @model-end
 
 // @index

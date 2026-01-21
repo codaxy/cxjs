@@ -1,4 +1,4 @@
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 import { Controller } from "cx/ui";
 import { DragHandle, DragSource, DropZone, Repeater } from "cx/widgets";
 
@@ -14,7 +14,7 @@ interface PageModel {
   $index: number;
 }
 
-const m = createAccessorModelProxy<PageModel>();
+const m = createModel<PageModel>();
 // @model-end
 
 // @controller
@@ -58,10 +58,8 @@ export default () => (
       />
       <DragSource data={m.$record} hideOnDrag handled>
         <div class="flex items-center gap-2 p-2 border rounded bg-white">
-          <DragHandle>
-            <div class="cursor-move text-gray-400 hover:text-gray-600 px-1">
-              ⋮⋮
-            </div>
+          <DragHandle class="cursor-move text-gray-400 hover:text-gray-600 px-1">
+            ⋮⋮
           </DragHandle>
           <span text={m.$record.text} />
         </div>

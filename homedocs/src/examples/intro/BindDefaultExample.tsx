@@ -1,4 +1,4 @@
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 import { bind } from "cx/ui";
 import { TextField, NumberField } from "cx/widgets";
 
@@ -8,7 +8,7 @@ interface PageModel {
   count: number;
 }
 
-const m = createAccessorModelProxy<PageModel>();
+const m = createModel<PageModel>();
 // @model-end
 
 // @index

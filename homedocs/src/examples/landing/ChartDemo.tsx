@@ -67,7 +67,7 @@ export default () => (
             yField="sales"
             name="Sales"
             area
-            style="fill: rgba(39, 170, 225, 0.2);"
+            areaStyle="fill: rgba(39, 170, 225, 0.2);"
           />
           <LineGraph
             data-bind="data"

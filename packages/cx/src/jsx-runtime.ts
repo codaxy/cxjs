@@ -6,6 +6,9 @@ import { isString } from "./util/isString";
 import { HtmlElement, HtmlElementConfig } from "./widgets/HtmlElement";
 import { ReactElementWrapper, ReactElementWrapperConfig } from "./widgets/ReactElementWrapper";
 
+// Fragment symbol for supporting <>...</> syntax
+export const Fragment = Symbol.for("cx.fragment");
+
 export function jsx(typeName: any, props: any, key?: string): any {
    if (isArray(typeName)) return typeName;
 
@@ -23,7 +26,7 @@ export function jsx(typeName: any, props: any, key?: string): any {
 
    if (props.children && props.children.length == 1) props.children = props.children[0];
 
-   if (typeName == "cx") return props.children;
+   if (typeName == "cx" || typeName === Fragment) return props.children;
 
    if (isString(typeName) && typeName[0] == typeName[0].toLowerCase()) {
       props.tag = typeName;

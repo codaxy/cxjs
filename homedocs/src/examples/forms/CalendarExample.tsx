@@ -1,4 +1,4 @@
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 import { bind } from "cx/ui";
 import { Calendar } from "cx/widgets";
 
@@ -7,7 +7,7 @@ interface Model {
   date: string;
 }
 
-const m = createAccessorModelProxy<Model>();
+const m = createModel<Model>();
 // @model-end
 
 // @index

@@ -1,5 +1,5 @@
-import { createAccessorModelProxy } from "cx/data";
-import { expr } from "cx/ui";
+import { createModel } from "cx/data";
+import { Controller, expr } from "cx/ui";
 import { getSearchQueryPredicate } from "cx/util";
 import { HighlightedSearchText, Repeater, TextField } from "cx/widgets";
 
@@ -15,11 +15,11 @@ interface PageModel {
   search: string;
 }
 
-const m = createAccessorModelProxy<PageModel>();
+const m = createModel<PageModel>();
 // @model-end
 
 // @controller
-const controller = {
+class PageController extends Controller {
   onInit() {
     this.store.init(m.products, [
       { name: "Banana", price: 1.2 },
@@ -31,13 +31,13 @@ const controller = {
       { name: "Grapes", price: 2.8 },
       { name: "Watermelon", price: 5.0 },
     ]);
-  },
-};
+  }
+}
 // @controller-end
 
 // @index
 export default () => (
-  <div class="flex flex-col gap-4" controller={controller}>
+  <div class="flex flex-col gap-4" controller={PageController}>
     <TextField value={m.search} placeholder="Filter by name..." />
     <Repeater
       records={m.products}

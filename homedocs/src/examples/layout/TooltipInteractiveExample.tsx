@@ -1,4 +1,4 @@
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 import { enableTooltips, Checkbox } from "cx/widgets";
 
 enableTooltips();
@@ -9,7 +9,7 @@ interface PageModel {
   tooltipVisible: boolean;
 }
 
-const m = createAccessorModelProxy<PageModel>();
+const m = createModel<PageModel>();
 // @model-end
 
 // @index

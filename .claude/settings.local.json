@@ -31,7 +31,8 @@
       "Bash(yarn compile:*)",
       "Bash(cat:*)",
       "Bash(yarn remove:*)",
-      "Bash(yarn add:*)"
+      "Bash(yarn add:*)",
+      "Bash(pushd:*)"
     ],
     "deny": [],
     "ask": []

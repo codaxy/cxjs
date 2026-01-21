@@ -1,4 +1,4 @@
-import { createAccessorModelProxy } from "cx/data";
+import { createModel } from "cx/data";
 import { LabelsTopLayout } from "cx/ui";
 import { TextField } from "cx/widgets";
 
@@ -12,7 +12,7 @@ interface FormModel {
   field6: string;
 }
 
-const m = createAccessorModelProxy<FormModel>();
+const m = createModel<FormModel>();
 // @model-end
 
 // @index

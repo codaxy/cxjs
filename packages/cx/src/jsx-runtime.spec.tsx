@@ -465,4 +465,44 @@ describe("jsx-runtime type inference", () => {
          assert.ok(widget.jsxAttributes.includes("key"));
       });
    });
+
+   describe("Fragment", () => {
+      it("returns single child directly", () => {
+         const widget = (
+            <cx>
+               <>
+                  <div text="Hello" />
+               </>
+            </cx>
+         );
+         assert.ok(widget);
+         assert.equal(widget.$type.name, "HtmlElement");
+      });
+
+      it("returns array of children", () => {
+         const widget = (
+            <cx>
+               <>
+                  <div text="Hello" />
+                  <div text="World" />
+               </>
+            </cx>
+         );
+         assert.ok(Array.isArray(widget));
+         assert.equal(widget.length, 2);
+      });
+
+      it("works with widgets inside fragment", () => {
+         const widget = (
+            <cx>
+               <>
+                  <Button text="Click" />
+                  <TextField value={bind("name")} />
+               </>
+            </cx>
+         );
+         assert.ok(Array.isArray(widget));
+         assert.equal(widget.length, 2);
+      });
+   });
 });

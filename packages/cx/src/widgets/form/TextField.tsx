@@ -92,14 +92,14 @@ export interface TextFieldConfig extends FieldConfig {
     | string
     | ((e: KeyboardEvent, instance: Instance) => boolean | void);
 
-  /** Custom validation function. */
+  /** Custom validation function. Can return a Promise for async validation. */
   onValidate?:
     | string
     | ((
         value: string,
         instance: Instance,
         validationParams: any
-      ) => string | undefined | false);
+      ) => string | undefined | false | Promise<string | undefined | false>);
 }
 
 // Legacy alias for backward compatibility
