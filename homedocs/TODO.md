@@ -9,3 +9,4 @@
 [ ] Homepage examples
 [ ] Theme
 [ ] HoverSync is broken
+[ ] NumberField wheel example
