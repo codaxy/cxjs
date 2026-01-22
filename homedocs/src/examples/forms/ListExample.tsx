@@ -27,7 +27,7 @@ class PageController extends Controller<typeof m> {
         id: i + 1,
         text: `Item ${i + 1}`,
         description: `Description for item ${i + 1}`,
-      }))
+      })),
     );
   }
 }

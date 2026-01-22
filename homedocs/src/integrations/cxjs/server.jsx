@@ -50,7 +50,7 @@ export default {
   },
 
   renderToStaticMarkup(Component, props, { default: children, ...slotted }) {
-    const store = new Store();
+    const store = new Store({ sealed: true });
 
     let widget;
     // If it's directly a CxJS widget config object

@@ -81,13 +81,15 @@ function trimExportDefault(codeStr: string): string {
   if (trimmed.startsWith("export default (")) {
     const lines = trimmed.split("\n");
     // Remove first line (export default ()
-    lines.shift();
-    // Remove last line if it's just ) or );
-    const lastLine = lines[lines.length - 1].trim();
-    if (lastLine === ");" || lastLine === ")") {
-      lines.pop();
+    if (lines.length > 1)  {
+        lines.shift();
+      // Remove last line if it's just ) or );
+      const lastLine = lines[lines.length - 1].trim();
+      if (lastLine === ");" || lastLine === ")") {
+        lines.pop();
+      }
+      return lines.join("\n").trim();
     }
-    return lines.join("\n").trim();
   }
 
   return trimmed;
