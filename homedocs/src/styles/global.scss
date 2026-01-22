@@ -1126,7 +1126,8 @@ $cx-dropdown-styles: cx-deep-map-merge(
   content: none;
 }
 
-.prose p code {
+.prose p code,
+.prose li code {
   font-size: inherit;
   font-weight: 600;
   color: var(--sl-color-text-accent);
