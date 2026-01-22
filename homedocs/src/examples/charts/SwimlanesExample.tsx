@@ -57,7 +57,7 @@ class PageController extends Controller {
 // @controller-end
 
 // @index
-export default () => (
+export default (
   <div controller={PageController} style="display: flex; gap: 16px">
     <Svg style="flex: 1; height: 400px">
       <Chart

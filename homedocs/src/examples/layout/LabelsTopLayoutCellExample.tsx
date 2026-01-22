@@ -14,7 +14,7 @@ const m = createModel<FormModel>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <LabelsTopLayout columns={3}>
     <TextField label="Field 1" value={m.field1} />
     <TextField label="Field 2" value={m.field2} />

@@ -14,7 +14,7 @@ const m = createModel<PageModel>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <div class="flex gap-8 items-center">
     <LabelsLeftLayout>
       <Slider label="Red" value={bind(m.red, 0)} minValue={0} maxValue={255} />

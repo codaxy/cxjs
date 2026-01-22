@@ -48,7 +48,7 @@ class PageController extends Controller<typeof m> {
 // @controller-end
 
 // @index
-export default () => (
+export default (
   <div controller={PageController}>
     <div className="flex gap-4 mb-4">
       <TextField value={m.search} icon="search" placeholder="Search..." />

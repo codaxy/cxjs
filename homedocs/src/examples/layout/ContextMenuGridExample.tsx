@@ -10,7 +10,7 @@ const m = createModel<PageModel>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <Grid
     records={[
       { id: 1, name: "Item 1", value: 100 },

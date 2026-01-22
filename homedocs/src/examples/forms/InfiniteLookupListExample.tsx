@@ -66,7 +66,7 @@ class PageController extends Controller {
 // @controller-end
 
 // @index
-export default () => (
+export default (
   <LabelsTopLayout vertical controller={PageController}>
     <LookupField
       label="Select Cities"

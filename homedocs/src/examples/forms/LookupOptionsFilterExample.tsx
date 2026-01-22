@@ -66,7 +66,7 @@ class PageController extends Controller<typeof m> {
 // @controller-end
 
 // @index
-export default () => (
+export default (
   <div controller={PageController} class="space-y-6">
     <LabelsTopLayout vertical>
       <LabeledContainer label="Allowed Countries">

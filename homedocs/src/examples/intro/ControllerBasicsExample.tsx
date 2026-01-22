@@ -29,7 +29,7 @@ class PageController extends Controller {
 // @controller-end
 
 // @index
-export default () => (
+export default (
   <div controller={PageController} class="flex flex-col gap-4">
     <div class="flex gap-2">
       <TextField value={m.name} />

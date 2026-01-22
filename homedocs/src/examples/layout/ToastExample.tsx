@@ -12,7 +12,7 @@ const m = createModel<PageModel>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
     <Button
       onClick={(e, { store }) => {

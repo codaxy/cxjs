@@ -16,7 +16,7 @@ const m = createModel<Model>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <div class="flex gap-8">
     <LabelsLeftLayout>
       <Slider

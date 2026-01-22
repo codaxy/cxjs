@@ -12,7 +12,7 @@ const m = createModel<Model>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <MonthPicker range from={bind(m.from, "2024-03-01")} to={bind(m.to, "2024-06-01")} style="height: 25em" />
 );
 // @index-end

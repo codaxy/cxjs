@@ -27,7 +27,7 @@ const m = createModel<Model>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <div>
     <Svg style="width: 100%; height: 300px">
       <Chart

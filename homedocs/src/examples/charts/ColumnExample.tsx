@@ -41,7 +41,7 @@ class PageController extends Controller<typeof m> {
 // @controller-end
 
 // @index
-export default () => (
+export default (
   <div controller={PageController}>
     <Svg style="height: 350px; border: 1px dashed #ddd">
       <Chart

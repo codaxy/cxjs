@@ -1,5 +1,5 @@
 // @index
-export default () => (
+export default (
   <div style="position: relative; width: 240px; height: 240px; margin: 20px auto">
     {Array.from({ length: 16 }, (_, i) => {
       const angle = (i / 16) * 2 * Math.PI - Math.PI / 2;

@@ -47,7 +47,7 @@ class PageController extends Controller<typeof m> {
 // @controller-end
 
 // @index
-export default () => (
+export default (
   <div controller={PageController}>
     <Legend />
     <Svg style="height: 300px; border: 1px dashed #ddd">

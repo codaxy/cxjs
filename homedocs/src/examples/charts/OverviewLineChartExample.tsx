@@ -2,7 +2,7 @@ import { Svg, Rectangle } from "cx/svg";
 import { Chart, Gridlines, Legend, LineGraph, NumericAxis } from "cx/charts";
 
 // @index
-export default () => (
+export default (
   <div>
     <Legend.Scope>
       <Svg style="height: 200px; border: 1px solid #ddd">

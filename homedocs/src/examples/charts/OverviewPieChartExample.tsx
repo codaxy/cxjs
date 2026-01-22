@@ -18,7 +18,7 @@ const m = createModel<Model>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <Legend.Scope>
     <Svg style="height: 200px">
       <ColorMap />

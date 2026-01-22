@@ -47,7 +47,7 @@ class PageController extends Controller {
 // @controller-end
 
 // @index
-export default () => (
+export default (
   <div controller={PageController}>
     <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 16px">
       <TextField value={m.input} placeholder="Type to search..." style="width: 250px" />

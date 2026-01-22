@@ -1,7 +1,7 @@
 import { Button } from "cx/widgets";
 
 // @index
-export default () => (
+export default (
   <div className="flex flex-wrap gap-2 items-center">
     <Button>Regular</Button>
     <Button pressed>Pressed</Button>

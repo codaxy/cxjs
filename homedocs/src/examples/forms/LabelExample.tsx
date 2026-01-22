@@ -1,7 +1,7 @@
 import { Label } from "cx/widgets";
 
 // @index
-export default () => (
+export default (
   <div className="flex flex-col items-start gap-2">
     <Label>Standard Label</Label>
     <Label asterisk required>

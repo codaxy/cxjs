@@ -17,7 +17,7 @@ const AppLayout = (
 // @components-end
 
 // @index
-export default () => (
+export default (
   <div outerLayout={AppLayout}>
     <Content for="sidebar">
       <nav class="flex flex-col gap-2 text-sm">

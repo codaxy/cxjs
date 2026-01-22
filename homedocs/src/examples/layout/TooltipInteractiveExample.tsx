@@ -13,7 +13,7 @@ const m = createModel<PageModel>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <div className="flex flex-col items-start gap-4">
     <div
       tooltip={{

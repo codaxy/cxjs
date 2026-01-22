@@ -55,7 +55,7 @@ class PageController extends Controller<typeof m> {
 // @controller-end
 
 // @index
-export default () => (
+export default (
   <LabelsTopLayout controller={PageController}>
     <LookupField
       label="Browser"

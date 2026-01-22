@@ -1,7 +1,7 @@
 import { Svg, Rectangle, Text } from "cx/svg";
 
 // @index
-export default () => (
+export default (
   <div class="flex flex-wrap gap-2">
     <Svg style="width: 100px; height: 100px; background: white; border: 1px dotted #ccc">
       <Rectangle anchors="0 1 1 0" offset="5 -5 -5 5" style="fill: lightblue" />

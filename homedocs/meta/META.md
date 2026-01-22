@@ -18,7 +18,8 @@ Guidelines for AI agents working on the CxJS documentation project.
 ### JSX Syntax (Breaking Change)
 
 - React JSX and CxJS JSX are now separated
-- The `<cx>` wrapper tag can be omitted in examples
+- The `<cx>` wrapper tag is no longer needed in examples
+- Use `export default (` syntax for examples (not `export default () =>`)
 
 ### Bindings (Breaking Change)
 
@@ -114,7 +115,7 @@ class PageController extends Controller {
 // @controller-end
 
 // @index
-export default () => (
+export default (
   <div>...</div>
 );
 // @index-end

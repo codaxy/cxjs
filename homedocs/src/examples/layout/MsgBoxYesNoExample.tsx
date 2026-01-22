@@ -10,7 +10,7 @@ const m = createModel<PageModel>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", alignItems: "center" }}>
     <Button
       onClick={async (e, { store }) => {

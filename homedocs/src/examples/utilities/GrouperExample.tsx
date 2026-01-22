@@ -51,7 +51,7 @@ class PageController extends Controller {
 // @controller-end
 
 // @index
-export default () => (
+export default (
   <div controller={PageController}>
     <h4 style="margin: 0 0 8px">Sales Data</h4>
     <Grid

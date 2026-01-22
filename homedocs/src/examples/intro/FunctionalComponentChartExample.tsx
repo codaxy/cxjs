@@ -36,7 +36,7 @@ const LineChart = createFunctionalComponent(
 // @components-end
 
 // @index
-export default () => (
+export default (
   <div class="flex flex-col gap-4">
     <LineChart
       chartStyle="height: 200px; background: white; border: 1px solid lightgray"

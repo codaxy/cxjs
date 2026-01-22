@@ -13,7 +13,7 @@ const m = createModel<Model>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <ValidationGroup valid={m.valid} visited>
     <LabelsTopLayout vertical>
       <TextField label="Password" value={m.password} inputType="password" required />

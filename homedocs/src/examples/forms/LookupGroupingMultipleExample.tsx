@@ -44,7 +44,7 @@ class PageController extends Controller<typeof m> {
 // @controller-end
 
 // @index
-export default () => (
+export default (
   <div layout={{ type: LabelsTopLayout, vertical: true }} controller={PageController}>
     <LookupField
       label="User"

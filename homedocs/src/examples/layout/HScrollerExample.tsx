@@ -15,7 +15,7 @@ export const model = {
 // @model-end
 
 // @index
-export default () => (
+export default (
   <div>
     <HScroller scrollIntoViewSelector=".cxb-tab.cxs-active">
       <Tab tab="tab1" value={bind(m.tab)}>

@@ -2,7 +2,7 @@ import { Icon } from "cx/widgets";
 import "../../icons/lucide";
 
 // @index
-export default () => (
+export default (
   <div className="flex items-center gap-4">
     <Icon name="calendar" />
     <Icon name="calculator" className="text-blue-500" />

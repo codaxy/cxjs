@@ -68,19 +68,19 @@ function normalizeIndent(codeStr: string): string {
 function trimExportDefault(codeStr: string): string {
   const trimmed = codeStr.trim();
 
-  // Handle single-line export default (with or without semicolon)
+  // Handle single-line export default ( (with or without semicolon)
   if (
-    trimmed.startsWith("export default () => (") &&
+    trimmed.startsWith("export default (") &&
     (trimmed.endsWith(");") || trimmed.endsWith(")"))
   ) {
     const endChars = trimmed.endsWith(");") ? 2 : 1;
-    return trimmed.slice("export default () => (".length, -endChars).trim();
+    return trimmed.slice("export default (".length, -endChars).trim();
   }
 
-  // Handle multi-line export default (after Prettier formatting)
-  if (trimmed.startsWith("export default () => (")) {
+  // Handle multi-line export default (
+  if (trimmed.startsWith("export default (")) {
     const lines = trimmed.split("\n");
-    // Remove first line (export default () => ()
+    // Remove first line (export default ()
     lines.shift();
     // Remove last line if it's just ) or );
     const lastLine = lines[lines.length - 1].trim();

@@ -11,7 +11,7 @@ const m = createModel<Model>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <div style="display: flex; flex-direction: column; gap: 8px">
     <Radio value={m.size} option="small" text="Small" default />
     <Radio value={m.size} option="medium" text="Medium" />

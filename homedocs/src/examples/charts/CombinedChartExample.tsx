@@ -65,7 +65,7 @@ const legendStyle =
   "border: 1px solid; display: inline-block; width: 20px; height: 10px";
 
 // @index
-export default () => (
+export default (
   <div
     controller={PageController}
     style="display: flex; flex-wrap: wrap; gap: 16px"
@@ -124,12 +124,10 @@ export default () => (
           sortable: true,
           header: {
             items: (
-              <cx>
-                <div preserveWhitespace>
+                              <div preserveWhitespace>
                   2022 <div className="cxs-color-0" style={legendStyle} />
                 </div>
-              </cx>
-            ),
+                          ),
           },
         },
         {
@@ -139,12 +137,10 @@ export default () => (
           sortable: true,
           header: {
             items: (
-              <cx>
-                <div preserveWhitespace>
+                              <div preserveWhitespace>
                   2023 <div className="cxs-color-2" style={legendStyle} />
                 </div>
-              </cx>
-            ),
+                          ),
           },
         },
         {
@@ -154,12 +150,10 @@ export default () => (
           sortable: true,
           header: {
             items: (
-              <cx>
-                <div preserveWhitespace>
+                              <div preserveWhitespace>
                   2024 <div className="cxs-color-4" style={legendStyle} />
                 </div>
-              </cx>
-            ),
+                          ),
           },
         },
       ]}

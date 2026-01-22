@@ -1,7 +1,7 @@
 import { Button, MsgBox } from "cx/widgets";
 
 // @index
-export default () => (
+export default (
   <div className="flex flex-wrap gap-2 items-center">
     <Button
       mod="danger"

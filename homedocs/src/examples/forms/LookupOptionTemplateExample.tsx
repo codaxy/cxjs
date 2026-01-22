@@ -26,7 +26,7 @@ const options: City[] = [
 // @model-end
 
 // @index
-export default () => (
+export default (
   <LabelsTopLayout vertical>
     <LookupField
       label="Select a City"

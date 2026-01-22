@@ -2,7 +2,7 @@ import { Svg, Rectangle } from "cx/svg";
 import { Chart, CategoryAxis, Gridlines, Marker } from "cx/charts";
 
 // @index
-export default () => (
+export default (
   <Svg style="width: 400px; height: 300px; border: 1px dashed #ddd">
     <Chart
       margin="60 60 60 90"

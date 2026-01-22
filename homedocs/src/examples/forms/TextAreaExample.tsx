@@ -12,7 +12,7 @@ const m = createModel<Model>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <LabelsTopLayout vertical>
     <TextArea label="Standard" value={bind(m.text, "Hello World\nThis is a multi-line text.")} rows={3} />
     <TextArea label="Disabled" value={m.text} rows={3} disabled />

@@ -13,7 +13,7 @@ const m = createModel<FormModel>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <LabelsTopLayout>
     <Select value={m.title} label="Title" style={{ width: "70px" }}>
       <option value="Mr">Mr.</option>

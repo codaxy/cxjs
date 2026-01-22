@@ -1,4 +1,3 @@
-/** @jsxImportSource cx */
 import { Svg } from "cx/svg";
 import {
   Chart,
@@ -48,35 +47,33 @@ class DemoController extends Controller {
   }
 }
 
-export default () => (
-  <cx>
-    <div controller={DemoController} style="width: 100%;">
-      <Legend />
-      <Svg style="width: 100%; height: 220px;">
-        <Chart
-          margin="10 20 30 40"
-          axes={{
-            x: { type: NumericAxis, snapToTicks: 0 },
-            y: { type: NumericAxis, vertical: true, snapToTicks: 1 },
-          }}
-        >
-          <Gridlines />
-          <LineGraph
-            data-bind="data"
-            colorIndex={0}
-            yField="sales"
-            name="Sales"
-            area
-            areaStyle="fill: rgba(39, 170, 225, 0.2);"
-          />
-          <LineGraph
-            data-bind="data"
-            colorIndex={4}
-            yField="profit"
-            name="Profit"
-          />
-        </Chart>
-      </Svg>
-    </div>
-  </cx>
+export default (
+  <div controller={DemoController} style="width: 100%;">
+    <Legend />
+    <Svg style="width: 100%; height: 220px;">
+      <Chart
+        margin="10 20 30 40"
+        axes={{
+          x: { type: NumericAxis, snapToTicks: 0 },
+          y: { type: NumericAxis, vertical: true, snapToTicks: 1 },
+        }}
+      >
+        <Gridlines />
+        <LineGraph
+          data-bind="data"
+          colorIndex={0}
+          yField="sales"
+          name="Sales"
+          area
+          areaStyle="fill: rgba(39, 170, 225, 0.2);"
+        />
+        <LineGraph
+          data-bind="data"
+          colorIndex={4}
+          yField="profit"
+          name="Profit"
+        />
+      </Chart>
+    </Svg>
+  </div>
 );

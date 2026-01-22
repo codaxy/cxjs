@@ -14,7 +14,7 @@ const m = createModel<Model>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <LabelsTopLayout columns={2}>
     <Select label="Standard" value={bind(m.selection, 1)}>
       <option value={1}>Option 1</option>

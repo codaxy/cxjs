@@ -128,7 +128,7 @@ class PageController extends Controller<typeof m> {
 // @controller-end
 
 // @index
-export default () => (
+export default (
   <div controller={PageController}>
     <div style="margin-bottom: 16px; display: flex; gap: 8px; flex-wrap: wrap">
       <Button

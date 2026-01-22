@@ -2,7 +2,7 @@ import { Button, FlexRow, Heading, Section } from "cx/widgets";
 import "../../icons/lucide";
 
 // @index
-export default () => (
+export default (
   <div className="flex flex-col gap-4">
     <Section mod="card" title="Simple Section">
       This is a simple section with a title and some content.

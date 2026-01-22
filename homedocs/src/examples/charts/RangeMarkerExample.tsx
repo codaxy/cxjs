@@ -62,7 +62,7 @@ class PageController extends Controller {
 // @controller-end
 
 // @index
-export default () => (
+export default (
   <div controller={PageController}>
     <div style="display: flex; flex-wrap: wrap; gap: 16px">
       <Svg style="flex: 1; min-width: 300px; height: 300px">

@@ -14,7 +14,7 @@ const m = createModel<Model>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <LabelsLeftLayout>
     <TextField label="Asterisk" value={m.asterisk} placeholder="Required" required asterisk />
     <TextField label="Visited" value={m.visited} placeholder="Required" required visited />

@@ -30,7 +30,7 @@ class FetchController extends Controller<PageModel> {
 // @controller-end
 
 // @index
-export default () => (
+export default (
   <div controller={FetchController}>
     <FirstVisibleChildLayout>
       <div visible={equal(m.fetch.status, "LOADING")} style={{ color: "gray" }}>

@@ -51,7 +51,7 @@ class PageController extends Controller<typeof m> {
 const DAY = 24 * 60 * 60 * 1000;
 
 // @index
-export default () => (
+export default (
   <div controller={PageController}>
     <Svg style="width: 100%; height: 500px" margin="60 10 60 60">
       <Chart

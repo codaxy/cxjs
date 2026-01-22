@@ -35,7 +35,7 @@ const Counter = createFunctionalComponent(({ value, label }: CounterProps) => (
 // @components-end
 
 // @index
-export default () => (
+export default (
   <div class="flex flex-col gap-4">
     <Counter value={m.count1} label="Counter A" />
     <Counter value={m.count2} label="Counter B" />

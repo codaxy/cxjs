@@ -11,7 +11,7 @@ const m = createModel<PageModel>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <div>
     <div className="pl-2">
       <Tab tab="tab1" value={m.tab} mod="classic" default>

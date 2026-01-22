@@ -1,7 +1,7 @@
 import { Button, Overlay, Widget } from "cx/widgets";
 
 // @index
-export default () => (
+export default (
   <Button
     onClick={(e, { store }) => {
       let overlay = Widget.create(

@@ -1,7 +1,7 @@
 import { Svg, Rectangle } from "cx/svg";
 
 // @index
-export default () => (
+export default (
   <Svg style="width: 400px; height: 400px; border: 1px dashed #ddd" padding={5}>
     <Rectangle anchors="0 .25 .25 0" margin={5} colorIndex={0} rx={5} />
     <Rectangle anchors="0 .5 .25 .25" margin={5} colorIndex={1} ry="5%" />

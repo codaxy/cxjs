@@ -12,7 +12,7 @@ const m = createModel<Model>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <LabelsTopLayout columns={2}>
     <NumberField label="Standard" value={bind(m.number, 1234.5)} autoFocus />
     <NumberField label="Disabled" value={m.number} disabled />

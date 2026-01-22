@@ -34,7 +34,7 @@ const MyForm = createFunctionalComponent(({ vertical }: MyFormProps) => {
 // @components-end
 
 // @index
-export default () => (
+export default (
   <div class="flex gap-8 items-center">
     <MyForm />
     <MyForm vertical />

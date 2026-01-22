@@ -50,7 +50,7 @@ class PageController extends Controller {
 // @controller-end
 
 // @index
-export default () => (
+export default (
   <div controller={PageController}>
     <Svg style="width: 100%; height: 320px">
       <Chart
