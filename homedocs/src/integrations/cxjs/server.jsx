@@ -3,8 +3,18 @@ import ReactDOMServer from "react-dom/server";
 import { Cx } from "cx/ui";
 import { Store } from "cx/data";
 
+// Check if value is a CxJS widget config object (has $type or type property)
+function isCxWidgetConfig(value) {
+  return value && typeof value === "object" && (value.$type || value.type);
+}
+
 export default {
   check(Component, props, children) {
+    // If Component is directly a CxJS widget config object (export default <cx>...</cx>)
+    if (isCxWidgetConfig(Component)) {
+      return true;
+    }
+
     // If Component is a Cx Widget class
     if (
       Component &&
@@ -43,8 +53,12 @@ export default {
     const store = new Store();
 
     let widget;
+    // If it's directly a CxJS widget config object
+    if (isCxWidgetConfig(Component)) {
+      widget = Component;
+    }
     // If it's a class (Widget), we create an instance or pass it as type
-    if (Component.prototype && Component.prototype.render) {
+    else if (Component.prototype && Component.prototype.render) {
       widget = { type: Component, ...props };
     } else {
       // If it's a function (factory or functional widget), we execute it

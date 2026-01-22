@@ -1,10 +1,5 @@
 import { DateField, TextField } from "cx/widgets";
-import {
-  createModel,
-  expr,
-  hasValue,
-  LabelsTopLayout,
-} from "cx/ui";
+import { createModel, expr, hasValue, LabelsTopLayout } from "cx/ui";
 import { dateDiff } from "cx/util";
 
 // @model
@@ -17,7 +12,7 @@ const m = createModel<PageModel>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <div class="px-6 pb-6">
     <h3 text={expr(m.name, (name) => `Hello ${name ?? "World"}`)} />
     <LabelsTopLayout vertical>
