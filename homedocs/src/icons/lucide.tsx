@@ -4,6 +4,8 @@ import { VDOM } from "cx/ui";
 import { Icon } from "cx/widgets";
 import type { IconNode } from "lucide";
 import {
+  Activity,
+  BarChart3,
   Bug,
   Calculator,
   Calendar,
@@ -16,15 +18,20 @@ import {
   FileText,
   Folder,
   FolderOpen,
+  GripVertical,
+  ListTodo,
   LoaderCircle,
   Pencil,
+  PieChart,
   Plus,
   RefreshCw,
   Search,
   Star,
+  TrendingDown,
   Trash2,
   Upload,
   X,
+  Zap,
 } from "lucide";
 
 // Convert Lucide IconNode to React element
@@ -69,3 +76,10 @@ Icon.register("file-text", getRenderer(FileText));
 Icon.register("trash", getRenderer(Trash2));
 Icon.register("folder-open", getRenderer(FolderOpen));
 Icon.register("loading", getRenderer(LoaderCircle));
+Icon.register("trending-down", getRenderer(TrendingDown));
+Icon.register("bar-chart", getRenderer(BarChart3));
+Icon.register("pie-chart", getRenderer(PieChart));
+Icon.register("list-todo", getRenderer(ListTodo));
+Icon.register("zap", getRenderer(Zap));
+Icon.register("activity", getRenderer(Activity));
+Icon.register("grip-vertical", getRenderer(GripVertical));

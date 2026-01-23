@@ -2,6 +2,9 @@
 import '../styles/tailwind.css';
 import '../styles/global.scss';
 import { ClientRouter } from 'astro:transitions';
+import TrelloExample from '../examples/homepage/TrelloExample.tsx';
+import InvoiceExample from '../examples/homepage/InvoiceExample.tsx';
+import DashboardExample from '../examples/homepage/DashboardExample.tsx';
 ---
 
 <!doctype html>
@@ -9,8 +12,8 @@ import { ClientRouter } from 'astro:transitions';
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CxJS - Advanced JavaScript UI Framework</title>
-    <meta name="description" content="CxJS is a modern JavaScript framework for building data-oriented web applications with a complete set of widgets, charts, and powerful data-binding." />
+    <title>CxJS - The One-Stop Shop for Portals and Dashboards</title>
+    <meta name="description" content="The one-stop shop for portals and dashboards. A TypeScript framework with 50+ widgets, data tables, charts, routing, and state management — designed to offer great developer experience." />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -137,9 +140,6 @@ import { ClientRouter } from 'astro:transitions';
             <a href="/docs/intro/what-is-cxjs" class="text-sm text-muted-foreground hover:text-foreground transition-colors">
               Docs
             </a>
-            <a href="https://gallery.cxjs.io/" class="text-sm text-muted-foreground hover:text-foreground transition-colors">
-              Gallery
-            </a>
             <a href="/docs/intro/changelog" class="text-sm text-muted-foreground hover:text-foreground transition-colors">
               Changelog
             </a>
@@ -184,9 +184,6 @@ import { ClientRouter } from 'astro:transitions';
           <div class="container mx-auto px-4 py-4 flex flex-col gap-3">
             <a href="/docs/intro/what-is-cxjs" class="text-sm text-muted-foreground hover:text-foreground transition-colors py-2">
               Docs
-            </a>
-            <a href="https://gallery.cxjs.io/" class="text-sm text-muted-foreground hover:text-foreground transition-colors py-2">
-              Gallery
             </a>
             <a href="/docs/intro/changelog" class="text-sm text-muted-foreground hover:text-foreground transition-colors py-2">
               Changelog
@@ -238,14 +235,14 @@ import { ClientRouter } from 'astro:transitions';
           </div>
 
           <h1 class="fade-in-up animate-delay-100 text-4xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight">
-            Build <span class="gradient-text">Data-Driven</span> Apps
+            The One-Stop Shop for
             <br />
-            <span class="text-heading">With Ease</span>
+            <span class="gradient-text">Portals and Dashboards</span>
           </h1>
 
           <p class="fade-in-up animate-delay-200 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10">
-            CxJS is a complete JavaScript framework for building sophisticated business applications.
-            Widgets, charts, forms, grids, and powerful data-binding — all in one package.
+            Born from a decade of building portals for finance, telecom, and legal.
+            Battle-tested, open source, now in TypeScript.
           </p>
 
           <div class="fade-in-up animate-delay-300 flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -278,11 +275,10 @@ import { ClientRouter } from 'astro:transitions';
         <div class="container mx-auto px-4">
           <div class="text-center mb-16">
             <h2 class="text-3xl md:text-4xl font-bold text-heading mb-4">
-              Everything You Need
+              What's in the Box
             </h2>
             <p class="text-lg text-muted-foreground max-w-2xl mx-auto">
-              CxJS provides all the tools and components you need to build
-              modern, data-driven web applications.
+              All the nuts and bolts for building data-driven web applications — designed to offer great developer experience.
             </p>
           </div>
 
@@ -314,7 +310,7 @@ import { ClientRouter } from 'astro:transitions';
               </div>
               <h3 class="text-lg font-semibold text-heading mb-2">SVG Charts</h3>
               <p class="text-sm text-muted-foreground">
-                Line, bar, pie, scatter charts with animations and interactivity.
+                Line, bar, pie, scatter charts — interactive and customizable.
               </p>
             </div>
 
@@ -357,24 +353,23 @@ import { ClientRouter } from 'astro:transitions';
           <div class="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 class="text-3xl md:text-4xl font-bold text-heading mb-4">
-                Intuitive JSX Syntax
+                Easy to Read and Write
               </h2>
               <p class="text-lg text-muted-foreground mb-6">
-                Write clean, declarative code with CxJS's extended JSX syntax.
-                Two-way binding and computed values make state management a breeze.
+                Less to think about. Layouts, validation, and data binding just work — so you stay focused on what matters.
               </p>
               <ul class="space-y-3 text-muted-foreground">
                 <li class="flex items-center gap-3">
                   <div class="h-2 w-2 rounded-full bg-primary"></div>
-                  Familiar JSX with powerful extensions
+                  Intuitive JSX syntax
                 </li>
                 <li class="flex items-center gap-3">
                   <div class="h-2 w-2 rounded-full bg-primary"></div>
-                  Reactive two-way data binding
+                  Typed models for easy refactoring
                 </li>
                 <li class="flex items-center gap-3">
                   <div class="h-2 w-2 rounded-full bg-primary"></div>
-                  Computed values and expressions
+                  Autocomplete for every prop and value
                 </li>
               </ul>
             </div>
@@ -382,18 +377,80 @@ import { ClientRouter } from 'astro:transitions';
             <div class="relative group">
               <div class="absolute -inset-4 bg-gradient-to-r from-primary/20 via-cyan-500/20 to-purple-500/20 rounded-2xl blur-2xl opacity-50 group-hover:opacity-75 transition-opacity"></div>
               <pre class="relative overflow-x-auto p-6 rounded-xl border border-code-border bg-code-bg font-mono text-sm shadow-2xl">
-<code class="text-gray-300"><span class="text-cyan-400">import</span><span class="text-gray-300"> &#123; TextField, Button &#125; </span><span class="text-cyan-400">from</span><span class="text-green-400"> 'cx/widgets'</span><span class="text-gray-300">;</span>
-<span class="text-cyan-400">import</span><span class="text-gray-300"> &#123; $page &#125; </span><span class="text-cyan-400">from</span><span class="text-green-400"> './stores'</span><span class="text-gray-300">;</span>
+<code class="text-gray-300"><span class="text-cyan-400">import</span><span class="text-gray-300"> &#123; TextField, LookupField &#125; </span><span class="text-cyan-400">from</span><span class="text-green-400"> 'cx/widgets'</span><span class="text-gray-300">;</span>
+<span class="text-cyan-400">import</span><span class="text-gray-300"> &#123; createModel, LabelsTopLayout &#125; </span><span class="text-cyan-400">from</span><span class="text-green-400"> 'cx/ui'</span><span class="text-gray-300">;</span>
 
-<span class="text-purple-400">&lt;cx&gt;</span>
-  <span class="text-yellow-400">&lt;TextField</span>
-    <span class="text-cyan-400">value</span><span class="text-gray-300">=&#123;</span><span class="text-orange-400">$page</span><span class="text-gray-300">.</span><span class="text-cyan-400">user</span><span class="text-gray-300">.</span><span class="text-cyan-400">name</span><span class="text-gray-300">&#125;</span>
-    <span class="text-cyan-400">placeholder</span><span class="text-gray-300">=</span><span class="text-green-400">"Enter name"</span>
-  <span class="text-yellow-400">/&gt;</span>
-  <span class="text-yellow-400">&lt;Button</span>
-    <span class="text-cyan-400">text</span><span class="text-gray-300">=&#123;&#123; </span><span class="text-cyan-400">tpl</span><span class="text-gray-300">: </span><span class="text-green-400">"Hello &#123;user.name&#125;!"</span><span class="text-gray-300"> &#125;&#125;</span>
-  <span class="text-yellow-400">/&gt;</span>
-<span class="text-purple-400">&lt;/cx&gt;</span></code></pre>
+<span class="text-cyan-400">interface</span><span class="text-yellow-400"> UserModel</span><span class="text-gray-300"> &#123;</span>
+<span class="text-gray-300">  firstName</span><span class="text-cyan-400">:</span><span class="text-green-400"> string</span><span class="text-gray-300">;</span>
+<span class="text-gray-300">  lastName</span><span class="text-cyan-400">:</span><span class="text-green-400"> string</span><span class="text-gray-300">;</span>
+<span class="text-gray-300">  email</span><span class="text-cyan-400">:</span><span class="text-green-400"> string</span><span class="text-gray-300">;</span>
+<span class="text-gray-300">  countryId</span><span class="text-cyan-400">:</span><span class="text-green-400"> number</span><span class="text-gray-300">;</span>
+<span class="text-gray-300">&#125;</span>
+
+<span class="text-cyan-400">const</span><span class="text-gray-300"> m = </span><span class="text-yellow-400">createModel</span><span class="text-gray-300">&lt;</span><span class="text-yellow-400">UserModel</span><span class="text-gray-300">&gt;();</span>
+
+<span class="text-cyan-400">export default</span><span class="text-gray-300"> (</span>
+  <span class="text-purple-400">&lt;LabelsTopLayout</span> <span class="text-cyan-400">columns</span><span class="text-gray-300">=&#123;2&#125;</span><span class="text-purple-400">&gt;</span>
+    <span class="text-yellow-400">&lt;TextField</span> <span class="text-cyan-400">value</span><span class="text-gray-300">=&#123;m.firstName&#125;</span> <span class="text-cyan-400">label</span><span class="text-gray-300">=</span><span class="text-green-400">"First Name"</span> <span class="text-yellow-400">/&gt;</span>
+    <span class="text-yellow-400">&lt;TextField</span> <span class="text-cyan-400">value</span><span class="text-gray-300">=&#123;m.lastName&#125;</span> <span class="text-cyan-400">label</span><span class="text-gray-300">=</span><span class="text-green-400">"Last Name"</span> <span class="text-yellow-400">/&gt;</span>
+    <span class="text-yellow-400">&lt;TextField</span> <span class="text-cyan-400">value</span><span class="text-gray-300">=&#123;m.email&#125;</span> <span class="text-cyan-400">label</span><span class="text-gray-300">=</span><span class="text-green-400">"Email"</span> <span class="text-yellow-400">/&gt;</span>
+    <span class="text-yellow-400">&lt;LookupField</span> <span class="text-cyan-400">value</span><span class="text-gray-300">=&#123;m.countryId&#125;</span> <span class="text-cyan-400">label</span><span class="text-gray-300">=</span><span class="text-green-400">"Country"</span> <span class="text-cyan-400">options</span><span class="text-gray-300">=&#123;countries&#125;</span> <span class="text-yellow-400">/&gt;</span>
+  <span class="text-purple-400">&lt;/LabelsTopLayout&gt;</span>
+<span class="text-gray-300">);</span></code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- What You Can Build - Desktop Only -->
+      <section class="hidden lg:block py-24 border-t border-border relative">
+        <div class="container mx-auto px-4">
+          <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-heading mb-4">
+              What You Can Build
+            </h2>
+            <p class="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Interactive examples showcasing CxJS capabilities.
+            </p>
+          </div>
+
+          <!-- Tabs -->
+          <div class="flex justify-center gap-2 mb-8" id="example-tabs">
+            <button
+              class="example-tab px-6 py-2 rounded-lg font-medium transition-all bg-primary text-primary-foreground"
+              data-tab="dashboard"
+            >
+              Dashboard
+            </button>
+            <button
+              class="example-tab px-6 py-2 rounded-lg font-medium transition-all bg-secondary text-secondary-foreground hover:bg-secondary/80"
+              data-tab="trello"
+            >
+              Trello Clone
+            </button>
+            <button
+              class="example-tab px-6 py-2 rounded-lg font-medium transition-all bg-secondary text-secondary-foreground hover:bg-secondary/80"
+              data-tab="invoice"
+            >
+              Invoice Editor
+            </button>
+          </div>
+
+          <!-- Example Panels -->
+          <div class="relative rounded-xl border border-border bg-card overflow-hidden" style="min-height: 500px;">
+            <!-- Dashboard -->
+            <div class="example-panel" id="panel-dashboard">
+              <DashboardExample client:load />
+            </div>
+
+            <!-- Trello Clone -->
+            <div class="example-panel hidden" id="panel-trello">
+              <TrelloExample client:load />
+            </div>
+
+            <!-- Invoice Editor -->
+            <div class="example-panel hidden" id="panel-invoice">
+              <InvoiceExample client:load />
             </div>
           </div>
         </div>
@@ -407,11 +464,10 @@ import { ClientRouter } from 'astro:transitions';
 
         <div class="container mx-auto px-4 text-center relative">
           <h2 class="text-3xl md:text-4xl font-bold text-heading mb-4">
-            Ready to Build?
+            Your Next Portal Starts Here
           </h2>
           <p class="text-lg text-muted-foreground max-w-xl mx-auto mb-8">
-            Start building your next application with CxJS today.
-            Comprehensive docs and examples await.
+            Explore the docs, try the examples, and build your first portal.
           </p>
           <a
             href="/docs/intro/hello-world"
@@ -492,6 +548,36 @@ import { ClientRouter } from 'astro:transitions';
         };
 
         updateIcons();
+
+        // Example tabs
+        const tabs = document.querySelectorAll('.example-tab');
+        const panels = document.querySelectorAll('.example-panel');
+
+        tabs.forEach(tab => {
+          tab.onclick = () => {
+            const targetTab = tab.dataset.tab;
+
+            // Update tab styles
+            tabs.forEach(t => {
+              if (t.dataset.tab === targetTab) {
+                t.classList.remove('bg-secondary', 'text-secondary-foreground', 'hover:bg-secondary/80');
+                t.classList.add('bg-primary', 'text-primary-foreground');
+              } else {
+                t.classList.remove('bg-primary', 'text-primary-foreground');
+                t.classList.add('bg-secondary', 'text-secondary-foreground', 'hover:bg-secondary/80');
+              }
+            });
+
+            // Show/hide panels
+            panels.forEach(panel => {
+              if (panel.id === `panel-${targetTab}`) {
+                panel.classList.remove('hidden');
+              } else {
+                panel.classList.add('hidden');
+              }
+            });
+          };
+        });
 
         // Intersection Observer for scroll animations
         const observerOptions = {

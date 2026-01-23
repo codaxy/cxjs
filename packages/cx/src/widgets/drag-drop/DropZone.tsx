@@ -30,8 +30,8 @@ export interface DropZoneConfig extends StyledContainerConfig {
    /** Additional CSS class to be applied when drag operations begin used to highlight drop zones. */
    farClass?: ClassProp;
 
-   /** Distance in `px` used to determine if cursor is near the dropzone. If not configured, cursor is never considered near. */
-   nearDistance?: number;
+   /** Distance in `px` used to determine if cursor is near the dropzone. If not configured, cursor is never considered near. Set to false to disable. */
+   nearDistance?: number | false;
 
    /** Bindable data related to the DropZone that might be useful inside onDrop operations. */
    data?: StructuredProp;
@@ -107,7 +107,7 @@ export interface DropZoneInstance extends Instance<DropZone> {}
 
 export class DropZone extends StyledContainerBase<DropZoneConfig, DropZoneInstance> {
    declare styled: boolean;
-   declare nearDistance: number;
+   declare nearDistance: number | false;
    declare hinflate: number;
    declare vinflate: number;
    declare baseClass: string;
