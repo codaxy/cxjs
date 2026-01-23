@@ -1,0 +1,125 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: parseColor
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+
+# parseColor
+
+<ImportPath path="import { parseColor } from 'cx/util';" />
+
+The `parseColor` function parses color strings in various formats (hex, RGB, HSL) into structured color objects.
+
+## Basic Usage
+
+```tsx
+import { parseColor } from "cx/util";
+
+// Parse hex color
+parseColor("#ff5733");
+// { type: 'rgba', r: 255, g: 87, b: 51, a: 1 }
+
+// Parse shorthand hex
+parseColor("#f53");
+// { type: 'rgba', r: 255, g: 85, b: 51, a: 1 }
+
+// Parse RGB
+parseColor("rgb(255, 87, 51)");
+// { type: 'rgba', r: 255, g: 87, b: 51, a: 1 }
+
+// Parse RGBA
+parseColor("rgba(255, 87, 51, 0.5)");
+// { type: 'rgba', r: 255, g: 87, b: 51, a: 0.5 }
+
+// Parse HSL
+parseColor("hsl(14, 100, 60)");
+// { type: 'hsla', h: 14, s: 100, l: 60, a: 1 }
+
+// Parse HSLA
+parseColor("hsla(14, 100, 60, 0.5)");
+// { type: 'hsla', h: 14, s: 100, l: 60, a: 0.5 }
+```
+
+## Specialized Parsers
+
+CxJS also exports specialized parsers for each format.
+
+```tsx
+import { parseHexColor, parseRgbColor, parseHslColor } from "cx/util";
+
+// Parse only hex colors
+parseHexColor("#ff5733");
+// { type: 'rgba', r: 255, g: 87, b: 51, a: 1 }
+
+// Parse only RGB/RGBA colors
+parseRgbColor("rgba(255, 87, 51, 0.5)");
+// { type: 'rgba', r: 255, g: 87, b: 51, a: 0.5 }
+
+// Parse only HSL/HSLA colors
+parseHslColor("hsl(14, 100, 60)");
+// { type: 'hsla', h: 14, s: 100, l: 60, a: 1 }
+```
+
+## Return Types
+
+### RGBColor
+
+Returned when parsing hex or RGB colors.
+
+```tsx
+interface RGBColor {
+  type: "rgba";
+  r: number; // 0-255
+  g: number; // 0-255
+  b: number; // 0-255
+  a: number; // 0-1
+}
+```
+
+### HSLColor
+
+Returned when parsing HSL colors.
+
+```tsx
+interface HSLColor {
+  type: "hsla";
+  h: number; // 0-360 (degrees)
+  s: number; // 0-100 (percentage)
+  l: number; // 0-100 (percentage)
+  a: number; // 0-1
+}
+```
+
+## Null Handling
+
+The function returns `null` for null or empty input.
+
+```tsx
+parseColor(null); // null
+parseColor(""); // null
+```
+
+## Error Handling
+
+Invalid color formats throw an error.
+
+```tsx
+parseColor("invalid"); // throws Error: "Unknown color format: invalid."
+parseColor("#gg0000"); // throws Error: "Invalid color #gg0000."
+```
+
+## API
+
+```tsx
+function parseColor(color: string | null): RGBColor | HSLColor | null;
+function parseHexColor(color: string | null): RGBColor | null;
+function parseRgbColor(color: string | null): RGBColor | null;
+function parseHslColor(color: string | null): HSLColor | null;
+```
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| color | `string \| null` | The color string to parse |
+
+**Returns:** A color object with type and component values, or `null` for empty input.

@@ -1,0 +1,183 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: findFirst / closest
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+
+# findFirst / closest
+
+<ImportPath path="import { findFirst, closest } from 'cx/util';" />
+
+CxJS provides utility functions for traversing the DOM tree to find elements matching a condition.
+
+## findFirst
+
+Searches the element and its descendants (depth-first) for the first element matching a condition.
+
+```tsx
+import { findFirst } from "cx/util";
+
+// Find first focusable element
+const focusable = findFirst(container, (el) => el.tagName === "INPUT");
+
+// Find first element with a specific class
+const element = findFirst(container, (el) => el.classList.contains("target"));
+
+// Find first button
+const button = findFirst(container, (el) => el.tagName === "BUTTON");
+```
+
+## findFirstChild
+
+Similar to `findFirst` but only searches among children, not the element itself.
+
+```tsx
+import { findFirstChild } from "cx/util";
+
+// Find first child input (excluding the container itself)
+const input = findFirstChild(form, (el) => el.tagName === "INPUT");
+```
+
+## closest
+
+Searches up the DOM tree (element and ancestors) for the first element matching a condition.
+
+```tsx
+import { closest } from "cx/util";
+
+// Find closest scrollable parent
+const scrollable = closest(element, (el) => {
+  const overflow = getComputedStyle(el).overflow;
+  return overflow === "auto" || overflow === "scroll";
+});
+
+// Find closest element with data attribute
+const dataParent = closest(element, (el) => el.hasAttribute("data-id"));
+
+// Find closest form
+const form = closest(input, (el) => el.tagName === "FORM");
+```
+
+## closestParent
+
+Similar to `closest` but starts from the parent element, excluding the element itself.
+
+```tsx
+import { closestParent } from "cx/util";
+
+// Find the parent container (not the element itself)
+const container = closestParent(element, (el) =>
+  el.classList.contains("container")
+);
+```
+
+## Type-Safe Usage
+
+The functions support TypeScript type guards for narrowing.
+
+```tsx
+import { findFirst, closest } from "cx/util";
+
+// Type guard for input elements
+function isInput(el: Element): el is HTMLInputElement {
+  return el.tagName === "INPUT";
+}
+
+const input = findFirst(container, isInput);
+// input is typed as HTMLInputElement | null
+
+// Type guard for button elements
+function isButton(el: Element): el is HTMLButtonElement {
+  return el.tagName === "BUTTON";
+}
+
+const button = closest(element, isButton);
+// button is typed as HTMLButtonElement | null
+```
+
+## Common Use Cases
+
+### Focus Management
+
+```tsx
+import { findFirst } from "cx/util";
+import { isFocusable } from "cx/util";
+
+function focusFirstInput(container: Element): void {
+  const input = findFirst(container, isFocusable);
+  if (input) {
+    input.focus();
+  }
+}
+```
+
+### Event Delegation
+
+```tsx
+import { closest } from "cx/util";
+
+function handleClick(e: MouseEvent) {
+  const target = e.target as Element;
+
+  // Find the row that was clicked
+  const row = closest(target, (el) => el.classList.contains("grid-row"));
+  if (row) {
+    const rowId = row.getAttribute("data-id");
+    // Handle row click
+  }
+}
+```
+
+## API
+
+### findFirst
+
+```tsx
+function findFirst<T extends Element>(
+  el: Element,
+  condition: (el: Element) => el is T
+): T | null;
+function findFirst(
+  el: Element,
+  condition: (el: Element) => boolean
+): Element | null;
+```
+
+### findFirstChild
+
+```tsx
+function findFirstChild<T extends Element>(
+  el: Element,
+  condition: (el: Element) => el is T
+): T | null;
+function findFirstChild(
+  el: Element,
+  condition: (el: Element) => boolean
+): Element | null;
+```
+
+### closest
+
+```tsx
+function closest(
+  el: Element | null,
+  condition: (el: Element) => boolean
+): Element | null;
+```
+
+### closestParent
+
+```tsx
+function closestParent(
+  el: Element,
+  condition: (el: Element) => boolean
+): HTMLElement | null;
+```
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| el | `Element` | The starting element |
+| condition | `(el: Element) => boolean` | Function that returns true for matching elements |
+
+**Returns:** The first matching element, or `null` if none found.

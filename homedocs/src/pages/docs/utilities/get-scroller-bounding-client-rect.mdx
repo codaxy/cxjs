@@ -1,0 +1,110 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: getScrollerBoundingClientRect
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+
+# getScrollerBoundingClientRect
+
+<ImportPath path="import { getScrollerBoundingClientRect } from 'cx/util';" />
+
+The `getScrollerBoundingClientRect` function returns the bounding rectangle of a scroll container, handling document-level scrollers and iframe contexts.
+
+## Basic Usage
+
+```tsx
+import { getScrollerBoundingClientRect } from "cx/util";
+
+const scrollContainer = document.querySelector(".scroll-container");
+const rect = getScrollerBoundingClientRect(scrollContainer);
+
+console.log(rect.width, rect.height);
+```
+
+## How It Works
+
+The function handles three cases:
+
+1. **Document body/html element**: Returns viewport dimensions
+2. **Regular element**: Returns `getBoundingClientRect()`
+3. **With `topLevel: true`**: Adjusts coordinates for iframe context
+
+## Parameters
+
+```tsx
+getScrollerBoundingClientRect(
+  scrollEl: Element,
+  topLevel: boolean = false
+): DOMRect;
+```
+
+### topLevel Option
+
+When `topLevel` is `true`, coordinates are calculated relative to the top-level window, accounting for iframe offsets.
+
+```tsx
+import { getScrollerBoundingClientRect } from "cx/util";
+
+// Local coordinates
+const localRect = getScrollerBoundingClientRect(element);
+
+// Top-level coordinates (for positioning in parent window)
+const topRect = getScrollerBoundingClientRect(element, true);
+```
+
+## Common Use Cases
+
+### Scroll Boundary Detection
+
+```tsx
+import { getScrollerBoundingClientRect, findScrollableParent } from "cx/util";
+
+function isNearBottom(element: Element): boolean {
+  const scrollParent = findScrollableParent(element);
+  const rect = getScrollerBoundingClientRect(scrollParent);
+  return scrollParent.scrollTop + rect.height >= scrollParent.scrollHeight - 100;
+}
+```
+
+### Viewport-Aware Positioning
+
+```tsx
+import { getScrollerBoundingClientRect, findScrollableParent } from "cx/util";
+
+function positionDropdown(trigger: Element, dropdown: HTMLElement) {
+  const scrollParent = findScrollableParent(trigger);
+  const scrollRect = getScrollerBoundingClientRect(scrollParent);
+  const triggerRect = trigger.getBoundingClientRect();
+
+  // Check available space
+  const spaceBelow = scrollRect.bottom - triggerRect.bottom;
+  const spaceAbove = triggerRect.top - scrollRect.top;
+
+  if (spaceBelow < dropdown.offsetHeight && spaceAbove > spaceBelow) {
+    // Position above
+    dropdown.style.bottom = `${triggerRect.height}px`;
+  }
+}
+```
+
+## API
+
+```tsx
+function getScrollerBoundingClientRect(
+  scrollEl: Element,
+  topLevel?: boolean
+): DOMRect;
+```
+
+| Parameter | Type | Default | Description |
+| --- | --- | --- | --- |
+| scrollEl | `Element` | - | The scroll container element |
+| topLevel | `boolean` | `false` | Calculate coordinates relative to top-level window |
+
+**Returns:** A `DOMRect` with the scroll container's bounds.
+
+## See Also
+
+- [findScrollableParent](/docs/utilities/find-scrollable-parent) - Find nearest scrollable ancestor
+- [scrollElementIntoView](/docs/utilities/scroll-element-into-view) - Scroll element into view

@@ -1,0 +1,158 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: isFocusable
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+
+# isFocusable
+
+<ImportPath path="import { isFocusable } from 'cx/util';" />
+
+The `isFocusable` function checks whether a DOM element can receive keyboard focus.
+
+## Basic Usage
+
+```tsx
+import { isFocusable } from "cx/util";
+
+const input = document.querySelector("input");
+isFocusable(input); // true (if not disabled)
+
+const div = document.querySelector("div");
+isFocusable(div); // false (unless it has tabindex)
+
+const button = document.querySelector("button");
+isFocusable(button); // true (if not disabled)
+```
+
+## How It Works
+
+An element is considered focusable if:
+
+1. It's an `HTMLElement` with a non-negative `tabIndex`
+2. It's one of the naturally focusable elements (`INPUT`, `SELECT`, `TEXTAREA`, `A`, `BUTTON`) and not disabled
+3. Or it has an explicit `tabindex` attribute
+
+```tsx
+import { isFocusable } from "cx/util";
+
+// Naturally focusable elements
+isFocusable(document.createElement("input")); // true
+isFocusable(document.createElement("button")); // true
+isFocusable(document.createElement("select")); // true
+isFocusable(document.createElement("textarea")); // true
+isFocusable(document.createElement("a")); // true (if href is set)
+
+// Disabled elements are not focusable
+const disabledInput = document.createElement("input");
+disabledInput.disabled = true;
+isFocusable(disabledInput); // false
+
+// Elements with tabindex
+const divWithTabindex = document.createElement("div");
+divWithTabindex.setAttribute("tabindex", "0");
+isFocusable(divWithTabindex); // true
+
+// Negative tabindex makes element not focusable via keyboard
+const divNegativeTabindex = document.createElement("div");
+divNegativeTabindex.setAttribute("tabindex", "-1");
+isFocusable(divNegativeTabindex); // false
+```
+
+## Common Use Cases
+
+### Finding First Focusable Element
+
+```tsx
+import { isFocusable, findFirst } from "cx/util";
+
+function focusFirstElement(container: Element): boolean {
+  const focusable = findFirst(container, isFocusable);
+  if (focusable) {
+    focusable.focus();
+    return true;
+  }
+  return false;
+}
+```
+
+### Keyboard Navigation
+
+```tsx
+import { isFocusable } from "cx/util";
+
+function getFocusableChildren(container: Element): HTMLElement[] {
+  const all = Array.from(container.querySelectorAll("*"));
+  return all.filter(isFocusable) as HTMLElement[];
+}
+
+function trapFocus(container: Element, e: KeyboardEvent): void {
+  if (e.key !== "Tab") return;
+
+  const focusable = getFocusableChildren(container);
+  if (focusable.length === 0) return;
+
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+
+  if (e.shiftKey && document.activeElement === first) {
+    e.preventDefault();
+    last.focus();
+  } else if (!e.shiftKey && document.activeElement === last) {
+    e.preventDefault();
+    first.focus();
+  }
+}
+```
+
+### Modal Focus Management
+
+```tsx
+import { isFocusable, findFirst } from "cx/util";
+
+class Modal {
+  private previousFocus: Element | null = null;
+
+  open(container: Element): void {
+    this.previousFocus = document.activeElement;
+    const firstFocusable = findFirst(container, isFocusable);
+    firstFocusable?.focus();
+  }
+
+  close(): void {
+    if (this.previousFocus && isFocusable(this.previousFocus)) {
+      (this.previousFocus as HTMLElement).focus();
+    }
+  }
+}
+```
+
+## Related Functions
+
+CxJS also provides related focus utilities.
+
+```tsx
+import { isFocused, isFocusedDeep, getFocusedElement } from "cx/util";
+
+// Check if element is the active element
+isFocused(element); // true if document.activeElement === element
+
+// Check if element or any descendant is focused
+isFocusedDeep(container); // true if focus is within container
+
+// Get the currently focused element
+const focused = getFocusedElement(); // document.activeElement
+```
+
+## API
+
+```tsx
+function isFocusable(el: Element): el is HTMLElement;
+```
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| el | `Element` | The element to check |
+
+**Returns:** `true` if the element can receive keyboard focus, with type narrowing to `HTMLElement`.

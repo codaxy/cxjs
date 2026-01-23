@@ -452,6 +452,7 @@ export const navigation = [
         title: "Functions",
         items: [
           { title: "debounce", slug: "debounce" },
+          { title: "validatedDebounce", slug: "validated-debounce" },
           { title: "throttle", slug: "throttle" },
           { title: "shallowEquals", slug: "shallow-equals" },
           { title: "coalesce", slug: "coalesce" },
@@ -461,6 +462,8 @@ export const navigation = [
         title: "Search",
         items: [
           { title: "getSearchQueryPredicate", slug: "get-search-query-predicate" },
+          { title: "getSearchQueryHighlighter", slug: "get-search-query-highlighter" },
+          { title: "escapeSpecialRegexCharacters", slug: "escape-special-regex-characters" },
         ],
       },
       {
@@ -479,6 +482,7 @@ export const navigation = [
           { title: "sameDate", slug: "same-date" },
           { title: "minDate / maxDate", slug: "min-max-date" },
           { title: "encodeDate", slug: "encode-date" },
+          { title: "parseDateInvariant", slug: "parse-date-invariant" },
         ],
       },
       {
@@ -486,8 +490,12 @@ export const navigation = [
         items: [
           { title: "findFirst / closest", slug: "find-first-closest" },
           { title: "isFocusable", slug: "is-focusable" },
+          { title: "getActiveElement", slug: "get-active-element" },
           { title: "scrollElementIntoView", slug: "scroll-element-into-view" },
           { title: "findScrollableParent", slug: "find-scrollable-parent" },
+          { title: "getScrollerBoundingClientRect", slug: "get-scroller-bounding-client-rect" },
+          { title: "getTopLevelBoundingClientRect", slug: "get-top-level-bounding-client-rect" },
+          { title: "getParentFrameBoundingClientRect", slug: "get-parent-frame-bounding-client-rect" },
           { title: "KeyCode", slug: "key-code" },
         ],
       },
@@ -500,8 +508,20 @@ export const navigation = [
           { title: "isNumber", slug: "is-number" },
           { title: "isFunction", slug: "is-function" },
           { title: "isDefined", slug: "is-defined" },
+          { title: "isUndefined", slug: "is-undefined" },
           { title: "isNonEmptyArray", slug: "is-non-empty-array" },
           { title: "isPromise", slug: "is-promise" },
+          { title: "isDigit", slug: "is-digit" },
+          { title: "isTouchDevice", slug: "is-touch-device" },
+          { title: "isTouchEvent", slug: "is-touch-event" },
+        ],
+      },
+      {
+        title: "Misc",
+        items: [
+          { title: "Console", slug: "console" },
+          { title: "Event Callbacks", slug: "event-callbacks" },
+          { title: "parseStyle", slug: "parse-style" },
         ],
       },
     ],

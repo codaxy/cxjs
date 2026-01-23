@@ -1,0 +1,99 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: dateDiff
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+
+# dateDiff
+
+<ImportPath path="import { dateDiff } from 'cx/util';" />
+
+The `dateDiff` function returns the difference between two dates in milliseconds.
+
+## Basic Usage
+
+```tsx
+import { dateDiff } from "cx/util";
+
+const date1 = new Date(2024, 5, 15, 12, 0, 0);
+const date2 = new Date(2024, 5, 15, 10, 0, 0);
+
+const diff = dateDiff(date1, date2);
+// 7200000 (2 hours in milliseconds)
+
+// Negative difference (date2 is later)
+const negativeDiff = dateDiff(date2, date1);
+// -7200000
+```
+
+## Converting to Other Units
+
+```tsx
+import { dateDiff } from "cx/util";
+
+const date1 = new Date(2024, 5, 20);
+const date2 = new Date(2024, 5, 15);
+
+const diffMs = dateDiff(date1, date2);
+
+// Convert to seconds
+const seconds = diffMs / 1000; // 432000
+
+// Convert to minutes
+const minutes = diffMs / (1000 * 60); // 7200
+
+// Convert to hours
+const hours = diffMs / (1000 * 60 * 60); // 120
+
+// Convert to days
+const days = diffMs / (1000 * 60 * 60 * 24); // 5
+```
+
+## Common Use Cases
+
+### Comparing Dates
+
+```tsx
+import { dateDiff } from "cx/util";
+
+function isDateBefore(d1: Date, d2: Date): boolean {
+  return dateDiff(d1, d2) < 0;
+}
+
+function isDateAfter(d1: Date, d2: Date): boolean {
+  return dateDiff(d1, d2) > 0;
+}
+
+function areDatesEqual(d1: Date, d2: Date): boolean {
+  return dateDiff(d1, d2) === 0;
+}
+```
+
+### Age Calculation
+
+```tsx
+import { dateDiff } from "cx/util";
+
+function getDaysSince(date: Date): number {
+  const now = new Date();
+  const diffMs = dateDiff(now, date);
+  return Math.floor(diffMs / (1000 * 60 * 60 * 24));
+}
+
+const createdAt = new Date(2024, 0, 1);
+const daysSinceCreation = getDaysSince(createdAt);
+```
+
+## API
+
+```tsx
+function dateDiff(d1: Date, d2: Date): number;
+```
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| d1 | `Date` | The first date |
+| d2 | `Date` | The second date |
+
+**Returns:** The difference `d1 - d2` in milliseconds. Positive if d1 is later, negative if d2 is later.

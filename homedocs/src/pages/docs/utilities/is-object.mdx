@@ -1,0 +1,108 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: isObject
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+
+# isObject
+
+<ImportPath path="import { isObject } from 'cx/util';" />
+
+The `isObject` type guard checks if a value is a non-null object.
+
+## Basic Usage
+
+```tsx
+import { isObject } from "cx/util";
+
+isObject({}); // true
+isObject([]); // true (arrays are objects)
+isObject(new Date()); // true
+isObject(null); // false
+isObject(undefined); // false
+isObject("string"); // false
+isObject(42); // false
+isObject(true); // false
+```
+
+## How It Works
+
+The function checks two conditions:
+1. The value is not `null`
+2. The `typeof` is `"object"`
+
+```tsx
+export function isObject(o: unknown): o is object {
+  return o !== null && typeof o === "object";
+}
+```
+
+## Type Narrowing
+
+The function is a TypeScript type guard that narrows the type to `object`.
+
+```tsx
+import { isObject } from "cx/util";
+
+function processValue(value: unknown): void {
+  if (isObject(value)) {
+    // value is typed as 'object' here
+    console.log(Object.keys(value));
+  }
+}
+```
+
+## Common Use Cases
+
+### Safe Property Access
+
+```tsx
+import { isObject } from "cx/util";
+
+function getProperty(obj: unknown, key: string): unknown {
+  if (isObject(obj) && key in obj) {
+    return (obj as Record<string, unknown>)[key];
+  }
+  return undefined;
+}
+```
+
+### Data Validation
+
+```tsx
+import { isObject } from "cx/util";
+
+function validateConfig(config: unknown): config is Record<string, unknown> {
+  return isObject(config) && !Array.isArray(config);
+}
+```
+
+### Deep Clone Check
+
+```tsx
+import { isObject, isArray } from "cx/util";
+
+function deepClone<T>(value: T): T {
+  if (!isObject(value)) return value;
+  if (isArray(value)) return value.map(deepClone) as T;
+
+  const result: Record<string, unknown> = {};
+  for (const key in value) {
+    result[key] = deepClone((value as Record<string, unknown>)[key]);
+  }
+  return result as T;
+}
+```
+
+## API
+
+```tsx
+function isObject(o: unknown): o is object;
+```
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| o | `unknown` | The value to check |
+
+**Returns:** `true` if the value is a non-null object (including arrays).

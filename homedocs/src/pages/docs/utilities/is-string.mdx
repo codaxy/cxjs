@@ -1,0 +1,105 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: isString
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+
+# isString
+
+<ImportPath path="import { isString } from 'cx/util';" />
+
+The `isString` type guard checks if a value is a string.
+
+## Basic Usage
+
+```tsx
+import { isString } from "cx/util";
+
+isString("hello"); // true
+isString(""); // true
+isString(`template`); // true
+isString(42); // false
+isString(null); // false
+isString(undefined); // false
+isString(["a", "b"]); // false
+isString(new String("hello")); // false (String object, not primitive)
+```
+
+## Type Narrowing
+
+The function is a TypeScript type guard that narrows the type to `string`.
+
+```tsx
+import { isString } from "cx/util";
+
+function formatValue(value: unknown): string {
+  if (isString(value)) {
+    // value is typed as 'string' here
+    return value.toUpperCase();
+  }
+  return String(value);
+}
+```
+
+## Common Use Cases
+
+### Optional String Parameters
+
+```tsx
+import { isString } from "cx/util";
+
+interface Options {
+  label?: string | (() => string);
+}
+
+function getLabel(options: Options): string {
+  const { label } = options;
+  if (isString(label)) {
+    return label;
+  }
+  if (typeof label === "function") {
+    return label();
+  }
+  return "Default Label";
+}
+```
+
+### Safe String Operations
+
+```tsx
+import { isString } from "cx/util";
+
+function trimIfString(value: unknown): unknown {
+  return isString(value) ? value.trim() : value;
+}
+
+function toLowerCase(value: unknown): string | null {
+  return isString(value) ? value.toLowerCase() : null;
+}
+```
+
+### Form Input Processing
+
+```tsx
+import { isString } from "cx/util";
+
+function processFormValue(value: unknown): string {
+  if (!isString(value)) {
+    throw new Error("Expected string value");
+  }
+  return value.trim();
+}
+```
+
+## API
+
+```tsx
+function isString(x: unknown): x is string;
+```
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| x | `unknown` | The value to check |
+
+**Returns:** `true` if the value is a primitive string.

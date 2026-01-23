@@ -1,0 +1,74 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: isUndefined
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+
+# isUndefined
+
+<ImportPath path="import { isUndefined } from 'cx/util';" />
+
+The `isUndefined` type guard checks if a value is strictly `undefined`.
+
+## Basic Usage
+
+```tsx
+import { isUndefined } from "cx/util";
+
+isUndefined(undefined); // true
+isUndefined(void 0); // true
+isUndefined(null); // false
+isUndefined(""); // false
+isUndefined(0); // false
+isUndefined(false); // false
+```
+
+## Type Narrowing
+
+The function is a TypeScript type guard that narrows the type to `undefined`.
+
+```tsx
+import { isUndefined } from "cx/util";
+
+function process(value: string | undefined): string {
+  if (isUndefined(value)) {
+    return "default";
+  }
+  return value; // typed as string
+}
+```
+
+## vs isDefined
+
+`isUndefined` is the inverse of `isDefined`.
+
+```tsx
+import { isUndefined, isDefined } from "cx/util";
+
+const value: string | undefined = getValue();
+
+if (isUndefined(value)) {
+  // value is undefined
+}
+
+if (isDefined(value)) {
+  // value is string
+}
+```
+
+## API
+
+```tsx
+function isUndefined(x: any): x is undefined;
+```
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| x | `any` | The value to check |
+
+**Returns:** `true` if the value is strictly `undefined`.
+
+## See Also
+
+- [isDefined](/docs/utilities/is-defined) - Check if value is not undefined

@@ -1,0 +1,74 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: isTouchDevice
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+
+# isTouchDevice
+
+<ImportPath path="import { isTouchDevice } from 'cx/util';" />
+
+The `isTouchDevice` function checks if the current device supports touch events.
+
+## Basic Usage
+
+```tsx
+import { isTouchDevice } from "cx/util";
+
+if (isTouchDevice()) {
+  // Touch-enabled device
+  console.log("Touch supported");
+} else {
+  // Mouse/keyboard device
+  console.log("No touch support");
+}
+```
+
+## How It Works
+
+The function checks for the presence of `ontouchstart` in the `window` object. The result is cached after the first call for performance.
+
+## Common Use Cases
+
+### Conditional UI
+
+```tsx
+import { isTouchDevice } from "cx/util";
+
+function getTooltipTrigger(): "hover" | "click" {
+  return isTouchDevice() ? "click" : "hover";
+}
+```
+
+### Touch-Specific Styling
+
+```tsx
+import { isTouchDevice } from "cx/util";
+
+const buttonClass = isTouchDevice()
+  ? "button button-large" // Larger touch targets
+  : "button";
+```
+
+### Event Handling
+
+```tsx
+import { isTouchDevice } from "cx/util";
+
+const dragEvents = isTouchDevice()
+  ? { onTouchStart: handleStart, onTouchMove: handleMove, onTouchEnd: handleEnd }
+  : { onMouseDown: handleStart, onMouseMove: handleMove, onMouseUp: handleEnd };
+```
+
+## API
+
+```tsx
+function isTouchDevice(): boolean;
+```
+
+**Returns:** `true` if the device supports touch events.
+
+## See Also
+
+- [isTouchEvent](/docs/utilities/is-touch-event) - Check if current interaction is touch-based

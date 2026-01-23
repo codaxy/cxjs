@@ -1,0 +1,108 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: isTouchEvent
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+
+# isTouchEvent
+
+<ImportPath path="import { isTouchEvent, enableTouchEventDetection } from 'cx/util';" />
+
+The `isTouchEvent` function checks if the current interaction is likely from a touch event rather than a mouse.
+
+## Basic Usage
+
+```tsx
+import { isTouchEvent } from "cx/util";
+
+function handleMouseMove(e: MouseEvent) {
+  if (isTouchEvent()) {
+    // This mousemove was triggered by touch
+    // Skip tooltip display on touch devices
+    return;
+  }
+  showTooltip(e.clientX, e.clientY);
+}
+```
+
+## How It Works
+
+On touch devices, browsers often fire mouse events after touch events for compatibility. This function detects if a touch event occurred within the last second to distinguish real mouse events from touch-simulated ones.
+
+## Enabling Touch Detection
+
+Touch detection is automatically enabled on devices that support passive event listeners. For other devices, you can enable it manually:
+
+```tsx
+import { enableTouchEventDetection } from "cx/util";
+
+// Call early in app initialization
+enableTouchEventDetection();
+```
+
+## Common Use Cases
+
+### Tooltip Behavior
+
+```tsx
+import { isTouchEvent } from "cx/util";
+
+function handleMouseEnter() {
+  if (isTouchEvent()) {
+    // Don't show tooltip on touch - use tap instead
+    return;
+  }
+  showTooltip();
+}
+```
+
+### Hover States
+
+```tsx
+import { isTouchEvent } from "cx/util";
+
+function handleHover(e: MouseEvent) {
+  if (isTouchEvent()) {
+    // Ignore hover effects on touch
+    return;
+  }
+  highlightElement(e.target);
+}
+```
+
+### Context Menu
+
+```tsx
+import { isTouchEvent } from "cx/util";
+
+function handleContextMenu(e: MouseEvent) {
+  if (isTouchEvent()) {
+    // Use long-press menu for touch
+    return;
+  }
+  showContextMenu(e);
+}
+```
+
+## API
+
+### isTouchEvent
+
+```tsx
+function isTouchEvent(): boolean;
+```
+
+**Returns:** `true` if on a touch device and a touch event occurred within the last second.
+
+### enableTouchEventDetection
+
+```tsx
+function enableTouchEventDetection(): void;
+```
+
+Enables tracking of touch events to improve detection accuracy. Called automatically on devices with passive event listener support.
+
+## See Also
+
+- [isTouchDevice](/docs/utilities/is-touch-device) - Check if device supports touch

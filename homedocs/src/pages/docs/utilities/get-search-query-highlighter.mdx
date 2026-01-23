@@ -1,0 +1,160 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: getSearchQueryHighlighter
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+
+# getSearchQueryHighlighter
+
+<ImportPath path="import { getSearchQueryHighlighter } from 'cx/util';" />
+
+The `getSearchQueryHighlighter` function creates a function that splits text into chunks for highlighting matched search terms.
+
+## Basic Usage
+
+```tsx
+import { getSearchQueryHighlighter } from "cx/util";
+
+const highlighter = getSearchQueryHighlighter("john");
+const chunks = highlighter("John Doe");
+// Result: ["", "John", " Doe"]
+```
+
+The result is an array where odd indices (1, 3, 5...) contain matched text that should be highlighted.
+
+## How It Works
+
+The function splits the query into terms and creates a highlighter that segments text based on matches.
+
+```tsx
+import { getSearchQueryHighlighter } from "cx/util";
+
+// Single term
+const highlight = getSearchQueryHighlighter("react");
+highlight("React Components");
+// ["", "React", " Components"]
+
+// Multiple terms
+const multiHighlight = getSearchQueryHighlighter("react hook");
+multiHighlight("React Custom Hook");
+// ["", "React", " Custom ", "Hook", ""]
+
+// Empty query returns text unchanged
+const noHighlight = getSearchQueryHighlighter("");
+noHighlight("Any text");
+// ["Any text"]
+```
+
+## Rendering Highlighted Text
+
+```tsx
+import { getSearchQueryHighlighter } from "cx/util";
+
+function HighlightedText({ text, query }: { text: string; query: string }) {
+  const highlighter = getSearchQueryHighlighter(query);
+  const chunks = highlighter(text);
+
+  return (
+    <span>
+      {chunks.map((chunk, i) =>
+        i % 2 === 1 ? (
+          <mark key={i}>{chunk}</mark>
+        ) : (
+          <span key={i}>{chunk}</span>
+        )
+      )}
+    </span>
+  );
+}
+
+// Usage
+<HighlightedText text="John Doe Smith" query="john smith" />
+// Renders: <mark>John</mark> Doe <mark>Smith</mark>
+```
+
+## Caching
+
+The highlighter supports caching to avoid recreating the function for repeated queries.
+
+```tsx
+import { getSearchQueryHighlighter } from "cx/util";
+
+// Enable caching with default 5-second duration
+const highlighter = getSearchQueryHighlighter("search term", { cache: true });
+
+// Custom cache duration (10 seconds)
+const cachedHighlighter = getSearchQueryHighlighter("search term", {
+  cache: true,
+  cachePeriod: 10000,
+});
+```
+
+## With Search Results
+
+```tsx
+import { getSearchQueryPredicate, getSearchQueryHighlighter } from "cx/util";
+
+interface SearchResult {
+  id: string;
+  title: string;
+  description: string;
+}
+
+function SearchResults({
+  items,
+  query,
+}: {
+  items: SearchResult[];
+  query: string;
+}) {
+  const predicate = getSearchQueryPredicate(query);
+  const highlighter = getSearchQueryHighlighter(query, { cache: true });
+
+  const filtered = items.filter(
+    (item) => predicate(item.title) || predicate(item.description)
+  );
+
+  return (
+    <ul>
+      {filtered.map((item) => (
+        <li key={item.id}>
+          <h3>{renderHighlighted(highlighter(item.title))}</h3>
+          <p>{renderHighlighted(highlighter(item.description))}</p>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function renderHighlighted(chunks: string[]) {
+  return chunks.map((chunk, i) =>
+    i % 2 === 1 ? <mark key={i}>{chunk}</mark> : chunk
+  );
+}
+```
+
+## API
+
+```tsx
+function getSearchQueryHighlighter(
+  query: string,
+  options?: {
+    cache?: boolean;
+    cachePeriod?: number;
+  }
+): (text: string) => string[];
+```
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| query | `string` | The search query string |
+| options.cache | `boolean` | Enable caching of the highlighter function |
+| options.cachePeriod | `number` | Cache duration in milliseconds (default: 5000) |
+
+**Returns:** A function that splits text into alternating non-match/match chunks.
+
+## See Also
+
+- [getSearchQueryPredicate](/docs/utilities/get-search-query-predicate) - Filter data by search query
+- [HighlightedSearchText](/docs/forms/highlighted-search-text) - Built-in component for highlighting

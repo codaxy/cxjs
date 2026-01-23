@@ -1,0 +1,171 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: scrollElementIntoView
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+
+# scrollElementIntoView
+
+<ImportPath path="import { scrollElementIntoView } from 'cx/util';" />
+
+The `scrollElementIntoView` function scrolls an element into the visible area of its scrollable parent container.
+
+## Basic Usage
+
+```tsx
+import { scrollElementIntoView } from "cx/util";
+
+const listItem = document.querySelector(".selected-item");
+
+// Scroll vertically to make element visible
+scrollElementIntoView(listItem);
+
+// Scroll both vertically and horizontally
+scrollElementIntoView(listItem, true, true);
+```
+
+## Parameters
+
+```tsx
+scrollElementIntoView(
+  el: Element, // Element to scroll into view
+  vertical: boolean = true, // Enable vertical scrolling
+  horizontal: boolean = false, // Enable horizontal scrolling
+  inflate: number = 0, // Extra padding around element
+  scrollContainer: HTMLElement | null = null // Custom scroll container
+);
+```
+
+## Examples
+
+### Vertical Scrolling (Default)
+
+```tsx
+import { scrollElementIntoView } from "cx/util";
+
+// After selecting an item in a list
+function selectItem(item: Element): void {
+  item.classList.add("selected");
+  scrollElementIntoView(item);
+}
+```
+
+### Horizontal Scrolling
+
+```tsx
+import { scrollElementIntoView } from "cx/util";
+
+// Scroll horizontally in a horizontal tab list
+function activateTab(tab: Element): void {
+  tab.classList.add("active");
+  scrollElementIntoView(tab, false, true);
+}
+```
+
+### Both Directions
+
+```tsx
+import { scrollElementIntoView } from "cx/util";
+
+// In a grid or spreadsheet
+function focusCell(cell: Element): void {
+  cell.focus();
+  scrollElementIntoView(cell, true, true);
+}
+```
+
+### With Padding
+
+```tsx
+import { scrollElementIntoView } from "cx/util";
+
+// Add 20px padding around the element
+scrollElementIntoView(element, true, false, 20);
+```
+
+### Custom Scroll Container
+
+```tsx
+import { scrollElementIntoView } from "cx/util";
+
+const modal = document.querySelector(".modal-content");
+const targetItem = document.querySelector(".item");
+
+// Scroll within a specific container
+scrollElementIntoView(targetItem, true, false, 0, modal);
+```
+
+## Common Use Cases
+
+### Keyboard Navigation in Lists
+
+```tsx
+import { scrollElementIntoView } from "cx/util";
+
+function handleKeyDown(e: KeyboardEvent, items: Element[], activeIndex: number) {
+  let newIndex = activeIndex;
+
+  if (e.key === "ArrowDown") {
+    newIndex = Math.min(activeIndex + 1, items.length - 1);
+  } else if (e.key === "ArrowUp") {
+    newIndex = Math.max(activeIndex - 1, 0);
+  }
+
+  if (newIndex !== activeIndex) {
+    items[activeIndex].classList.remove("active");
+    items[newIndex].classList.add("active");
+    scrollElementIntoView(items[newIndex]);
+  }
+}
+```
+
+### Search Results
+
+```tsx
+import { scrollElementIntoView } from "cx/util";
+
+function highlightSearchResult(index: number): void {
+  const results = document.querySelectorAll(".search-result");
+  results.forEach((r, i) => r.classList.toggle("highlighted", i === index));
+
+  if (results[index]) {
+    scrollElementIntoView(results[index], true, false, 10);
+  }
+}
+```
+
+### Form Validation
+
+```tsx
+import { scrollElementIntoView } from "cx/util";
+
+function scrollToFirstError(): void {
+  const firstError = document.querySelector(".field-error");
+  if (firstError) {
+    scrollElementIntoView(firstError, true, false, 20);
+    const input = firstError.querySelector("input");
+    input?.focus();
+  }
+}
+```
+
+## API
+
+```tsx
+function scrollElementIntoView(
+  el: Element,
+  vertical?: boolean,
+  horizontal?: boolean,
+  inflate?: number,
+  scrollContainer?: HTMLElement | null
+): void;
+```
+
+| Parameter | Type | Default | Description |
+| --- | --- | --- | --- |
+| el | `Element` | - | The element to scroll into view |
+| vertical | `boolean` | `true` | Enable vertical scrolling |
+| horizontal | `boolean` | `false` | Enable horizontal scrolling |
+| inflate | `number` | `0` | Extra padding around the element |
+| scrollContainer | `HTMLElement \| null` | `null` | Custom scroll container (auto-detected if null) |

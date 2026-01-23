@@ -1,0 +1,111 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: sameDate
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+
+# sameDate
+
+<ImportPath path="import { sameDate } from 'cx/util';" />
+
+The `sameDate` function checks if two dates represent the same calendar day, ignoring the time component.
+
+## Basic Usage
+
+```tsx
+import { sameDate } from "cx/util";
+
+const date1 = new Date(2024, 5, 15, 10, 30, 0);
+const date2 = new Date(2024, 5, 15, 18, 45, 0);
+
+sameDate(date1, date2); // true - same day, different times
+
+const date3 = new Date(2024, 5, 16, 10, 30, 0);
+sameDate(date1, date3); // false - different days
+```
+
+## How It Works
+
+The function compares only the year, month, and day components.
+
+```tsx
+import { sameDate } from "cx/util";
+
+// Same day, midnight vs end of day
+const midnight = new Date(2024, 5, 15, 0, 0, 0);
+const endOfDay = new Date(2024, 5, 15, 23, 59, 59);
+sameDate(midnight, endOfDay); // true
+
+// Different months
+const june15 = new Date(2024, 5, 15);
+const july15 = new Date(2024, 6, 15);
+sameDate(june15, july15); // false
+
+// Different years
+const date2024 = new Date(2024, 5, 15);
+const date2025 = new Date(2025, 5, 15);
+sameDate(date2024, date2025); // false
+```
+
+## Common Use Cases
+
+### Highlighting Today
+
+```tsx
+import { sameDate } from "cx/util";
+
+function isToday(date: Date): boolean {
+  return sameDate(date, new Date());
+}
+
+// In a calendar component
+const dates = generateMonthDates(currentMonth);
+dates.forEach((date) => {
+  if (isToday(date)) {
+    // Highlight this date
+  }
+});
+```
+
+### Grouping Events by Date
+
+```tsx
+import { sameDate } from "cx/util";
+
+interface Event {
+  title: string;
+  date: Date;
+}
+
+function groupEventsByDate(events: Event[]): Map<string, Event[]> {
+  const groups = new Map<string, Event[]>();
+
+  events.forEach((event) => {
+    const dateKey = event.date.toDateString();
+    if (!groups.has(dateKey)) {
+      groups.set(dateKey, []);
+    }
+    groups.get(dateKey)!.push(event);
+  });
+
+  return groups;
+}
+
+function getEventsForDate(events: Event[], date: Date): Event[] {
+  return events.filter((event) => sameDate(event.date, date));
+}
+```
+
+## API
+
+```tsx
+function sameDate(d1: Date, d2: Date): boolean;
+```
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| d1 | `Date` | The first date |
+| d2 | `Date` | The second date |
+
+**Returns:** `true` if both dates represent the same calendar day.

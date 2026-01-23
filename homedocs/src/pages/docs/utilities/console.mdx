@@ -1,0 +1,69 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Console
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+
+# Console
+
+<ImportPath path="import { Console } from 'cx/util';" />
+
+The `Console` utility provides safe console logging methods that only execute when running in a browser environment with console support.
+
+## Basic Usage
+
+```tsx
+import { Console } from "cx/util";
+
+Console.log("Debug message");
+Console.warn("Warning message");
+Console.error("Error message");
+```
+
+## Why Use This?
+
+The `Console` utility safely handles environments where `window` or `console` may not be available, such as during server-side rendering or in older browsers.
+
+```tsx
+// Standard console - may throw in SSR
+console.log("message"); // Error if window is undefined
+
+// Safe console - no-op in SSR
+Console.log("message"); // Works everywhere
+```
+
+## Methods
+
+### Console.log
+
+```tsx
+Console.log("User logged in:", userId);
+Console.log({ data: response });
+```
+
+### Console.warn
+
+```tsx
+Console.warn("Deprecated API usage");
+Console.warn("Missing optional config:", configKey);
+```
+
+### Console.error
+
+```tsx
+Console.error("Failed to load data:", error);
+Console.error("Invalid state:", state);
+```
+
+## API
+
+```tsx
+const Console = {
+  log: (...args: any[]) => void;
+  warn: (...args: any[]) => void;
+  error: (...args: any[]) => void;
+};
+```
+
+All methods accept any number of arguments, matching the native console API.

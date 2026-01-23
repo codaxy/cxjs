@@ -1,0 +1,130 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: isFunction
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+
+# isFunction
+
+<ImportPath path="import { isFunction } from 'cx/util';" />
+
+The `isFunction` type guard checks if a value is a function.
+
+## Basic Usage
+
+```tsx
+import { isFunction } from "cx/util";
+
+isFunction(() => {}); // true
+isFunction(function () {}); // true
+isFunction(Math.max); // true
+isFunction(Array.isArray); // true
+isFunction(class Foo {}); // true (classes are functions)
+isFunction(async () => {}); // true
+isFunction("string"); // false
+isFunction(42); // false
+isFunction(null); // false
+isFunction({}); // false
+```
+
+## Type Narrowing
+
+The function is a TypeScript type guard that narrows the type to `Function`.
+
+```tsx
+import { isFunction } from "cx/util";
+
+function invokeIfFunction(value: unknown): unknown {
+  if (isFunction(value)) {
+    // value is typed as 'Function' here
+    return value();
+  }
+  return value;
+}
+```
+
+## Common Use Cases
+
+### Callback Handling
+
+```tsx
+import { isFunction } from "cx/util";
+
+interface Options {
+  onSuccess?: () => void;
+  onError?: (error: Error) => void;
+}
+
+function execute(options: Options): void {
+  try {
+    // ... do work
+    if (isFunction(options.onSuccess)) {
+      options.onSuccess();
+    }
+  } catch (error) {
+    if (isFunction(options.onError)) {
+      options.onError(error as Error);
+    }
+  }
+}
+```
+
+### Dynamic Property Resolution
+
+```tsx
+import { isFunction } from "cx/util";
+
+type ValueOrGetter<T> = T | (() => T);
+
+function resolveValue<T>(valueOrGetter: ValueOrGetter<T>): T {
+  return isFunction(valueOrGetter) ? valueOrGetter() : valueOrGetter;
+}
+
+resolveValue(42); // 42
+resolveValue(() => 42); // 42
+```
+
+### Event Handler Validation
+
+```tsx
+import { isFunction } from "cx/util";
+
+function addEventListener(
+  element: HTMLElement,
+  event: string,
+  handler: unknown
+): void {
+  if (!isFunction(handler)) {
+    throw new Error(`Handler for "${event}" must be a function`);
+  }
+  element.addEventListener(event, handler as EventListener);
+}
+```
+
+### Factory Pattern
+
+```tsx
+import { isFunction } from "cx/util";
+
+type Factory<T> = T | (() => T);
+
+function createInstance<T>(factory: Factory<T>): T {
+  return isFunction(factory) ? factory() : factory;
+}
+
+const config = createInstance({ name: "app" });
+const dynamicConfig = createInstance(() => ({ name: "dynamic-app" }));
+```
+
+## API
+
+```tsx
+function isFunction(f: any): f is Function;
+```
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| f | `any` | The value to check |
+
+**Returns:** `true` if the value is a function (including arrow functions, methods, and classes).

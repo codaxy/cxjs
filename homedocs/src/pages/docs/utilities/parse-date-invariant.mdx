@@ -1,0 +1,128 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: parseDateInvariant
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+
+# parseDateInvariant
+
+<ImportPath path="import { parseDateInvariant } from 'cx/util';" />
+
+The `parseDateInvariant` function parses date strings in `YYYY-MM-DD` format without timezone-related date shifts.
+
+## The Problem
+
+When parsing ISO date strings like `"2024-06-15"`, JavaScript's `Date` constructor interprets them as UTC midnight. In timezones earlier than UTC, this causes the date to shift one day earlier when displayed in local time.
+
+```tsx
+// In UTC-5 timezone
+const date = new Date("2024-06-15");
+date.toLocaleDateString(); // "6/14/2024" - Wrong! Shows June 14th
+```
+
+## The Solution
+
+`parseDateInvariant` appends `" 00:00"` to date-only strings, forcing local time interpretation.
+
+```tsx
+import { parseDateInvariant } from "cx/util";
+
+// In UTC-5 timezone
+const date = parseDateInvariant("2024-06-15");
+date.toLocaleDateString(); // "6/15/2024" - Correct!
+```
+
+## Basic Usage
+
+```tsx
+import { parseDateInvariant } from "cx/util";
+
+// Date string (YYYY-MM-DD format)
+parseDateInvariant("2024-06-15");
+// Local date: June 15, 2024 00:00:00
+
+// Timestamp
+parseDateInvariant(1718409600000);
+// Same as new Date(1718409600000)
+
+// Date object (passed through)
+parseDateInvariant(new Date());
+// Returns the same date
+```
+
+## When to Use
+
+Use `parseDateInvariant` when:
+
+- Parsing date strings from APIs that return `YYYY-MM-DD` format
+- Working with date-only values (no time component)
+- Displaying dates that should match the original date regardless of timezone
+
+```tsx
+import { parseDateInvariant } from "cx/util";
+
+// API response
+const apiResponse = {
+  birthDate: "1990-05-20",
+  createdAt: "2024-06-15",
+};
+
+// Parse dates correctly
+const birthDate = parseDateInvariant(apiResponse.birthDate);
+const createdAt = parseDateInvariant(apiResponse.createdAt);
+```
+
+## Custom Implementation
+
+You can override the default parsing logic using `overrideParseDateInvariant`.
+
+```tsx
+import { overrideParseDateInvariant, parseDateInvariant } from "cx/util";
+
+// Custom implementation for different date formats
+overrideParseDateInvariant((input) => {
+  if (typeof input === "string") {
+    // Handle DD/MM/YYYY format
+    const match = input.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+    if (match) {
+      const [, day, month, year] = match;
+      return new Date(+year, +month - 1, +day);
+    }
+  }
+  return new Date(input);
+});
+
+parseDateInvariant("15/06/2024"); // June 15, 2024
+```
+
+## API
+
+### parseDateInvariant
+
+```tsx
+function parseDateInvariant(input: string | number | Date): Date;
+```
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| input | `string \| number \| Date` | Date string, timestamp, or Date object |
+
+**Returns:** A Date object parsed in local time for `YYYY-MM-DD` strings.
+
+### overrideParseDateInvariant
+
+```tsx
+function overrideParseDateInvariant(
+  newImpl: (input: string | number | Date) => Date
+): void;
+```
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| newImpl | `function` | Custom parsing implementation |
+
+## See Also
+
+- [encodeDate](/docs/utilities/encode-date) - Format dates as `YYYY-MM-DD` strings
+- [zeroTime](/docs/utilities/zero-time) - Reset time component to midnight

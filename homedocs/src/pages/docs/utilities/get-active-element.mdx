@@ -1,0 +1,98 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: getActiveElement
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+
+# getActiveElement
+
+<ImportPath path="import { getActiveElement } from 'cx/util';" />
+
+The `getActiveElement` function returns the currently focused element, with a fallback to `document.body` if no element is focused.
+
+## Basic Usage
+
+```tsx
+import { getActiveElement } from "cx/util";
+
+const focused = getActiveElement();
+console.log(focused.tagName);
+```
+
+## Why Use This?
+
+The native `document.activeElement` can return `null` in certain edge cases. This utility always returns an element.
+
+```tsx
+// Native API - might be null
+document.activeElement; // Element | null
+
+// Safe utility - always returns an element
+getActiveElement(); // Element
+```
+
+## Common Use Cases
+
+### Save and Restore Focus
+
+```tsx
+import { getActiveElement } from "cx/util";
+
+function withFocusRestore(action: () => void) {
+  const previousFocus = getActiveElement();
+
+  action();
+
+  if (previousFocus instanceof HTMLElement) {
+    previousFocus.focus();
+  }
+}
+```
+
+### Focus Tracking
+
+```tsx
+import { getActiveElement } from "cx/util";
+
+function logFocusChange() {
+  const focused = getActiveElement();
+  console.log("Focus moved to:", focused.tagName, focused.id);
+}
+
+document.addEventListener("focusin", logFocusChange);
+```
+
+### Modal Focus Management
+
+```tsx
+import { getActiveElement, isFocusable } from "cx/util";
+
+class Modal {
+  private previousFocus: Element;
+
+  open() {
+    this.previousFocus = getActiveElement();
+    // Focus first element in modal
+  }
+
+  close() {
+    if (this.previousFocus instanceof HTMLElement && isFocusable(this.previousFocus)) {
+      this.previousFocus.focus();
+    }
+  }
+}
+```
+
+## API
+
+```tsx
+function getActiveElement(): Element;
+```
+
+**Returns:** The currently focused element, or `document.body` if no element has focus.
+
+## See Also
+
+- [isFocusable](/docs/utilities/is-focusable) - Check if element can receive focus
+- [findFirst / closest](/docs/utilities/find-first-closest) - DOM traversal utilities

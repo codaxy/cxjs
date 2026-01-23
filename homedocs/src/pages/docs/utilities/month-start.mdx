@@ -1,0 +1,72 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: monthStart
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+
+# monthStart
+
+<ImportPath path="import { monthStart } from 'cx/util';" />
+
+The `monthStart` function returns a new Date representing the first day of the month for the given date.
+
+## Basic Usage
+
+```tsx
+import { monthStart } from "cx/util";
+
+const date = new Date(2024, 5, 15); // June 15, 2024
+const start = monthStart(date);
+// June 1, 2024 (00:00:00)
+
+// Current month start
+const today = new Date();
+const currentMonthStart = monthStart(today);
+```
+
+## Common Use Cases
+
+### Date Range Queries
+
+```tsx
+import { monthStart } from "cx/util";
+
+function getMonthRange(date: Date) {
+  const start = monthStart(date);
+  const end = new Date(start.getFullYear(), start.getMonth() + 1, 0);
+  return { start, end };
+}
+
+const { start, end } = getMonthRange(new Date(2024, 5, 15));
+// start: June 1, 2024
+// end: June 30, 2024
+```
+
+### Calendar Navigation
+
+```tsx
+import { monthStart } from "cx/util";
+
+function getPreviousMonth(date: Date): Date {
+  const start = monthStart(date);
+  return new Date(start.getFullYear(), start.getMonth() - 1, 1);
+}
+
+function getNextMonth(date: Date): Date {
+  const start = monthStart(date);
+  return new Date(start.getFullYear(), start.getMonth() + 1, 1);
+}
+```
+
+## API
+
+```tsx
+function monthStart(d: Date): Date;
+```
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| d | `Date` | The input date |
+
+**Returns:** A new Date object set to the first day of the month at midnight.
