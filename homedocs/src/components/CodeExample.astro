@@ -220,11 +220,19 @@ function generateIndexHtml() {
     <title>CxJS Example</title>
     <style>
       html, body { height: 100%; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-      #app { height: 100%; }
+      #app {  }
+      .app-frame {
+        min-height: 100px;
+        padding: 20px;
+        margin: 20px;
+        border: 1px solid rgba(128, 128, 128, 0.5);
+      }
     </style>
   </head>
   <body>
-    <div id="app"></div>
+    <div class="app-frame">
+      <div id="app"></div>
+    </div>
     <script type="module" src="/src/app.tsx"></script>
   </body>
 </html>`;
@@ -239,21 +247,18 @@ function generateThemeCss() {
 
 function generateAppTsx() {
   return `import "./theme.css";
-import { startAppLoop, createFunctionalComponent, cx } from "cx/ui";
+import { startAppLoop } from "cx/ui";
 import { Store } from "cx/data";
-import Component from "./index";
+import Content from "./index";
 
 const store = new Store();
 
-const AppWrapper = createFunctionalComponent(() => (
-  <cx>
-    <div style={{ padding: "20px" }}>
-      <Component />
-    </div>
-  </cx>
-));
-
-startAppLoop(document.getElementById("app")!, store, AppWrapper);`;
+startAppLoop(
+  document.getElementById("app")!,
+  store,
+  Content
+);
+`;
 }
 
 // Check if code has complete example that can be run standalone
@@ -272,106 +277,10 @@ function hasCompleteExample(code: string, imports: string | null): boolean {
 }
 
 function generateIndexTsx(
-  fullCode: string,
-  imports: string | null,
-  sections: any,
+  fullCode: string
 ) {
-  // Add createFunctionalComponent to imports if not present
-  let content = "";
-
-  if (imports) {
-    const hasCreateFunctionalComponent = imports.includes(
-      "createFunctionalComponent",
-    );
-
-    if (!hasCreateFunctionalComponent) {
-      // Find cx/ui import and add createFunctionalComponent to it
-      if (
-        imports.includes('from "cx/ui"') ||
-        imports.includes("from 'cx/ui'")
-      ) {
-        content =
-          imports.replace(
-            /import\s*\{([^}]+)\}\s*from\s*['"]cx\/ui['"]/,
-            (match, p1) =>
-              `import { ${p1.trim()}, createFunctionalComponent } from "cx/ui"`,
-          ) + "\n\n";
-      } else {
-        // No cx/ui import, add one
-        content =
-          'import { createFunctionalComponent } from "cx/ui";\n' +
-          imports +
-          "\n\n";
-      }
-    } else {
-      content = imports + "\n\n";
-    }
-  } else {
-    content = 'import { createFunctionalComponent } from "cx/ui";\n\n';
-  }
-
-  // Add model section if exists
-  if (sections.model) {
-    content += "// Model\n";
-    content += sections.model.trim() + "\n\n";
-  }
-
-  // Add controller section if exists
-  if (sections.controller) {
-    content += "// Controller\n";
-    content += sections.controller.trim() + "\n\n";
-  }
-
-  // Add components section if exists
-  if (sections.components) {
-    content += "// Components\n";
-    content += sections.components.trim() + "\n\n";
-  }
-
-  // Get the main component code
-  const indexCode =
-    sections.index ||
-    fullCode.replace(/\/\*\*\s*@jsxImportSource\s+\w+\s*\*\/\n?/, "").trim();
-
-  // Remove export default wrapper if it exists
-  const cleaned = trimExportDefault(indexCode);
-
-  // Check if code already has <cx> wrapper
-  const hasCxWrapper = cleaned.trim().startsWith("<cx>");
-
-  // Wrap the code properly
-  if (hasCxWrapper) {
-    // Code already has <cx>, just wrap in createFunctionalComponent
-    content += `export default createFunctionalComponent(() => ${cleaned.trim()});`;
-  } else {
-    // Add both <cx> wrapper and createFunctionalComponent
-    const indentedCode = cleaned
-      .split("\n")
-      .map((line) => "    " + line)
-      .join("\n");
-    content += `export default createFunctionalComponent(() => (\n  <cx>\n${indentedCode}\n  </cx>\n));`;
-  }
-
+  let content = fullCode;
   return content;
-}
-
-function generateModelFile(modelCode: string) {
-  const trimmed = modelCode.trim();
-  return `import { createAccessorModelProxy } from "cx/ui";
-
-${trimmed}
-
-export { m };`;
-}
-
-function generateControllerFile(controllerCode: string) {
-  const trimmed = controllerCode.trim();
-  return `import { Controller } from "cx/ui";
-import { m } from "./model";
-
-${trimmed}
-
-export { PageController };`;
 }
 
 // First trim export default wrapper, then format with Prettier
