@@ -276,11 +276,12 @@ function hasCompleteExample(code: string, imports: string | null): boolean {
   return hasWidgets || hasJSX;
 }
 
-function generateIndexTsx(
-  fullCode: string
-) {
-  let content = fullCode;
-  return content;
+function generateIndexTsx(fullCode: string) {
+  // Filter out section marker lines
+  return fullCode
+    .split("\n")
+    .filter((line) => !line.trim().match(/^\/\/\s*@(model|controller|components|index)(-end)?$/))
+    .join("\n");
 }
 
 // First trim export default wrapper, then format with Prettier
@@ -335,7 +336,7 @@ const stackblitzProject = isCompleteExample
         !hasTabs && stackblitzProject && (
           <div class="flex justify-end border-b border-[hsl(var(--code-border))]">
             <button
-              class="stackblitz-btn px-3 py-2 text-xs font-medium transition-colors hover:text-white flex items-center gap-1.5"
+              class="stackblitz-btn px-3 py-2 text-xs font-medium transition-colors hover:text-white flex items-center gap-1.5 cursor-pointer"
               data-project={JSON.stringify(stackblitzProject)}
               style="color: rgba(255, 255, 255, 0.5);"
               title="Open in StackBlitz"
@@ -414,7 +415,7 @@ const stackblitzProject = isCompleteExample
             )}
             {stackblitzProject && (
               <button
-                class="ml-auto stackblitz-btn px-3 py-2 text-xs font-medium transition-colors hover:text-white flex items-center gap-1.5 border-l border-[hsl(var(--code-border))]"
+                class="ml-auto stackblitz-btn px-3 py-2 text-xs font-medium transition-colors hover:text-white flex items-center gap-1.5 border-l border-[hsl(var(--code-border))] cursor-pointer"
                 data-project={JSON.stringify(stackblitzProject)}
                 style="color: rgba(255, 255, 255, 0.5);"
                 title="Open in StackBlitz"
