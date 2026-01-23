@@ -1,5 +1,11 @@
 import { createModel } from "cx/data";
-import { bind, Controller, expr, LabelsTopLayout, LabelsTopLayoutCell } from "cx/ui";
+import {
+  bind,
+  Controller,
+  expr,
+  LabelsTopLayout,
+  LabelsTopLayoutCell,
+} from "cx/ui";
 import { Slider, Switch } from "cx/widgets";
 import { Svg } from "cx/svg";
 import { Chart, Gridlines, Legend, LineGraph, NumericAxis } from "cx/charts";
@@ -28,7 +34,7 @@ const m = createModel<Model>();
 // @model-end
 
 // @controller
-class PageController extends Controller<typeof m> {
+class PageController extends Controller {
   onInit() {
     this.store.init(m.pointsCount, 50);
     this.store.init(m.showArea, true);

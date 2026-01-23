@@ -31,7 +31,7 @@ const m = createModel<Model>();
 // @model-end
 
 // @controller
-class PageController extends Controller<typeof m> {
+class PageController extends Controller {
   onInit() {
     this.store.set(m.count, 10);
     this.store.set(m.distance, 60);

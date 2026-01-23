@@ -24,7 +24,7 @@ const m = createModel<PageModel>();
 // @model-end
 
 // @controller
-class PageController extends Controller<typeof m> {
+class PageController extends Controller {
   onInit() {
     this.store.set(m.employees, [
       { id: 1, fullName: "Alice Johnson", phone: "555-1234", city: "New York" },
@@ -34,7 +34,12 @@ class PageController extends Controller<typeof m> {
       { id: 5, fullName: "Eva Green", phone: "555-5678", city: "Phoenix" },
       { id: 6, fullName: "Frank Miller", phone: "555-6789", city: "New York" },
       { id: 7, fullName: "Grace Lee", phone: "555-7890", city: "Chicago" },
-      { id: 8, fullName: "Henry Wilson", phone: "555-8901", city: "Los Angeles" },
+      {
+        id: 8,
+        fullName: "Henry Wilson",
+        phone: "555-8901",
+        city: "Los Angeles",
+      },
     ]);
     this.store.set(m.cities, [
       { id: "New York", text: "New York" },

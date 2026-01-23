@@ -53,19 +53,14 @@ export default {
     const store = new Store({ sealed: true });
 
     let widget;
-    // If it's directly a CxJS widget config object
     if (isCxWidgetConfig(Component)) {
       widget = Component;
-    }
-    // If it's a class (Widget), we create an instance or pass it as type
-    else if (Component.prototype && Component.prototype.render) {
+    } else if (Component.prototype && Component.prototype.render) {
       widget = { type: Component, ...props };
     } else {
-      // If it's a function (factory or functional widget), we execute it
       widget = Component(props);
     }
 
-    // We render the <Cx> component to string
     const html = ReactDOMServer.renderToString(
       React.createElement(Cx, { widget, store, subscribe: true }),
     );

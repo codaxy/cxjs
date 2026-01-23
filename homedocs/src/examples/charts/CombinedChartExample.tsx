@@ -37,7 +37,7 @@ const cities = [
 ];
 
 // @controller
-class PageController extends Controller<typeof m> {
+class PageController extends Controller {
   onInit() {
     let v = 100;
     this.store.set(
@@ -124,10 +124,10 @@ export default (
           sortable: true,
           header: {
             items: (
-                              <div preserveWhitespace>
-                  2022 <div className="cxs-color-0" style={legendStyle} />
-                </div>
-                          ),
+              <div preserveWhitespace>
+                2022 <div className="cxs-color-0" style={legendStyle} />
+              </div>
+            ),
           },
         },
         {
@@ -137,10 +137,10 @@ export default (
           sortable: true,
           header: {
             items: (
-                              <div preserveWhitespace>
-                  2023 <div className="cxs-color-2" style={legendStyle} />
-                </div>
-                          ),
+              <div preserveWhitespace>
+                2023 <div className="cxs-color-2" style={legendStyle} />
+              </div>
+            ),
           },
         },
         {
@@ -150,10 +150,10 @@ export default (
           sortable: true,
           header: {
             items: (
-                              <div preserveWhitespace>
-                  2024 <div className="cxs-color-4" style={legendStyle} />
-                </div>
-                          ),
+              <div preserveWhitespace>
+                2024 <div className="cxs-color-4" style={legendStyle} />
+              </div>
+            ),
           },
         },
       ]}

@@ -1,5 +1,12 @@
 import { Svg, Rectangle } from "cx/svg";
-import { Chart, NumericAxis, CategoryAxis, Gridlines, BarGraph, Legend } from "cx/charts";
+import {
+  Chart,
+  NumericAxis,
+  CategoryAxis,
+  Gridlines,
+  BarGraph,
+  Legend,
+} from "cx/charts";
 import { createModel } from "cx/data";
 import { Controller, ContentPlaceholderScope, expr } from "cx/ui";
 import { ContentPlaceholder } from "cx/widgets";
@@ -21,15 +28,44 @@ const m = createModel<Model>();
 // @model-end
 
 const cities = [
-  "Tokyo", "Delhi", "Shanghai", "São Paulo", "Mexico City", "Cairo", "Mumbai",
-  "Beijing", "Dhaka", "Osaka", "New York", "Karachi", "Buenos Aires", "Istanbul",
-  "Kolkata", "Lagos", "Manila", "Tianjin", "Rio de Janeiro", "Guangzhou",
-  "Lahore", "Bangalore", "Moscow", "Shenzhen", "Chennai", "Jakarta", "Lima",
-  "Bangkok", "Seoul", "Nagoya", "London", "Paris", "Tehran", "Ho Chi Minh",
+  "Tokyo",
+  "Delhi",
+  "Shanghai",
+  "São Paulo",
+  "Mexico City",
+  "Cairo",
+  "Mumbai",
+  "Beijing",
+  "Dhaka",
+  "Osaka",
+  "New York",
+  "Karachi",
+  "Buenos Aires",
+  "Istanbul",
+  "Kolkata",
+  "Lagos",
+  "Manila",
+  "Tianjin",
+  "Rio de Janeiro",
+  "Guangzhou",
+  "Lahore",
+  "Bangalore",
+  "Moscow",
+  "Shenzhen",
+  "Chennai",
+  "Jakarta",
+  "Lima",
+  "Bangkok",
+  "Seoul",
+  "Nagoya",
+  "London",
+  "Paris",
+  "Tehran",
+  "Ho Chi Minh",
 ];
 
 // @controller
-class PageController extends Controller<typeof m> {
+class PageController extends Controller {
   onInit() {
     let v1 = 150,
       v2 = 200;
@@ -56,7 +92,12 @@ export default (
     <ContentPlaceholderScope name="xAxis">
       <div style="border: 1px dashed #ddd">
         <div style="overflow-y: auto; max-height: 400px; margin-top: 16px">
-          <Svg style={{ width: "100%", height: expr(m.data, (data) => (data?.length ?? 0) * 25) }}>
+          <Svg
+            style={{
+              width: "100%",
+              height: expr(m.data, (data) => (data?.length ?? 0) * 25),
+            }}
+          >
             <Chart
               offset="1 -20 0 120"
               axes={{

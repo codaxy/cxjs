@@ -1,5 +1,12 @@
 import { Svg, Rectangle } from "cx/svg";
-import { Chart, NumericAxis, CategoryAxis, Gridlines, Column, Legend } from "cx/charts";
+import {
+  Chart,
+  NumericAxis,
+  CategoryAxis,
+  Gridlines,
+  Column,
+  Legend,
+} from "cx/charts";
 import { createModel } from "cx/data";
 import { Controller, Repeater, format } from "cx/ui";
 import { enableTooltips } from "cx/widgets";
@@ -25,10 +32,23 @@ interface Model {
 const m = createModel<Model>();
 // @model-end
 
-const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const months = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
 
 // @controller
-class PageController extends Controller<typeof m> {
+class PageController extends Controller {
   onInit() {
     this.store.set(
       m.data,

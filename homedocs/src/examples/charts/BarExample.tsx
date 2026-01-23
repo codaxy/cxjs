@@ -1,5 +1,12 @@
 import { Svg, Rectangle } from "cx/svg";
-import { Chart, NumericAxis, CategoryAxis, Gridlines, Bar, Legend } from "cx/charts";
+import {
+  Chart,
+  NumericAxis,
+  CategoryAxis,
+  Gridlines,
+  Bar,
+  Legend,
+} from "cx/charts";
 import { createModel } from "cx/data";
 import { Controller, Repeater, format } from "cx/ui";
 import { enableTooltips } from "cx/widgets";
@@ -24,7 +31,7 @@ const m = createModel<Model>();
 // @model-end
 
 // @controller
-class PageController extends Controller<typeof m> {
+class PageController extends Controller {
   onInit() {
     this.store.set(m.data, [
       { category: "Product A", v1: 120, v2: 80 },

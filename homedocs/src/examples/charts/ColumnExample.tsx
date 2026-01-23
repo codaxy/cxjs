@@ -21,13 +21,25 @@ const m = createModel<Model>();
 // @model-end
 
 const cities = [
-  "Tokyo", "Delhi", "Shanghai", "São Paulo", "Mexico City",
-  "Cairo", "Mumbai", "Beijing", "Dhaka", "Osaka",
-  "New York", "Karachi", "Buenos Aires", "Istanbul", "Kolkata",
+  "Tokyo",
+  "Delhi",
+  "Shanghai",
+  "São Paulo",
+  "Mexico City",
+  "Cairo",
+  "Mumbai",
+  "Beijing",
+  "Dhaka",
+  "Osaka",
+  "New York",
+  "Karachi",
+  "Buenos Aires",
+  "Istanbul",
+  "Kolkata",
 ];
 
 // @controller
-class PageController extends Controller<typeof m> {
+class PageController extends Controller {
   onInit() {
     this.store.set(
       m.data,
@@ -61,7 +73,10 @@ export default (
         <Gridlines />
         <Repeater records={m.data} recordAlias="$point">
           <Column
-            colorIndex={expr(m.$point.value, (v) => 15 - Math.round((v * 6) / 50))}
+            colorIndex={expr(
+              m.$point.value,
+              (v) => 15 - Math.round((v * 6) / 50),
+            )}
             width={0.7}
             x={m.$point.city}
             y={m.$point.value}

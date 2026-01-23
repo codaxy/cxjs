@@ -38,8 +38,8 @@ function getSelectorConfig(props: any, values: any, nameMap: any) {
          constants[p] = null;
       } else if (typeof v == "object") {
          if (v.bind) {
-            if (isUndefined(v.defaultValue) && v != pv) v.defaultValue = defaultValue(pv);
-            if (isDefined(v.defaultValue)) defaultValues[v.bind] = v.defaultValue;
+            const dv = isDefined(v.defaultValue) ? v.defaultValue : (v != pv ? defaultValue(pv) : undefined);
+            if (isDefined(dv)) defaultValues[v.bind] = dv;
             nameMap[p] = v.bind;
             functions[p] = Binding.get(v.bind).value;
             constant = false;

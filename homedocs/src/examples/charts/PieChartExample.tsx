@@ -29,7 +29,7 @@ const m = createModel<Model>();
 // @model-end
 
 // @controller
-class PageController extends Controller<typeof m> {
+class PageController extends Controller {
   onInit() {
     this.store.set(m.angle, 360);
     this.store.set(m.gap, 4);
@@ -64,7 +64,10 @@ export default (
             name={m.$record.name}
             innerPointRadius={80}
             outerPointRadius={90}
-            tooltip={{ text: { tpl: "{$record.name}: {$record.value}%" }, trackMouse: true }}
+            tooltip={{
+              text: { tpl: "{$record.name}: {$record.value}%" },
+              trackMouse: true,
+            }}
             selection={{
               type: KeySelection,
               bind: m.selection,
@@ -74,7 +77,11 @@ export default (
             }}
           >
             <Line style="stroke: gray" />
-            <Rectangle anchors="1 1 1 1" offset="-10 20 10 -20" style="fill: white; stroke: gray">
+            <Rectangle
+              anchors="1 1 1 1"
+              offset="-10 20 10 -20"
+              style="fill: white; stroke: gray"
+            >
               <Text tpl="{$record.value:n;0}%" dy="0.4em" ta="middle" />
             </Rectangle>
           </PieSlice>
@@ -82,10 +89,34 @@ export default (
       </PieChart>
     </Svg>
     <LabelsTopLayout columns={2} mod={["stretch", "fixed"]}>
-      <Slider value={m.angle} minValue={30} maxValue={360} label="Angle" help={{ tpl: "{angle:n;0}°" }} />
-      <Slider value={m.gap} minValue={0} maxValue={20} label="Gap" help={{ tpl: "{gap:n;0}px" }} />
-      <Slider value={m.r0} minValue={0} maxValue={70} label="Inner Radius" help={{ tpl: "{r0:n;0}%" }} />
-      <Slider value={m.borderRadius} minValue={0} maxValue={20} label="Border Radius" help={{ tpl: "{borderRadius:n;0}px" }} />
+      <Slider
+        value={m.angle}
+        minValue={30}
+        maxValue={360}
+        label="Angle"
+        help={{ tpl: "{angle:n;0}°" }}
+      />
+      <Slider
+        value={m.gap}
+        minValue={0}
+        maxValue={20}
+        label="Gap"
+        help={{ tpl: "{gap:n;0}px" }}
+      />
+      <Slider
+        value={m.r0}
+        minValue={0}
+        maxValue={70}
+        label="Inner Radius"
+        help={{ tpl: "{r0:n;0}%" }}
+      />
+      <Slider
+        value={m.borderRadius}
+        minValue={0}
+        maxValue={20}
+        label="Border Radius"
+        help={{ tpl: "{borderRadius:n;0}px" }}
+      />
     </LabelsTopLayout>
   </div>
 );

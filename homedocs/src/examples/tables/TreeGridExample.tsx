@@ -26,7 +26,7 @@ const m = createModel<PageModel>();
 // @model-end
 
 // @controller
-class PageController extends Controller<typeof m> {
+class PageController extends Controller {
   idSeq = 0;
 
   onInit() {

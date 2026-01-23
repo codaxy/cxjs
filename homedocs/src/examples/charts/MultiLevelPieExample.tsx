@@ -39,7 +39,7 @@ const regions: Record<string, string[]> = {
 };
 
 // @controller
-class PageController extends Controller<typeof m> {
+class PageController extends Controller {
   onInit() {
     this.store.set(
       m.data,

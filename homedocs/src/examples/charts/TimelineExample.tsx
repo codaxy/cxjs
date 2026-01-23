@@ -29,7 +29,7 @@ const m = createModel<Model>();
 // @model-end
 
 // @controller
-class PageController extends Controller<typeof m> {
+class PageController extends Controller {
   onInit() {
     this.store.set(m.range, {
       from: new Date(2011, 0, 1).valueOf(),

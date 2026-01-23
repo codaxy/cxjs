@@ -335,13 +335,12 @@ export class List extends StyledContainerBase<ListConfig> {
                },
             } as GroupingConfig;
          }
-         return g;
-      });
-
-      normalized.forEach((g) => {
-         if (g.header) g.header = Widget.create(g.header);
-
-         if (g.footer) g.footer = Widget.create(g.footer);
+         // Clone to avoid mutating the original config
+         return {
+            ...g,
+            header: g.header ? Widget.create(g.header) : undefined,
+            footer: g.footer ? Widget.create(g.footer) : undefined,
+         };
       });
 
       this.adapter.groupBy(normalized);

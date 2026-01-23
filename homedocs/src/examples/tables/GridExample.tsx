@@ -21,18 +21,26 @@ const m = createModel<PageModel>();
 // @model-end
 
 // @controller
-class PageController extends Controller<typeof m> {
+class PageController extends Controller {
   onInit() {
     this.store.set(
       m.records,
       Array.from({ length: 20 }, (_, i) => ({
         id: i + 1,
-        fullName: ["John Doe", "Jane Smith", "Bob Wilson", "Alice Brown", "Charlie Davis"][i % 5],
-        continent: ["Europe", "North America", "Asia", "Africa", "Australia"][i % 5],
+        fullName: [
+          "John Doe",
+          "Jane Smith",
+          "Bob Wilson",
+          "Alice Brown",
+          "Charlie Davis",
+        ][i % 5],
+        continent: ["Europe", "North America", "Asia", "Africa", "Australia"][
+          i % 5
+        ],
         browser: ["Chrome", "Firefox", "Safari", "Edge"][i % 4],
         os: ["Windows", "macOS", "Linux", "iOS", "Android"][i % 5],
         visits: Math.floor(Math.random() * 100) + 1,
-      }))
+      })),
     );
   }
 }
@@ -57,7 +65,12 @@ export default (
           align: "right",
         },
       ]}
-      selection={{ type: KeySelection, bind: m.selection, keyField: "id", multiple: true }}
+      selection={{
+        type: KeySelection,
+        bind: m.selection,
+        keyField: "id",
+        multiple: true,
+      }}
     />
   </div>
 );

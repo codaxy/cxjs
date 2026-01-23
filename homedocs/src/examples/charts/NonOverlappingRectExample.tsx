@@ -1,6 +1,12 @@
 import { createModel } from "cx/data";
 import { Controller, Repeater } from "cx/ui";
-import { Svg, Rectangle, Text, NonOverlappingRect, NonOverlappingRectGroup } from "cx/svg";
+import {
+  Svg,
+  Rectangle,
+  Text,
+  NonOverlappingRect,
+  NonOverlappingRectGroup,
+} from "cx/svg";
 import { Chart, Gridlines, Marker, NumericAxis } from "cx/charts";
 
 // @model
@@ -17,7 +23,7 @@ const m = createModel<Model>();
 // @model-end
 
 // @controller
-class PageController extends Controller<typeof m> {
+class PageController extends Controller {
   onInit() {
     this.store.set(
       m.data,
@@ -54,8 +60,17 @@ export default (
               draggableY
             >
               <NonOverlappingRect offset="-15 25 0 -25" anchors="0 0.5 0 0.5">
-                <Rectangle style="fill: white; stroke: red; stroke-width: 0.5" anchors="0 1 1 0" rx={3}>
-                  <Text value={{ tpl: "{$point.x:n;0}, {$point.y:n;0}" }} textAnchor="middle" dominantBaseline="middle" style="font-size: 10px" />
+                <Rectangle
+                  style="fill: white; stroke: red; stroke-width: 0.5"
+                  anchors="0 1 1 0"
+                  rx={3}
+                >
+                  <Text
+                    value={{ tpl: "{$point.x:n;0}, {$point.y:n;0}" }}
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                    style="font-size: 10px"
+                  />
                 </Rectangle>
               </NonOverlappingRect>
             </Marker>

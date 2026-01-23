@@ -1,5 +1,11 @@
 import { Svg, Rectangle } from "cx/svg";
-import { Chart, NumericAxis, TimeAxis, Gridlines, ColumnGraph } from "cx/charts";
+import {
+  Chart,
+  NumericAxis,
+  TimeAxis,
+  Gridlines,
+  ColumnGraph,
+} from "cx/charts";
 import { createModel } from "cx/data";
 import { Controller, enableCultureSensitiveFormatting } from "cx/ui";
 
@@ -14,7 +20,7 @@ const m = createModel<Model>();
 // @model-end
 
 // @controller
-class PageController extends Controller<typeof m> {
+class PageController extends Controller {
   onInit() {
     this.store.set(
       m.data,

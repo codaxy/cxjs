@@ -29,7 +29,7 @@ const m = createModel<PageModel>();
 // @model-end
 
 // @controller
-class PageController extends Controller<typeof m> {
+class PageController extends Controller {
   dataSet: Employee[] = [];
 
   onInit() {

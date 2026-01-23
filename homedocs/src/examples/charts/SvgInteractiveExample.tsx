@@ -99,7 +99,7 @@ const presets = [
 ];
 
 // @controller
-class PageController extends Controller<typeof m> {
+class PageController extends Controller {
   onInit() {
     this.addTrigger("preset-changed", [m.preset], (preset) => {
       const p = presets.find((x) => x.id === preset);
@@ -234,40 +234,92 @@ export default (
           {/* Anchor lines - show where percentage anchors are positioned */}
           <Line
             anchors={tpl(m.anchorT, "{0} 1 {0} 0")}
-            style={expr(m.focusAnchorT, (f) => `stroke: ${f ? "red" : "#ccc"}; stroke-width: ${f ? 2 : 1}`)}
+            style={expr(
+              m.focusAnchorT,
+              (f) =>
+                `stroke: ${f ? "red" : "#ccc"}; stroke-width: ${f ? 2 : 1}`,
+            )}
           />
           <Line
             anchors={tpl(m.anchorB, "{0} 1 {0} 0")}
-            style={expr(m.focusAnchorB, (f) => `stroke: ${f ? "red" : "#ccc"}; stroke-width: ${f ? 2 : 1}`)}
+            style={expr(
+              m.focusAnchorB,
+              (f) =>
+                `stroke: ${f ? "red" : "#ccc"}; stroke-width: ${f ? 2 : 1}`,
+            )}
           />
           <Line
             anchors={tpl(m.anchorL, "0 {0} 1 {0}")}
-            style={expr(m.focusAnchorL, (f) => `stroke: ${f ? "red" : "#ccc"}; stroke-width: ${f ? 2 : 1}`)}
+            style={expr(
+              m.focusAnchorL,
+              (f) =>
+                `stroke: ${f ? "red" : "#ccc"}; stroke-width: ${f ? 2 : 1}`,
+            )}
           />
           <Line
             anchors={tpl(m.anchorR, "0 {0} 1 {0}")}
-            style={expr(m.focusAnchorR, (f) => `stroke: ${f ? "red" : "#ccc"}; stroke-width: ${f ? 2 : 1}`)}
+            style={expr(
+              m.focusAnchorR,
+              (f) =>
+                `stroke: ${f ? "red" : "#ccc"}; stroke-width: ${f ? 2 : 1}`,
+            )}
           />
           {/* Offset lines - show pixel displacement from anchor to rectangle edge */}
           <Line
-            anchors={expr(m.anchorT, m.anchorL, m.anchorR, (t, l, r) => `${t} ${(l + r) / 2} ${t} ${(l + r) / 2}`)}
+            anchors={expr(
+              m.anchorT,
+              m.anchorL,
+              m.anchorR,
+              (t, l, r) => `${t} ${(l + r) / 2} ${t} ${(l + r) / 2}`,
+            )}
             offset={tpl(m.offsetT, "0 0 {0} 0")}
-            style={expr(m.focusOffsetT, (f) => `stroke: ${f ? "red" : "#ccc"}; stroke-width: ${f ? 2 : 1}`)}
+            style={expr(
+              m.focusOffsetT,
+              (f) =>
+                `stroke: ${f ? "red" : "#ccc"}; stroke-width: ${f ? 2 : 1}`,
+            )}
           />
           <Line
-            anchors={expr(m.anchorB, m.anchorL, m.anchorR, (b, l, r) => `${b} ${(l + r) / 2} ${b} ${(l + r) / 2}`)}
+            anchors={expr(
+              m.anchorB,
+              m.anchorL,
+              m.anchorR,
+              (b, l, r) => `${b} ${(l + r) / 2} ${b} ${(l + r) / 2}`,
+            )}
             offset={tpl(m.offsetB, "0 0 {0} 0")}
-            style={expr(m.focusOffsetB, (f) => `stroke: ${f ? "red" : "#ccc"}; stroke-width: ${f ? 2 : 1}`)}
+            style={expr(
+              m.focusOffsetB,
+              (f) =>
+                `stroke: ${f ? "red" : "#ccc"}; stroke-width: ${f ? 2 : 1}`,
+            )}
           />
           <Line
-            anchors={expr(m.anchorL, m.anchorT, m.anchorB, (l, t, b) => `${(t + b) / 2} ${l} ${(t + b) / 2} ${l}`)}
+            anchors={expr(
+              m.anchorL,
+              m.anchorT,
+              m.anchorB,
+              (l, t, b) => `${(t + b) / 2} ${l} ${(t + b) / 2} ${l}`,
+            )}
             offset={tpl(m.offsetL, "0 {0} 0 0")}
-            style={expr(m.focusOffsetL, (f) => `stroke: ${f ? "red" : "#ccc"}; stroke-width: ${f ? 2 : 1}`)}
+            style={expr(
+              m.focusOffsetL,
+              (f) =>
+                `stroke: ${f ? "red" : "#ccc"}; stroke-width: ${f ? 2 : 1}`,
+            )}
           />
           <Line
-            anchors={expr(m.anchorR, m.anchorT, m.anchorB, (r, t, b) => `${(t + b) / 2} ${r} ${(t + b) / 2} ${r}`)}
+            anchors={expr(
+              m.anchorR,
+              m.anchorT,
+              m.anchorB,
+              (r, t, b) => `${(t + b) / 2} ${r} ${(t + b) / 2} ${r}`,
+            )}
             offset={tpl(m.offsetR, "0 {0} 0 0")}
-            style={expr(m.focusOffsetR, (f) => `stroke: ${f ? "red" : "#ccc"}; stroke-width: ${f ? 2 : 1}`)}
+            style={expr(
+              m.focusOffsetR,
+              (f) =>
+                `stroke: ${f ? "red" : "#ccc"}; stroke-width: ${f ? 2 : 1}`,
+            )}
           />
           {/* Rectangle rendered last to appear on top */}
           <Rectangle

@@ -1,4 +1,9 @@
-import { createModel, findTreeNode, removeTreeNodes, updateTree } from "cx/data";
+import {
+  createModel,
+  findTreeNode,
+  removeTreeNodes,
+  updateTree,
+} from "cx/data";
 import { Controller, expr, KeySelection, TreeAdapter } from "cx/ui";
 import { Button, Grid, TreeNode } from "cx/widgets";
 
@@ -26,7 +31,7 @@ const m = createModel<PageModel>();
 // @controller
 let idSeq = 100;
 
-class PageController extends Controller<typeof m> {
+class PageController extends Controller {
   onInit() {
     this.store.set(m.data, [
       {
@@ -52,14 +57,28 @@ class PageController extends Controller<typeof m> {
   }
 
   expandAll() {
-    this.store.update(m.data, (data) =>
-      updateTree(data, (node) => ({ ...node, $expanded: true }), (node) => !node.$leaf, "$children") || data
+    this.store.update(
+      m.data,
+      (data) =>
+        updateTree(
+          data,
+          (node) => ({ ...node, $expanded: true }),
+          (node) => !node.$leaf,
+          "$children",
+        ) || data,
     );
   }
 
   collapseAll() {
-    this.store.update(m.data, (data) =>
-      updateTree(data, (node) => ({ ...node, $expanded: false }), (node) => !node.$leaf, "$children") || data
+    this.store.update(
+      m.data,
+      (data) =>
+        updateTree(
+          data,
+          (node) => ({ ...node, $expanded: false }),
+          (node) => !node.$leaf,
+          "$children",
+        ) || data,
     );
   }
 
@@ -84,23 +103,29 @@ class PageController extends Controller<typeof m> {
       this.store.update(m.data, (data) => [...data, newNode]);
     } else {
       // Check if selected node is a folder
-      const selectedNode = findTreeNode(data, (n) => n.id === selectedId, "$children");
+      const selectedNode = findTreeNode(
+        data,
+        (n) => n.id === selectedId,
+        "$children",
+      );
       if (selectedNode && selectedNode.$leaf) {
         alert("Cannot add to a file. Please select a folder.");
         return;
       }
       // Add to selected folder
-      this.store.update(m.data, (data) =>
-        updateTree(
-          data,
-          (node) => ({
-            ...node,
-            $expanded: true,
-            $children: [...(node.$children || []), newNode],
-          }),
-          (node) => node.id === selectedId,
-          "$children"
-        ) || data
+      this.store.update(
+        m.data,
+        (data) =>
+          updateTree(
+            data,
+            (node) => ({
+              ...node,
+              $expanded: true,
+              $children: [...(node.$children || []), newNode],
+            }),
+            (node) => node.id === selectedId,
+            "$children",
+          ) || data,
       );
     }
   }
@@ -109,7 +134,12 @@ class PageController extends Controller<typeof m> {
     const selectedId = this.store.get(m.selection);
     if (!selectedId) return;
 
-    this.store.update(m.data, (data) => removeTreeNodes(data, (node) => node.id === selectedId, "$children") || data);
+    this.store.update(
+      m.data,
+      (data) =>
+        removeTreeNodes(data, (node) => node.id === selectedId, "$children") ||
+        data,
+    );
     this.store.delete(m.selection);
   }
 
@@ -120,8 +150,15 @@ class PageController extends Controller<typeof m> {
     const newName = prompt("Enter new name:");
     if (!newName) return;
 
-    this.store.update(m.data, (data) =>
-      updateTree(data, (node) => ({ ...node, name: newName }), (node) => node.id === selectedId, "$children") || data
+    this.store.update(
+      m.data,
+      (data) =>
+        updateTree(
+          data,
+          (node) => ({ ...node, name: newName }),
+          (node) => node.id === selectedId,
+          "$children",
+        ) || data,
     );
   }
 }
@@ -132,33 +169,45 @@ export default (
   <div controller={PageController}>
     <div style="margin-bottom: 16px; display: flex; gap: 8px; flex-wrap: wrap">
       <Button
-        onClick={(e, instance) => instance.getControllerByType(PageController).addFolder()}
+        onClick={(e, instance) =>
+          instance.getControllerByType(PageController).addFolder()
+        }
         text="Add Folder"
         icon="folder"
       />
       <Button
-        onClick={(e, instance) => instance.getControllerByType(PageController).addFile()}
+        onClick={(e, instance) =>
+          instance.getControllerByType(PageController).addFile()
+        }
         text="Add File"
         icon="file"
       />
       <Button
-        onClick={(e, instance) => instance.getControllerByType(PageController).renameSelected()}
+        onClick={(e, instance) =>
+          instance.getControllerByType(PageController).renameSelected()
+        }
         text="Rename"
         icon="pencil"
         disabled={expr(m.selection, (s) => !s)}
       />
       <Button
-        onClick={(e, instance) => instance.getControllerByType(PageController).deleteSelected()}
+        onClick={(e, instance) =>
+          instance.getControllerByType(PageController).deleteSelected()
+        }
         text="Delete"
         icon="trash"
         disabled={expr(m.selection, (s) => !s)}
       />
       <Button
-        onClick={(e, instance) => instance.getControllerByType(PageController).expandAll()}
+        onClick={(e, instance) =>
+          instance.getControllerByType(PageController).expandAll()
+        }
         text="Expand All"
       />
       <Button
-        onClick={(e, instance) => instance.getControllerByType(PageController).collapseAll()}
+        onClick={(e, instance) =>
+          instance.getControllerByType(PageController).collapseAll()
+        }
         text="Collapse All"
       />
     </div>

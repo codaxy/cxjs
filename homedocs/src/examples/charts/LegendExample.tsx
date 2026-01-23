@@ -15,7 +15,7 @@ const m = createModel<Model>();
 // @model-end
 
 // @controller
-class PageController extends Controller<typeof m> {
+class PageController extends Controller {
   onInit() {
     this.store.set(
       m.data,
@@ -47,9 +47,27 @@ export default (
       >
         <Rectangle fill="white" />
         <Gridlines />
-        <LineGraph name="Sales" data={m.data} colorIndex={0} yField="sales" active={m.salesActive} />
-        <LineGraph name="Profit" data={m.data} colorIndex={4} yField="profit" active={m.profitActive} />
-        <LineGraph name="Costs" data={m.data} colorIndex={8} yField="costs" active={m.costsActive} />
+        <LineGraph
+          name="Sales"
+          data={m.data}
+          colorIndex={0}
+          yField="sales"
+          active={m.salesActive}
+        />
+        <LineGraph
+          name="Profit"
+          data={m.data}
+          colorIndex={4}
+          yField="profit"
+          active={m.profitActive}
+        />
+        <LineGraph
+          name="Costs"
+          data={m.data}
+          colorIndex={8}
+          yField="costs"
+          active={m.costsActive}
+        />
       </Chart>
     </Svg>
   </div>

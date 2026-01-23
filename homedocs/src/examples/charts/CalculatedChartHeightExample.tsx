@@ -29,7 +29,7 @@ const categories = [
 ];
 
 // @controller
-class PageController extends Controller<typeof m> {
+class PageController extends Controller {
   onInit() {
     this.store.init(m.itemCount, 5);
     this.addComputable(m.points, [m.itemCount], (itemCount) => {

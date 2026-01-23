@@ -791,7 +791,8 @@ export class Grid<T = unknown> extends ContainerBase<
     instance: GridInstance,
     groupingData: any,
   ) {
-    var row = this.row || {};
+    // Clone row to avoid mutating the original config
+    var row = { ...this.row };
     let columns = this.columns;
     if (this.onGetColumns) {
       let result = instance.invoke("onGetColumns", columnParams, instance);
@@ -815,9 +816,13 @@ export class Grid<T = unknown> extends ContainerBase<
     for (let i = 0; i < 10; i++) {
       let l = row["line" + i];
       if (l) {
-        if (isArray(l.columns))
-          for (let c = 0; c < l.columns.length; c++)
-            l.columns[c].uniqueColumnId = `l${i}-${l.columns[c].key || c}`;
+        if (isArray(l.columns)) {
+          // Clone columns to avoid mutating the original config
+          l.columns = l.columns.map((col: any, c: number) => ({
+            ...col,
+            uniqueColumnId: `l${i}-${col.key || c}`,
+          }));
+        }
         lines.push(l);
       }
     }
