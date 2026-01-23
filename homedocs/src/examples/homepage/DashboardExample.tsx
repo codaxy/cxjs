@@ -128,7 +128,15 @@ class DashboardController extends Controller {
 
 // Widget wrapper component
 const DashboardWidget = createFunctionalComponent(
-  ({ title, icon, children }: { title: string; icon: string; children: any }) => (
+  ({
+    title,
+    icon,
+    children,
+  }: {
+    title: string;
+    icon: string;
+    children: any;
+  }) => (
     <Section
       mod="card"
       class="h-full"
@@ -317,7 +325,6 @@ export default (
         >
           <DragSource
             data={{ index: m.$widgetIndex, type: "widget" }}
-            hideOnDrag
             handled
             cloneStyle={{ opacity: 0.8, transform: "rotate(1deg)" }}
           >
