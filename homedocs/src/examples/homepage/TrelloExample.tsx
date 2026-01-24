@@ -155,7 +155,7 @@ export default (
             keyField="id"
           >
             <DragSource
-              class="bg-white rounded block py-1 px-2 mt-1.5 shadow-sm cursor-pointer hover:bg-gray-50"
+              class="bg-white rounded block py-2 px-3 mt-1.5 shadow-sm cursor-pointer hover:bg-gray-50"
               data={{
                 index: m.$itemIndex,
                 cardIndex: m.$cardIndex,

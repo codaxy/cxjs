@@ -241,8 +241,7 @@ import DashboardExample from '../examples/homepage/DashboardExample.tsx';
           </h1>
 
           <p class="fade-in-up animate-delay-200 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10">
-            Born from a decade of building portals for finance, telecom, and legal.
-            Battle-tested, open source, now in TypeScript.
+            Born from a decade of development in finance, telecom, and legal, CxJS bakes in the UI patterns teams keep rebuilding. <strong>Open source, battle-tested, and now TypeScript-first.</strong>
           </p>
 
           <div class="fade-in-up animate-delay-300 flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -275,70 +274,117 @@ import DashboardExample from '../examples/homepage/DashboardExample.tsx';
         <div class="container mx-auto px-4">
           <div class="text-center mb-16">
             <h2 class="text-3xl md:text-4xl font-bold text-heading mb-4">
-              What's in the Box
+              A Complete UI Framework in One Package
             </h2>
             <p class="text-lg text-muted-foreground max-w-2xl mx-auto">
-              All the nuts and bolts for building data-driven web applications — designed to offer great developer experience.
+              Built as one cohesive system for data-driven web applications, with consistent patterns and a great developer experience.
             </p>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <!-- Feature 1 -->
+            <!-- Model-First -->
             <div class="feature-card p-6 rounded-xl border border-border bg-card/50 backdrop-blur-sm">
               <div class="feature-icon h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                <svg class="h-6 w-6 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="3" y="3" width="7" height="7"></rect>
-                  <rect x="14" y="3" width="7" height="7"></rect>
-                  <rect x="14" y="14" width="7" height="7"></rect>
-                  <rect x="3" y="14" width="7" height="7"></rect>
+                <svg class="h-6 w-6 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 3v18"></path>
+                  <rect x="4" y="8" width="6" height="12" rx="1"></rect>
+                  <rect x="14" y="4" width="6" height="16" rx="1"></rect>
                 </svg>
               </div>
-              <h3 class="text-lg font-semibold text-heading mb-2">50+ Widgets</h3>
-              <p class="text-sm text-muted-foreground">
-                Forms, grids, trees, menus, tooltips, and more — ready to use.
-              </p>
+              <h3 class="text-lg font-semibold text-heading mb-3">Domain-First</h3>
+              <ul class="text-sm text-muted-foreground space-y-1.5">
+                <li class="flex items-start gap-2">
+                  <span class="text-primary">•</span>
+                  Typed models as the source of truth
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-primary">•</span>
+                  Functional components for your domain
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-primary">•</span>
+                  Predictable data binding and formatting
+                </li>
+              </ul>
             </div>
 
-            <!-- Feature 2 -->
+            <!-- Widgets -->
             <div class="feature-card p-6 rounded-xl border border-border bg-card/50 backdrop-blur-sm">
               <div class="feature-icon h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                <svg class="h-6 w-6 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <line x1="18" y1="20" x2="18" y2="10"></line>
-                  <line x1="12" y1="20" x2="12" y2="4"></line>
-                  <line x1="6" y1="20" x2="6" y2="14"></line>
+                <svg class="h-6 w-6 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+                  <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+                  <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+                  <rect x="14" y="14" width="7" height="7" rx="1"></rect>
                 </svg>
               </div>
-              <h3 class="text-lg font-semibold text-heading mb-2">SVG Charts</h3>
-              <p class="text-sm text-muted-foreground">
-                Line, bar, pie, scatter charts — interactive and customizable.
-              </p>
+              <h3 class="text-lg font-semibold text-heading mb-3">Extensive Widget Library</h3>
+              <ul class="text-sm text-muted-foreground space-y-1.5">
+                <li class="flex items-start gap-2">
+                  <span class="text-primary">•</span>
+                  Forms with validation and lookups
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-primary">•</span>
+                  Tables with grouping, selection, and editing
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-primary">•</span>
+                  SVG charts for dashboards and reporting
+                </li>
+              </ul>
             </div>
 
-            <!-- Feature 3 -->
+            <!-- Navigation and App Shell -->
             <div class="feature-card p-6 rounded-xl border border-border bg-card/50 backdrop-blur-sm">
               <div class="feature-icon h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                <svg class="h-6 w-6 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <polyline points="4 17 10 11 4 5"></polyline>
-                  <line x1="12" y1="19" x2="20" y2="19"></line>
+                <svg class="h-6 w-6 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                  <path d="M3 9h18"></path>
+                  <path d="M9 21V9"></path>
                 </svg>
               </div>
-              <h3 class="text-lg font-semibold text-heading mb-2">TypeScript First</h3>
-              <p class="text-sm text-muted-foreground">
-                Full TypeScript support with typed models and accessor chains.
-              </p>
+              <h3 class="text-lg font-semibold text-heading mb-3">Navigation and App Shell</h3>
+              <ul class="text-sm text-muted-foreground space-y-1.5">
+                <li class="flex items-start gap-2">
+                  <span class="text-primary">•</span>
+                  Client-side routing with URLs and history
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-primary">•</span>
+                  Layouts and overlays: menus, windows, tooltips
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-primary">•</span>
+                  Keyboard shortcuts and localization
+                </li>
+              </ul>
             </div>
 
-            <!-- Feature 4 -->
+            <!-- Ecosystem-Friendly -->
             <div class="feature-card p-6 rounded-xl border border-border bg-card/50 backdrop-blur-sm">
               <div class="feature-icon h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                <svg class="h-6 w-6 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                <svg class="h-6 w-6 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+                  <path d="M2 12h20"></path>
                 </svg>
               </div>
-              <h3 class="text-lg font-semibold text-heading mb-2">Two-Way Binding</h3>
-              <p class="text-sm text-muted-foreground">
-                Reactive data binding that keeps your UI and state in perfect sync.
-              </p>
+              <h3 class="text-lg font-semibold text-heading mb-3">Ecosystem-Friendly</h3>
+              <ul class="text-sm text-muted-foreground space-y-1.5">
+                <li class="flex items-start gap-2">
+                  <span class="text-primary">•</span>
+                  Extends easily with React components
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-primary">•</span>
+                  Tailwind CSS support and theming
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-primary">•</span>
+                  Plays well with modern AI tooling
+                </li>
+              </ul>
             </div>
           </div>
         </div>
@@ -353,23 +399,23 @@ import DashboardExample from '../examples/homepage/DashboardExample.tsx';
           <div class="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 class="text-3xl md:text-4xl font-bold text-heading mb-4">
-                Easy to Read and Write
+                Predictable Developer Experience
               </h2>
               <p class="text-lg text-muted-foreground mb-6">
-                Less to think about. Layouts, validation, and data binding just work — so you stay focused on what matters.
+                Typed models, consistent binding, and layout primitives keep screens easy to build, easy to refactor, and easy to autocomplete.
               </p>
               <ul class="space-y-3 text-muted-foreground">
                 <li class="flex items-center gap-3">
                   <div class="h-2 w-2 rounded-full bg-primary"></div>
-                  Intuitive JSX syntax
+                  JSX that stays clean as screens grow
                 </li>
                 <li class="flex items-center gap-3">
                   <div class="h-2 w-2 rounded-full bg-primary"></div>
-                  Typed models for easy refactoring
+                  Typed models for safe refactoring
                 </li>
                 <li class="flex items-center gap-3">
                   <div class="h-2 w-2 rounded-full bg-primary"></div>
-                  Autocomplete for every prop and value
+                  Autocomplete for props, bindings, and values
                 </li>
               </ul>
             </div>
@@ -407,10 +453,10 @@ import DashboardExample from '../examples/homepage/DashboardExample.tsx';
         <div class="container mx-auto px-4">
           <div class="text-center mb-12">
             <h2 class="text-3xl md:text-4xl font-bold text-heading mb-4">
-              What You Can Build
+              How It All Fits Together
             </h2>
             <p class="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Interactive examples showcasing CxJS capabilities.
+              Interactive examples that combine models, widgets, and charts into real portal screens.
             </p>
           </div>
 
@@ -467,7 +513,7 @@ import DashboardExample from '../examples/homepage/DashboardExample.tsx';
             Your Next Portal Starts Here
           </h2>
           <p class="text-lg text-muted-foreground max-w-xl mx-auto mb-8">
-            Explore the docs, try the examples, and build your first portal.
+            Explore the docs, try the examples, and start building today.
           </p>
           <a
             href="/docs/intro/hello-world"

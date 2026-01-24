@@ -10,3 +10,4 @@
 [ ] Theme
 [ ] HoverSync is broken
 [ ] NumberField wheel example
+[ ] Add a grouped table example to the home page

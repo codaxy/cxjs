@@ -5,19 +5,27 @@ import {
   ContentResolver,
   createFunctionalComponent,
   enableCultureSensitiveFormatting,
+  expr,
+  hasValue,
 } from "cx/ui";
-import { Svg, Text } from "cx/svg";
+import { Svg, Text, Line, Rectangle } from "cx/svg";
 import {
   Chart,
   LineGraph,
   ColumnGraph,
   PieChart,
   PieSlice,
+  PieLabelsContainer,
+  PieLabel,
   Gridlines,
   TimeAxis,
   NumericAxis,
   CategoryAxis,
-  Legend,
+  MouseTracker,
+  ValueAtFinder,
+  SnapPointFinder,
+  Marker,
+  MarkerLine,
 } from "cx/charts";
 import {
   FlexRow,
@@ -44,6 +52,10 @@ interface DashboardModel {
   $widget: WidgetConfig;
   $widgetIndex: number;
   $record: any;
+  cursor: { x: number };
+  snapX: number | null;
+  idealValue: number | null;
+  actualValue: number | null;
 }
 
 const m = createModel<DashboardModel>();
@@ -166,18 +178,66 @@ const BurndownWidget = createFunctionalComponent(() => (
         }}
       >
         <Gridlines />
-        <LineGraph
-          data={idealData}
-          xField="date"
-          yField="tasks"
-          colorIndex={8}
-        />
-        <LineGraph
-          data={actualData}
-          xField="date"
-          yField="tasks"
-          colorIndex={0}
-        />
+        <MouseTracker
+          x={m.cursor.x}
+          tooltip={{
+            destroyDelay: 5,
+            createDelay: 5,
+            trackMouse: true,
+            placement: "right",
+            items: (
+              <div class="text-xs">
+                <div class="font-bold mb-1" text={{ tpl: "{snapX:d;MMM dd}" }} />
+                <div class="flex justify-between gap-4">
+                  <span style="color: var(--cx-chart-color-8)">Ideal:</span>
+                  <span text={{ tpl: "{idealValue:n;1}" }} />
+                </div>
+                <div class="flex justify-between gap-4">
+                  <span style="color: var(--cx-chart-color-0)">Actual:</span>
+                  <span text={{ tpl: "{actualValue:n;1}" }} />
+                </div>
+              </div>
+            ),
+          }}
+        >
+          <MarkerLine visible={hasValue(m.snapX)} x={m.snapX} />
+          <SnapPointFinder
+            cursorX={m.cursor.x}
+            snapX={m.snapX}
+            maxDistance={Infinity}
+          >
+            <ValueAtFinder at={m.snapX} value={m.idealValue}>
+              <LineGraph
+                data={idealData}
+                xField="date"
+                yField="tasks"
+                colorIndex={8}
+              />
+            </ValueAtFinder>
+          </SnapPointFinder>
+          <Marker
+            visible={hasValue(m.idealValue)}
+            x={m.snapX}
+            y={m.idealValue}
+            colorIndex={8}
+            size={6}
+          />
+          <ValueAtFinder at={m.snapX} value={m.actualValue}>
+            <LineGraph
+              data={actualData}
+              xField="date"
+              yField="tasks"
+              colorIndex={0}
+            />
+          </ValueAtFinder>
+          <Marker
+            visible={hasValue(m.actualValue)}
+            x={m.snapX}
+            y={m.actualValue}
+            colorIndex={0}
+            size={6}
+          />
+        </MouseTracker>
       </Chart>
     </Svg>
   </DashboardWidget>
@@ -200,39 +260,66 @@ const IssuesChartWidget = createFunctionalComponent(() => (
           yField="count"
           colorIndex={0}
           size={0.6}
+          tooltip={{
+            text: { tpl: "{$record.type}: {$record.count}" },
+            placement: "up",
+          }}
         />
       </Chart>
     </Svg>
   </DashboardWidget>
 ));
 
+const sprintTotal = sprintData.reduce((sum, d) => sum + d.count, 0);
+
 const SprintWidget = createFunctionalComponent(() => (
   <DashboardWidget title="Sprint Completion" icon="pie-chart">
-    <Legend.Scope>
-      <div class="flex items-center justify-center flex-1">
-        <Svg class="self-stretch grow h-auto!">
-          <PieChart>
-            <Repeater records={sprintData} recordAlias={m.$record}>
-              <PieSlice
-                value={m.$record.count}
-                colorIndex={m.$record.color}
-                name={m.$record.text}
-                r={90}
-                r0={60}
-              />
-            </Repeater>
-          </PieChart>
-          <Text
-            style="font-size: 18px; font-weight: 600"
-            dy="0.4em"
-            ta="middle"
-          >
-            85%
-          </Text>
-        </Svg>
-        <Legend vertical class="ml-2 text-xs w-32" />
-      </div>
-    </Legend.Scope>
+    <Svg class="self-stretch grow h-auto!">
+
+      <PieLabelsContainer>
+        <PieChart>
+          <Repeater records={sprintData} recordAlias={m.$record}>
+            <PieSlice
+              value={m.$record.count}
+              colorIndex={m.$record.color}
+              name={m.$record.text}
+              r={80}
+              r0={50}
+              innerPointRadius={80}
+              outerPointRadius={95}
+            >
+              <Line style="stroke: currentColor; opacity: 0.5" />
+              <PieLabel
+                anchors="1 1 1 1"
+                distance={50}
+                lineStroke="currentColor"
+              >
+                <Text
+                  value={expr(
+                    m.$record.text,
+                    m.$record.count,
+                    (text, count) =>
+                      `${text} (${Math.round((count / sprintTotal) * 100)}%)`,
+                  )}
+                  style="font-size: 11px"
+                  dominantBaseline="middle"
+                  autoTextAnchor
+                  anchors="0.5 1 0.5 0"
+                  margin="0 3 0 3"
+                />
+              </PieLabel>
+            </PieSlice>
+          </Repeater>
+        </PieChart>
+      </PieLabelsContainer>
+      <Text
+        textAnchor="middle"
+        dominantBaseline="middle"
+        style="font-size: 18px; font-weight: 600"
+      >
+        85%
+      </Text>
+    </Svg>
   </DashboardWidget>
 ));
 
@@ -242,9 +329,11 @@ const IssuesGridWidget = createFunctionalComponent(() => (
       records={issuesData}
       scrollable
       style="flex: 1"
+      defaultSortField="count"
+      defaultSortDirection="DESC"
       columns={[
-        { field: "type", header: "Type" },
-        { field: "count", header: "Count", align: "right" },
+        { field: "type", header: "Type", sortable: true },
+        { field: "count", header: "Count", align: "right", sortable: true },
       ]}
     />
   </DashboardWidget>
@@ -267,6 +356,10 @@ const VelocityWidget = createFunctionalComponent(() => (
           yField="points"
           colorIndex={4}
           size={0.6}
+          tooltip={{
+            text: { tpl: "{$record.sprint}: {$record.points} points" },
+            placement: "up",
+          }}
         />
       </Chart>
     </Svg>
@@ -280,8 +373,8 @@ const ActivityWidget = createFunctionalComponent(() => (
       scrollable
       style="flex: 1"
       columns={[
-        { field: "user", header: "User", style: "width: 80px" },
-        { field: "action", header: "Action" },
+        { field: "user", header: "User", style: "width: 80px", sortable: true },
+        { field: "action", header: "Action", sortable: true },
       ]}
     />
   </DashboardWidget>
