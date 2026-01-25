@@ -23,42 +23,46 @@ export default function llmsTxt(options = {}) {
         const srcDir = join(process.cwd(), "src/pages");
 
         // Generate ordered page list from navigation
-        const orderedPages = [];
+        const allPages = [];
+        const smallPages = [];
         for (const category of navigation) {
           for (const group of category.groups) {
             for (const item of group.items) {
-              const pagePath = `docs/${category.slug}/${item.slug}`;
-              orderedPages.push({
-                path: pagePath,
+              const pageInfo = {
+                path: `docs/${category.slug}/${item.slug}`,
                 title: item.title,
+                description: item.description || "",
                 category: category.title,
                 group: group.title,
-              });
+              };
+              allPages.push(pageInfo);
+              if (item.llms === "small") {
+                smallPages.push(pageInfo);
+              }
             }
           }
         }
 
         // Generate full documentation file
-        const fullContent = await generateDocContent(
-          orderedPages,
-          srcDir,
-          false
-        );
+        const fullContent = await generateDocContent(allPages, srcDir, false);
         await writeFile(
           join(distDir, "llms-full.txt"),
           `<SYSTEM>${description}</SYSTEM>\n\n${fullContent}`,
-          "utf-8"
+          "utf-8",
         );
         console.log("✅ llms-full.txt generated");
 
-        // Generate structure-only file
-        const smallContent = await generateDocContent(orderedPages, srcDir, true);
+        // Generate small documentation file (only llms: 'small' entries, full content)
+        const smallContent = await generateDocContent(smallPages, srcDir, false);
         await writeFile(
           join(distDir, "llms-small.txt"),
-          `<SYSTEM>Index of key documentation pages and sections</SYSTEM>\n\n${smallContent}`,
-          "utf-8"
+          `<SYSTEM>${description} (Key articles only)</SYSTEM>\n\n${smallContent}`,
+          "utf-8",
         );
         console.log("✅ llms-small.txt generated");
+
+        // Generate navigation index
+        const navIndex = generateNavigationIndex(site);
 
         // Generate main llms.txt index
         const indexContent = `# ${title}
@@ -68,18 +72,47 @@ export default function llmsTxt(options = {}) {
 ## Documentation Sets
 
 - [Complete Documentation](${site}/llms-full.txt): Full CxJS documentation including all guides and API references
-- [Documentation Structure](${site}/llms-small.txt): Index of key documentation pages and sections
+- [Key Documentation](${site}/llms-small.txt): Essential CxJS documentation for getting started
 
 ## Notes
 
 - This content is auto-generated from the official CxJS documentation.
-- Pages are ordered according to the documentation navigation structure.`;
+- Pages are ordered according to the documentation navigation structure.
+
+${navIndex}`;
 
         await writeFile(join(distDir, "llms.txt"), indexContent, "utf-8");
         console.log("✅ llms.txt generated");
       },
     },
   };
+}
+
+/**
+ * Generate navigation index with links and descriptions grouped by category
+ * @param {string} site - Site URL
+ * @returns {string} Markdown navigation index
+ */
+function generateNavigationIndex(site) {
+  const sections = [];
+
+  for (const category of navigation) {
+    const categoryLines = [`### ${category.title}`];
+
+    for (const group of category.groups) {
+      categoryLines.push(`\n#### ${group.title}`);
+
+      for (const item of group.items) {
+        const url = `${site}/docs/${category.slug}/${item.slug}`;
+        const description = item.description ? `: ${item.description}` : "";
+        categoryLines.push(`- [${item.title}](${url})${description}`);
+      }
+    }
+
+    sections.push(categoryLines.join("\n"));
+  }
+
+  return `## Documentation Pages\n\n${sections.join("\n\n")}`;
 }
 
 /**
@@ -107,79 +140,12 @@ async function generateDocContent(orderedPages, srcDir, onlyStructure) {
   }
 
   if (skippedCount > 0) {
-    console.log(`ℹ️  Skipped ${skippedCount} pages from navigation that don't exist yet`);
+    console.log(
+      `ℹ️  Skipped ${skippedCount} pages from navigation that don't exist yet`,
+    );
   }
 
   return entries.join("\n\n---\n\n");
-}
-
-/**
- * Parse sections from code using markers like // @section and // @section-end
- * @param {string} code - Source code
- * @returns {Object} Sections object with keys like 'model', 'controller', 'index', etc.
- */
-function parseSections(code) {
-  const sections = {};
-  const sectionRegex = /\/\/\s*@(model|controller|components|index)[^\n]*\n([\s\S]*?)\/\/\s*@\1-end/g;
-  let match;
-
-  while ((match = sectionRegex.exec(code)) !== null) {
-    const sectionName = match[1];
-    sections[sectionName] = match[2].trim();
-  }
-
-  return sections;
-}
-
-/**
- * Trim export default wrapper from code
- * @param {string} code - Source code
- * @returns {string} Code without export default wrapper
- */
-function trimExportDefault(code) {
-  const trimmed = code.trim();
-
-  // Handle single-line export default
-  if (trimmed.startsWith("export default () => (") && (trimmed.endsWith(");") || trimmed.endsWith(")"))) {
-    const endChars = trimmed.endsWith(");") ? 2 : 1;
-    return trimmed.slice("export default () => (".length, -endChars).trim();
-  }
-
-  // Handle multi-line export default
-  if (trimmed.startsWith("export default () => (")) {
-    const lines = trimmed.split("\n");
-    lines.shift(); // Remove first line
-    const lastLine = lines[lines.length - 1].trim();
-    if (lastLine === ");" || lastLine === ")") {
-      lines.pop(); // Remove last line
-    }
-    return lines.join("\n").trim();
-  }
-
-  return trimmed;
-}
-
-/**
- * Extract import statements from code (everything before first // @ marker)
- * @param {string} code - Source code
- * @returns {string|null} Import statements or null
- */
-function extractImports(code) {
-  // Find the first // @ marker
-  const firstMarkerMatch = code.match(/\/\/\s*@\w+/);
-
-  if (!firstMarkerMatch) {
-    return null; // No markers found
-  }
-
-  // Extract everything before the first marker
-  const beforeMarker = code.substring(0, firstMarkerMatch.index).trim();
-
-  if (!beforeMarker) {
-    return null;
-  }
-
-  return beforeMarker;
 }
 
 /**
@@ -209,7 +175,8 @@ async function extractMdxContent(mdxPath, srcDir, onlyStructure) {
 
   // Replace CodeExample components with actual code blocks
   if (!onlyStructure && Object.keys(rawImports).length > 0) {
-    const codeExampleRegex = /<CodeExample\s+code=\{(\w+)\}[^>]*>[\s\S]*?<\/CodeExample>/g;
+    const codeExampleRegex =
+      /<CodeExample\s+code=\{(\w+)\}[^>]*>[\s\S]*?<\/CodeExample>/g;
 
     processedContent = await replaceAsync(
       processedContent,
@@ -219,48 +186,28 @@ async function extractMdxContent(mdxPath, srcDir, onlyStructure) {
           const codeFilePath = resolveImportPath(mdxPath, rawImports[varName]);
           try {
             const code = await readFile(codeFilePath, "utf-8");
-            const sections = parseSections(code);
-            const imports = extractImports(code);
 
-            // Build formatted code blocks for each section
-            const codeBlocks = [];
+            // Filter out section marker lines
+            const filteredCode = code
+              .split("\n")
+              .filter(
+                (line) =>
+                  !line
+                    .trim()
+                    .match(
+                      /^\/\/\s*@(model|controller|components|index)(-end)?$/,
+                    ),
+              )
+              .join("\n");
 
-            // Show imports first if they exist and we have sections
-            if (imports && Object.keys(sections).length > 0) {
-              codeBlocks.push(`**Imports:**\n\`\`\`tsx\n${imports}\n\`\`\``);
-            } else if (imports) {
-              // Show imports even without sections
-              codeBlocks.push(`**Imports:**\n\`\`\`tsx\n${imports}\n\`\`\``);
-            }
-
-            // Show model section
-            if (sections.model) {
-              codeBlocks.push(`**Model:**\n\`\`\`tsx\n${sections.model}\n\`\`\``);
-            }
-
-            // Show controller section
-            if (sections.controller) {
-              codeBlocks.push(`**Controller:**\n\`\`\`tsx\n${sections.controller}\n\`\`\``);
-            }
-
-            // Show components section
-            if (sections.components) {
-              codeBlocks.push(`**Components:**\n\`\`\`tsx\n${sections.components}\n\`\`\``);
-            }
-
-            // Show index section (main code) - remove export default wrapper
-            let indexCode = sections.index || code.replace(/\/\*\*\s*@jsxImportSource\s+\w+\s*\*\/\n?/, "").trim();
-            indexCode = trimExportDefault(indexCode);
-            codeBlocks.push(`**TSX:**\n\`\`\`tsx\n${indexCode}\n\`\`\``);
-
-            return codeBlocks.join("\n\n");
+            return "```tsx\n" + filteredCode + "\n```";
           } catch (error) {
             console.warn(`⚠️  Could not read code file: ${codeFilePath}`);
             return match; // Keep original if file not found
           }
         }
         return match;
-      }
+      },
     );
   }
 
@@ -268,14 +215,16 @@ async function extractMdxContent(mdxPath, srcDir, onlyStructure) {
   // Split by code blocks, remove imports from non-code parts only
   const codeBlockRegex = /(```[\s\S]*?```)/g;
   const contentParts = processedContent.split(codeBlockRegex);
-  processedContent = contentParts.map((part, index) => {
-    // Even indices are non-code, odd indices are code blocks
-    if (index % 2 === 0) {
-      // Remove import statements only from non-code parts
-      return part.replace(/import\s+[\s\S]*?from\s+["'][^"']+["'];?\s*/g, "");
-    }
-    return part; // Keep code blocks unchanged
-  }).join("");
+  processedContent = contentParts
+    .map((part, index) => {
+      // Even indices are non-code, odd indices are code blocks
+      if (index % 2 === 0) {
+        // Remove import statements only from non-code parts
+        return part.replace(/import\s+[\s\S]*?from\s+["'][^"']+["'];?\s*/g, "");
+      }
+      return part; // Keep code blocks unchanged
+    })
+    .join("");
 
   // Remove frontmatter section if still present
   processedContent = processedContent.replace(/^---[\s\S]*?---\s*/m, "");
@@ -330,13 +279,16 @@ async function replaceAsync(str, regex, asyncFn) {
   }
 
   const replacements = await Promise.all(
-    matches.map(m => asyncFn(m.match, ...m.args))
+    matches.map((m) => asyncFn(m.match, ...m.args)),
   );
 
   let result = str;
   for (let i = matches.length - 1; i >= 0; i--) {
     const { index, match } = matches[i];
-    result = result.substring(0, index) + replacements[i] + result.substring(index + match.length);
+    result =
+      result.substring(0, index) +
+      replacements[i] +
+      result.substring(index + match.length);
   }
 
   return result;

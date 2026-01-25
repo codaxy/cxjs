@@ -5,8 +5,8 @@
 [x] try export default {} instead of export () => {}
 [ ] document controller inline form
 [ ] add List and TextField example and piping keyboard events
-[ ] Homepage copy
-[ ] Homepage examples
+[x] Homepage copy
+[x] Homepage examples
 [ ] Theme
 [ ] HoverSync is broken
 [ ] NumberField wheel example
