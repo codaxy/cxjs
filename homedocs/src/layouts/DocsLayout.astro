@@ -9,12 +9,15 @@ import '../styles/global.scss';
 interface Props {
   frontmatter?: {
     title?: string;
+    description?: string;
   };
   title?: string;
+  description?: string;
 }
 
-const { frontmatter, title: directTitle } = Astro.props;
+const { frontmatter, title: directTitle, description: directDescription } = Astro.props;
 const title = frontmatter?.title || directTitle || '';
+const description = frontmatter?.description || directDescription || '';
 ---
 
 <!doctype html>
@@ -22,7 +25,8 @@ const title = frontmatter?.title || directTitle || '';
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{title} - CxJS</title>
+    <title>{title} - CxJS Documentation</title>
+    {description && <meta name="description" content={description} />}
     <ClientRouter />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
