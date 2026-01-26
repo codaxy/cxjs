@@ -92,7 +92,7 @@ class BoardController extends Controller {
 export default (
   <section
     controller={BoardController}
-    class="p-2.5 bg-[rgb(0,121,191)] min-h-[450px] rounded-lg"
+    class="p-2.5 bg-[rgb(0,121,191)] dark:bg-transparent min-h-[450px] rounded-lg"
   >
     <div class="flex flex-row items-start flex-wrap justify-center">
       <DropZone
@@ -113,7 +113,7 @@ export default (
         keyField="id"
       >
         <DragSource
-          class="w-[250px] m-2.5 p-2.5 bg-[#e2e4e6] rounded shadow-sm"
+          class="w-[250px] m-2.5 p-2.5 bg-muted/80 rounded shadow-sm"
           data={{ index: m.$cardIndex, type: "card" }}
           hideOnDrag
           handled
@@ -134,12 +134,12 @@ export default (
                   m.$card.items,
                   moveElement,
                   e.source.data.index,
-                  0
+                  0,
                 );
               else {
                 let el = e.source.store.get(m.$item);
                 e.source.store.update(m.$card.items, (items) =>
-                  items.filter((item) => item != el)
+                  items.filter((item) => item != el),
                 );
                 store.update(m.$card.items, insertElement, 0, el);
               }
@@ -155,7 +155,7 @@ export default (
             keyField="id"
           >
             <DragSource
-              class="bg-white rounded block py-2 px-3 mt-1.5 shadow-sm cursor-pointer hover:bg-gray-50"
+              class="bg-card rounded block py-2 px-3 mt-1.5 shadow-sm cursor-pointer hover:bg-card/80"
               data={{
                 index: m.$itemIndex,
                 cardIndex: m.$cardIndex,
@@ -176,18 +176,18 @@ export default (
                     m.$card.items,
                     moveElement,
                     e.source.data.index,
-                    store.get(m.$itemIndex) + 1
+                    store.get(m.$itemIndex) + 1,
                   );
                 else {
                   let el = e.source.store.get(m.$item);
                   e.source.store.update(m.$card.items, (items) =>
-                    items.filter((item) => item != el)
+                    items.filter((item) => item != el),
                   );
                   store.update(
                     m.$card.items,
                     insertElement,
                     store.get(m.$itemIndex) + 1,
-                    el
+                    el,
                   );
                 }
               }}
@@ -206,7 +206,7 @@ export default (
               m.cards,
               moveElement,
               e.source.data.index,
-              store.get(m.$cardIndex) + 1
+              store.get(m.$cardIndex) + 1,
             );
           }}
           matchWidth

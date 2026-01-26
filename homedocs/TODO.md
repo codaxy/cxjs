@@ -8,8 +8,8 @@
 [x] Homepage copy
 [x] Homepage examples
 [ ] Theme
-[ ] Dark mode
+[x] Dark mode
 [ ] HoverSync is broken
 [x] NumberField wheel example
-[ ] Add a grouped table example to the home page
+[x] Add a grouped table example to the home page
 [x] Fix llms.txt and llms-small.txt

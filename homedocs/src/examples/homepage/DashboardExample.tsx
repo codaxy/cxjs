@@ -149,12 +149,7 @@ const DashboardWidget = createFunctionalComponent(
     icon: string;
     children: any;
   }) => (
-    <Section
-      mod="card"
-      class="h-full"
-      bodyClass="flex flex-col"
-      bodyStyle="padding: 8px; height: 240px;"
-    >
+    <section class="h-70 bg-muted flex flex-col p-2 border rounded">
       <DragHandle>
         <FlexRow align="center" class="mb-2 cursor-move">
           <Icon name={icon} class="w-4 h-4 mr-2 opacity-70" />
@@ -162,7 +157,7 @@ const DashboardWidget = createFunctionalComponent(
         </FlexRow>
       </DragHandle>
       {children}
-    </Section>
+    </section>
   ),
 );
 
@@ -176,7 +171,9 @@ const BurndownWidget = createFunctionalComponent(() => (
           x: { type: TimeAxis, snapToTicks: false },
           y: { type: NumericAxis, vertical: true, snapToTicks: 0 },
         }}
+        axesOnTop
       >
+        <Rectangle class="fill-card" />
         <Gridlines />
         <MouseTracker
           x={m.cursor.x}
@@ -187,7 +184,10 @@ const BurndownWidget = createFunctionalComponent(() => (
             placement: "right",
             items: (
               <div class="text-xs">
-                <div class="font-bold mb-1" text={{ tpl: "{snapX:d;MMM dd}" }} />
+                <div
+                  class="font-bold mb-1"
+                  text={{ tpl: "{snapX:d;MMM dd}" }}
+                />
                 <div class="flex justify-between gap-4">
                   <span style="color: var(--cx-chart-color-8)">Ideal:</span>
                   <span text={{ tpl: "{idealValue:n;1}" }} />
@@ -252,7 +252,9 @@ const IssuesChartWidget = createFunctionalComponent(() => (
           x: { type: CategoryAxis, snapToTicks: 0 },
           y: { type: NumericAxis, vertical: true, snapToTicks: 1 },
         }}
+        axesOnTop
       >
+        <Rectangle class="fill-card" />
         <Gridlines />
         <ColumnGraph
           data={issuesData}
@@ -275,7 +277,7 @@ const sprintTotal = sprintData.reduce((sum, d) => sum + d.count, 0);
 const SprintWidget = createFunctionalComponent(() => (
   <DashboardWidget title="Sprint Completion" icon="pie-chart">
     <Svg class="self-stretch grow h-auto!">
-
+      <Rectangle class="fill-card stroke-border stroke-2" />
       <PieLabelsContainer>
         <PieChart>
           <Repeater records={sprintData} recordAlias={m.$record}>
@@ -349,6 +351,7 @@ const VelocityWidget = createFunctionalComponent(() => (
           y: { type: NumericAxis, vertical: true, snapToTicks: 1 },
         }}
       >
+        <Rectangle class="fill-card" />
         <Gridlines />
         <ColumnGraph
           data={velocityData}
@@ -392,10 +395,7 @@ const widgetMap: Record<string, any> = {
 
 // @index
 export default (
-  <div
-    controller={DashboardController}
-    class="p-4 bg-gray-100 min-h-[450px] rounded-lg"
-  >
+  <div controller={DashboardController} class="p-4 min-h-[450px] rounded-lg">
     <div class="grid grid-cols-3 gap-3">
       <Repeater
         records={m.widgets}

@@ -330,46 +330,44 @@ const stackblitzProject = isCompleteExample
   <div class="relative">
     <!-- Code Block -->
     <div
-      class="code-block rounded-lg overflow-hidden border border-border bg-[hsl(var(--code-bg))]"
+      class="code-block relative rounded-lg overflow-hidden border border-border bg-[hsl(var(--code-bg))]"
     >
       {
         !hasTabs && stackblitzProject && (
-          <div class="flex justify-end border-b border-[hsl(var(--code-border))]">
-            <button
-              class="stackblitz-btn px-3 py-2 text-xs font-medium transition-colors hover:text-white flex items-center gap-1.5 cursor-pointer"
-              data-project={JSON.stringify(stackblitzProject)}
-              style="color: rgba(255, 255, 255, 0.5);"
-              title="Open in StackBlitz"
+          <button
+            class="stackblitz-btn absolute top-2 right-2 z-10 px-2 py-1 text-xs font-medium transition-colors hover:text-white flex items-center gap-1.5 cursor-pointer rounded"
+            data-project={JSON.stringify(stackblitzProject)}
+            style="color: rgba(255, 255, 255, 0.5);"
+            title="Open in StackBlitz"
+          >
+            <svg
+              class="w-3.5 h-3.5"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
             >
-              <svg
-                class="w-3.5 h-3.5"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path
-                  d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <polyline
-                  points="15 3 21 3 21 9"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <line
-                  x1="10"
-                  x2="21"
-                  y1="14"
-                  y2="3"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-              <span class="hidden sm:inline">StackBlitz</span>
-            </button>
-          </div>
+              <path
+                d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <polyline
+                points="15 3 21 3 21 9"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <line
+                x1="10"
+                x2="21"
+                y1="14"
+                y2="3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            <span class="hidden sm:inline">StackBlitz</span>
+          </button>
         )
       }
       {
@@ -500,20 +498,18 @@ const stackblitzProject = isCompleteExample
     <div
       class="preview-container 2xl:absolute 2xl:left-full 2xl:top-0 2xl:bottom-0 2xl:ml-6 2xl:w-[600px] mt-4 2xl:mt-0 2xl:flex 2xl:items-center"
     >
-      <!-- Arrow connector - only visible on xl+ -->
+      <!-- Arrow connector - only visible on 2xl+ -->
       <div
-        class="hidden 2xl:flex absolute right-full top-1/2 -translate-y-1/2 items-center"
+        class="hidden 2xl:flex absolute -left-6 top-1/2 -translate-y-1/2 items-center"
       >
-        <div class="w-4 h-px bg-border"></div>
-        <svg
-          class="w-3 h-3 text-primary -ml-0.5"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2.5"
-        >
-          <path d="m9 18 6-6-6-6" stroke-linecap="round" stroke-linejoin="round"
-          ></path>
+        <svg class="w-6 h-6 text-primary/50" viewBox="0 0 24 24" fill="none">
+          <path
+            d="M5 12h12m0 0l-4-4m4 4l-4 4"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
         </svg>
       </div>
 

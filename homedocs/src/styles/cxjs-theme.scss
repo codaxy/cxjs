@@ -35,9 +35,8 @@ $cx-default-switch-range-background-color: #1f99f8;
 $cx-default-grid-data-padding: 8px 12px;
 $cx-default-grid-header-font-weight: 700;
 $cx-default-grid-header-font-size: 12px;
-$cx-default-grid-header-background-color: rgba(#eee, 0.25) !default;
-$cx-default-grid-header-color: rgba(black, 0.6);
-$cx-default-grid-border-color: rgb(237, 242, 247);
+$cx-default-grid-header-background-color: hsl(var(--muted));
+$cx-default-grid-header-color: hsl(var(--muted-foreground));
 $cx-default-grid-header-border-color: hsl(var(--border));
 $cx-default-grid-border-color: hsl(var(--border));
 $cx-default-grid-font-size: 14px;
@@ -56,6 +55,15 @@ $cx-default-palette-fill-blacken: 0%;
 
 $cx-grid-pagination-default-outer-border-radius: 6px;
 $cx-grid-pagination-default-border-radius: 6px;
+
+// Input field colors (works in both light and dark mode)
+$cx-default-input-background-color: hsl(var(--background));
+$cx-default-input-color: hsl(var(--foreground));
+$cx-default-empty-text-color: hsl(var(--muted-foreground));
+$cx-default-input-tag-background-color: hsl(var(--muted));
+
+// Window colors
+$cx-default-window-background-color: hsl(var(--card));
 
 // ========================================
 // CxJS Style Customizations
@@ -104,6 +112,10 @@ $cx-std-field-state-style-map: cx-deep-map-merge(
       border-color: rgb(77, 144, 254),
       box-shadow: 0 0 0 1px rgba(77, 144, 254, 0.8),
     ),
+    disabled: (
+      background: hsl(var(--muted)),
+      color: hsl(var(--muted-foreground)),
+    ),
     error: (
       border-color: #dc2626,
       box-shadow: 0 0 0 1px rgba(#dc2626, 0.8),
@@ -127,6 +139,10 @@ $cx-textarea-state-style-map: cx-deep-map-merge(
     focus: (
       border-color: rgb(77, 144, 254),
       box-shadow: 0 0 0 1px rgba(77, 144, 254, 0.8),
+    ),
+    disabled: (
+      background: hsl(var(--muted)),
+      color: hsl(var(--muted-foreground)),
     ),
     error: (
       border-color: #dc2626,
@@ -154,22 +170,28 @@ $cx-list-item: cx-deep-map-merge(
   $cx-list-item,
   (
     hover: (
-      background-color: #f3f4f6,
+      background-color: hsl(var(--muted)),
     ),
     cursor: (
-      background-color: #f3f4f6,
+      background-color: transparent,
+      box-shadow: inset 0 0 0 1px hsl(var(--primary)),
+      position: relative,
+      z-index: 1,
     ),
     selected: (
-      background-color: rgb(219, 234, 254),
-      color: rgb(37, 99, 235),
+      background-color: hsl(var(--accent)),
+      color: hsl(var(--accent-foreground)),
     ),
     selected-hover: (
-      background-color: rgb(219, 234, 254),
-      color: rgb(37, 99, 235),
+      background-color: hsl(var(--accent)),
+      color: hsl(var(--accent-foreground)),
     ),
     selected-cursor: (
-      background-color: rgb(191, 219, 254),
-      color: rgb(37, 99, 235),
+      background-color: hsl(var(--accent)),
+      color: hsl(var(--accent-foreground)),
+      box-shadow: inset 0 0 0 1px hsl(var(--primary)),
+      position: relative,
+      z-index: 1,
     ),
     disabled: (
       opacity: 0.4,
@@ -275,39 +297,6 @@ $cx-dropdown-styles: cx-deep-map-merge(
 
 .cxb-tooltip {
   font-weight: 500;
-}
-
-// TextField dark mode support
-.cxb-textfield {
-  .cxe-textfield-input {
-    background-color: var(--sl-color-gray-6);
-    color: var(--sl-color-text);
-    border-color: var(--sl-color-gray-5);
-
-    &::placeholder {
-      color: var(--sl-color-gray-3);
-    }
-
-    &:focus {
-      background-color: var(--sl-color-bg);
-    }
-  }
-}
-
-.dark .cxb-textfield {
-  .cxe-textfield-input {
-    background-color: var(--sl-color-gray-6);
-    color: var(--sl-color-text);
-    border-color: var(--sl-color-gray-5);
-
-    &::placeholder {
-      color: var(--sl-color-gray-4);
-    }
-
-    &:focus {
-      background-color: var(--sl-color-gray-7);
-    }
-  }
 }
 
 // Window / MsgBox
@@ -477,10 +466,7 @@ $cx-dropdown-styles: cx-deep-map-merge(
     &:disabled,
     &[disabled],
     &:read-only {
-      background-color: hsl(var(--muted));
-      color: hsl(var(--muted-foreground));
       cursor: not-allowed;
-      opacity: 0.7;
     }
   }
 
@@ -488,10 +474,7 @@ $cx-dropdown-styles: cx-deep-map-merge(
     input,
     textarea,
     .cxe-lookup-input {
-      background-color: hsl(var(--muted));
-      color: hsl(var(--muted-foreground));
       cursor: not-allowed;
-      opacity: 0.7;
     }
   }
 }
@@ -609,13 +592,14 @@ $cx-dropdown-styles: cx-deep-map-merge(
 }
 
 // Grid
-.cxb-grid {
-  background-color: hsl(var(--card));
-  overflow: hidden;
+.cxb-grid.cxs-scrollable {
+  background-color: hsl(var(--background));
+}
+
+.dark .cxb-grid.cxs-scrollable {
+  background-color: transparent;
 
   .cxe-grid-header {
-    background-color: hsl(var(--muted));
-    color: hsl(var(--muted-foreground));
     font-weight: 500;
   }
 
@@ -629,18 +613,6 @@ $cx-dropdown-styles: cx-deep-map-merge(
 
   .cxe-grid-data-cell {
     border-color: hsl(var(--border));
-  }
-
-  .cxe-grid-row {
-    transition: background-color 0.15s;
-
-    &:hover {
-      background-color: hsl(var(--muted));
-    }
-
-    &.cxs-selected {
-      background-color: hsl(var(--accent));
-    }
   }
 }
 
