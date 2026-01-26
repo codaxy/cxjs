@@ -5,6 +5,7 @@ import { ClientRouter } from 'astro:transitions';
 import TrelloExample from '../examples/homepage/TrelloExample.tsx';
 import InvoiceExample from '../examples/homepage/InvoiceExample.tsx';
 import DashboardExample from '../examples/homepage/DashboardExample.tsx';
+import InventoryExample from '../examples/homepage/InventoryExample.tsx';
 ---
 
 <!doctype html>
@@ -282,32 +283,6 @@ import DashboardExample from '../examples/homepage/DashboardExample.tsx';
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <!-- Model-First -->
-            <div class="feature-card p-6 rounded-xl border border-border bg-card/50 backdrop-blur-sm">
-              <div class="feature-icon h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                <svg class="h-6 w-6 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M12 3v18"></path>
-                  <rect x="4" y="8" width="6" height="12" rx="1"></rect>
-                  <rect x="14" y="4" width="6" height="16" rx="1"></rect>
-                </svg>
-              </div>
-              <h3 class="text-lg font-semibold text-heading mb-3">Domain-First</h3>
-              <ul class="text-sm text-muted-foreground space-y-1.5">
-                <li class="flex items-start gap-2">
-                  <span class="text-primary">•</span>
-                  Typed models as the source of truth
-                </li>
-                <li class="flex items-start gap-2">
-                  <span class="text-primary">•</span>
-                  Functional components for your domain
-                </li>
-                <li class="flex items-start gap-2">
-                  <span class="text-primary">•</span>
-                  Predictable data binding and formatting
-                </li>
-              </ul>
-            </div>
-
             <!-- Widgets -->
             <div class="feature-card p-6 rounded-xl border border-border bg-card/50 backdrop-blur-sm">
               <div class="feature-icon h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
@@ -383,6 +358,32 @@ import DashboardExample from '../examples/homepage/DashboardExample.tsx';
                 <li class="flex items-start gap-2">
                   <span class="text-primary">•</span>
                   Plays well with modern AI tooling
+                </li>
+              </ul>
+            </div>
+
+            <!-- Domain-Friendly -->
+            <div class="feature-card p-6 rounded-xl border border-border bg-card/50 backdrop-blur-sm">
+              <div class="feature-icon h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
+                <svg class="h-6 w-6 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 3v18"></path>
+                  <rect x="4" y="8" width="6" height="12" rx="1"></rect>
+                  <rect x="14" y="4" width="6" height="16" rx="1"></rect>
+                </svg>
+              </div>
+              <h3 class="text-lg font-semibold text-heading mb-3">Domain-Friendly</h3>
+              <ul class="text-sm text-muted-foreground space-y-1.5">
+                <li class="flex items-start gap-2">
+                  <span class="text-primary">•</span>
+                  Typed models as the source of truth
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-primary">•</span>
+                  Functional components for your domain
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-primary">•</span>
+                  Predictable data binding and formatting
                 </li>
               </ul>
             </div>
@@ -480,6 +481,12 @@ import DashboardExample from '../examples/homepage/DashboardExample.tsx';
             >
               Invoice Editor
             </button>
+            <button
+              class="example-tab px-6 py-2 rounded-lg font-medium transition-all bg-secondary text-secondary-foreground hover:bg-secondary/80"
+              data-tab="inventory"
+            >
+              Inventory
+            </button>
           </div>
 
           <!-- Example Panels -->
@@ -497,6 +504,11 @@ import DashboardExample from '../examples/homepage/DashboardExample.tsx';
             <!-- Invoice Editor -->
             <div class="example-panel hidden" id="panel-invoice">
               <InvoiceExample client:load />
+            </div>
+
+            <!-- Inventory -->
+            <div class="example-panel hidden" id="panel-inventory">
+              <InventoryExample client:load />
             </div>
           </div>
         </div>
