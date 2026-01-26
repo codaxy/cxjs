@@ -98,11 +98,9 @@ TextField supports icons, clear buttons, and custom styling for the input elemen
 
 ### Callbacks
 
-| Property     | Type       | Description                                                |
-| ------------ | ---------- | ---------------------------------------------------------- | --------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| `onChange`   | `function` | `(value, instance) => void` - Called when value changes    |
-| `onInput`    | `function` | `(value, instance) => void` - Called on each input event   |
-| `onFocus`    | `function` | `(e, instance) => void` - Called when field receives focus |
-| `onBlur`     | `function` | `(e, instance) => void` - Called when field loses focus    |
-| `onKeyDown`  | `function` | `(e, instance) => boolean                                  | void`- Return`false` to prevent default |
-| `onValidate` | `function` | `(value, instance, validationParams) => string             | undefined                               | false`- Custom validation. Return error message or`false` to clear errors. Can return a Promise for async validation |
+| Property     | Description                                                                                       |
+| ------------ | ------------------------------------------------------------------------------------------------- |
+| `onFocus`    | `(e, instance) => void` - Called when field receives focus                                        |
+| `onBlur`     | `(e, instance) => void` - Called when field loses focus                                           |
+| `onKeyDown`  | `(e, instance) => boolean` - Return `false` to prevent default                                    |
+| `onValidate` | `(value, instance, validationParams) => string` - Return error message or `false` to clear errors |

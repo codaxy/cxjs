@@ -10,6 +10,6 @@
 [ ] Theme
 [ ] Dark mode
 [ ] HoverSync is broken
-[ ] NumberField wheel example
+[x] NumberField wheel example
 [ ] Add a grouped table example to the home page
 [x] Fix llms.txt and llms-small.txt

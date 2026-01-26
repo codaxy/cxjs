@@ -69,12 +69,6 @@ export interface TextFieldConfig extends FieldConfig {
   /** If `trackFocus` is set, this value will be set when the field receives or loses focus. */
   focused?: BooleanProp;
 
-  /** Callback invoked when the value changes. */
-  onChange?: string | ((value: any, instance: Instance) => void);
-
-  /** Callback invoked on each input event. */
-  onInput?: string | ((value: any, instance: Instance) => void);
-
   /** Callback invoked when the field receives focus. */
   onFocus?: string | ((e: FocusEvent, instance: Instance) => void);
 

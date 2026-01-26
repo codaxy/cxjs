@@ -20,6 +20,7 @@ export default (
     <NumberField label="Placeholder" value={m.placeholder} placeholder="Enter a number..." />
     <NumberField label="Required" value={m.number} required />
     <NumberField label="Min/Max (0-100)" value={m.number} minValue={0} maxValue={100} />
+    <NumberField label="Wheel" value={m.number} step={10} reactOn="enter blur wheel" />
   </LabelsTopLayout>
 );
 // @index-end
