@@ -6,6 +6,7 @@ description: Pie and donut charts
 
 import ImportPath from "../../../components/ImportPath.astro";
 import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 import PieChartExample from "../../../examples/charts/PieChartExample.tsx";
 import PieChartExampleCode from "../../../examples/charts/PieChartExample.tsx?raw";
@@ -13,6 +14,8 @@ import PieChartExampleCode from "../../../examples/charts/PieChartExample.tsx?ra
 # PieChart
 
 <ImportPath path="import { PieChart, PieSlice } from 'cx/charts';" />
+
+<OnThisPage />
 
 Pie charts compare parts to the whole. Use `PieChart` as a container and `PieSlice` for each segment. The `ColorMap` component assigns unique colors to each slice. Click the legend to toggle slice visibility.
 

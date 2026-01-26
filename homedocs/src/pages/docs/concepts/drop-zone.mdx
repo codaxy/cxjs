@@ -6,12 +6,15 @@ description: Define areas that accept dropped items
 
 import CodeExample from "../../../components/CodeExample.astro";
 import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 import DropZoneExample from "../../../examples/concepts/DropZoneExample.tsx";
 import DropZoneExampleCode from "../../../examples/concepts/DropZoneExample.tsx?raw";
 
 # DropZone
 
 <ImportPath path="import { DropZone } from 'cx/widgets';" />
+
+<OnThisPage />
 
 `DropZone` defines areas where dragged items can be dropped. The `onDrop` callback receives the dropped data and allows you to handle the drop action.
 

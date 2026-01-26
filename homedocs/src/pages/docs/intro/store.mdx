@@ -7,6 +7,7 @@ description: Central state container for application data
 import CodeExample from "../../../components/CodeExample.astro";
 import ImportPath from "../../../components/ImportPath.astro";
 import Note from "../../../components/Note.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 import StoreBasicsExample from "../../../examples/intro/StoreBasicsExample.tsx";
 import StoreBasicsExampleCode from "../../../examples/intro/StoreBasicsExample.tsx?raw";
 import StoreMethodsExample from "../../../examples/intro/StoreMethodsExample.tsx";
@@ -15,6 +16,8 @@ import StoreMethodsExampleCode from "../../../examples/intro/StoreMethodsExample
 # Store
 
 <ImportPath path="import { Store } from 'cx/data';" />
+
+<OnThisPage />
 
 The **Store** is the central state container in CxJS. It holds all application data and notifies widgets when data changes, triggering automatic UI updates.
 

@@ -6,12 +6,15 @@ description: Define type-safe data models with createModel
 
 import CodeExample from "../../../components/CodeExample.astro";
 import Note from "../../../components/Note.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 import TypedModelsExample from "../../../examples/intro/TypedModelsExample.tsx";
 import TypedModelsExampleCode from "../../../examples/intro/TypedModelsExample.tsx?raw";
 import AccessorMethodsExample from "../../../examples/intro/AccessorMethodsExample.tsx";
 import AccessorMethodsExampleCode from "../../../examples/intro/AccessorMethodsExample.tsx?raw";
 
 # Typed Models
+
+<OnThisPage />
 
 CxJS uses **typed models** to provide type-safe access to data in the store. Instead of using string paths like `"user.firstName"`, you use accessor chains like `m.user.firstName` that are checked by TypeScript.
 

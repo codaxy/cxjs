@@ -52,8 +52,8 @@ const description = frontmatter?.description || directDescription || '';
       <div class="flex">
         <Sidebar />
 
-        <main id="main-content" class="flex-1 lg:pl-72 pt-14 min-h-screen overflow-y-auto">
-          <div class="max-w-3xl xl:mr-80 2xl:mr-96 px-6 lg:px-12 py-8 pb-16">
+        <main id="main-content" class="flex-1 lg:pl-72 pt-14 min-h-screen overflow-x-hidden">
+          <div class="max-w-3xl xl:mr-80 2xl:mr-96 px-6 lg:px-12 py-8 pb-16 relative">
             <article class="prose max-w-none" data-pagefind-body>
               <slot />
               <PageNav />
@@ -68,13 +68,13 @@ const description = frontmatter?.description || directDescription || '';
         const main = document.getElementById('main-content');
         const progressBar = document.getElementById('scroll-progress');
 
-        if (main && progressBar) {
-          main.scrollTop = 0;
+        if (progressBar) {
+          window.scrollTo(0, 0);
           progressBar.style.width = '0%';
 
-          main.addEventListener('scroll', () => {
-            const scrollTop = main.scrollTop;
-            const scrollHeight = main.scrollHeight - main.clientHeight;
+          window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
             const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
             progressBar.style.width = `${progress}%`;
           });

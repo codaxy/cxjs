@@ -5,6 +5,7 @@ description: Append elements to array
 ---
 
 import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 import CodeExample from "../../../components/CodeExample.astro";
 
 import AppendExample from "../../../examples/utilities/AppendExample.tsx";
@@ -13,6 +14,7 @@ import AppendExampleCode from "../../../examples/utilities/AppendExample.tsx?raw
 # append
 
 <ImportPath path="import { append } from 'cx/data';" />
+<OnThisPage />
 
 `append` creates a new array with items added to the end. Handles null/undefined arrays gracefully.
 

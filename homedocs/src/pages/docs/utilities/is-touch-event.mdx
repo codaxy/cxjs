@@ -5,10 +5,12 @@ description: Check if event is touch event
 ---
 
 import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 # isTouchEvent
 
 <ImportPath path="import { isTouchEvent, enableTouchEventDetection } from 'cx/util';" />
+<OnThisPage />
 
 The `isTouchEvent` function checks if the current interaction is likely from a touch event rather than a mouse.
 

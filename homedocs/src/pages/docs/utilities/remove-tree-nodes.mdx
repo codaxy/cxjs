@@ -5,10 +5,12 @@ description: Remove nodes from tree
 ---
 
 import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 # removeTreeNodes
 
 <ImportPath path="import { removeTreeNodes } from 'cx/data';" />
+<OnThisPage />
 
 Recursively removes nodes from a tree structure that match the criteria.
 Returns a new tree without the matching nodes, or the original tree if no nodes were removed.

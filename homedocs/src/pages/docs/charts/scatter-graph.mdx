@@ -6,6 +6,7 @@ description: Scatter plot from data array
 
 import ImportPath from "../../../components/ImportPath.astro";
 import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 import ScatterGraphExample from "../../../examples/charts/ScatterGraphExample.tsx";
 import ScatterGraphExampleCode from "../../../examples/charts/ScatterGraphExample.tsx?raw";
@@ -13,6 +14,8 @@ import ScatterGraphExampleCode from "../../../examples/charts/ScatterGraphExampl
 # ScatterGraph
 
 <ImportPath path="import { ScatterGraph } from 'cx/charts';" />
+
+<OnThisPage />
 
 `ScatterGraph` renders scatter plots from an array of data points. Unlike `Marker` which renders individual points, `ScatterGraph` efficiently renders entire datasets and is better suited for visualizing large amounts of data.
 

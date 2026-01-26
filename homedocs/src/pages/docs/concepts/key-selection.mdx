@@ -6,12 +6,15 @@ description: Select items by unique key identifier
 
 import CodeExample from "../../../components/CodeExample.astro";
 import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 import KeySelectionExample from "../../../examples/concepts/KeySelectionExample.tsx";
 import KeySelectionExampleCode from "../../../examples/concepts/KeySelectionExample.tsx?raw";
 
 # KeySelection
 
 <ImportPath path="import { KeySelection } from 'cx/ui';" />
+
+<OnThisPage />
 
 KeySelection stores selected keys separately from the data. Only the key values are stored, not the entire objects. This is similar to how select controls work and is ideal when you need selection to survive data changes.
 

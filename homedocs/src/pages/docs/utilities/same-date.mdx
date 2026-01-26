@@ -5,10 +5,12 @@ description: Compare dates ignoring time
 ---
 
 import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 # sameDate
 
 <ImportPath path="import { sameDate } from 'cx/util';" />
+<OnThisPage />
 
 The `sameDate` function checks if two dates represent the same calendar day, ignoring the time component.
 

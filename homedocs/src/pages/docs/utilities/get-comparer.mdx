@@ -5,10 +5,12 @@ description: Create comparison function
 ---
 
 import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 # getComparer
 
 <ImportPath path="import { getComparer, sorter, indexSorter } from 'cx/data';" />
+<OnThisPage />
 
 The comparer utilities create sorting functions for arrays based on field definitions. They support multiple sort fields, custom comparers, and null handling.
 

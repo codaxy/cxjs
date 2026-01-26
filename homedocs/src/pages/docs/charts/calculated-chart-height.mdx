@@ -6,11 +6,14 @@ description: Dynamic chart height based on data
 
 import ImportPath from "../../../components/ImportPath.astro";
 import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 import CalculatedChartHeightExample from "../../../examples/charts/CalculatedChartHeightExample.tsx";
 import CalculatedChartHeightExampleCode from "../../../examples/charts/CalculatedChartHeightExample.tsx?raw";
 
 # Calculated Chart Height
+
+<OnThisPage />
 
 Charts with a `CategoryAxis` can dynamically adjust their height based on the number of categories. This is done by binding the `categoryCount` output property and using `computable` to calculate the Svg height.
 

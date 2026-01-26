@@ -6,6 +6,7 @@ description: Base component for rendering HTML elements with bindings
 
 import ImportPath from "../../../components/ImportPath.astro";
 import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 import HtmlElementExample from "../../../examples/intro/HtmlElementExample.tsx";
 import HtmlElementExampleCode from "../../../examples/intro/HtmlElementExample.tsx?raw";
@@ -13,6 +14,8 @@ import HtmlElementExampleCode from "../../../examples/intro/HtmlElementExample.t
 # HtmlElement
 
 <ImportPath path="import { HtmlElement } from 'cx/widgets';" />
+
+<OnThisPage />
 
 The `HtmlElement` widget renders HTML elements with CxJS data binding support. The CxJS JSX runtime automatically converts all lowercase elements (like `div`, `span`, `p`) to `HtmlElement` instances with the corresponding `tag` property set.
 

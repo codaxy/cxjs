@@ -6,12 +6,15 @@ description: Restrict drag initiation to specific handles
 
 import CodeExample from "../../../components/CodeExample.astro";
 import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 import DragHandleExample from "../../../examples/concepts/DragHandleExample.tsx";
 import DragHandleExampleCode from "../../../examples/concepts/DragHandleExample.tsx?raw";
 
 # DragHandle
 
 <ImportPath path="import { DragHandle } from 'cx/widgets';" />
+
+<OnThisPage />
 
 `DragHandle` provides a specific area within a `DragSource` that initiates dragging. This allows the rest of the content to remain interactive (selectable text, clickable buttons, etc.) while still supporting drag and drop.
 

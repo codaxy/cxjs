@@ -5,10 +5,12 @@ description: Debug logging utilities
 ---
 
 import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 # Console
 
 <ImportPath path="import { Console } from 'cx/util';" />
+<OnThisPage />
 
 The `Console` utility provides safe console logging methods that only execute when running in a browser environment with console support.
 

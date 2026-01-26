@@ -6,6 +6,7 @@ description: Track mouse position on chart
 
 import ImportPath from "../../../components/ImportPath.astro";
 import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 import MouseTrackerExample from "../../../examples/charts/MouseTrackerExample.tsx";
 import MouseTrackerExampleCode from "../../../examples/charts/MouseTrackerExample.tsx?raw";
@@ -13,6 +14,8 @@ import MouseTrackerExampleCode from "../../../examples/charts/MouseTrackerExampl
 # MouseTracker
 
 <ImportPath path="import { MouseTracker } from 'cx/charts';" />
+
+<OnThisPage />
 
 `MouseTracker` tracks the mouse position within a chart and writes the coordinates to the store. Use it to create crosshairs, show tooltips at cursor position, or highlight nearby data points.
 

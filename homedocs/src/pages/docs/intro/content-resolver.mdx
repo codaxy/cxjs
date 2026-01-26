@@ -6,6 +6,7 @@ description: Dynamically resolve and render content based on data
 
 import ImportPath from "../../../components/ImportPath.astro";
 import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 import ContentResolverExample from "../../../examples/intro/ContentResolverExample.tsx";
 import ContentResolverExampleCode from "../../../examples/intro/ContentResolverExample.tsx?raw";
@@ -13,6 +14,8 @@ import ContentResolverExampleCode from "../../../examples/intro/ContentResolverE
 # ContentResolver
 
 <ImportPath path="import { ContentResolver } from 'cx/widgets';" />
+
+<OnThisPage />
 
 `ContentResolver` dynamically resolves content at runtime based on data. Use it when the content to display is unknown at build time, depends on data values, or needs to be lazy loaded.
 

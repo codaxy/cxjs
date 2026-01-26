@@ -71,6 +71,26 @@ import ImportPath from "../../components/ImportPath.astro";
 <ImportPath path="import { ComponentName } from 'cx/widgets';" />
 ```
 
+### OnThisPage Component
+
+Use `OnThisPage` on documentation pages that have **2 or more subheadings** (h2/h3) to provide "On This Page" navigation links. Place it:
+- After `<ImportPath>` if the page has one
+- After the `# Title` heading if there's no ImportPath
+
+Do NOT add OnThisPage if the page has only one subheading or no subheadings.
+
+```mdx
+import OnThisPage from "../../components/OnThisPage.astro";
+
+# ComponentName
+
+<ImportPath path="import { ComponentName } from 'cx/widgets';" />
+
+<OnThisPage />
+```
+
+The component automatically extracts h2 and h3 headings from the page. On desktop (xl+), it appears in the right margin and expands on hover. On mobile, it renders inline and is collapsed by default.
+
 ### CodeExample Component
 
 Use `CodeExample` to display code alongside a running example. This is more meaningful for users than static code blocks.

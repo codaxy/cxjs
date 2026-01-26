@@ -5,10 +5,12 @@ description: Highlight search matches
 ---
 
 import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 # getSearchQueryHighlighter
 
 <ImportPath path="import { getSearchQueryHighlighter } from 'cx/util';" />
+<OnThisPage />
 
 The `getSearchQueryHighlighter` function creates a function that splits text into chunks for highlighting matched search terms.
 

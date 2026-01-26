@@ -5,10 +5,12 @@ description: Get parent frame bounds
 ---
 
 import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 # getParentFrameBoundingClientRect
 
 <ImportPath path="import { getParentFrameBoundingClientRect } from 'cx/util';" />
+<OnThisPage />
 
 The `getParentFrameBoundingClientRect` function returns the bounding rectangle of the iframe containing an element, or the viewport dimensions if not in an iframe.
 

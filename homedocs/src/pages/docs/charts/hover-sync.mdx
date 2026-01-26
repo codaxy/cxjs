@@ -6,6 +6,7 @@ description: Synchronize hover state across charts
 
 import ImportPath from "../../../components/ImportPath.astro";
 import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 import HoverSyncExample from "../../../examples/charts/HoverSyncExample.tsx";
 import HoverSyncExampleCode from "../../../examples/charts/HoverSyncExample.tsx?raw";
@@ -13,6 +14,8 @@ import HoverSyncExampleCode from "../../../examples/charts/HoverSyncExample.tsx?
 # HoverSync
 
 <ImportPath path="import { HoverSync } from 'cx/ui';" />
+
+<OnThisPage />
 
 `HoverSync` synchronizes hover effects between chart elements, legends, and grids. Elements with the same `hoverId` will highlight together when any of them is hovered.
 

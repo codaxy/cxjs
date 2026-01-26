@@ -6,6 +6,7 @@ description: Select multiple grid rows
 
 import ImportPath from "../../../components/ImportPath.astro";
 import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 import MultipleSelectionExample from "../../../examples/tables/MultipleSelectionExample.tsx";
 import MultipleSelectionExampleCode from "../../../examples/tables/MultipleSelectionExample.tsx?raw";
@@ -13,6 +14,8 @@ import MultipleSelectionExampleCode from "../../../examples/tables/MultipleSelec
 # Multiple Selection
 
 <ImportPath path="import { Grid, Checkbox } from 'cx/widgets';" />
+
+<OnThisPage />
 
 Grid supports multiple row selection using checkboxes. A "select all" checkbox in the header can toggle selection for all visible rows, with support for the indeterminate state when only some rows are selected.
 

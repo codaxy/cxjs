@@ -6,12 +6,15 @@ description: Remap store paths for nested components
 
 import CodeExample from "../../../components/CodeExample.astro";
 import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 import RescopeExample from "../../../examples/concepts/RescopeExample.tsx";
 import RescopeExampleCode from "../../../examples/concepts/RescopeExample.tsx?raw";
 
 # Rescope
 
 <ImportPath path="import { Rescope } from 'cx/ui';" />
+
+<OnThisPage />
 
 Rescope selects a common prefix for data bindings, enabling shorter paths within its scope. This is useful when working with deeply nested data structures.
 

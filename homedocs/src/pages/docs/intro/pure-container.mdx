@@ -6,6 +6,7 @@ description: Invisible container for grouping child components
 
 import ImportPath from "../../../components/ImportPath.astro";
 import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 import PureContainerExample from "../../../examples/intro/PureContainerExample.tsx";
 import PureContainerExampleCode from "../../../examples/intro/PureContainerExample.tsx?raw";
@@ -13,6 +14,8 @@ import PureContainerExampleCode from "../../../examples/intro/PureContainerExamp
 # PureContainer
 
 <ImportPath path="import { PureContainer } from 'cx/ui';" />
+
+<OnThisPage />
 
 `PureContainer` groups multiple widgets together without adding any HTML markup to the DOM. This is useful when you need to control visibility or apply a layout to a group of elements.
 

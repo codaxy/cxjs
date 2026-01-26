@@ -5,10 +5,12 @@ description: Create search filter function
 ---
 
 import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 # getSearchQueryPredicate
 
 <ImportPath path="import { getSearchQueryPredicate } from 'cx/util';" />
+<OnThisPage />
 
 The `getSearchQueryPredicate` function creates a predicate function that tests if a text matches a search query.
 It supports multi-word queries where all terms must match.

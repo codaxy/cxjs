@@ -5,10 +5,12 @@ description: Get currently focused element
 ---
 
 import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 # getActiveElement
 
 <ImportPath path="import { getActiveElement } from 'cx/util';" />
+<OnThisPage />
 
 The `getActiveElement` function returns the currently focused element, with a fallback to `document.body` if no element is focused.
 

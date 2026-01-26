@@ -5,10 +5,12 @@ description: Check if value is number
 ---
 
 import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 # isNumber
 
 <ImportPath path="import { isNumber } from 'cx/util';" />
+<OnThisPage />
 
 The `isNumber` type guard checks if a value is a number (including `NaN` and `Infinity`).
 

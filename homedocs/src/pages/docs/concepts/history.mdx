@@ -5,10 +5,13 @@ description: Manage browser history and navigation state
 ---
 
 import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 # History
 
 <ImportPath path="import { History } from 'cx/ui';" />
+
+<OnThisPage />
 
 The History class handles HTML5 `pushState` navigation, connecting the browser URL to your store.
 

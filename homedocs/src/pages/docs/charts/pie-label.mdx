@@ -6,6 +6,7 @@ description: Labels for pie slices
 
 import ImportPath from "../../../components/ImportPath.astro";
 import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 import PieLabelExample from "../../../examples/charts/PieLabelExample.tsx";
 import PieLabelExampleCode from "../../../examples/charts/PieLabelExample.tsx?raw";
@@ -13,6 +14,8 @@ import PieLabelExampleCode from "../../../examples/charts/PieLabelExample.tsx?ra
 # PieLabel
 
 <ImportPath path="import { PieLabelsContainer, PieLabel } from 'cx/charts';" />
+
+<OnThisPage />
 
 `PieLabel` displays values for each pie slice with automatic position adjustment to prevent overlapping. Labels must be placed inside a `PieLabelsContainer` component.
 

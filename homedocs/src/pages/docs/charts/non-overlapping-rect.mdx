@@ -6,6 +6,7 @@ description: Automatically position labels to avoid overlap
 
 import ImportPath from "../../../components/ImportPath.astro";
 import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 import NonOverlappingRectExample from "../../../examples/charts/NonOverlappingRectExample.tsx";
 import NonOverlappingRectExampleCode from "../../../examples/charts/NonOverlappingRectExample.tsx?raw";
@@ -13,6 +14,8 @@ import NonOverlappingRectExampleCode from "../../../examples/charts/NonOverlappi
 # NonOverlappingRect
 
 <ImportPath path="import { NonOverlappingRect, NonOverlappingRectGroup } from 'cx/svg';" />
+
+<OnThisPage />
 
 The `NonOverlappingRect` and `NonOverlappingRectGroup` components are used to automatically hide overlapping elements. This is commonly used for chart labels where showing all labels would create visual clutter.
 

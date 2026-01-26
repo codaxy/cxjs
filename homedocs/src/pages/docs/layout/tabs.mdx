@@ -6,6 +6,7 @@ description: Tabbed interface for switching between views
 
 import ImportPath from "../../../components/ImportPath.astro";
 import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 import TabsExample from "../../../examples/layout/TabsExample.tsx";
 import TabsExampleCode from "../../../examples/layout/TabsExample.tsx?raw";
@@ -16,6 +17,8 @@ import TabsContentExampleCode from "../../../examples/layout/TabsContentExample.
 # Tabs
 
 <ImportPath path="import { Tab } from 'cx/widgets';" />
+
+<OnThisPage />
 
 Tabs are used to switch between different views or content sections. Each `Tab` component writes its `tab` value to the shared `value` binding when clicked.
 

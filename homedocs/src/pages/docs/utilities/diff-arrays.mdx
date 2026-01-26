@@ -5,6 +5,7 @@ description: Compare two arrays for differences
 ---
 
 import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 import CodeExample from "../../../components/CodeExample.astro";
 
 import DiffArraysExample from "../../../examples/utilities/DiffArraysExample.tsx";
@@ -13,6 +14,7 @@ import DiffArraysExampleCode from "../../../examples/utilities/DiffArraysExample
 # diffArrays
 
 <ImportPath path="import { diffArrays } from 'cx/data';" />
+<OnThisPage />
 
 `diffArrays` compares two arrays and returns the differences: added, changed, unchanged, and removed items.
 

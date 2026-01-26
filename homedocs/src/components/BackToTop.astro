@@ -1,0 +1,51 @@
+---
+---
+
+<button
+  class="back-to-top fixed bottom-6 right-6 p-3 bg-card border border-border rounded-full shadow-lg text-muted-foreground hover:text-foreground hover:bg-accent transition-all z-[9999] cursor-pointer"
+  type="button"
+  aria-label="Back to top"
+>
+  <svg class="w-5 h-5" viewBox="0 0 24 24">
+    <path d="m18 15-6-6-6 6" fill="none" stroke="hsl(var(--muted-foreground))" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</button>
+
+<script>
+  function initBackToTop() {
+    const btn = document.querySelector('.back-to-top');
+
+    if (!btn) return;
+
+    // Move button to body to escape any overflow clipping
+    if (btn.parentElement !== document.body) {
+      document.body.appendChild(btn);
+    }
+
+    // Show/hide button based on scroll position
+    const toggleVisibility = () => {
+      if (window.scrollY > 100) {
+        btn.classList.remove('hidden');
+      } else {
+        btn.classList.add('hidden');
+      }
+    };
+
+    window.addEventListener('scroll', toggleVisibility);
+    toggleVisibility(); // Initial check
+
+    // Scroll to top on click
+    btn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Clean up on page navigation
+    document.addEventListener('astro:before-swap', () => {
+      window.removeEventListener('scroll', toggleVisibility);
+      btn.remove();
+    }, { once: true });
+  }
+
+  initBackToTop();
+  document.addEventListener('astro:page-load', initBackToTop);
+</script>

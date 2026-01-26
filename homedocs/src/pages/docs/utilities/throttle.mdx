@@ -5,10 +5,12 @@ description: Limit function call frequency
 ---
 
 import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 # throttle
 
 <ImportPath path="import { throttle } from 'cx/util';" />
+<OnThisPage />
 
 `throttle` limits function execution to at most once per specified interval. Unlike `debounce`, it executes the function during ongoing calls rather than waiting for them to stop.
 

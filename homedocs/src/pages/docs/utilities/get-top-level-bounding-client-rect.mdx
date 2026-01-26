@@ -5,10 +5,12 @@ description: Get top-level element bounds
 ---
 
 import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 # getTopLevelBoundingClientRect
 
 <ImportPath path="import { getTopLevelBoundingClientRect } from 'cx/util';" />
+<OnThisPage />
 
 The `getTopLevelBoundingClientRect` function returns an element's bounding rectangle with coordinates relative to the top-level window, accounting for iframe offsets.
 

@@ -6,6 +6,7 @@ description: Horizontal swimlane band
 
 import ImportPath from "../../../components/ImportPath.astro";
 import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 import SwimlaneExample from "../../../examples/charts/SwimlaneExample.tsx";
 import SwimlaneExampleCode from "../../../examples/charts/SwimlaneExample.tsx?raw";
@@ -13,6 +14,8 @@ import SwimlaneExampleCode from "../../../examples/charts/SwimlaneExample.tsx?ra
 # Swimlane
 
 <ImportPath path="import { Swimlane } from 'cx/charts';" />
+
+<OnThisPage />
 
 `Swimlane` creates individual swimlane bands where each one can have unique properties or content. Use with a `Repeater` to create swimlanes for each data record. Unlike `Swimlanes` (plural), this component gives you full control over each lane.
 

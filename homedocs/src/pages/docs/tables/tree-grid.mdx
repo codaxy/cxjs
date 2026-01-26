@@ -6,6 +6,7 @@ description: Grid with hierarchical data
 
 import ImportPath from "../../../components/ImportPath.astro";
 import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 import TreeGridExample from "../../../examples/tables/TreeGridExample.tsx";
 import TreeGridExampleCode from "../../../examples/tables/TreeGridExample.tsx?raw";
@@ -13,6 +14,8 @@ import TreeGridExampleCode from "../../../examples/tables/TreeGridExample.tsx?ra
 # TreeGrid
 
 <ImportPath path="import { Grid, TreeNode } from 'cx/widgets';" />
+
+<OnThisPage />
 
 A TreeGrid is a Grid with hierarchical data displayed using the `TreeAdapter` and `TreeNode` components. It supports lazy loading, expand/collapse, and all standard Grid features.
 

@@ -5,6 +5,7 @@ description: Immutably update array elements
 ---
 
 import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 import CodeExample from "../../../components/CodeExample.astro";
 
 import UpdateArrayExample from "../../../examples/utilities/UpdateArrayExample.tsx";
@@ -13,6 +14,7 @@ import UpdateArrayExampleCode from "../../../examples/utilities/UpdateArrayExamp
 # updateArray
 
 <ImportPath path="import { updateArray } from 'cx/data';" />
+<OnThisPage />
 
 `updateArray` performs immutable updates on arrays. It applies a callback to transform items, optionally filtering which items to update and which to remove. Returns the original array if no changes were made.
 

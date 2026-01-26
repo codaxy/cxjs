@@ -5,10 +5,12 @@ description: Get path to tree node
 ---
 
 import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 # findTreePath
 
 <ImportPath path="import { findTreePath } from 'cx/data';" />
+<OnThisPage />
 
 Finds a node in a tree structure and returns the path (array of ancestors including the found node) from the root to that node.
 

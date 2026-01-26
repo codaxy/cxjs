@@ -6,6 +6,7 @@ description: SVG line element
 
 import ImportPath from "../../../components/ImportPath.astro";
 import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 import LineExample from "../../../examples/charts/LineExample.tsx";
 import LineExampleCode from "../../../examples/charts/LineExample.tsx?raw";
@@ -13,6 +14,8 @@ import LineExampleCode from "../../../examples/charts/LineExample.tsx?raw";
 # Line
 
 <ImportPath path="import { Line } from 'cx/svg';" />
+
+<OnThisPage />
 
 The `Line` component is a CxJS version of the SVG `line` element designed for responsive layouts. The line is always rendered from the **top-left corner** to the **bottom-right corner** of its bounding box.
 

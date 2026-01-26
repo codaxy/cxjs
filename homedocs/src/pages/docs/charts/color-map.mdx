@@ -6,6 +6,7 @@ description: Map data values to colors
 
 import ImportPath from "../../../components/ImportPath.astro";
 import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 import ColorMapExample from "../../../examples/charts/ColorMapExample.tsx";
 import ColorMapExampleCode from "../../../examples/charts/ColorMapExample.tsx?raw";
@@ -13,6 +14,8 @@ import ColorMapExampleCode from "../../../examples/charts/ColorMapExample.tsx?ra
 # ColorMap
 
 <ImportPath path="import { ColorMap } from 'cx/charts';" />
+
+<OnThisPage />
 
 `ColorMap` automatically assigns colors from the palette to chart elements. Elements register themselves by name and receive consistent color indices. This is useful when the number of series is dynamic.
 

@@ -6,6 +6,7 @@ description: Encapsulate business logic and computed values
 
 import CodeExample from "../../../components/CodeExample.astro";
 import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 import ControllerBasicsExample from "../../../examples/intro/ControllerBasicsExample.tsx";
 import ControllerBasicsExampleCode from "../../../examples/intro/ControllerBasicsExample.tsx?raw";
 import ControllerTypedExample from "../../../examples/intro/ControllerTypedExample.tsx";
@@ -16,6 +17,8 @@ import ControllerInlineExampleCode from "../../../examples/intro/ControllerInlin
 # Controllers
 
 <ImportPath path="import { Controller } from 'cx/ui';" />
+
+<OnThisPage />
 
 Controllers contain the business logic for your views. They handle data initialization, event callbacks, computed values, and reactions to data changes.
 

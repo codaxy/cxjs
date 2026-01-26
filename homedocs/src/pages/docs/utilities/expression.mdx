@@ -5,10 +5,12 @@ description: Dynamic expression evaluation
 ---
 
 import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 # Expression
 
 <ImportPath path="import { Expression } from 'cx/data';" />
+<OnThisPage />
 
 `Expression` compiles string expressions with embedded bindings into memoized selectors. Expressions are typically used internally by CxJS, but can also be used directly for dynamic string-based computations.
 

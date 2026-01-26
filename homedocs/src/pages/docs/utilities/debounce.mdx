@@ -5,6 +5,7 @@ description: Delay function execution
 ---
 
 import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 import CodeExample from "../../../components/CodeExample.astro";
 
 import DebounceExample from "../../../examples/utilities/DebounceExample.tsx";
@@ -13,6 +14,7 @@ import DebounceExampleCode from "../../../examples/utilities/DebounceExample.tsx
 # debounce
 
 <ImportPath path="import { debounce } from 'cx/util';" />
+<OnThisPage />
 
 `debounce` delays function execution until after a specified time has elapsed since the last call. Useful for reducing the frequency of expensive operations like API calls triggered by user input.
 

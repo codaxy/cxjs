@@ -5,6 +5,7 @@ description: Filter array with predicate
 ---
 
 import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 import CodeExample from "../../../components/CodeExample.astro";
 
 import FilterExample from "../../../examples/utilities/FilterExample.tsx";
@@ -13,6 +14,7 @@ import FilterExampleCode from "../../../examples/utilities/FilterExample.tsx?raw
 # filter
 
 <ImportPath path="import { filter } from 'cx/data';" />
+<OnThisPage />
 
 `filter` performs immutable array filtering. Unlike native `Array.filter()`, it returns the original array reference if no items are removed, enabling efficient change detection.
 

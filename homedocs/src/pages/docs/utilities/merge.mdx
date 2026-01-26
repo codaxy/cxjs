@@ -5,6 +5,7 @@ description: Deep merge objects
 ---
 
 import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 import CodeExample from "../../../components/CodeExample.astro";
 
 import MergeExample from "../../../examples/utilities/MergeExample.tsx";
@@ -13,6 +14,7 @@ import MergeExampleCode from "../../../examples/utilities/MergeExample.tsx?raw";
 # merge
 
 <ImportPath path="import { merge } from 'cx/data';" />
+<OnThisPage />
 
 `merge` performs an immutable merge of properties into an object. Supports deep paths using dot notation (e.g., `"address.city"`).
 

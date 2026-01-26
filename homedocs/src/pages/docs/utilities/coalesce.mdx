@@ -5,10 +5,12 @@ description: Return first defined value
 ---
 
 import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 # coalesce
 
 <ImportPath path="import { coalesce } from 'cx/util';" />
+<OnThisPage />
 
 `coalesce` returns the first non-null/non-undefined value from its arguments. Similar to SQL's COALESCE or JavaScript's nullish coalescing (`??`), but works with multiple arguments.
 

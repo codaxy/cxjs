@@ -6,6 +6,7 @@ description: Aggregate and reduce chart data
 
 import ImportPath from "../../../components/ImportPath.astro";
 import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 import PointReducersExample from "../../../examples/charts/PointReducersExample.tsx";
 import PointReducersExampleCode from "../../../examples/charts/PointReducersExample.tsx?raw";
@@ -13,6 +14,8 @@ import PointReducersExampleCode from "../../../examples/charts/PointReducersExam
 # PointReducer
 
 <ImportPath path="import { PointReducer } from 'cx/charts';" />
+
+<OnThisPage />
 
 `PointReducer` calculates aggregate values from points displayed on the chart. It provides three callback hooks for initializing an accumulator, processing each point, and computing final results.
 

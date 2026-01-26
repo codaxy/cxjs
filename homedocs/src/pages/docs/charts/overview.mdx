@@ -6,6 +6,7 @@ description: Introduction to CxJS charting
 
 import ImportPath from "../../../components/ImportPath.astro";
 import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 import OverviewLineChartExample from "../../../examples/charts/OverviewLineChartExample.tsx";
 import OverviewLineChartExampleCode from "../../../examples/charts/OverviewLineChartExample.tsx?raw";
@@ -19,6 +20,8 @@ import ColorPaletteExampleCode from "../../../examples/charts/ColorPaletteExampl
 # Charts Overview
 
 <ImportPath path="import { Chart, LineGraph, PieChart } from 'cx/charts';" />
+
+<OnThisPage />
 
 Charts are an important part of CxJS, extending the SVG package. Rather than providing pre-built chart widgets for each type, CxJS focuses on low-level components that can be assembled into any chart. This gives developers full control over appearance and behavior.
 

@@ -7,12 +7,15 @@ description: Register and handle keyboard shortcuts
 import CodeExample from "../../../components/CodeExample.astro";
 import ImportPath from "../../../components/ImportPath.astro";
 import Note from "../../../components/Note.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 import KeyboardShortcutsExample from "../../../examples/concepts/KeyboardShortcutsExample.tsx";
 import KeyboardShortcutsExampleCode from "../../../examples/concepts/KeyboardShortcutsExample.tsx?raw";
 
 # Keyboard Shortcuts
 
 <ImportPath path="import { registerKeyboardShortcut } from 'cx/ui';" />
+
+<OnThisPage />
 
 CxJS provides `registerKeyboardShortcut` for listening to keyboard shortcuts. Shortcuts only trigger when the document body has focus (not when focused on input fields).
 

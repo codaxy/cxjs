@@ -6,6 +6,7 @@ description: Snap cursor to nearest data point
 
 import ImportPath from "../../../components/ImportPath.astro";
 import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 import SnapPointFinderExample from "../../../examples/charts/SnapPointFinderExample.tsx";
 import SnapPointFinderExampleCode from "../../../examples/charts/SnapPointFinderExample.tsx?raw";
@@ -13,6 +14,8 @@ import SnapPointFinderExampleCode from "../../../examples/charts/SnapPointFinder
 # SnapPointFinder
 
 <ImportPath path="import { SnapPointFinder } from 'cx/charts';" />
+
+<OnThisPage />
 
 `SnapPointFinder` locates the nearest data point to the cursor position and outputs its coordinates. Use it to snap markers, display tooltips at data points, or highlight specific values on a graph.
 

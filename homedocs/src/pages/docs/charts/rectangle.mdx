@@ -6,6 +6,7 @@ description: SVG rectangle shape
 
 import ImportPath from "../../../components/ImportPath.astro";
 import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 import RectangleExample from "../../../examples/charts/RectangleExample.tsx";
 import RectangleExampleCode from "../../../examples/charts/RectangleExample.tsx?raw";
@@ -13,6 +14,8 @@ import RectangleExampleCode from "../../../examples/charts/RectangleExample.tsx?
 # Rectangle
 
 <ImportPath path="import { Rectangle } from 'cx/svg';" />
+
+<OnThisPage />
 
 The `Rectangle` component is a CxJS version of the SVG `rect` element designed for responsive layouts. Unlike native `rect` which requires absolute `x`, `y`, `width`, and `height` values, `Rectangle` uses [bounded object](./svg#bounded-objects) properties to automatically adapt to its container.
 

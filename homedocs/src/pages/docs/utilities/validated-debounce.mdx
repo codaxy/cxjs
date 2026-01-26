@@ -5,10 +5,12 @@ description: Debounce with validation
 ---
 
 import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 # validatedDebounce
 
 <ImportPath path="import { validatedDebounce } from 'cx/util';" />
+<OnThisPage />
 
 The `validatedDebounce` function creates a debounced function that only executes if a validation value hasn't changed during the delay period.
 

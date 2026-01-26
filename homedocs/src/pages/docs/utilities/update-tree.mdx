@@ -5,10 +5,12 @@ description: Immutably update tree nodes
 ---
 
 import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 # updateTree
 
 <ImportPath path="import { updateTree } from 'cx/data';" />
+<OnThisPage />
 
 Recursively updates nodes in a tree structure that match a filter.
 Returns a new tree with updated nodes, or the original tree if no changes were made.
