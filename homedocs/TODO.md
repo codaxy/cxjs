@@ -3,7 +3,7 @@
 [ ] Add Google Analytics
 [x] Preserve @jsxImportSource in llms.txt
 [x] try export default {} instead of export () => {}
-[ ] document controller inline form
+[x] document controller inline form
 [ ] add List and TextField example and piping keyboard events
 [x] Homepage copy
 [x] Homepage examples
