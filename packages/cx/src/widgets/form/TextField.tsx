@@ -84,7 +84,7 @@ export interface TextFieldConfig extends FieldConfig {
   /** Handler triggered on key down events. Return `false` to prevent default behavior. */
   onKeyDown?:
     | string
-    | ((e: KeyboardEvent, instance: Instance) => boolean | void);
+    | ((e: React.KeyboardEvent, instance: Instance) => boolean | void);
 
   /** Custom validation function. Can return a Promise for async validation. */
   onValidate?:

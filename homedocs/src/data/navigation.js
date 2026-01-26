@@ -684,6 +684,11 @@ export const navigation = [
             slug: "list-grouping",
             description: "Group list items by category",
           },
+          {
+            title: "Forwarding Keyboard Inputs",
+            slug: "list-forwarding-keyboard-inputs",
+            description: "Forward keyboard events to the list",
+          },
         ],
       },
       {

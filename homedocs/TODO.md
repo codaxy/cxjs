@@ -4,7 +4,7 @@
 [x] Preserve @jsxImportSource in llms.txt
 [x] try export default {} instead of export () => {}
 [x] document controller inline form
-[ ] add List and TextField example and piping keyboard events
+[x] add List and TextField example and piping keyboard events
 [x] Homepage copy
 [x] Homepage examples
 [ ] Theme

@@ -1,0 +1,30 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Forwarding Keyboard Inputs
+description: Forward keyboard events from one widget to another
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import ListKeyboardNavigationExample from "../../../examples/forms/ListKeyboardNavigationExample.tsx";
+import ListKeyboardNavigationExampleCode from "../../../examples/forms/ListKeyboardNavigationExample.tsx?raw";
+
+# Forwarding Keyboard Inputs
+
+The List widget supports receiving keyboard events from other widgets through the `pipeKeyDown` prop. A common use case is a search interface where the user types in a TextField while navigating results with arrow keys.
+
+<CodeExample code={ListKeyboardNavigationExampleCode}>
+  <ListKeyboardNavigationExample client:load />
+</CodeExample>
+
+## How It Works
+
+1. The List's `pipeKeyDown` prop receives a callback for forwarding keyboard events
+2. Store the callback in the controller using `getControllerByType` for type safety
+3. On the TextField's `onKeyDown`, forward arrow and enter keys to the stored callback
+4. Use `focused` prop to enable keyboard navigation without clicking the list
+5. Use `scrollSelectionIntoView` to keep the selected item visible
+
+## See Also
+
+- [TextField](/docs/forms/text-field) - Text input field
+- [List](/docs/forms/list) - Basic list configuration
