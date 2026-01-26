@@ -616,6 +616,10 @@ $cx-dropdown-styles: cx-deep-map-merge(
   }
 }
 
+.cxb-grid.cxs-scrollable > .cxe-grid-scroll-area > .cxe-grid-table-wrapper {
+  padding-top: 1px;
+}
+
 // Menu
 .cxb-menu {
   .cxe-menu-item {
