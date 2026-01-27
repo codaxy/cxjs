@@ -1,26 +1,12 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import HomeHeader from '../components/HomeHeader.astro';
+import Footer from '../components/Footer.astro';
 ---
 
 <BaseLayout title="Page Not Found - CxJS">
   <div class="min-h-screen bg-background flex flex-col">
-    <!-- Header -->
-    <header class="border-b border-border bg-background/80 backdrop-blur-sm">
-      <div class="container mx-auto flex h-16 items-center px-4">
-        <a href="/" class="flex items-center gap-2 group">
-          <img src="/favicon.svg" alt="CxJS" class="h-9 w-9 transition-transform group-hover:scale-110" />
-          <span class="text-xl font-semibold text-foreground">CxJS</span>
-        </a>
-        <nav class="flex-1 flex items-center justify-center gap-6">
-          <a href="/docs/intro/what-is-cxjs" class="text-sm text-muted-foreground hover:text-foreground transition-colors">
-            Docs
-          </a>
-          <a href="https://gallery.cxjs.io/" class="text-sm text-muted-foreground hover:text-foreground transition-colors">
-            Gallery
-          </a>
-        </nav>
-      </div>
-    </header>
+    <HomeHeader />
 
     <!-- 404 Content -->
     <main class="flex-1 flex items-center justify-center px-4">
@@ -53,22 +39,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="border-t border-border py-8 bg-secondary/30">
-      <div class="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
-        <div class="flex items-center gap-2 text-muted-foreground">
-          <img src="/favicon.svg" alt="CxJS" class="h-6 w-6" />
-          <span class="text-sm">CxJS Documentation</span>
-        </div>
-        <div class="flex items-center gap-6 text-sm text-muted-foreground">
-          <a href="https://github.com/codaxy/cxjs" class="hover:text-foreground transition-colors">
-            GitHub
-          </a>
-          <a href="https://codaxy.com" class="hover:text-foreground transition-colors">
-            Codaxy
-          </a>
-        </div>
-      </div>
-    </footer>
+    <Footer />
   </div>
 </BaseLayout>
