@@ -20,9 +20,6 @@ const description = frontmatter?.description || directDescription || '';
 
 <BaseLayout title={`${title} - CxJS Documentation`} description={description}>
     <div class="min-h-screen bg-background">
-      <!-- Scroll progress indicator -->
-      <div id="scroll-progress" class="fixed top-14 left-0 h-0.5 bg-gradient-to-r from-primary to-primary/70 w-0 z-50 transition-all duration-100"></div>
-
       <Header />
 
       <div class="flex">
@@ -41,21 +38,6 @@ const description = frontmatter?.description || directDescription || '';
 
     <script>
       function initPage() {
-        const main = document.getElementById('main-content');
-        const progressBar = document.getElementById('scroll-progress');
-
-        if (progressBar) {
-          window.scrollTo(0, 0);
-          progressBar.style.width = '0%';
-
-          window.addEventListener('scroll', () => {
-            const scrollTop = window.scrollY;
-            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
-            progressBar.style.width = `${progress}%`;
-          });
-        }
-
         // Add anchor links to headings
         document.querySelectorAll('.prose h2, .prose h3').forEach(heading => {
           if (!heading.id) {
