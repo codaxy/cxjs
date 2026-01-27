@@ -1,5 +1,8 @@
+// Import pagefind default UI CSS first, then override below
+@import "@pagefind/default-ui/css/ui.css";
+
 // ========================================
-// Pagefind Search Styles
+// Pagefind Search Styles (Overrides)
 // ========================================
 .pagefind-ui {
   --pagefind-ui-scale: 0.85;

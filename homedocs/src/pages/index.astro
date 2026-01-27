@@ -1,35 +1,16 @@
 ---
-import '../styles/tailwind.css';
-import '../styles/global.scss';
-import { ClientRouter } from 'astro:transitions';
+import BaseLayout from '../layouts/BaseLayout.astro';
 import TrelloExample from '../examples/homepage/TrelloExample.tsx';
 import InvoiceExample from '../examples/homepage/InvoiceExample.tsx';
 import DashboardExample from '../examples/homepage/DashboardExample.tsx';
 import InventoryExample from '../examples/homepage/InventoryExample.tsx';
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CxJS - The One-Stop Shop for Portals and Dashboards</title>
-    <meta name="description" content="The one-stop shop for portals and dashboards. A TypeScript framework with 50+ widgets, data tables, charts, routing, and state management — designed to offer great developer experience." />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-    <ClientRouter />
-    <script is:inline data-astro-rerun>
-      (function() {
-        const theme = localStorage.getItem('theme') ||
-          (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-        if (theme === 'dark') {
-          document.documentElement.classList.add('dark');
-        }
-      })();
-    </script>
-    <style>
+<BaseLayout
+  title="CxJS - The One-Stop Shop for Portals and Dashboards"
+  description="The one-stop shop for portals and dashboards. A TypeScript framework with 50+ widgets, data tables, charts, routing, and state management — designed to offer great developer experience."
+>
+  <style slot="head">
       /* Animations */
       @keyframes float {
         0%, 100% { transform: translateY(0) rotate(0deg); }
@@ -109,9 +90,7 @@ import InventoryExample from '../examples/homepage/InventoryExample.tsx';
       .feature-icon {
         transition: transform 0.3s ease;
       }
-    </style>
-  </head>
-  <body>
+  </style>
     <div class="min-h-screen bg-background overflow-x-hidden">
       <!-- Header -->
       <header class="border-b border-border bg-background/80 backdrop-blur-sm sticky top-0 z-50">
@@ -660,5 +639,4 @@ import InventoryExample from '../examples/homepage/InventoryExample.tsx';
 
       document.addEventListener('astro:page-load', initHomePage);
     </script>
-  </body>
-</html>
+</BaseLayout>

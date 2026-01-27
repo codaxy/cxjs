@@ -1,10 +1,8 @@
 ---
+import BaseLayout from './BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Sidebar from '../components/Sidebar.astro';
 import PageNav from '../components/PageNav.astro';
-import { ClientRouter } from 'astro:transitions';
-import '../styles/tailwind.css';
-import '../styles/global.scss';
 
 interface Props {
   frontmatter?: {
@@ -20,29 +18,7 @@ const title = frontmatter?.title || directTitle || '';
 const description = frontmatter?.description || directDescription || '';
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{title} - CxJS Documentation</title>
-    {description && <meta name="description" content={description} />}
-    <ClientRouter />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <script is:inline data-astro-rerun>
-      (function() {
-        const theme = localStorage.getItem('theme') ||
-          (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-        if (theme === 'dark') {
-          document.documentElement.classList.add('dark');
-        }
-      })();
-    </script>
-  </head>
-  <body>
+<BaseLayout title={`${title} - CxJS Documentation`} description={description}>
     <div class="min-h-screen bg-background">
       <!-- Scroll progress indicator -->
       <div id="scroll-progress" class="fixed top-14 left-0 h-0.5 bg-gradient-to-r from-primary to-primary/70 w-0 z-50 transition-all duration-100"></div>
