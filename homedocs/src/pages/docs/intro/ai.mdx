@@ -1,0 +1,38 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: AI
+description: Using AI coding assistants with CxJS
+---
+
+# AI
+
+CxJS documentation is optimized for AI coding assistants and large language models (LLMs). We provide machine-readable documentation files that help AI tools understand the framework and generate accurate CxJS code.
+
+## LLMs.txt Files
+
+Following the [llms.txt](https://llmstxt.org/) standard, CxJS provides documentation in formats optimized for AI consumption:
+
+| File | Description | Use Case |
+| ---- | ----------- | -------- |
+| [llms.txt](/llms.txt) | Index with links to all documentation pages | Quick overview and navigation |
+| [llms-small.txt](/llms-small.txt) | Essential documentation (~100KB) | Fast context loading, basic usage |
+| [llms-full.txt](/llms-full.txt) | Complete documentation (~500KB) | Comprehensive reference, advanced features |
+
+### Usage with AI Assistants
+
+When working with AI coding assistants like Claude, ChatGPT, or Cursor, you can:
+
+1. **Reference the documentation URL** - Point the AI to `https://cxjs.io/llms-full.txt` for complete framework knowledge
+2. **Include in system prompts** - Add the llms-small.txt content to your AI assistant's context for CxJS-aware code generation
+3. **Use with RAG systems** - Index the documentation for retrieval-augmented generation
+
+## CxJS Skill for Coding Agents
+
+A dedicated CxJS skill for AI coding agents is coming soon. This skill will provide:
+
+- Deep understanding of CxJS patterns and best practices
+- Accurate code generation for widgets, forms, grids, and charts
+- TypeScript-first approach with proper type inference
+- Integration with popular AI coding tools
+
+Stay tuned for updates.

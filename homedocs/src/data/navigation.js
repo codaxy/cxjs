@@ -48,6 +48,11 @@ export const navigation = [
             slug: "application-templates",
             description: "Starter templates and boilerplates for new projects",
           },
+          {
+            title: "AI (Skills)",
+            slug: "ai",
+            description: "Using AI coding assistants with CxJS",
+          },
         ],
       },
       {
