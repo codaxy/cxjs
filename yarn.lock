@@ -4237,9 +4237,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"astro@npm:^5.16.6":
-  version: 5.16.8
-  resolution: "astro@npm:5.16.8"
+"astro@npm:^5.16.15":
+  version: 5.16.15
+  resolution: "astro@npm:5.16.15"
   dependencies:
     "@astrojs/compiler": "npm:^2.13.0"
     "@astrojs/internal-helpers": "npm:0.7.5"
@@ -4259,8 +4259,8 @@ __metadata:
     cssesc: "npm:^3.0.0"
     debug: "npm:^4.4.3"
     deterministic-object-hash: "npm:^2.0.2"
-    devalue: "npm:^5.6.1"
-    diff: "npm:^5.2.0"
+    devalue: "npm:^5.6.2"
+    diff: "npm:^8.0.3"
     dlv: "npm:^1.1.3"
     dset: "npm:^3.1.4"
     es-module-lexer: "npm:^1.7.0"
@@ -4286,16 +4286,16 @@ __metadata:
     rehype: "npm:^13.0.2"
     semver: "npm:^7.7.3"
     sharp: "npm:^0.34.0"
-    shiki: "npm:^3.20.0"
+    shiki: "npm:^3.21.0"
     smol-toml: "npm:^1.6.0"
     svgo: "npm:^4.0.0"
     tinyexec: "npm:^1.0.2"
     tinyglobby: "npm:^0.2.15"
     tsconfck: "npm:^3.1.6"
     ultrahtml: "npm:^1.6.0"
-    unifont: "npm:~0.7.1"
+    unifont: "npm:~0.7.3"
     unist-util-visit: "npm:^5.0.0"
-    unstorage: "npm:^1.17.3"
+    unstorage: "npm:^1.17.4"
     vfile: "npm:^6.0.3"
     vite: "npm:^6.4.1"
     vitefu: "npm:^1.1.1"
@@ -4310,7 +4310,7 @@ __metadata:
       optional: true
   bin:
     astro: astro.js
-  checksum: 10/9ec077bfad328f1930094b4dd8fe1b1964c05cdb78f3c1e4d6494b4fe908209d2114abe33a621f4dd1da08964240a7d71f8a26029ba4ee482e661d67ae972780
+  checksum: 10/659e19632a310ed20568ab4084c789efc1155e850f511465d3042e914dd79813c5177bae4ca13e10032b414a90de244b1449b04dabbc8bc33c2e852371b1251a
   languageName: node
   linkType: hard
 
@@ -4966,12 +4966,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chokidar@npm:^4.0.0, chokidar@npm:^4.0.1, chokidar@npm:^4.0.3":
+"chokidar@npm:^4.0.0, chokidar@npm:^4.0.1":
   version: 4.0.3
   resolution: "chokidar@npm:4.0.3"
   dependencies:
     readdirp: "npm:^4.0.1"
   checksum: 10/bf2a575ea5596000e88f5db95461a9d59ad2047e939d5a4aac59dd472d126be8f1c1ff3c7654b477cf532d18f42a97279ef80ee847972fd2a25410bf00b80b59
+  languageName: node
+  linkType: hard
+
+"chokidar@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "chokidar@npm:5.0.0"
+  dependencies:
+    readdirp: "npm:^5.0.0"
+  checksum: 10/a1c2a4ee6ee81ba6409712c295a47be055fb9de1186dfbab33c1e82f28619de962ba02fc5f9d433daaedc96c35747460d8b2079ac2907de2c95e3f7cce913113
   languageName: node
   linkType: hard
 
@@ -5675,7 +5684,7 @@ __metadata:
     "@tailwindcss/vite": "npm:^4.1.18"
     "@types/react": "npm:^19.2.0"
     "@types/react-dom": "npm:^19.2.0"
-    astro: "npm:^5.16.6"
+    astro: "npm:^5.16.15"
     astro-pagefind: "npm:^1.8.5"
     cx: "workspace:*"
     cx-react: "workspace:*"
@@ -5949,10 +5958,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"devalue@npm:^5.6.1":
-  version: 5.6.1
-  resolution: "devalue@npm:5.6.1"
-  checksum: 10/6da13a080514048a4fca231459c44222dd43b9c89cba0586c206592a8f7fa91a5e37952b11769daeaafbd2c4eb5df0b121234adb753a5dc737406312a314545f
+"devalue@npm:^5.6.2":
+  version: 5.6.2
+  resolution: "devalue@npm:5.6.2"
+  checksum: 10/734b57d917e45b534007e3b5055c031e4e3fcf3c3a44e1b4177e998f30e077e4d280b59abe0cc0ca9055a18e90266e31f578129e83e105e63e9680998a3c2a8a
   languageName: node
   linkType: hard
 
@@ -5983,6 +5992,13 @@ __metadata:
   version: 5.2.0
   resolution: "diff@npm:5.2.0"
   checksum: 10/01b7b440f83a997350a988e9d2f558366c0f90f15be19f4aa7f1bb3109a4e153dfc3b9fbf78e14ea725717017407eeaa2271e3896374a0181e8f52445740846d
+  languageName: node
+  linkType: hard
+
+"diff@npm:^8.0.3":
+  version: 8.0.3
+  resolution: "diff@npm:8.0.3"
+  checksum: 10/52f957e1fa53db4616ff5f4811b92b22b97a160c12a2f86f22debd4181227b0f6751aa8fd711d6a8fcf4618acb13b86bc702e6d9d6d6ed82acfd00c9cb26ace2
   languageName: node
   linkType: hard
 
@@ -7417,20 +7433,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"h3@npm:^1.15.4":
-  version: 1.15.4
-  resolution: "h3@npm:1.15.4"
+"h3@npm:^1.15.5":
+  version: 1.15.5
+  resolution: "h3@npm:1.15.5"
   dependencies:
     cookie-es: "npm:^1.2.2"
     crossws: "npm:^0.3.5"
     defu: "npm:^6.1.4"
     destr: "npm:^2.0.5"
     iron-webcrypto: "npm:^1.2.1"
-    node-mock-http: "npm:^1.0.2"
+    node-mock-http: "npm:^1.0.4"
     radix3: "npm:^1.1.2"
-    ufo: "npm:^1.6.1"
+    ufo: "npm:^1.6.3"
     uncrypto: "npm:^0.1.3"
-  checksum: 10/50d3511338159b08d1a8deee709bf1ba1680032e639a603e82c2a1ae6d2871c7cd68cee7763eb367ba1e7e2993b0cfc2825d32f2fe0b2ebae00d3868e77caf8b
+  checksum: 10/95a6a1b6db286d71983f41b6e25d85ecc554c088675811eabf5d871dec6657a88b659b94536e1ec10a1cae7d1269a51d4f5d96d6b4a1e15c10c80719da9b4326
   languageName: node
   linkType: hard
 
@@ -9102,10 +9118,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lru-cache@npm:^10.0.1, lru-cache@npm:^10.2.0, lru-cache@npm:^10.4.3":
+"lru-cache@npm:^10.0.1, lru-cache@npm:^10.2.0":
   version: 10.4.3
   resolution: "lru-cache@npm:10.4.3"
   checksum: 10/e6e90267360476720fa8e83cc168aa2bf0311f3f2eea20a6ba78b90a885ae72071d9db132f40fda4129c803e7dcec3a6b6a6fbb44ca90b081630b810b5d6a41a
+  languageName: node
+  linkType: hard
+
+"lru-cache@npm:^11.2.0":
+  version: 11.2.5
+  resolution: "lru-cache@npm:11.2.5"
+  checksum: 10/be50f66c6e23afeaab9c7eefafa06344dd13cde7b3528809c2660c4ad70d93b9ba537366634623cbb2eb411671f526b5a4af2c602507b9258aead0fa8d713f6c
   languageName: node
   linkType: hard
 
@@ -10402,7 +10425,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-mock-http@npm:^1.0.2":
+"node-mock-http@npm:^1.0.4":
   version: 1.0.4
   resolution: "node-mock-http@npm:1.0.4"
   checksum: 10/865bcc502a0b59f5504d014561ab0e3f4d8217c6b4022b621a1515503beaf1f526bb44cab43adb172e453992f75148ed13cc371bc6a3df1ad853430bf4bf8c62
@@ -11386,6 +11409,13 @@ __metadata:
   version: 4.1.2
   resolution: "readdirp@npm:4.1.2"
   checksum: 10/7b817c265940dba90bb9c94d82920d76c3a35ea2d67f9f9d8bd936adcfe02d50c802b14be3dd2e725e002dddbe2cc1c7a0edfb1bc3a365c9dfd5a61e612eea1e
+  languageName: node
+  linkType: hard
+
+"readdirp@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "readdirp@npm:5.0.0"
+  checksum: 10/a17a591b51d8b912083660df159e8bd17305dc1a9ef27c869c818bd95ff59e3a6496f97e91e724ef433e789d559d24e39496ea1698822eb5719606dc9c1a923d
   languageName: node
   linkType: hard
 
@@ -12558,7 +12588,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"shiki@npm:^3.19.0, shiki@npm:^3.20.0":
+"shiki@npm:^3.19.0, shiki@npm:^3.21.0":
   version: 3.21.0
   resolution: "shiki@npm:3.21.0"
   dependencies:
@@ -13459,6 +13489,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ufo@npm:^1.6.3":
+  version: 1.6.3
+  resolution: "ufo@npm:1.6.3"
+  checksum: 10/79803984f3e414567273a666183d6a50d1bec0d852100a98f55c1e393cb705e3b88033e04029dd651714e6eec99e1b00f54fdc13f32404968251a16f8898cfe5
+  languageName: node
+  linkType: hard
+
 "ultrahtml@npm:^1.6.0":
   version: 1.6.0
   resolution: "ultrahtml@npm:1.6.0"
@@ -13540,14 +13577,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"unifont@npm:~0.7.1":
-  version: 0.7.1
-  resolution: "unifont@npm:0.7.1"
+"unifont@npm:~0.7.3":
+  version: 0.7.3
+  resolution: "unifont@npm:0.7.3"
   dependencies:
     css-tree: "npm:^3.1.0"
     ofetch: "npm:^1.5.1"
     ohash: "npm:^2.0.11"
-  checksum: 10/32b57496af2f9a1e85eab410f1c9cad67a023e0f7b7ac9da77fa804fe61c504c50bb5bb4da38e7f9393238c6e76ee1644c236aea63b51107586ceee17dbd7e67
+  checksum: 10/15cb47035df61bdd9aafbe46327d32f0dfefa3be7e43c867724848966d59c534ad8a78a572035c80953f24ab98504990e4c2fc43afc7cebca29f242eee601874
   languageName: node
   linkType: hard
 
@@ -13672,18 +13709,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"unstorage@npm:^1.17.3":
-  version: 1.17.3
-  resolution: "unstorage@npm:1.17.3"
+"unstorage@npm:^1.17.4":
+  version: 1.17.4
+  resolution: "unstorage@npm:1.17.4"
   dependencies:
     anymatch: "npm:^3.1.3"
-    chokidar: "npm:^4.0.3"
+    chokidar: "npm:^5.0.0"
     destr: "npm:^2.0.5"
-    h3: "npm:^1.15.4"
-    lru-cache: "npm:^10.4.3"
+    h3: "npm:^1.15.5"
+    lru-cache: "npm:^11.2.0"
     node-fetch-native: "npm:^1.6.7"
     ofetch: "npm:^1.5.1"
-    ufo: "npm:^1.6.1"
+    ufo: "npm:^1.6.3"
   peerDependencies:
     "@azure/app-configuration": ^1.8.0
     "@azure/cosmos": ^4.2.0
@@ -13691,14 +13728,14 @@ __metadata:
     "@azure/identity": ^4.6.0
     "@azure/keyvault-secrets": ^4.9.0
     "@azure/storage-blob": ^12.26.0
-    "@capacitor/preferences": ^6.0.3 || ^7.0.0
+    "@capacitor/preferences": ^6 || ^7 || ^8
     "@deno/kv": ">=0.9.0"
     "@netlify/blobs": ^6.5.0 || ^7.0.0 || ^8.1.0 || ^9.0.0 || ^10.0.0
     "@planetscale/database": ^1.19.0
     "@upstash/redis": ^1.34.3
     "@vercel/blob": ">=0.27.1"
     "@vercel/functions": ^2.2.12 || ^3.0.0
-    "@vercel/kv": ^1.0.1
+    "@vercel/kv": ^1 || ^2 || ^3
     aws4fetch: ^1.0.20
     db0: ">=0.2.1"
     idb-keyval: ^6.2.1
@@ -13743,7 +13780,7 @@ __metadata:
       optional: true
     uploadthing:
       optional: true
-  checksum: 10/9666dd8634ca24ce3d240fad5f8e8507c2e2490bfd3b800763edccf74ba22cc3e78f252dd604c4663601e3b17f79c7884e58e40866411b082067e66eb3ad4626
+  checksum: 10/db66f4f7a49db7e769df70beb02b8368c4a4dd34a37af0dfe65e6370fc3a1d5691768b34ea6c2133daae3d79db0070c93f7c03289784dcfef755ebbad6c79643
   languageName: node
   linkType: hard
 
