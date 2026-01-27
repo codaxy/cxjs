@@ -167,10 +167,13 @@ body {
 // Import Styles
 // ========================================
 
-@import "prose";
 @import "components";
 @import "pagefind";
 
 @layer components {
   @import "cxjs-theme";
+}
+
+@layer utilities {
+  @import "prose";
 }
