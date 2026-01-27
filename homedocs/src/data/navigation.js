@@ -159,6 +159,11 @@ export const navigation = [
             slug: "sample-applications",
             description: "Example applications demonstrating CxJS patterns",
           },
+          {
+            title: "Component Libraries",
+            slug: "component-libraries",
+            description: "Add-on libraries that provide additional CxJS components",
+          },
         ],
       },
     ],
