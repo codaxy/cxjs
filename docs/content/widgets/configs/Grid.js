@@ -39,8 +39,8 @@ export default {
         type: 'boolean',
         key: true,
         description: <cx><Md>
-            Set to `true` to add a vertical scroll and a fixed header to the grid. Scrollable grids shoud have `height` or `max-height` set.
-            Otherwise, the grid will grow to accomodate all rows.
+            Set to `true` to add a vertical scroll and a fixed header to the grid. Scrollable grids shoud
+            have `height` or `max-height` set. Otherwise, the grid will grow to accomodate all rows.
         </Md></cx>
     },
     scrollSelectionIntoView: {
@@ -75,6 +75,13 @@ export default {
         description: <cx><Md>
             Set to true to lock column widths after the first render. This is helpful in pagination scenarios to
             maintain consistent looks across pages.
+        </Md></cx>
+    },
+    dataAdapter: {
+        type: 'object',
+        description: <cx><Md>
+            Data adapter is used for converting data in a list of records. Used to enable grouping and
+            tree operations. See [TreeGrid](~/widgets/tree-grid) for more details.
         </Md></cx>
     },
     defaultSortField: {
@@ -133,7 +140,6 @@ export default {
             data will not be caught.
         </Md></cx>
     },
-
     buffered: {
         type: 'boolean',
         key: true,
@@ -142,29 +148,26 @@ export default {
             with a lot of data. Works only if the grid is `scrollable`.
         </Md></cx>
     },
-
     bufferSize: {
         type: 'number',
         description: <cx><Md>
             Number of rendered rows in `buffered` grids. Default value is 60.
         </Md></cx>
     },
-
     bufferStep: {
         type: 'number',
         description: <cx><Md>
             Number of rows to be scrolled before buffer adjustment. Default value is 15.
         </Md></cx>
     },
-
     measureRowHeights: {
         type: 'boolean',
         key: true,
         description: <cx><Md>
-            Used when rows have variable heights to improve buffered rendering by measuring and caching rendered row heights. Default value is `false`.
+            Used when rows have variable heights to improve buffered rendering by measuring
+            and caching rendered row heights. Default value is `false`.
         </Md></cx>
     },
-
     pageSize: {
         type: 'number',
         key: true,
@@ -176,7 +179,8 @@ export default {
         type: 'boolean',
         key: true,
         description: <cx><Md>
-            If set, clicking on the column header will loop between ASC, DESC and no sorting order, instead of ASC and DESC only.
+            If set, clicking on the column header will loop between ASC, DESC and no sorting order,
+            instead of ASC and DESC only.
         </Md></cx>
     },
     onRowDoubleClick: {
@@ -188,7 +192,8 @@ export default {
     onRowKeyDown: {
         type: 'function',
         description: <cx><Md>
-            Callback function to be executed on key down. Accepts instance of the currently focused record as the second argument.
+            Callback function to be executed on key down. Accepts instance of the currently focused
+            record as the second argument.
         </Md></cx>
     },
     onRowClick: {
@@ -227,57 +232,53 @@ export default {
             Additional sorters to be prepended to the actual list of sorters.
         </Md></cx>
     },
-
     scrollResetParams: {
         type: 'object',
         description: <cx><Md>
             Parameters whose change will cause the scroll to be reset.
         </Md></cx>
     },
-
     filterParams: {
         type: 'object',
         description: <cx><Md>
-            Parameters which will be passed to the onCreateFilter callback.
+            Parameters which will be passed to the `onCreateFilter` callback.
+            Take a look at the example [here](~/examples/grid/searching-and-filtering).
         </Md></cx>
     },
-
     onCreateFilter: {
         type: "function",
         description: <cx><Md>
-            Callback function used to create a filter. The function accepts `filterParams` as a first argument and
-            it should return a predicate function used to filter the records.
+            Callback function used to create a filter. The function accepts `filterParams` as
+            an argument and it should return a predicate function used to filter the records.
+            Take a look at the example [here](~/examples/grid/searching-and-filtering).
         </Md></cx>
     },
-
     onCreateIsRecordSelectable: {
         type: "function",
         description: <cx><Md>
             Callback function used to specify which row is selectable and which not.
         </Md></cx>
     },
-
     hoverChannel: {
         type: 'string',
         description: <cx><Md>
-            A value used to identify the group of components participating in hover effect synchronization. See [HoverSync](~/charts/hover-sync).
+            A value used to identify the group of components participating in hover effect synchronization.
+            See [HoverSync](~/charts/hover-sync).
         </Md></cx>
     },
-
     rowHoverId: {
         type: 'string',
         description: <cx><Md>
-            A value used to uniquely identify the record within the hover sync group. See [HoverSync](~/charts/hover-sync).
+            A value used to uniquely identify the record within the hover sync group.
+            See [HoverSync](~/charts/hover-sync).
         </Md></cx>
     },
-
     focusable: {
         type: 'boolean',
         description: <cx><Md>
             Set to `true` or `false` to explicitly define if grid is allowed to receive focus.
         </Md></cx>
     },
-
     row: {
         type: 'object',
         description: <cx><Md>
@@ -286,37 +287,33 @@ export default {
             `class` - additional CSS classes to be applied to the element. If an object is provided, all keys with a "truthy" value will be added to the CSS class list.
         </Md></cx>
     },
-
     columnParams: {
         type: 'object',
         description: <cx><Md>
             Whenever `columnParams` change, columns are recalculated using the `onGetColumns` callback.
         </Md></cx>
     },
-
     groupingParams: {
         type: 'object',
         description: <cx><Md>
             Whenever `groupingParams` change, columns are recalculated using the `onGetGrouping` callback.
         </Md></cx>
     },
-
     allowsFileDrops: {
         type: 'boolean',
         description: <cx><Md>
-            Set to `true`` to allow the grid to receive drag and drop operations containing files.
+            Set to `true` to allow the grid to receive drag and drop operations containing files.
         </Md></cx>
     },
-
     onTrackMappedRecords: {
         type: "function",
         description: <cx><Md>
             Callback function to track and retrieve displayed records.
             Accepts new records as a first argument.
             If onCreateFilter callback is defined, filtered records can be retrieved using this callback.
+            See its usage in the example [here](~/examples/grid/multiple-selection).
         </Md></cx>
     },
-    
     onGetGrouping: {
         type: "function",
         description: <cx><Md>
@@ -324,4 +321,32 @@ export default {
             should return a grid grouping configuration.
         </Md></cx>
     },
+    onCreateIsRecordDraggable: {
+        type: "function",
+        description: <cx><Md>
+            Callback function used to specify which row is draggable.
+            It should return a predicate which accepts a record and returns a boolean
+            indicating wheter that record is draggable or not.
+        </Md></cx>
+    },
+    onGetColumns: {
+        type: "function",
+        description: <cx><Md>
+            Callback function used to dynamically calculate columns.
+            The function accepts resolved `columnParams` as a first argument and it should return
+            either `columns` (array of column configurations) or `row` (grid row configuration) for multi-line scenarios.
+        </Md></cx>
+    },
+    onRef: {
+        type: 'function',
+        description: <cx><Md>
+            Callback function to get grid component and instance references on component init.
+        </Md></cx>
+    },
+    preserveGroupOrder: {
+        type: 'boolean',
+        description: <cx><Md>
+            When enabled, groups are shown in the same order as the source records.
+        </Md></cx>
+    }
 };

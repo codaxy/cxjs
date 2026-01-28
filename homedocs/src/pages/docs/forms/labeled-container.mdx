@@ -1,0 +1,34 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: LabeledContainer
+description: Container with label support
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import LabeledContainerExample from "../../../examples/forms/LabeledContainerExample.tsx";
+import LabeledContainerExampleCode from "../../../examples/forms/LabeledContainerExample.tsx?raw";
+
+# LabeledContainer
+
+<ImportPath path="import { LabeledContainer } from 'cx/widgets';" />
+
+The `LabeledContainer` widget groups multiple form fields under a single label. This is useful for related fields like name parts (first/last) or date ranges (start/end).
+
+<CodeExample code={LabeledContainerExampleCode}>
+  <LabeledContainerExample client:load />
+</CodeExample>
+
+`LabeledContainer` extends `FieldGroup`, so it inherits all field group properties like `disabled`, `readOnly`, and `viewMode`.
+
+## Configuration
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `label` | `StringProp \| LabelConfig` | The label text or Label widget configuration. |
+| `disabled` | `BooleanProp` | Set to `true` to disable all inner elements. |
+| `mod` | `ModProp` | CSS modifier classes for the label. |
+| `asterisk` | `BooleanProp` | Show required indicator next to the label. |
+
+Additionally, all `FieldGroup` properties are available: `enabled`, `readOnly`, `viewMode`, `visited`, `strict`, etc.

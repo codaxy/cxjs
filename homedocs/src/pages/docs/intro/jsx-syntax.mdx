@@ -1,0 +1,56 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: JSX Syntax
+description: CxJS-specific JSX syntax and configuration options
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+import JsxBasicsExample from "../../../examples/intro/JsxBasicsExample.tsx";
+import JsxBasicsExampleCode from "../../../examples/intro/JsxBasicsExample.tsx?raw";
+import JsxModernExample from "../../../examples/intro/JsxModernExample.tsx";
+import JsxModernExampleCode from "../../../examples/intro/JsxModernExample.tsx?raw";
+import JsxLegacyExample from "../../../examples/intro/JsxLegacyExample.tsx";
+import JsxLegacyExampleCode from "../../../examples/intro/JsxLegacyExample.tsx?raw";
+
+# JSX Syntax
+
+<OnThisPage />
+
+CxJS uses JSX to define user interfaces declaratively. If you're familiar with React,
+you'll find the syntax familiar — with some CxJS-specific extensions.
+
+## Widgets vs HTML Elements
+
+CxJS follows a simple naming convention — widgets start with an uppercase letter (`Button`, `TextField`, `Grid`) while HTML elements start with a lowercase letter (`div`, `span`, `section`). You can freely mix them in the same component.
+
+CxJS widgets also support common attributes for controlling behavior and appearance. Use `visible` to conditionally render widgets, `class` or `className` for CSS classes, and `style` for inline styles:
+
+<CodeExample code={JsxBasicsExampleCode}>
+  <JsxBasicsExample client:load />
+</CodeExample>
+
+## The `<cx>` Wrapper
+
+In earlier versions of CxJS, widget trees had to be wrapped in a `<cx>` element to instruct
+the Babel compiler to process them as CxJS configuration. With TypeScript and the new
+`jsxImportSource: "cx"` configuration, this wrapper is no longer required:
+
+<CodeExample code={JsxModernExampleCode}>
+  <JsxModernExample client:load />
+</CodeExample>
+
+The legacy `<cx>` syntax is still supported for backwards compatibility:
+
+<CodeExample code={JsxLegacyExampleCode}>
+  <JsxLegacyExample client:load />
+</CodeExample>
+
+## Key Differences from React
+
+| Feature           | React             | CxJS                         |
+| ----------------- | ----------------- | ---------------------------- |
+| Class names       | `className` only  | `class` or `className`       |
+| Two-way binding   | Manual            | Built-in via accessor chains |
+| State management  | `useState`, Redux | Store with typed models      |
+| Component wrapper | None              | `<cx>` (optional)            |

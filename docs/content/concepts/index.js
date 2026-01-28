@@ -1,5 +1,8 @@
 export * from './DataBinding';
-export * from './DataViews';
+export * from './Repeater';
+export * from './Rescope';
+export * from './Sandbox';
+export * from './DataProxy';
 export * from './Controllers';
 export * from './Widgets';
 export * from './Selections';
@@ -16,13 +19,15 @@ export * from './FunctionalComponents';
 export * from './DragAndDrop';
 export * from './TypedModels';
 export * from './ImmerJsIntegration';
-
+export * from './DataAdapters';
+export * from './KeyboardShortcuts';
+export * from './CreatingComponents';
+export * from './CxComponent';
 
 import { bumpVersion } from '../version';
 
-//HMR
+// HMR
 if (module.hot) {
     module.hot.accept();
     bumpVersion();
 }
-

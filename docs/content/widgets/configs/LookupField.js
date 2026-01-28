@@ -194,7 +194,7 @@ export default {
     emptyValue: {
         type: 'any',
         description: <cx><Md>
-            Value to be written in the store when the field is empty. Default value is `null`;
+            Value to be written in the store when the field is empty. Default value is `null`.
         </Md></cx>
     },
 
@@ -234,4 +234,11 @@ export default {
             Callback is invoked on every `filterParams` change, if latter is specified.
         </Md></cx>
     },
+
+    onGetRecordDisplayText: {
+        type: "function",
+        description: <cx><Md>
+            Used in multiple selection lookups in combination with records, to construct the display text out of multiple fields or when additional formatting is needed.
+        </Md></cx>
+    }
 };

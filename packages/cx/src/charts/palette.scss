@@ -6,6 +6,8 @@
 //hover:100 700
 //selected: 300 900
 //disabled: 0 100
+@use "sass:map";
+@use "sass:list";
 
 $cx-default-palette-colors: rgba(244, 67, 54, 1) rgba(233, 30, 99, 1) rgba(156, 39, 176, 1) rgba(103, 58, 183, 1)
    rgba(63, 81, 181, 1) rgba(33, 150, 243, 1) rgba(3, 169, 244, 1) rgba(0, 188, 212, 1) rgba(0, 150, 136, 1)
@@ -39,12 +41,12 @@ $cx-default-palette-stroke-blacken: 10% !default;
    $palette-stroke-blacken: $cx-default-palette-stroke-blacken,
    $besm: $cx-besm
 ) {
-   $block: map-get($besm, block);
-   $element: map-get($besm, element);
-   $state: map-get($besm, state);
+   $block: map.get($besm, block);
+   $element: map.get($besm, element);
+   $state: map.get($besm, state);
 
-   @for $i from 1 through length($palette-colors) {
-      $c: nth($palette-colors, 1 + (($i - 1) * 1) % length($palette-colors));
+   @for $i from 1 through list.length($palette-colors) {
+      $c: list.nth($palette-colors, 1 + (($i - 1) * 1) % list.length($palette-colors));
 
       .#{$state}color-#{$i - 1} {
          $fill: cx-blacken(cx-whiten($c, $palette-fill-whiten), $palette-fill-blacken);

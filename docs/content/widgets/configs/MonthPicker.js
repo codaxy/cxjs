@@ -37,10 +37,27 @@ export default {
             Used only if `range` is set to `false` (default).
         </Md></cx>
     },
+        encoding: {
+        type: 'function',
+        description: <cx>
+            <Md>
+                Sets the function that will be used to convert Date objects before writing data to the store.
+                Default implementation is `Date.toISOString`. See also [Culture.setDefaultDateEncoding](~/concepts/localization#culture).
+            </Md>
+        </cx>
+    },
     baseClass: {
         type: 'string',
         description: <cx><Md>
             Base CSS class to be applied on the field. Defaults to `monthpicker`.
+        </Md></cx>
+    },
+
+    inclusiveTo: {
+        type: 'boolean',
+        description: <cx><Md>
+            A boolean flag that determines whether the `to` date is included in the range.
+            When set to `true` the value stored in the `to` field would be the last day of the month, i.e. `2024-12-31`.
         </Md></cx>
     }
 };

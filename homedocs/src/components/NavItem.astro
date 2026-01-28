@@ -1,0 +1,34 @@
+---
+interface Props {
+  href: string;
+  text: string;
+  isActive?: boolean;
+}
+
+const { href, text, isActive: isActiveProp } = Astro.props;
+const pathname = Astro.url.pathname;
+
+// Use prop if provided, otherwise calculate from pathname
+const normalizedHref = href.replace(/\/$/, '') || '/';
+const normalizedPath = pathname.replace(/\/$/, '') || '/';
+
+const isActive = isActiveProp !== undefined
+  ? isActiveProp
+  : (normalizedHref === '/'
+    ? normalizedPath === '/'
+    : normalizedPath === normalizedHref || normalizedPath.startsWith(normalizedHref + '/'));
+---
+
+<li>
+  <a
+    href={href}
+    class:list={[
+      "block px-3 py-2 text-sm rounded-md transition-colors",
+      isActive
+        ? "bg-primary/10 text-primary font-medium border-l-2 border-primary"
+        : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+    ]}
+  >
+    {text}
+  </a>
+</li>

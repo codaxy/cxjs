@@ -1,5 +1,5 @@
 import { View } from "cx/data";
-import produce, { setAutoFreeze } from "immer";
+import { produce, setAutoFreeze } from "immer";
 
 export function enableImmerMutate() {
    // Unless `sealed`, some views in CxJS actually "enrich" the data with aliased properties.

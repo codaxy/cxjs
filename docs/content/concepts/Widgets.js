@@ -3,9 +3,7 @@ import { CodeSnippet } from 'docs/components/CodeSnippet';
 import { CodeSplit } from 'docs/components/CodeSplit';
 import { Md } from 'docs/components/Md';
 
-
 export const Widgets = <cx>
-
     <Md>
         # Widgets
 
@@ -18,13 +16,12 @@ export const Widgets = <cx>
         2. Gather inputs from the user and dispatch information required for updating the application state.
 
         <CodeSplit>
-
             Similar to HTML, in the CxJS framework data views are defined using the [JSX syntax](~/intro/jsx) like the
             one shown
             in the next code snippet.
 
             <Content name="code">
-                <Tab value-bind="$page.code.tab"  mod="code" tab="code"  text="Widgets" default />
+                <Tab value-bind="$page.code.tab" mod="code" tab="code" text="Widgets" default />
                 <CodeSnippet visible-expr="{$page.code.tab}=='code'">{`
                 export const Main = <cx>
                     <main outerLayout={Layout}>
@@ -61,7 +58,7 @@ export const Widgets = <cx>
 
         <CodeSplit>
             <Content name="code">
-                <Tab value-bind="$page.code.tab"  mod="code" tab="code"  text="app/index.js" default />
+                <Tab value-bind="$page.code.tab" mod="code" tab="code" text="app/index.js" default />
                 <CodeSnippet>{`
                let store = new Store();
                let appEl = document.getElementById('app');
@@ -82,7 +79,6 @@ export const Widgets = <cx>
         CxJS widgets are similar to React components in the way they define  its `render` method.
 
         <CodeSplit>
-
             ### `declareData`
 
             This method is used to report all bindable properties of the widget.
@@ -90,46 +86,42 @@ export const Widgets = <cx>
             ### `render`
 
             The `render` method returns virtual DOM representation of the widget.
-            Note that the`&lt;cx&gt;` wrapper is not used inside the `render` method.
+            Note that the `&lt;cx&gt;` wrapper is not used inside the `render` method.
 
             <Content name="code">
-                <Tab value-bind="$page.code.tab"  mod="code" tab="code"  text="Rectangle.js" default />
+                <Tab value-bind="$page.code.tab" mod="code" tab="code" text="Rectangle.js" default />
                 <CodeSnippet>{`
-               export class Rectangle extends BoundedObject {
+                    export class Rectangle extends BoundedObject {
+                        declareData() {
+                            return super.declareData({
+                                anchors: undefined,
+                                offset: undefined,
+                                margin: undefined,
+                                padding: undefined
+                            }, ...arguments)
+                        }
 
-                  declareData() {
-                      return super.declareData({
-                         anchors: undefined,
-                         offset: undefined,
-                         margin: undefined,
-                         padding: undefined
-                      }, ...arguments)
-                   }
+                        render(context, instance, key) {
+                            var {data} = instance;
+                            var {bounds} = data;
+                            if (!bounds.valid())
+                                return null;
+                            return <g key={key}>
+                                <rect x={bounds.l}
+                                    y={bounds.t}
+                                    width={bounds.width()}
+                                    height={bounds.height()}
+                                    style={data.style}
+                                    className={data.classNames}
+                                />
+                                {this.renderChildren(context, instance)}
+                            </g>;
+                        }
+                    }
 
-                  render(context, instance, key) {
-                     var {data} = instance;
-                     var {bounds} = data;
-                     if (!bounds.valid())
-                        return null;
-                     return <g key={key}>
-                        <rect x={bounds.l}
-                              y={bounds.t}
-                              width={bounds.width()}
-                              height={bounds.height()}
-                              style={data.style}
-                              className={data.classNames}
-                           />
-                        {this.renderChildren(context, instance)}
-                     </g>;
-                  }
-
-                  ...
-               }
-
-               // This enables the use of styling properties (style, class/className)
-               Rectangle.prototype.styled = true;
-            `}
-                </CodeSnippet>
+                    // This enables the use of styling properties (style, class/className)
+                    Rectangle.prototype.styled = true;
+                `}</CodeSnippet>
             </Content>
         </CodeSplit>
 
@@ -161,4 +153,3 @@ export const Widgets = <cx>
         The `cleanup` method is invoked after rendering is finished to do any necessary cleanup work.
     </Md>
 </cx>
-

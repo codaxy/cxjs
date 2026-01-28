@@ -2,41 +2,32 @@ module.exports = function (production) {
    let config = {
       cacheDirectory: true,
       cacheIdentifier: "v15",
-      "plugins": [
-         // ["transform-runtime", {
-         //    helpers: true,
-         //    polyfill: false,
-         //    regenerator: false
-         // }]
-      ],
+      plugins: [],
       presets: [
-         '@babel/preset-typescript',
-         ["cx-env", {
-            targets: {
-               chrome: 50,
-               ie: 11,
-               firefox: 30,
-               edge: 12,
-               safari: 9
+         "@babel/preset-typescript",
+         [
+            "cx-env",
+            {
+               targets: {
+                  chrome: 90,
+                  // ie: 11,
+                  // firefox: 30,
+                  // edge: 12,
+                  // safari: 9,
+               },
+               modules: false,
+               loose: true,
+               useBuiltIns: false,
+               cx: {
+                  imports: {
+                     useSrc: true,
+                  },
+               },
             },
-            modules: false,
-            loose: true,
-            useBuiltIns: false,
-            cx: {
-               imports: {
-                  useSrc: true
-               }
-            }
-         }]
-      ]
+         ],
+      ],
+      plugins: [],
    };
-
-   // if (production)
-   //    config.presets.push(['babili', {
-   //       mangle: false
-   //    }]);
 
    return config;
 };
-
-

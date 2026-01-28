@@ -1,0 +1,73 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: append
+description: Append elements to array
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import AppendExample from "../../../examples/utilities/AppendExample.tsx";
+import AppendExampleCode from "../../../examples/utilities/AppendExample.tsx?raw";
+
+# append
+
+<ImportPath path="import { append } from 'cx/data';" />
+<OnThisPage />
+
+`append` creates a new array with items added to the end. Handles null/undefined arrays gracefully.
+
+<CodeExample code={AppendExampleCode}>
+  <AppendExample client:load />
+</CodeExample>
+
+## Signature
+
+```ts
+function append<T>(array: T[], ...items: T[]): T[]
+```
+
+## Parameters
+
+| Parameter | Type   | Description                          |
+| --------- | ------ | ------------------------------------ |
+| `array`   | `T[]`  | The source array (can be null/undefined). |
+| `items`   | `T[]`  | Items to append.                     |
+
+## Return Value
+
+Returns a new array with items appended. If `array` is null/undefined, returns the items as a new array.
+
+## Examples
+
+### Basic usage
+
+```ts
+const items = [1, 2, 3];
+const result = append(items, 4, 5);
+// [1, 2, 3, 4, 5]
+
+// Original array is unchanged
+console.log(items); // [1, 2, 3]
+```
+
+### With null array
+
+```ts
+const result = append(null, 1, 2);
+// [1, 2]
+```
+
+### No items to append
+
+```ts
+const items = [1, 2, 3];
+const result = append(items);
+// [1, 2, 3] - returns empty array if source is null, otherwise same reference
+```
+
+## See Also
+
+- [insertElement](/docs/utilities/insert-element) - Insert at specific position
+- [updateArray](/docs/utilities/update-array) - Update items in array

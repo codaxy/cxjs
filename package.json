@@ -1,12 +1,12 @@
 {
-   "name": "cx",
+   "name": "cxjs",
    "version": "1.1.1",
    "description": "Framework for enterprise JavaScript applications",
    "scripts": {
-      "start": "webpack-dev-server --config docs/webpack.config.js --open",
-      "test": "mocha --config ./test/mocha.config.js",
+      "start": "cd docs && webpack-dev-server --config webpack.config.js --open",
+      "test": "yarn workspaces foreach -A --include cx --include babel-plugin-transform-cx-jsx --include babel-plugin-transform-cx-imports run test",
       "docs": "webpack-dev-server --config docs/webpack.config.js --open",
-      "build": "node packages/cx/build/index.js",
+      "build": "yarn workspace cx-react run build && yarn workspace cx run compile && yarn workspace cx run build",
       "build:docs": "webpack --config docs/webpack.config.js",
       "build:docs:root": "webpack --config docs/webpack.config.js",
       "measure:docs": "webpack-dev-server --config docs/webpack.config.js --open",
@@ -21,6 +21,8 @@
       "build:theme:material": "webpack --config themes/material/webpack.config.js",
       "build:theme:marine": "webpack --config themes/marine/webpack.config.js",
       "build:theme:playground": "webpack --config themes/playground/webpack.config.js",
+      "compile:themes": "yarn workspaces foreach -A --include 'cx-theme-*' run compile",
+      "build:themes": "yarn workspaces foreach -A --include 'cx-theme-*' run build",
       "gallery": "webpack-dev-server --config gallery/config/webpack.dev.js --open",
       "build:gallery": "webpack --config gallery/config/webpack.prod.js",
       "build:gallery:root": "webpack --config gallery/config/webpack.prod.js",
@@ -47,7 +49,9 @@
       "gallery",
       "litmus",
       "benchmark",
-      "fiddle"
+      "fiddle",
+      "ts-minimal",
+      "homedocs"
    ],
    "jest": {
       "transform": {
@@ -58,21 +62,23 @@
       ]
    },
    "dependencies": {
-      "@types/react": "^16.0.5",
-      "react": "^17.0.1",
-      "react-dom": "^17.0.1"
+      "@rollup/plugin-node-resolve": "^16.0.3",
+      "@types/react": "^19.2.7",
+      "react": "^19.2.3",
+      "react-dom": "^19.2.3"
    },
    "devDependencies": {
-      "@babel/core": "^7.18.3",
-      "@babel/plugin-transform-react-jsx": "^7.18.10",
-      "@babel/preset-env": "^7.18.10",
-      "@babel/register": "^7.18.9",
-      "babel-jest": "27.2.0",
+      "@babel/core": "^7.28.5",
+      "@babel/plugin-transform-react-jsx": "^7.27.1",
+      "@babel/preset-env": "^7.28.5",
+      "@babel/register": "^7.28.3",
       "env-test": "^1.0.0",
-      "mocha": "^8.3.0",
-      "prettier": "^2.0.5"
+      "prettier": "^3.3.3",
+      "webpack-dev-server": "^5.2.2"
    },
    "resolutions": {
-      "@babel/helper-define-polyfill-provider": "^0.1.5"
-   }
+      "@babel/helper-define-polyfill-provider": "^0.1.5",
+      "chalk": "^4.1.2"
+   },
+   "packageManager": "yarn@4.4.1+sha512.f825273d0689cc9ead3259c14998037662f1dcd06912637b21a450e8da7cfeb4b1965bbee73d16927baa1201054126bc385c6f43ff4aa705c8631d26e12460f1"
 }

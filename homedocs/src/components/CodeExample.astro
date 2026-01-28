@@ -1,0 +1,657 @@
+---
+import { Code } from "astro:components";
+import * as prettier from "prettier";
+
+interface Props {
+  title?: string;
+  description?: string;
+  code: string;
+  lang?: string;
+}
+
+const { title, description, code, lang = "jsx" } = Astro.props;
+
+// Parse sections from code using // @section and // @section-end markers
+function parseSections(codeStr: string): {
+  model?: string;
+  controller?: string;
+  components?: string;
+  index?: string;
+} {
+  const sections: {
+    model?: string;
+    controller?: string;
+    components?: string;
+    index?: string;
+  } = {};
+
+  const sectionRegex =
+    /\/\/\s*@(model|controller|components|index)[^\n]*\n([\s\S]*?)\/\/\s*@\1-end/g;
+  let match;
+
+  while ((match = sectionRegex.exec(codeStr)) !== null) {
+    const sectionName = match[1] as
+      | "model"
+      | "controller"
+      | "components"
+      | "index";
+    sections[sectionName] = match[2].trim();
+  }
+
+  return sections;
+}
+
+// Normalize indentation
+function normalizeIndent(codeStr: string): string {
+  if (!codeStr.trim()) return codeStr;
+
+  const lines = codeStr.split("\n");
+  const nonEmptyLines = lines.filter((l) => l.trim() !== "");
+  if (nonEmptyLines.length === 0) return codeStr;
+
+  const minIndent = nonEmptyLines.reduce((min, line) => {
+    const indent = line.match(/^(\s*)/)?.[1].length || 0;
+    return Math.min(min, indent);
+  }, Infinity);
+
+  if (minIndent > 0 && minIndent !== Infinity) {
+    return lines
+      .map((line) => line.slice(minIndent))
+      .join("\n")
+      .trim();
+  }
+
+  return codeStr.trim();
+}
+
+// Trim export default wrapper from index code
+function trimExportDefault(codeStr: string): string {
+  const trimmed = codeStr.trim();
+
+  // Handle single-line export default ( (with or without semicolon)
+  if (
+    trimmed.startsWith("export default (") &&
+    (trimmed.endsWith(");") || trimmed.endsWith(")"))
+  ) {
+    const endChars = trimmed.endsWith(");") ? 2 : 1;
+    return trimmed.slice("export default (".length, -endChars).trim();
+  }
+
+  // Handle multi-line export default (
+  if (trimmed.startsWith("export default (")) {
+    const lines = trimmed.split("\n");
+    // Remove first line (export default ()
+    if (lines.length > 1)  {
+        lines.shift();
+      // Remove last line if it's just ) or );
+      const lastLine = lines[lines.length - 1].trim();
+      if (lastLine === ");" || lastLine === ")") {
+        lines.pop();
+      }
+      return lines.join("\n").trim();
+    }
+  }
+
+  return trimmed;
+}
+
+// Extract import statements from the top of the file
+function extractImports(codeStr: string): string | null {
+  const lines = codeStr.split("\n");
+  const importLines: string[] = [];
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (
+      trimmed.startsWith("import ") ||
+      (importLines.length > 0 &&
+        !trimmed.startsWith("//") &&
+        !trimmed.startsWith("interface") &&
+        !trimmed.startsWith("const") &&
+        !trimmed.startsWith("class") &&
+        !trimmed.startsWith("export") &&
+        trimmed !== "")
+    ) {
+      importLines.push(line);
+    } else if (importLines.length > 0 && trimmed !== "") {
+      break;
+    }
+  }
+  return importLines.length > 0 ? importLines.join("\n").trim() : null;
+}
+
+// Parse sections from code
+const sections = parseSections(code);
+
+// Get index code - either from @index section or use whole code (cleaned up)
+const indexCode =
+  sections.index ||
+  code.replace(/\/\*\*\s*@jsxImportSource\s+\w+\s*\*\/\n?/, "").trim();
+
+// StackBlitz project generation functions
+function generateStackBlitzProject(
+  code: string,
+  imports: string | null,
+  sections: any,
+) {
+  return {
+    files: {
+      "package.json": generatePackageJson(),
+      "tsconfig.json": generateTsConfig(),
+      "vite.config.ts": generateViteConfig(),
+      "index.html": generateIndexHtml(),
+      "src/theme.css": generateThemeCss(),
+      "src/app.tsx": generateAppTsx(),
+      "src/index.tsx": generateIndexTsx(code, imports, sections),
+    },
+    template: "node" as const,
+    title: "CxJS Example",
+    description: "CxJS Code Example",
+  };
+}
+
+function generatePackageJson() {
+  return JSON.stringify(
+    {
+      name: "cxjs-example",
+      version: "1.0.0",
+      type: "module",
+      scripts: { dev: "vite", build: "vite build" },
+      dependencies: {
+        cx: "latest",
+        "cx-react": "latest",
+        "cx-theme-space-blue": "latest",
+        react: "^18.2.0",
+        "react-dom": "^18.2.0",
+      },
+      devDependencies: {
+        "@types/react": "^18.2.0",
+        "@types/react-dom": "^18.2.0",
+        typescript: "^5.0.0",
+        vite: "^5.0.0",
+      },
+    },
+    null,
+    2,
+  );
+}
+
+function generateTsConfig() {
+  return JSON.stringify(
+    {
+      compilerOptions: {
+        target: "ES2020",
+        module: "ESNext",
+        lib: ["ES2020", "DOM", "DOM.Iterable"],
+        jsx: "react-jsx",
+        jsxImportSource: "cx",
+        moduleResolution: "bundler",
+        resolveJsonModule: true,
+        allowImportingTsExtensions: true,
+        isolatedModules: true,
+        noEmit: true,
+        strict: true,
+        skipLibCheck: true,
+      },
+      include: ["src"],
+    },
+    null,
+    2,
+  );
+}
+
+function generateViteConfig() {
+  return `import { defineConfig } from "vite";
+
+export default defineConfig({
+  esbuild: {
+    loader: "tsx",
+    jsx: "automatic",
+    jsxImportSource: "cx",
+  },
+});`;
+}
+
+function generateIndexHtml() {
+  return `<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CxJS Example</title>
+    <style>
+      html, body { height: 100%; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+      #app {  }
+      .app-frame {
+        min-height: 100px;
+        padding: 20px;
+        margin: 20px;
+        border: 1px solid rgba(128, 128, 128, 0.5);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app-frame">
+      <div id="app"></div>
+    </div>
+    <script type="module" src="/src/app.tsx"></script>
+  </body>
+</html>`;
+}
+
+function generateThemeCss() {
+  return `@import "cx-theme-space-blue/dist/reset.css";
+@import "cx-theme-space-blue/dist/widgets.css";
+@import "cx-theme-space-blue/dist/charts.css";
+@import "cx-theme-space-blue/dist/svg.css";`;
+}
+
+function generateAppTsx() {
+  return `import "./theme.css";
+import { startAppLoop } from "cx/ui";
+import { Store } from "cx/data";
+import Content from "./index";
+
+const store = new Store();
+
+startAppLoop(
+  document.getElementById("app")!,
+  store,
+  Content
+);
+`;
+}
+
+// Check if code has complete example that can be run standalone
+function hasCompleteExample(code: string, imports: string | null): boolean {
+  // Must have imports
+  if (!imports) return false;
+
+  // Must have export default
+  if (!code.includes("export default")) return false;
+
+  // Should have some widget imports or usage
+  const hasWidgets = /import.*from\s+['"]cx\/widgets['"]/.test(code);
+  const hasJSX = /<[A-Z]/.test(code);
+
+  return hasWidgets || hasJSX;
+}
+
+function generateIndexTsx(fullCode: string) {
+  // Filter out section marker lines
+  return fullCode
+    .split("\n")
+    .filter((line) => !line.trim().match(/^\/\/\s*@(model|controller|components|index)(-end)?$/))
+    .join("\n");
+}
+
+// First trim export default wrapper, then format with Prettier
+let displayCode = trimExportDefault(indexCode);
+try {
+  const formatted = await prettier.format(displayCode, {
+    parser: "babel-ts",
+    printWidth: 80,
+    tabWidth: 2,
+    semi: false,
+    singleQuote: false,
+  });
+
+  // Remove leading semicolon that Prettier adds to protect against ASI
+  displayCode = formatted.trim().replace(/^;/, "");
+} catch (e) {
+  // If formatting fails, use original trimmed code
+  console.warn("Prettier formatting failed:", e);
+}
+
+// Get controller, model, and components code
+const controllerCode = sections.controller
+  ? normalizeIndent(sections.controller)
+  : null;
+const modelCode = sections.model ? normalizeIndent(sections.model) : null;
+const componentsCode = sections.components
+  ? normalizeIndent(sections.components)
+  : null;
+
+const hasTabs = controllerCode || modelCode || componentsCode;
+
+// Extract imports (only shown if there are other tabs)
+const importsCode = hasTabs ? extractImports(code) : null;
+
+// Check if this example is complete enough for StackBlitz
+const isCompleteExample = hasCompleteExample(code, extractImports(code));
+const stackblitzProject = isCompleteExample
+  ? generateStackBlitzProject(code, extractImports(code), sections)
+  : null;
+---
+
+<div class="code-example my-8 relative" data-pagefind-ignore>
+  {title && <h3 class="text-lg font-semibold text-foreground mb-2">{title}</h3>}
+  {description && <p class="text-muted-foreground mb-4">{description}</p>}
+
+  <div class="relative">
+    <!-- Code Block -->
+    <div
+      class="code-block relative rounded-lg overflow-hidden border border-border bg-[hsl(var(--code-bg))]"
+    >
+      {
+        !hasTabs && stackblitzProject && (
+          <button
+            class="stackblitz-btn absolute top-2 right-2 z-10 px-2 py-1 text-xs font-medium transition-colors hover:text-white flex items-center gap-1.5 cursor-pointer rounded"
+            data-project={JSON.stringify(stackblitzProject)}
+            style="color: rgba(255, 255, 255, 0.5);"
+            title="Open in StackBlitz"
+          >
+            <svg
+              class="w-3.5 h-3.5"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <polyline
+                points="15 3 21 3 21 9"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <line
+                x1="10"
+                x2="21"
+                y1="14"
+                y2="3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            <span class="hidden sm:inline">StackBlitz</span>
+          </button>
+        )
+      }
+      {
+        hasTabs && (
+          <div class="code-tabs flex border-b border-[hsl(var(--code-border))]">
+            <button
+              class="code-tab active px-4 py-2 text-xs font-medium uppercase transition-colors"
+              data-tab="code"
+            >
+              Index
+            </button>
+            {modelCode && (
+              <button
+                class="code-tab px-4 py-2 text-xs font-medium uppercase transition-colors"
+                data-tab="model"
+              >
+                Model
+              </button>
+            )}
+            {componentsCode && (
+              <button
+                class="code-tab px-4 py-2 text-xs font-medium uppercase transition-colors"
+                data-tab="components"
+              >
+                Components
+              </button>
+            )}
+            {controllerCode && (
+              <button
+                class="code-tab px-4 py-2 text-xs font-medium uppercase transition-colors"
+                data-tab="controller"
+              >
+                Controller
+              </button>
+            )}
+            {importsCode && (
+              <button
+                class="code-tab px-4 py-2 text-xs font-medium uppercase transition-colors"
+                data-tab="imports"
+              >
+                Imports
+              </button>
+            )}
+            {stackblitzProject && (
+              <button
+                class="ml-auto stackblitz-btn px-3 py-2 text-xs font-medium transition-colors hover:text-white flex items-center gap-1.5 border-l border-[hsl(var(--code-border))] cursor-pointer"
+                data-project={JSON.stringify(stackblitzProject)}
+                style="color: rgba(255, 255, 255, 0.5);"
+                title="Open in StackBlitz"
+              >
+                <svg
+                  class="w-3.5 h-3.5"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <polyline
+                    points="15 3 21 3 21 9"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <line
+                    x1="10"
+                    x2="21"
+                    y1="14"
+                    y2="3"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                <span class="hidden sm:inline">StackBlitz</span>
+              </button>
+            )}
+          </div>
+        )
+      }
+
+      <div class="code-content-wrapper max-h-96 overflow-y-auto">
+        <div class="code-content" data-content="code">
+          <Code code={displayCode} lang="tsx" theme="github-dark-dimmed" />
+        </div>
+        {
+          controllerCode && (
+            <div class="code-content hidden" data-content="controller">
+              <Code
+                code={controllerCode}
+                lang="tsx"
+                theme="github-dark-dimmed"
+              />
+            </div>
+          )
+        }
+        {
+          modelCode && (
+            <div class="code-content hidden" data-content="model">
+              <Code code={modelCode} lang="tsx" theme="github-dark-dimmed" />
+            </div>
+          )
+        }
+        {
+          componentsCode && (
+            <div class="code-content hidden" data-content="components">
+              <Code
+                code={componentsCode}
+                lang="tsx"
+                theme="github-dark-dimmed"
+              />
+            </div>
+          )
+        }
+        {
+          importsCode && (
+            <div class="code-content hidden" data-content="imports">
+              <Code code={importsCode} lang="tsx" theme="github-dark-dimmed" />
+            </div>
+          )
+        }
+      </div>
+    </div>
+
+    <!-- Preview - positioned to the right on xl+ screens -->
+    <div
+      class="preview-container 2xl:absolute 2xl:left-full 2xl:top-0 2xl:bottom-0 2xl:ml-6 2xl:w-[600px] mt-4 2xl:mt-0 2xl:flex 2xl:items-center"
+    >
+      <!-- Arrow connector - only visible on 2xl+ -->
+      <div
+        class="hidden 2xl:flex absolute -left-6 top-1/2 -translate-y-1/2 items-center"
+      >
+        <svg class="w-6 h-6 text-primary/50" viewBox="0 0 24 24" fill="none">
+          <path
+            d="M5 12h12m0 0l-4-4m4 4l-4 4"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </div>
+
+      <div
+        class="preview-box not-prose bg-card border p-4 border-border rounded-lg grow overflow-x-auto"
+      >
+        <slot />
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Reset prose list styles in not-prose areas */
+  :global(.not-prose ul) {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  :global(.not-prose ul > li) {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+  }
+
+  :global(.not-prose ol > li) {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+  }
+
+  :global(.not-prose .cxe-list-item) {
+    padding-left: 20px;
+  }
+
+  :global(.not-prose hr) {
+    margin: 0.5rem;
+  }
+
+  .code-tab {
+    position: relative;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .code-tab:hover {
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .code-tab.active {
+    color: #fff;
+  }
+
+  .code-tab.active::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--cx-c-brand);
+  }
+
+  .code-content :global(pre) {
+    margin: 0 !important;
+    padding: 1rem !important;
+    font-size: 0.8125rem !important;
+    line-height: 1.7 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    overflow-x: auto;
+  }
+
+  .code-content :global(code) {
+    font-family: "Fira Code", "Monaco", "Consolas", monospace !important;
+  }
+
+  .code-content :global(.line) {
+    display: inline-block;
+    width: 100%;
+  }
+</style>
+
+<script is:inline>
+  function initCodeExampleTabs() {
+    document.querySelectorAll(".code-example").forEach(function (example) {
+      var tabs = example.querySelectorAll(".code-tab");
+      var contents = example.querySelectorAll(".code-content");
+
+      tabs.forEach(function (tab) {
+        tab.addEventListener("click", function () {
+          var targetTab = tab.dataset.tab;
+
+          tabs.forEach(function (t) {
+            t.classList.remove("active");
+          });
+          tab.classList.add("active");
+
+          contents.forEach(function (content) {
+            var contentTab = content.dataset.content;
+            if (contentTab === targetTab) {
+              content.classList.remove("hidden");
+            } else {
+              content.classList.add("hidden");
+            }
+          });
+        });
+      });
+    });
+  }
+
+  initCodeExampleTabs();
+  document.addEventListener("astro:page-load", initCodeExampleTabs);
+</script>
+
+<script>
+  import sdk from '@stackblitz/sdk';
+
+  function initStackBlitz() {
+    const buttons = document.querySelectorAll(".stackblitz-btn");
+
+    buttons.forEach((btn) => {
+      btn.addEventListener("click", async function () {
+        try {
+          //@ts-expect-error
+          const projectData = JSON.parse(this.dataset.project);
+
+          // Open project in new window
+          sdk.openProject(projectData, {
+            newWindow: true,
+            openFile: "src/index.tsx",
+          });
+        } catch (error) {
+          console.error("Failed to open StackBlitz:", error);
+          alert("Failed to open StackBlitz. Please try again.");
+        }
+      });
+    });
+  }
+
+  initStackBlitz();
+  document.addEventListener("astro:page-load", initStackBlitz);
+</script>

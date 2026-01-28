@@ -1,0 +1,54 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Radio
+description: Radio button for single selection
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import RadioExample from "../../../examples/forms/RadioExample.tsx";
+import RadioExampleCode from "../../../examples/forms/RadioExample.tsx?raw";
+
+# Radio
+
+<ImportPath path="import { Radio } from 'cx/widgets';" />
+
+Radio buttons are used for making a single selection within a limited number of options. All radios in a group share the same `value` binding, and each has a unique `option`. When clicked, the radio's `option` value is written to `value`.
+
+<CodeExample code={RadioExampleCode}>
+  <RadioExample client:load />
+</CodeExample>
+
+## Configuration
+
+### Core Properties
+
+| Property   | Type      | Default | Description                                                   |
+| ---------- | --------- | ------- | ------------------------------------------------------------- |
+| `value`    | `any`     |         | Selected value shared by all radios in a group                |
+| `selection`| `any`     |         | Alias for `value`                                             |
+| `option`   | `any`     |         | Value written to `value` when this radio is selected          |
+| `text`     | `string`  |         | Text displayed next to the radio button                       |
+| `label`    | `string`  |         | Label displayed before the radio button                       |
+| `disabled` | `boolean` | `false` | Disables the radio button                                     |
+| `readOnly` | `boolean` | `false` | Makes the radio button read-only                              |
+| `required` | `boolean` | `false` | Marks the field as required                                   |
+| `default`  | `boolean` | `false` | Auto-select this radio if `value` is undefined                |
+| `viewMode` | `boolean` | `false` | Display as plain text instead of interactive radio            |
+| `autoFocus`| `boolean` | `false` | Automatically focus the field on mount                        |
+
+### Appearance
+
+| Property     | Type      | Default | Description                                          |
+| ------------ | --------- | ------- | ---------------------------------------------------- |
+| `native`     | `boolean` | `false` | Use native HTML radio instead of styled version      |
+| `inputStyle` | `object`  |         | CSS styles for the radio element                     |
+| `emptyText`  | `string`  |         | Text shown in view mode when no option is selected   |
+| `tooltip`    | `string`  |         | Tooltip text or configuration                        |
+
+### Callbacks
+
+| Property     | Type       | Description                                             |
+| ------------ | ---------- | ------------------------------------------------------- |
+| `onValidate` | `function` | Custom validation function returning error or undefined |

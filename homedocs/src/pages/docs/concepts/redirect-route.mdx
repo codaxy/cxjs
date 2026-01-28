@@ -1,0 +1,36 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: RedirectRoute
+description: Automatically redirect between routes
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+# RedirectRoute
+
+<ImportPath path="import { RedirectRoute } from 'cx/widgets';" />
+
+<OnThisPage />
+
+RedirectRoute automatically redirects to another URL when matched. It uses `replaceState`, so the browser back button won't return to the redirected URL.
+
+## Usage
+
+```tsx
+<RedirectRoute route="~/" url={m.url} redirect="~/dashboard" />
+```
+
+Common use cases:
+
+- Redirect from root to a default page
+- Redirect legacy URLs to new locations
+- Redirect unauthenticated users to login
+
+## Configuration
+
+| Property   | Type           | Description                |
+| ---------- | -------------- | -------------------------- |
+| `route`    | `string`       | Route pattern to match     |
+| `url`      | `Prop<string>` | Binding to the current URL |
+| `redirect` | `string`       | Target URL to redirect to  |

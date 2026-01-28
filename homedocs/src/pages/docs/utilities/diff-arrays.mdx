@@ -1,0 +1,111 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: diffArrays
+description: Compare two arrays for differences
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import DiffArraysExample from "../../../examples/utilities/DiffArraysExample.tsx";
+import DiffArraysExampleCode from "../../../examples/utilities/DiffArraysExample.tsx?raw";
+
+# diffArrays
+
+<ImportPath path="import { diffArrays } from 'cx/data';" />
+<OnThisPage collapsed />
+
+`diffArrays` compares two arrays and returns the differences: added, changed, unchanged, and removed items.
+
+<CodeExample code={DiffArraysExampleCode}>
+  <DiffArraysExample client:load />
+</CodeExample>
+
+## Signature
+
+```ts
+function diffArrays<T>(
+  oldArray: T[],
+  newArray: T[],
+  keyFn?: (item: T) => any,
+): DiffResult<T>;
+
+interface DiffResult<T> {
+  added: T[];
+  changed: { before: T; after: T }[];
+  unchanged: T[];
+  removed: T[];
+}
+```
+
+## Parameters
+
+| Parameter  | Type       | Default    | Description                               |
+| ---------- | ---------- | ---------- | ----------------------------------------- |
+| `oldArray` | `T[]`      |            | The original array.                       |
+| `newArray` | `T[]`      |            | The new array to compare against.         |
+| `keyFn`    | `function` | `(e) => e` | Function to extract unique key from item. |
+
+## Return Value
+
+Returns an object with four arrays:
+
+| Property    | Type                        | Description                                  |
+| ----------- | --------------------------- | -------------------------------------------- |
+| `added`     | `T[]`                       | Items in new array but not in old.           |
+| `changed`   | `{ before: T; after: T }[]` | Items with same key but different reference. |
+| `unchanged` | `T[]`                       | Items with same key and reference.           |
+| `removed`   | `T[]`                       | Items in old array but not in new.           |
+
+## Examples
+
+### With objects
+
+```ts
+const old = [
+  { id: 1, name: "Alice" },
+  { id: 2, name: "Bob" },
+];
+
+const updated = [
+  { id: 1, name: "Alice" }, // unchanged (same reference)
+  { id: 2, name: "Bobby" }, // changed (different object)
+  { id: 3, name: "Carol" }, // added
+];
+
+const diff = diffArrays(old, updated, (item) => item.id);
+// {
+//   added: [{ id: 3, name: "Carol" }],
+//   changed: [{ before: { id: 2, name: "Bob" }, after: { id: 2, name: "Bobby" } }],
+//   unchanged: [{ id: 1, name: "Alice" }],
+//   removed: []
+// }
+```
+
+### With primitives
+
+```ts
+const old = [1, 2, 3];
+const updated = [2, 3, 4];
+
+const diff = diffArrays(old, updated);
+// {
+//   added: [4],
+//   changed: [],
+//   unchanged: [2, 3],
+//   removed: [1]
+// }
+```
+
+## Use Cases
+
+- Synchronizing local state with server data
+- Showing what changed after an edit
+- Optimizing updates by only processing changed items
+- Generating change logs or audit trails
+
+## See Also
+
+- [updateArray](/docs/utilities/update-array) - Update items in array
+- [filter](/docs/utilities/filter) - Filter array items

@@ -1,0 +1,36 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Combined Chart
+description: Mix bars with other chart types
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+import CombinedChartExample from "../../../examples/charts/CombinedChartExample.tsx";
+import CombinedChartExampleCode from "../../../examples/charts/CombinedChartExample.tsx?raw";
+
+# Combined Chart
+
+<OnThisPage />
+
+This example demonstrates how to connect a Grid and a Chart with shared selection and sorting. Clicking a row in the grid or a bar in the chart highlights both. Sorting the grid reorders the chart accordingly.
+
+<CodeExample code={CombinedChartExampleCode}>
+  <CombinedChartExample client:load />
+</CodeExample>
+
+## How It Works
+
+1. **Shared sorters** - Both `Grid` and `Repeater` bind to the same `sorters` array
+2. **PropertySelection** - A shared selection instance connects grid rows and chart bars
+3. **Color-coded headers** - Grid headers include colored boxes matching bar colors using `cxs-color-*` classes
+
+## Configuration
+
+| Property    | Type                | Description                                              |
+| ----------- | ------------------- | -------------------------------------------------------- |
+| `sorters`   | `Sorter[]`          | Array of sort definitions shared between Grid and chart. |
+| `selection` | `PropertySelection` | Selection instance to synchronize highlighting.          |
+| `keyField`  | `string`            | Field used to identify records in selection.             |

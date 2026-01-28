@@ -1,0 +1,51 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: IsolatedScope
+description: Prevent store access from parent context
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+import Note from "../../../components/Note.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+import IsolatedScopeExample from "../../../examples/concepts/IsolatedScopeExample.tsx";
+import IsolatedScopeExampleCode from "../../../examples/concepts/IsolatedScopeExample.tsx?raw";
+
+# IsolatedScope
+
+<ImportPath path="import { IsolatedScope } from 'cx/widgets';" />
+
+<OnThisPage />
+
+<Note type="info">
+For most performance optimization scenarios, consider using [PrivateStore](/docs/concepts/private-store) instead, which is more commonly used and easier to work with.
+</Note>
+
+`IsolatedScope` improves performance by isolating certain areas from unnecessary recomputations. Contents of an isolated scope will only update when the specified data changes.
+
+Use this for grids, charts, or any rich content that might cause performance issues for the rest of the page.
+
+<CodeExample code={IsolatedScopeExampleCode}>
+  <IsolatedScopeExample client:load />
+</CodeExample>
+
+## How It Works
+
+1. The `bind` prop specifies the data paths this scope depends on
+2. Children only re-render when the bound data changes
+3. Changes to other store data do not trigger re-renders inside the scope
+
+## IsolatedScope vs DetachedScope
+
+- **IsolatedScope** - Prevents unnecessary re-renders by filtering which data changes affect the children
+- **DetachedScope** - Goes further by running in a completely separate render loop, providing stronger isolation
+
+Use `IsolatedScope` for simpler cases. Use `DetachedScope` when you need maximum isolation.
+
+## Configuration
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `bind` | `string \| array` | Binding path(s) to monitor for changes. Shorthand for `data`. |
+| `data` | `object` | Data selector object. Children update only when this data changes. |

@@ -1,0 +1,44 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: ValueAtFinder
+description: Find value at cursor position
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+import ValueAtFinderExample from "../../../examples/charts/ValueAtFinderExample.tsx";
+import ValueAtFinderExampleCode from "../../../examples/charts/ValueAtFinderExample.tsx?raw";
+
+# ValueAtFinder
+
+<ImportPath path="import { ValueAtFinder } from 'cx/charts';" />
+
+<OnThisPage />
+
+`ValueAtFinder` reads interpolated Y values from a line graph at a given X position. Use it with `MouseTracker` to display value tooltips that follow the cursor along the graph.
+
+<CodeExample code={ValueAtFinderExampleCode}>
+  <ValueAtFinderExample client:load />
+</CodeExample>
+
+## How It Works
+
+1. Wrap a LineGraph inside `ValueAtFinder`
+2. Pass the cursor X position via `at` (typically from MouseTracker)
+3. Bind `value` to receive the interpolated Y value at that X position
+4. Use the tracked value to position Markers or display in tooltips
+
+## See Also
+
+- [MouseTracker](/docs/charts/mouse-tracker) - Track cursor position within a chart
+- [SnapPointFinder](/docs/charts/snap-point-finder) - Snap to nearest actual data point
+
+## Configuration
+
+| Property  | Type       | Description                                                   |
+| --------- | ---------- | ------------------------------------------------------------- |
+| `at`      | `number`   | X position to read the value at.                              |
+| `value`   | `number`   | Bind for the interpolated Y value.                            |
+| `convert` | `function` | Convert X values (e.g., dates) to numbers. Required for TimeAxis. |

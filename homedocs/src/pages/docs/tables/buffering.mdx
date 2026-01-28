@@ -1,0 +1,71 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Buffering
+description: Virtualized rendering for large datasets
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import BufferingExample from "../../../examples/tables/BufferingExample.tsx";
+import BufferingExampleCode from "../../../examples/tables/BufferingExample.tsx?raw";
+
+# Buffering
+
+<ImportPath path="import { Grid } from 'cx/widgets';" />
+
+Grid supports buffered rendering which dramatically improves performance with large datasets. Instead of rendering all rows, only visible rows plus a buffer are rendered, enabling smooth scrolling with thousands of records.
+
+<CodeExample code={BufferingExampleCode}>
+  <BufferingExample client:load />
+</CodeExample>
+
+This grid contains 5,000 rows but renders smoothly thanks to buffered mode. Try scrolling and sorting to see the performance.
+
+## How It Works
+
+Enable buffered mode by setting the `buffered` property. The grid calculates which rows are visible and renders only those plus a configurable buffer for smooth scrolling.
+
+```tsx
+<Grid
+  records={m.records}
+  buffered
+  style="height: 400px"
+  mod={["fixed-layout", "contain"]}
+  cached
+  columns={columns}
+/>
+```
+
+For optimal performance, combine buffering with:
+
+- **Fixed height** - The grid needs a fixed height to calculate visible rows
+- **`mod="fixed-layout"`** - Uses CSS `table-layout: fixed` for faster rendering
+- **`mod="contain"`** - Adds CSS containment for better browser optimization
+- **`cached`** - Prevents row re-renders when unrelated store data changes
+
+## Row Numbers
+
+Use the built-in `cxe-grid-row-number` class to display automatic row numbers:
+
+```tsx
+{
+  header: "#",
+  defaultWidth: 50,
+  children: <div class="cxe-grid-row-number" />
+}
+```
+
+## Configuration
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `buffered` | `boolean` | Enables buffered rendering mode. |
+| `bufferSize` | `number` | Number of rows to render outside the visible area. Default is `60`. |
+| `bufferStep` | `number` | Number of rows to add/remove when scrolling. Default is `15`. |
+| `cached` | `boolean` | Prevents row re-renders when unrelated store data changes. Rows only update when their record data changes. |
+| `lockColumnWidths` | `boolean` | Locks column widths to prevent layout shifts during scrolling. |
+| `lockColumnWidthsRequiredRowCount` | `number` | Minimum number of rows required before column widths are locked. |
+| `measureRowsOnScroll` | `boolean` | Re-measures row heights while scrolling. Useful for variable height rows. |
+
+See also: [Infinite Scrolling](/docs/tables/infinite-scrolling)

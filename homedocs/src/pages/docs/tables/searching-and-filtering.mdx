@@ -1,0 +1,59 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Searching and Filtering
+description: Filter grid data with search inputs
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import SearchingAndFilteringExample from "../../../examples/tables/SearchingAndFilteringExample.tsx";
+import SearchingAndFilteringExampleCode from "../../../examples/tables/SearchingAndFilteringExample.tsx?raw";
+
+# Searching and Filtering
+
+<ImportPath path="import { getSearchQueryPredicate } from 'cx/util';" />
+
+Grids support client-side filtering using `filterParams` and `onCreateFilter`. This is ideal for filtering data already loaded in the browser.
+
+<CodeExample code={SearchingAndFilteringExampleCode}>
+  <SearchingAndFilteringExample client:load />
+</CodeExample>
+
+Type in the search field to filter records across all fields. Use the city dropdown to filter by a specific city. Both filters can be combined.
+
+## How It Works
+
+The `filterParams` property holds the current filter state. It can be a single value or an object with multiple filter criteria. Whenever it changes, `onCreateFilter` is called to create a new predicate function:
+
+```tsx
+<Grid
+  records={m.employees}
+  filterParams={{ search: m.search, city: m.cityFilter }}
+  onCreateFilter={(params: { search: string; city: string }) => {
+    let { search, city } = params || {};
+    let predicate = search ? getSearchQueryPredicate(search) : null;
+    return (record) => {
+      if (city && record.city !== city) return false;
+      if (predicate) {
+        return (
+          predicate(record.fullName) ||
+          predicate(record.phone) ||
+          predicate(record.city)
+        );
+      }
+      return true;
+    };
+  }}
+/>
+```
+
+The `getSearchQueryPredicate` utility creates a case-insensitive predicate that supports multiple search terms. Records pass the filter if any field matches all search terms.
+
+## Configuration
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `filterParams` | `Prop` | Parameters passed to `onCreateFilter` when they change. |
+| `onCreateFilter` | `function` | Callback that receives `filterParams` and returns a predicate function `(record) => boolean`. |
+| `emptyText` | `string` | Text displayed when no records match the filter. |

@@ -1,17 +1,16 @@
-import { HtmlElement, MsgBox, Button, Section, Repeater, FlexRow, FlexBox, Heading, Tab } from 'cx/widgets';
+import { Repeater, FlexRow, Tab } from 'cx/widgets';
 import { Content } from 'cx/ui';
-import {Md} from '../../components/Md';
-import {CodeSplit} from '../../components/CodeSplit';
-import {CodeSnippet} from '../../components/CodeSnippet';
-import {ConfigTable} from '../../components/ConfigTable';
-import {ImportPath} from '../../components/ImportPath';
+import { Md } from '../../components/Md';
+import { CodeSplit } from '../../components/CodeSplit';
+import { CodeSnippet } from '../../components/CodeSnippet';
+import { ConfigTable } from '../../components/ConfigTable';
+import { ImportPath } from '../../components/ImportPath';
 
 import configs from './configs/FlexBox';
 
 export const FlexBoxPage = <cx>
     <Md>
         # FlexBox
-
         <ImportPath path={"import { FlexBox, FlexRow, FlexCol } from 'cx/widgets';"}/>
 
         `FlexBox` is a convenience widget for setting up simple flex-box based layouts. `FlexBox` provides
@@ -27,11 +26,13 @@ export const FlexBoxPage = <cx>
             </FlexRow>
 
             <Content name="code">
-                <Tab value-bind="$page.code1.tab" mod="code" tab="spacing" text="Spacing" default/>
-                <Tab value-bind="$page.code1.tab" mod="code" tab="justify" text="Justify"/>
-                <Tab value-bind="$page.code1.tab" mod="code" tab="align" text="Align"/>
-                <Tab value-bind="$page.code1.tab" mod="code" tab="wrap" text="Wrap"/>
-                <Tab value-bind="$page.code1.tab" mod="code" tab="pad" text="Pad"/>
+                <div style={{ maxWidth: "60%" }}>
+                    <Tab value-bind="$page.code1.tab" mod="code" tab="spacing" text="Spacing" default/>
+                    <Tab value-bind="$page.code1.tab" mod="code" tab="justify" text="Justify"/>
+                    <Tab value-bind="$page.code1.tab" mod="code" tab="align" text="Align"/>
+                    <Tab value-bind="$page.code1.tab" mod="code" tab="wrap" text="Wrap"/>
+                    <Tab value-bind="$page.code1.tab" mod="code" tab="pad" text="Pad"/>
+                </div>
 
                 <CodeSnippet visible-expr="{$page.code1.tab}=='spacing'" fiddle="NhTe1hyS">{`
                     <FlexRow spacing>

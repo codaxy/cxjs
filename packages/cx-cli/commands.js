@@ -1,9 +1,8 @@
-const
-   path = require('path'),
-   fs = require('fs'),
-   copydir = require('copy-dir'),
-   request = require('request'),
-   unzip = require('unzipper'),
+const path = require("path"),
+   fs = require("fs"),
+   copydir = require("copy-dir"),
+   request = require("request"),
+   AdmZip = require("adm-zip"),
    chalk = require("chalk"),
    cliSelect = require("cli-select");
 
@@ -11,24 +10,22 @@ function getAppPath() {
    let at = process.cwd();
    let cnt = 0;
    do {
-      if (fs.existsSync(path.join(at, 'package.json'))) return at;
+      if (fs.existsSync(path.join(at, "package.json"))) return at;
       if (++cnt == 20 || at.lastIndexOf(path.sep) <= 0)
          throw new Error("Could not find package.json in any of the parent folders.");
       at = path.resolve(at, "..");
       cnt++;
-   }
-   while (true);
+   } while (true);
 }
 
 function addRoute(routeName) {
    let appPath = getAppPath();
-   let newRoute = routeName.split('/');
-   let tplDir = path.join(__dirname, './tpl/', 'route');
+   let newRoute = routeName.split("/");
+   let tplDir = path.join(__dirname, "./tpl/", "route");
 
    // initial route parent folder
-   let parentDir = path.join(appPath, './app/routes/');
-   if (!fs.existsSync(parentDir))
-      throw new Error("Could not find the app/routes folder.");
+   let parentDir = path.join(appPath, "./app/routes/");
+   if (!fs.existsSync(parentDir)) throw new Error("Could not find the app/routes folder.");
 
    // loop through newRoute sub dirs array
    // for each sub, check if it exists and create it if it doesn't
@@ -41,25 +38,22 @@ function addRoute(routeName) {
             fs.mkdirSync(newRouteDir);
             let err = copydir.sync(tplDir, newRouteDir);
             if (err) {
-               console.error('Copy error.', err);
+               console.error("Copy error.", err);
             } else {
-               console.log("New route folder 'app/routes/" + newRoute.join('/') + "' created.");
+               console.log("New route folder 'app/routes/" + newRoute.join("/") + "' created.");
             }
          } else {
-            console.error("Folder 'app/routes/" + newRoute.join('/') + "' already exists.");
+            console.error("Folder 'app/routes/" + newRoute.join("/") + "' already exists.");
          }
       } else {
-         if (!fs.existsSync(newRouteDir))
-            fs.mkdirSync(newRouteDir);
+         if (!fs.existsSync(newRouteDir)) fs.mkdirSync(newRouteDir);
       }
       return newRouteDir;
    }, parentDir);
 }
 
 function downloadAndExtractZip(url, extractPath, srcFolder) {
-
-   if (fs.existsSync(extractPath))
-      throw new Error(`The folder ${extractPath} already exists.`);
+   if (fs.existsSync(extractPath)) throw new Error(`The folder ${extractPath} already exists.`);
 
    var appName = extractPath.match(/([^\/]*)\/*$/)[1];
    let extractFolder = extractPath;
@@ -67,38 +61,43 @@ function downloadAndExtractZip(url, extractPath, srcFolder) {
       extractFolder = extractFolder.substring(0, extractPath.length - appName.length - 1);
    }
 
+   const zipFilePath = srcFolder + ".zip";
+   const zipFile = fs.createWriteStream(zipFilePath);
+
    return new Promise((resolve, reject) => {
       request
          .get(url)
-         .pipe(unzip.Extract({
-            path: extractFolder
-         }))
-         .on('close', function () {
-            if (srcFolder) {
-               fs.renameSync(
-                  path.join(extractFolder, srcFolder),
-                  path.join(extractFolder, appName)
-               );
+         .pipe(zipFile)
+         .on("close", function () {
+            try {
+               zipFile.close();
+               let zip = new AdmZip(zipFilePath);
+               zip.extractAllTo(extractFolder, false);
+               if (srcFolder) fs.renameSync(path.join(extractFolder, srcFolder), path.join(extractFolder, appName));
+               fs.unlinkSync(zipFilePath);
+               resolve();
+            } catch (err) {
+               reject(err);
             }
-            resolve();
          })
-         .on('error', function (error) {
+         .on("error", function (error) {
             reject(error);
          });
-   })
+   });
 }
 
 function getTemplates() {
    return new Promise((resolve, reject) => {
       request.get(
          {
-            url: 'https://raw.githubusercontent.com/codaxy/cxjs/master/packages/cx-cli/app-templates.json',
-            json: true
+            url: "https://raw.githubusercontent.com/codaxy/cxjs/master/packages/cx-cli/app-templates.json",
+            json: true,
          },
          function (e, r, data) {
-            if (e) reject(e); else resolve(data);
+            if (e) reject(e);
+            else resolve(data);
          }
-      )
+      );
    });
 }
 
@@ -107,14 +106,12 @@ async function pickAppTemplate() {
    let templates;
    try {
       templates = await getTemplates();
-   }
-   catch (err) {
+   } catch (err) {
       console.log("Failed to retrieve the list of app templates.", err);
       process.exit(-1);
    }
 
-   for (let t of templates)
-      values[t.url] = t.name;
+   for (let t of templates) values[t.url] = t.name;
 
    console.log("Please select the desired application template:");
 
@@ -124,9 +121,8 @@ async function pickAppTemplate() {
       valueRenderer: (value, selected) => (selected ? chalk.yellow(value) : value),
    });
 
-   return templates.find(t => t.url == option.id);;
+   return templates.find((t) => t.url == option.id);
 }
-
 
 async function createNewApp(projectName) {
    if (!projectName) {
@@ -141,16 +137,16 @@ async function createNewApp(projectName) {
    console.log(`Downloading ${template.name} template into the application folder ${projectName}.`);
    try {
       await downloadAndExtractZip(template.url, projectName, template.srcFolder);
-   }
-   catch (err) {
+   } catch (err) {
       console.log("Failed to download and extract the template.", err);
       return;
    }
-   console.log(`The application has been succesfully set up in the folder ${projectName}. You should now go into the folder and install NPM packages.`);
+   console.log(
+      `The application has been succesfully set up in the folder ${projectName}. You should now go into the folder and install NPM packages.`
+   );
 }
-
 
 module.exports = {
    addRoute,
-   createNewApp
+   createNewApp,
 };

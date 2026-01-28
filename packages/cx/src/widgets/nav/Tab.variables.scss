@@ -8,5 +8,7 @@ $cx-default-tab-background-color: transparent !default;
 $cx-default-tab-border-width: $cx-default-box-border-width !default;
 $cx-default-tab-border-color: transparent !default;
 $cx-default-tab-border-radius: $cx-default-border-radius !default;
-$cx-default-tab-padding: $cx-default-box-padding 2 * $cx-default-box-padding !default;
+$cx-default-tab-padding: cx-top($cx-default-box-padding) 2 *
+   cx-right($cx-default-box-padding) cx-bottom($cx-default-box-padding) 2 *
+   cx-left($cx-default-box-padding) !default;
 $cx-default-tab-box-shadow: none !default;

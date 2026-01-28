@@ -1,4 +1,4 @@
-import {Md} from '../../../components/Md';
+import { Md } from '../../../components/Md';
 
 export default {
     recordAlias: {
@@ -22,7 +22,7 @@ export default {
         key: true,
         description: <cx><Md>
             A binding used to store the name of the field used for sorting the collection.
-            Available only if `sorters` are not used.
+            Available only if `sorters` are **not** used.
         </Md></cx>
     },
     sortDirection: {
@@ -54,5 +54,13 @@ export default {
         description: <cx><Md>
             Options for data sorting. See [Intl.Collator options](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Collator) for more info.
         </Md></cx>
-    }
+    },
+    onTrackMappedRecords: {
+        type: "function",
+        description: <cx><Md>
+            Callback function to track and retrieve displayed records.
+            Accepts new records as a first argument.
+            If onCreateFilter callback is defined, filtered records can be retrieved using this callback.
+        </Md></cx>
+    },
 };

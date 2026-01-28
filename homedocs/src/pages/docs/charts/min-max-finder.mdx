@@ -1,0 +1,39 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: MinMaxFinder
+description: Find min/max values in data
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+import MinMaxFinderExample from "../../../examples/charts/MinMaxFinderExample.tsx";
+import MinMaxFinderExampleCode from "../../../examples/charts/MinMaxFinderExample.tsx?raw";
+
+# MinMaxFinder
+
+<ImportPath path="import { MinMaxFinder } from 'cx/charts';" />
+
+<OnThisPage />
+
+`MinMaxFinder` determines the minimum and maximum values displayed by its child graph elements. Use it to highlight data ranges, draw min/max marker lines, or display extreme values.
+
+<CodeExample code={MinMaxFinderExampleCode}>
+  <MinMaxFinderExample client:load />
+</CodeExample>
+
+## How It Works
+
+1. Wrap graph elements (LineGraph, ColumnGraph, etc.) inside `MinMaxFinder`
+2. Bind `minY`/`maxY` (or `minX`/`maxX`) to store the discovered extremes
+3. Use the bound values with Range, MarkerLine, or Text elements
+
+## Configuration
+
+| Property | Type     | Description                          |
+| -------- | -------- | ------------------------------------ |
+| `minX`   | `number` | Bind for minimum X value found.      |
+| `maxX`   | `number` | Bind for maximum X value found.      |
+| `minY`   | `number` | Bind for minimum Y value found.      |
+| `maxY`   | `number` | Bind for maximum Y value found.      |

@@ -25,6 +25,13 @@ export default {
             When set to `true`, stacks are rendered in clock wise direction.
       </Md></cx>
     },
+    gap: {
+        key: true,
+        type: 'number',
+        description: <cx><Md>
+            Gap between slices in pixels. Default is `0` which means there is no gap.
+      </Md></cx>
+    },
     class: false,
     style: false,
     preserveWhitespace: false,

@@ -1,0 +1,95 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Validation
+description: Form validation concepts and patterns
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+import ValidationDefaultExample from "../../../examples/forms/ValidationDefaultExample.tsx";
+import ValidationDefaultExampleCode from "../../../examples/forms/ValidationDefaultExample.tsx?raw";
+
+import ValidationAsteriskVisitedExample from "../../../examples/forms/ValidationAsteriskVisitedExample.tsx";
+import ValidationAsteriskVisitedExampleCode from "../../../examples/forms/ValidationAsteriskVisitedExample.tsx?raw";
+
+import ValidationHelpExample from "../../../examples/forms/ValidationHelpExample.tsx";
+import ValidationHelpExampleCode from "../../../examples/forms/ValidationHelpExample.tsx?raw";
+
+import ValidationModesExample from "../../../examples/forms/ValidationModesExample.tsx";
+import ValidationModesExampleCode from "../../../examples/forms/ValidationModesExample.tsx?raw";
+
+import ValidationCallbackExample from "../../../examples/forms/ValidationCallbackExample.tsx";
+import ValidationCallbackExampleCode from "../../../examples/forms/ValidationCallbackExample.tsx?raw";
+
+import ValidationAsyncExample from "../../../examples/forms/ValidationAsyncExample.tsx";
+import ValidationAsyncExampleCode from "../../../examples/forms/ValidationAsyncExample.tsx?raw";
+
+# Validation
+
+<ImportPath path="import { ValidationGroup, Validator, ValidationError } from 'cx/widgets';" />
+
+<OnThisPage />
+
+CxJS provides a comprehensive validation system for form fields. The main components are:
+
+| Component | Description |
+| --------- | ----------- |
+| [ValidationGroup](validation-group) | Container that tracks validation state of all fields inside it. Propagates settings like `disabled`, `readOnly`, or `asterisk` to children |
+| [Validator](validator) | Performs custom validation on computed or combined values. Use for cross-field or complex validation |
+| [ValidationError](validation-error) | Displays validation error messages. Renders as a `<label>` linked to the invalid field |
+
+## Field-Level Validation
+
+Form fields indicate invalid input by providing visual feedback such as changing border colors, displaying tooltips, or showing error messages.
+
+By default, inputs change colors and show an error tooltip. Click on the field below, then click somewhere else to see the change. Hovering over the input afterwards shows the tooltip.
+
+<CodeExample code={ValidationDefaultExampleCode}>
+  <ValidationDefaultExample client:load />
+</CodeExample>
+
+## Asterisk and Visited
+
+Required fields can be highlighted by setting the `asterisk` flag. Alternatively, fields can be marked as `visited` which forces them to show validation errors immediately.
+
+<CodeExample code={ValidationAsteriskVisitedExampleCode}>
+  <ValidationAsteriskVisitedExample client:load />
+</CodeExample>
+
+## Help Property
+
+Form fields provide the `help` property which can display additional information next to the field. This can be text, a button, or a `ValidationError` component.
+
+<CodeExample code={ValidationHelpExampleCode}>
+  <ValidationHelpExample client:load />
+</CodeExample>
+
+## Validation Modes
+
+The `validationMode` property controls how validation errors are displayed:
+
+- **`tooltip`** (default) - Errors appear in a tooltip when hovering over the field
+- **`help`** - Errors appear inline next to the field
+- **`help-block`** - Errors appear as a block element below the field
+
+<CodeExample code={ValidationModesExampleCode}>
+  <ValidationModesExample client:load />
+</CodeExample>
+
+## Custom Validation
+
+Form fields accept validation callback functions through `onValidate`. Use `reactOn` to control when validation triggers.
+
+<CodeExample code={ValidationCallbackExampleCode}>
+  <ValidationCallbackExample client:load />
+</CodeExample>
+
+## Async Validation
+
+`onValidate` can return a Promise for server-side validation. Use `FirstVisibleChildLayout` to show either the error or a success indicator.
+
+<CodeExample code={ValidationAsyncExampleCode}>
+  <ValidationAsyncExample client:load />
+</CodeExample>

@@ -42,7 +42,7 @@ export default {
         key: true,
         description: <cx><Md>
             A binding used to store the sort direction. Available only if `sorters` are not used.
-            Possible values are `"ASC"` and `"DESC"`. Deafults to `"ASC"`.
+            Possible values are `"ASC"` and `"DESC"`. Defaults to `"ASC"`.
         </Md></cx>
     },
     sorters: {

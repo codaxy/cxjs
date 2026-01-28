@@ -1,0 +1,92 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: GroupAdapter
+description: Group and aggregate data
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import GroupAdapterExample from "../../../examples/tables/GroupAdapterExample.tsx";
+import GroupAdapterExampleCode from "../../../examples/tables/GroupAdapterExample.tsx?raw";
+
+# GroupAdapter
+
+<ImportPath path="import { GroupAdapter } from 'cx/ui';" />
+
+GroupAdapter groups records based on specified criteria and supports headers, footers, and aggregates. It's the default adapter for Grid and List components.
+
+<CodeExample code={GroupAdapterExampleCode}>
+  <GroupAdapterExample client:load />
+</CodeExample>
+
+## Grouping
+
+The `grouping` property defines how records are grouped:
+
+- `key` - Field(s) used to group records
+- `header` - Content rendered before each group
+- `footer` - Content rendered after each group
+- `aggregates` - Computed values for each group
+
+```tsx
+grouping={{
+  key: { city: m.$record.city },
+  aggregates: {
+    count: { type: "count", value: 1 },
+  },
+  header: (
+    <div class="group-header" text={m.$group.city} />
+  ),
+  footer: (
+    <div class="group-footer">
+      <span text={m.$group.count} /> contact(s)
+    </div>
+  ),
+}}
+```
+
+## Aggregates
+
+Aggregates calculate values based on grouped records. Common types include `count`, `sum`, `avg`, `min`, and `max`:
+
+```tsx
+aggregates: {
+  count: { type: "count", value: 1 },
+  total: { type: "sum", value: m.$record.amount },
+  average: { type: "avg", value: m.$record.price },
+}
+```
+
+Aggregate values are available on the `$group` object (e.g., `m.$group.count`).
+
+## Group Data
+
+The `$group` object exposes the following fields in headers and footers:
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| *key fields* | `any` | Values from the grouping key (e.g., `$group.city`). |
+| *aggregates* | `any` | Computed aggregate values (e.g., `$group.count`, `$group.total`). |
+| `$name` | `string` | Text representation of the group. |
+| `$level` | `number` | Nesting level for hierarchical grouping (1 = deepest). |
+| `$records` | `array` | Array of records belonging to this group. |
+| `$key` | `string` | Unique identifier for the group. |
+
+## Configuration
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `recordName` | `string` | Alias used to expose record data. Default is `$record`. |
+| `indexName` | `string` | Alias used to expose record index. Default is `$index`. |
+| `keyField` | `string` | Field used as the unique record key. |
+| `groupName` | `string` | Alias used to expose group data. Default is `$group`. |
+| `groupings` | `array` | Defines criteria for grouping records. Supports header and footer configuration. |
+| `aggregates` | `object` | Defines computed values based on grouped records (e.g., count, sum, avg). |
+| `groupRecordsName` | `string` | Alias used to expose records within a group. Default is `$records`. |
+| `groupRecordsAlias` | `string` | Alias used to expose group records outside the group. |
+| `sortOptions` | `object` | Options for data sorting. See [Intl.Collator options](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Collator). |
+| `immutable` | `boolean` | Prevents aliased data from being written to the parent store. Default is `false`. |
+| `sealed` | `boolean` | Prevents child components from writing aliased data to this adapter's store. |
+
+See also: [Data Adapters](/docs/tables/data-adapters), [Grouping](/docs/tables/grouping)

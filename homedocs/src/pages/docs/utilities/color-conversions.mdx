@@ -1,0 +1,163 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Color Conversions
+description: Convert between color formats
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+# Color Conversions
+
+<ImportPath path="import { rgbToHsl, hslToRgb, rgbToHex } from 'cx/util';" />
+<OnThisPage />
+
+CxJS provides utility functions for converting colors between RGB, HSL, and hexadecimal formats.
+
+## rgbToHsl
+
+Converts RGB color values to HSL.
+
+```tsx
+import { rgbToHsl } from "cx/util";
+
+const [h, s, l] = rgbToHsl(255, 87, 51);
+// h = 10.59 (degrees)
+// s = 100 (percentage)
+// l = 60 (percentage)
+
+// Pure red
+rgbToHsl(255, 0, 0); // [0, 100, 50]
+
+// Pure green
+rgbToHsl(0, 255, 0); // [120, 100, 50]
+
+// Pure blue
+rgbToHsl(0, 0, 255); // [240, 100, 50]
+
+// White (achromatic)
+rgbToHsl(255, 255, 255); // [0, 0, 100]
+
+// Gray (achromatic)
+rgbToHsl(128, 128, 128); // [0, 0, 50.2]
+```
+
+## hslToRgb
+
+Converts HSL color values to RGB.
+
+```tsx
+import { hslToRgb } from "cx/util";
+
+const [r, g, b] = hslToRgb(14, 100, 60);
+// r = 255
+// g = 92
+// b = 51
+
+// Pure red
+hslToRgb(0, 100, 50); // [255, 0, 0]
+
+// Pure green
+hslToRgb(120, 100, 50); // [0, 255, 0]
+
+// Pure blue
+hslToRgb(240, 100, 50); // [0, 0, 255]
+
+// 50% gray
+hslToRgb(0, 0, 50); // [128, 128, 128]
+```
+
+## rgbToHex
+
+Converts RGB color values to a hex string.
+
+```tsx
+import { rgbToHex } from "cx/util";
+
+rgbToHex(255, 87, 51); // "#ff5733"
+rgbToHex(255, 0, 0); // "#ff0000"
+rgbToHex(0, 255, 0); // "#00ff00"
+rgbToHex(0, 0, 255); // "#0000ff"
+rgbToHex(255, 255, 255); // "#ffffff"
+rgbToHex(0, 0, 0); // "#000000"
+```
+
+## Combining Functions
+
+You can combine these functions for complex color manipulations.
+
+```tsx
+import { parseColor, rgbToHsl, hslToRgb, rgbToHex } from "cx/util";
+
+// Lighten a color
+function lightenColor(hexColor: string, amount: number): string {
+  const color = parseColor(hexColor);
+  if (!color || color.type !== "rgba") return hexColor;
+
+  const [h, s, l] = rgbToHsl(color.r, color.g, color.b);
+  const newL = Math.min(100, l + amount);
+  const [r, g, b] = hslToRgb(h, s, newL);
+
+  return rgbToHex(r, g, b);
+}
+
+lightenColor("#ff5733", 20); // Lighter orange
+
+// Desaturate a color
+function desaturateColor(hexColor: string, amount: number): string {
+  const color = parseColor(hexColor);
+  if (!color || color.type !== "rgba") return hexColor;
+
+  const [h, s, l] = rgbToHsl(color.r, color.g, color.b);
+  const newS = Math.max(0, s - amount);
+  const [r, g, b] = hslToRgb(h, newS, l);
+
+  return rgbToHex(r, g, b);
+}
+
+desaturateColor("#ff5733", 50); // More muted orange
+```
+
+## API
+
+### rgbToHsl
+
+```tsx
+function rgbToHsl(r: number, g: number, b: number): [number, number, number];
+```
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| r | `number` | Red component (0-255) |
+| g | `number` | Green component (0-255) |
+| b | `number` | Blue component (0-255) |
+
+**Returns:** Tuple of `[h, s, l]` where h is 0-360 degrees, s and l are 0-100 percentages.
+
+### hslToRgb
+
+```tsx
+function hslToRgb(h: number, s: number, l: number): [number, number, number];
+```
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| h | `number` | Hue (0-360 degrees) |
+| s | `number` | Saturation (0-100 percentage) |
+| l | `number` | Lightness (0-100 percentage) |
+
+**Returns:** Tuple of `[r, g, b]` where each component is 0-255.
+
+### rgbToHex
+
+```tsx
+function rgbToHex(r: number, g: number, b: number): string;
+```
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| r | `number` | Red component (0-255) |
+| g | `number` | Green component (0-255) |
+| b | `number` | Blue component (0-255) |
+
+**Returns:** Hex color string (e.g., `"#ff5733"`).

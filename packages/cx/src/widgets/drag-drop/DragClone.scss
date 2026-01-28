@@ -1,3 +1,4 @@
+@use "sass:map";
 @use "sass:math";
 @use "./variables.scss" as *;
 @use "./maps.scss" as *;
@@ -7,11 +8,15 @@
 @use "../../util/scss/calc.scss" as *;
 @use "../../util/scss/besm.scss" as *;
 
-@mixin cx-dragclone($name: "dragclone", $style: $cx-dragclone-style, $besm: $cx-besm) {
-   $block: map-get($besm, block);
-   $element: map-get($besm, element);
-   $state: map-get($besm, state);
-   $mod: map-get($besm, mod);
+@mixin cx-dragclone(
+   $name: "dragclone",
+   $style: $cx-dragclone-style,
+   $besm: $cx-besm
+) {
+   $block: map.get($besm, block);
+   $element: map.get($besm, element);
+   $state: map.get($besm, state);
+   $mod: map.get($besm, mod);
 
    .#{$block}#{$name} {
       @include cx-add-rules($style);

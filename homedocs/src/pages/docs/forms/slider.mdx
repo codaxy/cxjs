@@ -1,0 +1,62 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Slider
+description: Range slider input
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+import SliderExample from "../../../examples/forms/SliderExample.tsx";
+import SliderExampleCode from "../../../examples/forms/SliderExample.tsx?raw";
+
+# Slider
+
+<ImportPath path="import { Slider } from 'cx/widgets';" />
+
+<OnThisPage />
+
+The `Slider` widget allows selecting numerical values by dragging the slider handle. It supports single values, ranges, stepping, mouse wheel control, and vertical orientation.
+
+<CodeExample code={SliderExampleCode}>
+  <SliderExample client:load />
+</CodeExample>
+
+## Configuration
+
+### Value Properties
+
+| Property   | Type     | Default | Description                              |
+| ---------- | -------- | ------- | ---------------------------------------- |
+| `value`    | `number` |         | Single value (alias for `to`)            |
+| `from`     | `number` |         | Low value for range slider               |
+| `to`       | `number` |         | High value for range slider              |
+| `minValue` | `number` | `0`     | Minimum allowed value                    |
+| `maxValue` | `number` | `100`   | Maximum allowed value                    |
+| `step`     | `number` |         | Rounding step for discrete values        |
+
+### Behavior
+
+| Property    | Type      | Default | Description                                           |
+| ----------- | --------- | ------- | ----------------------------------------------------- |
+| `wheel`     | `boolean` | `false` | Enable mouse wheel control (not with range sliders)   |
+| `increment` | `number`  | 1%      | Value change per wheel tick                           |
+| `disabled`  | `boolean` | `false` | Disable the slider                                    |
+| `vertical`  | `boolean` | `false` | Orient the slider vertically                          |
+| `invert`    | `boolean` | `false` | Invert vertical slider (top to bottom)                |
+
+### Appearance
+
+| Property      | Type            | Description                              |
+| ------------- | --------------- | ---------------------------------------- |
+| `handleStyle` | `string/object` | CSS style for the slider handle          |
+| `rangeStyle`  | `string/object` | CSS style for the selected range         |
+
+### Tooltips
+
+| Property       | Type            | Description                              |
+| -------------- | --------------- | ---------------------------------------- |
+| `valueTooltip` | `string/object` | Tooltip config for the value handle      |
+| `fromTooltip`  | `string/object` | Tooltip config for the `from` handle     |
+| `toTooltip`    | `string/object` | Tooltip config for the `to` handle       |

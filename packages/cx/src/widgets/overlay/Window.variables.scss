@@ -10,8 +10,12 @@ $cx-default-window-header-background-color: rgba(246, 246, 246, 0.9) !default;
 $cx-default-window-header-padding: 10px 15px !default;
 $cx-default-window-header-font-size: 16px !default;
 
+//body
+$cx-default-window-body-padding: $cx-default-window-header-padding !default;
+$cx-default-window-body-background-color: white !default;
+
 //footer
 $cx-default-window-footer-color: null !default;
 $cx-default-window-footer-background-color: rgba(246, 246, 246, 0.9) !default;
-$cx-default-window-footer-padding: 10px 15px !default;
+$cx-default-window-footer-padding: $cx-default-window-header-padding !default;
 $cx-default-window-footer-font-size: 16px !default;

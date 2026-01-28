@@ -7,6 +7,7 @@
 @use "./variables.scss" as *;
 @use "./maps.scss" as *;
 @use "./Field.scss" as *;
+@use "sass:map";
 
 @mixin cx-switch(
    $name: "switch",
@@ -20,9 +21,9 @@
    $empty-text: $cx-empty-text,
    $besm: $cx-besm
 ) {
-   $block: map-get($besm, block);
-   $element: map-get($besm, element);
-   $state: map-get($besm, state);
+   $block: map.get($besm, block);
+   $element: map.get($besm, element);
+   $state: map.get($besm, state);
 
    $padding: cx-get-state-rule($state-style-map, default, padding);
    $border-width: cx-get-state-rule($state-style-map, default, border-width);
@@ -38,11 +39,11 @@
    );
 
    .#{$block}#{$name} {
-      @include cxb-field($besm, $outer-styles, $input: false, $box: true);
-
       cursor: pointer;
       min-width: cx-calc($width, $handle-size);
       -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+      @include cxb-field($besm, $outer-styles, $input: false, $box: true);
 
       &.#{$state}disabled {
          pointer-events: none;
@@ -116,6 +117,8 @@
       top: 50%;
       transition: left 200ms;
 
+      @include cx-add-state-rules($styles, default);
+
       .#{$state}on & {
          left: 100%;
          @include cx-add-state-rules($styles, on);
@@ -124,8 +127,6 @@
       .#{$state}on:active & {
          @include cx-add-state-rules($styles, on-active);
       }
-
-      @include cx-add-state-rules($styles, default);
 
       &:hover {
          @include cx-add-state-rules($styles, hover);

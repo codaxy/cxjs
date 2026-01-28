@@ -1,92 +1,141 @@
 .dxb-codesnippet {
-   position: relative;
-   padding: 3px 5px;
-   background: #494949;
+    position: relative;
+    padding: 3px 5px;
+    background: #494949;
 
-   pre {
-      background: transparent !important;
-      padding: 0 !important;
-      margin: 0 !important;
-      border-radius: 0 !important;
+    pre {
+        background: transparent !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        border-radius: 0 !important;
+        overflow-x: auto;
+        overflow-y: hidden;
 
-      & > code {
-         padding: 0 0 0 5px;
-         //padding: 5px;
-         background: transparent;
-         border-radius: 0;
-      }
+        & > code {
+            padding: 0 0 0 5px;
+            background: transparent;
+            border-radius: 0;
+        }
 
-      overflow-x: auto;
-      overflow-y: hidden;
+        &::-webkit-scrollbar-track {
+            background-color: transparent;
+        }
 
-      &::-webkit-scrollbar-track {
-         background-color: transparent;
-      }
+        &::-webkit-scrollbar {
+            height: 6px;
+            background-color: transparent;
+        }
 
-      &::-webkit-scrollbar {
-         height: 6px;
-         background-color: transparent;
-      }
+        &::-webkit-scrollbar-thumb {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+        }
+    }
+}
 
-      &::-webkit-scrollbar-thumb {
-         background-color: rgba(255, 255, 255, 0.2);
-         border-radius: 3px;
-      }
-   }
+.dxe-codesnippet-actions {
+    position: absolute;
+    right: 10px;
+    top: -33px;
+    display: flex;
+    gap: 10px;
+
+    span {
+        visibility: visible;
+        white-space: nowrap;
+        background-color: black;
+        color: white;
+        text-align: center;
+        padding: 2px 0.5em;
+        border-radius: 5px;
+        vertical-align: middle;
+        font-size: 0.9em;
+        position: absolute;
+        z-index: 1;
+        bottom: 100%;
+        margin-bottom: 5px;
+        margin-left: 7px;
+    }
+
+    // Arrow pointing down
+    span::after {
+        content: " ";
+        position: absolute;
+        top: 95%;
+        left: 50%;
+        margin-left: -15px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: black transparent transparent transparent;
+    }
 }
 
 .dxe-codesnippet-link {
-   position: absolute;
-   right: 10px;
-   top: -16px;
-   background: rgb(231, 231, 231);
-   padding: 5px 10px;
-   text-decoration: none;
-   color: #376aff;
-   z-index: 2000;
+    background: #00a4e8;
+    padding: 4px 10px;
+    text-decoration: none;
+    color: #fff;
+    border-radius: 2px;
+    opacity: 1;
+    transition: 0.2s;
 
-   opacity: 0;
-   transition: opacity 1s;
-   transition-delay: 0.2s;
+    .dxb-codesnippet:hover > & {
+        opacity: 1;
+    }
+}
 
-   .dxb-codesnippet:hover > & {
-      opacity: 1;
-   }
+.dxe-codesnippet-copy {
+    font-size: 0.8rem;
+    padding: 7px 10px;
+    border: 1px solid transparent;
+    background: none;
+    color: rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+    transition: 0.3s;
+    border-radius: 2px;
+
+    &:hover {
+        background-color: rgba(200, 200, 200, 0.1);
+    }
+
+    &:active {
+        transition: 0s;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+    }
 }
 
 .dxe-codesplit-right .dxb-codesnippet {
-   background: transparent;
+    background: transparent;
 }
 
 .dxe-codesplit-right .cxb-tab.cxm-code {
-   //@extend .cxb-tab.cxm-line;
-   color: rgba(white, 0.5);
-   border-bottom-width: 2px;
-   margin-bottom: 10px;
-   background: transparent;
-   text-transform: none;
+    color: rgba(white, 0.5);
+    border-bottom-width: 2px;
+    margin-bottom: 10px;
+    background: transparent;
+    text-transform: none;
 
-   &:focus {
-      color: rgba(white, 0.7);
-      border-bottom-color: rgba(white, 0.7);
-   }
+    &:focus {
+        color: rgba(white, 0.7);
+        border-bottom-color: rgba(white, 0.7);
+    }
 
-   &:hover {
-      color: rgba(white, 0.7);
-      border-bottom-color: rgba(white, 0.5);
-   }
+    &:hover {
+        color: rgba(white, 0.7);
+        border-bottom-color: rgba(white, 0.5);
+    }
 
-   &.cxs-active {
-      color: rgba(white, 0.9);
-      border-bottom-color: rgba(white, 0.9);
+    &.cxs-active {
+        color: rgba(white, 0.9);
+        border-bottom-color: rgba(white, 0.9);
 
-      &:focus {
-         color: white;
-         border-bottom-color: white;
-      }
-   }
+        &:focus {
+            color: white;
+            border-bottom-color: white;
+        }
+    }
 
-   & > code {
-      padding-left: 0;
-   }
+    & > code {
+        padding-left: 0;
+    }
 }

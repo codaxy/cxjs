@@ -6,18 +6,25 @@
 @use "../../util/scss/besm.scss" as *;
 @use "./Menu.variables.scss" as *;
 @use "./maps" as *;
+@use "sass:map";
 
-@mixin cx-menu($name: "menu", $state-style-map: $cx-menu-state-style-map, $besm: $cx-besm) {
-   $block: map-get($besm, block);
-   $element: map-get($besm, element);
-   $state: map-get($besm, state);
-   $mod: map-get($besm, mod);
+@mixin cx-menu(
+   $name: "menu",
+   $state-style-map: $cx-menu-state-style-map,
+   $besm: $cx-besm
+) {
+   $block: map.get($besm, block);
+   $element: map.get($besm, element);
+   $state: map.get($besm, state);
+   $mod: map.get($besm, mod);
 
    .#{$block}#{$name} {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
       list-style: none;
+
+      @include cx-add-state-rules($state-style-map, default);
 
       &.#{$state}horizontal {
          white-space: nowrap;
@@ -41,13 +48,11 @@
          }
       }
 
-      @include cx-add-state-rules($state-style-map, default);
-
       .#{$element}#{$name}-item {
          & > hr {
             border: none;
             border-top: 1px solid $cx-default-menu-separator-color;
-            margin: map-get($cx-menu-padding-options, medium);
+            margin: map.get($cx-menu-padding-options, medium);
          }
 
          &.#{$state}hidden {

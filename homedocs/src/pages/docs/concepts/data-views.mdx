@@ -1,0 +1,53 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Data View Components
+description: Components that iterate and transform data
+---
+
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+# Data View Components
+
+<OnThisPage />
+
+All application data in CxJS is stored inside a central [Store](/docs/intro/store). While convenient for global state, accessing deeply nested paths or working with collections can become cumbersome. Data View components wrap parts of the widget tree and provide a modified view of the Store data, making it easier to work with specific areas of the data model.
+
+## Comparison
+
+| Component                              | Purpose                                           | Use case                              |
+| -------------------------------------- | ------------------------------------------------- | ------------------------------------- |
+| [Repeater](./repeater)                 | Renders children for each record in a collection  | Lists, tables, any repeated content   |
+| [Rescope](./rescope)                   | Selects a common prefix for shorter binding paths | Deeply nested data structures         |
+| [Sandbox](./sandbox)                   | Multiplexes data based on a dynamic key           | Tabs, routes with isolated page data  |
+| [PrivateStore](./private-store)        | Creates an isolated store for a subtree           | Reusable components with local state  |
+| [DataProxy](./data-proxy)              | Creates aliases with custom getter/setter logic   | Computed values, data transformations |
+| [Route](./route)                       | Renders children when URL matches a pattern       | Page routing, exposes `$route` params |
+
+## How Data Views Work
+
+Each Data View component exposes the same interface as the Store to its children, but can introduce additional properties. For example, Repeater adds `$record` and `$index` for each item in the collection, Route exposes `$route` with matched URL parameters, while Sandbox might expose `$page` for route-specific data. These additional properties are only accessible within the scope of that Data View, allowing child widgets to bind to them just like any other Store data.
+
+## How to Choose
+
+Use [Repeater](./repeater) when you need to render a list of items from an array.
+
+Use [Rescope](./rescope) when working with deeply nested data and you want shorter binding paths.
+
+Use [Sandbox](./sandbox) when you need to switch between different data contexts based on a key (e.g., tabs, route parameters).
+
+Use [PrivateStore](./private-store) (also known as Restate) when you need completely isolated state that doesn't affect the global store.
+
+Use [DataProxy](./data-proxy) when you need to transform data or create computed aliases with custom getter/setter logic.
+
+Use [Route](./route) when you need to conditionally render content based on URL and access matched route parameters.
+
+## Store Mutation
+
+By default, Data View components write aliased data (like `$record`, `$page`) back to the parent store, all the way up to the global store. Regular data bindings propagate normally regardless of these settings.
+
+This default behavior is often fine and can improve performance by avoiding data copying. However, sometimes you want to prevent aliased fields from polluting your data. For example, when rendering a tree with nested Repeaters, fields like `$record` and `$index` would be written into your tree nodes.
+
+Two properties control this behavior:
+
+- `immutable` - Prevents aliased data from being written to the parent store.
+- `sealed` - Prevents child Data Views from writing aliased data to this Data View's store.

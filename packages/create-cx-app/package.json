@@ -19,14 +19,12 @@
     "template"
   ],
   "dependencies": {
-    "cx-cli": "21.6.2"
+    "cx-cli": "23.12.1"
   },
   "engines": {
     "node": ">=4.0.0"
   },
-  "bin": {
-    "create-cx-app": "index.js"
-  },
+  "bin": "index.js",
   "preferGlobal": true,
   "author": "Codaxy",
   "license": "MIT"

@@ -1,0 +1,112 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Row Editing
+description: Edit entire rows at once
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+import RowEditingExample from "../../../examples/tables/RowEditingExample.tsx";
+import RowEditingExampleCode from "../../../examples/tables/RowEditingExample.tsx?raw";
+
+# Row Editing
+
+<OnThisPage />
+
+Grid supports row-level editing where users click Edit to modify a row, then Save or Cancel to confirm or discard changes.
+
+<CodeExample code={RowEditingExampleCode}>
+  <RowEditingExample client:load />
+</CodeExample>
+
+Click Edit to modify a row. The row highlights and fields become editable. Save commits changes, Cancel restores original values.
+
+## How It Works
+
+Row editing uses a pattern where the original record is stored in `$record.$editing` when editing starts:
+
+```tsx
+editRow(e, { store }) {
+  let record = store.get(m.$record);
+  store.set(m.$record.$editing, record);
+}
+
+saveRow(e, { store }) {
+  store.delete(m.$record.$editing);
+}
+
+cancelRowEditing(e, { store }) {
+  let oldRecord = store.get(m.$record.$editing);
+  store.set(m.$record, oldRecord);
+}
+```
+
+## viewMode Property
+
+Form fields use `viewMode` to toggle between display and edit modes:
+
+```tsx
+{
+  header: "Name",
+  field: "fullName",
+  children: (
+    <TextField
+      value={m.$record.fullName}
+      viewMode={expr(m.$record.$editing, (e) => !e)}
+      style="width: 100%"
+      required
+    />
+  ),
+}
+```
+
+When `viewMode` is true, the field displays as text. When false, it becomes an editable input.
+
+## Row Highlighting
+
+Use the `row` property to style the editing row:
+
+```tsx
+<Grid
+  row={{
+    style: {
+      background: expr(m.$record.$editing, (editing) =>
+        editing ? "lightsteelblue" : undefined
+      ),
+    },
+    valid: m.$record.valid,
+  }}
+/>
+```
+
+The `valid` property tracks form validation state for the row.
+
+## Action Buttons
+
+Toggle button visibility based on editing state:
+
+```tsx
+{
+  header: "Actions",
+  children: (
+    <PureContainer>
+      <Button onClick="editRow" visible={expr(m.$record.$editing, (e) => !e)}>
+        Edit
+      </Button>
+      <Button
+        onClick="saveRow"
+        disabled={expr(m.$record.valid, (v) => !v)}
+        visible={expr(m.$record.$editing, (e) => !!e)}
+      >
+        Save
+      </Button>
+      <Button onClick="cancelRowEditing" visible={expr(m.$record.$editing, (e) => !!e)}>
+        Cancel
+      </Button>
+    </PureContainer>
+  ),
+}
+```
+
+See also: [Cell Editing](/docs/tables/cell-editing), [Inline Edit](/docs/tables/inline-edit), [Form Edit](/docs/tables/form-edit)

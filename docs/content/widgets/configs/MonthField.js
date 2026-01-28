@@ -14,7 +14,7 @@ export default {
     emptyValue: {
         type: 'any',
         description: <cx><Md>
-            Value to be written in the store when the field is empty. Default value is `null`;
+            Value to be written in the store when the field is empty. Default value is `null`.
         </Md></cx>
     }
 };

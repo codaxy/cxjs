@@ -14,8 +14,8 @@ class PageController extends Controller {
     }
 
     generateRecords(node) {
-        if (!node || node.$level < 5)
-            return Array.from({length: 20}).map(() => ({
+        if (!node || node.$level < 5) {
+            return Array.from({ length: 20 }).map(() => ({
                 id: ++this.idSeq,
                 fullName: casual.full_name,
                 phone: casual.phone,
@@ -24,6 +24,7 @@ class PageController extends Controller {
                 $leaf: casual.coin_flip,
                 //icon: 'circle'
             }));
+        }
     }
 }
 
@@ -38,105 +39,107 @@ export const TreeGrid = <cx>
                 buffered
                 records-bind='$page.data'
                 mod="tree"
-                style={{width: "100%", height: '500px'}}
+                style={{ width: "100%", height: '500px' }}
                 scrollable={true}
                 dataAdapter={{
                     type: TreeAdapter,
-                    load: (context, {controller}, node) => controller.generateRecords(node)
+                    load: (context, { controller }, node) => controller.generateRecords(node)
                 }}
-                selection={{type: KeySelection, bind: "$page.selection"}}
+                selection={{ type: KeySelection, bind: "$page.selection" }}
                 columns={[
                     {
                         header: 'Name', field: 'fullName', sortable: true, items: <cx>
                             <TreeNode expanded-bind="$record.$expanded"
-                                      leaf-bind="$record.$leaf"
-                                      level-bind="$record.$level"
-                                      loading-bind="$record.$loading"
-                                      text-bind="$record.fullName"
-                                      icon-bind="$record.icon"
+                                leaf-bind="$record.$leaf"
+                                level-bind="$record.$level"
+                                loading-bind="$record.$loading"
+                                text-bind="$record.fullName"
+                                icon-bind="$record.icon"
                             />
                         </cx>
                     },
-                    {header: 'Phone', field: 'phone'},
-                    {header: 'City', field: 'city', sortable: true},
+                    { header: 'Phone', field: 'phone' },
+                    { header: 'City', field: 'city', sortable: true },
                     {
                         header: 'Notified',
                         field: 'notified',
                         sortable: true,
-                        value: {expr: '{$record.notified} ? "Yes" : "No"'}
+                        value: { expr: '{$record.notified} ? "Yes" : "No"' }
                     }
                 ]}
             />
 
             <Content name="code">
-                <div>
-                    <Tab value-bind="$page.code.tab" tab="controller" mod="code" text="Controller" />
-                    <Tab value-bind="$page.code.tab" tab="grid" mod="code"  text="Grid" default/>
-                </div>
+                <Tab value-bind="$page.code.tab" tab="controller" mod="code" text="Controller" />
+                <Tab value-bind="$page.code.tab" tab="grid" mod="code" text="Grid" default />
 
                 <CodeSnippet visible-expr="{$page.code.tab}=='controller'" fiddle="riuObfzq">{`
-            class PageController extends Controller {
-                onInit() {
-                    this.idSeq = 0;
-                    this.store.set('$page.data', this.generateRecords());
-                }
+                    class PageController extends Controller {
+                        onInit() {
+                            this.idSeq = 0;
+                            this.store.set('$page.data', this.generateRecords());
+                        }
 
-                generateRecords(node) {
-                    if (!node || node.$level < 5)
-                        return Array.from({length: 20}).map(() => ({
-                            id: ++this.idSeq,
-                            fullName: casual.full_name,
-                            phone: casual.phone,
-                            city: casual.city,
-                            notified: casual.coin_flip,
-                            $leaf: casual.coin_flip,
-                            //icon: 'circle'
-                        }));
-                }
-            }
-            `}</CodeSnippet>
-            <CodeSnippet visible-expr="{$page.code.tab}=='grid'" fiddle="riuObfzq">{`
-            <Grid
-                buffered
-                records-bind='$page.data'
-                mod="tree"
-                style={{width: "100%", height: '500px'}}
-                scrollable={true}
-                dataAdapter={{
-                    type: TreeAdapter,
-                    load: (context, {controller}, node) => controller.generateRecords(node)
-                }}
-                selection={{type: KeySelection, bind: "$page.selection"}}
-                columns={[
-                    {
-                        header: 'Name', field: 'fullName', sortable: true, items: <cx>
-                        <TreeNode expanded-bind="$record.$expanded"
-                            leaf-bind="$record.$leaf"
-                            level-bind="$record.$level"
-                            loading-bind="$record.$loading"
-                            text-bind="$record.fullName"
-                            icon-bind="$record.icon"
-                        />
-                    </cx>
-                    },
-                    {header: 'Phone', field: 'phone'},
-                    {header: 'City', field: 'city', sortable: true},
-                    {
-                        header: 'Notified',
-                        field: 'notified',
-                        sortable: true,
-                        value: {expr: '{$record.notified} ? "Yes" : "No"'}
+                        generateRecords(node) {
+                            if (!node || node.$level < 5) {
+                                return Array.from({length: 20}).map(() => ({
+                                    id: ++this.idSeq,
+                                    fullName: casual.full_name,
+                                    phone: casual.phone,
+                                    city: casual.city,
+                                    notified: casual.coin_flip,
+                                    $leaf: casual.coin_flip,
+                                    //icon: 'circle'
+                                }));
+                            }
+                        }
                     }
-                ]}
-            />
-
-            `}</CodeSnippet>
+                `}
+                </CodeSnippet>
+                <CodeSnippet visible-expr="{$page.code.tab}=='grid'" fiddle="riuObfzq">{`
+                    <Grid
+                        buffered
+                        records-bind='$page.data'
+                        mod="tree"
+                        style={{width: "100%", height: '500px'}}
+                        scrollable={true}
+                        dataAdapter={{
+                            type: TreeAdapter,
+                            load: (context, {controller}, node) => controller.generateRecords(node)
+                        }}
+                        selection={{type: KeySelection, bind: "$page.selection"}}
+                        columns={[
+                            {
+                                header: 'Name', field: 'fullName', sortable: true, items: <cx>
+                                <TreeNode expanded-bind="$record.$expanded"
+                                    leaf-bind="$record.$leaf"
+                                    level-bind="$record.$level"
+                                    loading-bind="$record.$loading"
+                                    text-bind="$record.fullName"
+                                    icon-bind="$record.icon"
+                                />
+                            </cx>
+                            },
+                            {header: 'Phone', field: 'phone'},
+                            {header: 'City', field: 'city', sortable: true},
+                            {
+                                header: 'Notified',
+                                field: 'notified',
+                                sortable: true,
+                                value: {expr: '{$record.notified} ? "Yes" : "No"'}
+                            }
+                        ]}
+                    />
+                `}
+                </CodeSnippet>
             </Content>
         </CodeSplit>
 
+        ### Searching Tree Grids
+        Check out [this example](~/examples/grid/searching-and-filtering#searching-tree-grid)
+        to find out how to implement search functionality in a Tree Grid.
+
         ## `TreeNode` Configuration
-
-        <ConfigTable props={configs}/>
-
+        <ConfigTable props={configs} />
     </Md>
 </cx>

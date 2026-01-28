@@ -1,0 +1,3 @@
+({
+    "$type": ui.Component
+})

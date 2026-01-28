@@ -1,0 +1,82 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Column Reordering
+description: Drag to reorder columns
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import ColumnReorderingExample from "../../../examples/tables/ColumnReorderingExample.tsx";
+import ColumnReorderingExampleCode from "../../../examples/tables/ColumnReorderingExample.tsx?raw";
+
+# Column Reordering
+
+Grid columns can be reordered by dragging and dropping column headers.
+
+<CodeExample code={ColumnReorderingExampleCode}>
+  <ColumnReorderingExample client:load />
+</CodeExample>
+
+Drag column headers to reorder them. Drag a column to the drop zone above to remove it from the grid.
+
+## Enabling Draggable Columns
+
+Set `draggable: true` on each column that can be reordered:
+
+```tsx
+{
+  key: "fullName",
+  header: "Name",
+  field: "fullName",
+  draggable: true,
+}
+```
+
+Each column should have a unique `key` so the Grid can correctly track column state.
+
+## Dynamic Column Generation
+
+Use `columnParams` and `onGetColumns` to dynamically generate columns:
+
+```tsx
+<Grid
+  columnParams={m.columnOrder}
+  onGetColumns={(columnOrder) =>
+    columnOrder.map((key) => allColumns.find((c) => c.key === key))
+  }
+/>
+```
+
+When `columnParams` changes, `onGetColumns` is called to regenerate the column list.
+
+## Handling Column Drops
+
+Implement `onColumnDropTest` and `onColumnDrop` to handle the drag and drop logic:
+
+```tsx
+<Grid
+  onColumnDropTest={(e, instance) =>
+    e.source?.type === "grid-column" && e.source?.gridInstance === instance
+  }
+  onColumnDrop={(e, { store }) => {
+    let { key } = e.source.column;
+    let { index } = e.target;
+    // Update column order in store
+  }}
+/>
+```
+
+## Configuration
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `draggable` | `boolean` | Enable dragging for this column. |
+| `key` | `string` | Unique identifier for the column. Required for reordering. |
+| `columnParams` | `any` | Parameters passed to `onGetColumns`. Changes trigger column regeneration. |
+| `onGetColumns` | `function` | Callback to generate columns. Receives `columnParams` value. |
+| `onColumnDropTest` | `function` | Test if a drop is valid. Receives drag event and instance. |
+| `onColumnDrop` | `function` | Handle column drop. Receives drag event and instance. |
+| `lockColumnWidths` | `boolean` | Preserve column widths during reordering. |
+
+See also: [Column Resizing](/docs/tables/column-resizing), [Dynamic Columns](/docs/tables/dynamic-columns)

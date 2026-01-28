@@ -1,0 +1,65 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: ColorField
+description: Color picker input field
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import ColorFieldExample from "../../../examples/forms/ColorFieldExample.tsx";
+import ColorFieldExampleCode from "../../../examples/forms/ColorFieldExample.tsx?raw";
+
+# ColorField
+
+<ImportPath path="import { ColorField } from 'cx/widgets';" />
+
+The `ColorField` widget is used for selecting colors. It displays a color picker dropdown and supports multiple color formats including RGBA, HSLA, and hexadecimal.
+
+<CodeExample code={ColorFieldExampleCode}>
+  <ColorFieldExample client:load />
+</CodeExample>
+
+## Configuration
+
+### Core Properties
+
+| Property      | Type      | Default  | Description                                                    |
+| ------------- | --------- | -------- | -------------------------------------------------------------- |
+| `value`       | `string`  | `null`   | Color value in rgba, hsla, or hex format                       |
+| `format`      | `string`  | `"rgba"` | Output format: `"rgba"`, `"hsla"`, or `"hex"`                  |
+| `placeholder` | `string`  |          | Hint text displayed when the field is empty                    |
+| `disabled`    | `boolean` | `false`  | Disables the input                                             |
+| `enabled`     | `boolean` |          | Opposite of `disabled`                                         |
+| `readOnly`    | `boolean` | `false`  | Makes the input read-only                                      |
+| `required`    | `boolean` | `false`  | Marks the field as required                                    |
+| `label`       | `string`  |          | Field label text                                               |
+| `emptyValue`  | `any`     | `null`   | Value written to the store when the field is cleared           |
+
+### Appearance
+
+| Property          | Type            | Default | Description                                             |
+| ----------------- | --------------- | ------- | ------------------------------------------------------- |
+| `showClear`       | `boolean`       | `true`  | Shows a clear button when the field has a value         |
+| `hideClear`       | `boolean`       | `false` | Opposite of `showClear`                                 |
+| `alwaysShowClear` | `boolean`       | `false` | Shows clear button even when the field is required      |
+| `tooltip`         | `string/object` |         | Tooltip text or configuration                           |
+| `inputStyle`      | `string/object` |         | CSS styles applied to the input element                 |
+| `inputClass`      | `string`        |         | CSS class applied to the input element                  |
+
+### Behavior
+
+| Property          | Type     | Default | Description                                           |
+| ----------------- | -------- | ------- | ----------------------------------------------------- |
+| `autoFocus`       | `boolean`| `false` | Automatically focuses the field on mount              |
+| `trackFocus`      | `boolean`| `false` | Adds `cxs-focus` CSS class when input is focused      |
+| `dropdownOptions` | `object` |         | Additional configuration passed to the dropdown       |
+
+### Validation
+
+| Property         | Type       | Default     | Description                                                        |
+| ---------------- | ---------- | ----------- | ------------------------------------------------------------------ |
+| `error`          | `string`   |             | Custom error message. Field is marked invalid if set               |
+| `visited`        | `boolean`  |             | If `true`, shows validation errors immediately                     |
+| `validationMode` | `string`   | `"tooltip"` | How to show errors: `"tooltip"`, `"help"`, `"help-block"`          |
+| `onValidate`     | `function` |             | `(value, instance, validationParams) => string` - Custom validation|

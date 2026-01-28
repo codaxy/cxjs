@@ -1,0 +1,60 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Event Callbacks
+description: Event handling helpers
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+# Event Callbacks
+
+<ImportPath path="import { stopPropagation, preventDefault } from 'cx/util';" />
+<OnThisPage />
+
+CxJS provides utility functions for common event handling operations that can be used directly as event handlers.
+
+## stopPropagation
+
+Stops event propagation. Pass directly as an event handler.
+
+```tsx
+import { stopPropagation } from "cx/util";
+
+// Button inside a clickable row
+<tr onClick={handleRowClick}>
+  <td>Data</td>
+  <td>
+    <button onClick={stopPropagation}>Delete</button>
+  </td>
+</tr>
+```
+
+## preventDefault
+
+Prevents the default browser action. Pass directly as an event handler.
+
+```tsx
+import { preventDefault } from "cx/util";
+
+// Prevent drag default behavior
+<div onDragOver={preventDefault} onDrop={handleDrop}>
+  Drop zone
+</div>
+```
+
+## API
+
+### stopPropagation
+
+```tsx
+function stopPropagation(e: { stopPropagation(): void }): void;
+```
+
+### preventDefault
+
+```tsx
+function preventDefault(e: { preventDefault(): void }): void;
+```
+
+Both functions accept any event-like object with the corresponding method.

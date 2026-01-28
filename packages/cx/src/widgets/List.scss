@@ -1,3 +1,4 @@
+@use "sass:map";
 @use "sass:math";
 @use "../util/scss/besm.scss" as *;
 @use "../util/scss/defaults.scss" as *;
@@ -6,10 +7,10 @@
 @use "./variables.scss" as *;
 
 @mixin cx-list($name: "list", $besm: $cx-besm) {
-   $block: map-get($besm, block);
-   $element: map-get($besm, element);
-   $state: map-get($besm, state);
-   $mod: map-get($besm, mod);
+   $block: map.get($besm, block);
+   $element: map.get($besm, element);
+   $state: map.get($besm, state);
+   $mod: map.get($besm, mod);
 
    .#{$block}#{$name} {
       list-style: none;
@@ -42,11 +43,11 @@
       margin: 0;
       border: 0 solid $cx-default-border-color;
 
+      @include cx-add-state-rules($cx-list-item, default);
+
       &.#{$state}pad {
          padding: $cx-default-list-item-padding;
       }
-
-      @include cx-add-state-rules($cx-list-item, default);
 
       .#{$state}selectable > & {
          cursor: pointer;

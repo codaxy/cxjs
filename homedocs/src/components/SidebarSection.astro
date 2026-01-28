@@ -1,0 +1,80 @@
+---
+interface Props {
+  title: string;
+  defaultOpen?: boolean;
+}
+
+const { title, defaultOpen = true } = Astro.props;
+---
+
+<div class="sidebar-section mb-6">
+  <button
+    class="sidebar-section-btn flex w-full items-center justify-between text-xs font-semibold uppercase tracking-wider text-muted-foreground hover:text-foreground mb-2 transition-colors"
+    type="button"
+    aria-expanded={defaultOpen ? "true" : "false"}
+  >
+    {title}
+    <svg
+      class="chevron h-4 w-4 transition-transform duration-200"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+    >
+      <path d="m6 9 6 6 6-6"/>
+    </svg>
+  </button>
+  <div class="sidebar-section-content" data-open={defaultOpen ? "true" : "false"}>
+    <ul class="space-y-1">
+      <slot />
+    </ul>
+  </div>
+</div>
+
+<style>
+  .sidebar-section-btn[aria-expanded="false"] .chevron {
+    transform: rotate(-90deg);
+  }
+
+  .sidebar-section-content {
+    display: grid;
+    grid-template-rows: 1fr;
+    overflow: hidden;
+    transition: grid-template-rows 0.2s ease-out;
+  }
+
+  .sidebar-section-content[data-open="false"] {
+    grid-template-rows: 0fr;
+  }
+
+  .sidebar-section-content > ul {
+    min-height: 0;
+    overflow: hidden;
+  }
+</style>
+
+<script>
+  function initSidebarSections() {
+    document.querySelectorAll('.sidebar-section-btn').forEach(button => {
+      // Remove existing listeners by cloning
+      const newButton = button.cloneNode(true);
+      button.parentNode?.replaceChild(newButton, button);
+
+      newButton.addEventListener('click', () => {
+        const expanded = newButton.getAttribute('aria-expanded') === 'true';
+        newButton.setAttribute('aria-expanded', (!expanded).toString());
+
+        const content = newButton.nextElementSibling;
+        if (content) {
+          content.setAttribute('data-open', (!expanded).toString());
+        }
+      });
+    });
+  }
+
+  // Initialize on load
+  initSidebarSections();
+
+  // Re-initialize on Astro page transitions
+  document.addEventListener('astro:page-load', initSidebarSections);
+</script>

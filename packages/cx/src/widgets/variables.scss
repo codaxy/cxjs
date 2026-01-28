@@ -1,5 +1,6 @@
 @forward "./box.scss";
 @forward "Button.variables.scss";
+@use "sass:map";
 
 @use "../util/scss/defaults.scss" as *;
 @use "../util/scss/include.scss" as *;
@@ -29,7 +30,7 @@ $cx-default-progressbar-indicator-background-color: rgba(#98d4ff, 0.8) !default;
 @forward "drag-drop/variables";
 @forward "overlay/variables";
 
-$cx-dependencies: map-merge(
+$cx-dependencies: map.merge(
    $cx-dependencies,
    (
       "cx/widgets/FlexRow": "cx/widgets/FlexBox",

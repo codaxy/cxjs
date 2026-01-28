@@ -1,0 +1,34 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Resizer
+description: Draggable resize handle for panels
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import ResizerExample from "../../../examples/layout/ResizerExample.tsx";
+import ResizerExampleCode from "../../../examples/layout/ResizerExample.tsx?raw";
+import { model as resizerModel } from "../../../examples/layout/ResizerExample.tsx";
+
+# Resizer
+
+<ImportPath path="import { Resizer } from 'cx/widgets';" />
+
+The Resizer component is a draggable divider that allows users to resize adjacent elements. Place it between two sibling elements to enable resizing. Double-click to reset to the default size.
+
+<CodeExample code={ResizerExampleCode} model={resizerModel}>
+  <ResizerExample client:load />
+</CodeExample>
+
+## Configuration
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `size` | `number` | A binding for storing the resized element's size. |
+| `defaultSize` | `number` | Value set when the user double-clicks the resizer. |
+| `minSize` | `number` | Minimum allowed size. Default is `0`. |
+| `maxSize` | `number` | Maximum allowed size. Default is `1000000`. |
+| `horizontal` | `boolean` | Set to `true` for horizontal resizing (row-resize). Default is `false` (vertical, col-resize). |
+| `forNextElement` | `boolean` | Use the element after the resizer for size measurements instead of before. Default is `false`. |
+| `baseClass` | `string` | Base CSS class. Default is `resizer`. |

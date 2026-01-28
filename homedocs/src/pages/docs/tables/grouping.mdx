@@ -1,0 +1,144 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Grouping
+description: Group rows by column values
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+import GroupingExample from "../../../examples/tables/GroupingExample.tsx";
+import GroupingExampleCode from "../../../examples/tables/GroupingExample.tsx?raw";
+
+import GroupCaptionsExample from "../../../examples/tables/GroupCaptionsExample.tsx";
+import GroupCaptionsExampleCode from "../../../examples/tables/GroupCaptionsExample.tsx?raw";
+
+# Grouping
+
+<OnThisPage collapsed />
+
+Grid supports grouping records by one or more fields with aggregation and custom footers.
+
+<CodeExample code={GroupingExampleCode}>
+  <GroupingExample client:load />
+</CodeExample>
+
+Records are grouped by continent with aggregate calculations shown in the footer.
+
+## Basic Grouping
+
+Use the `grouping` property to group records by a field:
+
+```tsx
+<Grid
+  records={m.records}
+  grouping="continent"
+  columns={[
+    { header: "Name", field: "fullName" },
+    { header: "Continent", field: "continent" },
+  ]}
+/>
+```
+
+## Multi-Level Grouping
+
+Pass an array for multiple grouping levels. The first level with an empty key groups all records (useful for totals):
+
+```tsx
+grouping={[
+  { key: {}, showFooter: true },  // Total row
+  "continent"                      // Group by continent
+]}
+```
+
+## Aggregation
+
+Configure aggregates on columns to calculate values per group:
+
+```tsx
+columns={[
+  {
+    header: "Name",
+    field: "fullName",
+    aggregate: "count",
+    footer: tpl(m.$group.fullName, "{0} people"),
+  },
+  {
+    header: "Visits",
+    field: "visits",
+    aggregate: "sum",
+  },
+]}
+```
+
+## Aggregate Functions
+
+| Function | Description |
+| -------- | ----------- |
+| `count` | Count non-null values |
+| `sum` | Sum numeric values |
+| `avg` | Average of numeric values |
+| `min` | Minimum value |
+| `max` | Maximum value |
+| `distinct` | Count unique values |
+
+## Aggregate Alias
+
+Use `aggregateAlias` to give the aggregate a custom name in `$group`:
+
+```tsx
+{
+  header: "Browser",
+  field: "browser",
+  aggregate: "distinct",
+  aggregateAlias: "browsers",
+  footer: tpl(m.$group.browsers, "{0} browsers"),
+}
+```
+
+## Group Captions
+
+Use `showCaption: true` in the grouping configuration to display a caption row for each group. Define `caption` on columns to customize what appears in the caption row:
+
+<CodeExample code={GroupCaptionsExampleCode}>
+  <GroupCaptionsExample client:load />
+</CodeExample>
+
+```tsx
+grouping={[{ key: { continent: { bind: "$record.continent" } }, showCaption: true }]}
+columns={[
+  {
+    header: "Name",
+    field: "fullName",
+    aggregate: "count",
+    caption: tpl(m.$group.continent, m.$group.fullName, "{0} ({1} people)"),
+  },
+  // ...
+]}
+```
+
+## Group Data
+
+The `$group` object contains:
+
+| Property | Description |
+| -------- | ----------- |
+| `$name` | Group name/label |
+| `$level` | Nesting level (0 for deepest) |
+| `$records` | Records in the group |
+| `$key` | Serialized group key |
+| `[field]` | Aggregate value for each field |
+
+## Grouping Configuration
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `key` | `object` | Fields to group by. Empty object groups all records. |
+| `showHeader` | `boolean` | Show group header row. |
+| `showFooter` | `boolean` | Show group footer row. |
+| `showCaption` | `boolean` | Show group caption. |
+| `caption` | `StringProp` | Caption template. |
+| `text` | `StringProp` | Group name template. |
+
+See also: [Dynamic Grouping](/docs/tables/dynamic-grouping), [GroupAdapter](/docs/tables/group-adapter)

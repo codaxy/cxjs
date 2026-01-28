@@ -15,7 +15,7 @@ let production = process.env.npm_lifecycle_event.indexOf("build") == 0;
 
 var common = {
    mode: production ? "production" : "development",
-   target: ['web', 'es5'],
+   target: ["web", "es5"],
    resolve: {
       alias: {
          fiddle: __dirname,
@@ -53,7 +53,7 @@ var common = {
                      {
                         targets: {
                            chrome: 45,
-                           ie: 11,
+                           //ie: 11,
                            firefox: 30,
                            edge: 12,
                            safari: 9,
@@ -68,6 +68,7 @@ var common = {
                      },
                   ],
                ],
+               plugins: [],
             },
          },
          {
@@ -201,13 +202,10 @@ if (production) {
             },
          ],
       },
-      plugins: [new webpack.HotModuleReplacementPlugin()],
       devtool: "eval",
       devServer: {
-         //contentBase: '/assets/',
          hot: true,
          port: 8089,
-         noInfo: false,
          historyApiFallback: true,
       },
    };

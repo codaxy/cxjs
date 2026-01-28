@@ -27,7 +27,7 @@ export default {
 
     snapX: {
         key: true,
-        type: 'number',
+        type: 'string | number',
         description: <cx><Md>
             A binding used to receive the `x` coordinate of the point nearest to the cursor.
         </Md></cx>
@@ -35,7 +35,7 @@ export default {
 
     snapY: {
         key: true,
-        type: 'number',
+        type: 'string | number',
         description: <cx><Md>
             A binding used to receive the `y` coordinate of the point nearest to the cursor.
         </Md></cx>
@@ -52,7 +52,23 @@ export default {
     maxDistance: {
         type: 'number',
         description: <cx><Md>
-        Maximum distance between cursor and the snap point.
+        Maximum distance between cursor and the snap point. Default value is `50`. Adjust accordingly for large distances, e.g. set to `Infinity` when using `TimeAxis`.
     </Md></cx>
+    },
+
+    convertX: {
+        key: true,
+        type: 'function',
+        description: <cx><Md>
+            A function used to convert `x` values (such as dates) into numeric format. Must be defined for proper functioning with `TimeAxis`.
+        </Md></cx>
+    },
+
+    convertY: {
+        key: true,
+        type: 'function',
+        description: <cx><Md>
+            A function used to convert `y` values (such as dates) into numeric format. Must be defined for proper functioning with `TimeAxis`.
+        </Md></cx>
     }
 };

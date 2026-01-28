@@ -7,6 +7,7 @@
 @use "./variables.scss" as *;
 @use "./maps.scss" as *;
 @use "./Overlay.scss" as *;
+@use "sass:map";
 
 @mixin cx-dropdown-arrows(
    $name: "dropdown",
@@ -14,11 +15,11 @@
    $arrow-size: $cx-default-dropdown-arrow-size,
    $besm: $cx-besm
 ) {
-   $block: map-get($besm, block);
-   $element: map-get($besm, element);
-   $state: map-get($besm, state);
+   $block: map.get($besm, block);
+   $element: map.get($besm, element);
+   $state: map.get($besm, state);
 
-   $border-width: map-get($styles, border-width);
+   $border-width: map.get($styles, border-width);
 
    .#{$element}#{$name}-arrow-border,
    .#{$element}#{$name}-arrow-fill {
@@ -32,12 +33,12 @@
    }
 
    .#{$element}#{$name}-arrow-border {
-      color: map-get($styles, border-color);
+      color: map.get($styles, border-color);
       border-width: $border-width + $arrow-size;
    }
 
    .#{$element}#{$name}-arrow-fill {
-      color: map-get($styles, background-color);
+      color: map.get($styles, background-color);
       border-width: $arrow-size;
    }
 
@@ -158,9 +159,9 @@
    $arrow-size: $cx-default-dropdown-arrow-size,
    $besm: $cx-besm
 ) {
-   $block: map-get($besm, block);
-   $element: map-get($besm, element);
-   $state: map-get($besm, state);
+   $block: map.get($besm, block);
+   $element: map.get($besm, element);
+   $state: map.get($besm, state);
 
    .#{$block}#{$name} {
       @include cxb-overlay($name, $besm);
@@ -171,7 +172,9 @@
       @include cx-add-rules($styles);
 
       &.#{$state}place-screen-center {
-         box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.29), 0 0 1000px 1000px rgba(128, 128, 128, 0.3);
+         box-shadow:
+            0 0 10px 1px rgba(0, 0, 0, 0.29),
+            0 0 1000px 1000px rgba(128, 128, 128, 0.3);
       }
 
       &.#{$state}pad {

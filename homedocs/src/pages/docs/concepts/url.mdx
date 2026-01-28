@@ -1,0 +1,51 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Url
+description: Build and parse URLs with parameters
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+# Url
+
+<ImportPath path="import { Url } from 'cx/ui';" />
+
+<OnThisPage />
+
+The Url helper class provides methods for working with URL paths, particularly for resolving the `~/` prefix used in routes.
+
+## Setting the Base Path
+
+Before using routes, set the application's base path. This is required if your app is hosted in a subdirectory:
+
+```tsx
+// Set explicitly
+Url.setBase("/my-app/");
+
+// Or detect from a script tag
+Url.setBaseFromScript("~/app.js");
+```
+
+If not set, the default base path is `/`.
+
+## Methods
+
+| Method                              | Description                                                 |
+| ----------------------------------- | ----------------------------------------------------------- |
+| `Url.setBase(base)`                 | Sets the base path of the application                       |
+| `Url.setBaseFromScript(scriptPath)` | Sets base path by finding a matching script `src` attribute |
+| `Url.resolve(path)`                 | Resolves `~/` to the application base path                  |
+| `Url.unresolve(path)`               | Converts an absolute path back to `~/` format               |
+| `Url.isLocal(path)`                 | Checks if a path is within the application                  |
+
+## Examples
+
+```tsx
+Url.setBase("/docs/");
+
+Url.resolve("~/page"); // "/docs/page"
+Url.unresolve("/docs/page"); // "~/page"
+Url.isLocal("/docs/"); // true
+Url.isLocal("/other/"); // false
+```

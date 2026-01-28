@@ -1,43 +1,42 @@
-import { HtmlElement } from 'cx/widgets';
-import { Widget, VDOM, Container } from 'cx/ui';
-import {CSS} from '../app/CSS';
+import { Container } from 'cx/ui';
+import { CSS } from '../app/CSS';
 
 export class ConfigTable extends Container {
-
     declareData() {
-       super.declareData({
-          header: undefined,
-       }, ...arguments);
+        super.declareData({
+            header: undefined,
+        }, ...arguments);
     }
 
     init() {
         super.init();
         var props = this.props || {};
-        let sort = this.sort
-
+        let sort = this.sort;
         var keys = Object.keys(props);
-        if (sort)
-            keys.sort((a, b) => {
-            if (props[a].key && !props[b].key)
-                return -1;
-            if (!props[a].key && props[b].key)
-                return +1;
-            return a < b ? -1 : a > b ? 1 : 0;
-        });
 
-        keys.forEach(key=> {
+        if (sort) {
+            keys.sort((a, b) => {
+                if (props[a].key && !props[b].key)
+                    return -1;
+                if (!props[a].key && props[b].key)
+                    return +1;
+                return a < b ? -1 : a > b ? 1 : 0;
+            });
+        }
+
+        keys.forEach(key => {
             var p = props[key];
             if (p) {
                 var name = [key];
                 if (p.alias)
-                    name.push(<cx><br/></cx>, p.alias);
+                    name.push(<cx><br /></cx>, p.alias);
 
                 var r = <cx>
                     <tr>
                         <td>
                             <h5
                                 id={key}
-                                className={CSS.state({long: key.length > 16, important: p.key, regular: !p.key})}
+                                className={CSS.state({ long: key.length > 16, important: p.key, regular: !p.key })}
                             >
                                 <a href={`#${key}`}>{name}</a>
                             </h5>
@@ -50,6 +49,7 @@ export class ConfigTable extends Container {
                         </td>
                     </tr>
                 </cx>
+
                 this.add(r);
             }
         });
@@ -60,12 +60,12 @@ export class ConfigTable extends Container {
         return <div key={key} className="dxb-configtable">
             <table>
                 <tbody>
-                <tr>
-                    <th>{data.header || 'Property'}</th>
-                    <th>Description</th>
-                    { !this.hideType && <th>Type</th> }
-                </tr>
-                {this.renderChildren(context, instance)}
+                    <tr>
+                        <th>{data.header || 'Property'}</th>
+                        <th>Description</th>
+                        {!this.hideType && <th>Type</th>}
+                    </tr>
+                    {this.renderChildren(context, instance)}
                 </tbody>
             </table>
         </div>

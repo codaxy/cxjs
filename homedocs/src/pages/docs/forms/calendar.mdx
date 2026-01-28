@@ -1,0 +1,99 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Calendar
+description: Calendar widget for date selection
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import CalendarExample from "../../../examples/forms/CalendarExample.tsx";
+import CalendarExampleCode from "../../../examples/forms/CalendarExample.tsx?raw";
+
+import CalendarDayDataExample from "../../../examples/forms/CalendarDayDataExample.tsx";
+import CalendarDayDataExampleCode from "../../../examples/forms/CalendarDayDataExample.tsx?raw";
+
+# Calendar
+
+<ImportPath path="import { Calendar } from 'cx/widgets';" />
+
+The `Calendar` widget displays a standalone calendar for date selection. It's also used internally by `DateField`.
+
+<CodeExample code={CalendarExampleCode}>
+  <CalendarExample client:load />
+</CodeExample>
+
+## Custom Day Styling
+
+Use `dayData` to customize individual days with styles, classes, or disable specific dates. Keys are created using `date.toDateString()`.
+
+<CodeExample code={CalendarDayDataExampleCode}>
+  <CalendarDayDataExample client:load />
+</CodeExample>
+
+## Keyboard Navigation
+
+The Calendar is fully keyboard accessible. Click on the calendar to focus it, then use the following keys:
+
+| Key           | Action                       |
+| ------------- | ---------------------------- |
+| ← →           | Move cursor by one day       |
+| ↑ ↓           | Move cursor by one week      |
+| Page Up       | Previous month               |
+| Page Down     | Next month                   |
+| Home          | First day of current month   |
+| End           | Last day of current month    |
+| Enter         | Select the focused date      |
+| Mouse wheel   | Scroll through months        |
+
+## Configuration
+
+### Core Properties
+
+| Property         | Type      | Default   | Description                                                                |
+| ---------------- | --------- | --------- | -------------------------------------------------------------------------- |
+| `value`          | `string`  | `null`    | Selected date. Accepts Date objects or ISO strings                         |
+| `refDate`        | `string`  |           | Reference date for initial view when no value is selected                  |
+| `disabled`       | `boolean` | `false`   | Disables the calendar                                                      |
+| `highlightToday` | `boolean` | `true`    | Highlights today's date                                                    |
+| `showTodayButton`| `boolean` | `false`   | Shows a "Today" button for quick selection                                 |
+| `todayButtonText`| `string`  | `"Today"` | Text for the today button                                                  |
+| `startWithMonday`| `boolean` | `false`   | Start weeks with Monday instead of Sunday                                  |
+
+### Date Constraints
+
+| Property             | Type       | Default | Description                                                      |
+| -------------------- | ---------- | ------- | ---------------------------------------------------------------- |
+| `minValue`           | `string`   |         | Minimum selectable date                                          |
+| `minExclusive`       | `boolean`  | `false` | If `true`, the minimum date itself is not selectable             |
+| `maxValue`           | `string`   |         | Maximum selectable date                                          |
+| `maxExclusive`       | `boolean`  | `false` | If `true`, the maximum date itself is not selectable             |
+| `disabledDaysOfWeek` | `number[]` |         | Days of week that cannot be selected. Sunday is 0, Saturday is 6 |
+| `dayData`            | `object`   |         | Map of dates to custom day info (style, className, disabled)     |
+
+### Validation
+
+| Property                | Type     | Default                              | Description                                       |
+| ----------------------- | -------- | ------------------------------------ | ------------------------------------------------- |
+| `minValueErrorText`     | `string` | `"Select a date not before {0:d}."` | Error message when date is before minimum          |
+| `minExclusiveErrorText` | `string` | `"Select a date after {0:d}."`       | Error message when date equals exclusive minimum  |
+| `maxValueErrorText`     | `string` | `"Select a date not after {0:d}."`  | Error message when date is after maximum           |
+| `maxExclusiveErrorText` | `string` | `"Select a date before {0:d}."`      | Error message when date equals exclusive maximum  |
+
+### Behavior
+
+| Property    | Type       | Default | Description                                                                     |
+| ----------- | ---------- | ------- | ------------------------------------------------------------------------------- |
+| `autoFocus` | `boolean`  | `false` | Automatically focuses the calendar on mount                                     |
+| `focusable` | `boolean`  | `true`  | Whether the calendar can receive focus                                          |
+| `partial`   | `boolean`  | `false` | Preserves time component when updating date                                     |
+| `encoding`  | `function` |         | Custom function to encode Date objects before storing. Default: `toISOString()` |
+
+### Callbacks
+
+| Property         | Type       | Description                                                               |
+| ---------------- | ---------- | ------------------------------------------------------------------------- |
+| `onSelect`       | `function` | `(e, instance, date) => void` - Called when a date is selected            |
+| `onBeforeSelect` | `function` | `(e, instance, date) => boolean` - Return `false` to prevent selection    |
+| `onBlur`         | `function` | `(e, instance) => void` - Called when calendar loses focus                |
+| `onFocusOut`     | `function` | `(instance) => void` - Called when focus leaves the calendar              |

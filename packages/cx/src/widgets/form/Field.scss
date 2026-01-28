@@ -4,15 +4,32 @@
 @use "../../util/scss/add-rules.scss" as *;
 @use "../../util/scss/clockwise.scss" as *;
 @use "../../util/scss/deep-merge.scss" as *;
+@use "sass:map";
 
-@mixin cxb-field($besm, $state-style-map, $input: true, $box: false, $width: null) {
+@mixin cxb-field(
+   $besm,
+   $state-style-map,
+   $input: true,
+   $box: false,
+   $width: null
+) {
    position: relative;
    display: inline-block;
    box-sizing: border-box;
 
-   $line-height: cx-get-state-rule($state-style-map, default, "line-height", 1.2em);
+   $line-height: cx-get-state-rule(
+      $state-style-map,
+      default,
+      "line-height",
+      1.2em
+   );
    $padding: cx-get-state-rule($state-style-map, default, "padding", 0);
-   $border-width: cx-get-state-rule($state-style-map, default, "border-width", 1px);
+   $border-width: cx-get-state-rule(
+      $state-style-map,
+      default,
+      "border-width",
+      1px
+   );
 
    @if $input {
       width: $width;
@@ -44,7 +61,7 @@
       height: cx-get-state-rule($state-style-map, default, "height");
    }
 
-   $state: map-get($besm, state);
+   $state: map.get($besm, state);
 
    &.#{$state}view-mode {
       line-height: $line-height;
@@ -55,8 +72,15 @@
    }
 }
 
-@mixin cxe-field-input($besm, $state-style-map, $overrides: null, $placeholder: null, $width: 100%, $input: true) {
-   $state: map-get($besm, state);
+@mixin cxe-field-input(
+   $besm,
+   $state-style-map,
+   $overrides: null,
+   $placeholder: null,
+   $width: 100%,
+   $input: true
+) {
+   $state: map.get($besm, state);
 
    $styles: cx-deep-map-merge($state-style-map, $overrides);
 
@@ -76,9 +100,13 @@
             $styles,
             (
                default: (
-                  line-height: cx-calc($line-height, cx-top($padding), cx-bottom($padding)),
-                  padding: 0 cx-right($padding) 0 cx-left($padding),
-               ),
+                     line-height: cx-calc(
+                           $line-height,
+                           cx-top($padding),
+                           cx-bottom($padding)
+                        ),
+                     padding: 0 cx-right($padding) 0 cx-left($padding),
+                  ),
             )
          );
       }
@@ -156,8 +184,8 @@
    position: absolute;
    left: 50%;
    top: 50%;
-   margin-top: -0.5 * $size;
-   margin-left: -0.5 * $size;
+   margin-top: -$size * 0.5;
+   margin-left: -$size * 0.5;
    height: $size;
    width: $size;
    line-height: $size;

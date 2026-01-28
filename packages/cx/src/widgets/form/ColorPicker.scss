@@ -13,12 +13,20 @@
 //   }
 //}
 
+@use "sass:map";
+
 @mixin cx-checker-background($tile-size: 4px, $color: rgba(gray, 0.5)) {
-   background-image: linear-gradient(45deg, $color 25%, transparent 25%),
-      linear-gradient(-45deg, $color 25%, transparent 25%), linear-gradient(45deg, transparent 75%, $color 75%),
+   background-image:
+      linear-gradient(45deg, $color 25%, transparent 25%),
+      linear-gradient(-45deg, $color 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, $color 75%),
       linear-gradient(-45deg, transparent 75%, $color 75%);
    background-size: 2 * $tile-size 2 * $tile-size;
-   background-position: 0 0, 0 $tile-size, $tile-size -#{$tile-size}, -#{$tile-size} 0px;
+   background-position:
+      0 0,
+      0 $tile-size,
+      $tile-size -#{$tile-size},
+      -#{$tile-size} 0px;
 }
 
 @mixin cx-colorpicker(
@@ -27,15 +35,25 @@
    $placeholder: $cx-input-placeholder,
    $besm: $cx-besm
 ) {
-   $block: map-get($besm, block);
-   $element: map-get($besm, element);
-   $state: map-get($besm, state);
+   $block: map.get($besm, block);
+   $element: map.get($besm, element);
+   $state: map.get($besm, state);
+
+   $size: 220px;
 
    .#{$block}#{$name} {
-      @include cx-add-state-rules($state-style-map, default);
-
       display: inline-flex;
       flex-direction: column;
+
+      $styles: cx-deep-map-merge(
+         $state-style-map,
+         (
+            default: (
+               padding: 4px,
+            ),
+         )
+      );
+      @include cx-add-state-rules($styles, default);
 
       @media screen and (min-width: 500px) {
          flex-direction: row;
@@ -53,10 +71,9 @@
             $input: false,
             $overrides: (
                default: (
-                  line-height: 12px,
+                  line-height: 14px,
                   font-size: 11px,
                   font-family: $cx-default-colorpicker-font-family,
-                  padding: 2px,
                )
             )
          );
@@ -64,31 +81,41 @@
    }
 
    .#{$element}#{$name}-picker {
-      width: 200px;
-      height: 200px;
-      margin: 5px;
+      width: $size;
+      height: $size;
+      margin: 4px;
       //cursor: crosshair;
-      float: left;
       position: relative;
       touch-action: none;
 
-      background: -webkit-linear-gradient(
+      background:
+         -webkit-linear-gradient(
             top,
             hsl(0, 0%, 100%) 0%,
             hsla(0, 0%, 100%, 0) 50%,
             hsla(0, 0%, 0%, 0) 50%,
             hsl(0, 0%, 0%) 100%
          ),
-         -webkit-linear-gradient(left, hsl(0, 0%, 50%) 0%, hsla(0, 0%, 50%, 0) 100%);
-      background: -moz-linear-gradient(
+         -webkit-linear-gradient(
+               left,
+               hsl(0, 0%, 50%) 0%,
+               hsla(0, 0%, 50%, 0) 100%
+            );
+      background:
+         -moz-linear-gradient(
             top,
             hsl(0, 0%, 100%) 0%,
             hsla(0, 0%, 100%, 0) 50%,
             hsla(0, 0%, 0%, 0) 50%,
             hsl(0, 0%, 0%) 100%
          ),
-         -moz-linear-gradient(left, hsl(0, 0%, 50%) 0%, hsla(0, 0%, 50%, 0) 100%);
-      background: -ms-linear-gradient(
+         -moz-linear-gradient(
+               left,
+               hsl(0, 0%, 50%) 0%,
+               hsla(0, 0%, 50%, 0) 100%
+            );
+      background:
+         -ms-linear-gradient(
             top,
             hsl(0, 0%, 100%) 0%,
             hsla(0, 0%, 100%, 0) 50%,
@@ -96,7 +123,8 @@
             hsl(0, 0%, 0%) 100%
          ),
          -ms-linear-gradient(left, hsl(0, 0%, 50%) 0%, hsla(0, 0%, 50%, 0) 100%);
-      background: -o-linear-gradient(
+      background:
+         -o-linear-gradient(
             top,
             hsl(0, 0%, 100%) 0%,
             hsla(0, 0%, 100%, 0) 50%,
@@ -161,7 +189,6 @@
          #f00 100%
       );
       touch-action: none;
-      //margin-bottom: 5px;
 
       .#{$element}#{$name}-indicator {
          border-color: rgba(0, 0, 0, 0.5);
@@ -193,10 +220,9 @@
    }
 
    .#{$element}#{$name}-details {
-      width: 200px;
+      width: $size;
       min-height: 170px;
-      float: left;
-      margin: 5px;
+      margin: 4px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -207,23 +233,47 @@
          width: 25%;
          display: inline-block;
          text-align: right;
-         font-size: 12px;
 
          input {
+            margin-left: 2px;
             width: 60%;
             text-align: center;
          }
       }
    }
 
+   .#{$element}#{$name}-pixel-picker {
+      display: flex;
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      align-items: center;
+      margin-top: 4px;
+
+      svg path {
+         fill: currentColor;
+      }
+
+      &:hover {
+         cursor: pointer;
+
+         svg path {
+            fill: currentColor;
+            opacity: 0.5;
+         }
+      }
+   }
+
    .#{$element}#{$name}-preview {
+      display: flex;
    }
 
    .#{$element}#{$name}-color {
       @include cx-checker-background();
-      height: 68px;
-      width: 68px;
-      float: right;
+      height: 64px;
+      width: 64px;
+      border-radius: 4px;
+      align-self: flex-end;
 
       & > div {
          width: 100%;
@@ -232,17 +282,16 @@
    }
 
    .#{$element}#{$name}-values {
-      float: left;
-      width: 100px;
-      margin-right: 5px;
+      flex-grow: 1;
+      margin: 0 8px;
 
       input {
-         width: 120px;
+         width: 100%;
          display: block;
       }
 
       input:not(:last-child) {
-         margin: 0 0 8px 0;
+         margin: 0 0 4px 0;
       }
    }
 }

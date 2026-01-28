@@ -1,0 +1,14 @@
+{
+   "extends": "./tsconfig.json",
+   "compilerOptions": {
+      "module": "nodenext",
+      "moduleResolution": "nodenext",
+      "noEmit": true,
+      "paths": {
+         "cx/jsx-runtime": ["./src/jsx-runtime"]
+      }
+   },
+   "ts-node": {
+      "require": ["tsconfig-paths/register"]
+   }
+}

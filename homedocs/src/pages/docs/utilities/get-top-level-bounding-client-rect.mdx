@@ -1,0 +1,75 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: getTopLevelBoundingClientRect
+description: Get top-level element bounds
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+# getTopLevelBoundingClientRect
+
+<ImportPath path="import { getTopLevelBoundingClientRect } from 'cx/util';" />
+<OnThisPage />
+
+The `getTopLevelBoundingClientRect` function returns an element's bounding rectangle with coordinates relative to the top-level window, accounting for iframe offsets.
+
+## Basic Usage
+
+```tsx
+import { getTopLevelBoundingClientRect } from "cx/util";
+
+const element = document.querySelector(".my-element");
+const rect = getTopLevelBoundingClientRect(element);
+
+// Coordinates are relative to top-level window
+console.log(rect.left, rect.top);
+```
+
+## How It Works
+
+The function:
+1. Gets the element's local `getBoundingClientRect()`
+2. Gets the parent iframe's offset (if any)
+3. Adds the iframe offset to the local coordinates
+
+## When to Use
+
+Use this function when you need coordinates relative to the top-level window, such as:
+- Positioning elements that escape iframe boundaries
+- Coordinating between iframe content and parent window
+- Calculating absolute screen positions
+
+## Example
+
+```tsx
+import { getTopLevelBoundingClientRect } from "cx/util";
+
+// In an iframe at position (100, 50) in parent window
+const element = document.querySelector(".button");
+
+// Local coordinates (relative to iframe)
+const localRect = element.getBoundingClientRect();
+// { left: 20, top: 30, ... }
+
+// Top-level coordinates (relative to parent window)
+const topRect = getTopLevelBoundingClientRect(element);
+// { left: 120, top: 80, ... } (20+100, 30+50)
+```
+
+## API
+
+```tsx
+function getTopLevelBoundingClientRect(el: Element): DOMRect;
+```
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| el | `Element` | The element to measure |
+
+**Returns:** A `DOMRect` with coordinates relative to the top-level window.
+
+## See Also
+
+- [getParentFrameBoundingClientRect](/docs/utilities/get-parent-frame-bounding-client-rect) - Get iframe bounds
+- [getScrollerBoundingClientRect](/docs/utilities/get-scroller-bounding-client-rect) - Get scroll container bounds

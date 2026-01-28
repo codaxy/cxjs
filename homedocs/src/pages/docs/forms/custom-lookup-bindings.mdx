@@ -1,0 +1,55 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Custom Lookup Bindings
+description: Bind multiple values from lookup
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+
+import LookupOptionTemplateExample from "../../../examples/forms/LookupOptionTemplateExample.tsx";
+import LookupOptionTemplateExampleCode from "../../../examples/forms/LookupOptionTemplateExample.tsx?raw";
+
+import LookupBindingsSingleExample from "../../../examples/forms/LookupBindingsSingleExample.tsx";
+import LookupBindingsSingleExampleCode from "../../../examples/forms/LookupBindingsSingleExample.tsx?raw";
+
+import LookupBindingsMultipleExample from "../../../examples/forms/LookupBindingsMultipleExample.tsx";
+import LookupBindingsMultipleExampleCode from "../../../examples/forms/LookupBindingsMultipleExample.tsx?raw";
+
+# Custom Lookup Bindings
+
+## Custom Option Template
+
+Children of `LookupField` define how each option is rendered in the dropdown. The `$option` alias refers to the current option object being rendered. Use it to access any property of the option.
+
+<CodeExample code={LookupOptionTemplateExampleCode}>
+  <LookupOptionTemplateExample client:load />
+</CodeExample>
+
+## Single Selection Bindings
+
+The `bindings` prop copies additional fields from the selected option into the store. Each binding specifies:
+
+- `remote` - the source field on the option (use `$option.xxx`)
+- `local` - the destination path in the store
+
+When an option is selected, all bindings are applied, copying data from `$option` to the store.
+
+<CodeExample code={LookupBindingsSingleExampleCode}>
+  <LookupBindingsSingleExample client:load />
+</CodeExample>
+
+## Multiple Selection Bindings
+
+In multiple selection mode, selected options are stored as records in an array. The `$value` alias refers to the record being created for each selection. Bindings copy data from `$option` (the selected option) to `$value` (the new record).
+
+<CodeExample code={LookupBindingsMultipleExampleCode}>
+  <LookupBindingsMultipleExample client:load />
+</CodeExample>
+
+## Configuration
+
+| Property | Type      | Description                              |
+| -------- | --------- | ---------------------------------------- |
+| `key`    | `boolean` | Marks the primary key binding (required) |
+| `local`  | `string`  | Destination: store path or `$value.xxx`  |
+| `remote` | `string`  | Source: option field using `$option.xxx` |

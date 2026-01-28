@@ -1,4 +1,4 @@
-import {Md} from '../../../components/Md';
+import { Md } from '../../../components/Md';
 
 import pureContainer from './PureContainer';
 
@@ -65,6 +65,13 @@ export default {
         type: 'boolean',
         description: <cx><Md>
             Set to `true` to move focus to the next field if `Enter` key is pressed.
+        </Md></cx>
+    },
+    asterisk: {
+        key: true,
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to add red asterisk for all required fields inside the group.
         </Md></cx>
     },
 };

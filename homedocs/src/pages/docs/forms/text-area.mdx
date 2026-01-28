@@ -1,0 +1,78 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: TextArea
+description: Multi-line text input field
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import TextAreaExample from "../../../examples/forms/TextAreaExample.tsx";
+import TextAreaExampleCode from "../../../examples/forms/TextAreaExample.tsx?raw";
+
+# TextArea
+
+<ImportPath path="import { TextArea } from 'cx/widgets';" />
+
+The `TextArea` widget is used for multi-line text inputs. It extends `TextField` and inherits most of its properties.
+
+<CodeExample code={TextAreaExampleCode}>
+  <TextAreaExample client:load />
+</CodeExample>
+
+## Configuration
+
+### Core Properties
+
+| Property      | Type      | Default  | Description                                                                                             |
+| ------------- | --------- | -------- | ------------------------------------------------------------------------------------------------------- |
+| `value`       | `string`  | `null`   | Text value of the input                                                                                 |
+| `rows`        | `number`  |          | Number of visible text rows                                                                             |
+| `placeholder` | `string`  |          | Hint text displayed when the field is empty                                                             |
+| `disabled`    | `boolean` | `false`  | Disables the input                                                                                      |
+| `enabled`     | `boolean` |          | Opposite of `disabled`                                                                                  |
+| `readOnly`    | `boolean` | `false`  | Makes the input read-only                                                                               |
+| `required`    | `boolean` | `false`  | Marks the field as required                                                                             |
+| `label`       | `string`  |          | Field label text                                                                                        |
+| `viewMode`    | `boolean` | `false`  | Display as plain text instead of interactive input                                                      |
+| `emptyText`   | `string`  |          | Text shown in view mode when the field is empty                                                         |
+| `reactOn`     | `string`  | `"blur"` | Events that trigger value updates. Options: `"input"`, `"blur"`. Use `"input"` for real-time updates    |
+
+### Validation
+
+| Property                       | Type       | Default                                  | Description                                               |
+| ------------------------------ | ---------- | ---------------------------------------- | --------------------------------------------------------- |
+| `minLength`                    | `number`   |                                          | Minimum allowed text length                               |
+| `maxLength`                    | `number`   |                                          | Maximum allowed text length                               |
+| `minLengthValidationErrorText` | `string`   | `"Enter {[{0}-{1}]} more character(s)."` | Error message when text is too short                      |
+| `maxLengthValidationErrorText` | `string`   | `"Use {0} characters or fewer."`         | Error message when text is too long                       |
+| `validationRegExp`             | `RegExp`   |                                          | Regular expression for validating the input               |
+| `validationErrorText`          | `string`   | `"The entered value is not valid."`      | Error message when regex validation fails                 |
+| `trim`                         | `boolean`  | `false`                                  | Trims whitespace before storing and validating            |
+| `error`                        | `string`   |                                          | Custom error message. Field is marked invalid if set      |
+| `visited`                      | `boolean`  |                                          | If `true`, shows validation errors immediately            |
+| `validationMode`               | `string`   | `"tooltip"`                              | How to show errors: `"tooltip"`, `"help"`, `"help-block"` |
+
+### Appearance
+
+| Property     | Type            | Default | Description                                |
+| ------------ | --------------- | ------- | ------------------------------------------ |
+| `tooltip`    | `string/object` |         | Tooltip text or configuration              |
+| `inputStyle` | `string/object` |         | CSS styles applied to the textarea element |
+| `inputClass` | `string`        |         | CSS class applied to the textarea element  |
+
+### Behavior
+
+| Property     | Type      | Default  | Description                                        |
+| ------------ | --------- | -------- | -------------------------------------------------- |
+| `autoFocus`  | `boolean` | `false`  | Automatically focuses the field on mount           |
+| `trackFocus` | `boolean` | `false`  | Adds `cxs-focus` CSS class when input is focused   |
+| `focused`    | `boolean` |          | Bound value updated when field gains/loses focus   |
+| `tabIndex`   | `string`  |          | Custom tab index                                   |
+| `id`         | `string`  |          | HTML id attribute for the textarea                 |
+
+### Callbacks
+
+| Property     | Type       | Description                                                                     |
+| ------------ | ---------- | ------------------------------------------------------------------------------- |
+| `onValidate` | `function` | `(value, instance, validationParams) => string|undefined` - Custom validation   |

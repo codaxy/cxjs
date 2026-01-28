@@ -1,0 +1,44 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Line
+description: SVG line element
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+import LineExample from "../../../examples/charts/LineExample.tsx";
+import LineExampleCode from "../../../examples/charts/LineExample.tsx?raw";
+
+# Line
+
+<ImportPath path="import { Line } from 'cx/svg';" />
+
+<OnThisPage />
+
+The `Line` component is a CxJS version of the SVG `line` element designed for responsive layouts. The line is always rendered from the **top-left corner** to the **bottom-right corner** of its bounding box.
+
+In CxJS, `Line` is a container element and allows other objects to be rendered within its boundaries, such as `Text`.
+
+<CodeExample code={LineExampleCode}>
+  <LineExample client:load />
+</CodeExample>
+
+## Positioning
+
+Use `anchors` to control where the line appears:
+
+- `anchors="0 1 1 0"` — diagonal from top-left to bottom-right (default, full container)
+- `anchors="0.5 1 0.5 0"` — horizontal line at vertical center
+- `anchors="0 0.5 1 0.5"` — vertical line at horizontal center
+
+## Configuration
+
+| Property     | Type            | Description                                                                       |
+| ------------ | --------------- | --------------------------------------------------------------------------------- |
+| `anchors`    | `string/number` | Position within parent bounds. Format: `"t r b l"`. See [Svg](./svg) for details. |
+| `offset`     | `string/number` | Translate edges in pixels. Format: `"t r b l"`. See [Svg](./svg) for details.     |
+| `margin`     | `string/number` | CSS-like margin. See [Svg](./svg) for details.                                    |
+| `stroke`     | `string`        | Stroke color for the line.                                                        |
+| `colorIndex` | `number`        | Index in the default color palette.                                               |

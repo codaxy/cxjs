@@ -1,0 +1,54 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Searching Tree Grids
+description: Search within tree structures
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import SearchingTreeGridExample from "../../../examples/tables/SearchingTreeGridExample.tsx";
+import SearchingTreeGridExampleCode from "../../../examples/tables/SearchingTreeGridExample.tsx?raw";
+
+# Searching Tree Grids
+
+<ImportPath path="import { findTreeNode } from 'cx/data';" />
+
+Tree grids require special handling for search because a parent node should remain visible if any of its descendants match the search query.
+
+<CodeExample code={SearchingTreeGridExampleCode}>
+  <SearchingTreeGridExample client:load />
+</CodeExample>
+
+Try searching for "Seattle" or "Europe" to see how parent nodes remain visible when children match.
+
+## How It Works
+
+When filtering a flat grid, you simply check if each record matches. With trees, the logic is:
+1. Show a node if it matches the search
+2. Show a parent node if any descendant matches (even if the parent doesn't match)
+3. Hide leaf nodes that don't match
+
+The `findTreeNode` utility recursively searches through a tree to find matching descendants. It takes three arguments:
+- `nodes` - Array of nodes to search
+- `predicate` - Function that returns `true` when a match is found
+- `childrenField` - Name of the property containing child nodes (default: `"$children"`)
+
+Returns the first matching node or `null` if no match is found.
+
+## Performance Considerations
+
+This approach calls the filter function for each node in the tree. For each non-leaf node, it may also traverse the entire subtree to find matches.
+
+For very large trees (thousands of nodes), consider:
+- Server-side filtering that returns only matching branches
+- Caching search results
+- Debouncing the search input
+
+## Configuration
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `filterParams` | `Prop` | Search parameters passed to `onCreateFilter`. |
+| `onCreateFilter` | `function` | Returns a predicate `(node) => boolean` for filtering. |
+| `emptyText` | `string` | Text shown when no nodes match the filter. |

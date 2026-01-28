@@ -1,4 +1,5 @@
 @use "sass:math";
+@use "sass:map";
 
 //THEME SPECIFIC VARIABLES
 // pick theme color scheme
@@ -92,8 +93,8 @@ $cx-default-button-border-width: 1px; //!default;
 $cx-default-button-border-color: lightgray; //!default;
 $cx-default-button-border-radius: $cx-default-border-radius; //!default;
 $cx-default-button-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); //$cx-theme-box-shadow;  //!default; //
-$cx-default-button-padding: $cx-default-box-padding 2 * $cx-default-box-padding + $cx-default-box-line-height -
-   $cx-default-icon-size; //!default;
+$cx-default-button-padding: $cx-default-box-padding 2 *
+   $cx-default-box-padding + $cx-default-box-line-height - $cx-default-icon-size; //!default;
 
 //TAB
 $cx-default-tab-color: $cx-default-color-light; //!default;
@@ -103,7 +104,8 @@ $cx-default-tab-background-color: transparent; //!default;
 $cx-default-tab-border-width: 0; //!default;
 $cx-default-tab-border-color: transparent; //!default;
 $cx-default-tab-border-radius: $cx-default-border-radius; //!default;
-$cx-default-tab-padding: $cx-default-box-padding 2 * $cx-default-box-padding + 10px; //!default;
+$cx-default-tab-padding: $cx-default-box-padding 2 * $cx-default-box-padding +
+   10px; //!default;
 
 //SCROLLER
 $cx-default-scroller-button-size: 30px; //!default;
@@ -123,9 +125,12 @@ $cx-default-window-header-font-size: 18px; //!default;
 $cx-default-window-header-color: $cx-theme-primary-text-color; //!default;
 $cx-default-window-header-background-color: $cx-default-background-color; //!default;
 
+$cx-default-window-body-padding: 10px 20px 10px 20px !default;
+
 //TOAST
 $cx-default-toast-box-shadow: $cx-theme-box-shadow-elevated; //!default;
-$cx-default-toast-padding: 2 * $cx-default-box-padding 2 * $cx-default-box-padding; //!default;
+$cx-default-toast-padding: 2 * $cx-default-box-padding 2 *
+   $cx-default-box-padding; //!default;
 
 //GRID
 $cx-default-grid-font-size: $cx-default-box-font-size - 1px; //!default;
@@ -137,17 +142,22 @@ $cx-default-grid-header-font-size: $cx-default-box-font-size - 3px; //!default;
 $cx-default-grid-header-font-weight: 700; //!default;
 $cx-default-grid-header-line-height: $cx-default-box-line-height; //!default;
 $cx-default-grid-header-color: $cx-default-color; //!default;
-$cx-default-grid-header-background-color: lighten($cx-default-button-background-color, 1); //!default;
+$cx-default-grid-header-background-color: lighten(
+   $cx-default-button-background-color,
+   1
+); //!default;
 $cx-default-grid-header-border-color: $cx-default-grid-border-color; //!default;
 $cx-default-grid-header-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06); //!default;
-$cx-default-grid-header-padding: $cx-default-box-padding 1.5 * $cx-default-box-padding; //!default;
+$cx-default-grid-header-padding: $cx-default-box-padding 1.5 *
+   $cx-default-box-padding; //!default;
 
 // data
 //$cx-default-grid-data-font-size: 25px;  //!default;
 //$cx-default-grid-data-font-weight: 500;  //!default;
 //$cx-default-grid-data-border-color: transparent;  //!default;//lighten($cx-default-border-color, 5);  //!default;
 $cx-default-grid-data-background-color: #fff; //!default;
-$cx-default-grid-data-padding: $cx-default-box-padding 1.5 * $cx-default-box-padding; //!default;
+$cx-default-grid-data-padding: $cx-default-box-padding 1.5 *
+   $cx-default-box-padding; //!default;
 $cx-default-grid-data-line-height: $cx-default-box-line-height;
 
 //FORM
@@ -253,7 +263,10 @@ $cx-default-progressbar-color: $cx-default-color; //!default;
 $cx-default-progressbar-background-color: $cx-default-border-color-light; //!default;
 $cx-default-progressbar-border-width: 0; //!default;
 
-$cx-default-progressbar-indicator-background-color: rgba($cx-theme-primary-color, 0.6); //!default;
+$cx-default-progressbar-indicator-background-color: rgba(
+   $cx-theme-primary-color,
+   0.6
+); //!default;
 
 //list
 $cx-default-list-item-padding: 8px 12px; //!default;

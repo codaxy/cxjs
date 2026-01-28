@@ -1,0 +1,47 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: HtmlElement
+description: Base component for rendering HTML elements with bindings
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+import HtmlElementExample from "../../../examples/intro/HtmlElementExample.tsx";
+import HtmlElementExampleCode from "../../../examples/intro/HtmlElementExample.tsx?raw";
+
+# HtmlElement
+
+<ImportPath path="import { HtmlElement } from 'cx/widgets';" />
+
+<OnThisPage />
+
+The `HtmlElement` widget renders HTML elements with CxJS data binding support. The CxJS JSX runtime automatically converts all lowercase elements (like `div`, `span`, `p`) to `HtmlElement` instances with the corresponding `tag` property set.
+
+You can also use `HtmlElement` directly when you need to specify the tag dynamically or prefer explicit syntax.
+
+HTML elements can be freely mixed with CxJS widgets like `TextField`, allowing you to build forms and layouts that combine standard HTML with rich interactive components.
+
+<CodeExample code={HtmlElementExampleCode}>
+  <HtmlElementExample client:load />
+</CodeExample>
+
+## Key Features
+
+- Lowercase JSX elements are automatically converted to `HtmlElement` by the JSX runtime
+- All standard HTML attributes and events work as expected
+- CxJS-specific attributes like `visible`, `layout`, `controller` are supported
+- Use `text` prop with `tpl()` for data-bound text content
+- Mix freely with CxJS widgets
+
+## Configuration
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `tag` | `string` | Name of the HTML element to render. Default is `div`. |
+| `text` / `innerText` | `string` | Inner text contents. |
+| `innerHtml` / `html` | `string` | HTML to be injected into the element. |
+| `tooltip` | `string \| object` | Tooltip configuration. |
+| `autoFocus` | `boolean` | Set to `true` to automatically focus the element when mounted. |
+| `baseClass` | `string` | Base CSS class to be applied to the element. |

@@ -1,0 +1,62 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: List
+description: Selectable list of items
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+import ListExample from "../../../examples/forms/ListExample.tsx";
+import ListExampleCode from "../../../examples/forms/ListExample.tsx?raw";
+
+# List
+
+<ImportPath path="import { List } from 'cx/widgets';" />
+
+<OnThisPage />
+
+The `List` widget displays a collection of items and offers navigation and selection. It supports keyboard navigation, single or multiple selection, grouping, and sorting.
+
+<CodeExample code={ListExampleCode}>
+  <ListExample client:load />
+</CodeExample>
+
+## Configuration
+
+### Core Properties
+
+| Property       | Type      | Default     | Description                                              |
+| -------------- | --------- | ----------- | -------------------------------------------------------- |
+| `records`      | `array`   |             | Array of records to display                              |
+| `recordAlias`  | `string`  | `"$record"` | Alias used to expose record data in templates            |
+| `indexAlias`   | `string`  | `"$index"`  | Alias used to expose record index                        |
+| `emptyText`    | `string`  |             | Text displayed when the list is empty                    |
+| `selection`    | `config`  |             | Selection configuration. See [Selections](/docs/concepts/selections) |
+
+### Sorting
+
+| Property        | Type     | Description                                                |
+| --------------- | -------- | ---------------------------------------------------------- |
+| `sortField`     | `string` | Binding to store the field name used for sorting           |
+| `sortDirection` | `string` | Binding to store sort direction (`"ASC"` or `"DESC"`)      |
+| `sorters`       | `array`  | Array of `{ field, direction }` objects for complex sorting |
+| `sortOptions`   | `object` | Options for `Intl.Collator` sorting                        |
+
+### Appearance
+
+| Property    | Type            | Description                              |
+| ----------- | --------------- | ---------------------------------------- |
+| `itemStyle` | `string/object` | CSS style applied to all list items      |
+| `itemClass` | `string/object` | CSS class applied to all list items      |
+| `grouping`  | `config`        | Grouping configuration for organizing items |
+
+### Behavior
+
+| Property                  | Type      | Default | Description                                           |
+| ------------------------- | --------- | ------- | ----------------------------------------------------- |
+| `scrollSelectionIntoView` | `boolean` | `false` | Auto-scroll selected item into view                   |
+| `itemDisabled`            | `boolean` |         | Disable specific items                                |
+| `selectMode`              | `boolean` | `false` | Selection without cursor navigation                   |
+| `selectOnTab`             | `boolean` | `false` | Tab key selects item under cursor                     |

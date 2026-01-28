@@ -1,0 +1,50 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Infinite Lookup List
+description: Load options on scroll
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+
+import InfiniteLookupListExample from "../../../examples/forms/InfiniteLookupListExample.tsx";
+import InfiniteLookupListExampleCode from "../../../examples/forms/InfiniteLookupListExample.tsx?raw";
+
+# Infinite Lookup List
+
+When the list of options is too large to load at once, use the `infinite` flag to enable paged loading. As the user scrolls, additional pages are fetched automatically.
+
+<CodeExample code={InfiniteLookupListExampleCode}>
+  <InfiniteLookupListExample client:load />
+</CodeExample>
+
+## How It Works
+
+With `infinite` enabled, use `onQueryPage` instead of `onQuery`. The callback receives paged query parameters:
+
+```tsx
+class PageController extends Controller {
+  onQueryPage({ query, pageSize, page }: { query: string; pageSize: number; page: number }) {
+    // query - the search text
+    // pageSize - number of items per page
+    // page - current page number (1-based)
+    return fetchFromServer(query, page, pageSize);
+  }
+}
+
+<LookupField
+  onQueryPage={(params, instance) => instance.getControllerByType(PageController).onQueryPage(params)}
+  infinite
+  pageSize={50}
+/>
+```
+
+The LookupField monitors scroll position and requests the next page when the user scrolls near the end.
+
+## Configuration
+
+| Property         | Type      | Default | Description                                |
+| ---------------- | --------- | ------- | ------------------------------------------ |
+| `infinite`       | `boolean` | `false` | Enable infinite scrolling                  |
+| `pageSize`       | `number`  | `100`   | Number of items per page                   |
+| `queryDelay`     | `number`  | `150`   | Delay (ms) before querying after typing    |
+| `minQueryLength` | `number`  | `0`     | Minimum characters required to trigger query |

@@ -1,0 +1,86 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Window
+description: Modal dialog window
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+import WindowExample from "../../../examples/layout/WindowExample.tsx";
+import WindowExampleCode from "../../../examples/layout/WindowExample.tsx?raw";
+
+import WindowProgrammaticExample from "../../../examples/layout/WindowProgrammaticExample.tsx";
+import WindowProgrammaticExampleCode from "../../../examples/layout/WindowProgrammaticExample.tsx?raw";
+
+# Window
+
+<ImportPath path="import { Window } from 'cx/widgets';" />
+
+<OnThisPage />
+
+Windows are overlays with headers, footers, and special appearance. They provide a familiar dialog-like experience for displaying forms, messages, or complex content.
+
+<CodeExample code={WindowExampleCode}>
+  <WindowExample client:load />
+</CodeExample>
+
+Use `putInto="footer"` or `putInto="header"` to place content in the window footer or header. Add the `dismiss` prop to buttons that should close the window.
+
+## Programmatic Windows
+
+Windows can also be opened programmatically using `Widget.create` and the `open` method. This approach creates an independent window with its own store:
+
+<CodeExample code={WindowProgrammaticExampleCode}>
+  <WindowProgrammaticExample client:load />
+</CodeExample>
+
+### Hot Module Replacement (HMR)
+
+Programmatic windows have issues with HMR during development - changes to the window content won't reflect until you close and reopen the window. Use `createHotPromiseWindowFactory` or `createHotPromiseWindowFactoryWithProps` to solve this:
+
+```tsx
+import { createHotPromiseWindowFactoryWithProps, Window, Button } from "cx/widgets";
+
+const openUserDialog = createHotPromiseWindowFactoryWithProps(
+  module,
+  (userId: string) => (resolve, reject) => {
+    let result = null;
+    return Window.create({
+      title: `User ${userId}`,
+      onDestroy: () => resolve(result),
+      children: (
+        <div>
+          <p>Edit user details here...</p>
+          <Button onClick={() => { result = "saved"; }} dismiss>
+            Save
+          </Button>
+        </div>
+      ),
+    });
+  }
+);
+
+// Usage
+const result = await openUserDialog("123");
+```
+
+The factory returns a Promise that resolves when the window is closed, making it easy to get results back from dialog windows.
+
+## Configuration
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `title` | `string` | Text displayed in the header. |
+| `header` | `object` | Custom Cx component for advanced headers. |
+| `visible` | `boolean` | Controls window visibility. |
+| `modal` | `boolean` | Adds a backdrop that masks mouse events for the rest of the page. |
+| `backdrop` | `boolean` | Adds a backdrop that dismisses the window when clicked. |
+| `center` | `boolean` | Centers the window on the page. |
+| `draggable` | `boolean` | Enables dragging the window by its header. |
+| `resizable` | `boolean` | Enables window resizing. |
+| `closable` | `boolean` | Controls close button visibility. Defaults to `true`. |
+| `closeOnEscape` | `boolean` | Closes the window when Escape key is pressed. |
+| `fixed` | `boolean` | Disables moving the window by dragging the header. |
+| `pad` | `boolean` | Adds default padding to the window body. |

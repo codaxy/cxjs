@@ -1,3 +1,5 @@
+@use "sass:math";
+
 html {
    height: 100%;
 }
@@ -5,14 +7,13 @@ html {
 body {
    margin: 0;
    height: 100%;
-   font-family: 'Open Sans', sans-serif;
+   font-family: "Open Sans", sans-serif;
    font-size: 14px;
 }
 
 #app {
    height: 100%;
 }
-
 
 a {
    text-decoration: none;
@@ -23,18 +24,21 @@ a {
 
 $cx-theme-primary-color: $master-theme-color;
 
-@import '~cx-theme-aquamarine/src/variables.scss';
-@import '~cx-theme-aquamarine/src/index.scss';
+@import "~cx-theme-aquamarine/src/variables.scss";
 
-@import 'components/index';
-@import 'routes/login/index';
-@import 'routes/default/index';
-@import 'routes/preview/index';
+@function cx-divide($a, $b) {
+   @return math.div($a, $b);
+}
+
+@import "~cx-theme-aquamarine/src/index.scss";
+
+@import "components/index";
+@import "routes/login/index";
+@import "routes/default/index";
+@import "routes/preview/index";
 
 .cxb-submenu {
    .cxb-menu {
       min-width: 150px;
    }
 }
-
-

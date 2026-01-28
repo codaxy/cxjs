@@ -1,0 +1,59 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Label
+description: Form field label
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import LabelExample from "../../../examples/forms/LabelExample.tsx";
+import LabelExampleCode from "../../../examples/forms/LabelExample.tsx?raw";
+
+import LabelCheckboxExample from "../../../examples/forms/LabelCheckboxExample.tsx";
+import LabelCheckboxExampleCode from "../../../examples/forms/LabelCheckboxExample.tsx?raw";
+
+# Label
+
+<ImportPath path="import { Label } from 'cx/widgets';" />
+
+The `Label` component renders a label element. It's typically used with form fields, but can also be used standalone.
+
+<CodeExample code={LabelExampleCode}>
+  <LabelExample client:load />
+</CodeExample>
+
+## Form Field Labels
+
+Most form fields support a `label` prop that can be configured in multiple ways:
+
+| Format | Example                                  | Description               |
+| ------ | ---------------------------------------- | ------------------------- |
+| String | `label="Name"`                           | Simple text label         |
+| Object | `label={{ text: "Name", style: "..." }}` | Label with custom styling |
+| JSX    | `label={<Checkbox>Enable</Checkbox>}`    | Custom JSX content        |
+
+Use `asterisk` and `required` on form fields to show a required indicator next to the label.
+
+To automatically show asterisks on all required fields, add this to your initialization code:
+
+```tsx
+Label.prototype.asterisk = true;
+```
+
+The following example shows a styled label and a checkbox used as a label that enables/disables the field:
+
+<CodeExample code={LabelCheckboxExampleCode}>
+  <LabelCheckboxExample client:load />
+</CodeExample>
+
+## Configuration
+
+| Property    | Type               | Description                                              |
+| ----------- | ------------------ | -------------------------------------------------------- |
+| `text`      | `string`           | Text content of the label. Supports data binding.        |
+| `asterisk`  | `boolean`          | Set to `true` to add a red asterisk for required fields. |
+| `required`  | `boolean`          | Alias for `asterisk`.                                    |
+| `baseClass` | `string`           | Base CSS class. Default is `label`.                      |
+| `className` | `string`           | Additional CSS class to apply.                           |
+| `style`     | `string \| object` | Additional styles to apply.                              |

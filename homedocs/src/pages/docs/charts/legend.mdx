@@ -1,0 +1,38 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Legend
+description: Chart legend for series identification
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import LegendExample from "../../../examples/charts/LegendExample.tsx";
+import LegendExampleCode from "../../../examples/charts/LegendExample.tsx?raw";
+
+# Legend
+
+<ImportPath path="import { Legend, LegendEntry } from 'cx/charts';" />
+
+The `Legend` component displays an index of chart elements. Chart components like `LineGraph`, `ColumnGraph`, and `PieSlice` automatically register with the legend when they have a `name` property.
+
+Click on legend entries to toggle visibility of the corresponding series. This requires binding the `active` property on chart components.
+
+<CodeExample code={LegendExampleCode}>
+  <LegendExample client:load />
+</CodeExample>
+
+When multiple charts are on the same page, use `Legend.Scope` to prevent legends from interfering with each other.
+
+## Configuration
+
+| Property      | Type            | Description                                                                  |
+| ------------- | --------------- | ---------------------------------------------------------------------------- |
+| `vertical`    | `boolean`       | Set to `true` for vertical layout.                                           |
+| `shape`       | `string`        | Shape of the symbol in legend entries (`circle`, `square`, `triangle`, etc). |
+| `showValues`  | `boolean`       | Set to `true` to show values in the legend.                                  |
+| `valueFormat` | `string`        | Format string for legend entry values. Default is `"s"`.                     |
+| `entryClass`  | `string/object` | Additional CSS classes for legend entry elements.                            |
+| `entryStyle`  | `string/object` | Additional CSS styles for legend entry elements.                             |
+| `valueClass`  | `string/object` | Additional CSS classes for legend entry values.                              |
+| `valueStyle`  | `string/object` | Additional CSS styles for legend entry values.                               |

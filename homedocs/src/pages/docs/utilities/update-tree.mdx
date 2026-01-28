@@ -1,0 +1,110 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: updateTree
+description: Immutably update tree nodes
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+# updateTree
+
+<ImportPath path="import { updateTree } from 'cx/data';" />
+<OnThisPage />
+
+Recursively updates nodes in a tree structure that match a filter.
+Returns a new tree with updated nodes, or the original tree if no changes were made.
+
+```tsx
+const updated = updateTree(
+  array,
+  updateCallback,
+  itemFilter,
+  childrenField,
+  removeFilter,
+);
+```
+
+| Argument         | Type                           | Description                                                                       |
+| ---------------- | ------------------------------ | --------------------------------------------------------------------------------- |
+| `array`          | `T[]`                          | Tree data array to update.                                                        |
+| `updateCallback` | `(node: T) => T`               | Function that receives a node and returns the updated node.                       |
+| `itemFilter`     | `(node: T) => boolean \| null` | Predicate returning `true` for nodes to update. If `null`, all nodes are updated. |
+| `childrenField`  | `keyof T`                      | Name of the property containing child nodes.                                      |
+| `removeFilter`   | `(node: T) => boolean`         | Optional predicate returning `true` for nodes to remove.                          |
+
+**Returns:** A new tree with updates applied, or the original array if unchanged.
+
+## Examples
+
+### Expand all folders
+
+```tsx
+updateTree(
+  data,
+  (node) => ({ ...node, $expanded: true }),
+  (node) => !node.$leaf,
+  "$children",
+);
+```
+
+### Collapse all folders
+
+```tsx
+updateTree(
+  data,
+  (node) => ({ ...node, $expanded: false }),
+  (node) => !node.$leaf,
+  "$children",
+);
+```
+
+### Rename a node
+
+```tsx
+updateTree(
+  data,
+  (node) => ({ ...node, name: newName }),
+  (node) => node.id === targetId,
+  "$children",
+);
+```
+
+### Add child to a node
+
+```tsx
+updateTree(
+  data,
+  (node) => ({
+    ...node,
+    $expanded: true,
+    $children: [...(node.$children || []), newChild],
+  }),
+  (node) => node.id === parentId,
+  "$children",
+);
+```
+
+### Update all nodes
+
+Pass `null` as the filter to update every node in the tree:
+
+```tsx
+updateTree(data, (node) => ({ ...node, visited: true }), null, "$children");
+```
+
+### Update and remove in one pass
+
+Use `removeFilter` to remove nodes while updating others:
+
+```tsx
+updateTree(
+  data,
+  (node) => ({ ...node, $expanded: true }),
+  (node) => !node.$leaf,
+  "$children",
+  (node) => node.deleted, // Remove nodes marked as deleted
+);
+```
+
+See also: [findTreeNode](/docs/utilities/find-tree-node), [removeTreeNodes](/docs/utilities/remove-tree-nodes), [Tree Operations](/docs/tables/tree-operations)

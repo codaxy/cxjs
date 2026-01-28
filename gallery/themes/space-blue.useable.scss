@@ -1,6 +1,8 @@
 $cx-include-global-rules: true;
 
 @import "../../packages/cx-theme-space-blue/src/variables";
+@import "./util/divide.scss";
+
 @import "../../packages/cx-theme-space-blue/src/index";
 
 @import "./util/customize-master";
@@ -10,4 +12,4 @@ $cx-include-global-rules: true;
    $brand-highlight-color: $cx-default-background-color-lighter,
    $sidebar-background-color: rgba(0, 0, 0, 0.3),
    $sidebar-active-link-color: rgba(255, 255, 255, 0.8)
-)
+);

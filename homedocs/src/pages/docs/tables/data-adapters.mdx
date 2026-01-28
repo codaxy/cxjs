@@ -1,0 +1,27 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Data Adapters
+description: Transform data for grid display
+---
+
+# Data Adapters
+
+Data adapters transform raw data into formats that can be consumed by components like Grid, List, and Repeater. They handle operations such as sorting, grouping, and tree structure management.
+
+## Comparison
+
+| Adapter | Purpose | Use case |
+| ------- | ------- | -------- |
+| [ArrayAdapter](/docs/tables/array-adapter) | Handles flat lists with sorting and mapping | Simple repeated content |
+| [GroupAdapter](/docs/tables/group-adapter) | Groups records with headers, footers, and aggregates | Grouped lists, category views |
+| [TreeAdapter](/docs/tables/tree-adapter) | Manages hierarchical data with expand/collapse | Tree grids, file browsers |
+
+Grid and List use GroupAdapter by default, while Repeater uses ArrayAdapter.
+
+## How to Choose
+
+Use [ArrayAdapter](/docs/tables/array-adapter) for simple repeated content without grouping. It's the default adapter for Repeater.
+
+Use [GroupAdapter](/docs/tables/group-adapter) for grids and lists. It's the default for Grid and List components and supports grouping records by one or more fields, displaying group headers and footers, and calculating aggregates like counts or sums.
+
+Use [TreeAdapter](/docs/tables/tree-adapter) for hierarchical data with parent-child relationships. It manages expansion state and supports lazy loading of child nodes.

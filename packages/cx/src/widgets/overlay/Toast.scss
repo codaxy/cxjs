@@ -1,3 +1,4 @@
+@use "sass:map";
 @use "sass:math";
 @use "../../util/scss/add-rules.scss" as *;
 @use "../../util/scss/clockwise.scss" as *;
@@ -9,10 +10,10 @@
 @use "./maps.scss" as *;
 
 @mixin cx-toast($name: "toast", $besm: $cx-besm, $mods: $cx-toast-mods) {
-   $block: map-get($besm, block);
-   $element: map-get($besm, element);
-   $state: map-get($besm, state);
-   $mod: map-get($besm, mod);
+   $block: map.get($besm, block);
+   $element: map.get($besm, element);
+   $state: map.get($besm, state);
+   $mod: map.get($besm, mod);
 
    .#{$block}#{$name} {
       color: $cx-default-toast-color;
@@ -98,9 +99,9 @@
 }
 
 @mixin cx-toaster($name: "toaster", $besm: $cx-besm) {
-   $block: map-get($besm, block);
-   $element: map-get($besm, element);
-   $state: map-get($besm, state);
+   $block: map.get($besm, block);
+   $element: map.get($besm, element);
+   $state: map.get($besm, state);
 
    .#{$block}#{$name} {
       position: fixed;

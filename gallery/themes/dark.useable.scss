@@ -1,6 +1,7 @@
 $cx-include-global-rules: true;
 
 @import "~cx-theme-dark/src/variables";
+@import "./util/divide.scss";
 @import "~cx-theme-dark/src/index";
 
 @import "./util/customize-master";
@@ -11,4 +12,4 @@ $cx-include-global-rules: true;
    $sidebar-background-color: rgba(0, 0, 0, 0.2),
    $sidebar-link-color: rgba(255, 255, 255, 0.6),
    $sidebar-active-link-color: rgba(255, 255, 255, 0.8)
-)
+);

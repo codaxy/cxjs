@@ -38,6 +38,14 @@ export default {
         </Md></cx>
     },
 
+    borderRadius: {
+        key: true,
+        type: 'number',
+        description: <cx><Md>
+            Border radius of the column/bar. Default `0`
+        </Md></cx>
+    },
+
     offset: {
         key: true,
         type: 'number',

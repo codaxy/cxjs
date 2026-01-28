@@ -1,0 +1,31 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: ValidationError
+description: Display validation error messages
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import ValidationErrorExample from "../../../examples/forms/ValidationErrorExample.tsx";
+import ValidationErrorExampleCode from "../../../examples/forms/ValidationErrorExample.tsx?raw";
+
+# ValidationError
+
+<ImportPath path="import { ValidationError } from 'cx/widgets';" />
+
+The `ValidationError` widget displays the validation error message from the nearest `Validator` in the component tree. It renders as a `<label>` element linked to the invalid field, allowing users to click on the error to focus the field.
+
+<CodeExample code={ValidationErrorExampleCode}>
+  <ValidationErrorExample client:load />
+</CodeExample>
+
+## Configuration
+
+### Properties
+
+| Property | Type     | Description                                        |
+| -------- | -------- | -------------------------------------------------- |
+| `class`  | `string` | CSS class names to apply to the error label        |
+| `style`  | `object` | Inline styles to apply to the error label          |
+

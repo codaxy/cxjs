@@ -1,0 +1,151 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Controllers
+description: Encapsulate business logic and computed values
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+import ControllerBasicsExample from "../../../examples/intro/ControllerBasicsExample.tsx";
+import ControllerBasicsExampleCode from "../../../examples/intro/ControllerBasicsExample.tsx?raw";
+import ControllerTypedExample from "../../../examples/intro/ControllerTypedExample.tsx";
+import ControllerTypedExampleCode from "../../../examples/intro/ControllerTypedExample.tsx?raw";
+import ControllerInlineExample from "../../../examples/intro/ControllerInlineExample.tsx";
+import ControllerInlineExampleCode from "../../../examples/intro/ControllerInlineExample.tsx?raw";
+
+# Controllers
+
+<ImportPath path="import { Controller } from 'cx/ui';" />
+
+<OnThisPage />
+
+Controllers contain the business logic for your views. They handle data initialization, event callbacks, computed values, and reactions to data changes.
+
+## Creating a Controller
+
+Extend the `Controller` class and attach it to a widget using the `controller` property. The controller has access to the store and can define methods that widgets call:
+
+<CodeExample code={ControllerBasicsExampleCode}>
+  <ControllerBasicsExample client:load />
+</CodeExample>
+
+The controller's methods are available to all widgets within its scope. In event handlers, access the controller through the second parameter.
+
+## Inline Controllers
+
+For simple cases, define a controller inline using an object:
+
+<CodeExample code={ControllerInlineExampleCode}>
+  <ControllerInlineExample client:load />
+</CodeExample>
+
+The inline form supports lifecycle methods and controller features like `addTrigger` and `addComputable`.
+
+## Lifecycle Methods
+
+Controllers have lifecycle methods that run at specific times:
+
+| Method        | Description                                                                      |
+| ------------- | -------------------------------------------------------------------------------- |
+| `onInit()`    | Runs once when the controller is created. Use for data initialization and setup. |
+| `onExplore()` | Runs on every render cycle during the explore phase.                             |
+| `onDestroy()` | Runs when the controller is destroyed. Use for cleanup (timers, subscriptions).  |
+
+```tsx
+class PageController extends Controller {
+  timer: number;
+
+  onInit() {
+    // Initialize data
+    this.store.init(m.count, 0);
+
+    // Start a timer
+    this.timer = window.setInterval(() => {
+      this.store.update(m.count, (c) => c + 1);
+    }, 1000);
+  }
+
+  onDestroy() {
+    // Clean up
+    window.clearInterval(this.timer);
+  }
+}
+```
+
+## Typed Controller Access
+
+Use `getControllerByType` to get a typed reference to a controller. This provides full autocomplete and compile-time type checking:
+
+<CodeExample code={ControllerTypedExampleCode}>
+  <ControllerTypedExample client:load />
+</CodeExample>
+
+The `getControllerByType` method searches up the widget tree and returns a typed controller instance.
+
+## Triggers
+
+Triggers watch store paths and run callbacks when values change. Use `addTrigger` in `onInit`:
+
+```tsx
+class PageController extends Controller {
+  onInit() {
+    this.addTrigger(
+      "selection-changed",
+      [m.selectedId],
+      (selectedId) => {
+        if (selectedId) {
+          this.loadDetails(selectedId);
+        }
+      },
+      true,
+    ); // true = run immediately
+  }
+
+  async loadDetails(id: string) {
+    let data = await fetch(`/api/items/${id}`).then((r) => r.json());
+    this.store.set(m.details, data);
+  }
+}
+```
+
+The trigger name allows you to remove it later with `removeTrigger("selection-changed")`.
+
+## Computables
+
+Add computed values that automatically update when dependencies change:
+
+```tsx
+class PageController extends Controller {
+  onInit() {
+    this.addComputable(m.fullName, [m.firstName, m.lastName], (first, last) => {
+      return `${first || ""} ${last || ""}`.trim();
+    });
+
+    this.addComputable(m.total, [m.items], (items) => {
+      return items?.reduce((sum, item) => sum + item.price, 0) || 0;
+    });
+  }
+}
+```
+
+The first argument is the store path where the result is written. The computed value updates whenever any dependency changes.
+
+## Accessing Parent Controllers
+
+Use `getParentControllerByType` to get a typed reference to a parent controller:
+
+```tsx
+class ChildController extends Controller {
+  onSave() {
+    let parent = this.getParentControllerByType(PageController);
+    parent.saveChild(this.getData());
+  }
+}
+```
+
+This provides full type safety and autocomplete. For dynamic method invocation by name, use `invokeParentMethod`:
+
+```tsx
+this.invokeParentMethod("onSave", this.getData());
+```

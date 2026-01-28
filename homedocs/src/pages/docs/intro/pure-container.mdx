@@ -1,0 +1,41 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: PureContainer
+description: Invisible container for grouping child components
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+import PureContainerExample from "../../../examples/intro/PureContainerExample.tsx";
+import PureContainerExampleCode from "../../../examples/intro/PureContainerExample.tsx?raw";
+
+# PureContainer
+
+<ImportPath path="import { PureContainer } from 'cx/ui';" />
+
+<OnThisPage />
+
+`PureContainer` groups multiple widgets together without adding any HTML markup to the DOM. This is useful when you need to control visibility or apply a layout to a group of elements.
+
+<CodeExample code={PureContainerExampleCode}>
+  <PureContainerExample client:load />
+</CodeExample>
+
+## Common Use Cases
+
+- Toggle visibility of multiple widgets at once using `visible`
+- Apply a shared `layout` to a group of form fields
+- Base class for other CxJS components like `ValidationGroup`, `Repeater`, and `Route`
+
+## Configuration
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `visible` | `boolean` | Controls visibility of all children. |
+| `layout` | `string \| object` | Inner layout applied to children. |
+| `items` / `children` | `array` | List of child elements. |
+| `controller` | `object` | Controller instance for this container. |
+| `trimWhitespace` | `boolean` | Remove whitespace in text children. Default is `true`. |
+| `preserveWhitespace` / `ws` | `boolean` | Keep whitespace in text children. Default is `false`. |

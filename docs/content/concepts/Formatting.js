@@ -1,204 +1,241 @@
-import {Content, HtmlElement, Checkbox, TextField, Select, Option, Repeater, Text, Tab} from 'cx/widgets';
-import {Controller} from 'cx/ui';
-import {Md} from '../../components/Md';
-import {CodeSplit} from '../../components/CodeSplit';
-import {CodeSnippet} from '../../components/CodeSnippet';
-import {ConfigTable} from '../../components/ConfigTable';
-import {ImportPath} from '../../components/ImportPath';
+import { Content, Tab, NumberField, LabeledContainer, DateField, TextField } from 'cx/widgets';
+import { Md } from '../../components/Md';
+import { CodeSplit } from '../../components/CodeSplit';
+import { CodeSnippet } from '../../components/CodeSnippet';
+import { ConfigTable } from '../../components/ConfigTable';
+import { ImportPath } from '../../components/ImportPath';
+import { Controller, LabelsTopLayout } from 'cx/ui';
+import configs from "./configs/Formatting";
 
-const formats = {
-    "string": {
-        alias: 's',
-        description: <cx><Md>
-            Default format. Convert any value to string using the `toString()` method.
-        </Md></cx>
-    },
-    "number": {
-        alias: "n",
-        description: <cx><Md>
-            Number formatting.
+class FormattingController extends Controller {
+    onInit() {
+        this.store.set("$page.value", 3.14159);
+        this.store.set("$page.person.name", "John");
+        this.store.set("$page.person.dateOfBirth", new Date());
+        this.store.set("$page.person.height", 180);
+    }
+}
 
-            `n;decimalPrecision`
+export const Formatting = (
+    <cx>
+        <div controller={FormattingController}>
+            <Md>
+                # Formatting
+                <ImportPath path="import { Format } from 'cx/util';" />
 
-            `n;minPrecision;maxPrecision`
+                Cx offers rich support for value formatting.
 
+                You may use `Format.value(value, format)` function to format single values.
 
-        </Md></cx>
-    }, currency: {
-        description: <cx><Md>
-            Currency formatting. Formatting is done using the
-            [`Intl.NumberFormat`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat)
-            class provided
-            by the browser. It's required to use a polyfill if your browser doesn't support `Intl` (e.g. older versions of Safari).
+                Formats are supported in data expressions and string templates.
 
-            `currency;currencyCode;decimalPrecision`
+                <CodeSplit>
+                    <div class="widgets">
+                        <div>
+                            <LabelsTopLayout columns={2}>
+                                <NumberField value-bind="$page.value" label="Value" />
+                                <div />
+                                <LabeledContainer label="Max two decimals">
+                                    <div text-tpl="{$page.value:n;0;2}" />
+                                </LabeledContainer>
+                                <LabeledContainer label="Compact (1M, 1k)">
+                                    <div text-tpl="{$page.value:n;0;4;c}" />
+                                </LabeledContainer>
+                                <LabeledContainer label="Currency (default)">
+                                    <div text-tpl="{$page.value:currency}" />
+                                </LabeledContainer>
+                                <LabeledContainer label="Currency USD, two decimals">
+                                    <div text-tpl="{$page.value:currency;USD;2}" />
+                                </LabeledContainer>
+                                <LabeledContainer label="Currency EUR, no decimals">
+                                    <div text-tpl="{$page.value:currency;EUR;0}" />
+                                </LabeledContainer>
+                                <LabeledContainer label="Accounting format">
+                                    <div text-tpl="{$page.value:currency;USD;1;2;+ac}" />
+                                </LabeledContainer>
+                                <LabeledContainer label="Percentage">
+                                    <div text-tpl="{$page.value:p;0;2;}" />
+                                </LabeledContainer>
+                                <LabeledContainer label="Percentage sign">
+                                    <div text-tpl="{$page.value:ps;0;2;}" />
+                                </LabeledContainer>
+                            </LabelsTopLayout>
+                            <hr />
+                            <LabelsTopLayout columns={2}>
+                                <DateField value-bind="$page.person.dateOfBirth" label="Date of Birth" />
+                                <div />
+                                <LabeledContainer label="MM/dd/yyyy format (default)">
+                                    <div text-tpl="{$page.person.dateOfBirth:d}" />
+                                </LabeledContainer>
+                                <LabeledContainer label="M/d/yy format">
+                                    <div text-tpl="{$page.person.dateOfBirth:d;yyMd}" />
+                                </LabeledContainer>
+                                <LabeledContainer label="Short day name, M/d/yyyy">
+                                    <div text-tpl="{$page.person.dateOfBirth:d;DDDyyyyMd}" />
+                                </LabeledContainer>
+                                <LabeledContainer label="Full day name, MMM dd, yyyy">
+                                    <div text-tpl="{$page.person.dateOfBirth:d;DDDDyyyyMMMdd}" />
+                                </LabeledContainer>
+                                <LabeledContainer label="Full day name, MMMM dd, yyyy">
+                                    <div text-tpl="{$page.person.dateOfBirth:d;DDDDyyyyMMMMdd}" />
+                                </LabeledContainer>
+                            </LabelsTopLayout>
+                            <hr />
+                            <LabelsTopLayout columns={2} style="margin-top: -10px">
+                                <LabelsTopLayout columns={1}>
+                                    <TextField value-bind="$page.person.name" label="Enter your name" maxLength={20} />
+                                    <div text-tpl='{[fmt({$page.person.name}, "prefix;Hi :suffix;. Nice to meet you!")]}' />
+                                </LabelsTopLayout>
+                                <LabelsTopLayout columns={1}>
+                                    <NumberField value-bind="$page.person.height" label="Enter your height in cm" />
+                                    <div text-tpl="Your height is {$page.person.height:suffix; cm.|N/A.}" />
+                                </LabelsTopLayout>
+                            </LabelsTopLayout>
+                        </div>
+                    </div>
 
-            `currency;currencyCode;minPrec;maxPrec`
-        </Md></cx>
-    },
-    percentage: {
-        alias: 'p',
-        description: <cx><Md>
-            Percentage. Please note that the given number will be multiplied with 100.
-        </Md></cx>
-    },
-    "percentSign": {
-        alias: 'ps',
-        description: <cx><Md>
-            Percentage sign. Only percentage sign will be appended to the give number.
-        </Md></cx>
-    },
-    "date": {
-        alias: 'd',
-        description: <cx><Md>
-            Short date format.
-        </Md></cx>
-    },
-    "time": {
-        alias: 't',
-        description: <cx><Md>
-            Time of the day formatting.
-        </Md></cx>
-    },
-    "datetime": {
-        description: <cx><Md>
-            Options are used for custom date formatting.
+                    <Content name="code">
+                        <Tab value-bind="$page.code1.tab" mod="code" tab="controller" text="Controller" />
+                        <Tab value-bind="$page.code1.tab" mod="code" tab="index" text="Widgets" default />
 
-            `datetime;options`
+                        <CodeSnippet visible-expr="{$page.code1.tab}=='controller'">{`
+                            // Number formatting
+                            Format.value(7, 'n;2'); // Two decimals - "7.00"
+                            Format.value(3.29, 'n;0'); // No decimals - "3"
+                            Format.value(3.14159, 'n;1;3'); // Min 1, max 3 decimals - "3.142"
+                            Format.value(462.31, 'currency;EUR;1'); // Currency EUR, one decimal - "€462.3"
+                            Format.value(-5, 'currency;USD;1;2;a'); // Accounting format - "($5.0)"
+                            Format.value(30.258, 'ps;0;2'); // Percentage sign, max 2 decimals - "30.26%"
 
-            Please check out the [intl-io](https://github.com/mstijak/intl-io) project for more info.
-        </Md></cx>
-    },
-    "wrap": {
-        description: <cx><Md>
-            Wraps the given value with into the provided prefix and suffix strings.
+                            // Date formatting
+                            const date = new Date("2023-02-01");
+                            Format.value(date, "d;yyMd"); // "2/1/23"
+                            Format.value(date, "d;yyMMdd"); // "02/01/23"
+                            Format.value(date, "d;yyyyMMdd"); // "02/01/2023"
+                            Format.value(date, "d;yyyyMMMd"); // "Feb 1, 2023"
+                            Format.value(date, "d;yyyyMMMMdd"); // "February 01, 2023"
+                            Format.value(date, "d;DDyyyyMMMMd"); // "Wed, February 1, 2023"
+                            Format.value(date, "d;DDDDyyyyMMMMd"); // "Wednesday, February 01, 2023"
 
-            `wrap;prefix;suffix`
-        </Md></cx>
-    },
-    "prefix": {
-        description: <cx><Md>
-            Prefixes the given value with the provided text.
+                            // String template
+                            StringTemplate.format('Date: {0:d}', new Date('2016-9-2')); // "Date: 9/2/2016"
 
-            `prefix;text`
-        </Md></cx>
-    },
-    "suffix": {
-        description: <cx><Md>
-            Appends the provided text to the given value.
+                            // Multiple formats
+                            Format.value(5, 'n;2:wrap;(;)'); // "(5.00)"
+                            Format.value(null, 'n;2:wrap;(;)'); // ""
 
-            `suffix;text`
-        </Md></cx>
-    },
-    "lowercase": {
-        description: <cx><Md>
-            Converts text to the lower case.
-        </Md></cx>
-    },
-    "uppercase": {
-        description: <cx><Md>
-            Converts text to the upper case.
-        </Md></cx>
-    },
-    "urlencode": {
-        description: <cx><Md>
-            Encodes the given value using the `encodeURIComponent` function. Useful in URL templates.
-        </Md></cx>
-    },
-    "ellipsis": {
-        description: <cx><Md>
-            Shortens long texts.
+                            // null
+                            Format.value(null, 'n;2:wrap;(;)|N/A'); // "N/A"
+                        `}</CodeSnippet>
+                        <CodeSnippet visible-expr="{$page.code1.tab}=='index'" fiddle="cZyeRDSw">{`
+                            <div>
+                                <LabelsTopLayout columns={2}>
+                                    <NumberField value-bind="$page.value" label="Value" />
+                                    <div />
+                                    <LabeledContainer label="Max two decimals">
+                                        <div text-tpl="{$page.value:n;0;2}" />
+                                    </LabeledContainer>
+                                    <LabeledContainer label="Compact (1M, 1k)">
+                                        <div text-tpl="{$page.value:n;0;4;c}" />
+                                    </LabeledContainer>
+                                    <LabeledContainer label="Currency (default)">
+                                        <div text-tpl="{$page.value:currency}" />
+                                    </LabeledContainer>
+                                    <LabeledContainer label="Currency USD, two decimals">
+                                        <div text-tpl="{$page.value:currency;USD;2}" />
+                                    </LabeledContainer>
+                                    <LabeledContainer label="Currency EUR, no decimals">
+                                        <div text-tpl="{$page.value:currency;EUR;0}" />
+                                    </LabeledContainer>
+                                    <LabeledContainer label="Accounting format">
+                                        <div text-tpl="{$page.value:currency;USD;1;2;+ac}" />
+                                    </LabeledContainer>
+                                    <LabeledContainer label="Percentage">
+                                        <div text-tpl="{$page.value:p;0;2;}" />
+                                    </LabeledContainer>
+                                    <LabeledContainer label="Percentage sign">
+                                        <div text-tpl="{$page.value:ps;0;2;}" />
+                                    </LabeledContainer>
+                                </LabelsTopLayout>
+                                <hr />
+                                <LabelsTopLayout columns={2}>
+                                    <DateField value-bind="$page.person.dateOfBirth" label="Date of Birth" />
+                                    <div />
+                                    <LabeledContainer label="MM/dd/yyyy format (default)">
+                                        <div text-tpl="{$page.person.dateOfBirth:d}" />
+                                    </LabeledContainer>
+                                    <LabeledContainer label="M/d/yy format">
+                                        <div text-tpl="{$page.person.dateOfBirth:d;yyMd}" />
+                                    </LabeledContainer>
+                                    <LabeledContainer label="Short day name, M/d/yyyy">
+                                        <div text-tpl="{$page.person.dateOfBirth:d;DDDyyyyMd}" />
+                                    </LabeledContainer>
+                                    <LabeledContainer label="Full day name, MMM dd, yyyy">
+                                        <div text-tpl="{$page.person.dateOfBirth:d;DDDDyyyyMMMdd}" />
+                                    </LabeledContainer>
+                                    <LabeledContainer label="Full day name, MMMM dd, yyyy">
+                                        <div text-tpl="{$page.person.dateOfBirth:d;DDDDyyyyMMMMdd}" />
+                                    </LabeledContainer>
+                                </LabelsTopLayout>
+                                <hr />
+                                <LabelsTopLayout columns={2} style="margin-top: -10px">
+                                    <LabelsTopLayout columns={1}>
+                                        <TextField value-bind="$page.person.name" label="Enter your name" maxLength={20} />
+                                        <div text-tpl='{[fmt({$page.person.name}, "prefix;Hi :suffix;. Nice to meet you!")]}' />
+                                    </LabelsTopLayout>
+                                    <LabelsTopLayout columns={1}>
+                                        <NumberField value-bind="$page.person.height" label="Enter your height in cm" />
+                                        <div text-tpl="Your height is {$page.person.height:suffix; cm.|N/A.}" />
+                                    </LabelsTopLayout>
+                                </LabelsTopLayout>
+                            </div>
+                        `}</CodeSnippet>
+                    </Content>
+                </CodeSplit>
 
-            `ellipsis;maxLength;position`
+                ### Formatting Rules
 
-            `position` defines ellipsis position and can be either `start`, `end` or `middle`. Default position is `end`.
-        </Md></cx>
-    },
-};
+                Use `;` to delimit format parameters.
 
-export const Formatting = <cx>
+                Use `:` to use chain multiple formats. Formats are applied from left to right.
 
-    <Md>
-        # Formatting
+                Use `|` to provide null text. Default null text is empty string.
 
-        <ImportPath path="import { Format } from 'cx/util';"/>
+                ### Format Specifiers
+                <ConfigTable props={configs} hideType header="Specifier" />
 
-        Cx offers rich support for value formatting.
+                ### Culture Sensitive Formatting
+                <ImportPath path="import { enableCultureSensitiveFormatting } from 'cx/ui';" />
 
-        You may use `Format.value(value, format)` function to format single values.
+                Date, currency and number formats are dependent on an external library and must be enabled
+                before use. This is slightly inconvenient but ensures small bundle sizes for applications that do
+                not use this feature.
 
-        Formats are supported in data expressions and string templates.
+                <CodeSplit>
+                    <CodeSnippet copy={false}>
+                        enableCultureSensitiveFormatting();
+                    </CodeSnippet>
+                </CodeSplit>
 
-        ### Formatting Rules
+                ### Custom Formats
+                Custom formats may be defined using `Format.register` and `Format.registerFactory` methods.
 
-        <CodeSplit>
-            Use `;` to delimit format parameters.
+                <CodeSplit>
+                    `Format.register` can be used to register formats which do not need any parameters.
+                    <CodeSnippet putInto="code" copy={false}>{`
+                        Format.register('brackets', value => \`(\$\{value\})\`);
+                        Format.value('test', 'brackets'); //'(test)'
+                    `}</CodeSnippet>
+                </CodeSplit>
 
-            Use `:` to use chain multiple formats. Formats are applied from left to right.
-
-            Use `|` to provide null text; Default null text is empty string.
-            <Content name="code">
-                <Tab value-bind="$page.code1.tab" mod="code" tab="controller" text="Usage in controller" default/>
-                <Tab value-bind="$page.code1.tab" mod="code" tab="index" text="Usage in widgets" default/>
-
-                <CodeSnippet visible-expr="{$page.code1.tab}=='controller'">{`
-                    //single value
-                    Format.value(2, 'n;2'); //"2.00"
-
-                    //string template
-                    StringTemplate.format('Date: {0:d}', new Date('2016-9-2')); //"Date: 9/2/2016"
-
-                    //multiple formats
-                    Format.value(5, 'n;2:wrap;(;)'); //"(5.00)"
-                    Format.value(null, 'n;2:wrap;(;)'); //""
-
-                    //null
-                    Format.value(null, 'n;2:wrap;(;)|N/A'); //"N/A"
-                `}</CodeSnippet>
-                <CodeSnippet  visible-expr="{$page.code1.tab}=='index'">{`
-                    //string template assigned to a widget property
-                    <span text-tpl="{person.height:suffix; cm|N/A}" />
-                `}</CodeSnippet>
-            </Content>
-
-            ### Format Specifiers
-
-            <ConfigTable props={formats} sort={false} hideType header="Specifier"/>
-        </CodeSplit>
-
-        ### Culture Sensitive Formatting
-        <ImportPath path="import { enableCultureSensitiveFormatting } from 'cx/ui';"/>
-
-        Date, currency and number formats are dependent on an external library and must be enabled
-        before use. This is slightly inconvenient but ensures small bundle sizes for applications that do
-        not use this feature.
-
-        <CodeSplit>
-            <CodeSnippet>
-                enableCultureSensitiveFormatting();
-            </CodeSnippet>
-        </CodeSplit>
-
-        ### Custom Formats
-
-        Custom formats may be defined using `Format.register` and `Format.registerFactory` methods.
-
-        <CodeSplit>
-            `Format.register` can be used to register formats which do not need any parameters.
-            <CodeSnippet putInto="code">{`
-                Format.register('brackets', value => \`(\$\{value\})\`);
-                Format.value('test', 'brackets'); //'(test)'
-            `}</CodeSnippet>
-        </CodeSplit>
-
-        <CodeSplit>
-            `Format.registerFactory` can be used to define formats which take parameters.
-            <CodeSnippet putInto="code">{`
-                Format.registerFactory('suffix', (format, suffix) => value => value.toString() + suffix);
-                Format.value(10, 'suffix; kg'); //'10 kg'
-            `}</CodeSnippet>
-        </CodeSplit>
-    </Md>
-
-</cx>;
-
+                <CodeSplit>
+                    `Format.registerFactory` can be used to define formats which take parameters.
+                    <CodeSnippet putInto="code" copy={false}>{`
+                        Format.registerFactory('suffix', (format, suffix) => value => value.toString() + suffix);
+                        Format.value(10, 'suffix; kg'); //'10 kg'
+                    `}</CodeSnippet>
+                </CodeSplit>
+            </Md>
+        </div>
+    </cx>
+);

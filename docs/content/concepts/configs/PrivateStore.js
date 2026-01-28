@@ -3,7 +3,7 @@ import pureContainer from '../../widgets/configs/PureContainer';
 
 export default {
     ...pureContainer,
-    
+
     data: {
         key: true,
         type: 'object',
@@ -15,9 +15,15 @@ export default {
         key: true,
         type: 'boolean',
         description: <cx><Md>
-            Improve performance by detaching `PrivateStore` subtree from the rest of the page. 
+            Improve performance by detaching `PrivateStore` subtree from the rest of the page.
             Detached content renders in its own render loop and uses a `data` declaration to determine which changes can go in or out.
             Detached render loops break the use of `context`, so some advanced Cx features, such as layouts, may not work.
+        </Md></cx>
+    },
+    immediate: {
+        type: 'boolean',
+        description: <cx><Md>
+            Set to `true` to disable batching of updates.
         </Md></cx>
     },
     deferredUntilIdle: {

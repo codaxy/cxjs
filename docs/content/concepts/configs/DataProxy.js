@@ -1,9 +1,9 @@
-import {Md} from '../../../components/Md';
+import { Md } from '../../../components/Md';
 import pureContainer from '../../widgets/configs/PureContainer';
 
 export default {
     ...pureContainer,
-    
+
     data: {
         key: true,
         type: 'object',
@@ -23,6 +23,12 @@ export default {
         type: 'string',
         description: <cx><Md>
             Alias for computed value.
+        </Md></cx>
+    },
+    immutable: {
+        type: 'boolean',
+        description: <cx><Md>
+            Indicate that the data in the parent store should **not** be mutated. Defaults to `false`.
         </Md></cx>
     }
 };

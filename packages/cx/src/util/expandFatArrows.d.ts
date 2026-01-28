@@ -1,1 +1,0 @@
-export function expandFatArrows(code: string) : string;

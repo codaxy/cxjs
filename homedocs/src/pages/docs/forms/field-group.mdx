@@ -1,0 +1,40 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: FieldGroup
+description: Group related form fields
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import FieldGroupExample from "../../../examples/forms/FieldGroupExample.tsx";
+import FieldGroupExampleCode from "../../../examples/forms/FieldGroupExample.tsx?raw";
+
+# FieldGroup
+
+<ImportPath path="import { FieldGroup } from 'cx/widgets';" />
+
+The `FieldGroup` widget is a pure container that allows controlling multiple form elements using shared properties like `disabled`, `readOnly`, and `viewMode`. Under the hood, `FieldGroup` is an alias for `ValidationGroup`.
+
+<CodeExample code={FieldGroupExampleCode}>
+  <FieldGroupExample client:load />
+</CodeExample>
+
+Toggle the checkboxes to see how `enabled`, `readOnly`, and `viewMode` affect all fields within the group.
+
+## Configuration
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `enabled` | `BooleanProp` | Set to `false` to disable all inner elements. |
+| `disabled` | `BooleanProp` | Set to `true` to disable all inner elements. |
+| `readOnly` | `BooleanProp` | Set to `true` to make all inner elements read-only. |
+| `viewMode` | `BooleanProp` | Set to `true` to set all child fields to view mode. |
+| `visited` | `BooleanProp` | Set to `true` to notify all children to report errors. |
+| `strict` | `BooleanProp` | Force children to respect disabled, readOnly, viewMode flags. |
+| `tabOnEnterKey` | `BooleanProp` | Set to `true` to tab on Enter key for all children. |
+| `asterisk` | `BooleanProp` | Set to `true` to add red asterisk for all required fields. |
+| `valid` | `BooleanProp` | Binding set to `true` if all child fields are valid. |
+| `invalid` | `BooleanProp` | Binding set to `true` if any child field has validation error. |
+| `errors` | `Prop` | Binding to store validation errors array. |
+| `isolated` | `BooleanProp` | Set to `true` to isolate from outer validation scopes. |

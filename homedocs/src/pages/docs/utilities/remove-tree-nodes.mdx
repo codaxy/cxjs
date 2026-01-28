@@ -1,0 +1,82 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: removeTreeNodes
+description: Remove nodes from tree
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+# removeTreeNodes
+
+<ImportPath path="import { removeTreeNodes } from 'cx/data';" />
+<OnThisPage />
+
+Recursively removes nodes from a tree structure that match the criteria.
+Returns a new tree without the matching nodes, or the original tree if no nodes were removed.
+
+```tsx
+const filtered = removeTreeNodes(array, criteria, childrenField);
+```
+
+| Argument | Type | Description |
+| -------- | ---- | ----------- |
+| `array` | `T[]` | Tree data array to filter. |
+| `criteria` | `(node: T) => boolean` | Predicate returning `true` for nodes to remove. |
+| `childrenField` | `keyof T` | Name of the property containing child nodes. |
+
+**Returns:** A new tree with matching nodes removed, or the original array if unchanged.
+
+## Examples
+
+### Delete node by ID
+
+```tsx
+removeTreeNodes(
+  data,
+  (node) => node.id === targetId,
+  "$children"
+);
+```
+
+### Remove all leaf nodes
+
+```tsx
+removeTreeNodes(
+  data,
+  (node) => node.$leaf === true,
+  "$children"
+);
+```
+
+### Remove empty folders
+
+```tsx
+removeTreeNodes(
+  data,
+  (node) => !node.$leaf && (!node.$children || node.$children.length === 0),
+  "$children"
+);
+```
+
+### Remove with confirmation
+
+```tsx
+function deleteNode(nodeId: number) {
+  const node = findTreeNode(data, (n) => n.id === nodeId, "$children");
+
+  if (!node) return;
+
+  if (!node.$leaf && node.$children?.length > 0) {
+    if (!confirm("Delete folder and all its contents?")) {
+      return;
+    }
+  }
+
+  store.update(m.data, (data) =>
+    removeTreeNodes(data, (n) => n.id === nodeId, "$children")
+  );
+}
+```
+
+See also: [updateTree](/docs/utilities/update-tree), [findTreeNode](/docs/utilities/find-tree-node), [Tree Operations](/docs/tables/tree-operations)

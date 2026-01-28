@@ -1,0 +1,99 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Icon
+description: Display icons from icon libraries
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import IconExample from "../../../examples/layout/IconExample.tsx";
+import IconExampleCode from "../../../examples/layout/IconExample.tsx?raw";
+
+# Icon
+
+<ImportPath path="import { Icon } from 'cx/widgets';" />
+
+The `Icon` component is used to render icons. CxJS includes only a few built-in icons; additional icon sets need to be registered.
+
+<CodeExample code={IconExampleCode}>
+  <IconExample client:load />
+</CodeExample>
+
+## Preregistered Icons
+
+CxJS includes the following built-in icons: `calendar`, `check`, `clear`, `close`, `cx`, `drop-down`, `file`, `folder`, `folder-open`, `forward`, `loading`, `menu`, `pixel-picker`, `search`, `sort-asc`, and `square`.
+
+To unregister icons (e.g., to replace them with custom versions):
+
+```tsx
+Icon.unregister("search", "calendar");
+```
+
+## Registering Icons
+
+Individual icons can be registered using `Icon.register`:
+
+```tsx
+Icon.register("custom-icon", ({ key, ...props }) => (
+  <svg key={key} {...props}>
+    ...
+  </svg>
+));
+```
+
+### FontAwesome
+
+FontAwesome icons can be registered using `Icon.registerFactory`:
+
+```tsx
+Icon.registerFactory((name, { key, className, ...props }) => {
+  return (
+    <i key={key} className={`fa fa-${name} ${className || ""}`} {...props} />
+  );
+});
+```
+
+### Lucide
+
+Lucide icons need to be registered individually:
+
+```tsx
+import { VDOM } from "cx/ui";
+import { Icon } from "cx/widgets";
+import type { IconNode } from "lucide";
+import { Search, Plus, Pencil } from "lucide";
+
+function getRenderer(iconNode: IconNode) {
+  return ({ key, ...rest }: Record<string, any>) => (
+    <svg
+      key={key}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...rest}
+    >
+      {iconNode.map(([tag, attrs], i) =>
+        VDOM.createElement(tag, { key: i, ...attrs }),
+      )}
+    </svg>
+  );
+}
+
+Icon.register("search", getRenderer(Search));
+Icon.register("plus", getRenderer(Plus));
+Icon.register("pencil", getRenderer(Pencil));
+```
+
+## Configuration
+
+| Property    | Type               | Description                                                   |
+| ----------- | ------------------ | ------------------------------------------------------------- |
+| `name`      | `string`           | Name under which the icon is registered.                      |
+| `key`       | `string`           | Unique key for the icon element. Passed to the icon renderer. |
+| `baseClass` | `string`           | Base CSS class. Default is `icon`.                            |
+| `className` | `string`           | Additional CSS class to apply to the icon.                    |
+| `style`     | `string \| object` | Additional styles to apply to the icon.                       |

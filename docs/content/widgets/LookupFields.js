@@ -1,4 +1,4 @@
-import { HtmlElement, Repeater, LookupField, Tab } from 'cx/widgets';
+import { HtmlElement, Repeater, LookupField, Tab, MsgBox } from 'cx/widgets';
 import { Content, Controller, LabelsLeftLayout } from 'cx/ui';
 import { Md } from '../../components/Md';
 import { CodeSplit } from '../../components/CodeSplit';
@@ -91,7 +91,14 @@ export const LookupFields = <cx>
                         label="Icon"
                         value-bind="$page.s5.id"
                         text-bind="$page.s5.text"
-                        icon="pencil"
+                        icon={{
+                            name: "pencil",
+                            onClick: (e) => {
+                                e.stopPropagation();
+                                MsgBox.alert("Icon clicked.");
+                            },
+                            tooltip: "This tooltip is displayed only over the icon."
+                        }}
                         options-bind="$page.options5" />
                 </div>
             </div>
@@ -201,7 +208,14 @@ export const LookupFields = <cx>
                                 label="Icon"
                                 value-bind="$page.s5.id"
                                 text-bind="$page.s5.text"
-                                icon="pencil"
+                                icon={{
+                                    name: "pencil",
+                                    onClick: (e) => {
+                                        e.stopPropagation();
+                                        MsgBox.alert("Icon clicked.");
+                                    },
+                                    tooltip: "This tooltip is displayed only over the icon."
+                                }}
                                 options-bind="$page.options5"/>
                         </div>
                     </div>
@@ -214,6 +228,7 @@ export const LookupFields = <cx>
         - [Custom bindings](~/examples/form/custom-lookup-bindings) *- for passing additional options to the selection*
         - [Infinite lists](~/examples/form/infinite-lookup-list) *- for lookups with large number of options*
         - [Options filter](~/examples/form/lookup-options-filter) *- for lookups supporting options filtering*
+        - [Options grouping](~/examples/form/lookup-options-grouping) *- for lookups with options grouping*
 
         ## Configuration
 

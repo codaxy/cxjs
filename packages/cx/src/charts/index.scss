@@ -1,19 +1,19 @@
-@use 'axis/index' as *;
+@use "axis/index" as *;
 
-@use 'PieChart';
-@use 'Legend';
-@use 'LegendEntry';
-@use 'Gridlines';
-@use 'Column';
-@use 'Bar';
-@use 'LineGraph';
-@use 'ColumnGraph';
-@use 'BarGraph';
-@use 'ScatterGraph';
-@use 'BubbleGraph';
-@use 'Marker';
-@use 'MarkerLine';
-@use 'Range';
+@use "PieChart";
+@use "Legend";
+@use "LegendEntry";
+@use "Gridlines";
+@use "Column";
+@use "Bar";
+@use "LineGraph";
+@use "ColumnGraph";
+@use "BarGraph";
+@use "ScatterGraph";
+@use "BubbleGraph";
+@use "Marker";
+@use "MarkerLine";
+@use "Range";
 
 //define last for higher priority
-@use 'palette';
+@use "palette";

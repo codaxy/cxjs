@@ -1,1 +1,0 @@
-export function insertElement(array, index, ...args);

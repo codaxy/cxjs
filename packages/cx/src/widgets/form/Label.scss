@@ -1,3 +1,4 @@
+@use "sass:map";
 @use "sass:math";
 @use "./maps.scss" as *;
 @use "./variables.scss" as *;
@@ -5,11 +6,15 @@
 @use "../../util/scss/add-rules.scss" as *;
 @use "../../util/scss/clockwise.scss" as *;
 
-@mixin cx-label($name: "label", $state-style-map: $cx-label-state-style-map, $besm: $cx-besm) {
-   $block: map-get($besm, block);
-   $element: map-get($besm, element);
-   $state: map-get($besm, state);
-   $mod: map-get($besm, mod);
+@mixin cx-label(
+   $name: "label",
+   $state-style-map: $cx-label-state-style-map,
+   $besm: $cx-besm
+) {
+   $block: map.get($besm, block);
+   $element: map.get($besm, element);
+   $state: map.get($besm, state);
+   $mod: map.get($besm, mod);
 
    .#{$block}label {
       display: inline-block;

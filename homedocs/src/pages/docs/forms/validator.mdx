@@ -1,0 +1,39 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Validator
+description: Custom validation rules
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import ValidatorExample from "../../../examples/forms/ValidatorExample.tsx";
+import ValidatorExampleCode from "../../../examples/forms/ValidatorExample.tsx?raw";
+
+# Validator
+
+<ImportPath path="import { Validator } from 'cx/widgets';" />
+
+The `Validator` widget performs custom validation on computed or combined values. Use it when validation depends on multiple fields or requires complex logic that can't be expressed with simple field-level validation.
+
+The `Validator` only renders its children when `visited` is `true` and there is a validation error. Set `visited` explicitly on the Validator or use a parent `ValidationGroup` to control when errors are displayed.
+
+<CodeExample code={ValidatorExampleCode}>
+  <ValidatorExample client:load />
+</CodeExample>
+
+## Configuration
+
+### Properties
+
+| Property  | Type      | Description                                                           |
+| --------- | --------- | --------------------------------------------------------------------- |
+| `value`   | `any`     | Value to validate. Can be a binding, expression, or structured object |
+| `visited` | `boolean` | Controls whether children are rendered when there's an error. Inherited from parent `ValidationGroup` if not set |
+
+### Callbacks
+
+| Property                | Type       | Description                                                              |
+| ----------------------- | ---------- | ------------------------------------------------------------------------ |
+| `onValidate`            | `function` | `(value, instance, validationParams) => string\|false` - Return error message or `false` |
+| `onValidationException` | `function` | `(error, instance) => void` - Called if validation throws an error       |

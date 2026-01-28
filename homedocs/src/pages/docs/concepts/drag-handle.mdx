@@ -1,0 +1,52 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: DragHandle
+description: Restrict drag initiation to specific handles
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+import DragHandleExample from "../../../examples/concepts/DragHandleExample.tsx";
+import DragHandleExampleCode from "../../../examples/concepts/DragHandleExample.tsx?raw";
+
+# DragHandle
+
+<ImportPath path="import { DragHandle } from 'cx/widgets';" />
+
+<OnThisPage />
+
+`DragHandle` provides a specific area within a `DragSource` that initiates dragging. This allows the rest of the content to remain interactive (selectable text, clickable buttons, etc.) while still supporting drag and drop.
+
+## Example
+
+Try selecting the text - only the handle on the left initiates drag:
+
+<CodeExample code={DragHandleExampleCode}>
+  <DragHandleExample client:load />
+</CodeExample>
+
+## Usage
+
+To use `DragHandle`, set `handled` on the parent `DragSource`:
+
+```tsx
+<DragSource data={m.$record} handled>
+  <div class="flex items-center gap-2">
+    <DragHandle>
+      <div class="cursor-move">⋮⋮</div>
+    </DragHandle>
+    <span text={m.$record.text} />
+  </div>
+</DragSource>
+```
+
+Without `handled`, the entire `DragSource` content would be draggable, preventing text selection and other interactions.
+
+## Configuration
+
+| Property    | Type     | Description                                                      |
+| ----------- | -------- | ---------------------------------------------------------------- |
+| `style`     | `Style`  | Inline styles for the handle element.                            |
+| `class`     | `Class`  | CSS class for the handle element.                                |
+| `baseClass` | `string` | Base CSS class applied to the element. Defaults to `draghandle`. |

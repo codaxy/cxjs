@@ -27,13 +27,15 @@ $cx-default-grid-data-background-color: transparent !default;
 $cx-default-grid-data-alternate-background-color: null !default;
 $cx-default-grid-data-border-color: $cx-default-grid-border-color !default;
 $cx-default-grid-data-padding: 5px !default;
+$cx-default-grid-caption-gap: 15px !default;
 
 // pagination
 $cx-grid-pagination-default-border-width: $cx-default-border-width !default;
 $cx-grid-pagination-default-border-color: $cx-default-border-color !default;
 $cx-grid-pagination-default-border-radius: null !default;
 $cx-grid-pagination-default-outer-border-radius: $cx-default-border-radius !default;
-$cx-grid-pagination-default-padding: cx-top($cx-default-box-padding) 2 * cx-top($cx-default-box-padding) !default;
+$cx-grid-pagination-default-padding: cx-top($cx-default-box-padding) 2 *
+   cx-top($cx-default-box-padding) !default;
 
 $cx-dependencies: map-merge(
    $cx-dependencies,

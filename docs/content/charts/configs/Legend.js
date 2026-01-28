@@ -21,5 +21,59 @@ export default {
         description: <cx><Md>
             Switch to vertical mode.
         </Md></cx>
-    }
+    },
+
+    shape: {
+        type: 'string',
+        description: <cx><Md>
+            Specifies the shape of the symbol in the legend entries. By default, the shape of the series in the chart is used. `circle`, `square`, `triangle`, etc.
+        </Md></cx>
+    },
+
+
+   entryStyle: {
+        type: 'string/object',
+        description: <cx><Md>
+            Additional CSS styles to be applied to the legend entry elements
+        </Md></cx>
+    },
+
+
+   entryClass: {
+        type: 'string/object',
+        description: <cx><Md>
+            Additional CSS classes to be applied to the legend entry elements.
+        </Md></cx>
+    },
+
+    valueStyle: {
+        type: 'string/object',
+        description: <cx><Md>
+            Additional CSS styles to be applied to the legend entry values.
+        </Md></cx>
+    },
+
+
+    valueClass: {
+        type: 'string/object',
+        description: <cx><Md>
+            Additional CSS classes to be applied to the legend entry values.
+        </Md></cx>
+    },
+
+
+   showValues: {
+        type: 'boolean',
+        key: true,
+        description: <cx><Md>
+            Whether to show values in the legend. Default is `false`.
+        </Md></cx>
+   },
+
+    valueFormat: {
+        type: 'string',
+        description: <cx><Md>
+            Format string for the legend entry values. Default is `s`.
+        </Md></cx>
+    },
 };

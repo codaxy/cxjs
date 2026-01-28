@@ -1,4 +1,4 @@
-import { Content, HtmlElement, Repeater, Tab } from 'cx/widgets';
+import { Content, Repeater, Tab } from 'cx/widgets';
 import { Controller } from 'cx/ui';
 import { Svg } from 'cx/svg';
 import { Gridlines, NumericAxis, CategoryAxis, Chart, Bar, Legend } from 'cx/charts';
@@ -8,7 +8,6 @@ import { CodeSnippet } from 'docs/components/CodeSnippet';
 import { ConfigTable } from 'docs/components/ConfigTable';
 import { ImportPath } from 'docs/components/ImportPath';
 import { casual } from 'docs/content/examples/data/casual';
-
 
 import configs from './configs/Bar';
 
@@ -68,8 +67,7 @@ export const Bars = <cx>
 
          <CodeSnippet visible-expr="{$page.code.tab}=='controller'"fiddle="4AAhIi6b">{`
                class PageController extends Controller {
-                  init() {
-                     super.init();
+                  onInit() {
                      this.store.set('$page.points', Array.from({length: 11}, (_, i) => ({
                         key: casual.city,
                         v1: 100 + Math.random() * 300,
@@ -124,4 +122,3 @@ export const Bars = <cx>
 
    </Md>
 </cx >
-

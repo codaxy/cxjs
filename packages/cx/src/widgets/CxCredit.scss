@@ -1,10 +1,11 @@
+@use "sass:map";
 @use "../util/scss/besm.scss" as *;
 
 @mixin cx-cxcredit($name: "cxcredit", $besm: $cx-besm) {
-   $block: map-get($besm, block);
-   $element: map-get($besm, element);
-   $state: map-get($besm, state);
-   $mod: map-get($besm, mod);
+   $block: map.get($besm, block);
+   $element: map.get($besm, element);
+   $state: map.get($besm, state);
+   $mod: map.get($besm, mod);
 
    .#{$block}#{$name} {
       width: 50px;
@@ -13,14 +14,13 @@
       transition: opacity 0.3s ease-in-out;
       background: rgba(255, 255, 255, 0.1);
       cursor: pointer;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
 
       &:hover {
          opacity: 1;
       }
-
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
 
       &.#{$mod}inline {
          position: relative;

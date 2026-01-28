@@ -1,0 +1,31 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: FlyweightTooltipTracker
+description: Efficient tooltips for many elements
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import FlyweightTooltipTrackerExample from "../../../examples/layout/FlyweightTooltipTrackerExample.tsx";
+import FlyweightTooltipTrackerExampleCode from "../../../examples/layout/FlyweightTooltipTrackerExample.tsx?raw";
+
+# FlyweightTooltipTracker
+
+<ImportPath path="import { FlyweightTooltipTracker } from 'cx/widgets';" />
+
+`FlyweightTooltipTracker` is used to display tooltips by extracting information from the DOM. It's useful for displaying full text on elements with text overflow, showing link URLs, or adding tooltips to headings.
+
+This component uses the [Flyweight pattern](https://en.wikipedia.org/wiki/Flyweight_pattern) to efficiently handle tooltips for many elements without creating individual tooltip instances for each one.
+
+<CodeExample code={FlyweightTooltipTrackerExampleCode}>
+  <FlyweightTooltipTrackerExample client:load />
+</CodeExample>
+
+The `onGetTooltip` callback receives the DOM element under the mouse and should return a tooltip configuration object or `undefined` to skip showing a tooltip.
+
+## Configuration
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `onGetTooltip` | `function` | Callback that receives the hovered DOM element and returns tooltip config (`{ text, title, placement, ... }`) or `undefined`. |

@@ -1,0 +1,52 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Dynamic Grouping
+description: User-controlled grouping options
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import DynamicGroupingExample from "../../../examples/tables/DynamicGroupingExample.tsx";
+import DynamicGroupingExampleCode from "../../../examples/tables/DynamicGroupingExample.tsx?raw";
+
+# Dynamic Grouping
+
+Grid supports dynamic grouping where users can select which fields to group by at runtime.
+
+<CodeExample code={DynamicGroupingExampleCode}>
+  <DynamicGroupingExample client:load />
+</CodeExample>
+
+Use the lookup field to select grouping fields. The grid updates automatically.
+
+## Using groupingParams
+
+Bind grouping parameters to the store and use `onGetGrouping` to convert them to a grouping configuration:
+
+```tsx
+<Grid
+  records={m.records}
+  scrollable
+  fixedFooter
+  groupingParams={m.grouping}
+  onGetGrouping={(groupingParams) => [
+    { key: {}, showFooter: true },
+    ...(groupingParams || []).map((x) => x.id),
+  ]}
+  columns={[...]}
+/>
+```
+
+Use `fixedFooter` to keep the totals row visible at the bottom of the grid while scrolling.
+
+The first element with an empty key creates a total row that aggregates all records.
+
+## Configuration
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `groupingParams` | `StructuredProp` | Binding for grouping parameters. Changes trigger `onGetGrouping`. |
+| `onGetGrouping` | `function` | Callback that returns grouping configuration from params. |
+
+See also: [Grouping](/docs/tables/grouping), [GroupAdapter](/docs/tables/group-adapter)

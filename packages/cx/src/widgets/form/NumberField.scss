@@ -7,6 +7,7 @@
 @use "./Field.maps.scss" as *;
 @use "./Field.variables.scss" as *;
 @use "./Field.scss" as *;
+@use "sass:map";
 
 @mixin cx-numberfield(
    $name: "numberfield",
@@ -20,9 +21,9 @@
    $width: $cx-default-input-width,
    $besm: $cx-besm
 ) {
-   $block: map-get($besm, block);
-   $element: map-get($besm, element);
-   $state: map-get($besm, state);
+   $block: map.get($besm, block);
+   $element: map.get($besm, element);
+   $state: map.get($besm, state);
    $padding: cx-get-state-rule($state-style-map, default, "padding");
 
    .#{$block}#{$name} {
@@ -30,7 +31,11 @@
    }
 
    .#{$element}#{$name}-input {
-      @include cxe-field-input($besm, $state-style-map, $placeholder: $placeholder);
+      @include cxe-field-input(
+         $besm,
+         $state-style-map,
+         $placeholder: $placeholder
+      );
 
       &::-webkit-inner-spin-button,
       &::-webkit-outer-spin-button {
@@ -44,8 +49,8 @@
    }
 
    .#{$element}#{$name}-tool {
-      @include cxe-field-button($besm, $tool-state-style-map);
       pointer-events: none;
+      @include cxe-field-button($besm, $tool-state-style-map);
    }
 
    .#{$element}#{$name}-icon {
@@ -53,8 +58,8 @@
    }
 
    .#{$element}#{$name}-left-icon {
-      @include cxe-field-button($besm, $left-icon-state-style-map);
       pointer-events: none;
+      @include cxe-field-button($besm, $left-icon-state-style-map);
    }
 
    .#{$element}#{$name}-clear {

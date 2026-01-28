@@ -1,0 +1,80 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: insertElement
+description: Insert element at index
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import InsertElementExample from "../../../examples/utilities/InsertElementExample.tsx";
+import InsertElementExampleCode from "../../../examples/utilities/InsertElementExample.tsx?raw";
+
+# insertElement
+
+<ImportPath path="import { insertElement } from 'cx/data';" />
+<OnThisPage collapsed />
+
+`insertElement` inserts one or more elements at a specific position in an array.
+
+<CodeExample code={InsertElementExampleCode}>
+  <InsertElementExample client:load />
+</CodeExample>
+
+## Signature
+
+```ts
+function insertElement<T>(array: T[], index: number, ...elements: T[]): T[];
+```
+
+## Parameters
+
+| Parameter  | Type     | Description               |
+| ---------- | -------- | ------------------------- |
+| `array`    | `T[]`    | The array to insert into. |
+| `index`    | `number` | Position to insert at.    |
+| `elements` | `T[]`    | Elements to insert.       |
+
+## Return Value
+
+Returns a new array with elements inserted at the specified position.
+
+## Examples
+
+### Insert single element
+
+```ts
+const items = ["a", "b", "c"];
+const result = insertElement(items, 1, "x");
+// ["a", "x", "b", "c"]
+```
+
+### Insert multiple elements
+
+```ts
+const items = ["a", "b", "c"];
+const result = insertElement(items, 1, "x", "y");
+// ["a", "x", "y", "b", "c"]
+```
+
+### Insert at beginning
+
+```ts
+const items = ["a", "b", "c"];
+const result = insertElement(items, 0, "x");
+// ["x", "a", "b", "c"]
+```
+
+### Insert at end
+
+```ts
+const items = ["a", "b", "c"];
+const result = insertElement(items, 3, "x");
+// ["a", "b", "c", "x"]
+```
+
+## See Also
+
+- [append](/docs/utilities/append) - Add elements to end of array
+- [moveElement](/docs/utilities/move-element) - Move element within array

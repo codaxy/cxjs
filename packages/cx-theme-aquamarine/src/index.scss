@@ -1,3 +1,4 @@
+@use "sass:map";
 @use "~cx/src/variables" as *;
 @use "~cx/src/maps" as *;
 @use "~cx/src/index" as *;
@@ -7,10 +8,10 @@
 
 @use "~cx/src/util/scss/include.scss" as *;
 
-$block: map-get($cx-besm, block);
-$element: map-get($cx-besm, element);
-$state: map-get($cx-besm, state);
-$mod: map-get($cx-besm, mod);
+$block: map.get($cx-besm, block);
+$element: map.get($cx-besm, element);
+$state: map.get($cx-besm, state);
+$mod: map.get($cx-besm, mod);
 
 @if (cx-included("cx/widgets/Section")) {
    //SECTION
@@ -51,7 +52,14 @@ $mod: map-get($cx-besm, mod);
 
       // aligns float button icon in the center
       &.cxm-float .#{$element}button-icon {
-         left: ($cx-default-box-line-height + 2 * ($cx-default-box-padding + 1px) + 10px - $cx-default-icon-size) * 0.5;
+         left: (
+               $cx-default-box-line-height +
+                  2 *
+                  ($cx-default-box-padding + 1px) +
+                  10px -
+                  $cx-default-icon-size
+            ) *
+            0.5;
       }
    }
 }
@@ -133,13 +141,12 @@ $mod: map-get($cx-besm, mod);
    // colorpicker
    .#{$block}colorpicker {
       input {
-         line-height: $cx-default-box-line-height - 8px;
          box-shadow: none;
          background-color: #fff;
          border-width: 0 0 1px;
          border-color: darken($cx-default-input-border-color, 5);
          border-radius: 0;
-         padding: 2px 6px;
+         padding: 2px 0;
 
          &:focus {
             box-shadow: none;
@@ -200,13 +207,17 @@ $mod: map-get($cx-besm, mod);
       &.#{$state}animate {
          opacity: 0;
          transform: scale(0.3);
-         transition: opacity 0.2s, transform 0.2s;
+         transition:
+            opacity 0.2s,
+            transform 0.2s;
       }
 
       &.#{$state}animated {
          opacity: 1;
          transform: none;
-         transition: opacity 0.3s, transform 0.3s;
+         transition:
+            opacity 0.3s,
+            transform 0.3s;
       }
    }
 

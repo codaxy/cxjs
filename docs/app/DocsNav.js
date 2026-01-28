@@ -11,7 +11,7 @@ export const docsNavTree = [
             ],
          },
          {
-            text: "Pre-requsites",
+            text: "About",
             children: [
                { text: "JSX", url: "~/intro/jsx" },
                { text: "CLI", url: "~/intro/command-line" },
@@ -19,6 +19,10 @@ export const docsNavTree = [
                {
                   text: "Breaking Changes",
                   url: "~/intro/breaking-changes",
+               },
+               {
+                  text: "TypeScript Migration",
+                  url: "~/intro/type-script-migration",
                },
                {
                   text: "Step by Step Tutorial",
@@ -39,12 +43,21 @@ export const docsNavTree = [
                { text: "Store", url: "~/concepts/store" },
                { text: "Widgets", url: "~/concepts/widgets" },
                { text: "Data Binding", url: "~/concepts/data-binding" },
-               { text: "Data Views", url: "~/concepts/data-views" },
                { text: "Controllers", url: "~/concepts/controllers" },
                { text: "Inner Layouts", url: "~/concepts/inner-layouts" },
                { text: "CSS", url: "~/concepts/css" },
                { text: "Formatting", url: "~/concepts/formatting" },
                { text: "Selection", url: "~/concepts/selections" },
+            ],
+         },
+         {
+            text: "Data Views",
+            children: [
+               { text: "Repeater", url: "~/concepts/repeater" },
+               { text: "Rescope", url: "~/concepts/rescope" },
+               { text: "Sandbox", url: "~/concepts/sandbox" },
+               { text: "Data Proxy", url: "~/concepts/data-proxy" },
+               { text: "Private Store", url: "~/concepts/private-stores" },
             ],
          },
          {
@@ -56,12 +69,15 @@ export const docsNavTree = [
                   text: "Functional Components",
                   url: "~/concepts/functional-components",
                },
-               { text: "Private Store", url: "~/concepts/private-stores" },
                { text: "Localization", url: "~/concepts/localization" },
                { text: "Charts", url: "~/concepts/charts" },
                { text: "Drag & Drop", url: "~/concepts/drag-and-drop" },
+               { text: "Data Adapters", url: "~/concepts/data-adapters" },
+               { text: "Keyboard Shortcuts", url: "~/concepts/keyboard-shortcuts" },
                { text: "Typed Models", url: "~/concepts/typed-models" },
                { text: "Immer.js Integration", url: "~/concepts/immer-js-integration" },
+               { text: "Creating Components", url: "~/concepts/creating-components" },
+               { text: "Cx Component", url: "~/concepts/cx-component" },
             ],
          },
       ],
@@ -121,11 +137,11 @@ export const docsNavTree = [
                   url: "~/widgets/labeled-containers",
                },
                { text: "FieldGroup", url: "~/widgets/field-groups" },
-               { text: "Validator", url: "~/widgets/validators" },
                {
                   text: "ValidationGroup",
                   url: "~/widgets/validation-groups",
                },
+               { text: "Validator", url: "~/widgets/validators" },
             ],
          },
          {
@@ -195,6 +211,7 @@ export const docsNavTree = [
                { text: "Column", url: "~/charts/columns" },
                { text: "Bar", url: "~/charts/bars" },
                { text: "Marker", url: "~/charts/markers" },
+               { text: "RangeMarker", url: "~/charts/range-markers" },
                { text: "MarkerLine", url: "~/charts/marker-lines" },
                { text: "Range", url: "~/charts/ranges" },
             ],
@@ -209,6 +226,8 @@ export const docsNavTree = [
                { text: "Legend", url: "~/charts/legend" },
                { text: "PieLabels", url: "~/charts/pie-labels" },
                { text: "Gridlines", url: "~/charts/gridlines" },
+               { text: "Swimlanes", url: "~/charts/swimlanes" },
+               { text: "Swimlane", url: "~/charts/swimlane" },
                { text: "MouseTracker", url: "~/charts/mouse-tracker" },
                { text: "PointReducer", url: "~/charts/point-reducers" },
                { text: "ValueAtFinder", url: "~/charts/value-at-finder" },
@@ -245,6 +264,14 @@ export const docsNavTree = [
                   text: "Lookup Options Filter",
                   url: "~/examples/form/lookup-options-filter",
                },
+               {
+                  text: "Lookup Options Grouping",
+                  url: "~/examples/form/lookup-options-grouping",
+               },
+               {
+                  text: "Multi File Upload",
+                  url: "~/examples/form/multi-file-upload",
+               },
             ],
          },
          {
@@ -259,6 +286,10 @@ export const docsNavTree = [
          {
             text: "Grid",
             children: [
+               {
+                  text: "Searching and Filtering",
+                  url: "~/examples/grid/searching-and-filtering",
+               },
                { text: "Pagination", url: "~/examples/grid/pagination" },
                {
                   text: "Multiple Selection",
@@ -310,6 +341,10 @@ export const docsNavTree = [
                   url: "~/examples/grid/row-expanding",
                },
                {
+                  text: "Row Drag & Drop",
+                  url: "~/examples/grid/row-drag-and-drop",
+               },
+               {
                   text: "Buffering",
                   url: "~/examples/grid/buffering",
                },
@@ -318,14 +353,30 @@ export const docsNavTree = [
                   url: "~/examples/grid/infinite-scrolling",
                },
                {
+                  text: "Tree Grid",
+                  url: "~/examples/grid/tree-grid",
+               },
+               {
                   text: "Stateful Tree Grid",
                   url: "~/examples/grid/stateful-tree-grid",
+               },
+               {
+                  text: "Dynamic Columns",
+                  url: "~/examples/grid/dynamic-columns",
                },
             ],
          },
          {
             text: "Charts",
             children: [
+               {
+                  text: "Complex Labels",
+                  url: "~/examples/charts/axis/complex-labels",
+               },
+               {
+                  text: "Calculated Height",
+                  url: "~/examples/charts/axis/calculated-height",
+               },
                {
                   text: "Stacked Line Chart",
                   url: "~/examples/charts/line/stacked",

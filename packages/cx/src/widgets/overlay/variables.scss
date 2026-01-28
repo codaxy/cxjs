@@ -1,5 +1,6 @@
 @use "../../util/scss/defaults.scss" as *;
 @use "../../util/scss/include.scss" as *;
+@use "sass:map";
 
 // TOOLTIP
 $cx-tooltip-background-color: white !default;
@@ -31,13 +32,14 @@ $cx-default-toast-padding: 10px !default;
 // WINDOW
 @forward "Window.variables";
 
-$cx-dependencies: map-merge(
+$cx-dependencies: map.merge(
    $cx-dependencies,
    (
       "cx/widgets/Overlay": "cx/widgets/captureMouse",
       "cx/widgets/Dropdown": "cx/widgets/Overlay",
       "cx/widgets/Window": "cx/widgets/Overlay",
       "cx/widgets/Tooltip": "cx/widgets/Dropdown",
+      "cx/widgets/enableMsgBoxAlerts": "cx/widgets/MsgBox",
       "cx/widgets/MsgBox": "cx/widgets/Window" "cx/widgets/FlexRow",
       "cx/widgets/Toast": "cx/widgets/Overlay",
    )

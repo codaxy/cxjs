@@ -1,0 +1,57 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: TreeNode
+description: Expandable tree node component
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import TreeNodeExample from "../../../examples/tables/TreeNodeExample.tsx";
+import TreeNodeExampleCode from "../../../examples/tables/TreeNodeExample.tsx?raw";
+
+# TreeNode
+
+<ImportPath path="import { TreeNode } from 'cx/widgets';" />
+
+The `TreeNode` widget renders the expand/collapse arrow, indentation, and icon for hierarchical data in a [TreeGrid](/docs/tables/tree-grid). Use it inside a column's `children` property.
+
+<CodeExample code={TreeNodeExampleCode}>
+  <TreeNodeExample client:load />
+</CodeExample>
+
+## Record Properties
+
+The `TreeAdapter` manages these special properties on each record:
+
+- `$expanded` - Whether the node is expanded
+- `$leaf` - Whether the node is a leaf (no children)
+- `$level` - The depth level for indentation
+- `$loading` - Whether children are being loaded
+
+## Icons
+
+TreeNode displays icons based on the node state:
+- **Folder icon** - For collapsed non-leaf nodes (default: `folder`)
+- **Open folder icon** - For expanded non-leaf nodes (default: `folder-open`)
+- **Item icon** - For leaf nodes (default: `file`)
+- **Loading icon** - While children are loading (default: `loading`)
+
+Override defaults using `folderIcon`, `openFolderIcon`, `itemIcon`, or `loadingIcon` properties. Set `hideIcon` to `true` to hide icons entirely.
+
+## Configuration
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `expanded` | `BooleanProp` | Whether the node is expanded. |
+| `leaf` | `BooleanProp` | Whether the node is a leaf node (cannot have children). |
+| `level` | `NumberProp` | Depth level inside the tree, used for indentation. |
+| `loading` | `BooleanProp` | Whether the node is currently loading its children. |
+| `text` | `StringProp` | Text to display alongside the icon. |
+| `icon` | `StringProp` | Custom icon. If not set, default folder/file icons are used. |
+| `folderIcon` | `string` | Icon for folders. Default is `folder`. |
+| `openFolderIcon` | `string` | Icon for open folders. Default is `folder-open`. |
+| `itemIcon` | `string` | Icon for leaf nodes. Default is `file`. |
+| `loadingIcon` | `string` | Icon shown while loading. Default is `loading`. |
+| `hideIcon` | `boolean` | Set to `true` to hide icons. |
+| `hideArrow` | `boolean` | Set to `true` to hide the expand/collapse arrow. |

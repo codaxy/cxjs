@@ -1,0 +1,36 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Lookup Options Filter
+description: Client-side option filtering
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+
+import LookupOptionsFilterExample from "../../../examples/forms/LookupOptionsFilterExample.tsx";
+import LookupOptionsFilterExampleCode from "../../../examples/forms/LookupOptionsFilterExample.tsx?raw";
+
+# Lookup Options Filter
+
+When using options-based lookup, sometimes there is a requirement to filter already loaded options based on external criteria. Since `LookupField` uses a `List` widget internally, you can specify `filterParams` and `onCreateFilter` through the `listOptions` property. However, this approach has limitations with `minOptionsForSearchField` and empty text behavior.
+
+To address this, use `filterParams` and `onCreateVisibleOptionsFilter` directly on the `LookupField`.
+
+<CodeExample code={LookupOptionsFilterExampleCode}>
+  <LookupOptionsFilterExample client:load />
+</CodeExample>
+
+In this example, **Domicile** and **Nationality** lookup fields display only `active` countries. However, if a country is already selected, it remains visible in the list even if it becomes inactive.
+
+Try changing the `Active` status of countries in the grid to see how it affects the lookup dropdowns.
+
+## Configuration
+
+| Property                       | Type       | Description                                                                    |
+| ------------------------------ | ---------- | ------------------------------------------------------------------------------ |
+| `filterParams`                 | `any`      | Data that triggers filter recalculation when changed                           |
+| `onCreateVisibleOptionsFilter` | `function` | Returns a filter function `(option) => boolean` to determine option visibility |
+
+The `onCreateVisibleOptionsFilter` callback receives:
+
+1. The current value of `filterParams`
+2. An object containing the `store` for accessing other state values

@@ -1,0 +1,36 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: ContentPlaceholder
+description: Named slots for content injection
+---
+
+# ContentPlaceholder
+
+```tsx
+import { ContentPlaceholder } from "cx/ui";
+```
+
+ContentPlaceholder marks insertion points inside [outer layouts](/layout/outer-layouts). Content from child components flows into these placeholders.
+
+## Usage
+
+```tsx
+const AppLayout = (
+  <div>
+    <header>
+      <ContentPlaceholder name="header" />
+    </header>
+    <main>
+      <ContentPlaceholder />
+    </main>
+  </div>
+);
+```
+
+The default placeholder (without a name) receives the main content. Named placeholders receive content targeted with [Content](/layout/content) or the `putInto` attribute.
+
+## Configuration
+
+| Property | Type     | Default  | Description                                         |
+| -------- | -------- | -------- | --------------------------------------------------- |
+| `name`   | `string` | `"body"` | Placeholder identifier. Omit for main content area. |

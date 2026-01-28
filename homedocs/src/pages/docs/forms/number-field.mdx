@@ -1,0 +1,115 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: NumberField
+description: Numeric input with formatting
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+import NumberFieldExample from "../../../examples/forms/NumberFieldExample.tsx";
+import NumberFieldExampleCode from "../../../examples/forms/NumberFieldExample.tsx?raw";
+
+import NumberFieldFormattingExample from "../../../examples/forms/NumberFieldFormattingExample.tsx";
+import NumberFieldFormattingExampleCode from "../../../examples/forms/NumberFieldFormattingExample.tsx?raw";
+
+# NumberField
+
+<ImportPath path="import { NumberField } from 'cx/widgets';" />
+
+<OnThisPage collapsed />
+
+The `NumberField` widget is used for numeric inputs. It supports formatting for currencies, percentages, and decimal places, with built-in validation for min/max values.
+
+<CodeExample code={NumberFieldExampleCode}>
+  <NumberFieldExample client:load />
+</CodeExample>
+
+## Formatting
+
+NumberField supports various number formats including currencies and percentages. Use `scale` to convert between display and stored values (e.g., 0.01 for percentages).
+
+<CodeExample code={NumberFieldFormattingExampleCode}>
+  <NumberFieldFormattingExample client:load />
+</CodeExample>
+
+## Configuration
+
+### Core Properties
+
+| Property      | Type      | Default  | Description                                                   |
+| ------------- | --------- | -------- | ------------------------------------------------------------- |
+| `value`       | `number`  | `null`   | Numeric value                                                 |
+| `format`      | `string`  | `"n"`    | Display format. See [Formatting](/docs/intro/formatting)      |
+| `scale`       | `number`  | `1`      | Multiplier for converting between stored and displayed value  |
+| `offset`      | `number`  | `0`      | Offset added after scaling                                    |
+| `placeholder` | `string`  |          | Hint text displayed when the field is empty                   |
+| `disabled`    | `boolean` | `false`  | Disables the input                                            |
+| `enabled`     | `boolean` |          | Opposite of `disabled`                                        |
+| `readOnly`    | `boolean` | `false`  | Makes the input read-only                                     |
+| `required`    | `boolean` | `false`  | Marks the field as required                                   |
+| `label`       | `string`  |          | Field label text                                              |
+| `viewMode`    | `boolean` | `false`  | Display as plain text instead of interactive input            |
+| `emptyText`   | `string`  |          | Text shown in view mode when the field is empty               |
+
+### Value Constraints
+
+| Property       | Type      | Default | Description                                          |
+| -------------- | --------- | ------- | ---------------------------------------------------- |
+| `minValue`     | `number`  |         | Minimum allowed value                                |
+| `minExclusive` | `boolean` | `false` | If `true`, the minimum value itself is not allowed   |
+| `maxValue`     | `number`  |         | Maximum allowed value                                |
+| `maxExclusive` | `boolean` | `false` | If `true`, the maximum value itself is not allowed   |
+| `constrain`    | `boolean` | `false` | If `true`, automatically clamps value to min/max     |
+
+### Increment Behavior
+
+| Property              | Type      | Default | Description                                                       |
+| --------------------- | --------- | ------- | ----------------------------------------------------------------- |
+| `increment` / `step`  | `number`  |         | Step size for arrow keys and mouse wheel                          |
+| `incrementPercentage` | `number`  | `0.1`   | Auto-calculated increment as percentage of current value          |
+| `snapToIncrement`     | `boolean` | `true`  | If `true`, values snap to increment multiples on wheel change     |
+
+Add `wheel` to `reactOn` to change values using the mouse wheel. When enabled, page scrolling is disabled while the field is focused.
+
+### Validation
+
+| Property                | Type     | Default                              | Description                                               |
+| ----------------------- | -------- | ------------------------------------ | --------------------------------------------------------- |
+| `minValueErrorText`     | `string` | `"Enter {0} or more."`               | Error message when value is below minimum                 |
+| `minExclusiveErrorText` | `string` | `"Enter a number greater than {0}."` | Error message when value equals exclusive minimum         |
+| `maxValueErrorText`     | `string` | `"Enter {0} or less."`               | Error message when value is above maximum                 |
+| `maxExclusiveErrorText` | `string` | `"Enter a number less than {0}."`    | Error message when value equals exclusive maximum         |
+| `inputErrorText`        | `string` | `"Invalid number entered."`          | Error message for invalid number input                    |
+| `error`                 | `string` |                                      | Custom error message. Field is marked invalid if set      |
+| `visited`               | `boolean`|                                      | If `true`, shows validation errors immediately            |
+| `validationMode`        | `string` | `"tooltip"`                          | How to show errors: `"tooltip"`, `"help"`, `"help-block"` |
+
+### Appearance
+
+| Property          | Type            | Default | Description                                     |
+| ----------------- | --------------- | ------- | ----------------------------------------------- |
+| `icon`            | `string/object` |         | Icon on the left side                           |
+| `showClear`       | `boolean`       | `false` | Shows a clear button when the field has a value |
+| `hideClear`       | `boolean`       | `false` | Opposite of `showClear`                         |
+| `alwaysShowClear` | `boolean`       | `false` | Shows clear button even when field is required  |
+| `tooltip`         | `string/object` |         | Tooltip text or configuration                   |
+| `inputStyle`      | `string/object` |         | CSS styles applied to the input element         |
+| `inputClass`      | `string`        |         | CSS class applied to the input element          |
+
+### Behavior
+
+| Property       | Type      | Default        | Description                                         |
+| -------------- | --------- | -------------- | --------------------------------------------------- |
+| `autoFocus`    | `boolean` | `false`        | Automatically focuses the field on mount            |
+| `reactOn`      | `string`  | `"enter blur"` | Events that trigger value updates. Options: `"change"`, `"enter"`, `"blur"`, `"wheel"`. Separate with space |
+| `trackFocus`   | `boolean` | `false`        | Adds `cxs-focus` CSS class when input is focused    |
+| `inputType`    | `string`  | `"text"`       | HTML input type                                     |
+| `onParseInput` | `function`|                | Custom parser for text input                        |
+
+### Callbacks
+
+| Property     | Description                                                                        |
+| ------------ | ---------------------------------------------------------------------------------- |
+| `onValidate` | `(value, instance, validationParams) => string` - Return error message to validate |

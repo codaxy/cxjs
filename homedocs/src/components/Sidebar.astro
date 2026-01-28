@@ -1,0 +1,184 @@
+---
+import NavItem from './NavItem.astro';
+import SidebarSection from './SidebarSection.astro';
+import CategoryDropdown from './CategoryDropdown.astro';
+import { navigation, getCurrentCategory } from '../data/navigation.js';
+
+const pathname = Astro.url.pathname;
+const currentCategory = getCurrentCategory(pathname);
+
+// Get current slug for active state
+const pathParts = pathname.split('/').filter(Boolean);
+const currentSlug = pathParts[pathParts.length - 1];
+---
+
+<!-- Mobile overlay -->
+<div id="sidebar-overlay" class="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm lg:hidden hidden"></div>
+
+<!-- Sidebar -->
+<aside
+  id="sidebar"
+  class="fixed left-0 top-14 z-40 h-[calc(100vh-3.5rem)] w-72 border-r border-sidebar-border bg-sidebar transition-transform duration-200 lg:translate-x-0 -translate-x-full"
+>
+  <div class="h-full overflow-y-auto scrollbar-thin py-6 px-4">
+    <!-- Mobile category selector -->
+    <div class="mb-6 md:hidden">
+      <CategoryDropdown class="w-full" fullWidth />
+    </div>
+
+    <!-- Navigation groups for current category -->
+    {currentCategory?.groups.map((group) => (
+      <SidebarSection title={group.title}>
+        {group.items.map((item) => (
+          <NavItem
+            text={item.title}
+            href={`/docs/${currentCategory.slug}/${item.slug}`}
+            isActive={item.slug === currentSlug}
+          />
+        ))}
+      </SidebarSection>
+    ))}
+
+    <!-- Fallback: show all intro items if no category matched -->
+    {!currentCategory && navigation[0].groups.map((group) => (
+      <SidebarSection title={group.title}>
+        {group.items.map((item) => (
+          <NavItem
+            text={item.title}
+            href={`/docs/${navigation[0].slug}/${item.slug}`}
+          />
+        ))}
+      </SidebarSection>
+    ))}
+  </div>
+</aside>
+
+<style>
+  @reference "tailwindcss";
+
+  /* Mobile sidebar open state */
+  #sidebar:global(.mobile-open) {
+    @apply translate-x-0;
+  }
+
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--border)) transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--border));
+    border-radius: 3px;
+  }
+</style>
+
+<script is:inline>
+  (function() {
+    const SCROLL_KEY = 'sidebar-scroll';
+    const CATEGORY_KEY = 'sidebar-category';
+
+    function closeMobileMenu() {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('sidebar-overlay');
+      const menuBtn = document.getElementById('mobile-menu-btn');
+      const menuIcon = menuBtn?.querySelector('.menu-icon');
+      const closeIcon = menuBtn?.querySelector('.close-icon');
+
+      sidebar?.classList.remove('mobile-open');
+      overlay?.classList.add('hidden');
+      menuIcon?.classList.remove('hidden');
+      closeIcon?.classList.add('hidden');
+    }
+
+    function getScrollContainer() {
+      return document.querySelector('#sidebar > div');
+    }
+
+    function getCurrentCategory() {
+      // Extract category from URL pattern: /docs/{category}/{slug}
+      const match = window.location.pathname.match(/\/docs\/([^/]+)\//);
+      return match ? match[1] : null;
+    }
+
+    function saveScrollPosition() {
+      const container = getScrollContainer();
+      const category = getCurrentCategory();
+      if (container && category) {
+        sessionStorage.setItem(SCROLL_KEY, container.scrollTop.toString());
+        sessionStorage.setItem(CATEGORY_KEY, category);
+      }
+    }
+
+    function restoreScrollPosition() {
+      const container = getScrollContainer();
+      const savedScroll = sessionStorage.getItem(SCROLL_KEY);
+      const savedCategory = sessionStorage.getItem(CATEGORY_KEY);
+      const currentCategory = getCurrentCategory();
+
+      // Only restore scroll if staying in the same category
+      if (container && savedScroll && savedCategory === currentCategory) {
+        container.scrollTop = parseInt(savedScroll, 10);
+      }
+    }
+
+    // Only add listeners once
+    if (!window._sidebarInitialized) {
+      window._sidebarInitialized = true;
+
+      // Close sidebar when clicking overlay
+      document.addEventListener('click', (e) => {
+        if (e.target.closest('#sidebar-overlay')) {
+          closeMobileMenu();
+        }
+      });
+
+      // Show/hide overlay when sidebar opens/closes
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            const isOpen = sidebar?.classList.contains('mobile-open');
+            if (isOpen) {
+              overlay?.classList.remove('hidden');
+            } else {
+              overlay?.classList.add('hidden');
+            }
+          }
+        });
+      });
+
+      // Re-observe sidebar after each navigation
+      function observeSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        if (sidebar) {
+          observer.observe(sidebar, { attributes: true });
+        }
+      }
+
+      observeSidebar();
+      document.addEventListener('astro:page-load', observeSidebar);
+
+      // Save scroll position before navigation
+      document.addEventListener('astro:before-preparation', saveScrollPosition);
+
+      // Restore scroll position after page load
+      document.addEventListener('astro:page-load', restoreScrollPosition);
+    }
+
+    // Reset overlay state on page load
+    const overlay = document.getElementById('sidebar-overlay');
+    overlay?.classList.add('hidden');
+
+    // Restore scroll on initial load
+    restoreScrollPosition();
+  })();
+</script>

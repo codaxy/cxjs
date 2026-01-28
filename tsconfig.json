@@ -1,0 +1,23 @@
+{
+   "compilerOptions": {
+      "target": "es2017",
+      "jsx": "react-jsx",
+      "jsxImportSource": "cx",
+      "allowJs": true,
+      "moduleResolution": "node",
+      "module": "esnext",
+      "lib": ["dom", "dom.iterable", "es6"],
+      "allowSyntheticDefaultImports": true,
+      "esModuleInterop": true,
+      "forceConsistentCasingInFileNames": true,
+      "skipLibCheck": true,
+      "baseUrl": ".",
+      "paths": {
+         "cx": ["./packages/cx/src"],
+         "cx/*": ["./packages/cx/src/*"],
+         "cx-immer": ["./packages/cx-immer"]
+      }
+   },
+   "include": ["packages/cx/src/**/*"],
+   "exclude": ["node_modules", "dist", "build", "**.spec.**"]
+}

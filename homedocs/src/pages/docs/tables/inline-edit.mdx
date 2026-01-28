@@ -1,0 +1,63 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Inline Edit
+description: Edit data directly in the grid
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+
+import InlineEditExample from "../../../examples/tables/InlineEditExample.tsx";
+import InlineEditExampleCode from "../../../examples/tables/InlineEditExample.tsx?raw";
+
+# Inline Edit
+
+Grid supports arbitrary content inside cells, allowing form fields to be always visible for immediate editing.
+
+<CodeExample code={InlineEditExampleCode}>
+  <InlineEditExample client:load />
+</CodeExample>
+
+All fields are editable directly in the grid without clicking to activate editing.
+
+## Using children Property
+
+Use the `children` property on columns to embed widgets directly in cells:
+
+```tsx
+<Grid
+  records={m.records}
+  columns={[
+    {
+      header: "Name",
+      field: "fullName",
+      sortable: true,
+      children: <TextField value={m.$record.fullName} style="width: 100%" />,
+    },
+    {
+      header: "Notified",
+      field: "notified",
+      align: "center",
+      pad: false,
+      children: <Checkbox value={m.$record.notified} />,
+    },
+  ]}
+  recordAlias={m.$record}
+/>
+```
+
+## Styling Tips
+
+- Use `style="width: 100%"` on text fields to fill the cell
+- Use `pad: false` on columns with checkboxes for better alignment
+- Use `align: "center"` for checkbox columns
+
+## When to Use
+
+Inline editing is useful when:
+- Users need to edit multiple records quickly
+- The grid is the primary editing interface
+- Changes should be immediately visible
+
+For large datasets, consider [Cell Editing](/docs/tables/cell-editing) for better performance.
+
+See also: [Cell Editing](/docs/tables/cell-editing), [Row Editing](/docs/tables/row-editing)

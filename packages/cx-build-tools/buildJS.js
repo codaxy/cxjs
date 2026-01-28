@@ -1,7 +1,7 @@
 let rollup = require("rollup"),
-   path = require("path"),
    fs = require("fs"),
-   babel = require("rollup-plugin-babel"),
+   babel = require("@rollup/plugin-babel"),
+   { nodeResolve } = require("@rollup/plugin-node-resolve"),
    babelConfig = require("./babel.config"),
    importAlias = require("./importAlias"),
    manifestRecorder = require("./manifestRecorder"),
@@ -10,17 +10,18 @@ let rollup = require("rollup"),
 
 module.exports = function build(srcPath, distPath, entries, paths, externals) {
    let src = getPathResolver(srcPath);
+   let build = getPathResolver(src("../build"));
+   if (!fs.existsSync(build("."))) build = null;
    let dist = getPathResolver(distPath);
    let manifest = {};
 
-   let all = entries.map(async e => {
+   let all = entries.map(async (e) => {
       let options = Object.assign(
          {
             treeshake: true,
 
             external: function (id) {
-               if (id.indexOf("babel") == 0)
-                  throw new Error("Babel stuff detected: " + id);
+               if (id.indexOf("babel") == 0) throw new Error("Babel stuff detected: " + id);
 
                switch (id) {
                   case "route-parser":
@@ -36,29 +37,37 @@ module.exports = function build(srcPath, distPath, entries, paths, externals) {
                      return id.substring(0, 3) == "cx/";
                }
             },
-            plugins: []
+            plugins: [],
          },
-         e.options
+         e.options,
       );
 
       options.plugins.push(
+         nodeResolve({
+            extensions: [".js", ".jsx", ".ts", ".tsx"],
+         }),
          babel({
-            presets: babelConfig.presets,
+            babelHelpers: "bundled",
+            //presets: babelConfig.presets,
             plugins: [
-               ...babelConfig.plugins,
-               manifestRecorder(manifest, paths, src("."))
-            ]
+               //...babelConfig.plugins,
+               manifestRecorder(manifest, paths, (build ?? src)(".")),
+            ],
+            extensions: [
+               ".js",
+               //".jsx", ".ts", ".tsx"
+            ],
          }),
          importAlias({
             paths: paths,
-            path: srcPath //src('./' + e.name + '/')
+            path: build("."), //src('./' + e.name + '/')
          }),
          prettier({
             tabWidth: 2,
             printWidth: 120,
             useTabs: true,
-            parser: "babel"
-         })
+            parser: "babel",
+         }),
          //buble(),
       );
 
@@ -74,10 +83,7 @@ module.exports = function build(srcPath, distPath, entries, paths, externals) {
                if (e.name) {
                   //let code = result.code.replace(/from '@\//g, "from './");
                   if (chunkOrAsset.code.length > 5) {
-                     let code = chunkOrAsset.code.replace(
-                        /from "@\//g,
-                        'from "./'
-                     );
+                     let code = chunkOrAsset.code.replace(/from "@\//g, 'from "./');
                      if (!fs.existsSync(distPath)) fs.mkdirSync(distPath);
                      fs.writeFileSync(dist(e.name + ".js"), code);
                      console.log(e.name + ".js", code.length, "bytes");
@@ -106,10 +112,7 @@ module.exports = function build(srcPath, distPath, entries, paths, externals) {
 
    return Promise.all(all).then(() => {
       if (Object.keys(manifest).length > 0) {
-         fs.writeFileSync(
-            dist("manifest.js"),
-            "module.exports = " + JSON.stringify(manifest, null, 2)
-         );
+         fs.writeFileSync(dist("manifest.js"), "module.exports = " + JSON.stringify(manifest, null, 2));
       }
    });
 };

@@ -97,6 +97,36 @@ export default {
         type: 'boolean',
         description: <cx><Md>
            Used to indicate if the data should affect axis span.
-           </Md></cx>
-     }
+        </Md></cx>
+     },
+     stack:{
+        type: 'string',
+        description: <cx><Md>
+           Name of the stack. If multiple stacks are used, each should have a unique name. Default value is `stack`.
+        </Md></cx>
+     },
+     stackedX:{
+        type: 'boolean',
+        description: <cx><Md>
+           Indicate that markers should be stacked horizontally. Default value is `false`.
+        </Md></cx>
+     },
+     stackedY:{
+        type: 'boolean',
+        description: <cx><Md>
+           Indicate that markers should be stacked vertically. Default value is `false`.
+        </Md></cx>
+     },
+     rx: {
+        type: 'string/number',
+        description: <cx><Md>
+           Applies to rectangular shapes. The horizontal corner radius of the rect. Defaults to `ry` if `ry` is specified.
+        </Md></cx>
+     },
+     ry: {
+        type: 'string/number',
+        description: <cx><Md>
+           Applies to rectangular shapes. The vertical corner radius of the rect. Defaults to `rx` if `rx` is specified.
+        </Md></cx>
+     },
 };

@@ -1,0 +1,179 @@
+// ========================================
+// CSS Custom Properties (shadcn/ui style)
+// ========================================
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 220 13% 18%;
+
+    --card: 220 14% 98%;
+    --card-foreground: 220 13% 18%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 13% 18%;
+
+    --primary: 197 78% 51%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 220 14% 96%;
+    --secondary-foreground: 220 13% 18%;
+
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 9% 46%;
+
+    --accent: 197 78% 92%;
+    --accent-foreground: 197 78% 35%;
+
+    --destructive: 0 72% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 197 78% 51%;
+
+    --radius: 0.5rem;
+
+    --code-bg: 220 13% 18%;
+    --code-border: 220 13% 30%;
+    --heading: 220 13% 18%;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 220 13% 18%;
+    --sidebar-border: 220 13% 91%;
+
+    // Legacy variables for compatibility
+    --sl-color-white: #ffffff;
+    --sl-color-gray-1: #1f2937;
+    --sl-color-gray-2: #4b5563;
+    --sl-color-gray-3: #9ca3af;
+    --sl-color-gray-4: #d1d5db;
+    --sl-color-gray-5: #e5e7eb;
+    --sl-color-gray-6: #f3f4f6;
+    --sl-color-gray-7: #f9fafb;
+    --sl-color-accent: #27aae1;
+    --sl-color-accent-low: #e0f4fc;
+    --sl-color-text-accent: #27aae1;
+    --sl-color-bg: #ffffff;
+    --sl-color-bg-sidebar: #ffffff;
+    --sl-color-bg-content: #f9fafb;
+    --sl-color-text: #1f2937;
+
+    // CxJS Brand Colors
+    --cx-c-brand: #27aae1;
+    --cx-c-brand-light: #5bbac7;
+    --cx-c-brand-dark: #358dbf;
+
+    color-scheme: light;
+  }
+
+  .dark {
+    --background: 0 0% 9%;
+    --foreground: 0 0% 98%;
+
+    --card: 0 0% 12%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 0 0% 14%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 234 89% 73%;
+    --primary-foreground: 243 47% 20%;
+
+    --secondary: 0 0% 18%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 0 0% 18%;
+    --muted-foreground: 0 0% 64%;
+
+    --accent: 210 15% 22%;
+    --accent-foreground: 0 0% 98%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 85% 97%;
+
+    --border: 0 0% 22%;
+    --input: 0 0% 22%;
+    --ring: 234 89% 73%;
+
+    --code-bg: 0 0% 6%;
+    --code-border: 0 0% 20%;
+    --heading: 0 0% 98%;
+
+    --sidebar-background: 0 0% 12%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-border: 0 0% 22%;
+
+    // Legacy variables for compatibility
+    --sl-color-white: #fafafa;
+    --sl-color-gray-1: #e5e5e5;
+    --sl-color-gray-2: #d4d4d4;
+    --sl-color-gray-3: #a3a3a3;
+    --sl-color-gray-4: #737373;
+    --sl-color-gray-5: #404040;
+    --sl-color-gray-6: #262626;
+    --sl-color-gray-7: #171717;
+    --sl-color-accent: #a78bfa;
+    --sl-color-accent-low: #3b1f6e;
+    --sl-color-text-accent: #a78bfa;
+    --sl-color-bg: #171717;
+    --sl-color-bg-sidebar: #1f1f1f;
+    --sl-color-bg-content: #262626;
+    --sl-color-text: #fafafa;
+
+    // CxJS Brand Colors - Dark mode
+    --cx-c-brand: #5bbac7;
+    --cx-c-brand-light: #8fccd5;
+    --cx-c-brand-dark: #27aae1;
+
+    color-scheme: dark;
+  }
+
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+// ========================================
+// Global Element Styles
+// ========================================
+
+html {
+  font-weight: 400;
+  height: 100%;
+  scroll-behavior: smooth;
+}
+
+// Offset for anchor links (account for fixed header)
+:target {
+  scroll-margin-top: 80px;
+}
+
+body {
+  height: 100%;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+// ========================================
+// Import Styles
+// ========================================
+
+@import "components";
+@import "pagefind";
+
+@layer components {
+  @import "cxjs-theme";
+}
+
+@layer utilities {
+  @import "prose";
+}

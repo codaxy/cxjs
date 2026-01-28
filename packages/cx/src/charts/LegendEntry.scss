@@ -1,4 +1,5 @@
 @use "sass:math";
+@use "sass:map";
 @use "../util/scss/besm.scss" as *;
 @use "../util/scss/include.scss" as *;
 @use "../util/scss/add-rules.scss" as *;
@@ -10,17 +11,17 @@
    $state: map-get($besm, state);
 
    .#{$block}#{$name} {
-      display: inline-block;
-      padding: 5px 0 5px 30px;
+      display: inline-flex;
+      align-items: center;
+      padding: 5px;
+      gap: 5px;
       position: relative;
       box-sizing: border-box;
       cursor: pointer;
    }
 
    .#{$element}#{$name}-svg {
-      position: absolute;
-      left: 5px;
-      top: 50%;
+      flex-shrink: 0;
    }
 
    .#{$element}#{$name}-shape {

@@ -58,9 +58,9 @@ export const MouseTrackerPage = <cx>
                             y: <NumericAxis min={0} max={100} vertical/>,
                         }}>
                             <Gridlines />
-                            <MouseTracker 
-                                x-bind="$page.cursor.x" 
-                                y-bind="$page.cursor.y"   
+                            <MouseTracker
+                                x-bind="$page.cursor.x"
+                                y-bind="$page.cursor.y"
                                 tooltip={{
                                   destroyDelay: 5,
                                   createDelay: 5,
@@ -77,7 +77,7 @@ export const MouseTrackerPage = <cx>
                 `}</CodeSnippet>
             </Content>
 
-            `MouseTracker` is commonly used with [point reducers](~/charts/point-reducers) to track values the graph.
+            `MouseTracker` is commonly used with [point reducers](~/charts/point-reducers) to track values on the graph.
         </CodeSplit>
 
         ## Configuration

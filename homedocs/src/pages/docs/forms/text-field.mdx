@@ -1,0 +1,109 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: TextField
+description: Single-line text input field
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+import TextFieldExample from "../../../examples/forms/TextFieldExample.tsx";
+import TextFieldExampleCode from "../../../examples/forms/TextFieldExample.tsx?raw";
+
+import TextFieldStylingExample from "../../../examples/forms/TextFieldStylingExample.tsx";
+import TextFieldStylingExampleCode from "../../../examples/forms/TextFieldStylingExample.tsx?raw";
+
+# TextField
+
+<ImportPath path="import { TextField } from 'cx/widgets';" />
+
+<OnThisPage />
+
+The `TextField` widget is used for single-line text inputs. It's one of the most commonly used form controls with support for validation, placeholders, icons, and various input modes.
+
+<CodeExample code={TextFieldExampleCode}>
+  <TextFieldExample client:load />
+</CodeExample>
+
+## Styling
+
+TextField supports icons, clear buttons, and custom styling for the input element.
+
+<CodeExample code={TextFieldStylingExampleCode}>
+  <TextFieldStylingExample client:load />
+</CodeExample>
+
+## See Also
+
+- [Forwarding Keyboard Inputs](/docs/forms/list-forwarding-keyboard-inputs) - Forward keyboard events from TextField to a List
+
+## Configuration
+
+### Core Properties
+
+| Property      | Type      | Default                     | Description                                                                                                 |
+| ------------- | --------- | --------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `value`       | `string`  | `null`                      | Text value of the input                                                                                     |
+| `placeholder` | `string`  |                             | Hint text displayed when the field is empty                                                                 |
+| `disabled`    | `boolean` | `false`                     | Disables the input                                                                                          |
+| `enabled`     | `boolean` |                             | Opposite of `disabled`                                                                                      |
+| `readOnly`    | `boolean` | `false`                     | Makes the input read-only                                                                                   |
+| `required`    | `boolean` | `false`                     | Marks the field as required                                                                                 |
+| `label`       | `string`  |                             | Field label text                                                                                            |
+| `viewMode`    | `boolean` | `false`                     | Display as plain text instead of interactive input                                                          |
+| `emptyText`   | `string`  |                             | Text shown in view mode when the field is empty                                                             |
+| `emptyValue`  | `any`     | `null`                      | Value written to the store when the field is cleared                                                        |
+| `inputType`   | `string`  | `"text"`                    | HTML input type. Use `"password"` for password fields                                                       |
+| `reactOn`     | `string`  | `"change input blur enter"` | Events that trigger value updates. Options: `"input"`, `"change"`, `"enter"`, `"blur"`. Separate with space |
+
+### Validation
+
+| Property                       | Type      | Default                                  | Description                                               |
+| ------------------------------ | --------- | ---------------------------------------- | --------------------------------------------------------- |
+| `minLength`                    | `number`  |                                          | Minimum allowed text length                               |
+| `maxLength`                    | `number`  |                                          | Maximum allowed text length                               |
+| `minLengthValidationErrorText` | `string`  | `"Enter {[{0}-{1}]} more character(s)."` | Error message when text is too short                      |
+| `maxLengthValidationErrorText` | `string`  | `"Use {0} characters or fewer."`         | Error message when text is too long                       |
+| `validationRegExp`             | `RegExp`  |                                          | Regular expression for validating the input               |
+| `validationErrorText`          | `string`  | `"The entered value is not valid."`      | Error message when regex validation fails                 |
+| `trim`                         | `boolean` | `false`                                  | Trims whitespace before storing and validating            |
+| `error`                        | `string`  |                                          | Custom error message. Field is marked invalid if set      |
+| `visited`                      | `boolean` |                                          | If `true`, shows validation errors immediately            |
+| `validationMode`               | `string`  | `"tooltip"`                              | How to show errors: `"tooltip"`, `"help"`, `"help-block"` |
+| `validationParams`             | `object`  |                                          | Additional params passed to `onValidate`                  |
+
+### Appearance
+
+| Property          | Type            | Default | Description                                                |
+| ----------------- | --------------- | ------- | ---------------------------------------------------------- |
+| `icon`            | `string/object` |         | Icon on the left side. Can include `onClick` and `tooltip` |
+| `showClear`       | `boolean`       | `false` | Shows a clear button when the field has a value            |
+| `hideClear`       | `boolean`       | `false` | Opposite of `showClear`                                    |
+| `alwaysShowClear` | `boolean`       | `false` | Shows clear button even when field is required             |
+| `tooltip`         | `string/object` |         | Tooltip text or configuration                              |
+| `inputStyle`      | `string/object` |         | CSS styles applied to the input element                    |
+| `inputClass`      | `string`        |         | CSS class applied to the input element                     |
+| `inputAttrs`      | `object`        |         | Additional HTML attributes for the input element           |
+| `asterisk`        | `boolean`       | `false` | Appends asterisk to label for required fields              |
+
+### Behavior
+
+| Property           | Type      | Default | Description                                         |
+| ------------------ | --------- | ------- | --------------------------------------------------- |
+| `autoFocus`        | `boolean` | `false` | Automatically focuses the field on mount            |
+| `tabOnEnterKey`    | `boolean` | `false` | Moves focus to the next field when Enter is pressed |
+| `trackFocus`       | `boolean` | `false` | Adds `cxs-focus` CSS class when input is focused    |
+| `focused`          | `boolean` |         | Bound value updated when field gains/loses focus    |
+| `tabIndex`         | `string`  |         | Custom tab index                                    |
+| `keyboardShortcut` | `string`  |         | Keyboard shortcut to focus the field                |
+| `id`               | `string`  |         | HTML id attribute for the input                     |
+
+### Callbacks
+
+| Property     | Description                                                                                       |
+| ------------ | ------------------------------------------------------------------------------------------------- |
+| `onFocus`    | `(e, instance) => void` - Called when field receives focus                                        |
+| `onBlur`     | `(e, instance) => void` - Called when field loses focus                                           |
+| `onKeyDown`  | `(e, instance) => boolean` - Return `false` to prevent default                                    |
+| `onValidate` | `(value, instance, validationParams) => string` - Return error message or `false` to clear errors |

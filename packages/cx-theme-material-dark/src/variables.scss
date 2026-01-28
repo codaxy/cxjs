@@ -1,3 +1,5 @@
+@use "sass:map";
+
 //THEME SPECIFIC VARIABLES
 // pick theme color scheme
 $primary-color-blue: #8cc8fe !default;
@@ -45,10 +47,10 @@ $cx-default-box-font-size: 13px !default;
 $cx-default-box-line-height: $cx-theme-base-size + 10px !default;
 $cx-default-box-border-width: 1px !default;
 
+$cx-default-box-padding: round($cx-theme-base-size * 0.5);
+
 @if $cx-theme-base-size < 14px {
-   $cx-default-box-padding: round($cx-theme-base-size/3) !global;
-} @else {
-   $cx-default-box-padding: round($cx-theme-base-size * 0.5) !global;
+   $cx-default-box-padding: round($cx-theme-base-size/3);
 }
 
 $cx-use-box-line-height-fix: false !default;
@@ -61,7 +63,8 @@ $cx-default-button-font-weight: $cx-default-font-weight !default;
 $cx-default-button-background-color: #e0e0e0 !default;
 $cx-default-button-border-width: 0 !default;
 $cx-default-button-border-radius: $cx-default-border-radius !default;
-$cx-default-button-padding: $cx-default-box-padding + 1px 2 * $cx-default-box-padding + 6px !default;
+$cx-default-button-padding: $cx-default-box-padding + 1px 2 *
+   $cx-default-box-padding + 6px !default;
 
 // CHART
 $cx-default-palette-fill-blacken: 30% !default;
@@ -81,7 +84,8 @@ $cx-default-tab-background-color: transparent !default;
 $cx-default-tab-border-width: 0 0 2px !default;
 $cx-default-tab-border-color: transparent !default;
 $cx-default-tab-border-radius: $cx-default-border-radius !default;
-$cx-default-tab-padding: $cx-default-box-padding + 1px 2 * $cx-default-box-padding + 10px !default;
+$cx-default-tab-padding: $cx-default-box-padding + 1px 2 *
+   $cx-default-box-padding + 10px !default;
 
 //SECTION
 $cx-default-section-background: $cx-default-background-overlay;
@@ -99,7 +103,8 @@ $cx-default-window-header-background: #424242;
 $cx-default-window-background-color: $cx-medium-light-background-overlay !default;
 
 //TOAST
-$cx-default-toast-padding: 2 * $cx-default-box-padding 2 * $cx-default-box-padding !default;
+$cx-default-toast-padding: 2 * $cx-default-box-padding 2 *
+   $cx-default-box-padding !default;
 $cx-default-toast-background-color: $cx-medium-light-background-overlay;
 $cx-default-toast-color: $cx-default-color;
 $cx-default-toast-box-shadow: none;
@@ -116,20 +121,22 @@ $cx-default-grid-header-line-height: $cx-default-box-line-height + 1px !default;
 $cx-default-grid-header-background-color: $cx-default-background-color;
 $cx-default-grid-header-font-weight: $cx-default-tab-font-weight !default;
 $cx-default-grid-header-color: lighten($cx-theme-primary-color, 15);
-$cx-default-grid-header-padding: $cx-default-box-padding + 2px 2 * $cx-default-box-padding + 6px $cx-default-box-padding +
-   4px !default;
+$cx-default-grid-header-padding: $cx-default-box-padding + 2px 2 *
+   $cx-default-box-padding + 6px $cx-default-box-padding + 4px !default;
 
 // data
 $cx-default-grid-data-alternate-background-color: #2a2a2a !default;
 $cx-default-grid-data-border-color: #2a2a2a !default;
-$cx-default-grid-data-padding: $cx-default-box-padding + 2px 2 * $cx-default-box-padding + 7px $cx-default-box-padding !default;
+$cx-default-grid-data-padding: $cx-default-box-padding + 2px 2 *
+   $cx-default-box-padding + 7px $cx-default-box-padding !default;
 $cx-default-grid-data-line-height: $cx-default-grid-header-line-height !default;
 
 // drag-clone
 $cx-default-dragclone-background-color: $cx-default-background-color;
 
 //LIST
-$cx-default-list-item-padding: $cx-default-box-padding + 1 2 * $cx-default-box-padding $cx-default-box-padding !default;
+$cx-default-list-item-padding: $cx-default-box-padding + 1 2 *
+   $cx-default-box-padding $cx-default-box-padding !default;
 
 //FORM
 $cx-default-input-font-size: $cx-default-box-font-size + 1px !default;
@@ -193,7 +200,10 @@ $cx-default-slider-handle-box-shadow: none !default;
 // switch
 $cx-default-switch-axis-size: 8px !default;
 $cx-default-switch-axis-background-color: $cx-light-background-overlay !default;
-$cx-default-switch-range-background-color: rgba($cx-theme-primary-color, 0.5) !default;
+$cx-default-switch-range-background-color: rgba(
+   $cx-theme-primary-color,
+   0.5
+) !default;
 $cx-default-switch-handle-background-color: #8a8a8a !default;
 $cx-default-switch-handle-border-color: $cx-default-switch-handle-background-color !default;
 
@@ -206,7 +216,10 @@ $cx-default-clear-size: $cx-default-icon-size !default;
 $cx-default-progressbar-height: 8px !default;
 $cx-default-progressbar-font-size: smaller !default;
 $cx-default-progressbar-color: $cx-medium-emphasis !default;
-$cx-default-progressbar-background-color: rgba($cx-theme-primary-color, 0.2) !default;
+$cx-default-progressbar-background-color: rgba(
+   $cx-theme-primary-color,
+   0.2
+) !default;
 $cx-default-progressbar-border-width: 0 !default;
 
 $cx-default-progressbar-indicator-background-color: $cx-theme-primary-color !default;
@@ -404,15 +417,11 @@ $cx-button-mods: cx-deep-map-merge(
             background-color: $cx-theme-accent-color,
             border-color: transparent,
             border-radius: 50%,
-            padding: 0 !important,
+            padding: 0,
             width: $cx-default-box-line-height + 2 *
-               (
-                  $cx-default-box-padding + 1px,
-               ) + 10px,
+               cx-calc($cx-default-box-padding, 1px) + 10px,
             height: $cx-default-box-line-height + 2 *
-               (
-                  $cx-default-box-padding + 1px,
-               ) + 10px,
+               cx-calc($cx-default-box-padding, 1px) + 10px,
          ),
          hover: (
             background-color: rgba($cx-theme-accent-color, 0.9),
@@ -544,8 +553,7 @@ $cx-tab-mods: cx-deep-map-merge(
          ),
       ),
       // If a tab is inside a dark-colored container, use mod="line-accent".
-      line-accent:
-         (
+      line-accent: (
             default: (
                color: $cx-default-color,
                border-left-color: transparent !important,
@@ -631,7 +639,7 @@ $cx-section-mods: cx-deep-map-merge(
 );
 
 //MENU
-$cx-dropdown-styles: map-merge(
+$cx-dropdown-styles: map.merge(
    $cx-dropdown-styles,
    (
       color: $cx-medium-emphasis,
@@ -641,7 +649,7 @@ $cx-dropdown-styles: map-merge(
    )
 );
 
-$cx-menu-state-style-map: map-merge(
+$cx-menu-state-style-map: map.merge(
    $cx-menu-state-style-map,
    (
       default: (
@@ -892,7 +900,7 @@ $cx-colorpicker-state-style-map: cx-deep-map-merge(
    (
       default: (
          color: $cx-default-color,
-         border-width: 0 0 2px,
+         border-width: 0 0 1px,
          border-color: #414141,
       ),
       focus: (

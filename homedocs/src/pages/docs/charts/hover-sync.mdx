@@ -1,0 +1,46 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: HoverSync
+description: Synchronize hover state across charts
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+import HoverSyncExample from "../../../examples/charts/HoverSyncExample.tsx";
+import HoverSyncExampleCode from "../../../examples/charts/HoverSyncExample.tsx?raw";
+
+# HoverSync
+
+<ImportPath path="import { HoverSync } from 'cx/ui';" />
+
+<OnThisPage collapsed />
+
+`HoverSync` synchronizes hover effects between chart elements, legends, and grids. Elements with the same `hoverId` will highlight together when any of them is hovered.
+
+<CodeExample code={HoverSyncExampleCode}>
+  <HoverSyncExample client:load />
+</CodeExample>
+
+## How It Works
+
+1. Wrap related chart elements in a `HoverSync` component
+2. Assign matching `hoverId` values to elements that should highlight together
+3. When any element is hovered, all elements with the same `hoverId` will highlight
+
+## Configuration
+
+### HoverSync
+
+| Property       | Type     | Default     | Description                                         |
+| -------------- | -------- | ----------- | --------------------------------------------------- |
+| `hoverChannel` | `string` | `"default"` | Channel name for isolating multiple hover contexts. |
+
+### Element Props
+
+Chart elements support these hover-related props:
+
+| Property  | Type               | Description                                     |
+| --------- | ------------------ | ----------------------------------------------- |
+| `hoverId` | `string \| number` | Identifier for synchronized hover highlighting. |

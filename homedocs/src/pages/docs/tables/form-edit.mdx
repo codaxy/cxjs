@@ -1,0 +1,79 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Form Edit
+description: Edit rows in a separate form
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+
+import FormEditExample from "../../../examples/tables/FormEditExample.tsx";
+import FormEditExampleCode from "../../../examples/tables/FormEditExample.tsx?raw";
+
+# Form Edit
+
+Grid can be connected to a separate form for editing selected records. This pattern is useful when records have many fields or when you want a clear separation between viewing and editing.
+
+<CodeExample code={FormEditExampleCode}>
+  <FormEditExample client:load />
+</CodeExample>
+
+Click a row to select it. The form below displays the selected record's data for editing.
+
+## Loading Form Data
+
+Use a trigger to load the selected record into the form:
+
+```tsx
+this.addTrigger("loadForm", [m.selectedId, m.records], (id, records) => {
+  const record = records?.find((r) => r.id === id);
+  this.store.set(m.form, record || null);
+});
+```
+
+## Saving Changes
+
+Update the records array when the form is saved using `updateArray`:
+
+```tsx
+import { updateArray } from "cx/data";
+
+saveRecord() {
+  const form = this.store.get(m.form);
+  if (!form) return;
+  this.store.update(m.records, (records) =>
+    updateArray(records, () => form, (r) => r.id === form.id)
+  );
+}
+```
+
+## Preventing Row Selection on Button Click
+
+When using action buttons inside a selectable grid, clicking the button also selects the row. Use `stopPropagation` on `onMouseDown` to prevent this:
+
+```tsx
+import { stopPropagation } from "cx/util";
+
+{
+  header: "Actions",
+  children: (
+    <Button
+      onMouseDown={stopPropagation}
+      onClick={(e, instance) => {
+        instance.getControllerByType(PageController).removeRecord(id);
+      }}
+    >
+      Remove
+    </Button>
+  ),
+}
+```
+
+## When to Use
+
+Form editing is ideal when:
+- Records have many fields that don't fit in a grid
+- You want explicit Save/Cancel actions
+- Complex validation is needed before saving
+- The form needs additional context or related data
+
+See also: [Cell Editing](/docs/tables/cell-editing), [Row Editing](/docs/tables/row-editing), [Inline Edit](/docs/tables/inline-edit)

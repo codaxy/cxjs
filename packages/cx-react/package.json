@@ -1,14 +1,30 @@
 {
    "name": "cx-react",
-   "version": "17.10.1",
+   "version": "26.1.0",
    "description": "React based rendering for CxJS applications.",
-   "main": "index.js",
-   "scripts": {},
+   "main": "dist/index.js",
+   "types": "dist/index.d.ts",
+   "exports": {
+      ".": {
+         "types": "./dist/index.d.ts",
+         "default": "./dist/index.js"
+      }
+   },
+   "scripts": {
+      "build": "tsc",
+      "check-types": "tsc --noEmit"
+   },
    "author": "Codaxy",
    "license": "MIT",
    "homepage": "https://github.com/codaxy/cxjs",
    "peerDependencies": {
-      "react": "*",
-      "react-dom": "*"
+      "@types/react": ">=18",
+      "react": ">=18",
+      "react-dom": ">=18"
+   },
+   "devDependencies": {
+      "@types/react": "^19.2.7",
+      "@types/react-dom": "^19.2.3",
+      "typescript": "^5.9.3"
    }
 }

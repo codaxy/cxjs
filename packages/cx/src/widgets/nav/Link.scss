@@ -1,3 +1,4 @@
+@use "sass:map";
 @use "sass:math";
 @use "../box.scss" as *;
 @use "../../util/scss/add-rules.scss" as *;
@@ -7,10 +8,14 @@
 @use "../../util/scss/besm.scss" as *;
 @use "./maps.scss" as *;
 
-@mixin cx-link($name: "link", $besm: $cx-besm, $state-style-map: $cx-link-state-style-map) {
-   $block: map-get($besm, block);
-   $element: map-get($besm, element);
-   $state: map-get($besm, state);
+@mixin cx-link(
+   $name: "link",
+   $besm: $cx-besm,
+   $state-style-map: $cx-link-state-style-map
+) {
+   $block: map.get($besm, block);
+   $element: map.get($besm, element);
+   $state: map.get($besm, state);
 
    .#{$block}#{$name} {
       &:hover {

@@ -1,0 +1,89 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Multi File Upload
+description: Upload multiple files at once
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+
+import MultiFileUploadExample from "../../../examples/forms/MultiFileUploadExample.tsx";
+import MultiFileUploadExampleCode from "../../../examples/forms/MultiFileUploadExample.tsx?raw";
+
+# Multi File Upload
+
+This example demonstrates how to use the `UploadButton` component to handle multiple file uploads with validation and progress tracking.
+
+<CodeExample code={MultiFileUploadExampleCode}>
+  <MultiFileUploadExample client:load />
+</CodeExample>
+
+## How It Works
+
+By default, `UploadButton` automatically uploads each file as soon as it is selected using `XMLHttpRequest`. When multiple files are selected, each file is sent in a separate request.
+
+You can customize this behavior by defining the `onUploadStarting` callback. By preserving the selected files and returning `false` from the callback, the upload is deferred, giving you full control over the upload logic.
+
+```tsx
+onUploadStarting(xhr, instance, file) {
+  // Validate the file
+  const invalidSize = file.size > 1e6;
+  const invalidType = !file.type.startsWith("image/");
+
+  // Store the file for later upload
+  instance.store.update(m.form.files, append, {
+    file,
+    invalid: invalidSize || invalidType ? { size: invalidSize, type: invalidType } : undefined,
+  });
+
+  // Return false to prevent automatic upload
+  return false;
+}
+```
+
+## Progress Tracking
+
+`XMLHttpRequest` provides better support for upload progress tracking than `fetch`:
+
+```tsx
+function uploadFilesWithProgress(url, files, onProgress) {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    const formData = new FormData();
+
+    files.forEach((file) => formData.append("file", file));
+
+    xhr.upload.onprogress = (e) =>
+      e.lengthComputable && onProgress(e.loaded / e.total);
+
+    xhr.onload = () =>
+      xhr.status >= 200 && xhr.status < 300
+        ? resolve(xhr)
+        : reject(new Error(`Failed: ${xhr.status}`));
+
+    xhr.open("POST", url);
+    xhr.send(formData);
+  });
+}
+```
+
+## Validation
+
+Use `ValidationGroup` with `Validator` components to validate file selection:
+
+```tsx
+<ValidationGroup invalid={m.form.invalid} errors={m.form.errors}>
+  <Validator
+    value={m.form.files}
+    onValidate={(files = []) =>
+      files.length < 1 && "Please select at least one file."
+    }
+  />
+  <Validator
+    value={m.form.files}
+    onValidate={(files) =>
+      files?.some((f) => f.invalid) && "Only valid images allowed."
+    }
+  />
+  {/* ... form content ... */}
+</ValidationGroup>
+```

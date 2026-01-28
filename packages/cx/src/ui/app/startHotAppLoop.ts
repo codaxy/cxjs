@@ -1,0 +1,41 @@
+import { View } from "../../data/View";
+import { Create } from "../../util/Component";
+import { Widget } from "../Widget";
+import { startAppLoop, StartAppLoopOptions } from "./startAppLoop";
+
+export interface HotModule {
+   hot?: {
+      accept: () => void;
+      dispose: (callback: (data: any) => void) => void;
+      data?: any;
+   };
+}
+
+export function startHotAppLoop(
+   appModule: HotModule,
+   element: HTMLElement,
+   store: View,
+   widgets: Create<typeof Widget> | Create<typeof Widget>[],
+   options: StartAppLoopOptions = {},
+): () => void {
+   let stop: (() => void) | undefined;
+   //webpack (HMR)
+   if (appModule.hot) {
+      // accept itself
+      appModule.hot.accept();
+
+      // remember data on dispose
+      appModule.hot.dispose(function (data: any) {
+         data.state = store.getData();
+         if (stop) stop();
+      });
+
+      //apply data on hot replace
+      if (appModule.hot.data?.state) store.load(appModule.hot.data.state);
+   }
+
+   Widget.resetCounter();
+
+   //app loop
+   return (stop = startAppLoop(element, store, widgets, options));
+}

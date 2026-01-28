@@ -1,0 +1,99 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: DateTimeField
+description: Combined date and time picker
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import DateTimeFieldExample from "../../../examples/forms/DateTimeFieldExample.tsx";
+import DateTimeFieldExampleCode from "../../../examples/forms/DateTimeFieldExample.tsx?raw";
+
+import DateTimeFieldPartialExample from "../../../examples/forms/DateTimeFieldPartialExample.tsx";
+import DateTimeFieldPartialExampleCode from "../../../examples/forms/DateTimeFieldPartialExample.tsx?raw";
+
+# DateTimeField
+
+<ImportPath path="import { DateTimeField } from 'cx/widgets';" />
+
+The `DateTimeField` widget is used for selecting date, time, or datetime values. It supports textual input and picking from a dropdown.
+
+Use `TimeField` as a shorthand alias for `DateTimeField` with `segment="time"`. The `picker="list"` option displays time options in a scrollable list with configurable `step` intervals.
+
+<CodeExample code={DateTimeFieldExampleCode}>
+  <DateTimeFieldExample client:load />
+</CodeExample>
+
+## Partial Mode
+
+Combine `DateField` and `TimeField` to edit the same datetime value. Use the `partial` flag to indicate that each field affects only its respective segment of the date.
+
+<CodeExample code={DateTimeFieldPartialExampleCode}>
+  <DateTimeFieldPartialExample client:load />
+</CodeExample>
+
+## Configuration
+
+### Core Properties
+
+| Property      | Type     | Default      | Description                                                        |
+| ------------- | -------- | ------------ | ------------------------------------------------------------------ |
+| `value`       | `string` | `null`       | Selected date/time value. Accepts Date objects or ISO strings      |
+| `segment`     | `string` | `"datetime"` | Mode of operation: `"datetime"`, `"date"`, or `"time"`             |
+| `format`      | `string` |              | Custom format for displaying the value                             |
+| `placeholder` | `string` |              | Placeholder text when no value is selected                         |
+| `disabled`    | `boolean`| `false`      | Disables the field                                                 |
+| `readOnly`    | `boolean`| `false`      | Makes the field read-only                                          |
+| `icon`        | `string` | `"calendar"` | Icon displayed on the left side of the input                       |
+
+### Date Constraints
+
+| Property             | Type       | Default | Description                                                      |
+| -------------------- | ---------- | ------- | ---------------------------------------------------------------- |
+| `minValue`           | `string`   |         | Minimum selectable date/time                                     |
+| `minExclusive`       | `boolean`  | `false` | If `true`, the minimum value itself is not selectable            |
+| `maxValue`           | `string`   |         | Maximum selectable date/time                                     |
+| `maxExclusive`       | `boolean`  | `false` | If `true`, the maximum value itself is not selectable            |
+| `disabledDaysOfWeek` | `number[]` |         | Days of week that cannot be selected. Sunday is 0, Saturday is 6 |
+
+### Picker Options
+
+| Property          | Type      | Default  | Description                                                      |
+| ----------------- | --------- | -------- | ---------------------------------------------------------------- |
+| `picker`          | `string`  | `"auto"` | Picker type: `"auto"`, `"calendar"`, or `"list"`                 |
+| `step`            | `number`  |          | Time step in minutes when using `picker="list"`                  |
+| `showSeconds`     | `boolean` | `false`  | Show seconds in the time picker                                  |
+| `partial`         | `boolean` | `false`  | Only update the relevant segment (date or time) of existing value|
+| `focusInputFirst` | `boolean` | `false`  | Focus the input field instead of the picker when opening         |
+| `dropdownOptions` | `object`  |          | Additional configuration for the dropdown                        |
+| `encoding`        | `function`|          | Custom function to encode Date objects before storing            |
+
+### Appearance
+
+| Property          | Type      | Default | Description                                                       |
+| ----------------- | --------- | ------- | ----------------------------------------------------------------- |
+| `showClear`       | `boolean` | `true`  | Shows a clear button when value is present                        |
+| `hideClear`       | `boolean` | `false` | Hides the clear button (opposite of `showClear`)                  |
+| `alwaysShowClear` | `boolean` | `false` | Shows clear button even when field is required                    |
+| `inputStyle`      | `object`  |         | CSS styles for the input element                                  |
+| `inputClass`      | `string`  |         | CSS class for the input element                                   |
+| `inputAttrs`      | `object`  |         | Additional attributes for the input element                       |
+
+### Validation
+
+| Property                     | Type     | Default                                      | Description                                       |
+| ---------------------------- | -------- | -------------------------------------------- | ------------------------------------------------- |
+| `minValueErrorText`          | `string` | `"Select {0:d} or later."`                   | Error message when value is before minimum        |
+| `minExclusiveErrorText`      | `string` | `"Select a date after {0:d}."`               | Error message when value equals exclusive minimum |
+| `maxValueErrorText`          | `string` | `"Select {0:d} or before."`                  | Error message when value is after maximum         |
+| `maxExclusiveErrorText`      | `string` | `"Select a date before {0:d}."`              | Error message when value equals exclusive maximum |
+| `inputErrorText`             | `string` | `"Invalid date entered."`                    | Error message for invalid input                   |
+| `disabledDaysOfWeekErrorText`| `string` | `"Selected day of week is not allowed."`     | Error for disabled day of week                    |
+
+### Behavior
+
+| Property   | Type      | Default        | Description                                              |
+| ---------- | --------- | -------------- | -------------------------------------------------------- |
+| `autoFocus`| `boolean` | `false`        | Automatically focuses the field on mount                 |
+| `reactOn`  | `string`  | `"enter blur"` | Events that trigger value update: `"enter"`, `"blur"`    |

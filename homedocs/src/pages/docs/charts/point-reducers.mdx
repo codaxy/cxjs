@@ -1,0 +1,48 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: PointReducer
+description: Aggregate and reduce chart data
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+import PointReducersExample from "../../../examples/charts/PointReducersExample.tsx";
+import PointReducersExampleCode from "../../../examples/charts/PointReducersExample.tsx?raw";
+
+# PointReducer
+
+<ImportPath path="import { PointReducer } from 'cx/charts';" />
+
+<OnThisPage />
+
+`PointReducer` calculates aggregate values from points displayed on the chart. It provides three callback hooks for initializing an accumulator, processing each point, and computing final results.
+
+<CodeExample code={PointReducersExampleCode}>
+  <PointReducersExample client:load />
+</CodeExample>
+
+## How It Works
+
+1. `onInitAccumulator` - Initialize the accumulator object before processing
+2. `onMap` - Called for each point with `(accumulator, x, y, name, data, array, index)`
+3. `onReduce` - Calculate final values and write them to the store
+
+## Predefined Variants
+
+CxJS provides specialized point reducers for common use cases:
+
+- [MinMaxFinder](/docs/charts/min-max-finder) - Find minimum and maximum values
+- [SnapPointFinder](/docs/charts/snap-point-finder) - Snap to nearest data point
+- [ValueAtFinder](/docs/charts/value-at-finder) - Track values on line graphs
+
+## Configuration
+
+| Property              | Type       | Description                                                                        |
+| --------------------- | ---------- | ---------------------------------------------------------------------------------- |
+| `onInitAccumulator`   | `function` | Initialize accumulator. Args: `(accumulator, instance)`                            |
+| `onMap`               | `function` | Process each point. Args: `(accumulator, x, y, name, data, array, index)`          |
+| `onReduce`            | `function` | Calculate final values. Args: `(accumulator, instance)`                            |
+| `filterParams`        | `object`   | Parameters passed to `onCreatePointFilter`.                                        |
+| `onCreatePointFilter` | `function` | Create a predicate for filtering points. Args: `(filterParams, instance)`          |

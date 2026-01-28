@@ -1,0 +1,35 @@
+{
+   "compilerOptions": {
+      "target": "es2024",
+      "jsx": "react-jsx",
+      "jsxImportSource": "cx",
+      "allowJs": false,
+      "moduleResolution": "bundler",
+      "module": "esnext",
+      "lib": ["dom", "dom.iterable", "ESNext"],
+      "allowSyntheticDefaultImports": true,
+      "esModuleInterop": true,
+      "forceConsistentCasingInFileNames": true,
+      "skipLibCheck": true,
+      "baseUrl": ".",
+      "paths": {
+         "cx/jsx-runtime": ["./jsx-runtime"]
+      },
+      "outDir": "./build",
+      "rootDir": "./src",
+      "declaration": true,
+      "declarationMap": true,
+      "strict": true,
+      "noImplicitAny": true,
+      "strictNullChecks": true,
+      "strictFunctionTypes": true,
+      "strictBindCallApply": true,
+      "strictPropertyInitialization": false,
+      "noImplicitThis": true,
+      "alwaysStrict": true,
+      "downlevelIteration": true,
+      "removeComments": false
+   },
+   "exclude": ["dist", "build"],
+   "include": ["src"]
+}

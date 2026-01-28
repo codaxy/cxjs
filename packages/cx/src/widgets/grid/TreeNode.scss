@@ -7,6 +7,7 @@
 @use "../../util/scss/besm.scss" as *;
 @use "../variables.scss" as *;
 @use "../maps.scss" as *;
+@use "sass:map";
 
 @mixin cx-treenode(
    $name: "treenode",
@@ -15,19 +16,18 @@
    $handle-state-style-map: $cx-input-right-icon-state-style-map,
    $besm: $cx-besm
 ) {
-   $block: map-get($besm, block);
-   $element: map-get($besm, element);
-   $state: map-get($besm, state);
-   $mod: map-get($besm, mod);
+   $block: map.get($besm, block);
+   $element: map.get($besm, element);
+   $state: map.get($besm, state);
+   $mod: map.get($besm, mod);
 
    .#{$block}#{$name} {
       padding-left: $handle-size + $icon-size * 0.25;
+      position: relative;
 
       &.#{$state}icon {
          padding-left: $handle-size + $icon-size + $icon-size * 0.25;
       }
-
-      position: relative;
 
       @for $i from 1 through 20 {
          &.#{$state}level-#{$i} {

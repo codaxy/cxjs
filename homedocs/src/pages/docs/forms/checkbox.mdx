@@ -1,0 +1,67 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Checkbox
+description: Boolean checkbox input
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+import CheckboxExample from "../../../examples/forms/CheckboxExample.tsx";
+import CheckboxExampleCode from "../../../examples/forms/CheckboxExample.tsx?raw";
+
+# Checkbox
+
+<ImportPath path="import { Checkbox } from 'cx/widgets';" />
+
+<OnThisPage />
+
+The `Checkbox` widget is used for expressing binary choices. It supports both standard styled checkboxes and native HTML checkboxes.
+
+<CodeExample code={CheckboxExampleCode}>
+  <CheckboxExample client:load />
+</CodeExample>
+
+## Three State Mode
+
+Use the `indeterminate` prop to enable three-state mode. This displays a square icon when the value is `null` or `undefined`, which is useful for "select all" scenarios where only some items are selected.
+
+## Configuration
+
+### Core Properties
+
+| Property        | Type      | Default | Description                                                    |
+| --------------- | --------- | ------- | -------------------------------------------------------------- |
+| `value`         | `boolean` | `false` | Checked state of the checkbox                                  |
+| `checked`       | `boolean` |         | Alias for `value`                                              |
+| `text`          | `string`  |         | Text displayed next to the checkbox                            |
+| `label`         | `string`  |         | Label displayed before the checkbox                            |
+| `disabled`      | `boolean` | `false` | Disables the checkbox                                          |
+| `readOnly`      | `boolean` | `false` | Makes the checkbox read-only                                   |
+| `required`      | `boolean` | `false` | Requires the checkbox to be checked                            |
+| `indeterminate` | `boolean` | `false` | Enables three-state mode (checked, unchecked, indeterminate)   |
+| `viewMode`      | `boolean` | `false` | Display as plain text instead of interactive checkbox          |
+| `autoFocus`     | `boolean` | `false` | Automatically focus the field on mount                         |
+
+### Appearance
+
+| Property     | Type      | Default | Description                                        |
+| ------------ | --------- | ------- | -------------------------------------------------- |
+| `native`     | `boolean` | `false` | Use native HTML checkbox instead of styled version |
+| `inputStyle` | `object`  |         | CSS styles for the checkbox element                |
+| `viewText`   | `string`  |         | Text displayed in view mode                        |
+| `emptyText`  | `string`  |         | Text shown in view mode when value is empty        |
+| `tooltip`    | `string`  |         | Tooltip text or configuration                      |
+
+### Behavior
+
+| Property     | Type      | Default | Description                                              |
+| ------------ | --------- | ------- | -------------------------------------------------------- |
+| `unfocusable`| `boolean` | `false` | Disable focusing on the checkbox (useful in grids)       |
+
+### Callbacks
+
+| Property     | Type       | Description                                                                   |
+| ------------ | ---------- | ----------------------------------------------------------------------------- |
+| `onValidate` | `function` | Custom validation function returning error message or undefined |

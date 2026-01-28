@@ -2,6 +2,200 @@
 
 <!--- ## Unreleased -->
 
+## `cx@25.1`
+
+**Features**
+
+-  Date only (2025-01-01) strings are now parsed as local time, instead of UTC.
+-  `encodeDate` function can be used to format date objects as date only strings, i.e. 2025-01-01. This function can be set as `encoding` for the `DateField`, `MonthField`, `Calendar`, and `MonthPicker` components.
+-  `MonthField` and `MonthPicker` now include a flag `inclusiveTo` which allow month ranges to end with the last day of the month, instead of the first day of the next month.
+
+## `cx@24.6.2`
+
+**Features**
+
+-  Add SnapPointFinder convertX and convertY functions
+
+## `cx@24.6.1`
+
+**Fixes**
+
+-  Fix on validate arguments for multiple lookups
+
+## `cx@24.5.2`
+
+**Features**
+
+-  New formats: `capitalize` and `titleCase`.
+
+## `cx@24.5.1`
+
+**Features**
+
+-  `Window.pad` option. See [Breaking changes](https://docs.cxjs.io/intro/breaking-changes#24-5-1).
+
+## `cx@24.4.9`
+
+**Features**
+
+-  Swimlane component
+
+## `cx@24.4.8`
+
+**Features**
+
+-  Set caption style and class even when caption is defined as items/children.
+
+**Fixes**
+
+-  Fix grid grouping text property description.
+
+## `cx@24.4.7`
+
+**Features**
+
+-  Improve selection of dropzone based on distance to the center.
+-  Allow grid column caption to be specified as false.
+-  Support dynamic chart height based on the number of categories.
+
+**Fixes**
+
+-  Avoid rendering shape prop.
+-  Fix grid rendering when column caption is defined via items only.
+
+## `cx@24.4.6`
+
+**Features**
+
+-  Allow grid column caption to be specified as false.
+-  Support dynamic chart height based on the number of categories.
+
+**Fixes**
+
+-  Fix grid rendering when column caption is defined via items only.
+
+## `cx@24.4.5`
+
+**Features**
+
+-  Introduce new feature for grid: merging cells.
+
+## `cx@24.4.4`
+
+**Features**
+
+-  Introducing the new `zeropad` format.
+
+## `cx@24.4.3`
+
+**Fixes**
+
+-  Corrected distortion in pie-chart shapes caused by mathematical errors.
+-  Resolved grid resize issues by implementing element existence checks prior to resizing.
+
+## `cx@24.4.2`
+
+**Fixes**
+
+-  Addressed a bug where RangeMarkers were not functioning correctly when used alongside SWC.
+
+## `cx@24.4.1`
+
+**Features**
+
+-  Enhanced dropInsertionIndex positioning within the grid
+-  Introduced CultureScope widget
+-  Introduced RangeMarker widget
+-  Added functionality for adjusting pie chart gaps
+
+**Fixes**
+
+-  Types for ColumnGraph and LineGraph
+
+## `cx@24.3.3`
+
+**Features**
+
+-  Swimlanes widget
+-  Allow aggregates via aggregateAlias inside Grid
+
+**Fixes**
+
+-  Fix getCursorPos properly resolves position within iframes in Firefox
+-  Fix drag and drop withing iframes
+
+## `cx@24.3.0`
+
+-  Support specifying `borderRadius` on `PieChart` slices.
+
+## `cx@24.2.0`
+
+**Features**
+
+-  Documentation updates and additions
+-  Currency formatting features
+-  Field configurations and enhancements
+-  Localization examples and updates
+-  Row reordering, drag-and-drop for CodeSnippet
+-  Configuration props for data views
+-  Copy button tooltip and display enhancements
+
+## `cx@24.1.3`
+
+**Features**
+
+-  Support tooltips and additional configuration on field icons
+
+## `cx@24.1.0`
+
+**Features**
+
+-  Allow using the `fmt` function inside expressions and string templates. For example, this template works: `{[fmt({amount}, ``currency;${{currency}};0;2``)]}`
+-  Add number formatting flags, i.e. n;0;2;+ca; `+` to show sign for positive number, `c` for compact number formatting, `a` for accounting mode (brackets for negative numbers)
+-  Add `Culture.setNumberCulture` and `Culture.setDateTimeCulture` methods which enable using different cultures for numbers and date formatting.
+
+## `cx@23.4.1`
+
+**Features**
+
+-  Allow Validator to render children, i.e. ValidationError (undocumented)
+
+## `cx@23.4.0`
+
+**Fixes**
+
+-  Expose SimpleSelection (undocumented)
+
+## `cx@23.3.1`
+
+**Fixes**
+
+-  Allow up to eight typed parameters in triggers and computables
+-  Allow entering negative decimal numbers in NumberFields with reactOn="change"
+
+## `cx@23.3.0`
+
+**Fixes**
+
+-  Fix `quoteStr` handling of special characters (used for multiline string templates)
+
+## `cx@23.2.1`
+
+**Features**
+
+-  Allow Grid to render children, i.e. loading mask
+
+**Fixes**
+
+-  Make AccessorChain<T> assignable to AccessorChain<any>
+
+## `cx@23.2.0`
+
+**Features**
+
+-  Dart Sass compatibility (see [Breaking Changes](https://docs.cxjs.io/intro/breaking-changes))
+-  Dropping IE support
+
 ## `cx@22.11.3`
 
 **Fixes**

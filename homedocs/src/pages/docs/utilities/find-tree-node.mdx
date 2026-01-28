@@ -1,0 +1,82 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: findTreeNode
+description: Find node in tree structure
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+# findTreeNode
+
+<ImportPath path="import { findTreeNode } from 'cx/data';" />
+<OnThisPage />
+
+Recursively searches a tree structure for a node matching the criteria.
+
+```tsx
+const node = findTreeNode(array, criteria, childrenField);
+```
+
+| Argument | Type | Description |
+| -------- | ---- | ----------- |
+| `array` | `T[]` | Tree data array to search. |
+| `criteria` | `(node: T) => boolean` | Predicate returning `true` when a matching node is found. |
+| `childrenField` | `keyof T` | Name of the property containing child nodes. |
+
+**Returns:** The first matching node, or `false` if not found.
+
+## Examples
+
+### Find node by ID
+
+```tsx
+const node = findTreeNode(
+  data,
+  (node) => node.id === targetId,
+  "$children"
+);
+```
+
+### Check if node is a leaf
+
+```tsx
+const node = findTreeNode(data, (n) => n.id === selectedId, "$children");
+if (node && node.$leaf) {
+  // Cannot add children to a leaf node
+}
+```
+
+### Find by name
+
+```tsx
+const node = findTreeNode(
+  data,
+  (node) => node.name === "Documents",
+  "$children"
+);
+```
+
+### Validate before operation
+
+Use `findTreeNode` to validate a node before performing operations:
+
+```tsx
+function addChild(parentId: number, newChild: TreeNode) {
+  const parent = findTreeNode(data, (n) => n.id === parentId, "$children");
+
+  if (!parent) {
+    alert("Parent not found");
+    return;
+  }
+
+  if (parent.$leaf) {
+    alert("Cannot add children to a file");
+    return;
+  }
+
+  // Proceed with adding the child...
+}
+```
+
+See also: [updateTree](/docs/utilities/update-tree), [removeTreeNodes](/docs/utilities/remove-tree-nodes), [Tree Operations](/docs/tables/tree-operations)

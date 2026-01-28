@@ -3,6 +3,10 @@
 cx.$cx-default-padding-extra-small: 10px;
 cx.$cx-default-button-font-size: 20px;
 
+@function cx-divide($a, $b) {
+   @return math.div($a, $b);
+}
+
 //@import "manifest";
 
 @use "../packages/cx/src/index.scss";

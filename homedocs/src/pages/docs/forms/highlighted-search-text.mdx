@@ -1,0 +1,32 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: HighlightedSearchText
+description: Highlight matching search text
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import HighlightedSearchTextExample from "../../../examples/forms/HighlightedSearchTextExample.tsx";
+import HighlightedSearchTextExampleCode from "../../../examples/forms/HighlightedSearchTextExample.tsx?raw";
+
+# HighlightedSearchText
+
+<ImportPath path="import { HighlightedSearchText } from 'cx/widgets';" />
+
+The `HighlightedSearchText` widget renders text with highlighted search terms. It's commonly used in search results and filterable lists to show which parts of the text match the search query.
+
+<CodeExample code={HighlightedSearchTextExampleCode}>
+  <HighlightedSearchTextExample client:load />
+</CodeExample>
+
+Type in the search field to see matching text highlighted in the list items.
+
+## Configuration
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `text` | `StringProp` | Text to be displayed. |
+| `query` | `StringProp` | Search query used to highlight matching parts. |
+| `chunks` | `string[]` | A list of text chunks to be displayed. Even chunks are displayed as common text, odd chunks are highlighted. If not provided, the widget calculates it based on `text` and `query`. |
+| `baseClass` | `string` | Base CSS class. Default is `highlightedsearchtext`. |

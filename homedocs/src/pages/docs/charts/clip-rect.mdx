@@ -1,0 +1,32 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: ClipRect
+description: Clip content to rectangular region
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import ClipRectExample from "../../../examples/charts/ClipRectExample.tsx";
+import ClipRectExampleCode from "../../../examples/charts/ClipRectExample.tsx?raw";
+
+# ClipRect
+
+<ImportPath path="import { ClipRect } from 'cx/svg';" />
+
+The `ClipRect` component clips its inner contents to its [bounded object](./svg#bounded-objects) area. Any content that extends beyond the clip rectangle will be hidden.
+
+In this example, the ellipse has a negative margin causing it to extend beyond the container, but the `ClipRect` clips it to a smaller area defined by `margin={15}`.
+
+<CodeExample code={ClipRectExampleCode}>
+  <ClipRectExample client:load />
+</CodeExample>
+
+## Configuration
+
+| Property  | Type            | Description                                                                       |
+| --------- | --------------- | --------------------------------------------------------------------------------- |
+| `anchors` | `string/number` | Position within parent bounds. Format: `"t r b l"`. See [Svg](./svg) for details. |
+| `offset`  | `string/number` | Translate edges in pixels. Format: `"t r b l"`. See [Svg](./svg) for details.     |
+| `margin`  | `string/number` | CSS-like margin. See [Svg](./svg) for details.                                    |
+| `padding` | `string/number` | Padding applied before passing bounds to children.                                |

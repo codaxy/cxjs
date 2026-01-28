@@ -1,0 +1,63 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: DataProxy
+description: Transform data between parent and child stores
+---
+
+import CodeExample from "../../../components/CodeExample.astro";
+import ImportPath from "../../../components/ImportPath.astro";
+import Note from "../../../components/Note.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+import DataProxyExample from "../../../examples/concepts/DataProxyExample.tsx";
+import DataProxyExampleCode from "../../../examples/concepts/DataProxyExample.tsx?raw";
+import DataProxyTransformExample from "../../../examples/concepts/DataProxyTransformExample.tsx";
+import DataProxyTransformExampleCode from "../../../examples/concepts/DataProxyTransformExample.tsx?raw";
+
+# DataProxy
+
+<ImportPath path="import { DataProxy } from 'cx/ui';" />
+
+<OnThisPage />
+
+DataProxy creates aliases for store bindings with optional custom getter/setter logic. The simplest use case is creating a two-way alias for a binding.
+
+## Example
+
+<CodeExample code={DataProxyExampleCode}>
+  <DataProxyExample client:load />
+</CodeExample>
+
+Moving either slider affects the other since they both point to the same underlying value.
+
+## Custom Transformations
+
+Use the `data` property to define multiple aliases with custom getter and setter logic:
+
+- `expr` - Defines getter logic using a computable or expression
+- `set` - Defines setter logic (receives value and instance with store)
+
+Omitting the `set` property makes the alias read-only.
+
+<CodeExample code={DataProxyTransformExampleCode}>
+  <DataProxyTransformExample client:load />
+</CodeExample>
+
+<Note type="warning">
+  When using two-way mapping, both getter and setter must be reversible without
+  data loss. For any alias value, you should be able to recover all store values
+  used to calculate it.
+</Note>
+
+<Note type="info">
+  Prefix alias names with `$` to avoid name shadowing, which can cause infinite
+  get-set loops and stack overflow errors.
+</Note>
+
+## Configuration
+
+| Property    | Type      | Description                                                                     |
+| ----------- | --------- | ------------------------------------------------------------------------------- |
+| `value`     | `Prop`    | Binding, computable, expression, or object with `expr` and/or `set` properties. |
+| `alias`     | `string`  | Alias name for the computed value.                                              |
+| `data`      | `object`  | Object mapping alias names to `{ expr, set }` configurations.                   |
+| `immutable` | `boolean` | Prevent mutations to the parent store.                                          |

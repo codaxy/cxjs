@@ -1,1 +1,0 @@
-export function findTreeNode(array: any[], criteria: (item?: any) => boolean, childrenField?:string) : any;

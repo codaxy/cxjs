@@ -1,0 +1,3 @@
+<cx>
+  <ui.Component />
+</cx>;

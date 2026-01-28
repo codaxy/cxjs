@@ -7,6 +7,7 @@ export * from './StepByStep';
 export * from './Jsx';
 export * from './BreakingChanges';
 export * from './NpmPackages';
+export * from './TypeScriptMigration';
 
 import { bumpVersion } from '../version';
 

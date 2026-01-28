@@ -1,0 +1,32 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: ProgressBar
+description: Visual progress indicator
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import ProgressBarExample from "../../../examples/layout/ProgressBarExample.tsx";
+import ProgressBarExampleCode from "../../../examples/layout/ProgressBarExample.tsx?raw";
+
+# ProgressBar
+
+<ImportPath path="import { ProgressBar } from 'cx/widgets';" />
+
+The `ProgressBar` accepts values between `0` and `1` to indicate the state of progress.
+
+<CodeExample code={ProgressBarExampleCode}>
+  <ProgressBarExample client:load />
+</CodeExample>
+
+## Configuration
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `value` | `number` | Progress value between `0` and `1`. Default is `0`. |
+| `text` | `string` | Annotation text displayed on the progress bar. |
+| `disabled` | `boolean` | Set to `true` to make the progress bar appear disabled. |
+| `baseClass` | `string` | Base CSS class. Default is `progressbar`. |
+| `className` | `string` | Additional CSS class to apply. |
+| `style` | `string \| object` | Additional styles to apply. |

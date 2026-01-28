@@ -5,10 +5,12 @@
 @use "../../util/scss/include.scss" as *;
 @use "./Axis.scss" as *;
 
+@use "sass:map";
+
 @mixin cx-numericaxis($name: "numericaxis", $besm: $cx-besm) {
-   $block: map-get($besm, block);
-   $element: map-get($besm, element);
-   $state: map-get($besm, state);
+   $block: map.get($besm, block);
+   $element: map.get($besm, element);
+   $state: map.get($besm, state);
 
    .#{$block}#{$name} {
       @include cxb-axis();

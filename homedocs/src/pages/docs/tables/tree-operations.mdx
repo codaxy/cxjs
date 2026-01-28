@@ -1,0 +1,113 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Tree Operations
+description: Add, remove, and move tree nodes
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import TreeOperationsExample from "../../../examples/tables/TreeOperationsExample.tsx";
+import TreeOperationsExampleCode from "../../../examples/tables/TreeOperationsExample.tsx?raw";
+
+# Tree Operations
+
+This page demonstrates common tree operations: adding folders and files, renaming, deleting, and expanding/collapsing nodes.
+
+<CodeExample code={TreeOperationsExampleCode}>
+  <TreeOperationsExample client:load />
+</CodeExample>
+
+Select a folder to add files or subfolders inside it. Select any node to rename or delete it.
+
+## Adding Nodes
+
+To add a child node, use [updateTree](/docs/utilities/update-tree) to find the parent and append to its `$children` array:
+
+```tsx
+updateTree(
+  data,
+  (node) => ({
+    ...node,
+    $expanded: true,
+    $children: [...(node.$children || []), newNode],
+  }),
+  (node) => node.id === parentId,
+  "$children"
+);
+```
+
+Before adding, use [findTreeNode](/docs/utilities/find-tree-node) to check if the selected node is a folder:
+
+```tsx
+const selectedNode = findTreeNode(data, (n) => n.id === selectedId, "$children");
+if (selectedNode?.$leaf) {
+  alert("Cannot add to a file. Please select a folder.");
+  return;
+}
+```
+
+## Removing Nodes
+
+Use [removeTreeNodes](/docs/utilities/remove-tree-nodes) to delete nodes by ID:
+
+```tsx
+removeTreeNodes(data, (node) => node.id === targetId, "$children");
+```
+
+This removes the node and all its descendants.
+
+## Renaming Nodes
+
+Use [updateTree](/docs/utilities/update-tree) to find and update a node:
+
+```tsx
+updateTree(
+  data,
+  (node) => ({ ...node, name: newName }),
+  (node) => node.id === targetId,
+  "$children"
+);
+```
+
+## Expanding and Collapsing
+
+To expand or collapse all folders, use [updateTree](/docs/utilities/update-tree) with a predicate that matches non-leaf nodes:
+
+```tsx
+// Expand all
+updateTree(
+  data,
+  (node) => ({ ...node, $expanded: true }),
+  (node) => !node.$leaf,
+  "$children"
+);
+
+// Collapse all
+updateTree(
+  data,
+  (node) => ({ ...node, $expanded: false }),
+  (node) => !node.$leaf,
+  "$children"
+);
+```
+
+## Preserving State Across Reloads
+
+When tree data is reloaded from a server, expanded state is normally lost. To preserve it:
+
+```tsx
+<Grid
+  records={m.data}
+  keyField="id"
+  dataAdapter={{
+    type: TreeAdapter,
+    restoreExpandedNodesOnLoad: true,
+  }}
+  columns={columns}
+/>
+```
+
+The `keyField` is required so nodes can be matched across data updates.
+
+See also: [updateTree](/docs/utilities/update-tree), [findTreeNode](/docs/utilities/find-tree-node), [removeTreeNodes](/docs/utilities/remove-tree-nodes), [Tree Grid](/docs/tables/tree-grid), [TreeAdapter](/docs/tables/tree-adapter)

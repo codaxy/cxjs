@@ -30,6 +30,14 @@ export default {
         </Md></cx>
     },
 
+    target: {
+        type: 'string',
+        key: true,
+        description: <cx><Md>
+            This attribute specifies where to open the linked document.
+        </Md></cx>
+    },
+
     match: {
         type: 'string',
         key: true,

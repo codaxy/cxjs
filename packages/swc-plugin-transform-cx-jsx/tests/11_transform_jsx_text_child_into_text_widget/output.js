@@ -1,0 +1,6 @@
+({
+    "$type": Component,
+    "children": [
+        "Text"
+    ]
+})
