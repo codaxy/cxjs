@@ -1,0 +1,15 @@
+{
+   "compilerOptions": {
+      "jsx": "react-jsx",
+      //"jsxFactory": "cx",
+      "jsxImportSource": "cx",
+      "module": "esnext",
+      "moduleResolution": "bundler",
+      "esModuleInterop": true,
+      "allowJs": true,
+      "types": ["webpack-env"],
+      "outDir": "dist",
+      "target": "esnext"
+   },
+   "exclude": ["**.spec.**"]
+}
