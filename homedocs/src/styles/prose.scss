@@ -52,14 +52,14 @@
   padding: 0;
 }
 
-.prose a {
+.prose a:not(.cxb-button) {
   color: var(--sl-color-text-accent);
   text-decoration: none;
-  border-bottom: 1px solid transparent;
-  transition: border-color 0.15s ease;
+  //border-bottom: 1px solid transparent;
+  //transition: border-color 0.15s ease;
 
   &:hover {
-    border-bottom-color: currentColor;
+    //border-bottom-color: currentColor;
   }
 }
 

@@ -14,6 +14,6 @@
 [x] Add a grouped table example to the home page
 [x] Fix llms.txt and llms-small.txt
 [x] On this page nav
-[ ] Tab borders
-[ ] LinkButton styling
+[x] Tab borders
+[x] LinkButton styling
 [x] Add OG image

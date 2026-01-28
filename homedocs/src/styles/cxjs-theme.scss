@@ -13,7 +13,7 @@ $cx-default-progressbar-height: 10px;
 $cx-tooltip-background-color: #222;
 $cx-tooltip-color: white;
 $cx-tooltip-border-radius: 8px;
-$cx-tooltip-padding: 8px 16px;
+$cx-tooltip-padding: 8px 12px;
 $cx-tooltip-background-color-error: #dc2626;
 
 $cx-default-label-font-weight: inherit;
@@ -297,6 +297,36 @@ $cx-dropdown-styles: cx-deep-map-merge(
 
 .cxb-tooltip {
   font-weight: 500;
+
+  // Force dark mode colors inside tooltips since tooltip background is dark
+  --background: 0 0% 9%;
+  --foreground: 0 0% 98%;
+  --card: 0 0% 9%;
+  --card-foreground: 0 0% 98%;
+  --muted: 0 0% 15%;
+  --muted-foreground: 0 0% 64%;
+  --border: 0 0% 25%;
+  --input: 0 0% 20%;
+
+  .cxb-grid {
+    color: hsl(var(--foreground));
+    border-color: hsl(var(--border));
+
+    .cxe-grid-header-cell {
+      background-color: hsl(var(--muted));
+      color: hsl(var(--foreground));
+      border-color: hsl(var(--border));
+    }
+
+    .cxe-grid-data td {
+      border-color: hsl(var(--border));
+      color: hsl(var(--foreground));
+    }
+
+    .cxe-grid-data {
+      background-color: transparent;
+    }
+  }
 }
 
 // Window / MsgBox

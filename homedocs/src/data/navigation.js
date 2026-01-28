@@ -1192,11 +1192,6 @@ export const navigation = [
             description: "Map data values to colors",
           },
           {
-            title: "HoverSync",
-            slug: "hover-sync",
-            description: "Synchronize hover state across charts",
-          },
-          {
             title: "MouseTracker",
             slug: "mouse-tracker",
             description: "Track mouse position on chart",
@@ -1220,6 +1215,16 @@ export const navigation = [
             title: "PointReducers",
             slug: "point-reducers",
             description: "Aggregate and reduce chart data",
+          },
+          {
+            title: "HoverSync",
+            slug: "hover-sync",
+            description: "Synchronize hover state across charts",
+          },
+          {
+            title: "HoverSyncElement",
+            slug: "hover-sync-element",
+            description: "Apply hover effects to arbitrary elements",
           },
         ],
       },
