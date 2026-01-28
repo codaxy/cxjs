@@ -48,6 +48,11 @@ export const navigation = [
             slug: "application-templates",
             description: "Starter templates and boilerplates for new projects",
           },
+          {
+            title: "AI (Skills)",
+            slug: "ai",
+            description: "Using AI coding assistants with CxJS",
+          },
         ],
       },
       {
@@ -158,6 +163,11 @@ export const navigation = [
             title: "Sample Applications",
             slug: "sample-applications",
             description: "Example applications demonstrating CxJS patterns",
+          },
+          {
+            title: "Component Libraries",
+            slug: "component-libraries",
+            description: "Add-on libraries that provide additional CxJS components",
           },
         ],
       },

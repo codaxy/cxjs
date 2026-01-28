@@ -229,6 +229,10 @@ async function extractMdxContent(mdxPath, srcDir, onlyStructure) {
   // Remove frontmatter section if still present
   processedContent = processedContent.replace(/^---[\s\S]*?---\s*/m, "");
 
+  // Remove OnThisPage component
+  processedContent = processedContent.replace(/<OnThisPage\s*\/?>/g, "");
+  processedContent = processedContent.replace(/<OnThisPage\s+collapsed\s*\/?>/g, "");
+
   // If only structure, keep only headings
   if (onlyStructure) {
     const lines = processedContent.split("\n");
