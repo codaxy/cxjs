@@ -9,7 +9,7 @@
 [x] Homepage examples
 [ ] Theme
 [x] Dark mode
-[ ] HoverSync is broken
+[x] HoverSync is broken
 [x] NumberField wheel example
 [x] Add a grouped table example to the home page
 [x] Fix llms.txt and llms-small.txt
