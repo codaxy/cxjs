@@ -178,6 +178,46 @@ export const navigation = [
     slug: "concepts",
     groups: [
       {
+        title: "Data Views",
+        items: [
+          {
+            title: "Overview",
+            slug: "data-views",
+            llms: "small",
+            description: "Components that iterate and transform data",
+          },
+          {
+            title: "Repeater",
+            slug: "repeater",
+            llms: "small",
+            description: "Render a template for each item in an array",
+          },
+          {
+            title: "Sandbox",
+            slug: "sandbox",
+            llms: "small",
+            description: "Isolate store changes for cancel/save workflows",
+          },
+          {
+            title: "PrivateStore",
+            slug: "private-store",
+            llms: "small",
+            description: "Create isolated store instances for components",
+          },
+          {
+            title: "DataProxy",
+            slug: "data-proxy",
+            llms: "small",
+            description: "Transform data between parent and child stores",
+          },
+          {
+            title: "Rescope",
+            slug: "rescope",
+            description: "Remap store paths for nested components",
+          },
+        ],
+      },
+      {
         title: "Selections",
         items: [
           {
@@ -235,46 +275,6 @@ export const navigation = [
             slug: "history",
             llms: "small",
             description: "Manage browser history and navigation state",
-          },
-        ],
-      },
-      {
-        title: "Data Views",
-        items: [
-          {
-            title: "Overview",
-            slug: "data-views",
-            llms: "small",
-            description: "Components that iterate and transform data",
-          },
-          {
-            title: "Repeater",
-            slug: "repeater",
-            llms: "small",
-            description: "Render a template for each item in an array",
-          },
-          {
-            title: "Sandbox",
-            slug: "sandbox",
-            llms: "small",
-            description: "Isolate store changes for cancel/save workflows",
-          },
-          {
-            title: "PrivateStore",
-            slug: "private-store",
-            llms: "small",
-            description: "Create isolated store instances for components",
-          },
-          {
-            title: "DataProxy",
-            slug: "data-proxy",
-            llms: "small",
-            description: "Transform data between parent and child stores",
-          },
-          {
-            title: "Rescope",
-            slug: "rescope",
-            description: "Remap store paths for nested components",
           },
         ],
       },

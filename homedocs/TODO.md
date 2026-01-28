@@ -1,6 +1,6 @@
-[ ] Fix search (make whole item clickable)
+[x] Fix search (make whole item clickable)
 [x] Add SEO data
-[ ] Add Google Analytics
+[x] Add Google Analytics
 [x] Preserve @jsxImportSource in llms.txt
 [x] try export default {} instead of export () => {}
 [x] document controller inline form
@@ -16,4 +16,4 @@
 [x] On this page nav
 [ ] Tab borders
 [ ] LinkButton styling
-[ ] Add OG image
+[x] Add OG image

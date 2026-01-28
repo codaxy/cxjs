@@ -10,18 +10,18 @@ import OnThisPage from "../../../components/OnThisPage.astro";
 
 <OnThisPage />
 
-All application data in CxJS is stored inside a central [Store](/docs/core/store). While convenient for global state, accessing deeply nested paths or working with collections can become cumbersome. Data View components wrap parts of the widget tree and provide a modified view of the Store data, making it easier to work with specific areas of the data model.
+All application data in CxJS is stored inside a central [Store](/docs/intro/store). While convenient for global state, accessing deeply nested paths or working with collections can become cumbersome. Data View components wrap parts of the widget tree and provide a modified view of the Store data, making it easier to work with specific areas of the data model.
 
 ## Comparison
 
-| Component                                | Purpose                                           | Use case                              |
-| ---------------------------------------- | ------------------------------------------------- | ------------------------------------- |
-| [Repeater](/docs/data/repeater)          | Renders children for each record in a collection  | Lists, tables, any repeated content   |
-| [Rescope](/docs/data/rescope)            | Selects a common prefix for shorter binding paths | Deeply nested data structures         |
-| [Sandbox](/docs/data/sandbox)            | Multiplexes data based on a dynamic key           | Tabs, routes with isolated page data  |
-| [PrivateStore](/docs/data/private-store) | Creates an isolated store for a subtree           | Reusable components with local state  |
-| [DataProxy](/docs/data/data-proxy)       | Creates aliases with custom getter/setter logic   | Computed values, data transformations |
-| [Route](/docs/core/route)                | Renders children when URL matches a pattern       | Page routing, exposes `$route` params |
+| Component                              | Purpose                                           | Use case                              |
+| -------------------------------------- | ------------------------------------------------- | ------------------------------------- |
+| [Repeater](./repeater)                 | Renders children for each record in a collection  | Lists, tables, any repeated content   |
+| [Rescope](./rescope)                   | Selects a common prefix for shorter binding paths | Deeply nested data structures         |
+| [Sandbox](./sandbox)                   | Multiplexes data based on a dynamic key           | Tabs, routes with isolated page data  |
+| [PrivateStore](./private-store)        | Creates an isolated store for a subtree           | Reusable components with local state  |
+| [DataProxy](./data-proxy)              | Creates aliases with custom getter/setter logic   | Computed values, data transformations |
+| [Route](./route)                       | Renders children when URL matches a pattern       | Page routing, exposes `$route` params |
 
 ## How Data Views Work
 
@@ -29,17 +29,17 @@ Each Data View component exposes the same interface as the Store to its children
 
 ## How to Choose
 
-Use [Repeater](/docs/data/repeater) when you need to render a list of items from an array.
+Use [Repeater](./repeater) when you need to render a list of items from an array.
 
-Use [Rescope](/docs/data/rescope) when working with deeply nested data and you want shorter binding paths.
+Use [Rescope](./rescope) when working with deeply nested data and you want shorter binding paths.
 
-Use [Sandbox](/docs/data/sandbox) when you need to switch between different data contexts based on a key (e.g., tabs, route parameters).
+Use [Sandbox](./sandbox) when you need to switch between different data contexts based on a key (e.g., tabs, route parameters).
 
-Use [PrivateStore](/docs/data/private-store) (also known as Restate) when you need completely isolated state that doesn't affect the global store.
+Use [PrivateStore](./private-store) (also known as Restate) when you need completely isolated state that doesn't affect the global store.
 
-Use [DataProxy](/docs/data/data-proxy) when you need to transform data or create computed aliases with custom getter/setter logic.
+Use [DataProxy](./data-proxy) when you need to transform data or create computed aliases with custom getter/setter logic.
 
-Use [Route](/docs/core/route) when you need to conditionally render content based on URL and access matched route parameters.
+Use [Route](./route) when you need to conditionally render content based on URL and access matched route parameters.
 
 ## Store Mutation
 

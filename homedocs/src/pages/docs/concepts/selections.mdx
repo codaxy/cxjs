@@ -16,14 +16,14 @@ Selections enable users to select one or more items from widgets like Grid, List
 
 | Model                                                   | Storage                            | Best for                        |
 | ------------------------------------------------------- | ---------------------------------- | ------------------------------- |
-| [KeySelection](key-selection)           | Key value(s) in separate variable  | Selection survives data updates |
-| [SimpleSelection](simple-selection)     | Entire object in separate variable | Simple single select            |
-| [PropertySelection](property-selection) | Boolean flag on each record        | Checkbox lists, toggles         |
+| [KeySelection](./key-selection)           | Key value(s) in separate variable  | Selection survives data updates |
+| [SimpleSelection](./simple-selection)     | Entire object in separate variable | Simple single select            |
+| [PropertySelection](./property-selection) | Boolean flag on each record        | Checkbox lists, toggles         |
 
 ## How to Choose
 
-Use [KeySelection](key-selection) when selection needs to survive data refreshes. Keys remain stable while object references change after updates.
+Use [KeySelection](./key-selection) when selection needs to survive data refreshes. Keys remain stable while object references change after updates.
 
-Use [SimpleSelection](simple-selection) for simple single-select scenarios where you need immediate access to the selected object.
+Use [SimpleSelection](./simple-selection) for simple single-select scenarios where you need immediate access to the selected object.
 
-Use [PropertySelection](property-selection) for checkbox-based UIs where each record tracks its own selection state.
+Use [PropertySelection](./property-selection) for checkbox-based UIs where each record tracks its own selection state.

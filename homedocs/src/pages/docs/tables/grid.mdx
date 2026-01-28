@@ -222,31 +222,130 @@ See also: [Row Drag and Drop](/docs/tables/row-drag-and-drop)
 
 ## Grid Configuration
 
-| Property           | Type          | Description                                                                                             |
-| ------------------ | ------------- | ------------------------------------------------------------------------------------------------------- |
-| `records`          | `Prop<T[]>`   | An array of records to be displayed in the grid.                                                        |
-| `columns`          | `array`       | An array of column configurations. See Column Configuration below.                                      |
-| `scrollable`       | `BooleanProp` | Set to `true` to add a vertical scroll and fixed header. Grid should have `height` or `max-height` set. |
-| `selection`        | `object`      | Selection configuration. See [Selections](/docs/concepts/selections) for details.                       |
-| `sortField`        | `StringProp`  | Binding to store the name of the field used for sorting.                                                |
-| `sortDirection`    | `StringProp`  | Binding to store the sort direction (`ASC` or `DESC`).                                                  |
-| `sorters`          | `Prop<array>` | Binding to store multiple sorters for server-side sorting.                                              |
-| `grouping`         | `array`       | An array of grouping level definitions.                                                                 |
-| `emptyText`        | `string`      | Text displayed when grid has no records.                                                                |
-| `border`           | `BooleanProp` | Set to `true` to add default border. Automatically set if `scrollable`.                                 |
-| `vlines`           | `BooleanProp` | Set to `true` to add vertical gridlines.                                                                |
-| `headerMode`       | `string`      | Header appearance: `plain` or `default`.                                                                |
-| `cached`           | `BooleanProp` | Set to `true` to enable row caching for better performance.                                             |
-| `buffered`         | `BooleanProp` | Set to `true` to render only visible rows. Requires `scrollable`.                                       |
-| `bufferSize`       | `number`      | Number of rendered rows in buffered grids. Default is `60`.                                             |
-| `lockColumnWidths` | `boolean`     | Lock column widths after first render. Useful for pagination.                                           |
-| `remoteSort`       | `boolean`     | Set to `true` if sorting is done server-side.                                                           |
-| `clearableSort`    | `boolean`     | Allow clearing sort by clicking header a third time.                                                    |
-| `filterParams`     | `Prop`        | Parameters passed to `onCreateFilter` callback.                                                         |
-| `onCreateFilter`   | `function`    | Callback to create a filter predicate from `filterParams`.                                              |
-| `onRowClick`       | `function`    | Callback executed when a row is clicked.                                                                |
-| `onRowDoubleClick` | `function`    | Callback executed when a row is double-clicked.                                                         |
-| `onRowContextMenu` | `function`    | Callback executed when a row is right-clicked.                                                          |
+### Data
+
+| Property        | Type       | Description                                                                                    |
+| --------------- | ---------- | ---------------------------------------------------------------------------------------------- |
+| `records`       | `array`    | An array of records to be displayed in the grid.                                               |
+| `keyField`      | `string`   | Field used as unique record identifier. Improves performance on sort by tracking row movement. |
+| `columns`       | `array`    | An array of column configurations. See Column Configuration below.                             |
+| `columnParams`  | `any`      | Parameters passed to `onGetColumns` for dynamic column generation.                             |
+| `onGetColumns`  | `function` | Callback to dynamically generate columns when `columnParams` changes.                          |
+| `recordName`    | `string`   | Record binding alias. Default is `$record`.                                                    |
+| `recordAlias`   | `string`   | Alias for `recordName`.                                                                        |
+| `dataAdapter`   | `object`   | Data adapter configuration for grouping and tree operations.                                   |
+| `emptyText`     | `string`   | Text displayed when grid has no records.                                                       |
+
+### Selection
+
+| Property                     | Type       | Description                                                                       |
+| ---------------------------- | ---------- | --------------------------------------------------------------------------------- |
+| `selection`                  | `object`   | Selection configuration. See [Selections](/docs/concepts/selections) for details. |
+| `scrollSelectionIntoView`    | `boolean`  | Scroll selected row into view. Default is `false`.                                |
+| `onCreateIsRecordSelectable` | `function` | Callback to create a function that checks if a record is selectable.              |
+
+### Sorting
+
+| Property               | Type      | Description                                                              |
+| ---------------------- | --------- | ------------------------------------------------------------------------ |
+| `sortField`            | `string`  | Binding to store the name of the field used for sorting.                 |
+| `sortDirection`        | `string`  | Binding to store the sort direction (`ASC` or `DESC`).                   |
+| `sorters`              | `array`   | Binding to store multiple sorters for server-side sorting.               |
+| `preSorters`           | `array`   | Sorters prepended to the actual list of sorters.                         |
+| `defaultSortField`     | `string`  | Default sort field when no sorting is set.                               |
+| `defaultSortDirection` | `string`  | Default sort direction (`ASC` or `DESC`).                                |
+| `remoteSort`           | `boolean` | Set to `true` if sorting is done server-side.                            |
+| `clearableSort`        | `boolean` | Allow clearing sort by clicking header a third time.                     |
+| `sortOptions`          | `object`  | Collator options for sorting. See MDN Intl.Collator for available opts.  |
+
+### Grouping
+
+| Property            | Type       | Description                                                   |
+| ------------------- | ---------- | ------------------------------------------------------------- |
+| `grouping`          | `array`    | An array of grouping level definitions.                       |
+| `groupingParams`    | `any`      | Parameters passed to `onGetGrouping` for dynamic grouping.    |
+| `onGetGrouping`     | `function` | Callback to dynamically generate grouping when params change. |
+| `preserveGroupOrder`| `boolean`  | Keep groups in the same order as source records.              |
+
+### Filtering
+
+| Property         | Type       | Description                                              |
+| ---------------- | ---------- | -------------------------------------------------------- |
+| `filterParams`   | `any`      | Parameters passed to `onCreateFilter` callback.          |
+| `onCreateFilter` | `function` | Callback to create a filter predicate from filterParams. |
+
+### Appearance
+
+| Property     | Type              | Description                                                                                             |
+| ------------ | ----------------- | ------------------------------------------------------------------------------------------------------- |
+| `scrollable` | `boolean`         | Set to `true` to add a vertical scroll and fixed header. Grid should have `height` or `max-height` set. |
+| `border`     | `boolean`         | Set to `true` to add default border. Automatically set if `scrollable`.                                 |
+| `vlines`     | `boolean`         | Set to `true` to add vertical gridlines.                                                                |
+| `headerMode` | `string`          | Header appearance: `plain` or `default`.                                                                |
+| `showHeader` | `boolean`         | Show grid header within groups. Useful for long printable grids. Default is `false`.                    |
+| `showFooter` | `boolean`         | Show grid footer. Default is `false`.                                                                   |
+| `fixedFooter`| `boolean`         | Set to `true` to add a fixed footer at the bottom of the grid.                                          |
+| `rowClass`   | `string`          | Additional CSS class to be added to each grid row.                                                      |
+| `rowStyle`   | `string \| object`| Additional CSS styles to be added to each grid row.                                                     |
+
+### Performance
+
+| Property              | Type      | Description                                                                      |
+| --------------------- | --------- | -------------------------------------------------------------------------------- |
+| `cached`              | `boolean` | Set to `true` to enable row caching for better performance.                      |
+| `buffered`            | `boolean` | Set to `true` to render only visible rows. Requires `scrollable`.                |
+| `bufferSize`          | `number`  | Number of rendered rows in buffered grids. Default is `60`.                      |
+| `bufferStep`          | `number`  | Number of rows to scroll before buffer recalculation.                            |
+| `measureRowHeights`   | `boolean` | Cache variable row heights in buffered grids. Default is `false`.                |
+| `lockColumnWidths`    | `boolean` | Lock column widths after first render. Useful for pagination.                    |
+| `preciseMeasurements` | `boolean` | Enable sub-pixel measurements. Useful for grids with many columns or small zoom. |
+
+### Infinite Scrolling
+
+| Property         | Type       | Description                                           |
+| ---------------- | ---------- | ----------------------------------------------------- |
+| `infinite`       | `boolean`  | Enable infinite scrolling.                            |
+| `onFetchRecords` | `function` | Callback to fetch records during infinite loading.    |
+
+### Cell Editing
+
+| Property           | Type       | Description                                                                |
+| ------------------ | ---------- | -------------------------------------------------------------------------- |
+| `cellEditable`     | `boolean`  | Set to `true` to enable cell editing. Columns must specify `editor` field. |
+| `onBeforeCellEdit` | `function` | Callback before cell edit. Return `false` to prevent edit mode.            |
+| `onCellEdited`     | `function` | Callback after a cell has been successfully edited.                        |
+
+### Focus & Hover
+
+| Property       | Type                | Description                                                               |
+| -------------- | ------------------- | ------------------------------------------------------------------------- |
+| `focusable`    | `boolean`           | Set to `true` or `false` to explicitly control if grid can receive focus. |
+| `hoverChannel` | `string`            | Identifier for hover effect synchronization across components.            |
+| `rowHoverId`   | `string \| number`  | Unique record identifier within the hover sync group.                     |
+
+### Row Callbacks
+
+| Property            | Type       | Description                                        |
+| ------------------- | ---------- | -------------------------------------------------- |
+| `onRowClick`        | `function` | Callback executed when a row is clicked.           |
+| `onRowDoubleClick`  | `function` | Callback executed when a row is double-clicked.    |
+| `onRowContextMenu`  | `function` | Callback executed when a row is right-clicked.     |
+| `onRowKeyDown`      | `function` | Callback executed on key down in a focused row.    |
+
+### Column Callbacks
+
+| Property               | Type       | Description                                         |
+| ---------------------- | ---------- | --------------------------------------------------- |
+| `onColumnContextMenu`  | `function` | Callback executed when a column header is right-clicked. |
+| `onColumnResize`       | `function` | Callback executed after a column has been resized.  |
+
+### Other
+
+| Property              | Type       | Description                                                     |
+| --------------------- | ---------- | --------------------------------------------------------------- |
+| `scrollResetParams`   | `any`      | Parameters whose change will reset scroll position.             |
+| `onTrackMappedRecords`| `function` | Callback to track and retrieve displayed (filtered) records.    |
+| `onRef`               | `function` | Callback to get grid component and instance references on init. |
 
 ## Column Configuration
 
@@ -281,7 +380,7 @@ When `header` is an object, the following properties are available:
 | `rowSpan`      | `number`           | Number of rows the header cell should span. Default is `1`.         |
 | `tool`         | `object`           | A component rendered inside the header for custom menus or filters. |
 | `resizable`    | `boolean`          | Set to `true` to make the column resizable.                         |
-| `width`        | `Prop<number>`     | Binding to store column width after resize.                         |
+| `width`        | `number`           | Binding to store column width after resize.                         |
 | `tooltip`      | `string \| object` | Tooltip configuration for the header.                               |
 
 ## Drag & Drop Configuration
