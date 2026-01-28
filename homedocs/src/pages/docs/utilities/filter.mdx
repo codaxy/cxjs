@@ -14,7 +14,7 @@ import FilterExampleCode from "../../../examples/utilities/FilterExample.tsx?raw
 # filter
 
 <ImportPath path="import { filter } from 'cx/data';" />
-<OnThisPage />
+<OnThisPage collapsed />
 
 `filter` performs immutable array filtering. Unlike native `Array.filter()`, it returns the original array reference if no items are removed, enabling efficient change detection.
 
@@ -27,15 +27,15 @@ import FilterExampleCode from "../../../examples/utilities/FilterExample.tsx?raw
 ```ts
 function filter<T>(
   array: T[],
-  callback: (item: T, index: number, array: T[]) => boolean
-): T[]
+  callback: (item: T, index: number, array: T[]) => boolean,
+): T[];
 ```
 
 ## Parameters
 
-| Parameter  | Type       | Description                                    |
-| ---------- | ---------- | ---------------------------------------------- |
-| `array`    | `T[]`      | The array to filter.                           |
+| Parameter  | Type       | Description                                     |
+| ---------- | ---------- | ----------------------------------------------- |
+| `array`    | `T[]`      | The array to filter.                            |
 | `callback` | `function` | Predicate function. Return `true` to keep item. |
 
 ## Return Value

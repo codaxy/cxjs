@@ -14,7 +14,7 @@ import GrouperExampleCode from "../../../examples/utilities/GrouperExample.tsx?r
 # Grouper
 
 <ImportPath path="import { Grouper } from 'cx/data';" />
-<OnThisPage />
+<OnThisPage collapsed />
 
 `Grouper` groups records by key fields and computes aggregate values like sum, average, count, min, and max.
 
@@ -30,32 +30,32 @@ new Grouper(key, aggregates?, dataGetter?, nameGetter?)
 
 ## Parameters
 
-| Parameter     | Type       | Description                                    |
-| ------------- | ---------- | ---------------------------------------------- |
-| `key`         | `object`   | Object mapping field names to value selectors. |
-| `aggregates`  | `object`   | Optional. Aggregate definitions.               |
-| `dataGetter`  | `function` | Optional. Extract data from record.            |
-| `nameGetter`  | `function` | Optional. Extract display name for group.      |
+| Parameter    | Type       | Description                                    |
+| ------------ | ---------- | ---------------------------------------------- |
+| `key`        | `object`   | Object mapping field names to value selectors. |
+| `aggregates` | `object`   | Optional. Aggregate definitions.               |
+| `dataGetter` | `function` | Optional. Extract data from record.            |
+| `nameGetter` | `function` | Optional. Extract display name for group.      |
 
 ## Aggregate Types
 
-| Type    | Description                    |
-| ------- | ------------------------------ |
-| `sum`   | Sum of values.                 |
-| `avg`   | Average of values.             |
-| `count` | Count of records.              |
-| `min`   | Minimum value.                 |
-| `max`   | Maximum value.                 |
-| `distinct` | Count of distinct values.   |
+| Type       | Description               |
+| ---------- | ------------------------- |
+| `sum`      | Sum of values.            |
+| `avg`      | Average of values.        |
+| `count`    | Count of records.         |
+| `min`      | Minimum value.            |
+| `max`      | Maximum value.            |
+| `distinct` | Count of distinct values. |
 
 ## Methods
 
-| Method         | Description                              |
-| -------------- | ---------------------------------------- |
-| `process(record, index)` | Process a single record.       |
-| `processAll(records)`    | Process all records at once.   |
-| `getResults()` | Get array of group results.              |
-| `reset()`      | Reset the grouper for reuse.             |
+| Method                   | Description                  |
+| ------------------------ | ---------------------------- |
+| `process(record, index)` | Process a single record.     |
+| `processAll(records)`    | Process all records at once. |
+| `getResults()`           | Get array of group results.  |
+| `reset()`                | Reset the grouper for reuse. |
 
 ## Examples
 
@@ -122,11 +122,11 @@ const grouper = new Grouper(
 
 ```ts
 interface GroupResult {
-  key: object;          // Group key values
-  name?: any;           // Optional display name
-  records: any[];       // Records in this group
-  indexes: number[];    // Original indexes
-  aggregates?: object;  // Computed aggregates
+  key: object; // Group key values
+  name?: any; // Optional display name
+  records: any[]; // Records in this group
+  indexes: number[]; // Original indexes
+  aggregates?: object; // Computed aggregates
 }
 ```
 

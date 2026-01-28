@@ -14,7 +14,7 @@ import MoveElementExampleCode from "../../../examples/utilities/MoveElementExamp
 # moveElement
 
 <ImportPath path="import { moveElement } from 'cx/data';" />
-<OnThisPage />
+<OnThisPage collapsed />
 
 `moveElement` moves an element from one position to another within an array, shifting other elements accordingly.
 
@@ -25,15 +25,19 @@ import MoveElementExampleCode from "../../../examples/utilities/MoveElementExamp
 ## Signature
 
 ```ts
-function moveElement<T>(array: T[], sourceIndex: number, targetIndex: number): T[]
+function moveElement<T>(
+  array: T[],
+  sourceIndex: number,
+  targetIndex: number,
+): T[];
 ```
 
 ## Parameters
 
-| Parameter     | Type     | Description                              |
-| ------------- | -------- | ---------------------------------------- |
-| `array`       | `T[]`    | The array to modify.                     |
-| `sourceIndex` | `number` | Index of the element to move.            |
+| Parameter     | Type     | Description                                                 |
+| ------------- | -------- | ----------------------------------------------------------- |
+| `array`       | `T[]`    | The array to modify.                                        |
+| `sourceIndex` | `number` | Index of the element to move.                               |
 | `targetIndex` | `number` | Target position (element will be placed before this index). |
 
 ## Return Value

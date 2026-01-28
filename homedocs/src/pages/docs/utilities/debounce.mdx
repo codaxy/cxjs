@@ -14,7 +14,7 @@ import DebounceExampleCode from "../../../examples/utilities/DebounceExample.tsx
 # debounce
 
 <ImportPath path="import { debounce } from 'cx/util';" />
-<OnThisPage />
+<OnThisPage collapsed />
 
 `debounce` delays function execution until after a specified time has elapsed since the last call. Useful for reducing the frequency of expensive operations like API calls triggered by user input.
 
@@ -27,8 +27,8 @@ import DebounceExampleCode from "../../../examples/utilities/DebounceExample.tsx
 ```ts
 function debounce<T extends (...args: any[]) => any>(
   callback: T,
-  delay: number
-): DebouncedFunction<T>
+  delay: number,
+): DebouncedFunction<T>;
 
 interface DebouncedFunction<T> {
   (...args: Parameters<T>): void;
@@ -38,10 +38,10 @@ interface DebouncedFunction<T> {
 
 ## Parameters
 
-| Parameter  | Type       | Description                              |
-| ---------- | ---------- | ---------------------------------------- |
-| `callback` | `function` | The function to debounce.                |
-| `delay`    | `number`   | Delay in milliseconds.                   |
+| Parameter  | Type       | Description               |
+| ---------- | ---------- | ------------------------- |
+| `callback` | `function` | The function to debounce. |
+| `delay`    | `number`   | Delay in milliseconds.    |
 
 ## Return Value
 
@@ -58,10 +58,10 @@ const search = debounce((query: string) => {
 }, 300);
 
 // Rapid calls - only the last one executes
-search("h");      // cancelled
-search("he");     // cancelled
-search("hel");    // cancelled
-search("help");   // executes after 300ms
+search("h"); // cancelled
+search("he"); // cancelled
+search("hel"); // cancelled
+search("help"); // executes after 300ms
 ```
 
 ### In a controller
@@ -109,9 +109,9 @@ window.addEventListener("resize", handleResize);
 
 ## debounce vs throttle
 
-| Function   | Behavior                                              |
-| ---------- | ----------------------------------------------------- |
-| `debounce` | Waits until calls stop, then executes once.           |
+| Function   | Behavior                                                 |
+| ---------- | -------------------------------------------------------- |
+| `debounce` | Waits until calls stop, then executes once.              |
 | `throttle` | Executes at most once per interval while calls continue. |
 
 ```ts

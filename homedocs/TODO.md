@@ -17,3 +17,4 @@
 [x] Tab borders
 [x] LinkButton styling
 [x] Add OG image
+[x] Set OnThisPage nav to collapsed where needed
