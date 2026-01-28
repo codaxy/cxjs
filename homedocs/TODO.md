@@ -1,5 +1,5 @@
 [ ] Fix search (make whole item clickable)
-[ ] Add SEO data
+[x] Add SEO data
 [ ] Add Google Analytics
 [x] Preserve @jsxImportSource in llms.txt
 [x] try export default {} instead of export () => {}
@@ -16,3 +16,4 @@
 [x] On this page nav
 [ ] Tab borders
 [ ] LinkButton styling
+[ ] Add OG image
