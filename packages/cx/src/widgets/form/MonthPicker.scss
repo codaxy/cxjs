@@ -1,15 +1,13 @@
 @use "sass:map";
 @use "sass:color";
 @use "sass:math";
-@use "../box.scss" as *;
+@use "../variables" as *;
+@use "../maps" as *;
 @use "../../util/scss/add-rules.scss" as *;
 @use "../../util/scss/clockwise.scss" as *;
 @use "../../util/scss/deep-merge.scss" as *;
-@use "../lists.scss" as *;
 @use "../../util/scss/besm.scss" as *;
 @use "../../util/scss/include.scss" as *;
-@use "./variables.scss" as *;
-@use "./maps.scss" as *;
 @use "./Field.scss" as *;
 
 @mixin cx-monthpicker(

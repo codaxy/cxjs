@@ -1,6 +1,4 @@
-@use "./variables.scss" as *;
-@use "../box.scss" as *;
-@use "../../util/scss/defaults.scss" as *;
+@use "../variables" as *;
 
 $cx-label-state-style-map: (
    default: (

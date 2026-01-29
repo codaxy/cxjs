@@ -1,8 +1,6 @@
-@use "./Tab.variables.scss" as *;
+@use "../variables" as *;
 @use "../lists.scss" as *;
-@use "../box.scss" as *;
 @use "../../util/scss/deep-merge" as *;
-@use "../../util/scss/defaults.scss" as *;
 
 $cx-tab-state-style-map: cx-deep-map-merge(
    $cx-list-item,

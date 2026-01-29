@@ -165,6 +165,10 @@ body {
 
 // ========================================
 // Import Styles
+// Note: @import is used here because:
+// 1. @use must be at the top of the file before any other rules
+// 2. These are pure CSS files being loaded at specific locations
+// 3. @import inside @layer is needed for layer-scoped styles
 // ========================================
 
 @import "components";

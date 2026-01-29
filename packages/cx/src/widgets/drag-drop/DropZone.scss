@@ -1,6 +1,7 @@
 @use "sass:map";
 @use "sass:math";
-@use "./variables.scss" as *;
+@use "../variables" as *;
+@use "../maps" as *;
 @use "../../util/scss/add-rules.scss" as *;
 @use "../../util/scss/clockwise.scss" as *;
 @use "../../util/scss/deep-merge.scss" as *;

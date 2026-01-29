@@ -1,7 +1,5 @@
 @use "../../util/scss/deep-merge.scss" as *;
-@use "./Field.variables.scss" as *;
-@use "../box" as *;
-@use "../../util/scss/defaults.scss" as *;
+@use "../variables" as *;
 
 $cx-input-placeholder: (
    color: $cx-default-input-placeholder-color,

@@ -191,6 +191,247 @@ packages/cx-theme-{name}/src/
 
 ---
 
+## Three-Layer Theming with @forward...with()
+
+A validated approach for enabling variable configuration through multiple layers using `@forward...with()`. This allows apps to override theme variables, and themes to override cx variables.
+
+### Layer Hierarchy
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  Layer 3: APP                                               │
+│  - Overrides theme variables via @forward...with()          │
+│  - Overrides theme maps via cx-deep-map-merge()             │
+│  - Adds app-specific CSS                                    │
+└─────────────────────────────────────────────────────────────┘
+                              ↓
+┌─────────────────────────────────────────────────────────────┐
+│  Layer 2: THEME                                             │
+│  - Overrides cx variables via @forward...with()             │
+│  - Overrides cx maps via cx-deep-map-merge()                │
+│  - Adds theme-specific CSS                                  │
+└─────────────────────────────────────────────────────────────┘
+                              ↓
+┌─────────────────────────────────────────────────────────────┐
+│  Layer 1: CX (base library)                                 │
+│  - Defines all variables with !default                      │
+│  - Defines all maps with !default                           │
+│  - Generates CSS from variables and maps                    │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Variable Override Chain
+
+```
+app/_variables.scss
+    └── @forward "../theme/variables" with (app overrides)
+            └── @forward "cx/src/variables" with (theme overrides)
+                    └── @forward "widgets/variables"
+                            └── defines defaults with !default
+```
+
+### Key Patterns
+
+#### 1. Variable Files Only @forward
+
+Variable files never `@use` other variable files - only `@forward`:
+
+```scss
+// widgets/_variables.scss
+@forward "../util/defaults";
+@forward "form/field-variables";
+@forward "form/button-variables";
+```
+
+#### 2. Variable Files Can @use Utilities
+
+Variables can depend on base utilities for derived values:
+
+```scss
+// form/_field-variables.scss
+@use "../../util/defaults" as *;
+
+$cx-default-input-border-radius: $cx-default-border-radius !default;
+```
+
+#### 3. Map Files @use Variables
+
+Maps depend on variables, so they load them via `@use`:
+
+```scss
+// form/_field-maps.scss
+@use "./field-variables" as *;
+
+$cx-input-state-style-map: (
+   default: (
+      border-radius: $cx-default-input-border-radius,
+   ),
+) !default;
+```
+
+#### 4. Index Files @use Root Entry Points
+
+Critical: index files load from root, not local files:
+
+```scss
+// form/_field-index.scss
+@use "../../variables" as *;  // NOT ./field-variables
+@use "../../maps" as *;       // NOT ./field-maps
+
+.cxb-field { ... }
+```
+
+#### 5. Theme/App Forward Chain
+
+Each layer forwards the previous with overrides:
+
+```scss
+// theme/_variables.scss
+@forward "cx/src/variables" with (
+   $cx-default-border-radius: 8px !default,
+);
+
+// app/_variables.scss
+@forward "../theme/variables" with (
+   $cx-default-border-radius: 0 !default,
+);
+```
+
+#### 6. Map Overrides Use Deep Merge
+
+Maps are overridden after forwarding:
+
+```scss
+// theme/_maps.scss
+@forward "cx/src/maps";
+
+@use "./variables" as *;
+@use "cx/src/maps" as *;
+@use "cx/src/util/scss/deep-merge" as *;
+
+$cx-input-state-style-map: cx-deep-map-merge(
+   $cx-input-state-style-map,
+   (default: (box-shadow: 0 1px 3px rgba(0,0,0,0.1)))
+);
+```
+
+#### 7. Aggregator Variables Must @forward Utilities
+
+For variables to be available through the forward chain, aggregator files must `@forward` (not just `@use`) utility files:
+
+```scss
+// widgets/variables.scss
+// Forward utility variables first (so they're available to consumers)
+@forward "../util/scss/defaults.scss";
+@forward "../util/scss/include.scss";
+
+// Forward widget base variables
+@forward "./box.scss";
+@forward "Button.variables.scss";
+
+// Use utilities locally for derived variable definitions
+@use "sass:map";
+@use "../util/scss/defaults.scss" as *;
+@use "../util/scss/include.scss" as *;
+
+// Define derived variables that depend on utilities
+$cx-default-progressbar-color: $cx-default-color !default;
+```
+
+#### 8. Map Files Cannot Use Root Maps (Circular)
+
+Map files that are `@forward`ed by `maps.scss` cannot `@use "../maps"` - this creates a circular dependency. Instead, they should use specific map files directly:
+
+```scss
+// form/Calendar.maps.scss - WRONG (circular)
+@use "../variables" as *;
+@use "../maps" as *;  // ❌ Creates loop - maps.scss forwards this file
+
+// form/Calendar.maps.scss - CORRECT
+@use "../variables" as *;
+@use "./Field.maps.scss" as *;  // ✅ Use specific file
+@use "../lists.scss" as *;      // ✅ Use specific file
+```
+
+#### 9. Component Files Use Root Entry Points
+
+CSS-generating component files (not forwarded) should use root entry points:
+
+```scss
+// form/TextField.scss
+@use "sass:math";
+@use "sass:map";
+@use "../variables" as *;  // Root entry point - gets configured values
+@use "../maps" as *;       // Root entry point - gets configured values
+@use "./Field.scss" as *;  // Local mixin file is OK
+```
+
+#### 10. System Variables in Forward Chain
+
+Variables like `$cx-include-all` must be configured through the forward chain:
+
+```scss
+// theme/_variables.scss
+@forward "cx/src/widgets/variables" with (
+   $cx-include-all: true !default,  // ✅ Configure via forward
+   $cx-default-button-background-color: red !default,
+);
+
+// theme/index.scss - WRONG
+$cx-include-all: true;  // ❌ Creates "variable already defined" error
+@use "./variables" as *;
+```
+
+### Why This Works
+
+1. **@forward...with() configures on first load** - The app's forward runs first, configuring variables before anything else loads them.
+
+2. **!default respects existing values** - Each layer uses `!default`, so earlier configurations take precedence.
+
+3. **Linear dependency flow** - Variables → Maps → CSS generation. No circular dependencies.
+
+4. **Root entry points** - Index files use root `_variables.scss` and `_maps.scss`, ensuring they receive configured values through the forward chain.
+
+### Required CX Package Restructuring
+
+To fully support this pattern, the cx package was restructured:
+
+1. **Aggregator variables @forward utilities** - `widgets/variables.scss` now `@forward`s `defaults.scss` and `include.scss` so they're available to consumers
+
+2. **Component files use root entry points** - Files like `Button.scss`, `TextField.scss` now use `../variables` and `../maps` instead of local `./Button.variables` files
+
+3. **Map files use root variables** - Files like `Field.maps.scss` use `../variables` instead of local `./Field.variables.scss`
+
+4. **Map files use specific maps (not root)** - Map files that inherit from other maps use specific files like `./Field.maps.scss` to avoid circular dependencies with `../maps`
+
+### Files Modified in Restructuring
+
+Key files updated to support `@forward...with()`:
+
+**Aggregator:**
+- `widgets/variables.scss` - Added `@forward` for utility files
+
+**Component files (use `../variables` and `../maps`):**
+- `widgets/Button.scss`
+- `widgets/form/TextField.scss`, `NumberField.scss`, `LookupField.scss`
+- `widgets/form/Calendar.scss`, `Checkbox.scss`, `Radio.scss`
+- `widgets/form/ColorPicker.scss`, `ColorField.scss`, `Select.scss`
+- `widgets/form/Slider.scss`, `Switch.scss`, `TextArea.scss`
+- `widgets/form/Label.scss`, `DateTimePicker.scss`, `DateTimeField.scss`
+- `widgets/form/MonthPicker.scss`, `MonthField.scss`, `Wheel.scss`
+- `widgets/nav/Tab.scss`
+- `widgets/overlay/Window.scss`
+
+**Map files (use `../variables`):**
+- `widgets/Button.maps.scss`
+- `widgets/form/Field.maps.scss`, `LookupField.maps.scss`
+- `widgets/form/Calendar.maps.scss`, `Checkbox.maps.scss`, `Radio.maps.scss`
+- `widgets/form/ColorPicker.maps.scss`
+- `widgets/nav/Tab.maps.scss`
+- `widgets/overlay/Window.maps.scss`
+
+---
+
 ## Migration Strategy
 
 ### For Theme Packages
@@ -396,10 +637,11 @@ The build must be verified incrementally, starting with the simplest project and
 - [x] Verify `cd ts-minimal && yarn start` runs correctly
 - [x] Test basic widget rendering (dev server starts, compiles successfully)
 
-#### Step 2: homedocs
-- [ ] Fix any homedocs-specific SCSS issues
-- [ ] Verify homedocs builds successfully
-- [ ] Verify homedocs runs correctly
+#### Step 2: homedocs ✅
+- [x] Fix any homedocs-specific SCSS issues
+- [x] Verify homedocs builds successfully
+- [x] Verify homedocs runs correctly
+- Note: `@import` is kept in `global.scss` for styles inside `@layer` blocks (Sass limitation)
 
 #### Step 3: docs (uses cx-theme-aquamarine)
 - [ ] Verify cx-theme-aquamarine compiles correctly
@@ -520,6 +762,34 @@ While explicit namespacing is generally preferred, CxJS uses `as *` extensively 
 1. **Variable chaining** - Many variables reference others (e.g., `$cx-default-button-color: $cx-default-color`)
 2. **Map operations** - Maps reference variables that must be in scope
 3. **Backwards compatibility** - Existing themes expect global-like access
+
+### Avoiding Forward/Use Conflicts
+
+When a file needs to both `@forward` a module (to make it available to consumers) AND `@use` it locally, using `as *` causes a variable collision error:
+
+```scss
+// WRONG - causes "both define a variable" error
+@forward "../util/scss/include.scss";
+@use "../util/scss/include.scss" as *;  // ❌ Conflict!
+```
+
+The solution is to use a **namespace** for the local `@use`:
+
+```scss
+// CORRECT - no conflict
+@forward "../util/scss/include.scss";
+@use "../util/scss/include.scss" as include;  // ✅ Namespace avoids conflict
+
+// Access variables with the namespace
+$cx-dependencies: map.merge(
+   include.$cx-dependencies,
+   (...)
+);
+```
+
+This pattern is used in `widgets/variables.scss` where `include.scss` needs to be:
+1. Forwarded so consumers can access `$cx-dependencies`, `$cx-include-all`, etc.
+2. Used locally to read and extend `$cx-dependencies`
 
 ### The `!default` Mechanism
 

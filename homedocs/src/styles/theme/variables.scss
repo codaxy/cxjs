@@ -1,67 +1,45 @@
-@use "sass:math";
-
-// ========================================
-// Theme-specific Variables
-// ========================================
-
-$cx-include-global-rules: false;
-$cx-default-icon-size: 16px;
-
-$cx-default-slider-handle-size: 20px;
-$cx-default-progressbar-height: 10px;
-
-$cx-tooltip-background-color: #222;
-$cx-tooltip-color: white;
-$cx-tooltip-border-radius: 8px;
-$cx-tooltip-padding: 8px 12px;
-$cx-tooltip-background-color-error: #dc2626;
-
-$cx-default-label-font-weight: inherit;
-
-$cx-default-input-width: 210px;
-
-$cx-default-box-padding: 8px;
-$cx-default-box-font-size: 14px;
-$cx-default-box-line-height: 20px;
-$cx-default-font-size: 14px;
-$cx-default-border-radius: 3px;
-
-$cx-default-list-item-padding: 8px 12px;
-$cx-default-border-color: hsl(var(--border));
-
-$cx-default-switch-range-background-color: #1f99f8;
-
-$cx-default-grid-data-padding: 8px 12px;
-$cx-default-grid-header-font-weight: 700;
-$cx-default-grid-header-font-size: 12px;
-$cx-default-grid-header-background-color: hsl(var(--muted));
-$cx-default-grid-header-color: hsl(var(--muted-foreground));
-$cx-default-grid-header-border-color: hsl(var(--border));
-$cx-default-grid-border-color: hsl(var(--border));
-$cx-default-grid-font-size: 14px;
-
-$cx-default-window-footer-background-color: transparent;
-$cx-default-window-header-background-color: transparent;
-$cx-default-window-header-padding: 12px 12px 12px 24px;
-$cx-default-window-footer-padding: 16px 24px;
-
-$cx-default-checkbox-size: 16px;
-$cx-default-radio-size: 16px;
-
-$cx-default-palette-fill-whiten: 40%;
-$cx-default-palette-fill-blacken: 0%;
-
-$cx-grid-pagination-default-outer-border-radius: 6px;
-$cx-grid-pagination-default-border-radius: 6px;
-
-// Input field colors (works in both light and dark mode)
-$cx-default-input-background-color: hsl(var(--background));
-$cx-default-input-color: hsl(var(--foreground));
-$cx-default-empty-text-color: hsl(var(--muted-foreground));
-$cx-default-input-tag-background-color: hsl(var(--muted));
-
-// Window colors
-$cx-default-window-background-color: hsl(var(--card));
-
-// Forward cx variables so consumers get both theme and cx variables
-@forward "cx/src/variables";
+// Forward cx variables with theme overrides
+@forward "cx/src/variables" with (
+  $cx-include-global-rules: false !default,
+  $cx-default-icon-size: 16px !default,
+  $cx-default-slider-handle-size: 20px !default,
+  $cx-default-progressbar-height: 10px !default,
+  $cx-tooltip-background-color: #222 !default,
+  $cx-tooltip-color: white !default,
+  $cx-tooltip-border-radius: 8px !default,
+  $cx-tooltip-padding: 8px 12px !default,
+  $cx-tooltip-background-color-error: #dc2626 !default,
+  $cx-default-label-font-weight: inherit !default,
+  $cx-default-input-width: 210px !default,
+  $cx-default-box-padding: 8px !default,
+  $cx-default-box-font-size: 14px !default,
+  $cx-default-box-line-height: 20px !default,
+  $cx-default-font-size: 14px !default,
+  $cx-default-border-radius: 3px !default,
+  $cx-default-list-item-padding: 8px 12px !default,
+  $cx-default-border-color: hsl(var(--border)) !default,
+  $cx-default-switch-range-background-color: #1f99f8 !default,
+  $cx-default-grid-data-padding: 8px 12px !default,
+  $cx-default-grid-header-font-weight: 700 !default,
+  $cx-default-grid-header-font-size: 12px !default,
+  $cx-default-grid-header-background-color: hsl(var(--muted)) !default,
+  $cx-default-grid-header-color: hsl(var(--muted-foreground)) !default,
+  $cx-default-grid-header-border-color: hsl(var(--border)) !default,
+  $cx-default-grid-border-color: hsl(var(--border)) !default,
+  $cx-default-grid-font-size: 14px !default,
+  $cx-default-window-footer-background-color: transparent !default,
+  $cx-default-window-header-background-color: transparent !default,
+  $cx-default-window-header-padding: 12px 12px 12px 24px !default,
+  $cx-default-window-footer-padding: 16px 24px !default,
+  $cx-default-checkbox-size: 16px !default,
+  $cx-default-radio-size: 16px !default,
+  $cx-default-palette-fill-whiten: 40% !default,
+  $cx-default-palette-fill-blacken: 0% !default,
+  $cx-grid-pagination-default-outer-border-radius: 6px !default,
+  $cx-grid-pagination-default-border-radius: 6px !default,
+  $cx-default-input-background-color: hsl(var(--background)) !default,
+  $cx-default-input-color: hsl(var(--foreground)) !default,
+  $cx-default-empty-text-color: hsl(var(--muted-foreground)) !default,
+  $cx-default-input-tag-background-color: hsl(var(--muted)) !default,
+  $cx-default-window-background-color: hsl(var(--card)) !default,
+);

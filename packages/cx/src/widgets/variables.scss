@@ -1,9 +1,15 @@
+// Forward utility variables first (so they're available to consumers)
+@forward "../util/scss/defaults.scss";
+@forward "../util/scss/include.scss";
+
+// Forward widget base variables
 @forward "./box.scss";
 @forward "Button.variables.scss";
-@use "sass:map";
 
+// Use utilities locally for derived variable definitions
+@use "sass:map";
 @use "../util/scss/defaults.scss" as *;
-@use "../util/scss/include.scss" as *;
+@use "../util/scss/include.scss" as include;
 
 //Selection
 $cx-selection-background-color: rgba(135, 206, 250, 0.6);
@@ -23,6 +29,7 @@ $cx-default-progressbar-border-radius: 0 !default;
 
 $cx-default-progressbar-indicator-background-color: rgba(#98d4ff, 0.8) !default;
 
+@forward "form/Field.variables.scss";
 @forward "form/variables";
 @forward "grid/variables";
 @forward "nav/variables";
@@ -31,7 +38,7 @@ $cx-default-progressbar-indicator-background-color: rgba(#98d4ff, 0.8) !default;
 @forward "overlay/variables";
 
 $cx-dependencies: map.merge(
-   $cx-dependencies,
+   include.$cx-dependencies,
    (
       "cx/widgets/FlexRow": "cx/widgets/FlexBox",
       "cx/widgets/FlexCol": "cx/widgets/FlexBox",

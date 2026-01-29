@@ -1,9 +1,8 @@
+@use "../variables" as *;
+@use "./Field.maps.scss" as *;
 @use "../../util/scss/add-rules.scss" as *;
 @use "../../util/scss/clockwise.scss" as *;
 @use "../../util/scss/deep-merge.scss" as *;
-
-@use "./ColorPicker.variables.scss" as *;
-@use "./Field.maps.scss" as *;
 
 $cx-colorpicker-state-style-map: cx-deep-map-merge(
    $cx-input-state-style-map,

@@ -1,4 +1,4 @@
-@use "./variables.scss" as *;
+@use "../variables" as *;
 
 $cx-dragclone-style: (
    background-color: $cx-default-dragclone-background-color,

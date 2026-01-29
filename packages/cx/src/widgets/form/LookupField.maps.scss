@@ -1,6 +1,5 @@
-@use "./variables.scss" as *;
+@use "../variables" as *;
 @use "./Field.maps.scss" as *;
-
 @use "../../util/scss/deep-merge.scss" as *;
 @use "../../util/scss/calc.scss" as *;
 

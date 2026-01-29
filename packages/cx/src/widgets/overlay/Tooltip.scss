@@ -1,5 +1,7 @@
 @use "sass:math";
-@use "./variables.scss" as *;
+@use "sass:map";
+@use "../variables" as *;
+@use "../maps" as *;
 @use "../../util/scss/add-rules.scss" as *;
 @use "../../util/scss/clockwise.scss" as *;
 @use "../../util/scss/deep-merge.scss" as *;
@@ -8,7 +10,6 @@
 @use "../../util/scss/include.scss" as *;
 @use "./Dropdown.scss" as *;
 @use "./Overlay.scss" as *;
-@use "sass:map";
 
 @keyframes cx-tooltip-enter-animation {
    from {

@@ -1,8 +1,7 @@
+@use "../variables" as *;
+@use "./Field.maps.scss" as *;
 @use "../../util/scss/deep-merge" as *;
 @use "../../util/scss/add-rules.scss" as *;
-
-@use "./Radio.variables.scss" as *;
-@use "./Field.maps.scss" as *;
 
 $cx-radio-state-style-map: cx-deep-map-merge(
    $cx-input-state-style-map,

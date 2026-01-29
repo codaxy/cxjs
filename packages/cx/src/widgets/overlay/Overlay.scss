@@ -1,12 +1,12 @@
 @use "sass:map";
 @use "sass:math";
-@use "./variables.scss" as *;
+@use "../variables" as *;
+@use "../maps" as *;
 @use "../../util/scss/add-rules.scss" as *;
 @use "../../util/scss/clockwise.scss" as *;
 @use "../../util/scss/deep-merge.scss" as *;
 @use "../../util/scss/calc.scss" as *;
 @use "../../util/scss/besm.scss" as *;
-@use "../../util/scss/defaults.scss" as *;
 @use "../../util/scss/include.scss" as *;
 
 @mixin cxb-overlay($name, $besm) {

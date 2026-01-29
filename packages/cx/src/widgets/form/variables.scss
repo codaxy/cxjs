@@ -87,7 +87,8 @@ $cx-default-input-tag-padding: cx-calc(
    -$cx-default-input-tag-spacing
 ) !default;
 
-@forward "./Field.variables.scss";
+// Note: Field.variables.scss is @use'd above, not @forward'd here
+// to avoid "module already loaded" errors with @forward...with() configuration
 @forward "./Calendar.variables.scss";
 @forward "./Checkbox.variables.scss";
 @forward "./Radio.variables.scss";

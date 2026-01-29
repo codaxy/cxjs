@@ -1,5 +1,5 @@
 @use "./lists" as *;
-@use "./Button.variables.scss" as *;
+@use "./variables" as *;
 
 $cx-button-state-style-map: (
    default: (

@@ -1,6 +1,5 @@
-@use "./variables.scss" as *;
+@use "../variables" as *;
 @use "../lists" as *;
-
 @use "../../util/scss/add-rules.scss" as *;
 @use "../../util/scss/deep-merge" as *;
 @use "../../util/scss/clockwise.scss" as *;

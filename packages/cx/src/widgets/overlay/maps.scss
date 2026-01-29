@@ -1,5 +1,4 @@
-@use "./variables.scss" as *;
-@use "../../util/scss/defaults.scss" as *;
+@use "../variables" as *;
 
 $cx-dropdown-styles: (
    color: $cx-default-dropdown-color,

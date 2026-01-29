@@ -15,3 +15,4 @@ build
 
 Thumbs.db
 .playwright-mcp
+sass-test

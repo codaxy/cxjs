@@ -1,15 +1,13 @@
 @use "sass:math";
-@use "../box.scss" as *;
+@use "sass:map";
+@use "../variables" as *;
+@use "../maps" as *;
 @use "../../util/scss/add-rules.scss" as *;
 @use "../../util/scss/clockwise.scss" as *;
 @use "../../util/scss/deep-merge.scss" as *;
 @use "../../util/scss/besm.scss" as *;
 @use "../../util/scss/include.scss" as *;
-@use "./Tab.variables.scss" as *;
-@use "./Tab.maps.scss" as *;
-
-@use "sass:map";
-@import "cover";
+@use "cover" as *;
 
 @mixin cx-tab(
    $name: "tab",

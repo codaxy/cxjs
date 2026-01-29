@@ -37,7 +37,9 @@
       "mcp__playwright__browser_evaluate",
       "mcp__playwright__browser_resize",
       "Bash(wc -l \"D:\\\\Code\\\\CxJS\\\\cxjs\\\\packages\\\\cx\\\\src\"/**/*.scss)",
-      "Bash(git grep:*)"
+      "Bash(git grep:*)",
+      "Bash(node build/index.js:*)",
+      "Bash(npx sass:*)"
     ],
     "deny": [],
     "ask": []

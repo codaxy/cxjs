@@ -1,5 +1,5 @@
 @use "sass:map";
-@use "./variables.scss" as *;
+@use "../variables" as *;
 @use "../../util/scss/besm.scss" as *;
 @use "../../util/scss/include.scss" as *;
 

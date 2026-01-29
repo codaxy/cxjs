@@ -1,4 +1,4 @@
-@use "./variables.scss" as *;
+@use "../variables" as *;
 
 @mixin cxb-axis() {
    shape-rendering: crispEdges;
