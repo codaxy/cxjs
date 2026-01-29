@@ -175,7 +175,7 @@ body {
 @import "pagefind";
 
 @layer components {
-  @import "cxjs-theme";
+  @import "cx-theme-variables/src/index";
 }
 
 @layer utilities {
