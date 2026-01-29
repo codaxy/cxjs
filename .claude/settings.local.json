@@ -39,7 +39,8 @@
       "Bash(wc -l \"D:\\\\Code\\\\CxJS\\\\cxjs\\\\packages\\\\cx\\\\src\"/**/*.scss)",
       "Bash(git grep:*)",
       "Bash(node build/index.js:*)",
-      "Bash(npx sass:*)"
+      "Bash(npx sass:*)",
+      "mcp__playwright__browser_close"
     ],
     "deny": [],
     "ask": []
