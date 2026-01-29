@@ -1,0 +1,22 @@
+@use "sass:math";
+@use "sass:map";
+@use "sass:color";
+
+// Load misc variables first
+@use "../misc/variables" as misc;
+
+// Forward theme variables with docs-specific overrides
+@forward "cx-theme-aquamarine/src/variables" with (
+   $cx-theme-primary-color: #017be6 !default
+);
+
+// Use variables locally
+@use "cx-theme-aquamarine/src/variables" as *;
+
+// Re-export misc variables
+@forward "../misc/variables";
+
+// Helper function
+@function cx-divide($a, $b) {
+   @return math.div($a, $b);
+}

@@ -1,18 +1,18 @@
+@use "sass:color";
+
 @function get-accent-color($primary-color) {
    $accent-color: null;
-   @if green($primary-color) <= 80 {
+   @if color.channel($primary-color, "green", $space: rgb) <= 80 {
       $accent-color: #ffeb3b;
-   } @else if green($primary-color) >= 150 and red($primary-color) < 20 and saturation($primary-color) > 90% {
+   } @else if color.channel($primary-color, "green", $space: rgb) >= 150 and
+      color.channel($primary-color, "red", $space: rgb) < 20 and
+      color.channel($primary-color, "saturation", $space: hsl) > 90% {
       $accent-color: #cddc39;
    } @else if
-      green($primary-color) >
-      80 and
-      green($primary-color) <=
-      175 and
-      saturation($primary-color) <
-      50% and
-      saturation($primary-color) >
-      20%
+      color.channel($primary-color, "green", $space: rgb) > 80 and
+      color.channel($primary-color, "green", $space: rgb) <= 175 and
+      color.channel($primary-color, "saturation", $space: hsl) < 50% and
+      color.channel($primary-color, "saturation", $space: hsl) > 20%
    {
       $accent-color: #ff9800;
    } @else {
@@ -23,8 +23,8 @@
 
 // float button text color picker
 @function set-text-color($bg-color) {
-   @if (lightness($bg-color) > 55) {
-      @return $cx-default-color; // Lighter backgorund, return dark color
+   @if (color.channel($bg-color, "lightness", $space: hsl) > 55%) {
+      @return rgba(0, 0, 0, 0.7); // Lighter background, return dark color
    } @else {
       @return #ffffff; // Darker background, return light color
    }

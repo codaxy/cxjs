@@ -19,12 +19,14 @@ This document outlines the strategy for modernizing CxJS Sass files to use moder
 
 ### Progress Summary
 
-The migration is approximately **60% complete**:
+The migration is approximately **70% complete**:
 
 | Component | Status | Notes |
 |-----------|--------|-------|
 | Core framework (`packages/cx/src/`) | ✅ Complete | All files use `@use`/`@forward` |
-| cx-theme-aquamarine | ✅ Complete | Fully modernized |
+| cx-theme-aquamarine | ✅ Complete | Fully modernized with `sass:color` functions |
+| misc/ | ✅ Complete | Shared layout/component styles use `@use`/`@forward` |
+| docs/ | ✅ Complete | Uses modern Sass patterns |
 | cx-theme-dark | ❌ Pending | Uses `@import` |
 | cx-theme-frost | ❌ Pending | Uses `@import` |
 | cx-theme-material | ❌ Pending | Uses `@import` |
@@ -32,7 +34,7 @@ The migration is approximately **60% complete**:
 | cx-theme-packed-dark | ❌ Pending | Uses `@import` (most complex) |
 | cx-theme-space-blue | ❌ Pending | Uses `@import` |
 | Gallery themes | ❌ Pending | Uses `@import` |
-| Docs/litmus/fiddle | ❌ Pending | Uses `@import` |
+| litmus/fiddle | ❌ Pending | Uses `@import` |
 
 ### Files Changed (153 total)
 
@@ -643,10 +645,11 @@ The build must be verified incrementally, starting with the simplest project and
 - [x] Verify homedocs runs correctly
 - Note: `@import` is kept in `global.scss` for styles inside `@layer` blocks (Sass limitation)
 
-#### Step 3: docs (uses cx-theme-aquamarine)
-- [ ] Verify cx-theme-aquamarine compiles correctly
-- [ ] Fix `docs/index.scss` and related files
-- [ ] Verify `yarn docs` runs correctly
+#### Step 3: docs (uses cx-theme-aquamarine) ✅
+- [x] Verify cx-theme-aquamarine compiles correctly
+- [x] Fix `docs/index.scss` and related files
+- [x] Fix `misc/` shared styles (layout, components)
+- [x] Verify `yarn docs` runs correctly (webpack build succeeds)
 - [ ] Test all documentation pages render properly
 
 #### Step 4: gallery (all themes)
@@ -666,7 +669,7 @@ The build must be verified incrementally, starting with the simplest project and
 
 Theme packages will be converted as needed during Phase 2 (gallery step).
 
-- [x] cx-theme-aquamarine
+- [x] cx-theme-aquamarine (fully modernized with `sass:color` functions)
 - [ ] cx-theme-dark
   - [ ] Convert `index.scss`
   - [ ] Convert `variables.scss`

@@ -1,5 +1,4 @@
-$master-sidenav-link-color: #718096;
-$master-sidenav-active-link-color: #666;
+@use "./variables" as *;
 
 .sidenav {
    font-family: sans-serif;

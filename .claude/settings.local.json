@@ -40,7 +40,8 @@
       "Bash(git grep:*)",
       "Bash(node build/index.js:*)",
       "Bash(npx sass:*)",
-      "mcp__playwright__browser_close"
+      "mcp__playwright__browser_close",
+      "Bash(npx webpack --mode development)"
     ],
     "deny": [],
     "ask": []

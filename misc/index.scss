@@ -1,2 +1,3 @@
-@import './layout/index';
-@import './components/index';
+@use "./variables" as *;
+@use "./layout/index" as layout;
+@use "./components/index" as components;
