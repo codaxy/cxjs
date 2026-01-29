@@ -17,6 +17,11 @@ module.exports = async function renderSCSS(paths) {
                      const resolvedFile = path.resolve(__dirname, "../cx/" + url.substring(4) + ".scss");
                      return new URL(`file://${resolvedFile.replace(/\\/g, "/")}`);
                   }
+                  // Handle bare cx/ paths (used by @use/@forward)
+                  if (url.startsWith("cx/")) {
+                     const resolvedFile = path.resolve(__dirname, "../" + url + ".scss");
+                     return new URL(`file://${resolvedFile.replace(/\\/g, "/")}`);
+                  }
                   // Handle absolute paths (Unix-style starting with /)
                   if (url.startsWith("/")) {
                      return new URL(`file://${url}`);

@@ -41,7 +41,8 @@
       "Bash(node build/index.js:*)",
       "Bash(npx sass:*)",
       "mcp__playwright__browser_close",
-      "Bash(npx webpack --mode development)"
+      "Bash(npx webpack --mode development)",
+      "Bash(tree:*)"
     ],
     "deny": [],
     "ask": []

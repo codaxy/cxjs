@@ -5644,6 +5644,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"cx-theme-variables@workspace:packages/cx-theme-variables":
+  version: 0.0.0-use.local
+  resolution: "cx-theme-variables@workspace:packages/cx-theme-variables"
+  dependencies:
+    cx: "workspace:*"
+    typescript: "npm:^5.9.3"
+  peerDependencies:
+    cx: "*"
+  languageName: unknown
+  linkType: soft
+
 "cx@workspace:*, cx@workspace:packages/cx":
   version: 0.0.0-use.local
   resolution: "cx@workspace:packages/cx"

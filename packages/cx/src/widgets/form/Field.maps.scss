@@ -1,4 +1,5 @@
 @use "../../util/scss/deep-merge.scss" as *;
+@use "../../util/scss/calc.scss" as *;
 @use "../variables" as *;
 
 $cx-input-placeholder: (
@@ -49,7 +50,7 @@ $cx-input-left-icon-state-style-map: (
       font-size: $cx-default-icon-size,
       left: $cx-default-input-left-tool-left,
       top: 50%,
-      margin-top: -0.5 * $cx-default-input-left-tool-size,
+      margin-top: cx-multiply($cx-default-input-left-tool-size, -0.5),
       height: $cx-default-input-left-tool-size,
       width: $cx-default-input-left-tool-size,
       line-height: $cx-default-input-left-tool-size,
@@ -70,7 +71,7 @@ $cx-input-right-icon-state-style-map: (
       font-size: $cx-default-icon-size,
       right: $cx-default-input-right-tool-right,
       top: 50%,
-      margin-top: -0.5 * $cx-default-input-tool-size,
+      margin-top: cx-multiply($cx-default-input-tool-size, -0.5),
       height: $cx-default-input-tool-size,
       width: $cx-default-input-tool-size,
       line-height: $cx-default-input-tool-size,
@@ -91,7 +92,7 @@ $cx-clear-state-style-map: (
       font-size: $cx-default-icon-size,
       right: $cx-default-input-right-tool-right,
       top: 50%,
-      margin-top: -0.5 * $cx-default-clear-size,
+      margin-top: cx-multiply($cx-default-clear-size, -0.5),
       height: $cx-default-clear-size,
       width: $cx-default-clear-size,
       line-height: $cx-default-clear-size,
