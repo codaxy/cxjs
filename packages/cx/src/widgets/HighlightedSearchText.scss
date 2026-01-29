@@ -5,9 +5,10 @@
 @use "../util/scss/add-rules.scss" as *;
 @use "../util/scss/clockwise.scss" as *;
 @use "../util/scss/besm.scss" as *;
+@use "../util/scss/include.scss" as *;
 
-@mixin cxb-highlighedsearchtext(
-   $name: "highlighedsearchtext",
+@mixin cxb-highlightedsearchtext(
+   $name: "highlightedsearchtext",
    $styles: $cx-highlighedsearchtext-style-map,
    $besm: $cx-besm
 ) {

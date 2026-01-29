@@ -1,0 +1,609 @@
+// Theme entry point
+// Import in order: variables -> maps -> cx styles
+
+@use "./variables" as *;
+@use "./maps" as *;
+@use "cx/src/index" as *;
+
+// ========================================
+// CxJS Widget Styles (Light & Dark Mode)
+// CSS overrides for runtime customization
+// ========================================
+
+// CxJS overlay styles
+.cxe-overlay-shadow {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  animation: shadow-fade-in 0.2s forwards;
+}
+
+.cxe-dropdown-modal-backdrop {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.3);
+  animation: shadow-fade-in 1s forwards;
+}
+
+.cxe-window-shadow {
+  animation: shadow-fade-in 1s linear forwards;
+  background: rgba(0, 0, 0, 0.35);
+}
+
+@keyframes shadow-fade-in {
+  from {
+    background: rgba(128, 128, 128, 0);
+  }
+
+  to {
+  }
+}
+
+.cxb-progressbar {
+  &.cxm-error {
+    .cxe-progressbar-indicator {
+      background-color: #f65b5b;
+    }
+  }
+
+  &.cxm-warning {
+    .cxe-progressbar-indicator {
+      background-color: #ffcb6c;
+    }
+  }
+
+  &.cxm-success {
+    .cxe-progressbar-indicator {
+      background-color: #80ec80;
+    }
+  }
+}
+
+.cxb-tooltip {
+  font-weight: 500;
+
+  // Force dark mode colors inside tooltips since tooltip background is dark
+  --background: 0 0% 9%;
+  --foreground: 0 0% 98%;
+  --card: 0 0% 9%;
+  --card-foreground: 0 0% 98%;
+  --muted: 0 0% 15%;
+  --muted-foreground: 0 0% 64%;
+  --border: 0 0% 25%;
+  --input: 0 0% 20%;
+
+  .cxb-grid {
+    color: hsl(var(--foreground));
+    border-color: hsl(var(--border));
+
+    .cxe-grid-header-cell {
+      background-color: hsl(var(--muted));
+      color: hsl(var(--foreground));
+      border-color: hsl(var(--border));
+    }
+
+    .cxe-grid-data td {
+      border-color: hsl(var(--border));
+      color: hsl(var(--foreground));
+    }
+
+    .cxe-grid-data {
+      background-color: transparent;
+    }
+  }
+}
+
+// Window / MsgBox
+.cxb-window {
+  background-color: hsl(var(--card));
+  border-color: hsl(var(--border));
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+
+  .cxe-window-header {
+    background-color: hsl(var(--card));
+    border-color: hsl(var(--border));
+    color: hsl(var(--foreground));
+  }
+
+  .cxe-window-body {
+    background-color: hsl(var(--card));
+    color: hsl(var(--foreground));
+  }
+
+  .cxe-window-footer {
+    background-color: hsl(var(--card));
+    border-color: hsl(var(--border));
+  }
+
+  .cxe-window-close-button {
+    color: hsl(var(--muted-foreground));
+
+    &:hover {
+      color: hsl(var(--foreground));
+      background-color: hsl(var(--muted));
+    }
+  }
+}
+
+.dark .cxb-window {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+// Buttons
+.cxb-button {
+  background-color: hsl(var(--secondary));
+  color: hsl(var(--secondary-foreground));
+  border-color: hsl(var(--border));
+  transition:
+    background-color 0.15s,
+    border-color 0.15s;
+
+  &:hover {
+    background-color: hsl(var(--muted));
+  }
+
+  &.cxm-primary {
+    background-color: var(--cx-c-brand);
+    color: white;
+    border-color: var(--cx-c-brand);
+
+    &:hover {
+      background-color: var(--cx-c-brand-dark);
+      border-color: var(--cx-c-brand-dark);
+    }
+  }
+
+  &.cxm-danger {
+    background-color: hsl(var(--destructive));
+    color: hsl(var(--destructive-foreground));
+    border-color: hsl(var(--destructive));
+
+    &:hover {
+      filter: brightness(0.9);
+    }
+  }
+
+  &.cxm-hollow {
+    background-color: transparent;
+    color: hsl(var(--foreground));
+    border-color: hsl(var(--border));
+
+    &:hover {
+      background-color: hsl(var(--muted));
+    }
+  }
+
+  &:disabled,
+  &.cxs-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+// Dropdown
+.cxb-dropdown {
+  background-color: hsl(var(--popover));
+  border-color: hsl(var(--border));
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  border-radius: var(--radius);
+
+  .cxe-menu-item {
+    color: hsl(var(--popover-foreground));
+
+    &:hover,
+    &.cxs-cursor {
+      background-color: hsl(var(--muted));
+    }
+
+    &.cxs-selected {
+      background-color: hsl(var(--accent));
+      color: var(--cx-c-brand);
+    }
+  }
+}
+
+.dark .cxb-dropdown {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+// LookupField dropdown
+.cxb-lookupfield-dropdown {
+  background-color: hsl(var(--popover));
+  border-color: hsl(var(--border));
+}
+
+// List
+.cxb-list {
+  .cxe-list-item {
+    color: hsl(var(--foreground));
+
+    &:hover,
+    &.cxs-cursor {
+      background-color: hsl(var(--muted));
+    }
+
+    &.cxs-selected {
+      background-color: hsl(var(--accent));
+      color: var(--cx-c-brand);
+    }
+  }
+}
+
+// TextField, NumberField, TextArea, DateField
+.cxb-textfield,
+.cxb-numberfield,
+.cxb-textarea,
+.cxb-datefield,
+.cxb-monthfield,
+.cxb-lookupfield {
+  input,
+  textarea,
+  .cxe-lookup-input {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    border-color: hsl(var(--input));
+    border-radius: calc(var(--radius) - 2px);
+    transition:
+      border-color 0.15s,
+      box-shadow 0.15s;
+
+    &::placeholder {
+      color: hsl(var(--muted-foreground));
+    }
+
+    &:focus {
+      border-color: var(--cx-c-brand);
+      box-shadow: 0 0 0 2px rgba(39, 170, 225, 0.2);
+      outline: none;
+    }
+
+    &:disabled,
+    &[disabled],
+    &:read-only {
+      cursor: not-allowed;
+    }
+  }
+
+  &.cxs-disabled {
+    input,
+    textarea,
+    .cxe-lookup-input {
+      cursor: not-allowed;
+    }
+  }
+}
+
+// Slider
+.cxb-slider {
+  .cxe-slider-track {
+    background-color: hsl(var(--muted));
+    border-radius: 9999px;
+  }
+
+  .cxe-slider-range {
+    background-color: var(--cx-c-brand);
+    border-radius: 9999px;
+  }
+
+  .cxe-slider-handle {
+    background-color: white;
+    border: 2px solid var(--cx-c-brand);
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.15s;
+
+    &:hover {
+      box-shadow: 0 0 0 4px rgba(39, 170, 225, 0.2);
+    }
+  }
+
+  &.cxs-disabled {
+    opacity: 0.5;
+
+    .cxe-slider-handle {
+      cursor: not-allowed;
+    }
+  }
+}
+
+// Checkbox & Radio
+.cxb-checkbox,
+.cxb-radio {
+  color: hsl(var(--foreground));
+
+  .cxe-checkbox-input,
+  .cxe-radio-input {
+    border-color: hsl(var(--input));
+    background-color: hsl(var(--background));
+    transition:
+      background-color 0.15s,
+      border-color 0.15s;
+  }
+
+  &.cxs-checked {
+    .cxe-checkbox-input,
+    .cxe-radio-input {
+      background-color: var(--cx-c-brand);
+      border-color: var(--cx-c-brand);
+      color: white !important;
+    }
+
+    // Checkmark icon - target all possible SVG elements
+    .cxe-checkbox-input-check {
+      color: white !important;
+      fill: white !important;
+
+      svg {
+        color: white !important;
+        fill: white !important;
+      }
+
+      path {
+        fill: white !important;
+      }
+    }
+  }
+
+  // Target all SVG paths inside checkbox when checked
+  &.cxs-checked svg,
+  &.cxs-checked svg path,
+  &.cxs-checked path {
+    fill: white !important;
+    color: white !important;
+  }
+
+  &:hover:not(.cxs-disabled) {
+    .cxe-checkbox-input,
+    .cxe-radio-input {
+      border-color: var(--cx-c-brand);
+    }
+  }
+}
+
+// Switch
+.cxb-switch {
+  .cxe-switch-handle {
+    background-color: hsl(var(--muted-foreground));
+    transition:
+      transform 0.15s,
+      background-color 0.15s;
+  }
+
+  .cxe-switch-input {
+    background-color: hsl(var(--muted));
+    border-color: hsl(var(--border));
+    transition: background-color 0.15s;
+  }
+
+  &.cxs-on .cxe-switch-input {
+    background-color: var(--cx-c-brand);
+    border-color: var(--cx-c-brand);
+  }
+
+  &.cxs-on .cxe-switch-handle {
+    background-color: white;
+  }
+}
+
+// Grid
+.cxb-grid.cxs-scrollable {
+  background-color: hsl(var(--background));
+}
+
+.dark .cxb-grid.cxs-scrollable {
+  background-color: transparent;
+
+  .cxe-grid-header {
+    font-weight: 500;
+  }
+
+  &.cxs-vlines .cxe-grid-col-header:not(:last-child) {
+    border-right-color: hsl(var(--border));
+  }
+
+  .cxe-grid-data {
+    color: hsl(var(--foreground));
+  }
+
+  .cxe-grid-data-cell {
+    border-color: hsl(var(--border));
+  }
+}
+
+.cxb-grid.cxs-scrollable > .cxe-grid-scroll-area > .cxe-grid-table-wrapper,
+.cxb-grid.cxs-scrollable
+  > .cxe-grid-fixed-scroll-area
+  > .cxe-grid-fixed-table-wrapper {
+  padding-top: 1px;
+}
+
+// Menu
+.cxb-menu {
+  .cxe-menu-item {
+    color: hsl(var(--popover-foreground));
+  }
+}
+
+// Section
+.cxb-section {
+  background-color: hsl(var(--card));
+  border-radius: var(--radius);
+  overflow: hidden;
+
+  &.cxm-card {
+    border-color: hsl(var(--border));
+    border-width: 1px;
+  }
+
+  .cxe-section-header {
+    color: hsl(var(--foreground));
+    border-color: hsl(var(--border));
+    font-weight: 500;
+  }
+
+  .cxe-section-body {
+    color: hsl(var(--foreground));
+  }
+}
+
+// ProgressBar
+.cxb-progressbar {
+  background-color: hsl(var(--muted));
+  border-radius: 9999px;
+  overflow: hidden;
+
+  .cxe-progressbar-indicator {
+    background-color: var(--cx-c-brand);
+    transition: width 0.3s ease;
+  }
+}
+
+// Calendar / DatePicker
+.cxb-calendar {
+  background-color: hsl(var(--popover)) !important;
+  border: 1px solid hsl(var(--border)) !important;
+  color: hsl(var(--foreground));
+  border-radius: var(--radius);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  padding: 0.75rem;
+
+  .cxe-calendar-header {
+    color: hsl(var(--foreground));
+    font-weight: 500;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid hsl(var(--border));
+  }
+
+  // Navigation buttons
+  .cxe-calendar-icon-prev-year,
+  .cxe-calendar-icon-prev-month,
+  .cxe-calendar-icon-next-month,
+  .cxe-calendar-icon-next-year {
+    color: hsl(var(--muted-foreground));
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: calc(var(--radius) - 2px);
+    transition:
+      color 0.15s,
+      background-color 0.15s;
+
+    &:hover {
+      color: hsl(var(--foreground));
+      background-color: hsl(var(--muted));
+    }
+  }
+
+  .cxe-calendar-day-names {
+    color: hsl(var(--muted-foreground));
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+
+  .cxe-calendar-day {
+    color: hsl(var(--foreground));
+    border-radius: calc(var(--radius) - 2px);
+    transition: background-color 0.15s;
+    font-size: 0.875rem;
+
+    &:hover:not(.cxs-selected):not(.cxs-outside) {
+      background-color: hsl(var(--muted));
+    }
+
+    &.cxs-selected {
+      background-color: var(--cx-c-brand) !important;
+      color: white !important;
+    }
+
+    &.cxs-today:not(.cxs-selected) {
+      border: 1px solid var(--cx-c-brand);
+      font-weight: 600;
+    }
+
+    &.cxs-outside {
+      color: hsl(var(--muted-foreground));
+      opacity: 0.4;
+    }
+  }
+}
+
+.dark .cxb-calendar {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+// LabeledContainer
+.cxb-labeledcontainer {
+  .cxe-labeledcontainer-label {
+    color: hsl(var(--muted-foreground));
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+}
+
+// Label
+.cxb-label {
+  color: hsl(var(--muted-foreground));
+}
+
+// Toast
+.cxb-toast {
+  background-color: hsl(var(--card));
+  color: hsl(var(--foreground));
+  border-color: hsl(var(--border));
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  border-radius: var(--radius);
+}
+
+.dark .cxb-toast {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+// Tab
+.cxb-classic-tab-container {
+  .cxe-classic-tab {
+    color: hsl(var(--muted-foreground));
+    border-color: hsl(var(--border));
+    transition:
+      color 0.15s,
+      border-color 0.15s;
+
+    &:hover {
+      color: hsl(var(--foreground));
+    }
+
+    &.cxs-active {
+      color: var(--cx-c-brand);
+      border-bottom-color: var(--cx-c-brand);
+    }
+  }
+}
+
+// TreeNode
+.cxb-treenode {
+  color: hsl(var(--foreground));
+  transition: background-color 0.15s;
+}
+
+// ColorPicker
+.cxb-colorpicker {
+  .cxe-colorpicker-input {
+    border-color: hsl(var(--input));
+    background-color: hsl(var(--background));
+    border-radius: calc(var(--radius) - 2px);
+  }
+}
+
+// DateTimePicker
+.cxb-datetimepicker {
+  input {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    border-color: hsl(var(--input));
+  }
+}

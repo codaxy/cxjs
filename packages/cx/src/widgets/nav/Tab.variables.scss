@@ -1,4 +1,5 @@
 @use "../../util/scss/defaults" as *;
+@use "../../util/scss/clockwise" as *;
 @use "../box" as *;
 
 $cx-default-tab-color: inherit !default;

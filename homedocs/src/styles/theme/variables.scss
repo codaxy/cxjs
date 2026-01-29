@@ -1,0 +1,67 @@
+@use "sass:math";
+
+// ========================================
+// Theme-specific Variables
+// ========================================
+
+$cx-include-global-rules: false;
+$cx-default-icon-size: 16px;
+
+$cx-default-slider-handle-size: 20px;
+$cx-default-progressbar-height: 10px;
+
+$cx-tooltip-background-color: #222;
+$cx-tooltip-color: white;
+$cx-tooltip-border-radius: 8px;
+$cx-tooltip-padding: 8px 12px;
+$cx-tooltip-background-color-error: #dc2626;
+
+$cx-default-label-font-weight: inherit;
+
+$cx-default-input-width: 210px;
+
+$cx-default-box-padding: 8px;
+$cx-default-box-font-size: 14px;
+$cx-default-box-line-height: 20px;
+$cx-default-font-size: 14px;
+$cx-default-border-radius: 3px;
+
+$cx-default-list-item-padding: 8px 12px;
+$cx-default-border-color: hsl(var(--border));
+
+$cx-default-switch-range-background-color: #1f99f8;
+
+$cx-default-grid-data-padding: 8px 12px;
+$cx-default-grid-header-font-weight: 700;
+$cx-default-grid-header-font-size: 12px;
+$cx-default-grid-header-background-color: hsl(var(--muted));
+$cx-default-grid-header-color: hsl(var(--muted-foreground));
+$cx-default-grid-header-border-color: hsl(var(--border));
+$cx-default-grid-border-color: hsl(var(--border));
+$cx-default-grid-font-size: 14px;
+
+$cx-default-window-footer-background-color: transparent;
+$cx-default-window-header-background-color: transparent;
+$cx-default-window-header-padding: 12px 12px 12px 24px;
+$cx-default-window-footer-padding: 16px 24px;
+
+$cx-default-checkbox-size: 16px;
+$cx-default-radio-size: 16px;
+
+$cx-default-palette-fill-whiten: 40%;
+$cx-default-palette-fill-blacken: 0%;
+
+$cx-grid-pagination-default-outer-border-radius: 6px;
+$cx-grid-pagination-default-border-radius: 6px;
+
+// Input field colors (works in both light and dark mode)
+$cx-default-input-background-color: hsl(var(--background));
+$cx-default-input-color: hsl(var(--foreground));
+$cx-default-empty-text-color: hsl(var(--muted-foreground));
+$cx-default-input-tag-background-color: hsl(var(--muted));
+
+// Window colors
+$cx-default-window-background-color: hsl(var(--card));
+
+// Forward cx variables so consumers get both theme and cx variables
+@forward "cx/src/variables";

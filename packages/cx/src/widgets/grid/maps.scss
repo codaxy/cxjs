@@ -17,13 +17,13 @@ $cx-grid-header-state-style-map: (
       padding: $cx-default-grid-header-padding,
    ),
    hover: (
-      background-color: darken($cx-default-grid-header-background-color, 2),
+      background-color: color-mix(in srgb, $cx-default-grid-header-background-color, black 2%),
    ),
    sorted: (
-      background-color: darken($cx-default-grid-header-background-color, 7),
+      background-color: color-mix(in srgb, $cx-default-grid-header-background-color, black 7%),
    ),
    sorted-hover: (
-      background-color: darken($cx-default-grid-header-background-color, 5),
+      background-color: color-mix(in srgb, $cx-default-grid-header-background-color, black 5%),
    ),
 ) !default;
 
@@ -54,3 +54,47 @@ $cx-grid-cell-cursor-style: (
    background: rgba(green, 0.1),
    border: 2px solid rgba(green, 1),
 );
+
+$cx-grid-group-caption-level-style-map: (
+   level-1: (
+      font-weight: bold,
+      font-size: 115%,
+   ),
+   level-2: (
+      font-weight: bold,
+      font-size: 130%,
+      border-bottom: 1px solid grey,
+   ),
+   level-3: (
+      font-weight: bold,
+      font-size: 145%,
+      border-bottom: 1px solid grey,
+   ),
+   level-4: (
+      font-weight: bold,
+      font-size: 160%,
+      border-bottom: 1px solid grey,
+   ),
+) !default;
+
+$cx-grid-group-footer-level-style-map: (
+   level-1: (
+      font-weight: bold,
+      border-top: 1px solid $cx-default-grid-border-color,
+   ),
+   level-2: (
+      font-weight: bold,
+      font-size: 110%,
+      border-top: 1px solid grey,
+   ),
+   level-3: (
+      font-weight: bold,
+      font-size: 115%,
+      border-top: 1px solid grey,
+   ),
+   level-4: (
+      font-weight: bold,
+      font-size: 120%,
+      border-top: 1px solid grey,
+   ),
+) !default;

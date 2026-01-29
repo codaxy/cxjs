@@ -35,7 +35,9 @@
       "Bash(pushd:*)",
       "Bash(yarn --cwd \"D:/Code/CxJS/cxjs/homedocs\" check-types)",
       "mcp__playwright__browser_evaluate",
-      "mcp__playwright__browser_resize"
+      "mcp__playwright__browser_resize",
+      "Bash(wc -l \"D:\\\\Code\\\\CxJS\\\\cxjs\\\\packages\\\\cx\\\\src\"/**/*.scss)",
+      "Bash(git grep:*)"
     ],
     "deny": [],
     "ask": []

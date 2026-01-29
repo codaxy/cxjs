@@ -51,9 +51,9 @@ $cx-button-mods: (
          color: white,
       ),
       disabled: (
-         background-color: transparentize(#1f99f8, 0.5),
-         border-color: transparentize(#1e88e5, 0.9),
-         color: transparentize(white, 0.4),
+         background-color: rgba(31, 153, 248, 0.5),
+         border-color: rgba(30, 136, 229, 0.1),
+         color: rgba(255, 255, 255, 0.6),
       ),
       hover: (
          background-color: #1f99f8,
@@ -66,9 +66,9 @@ $cx-button-mods: (
          color: white,
       ),
       disabled: (
-         background-color: transparentize(#d32f2f, 0.4),
-         border-color: transparentize(#c62828, 0.9),
-         color: transparentize(white, 0.5),
+         background-color: rgba(211, 47, 47, 0.6),
+         border-color: rgba(198, 40, 40, 0.1),
+         color: rgba(255, 255, 255, 0.5),
       ),
       hover: (
          background-color: #d32f2f,

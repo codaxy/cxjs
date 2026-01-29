@@ -15,6 +15,7 @@ $cx-colorpicker-state-style-map: cx-deep-map-merge(
          border-width: $cx-default-colorpicker-border-width,
          border-color: $cx-default-colorpicker-border-color,
          box-shadow: $cx-default-colorpicker-box-shadow,
+         padding: 2px,
       ),
       hover: (),
    )

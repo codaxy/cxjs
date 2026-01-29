@@ -50,7 +50,7 @@
          }
       }
 
-      @each $pad, $size in $pad-size {
+      @each $pad, $size in $cx-pad-size {
          &.#{$state}#{$pad}-hpad {
             padding-left: $size;
             padding-right: $size;
