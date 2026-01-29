@@ -1,10 +1,12 @@
 ---
 layout: ../../../layouts/DocsLayout.astro
 title: Button
+description: Clickable button with various styles and states
 ---
 
 import ImportPath from "../../../components/ImportPath.astro";
 import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 import ButtonBasicExample from "../../../examples/layout/ButtonBasicExample.tsx";
 import ButtonBasicExampleCode from "../../../examples/layout/ButtonBasicExample.tsx?raw";
@@ -21,6 +23,8 @@ import ButtonConfirmExampleCode from "../../../examples/layout/ButtonConfirmExam
 # Button
 
 <ImportPath path="import { Button } from 'cx/widgets';" />
+
+<OnThisPage />
 
 Buttons trigger actions when clicked. They support various visual styles, icons, and built-in confirmation dialogs.
 
@@ -63,17 +67,17 @@ enableMsgBoxAlerts();
 
 ## Configuration
 
-| Property | Type | Description |
-| -------- | ---- | ----------- |
-| `text` | `StringProp` | Button text content. |
-| `icon` | `StringProp` | Name of the icon to display. |
-| `mod` | `string` | Visual modifier: `primary`, `danger`, `hollow`. |
-| `pressed` | `BooleanProp` | Shows the button in a pressed/toggled state. |
-| `disabled` | `BooleanProp` | Disables the button. |
-| `enabled` | `BooleanProp` | Inverse of disabled. |
-| `confirm` | `string \| object` | Confirmation message or MsgBox configuration. |
-| `dismiss` | `boolean` | If true, closes the parent overlay when clicked. |
-| `submit` | `boolean` | Sets `type="submit"` for form submission. |
-| `type` | `string` | Button type: `submit` or `button`. Default: `button`. |
-| `focusOnMouseDown` | `boolean` | Allow focus on mouse click. Default: `false`. |
-| `onClick` | `function` | Click handler: `(e, instance) => void`. |
+| Property           | Type               | Description                                           |
+| ------------------ | ------------------ | ----------------------------------------------------- |
+| `text`             | `StringProp`       | Button text content.                                  |
+| `icon`             | `StringProp`       | Name of the icon to display.                          |
+| `mod`              | `string`           | Visual modifier: `primary`, `danger`, `hollow`.       |
+| `pressed`          | `BooleanProp`      | Shows the button in a pressed/toggled state.          |
+| `disabled`         | `BooleanProp`      | Disables the button.                                  |
+| `enabled`          | `BooleanProp`      | Inverse of disabled.                                  |
+| `confirm`          | `string \| object` | Confirmation message or MsgBox configuration.         |
+| `dismiss`          | `boolean`          | If true, closes the parent overlay when clicked.      |
+| `submit`           | `boolean`          | Sets `type="submit"` for form submission.             |
+| `type`             | `string`           | Button type: `submit` or `button`. Default: `button`. |
+| `focusOnMouseDown` | `boolean`          | Allow focus on mouse click. Default: `false`.         |
+| `onClick`          | `function`         | Click handler: `(e, instance) => void`.               |

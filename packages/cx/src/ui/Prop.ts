@@ -116,7 +116,7 @@ export type StyleProp = Prop<string | React.CSSProperties> | StructuredProp;
 export type NumberProp = Prop<number>;
 export type BooleanProp = Prop<boolean>;
 export type ClassProp = Prop<string> | StructuredProp;
-export type RecordsProp = Prop<DataRecord[]>;
+export type RecordsProp<T = any> = Prop<T[]>;
 export type SortersProp = Prop<Sorter[]>;
 export type UnknownProp = Prop<unknown>;
 export type ModProp = StringProp | StructuredProp;

@@ -19,13 +19,16 @@
    $state: map.get($besm, state);
 
    $padding: cx-get-state-rule($state-style-map, default, padding);
-   $border-radius-offset: round(cx-get-state-rule($tag-state-style-map, default, border-radius) * 0.25);
+   $border-radius-offset: round(
+      cx-get-state-rule($tag-state-style-map, default, border-radius) * 0.25
+   );
 
    .#{$block}#{$name} {
       cursor: pointer;
       width: $width;
       font: cx-get-state-rule($state-style-map, default, "font");
       font-size: cx-get-state-rule($state-style-map, default, "font-size");
+      vertical-align: top;
 
       @include cxb-field($besm, $state-style-map, $input: false);
 
@@ -51,17 +54,25 @@
          $input: false,
          $overrides: (
             default: (
-               height: 100%,
                text-overflow: null,
                padding: cx-top($padding)
-                  cx-calc(cx-right($padding), $cx-default-clear-size, $cx-default-input-tag-spacing) cx-bottom($padding)
-                  cx-left($padding),
+                  cx-calc(
+                     cx-right($padding),
+                     $cx-default-clear-size,
+                     $cx-default-input-tag-spacing
+                  )
+                  cx-bottom($padding) cx-left($padding),
             )
          )
       );
 
       .#{$state}multiple > & {
-         padding: 0 cx-calc(cx-right($padding), $cx-default-clear-size, $cx-default-input-tag-spacing)
+         padding: 0
+            cx-calc(
+               cx-right($padding),
+               $cx-default-clear-size,
+               $cx-default-input-tag-spacing
+            )
             $cx-default-input-tag-spacing 0;
          align-items: center;
          flex-wrap: wrap;
@@ -106,10 +117,22 @@
          display: inline-block;
          margin: $cx-default-input-tag-spacing 0 0 $cx-default-input-tag-spacing;
          box-sizing: border-box;
-         padding: cx-calc(cx-top($cx-default-input-padding), -$cx-default-input-tag-spacing)
-            cx-calc(cx-right($cx-default-input-padding), -$cx-default-input-tag-spacing)
-            cx-calc(cx-bottom($cx-default-input-padding), -$cx-default-input-tag-spacing)
-            cx-calc(cx-left($cx-default-input-padding), -$cx-default-input-tag-spacing);
+         padding: cx-calc(
+               cx-top($cx-default-input-padding),
+               -$cx-default-input-tag-spacing
+            )
+            cx-calc(
+               cx-right($cx-default-input-padding),
+               -$cx-default-input-tag-spacing
+            )
+            cx-calc(
+               cx-bottom($cx-default-input-padding),
+               -$cx-default-input-tag-spacing
+            )
+            cx-calc(
+               cx-left($cx-default-input-padding),
+               -$cx-default-input-tag-spacing
+            );
       }
    }
 

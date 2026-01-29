@@ -1,7 +1,7 @@
 import { Menu, Submenu, MenuItem } from "cx/widgets";
 
 // @index
-export default () => (
+export default (
   <Menu style={{ width: "200px" }}>
     <MenuItem autoClose onClick={() => alert("Dashboard")}>
       Dashboard

@@ -1,0 +1,82 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: LineGraph
+description: Line chart from data array
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+import LineGraphExample from "../../../examples/charts/LineGraphExample.tsx";
+import LineGraphExampleCode from "../../../examples/charts/LineGraphExample.tsx?raw";
+
+# LineGraph
+
+<ImportPath path="import { LineGraph } from 'cx/charts';" />
+
+<OnThisPage />
+
+Line charts are commonly used for data trends visualization. The `LineGraph` widget renders a series of data points connected by line segments, with optional area fill, smoothing, and stacking capabilities.
+
+<CodeExample code={LineGraphExampleCode}>
+  <LineGraphExample client:load />
+</CodeExample>
+
+The example above demonstrates multiple line series with area fill, smooth curves, and a range band (using `y0Field` and `yField` to define upper and lower bounds). Use the controls to adjust the number of data points, toggle area/line visibility, and modify the smoothing effect.
+
+## Configuration
+
+### Data Properties
+
+| Property  | Type            | Default | Description                                                                                                                     |
+| --------- | --------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| `data`    | `array`         |         | Data for the graph. Each entry should be an object with at least two properties whose names should match `xField` and `yField` |
+| `xField`  | `string`        | `"x"`   | Name of the property which holds the x value                                                                                    |
+| `yField`  | `string`        | `"y"`   | Name of the property which holds the y value                                                                                    |
+| `y0Field` | `string/false`  | `false` | Name of the property which holds the y0 (base) value. Used for range/band charts                                               |
+| `y0`      | `number`        | `0`     | Base value used for area charts when `y0Field` is not specified                                                                 |
+
+### Appearance
+
+| Property         | Type            | Default | Description                                                                              |
+| ---------------- | --------------- | ------- | ---------------------------------------------------------------------------------------- |
+| `colorIndex`     | `number`        |         | Index of a color from the standard palette (0-15)                                        |
+| `colorMap`       | `string`        |         | Used to automatically assign a color based on `name` and the contextual `ColorMap` widget |
+| `colorName`      | `string`        |         | Name used to resolve the color. If not provided, `name` is used instead                  |
+| `line`           | `boolean`       | `true`  | Show the line connecting data points. Set to `false` to hide                             |
+| `lineStyle`      | `string/object` |         | Additional styles applied to the line element                                            |
+| `area`           | `boolean`       | `false` | Fill the area under the line                                                             |
+| `areaStyle`      | `string/object` |         | Additional styles applied to the area element                                            |
+| `hiddenBase`     | `boolean`       | `false` | If `true`, clips the base of the graph to show only the value range                      |
+
+### Smoothing
+
+| Property         | Type      | Default | Description                                                                                    |
+| ---------------- | --------- | ------- | ---------------------------------------------------------------------------------------------- |
+| `smooth`         | `boolean` | `false` | Set to `true` to draw smoothed lines using cubic Bézier curves                                 |
+| `smoothingRatio` | `number`  | `0.05`  | Controls the intensity of smoothing (0 to 0.4). Higher values create more curved lines         |
+
+### Stacking
+
+| Property  | Type      | Default   | Description                                                                        |
+| --------- | --------- | --------- | ---------------------------------------------------------------------------------- |
+| `stacked` | `boolean` | `false`   | Stack values on top of other series sharing the same stack                         |
+| `stack`   | `string`  | `"stack"` | Name of the stack. Use different names for multiple independent stacks             |
+
+### Axes
+
+| Property | Type     | Default | Description                         |
+| -------- | -------- | ------- | ----------------------------------- |
+| `xAxis`  | `string` | `"x"`   | Name of the horizontal axis to use  |
+| `yAxis`  | `string` | `"y"`   | Name of the vertical axis to use    |
+
+### Legend
+
+| Property       | Type           | Default    | Description                                                                   |
+| -------------- | -------------- | ---------- | ----------------------------------------------------------------------------- |
+| `name`         | `string`       |            | Name of the series as it will appear in the legend                            |
+| `active`       | `boolean`      | `true`     | Indicates if the series is active. Inactive series are shown only in legend   |
+| `legend`       | `string/false` | `"legend"` | Name of the legend to use. Set to `false` to hide from legend                 |
+| `legendAction` | `string`       | `"auto"`   | Action to perform on legend item click                                        |
+| `legendShape`  | `string`       | `"rect"`   | Shape to display in the legend entry                                          |

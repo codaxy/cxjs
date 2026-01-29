@@ -1,0 +1,98 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: getParentFrameBoundingClientRect
+description: Get parent frame bounds
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+# getParentFrameBoundingClientRect
+
+<ImportPath path="import { getParentFrameBoundingClientRect } from 'cx/util';" />
+<OnThisPage />
+
+The `getParentFrameBoundingClientRect` function returns the bounding rectangle of the iframe containing an element, or the viewport dimensions if not in an iframe.
+
+## Basic Usage
+
+```tsx
+import { getParentFrameBoundingClientRect } from "cx/util";
+
+const element = document.querySelector(".my-element");
+const rect = getParentFrameBoundingClientRect(element);
+
+console.log(rect.x, rect.y, rect.width, rect.height);
+```
+
+## How It Works
+
+The function:
+1. Checks if the element is inside an iframe (different `ownerDocument`)
+2. If in an iframe, returns the iframe's bounding rectangle
+3. If not in an iframe, returns a DOMRect representing the viewport
+
+## Return Values
+
+### In an iframe
+
+Returns the iframe element's `getBoundingClientRect()`:
+
+```tsx
+// Element inside an iframe
+const rect = getParentFrameBoundingClientRect(iframeContent);
+// { x: 100, y: 50, width: 800, height: 600, ... }
+```
+
+### In main document
+
+Returns viewport dimensions:
+
+```tsx
+// Element in main document
+const rect = getParentFrameBoundingClientRect(element);
+// { x: 0, y: 0, width: window.innerWidth, height: window.innerHeight, ... }
+```
+
+## Common Use Cases
+
+### Positioning Overlays
+
+```tsx
+import { getParentFrameBoundingClientRect } from "cx/util";
+
+function positionTooltip(trigger: Element, tooltip: HTMLElement) {
+  const frameRect = getParentFrameBoundingClientRect(trigger);
+  const triggerRect = trigger.getBoundingClientRect();
+
+  // Ensure tooltip stays within the frame/viewport
+  const maxX = frameRect.x + frameRect.width - tooltip.offsetWidth;
+  const maxY = frameRect.y + frameRect.height - tooltip.offsetHeight;
+
+  tooltip.style.left = `${Math.min(triggerRect.left, maxX)}px`;
+  tooltip.style.top = `${Math.min(triggerRect.bottom, maxY)}px`;
+}
+```
+
+### Detecting Iframe Context
+
+```tsx
+import { getParentFrameBoundingClientRect } from "cx/util";
+
+function isInIframe(element: Element): boolean {
+  const rect = getParentFrameBoundingClientRect(element);
+  return rect.x !== 0 || rect.y !== 0;
+}
+```
+
+## API
+
+```tsx
+function getParentFrameBoundingClientRect(el: Element): DOMRect;
+```
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| el | `Element` | The element to check |
+
+**Returns:** A `DOMRect` representing either the iframe's bounds or the viewport dimensions.

@@ -1,0 +1,106 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Svg
+description: SVG container element
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+import SvgBasicExample from "../../../examples/charts/SvgBasicExample.tsx";
+import SvgBasicExampleCode from "../../../examples/charts/SvgBasicExample.tsx?raw";
+
+import SvgAnchorsExample from "../../../examples/charts/SvgAnchorsExample.tsx";
+import SvgAnchorsExampleCode from "../../../examples/charts/SvgAnchorsExample.tsx?raw";
+
+import SvgOffsetExample from "../../../examples/charts/SvgOffsetExample.tsx";
+import SvgOffsetExampleCode from "../../../examples/charts/SvgOffsetExample.tsx?raw";
+
+import SvgAspectRatioExample from "../../../examples/charts/SvgAspectRatioExample.tsx";
+import SvgAspectRatioExampleCode from "../../../examples/charts/SvgAspectRatioExample.tsx?raw";
+
+import SvgInteractiveExample from "../../../examples/charts/SvgInteractiveExample.tsx";
+import SvgInteractiveExampleCode from "../../../examples/charts/SvgInteractiveExample.tsx?raw";
+
+# Svg
+
+<ImportPath path="import { Svg } from 'cx/svg';" />
+
+<OnThisPage />
+
+CxJS has excellent support for _Scalable Vector Graphics_ (SVG) and enables responsive layouts and charts using the concept of **bounded objects**.
+
+<CodeExample code={SvgBasicExampleCode}>
+  <SvgBasicExample client:load />
+</CodeExample>
+
+The `Svg` component serves as a container for SVG elements. You can mix two approaches:
+
+- **Native SVG elements** (`rect`, `ellipse`, `line`, `text`) — positioned with standard attributes like `x`, `y`, `width`, `height`, but you must calculate positions manually
+- **CxJS components** (`Rectangle`, `Ellipse`, `Line`, `Text`) — work as **bounded objects** that automatically adapt to their container size using `anchors`, `offset`, and `margin` properties
+
+## Bounded Objects
+
+> Use the `Svg` container instead of the native `svg` element to enable bounded objects.
+
+The `Svg` component measures its size and passes bounding box information to child elements. Child elements use parent bounds to calculate their own size and pass it to their children.
+
+Bounds are defined using the `anchors`, `offset`, and `margin` properties. Each property consists of four components `t r b l` (top, right, bottom, left) in clockwise order. Do not use suffixes like `%` or `px`.
+
+### Anchors
+
+Anchors define how child bounds are tied to the parent:
+
+- `0` aligns to the left/top edge
+- `1` aligns to the right/bottom edge
+- Values between `0` and `1` position proportionally
+
+<CodeExample code={SvgAnchorsExampleCode}>
+  <SvgAnchorsExample client:load />
+</CodeExample>
+
+### Offset and Margin
+
+The `offset` property translates the edges of the bounding box. It always works in the top-to-bottom and left-to-right direction, so use negative values for right and bottom edges.
+
+The `margin` property works like CSS margin — positive values shrink the box inward, negative values expand it outward.
+
+<CodeExample code={SvgOffsetExampleCode}>
+  <SvgOffsetExample client:load />
+</CodeExample>
+
+**Key difference:**
+
+- `offset="5 -5 -5 5"` — explicit directional offsets
+- `margin={5}` — uniform inset (equivalent result)
+
+### Interactive Example
+
+Try resizing the container and adjusting the values to see how bounded objects respond. Use the **mouse wheel** while focused on a field to quickly adjust values:
+
+<CodeExample code={SvgInteractiveExampleCode}>
+  <SvgInteractiveExample client:load />
+</CodeExample>
+
+## Aspect Ratio
+
+When you can't give fixed dimensions to an SVG element, use `aspectRatio` with `autoHeight` or `autoWidth` to automatically size the element based on available space.
+
+<CodeExample code={SvgAspectRatioExampleCode}>
+  <SvgAspectRatioExample client:load />
+</CodeExample>
+
+In this example, the height is automatically calculated to be 4 times smaller than the width.
+
+## Configuration
+
+| Property      | Type            | Description                                                 |
+| ------------- | --------------- | ----------------------------------------------------------- |
+| `anchors`     | `string/number` | Defines how bounds are tied to parent. Format: `"t r b l"`. |
+| `offset`      | `string/number` | Translates edges of the bounding box. Format: `"t r b l"`.  |
+| `margin`      | `string/number` | Applies margin to boundaries (CSS-like behavior).           |
+| `padding`     | `string/number` | Padding applied before passing bounds to children.          |
+| `aspectRatio` | `number`        | Aspect ratio (width/height). Default: `1.618`.              |
+| `autoWidth`   | `boolean`       | Calculate width from height and aspect ratio.               |
+| `autoHeight`  | `boolean`       | Calculate height from width and aspect ratio.               |

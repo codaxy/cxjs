@@ -1,29 +1,31 @@
-/** @jsxImportSource cx */
 import { Svg, Rectangle } from "cx/svg";
 import { Chart, CategoryAxis, Gridlines, Marker } from "cx/charts";
 
-export default () => (
-  <cx>
-    <Svg style="width: 100%; height: 250px;">
-      <Chart
-        margin="40 40 40 60"
-        axes={{
-          x: { type: CategoryAxis },
-          y: { type: CategoryAxis, vertical: true },
-        }}
-      >
-        <Rectangle fill="white" />
-        <Gridlines />
-        <Marker x="A" y="Small" shape="circle" size={15} colorIndex={0} />
-        <Marker x="B" y="Small" shape="circle" size={15} colorIndex={2} />
-        <Marker x="C" y="Small" shape="circle" size={15} colorIndex={4} />
-        <Marker x="A" y="Medium" shape="square" size={15} colorIndex={0} />
-        <Marker x="B" y="Medium" shape="square" size={15} colorIndex={2} />
-        <Marker x="C" y="Medium" shape="square" size={15} colorIndex={4} />
-        <Marker x="A" y="Large" shape="triangle" size={15} colorIndex={0} />
-        <Marker x="B" y="Large" shape="triangle" size={15} colorIndex={2} />
-        <Marker x="C" y="Large" shape="triangle" size={15} colorIndex={4} />
-      </Chart>
-    </Svg>
-  </cx>
+// @index
+export default (
+  <Svg style="width: 400px; height: 300px; border: 1px dashed #ddd">
+    <Chart
+      margin="60 60 60 90"
+      axes={{
+        x: <CategoryAxis />,
+        y: <CategoryAxis vertical />,
+      }}
+    >
+      <Rectangle fill="white" />
+      <Gridlines />
+
+      <Marker x="Red" y="Triangle" shape="triangle" size={20} colorIndex={0} />
+      <Marker x="Green" y="Triangle" shape="triangle" size={20} colorIndex={9} />
+      <Marker x="Blue" y="Triangle" shape="triangle" size={20} colorIndex={5} />
+
+      <Marker x="Red" y="Square" shape="square" size={20} colorIndex={0} />
+      <Marker x="Green" y="Square" shape="square" size={20} colorIndex={9} />
+      <Marker x="Blue" y="Square" shape="square" size={20} colorIndex={5} />
+
+      <Marker x="Red" y="Circle" shape="circle" size={20} colorIndex={0} />
+      <Marker x="Green" y="Circle" shape="circle" size={20} colorIndex={9} />
+      <Marker x="Blue" y="Circle" shape="circle" size={20} colorIndex={5} />
+    </Chart>
+  </Svg>
 );
+// @index-end

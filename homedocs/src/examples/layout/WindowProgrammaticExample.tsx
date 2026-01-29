@@ -2,7 +2,7 @@ import { Store } from "cx/data";
 import { Button, Widget, Window } from "cx/widgets";
 
 // @index
-export default () => (
+export default (
   <Button
     onClick={() => {
       let window = Widget.create(

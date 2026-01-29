@@ -32,7 +32,10 @@
       "Bash(cat:*)",
       "Bash(yarn remove:*)",
       "Bash(yarn add:*)",
-      "Bash(pushd:*)"
+      "Bash(pushd:*)",
+      "Bash(yarn --cwd \"D:/Code/CxJS/cxjs/homedocs\" check-types)",
+      "mcp__playwright__browser_evaluate",
+      "mcp__playwright__browser_resize"
     ],
     "deny": [],
     "ask": []

@@ -1,0 +1,94 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: KeyCode
+description: Keyboard key code constants
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+# KeyCode
+
+<ImportPath path="import { KeyCode } from 'cx/util';" />
+<OnThisPage />
+
+`KeyCode` provides constants for keyboard key codes, useful for handling keyboard events.
+
+## Constants
+
+| Property       | Value | Key              |
+| -------------- | ----- | ---------------- |
+| `backspace`    | 8     | Backspace        |
+| `tab`          | 9     | Tab              |
+| `enter`        | 13    | Enter            |
+| `shift`        | 16    | Shift            |
+| `ctrl`         | 17    | Ctrl             |
+| `alt`          | 18    | Alt              |
+| `esc`          | 27    | Escape           |
+| `space`        | 32    | Space            |
+| `pageUp`       | 33    | Page Up          |
+| `pageDown`     | 34    | Page Down        |
+| `end`          | 35    | End              |
+| `home`         | 36    | Home             |
+| `left`         | 37    | Arrow Left       |
+| `up`           | 38    | Arrow Up         |
+| `right`        | 39    | Arrow Right      |
+| `down`         | 40    | Arrow Down       |
+| `insert`       | 45    | Insert           |
+| `delete`       | 46    | Delete           |
+| `a`            | 65    | A                |
+
+## Examples
+
+### Keyboard event handling
+
+```ts
+function handleKeyDown(e: KeyboardEvent) {
+  switch (e.keyCode) {
+    case KeyCode.enter:
+      submitForm();
+      break;
+    case KeyCode.esc:
+      closeModal();
+      break;
+    case KeyCode.up:
+      moveFocusUp();
+      break;
+    case KeyCode.down:
+      moveFocusDown();
+      break;
+  }
+}
+```
+
+### In CxJS components
+
+```tsx
+<TextField
+  value={m.query}
+  onKeyDown={(e, { store }) => {
+    if (e.keyCode === KeyCode.enter) {
+      performSearch(store.get(m.query));
+    }
+  }}
+/>
+```
+
+### Ctrl+key combinations
+
+```ts
+function handleKeyDown(e: KeyboardEvent) {
+  if (e.ctrlKey && e.keyCode === KeyCode.a) {
+    e.preventDefault();
+    selectAll();
+  }
+}
+```
+
+## Note
+
+Modern browsers also support `e.key` (string) and `e.code` (physical key). KeyCode constants are useful for older browser compatibility and numeric comparisons.
+
+## See Also
+
+- [Keyboard Shortcuts](/docs/concepts/keyboard-shortcuts) - Global keyboard shortcuts

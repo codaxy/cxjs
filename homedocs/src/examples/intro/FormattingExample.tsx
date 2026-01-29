@@ -14,7 +14,7 @@ const m = createModel<PageModel>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <div class="flex flex-col gap-4">
     <LabelsTopLayout columns={2}>
       <NumberField

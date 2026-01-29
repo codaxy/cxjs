@@ -1,7 +1,7 @@
 import { DragSource, DropZone } from "cx/widgets";
 
 // @index
-export default () => (
+export default (
   <div class="flex items-center gap-8">
     <DragSource data={{ text: "Drag me!" }}>
       <div class="p-4 border-2 border-dashed rounded bg-blue-50 cursor-move hover:bg-blue-100">

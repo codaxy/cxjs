@@ -30,7 +30,7 @@ class PageController extends Controller {
 }
 
 // @index
-export default () => (
+export default (
   <div controller={PageController}>
     <TextField
       value={m.query}

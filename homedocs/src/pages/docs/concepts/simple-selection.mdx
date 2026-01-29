@@ -1,16 +1,20 @@
 ---
 layout: ../../../layouts/DocsLayout.astro
 title: SimpleSelection
+description: Basic single-item selection
 ---
 
 import CodeExample from "../../../components/CodeExample.astro";
 import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 import SimpleSelectionExample from "../../../examples/concepts/SimpleSelectionExample.tsx";
 import SimpleSelectionExampleCode from "../../../examples/concepts/SimpleSelectionExample.tsx?raw";
 
 # SimpleSelection
 
 <ImportPath path="import { SimpleSelection } from 'cx/ui';" />
+
+<OnThisPage />
 
 SimpleSelection is the most basic selection model. It stores the entire selected object in the bound variable. Only single selection is supported.
 
@@ -20,7 +24,7 @@ SimpleSelection is the most basic selection model. It stores the entire selected
 - When you need immediate access to the full selected object
 - Quick prototyping or simple lists
 
-Note that selection is lost if the selected object changes in the data source, since the reference will no longer match. For more robust selection, consider [KeySelection](/core/key-selection).
+Note that selection is lost if the selected object changes in the data source, since the reference will no longer match. For more robust selection, consider [KeySelection](./key-selection).
 
 ## Example
 

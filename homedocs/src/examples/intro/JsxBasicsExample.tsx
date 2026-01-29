@@ -11,7 +11,7 @@ const m = createModel<PageModel>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <div class="flex flex-col gap-4">
     <div class="p-4 border border-border rounded">
       <strong>Mixing Widgets and HTML</strong>

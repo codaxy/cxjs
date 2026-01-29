@@ -1,9 +1,9 @@
-import { Widget, WidgetConfig } from './Widget';
-import { StringProp } from './Prop';
+import { Widget, WidgetConfig } from "./Widget";
+import { NumberProp, StringProp } from "./Prop";
 
 export interface TextConfig extends WidgetConfig {
    /** The value to be rendered as text. */
-   value?: StringProp;
+   value?: StringProp | NumberProp;
 
    /** Template string for the text value. */
    tpl?: string;
@@ -30,20 +30,23 @@ export class Text extends Widget<TextConfig> {
          this.value = {
             tpl: this.tpl,
             expr: this.expr,
-            bind: this.bind
+            bind: this.bind,
          };
       super.init();
    }
 
    declareData(...args: any[]) {
-      super.declareData({
-         value: undefined
-      }, ...args);
+      super.declareData(
+         {
+            value: undefined,
+         },
+         ...args,
+      );
    }
 
    render(context: any, { data }: any, key: string) {
-      return data.value != null ? data.value : '';
+      return data.value != null ? data.value : "";
    }
 }
 
-Widget.alias('text', Text)
+Widget.alias("text", Text);

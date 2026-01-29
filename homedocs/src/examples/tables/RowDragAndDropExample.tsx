@@ -68,7 +68,7 @@ class PageController extends Controller {
 // @controller-end
 
 // @index
-export default () => (
+export default (
   <div controller={PageController} class="flex gap-4">
     <div class="flex-1">
       <h3 class="text-sm font-semibold mb-2">Team A</h3>

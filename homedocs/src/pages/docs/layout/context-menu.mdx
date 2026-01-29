@@ -1,10 +1,12 @@
 ---
 layout: ../../../layouts/DocsLayout.astro
 title: ContextMenu
+description: Right-click context menus
 ---
 
 import ImportPath from "../../../components/ImportPath.astro";
 import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 import ContextMenuExample from "../../../examples/layout/ContextMenuExample.tsx";
 import ContextMenuExampleCode from "../../../examples/layout/ContextMenuExample.tsx?raw";
@@ -15,6 +17,8 @@ import ContextMenuGridExampleCode from "../../../examples/layout/ContextMenuGrid
 # ContextMenu
 
 <ImportPath path="import { openContextMenu } from 'cx/widgets';" />
+
+<OnThisPage />
 
 Context menus appear at the mouse position when the user right-clicks. Use the `openContextMenu` helper function to create and display a context menu with minimal code.
 

@@ -1,7 +1,7 @@
 import { openContextMenu, Menu, MenuItem } from "cx/widgets";
 
 // @index
-export default () => (
+export default (
   <div
     style={{
       padding: "40px",

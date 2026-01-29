@@ -13,7 +13,7 @@ const m = createModel<Model>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <LabelsTopLayout columns={2}>
     <NumberField label="Currency (EUR)" value={bind(m.price, 1234.5)} format="currency;EUR" />
     <NumberField label="Currency (USD)" value={m.price} format="currency;USD" />

@@ -1,10 +1,12 @@
 ---
 layout: ../../../layouts/DocsLayout.astro
 title: Window
+description: Modal dialog window
 ---
 
 import ImportPath from "../../../components/ImportPath.astro";
 import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 import WindowExample from "../../../examples/layout/WindowExample.tsx";
 import WindowExampleCode from "../../../examples/layout/WindowExample.tsx?raw";
@@ -15,6 +17,8 @@ import WindowProgrammaticExampleCode from "../../../examples/layout/WindowProgra
 # Window
 
 <ImportPath path="import { Window } from 'cx/widgets';" />
+
+<OnThisPage />
 
 Windows are overlays with headers, footers, and special appearance. They provide a familiar dialog-like experience for displaying forms, messages, or complex content.
 

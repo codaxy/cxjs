@@ -1,0 +1,129 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: isNumber
+description: Check if value is number
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+# isNumber
+
+<ImportPath path="import { isNumber } from 'cx/util';" />
+<OnThisPage />
+
+The `isNumber` type guard checks if a value is a number (including `NaN` and `Infinity`).
+
+## Basic Usage
+
+```tsx
+import { isNumber } from "cx/util";
+
+isNumber(42); // true
+isNumber(3.14); // true
+isNumber(0); // true
+isNumber(-1); // true
+isNumber(NaN); // true (NaN is typeof "number")
+isNumber(Infinity); // true
+isNumber("42"); // false
+isNumber(null); // false
+isNumber(undefined); // false
+isNumber(new Number(42)); // false (Number object, not primitive)
+```
+
+## Type Narrowing
+
+The function is a TypeScript type guard that narrows the type to `number`.
+
+```tsx
+import { isNumber } from "cx/util";
+
+function calculateTotal(values: unknown[]): number {
+  return values.reduce((sum: number, value) => {
+    if (isNumber(value)) {
+      return sum + value;
+    }
+    return sum;
+  }, 0);
+}
+```
+
+## Common Use Cases
+
+### Numeric Validation
+
+```tsx
+import { isNumber } from "cx/util";
+
+function isValidNumber(value: unknown): value is number {
+  return isNumber(value) && !isNaN(value) && isFinite(value);
+}
+
+isValidNumber(42); // true
+isValidNumber(NaN); // false
+isValidNumber(Infinity); // false
+```
+
+### Default Values
+
+```tsx
+import { isNumber } from "cx/util";
+
+function getNumericValue(value: unknown, defaultValue: number): number {
+  return isNumber(value) && !isNaN(value) ? value : defaultValue;
+}
+
+getNumericValue(42, 0); // 42
+getNumericValue("42", 0); // 0
+getNumericValue(undefined, 0); // 0
+```
+
+### Safe Math Operations
+
+```tsx
+import { isNumber } from "cx/util";
+
+function safeAdd(a: unknown, b: unknown): number | null {
+  if (isNumber(a) && isNumber(b)) {
+    return a + b;
+  }
+  return null;
+}
+
+function formatNumber(value: unknown, decimals: number = 2): string {
+  if (isNumber(value) && !isNaN(value)) {
+    return value.toFixed(decimals);
+  }
+  return "N/A";
+}
+```
+
+### Data Processing
+
+```tsx
+import { isNumber } from "cx/util";
+
+interface DataPoint {
+  x: unknown;
+  y: unknown;
+}
+
+function filterValidPoints(data: DataPoint[]): { x: number; y: number }[] {
+  return data.filter(
+    (point): point is { x: number; y: number } =>
+      isNumber(point.x) && isNumber(point.y)
+  );
+}
+```
+
+## API
+
+```tsx
+function isNumber(x: any): x is number;
+```
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| x | `any` | The value to check |
+
+**Returns:** `true` if the value is a primitive number (including `NaN` and `Infinity`).

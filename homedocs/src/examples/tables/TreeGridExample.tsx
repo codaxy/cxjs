@@ -26,7 +26,7 @@ const m = createModel<PageModel>();
 // @model-end
 
 // @controller
-class PageController extends Controller<typeof m> {
+class PageController extends Controller {
   idSeq = 0;
 
   onInit() {
@@ -62,7 +62,7 @@ class PageController extends Controller<typeof m> {
 // @controller-end
 
 // @index
-export default () => (
+export default (
   <div controller={PageController}>
     <Grid
       records={m.data}

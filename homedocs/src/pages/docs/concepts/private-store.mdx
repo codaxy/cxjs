@@ -1,11 +1,13 @@
 ---
 layout: ../../../layouts/DocsLayout.astro
 title: PrivateStore
+description: Create isolated store instances for components
 ---
 
 import CodeExample from "../../../components/CodeExample.astro";
 import ImportPath from "../../../components/ImportPath.astro";
 import Note from "../../../components/Note.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 import PrivateStoreExample from "../../../examples/concepts/PrivateStoreExample.tsx";
 import PrivateStoreExampleCode from "../../../examples/concepts/PrivateStoreExample.tsx?raw";
 import PrivateStoreSharingExample from "../../../examples/concepts/PrivateStoreSharingExample.tsx";
@@ -14,6 +16,8 @@ import PrivateStoreSharingExampleCode from "../../../examples/concepts/PrivateSt
 # PrivateStore
 
 <ImportPath path="import { PrivateStore } from 'cx/widgets';" />
+
+<OnThisPage />
 
 PrivateStore (also known as Restate) creates a separate, isolated data store for a part of the widget tree. This enables some parts of the application to behave independently from the rest.
 

@@ -48,7 +48,7 @@ class PageController extends Controller {
 // @controller-end
 
 // @index
-export default () => (
+export default (
   <div>
     <LabelsTopLayout columns={2} controller={PageController}>
       <LookupField

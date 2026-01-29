@@ -14,7 +14,7 @@ const m = createModel<Model>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <LabelsTopLayout columns={2}>
     <ColorField label="Standard (RGBA)" value={m.color} autoFocus />
     <ColorField label="HSLA Format" value={m.hsla} format="hsla" />

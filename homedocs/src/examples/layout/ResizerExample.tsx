@@ -15,7 +15,7 @@ export const model = {
 // @model-end
 
 // @index
-export default () => (
+export default (
   <div className="flex h-[150px] border border-gray-300">
     <div
       className="p-4"

@@ -1,35 +1,49 @@
 ---
 layout: ../../../layouts/DocsLayout.astro
 title: SnapPointFinder
+description: Snap cursor to nearest data point
 ---
 
+import ImportPath from "../../../components/ImportPath.astro";
 import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
 import SnapPointFinderExample from "../../../examples/charts/SnapPointFinderExample.tsx";
+import SnapPointFinderExampleCode from "../../../examples/charts/SnapPointFinderExample.tsx?raw";
 
 # SnapPointFinder
 
-Finds and snaps to the nearest point on a graph near the cursor.
+<ImportPath path="import { SnapPointFinder } from 'cx/charts';" />
 
-**Import:** `import { SnapPointFinder } from 'cx/charts';`
+<OnThisPage />
 
-## Example
+`SnapPointFinder` locates the nearest data point to the cursor position and outputs its coordinates. Use it to snap markers, display tooltips at data points, or highlight specific values on a graph.
 
-<CodeExample
-  code={`<MouseTracker x-bind="cursor.x" y-bind="cursor.y">
-  <SnapPointFinder x-bind="cursor.x" y-bind="cursor.y" maxDistance={30} snapX-bind="snap.x" snapY-bind="snap.y">
-    <Marker x-bind="snap.x" y-bind="snap.y" size={10} colorIndex={4} />
-  </SnapPointFinder>
-</MouseTracker>`}
->
+<CodeExample code={SnapPointFinderExampleCode}>
   <SnapPointFinderExample client:load />
 </CodeExample>
 
-## Properties
+## How It Works
 
-| Property      | Type         | Default     | Description           |
-| ------------- | ------------ | ----------- | --------------------- |
-| `x`           | `Sx<number>` | `undefined` | Current cursor X      |
-| `y`           | `Sx<number>` | `undefined` | Current cursor Y      |
-| `snapX`       | `Sx<number>` | `undefined` | Bind for snapped X    |
-| `snapY`       | `Sx<number>` | `undefined` | Bind for snapped Y    |
-| `maxDistance` | `number`     | `undefined` | Maximum snap distance |
+1. Wrap graph elements (LineGraph, ColumnGraph, etc.) inside `SnapPointFinder`
+2. Pass the cursor position via `cursorX` (and optionally `cursorY`)
+3. Bind `snapX`/`snapY` to receive the coordinates of the nearest point
+4. Use the snapped coordinates with Marker, MarkerLine, or tooltip elements
+
+## See Also
+
+- [MouseTracker](/docs/charts/mouse-tracker) - Track cursor position within a chart
+- [ValueAtFinder](/docs/charts/value-at-finder) - Find interpolated Y value at cursor X position
+
+## Configuration
+
+| Property      | Type       | Default | Description                                                              |
+| ------------- | ---------- | ------- | ------------------------------------------------------------------------ |
+| `cursorX`     | `number`   |         | Cursor X position (from MouseTracker).                                   |
+| `cursorY`     | `number`   |         | Cursor Y position (from MouseTracker).                                   |
+| `snapX`       | `number`   |         | Bind for X coordinate of the nearest point.                              |
+| `snapY`       | `number`   |         | Bind for Y coordinate of the nearest point.                              |
+| `snapRecord`  | `object`   |         | Bind for full data record of the nearest point.                          |
+| `maxDistance` | `number`   | `50`    | Maximum snap distance. Set to `Infinity` for TimeAxis or sparse data.    |
+| `convertX`    | `function` |         | Convert X values (e.g., dates) to numbers. Required for TimeAxis.        |
+| `convertY`    | `function` |         | Convert Y values (e.g., dates) to numbers. Required for TimeAxis.        |

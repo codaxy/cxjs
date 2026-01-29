@@ -1,5 +1,13 @@
-import { Controller, createModel, expr } from "cx/ui";
+import {
+  Controller,
+  createModel,
+  enableCultureSensitiveFormatting,
+  expr,
+  tpl,
+} from "cx/ui";
 import { Grid } from "cx/widgets";
+
+enableCultureSensitiveFormatting();
 
 // @model
 interface SaleRecord {
@@ -40,7 +48,7 @@ class PageController extends Controller {
 // @controller-end
 
 // @index
-export default () => (
+export default (
   <Grid
     controller={PageController}
     records={m.sales}
@@ -52,16 +60,14 @@ export default () => (
         aggregate: "count",
         aggregateAlias: "productCount",
         caption: m.$group.region,
-        footer: expr(
-          m.$group.productCount,
-          (productCount) => `${productCount} products`,
-        ),
+        footer: tpl(m.$group.productCount, "{0} products"),
       },
       {
         header: "Qty",
         field: "qty",
         sortable: true,
         align: "right",
+        format: "n;0",
         aggregate: "sum",
       },
       {

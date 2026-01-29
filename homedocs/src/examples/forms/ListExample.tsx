@@ -19,7 +19,7 @@ const m = createModel<Model>();
 // @model-end
 
 // @controller
-class PageController extends Controller<typeof m> {
+class PageController extends Controller {
   onInit() {
     this.store.set(
       m.records,
@@ -27,14 +27,14 @@ class PageController extends Controller<typeof m> {
         id: i + 1,
         text: `Item ${i + 1}`,
         description: `Description for item ${i + 1}`,
-      }))
+      })),
     );
   }
 }
 // @controller-end
 
 // @index
-export default () => (
+export default (
   <div controller={PageController}>
     <List
       records={m.records}

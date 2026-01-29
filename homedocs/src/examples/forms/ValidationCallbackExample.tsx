@@ -11,7 +11,7 @@ const m = createModel<Model>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <ValidationGroup>
     <LabelsTopLayout vertical>
       <TextField

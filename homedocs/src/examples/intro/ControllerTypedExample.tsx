@@ -31,7 +31,7 @@ class CounterController extends Controller {
 // @controller-end
 
 // @index
-export default () => (
+export default (
   <div controller={CounterController} class="flex flex-col gap-4">
     <div class="flex gap-2 items-center">
       <Button

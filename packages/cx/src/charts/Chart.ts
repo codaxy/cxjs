@@ -39,10 +39,12 @@ export class Chart extends BoundedObject<ChartConfig, ChartInstance> {
    init(): void {
       super.init();
 
-      if (!this.axes) this.axes = {};
+      // Clone axes to avoid mutating the original config
+      let axesConfig = this.axes || {};
+      this.axes = {};
 
-      for (let axis in this.axes) {
-         this.axes[axis] = Axis.create(this.axes[axis]);
+      for (let axis in axesConfig) {
+         this.axes[axis] = Axis.create(axesConfig[axis]);
       }
    }
 

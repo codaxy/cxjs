@@ -31,6 +31,7 @@
          border-collapse: collapse;
          width: 100%;
          position: relative;
+         font-size: inherit;
       }
 
       .#{$state}aligned-left {

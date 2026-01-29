@@ -1,0 +1,31 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Stacked Bars
+description: Stacked horizontal bars
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import StackedBarsExample from "../../../examples/charts/StackedBarsExample.tsx";
+import StackedBarsExampleCode from "../../../examples/charts/StackedBarsExample.tsx?raw";
+
+# Stacked Bars
+
+<ImportPath path="import { Bar } from 'cx/charts';" />
+
+Stacked bar charts display multiple data series stacked horizontally. Set `stacked` to `true` on each `Bar` to enable stacking.
+
+Click legend entries to toggle series visibility.
+
+<CodeExample code={StackedBarsExampleCode}>
+  <StackedBarsExample client:load />
+</CodeExample>
+
+## Configuration
+
+| Property  | Type      | Description                                                    |
+| --------- | --------- | -------------------------------------------------------------- |
+| `stacked` | `boolean` | Set to `true` to stack this bar on top of previous ones.       |
+| `stack`   | `string`  | Name of the stack group. Default is `"stack"`. Use different names for separate stacks (e.g., positive and negative values). |
+| `active`  | `boolean` | Binding to control visibility. Works with Legend interaction.  |

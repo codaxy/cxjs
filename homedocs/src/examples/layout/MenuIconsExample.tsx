@@ -13,7 +13,7 @@ const m = createModel<PageModel>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <Menu icons style={{ width: "200px" }}>
     <MenuItem icon="search" autoClose onClick={() => alert("Search")}>
       Search

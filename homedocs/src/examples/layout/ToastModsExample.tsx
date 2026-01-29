@@ -1,7 +1,7 @@
 import { Button, Toast } from "cx/widgets";
 
 // @index
-export default () => (
+export default (
   <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
     <Button
       onClick={(e) => {

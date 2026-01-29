@@ -1,12 +1,24 @@
-/** @jsxImportSource cx */
-import { Svg } from "cx/svg";
+import { Svg, Rectangle } from "cx/svg";
 import { Chart, NumericAxis, Gridlines, LineGraph, Legend } from "cx/charts";
+import { createModel } from "cx/data";
 import { Controller } from "cx/ui";
 
+// @model
+interface Model {
+  data: { x: number; sales: number; profit: number; costs: number }[];
+  salesActive: boolean;
+  profitActive: boolean;
+  costsActive: boolean;
+}
+
+const m = createModel<Model>();
+// @model-end
+
+// @controller
 class PageController extends Controller {
   onInit() {
     this.store.set(
-      "data",
+      m.data,
       Array.from({ length: 15 }, (_, i) => ({
         x: i * 10,
         sales: 50 + Math.random() * 50,
@@ -14,42 +26,50 @@ class PageController extends Controller {
         costs: 20 + Math.random() * 30,
       })),
     );
+    this.store.set(m.salesActive, true);
+    this.store.set(m.profitActive, true);
+    this.store.set(m.costsActive, true);
   }
 }
+// @controller-end
 
-export default () => (
-  <cx>
-    <div controller={PageController}>
-      <Legend />
-      <Svg style="width: 100%; height: 250px;">
-        <Chart
-          margin="20 20 40 50"
-          axes={{
-            x: { type: NumericAxis },
-            y: { type: NumericAxis, vertical: true },
-          }}
-        >
-          <Gridlines />
-          <LineGraph
-            name="Sales"
-            data-bind="data"
-            colorIndex={0}
-            yField="sales"
-          />
-          <LineGraph
-            name="Profit"
-            data-bind="data"
-            colorIndex={4}
-            yField="profit"
-          />
-          <LineGraph
-            name="Costs"
-            data-bind="data"
-            colorIndex={8}
-            yField="costs"
-          />
-        </Chart>
-      </Svg>
-    </div>
-  </cx>
+// @index
+export default (
+  <div controller={PageController}>
+    <Legend />
+    <Svg style="width: 500px; height: 300px; border: 1px dashed #ddd">
+      <Chart
+        margin="20 20 40 50"
+        axes={{
+          x: <NumericAxis />,
+          y: <NumericAxis vertical />,
+        }}
+      >
+        <Rectangle fill="white" />
+        <Gridlines />
+        <LineGraph
+          name="Sales"
+          data={m.data}
+          colorIndex={0}
+          yField="sales"
+          active={m.salesActive}
+        />
+        <LineGraph
+          name="Profit"
+          data={m.data}
+          colorIndex={4}
+          yField="profit"
+          active={m.profitActive}
+        />
+        <LineGraph
+          name="Costs"
+          data={m.data}
+          colorIndex={8}
+          yField="costs"
+          active={m.costsActive}
+        />
+      </Chart>
+    </Svg>
+  </div>
 );
+// @index-end

@@ -1,96 +1,44 @@
 ---
-import '../styles/tailwind.css';
-import '../styles/global.scss';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HomeHeader from '../components/HomeHeader.astro';
+import Footer from '../components/Footer.astro';
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Page Not Found - CxJS</title>
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-    <script is:inline>
-      (function() {
-        const theme = localStorage.getItem('theme') ||
-          (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-        if (theme === 'dark') {
-          document.documentElement.classList.add('dark');
-        }
-      })();
-    </script>
-  </head>
-  <body>
-    <div class="min-h-screen bg-background flex flex-col">
-      <!-- Header -->
-      <header class="border-b border-border bg-background/80 backdrop-blur-sm">
-        <div class="container mx-auto flex h-16 items-center px-4">
-          <a href="/" class="flex items-center gap-2 group">
-            <img src="/favicon.svg" alt="CxJS" class="h-9 w-9 transition-transform group-hover:scale-110" />
-            <span class="text-xl font-semibold text-foreground">CxJS</span>
+<BaseLayout title="Page Not Found - CxJS">
+  <div class="min-h-screen bg-background flex flex-col">
+    <HomeHeader />
+
+    <!-- 404 Content -->
+    <main class="flex-1 flex items-center justify-center px-4">
+      <div class="text-center">
+        <div class="text-8xl font-bold text-primary/20 mb-4">404</div>
+        <h1 class="text-3xl md:text-4xl font-bold text-heading mb-4">
+          Page Not Found
+        </h1>
+        <p class="text-lg text-muted-foreground max-w-md mx-auto mb-8">
+          The page you're looking for doesn't exist or has been moved.
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a
+            href="/"
+            class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary text-primary-foreground font-semibold hover:bg-primary/90 transition-all"
+          >
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+              <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            Go Home
           </a>
-          <nav class="flex-1 flex items-center justify-center gap-6">
-            <a href="/docs/intro/what-is-cxjs" class="text-sm text-muted-foreground hover:text-foreground transition-colors">
-              Docs
-            </a>
-            <a href="https://gallery.cxjs.io/" class="text-sm text-muted-foreground hover:text-foreground transition-colors">
-              Gallery
-            </a>
-          </nav>
+          <a
+            href="/docs/intro/what-is-cxjs"
+            class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-secondary text-secondary-foreground font-semibold hover:bg-secondary/80 transition-all border border-border"
+          >
+            Browse Docs
+          </a>
         </div>
-      </header>
+      </div>
+    </main>
 
-      <!-- 404 Content -->
-      <main class="flex-1 flex items-center justify-center px-4">
-        <div class="text-center">
-          <div class="text-8xl font-bold text-primary/20 mb-4">404</div>
-          <h1 class="text-3xl md:text-4xl font-bold text-heading mb-4">
-            Page Not Found
-          </h1>
-          <p class="text-lg text-muted-foreground max-w-md mx-auto mb-8">
-            The page you're looking for doesn't exist or has been moved.
-          </p>
-          <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a
-              href="/"
-              class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary text-primary-foreground font-semibold hover:bg-primary/90 transition-all"
-            >
-              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                <polyline points="9 22 9 12 15 12 15 22"></polyline>
-              </svg>
-              Go Home
-            </a>
-            <a
-              href="/docs/intro/what-is-cxjs"
-              class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-secondary text-secondary-foreground font-semibold hover:bg-secondary/80 transition-all border border-border"
-            >
-              Browse Docs
-            </a>
-          </div>
-        </div>
-      </main>
-
-      <!-- Footer -->
-      <footer class="border-t border-border py-8 bg-secondary/30">
-        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div class="flex items-center gap-2 text-muted-foreground">
-            <img src="/favicon.svg" alt="CxJS" class="h-6 w-6" />
-            <span class="text-sm">CxJS Documentation</span>
-          </div>
-          <div class="flex items-center gap-6 text-sm text-muted-foreground">
-            <a href="https://github.com/codaxy/cxjs" class="hover:text-foreground transition-colors">
-              GitHub
-            </a>
-            <a href="https://codaxy.com" class="hover:text-foreground transition-colors">
-              Codaxy
-            </a>
-          </div>
-        </div>
-      </footer>
-    </div>
-  </body>
-</html>
+    <Footer />
+  </div>
+</BaseLayout>

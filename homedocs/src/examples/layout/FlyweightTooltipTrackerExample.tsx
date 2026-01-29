@@ -3,7 +3,7 @@ import { enableTooltips, FlyweightTooltipTracker } from "cx/widgets";
 enableTooltips();
 
 // @index
-export default () => (
+export default (
   <div className="flex flex-col items-start gap-4">
     <div
       className="ellipsis overflow-hidden text-ellipsis whitespace-nowrap"

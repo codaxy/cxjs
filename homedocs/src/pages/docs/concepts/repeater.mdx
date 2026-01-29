@@ -1,10 +1,12 @@
 ---
 layout: ../../../layouts/DocsLayout.astro
 title: Repeater
+description: Render a template for each item in an array
 ---
 
 import CodeExample from "../../../components/CodeExample.astro";
 import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 import RepeaterExample from "../../../examples/concepts/RepeaterExample.tsx";
 import RepeaterExampleCode from "../../../examples/concepts/RepeaterExample.tsx?raw";
 import RepeaterSortingExample from "../../../examples/concepts/RepeaterSortingExample.tsx";
@@ -15,6 +17,8 @@ import RepeaterNestedExampleCode from "../../../examples/concepts/RepeaterNested
 # Repeater
 
 <ImportPath path="import { Repeater } from 'cx/widgets';" />
+
+<OnThisPage />
 
 Repeater renders its children for each record in a collection. Use `recordAlias` to specify an accessor for accessing record data within the repeater.
 

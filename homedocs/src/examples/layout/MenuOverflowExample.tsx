@@ -1,7 +1,7 @@
 import { Menu, Submenu, MenuItem, MenuSpacer } from "cx/widgets";
 
 // @index
-export default () => (
+export default (
   <Menu horizontal overflow style={{ width: "300px" }}>
     <Submenu>
       File

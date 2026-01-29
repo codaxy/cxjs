@@ -16,7 +16,7 @@ const m = createModel<PageModel>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <div>
     <div className="flex gap-4 mb-4">
       <Checkbox value={m.enabled}>Enabled</Checkbox>

@@ -24,7 +24,7 @@ const m = createModel<Model>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <div>
     <div class="mb-3">Enter X and Y so that X + Y = 20.</div>
     <div

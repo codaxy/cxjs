@@ -11,7 +11,7 @@ const m = createModel<PageModel>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <LabelsLeftLayout>
     <TextField value={m.name} label="Name:" placeholder="Enter your name" />
     <Text value={m.name} />

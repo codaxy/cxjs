@@ -31,7 +31,7 @@ class PageController extends Controller<PageModel> {
 // @controller-end
 
 // @index
-export default () => (
+export default (
   <div controller={PageController} class="flex flex-col gap-4">
     <Grid
       records={m.items}

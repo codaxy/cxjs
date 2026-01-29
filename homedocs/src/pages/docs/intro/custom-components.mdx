@@ -1,10 +1,12 @@
 ---
 layout: ../../../layouts/DocsLayout.astro
 title: Custom Components
+description: Build custom widget classes extending CxJS base
 ---
 
 import CodeExample from "../../../components/CodeExample.astro";
 import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 import { Code } from "astro:components";
 import CustomComponentExample from "../../../examples/intro/CustomComponentExample.tsx";
 import CustomComponentExampleCode from "../../../examples/intro/CustomComponentExample.tsx?raw";
@@ -13,6 +15,8 @@ import SquareCode from "../../../examples/intro/Square.tsx?raw";
 # Custom Components
 
 <ImportPath path="import { Widget } from 'cx/ui';" />
+
+<OnThisPage />
 
 CxJS includes many built-in components, but you can create custom ones when needed. Custom components extend base classes like `Widget`, `HtmlElement`, `Field`, or `PureContainer`.
 

@@ -13,7 +13,7 @@ const m = createModel<Model>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <LabelsLeftLayout>
     <TextField label="Name" value={m.name} placeholder="Required" required />
   </LabelsLeftLayout>

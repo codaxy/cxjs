@@ -1,16 +1,20 @@
 ---
 layout: ../../../layouts/DocsLayout.astro
 title: Route
+description: Define routes and render content based on URL
 ---
 
 import CodeExample from "../../../components/CodeExample.astro";
 import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 import RouteExample from "../../../examples/concepts/RouteExample.tsx";
 import RouteExampleCode from "../../../examples/concepts/RouteExample.tsx?raw";
 
 # Route
 
 <ImportPath path="import { Route } from 'cx/widgets';" />
+
+<OnThisPage />
 
 Route is a container that renders its children only when the current URL matches the specified pattern.
 

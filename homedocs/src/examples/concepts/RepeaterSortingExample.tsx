@@ -36,7 +36,7 @@ class PageController extends Controller {
 // @controller-end
 
 // @index
-export default () => (
+export default (
   <div class="flex flex-col gap-4" controller={PageController}>
     <TextField value={m.search} placeholder="Filter by name..." />
     <Repeater

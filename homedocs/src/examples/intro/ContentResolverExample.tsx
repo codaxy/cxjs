@@ -28,7 +28,7 @@ const fieldTypes = [
 
 // @model-end
 // @index
-export default () => (
+export default (
   <div className="flex items-center gap-4">
     <LookupField value={m.fieldType} options={fieldTypes} label="Field Type" />
     <ContentResolver

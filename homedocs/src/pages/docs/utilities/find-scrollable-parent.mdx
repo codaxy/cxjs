@@ -1,0 +1,162 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: findScrollableParent
+description: Find scrollable ancestor
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+# findScrollableParent
+
+<ImportPath path="import { findScrollableParent } from 'cx/util';" />
+<OnThisPage />
+
+The `findScrollableParent` function finds the nearest ancestor element that has scrollable overflow.
+
+## Basic Usage
+
+```tsx
+import { findScrollableParent } from "cx/util";
+
+const element = document.querySelector(".item");
+
+// Find vertically scrollable parent
+const scrollParent = findScrollableParent(element);
+
+// Find horizontally scrollable parent
+const hScrollParent = findScrollableParent(element, true);
+```
+
+## How It Works
+
+The function traverses up the DOM tree looking for an element where:
+
+1. `clientHeight < scrollHeight` (for vertical) or `clientWidth < scrollWidth` (for horizontal)
+2. The computed `overflow-y` or `overflow-x` is `"auto"` or `"scroll"`
+
+If no scrollable parent is found, it returns the document's scrolling element.
+
+## Examples
+
+### Detecting Scroll Container
+
+```tsx
+import { findScrollableParent } from "cx/util";
+
+function getScrollContainer(element: Element): HTMLElement {
+  return findScrollableParent(element) || document.documentElement;
+}
+```
+
+### Manual Scroll Control
+
+```tsx
+import { findScrollableParent } from "cx/util";
+
+function scrollToTop(element: Element): void {
+  const scrollParent = findScrollableParent(element);
+  if (scrollParent) {
+    scrollParent.scrollTop = 0;
+  }
+}
+
+function scrollToBottom(element: Element): void {
+  const scrollParent = findScrollableParent(element);
+  if (scrollParent) {
+    scrollParent.scrollTop = scrollParent.scrollHeight;
+  }
+}
+```
+
+### Infinite Scroll Detection
+
+```tsx
+import { findScrollableParent } from "cx/util";
+
+function setupInfiniteScroll(
+  container: Element,
+  loadMore: () => void
+): () => void {
+  const scrollParent = findScrollableParent(container);
+  if (!scrollParent) return () => {};
+
+  function handleScroll() {
+    const { scrollTop, scrollHeight, clientHeight } = scrollParent;
+    const nearBottom = scrollTop + clientHeight >= scrollHeight - 100;
+    if (nearBottom) {
+      loadMore();
+    }
+  }
+
+  scrollParent.addEventListener("scroll", handleScroll);
+  return () => scrollParent.removeEventListener("scroll", handleScroll);
+}
+```
+
+### Horizontal Scrolling
+
+```tsx
+import { findScrollableParent } from "cx/util";
+
+function scrollHorizontally(element: Element, delta: number): void {
+  const scrollParent = findScrollableParent(element, true);
+  if (scrollParent) {
+    scrollParent.scrollLeft += delta;
+  }
+}
+```
+
+## Common Use Cases
+
+### Dropdown Positioning
+
+```tsx
+import { findScrollableParent } from "cx/util";
+
+function positionDropdown(trigger: Element, dropdown: HTMLElement): void {
+  const scrollParent = findScrollableParent(trigger);
+  const triggerRect = trigger.getBoundingClientRect();
+  const scrollRect = scrollParent?.getBoundingClientRect();
+
+  // Check if there's room below
+  const spaceBelow = scrollRect
+    ? scrollRect.bottom - triggerRect.bottom
+    : window.innerHeight - triggerRect.bottom;
+
+  if (spaceBelow < dropdown.offsetHeight) {
+    // Position above instead
+    dropdown.style.bottom = `${triggerRect.height}px`;
+  }
+}
+```
+
+### Scroll Event Binding
+
+```tsx
+import { findScrollableParent } from "cx/util";
+
+function onScroll(element: Element, callback: () => void): () => void {
+  const scrollParent = findScrollableParent(element);
+  if (!scrollParent) return () => {};
+
+  scrollParent.addEventListener("scroll", callback);
+  return () => scrollParent.removeEventListener("scroll", callback);
+}
+```
+
+## API
+
+```tsx
+function findScrollableParent(
+  sourceEl: Element,
+  horizontal?: boolean
+): HTMLElement | null;
+```
+
+| Parameter | Type | Default | Description |
+| --- | --- | --- | --- |
+| sourceEl | `Element` | - | The element to start searching from |
+| horizontal | `boolean` | `false` | Search for horizontal scroll instead of vertical |
+
+**Returns:** The nearest scrollable ancestor, or the document's scrolling element if none found.

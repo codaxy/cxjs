@@ -1,0 +1,100 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: getSearchQueryPredicate
+description: Create search filter function
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+# getSearchQueryPredicate
+
+<ImportPath path="import { getSearchQueryPredicate } from 'cx/util';" />
+<OnThisPage />
+
+The `getSearchQueryPredicate` function creates a predicate function that tests if a text matches a search query.
+It supports multi-word queries where all terms must match.
+
+## Basic Usage
+
+```tsx
+import { getSearchQueryPredicate } from "cx/util";
+
+const predicate = getSearchQueryPredicate("john doe");
+
+predicate("John Doe Smith"); // true - contains both "john" and "doe"
+predicate("John Smith"); // false - missing "doe"
+predicate("Jane Doe"); // false - missing "john"
+```
+
+## How It Works
+
+The function splits the query into individual words and creates case-insensitive regular expressions for each term.
+A text matches only if it contains all search terms.
+
+```tsx
+// Empty query matches everything
+const matchAll = getSearchQueryPredicate("");
+matchAll("anything"); // true
+
+// Single term
+const single = getSearchQueryPredicate("react");
+single("React Components"); // true
+
+// Multiple terms - all must match
+const multi = getSearchQueryPredicate("react hook");
+multi("React Custom Hook"); // true
+multi("React Components"); // false - missing "hook"
+```
+
+## Filtering Lists
+
+The predicate is commonly used to filter arrays of records.
+
+```tsx
+import { getSearchQueryPredicate } from "cx/util";
+
+interface User {
+  name: string;
+  email: string;
+}
+
+const users: User[] = [
+  { name: "John Doe", email: "john@example.com" },
+  { name: "Jane Smith", email: "jane@example.com" },
+  { name: "Bob Johnson", email: "bob@example.com" },
+];
+
+const query = "john";
+const predicate = getSearchQueryPredicate(query);
+
+// Filter by name
+const filtered = users.filter((user) => predicate(user.name));
+// Result: [{ name: "John Doe", ... }, { name: "Bob Johnson", ... }]
+
+// Filter by multiple fields
+const multiFieldFiltered = users.filter(
+  (user) => predicate(user.name) || predicate(user.email)
+);
+```
+
+## API
+
+```tsx
+function getSearchQueryPredicate(
+  query: string,
+  options?: any
+): (text: string) => boolean;
+```
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| query | `string` | The search query string |
+| options | `any` | Reserved for future use |
+
+**Returns:** A predicate function that tests if text matches all query terms.
+
+## See Also
+
+- [getSearchQueryHighlighter](/docs/utilities/get-search-query-highlighter) - Highlight matched terms in text
+- [HighlightedSearchText](/docs/forms/highlighted-search-text) - Built-in component for highlighting

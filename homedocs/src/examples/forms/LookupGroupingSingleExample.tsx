@@ -40,7 +40,7 @@ const browsers = [
 // @model-end
 
 // @controller
-class PageController extends Controller<typeof m> {
+class PageController extends Controller {
   onInit() {
     this.store.set(
       m.browserOptions,
@@ -55,7 +55,7 @@ class PageController extends Controller<typeof m> {
 // @controller-end
 
 // @index
-export default () => (
+export default (
   <LabelsTopLayout controller={PageController}>
     <LookupField
       label="Browser"

@@ -1,7 +1,7 @@
 import { FlexCol, FlexRow } from "cx/widgets";
 
 // @index
-export default () => (
+export default (
   <FlexCol spacing="large">
     <div>
       <strong>spacing</strong>

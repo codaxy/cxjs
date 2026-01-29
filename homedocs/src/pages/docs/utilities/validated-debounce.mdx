@@ -1,0 +1,137 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: validatedDebounce
+description: Debounce with validation
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+# validatedDebounce
+
+<ImportPath path="import { validatedDebounce } from 'cx/util';" />
+<OnThisPage />
+
+The `validatedDebounce` function creates a debounced function that only executes if a validation value hasn't changed during the delay period.
+
+## Basic Usage
+
+```tsx
+import { validatedDebounce } from "cx/util";
+
+let inputValue = "";
+
+const search = validatedDebounce(
+  (query: string) => {
+    console.log("Searching:", query);
+  },
+  () => inputValue, // Validation getter
+  300
+);
+
+inputValue = "hello";
+search("hello");
+
+// If inputValue changes before 300ms, callback won't fire
+inputValue = "hello world";
+// The scheduled "hello" search is cancelled because value changed
+```
+
+## How It Works
+
+Unlike regular `debounce`, this function:
+1. Captures the validation value when called
+2. After the delay, checks if the value is still the same
+3. Only executes if the value hasn't changed
+
+This prevents stale callbacks when rapid changes occur.
+
+## Common Use Cases
+
+### Form Field Validation
+
+```tsx
+import { validatedDebounce } from "cx/util";
+
+class FormController extends Controller {
+  validateEmail = validatedDebounce(
+    async (email: string) => {
+      const isAvailable = await checkEmailAvailability(email);
+      this.store.set("emailAvailable", isAvailable);
+    },
+    () => this.store.get("email"),
+    500
+  );
+
+  onEmailChange() {
+    const email = this.store.get("email");
+    this.validateEmail(email);
+  }
+}
+```
+
+### Search with Stale Prevention
+
+```tsx
+import { validatedDebounce } from "cx/util";
+
+class SearchController extends Controller {
+  search = validatedDebounce(
+    async (query: string) => {
+      const results = await api.search(query);
+      // Only update if query hasn't changed
+      this.store.set("results", results);
+    },
+    () => this.store.get("query"),
+    300
+  );
+}
+```
+
+### Immediate Execution
+
+Like `debounce`, the returned function has a `reset` method for immediate execution.
+
+```tsx
+const validate = validatedDebounce(doValidation, getValue, 500);
+
+// Normal debounced call
+validate("value");
+
+// Immediate execution (e.g., on blur or submit)
+validate.reset("value");
+```
+
+## vs Regular debounce
+
+| Feature | `debounce` | `validatedDebounce` |
+| --- | --- | --- |
+| Delays execution | Yes | Yes |
+| Cancels on rapid calls | Yes | Yes |
+| Validates before executing | No | Yes |
+| Prevents stale callbacks | No | Yes |
+
+Use `validatedDebounce` when the callback result depends on a value that might change during the delay.
+
+## API
+
+```tsx
+function validatedDebounce<T extends (...args: any[]) => void>(
+  callback: T,
+  valueGetter: () => any,
+  delay: number
+): T & { reset: T };
+```
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| callback | `function` | The function to debounce |
+| valueGetter | `() => any` | Function that returns the validation value |
+| delay | `number` | Delay in milliseconds |
+
+**Returns:** Debounced function with a `reset` method for immediate execution.
+
+## See Also
+
+- [debounce](/docs/utilities/debounce) - Simple debounce without validation
+- [throttle](/docs/utilities/throttle) - Rate limit function calls

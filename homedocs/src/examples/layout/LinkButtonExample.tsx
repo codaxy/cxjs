@@ -1,7 +1,7 @@
 import { LinkButton } from "cx/widgets";
 
 // @index
-export default () => (
+export default (
   <div className="flex flex-wrap items-start gap-2">
     <LinkButton mod="primary" href="~/docs/intro/installation">
       Installation

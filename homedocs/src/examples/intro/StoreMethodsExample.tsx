@@ -13,7 +13,7 @@ const m = createModel<PageModel>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <div class="flex flex-col gap-4">
     <div class="flex flex-wrap gap-2">
       <Button

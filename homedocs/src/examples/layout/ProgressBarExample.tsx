@@ -11,7 +11,7 @@ const m = createModel<PageModel>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <LabelsTopLayout>
     <Slider
       value={m.progress}

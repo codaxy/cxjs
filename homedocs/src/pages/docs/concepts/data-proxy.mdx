@@ -1,11 +1,13 @@
 ---
 layout: ../../../layouts/DocsLayout.astro
 title: DataProxy
+description: Transform data between parent and child stores
 ---
 
 import CodeExample from "../../../components/CodeExample.astro";
 import ImportPath from "../../../components/ImportPath.astro";
 import Note from "../../../components/Note.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 import DataProxyExample from "../../../examples/concepts/DataProxyExample.tsx";
 import DataProxyExampleCode from "../../../examples/concepts/DataProxyExample.tsx?raw";
 import DataProxyTransformExample from "../../../examples/concepts/DataProxyTransformExample.tsx";
@@ -14,6 +16,8 @@ import DataProxyTransformExampleCode from "../../../examples/concepts/DataProxyT
 # DataProxy
 
 <ImportPath path="import { DataProxy } from 'cx/ui';" />
+
+<OnThisPage />
 
 DataProxy creates aliases for store bindings with optional custom getter/setter logic. The simplest use case is creating a two-way alias for a binding.
 

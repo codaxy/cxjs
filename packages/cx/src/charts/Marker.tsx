@@ -31,16 +31,17 @@ import {
   BooleanProp,
   StringProp,
   StructuredProp,
+  Prop,
 } from "../ui/Prop";
 import { Instance } from "../ui/Instance";
 import type { ChartRenderingContext } from "./Chart";
 
 export interface MarkerConfig extends BoundedObjectConfig {
   /** The `x` value binding or expression. */
-  x?: NumberProp | StringProp;
+  x?: Prop<number | string | Date | null>;
 
   /** The `y` value binding or expression. */
-  y?: NumberProp | StringProp;
+  y?: Prop<number | string | Date | null>;
 
   /** Used to indicate if the data should affect axis span. */
   affectsAxes?: boolean;

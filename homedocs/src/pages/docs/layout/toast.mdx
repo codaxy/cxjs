@@ -1,10 +1,12 @@
 ---
 layout: ../../../layouts/DocsLayout.astro
 title: Toast
+description: Temporary notification messages
 ---
 
 import ImportPath from "../../../components/ImportPath.astro";
 import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 import ToastExample from "../../../examples/layout/ToastExample.tsx";
 import ToastExampleCode from "../../../examples/layout/ToastExample.tsx?raw";
@@ -18,6 +20,8 @@ import ToastDeclarativeExampleCode from "../../../examples/layout/ToastDeclarati
 # Toast
 
 <ImportPath path="import { Toast } from 'cx/widgets';" />
+
+<OnThisPage />
 
 Toasts are non-blocking notifications that appear at the edge of the screen. They inform users about events and can offer quick actions. Unlike modal dialogs, toasts don't interrupt the user's workflow.
 

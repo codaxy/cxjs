@@ -25,7 +25,7 @@ const m = createModel<PageModel>();
 // @model-end
 
 // @controller
-class PageController extends Controller<typeof m> {
+class PageController extends Controller {
   visibleIdsMap: Record<number, boolean> = {};
 
   onInit() {
@@ -93,7 +93,7 @@ class PageController extends Controller<typeof m> {
 // @controller-end
 
 // @index
-export default () => (
+export default (
   <div controller={PageController}>
     <TextField
       value={m.searchText}

@@ -113,7 +113,7 @@ class PageController extends Controller {
 // @controller-end
 
 // @index
-export default () => (
+export default (
   <div controller={PageController}>
     <div class="flex mb-2">
       <Repeater

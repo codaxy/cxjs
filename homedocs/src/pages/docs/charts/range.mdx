@@ -1,0 +1,53 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Range
+description: Shaded range area on chart
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+import RangeExample from "../../../examples/charts/RangeExample.tsx";
+import RangeExampleCode from "../../../examples/charts/RangeExample.tsx?raw";
+
+# Range
+
+<ImportPath path="import { Range } from 'cx/charts';" />
+
+<OnThisPage />
+
+`Range` highlights important zones on the chart. Use `x1`/`x2` to create a vertical band or `y1`/`y2` to create a horizontal band. Drag the markers to adjust the range boundaries.
+
+<CodeExample code={RangeExampleCode}>
+  <RangeExample client:load />
+</CodeExample>
+
+## Features
+
+- Vertical bands (x1/x2) or horizontal bands (y1/y2)
+- Labels inside ranges using child elements
+- Legend integration with visibility toggle
+- Combine with draggable Markers for interactive ranges
+
+## See Also
+
+- [Timeline Example](/docs/charts/timeline) - Using Range for a timeframe window selector
+
+## Configuration
+
+| Property      | Type      | Default    | Description                                 |
+| ------------- | --------- | ---------- | ------------------------------------------- |
+| `x1`          | `number`  |            | Left boundary for vertical range.           |
+| `x2`          | `number`  |            | Right boundary for vertical range.          |
+| `y1`          | `number`  |            | Bottom boundary for horizontal range.       |
+| `y2`          | `number`  |            | Top boundary for horizontal range.          |
+| `colorIndex`  | `number`  |            | Color palette index.                        |
+| `colorMap`    | `string`  |            | Name of the color map to use.               |
+| `colorName`   | `string`  |            | Name for color map lookup.                  |
+| `name`        | `string`  |            | Name for legend.                            |
+| `legend`      | `string`  | `"legend"` | Legend name to show in.                     |
+| `active`      | `boolean` | `true`     | Whether the range is active (visible).      |
+| `affectsAxes` | `boolean` | `true`     | Whether range boundaries affect axis range. |
+| `style`       | `object`  |            | CSS style for the range rectangle.          |
+| `class`       | `string`  |            | CSS class for the range element.            |

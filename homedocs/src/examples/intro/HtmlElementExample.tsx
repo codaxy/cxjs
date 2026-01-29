@@ -15,7 +15,7 @@ export const model = {
 // @model-end
 
 // @index
-export default () => (
+export default (
   <div>
     <h4 class="font-bold text-2xl">Heading</h4>
     <p>Paragraph with some text.</p>

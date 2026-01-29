@@ -1,0 +1,43 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: RangeMarker
+description: Range marker with labels
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+import RangeMarkerExample from "../../../examples/charts/RangeMarkerExample.tsx";
+import RangeMarkerExampleCode from "../../../examples/charts/RangeMarkerExample.tsx?raw";
+
+# RangeMarker
+
+<ImportPath path="import { RangeMarker } from 'cx/charts';" />
+
+<OnThisPage />
+
+`RangeMarker` displays range indicators on column or bar charts. Use different shapes to show maximum, minimum, or target values alongside the main data.
+
+<CodeExample code={RangeMarkerExampleCode}>
+  <RangeMarkerExample client:load />
+</CodeExample>
+
+## Shapes
+
+- `"max"` - Caret pointing up (columns) or right (bars) for maximum values
+- `"min"` - Caret pointing down (columns) or left (bars) for minimum values
+- `"line"` - Simple horizontal or vertical line for targets/averages
+
+## Configuration
+
+| Property    | Type      | Default  | Description                                        |
+| ----------- | --------- | -------- | -------------------------------------------------- |
+| `x`         | `number`  |          | X-axis position (category or value).               |
+| `y`         | `number`  |          | Y-axis position (value or category).               |
+| `shape`     | `string`  | `"line"` | Shape: `"max"`, `"min"`, or `"line"`.              |
+| `size`      | `number`  | `0.5`    | Width relative to column/bar (0-1).                |
+| `inflate`   | `number`  | `0`      | Pixels to extend beyond column/bar edges.          |
+| `vertical`  | `boolean` | `false`  | Set to `true` for horizontal bar charts.           |
+| `lineStyle` | `string`  |          | CSS style string for the marker line.              |
+| `lineClass` | `string`  |          | CSS class for the marker line.                     |

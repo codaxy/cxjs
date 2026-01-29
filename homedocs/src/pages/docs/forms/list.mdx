@@ -1,10 +1,12 @@
 ---
 layout: ../../../layouts/DocsLayout.astro
 title: List
+description: Selectable list of items
 ---
 
 import ImportPath from "../../../components/ImportPath.astro";
 import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 import ListExample from "../../../examples/forms/ListExample.tsx";
 import ListExampleCode from "../../../examples/forms/ListExample.tsx?raw";
@@ -12,6 +14,8 @@ import ListExampleCode from "../../../examples/forms/ListExample.tsx?raw";
 # List
 
 <ImportPath path="import { List } from 'cx/widgets';" />
+
+<OnThisPage />
 
 The `List` widget displays a collection of items and offers navigation and selection. It supports keyboard navigation, single or multiple selection, grouping, and sorting.
 

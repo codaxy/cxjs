@@ -1,7 +1,11 @@
 @use "sass:map";
 @use "sass:color";
 
-@mixin cx-monthpicker($name: "monthpicker", $state-style-map: $cx-input-state-style-map, $besm: $cx-besm) {
+@mixin cx-monthpicker(
+   $name: "monthpicker",
+   $state-style-map: $cx-input-state-style-map,
+   $besm: $cx-besm
+) {
    $block: map.get($besm, block);
    $element: map.get($besm, element);
    $state: map.get($besm, state);
@@ -29,7 +33,8 @@
 
       th,
       td {
-         border-top: 1px solid color.adjust($border-color, $alpha: -0.5);
+         border-top: 1px solid
+            color-mix(in srgb, $border-color 50%, transparent);
          -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
       }
 

@@ -1,5 +1,4 @@
-/** @jsxImportSource cx */
-import { Svg } from "cx/svg";
+import { Svg, Rectangle } from "cx/svg";
 import {
   Chart,
   NumericAxis,
@@ -8,44 +7,72 @@ import {
   ColumnGraph,
   Legend,
 } from "cx/charts";
+import { createModel } from "cx/data";
 import { Controller } from "cx/ui";
 
-class PageController extends Controller {
-  onInit() {
-    this.store.set("data", [
-      { month: "Jan", sales: 42 },
-      { month: "Feb", sales: 58 },
-      { month: "Mar", sales: 65 },
-      { month: "Apr", sales: 71 },
-      { month: "May", sales: 85 },
-      { month: "Jun", sales: 78 },
-    ]);
-  }
+// @model
+interface Model {
+  data: { month: string; q1: number; q2: number }[];
+  q1Active: boolean;
+  q2Active: boolean;
 }
 
-export default () => (
-  <cx>
-    <div controller={PageController}>
-      <Legend />
-      <Svg style="width: 100%; height: 300px;">
-        <Chart
-          margin="20 20 40 50"
-          axes={{
-            x: { type: CategoryAxis },
-            y: { type: NumericAxis, vertical: true },
-          }}
-        >
-          <Gridlines />
-          <ColumnGraph
-            name="Sales"
-            data-bind="data"
-            colorIndex={2}
-            xField="month"
-            yField="sales"
-            size={0.6}
-          />
-        </Chart>
-      </Svg>
-    </div>
-  </cx>
+const m = createModel<Model>();
+// @model-end
+
+// @controller
+class PageController extends Controller {
+  onInit() {
+    this.store.set(m.data, [
+      { month: "Jan", q1: 42, q2: 38 },
+      { month: "Feb", q1: 58, q2: 52 },
+      { month: "Mar", q1: 65, q2: 71 },
+      { month: "Apr", q1: 71, q2: 68 },
+      { month: "May", q1: 85, q2: 79 },
+      { month: "Jun", q1: 78, q2: 84 },
+    ]);
+    this.store.set(m.q1Active, true);
+    this.store.set(m.q2Active, true);
+  }
+}
+// @controller-end
+
+// @index
+export default (
+  <div controller={PageController}>
+    <Legend />
+    <Svg style="height: 300px; border: 1px dashed #ddd">
+      <Chart
+        margin="20 20 40 50"
+        axes={{
+          x: <CategoryAxis />,
+          y: <NumericAxis vertical snapToTicks={1} />,
+        }}
+      >
+        <Rectangle fill="white" />
+        <Gridlines />
+        <ColumnGraph
+          name="Q1"
+          data={m.data}
+          colorIndex={0}
+          xField="month"
+          yField="q1"
+          size={0.3}
+          offset={-0.15}
+          active={m.q1Active}
+        />
+        <ColumnGraph
+          name="Q2"
+          data={m.data}
+          colorIndex={5}
+          xField="month"
+          yField="q2"
+          size={0.3}
+          offset={0.15}
+          active={m.q2Active}
+        />
+      </Chart>
+    </Svg>
+  </div>
 );
+// @index-end

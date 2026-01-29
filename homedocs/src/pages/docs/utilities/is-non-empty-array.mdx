@@ -1,0 +1,149 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: isNonEmptyArray
+description: Check for non-empty array
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+# isNonEmptyArray
+
+<ImportPath path="import { isNonEmptyArray } from 'cx/util';" />
+<OnThisPage />
+
+The `isNonEmptyArray` type guard checks if a value is an array with at least one element.
+
+## Basic Usage
+
+```tsx
+import { isNonEmptyArray } from "cx/util";
+
+isNonEmptyArray([1, 2, 3]); // true
+isNonEmptyArray(["a"]); // true
+isNonEmptyArray([undefined]); // true (has one element)
+isNonEmptyArray([]); // false
+isNonEmptyArray(null); // false
+isNonEmptyArray(undefined); // false
+isNonEmptyArray("string"); // false
+isNonEmptyArray({ length: 1 }); // false (not an array)
+```
+
+## Type Narrowing
+
+The function is a TypeScript type guard that narrows the type to a non-empty tuple.
+
+```tsx
+import { isNonEmptyArray } from "cx/util";
+
+function getFirst<T>(items: T[]): T | undefined {
+  if (isNonEmptyArray(items)) {
+    // items is typed as [T, ...T[]] here
+    return items[0]; // Safe access, guaranteed to exist
+  }
+  return undefined;
+}
+```
+
+## Common Use Cases
+
+### Safe Array Operations
+
+```tsx
+import { isNonEmptyArray } from "cx/util";
+
+function processItems<T>(items: T[] | undefined, processor: (item: T) => void): void {
+  if (isNonEmptyArray(items)) {
+    items.forEach(processor);
+  }
+}
+
+function getFirstOrDefault<T>(items: T[], defaultValue: T): T {
+  return isNonEmptyArray(items) ? items[0] : defaultValue;
+}
+
+function getLastOrDefault<T>(items: T[], defaultValue: T): T {
+  return isNonEmptyArray(items) ? items[items.length - 1] : defaultValue;
+}
+```
+
+### Conditional Rendering
+
+```tsx
+import { isNonEmptyArray } from "cx/util";
+
+interface ListProps<T> {
+  items: T[];
+  renderItem: (item: T) => JSX.Element;
+  emptyMessage?: string;
+}
+
+function List<T>({ items, renderItem, emptyMessage }: ListProps<T>) {
+  if (!isNonEmptyArray(items)) {
+    return <div class="empty">{emptyMessage || "No items"}</div>;
+  }
+
+  return (
+    <ul>
+      {items.map(renderItem)}
+    </ul>
+  );
+}
+```
+
+### Data Validation
+
+```tsx
+import { isNonEmptyArray } from "cx/util";
+
+interface FormData {
+  tags?: string[];
+  categories?: string[];
+}
+
+function validateForm(data: FormData): string[] {
+  const errors: string[] = [];
+
+  if (!isNonEmptyArray(data.tags)) {
+    errors.push("At least one tag is required");
+  }
+
+  if (!isNonEmptyArray(data.categories)) {
+    errors.push("At least one category is required");
+  }
+
+  return errors;
+}
+```
+
+### Reduce with Initial Value
+
+```tsx
+import { isNonEmptyArray } from "cx/util";
+
+function sum(numbers: number[]): number {
+  if (!isNonEmptyArray(numbers)) {
+    return 0;
+  }
+  return numbers.reduce((a, b) => a + b);
+}
+
+function average(numbers: number[]): number | null {
+  if (!isNonEmptyArray(numbers)) {
+    return null;
+  }
+  return numbers.reduce((a, b) => a + b) / numbers.length;
+}
+```
+
+## API
+
+```tsx
+function isNonEmptyArray(x: any): x is [any, ...any];
+```
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| x | `any` | The value to check |
+
+**Returns:** `true` if the value is an array with `length > 0`.

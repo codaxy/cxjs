@@ -1,0 +1,113 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: parseStyle
+description: Parse CSS style strings
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+# parseStyle
+
+<ImportPath path="import { parseStyle } from 'cx/util';" />
+<OnThisPage />
+
+The `parseStyle` function converts a CSS style string into a JavaScript style object with camelCase property names.
+
+## Basic Usage
+
+```tsx
+import { parseStyle } from "cx/util";
+
+parseStyle("color: red; font-size: 14px");
+// { color: "red", fontSize: "14px" }
+
+parseStyle("background-color: #fff; margin-top: 10px");
+// { backgroundColor: "#fff", marginTop: "10px" }
+```
+
+## How It Works
+
+The function:
+1. Splits the string by semicolons
+2. Extracts property-value pairs
+3. Converts kebab-case to camelCase (except CSS variables)
+4. Returns a style object suitable for React/CxJS
+
+## Passthrough Behavior
+
+Non-string values are returned unchanged, making it safe to use with existing style objects.
+
+```tsx
+import { parseStyle } from "cx/util";
+
+// String is parsed
+parseStyle("color: red"); // { color: "red" }
+
+// Object passes through
+parseStyle({ color: "red" }); // { color: "red" }
+
+// null/undefined pass through
+parseStyle(null); // null
+parseStyle(undefined); // undefined
+```
+
+## CSS Variables
+
+CSS custom properties (variables) are preserved without camelCase conversion.
+
+```tsx
+import { parseStyle } from "cx/util";
+
+parseStyle("--primary-color: blue; color: var(--primary-color)");
+// { "--primary-color": "blue", color: "var(--primary-color)" }
+```
+
+## Common Use Cases
+
+### Dynamic Styles
+
+```tsx
+import { parseStyle } from "cx/util";
+
+interface Config {
+  style?: string | Record<string, string>;
+}
+
+function applyStyle(config: Config) {
+  const style = parseStyle(config.style);
+  return <div style={style}>Content</div>;
+}
+
+// Works with string
+applyStyle({ style: "color: red; padding: 10px" });
+
+// Works with object
+applyStyle({ style: { color: "red", padding: "10px" } });
+```
+
+### User-Provided Styles
+
+```tsx
+import { parseStyle } from "cx/util";
+
+function CustomComponent({ customStyle }: { customStyle?: string }) {
+  const style = parseStyle(customStyle);
+  return <div style={style}>Styled content</div>;
+}
+
+<CustomComponent customStyle="border: 1px solid #ccc; border-radius: 4px" />
+```
+
+## API
+
+```tsx
+function parseStyle(str: string): Record<string, string>;
+function parseStyle(str: any): any;
+```
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| str | `string \| any` | CSS style string or existing style object |
+
+**Returns:** Style object with camelCase properties, or the input unchanged if not a string.

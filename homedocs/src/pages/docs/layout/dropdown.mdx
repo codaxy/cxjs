@@ -1,10 +1,12 @@
 ---
 layout: ../../../layouts/DocsLayout.astro
 title: Dropdown
+description: Dropdown menu triggered by button
 ---
 
 import ImportPath from "../../../components/ImportPath.astro";
 import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 import DropdownBasicExample from "../../../examples/layout/DropdownBasicExample.tsx";
 import DropdownBasicExampleCode from "../../../examples/layout/DropdownBasicExample.tsx?raw";
@@ -18,6 +20,8 @@ import DropdownSearchExampleCode from "../../../examples/layout/DropdownSearchEx
 # Dropdown
 
 <ImportPath path="import { Dropdown } from 'cx/widgets';" />
+
+<OnThisPage />
 
 The `Dropdown` widget is commonly used in lookup fields, date fields, and menus, but it can also be used independently. It positions itself relative to a trigger element and automatically adjusts placement based on available screen space.
 

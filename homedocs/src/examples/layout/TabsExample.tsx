@@ -10,7 +10,7 @@ const m = createModel<PageModel>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <div className="flex flex-col items-start gap-4">
     <div>
       <Tab tab="tab1" value={m.tab} default>
@@ -46,7 +46,7 @@ export default () => (
           Disabled
         </Tab>
       </div>
-      <div className="border border-gray-300 bg-white p-4" text={m.tab} />
+      <div className="border border-border bg-white p-4" text={m.tab} />
     </div>
   </div>
 );

@@ -44,7 +44,7 @@ class PageController extends Controller {
 // @controller-end
 
 // @index
-export default () => (
+export default (
   <div class="" controller={PageController}>
     <div class="text-sm">Without Rescope (long paths):</div>
     <div class="flex gap-4" layout={LabelsTopLayout}>

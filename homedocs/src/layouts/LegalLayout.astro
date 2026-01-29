@@ -1,0 +1,38 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import HomeHeader from '../components/HomeHeader.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  frontmatter?: {
+    title?: string;
+    description?: string;
+    lastUpdated?: string;
+  };
+  title?: string;
+  description?: string;
+  lastUpdated?: string;
+}
+
+const { frontmatter, title: directTitle, description: directDescription, lastUpdated: directLastUpdated } = Astro.props;
+const title = frontmatter?.title || directTitle || '';
+const description = frontmatter?.description || directDescription || '';
+const lastUpdated = frontmatter?.lastUpdated || directLastUpdated || '';
+---
+
+<BaseLayout title={`${title} - CxJS`} description={description}>
+  <div class="min-h-screen bg-background flex flex-col">
+    <HomeHeader />
+
+    <!-- Content -->
+    <main class="flex-1 py-12 px-4">
+      <article class="container mx-auto max-w-3xl prose">
+        <h1 class="text-3xl md:text-4xl font-bold text-heading mb-2">{title}</h1>
+        {lastUpdated && <p class="text-muted-foreground mb-8 !mt-0">Last updated: {lastUpdated}</p>}
+        <slot />
+      </article>
+    </main>
+
+    <Footer />
+  </div>
+</BaseLayout>

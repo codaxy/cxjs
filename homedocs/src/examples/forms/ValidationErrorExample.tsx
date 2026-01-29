@@ -12,7 +12,7 @@ const m = createModel<Model>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <LabelsTopLayout vertical>
     <DateField label="Start Date" value={m.startDate} required />
     <DateField label="End Date" value={m.endDate} required />

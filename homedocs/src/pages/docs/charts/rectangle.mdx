@@ -1,0 +1,55 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Rectangle
+description: SVG rectangle shape
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+import RectangleExample from "../../../examples/charts/RectangleExample.tsx";
+import RectangleExampleCode from "../../../examples/charts/RectangleExample.tsx?raw";
+
+# Rectangle
+
+<ImportPath path="import { Rectangle } from 'cx/svg';" />
+
+<OnThisPage />
+
+The `Rectangle` component is a CxJS version of the SVG `rect` element designed for responsive layouts. Unlike native `rect` which requires absolute `x`, `y`, `width`, and `height` values, `Rectangle` uses [bounded object](./svg#bounded-objects) properties to automatically adapt to its container.
+
+This example shows 16 rectangles arranged in a 4×4 grid using `anchors` to define their positions. Notice the rounded corners on the first row using different `rx`/`ry` values.
+
+<CodeExample code={RectangleExampleCode}>
+  <RectangleExample client:load />
+</CodeExample>
+
+## Rounded Corners
+
+Use `rx` and `ry` to create rounded corners:
+
+- `rx={5}` — 5 pixel horizontal radius
+- `ry="5%"` — 5% of rectangle height as vertical radius
+- `rx="9px" ry="25"` — different horizontal and vertical radii
+- `rx="3em"` — CSS units are supported
+
+If only `rx` is specified, `ry` defaults to the same value (and vice versa).
+
+## Colors
+
+The `colorIndex` property assigns both `fill` and `stroke` from the default color palette. You can override this with custom `fill`, `stroke`, or `style` properties.
+
+## Configuration
+
+| Property     | Type            | Description                                                                        |
+| ------------ | --------------- | ---------------------------------------------------------------------------------- |
+| `anchors`    | `string/number` | Position within parent bounds. Format: `"t r b l"`. See [Svg](./svg) for details.  |
+| `offset`     | `string/number` | Translate edges in pixels. Format: `"t r b l"`. See [Svg](./svg) for details.      |
+| `margin`     | `string/number` | CSS-like margin. See [Svg](./svg) for details.                                     |
+| `padding`    | `string/number` | Padding applied before passing bounds to children.                                 |
+| `fill`       | `string`        | Fill color for the rectangle.                                                      |
+| `stroke`     | `string`        | Stroke color for the outline.                                                      |
+| `colorIndex` | `number`        | Index in the default color palette. Sets both `fill` and `stroke`.                 |
+| `rx`         | `string/number` | Horizontal corner radius. Defaults to `ry` if not specified.                       |
+| `ry`         | `string/number` | Vertical corner radius. Defaults to `rx` if not specified.                         |

@@ -20,7 +20,7 @@
     "@tailwindcss/vite": "^4.1.18",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
-    "astro": "^5.16.6",
+    "astro": "^5.16.15",
     "astro-pagefind": "^1.8.5",
     "cx": "workspace:*",
     "cx-react": "workspace:*",

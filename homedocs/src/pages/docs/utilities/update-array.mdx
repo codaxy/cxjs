@@ -1,0 +1,93 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: updateArray
+description: Immutably update array elements
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import UpdateArrayExample from "../../../examples/utilities/UpdateArrayExample.tsx";
+import UpdateArrayExampleCode from "../../../examples/utilities/UpdateArrayExample.tsx?raw";
+
+# updateArray
+
+<ImportPath path="import { updateArray } from 'cx/data';" />
+<OnThisPage />
+
+`updateArray` performs immutable updates on arrays. It applies a callback to transform items, optionally filtering which items to update and which to remove. Returns the original array if no changes were made.
+
+<CodeExample code={UpdateArrayExampleCode}>
+  <UpdateArrayExample client:load />
+</CodeExample>
+
+## Signature
+
+```ts
+function updateArray<T>(
+  array: T[],
+  updateCallback: (item: T, index: number) => T,
+  itemFilter?: (item: T, index: number) => boolean,
+  removeFilter?: (item: T, index: number) => boolean
+): T[]
+```
+
+## Parameters
+
+| Parameter        | Type       | Description                                                    |
+| ---------------- | ---------- | -------------------------------------------------------------- |
+| `array`          | `T[]`      | The array to update.                                           |
+| `updateCallback` | `function` | Transform function applied to each item (or filtered items).   |
+| `itemFilter`     | `function` | Optional. If provided, only items matching this filter are updated. |
+| `removeFilter`   | `function` | Optional. Items matching this filter are removed from the result. |
+
+## Return Value
+
+Returns a new array with updates applied, or the original array if nothing changed (preserves reference equality).
+
+## Examples
+
+### Update all items
+
+```ts
+const items = [{ id: 1, count: 5 }, { id: 2, count: 3 }];
+
+const updated = updateArray(items, (item) => ({
+  ...item,
+  count: item.count + 1,
+}));
+// [{ id: 1, count: 6 }, { id: 2, count: 4 }]
+```
+
+### Update specific items
+
+```ts
+const items = [{ id: 1, count: 5 }, { id: 2, count: 3 }];
+
+const updated = updateArray(
+  items,
+  (item) => ({ ...item, count: item.count * 2 }),
+  (item) => item.id === 2, // only update item with id 2
+);
+// [{ id: 1, count: 5 }, { id: 2, count: 6 }]
+```
+
+### Remove items while updating
+
+```ts
+const items = [{ id: 1, count: 5 }, { id: 2, count: 3 }];
+
+const updated = updateArray(
+  items,
+  (item) => item,
+  null, // no filter for updates
+  (item) => item.count < 4, // remove items with count < 4
+);
+// [{ id: 1, count: 5 }]
+```
+
+## See Also
+
+- [filter](/docs/utilities/filter) - Immutable array filtering
+- [append](/docs/utilities/append) - Immutable array append

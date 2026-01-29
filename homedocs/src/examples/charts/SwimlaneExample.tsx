@@ -1,41 +1,102 @@
-/** @jsxImportSource cx */
-import { Svg } from "cx/svg";
-import { Chart, NumericAxis, CategoryAxis, Swimlane, Column } from "cx/charts";
-import { Repeater, Controller } from "cx/ui";
+import { Svg, Text } from "cx/svg";
+import {
+  Chart,
+  NumericAxis,
+  CategoryAxis,
+  Swimlane,
+} from "cx/charts";
+import { createModel } from "cx/data";
+import { Controller, Repeater } from "cx/ui";
 
-class PageController extends Controller {
-  onInit() {
-    this.store.set("data", [
-      { category: "Q1", value: 45 },
-      { category: "Q2", value: 62 },
-      { category: "Q3", value: 38 },
-      { category: "Q4", value: 71 },
-    ]);
-  }
+// @model
+interface Point {
+  category: string;
+  value: number;
 }
 
-export default () => (
-  <cx>
-    <div controller={PageController}>
-      <Svg style="width: 100%; height: 280px;">
+interface Model {
+  points: Point[];
+  $point: Point;
+  $index: number;
+}
+
+const m = createModel<Model>();
+// @model-end
+
+const cities = [
+  "New York",
+  "Los Angeles",
+  "Chicago",
+  "Houston",
+  "Phoenix",
+  "Philadelphia",
+  "San Antonio",
+  "San Diego",
+  "Dallas",
+  "Austin",
+];
+
+// @controller
+class PageController extends Controller {
+  onInit() {
+    this.store.set(
+      m.points,
+      cities.map((category) => ({
+        category,
+        value: 10 + Math.random() * 40,
+      })),
+    );
+  }
+}
+// @controller-end
+
+// @index
+export default (
+  <div controller={PageController}>
+    <div style="display: flex; flex-wrap: wrap; gap: 16px">
+      <Svg style="flex: 1; min-width: 300px; height: 350px">
         <Chart
-          margin="20 20 40 50"
+          offset="20 -20 -20 40"
           axes={{
-            x: { type: CategoryAxis },
+            x: { type: CategoryAxis, hidden: true },
             y: { type: NumericAxis, vertical: true },
           }}
         >
-          <Repeater records-bind="data" recordAlias="$point">
-            <Swimlane size={0.9} x-bind="$point.category" vertical />
-            <Column
-              colorIndex={0}
-              width={0.5}
-              x-bind="$point.category"
-              y-bind="$point.value"
-            />
+          <Repeater records={m.points} recordAlias="$point" indexAlias="$index">
+            <Swimlane size={0.8} x={m.$point.category} vertical>
+              <Text
+                value={m.$point.category}
+                anchors="0.5 0.5 0.5 0.5"
+                dominantBaseline="middle"
+                textAnchor="middle"
+                style="fill: #888; transform: rotate(-90deg); transform-box: fill-box; transform-origin: center"
+              />
+            </Swimlane>
+          </Repeater>
+        </Chart>
+      </Svg>
+      <Svg style="flex: 1; min-width: 300px; height: 350px">
+        <Chart
+          offset="20 -20 -40 20"
+          axes={{
+            x: { type: NumericAxis, snapToTicks: 0 },
+            y: { type: CategoryAxis, vertical: true, hidden: true },
+          }}
+        >
+          <Repeater records={m.points} recordAlias="$point">
+            <Swimlane size={0.8} y={m.$point.category}>
+              <Text
+                value={m.$point.category}
+                anchors="0.5 0 0.5 0"
+                dx={5}
+                dominantBaseline="middle"
+                style="fill: #888"
+              />
+            </Swimlane>
           </Repeater>
         </Chart>
       </Svg>
     </div>
-  </cx>
+  </div>
 );
+// @index-end

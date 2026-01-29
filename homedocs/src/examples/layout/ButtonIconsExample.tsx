@@ -2,7 +2,7 @@ import { Button } from "cx/widgets";
 import "../../icons/lucide";
 
 // @index
-export default () => (
+export default (
   <div className="flex flex-wrap gap-2 items-center">
     <Button icon="search">Search</Button>
     <Button icon="plus" mod="primary">Add</Button>

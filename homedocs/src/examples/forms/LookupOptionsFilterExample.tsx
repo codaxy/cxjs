@@ -22,7 +22,7 @@ const m = createModel<Model>();
 // @model-end
 
 // @controller
-class PageController extends Controller<typeof m> {
+class PageController extends Controller {
   onInit() {
     this.store.init(m.countries, [
       {
@@ -66,7 +66,7 @@ class PageController extends Controller<typeof m> {
 // @controller-end
 
 // @index
-export default () => (
+export default (
   <div controller={PageController} class="space-y-6">
     <LabelsTopLayout vertical>
       <LabeledContainer label="Allowed Countries">

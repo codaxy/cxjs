@@ -88,7 +88,7 @@ export class History {
    ): boolean {
       url = Url.resolve(url);
 
-      if (!window.history.pushState || reload) {
+      if (!window.history.pushState || reload || !this.store) {
          window.location[replace ? "replace" : "assign"](url);
          return true;
       }

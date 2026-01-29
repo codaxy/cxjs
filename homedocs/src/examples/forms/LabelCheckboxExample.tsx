@@ -13,7 +13,7 @@ const m = createModel<PageModel>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <LabelsTopLayout>
     <TextField
       value={m.name}

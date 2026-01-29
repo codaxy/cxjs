@@ -10,7 +10,7 @@ const m = createModel<Model>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <Calendar
     value={m.date}
     minValue="2024-06-10"

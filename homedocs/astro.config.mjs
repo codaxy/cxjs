@@ -18,8 +18,8 @@ export default defineConfig({
     llmsTxt({
       title: "CxJS",
       description:
-        "CxJS is a feature-rich JavaScript framework for building complex web front-ends, such as BI tools, dashboards and admin apps.",
-      site: "https://cxjs.io",
+        "CxJS is a feature-rich JavaScript (TypeScript) framework for building complex web front-ends, such as portals, dashboards and admin applications.",
+      site: "https://new.cxjs.io",
     }),
   ],
   build: {
@@ -43,13 +43,7 @@ export default defineConfig({
       jsx: "automatic",
       jsxImportSource: "cx",
     },
-    optimizeDeps: {
-      include: ["route-parser", "cx-react"],
-      exclude: ["cx"],
-    },
-    ssr: {
-      external: ["route-parser"],
-    },
+    ssr: {},
     css: {
       preprocessorOptions: {
         scss: {

@@ -35,7 +35,7 @@ const continents = [
 const browsers = ["Chrome", "Firefox", "Safari", "Edge", "Opera"];
 
 // @index
-export default () => (
+export default (
   <Grid
     infinite
     style="height: 400px"

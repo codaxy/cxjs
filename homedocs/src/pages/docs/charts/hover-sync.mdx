@@ -1,32 +1,46 @@
 ---
 layout: ../../../layouts/DocsLayout.astro
 title: HoverSync
+description: Synchronize hover state across charts
 ---
 
+import ImportPath from "../../../components/ImportPath.astro";
 import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
 import HoverSyncExample from "../../../examples/charts/HoverSyncExample.tsx";
+import HoverSyncExampleCode from "../../../examples/charts/HoverSyncExample.tsx?raw";
 
 # HoverSync
 
-Synchronizes hover effects between chart elements, legends, and grids.
+<ImportPath path="import { HoverSync } from 'cx/ui';" />
 
-**Import:** `import { HoverSync } from 'cx/ui';`
+<OnThisPage collapsed />
 
-## Example
+`HoverSync` synchronizes hover effects between chart elements, legends, and grids. Elements with the same `hoverId` will highlight together when any of them is hovered.
 
-<CodeExample
-  code={`<HoverSync>
-  <PieSlice value-bind="$record.value" hoverId-bind="$record.id" colorMap="pie" />
-  <Bar x-bind="$record.value" y-bind="$record.name" hoverId-bind="$record.id" colorMap="pie" />
-</HoverSync>`}
->
+<CodeExample code={HoverSyncExampleCode}>
   <HoverSyncExample client:load />
 </CodeExample>
 
-Elements with the same `hoverId` will highlight together.
+## How It Works
 
-## Properties
+1. Wrap related chart elements in a `HoverSync` component
+2. Assign matching `hoverId` values to elements that should highlight together
+3. When any element is hovered, all elements with the same `hoverId` will highlight
 
-| Property       | Type     | Default     | Description       |
-| -------------- | -------- | ----------- | ----------------- |
-| `hoverChannel` | `string` | `"default"` | Isolation channel |
+## Configuration
+
+### HoverSync
+
+| Property       | Type     | Default     | Description                                         |
+| -------------- | -------- | ----------- | --------------------------------------------------- |
+| `hoverChannel` | `string` | `"default"` | Channel name for isolating multiple hover contexts. |
+
+### Element Props
+
+Chart elements support these hover-related props:
+
+| Property  | Type               | Description                                     |
+| --------- | ------------------ | ----------------------------------------------- |
+| `hoverId` | `string \| number` | Identifier for synchronized hover highlighting. |

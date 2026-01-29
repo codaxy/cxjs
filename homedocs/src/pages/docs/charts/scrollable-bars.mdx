@@ -1,0 +1,37 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Scrollable Bars
+description: Scrollable bar chart for many items
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+import ScrollableBarsExample from "../../../examples/charts/ScrollableBarsExample.tsx";
+import ScrollableBarsExampleCode from "../../../examples/charts/ScrollableBarsExample.tsx?raw";
+
+# Scrollable Bars
+
+<OnThisPage />
+
+When displaying many data points, vertical scrolling keeps the chart readable while showing all data. The x-axis stays fixed at the bottom using `ContentPlaceholderScope` and `putInto`.
+
+<CodeExample code={ScrollableBarsExampleCode}>
+  <ScrollableBarsExample client:load />
+</CodeExample>
+
+## How It Works
+
+1. Wrap the chart in a `ContentPlaceholderScope` with a unique name
+2. Set `putInto` on the axis to render it in a separate `ContentPlaceholder`
+3. Use `anchors` and `offset` to position the axis correctly
+4. Calculate Svg height dynamically based on data length
+
+## Configuration
+
+| Property  | Type     | Description                                                        |
+| --------- | -------- | ------------------------------------------------------------------ |
+| `putInto` | `string` | Name of the `ContentPlaceholder` where the axis should render.     |
+| `anchors` | `string` | Bounded object anchors. Use `"0 1 0 0"` for top-anchored axis.     |
+| `offset`  | `string` | Bounded object offset to fine-tune axis position.                  |

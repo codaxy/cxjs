@@ -28,13 +28,22 @@ $cx-grid-header-state-style-map: (
       padding: $cx-default-grid-header-padding,
    ),
    hover: (
-      background-color: color.adjust($cx-default-grid-header-background-color, $lightness: -2%),
+      background-color: color-mix(
+            $cx-default-grid-header-background-color,
+            black 2%
+         ),
    ),
    sorted: (
-      background-color: color.adjust($cx-default-grid-header-background-color, $lightness: -7%),
+      background-color: color-mix(
+            $cx-default-grid-header-background-color,
+            black 7%
+         ),
    ),
    sorted-hover: (
-      background-color: color.adjust($cx-default-grid-header-background-color, $lightness: -5%),
+      background-color: color-mix(
+            $cx-default-grid-header-background-color,
+            black 5%
+         ),
    ),
 ) !default;
 
@@ -114,9 +123,13 @@ $cx-grid-pagination-default-border-width: $cx-default-border-width !default;
 $cx-grid-pagination-default-border-color: $cx-default-border-color !default;
 $cx-grid-pagination-default-border-radius: null !default;
 $cx-grid-pagination-default-outer-border-radius: $cx-default-border-radius !default;
-$cx-grid-pagination-default-padding: cx-top($cx-default-box-padding) 2 * cx-top($cx-default-box-padding) !default;
+$cx-grid-pagination-default-padding: cx-top($cx-default-box-padding) 2 *
+   cx-top($cx-default-box-padding) !default;
 
-$cx-grid-pagination-state-style-map: cx-deep-map-merge($cx-list-item, ()) !default;
+$cx-grid-pagination-state-style-map: cx-deep-map-merge(
+   $cx-list-item,
+   ()
+) !default;
 
 $cx-grid-cell-cursor-style: (
    left: -1px,

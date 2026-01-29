@@ -231,7 +231,7 @@ interface LookupFieldSingleProps {
   /** Single selection (default). */
   multiple?: false;
   /** Selected value. */
-  value?: Prop<number | string>;
+  value?: Prop<number | string | null>;
   /** Text associated with the selection. */
   text?: StringProp;
 }

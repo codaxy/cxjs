@@ -2,7 +2,7 @@ import { LabelsLeftLayout } from "cx/ui";
 import { bind } from "cx/ui";
 import { TextField, Checkbox, LabeledContainer } from "cx/widgets";
 
-export default () => (
+export default (
   <LabelsLeftLayout>
     <TextField value={bind("text")} label="Label 1" />
     <Checkbox value={bind("check")} label="Label 2">

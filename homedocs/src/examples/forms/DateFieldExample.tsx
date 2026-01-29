@@ -12,7 +12,7 @@ const m = createModel<Model>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <LabelsTopLayout columns={2}>
     <DateField label="Standard" value={bind(m.date, "2024-06-15")} autoFocus />
     <DateField label="Disabled" value={m.date} disabled />

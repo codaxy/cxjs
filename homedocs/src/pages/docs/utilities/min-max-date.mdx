@@ -1,0 +1,146 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: minDate / maxDate
+description: Find earliest or latest date
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+# minDate / maxDate
+
+<ImportPath path="import { minDate, maxDate } from 'cx/util';" />
+<OnThisPage />
+
+The `minDate` and `maxDate` functions return the earliest or latest date from a set of dates.
+
+## Basic Usage
+
+```tsx
+import { minDate, maxDate } from "cx/util";
+
+const date1 = new Date(2024, 5, 15);
+const date2 = new Date(2024, 5, 10);
+const date3 = new Date(2024, 5, 20);
+
+minDate(date1, date2, date3); // June 10, 2024
+maxDate(date1, date2, date3); // June 20, 2024
+```
+
+## With Two Dates
+
+```tsx
+import { minDate, maxDate } from "cx/util";
+
+const startDate = new Date(2024, 0, 1);
+const endDate = new Date(2024, 11, 31);
+
+// Ensure start is before end
+const validStart = minDate(startDate, endDate);
+const validEnd = maxDate(startDate, endDate);
+```
+
+## Common Use Cases
+
+### Date Range Validation
+
+```tsx
+import { minDate, maxDate } from "cx/util";
+
+interface DateRange {
+  start: Date;
+  end: Date;
+}
+
+function normalizeRange(range: DateRange): DateRange {
+  return {
+    start: minDate(range.start, range.end),
+    end: maxDate(range.start, range.end),
+  };
+}
+
+function clampDate(date: Date, min: Date, max: Date): Date {
+  return minDate(maxDate(date, min), max);
+}
+
+// Ensure date is within bounds
+const today = new Date();
+const minAllowed = new Date(2024, 0, 1);
+const maxAllowed = new Date(2024, 11, 31);
+const clampedDate = clampDate(today, minAllowed, maxAllowed);
+```
+
+### Finding Date Bounds in Data
+
+```tsx
+import { minDate, maxDate } from "cx/util";
+
+interface Event {
+  title: string;
+  date: Date;
+}
+
+function getDateRange(events: Event[]): { min: Date; max: Date } | null {
+  if (events.length === 0) return null;
+
+  const dates = events.map((e) => e.date);
+  return {
+    min: minDate(...dates),
+    max: maxDate(...dates),
+  };
+}
+
+const events = [
+  { title: "Event 1", date: new Date(2024, 5, 15) },
+  { title: "Event 2", date: new Date(2024, 3, 10) },
+  { title: "Event 3", date: new Date(2024, 8, 20) },
+];
+
+const range = getDateRange(events);
+// { min: April 10, 2024, max: September 20, 2024 }
+```
+
+### Chart Axis Bounds
+
+```tsx
+import { minDate, maxDate } from "cx/util";
+
+interface DataPoint {
+  date: Date;
+  value: number;
+}
+
+function getTimeAxisBounds(data: DataPoint[]): { from: Date; to: Date } {
+  const dates = data.map((d) => d.date);
+  return {
+    from: minDate(...dates),
+    to: maxDate(...dates),
+  };
+}
+```
+
+## API
+
+### minDate
+
+```tsx
+function minDate(...args: Date[]): Date;
+```
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| args | `Date[]` | One or more dates to compare |
+
+**Returns:** The earliest (minimum) date from the provided dates.
+
+### maxDate
+
+```tsx
+function maxDate(...args: Date[]): Date;
+```
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| args | `Date[]` | One or more dates to compare |
+
+**Returns:** The latest (maximum) date from the provided dates.

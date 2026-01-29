@@ -1,0 +1,31 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Normalized Columns
+description: 100% stacked columns
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import NormalizedColumnsExample from "../../../examples/charts/NormalizedColumnsExample.tsx";
+import NormalizedColumnsExampleCode from "../../../examples/charts/NormalizedColumnsExample.tsx?raw";
+
+# Normalized Columns
+
+<ImportPath path="import { Column } from 'cx/charts';" />
+
+Normalized stacked column charts show proportions as percentages. Each stack totals to 100%, making it easy to compare relative contributions across categories.
+
+Set `normalized` to `true` on the `NumericAxis` and use `format="p;0"` to display percentages.
+
+<CodeExample code={NormalizedColumnsExampleCode}>
+  <NormalizedColumnsExample client:load />
+</CodeExample>
+
+## Configuration
+
+| Property     | Type      | Description                                                    |
+| ------------ | --------- | -------------------------------------------------------------- |
+| `normalized` | `boolean` | Set on `NumericAxis` to normalize stacked values to 100%.      |
+| `format`     | `string`  | Set to `"p;0"` on axis to display percentage labels.           |
+| `stacked`    | `boolean` | Set on `Column` to enable stacking.                            |

@@ -48,7 +48,7 @@ class PageController extends Controller {
 // @controller-end
 
 // @index
-export default () => (
+export default (
   <div class="flex flex-col gap-4" controller={PageController}>
     <Repeater records={m.accounts} recordAlias={m.$account}>
       <div class="border rounded p-3">
