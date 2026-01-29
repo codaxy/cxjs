@@ -1,27 +1,19 @@
-[
-   {
-      "url": "https://github.com/codaxy/cx-app-template-basic/archive/refs/heads/master.zip",
-      "name": "Basic",
-      "srcFolder": "cx-app-template-basic-master"
-   },
-   {
+{
+  "templates": [
+    {
+      "id": "vite",
+      "name": "CxJS + Tailwind CSS (Vite)",
+      "description": "Basic CxJS application template with Vite",
+      "url": "https://codeload.github.com/codaxy/cxjs-vite-template/zip/refs/heads/master",
+      "srcFolder": "cxjs-vite-template-master"
+    },
+    {
+      "id": "tailwind",
+      "name": "CxJS + Tailwind CSS (Webpack)",
+      "description": "CxJS with Tailwind CSS styling",
       "url": "https://github.com/codaxy/cxjs-tailwindcss-template/archive/refs/heads/master.zip",
-      "name": "CxJS + Tailwind CSS",
       "srcFolder": "cxjs-tailwindcss-template-master"
-   },
-   {
-      "url": "https://github.com/codaxy/cxjs-codesandbox-template/archive/refs/heads/master.zip",
-      "name": "Code Sandbox",
-      "srcFolder": "cxjs-codesandbox-template-master"
-   },
-   {
-      "url": "https://github.com/codaxy/cx-template-material-sidebar/archive/refs/heads/master.zip",
-      "name": "Sidebar Layout + Material Theme",
-      "srcFolder": "cx-template-material-sidebar-master"
-   },
-   {
-      "url": "https://github.com/codaxy/cx-app-template-phone-dark/archive/refs/heads/master.zip",
-      "name": "Phone App + Dark Theme",
-      "srcFolder": "cx-app-template-phone-dark-master"
-   }
-]
+    }
+  ],
+  "defaultTemplate": "vite"
+}
