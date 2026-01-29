@@ -157,7 +157,7 @@ $cx-button-mods: cx-deep-map-merge(
             ),
          focus: (
             background-color: color.adjust(
-                  $cx-default-background-color,
+                  $cx-theme-default-background-color,
                   $lightness: -8%
                ),
             box-shadow: none,
@@ -186,7 +186,7 @@ $cx-button-mods: cx-deep-map-merge(
             ),
          focus: (
             background-color: color.adjust(
-                  $cx-default-background-color,
+                  $cx-theme-default-background-color,
                   $lightness: -8%
                ),
             box-shadow: none,
@@ -417,8 +417,8 @@ $cx-section-mods: cx-deep-map-merge(
       card: (
          default: (
             background-color: white,
-            border-radius: $cx-default-section-border-radius,
-            box-shadow: $cx-default-section-box-shadow,
+            border-radius: $cx-theme-default-section-border-radius,
+            box-shadow: $cx-theme-default-section-box-shadow,
          ),
       ),
       primary: (
@@ -426,22 +426,22 @@ $cx-section-mods: cx-deep-map-merge(
             color: #fff,
             background-color: $cx-theme-primary-color,
             border-radius: $cx-default-border-radius,
-            box-shadow: $cx-default-section-box-shadow,
+            box-shadow: $cx-theme-default-section-box-shadow,
          ),
       ),
       success: (
          default: (
-            box-shadow: $cx-default-section-box-shadow,
+            box-shadow: $cx-theme-default-section-box-shadow,
          ),
       ),
       warning: (
          default: (
-            box-shadow: $cx-default-section-box-shadow,
+            box-shadow: $cx-theme-default-section-box-shadow,
          ),
       ),
       error: (
          default: (
-            box-shadow: $cx-default-section-box-shadow,
+            box-shadow: $cx-theme-default-section-box-shadow,
          ),
       ),
    )
@@ -646,8 +646,8 @@ $cx-std-field-state-style-map: cx-deep-map-merge(
    $cx-input-state-style-map,
    (
       default: (
-         box-shadow: $cx-default-input-box-shadow,
-         transition: $cx-default-transition,
+         box-shadow: $cx-theme-default-input-box-shadow,
+         transition: $cx-theme-default-transition,
       ),
       hover: (),
       focus: (
@@ -878,7 +878,7 @@ $cx-switch-handle-styles: cx-deep-map-merge(
          border-color: transparent,
       ),
       on: (
-         background-color: $cx-default-background-color,
+         background-color: $cx-theme-default-background-color,
          border-color: transparent,
       ),
       on-active: (
@@ -989,7 +989,7 @@ $cx-element-style-map: cx-deep-map-merge(
          color: $cx-theme-primary-color-dark,
       ),
       p: (
-         line-height: $cx-default-paragraph-line-height,
+         line-height: $cx-theme-default-paragraph-line-height,
       ),
    )
 );

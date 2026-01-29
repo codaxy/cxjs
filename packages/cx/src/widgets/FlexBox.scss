@@ -9,12 +9,12 @@
    $state: map.get($besm, state);
    @each $pad, $size in $cx-pad-size {
       &.#{$state}#{$pad}-hspacing {
-         margin-left: cx-divide(-$size, $divider);
-         margin-right: cx-divide(-$size, $divider);
+         margin-left: -(math.div($size, $divider));
+         margin-right: -(math.div($size, $divider));
 
          & > * {
-            margin-left: cx-divide($size, $divider);
-            margin-right: cx-divide($size, $divider);
+            margin-left: math.div($size, $divider);
+            margin-right: math.div($size, $divider);
          }
       }
 
