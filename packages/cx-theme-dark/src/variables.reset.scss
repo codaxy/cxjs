@@ -1,0 +1,3 @@
+// Pre-configured variables with global rules enabled
+// Used by both index.scss and reset.scss to avoid double-configuration
+@forward "./variables" with ($cx-include-global-rules: true);

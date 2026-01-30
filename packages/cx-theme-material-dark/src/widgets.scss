@@ -1,11 +1,33 @@
-@use "sass:map";
+// =============================================================================
+// Forward theme variables to configure cx
+// =============================================================================
+@forward "./variables";
 
+// =============================================================================
+// Imports
+// =============================================================================
+@use "sass:math";
+@use "sass:map";
+@use "sass:color";
+@use "./variables" as *;
+@use "./maps" as *;
+@use "cx/src/util/scss/clockwise" as *;
+
+// Load cx widget and ui styles (generates CSS using configured values)
+@use "cx/src/widgets/index" as widgets;
+@use "cx/src/ui/index" as ui;
+
+// =============================================================================
+// BESM selectors
+// =============================================================================
 $block: map.get($cx-besm, block);
 $element: map.get($cx-besm, element);
 $state: map.get($cx-besm, state);
 $mod: map.get($cx-besm, mod);
 
-//SECTION
+// =============================================================================
+// SECTION
+// =============================================================================
 @if (cx-included("cx/widgets/Section")) {
    .#{$block}section.#{$state}pad {
       > .#{$element}section-body {
@@ -40,7 +62,9 @@ $mod: map.get($cx-besm, mod);
    }
 }
 
-//BUTTON
+// =============================================================================
+// BUTTON
+// =============================================================================
 @if (cx-included("cx/widgets/Button")) {
    .#{$block}button {
       // overrides tap color effect for mobile devices
@@ -53,8 +77,10 @@ $mod: map.get($cx-besm, mod);
    }
 }
 
-//FORM
-// standard field
+// =============================================================================
+// FORM
+// =============================================================================
+// Standard field
 $form-list: (TextField NumberField LookupField DateTimeField MonthField ColorField Select);
 
 @each $field in $form-list {
@@ -107,7 +133,7 @@ $form-list: (TextField NumberField LookupField DateTimeField MonthField ColorFie
       max-height: none;
    }
    .#{$element}lookupfield-tag-clear {
-      color: $cx-default-color-dark;
+      color: $cx-theme-default-color-dark;
    }
 }
 
@@ -115,10 +141,10 @@ $form-list: (TextField NumberField LookupField DateTimeField MonthField ColorFie
 .#{$element}datefield-input,
 .#{$element}monthfield-input,
 .#{$element}colorfield-input {
-   padding: cx-top($cx-theme-input-padding)
-      cx-calc(cx-right($cx-theme-input-padding), $cx-default-box-padding, $cx-default-clear-size)
-      cx-bottom($cx-theme-input-padding)
-      cx-calc(cx-left($cx-theme-input-padding), $cx-default-box-padding, $cx-default-icon-size);
+   padding: cx-top($cx-theme-default-input-padding)
+      cx-calc(cx-right($cx-theme-default-input-padding), $cx-default-box-padding, $cx-default-clear-size)
+      cx-bottom($cx-theme-default-input-padding)
+      cx-calc(cx-left($cx-theme-default-input-padding), $cx-default-box-padding, $cx-default-icon-size);
 }
 
 @if (cx-included("cx/widgets/Select")) {
@@ -162,9 +188,11 @@ $form-list: (TextField NumberField LookupField DateTimeField MonthField ColorFie
    }
 }
 
-//ANIMATED LABELS
+// =============================================================================
+// ANIMATED LABELS
+// =============================================================================
 .#{$mod}label-placement-material {
-   margin-top: round(1.5 * $cx-default-box-line-height);
+   margin-top: math.round(1.5 * $cx-default-box-line-height);
 
    & > .#{$block}label {
       position: absolute;
@@ -299,7 +327,7 @@ $form-list: (TextField NumberField LookupField DateTimeField MonthField ColorFie
    // radio focus effect
    .#{$element}radio-input {
       border-width: 2px;
-      border-color: darken(#dbdbdb, 10);
+      border-color: color.adjust(#dbdbdb, $lightness: -10%);
       color: $cx-theme-primary-color;
 
       &:after {
@@ -338,7 +366,7 @@ $form-list: (TextField NumberField LookupField DateTimeField MonthField ColorFie
          border-width: 0 0 1px;
          border-color: #414141;
          border-radius: 0;
-         color: $cx-medium-emphasis;
+         color: $cx-theme-default-medium-emphasis;
          padding: 2px 4px;
 
          &:focus {
@@ -354,7 +382,7 @@ $form-list: (TextField NumberField LookupField DateTimeField MonthField ColorFie
       background-color: #121212;
 
       .#{$element}monthpicker-year {
-         color: $cx-medium-emphasis;
+         color: $cx-theme-default-medium-emphasis;
       }
 
       td.#{$state}selected {
@@ -365,7 +393,7 @@ $form-list: (TextField NumberField LookupField DateTimeField MonthField ColorFie
       &.#{$state}disabled {
          background-color: transparent;
          border-color: #636363;
-         color: $cx-disabled-text;
+         color: $cx-theme-default-disabled-text;
       }
    }
 }
@@ -380,7 +408,6 @@ $form-list: (TextField NumberField LookupField DateTimeField MonthField ColorFie
          position: absolute;
          left: calc(50% - 0.75 * #{$cx-default-slider-handle-size});
          bottom: calc(50% - 0.75 * #{$cx-default-slider-handle-size});
-         // background-color: rgba(black, 0.05);
          border-radius: 50%;
          visibility: hidden;
          transform: scale(0.6, 0.6);
@@ -503,12 +530,14 @@ $form-list: (TextField NumberField LookupField DateTimeField MonthField ColorFie
    }
 }
 
-//Modal window background on dark surface
+// Modal window background on dark surface
 %cxe-overlay-shadow {
    background: rgba(0, 0, 0, 0.45);
 }
 
-//PROGRESSBAR
+// =============================================================================
+// PROGRESSBAR
+// =============================================================================
 @if (cx-included("cx/widgets/ProgressBar")) {
    .#{$block}progressbar {
       margin: 12px 0 0;
@@ -520,7 +549,9 @@ $form-list: (TextField NumberField LookupField DateTimeField MonthField ColorFie
    }
 }
 
-//MENU
+// =============================================================================
+// MENU
+// =============================================================================
 .#{$block}menu {
    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
 }
@@ -553,14 +584,15 @@ $form-list: (TextField NumberField LookupField DateTimeField MonthField ColorFie
 
 .#{$state}focusable > .#{$block}menuitem.#{$state}cursor:hover {
    // there wasn't any effect on menu hover with bg set to transparent
-   //background-color: transparent;
 }
 
 .#{$block}menu .#{$element}menu-item > hr {
    margin: $cx-default-padding-medium 0;
 }
 
-//GRID
+// =============================================================================
+// GRID
+// =============================================================================
 .#{$block}grid.#{$state}scrollable {
    // border removed from a first row of grid with fixed header
    .#{$element}grid-header {
@@ -602,7 +634,7 @@ $form-list: (TextField NumberField LookupField DateTimeField MonthField ColorFie
    > .#{$block}menu > li > div {
       > span {
          padding: 0 $cx-theme-base-size * 0.5 !important;
-         line-height: $cx-default-grid-header-line-height + 2 * (cx-top($cx-default-grid-header-padding)-1px); //temporary solution TODO
+         line-height: $cx-default-grid-header-line-height + 2 * (cx-top($cx-default-grid-header-padding) - 1px);
       }
    }
 }
@@ -627,7 +659,6 @@ $form-list: (TextField NumberField LookupField DateTimeField MonthField ColorFie
 // default grey border color in group grid changed
 .#{$element}grid-group-caption {
    td {
-      // background-color: rgba(255, 255, 255, 0.03);
       border-bottom: 1px solid #636363;
       color: #80cbc4;
    }
@@ -639,7 +670,6 @@ $form-list: (TextField NumberField LookupField DateTimeField MonthField ColorFie
             font-weight: 500;
             text-transform: uppercase;
             color: #4db6ac;
-            // background-color: darken(#f7f7f7, $i);
          }
       }
    }
@@ -669,7 +699,9 @@ $form-list: (TextField NumberField LookupField DateTimeField MonthField ColorFie
    }
 }
 
-//LIST
+// =============================================================================
+// LIST
+// =============================================================================
 .#{$block}list {
    color: $cx-default-color;
 }
@@ -689,7 +721,9 @@ $form-list: (TextField NumberField LookupField DateTimeField MonthField ColorFie
    }
 }
 
-//RIPPLE EFFECT
+// =============================================================================
+// RIPPLE EFFECT
+// =============================================================================
 .#{$block}button,
 .#{$block}tab {
    overflow: hidden;
@@ -720,12 +754,14 @@ $form-list: (TextField NumberField LookupField DateTimeField MonthField ColorFie
    }
 }
 
-//MATERIAL ICONS
+// =============================================================================
+// MATERIAL ICONS
+// =============================================================================
 .material-icons {
    font-family: "Material Icons";
    font-weight: normal;
    font-style: normal;
-   font-size: $cx-default-box-line-height; // Preferred icon size
+   font-size: $cx-default-box-line-height;
    display: inline-block;
    line-height: 1;
    text-transform: none;

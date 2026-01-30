@@ -1,0 +1,8 @@
+// Forward theme variables to configure cx
+@forward "./variables";
+
+// Load variables
+@use "./variables" as *;
+
+// Load cx svg styles (generates CSS using configured values)
+@use "cx/src/svg/index" as svg;

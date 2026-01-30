@@ -1,15 +1,13 @@
-$cx-include-global-rules: true;
+@use "cx-theme-space-blue/src/index" as theme;
 
-@import "../../packages/cx-theme-space-blue/src/variables";
-@import "./util/divide.scss";
+@use "./util/customize-master" as *;
 
-@import "../../packages/cx-theme-space-blue/src/index";
-
-@import "./util/customize-master";
+// Using literal value from $cx-theme-default-background-color-lighter
+$_brand-color: #4b6273;
 
 @include customize-master(
-   $brand-background: $cx-default-background-color-lighter,
-   $brand-highlight-color: $cx-default-background-color-lighter,
+   $brand-background: $_brand-color,
+   $brand-highlight-color: $_brand-color,
    $sidebar-background-color: rgba(0, 0, 0, 0.3),
    $sidebar-active-link-color: rgba(255, 255, 255, 0.8)
 );

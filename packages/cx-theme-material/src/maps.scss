@@ -1,0 +1,604 @@
+@forward "cx/src/maps";
+
+@use "sass:color";
+@use "sass:map";
+@use "./variables" as *;
+@use "cx/src/maps" as *;
+@use "cx/src/util/scss/deep-merge" as *;
+@use "cx/src/util/scss/add-rules" as *;
+
+// =============================================================================
+// BUTTON
+// =============================================================================
+$cx-button-state-style-map: cx-deep-map-merge(
+   $cx-button-state-style-map,
+   (
+      default: (
+         transition: $cx-theme-default-transition,
+         box-shadow: $cx-theme-default-button-box-shadow,
+      ),
+      hover: (
+         box-shadow: $cx-theme-box-shadow-elevated,
+      ),
+      focus: (
+         box-shadow: $cx-theme-box-shadow-elevated,
+      ),
+      active: (
+         background-color: color.adjust($cx-default-button-background-color, $lightness: -4%),
+         box-shadow: none,
+      ),
+      disabled: (
+         color: rgba(0, 0, 0, 0.26),
+         box-shadow: none,
+      ),
+   )
+);
+
+$cx-button-mods: cx-deep-map-merge(
+   $cx-button-mods,
+   (
+      primary: (
+         default: (
+            color: #fff,
+            background-color: $cx-theme-primary-color,
+            border-color: transparent,
+            box-shadow: $cx-theme-default-button-box-shadow,
+         ),
+         hover: (
+            background-color: $cx-theme-primary-color-light,
+            box-shadow: $cx-theme-box-shadow-elevated,
+         ),
+         focus: (
+            background-color: $cx-theme-primary-color-light,
+         ),
+         active: (
+            background-color: $cx-theme-primary-color-dark,
+            box-shadow: none,
+         ),
+         disabled: (
+            background-color: rgba($cx-theme-primary-color, 0.5),
+            color: rgba(255, 255, 255, 0.45),
+            box-shadow: none,
+         ),
+      ),
+      danger: (
+         default: (
+            color: #fff,
+            background-color: $cx-theme-danger-color,
+            border-color: transparent,
+            box-shadow: $cx-theme-default-button-box-shadow,
+         ),
+         hover: (
+            background-color: color.adjust($cx-theme-danger-color, $lightness: 5%),
+            box-shadow: $cx-theme-box-shadow-elevated,
+         ),
+         focus: (
+            background-color: color.adjust($cx-theme-danger-color, $lightness: 5%),
+         ),
+         active: (
+            background-color: color.adjust($cx-theme-danger-color, $lightness: -5%),
+            box-shadow: none,
+         ),
+         disabled: (
+            background-color: rgba($cx-theme-danger-color, 0.5),
+            color: rgba(255, 255, 255, 0.45),
+            box-shadow: none,
+         ),
+      ),
+      hollow: (
+         hover: (
+            background-color: rgba(0, 0, 0, 0.03),
+         ),
+         focus: (
+            background-color: rgba(0, 0, 0, 0.08),
+            box-shadow: none,
+         ),
+         active: (
+            background-color: rgba(0, 0, 0, 0.1),
+         ),
+         disabled: (
+            color: rgba(0, 0, 0, 0.26),
+         ),
+      ),
+      float: (
+         default: (
+            color: set-text-color($cx-theme-accent-color),
+            background-color: $cx-theme-accent-color,
+            border-radius: 50%,
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.45),
+            padding: 0,
+         ),
+         hover: (
+            background-color: $cx-theme-accent-color,
+            box-shadow: 0 5px 8px rgba(0, 0, 0, 0.45),
+         ),
+         focus: (
+            background-color: color.adjust($cx-theme-accent-color, $lightness: -4%),
+         ),
+         active: (
+            background-color: color.adjust($cx-theme-accent-color, $lightness: 3%),
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.45),
+         ),
+         disabled: (
+            box-shadow: none,
+            border-color: transparent,
+            color: rgba(255, 255, 255, 0.45),
+            background-color: rgba($cx-theme-primary-color, 0.5),
+         ),
+      ),
+   )
+);
+
+// =============================================================================
+// TAB
+// =============================================================================
+$cx-tab-state-style-map: cx-deep-map-merge(
+   $cx-tab-state-style-map,
+   (
+      default: (
+         text-transform: uppercase,
+         color: $cx-theme-default-tab-color,
+      ),
+      hover: (
+         background-color: rgba(0, 0, 0, 0.04),
+      ),
+      cursor: (
+         background-color: rgba(0, 0, 0, 0.08),
+         outline: none,
+      ),
+      selected: (
+         background-color: $cx-theme-primary-color,
+         color: #fff,
+      ),
+      selected-cursor: (
+         background-color: color.adjust($cx-theme-primary-color, $lightness: -5%),
+         color: #fff,
+      ),
+      disabled: (
+         color: rgba(0, 0, 0, 0.26),
+      ),
+   )
+);
+
+$cx-tab-mods: cx-deep-map-merge(
+   $cx-tab-mods,
+   (
+      classic: (
+         default: (
+            border-bottom-width: 0,
+            border-left-width: 0,
+            box-shadow: none,
+            border-radius: 0,
+         ),
+         hover: (
+            background-color: rgba(0, 0, 0, 0.02),
+         ),
+         cursor: (
+            background-color: rgba(0, 0, 0, 0.03),
+            outline: none,
+         ),
+         selected: (
+            background-color: #fff,
+            color: $cx-theme-primary-color,
+            border-top-color: $cx-theme-primary-color,
+            box-shadow: inset 0 2px $cx-theme-primary-color,
+         ),
+         selected-cursor: (
+            background-color: transparent,
+            color: $cx-theme-primary-color,
+         ),
+      ),
+      line: (
+         default: (
+            border-bottom-width: 3px,
+            padding: $cx-default-box-padding 15px,
+         ),
+         hover: (
+            border-color: transparent,
+         ),
+         cursor: (
+            border-color: rgba($cx-theme-primary-color, 0.3),
+         ),
+         selected: (
+            box-shadow: none,
+            color: $cx-theme-primary-color,
+            border-color: $cx-theme-primary-color,
+         ),
+         selected-cursor: (
+            color: $cx-theme-primary-color,
+            border-color: rgba($cx-theme-primary-color, 0.8),
+         ),
+      ),
+   )
+);
+
+// =============================================================================
+// LIST
+// =============================================================================
+$cx-list-item: cx-deep-map-merge(
+   $cx-list-item,
+   (
+      hover: (
+         background-color: rgba(0, 0, 0, 0.02),
+      ),
+      cursor: (
+         background-color: rgba(0, 0, 0, 0.04),
+      ),
+      selected: (
+         background-color: rgba($cx-theme-primary-color, 0.12),
+      ),
+      selected-cursor: (
+         background-color: rgba($cx-theme-primary-color, 0.2),
+      ),
+   )
+);
+
+// =============================================================================
+// SECTION
+// =============================================================================
+$cx-section-mods: cx-deep-map-merge(
+   $cx-section-mods,
+   (
+      card: (
+         default: (
+            background-color: white,
+            border-radius: $cx-default-border-radius,
+            box-shadow: $cx-theme-default-section-box-shadow,
+         ),
+      ),
+      primary: (
+         default: (
+            color: #fff,
+            background-color: $cx-theme-primary-color,
+            border-radius: $cx-default-border-radius,
+            box-shadow: $cx-theme-default-section-box-shadow,
+         ),
+      ),
+      success: (
+         default: (
+            box-shadow: $cx-theme-default-section-box-shadow,
+         ),
+      ),
+      warning: (
+         default: (
+            box-shadow: $cx-theme-default-section-box-shadow,
+         ),
+      ),
+      error: (
+         default: (
+            box-shadow: $cx-theme-default-section-box-shadow,
+         ),
+      ),
+   )
+);
+
+// =============================================================================
+// MENU
+// =============================================================================
+$cx-dropdown-styles: map.merge(
+   $cx-dropdown-styles,
+   (
+      border-width: 0,
+      box-shadow: $cx-theme-default-menu-shadow,
+   )
+);
+
+// =============================================================================
+// WINDOW
+// =============================================================================
+$cx-window-state-style-map: cx-deep-map-merge(
+   $cx-window-state-style-map,
+   (
+      default: (
+         background: white,
+         border-radius: $cx-default-border-radius,
+      ),
+   )
+);
+
+$cx-window-header-state-style-map: cx-deep-map-merge(
+   $cx-window-header-state-style-map,
+   (
+      default: (
+         background-color: $cx-theme-default-window-header-background-color,
+         border-top-left-radius: $cx-default-border-radius,
+         border-top-right-radius: $cx-default-border-radius,
+      ),
+   )
+);
+
+$cx-window-body-state-style-map: cx-deep-map-merge(
+   $cx-window-body-state-style-map,
+   (
+      default: (
+         background: null,
+      ),
+   )
+);
+
+$cx-window-footer-state-style-map: cx-deep-map-merge(
+   $cx-window-footer-state-style-map,
+   (
+      default: (
+         background: null,
+         border-top: none,
+      ),
+   )
+);
+
+// =============================================================================
+// GRID
+// =============================================================================
+$cx-grid-header-state-style-map: cx-deep-map-merge(
+   $cx-grid-header-state-style-map,
+   (
+      default: (
+         text-transform: uppercase,
+      ),
+      hover: (
+         background-color: color.adjust($cx-default-grid-header-background-color, $lightness: -3%),
+      ),
+      sorted: (
+         color: $cx-theme-primary-color,
+         background-color: color.adjust($cx-default-grid-header-background-color, $lightness: -5%),
+      ),
+      sorted-hover: (
+         background-color: color.adjust($cx-default-grid-header-background-color, $lightness: -5%),
+      ),
+   )
+);
+
+$cx-grid-data-state-style-map: cx-deep-map-merge(
+   $cx-grid-data-state-style-map,
+   (
+      hover: (
+         background-color: rgba(0, 0, 0, 0.02),
+      ),
+      cursor: (
+         background-color: rgba(0, 0, 0, 0.04),
+      ),
+      selected: (
+         background-color: rgba($cx-theme-primary-color, 0.12),
+      ),
+      selected-cursor: (
+         background-color: rgba($cx-theme-primary-color, 0.2),
+      ),
+   )
+);
+
+// =============================================================================
+// FORM
+// =============================================================================
+$cx-input-state-style-map: cx-deep-map-merge(
+   $cx-input-state-style-map,
+   (
+      focus: (
+         border-color: $cx-theme-primary-color,
+         box-shadow: none,
+      ),
+   )
+);
+
+$cx-std-field-state-style-map: cx-deep-map-merge(
+   $cx-input-state-style-map,
+   (
+      default: (
+         transition: $cx-theme-default-transition,
+      ),
+      disabled: (
+         color: rgba($cx-theme-secondary-text-color, 0.5),
+         background-color: transparent,
+      ),
+      error: (
+         border-color: $cx-theme-danger-color,
+      ),
+      error-focus: (
+         border-color: $cx-theme-danger-color,
+      ),
+   )
+);
+
+$cx-textarea-state-style-map: cx-deep-map-merge($cx-std-field-state-style-map, ());
+
+// =============================================================================
+// CALENDAR
+// =============================================================================
+$cx-calendar-state-style-map: cx-deep-map-merge(
+   $cx-calendar-state-style-map,
+   (
+      focus: (
+         box-shadow: $cx-default-calendar-box-shadow,
+         border-color: transparent,
+      ),
+   )
+);
+
+$cx-calendar-day-state-style-map: cx-deep-map-merge(
+   $cx-calendar-day-state-style-map,
+   (
+      hover: (
+         background-color: rgba($cx-theme-primary-color, 0.1),
+      ),
+      hover-focus: (
+         background-color: rgba($cx-theme-primary-color, 0.2),
+      ),
+      selected: (
+         background-color: $cx-theme-primary-color,
+         color: #fff,
+      ),
+      selected-focus: (
+         background-color: color.adjust($cx-theme-primary-color, $lightness: -5%),
+      ),
+   )
+);
+
+// =============================================================================
+// DATE TIME PICKER
+// =============================================================================
+$cx-wheel-selection-state-style-map: cx-deep-map-merge(
+   $cx-wheel-selection-state-style-map,
+   (
+      default: (
+         border-color: transparent,
+         background-color: rgba($cx-theme-primary-color, 0.2),
+         border-radius: $cx-default-border-radius,
+      ),
+      active: (
+         border-color: transparent,
+         background-color: rgba($cx-theme-primary-color, 0.35),
+      ),
+   )
+);
+
+// =============================================================================
+// CHECKBOX
+// =============================================================================
+$cx-checkbox-state-style-map: cx-deep-map-merge(
+   $cx-checkbox-state-style-map,
+   (
+      focus: (
+         box-shadow: none,
+         border-color: $cx-theme-primary-color,
+      ),
+      checked: (
+         background-color: $cx-theme-primary-color,
+         border-color: $cx-theme-primary-color,
+         color: white,
+      ),
+      checked-focus: (
+         background-color: color.adjust($cx-theme-primary-color, $lightness: -5%),
+         border-color: color.adjust($cx-theme-primary-color, $lightness: -5%),
+      ),
+      disabled: (
+         background-color: transparent,
+         border-color: rgba($cx-theme-default-checkbox-border-color, 0.4),
+      ),
+      disabled-checked: (
+         background-color: rgba(0, 0, 0, 0.1),
+         border-color: transparent,
+      ),
+   )
+);
+
+// =============================================================================
+// RADIO
+// =============================================================================
+$cx-radio-state-style-map: cx-deep-map-merge(
+   $cx-radio-state-style-map,
+   (
+      focus: (
+         box-shadow: none,
+         border-color: $cx-theme-primary-color,
+      ),
+      checked: (
+         color: $cx-theme-primary-color,
+         border-color: $cx-theme-primary-color,
+      ),
+      checked-focus: (
+         color: color.adjust($cx-theme-primary-color, $lightness: -5%),
+         border-color: color.adjust($cx-theme-primary-color, $lightness: -5%),
+      ),
+      disabled: (
+         background-color: transparent,
+         border-color: rgba($cx-theme-default-checkbox-border-color, 0.4),
+      ),
+      disabled-checked: (
+         color: rgba(0, 0, 0, 0.26),
+         border-color: rgba(0, 0, 0, 0.1),
+      ),
+   )
+);
+
+// =============================================================================
+// SLIDER
+// =============================================================================
+$cx-slider-handle-styles: cx-deep-map-merge(
+   $cx-slider-handle-styles,
+   (
+      hover: (
+         background-color: color.adjust($cx-theme-default-slider-handle-background-color, $lightness: 5%),
+      ),
+      active: (
+         background-color: color.adjust($cx-theme-default-slider-handle-background-color, $lightness: -5%),
+      ),
+      focus: (
+         box-shadow: $cx-theme-box-shadow-elevated,
+         background-color: color.adjust($cx-theme-default-slider-handle-background-color, $lightness: -5%),
+      ),
+   )
+);
+
+// =============================================================================
+// SWITCH
+// =============================================================================
+$cx-switch-handle-styles: cx-deep-map-merge(
+   $cx-switch-handle-styles,
+   (
+      default: (
+         box-shadow: $cx-theme-box-shadow,
+      ),
+      hover: (
+         box-shadow: $cx-theme-box-shadow,
+      ),
+      active: (
+         background-color: #e0e0e0,
+      ),
+      focus: (
+         box-shadow: $cx-theme-box-shadow-elevated,
+      ),
+      on: (
+         background-color: $cx-theme-primary-color,
+      ),
+   )
+);
+
+// =============================================================================
+// TOAST
+// =============================================================================
+$cx-toast-mods: cx-deep-map-merge(
+   $cx-toast-mods,
+   (
+      primary: (
+         default: (
+            color: #fff,
+            background-color: $cx-theme-primary-color,
+         ),
+      ),
+   )
+);
+
+// =============================================================================
+// GLOBALS
+// =============================================================================
+$cx-element-style-map: cx-deep-map-merge(
+   $cx-element-style-map,
+   (
+      html: (
+         background-color: #fafafa,
+      ),
+      h1: (
+         font-weight: 400,
+      ),
+      h2: (
+         font-weight: 400,
+      ),
+      h3: (
+         font-weight: 400,
+      ),
+      h4: (
+         font-weight: 400,
+      ),
+      h5: (
+         font-weight: 400,
+      ),
+      h6: (
+         font-weight: 400,
+      ),
+      a: (
+         color: $cx-theme-primary-color,
+      ),
+      p: (
+         line-height: $cx-theme-default-paragraph-line-height,
+      ),
+   )
+);

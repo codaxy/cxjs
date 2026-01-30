@@ -1,0 +1,2 @@
+// Pre-configured variables with global rules enabled
+@forward "./variables" with ($cx-include-global-rules: true);

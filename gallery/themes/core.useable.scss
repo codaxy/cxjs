@@ -1,10 +1,6 @@
-$cx-include-global-rules: true;
+@use "cx/src/variables" as * with ($cx-include-global-rules: true);
+@use "cx/src/index" as cx;
 
-@import "~cx/src/variables";
-@import "./util/divide.scss";
-
-@import "~cx/src/index";
-
-@import "./util/customize-master";
+@use "./util/customize-master" as *;
 
 @include customize-master($brand-background: linear-gradient(90deg, #017be6, #00d7eb), $brand-highlight-color: #017be6);

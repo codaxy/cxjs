@@ -1,3 +1,4 @@
-@import '~cx/src/index';
-@import "reset";
-@import "widgets";
+// Main entry point that combines all theme styles
+@use "./variables.reset" as *;
+@use "reset";
+@use "widgets";

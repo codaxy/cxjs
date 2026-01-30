@@ -1,10 +1,7 @@
-$cx-include-global-rules: true;
+@use "sass:color";
+@use "cx-theme-dark/src/index" as theme;
 
-@import "~cx-theme-dark/src/variables";
-@import "./util/divide.scss";
-@import "~cx-theme-dark/src/index";
-
-@import "./util/customize-master";
+@use "./util/customize-master" as *;
 
 @include customize-master(
    $brand-background: #2281b1,

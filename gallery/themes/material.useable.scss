@@ -1,13 +1,11 @@
-$cx-include-global-rules: true;
+@use "cx-theme-material/src/index" as theme;
 
-@import "~cx-theme-material/src/variables";
-@import "./util/divide.scss";
+@use "./util/customize-master" as *;
 
-@import "~cx-theme-material/src/index";
-
-@import "./util/customize-master";
+// Using literal value from $cx-theme-primary-color
+$_primary-color: #009688;
 
 @include customize-master(
-   $brand-background: linear-gradient(90deg, #{$cx-theme-primary-color}, #00d7eb),
-   $brand-highlight-color: $cx-theme-primary-color
+   $brand-background: linear-gradient(90deg, #{$_primary-color}, #00d7eb),
+   $brand-highlight-color: $_primary-color
 );
