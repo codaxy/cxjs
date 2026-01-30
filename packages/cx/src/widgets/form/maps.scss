@@ -1,4 +1,5 @@
 @use "../variables" as *;
+@use "../../util/scss/clockwise" as *;
 
 $cx-label-state-style-map: (
    default: (

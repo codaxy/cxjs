@@ -11,8 +11,10 @@
 @use "cx/src/widgets/index" as widgets;
 @use "cx/src/ui/index" as ui;
 
-// Load clockwise utilities for cx-top, cx-calc, etc.
+// Load clockwise utilities for cx-top, cx-right, etc.
 @use "cx/src/util/scss/clockwise" as *;
+// Load calc utilities for cx-calc
+@use "cx/src/util/scss/calc" as *;
 
 // Theme-specific CSS overrides
 $block: map.get($cx-besm, block);
@@ -38,6 +40,9 @@ $mod: map.get($cx-besm, mod);
          .#{$mod}success & {
             color: #fff;
          }
+         .#{$mod}warning & {
+            color: $cx-default-color;
+         }
       }
    }
 
@@ -51,6 +56,11 @@ $mod: map.get($cx-besm, mod);
       .cxm-pad > & {
          border: none;
       }
+   }
+
+   // can be used interchangeably with mod='card'
+   .cxm-well {
+      @extend .cxm-card;
    }
 }
 
@@ -584,7 +594,7 @@ $form-list: (TextField NumberField LookupField DateTimeField MonthField ColorFie
    > .#{$block}menu > li > div {
       > span {
          padding: 0 $cx-theme-base-size * 0.5 !important;
-         line-height: $cx-default-grid-header-line-height + 8px; //temporary solution TODO
+         line-height: $cx-default-grid-header-line-height + 2 * (cx-top($cx-default-grid-header-padding) - 1px); //temporary solution TODO
       }
    }
 }

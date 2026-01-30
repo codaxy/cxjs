@@ -1,11 +1,13 @@
-@use "cx-theme-material/src/index" as theme;
+@use "cx-theme-material/src/variables.reset" as theme;
+@use "cx-theme-material/src/index";
 
 @use "./util/customize-master" as *;
 
-// Using literal value from $cx-theme-primary-color
-$_primary-color: #009688;
-
 @include customize-master(
-   $brand-background: linear-gradient(90deg, #{$_primary-color}, #00d7eb),
-   $brand-highlight-color: $_primary-color
+   $brand-background: linear-gradient(
+         90deg,
+         #{theme.$cx-theme-primary-color},
+         #00d7eb
+      ),
+   $brand-highlight-color: theme.$cx-theme-primary-color
 );

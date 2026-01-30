@@ -784,6 +784,7 @@ $cx-input-tag-state-style-map: cx-deep-map-merge(
          border-radius: var(--cx-theme-border-radius),
          border-width: 1px,
          border-style: solid,
+         margin: -1px,
       ),
       hover: (
          background-color: #e0e0e0,

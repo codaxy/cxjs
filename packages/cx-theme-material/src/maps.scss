@@ -15,21 +15,24 @@ $cx-button-state-style-map: cx-deep-map-merge(
    (
       default: (
          transition: $cx-theme-default-transition,
-         box-shadow: $cx-theme-default-button-box-shadow,
+         text-transform: uppercase,
+         font-weight: $cx-default-button-font-weight,
       ),
       hover: (
-         box-shadow: $cx-theme-box-shadow-elevated,
+         background-color: color.adjust($cx-default-button-background-color, $lightness: -3%),
+         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5),
       ),
       focus: (
-         box-shadow: $cx-theme-box-shadow-elevated,
+         background-color: color.adjust($cx-default-button-background-color, $lightness: -5%),
+         box-shadow: $cx-default-button-box-shadow,
       ),
       active: (
-         background-color: color.adjust($cx-default-button-background-color, $lightness: -4%),
-         box-shadow: none,
+         background-color: color.adjust($cx-default-button-background-color, $lightness: -3%),
+         box-shadow: $cx-theme-box-shadow-elevated,
+         top: 0,
       ),
       disabled: (
          color: rgba(0, 0, 0, 0.26),
-         box-shadow: none,
       ),
    )
 );
@@ -39,50 +42,103 @@ $cx-button-mods: cx-deep-map-merge(
    (
       primary: (
          default: (
-            color: #fff,
             background-color: $cx-theme-primary-color,
-            border-color: transparent,
-            box-shadow: $cx-theme-default-button-box-shadow,
+            border-color: $cx-default-border-color,
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5),
          ),
          hover: (
-            background-color: $cx-theme-primary-color-light,
-            box-shadow: $cx-theme-box-shadow-elevated,
+            background-color: color.adjust($cx-theme-primary-color, $lightness: -3%),
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6),
          ),
          focus: (
-            background-color: $cx-theme-primary-color-light,
+            background-color: color.adjust($cx-theme-primary-color, $lightness: -8%),
          ),
          active: (
-            background-color: $cx-theme-primary-color-dark,
-            box-shadow: none,
+            background-color: color.adjust($cx-theme-primary-color, $lightness: -1%),
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.35),
+            top: 0,
          ),
          disabled: (
-            background-color: rgba($cx-theme-primary-color, 0.5),
-            color: rgba(255, 255, 255, 0.45),
             box-shadow: none,
+            border-color: transparent,
+            color: rgba(255, 255, 255, 0.45),
+            background-color: rgba($cx-theme-primary-color, 0.5),
          ),
       ),
       danger: (
          default: (
-            color: #fff,
             background-color: $cx-theme-danger-color,
-            border-color: transparent,
-            box-shadow: $cx-theme-default-button-box-shadow,
+            border-color: $cx-default-border-color,
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5),
          ),
          hover: (
-            background-color: color.adjust($cx-theme-danger-color, $lightness: 5%),
-            box-shadow: $cx-theme-box-shadow-elevated,
+            background-color: color.adjust($cx-theme-danger-color, $lightness: -3%),
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6),
          ),
          focus: (
-            background-color: color.adjust($cx-theme-danger-color, $lightness: 5%),
+            background-color: color.adjust($cx-theme-danger-color, $lightness: -15%),
          ),
          active: (
-            background-color: color.adjust($cx-theme-danger-color, $lightness: -5%),
-            box-shadow: none,
+            background-color: color.adjust($cx-theme-danger-color, $lightness: -4%),
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.35),
+            top: 0,
          ),
          disabled: (
-            background-color: rgba($cx-theme-danger-color, 0.5),
-            color: rgba(255, 255, 255, 0.45),
             box-shadow: none,
+            border-color: transparent,
+            color: rgba(255, 255, 255, 0.45),
+         ),
+      ),
+      flat-primary: (
+         default: (
+            font-size: 14px,
+            color: $cx-theme-primary-color-dark,
+            background-color: transparent,
+            border-color: transparent,
+            box-shadow: none,
+         ),
+         hover: map.merge(
+            map.get($cx-list-item, hover),
+            (
+               box-shadow: none,
+               border-color: transparent,
+            )
+         ),
+         focus: (
+            background-color: color.adjust($cx-theme-default-background-color, $lightness: -8%),
+            box-shadow: none,
+         ),
+         active: (
+            background-color: rgba(153, 153, 153, 0.25),
+         ),
+         disabled: (
+            color: rgba(0, 0, 0, 0.26),
+         ),
+      ),
+      flat-accent: (
+         default: (
+            font-size: 14px,
+            color: $cx-theme-accent-color,
+            background-color: transparent,
+            border-color: transparent,
+            box-shadow: none,
+         ),
+         hover: map.merge(
+            map.get($cx-list-item, hover),
+            (
+               box-shadow: none,
+               border-color: transparent,
+            )
+         ),
+         focus: (
+            background-color: color.adjust($cx-theme-default-background-color, $lightness: -8%),
+            box-shadow: none,
+         ),
+         active: (
+            background-color: rgba(153, 153, 153, 0.25),
+         ),
+         disabled: (
+            color: rgba(0, 0, 0, 0.26),
          ),
       ),
       hollow: (
@@ -94,7 +150,7 @@ $cx-button-mods: cx-deep-map-merge(
             box-shadow: none,
          ),
          active: (
-            background-color: rgba(0, 0, 0, 0.1),
+            background-color: rgba(153, 153, 153, 0.4),
          ),
          disabled: (
             color: rgba(0, 0, 0, 0.26),
@@ -107,6 +163,8 @@ $cx-button-mods: cx-deep-map-merge(
             border-radius: 50%,
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.45),
             padding: 0,
+            width: $cx-default-box-line-height + 2 * $cx-default-box-padding + 12px,
+            height: $cx-default-box-line-height + 2 * $cx-default-box-padding + 12px,
          ),
          hover: (
             background-color: $cx-theme-accent-color,
@@ -137,24 +195,33 @@ $cx-tab-state-style-map: cx-deep-map-merge(
    (
       default: (
          text-transform: uppercase,
-         color: $cx-theme-default-tab-color,
+         line-height: $cx-default-box-line-height,
       ),
       hover: (
-         background-color: rgba(0, 0, 0, 0.04),
+         color: $cx-default-color,
+         background-color: rgba(0, 0, 0, 0.05),
       ),
       cursor: (
-         background-color: rgba(0, 0, 0, 0.08),
+         background-color: rgba(0, 0, 0, 0.1),
+         color: $cx-default-color,
          outline: none,
       ),
       selected: (
-         background-color: $cx-theme-primary-color,
          color: #fff,
+         background-color: $cx-theme-primary-color,
+         border-color: $cx-theme-accent-color,
       ),
       selected-cursor: (
-         background-color: color.adjust($cx-theme-primary-color, $lightness: -5%),
          color: #fff,
+         background-color: $cx-theme-primary-color-dark,
+         border-color: color.adjust($cx-theme-accent-color, $lightness: 6%),
+      ),
+      active: (
+         color: #fff,
+         background-color: $cx-default-tab-background-color,
       ),
       disabled: (
+         background-color: $cx-default-tab-background-color,
          color: rgba(0, 0, 0, 0.26),
       ),
    )
@@ -165,48 +232,94 @@ $cx-tab-mods: cx-deep-map-merge(
    (
       classic: (
          default: (
-            border-bottom-width: 0,
-            border-left-width: 0,
-            box-shadow: none,
+            color: rgba(255, 255, 255, 0.7),
+            background-color: $cx-theme-primary-color,
+            border-width: 0 0 2px,
             border-radius: 0,
+            padding: ($cx-default-box-padding + 1px) (2 * $cx-default-box-padding + 10px) ($cx-default-box-padding - 1px),
          ),
          hover: (
-            background-color: rgba(0, 0, 0, 0.02),
+            color: rgba(255, 255, 255, 0.8),
+            background-color: color.adjust($cx-theme-primary-color, $lightness: -2%),
          ),
          cursor: (
-            background-color: rgba(0, 0, 0, 0.03),
-            outline: none,
+            color: rgba(255, 255, 255, 0.85),
+            border-color: rgba($cx-theme-accent-color, 0.7),
          ),
          selected: (
-            background-color: #fff,
-            color: $cx-theme-primary-color,
-            border-top-color: $cx-theme-primary-color,
-            box-shadow: inset 0 2px $cx-theme-primary-color,
+            color: #fff,
+            background-color: $cx-theme-primary-color,
+            border-color: $cx-theme-accent-color,
          ),
          selected-cursor: (
-            background-color: transparent,
-            color: $cx-theme-primary-color,
+            color: #fff,
+            background-color: $cx-theme-primary-color,
+            border-color: color.adjust($cx-theme-accent-color, $lightness: 6%),
+         ),
+         active: (
+            color: #fff,
+            background-color: $cx-default-tab-background-color,
+            border-color: $cx-theme-accent-color,
+         ),
+         disabled: (
+            color: rgba(255, 255, 255, 0.3),
          ),
       ),
       line: (
          default: (
-            border-bottom-width: 3px,
-            padding: $cx-default-box-padding 15px,
+            color: rgba(0, 0, 0, 0.7),
+            padding: ($cx-default-box-padding + 1px) (2 * $cx-default-box-padding + 10px) ($cx-default-box-padding - 1px),
          ),
          hover: (
-            border-color: transparent,
-         ),
-         cursor: (
-            border-color: rgba($cx-theme-primary-color, 0.3),
+            border-color: rgba(0, 0, 0, 0.06),
          ),
          selected: (
-            box-shadow: none,
-            color: $cx-theme-primary-color,
+            color: $cx-theme-primary-color-light,
             border-color: $cx-theme-primary-color,
          ),
          selected-cursor: (
-            color: $cx-theme-primary-color,
-            border-color: rgba($cx-theme-primary-color, 0.8),
+            border-color: color.adjust($cx-theme-primary-color, $lightness: 10%),
+         ),
+         disabled: (
+            color: rgba(0, 0, 0, 0.26),
+         ),
+         cursor: (
+            border-color: rgba(0, 0, 0, 0.13),
+         ),
+      ),
+      line-accent: (
+         default: (
+            color: rgba(255, 255, 255, 0.7),
+            border-left-color: transparent,
+            border-right-color: transparent,
+            border-top-color: transparent,
+            border-left-width: 0,
+            border-right-width: 0,
+            border-bottom-width: 2px,
+            border-top-width: 0,
+            border-bottom-left-radius: 0,
+            border-bottom-right-radius: 0,
+            padding: ($cx-default-box-padding + 1px) (2 * $cx-default-box-padding + 10px) ($cx-default-box-padding - 1px),
+         ),
+         hover: (
+            border-color: rgba(255, 255, 255, 0.3),
+            background-color: transparent,
+         ),
+         cursor: (
+            background-color: transparent,
+            border-color: rgba(255, 255, 255, 0.3),
+            color: rgba(255, 255, 255, 0.8),
+         ),
+         selected: (
+            color: #fff,
+            background-color: transparent,
+            border-color: $cx-theme-accent-color,
+         ),
+         selected-cursor: (
+            border-color: color.adjust($cx-theme-accent-color, $lightness: 10%),
+         ),
+         disabled: (
+            color: rgba(255, 255, 255, 0.3),
          ),
       ),
    )
@@ -218,17 +331,26 @@ $cx-tab-mods: cx-deep-map-merge(
 $cx-list-item: cx-deep-map-merge(
    $cx-list-item,
    (
+      default: (
+         color: inherit,
+      ),
       hover: (
-         background-color: rgba(0, 0, 0, 0.02),
+         background-color: rgba(0, 0, 0, 0.03),
       ),
       cursor: (
-         background-color: rgba(0, 0, 0, 0.04),
+         background-color: rgba(0, 0, 0, 0.03),
       ),
       selected: (
-         background-color: rgba($cx-theme-primary-color, 0.12),
+         background-color: rgba(0, 0, 0, 0.07),
+      ),
+      selected-hover: (
+         background-color: rgba(0, 0, 0, 0.1),
       ),
       selected-cursor: (
-         background-color: rgba($cx-theme-primary-color, 0.2),
+         background-color: rgba(0, 0, 0, 0.1),
+      ),
+      disabled: (
+         background-color: transparent,
       ),
    )
 );
@@ -242,7 +364,6 @@ $cx-section-mods: cx-deep-map-merge(
       card: (
          default: (
             background-color: white,
-            border-radius: $cx-default-border-radius,
             box-shadow: $cx-theme-default-section-box-shadow,
          ),
       ),
@@ -254,18 +375,27 @@ $cx-section-mods: cx-deep-map-merge(
             box-shadow: $cx-theme-default-section-box-shadow,
          ),
       ),
-      success: (
+      warning: (
          default: (
+            color: $cx-default-color,
+            background-color: #ffc107,
+            border-radius: $cx-default-border-radius,
             box-shadow: $cx-theme-default-section-box-shadow,
          ),
       ),
-      warning: (
+      success: (
          default: (
+            color: #fff,
+            background-color: #4caf50,
+            border-radius: $cx-default-border-radius,
             box-shadow: $cx-theme-default-section-box-shadow,
          ),
       ),
       error: (
          default: (
+            color: #fff,
+            background-color: #f4511e,
+            border-radius: $cx-default-border-radius,
             box-shadow: $cx-theme-default-section-box-shadow,
          ),
       ),
@@ -278,8 +408,20 @@ $cx-section-mods: cx-deep-map-merge(
 $cx-dropdown-styles: map.merge(
    $cx-dropdown-styles,
    (
+      font-size: $cx-default-box-font-size + 1px,
+      background-color: rgb(251, 251, 251),
       border-width: 0,
-      box-shadow: $cx-theme-default-menu-shadow,
+      border-style: solid,
+      box-shadow: $cx-theme-box-shadow,
+   )
+);
+
+$cx-menu-state-style-map: map.merge(
+   $cx-menu-state-style-map,
+   (
+      default: (
+         color: inherit,
+      ),
    )
 );
 
@@ -292,6 +434,7 @@ $cx-window-state-style-map: cx-deep-map-merge(
       default: (
          background: white,
          border-radius: $cx-default-border-radius,
+         box-shadow: $cx-default-window-box-shadow,
       ),
    )
 );
@@ -300,7 +443,6 @@ $cx-window-header-state-style-map: cx-deep-map-merge(
    $cx-window-header-state-style-map,
    (
       default: (
-         background-color: $cx-theme-default-window-header-background-color,
          border-top-left-radius: $cx-default-border-radius,
          border-top-right-radius: $cx-default-border-radius,
       ),
@@ -321,6 +463,8 @@ $cx-window-footer-state-style-map: cx-deep-map-merge(
    (
       default: (
          background: null,
+         margin: 0 1.5rem,
+         padding: 1rem 0,
          border-top: none,
       ),
    )
@@ -332,39 +476,33 @@ $cx-window-footer-state-style-map: cx-deep-map-merge(
 $cx-grid-header-state-style-map: cx-deep-map-merge(
    $cx-grid-header-state-style-map,
    (
-      default: (
-         text-transform: uppercase,
-      ),
       hover: (
-         background-color: color.adjust($cx-default-grid-header-background-color, $lightness: -3%),
+         color: color.adjust($cx-default-grid-header-color, $lightness: -10%),
+         background-color: $cx-default-grid-header-background-color,
+         border-color: $cx-default-grid-data-border-color,
       ),
       sorted: (
-         color: $cx-theme-primary-color,
-         background-color: color.adjust($cx-default-grid-header-background-color, $lightness: -5%),
+         color: $cx-default-color,
+         background-color: color.adjust($cx-default-grid-header-background-color, $lightness: -2%),
       ),
       sorted-hover: (
-         background-color: color.adjust($cx-default-grid-header-background-color, $lightness: -5%),
+         color: color.adjust($cx-default-grid-header-color, $lightness: -25%),
+         background-color: color.adjust($cx-default-grid-header-background-color, $lightness: -3%),
       ),
    )
 );
 
-$cx-grid-data-state-style-map: cx-deep-map-merge(
-   $cx-grid-data-state-style-map,
+// pagination
+$cx-grid-pagination-state-style-map: cx-deep-map-merge(
+   $cx-list-item,
    (
-      hover: (
-         background-color: rgba(0, 0, 0, 0.02),
-      ),
-      cursor: (
-         background-color: rgba(0, 0, 0, 0.04),
-      ),
-      selected: (
-         background-color: rgba($cx-theme-primary-color, 0.12),
-      ),
-      selected-cursor: (
-         background-color: rgba($cx-theme-primary-color, 0.2),
+      default: (
+         border-radius: $cx-default-border-radius,
       ),
    )
 );
+
+
 
 // =============================================================================
 // FORM
@@ -373,7 +511,7 @@ $cx-input-state-style-map: cx-deep-map-merge(
    $cx-input-state-style-map,
    (
       focus: (
-         border-color: $cx-theme-primary-color,
+         border-color: transparent,
          box-shadow: none,
       ),
    )
@@ -383,22 +521,47 @@ $cx-std-field-state-style-map: cx-deep-map-merge(
    $cx-input-state-style-map,
    (
       default: (
-         transition: $cx-theme-default-transition,
+         padding: $cx-theme-input-padding,
+         background-color: transparent,
+         border-color: transparent transparent #dbdbdb,
+         border-radius: 0,
+      ),
+      hover: (
+         border-color: transparent transparent color.adjust(#dbdbdb, $lightness: -6%),
+      ),
+      focus: (
+         border-color: transparent transparent $cx-theme-primary-color,
+         transition: border-color 0.55s ease-in-out,
+         box-shadow: none,
       ),
       disabled: (
          color: rgba($cx-theme-secondary-text-color, 0.5),
          background-color: transparent,
+         border-style: dashed,
       ),
       error: (
-         border-color: $cx-theme-danger-color,
+         border-color: transparent transparent $cx-theme-danger-color,
       ),
       error-focus: (
-         border-color: $cx-theme-danger-color,
+         box-shadow: none,
       ),
    )
 );
 
-$cx-textarea-state-style-map: cx-deep-map-merge($cx-std-field-state-style-map, ());
+$cx-textarea-state-style-map: cx-deep-map-merge(
+   $cx-std-field-state-style-map,
+   (
+      default: (
+         border-color: transparent transparent #dbdbdb,
+      ),
+      focus: (
+         background-color: rgba($cx-default-color, 0.015),
+      ),
+      hover: (
+         background-color: rgba($cx-default-color, 0.009),
+      ),
+   )
+);
 
 // =============================================================================
 // CALENDAR
@@ -407,8 +570,8 @@ $cx-calendar-state-style-map: cx-deep-map-merge(
    $cx-calendar-state-style-map,
    (
       focus: (
+         background-color: #f7f7f7,
          box-shadow: $cx-default-calendar-box-shadow,
-         border-color: transparent,
       ),
    )
 );
@@ -416,18 +579,26 @@ $cx-calendar-state-style-map: cx-deep-map-merge(
 $cx-calendar-day-state-style-map: cx-deep-map-merge(
    $cx-calendar-day-state-style-map,
    (
-      hover: (
-         background-color: rgba($cx-theme-primary-color, 0.1),
+      default: (
+         height: 32px,
+         line-height: 32px,
+         width: 32px,
       ),
       hover-focus: (
-         background-color: rgba($cx-theme-primary-color, 0.2),
+         background-color: rgba($cx-theme-primary-color, 0.3),
+      ),
+      hover: (
+         background-color: rgba($cx-theme-primary-color, 0.3),
+      ),
+      today: (
+         background-color: rgba($cx-theme-accent-color, 0.6),
       ),
       selected: (
          background-color: $cx-theme-primary-color,
          color: #fff,
       ),
       selected-focus: (
-         background-color: color.adjust($cx-theme-primary-color, $lightness: -5%),
+         background-color: $cx-theme-primary-color-dark,
       ),
    )
 );
@@ -440,12 +611,11 @@ $cx-wheel-selection-state-style-map: cx-deep-map-merge(
    (
       default: (
          border-color: transparent,
-         background-color: rgba($cx-theme-primary-color, 0.2),
-         border-radius: $cx-default-border-radius,
+         background-color: rgba($cx-theme-primary-color-light, 0.2),
       ),
       active: (
          border-color: transparent,
-         background-color: rgba($cx-theme-primary-color, 0.35),
+         background-color: rgba($cx-theme-primary-color-light, 0.45),
       ),
    )
 );
@@ -456,26 +626,32 @@ $cx-wheel-selection-state-style-map: cx-deep-map-merge(
 $cx-checkbox-state-style-map: cx-deep-map-merge(
    $cx-checkbox-state-style-map,
    (
+      default: (
+         opacity: 1,
+      ),
+      hover: (
+         border-color: $cx-theme-default-checkbox-border-color,
+      ),
       focus: (
          box-shadow: none,
-         border-color: $cx-theme-primary-color,
+         border-color: #dbdbdb,
       ),
       checked: (
-         background-color: $cx-theme-primary-color,
-         border-color: $cx-theme-primary-color,
+         background-color: $cx-theme-primary-color-light,
+         border-color: $cx-theme-primary-color-light,
          color: white,
+         opacity: 1,
       ),
       checked-focus: (
-         background-color: color.adjust($cx-theme-primary-color, $lightness: -5%),
-         border-color: color.adjust($cx-theme-primary-color, $lightness: -5%),
+         border-color: $cx-theme-primary-color-light,
       ),
       disabled: (
          background-color: transparent,
-         border-color: rgba($cx-theme-default-checkbox-border-color, 0.4),
+         border-color: rgba(0, 0, 0, 0.1),
       ),
       disabled-checked: (
-         background-color: rgba(0, 0, 0, 0.1),
-         border-color: transparent,
+         background-color: rgba(0, 0, 0, 0.26),
+         border-color: rgba(0, 0, 0, 0),
       ),
    )
 );
@@ -486,21 +662,23 @@ $cx-checkbox-state-style-map: cx-deep-map-merge(
 $cx-radio-state-style-map: cx-deep-map-merge(
    $cx-radio-state-style-map,
    (
-      focus: (
-         box-shadow: none,
-         border-color: $cx-theme-primary-color,
-      ),
       checked: (
-         color: $cx-theme-primary-color,
-         border-color: $cx-theme-primary-color,
+         color: $cx-theme-default-radio-color,
+         border-color: $cx-theme-default-radio-color,
       ),
       checked-focus: (
-         color: color.adjust($cx-theme-primary-color, $lightness: -5%),
-         border-color: color.adjust($cx-theme-primary-color, $lightness: -5%),
+         // border-color: $cx-theme-default-radio-color
+      ),
+      checked-hover: (
+         border-color: $cx-theme-default-radio-color,
+      ),
+      focus: (
+         box-shadow: none,
+         border-color: #dbdbdb,
       ),
       disabled: (
          background-color: transparent,
-         border-color: rgba($cx-theme-default-checkbox-border-color, 0.4),
+         border-color: rgba(0, 0, 0, 0.1),
       ),
       disabled-checked: (
          color: rgba(0, 0, 0, 0.26),
@@ -515,15 +693,18 @@ $cx-radio-state-style-map: cx-deep-map-merge(
 $cx-slider-handle-styles: cx-deep-map-merge(
    $cx-slider-handle-styles,
    (
+      default: (
+         box-shadow: null,
+      ),
       hover: (
-         background-color: color.adjust($cx-theme-default-slider-handle-background-color, $lightness: 5%),
+         box-shadow: null,
       ),
       active: (
-         background-color: color.adjust($cx-theme-default-slider-handle-background-color, $lightness: -5%),
+         background-color: $cx-theme-primary-color-dark,
       ),
       focus: (
-         box-shadow: $cx-theme-box-shadow-elevated,
-         background-color: color.adjust($cx-theme-default-slider-handle-background-color, $lightness: -5%),
+         box-shadow: none,
+         border-color: $cx-theme-primary-color-dark,
       ),
    )
 );
@@ -534,20 +715,99 @@ $cx-slider-handle-styles: cx-deep-map-merge(
 $cx-switch-handle-styles: cx-deep-map-merge(
    $cx-switch-handle-styles,
    (
-      default: (
-         box-shadow: $cx-theme-box-shadow,
-      ),
       hover: (
          box-shadow: $cx-theme-box-shadow,
       ),
       active: (
          background-color: #e0e0e0,
+         border-color: transparent,
       ),
       focus: (
-         box-shadow: $cx-theme-box-shadow-elevated,
+         box-shadow: $cx-theme-box-shadow,
+         border-color: transparent,
       ),
       on: (
          background-color: $cx-theme-primary-color,
+         border-color: transparent,
+      ),
+      on-active: (
+         background-color: $cx-theme-primary-color-dark,
+      ),
+   )
+);
+
+// =============================================================================
+// CLEAR ICON
+// =============================================================================
+$cx-clear-state-style-map: cx-deep-map-merge(
+   $cx-clear-state-style-map,
+   (
+      default: (
+         right: 0,
+      ),
+      hover: (
+         color: color.adjust($cx-default-color, $lightness: -5%),
+         background-color: transparent,
+      ),
+      focus: (
+         color: $cx-theme-primary-color,
+      ),
+      error: (
+         color: $cx-default-color,
+         opacity: 0.6,
+      ),
+   )
+);
+
+// =============================================================================
+// RIGHT ICON
+// =============================================================================
+$cx-input-right-icon-state-style-map: cx-deep-map-merge(
+   $cx-input-right-icon-state-style-map,
+   (
+      default: (
+         color: $cx-theme-secondary-text-color,
+         opacity: 1,
+         right: 0,
+      ),
+      focus: (
+         color: $cx-theme-primary-color,
+      ),
+      error: (
+         color: $cx-default-color,
+         opacity: 0.6,
+      ),
+   )
+);
+
+// =============================================================================
+// LEFT ICON
+// =============================================================================
+$cx-input-left-icon-state-style-map: cx-deep-map-merge(
+   $cx-input-left-icon-state-style-map,
+   (
+      default: (
+         left: 0,
+      ),
+      focus: (
+         color: $cx-theme-primary-color,
+         opacity: 1,
+      ),
+      error: (
+         color: $cx-default-color,
+         opacity: 0.6,
+      ),
+   )
+);
+
+// =============================================================================
+// INPUT TAG (LookupField)
+// =============================================================================
+$cx-input-tag-state-style-map: cx-deep-map-merge(
+   $cx-input-tag-state-style-map,
+   (
+      hover: (
+         background-color: color.adjust($cx-default-input-tag-background-color, $lightness: -10%),
       ),
    )
 );
@@ -555,13 +815,54 @@ $cx-switch-handle-styles: cx-deep-map-merge(
 // =============================================================================
 // TOAST
 // =============================================================================
+$cx-window-mods: (
+   alert: (
+      frame: (
+         font-size: 16px,
+         color: $cx-theme-secondary-text-color,
+      ),
+      body: (
+         padding: 24px 24px 20px,
+         text-align: left,
+      ),
+      footer: (
+         border-top: none,
+         padding: 8px 0,
+      ),
+   ),
+);
+
 $cx-toast-mods: cx-deep-map-merge(
    $cx-toast-mods,
    (
+      dark: (
+         default: (
+            color: #fff,
+            background-color: rgb(51, 51, 51),
+         ),
+      ),
+      warning: (
+         default: (
+            color: $cx-default-color,
+            background-color: #ffc107,
+         ),
+      ),
       primary: (
          default: (
             color: #fff,
             background-color: $cx-theme-primary-color,
+         ),
+      ),
+      success: (
+         default: (
+            color: #fff,
+            background-color: #4caf50,
+         ),
+      ),
+      error: (
+         default: (
+            color: #fff,
+            background-color: #f4511e,
          ),
       ),
    )
@@ -574,28 +875,31 @@ $cx-element-style-map: cx-deep-map-merge(
    $cx-element-style-map,
    (
       html: (
-         background-color: #fafafa,
+         background: #fafafa,
       ),
       h1: (
          font-weight: 400,
+         color: $cx-default-color,
       ),
       h2: (
          font-weight: 400,
+         color: $cx-default-color,
       ),
       h3: (
          font-weight: 400,
+         color: $cx-default-color,
       ),
       h4: (
          font-weight: 400,
+         color: $cx-default-color,
       ),
       h5: (
          font-weight: 400,
+         color: $cx-default-color,
       ),
       h6: (
          font-weight: 400,
-      ),
-      a: (
-         color: $cx-theme-primary-color,
+         color: $cx-default-color,
       ),
       p: (
          line-height: $cx-theme-default-paragraph-line-height,

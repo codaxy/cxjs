@@ -42,7 +42,8 @@
       "Bash(npx sass:*)",
       "mcp__playwright__browser_close",
       "Bash(npx webpack --mode development)",
-      "Bash(tree:*)"
+      "Bash(tree:*)",
+      "Bash(grep:*)"
     ],
     "deny": [],
     "ask": []

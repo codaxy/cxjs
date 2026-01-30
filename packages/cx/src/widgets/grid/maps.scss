@@ -16,13 +16,25 @@ $cx-grid-header-state-style-map: (
       padding: $cx-default-grid-header-padding,
    ),
    hover: (
-      background-color: color-mix(in srgb, $cx-default-grid-header-background-color, black 2%),
+      background-color: color-mix(
+            in srgb,
+            $cx-default-grid-header-background-color,
+            black 2%
+         ),
    ),
    sorted: (
-      background-color: color-mix(in srgb, $cx-default-grid-header-background-color, black 7%),
+      background-color: color-mix(
+            in srgb,
+            $cx-default-grid-header-background-color,
+            black 7%
+         ),
    ),
    sorted-hover: (
-      background-color: color-mix(in srgb, $cx-default-grid-header-background-color, black 5%),
+      background-color: color-mix(
+            in srgb,
+            $cx-default-grid-header-background-color,
+            black 5%
+         ),
    ),
 ) !default;
 
@@ -43,7 +55,10 @@ $cx-grid-data-state-style-map: cx-deep-map-merge(
    )
 ) !default;
 
-$cx-grid-pagination-state-style-map: cx-deep-map-merge($cx-list-item, ()) !default;
+$cx-grid-pagination-state-style-map: cx-deep-map-merge(
+   $cx-list-item,
+   ()
+) !default;
 
 $cx-grid-cell-cursor-style: (
    left: -1px,
@@ -56,21 +71,17 @@ $cx-grid-cell-cursor-style: (
 
 $cx-grid-group-caption-level-style-map: (
    level-1: (
-      font-weight: bold,
       font-size: 115%,
    ),
    level-2: (
-      font-weight: bold,
       font-size: 130%,
       border-bottom: 1px solid grey,
    ),
    level-3: (
-      font-weight: bold,
       font-size: 145%,
       border-bottom: 1px solid grey,
    ),
    level-4: (
-      font-weight: bold,
       font-size: 160%,
       border-bottom: 1px solid grey,
    ),

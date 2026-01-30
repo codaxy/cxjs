@@ -486,7 +486,6 @@
 
    .#{$element}#{$name}-group-caption {
       font-weight: bold;
-      font-size: 115%;
 
       td {
          padding: cx-get-state-rule($data-state-style-map, default, padding);

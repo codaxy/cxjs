@@ -26,6 +26,11 @@ $mod: map.get($cx-besm, mod);
          }
       }
    }
+
+   // can be used interchangeably with mod='card'
+   .cxm-well {
+      @extend .cxm-card;
+   }
 }
 
 @if (cx-included("cx/widgets/Grid")) {
