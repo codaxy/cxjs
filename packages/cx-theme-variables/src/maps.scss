@@ -341,15 +341,6 @@ $cx-tab-mods: cx-deep-map-merge(
             border-top-width: 0,
             border-bottom-left-radius: 0,
             border-bottom-right-radius: 0,
-            padding: (
-               $cx-default-box-padding + 1px,
-            )
-            (
-               2 * $cx-default-box-padding + 10px,
-            )
-            (
-               $cx-default-box-padding - 1px,
-            ),
          ),
          hover: (
             border-color: rgba(255, 255, 255, 0.3),
@@ -573,7 +564,7 @@ $cx-grid-pagination-state-style-map: cx-deep-map-merge(
       default: (
          border-color: transparent,
          border-radius: var(--cx-theme-border-radius),
-         padding: $cx-default-box-padding 2 * $cx-default-box-padding,
+         padding: $cx-default-box-padding,
       ),
       active: (
          color: var(--cx-theme-primary-color-dark),

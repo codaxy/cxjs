@@ -64,7 +64,7 @@
       );
 
       .#{$state}icon > & {
-         padding-left: cx-calc(2 * cx-left($padding), $icon-size);
+         padding-left: cx-calc(cx-multiply(2, cx-left($padding)), $icon-size);
       }
 
       .#{$state}empty > & {

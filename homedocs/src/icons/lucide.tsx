@@ -10,6 +10,9 @@ import {
   Calculator,
   Calendar,
   Check,
+  Circle,
+  Copy,
+  Download,
   Eye,
   EyeOff,
   File,
@@ -19,16 +22,24 @@ import {
   Folder,
   FolderOpen,
   GripVertical,
+  Info,
   ListTodo,
   LoaderCircle,
+  Move,
+  Palette,
+  PanelTop,
   Pencil,
   PieChart,
   Plus,
   RefreshCw,
   Search,
+  Space,
+  Square,
   Star,
+  Table2,
   TrendingDown,
   Trash2,
+  Type,
   Upload,
   X,
   Zap,
@@ -83,3 +94,14 @@ Icon.register("list-todo", getRenderer(ListTodo));
 Icon.register("zap", getRenderer(Zap));
 Icon.register("activity", getRenderer(Activity));
 Icon.register("grip-vertical", getRenderer(GripVertical));
+Icon.register("palette", getRenderer(Palette));
+Icon.register("circle", getRenderer(Circle));
+Icon.register("info", getRenderer(Info));
+Icon.register("square", getRenderer(Square));
+Icon.register("type", getRenderer(Type));
+Icon.register("panel-top", getRenderer(PanelTop));
+Icon.register("table", getRenderer(Table2));
+Icon.register("move", getRenderer(Move));
+Icon.register("copy", getRenderer(Copy));
+Icon.register("download", getRenderer(Download));
+Icon.register("refresh", getRenderer(RefreshCw));

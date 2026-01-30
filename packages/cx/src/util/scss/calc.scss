@@ -7,7 +7,8 @@
 // Check if a value is or contains a CSS variable (var(--...)) or calc expression
 @function cx-is-css-var($value) {
    @if meta.type-of($value) == "string" {
-      @return string.index($value, "var(") != null or string.index($value, "calc(") != null;
+      @return string.index($value, "var(") != null or
+         string.index($value, "calc(") != null;
    }
    // Also check for calc type returned by calc()
    @if meta.type-of($value) == "calculation" {
@@ -20,10 +21,17 @@
 // For CSS variables, outputs calc(var(...) * factor)
 // For numeric values, performs the multiplication at compile time
 @function cx-multiply($value, $factor) {
-   @if cx-is-css-var($value) {
+   @if cx-is-css-var($value) or cx-is-css-var(($factor)) {
       @return calc(#{$value} * #{$factor});
    }
    @return $value * $factor;
+}
+
+@function cx-divide($value, $factor) {
+   @if cx-is-css-var($value) or cx-is-css-var(($factor)) {
+      @return calc(#{$value} / #{$factor});
+   }
+   @return math.div($value, $factor);
 }
 
 // Round a value, supporting CSS variables
@@ -48,9 +56,19 @@
          $unit: math.unit($l);
          @if (map.has-key($units, $unit)) {
             $nl: map.get($units, $unit) + $l;
-            $units: map.merge($units, ($unit: $nl))
+            $units: map.merge(
+               $units,
+               (
+                  $unit: $nl,
+               )
+            );
          } @else {
-            $units: map.merge($units, ($unit: $l))
+            $units: map.merge(
+               $units,
+               (
+                  $unit: $l,
+               )
+            );
          }
       }
    }
@@ -63,14 +81,14 @@
       @return map.get($units, list.nth($keys, 1));
    }
 
-   $calc: '';
+   $calc: "";
    $count: 0;
 
    @each $u, $v in $units {
       @if ($v != 0) {
          $count: $count + 1;
          @if ($count > 1) {
-            $calc: $calc + ' + ';
+            $calc: $calc + " + ";
          }
          $calc: $calc + $v;
       }
@@ -80,7 +98,7 @@
    @each $var in $css-vars {
       $count: $count + 1;
       @if ($count > 1) {
-         $calc: $calc + ' + ';
+         $calc: $calc + " + ";
       }
       $calc: $calc + $var;
    }
@@ -93,5 +111,5 @@
       @return #{$calc};
    }
 
-   @return #{'calc(' + $calc  + ')'};
+   @return #{"calc(" + $calc + ")"};
 }

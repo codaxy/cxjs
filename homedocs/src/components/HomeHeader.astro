@@ -1,5 +1,9 @@
 ---
-
+const pathname = Astro.url.pathname;
+const isHome = pathname === '/';
+const isChangelog = pathname.startsWith('/changelog');
+const isThemes = pathname.startsWith('/themes');
+const isDocs = pathname.startsWith('/docs');
 ---
 
 <header class="border-b border-border bg-background/80 backdrop-blur-sm sticky top-0 z-50">
@@ -26,14 +30,17 @@
 
     <!-- Desktop nav -->
     <nav class="hidden sm:flex flex-1 items-center justify-center gap-6">
-      <a href="/" class="text-sm text-muted-foreground hover:text-foreground transition-colors">
+      <a href="/" class:list={["text-sm transition-colors", isHome ? "text-foreground font-medium" : "text-muted-foreground hover:text-foreground"]}>
         Home
       </a>
-      <a href="/docs/intro/what-is-cxjs" class="text-sm text-muted-foreground hover:text-foreground transition-colors">
-        Documentation
-      </a>
-      <a href="/docs/intro/changelog" class="text-sm text-muted-foreground hover:text-foreground transition-colors">
+      <a href="/docs/intro/changelog" class:list={["text-sm transition-colors", isChangelog ? "text-foreground font-medium" : "text-muted-foreground hover:text-foreground"]}>
         Changelog
+      </a>
+      <a href="/themes" class:list={["text-sm transition-colors", isThemes ? "text-foreground font-medium" : "text-muted-foreground hover:text-foreground"]}>
+        Themes
+      </a>
+      <a href="/docs/intro/what-is-cxjs" class:list={["text-sm transition-colors", isDocs ? "text-foreground font-medium" : "text-muted-foreground hover:text-foreground"]}>
+        Documentation
       </a>
     </nav>
 
@@ -74,14 +81,14 @@
   <!-- Mobile menu dropdown -->
   <nav id="home-mobile-menu" class="hidden sm:hidden border-t border-border bg-background">
     <div class="container mx-auto px-4 py-4 flex flex-col gap-3">
-      <a href="/" class="text-sm text-muted-foreground hover:text-foreground transition-colors py-2">
+      <a href="/" class:list={["text-sm transition-colors py-2", isHome ? "text-foreground font-medium" : "text-muted-foreground hover:text-foreground"]}>
         Home
       </a>
-      <a href="/docs/intro/what-is-cxjs" class="text-sm text-muted-foreground hover:text-foreground transition-colors py-2">
-        Documentation
-      </a>
-      <a href="/docs/intro/changelog" class="text-sm text-muted-foreground hover:text-foreground transition-colors py-2">
+      <a href="/docs/intro/changelog" class:list={["text-sm transition-colors py-2", isChangelog ? "text-foreground font-medium" : "text-muted-foreground hover:text-foreground"]}>
         Changelog
+      </a>
+      <a href="/docs/intro/what-is-cxjs" class:list={["text-sm transition-colors py-2", isDocs ? "text-foreground font-medium" : "text-muted-foreground hover:text-foreground"]}>
+        Documentation
       </a>
     </div>
   </nav>

@@ -108,7 +108,7 @@
       display: inline-block;
       position: absolute;
       top: 50%;
-      left: math.div(cx-left($padding), 2);
+      left: cx-divide(cx-left($padding), 2);
       margin-top: -(math.div($icon-size, 2));
       height: $icon-size;
       width: $icon-size;
@@ -127,8 +127,9 @@
          cx-calc(cx-left($padding), $icon-size);
 
       &.#{$state}empty {
-         padding: cx-top($padding) 0.5 * cx-right($padding) cx-bottom($padding)
-            cx-calc(0.5 * cx-left($padding), $icon-size);
+         padding: cx-top($padding) cx-multiply(0.5, cx-right($padding))
+            cx-bottom($padding)
+            cx-calc(cx-multiply(0.5, cx-left($padding)), $icon-size);
       }
    }
 }

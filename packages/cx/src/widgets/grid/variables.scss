@@ -2,6 +2,7 @@
 @use "../../util/scss/defaults" as *;
 @use "../../util/scss/include" as *;
 @use "../../util/scss/clockwise.scss" as *;
+@use "../../util/scss/calc.scss" as *;
 
 // GRID
 $cx-default-grid-font-size: $cx-default-box-font-size !default;
@@ -34,8 +35,8 @@ $cx-grid-pagination-default-border-width: $cx-default-border-width !default;
 $cx-grid-pagination-default-border-color: $cx-default-border-color !default;
 $cx-grid-pagination-default-border-radius: null !default;
 $cx-grid-pagination-default-outer-border-radius: $cx-default-border-radius !default;
-$cx-grid-pagination-default-padding: cx-top($cx-default-box-padding) 2 *
-   cx-top($cx-default-box-padding) !default;
+$cx-grid-pagination-default-padding: cx-top($cx-default-box-padding)
+   cx-multiply(2, cx-top($cx-default-box-padding)) !default;
 
 $cx-dependencies: map-merge(
    $cx-dependencies,
