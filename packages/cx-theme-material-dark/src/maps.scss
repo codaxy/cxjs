@@ -864,7 +864,7 @@ $cx-element-style-map: cx-deep-map-merge(
    $cx-element-style-map,
    (
       html: (
-         background: $cx-default-background-color,
+         background: $cx-theme-default-background-color,
       ),
       h1: (
          font-weight: 400,

@@ -1,5 +1,17 @@
 @use "./variables.reset" as *;
-@use "cx/src/util/scss/global";
+@use "./maps" as *;
+@use "cx/src/util/scss/add-rules" as *;
+
+// =============================================================================
+// GLOBAL ELEMENT STYLES (using themed $cx-element-style-map)
+// =============================================================================
+@if ($cx-include-global-rules) {
+   @each $tag, $styles in $cx-element-style-map {
+      #{$tag} {
+         @include cx-add-rules($styles);
+      }
+   }
+}
 
 // =============================================================================
 // SCROLLBAR (theme-specific)
