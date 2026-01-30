@@ -1,15 +1,24 @@
 @use "sass:color";
 
+// Theme base values (used to compute derived values before @forward)
+$cx-theme-color: #373a3c !default;
+$cx-theme-border-color: #ccc !default;
+
 // Theme-specific variables (not in cx core)
 $cx-theme-default-highlight-color: #ddf1f6 !default;
 $cx-theme-default-highlight-color-dark: color.adjust($cx-theme-default-highlight-color, $lightness: -10%) !default;
 $cx-theme-default-section-box-shadow: #dbdfed 0 3px, #e5e8f2 0 0 0 1px !default;
 
+// Derived values that depend on base values (computed before @forward)
+$cx-theme-default-checkbox-color: rgba($cx-theme-color, 0.7) !default;
+$cx-theme-default-radio-color: rgba($cx-theme-color, 0.7) !default;
+$cx-theme-default-wheel-clip-border-color: color.adjust($cx-theme-border-color, $lightness: 10%) !default;
+
 // Forward cx/src/variables with theme overrides
 @forward "cx/src/variables" with (
    // Global
-   $cx-default-color: #373a3c !default,
-   $cx-default-border-color: #ccc !default,
+   $cx-default-color: $cx-theme-color !default,
+   $cx-default-border-color: $cx-theme-border-color !default,
    $cx-default-border-radius: 5px !default,
    $cx-default-font-family: ("Open Sans", sans-serif) !default,
 
@@ -28,9 +37,11 @@ $cx-theme-default-section-box-shadow: #dbdfed 0 3px, #e5e8f2 0 0 0 1px !default;
 
    // Checkbox
    $cx-default-checkbox-size: 16px !default,
+   $cx-default-checkbox-color: $cx-theme-default-checkbox-color !default,
 
    // Radio
    $cx-default-radio-size: 16px !default,
+   $cx-default-radio-color: $cx-theme-default-radio-color !default,
 
    // Input
    $cx-default-input-border-color: #eff1f7 !default,
@@ -44,6 +55,7 @@ $cx-theme-default-section-box-shadow: #dbdfed 0 3px, #e5e8f2 0 0 0 1px !default;
    $cx-default-datetimepicker-border-radius: 5px !default,
    $cx-default-wheel-clip-border-width: 2px !default,
    $cx-default-wheel-clip-border-radius: 5px !default,
+   $cx-default-wheel-clip-border-color: $cx-theme-default-wheel-clip-border-color !default,
 
    // Dropdown
    $cx-default-dropdown-arrow-offset: 26px !default,
@@ -52,6 +64,10 @@ $cx-theme-default-section-box-shadow: #dbdfed 0 3px, #e5e8f2 0 0 0 1px !default;
    $cx-default-progressbar-background-color: rgba(0, 0, 0, 0.08) !default,
    $cx-default-progressbar-border-width: 0 !default,
    $cx-default-progressbar-border-radius: 5px !default,
+   $cx-default-progressbar-indicator-background-color: $cx-theme-default-highlight-color-dark !default,
+
+   // Slider
+   $cx-default-slider-range-background-color: $cx-theme-default-highlight-color-dark !default,
 
    // Misc
    $cx-use-box-line-height-fix: false !default
@@ -59,10 +75,3 @@ $cx-theme-default-section-box-shadow: #dbdfed 0 3px, #e5e8f2 0 0 0 1px !default;
 
 // Use cx variables for derived values
 @use "cx/src/variables" as *;
-
-// Theme-specific derived variables (depend on cx variables)
-$cx-theme-default-checkbox-color: rgba($cx-default-color, 0.7) !default;
-$cx-theme-default-radio-color: rgba($cx-default-color, 0.7) !default;
-$cx-theme-default-wheel-clip-border-color: color.adjust($cx-default-border-color, $lightness: 10%) !default;
-$cx-theme-default-slider-range-background-color: $cx-theme-default-highlight-color-dark !default;
-$cx-theme-default-progressbar-indicator-background-color: $cx-theme-default-highlight-color-dark !default;
