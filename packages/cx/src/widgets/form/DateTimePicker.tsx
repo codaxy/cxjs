@@ -51,7 +51,7 @@ DateTimePicker.prototype.styled = true;
 DateTimePicker.prototype.size = 3;
 DateTimePicker.prototype.autoFocus = false;
 DateTimePicker.prototype.segment = "datetime";
-DateTimePicker.prototype.showSeconds = true;
+DateTimePicker.prototype.showSeconds = false;
 interface DateTimePickerComponentProps {
   instance: Instance;
   data: Record<string, unknown>;
