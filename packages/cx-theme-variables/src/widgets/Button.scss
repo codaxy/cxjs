@@ -1,0 +1,110 @@
+@use "sass:map";
+@use "../variables.scss" as *;
+@use "cx/src/maps" as *;
+@use "cx/src/util/scss/deep-merge" as *;
+
+// =============================================================================
+// BUTTON - Map Overrides
+// =============================================================================
+// Note: color-mix() calculations are placed directly in the maps (not in
+// intermediate CSS variables) so that sub-theming works correctly.
+// See meta/CSS_VARIABLES.md for details on this limitation.
+
+$cx-button-state-style-map: cx-deep-map-merge(
+   $cx-button-state-style-map,
+   (
+      default: (
+         background-color: var(--cx-theme-default-button-background-color),
+         border-color: var(--cx-theme-default-button-border-color),
+         transition: var(--cx-theme-transition),
+      ),
+      hover: (
+         background-color: color-mix(in srgb, var(--cx-theme-default-button-background-color), var(--cx-theme-active-state-color) var(--cx-theme-active-state-hover-amount)),
+         border-color: color-mix(in srgb, var(--cx-theme-default-button-border-color), var(--cx-theme-active-state-color) var(--cx-theme-active-state-hover-amount)),
+      ),
+      focus: (
+         box-shadow: var(--cx-theme-focus-box-shadow),
+      ),
+      active: (
+         background-color: color-mix(in srgb, var(--cx-theme-default-button-background-color), var(--cx-theme-active-state-color) var(--cx-theme-active-state-pressed-amount)),
+         box-shadow: none,
+      ),
+      disabled: (
+         color: color-mix(in srgb, var(--cx-theme-color), transparent 62%),
+         background-color: color-mix(in srgb, var(--cx-theme-active-state-color), transparent 88%),
+         border-color: transparent,
+      ),
+   )
+);
+
+$cx-button-mods: cx-deep-map-merge(
+   $cx-button-mods,
+   (
+      primary: (
+         default: (
+            transition: var(--cx-theme-transition),
+            color: var(--cx-theme-background-color),
+            background-color: var(--cx-theme-primary-color),
+            border-color: color-mix(in srgb, var(--cx-theme-primary-color), var(--cx-theme-active-state-color) 20%),
+         ),
+         hover: (
+            background-color: color-mix(in srgb, var(--cx-theme-primary-color), var(--cx-theme-background-color) 20%),
+         ),
+         focus: (
+            box-shadow: var(--cx-theme-focus-box-shadow),
+         ),
+         active: (
+            background-color: color-mix(in srgb, var(--cx-theme-primary-color), var(--cx-theme-active-state-color) 20%),
+         ),
+         disabled: (
+            box-shadow: none,
+            border-color: transparent,
+            color: color-mix(in srgb, var(--cx-theme-background-color), transparent 50%),
+            background-color: color-mix(in srgb, var(--cx-theme-primary-color), transparent 50%),
+         ),
+      ),
+      danger: (
+         default: (
+            transition: var(--cx-theme-transition),
+            color: var(--cx-theme-background-color),
+            background-color: var(--cx-theme-danger-color),
+            border-color: color-mix(in srgb, var(--cx-theme-danger-color), var(--cx-theme-active-state-color) 20%),
+         ),
+         hover: (
+            background-color: color-mix(in srgb, var(--cx-theme-danger-color), var(--cx-theme-background-color) 20%),
+         ),
+         focus: (
+            box-shadow: 0 0 0 2px color-mix(in srgb, var(--cx-theme-danger-color), transparent 70%),
+         ),
+         active: (
+            background-color: color-mix(in srgb, var(--cx-theme-danger-color), var(--cx-theme-active-state-color) 20%),
+         ),
+         disabled: (
+            box-shadow: none,
+            border-color: transparent,
+            color: color-mix(in srgb, var(--cx-theme-background-color), transparent 50%),
+            background-color: color-mix(in srgb, var(--cx-theme-danger-color), transparent 50%),
+         ),
+      ),
+      hollow: (
+         default: (
+            background-color: transparent,
+            border-color: var(--cx-theme-border-color),
+         ),
+         hover: (
+            background-color: color-mix(in srgb, var(--cx-theme-active-state-color), transparent 96%),
+         ),
+         focus: (
+            background-color: color-mix(in srgb, var(--cx-theme-active-state-color), transparent 92%),
+            box-shadow: var(--cx-theme-focus-box-shadow),
+         ),
+         active: (
+            background-color: color-mix(in srgb, var(--cx-theme-active-state-color), transparent 88%),
+         ),
+         disabled: (
+            color: color-mix(in srgb, var(--cx-theme-color), transparent 62%),
+            border-color: color-mix(in srgb, var(--cx-theme-active-state-color), transparent 88%),
+         ),
+      ),
+   )
+);

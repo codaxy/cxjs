@@ -12,3 +12,22 @@
 
 // 4. NOW load cx/src/index which generates CSS using configured values
 @use "cx/src/index" as *;
+
+// 5. Load include utilities for conditional CSS
+@use "cx/src/util/scss/include.scss" as *;
+
+$block: map.get($cx-besm, block);
+$element: map.get($cx-besm, element);
+$state: map.get($cx-besm, state);
+$mod: map.get($cx-besm, mod);
+
+// 6. Component-specific overrides
+@if (cx-included("cx/widgets/Tab")) {
+   //TAB
+   .#{$block}tab.#{$mod}classic {
+      &:first-child {
+         border-left-width: 1px;
+         border-left-color: var(--cx-theme-border-color);
+      }
+   }
+}

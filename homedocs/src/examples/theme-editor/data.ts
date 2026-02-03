@@ -7,9 +7,6 @@ export const defaultCategories: Category[] = [
     icon: "star",
     variables: [
       { name: "--cx-theme-primary-color", label: "Main primary color", value: "black", type: "color" },
-      { name: "--cx-theme-primary-color-light", label: "Lighter shade of primary", value: "#333", type: "color" },
-      { name: "--cx-theme-primary-color-dark", label: "Darker shade of primary", value: "#000", type: "color" },
-      { name: "--cx-theme-primary-text-color", label: "Text color on primary backgrounds", value: "black", type: "color" },
     ],
   },
   {
@@ -19,7 +16,6 @@ export const defaultCategories: Category[] = [
     variables: [
       { name: "--cx-theme-accent-color", label: "Accent color for highlights", value: "lightgray", type: "color" },
       { name: "--cx-theme-danger-color", label: "Danger/error color", value: "#d32f2f", type: "color" },
-      { name: "--cx-theme-danger-color-dark", label: "Darker danger color", value: "#b71c1c", type: "color" },
     ],
   },
   {
@@ -28,8 +24,6 @@ export const defaultCategories: Category[] = [
     icon: "type",
     variables: [
       { name: "--cx-theme-color", label: "Default text color", value: "rgba(0, 0, 0, 0.87)", type: "color" },
-      { name: "--cx-theme-color-light", label: "Light/muted text color", value: "rgba(0, 0, 0, 0.6)", type: "color" },
-      { name: "--cx-theme-secondary-text-color", label: "Secondary text color", value: "#757575", type: "color" },
     ],
   },
   {
@@ -73,12 +67,22 @@ export const defaultCategories: Category[] = [
     ],
   },
   {
+    id: "active-states",
+    name: "Active States",
+    icon: "mouse-pointer",
+    variables: [
+      { name: "--cx-theme-active-state-color", label: "Overlay color for hover/press (black for light themes, white for dark)", value: "black", type: "color" },
+      { name: "--cx-theme-active-state-hover-amount", label: "Hover overlay opacity", value: "8%", type: "text" },
+      { name: "--cx-theme-active-state-pressed-amount", label: "Pressed overlay opacity", value: "12%", type: "text" },
+    ],
+  },
+  {
     id: "buttons",
     name: "Buttons",
     icon: "square",
     variables: [
-      { name: "--cx-theme-button-background-color", label: "Button background", value: "#f5f5f5", type: "color" },
-      { name: "--cx-theme-button-border-color", label: "Button border color", value: "lightgray", type: "color" },
+      { name: "--cx-theme-default-button-background-color", label: "Default button background", value: "color-mix(in srgb, var(--cx-theme-surface-color), var(--cx-theme-active-state-color) 4%)", type: "color" },
+      { name: "--cx-theme-default-button-border-color", label: "Default button border color", value: "var(--cx-theme-border-color)", type: "color" },
     ],
   },
   {

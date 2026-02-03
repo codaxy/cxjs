@@ -16,6 +16,12 @@ export const examples: ExampleDef[] = [
     categories: ["buttons", "primary", "border", "sizing", "shadows", "transitions"],
     component: () => import("../layout/ButtonBasicExample"),
   },
+  {
+    id: "button-mods",
+    name: "Button Mods",
+    categories: ["buttons", "primary", "accent", "active-states", "border", "sizing", "shadows", "transitions"],
+    component: () => import("../layout/ButtonModsExample"),
+  },
 
   // Inputs
   {
