@@ -10,7 +10,7 @@ $cx-label-state-style-map: (
       line-height: $cx-default-label-line-height,
       color: $cx-default-label-color,
       border-style: solid,
-      border-width: cx-top($cx-default-box-border-width) 0 cx-bottom($cx-default-box-border-width) 0,
+      border-width: $cx-default-box-border-width-top 0 $cx-default-box-border-width-bottom 0,
       border-color: transparent,
    ),
    hover: (),

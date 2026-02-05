@@ -6,8 +6,10 @@ import {
   Prop,
 } from "cx/ui";
 import { Repeater } from "cx/widgets";
-import { Category, m } from "./model";
+import { ThemeVarsDiv } from "cx-theme-variables";
+import { m } from "./model";
 import { examples, ExampleDef } from "./examples";
+import { categoriesToTheme, fontOptions } from "./data";
 
 // Dynamic example content using ContentResolver
 const ExampleContent = createFunctionalComponent(
@@ -16,11 +18,7 @@ const ExampleContent = createFunctionalComponent(
       params={{ example }}
       onResolve={async ({ example }) => {
         const module = await example.component();
-        return (
-          <PrivateStore>
-            {module.default}
-          </PrivateStore>
-        );
+        return <PrivateStore>{module.default}</PrivateStore>;
       }}
     />
   ),
@@ -31,22 +29,28 @@ function getExamplesForCategory(category: string): ExampleDef[] {
   return examples.filter((e) => e.categories.includes(category));
 }
 
-// Build CSS variables style object from categories
-function buildCssVariables(categories: Category[]): Record<string, string> {
-  const style: Record<string, string> = {};
-  for (const cat of categories) {
-    for (const v of cat.variables) {
-      style[v.name] = v.value;
-    }
-  }
-  return style;
+// Get Google Font URL for the selected font
+function getGoogleFontUrl(fontId: string | null): string | undefined {
+  if (!fontId) return undefined;
+  // website default font doesn't have to be loaded
+  if (fontId == "inter") return undefined;
+  const font = fontOptions.find((f) => f.id === fontId);
+  return font?.googleFont
+    ? `https://fonts.googleapis.com/css2?family=${font.googleFont}&display=swap`
+    : undefined;
 }
 
 export const Preview = createFunctionalComponent(() => (
-  <div
-    class="flex-1 p-6 overflow-y-auto bg-background border-x border-border"
-    style={computable(m.categories, buildCssVariables)}
+  <ThemeVarsDiv
+    theme={computable(m.categories, categoriesToTheme)}
+    class="flex-1 p-6 overflow-y-auto border-r border-border"
+    applyReset
   >
+    <link
+      href={computable(m.font, getGoogleFontUrl)}
+      rel="stylesheet"
+      visible={computable(m.font, (f) => !!getGoogleFontUrl(f))}
+    />
     <Repeater
       records={computable(m.activeCategory, (category) =>
         getExamplesForCategory(category),
@@ -54,15 +58,21 @@ export const Preview = createFunctionalComponent(() => (
       recordAlias={m.$example}
       keyField="id"
     >
-      <div class="mb-6 max-w-[600px] mx-auto">
+      <div class="mb-6 max-w-150 mx-auto">
         <h4
           class="text-sm font-medium text-muted-foreground mb-3"
           text={m.$example.name}
         />
-        <div class="bg-card border border-border rounded-lg p-4 overflow-x-auto">
+        <div
+          class="border border-border rounded-lg p-4 overflow-x-auto"
+          style={{
+            backgroundColor: "var(--cx-theme-surface-color)",
+            borderColor: "var(--cx-theme-border-color)",
+          }}
+        >
           <ExampleContent example={m.$example} />
         </div>
       </div>
     </Repeater>
-  </div>
+  </ThemeVarsDiv>
 ));

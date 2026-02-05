@@ -4,6 +4,7 @@
 @use "../maps" as *;
 @use "../../util/scss/add-rules.scss" as *;
 @use "../../util/scss/clockwise.scss" as *;
+@use "../../util/scss/calc.scss" as *;
 @use "../../util/scss/deep-merge.scss" as *;
 @use "../../util/scss/besm.scss" as *;
 @use "../../util/scss/include.scss" as *;
@@ -28,8 +29,8 @@
       $state-style-map,
       (
          default: (
-            border-width: cx-top($cx-default-box-border-width) 0
-               cx-bottom($cx-default-box-border-width) 0,
+            border-width: $cx-default-box-border-width-top 0
+               $cx-default-box-border-width-bottom 0,
          ),
       )
    );
@@ -44,7 +45,7 @@
       margin: 0 !important;
       width: $size;
       height: $size;
-      top: calc(50% - #{$size * 0.5});
+      top: calc(50% - #{cx-multiply($size, 0.5)});
       left: 0;
       display: inline-block;
       position: absolute;
@@ -87,7 +88,7 @@
    .#{$element}#{$name}-input {
       width: $size;
       height: $size;
-      top: calc(50% - #{$size * 0.5});
+      top: calc(50% - #{cx-multiply($size, 0.5)});
       left: 0;
       display: inline-block;
       position: absolute;

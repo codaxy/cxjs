@@ -1,0 +1,249 @@
+@use "sass:map";
+@use "../../variables.scss" as *;
+@use "cx/src/maps" as *;
+@use "cx/src/util/scss/deep-merge" as *;
+
+// =============================================================================
+// FORM FIELD - Map Overrides
+// =============================================================================
+
+// Global inputs
+$cx-input-state-style-map: cx-deep-map-merge(
+   $cx-input-state-style-map,
+   (
+      focus: (
+         border-color: var(--cx-theme-primary-color),
+         box-shadow: var(--cx-theme-focus-box-shadow),
+      ),
+   )
+);
+
+// Standard form field
+$cx-std-field-state-style-map: cx-deep-map-merge(
+   $cx-input-state-style-map,
+   (
+      default: (
+         box-shadow: none,
+         transition: var(--cx-theme-transition),
+      ),
+      hover: (),
+      focus: (
+         box-shadow: var(--cx-theme-focus-box-shadow),
+         background-color: white,
+      ),
+      disabled: (
+         color: rgba(0, 0, 0, 0.38),
+         background-color: rgba(0, 0, 0, 0.04),
+         box-shadow: none,
+         border-color: rgba(0, 0, 0, 0.12),
+      ),
+      error: (
+         background-color: #ffebee,
+         border-color: var(--cx-theme-danger-color),
+      ),
+      error-focus: (
+         border-color: var(--cx-theme-danger-color-dark),
+         box-shadow: 0 0 0 2px rgba(211, 47, 47, 0.3),
+      ),
+   )
+);
+
+// Textarea
+$cx-textarea-state-style-map: cx-deep-map-merge(
+   $cx-std-field-state-style-map,
+   (
+      default: (
+         border-color: var(--cx-input-border-color),
+      ),
+      focus: (
+         box-shadow: var(--cx-theme-focus-box-shadow),
+      ),
+      hover: (),
+   )
+);
+
+// Checkbox
+$cx-checkbox-state-style-map: cx-deep-map-merge(
+   $cx-checkbox-state-style-map,
+   (
+      default: (
+         opacity: 1,
+      ),
+      hover: (
+         border-color: var(--cx-theme-border-color),
+      ),
+      focus: (
+         box-shadow: var(--cx-theme-focus-box-shadow),
+         border-color: var(--cx-theme-primary-color),
+      ),
+      checked: (
+         background-color: var(--cx-theme-primary-color),
+         border-color: var(--cx-theme-primary-color),
+         color: white,
+         opacity: 1,
+      ),
+      checked-focus: (
+         background-color: var(--cx-theme-primary-color-dark),
+         border-color: var(--cx-theme-primary-color-dark),
+      ),
+      disabled: (
+         background-color: transparent,
+         border-color: rgba(0, 0, 0, 0.26),
+      ),
+      disabled-checked: (
+         background-color: rgba(0, 0, 0, 0.26),
+         border-color: transparent,
+      ),
+   )
+);
+
+// Radio
+$cx-radio-state-style-map: cx-deep-map-merge(
+   $cx-radio-state-style-map,
+   (
+      checked: (
+         color: var(--cx-theme-primary-color),
+         border-color: var(--cx-theme-primary-color),
+      ),
+      checked-focus: (
+         color: var(--cx-theme-primary-color),
+         border-color: var(--cx-theme-primary-color-dark),
+      ),
+      checked-hover: (
+         color: var(--cx-theme-primary-color),
+         border-color: var(--cx-theme-primary-color-dark),
+      ),
+      focus: (
+         box-shadow: var(--cx-theme-focus-box-shadow),
+         border-color: var(--cx-theme-primary-color),
+      ),
+      disabled: (
+         background-color: transparent,
+         border-color: rgba(0, 0, 0, 0.26),
+      ),
+      disabled-checked: (
+         color: rgba(0, 0, 0, 0.26),
+         border-color: rgba(0, 0, 0, 0.12),
+      ),
+   )
+);
+
+// Lookupfield tag
+$cx-input-tag-state-style-map: cx-deep-map-merge(
+   $cx-input-tag-state-style-map,
+   (
+      default: (
+         border-color: var(--cx-theme-border-color),
+         border-radius: var(--cx-theme-border-radius),
+         border-width: 1px,
+         border-style: solid,
+         margin: -1px,
+      ),
+      hover: (
+         background-color: #e0e0e0,
+      ),
+   )
+);
+
+// Slider
+$cx-slider-handle-styles: cx-deep-map-merge(
+   $cx-slider-handle-styles,
+   (
+      hover: (
+         box-shadow: var(--cx-theme-box-shadow),
+         background-color: var(--cx-theme-primary-color-light),
+      ),
+      active: (
+         background-color: var(--cx-theme-primary-color-dark),
+         border-color: var(--cx-theme-primary-color-dark),
+      ),
+      focus: (
+         box-shadow: var(--cx-theme-box-shadow-elevated),
+         background-color: var(--cx-theme-primary-color-dark),
+      ),
+   )
+);
+
+// Switch
+$cx-switch-handle-styles: cx-deep-map-merge(
+   $cx-switch-handle-styles,
+   (
+      default: (
+         box-shadow: var(--cx-theme-box-shadow),
+      ),
+      hover: (
+         box-shadow: var(--cx-theme-box-shadow),
+      ),
+      active: (
+         background-color: #e0e0e0,
+         border-color: transparent,
+      ),
+      focus: (
+         box-shadow: var(--cx-theme-box-shadow-elevated),
+         border-color: transparent,
+      ),
+      on: (
+         background-color: var(--cx-theme-background-color),
+         border-color: transparent,
+      ),
+      on-active: (
+         background-color: #e0e0e0,
+      ),
+   )
+);
+
+// Clear icon
+$cx-clear-state-style-map: cx-deep-map-merge(
+   $cx-clear-state-style-map,
+   (
+      hover: (
+         color: var(--cx-theme-text-color),
+         background-color: transparent,
+      ),
+      focus: (
+         color: var(--cx-theme-primary-color),
+      ),
+      error: (
+         color: var(--cx-theme-text-color),
+         opacity: 0.6,
+      ),
+   )
+);
+
+// // Right icon
+// $cx-input-right-icon-state-style-map: cx-deep-map-merge(
+//    $cx-input-right-icon-state-style-map,
+//    (
+//       default: (
+//          color: var(--cx-theme-secondary-text-color),
+//          opacity: 1,
+//       ),
+//       focus: (
+//          color: var(--cx-theme-primary-color),
+//       ),
+//       error: (
+//          color: var(--cx-theme-text-color),
+//          opacity: 0.6,
+//       ),
+//    )
+// );
+
+// // Left icon
+// $cx-input-left-icon-state-style-map: cx-deep-map-merge(
+//    $cx-input-left-icon-state-style-map,
+//    (
+//       default: (
+//          left: calc(
+//                1px + (var(--cx-input-padding-x) + var(--cx-input-padding-y)) / 2
+//             ),
+//       ),
+//       focus: (
+//          color: var(--cx-theme-primary-color),
+//          opacity: 1,
+//       ),
+//       error: (
+//          color: var(--cx-theme-text-color),
+//          opacity: 0.6,
+//       ),
+//    )
+// );

@@ -8,10 +8,10 @@
 $cx-default-button-font-family: $cx-default-box-font-family !default;
 $cx-default-button-font-size: $cx-default-box-font-size !default;
 $cx-default-button-font-weight: normal !default;
-$cx-default-button-padding: cx-top($cx-default-box-padding)
-   cx-multiply(cx-right($cx-default-box-padding), 2)
-   cx-bottom($cx-default-box-padding)
-   cx-multiply(cx-left($cx-default-box-padding), 2) !default;
+$cx-default-button-padding: $cx-default-box-padding-top
+   cx-multiply($cx-default-box-padding-right, 2)
+   $cx-default-box-padding-bottom
+   cx-multiply($cx-default-box-padding-left, 2) !default;
 $cx-default-button-border-width: $cx-default-box-border-width !default;
 $cx-default-button-line-height: $cx-default-box-line-height !default;
 $cx-default-button-background-color: #eee !default;

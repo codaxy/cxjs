@@ -1,10 +1,11 @@
 import { createModel } from "cx/data";
 import type { ExampleDef } from "./examples";
+import type { ThemeVariables } from "cx-theme-variables";
 
 export type VariableType = "color" | "size" | "padding" | "border" | "text";
 
 export interface ThemeVariable {
-  name: string;
+  key: keyof ThemeVariables;
   label: string;
   value: string;
   type: VariableType;
@@ -20,6 +21,9 @@ export interface Category {
 export interface ThemeEditorModel {
   activeCategory: string;
   presetName: string;
+  rounding: string;
+  density: string;
+  font: string;
   categories: Category[];
   $category: Category;
   $variable: ThemeVariable;

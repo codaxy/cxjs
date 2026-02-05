@@ -39,7 +39,11 @@
       );
 
       .#{$state}icon > & {
-         padding-left: cx-calc(cx-multiply(2, cx-left($padding)), $icon-size);
+         padding-left: cx-calc(
+            cx-left($padding),
+            $cx-default-input-left-tool-size,
+            $cx-default-input-left-tool-spacing
+         );
       }
 
       .#{$state}clear > & {

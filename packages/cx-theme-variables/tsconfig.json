@@ -5,6 +5,8 @@
       "moduleResolution": "bundler",
       "module": "esnext",
       "lib": ["dom", "dom.iterable", "ESNext"],
+      "jsx": "react-jsx",
+      "jsxImportSource": "cx",
       "allowSyntheticDefaultImports": true,
       "esModuleInterop": true,
       "forceConsistentCasingInFileNames": true,

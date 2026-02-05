@@ -1,5 +1,5 @@
 // Example definitions with category mappings
-// Categories: primary, accent, text, background, border, shadows, sizing, buttons, inputs, grid, calendar, transitions
+// Categories: colors, inputs, buttons, grids, sizing, effects, calendar
 
 export interface ExampleDef {
   id: string;
@@ -13,13 +13,13 @@ export const examples: ExampleDef[] = [
   {
     id: "button",
     name: "Button",
-    categories: ["buttons", "primary", "border", "sizing", "shadows", "transitions"],
+    categories: ["colors", "buttons", "sizing", "effects"],
     component: () => import("../layout/ButtonBasicExample"),
   },
   {
     id: "button-mods",
     name: "Button Mods",
-    categories: ["buttons", "primary", "accent", "active-states", "border", "sizing", "shadows", "transitions"],
+    categories: ["colors", "buttons", "sizing", "effects"],
     component: () => import("../layout/ButtonModsExample"),
   },
 
@@ -27,79 +27,79 @@ export const examples: ExampleDef[] = [
   {
     id: "text-field",
     name: "TextField",
-    categories: ["inputs", "border", "background", "text", "sizing", "transitions"],
+    categories: ["colors", "inputs", "sizing", "effects"],
     component: () => import("../forms/TextFieldExample"),
   },
   {
     id: "text-area",
     name: "TextArea",
-    categories: ["inputs", "border", "background", "sizing"],
+    categories: ["colors", "inputs", "sizing"],
     component: () => import("../forms/TextAreaExample"),
   },
   {
     id: "number-field",
     name: "NumberField",
-    categories: ["inputs", "border", "sizing"],
+    categories: ["colors", "inputs", "sizing"],
     component: () => import("../forms/NumberFieldFormattingExample"),
   },
   {
     id: "checkbox",
     name: "Checkbox",
-    categories: ["inputs", "primary", "border", "sizing", "transitions"],
+    categories: ["colors", "inputs", "sizing", "effects"],
     component: () => import("../forms/CheckboxExample"),
   },
   {
     id: "radio",
     name: "Radio",
-    categories: ["inputs", "primary", "border", "sizing", "transitions"],
+    categories: ["colors", "inputs", "sizing", "effects"],
     component: () => import("../forms/RadioExample"),
   },
   {
     id: "switch",
     name: "Switch",
-    categories: ["inputs", "primary", "border", "shadows", "transitions"],
+    categories: ["colors", "inputs", "effects"],
     component: () => import("../forms/SwitchExample"),
   },
   {
     id: "select",
     name: "Select",
-    categories: ["inputs", "border", "background", "shadows", "transitions"],
+    categories: ["colors", "inputs", "sizing", "effects"],
     component: () => import("../forms/SelectExample"),
   },
   {
     id: "lookup-field",
     name: "LookupField",
-    categories: ["inputs", "border", "background", "shadows"],
+    categories: ["colors", "inputs", "sizing", "effects"],
     component: () => import("../forms/LookupFieldExample"),
   },
   {
     id: "slider",
     name: "Slider",
-    categories: ["inputs", "primary", "shadows", "transitions"],
+    categories: ["colors", "inputs", "effects"],
     component: () => import("../forms/SliderExample"),
   },
   {
     id: "date-field",
     name: "DateField",
-    categories: ["inputs", "calendar", "border", "shadows"],
+    categories: ["colors", "inputs", "calendar", "sizing", "effects"],
     component: () => import("../forms/DateFieldExample"),
   },
   {
     id: "calendar",
     name: "Calendar",
-    categories: ["calendar", "primary", "border", "background", "shadows"],
+    categories: ["colors", "calendar", "sizing", "effects"],
     component: () => import("../forms/CalendarDayDataExample"),
   },
   {
     id: "color-field",
     name: "ColorField",
-    categories: ["inputs", "border"],
+    categories: ["colors", "inputs", "sizing"],
     component: () => import("../forms/ColorFieldExample"),
   },
   {
     id: "color-picker",
     name: "ColorPicker",
-    categories: ["inputs", "background", "border"],
+    categories: ["colors"],
     component: () => import("../forms/ColorPickerExample"),
   },
 
@@ -107,7 +107,7 @@ export const examples: ExampleDef[] = [
   {
     id: "validation",
     name: "Validation",
-    categories: ["inputs", "accent", "border", "text"],
+    categories: ["colors", "inputs"],
     component: () => import("../forms/ValidationModesExample"),
   },
 
@@ -115,25 +115,25 @@ export const examples: ExampleDef[] = [
   {
     id: "section",
     name: "Section",
-    categories: ["background", "shadows", "border", "text"],
+    categories: ["colors", "sizing", "effects"],
     component: () => import("../layout/SectionExample"),
   },
   {
     id: "window",
     name: "Window",
-    categories: ["background", "shadows", "border", "text", "primary"],
+    categories: ["colors", "buttons", "sizing", "effects"],
     component: () => import("../layout/WindowExample"),
   },
   {
     id: "toast",
     name: "Toast",
-    categories: ["shadows", "accent", "background", "text"],
+    categories: ["colors", "effects"],
     component: () => import("../layout/ToastExample"),
   },
   {
     id: "tooltip",
     name: "Tooltip",
-    categories: ["shadows", "background", "text", "border"],
+    categories: ["colors", "effects"],
     component: () => import("../layout/TooltipExample"),
   },
 
@@ -141,7 +141,7 @@ export const examples: ExampleDef[] = [
   {
     id: "grid",
     name: "Grid",
-    categories: ["grid", "border", "background", "text", "sizing"],
+    categories: ["colors", "grids", "sizing", "effects"],
     component: () => import("../tables/GridExample"),
   },
 
@@ -149,19 +149,19 @@ export const examples: ExampleDef[] = [
   {
     id: "text",
     name: "Text",
-    categories: ["text", "sizing"],
+    categories: ["colors", "sizing"],
     component: () => import("../layout/TextExample"),
   },
   {
     id: "heading",
     name: "Heading",
-    categories: ["text", "sizing"],
+    categories: ["colors", "sizing"],
     component: () => import("../layout/HeadingExample"),
   },
   {
     id: "link",
     name: "Link",
-    categories: ["text", "primary", "transitions"],
+    categories: ["colors", "effects"],
     component: () => import("../layout/LinkExample"),
   },
 
@@ -169,13 +169,13 @@ export const examples: ExampleDef[] = [
   {
     id: "labels-top",
     name: "LabelsTopLayout",
-    categories: ["inputs", "sizing", "text", "border"],
+    categories: ["colors", "inputs", "sizing"],
     component: () => import("../layout/LabelsTopLayoutExample"),
   },
   {
     id: "labels-left",
     name: "LabelsLeftLayout",
-    categories: ["inputs", "sizing", "text", "border"],
+    categories: ["colors", "inputs", "sizing"],
     component: () => import("../layout/LabelsLeftLayoutExample"),
   },
 
@@ -183,13 +183,13 @@ export const examples: ExampleDef[] = [
   {
     id: "line-chart",
     name: "Line Chart",
-    categories: ["primary", "text"],
+    categories: ["colors"],
     component: () => import("../charts/OverviewLineChartExample"),
   },
   {
     id: "pie-chart",
     name: "Pie Chart",
-    categories: ["primary", "text"],
+    categories: ["colors"],
     component: () => import("../charts/OverviewPieChartExample"),
   },
 
@@ -197,13 +197,13 @@ export const examples: ExampleDef[] = [
   {
     id: "tabs",
     name: "Tabs",
-    categories: ["buttons", "primary", "border", "text", "transitions"],
+    categories: ["colors", "buttons", "sizing", "effects"],
     component: () => import("../layout/TabsExample"),
   },
   {
     id: "menu",
     name: "Menu",
-    categories: ["background", "shadows", "border", "text", "transitions"],
+    categories: ["colors", "sizing", "effects"],
     component: () => import("../layout/MenuVerticalExample"),
   },
 
@@ -211,7 +211,7 @@ export const examples: ExampleDef[] = [
   {
     id: "icon",
     name: "Icon",
-    categories: ["text", "sizing", "primary"],
+    categories: ["colors", "sizing"],
     component: () => import("../layout/IconExample"),
   },
 
@@ -219,7 +219,7 @@ export const examples: ExampleDef[] = [
   {
     id: "progress-bar",
     name: "ProgressBar",
-    categories: ["primary", "border", "background", "sizing"],
+    categories: ["colors", "sizing"],
     component: () => import("../layout/ProgressBarExample"),
   },
 
@@ -227,7 +227,7 @@ export const examples: ExampleDef[] = [
   {
     id: "list",
     name: "List",
-    categories: ["background", "inputs", "border", "text", "sizing"],
+    categories: ["colors", "sizing", "effects"],
     component: () => import("../forms/ListExample"),
   },
 ];

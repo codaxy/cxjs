@@ -35,8 +35,8 @@ $cx-grid-pagination-default-border-width: $cx-default-border-width !default;
 $cx-grid-pagination-default-border-color: $cx-default-border-color !default;
 $cx-grid-pagination-default-border-radius: null !default;
 $cx-grid-pagination-default-outer-border-radius: $cx-default-border-radius !default;
-$cx-grid-pagination-default-padding: cx-top($cx-default-box-padding)
-   cx-multiply(2, cx-top($cx-default-box-padding)) !default;
+$cx-grid-pagination-default-padding: $cx-default-box-padding-top
+   cx-multiply(2, $cx-default-box-padding-top) !default;
 
 $cx-dependencies: map-merge(
    $cx-dependencies,

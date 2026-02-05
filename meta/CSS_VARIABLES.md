@@ -52,7 +52,7 @@ Minimal set of design tokens that define the theme's identity.
    --cx-theme-danger-color: #d32f2f;
 
    // Text colors
-   --cx-theme-color: rgba(0, 0, 0, 0.87);
+   --cx-theme-text-color: rgba(0, 0, 0, 0.87);
 
    // Surface colors
    --cx-theme-background-color: white;
@@ -73,8 +73,8 @@ Minimal set of design tokens that define the theme's identity.
 
    // Sizing
    --cx-theme-border-radius: 4px;
-   --cx-theme-box-padding: 5px;
-   --cx-theme-box-line-height: 24px;
+   --cx-box-padding: 5px;
+   --cx-box-line-height: 24px;
 }
 ```
 
@@ -165,7 +165,7 @@ Override theme variables in containers. Because `color-mix()` is in the SCSS map
    --cx-theme-primary-color: #90caf9;
    --cx-theme-surface-color: #1e1e1e;
    --cx-theme-background-color: #121212;
-   --cx-theme-color: rgba(255, 255, 255, 0.87);
+   --cx-theme-text-color: rgba(255, 255, 255, 0.87);
    --cx-theme-border-color: #424242;
    --cx-theme-active-state-color: white;  // Lighten on hover instead of darken
 }

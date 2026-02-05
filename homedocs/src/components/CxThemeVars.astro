@@ -1,0 +1,12 @@
+---
+import { themeVariablesToCSS, defaultPreset } from 'cx-theme-variables';
+
+interface Props {
+  theme?: typeof defaultPreset;
+}
+
+const { theme = defaultPreset } = Astro.props;
+const css = themeVariablesToCSS(theme);
+---
+
+<style set:html={css}></style>

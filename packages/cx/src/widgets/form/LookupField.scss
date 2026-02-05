@@ -28,11 +28,9 @@
    $state: map.get($besm, state);
 
    $padding: cx-get-state-rule($state-style-map, default, padding);
-   $border-radius-offset: cx-round(
-      cx-multiply(
-         cx-get-state-rule($tag-state-style-map, default, border-radius),
-         0.25
-      )
+   $border-radius-offset: cx-multiply(
+      cx-get-state-rule($tag-state-style-map, default, border-radius),
+      0.25
    );
 
    .#{$block}#{$name} {
@@ -106,7 +104,11 @@
       }
 
       .#{$state}icon > & {
-         padding-left: cx-calc(cx-multiply(2, cx-left($padding)), $icon-size);
+         padding-left: cx-calc(
+            cx-left($padding),
+            $cx-default-input-left-tool-size,
+            $cx-default-input-left-tool-spacing
+         );
       }
    }
 

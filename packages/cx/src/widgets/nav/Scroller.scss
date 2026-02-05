@@ -147,8 +147,8 @@
       top: 50%;
       left: 50%;
       position: absolute;
-      margin-left: -$icon-size * 0.5;
-      margin-top: -$icon-size * 0.5;
+      margin-left: cx-multiply($icon-size, -0.5);
+      margin-top: cx-multiply($icon-size, -0.5);
    }
 }
 

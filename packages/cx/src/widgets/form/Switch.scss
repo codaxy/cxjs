@@ -70,15 +70,15 @@
       user-select: none;
       position: absolute;
       background-color: $axis-background-color;
-      border-radius: $axis-size * 0.5;
+      border-radius: cx-multiply($axis-size, 0.5);
       box-sizing: border-box;
       width: $width;
 
-      left: $handle-size * 0.5;
-      right: $handle-size * 0.5;
-      top: calc(50% - #{$axis-size * 0.5});
+      left: cx-multiply($handle-size, 0.5);
+      right: cx-multiply($handle-size, 0.5);
+      top: calc(50% - #{cx-multiply($axis-size, 0.5)});
       height: $axis-size;
-      padding: 0 $axis-size * 0.5;
+      padding: 0 cx-multiply($axis-size, 0.5);
    }
 
    .#{$element}#{$name}-space {
@@ -91,7 +91,7 @@
    .#{$element}#{$name}-range {
       position: absolute;
       background-color: $range-background-color;
-      border-radius: $axis-size * 0.5;
+      border-radius: cx-multiply($axis-size, 0.5);
       height: 100%;
       left: 0;
       width: 0;
@@ -112,8 +112,8 @@
       box-sizing: border-box;
       width: $handle-size;
       height: $handle-size;
-      margin-left: -$handle-size * 0.5;
-      margin-top: -$handle-size * 0.5;
+      margin-left: cx-multiply($handle-size, -0.5);
+      margin-top: cx-multiply($handle-size, -0.5);
       left: 0;
       top: 50%;
       transition: left 200ms;

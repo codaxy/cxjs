@@ -1,131 +1,340 @@
-import { Category } from "./model";
+import { Category, VariableType } from "./model";
+import {
+  ThemeVariables,
+  defaultPreset,
+  darkBluePreset,
+  darkGrayPreset,
+  oceanPreset,
+  roundingTweaks,
+  densityTweaks,
+  fontTweaks,
+} from "cx-theme-variables";
 
-export const defaultCategories: Category[] = [
+// Variable metadata - maps ThemeVariables keys to labels, types, and categories
+const variableMetadata: Array<{
+  key: keyof ThemeVariables;
+  label: string;
+  type: VariableType;
+  category: string;
+}> = [
+  // Colors
   {
-    id: "primary",
-    name: "Primary",
-    icon: "star",
-    variables: [
-      { name: "--cx-theme-primary-color", label: "Main primary color", value: "black", type: "color" },
-    ],
+    key: "primaryColor",
+    label: "Primary color",
+    type: "color",
+    category: "colors",
   },
   {
-    id: "accent",
-    name: "Accent & Status",
-    icon: "info",
-    variables: [
-      { name: "--cx-theme-accent-color", label: "Accent color for highlights", value: "lightgray", type: "color" },
-      { name: "--cx-theme-danger-color", label: "Danger/error color", value: "#d32f2f", type: "color" },
-    ],
+    key: "accentColor",
+    label: "Accent color",
+    type: "color",
+    category: "colors",
   },
   {
-    id: "text",
-    name: "Text Colors",
-    icon: "type",
-    variables: [
-      { name: "--cx-theme-color", label: "Default text color", value: "rgba(0, 0, 0, 0.87)", type: "color" },
-    ],
+    key: "dangerColor",
+    label: "Danger/error color",
+    type: "color",
+    category: "colors",
+  },
+  { key: "textColor", label: "Text color", type: "color", category: "colors" },
+  {
+    key: "backgroundColor",
+    label: "Background color",
+    type: "color",
+    category: "colors",
   },
   {
-    id: "background",
-    name: "Backgrounds",
-    icon: "palette",
-    variables: [
-      { name: "--cx-theme-background-color", label: "Main background color", value: "white", type: "color" },
-      { name: "--cx-theme-surface-color", label: "Surface/card background", value: "white", type: "color" },
-    ],
+    key: "surfaceColor",
+    label: "Surface/card color",
+    type: "color",
+    category: "colors",
   },
   {
-    id: "border",
-    name: "Borders",
-    icon: "square",
-    variables: [
-      { name: "--cx-theme-border-color", label: "Default border color", value: "lightgray", type: "color" },
-      { name: "--cx-theme-border-color-light", label: "Light border color", value: "#e0e0e0", type: "color" },
-      { name: "--cx-theme-border-radius", label: "Default border radius", value: "4px", type: "size" },
-    ],
+    key: "borderColor",
+    label: "Border color",
+    type: "color",
+    category: "colors",
   },
   {
-    id: "shadows",
-    name: "Shadows",
-    icon: "circle",
-    variables: [
-      { name: "--cx-theme-box-shadow", label: "Default box shadow", value: "0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)", type: "text" },
-      { name: "--cx-theme-box-shadow-elevated", label: "Elevated box shadow", value: "0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)", type: "text" },
-      { name: "--cx-theme-focus-box-shadow", label: "Focus ring shadow", value: "0 0 0 2px rgba(0, 0, 0, 0.2)", type: "text" },
-    ],
+    key: "activeStateColor",
+    label: "Hover overlay (black/white)",
+    type: "color",
+    category: "colors",
+  },
+
+  // Inputs
+  {
+    key: "inputBackgroundColor",
+    label: "Background",
+    type: "color",
+    category: "inputs",
   },
   {
-    id: "sizing",
-    name: "Sizing",
-    icon: "move",
-    variables: [
-      { name: "--cx-theme-base-size", label: "Base font size", value: "14px", type: "size" },
-      { name: "--cx-theme-box-line-height", label: "Box line height", value: "24px", type: "size" },
-      { name: "--cx-theme-box-padding", label: "Box padding", value: "5px", type: "size" },
-      { name: "--cx-theme-icon-size", label: "Icon size", value: "16px", type: "size" },
-    ],
+    key: "inputBorderColor",
+    label: "Border color",
+    type: "color",
+    category: "inputs",
   },
   {
-    id: "active-states",
-    name: "Active States",
-    icon: "mouse-pointer",
-    variables: [
-      { name: "--cx-theme-active-state-color", label: "Overlay color for hover/press (black for light themes, white for dark)", value: "black", type: "color" },
-      { name: "--cx-theme-active-state-hover-amount", label: "Hover overlay opacity", value: "8%", type: "text" },
-      { name: "--cx-theme-active-state-pressed-amount", label: "Pressed overlay opacity", value: "12%", type: "text" },
-    ],
+    key: "inputFontSize",
+    label: "Font size",
+    type: "text",
+    category: "inputs",
   },
   {
-    id: "buttons",
-    name: "Buttons",
-    icon: "square",
-    variables: [
-      { name: "--cx-theme-default-button-background-color", label: "Default button background", value: "color-mix(in srgb, var(--cx-theme-surface-color), var(--cx-theme-active-state-color) 4%)", type: "color" },
-      { name: "--cx-theme-default-button-border-color", label: "Default button border color", value: "var(--cx-theme-border-color)", type: "color" },
-    ],
+    key: "inputLineHeight",
+    label: "Line height",
+    type: "size",
+    category: "inputs",
   },
   {
-    id: "inputs",
-    name: "Inputs",
-    icon: "type",
-    variables: [
-      { name: "--cx-theme-input-background-color", label: "Input background", value: "white", type: "color" },
-      { name: "--cx-theme-input-border-color", label: "Input border color", value: "lightgray", type: "color" },
-    ],
+    key: "inputPaddingX",
+    label: "Padding X",
+    type: "size",
+    category: "inputs",
   },
   {
-    id: "grid",
-    name: "Grid",
-    icon: "table",
-    variables: [
-      { name: "--cx-theme-grid-header-background-color", label: "Grid header background", value: "#fafafa", type: "color" },
-      { name: "--cx-theme-grid-header-border-color", label: "Grid header border", value: "lightgray", type: "color" },
-      { name: "--cx-theme-grid-data-background-color", label: "Grid data background", value: "white", type: "color" },
-      { name: "--cx-theme-grid-data-border-color", label: "Grid data border", value: "#e0e0e0", type: "color" },
-    ],
+    key: "inputPaddingY",
+    label: "Padding Y",
+    type: "size",
+    category: "inputs",
   },
   {
-    id: "calendar",
-    name: "Calendar",
-    icon: "calendar",
-    variables: [
-      { name: "--cx-theme-calendar-background-color", label: "Calendar background", value: "white", type: "color" },
-    ],
+    key: "checkboxSize",
+    label: "Checkbox/Radio size",
+    type: "size",
+    category: "inputs",
+  },
+
+  // Buttons
+  {
+    key: "buttonBackgroundColor",
+    label: "Background",
+    type: "color",
+    category: "buttons",
   },
   {
-    id: "transitions",
-    name: "Transitions",
-    icon: "zap",
-    variables: [
-      { name: "--cx-theme-transition", label: "Default transition", value: "all 0.2s ease", type: "text" },
-    ],
+    key: "buttonBorderColor",
+    label: "Border color",
+    type: "text",
+    category: "buttons",
+  },
+  {
+    key: "buttonFontSize",
+    label: "Font size",
+    type: "text",
+    category: "buttons",
+  },
+  {
+    key: "buttonLineHeight",
+    label: "Line height",
+    type: "size",
+    category: "buttons",
+  },
+  {
+    key: "buttonPaddingX",
+    label: "Padding X",
+    type: "size",
+    category: "buttons",
+  },
+  {
+    key: "buttonPaddingY",
+    label: "Padding Y",
+    type: "size",
+    category: "buttons",
+  },
+  {
+    key: "buttonBorderWidth",
+    label: "Border width",
+    type: "size",
+    category: "buttons",
+  },
+  {
+    key: "buttonFontWeight",
+    label: "Font weight",
+    type: "text",
+    category: "buttons",
+  },
+  {
+    key: "buttonBoxShadow",
+    label: "Box shadow",
+    type: "text",
+    category: "buttons",
+  },
+
+  // Grids
+  {
+    key: "gridHeaderBackgroundColor",
+    label: "Header background",
+    type: "text",
+    category: "grids",
+  },
+  {
+    key: "gridHeaderFontWeight",
+    label: "Header font weight",
+    type: "text",
+    category: "grids",
+  },
+  {
+    key: "gridDataBackgroundColor",
+    label: "Data background",
+    type: "color",
+    category: "grids",
+  },
+  {
+    key: "gridDataBorderColor",
+    label: "Data border",
+    type: "color",
+    category: "grids",
+  },
+
+  // Sizing
+  {
+    key: "borderRadius",
+    label: "Border radius",
+    type: "size",
+    category: "sizing",
+  },
+  {
+    key: "baseFontSize",
+    label: "Base font size",
+    type: "size",
+    category: "sizing",
+  },
+  { key: "iconSize", label: "Icon size", type: "size", category: "sizing" },
+  {
+    key: "fontFamily",
+    label: "Font family",
+    type: "text",
+    category: "sizing",
+  },
+  {
+    key: "fontWeight",
+    label: "Font weight",
+    type: "text",
+    category: "sizing",
+  },
+
+  // Effects
+  { key: "boxShadow", label: "Box shadow", type: "text", category: "effects" },
+  {
+    key: "boxShadowElevated",
+    label: "Elevated shadow",
+    type: "text",
+    category: "effects",
+  },
+  {
+    key: "focusBoxShadow",
+    label: "Focus ring",
+    type: "text",
+    category: "effects",
+  },
+  { key: "transition", label: "Transition", type: "text", category: "effects" },
+  {
+    key: "activeStateHoverAmount",
+    label: "Hover amount",
+    type: "text",
+    category: "effects",
+  },
+  {
+    key: "activeStatePressedAmount",
+    label: "Pressed amount",
+    type: "text",
+    category: "effects",
+  },
+
+  // Calendar
+  {
+    key: "calendarBackgroundColor",
+    label: "Background",
+    type: "color",
+    category: "calendar",
   },
 ];
 
+const categoryMetadata = [
+  { id: "colors", name: "Colors", icon: "palette", group: "Theme" },
+  { id: "sizing", name: "Sizing", icon: "move", group: "Theme" },
+  { id: "effects", name: "Effects", icon: "zap", group: "Theme" },
+  { id: "inputs", name: "Inputs", icon: "text-cursor-input", group: "Components" },
+  { id: "buttons", name: "Buttons", icon: "square", group: "Components" },
+  { id: "grids", name: "Grids", icon: "table", group: "Components" },
+  { id: "calendar", name: "Calendar", icon: "calendar", group: "Components" },
+];
+
+export const categoryGroups = [
+  {
+    name: "Theme",
+    categories: categoryMetadata.filter((c) => c.group === "Theme"),
+  },
+  {
+    name: "Components",
+    categories: categoryMetadata.filter((c) => c.group === "Components"),
+  },
+];
+
+/**
+ * Converts a ThemeVariables preset to the Category[] structure used by the theme editor
+ */
+export function themeToCategories(theme: ThemeVariables): Category[] {
+  return categoryMetadata.map((cat) => ({
+    id: cat.id,
+    name: cat.name,
+    icon: cat.icon,
+    variables: variableMetadata
+      .filter((v) => v.category === cat.id)
+      .map((v) => ({
+        key: v.key,
+        label: v.label,
+        value: theme[v.key],
+        type: v.type,
+      })),
+  }));
+}
+
+/**
+ * Converts the Category[] structure back to a ThemeVariables object
+ */
+export function categoriesToTheme(categories: Category[]): ThemeVariables {
+  const theme: Partial<ThemeVariables> = {};
+  for (const cat of categories) {
+    for (const v of cat.variables) {
+      theme[v.key] = v.value;
+    }
+  }
+  return theme as ThemeVariables;
+}
+
+export const defaultCategories = themeToCategories(defaultPreset);
+
 export const presets = [
-  { id: "dark-blue", text: "Dark Blue (Default)" },
-  { id: "light", text: "Light" },
-  { id: "dark-gray", text: "Dark Gray" },
-  { id: "ocean", text: "Ocean" },
+  { id: "default", text: "Default", theme: defaultPreset },
+  { id: "darkBlue", text: "Dark Blue", theme: darkBluePreset },
+  { id: "darkGray", text: "Dark Gray", theme: darkGrayPreset },
+  { id: "ocean", text: "Ocean", theme: oceanPreset },
+];
+
+export const roundingOptions = [
+  { id: "none", text: "None", tweak: roundingTweaks.none },
+  { id: "small", text: "Small", tweak: roundingTweaks.small },
+  { id: "medium", text: "Medium", tweak: roundingTweaks.medium },
+  { id: "large", text: "Large", tweak: roundingTweaks.large },
+];
+
+export const densityOptions = [
+  { id: "minimal", text: "Minimal", tweak: densityTweaks.minimal },
+  { id: "condensed", text: "Condensed", tweak: densityTweaks.condensed },
+  { id: "compact", text: "Compact", tweak: densityTweaks.compact },
+  { id: "normal", text: "Normal", tweak: densityTweaks.normal },
+  { id: "comfortable", text: "Comfortable", tweak: densityTweaks.comfortable },
+  { id: "spacious", text: "Spacious", tweak: densityTweaks.spacious },
+];
+
+export const fontOptions = [
+  { id: "system", text: "System", tweak: fontTweaks.system, googleFont: null },
+  { id: "inter", text: "Inter", tweak: fontTweaks.inter, googleFont: "Inter:wght@400;500;600;700" },
+  { id: "roboto", text: "Roboto", tweak: fontTweaks.roboto, googleFont: "Roboto:wght@400;500;700" },
+  { id: "openSans", text: "Open Sans", tweak: fontTweaks.openSans, googleFont: "Open+Sans:wght@400;500;600;700" },
+  { id: "poppins", text: "Poppins", tweak: fontTweaks.poppins, googleFont: "Poppins:wght@400;500;600;700" },
+  { id: "lato", text: "Lato", tweak: fontTweaks.lato, googleFont: "Lato:wght@400;700" },
 ];

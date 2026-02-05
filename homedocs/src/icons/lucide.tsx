@@ -37,6 +37,7 @@ import {
   Square,
   Star,
   Table2,
+  TextCursorInput,
   TrendingDown,
   Trash2,
   Type,
@@ -105,3 +106,4 @@ Icon.register("move", getRenderer(Move));
 Icon.register("copy", getRenderer(Copy));
 Icon.register("download", getRenderer(Download));
 Icon.register("refresh", getRenderer(RefreshCw));
+Icon.register("text-cursor-input", getRenderer(TextCursorInput));

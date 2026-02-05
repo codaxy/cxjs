@@ -1,0 +1,88 @@
+@use "sass:map";
+@use "../../variables.scss" as *;
+@use "cx/src/widgets/lists.scss" as *;
+@use "cx/src/widgets/grid/maps.scss" as *;
+@use "cx/src/util/scss/deep-merge" as *;
+
+// =============================================================================
+// GRID - Map Overrides
+// =============================================================================
+
+// Grid header
+$cx-grid-header-state-style-map: cx-deep-map-merge(
+   $cx-grid-header-state-style-map,
+   (
+      default: (
+         background-color: var(--cx-grid-header-background-color),
+      ),
+      hover: (
+         background-color: color-mix(
+               in srgb,
+               var(--cx-grid-header-background-color),
+               var(--cx-theme-active-state-color)
+                  var(--cx-theme-active-state-hover-amount)
+            ),
+      ),
+      sorted: (),
+      sorted-hover: (
+         background-color: color-mix(
+               in srgb,
+               var(--cx-grid-header-background-color),
+               var(--cx-theme-active-state-color)
+                  var(--cx-theme-active-state-hover-amount)
+            ),
+      ),
+   )
+);
+
+// Grid data rows
+$cx-grid-data-state-style-map: cx-deep-map-merge(
+   $cx-grid-data-state-style-map,
+   (
+      hover: (
+         background-color: rgba(0, 0, 0, 0.04),
+         color: var(--cx-theme-text-color),
+      ),
+      cursor: (
+         background-color: rgba(0, 0, 0, 0.08),
+      ),
+      selected: (
+         background-color: rgba(0, 0, 0, 0.12),
+      ),
+      selected-hover: (
+         background-color: rgba(0, 0, 0, 0.16),
+         color: var(--cx-theme-primary-color),
+      ),
+      selected-cursor: (
+         background-color: rgba(0, 0, 0, 0.16),
+      ),
+      disabled: (
+         background-color: transparent,
+      ),
+   )
+);
+
+// Grid pagination
+$cx-grid-pagination-state-style-map: cx-deep-map-merge(
+   $cx-list-item,
+   (
+      default: (
+         border-color: transparent,
+         border-radius: var(--cx-theme-border-radius),
+         padding: $cx-default-box-padding,
+      ),
+      active: (
+         color: var(--cx-theme-primary-color-dark),
+      ),
+      cursor: (),
+      selected-cursor: (
+         box-shadow: var(--cx-theme-box-shadow),
+         background-color: var(--cx-theme-primary-color),
+         color: white,
+      ),
+      selected: (
+         background-color: var(--cx-theme-primary-color),
+         color: white,
+      ),
+   )
+);

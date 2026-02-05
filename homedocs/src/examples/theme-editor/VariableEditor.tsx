@@ -71,11 +71,7 @@ export const VariableEditor = createFunctionalComponent(() => (
         <Repeater records={m.$category.variables} recordAlias={m.$variable}>
           <div class="mb-5">
             <div
-              class="text-sm font-mono text-foreground mb-0.5"
-              text={m.$variable.name}
-            />
-            <div
-              class="text-xs text-muted-foreground mb-2"
+              class="text-xs text-foreground mb-1"
               text={m.$variable.label}
             />
             <div class="flex gap-2 items-center">

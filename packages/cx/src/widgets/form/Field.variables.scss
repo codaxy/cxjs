@@ -14,23 +14,29 @@ $cx-default-input-background-color: white !default;
 $cx-default-input-color: black !default;
 $cx-default-input-placeholder-color: $cx-default-empty-text-color !default;
 $cx-default-input-width: 180px !default;
+// Input padding - individual values for full control
 $cx-default-input-padding: $cx-default-box-padding !default;
+$cx-default-input-padding-top: cx-top($cx-default-input-padding) !default;
+$cx-default-input-padding-right: cx-right($cx-default-input-padding) !default;
+$cx-default-input-padding-bottom: cx-bottom($cx-default-input-padding) !default;
+$cx-default-input-padding-left: cx-left($cx-default-input-padding) !default;
+
 $cx-default-input-icon-size: $cx-default-icon-size !default;
 
 $cx-default-radio-size: 14px !default;
 
 // Tool
 $cx-default-input-tool-size: $cx-default-box-line-height !default;
-$cx-default-input-left-tool-spacing: cx-left($cx-default-box-padding) !default;
+$cx-default-input-left-tool-spacing: $cx-default-box-padding-left !default;
 $cx-default-input-right-tool-spacing: 1px !default;
 $cx-default-input-left-tool-size: $cx-default-input-tool-size !default;
 $cx-default-input-left-tool-left: cx-calc(
-   cx-left($cx-default-input-padding),
-   cx-left($cx-default-box-border-width)
+   $cx-default-input-padding-top,
+   $cx-default-box-border-width-left
 ) !default;
 $cx-default-input-right-tool-right: cx-calc(
-   cx-right($cx-default-input-padding),
-   cx-right($cx-default-box-border-width)
+   $cx-default-input-padding-top,
+   $cx-default-box-border-width-right
 ) !default;
 
 // Clear Icon

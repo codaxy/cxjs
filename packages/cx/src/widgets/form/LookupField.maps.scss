@@ -17,9 +17,7 @@ $cx-input-tag-clear-state-style-map: cx-deep-map-merge(
    $cx-clear-state-style-map,
    (
       default: (
-         right: cx-round(
-               cx-multiply($cx-default-input-tag-border-radius, 0.125)
-            ),
+         right: cx-multiply($cx-default-input-tag-border-radius, 0.125),
       ),
    )
 ) !default;

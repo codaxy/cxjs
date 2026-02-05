@@ -2,6 +2,7 @@
 import { ClientRouter } from 'astro:transitions';
 import '../styles/tailwind.css';
 import '../styles/global.scss';
+import CxThemeVars from '../components/CxThemeVars.astro';
 
 interface Props {
   title: string;
@@ -74,6 +75,7 @@ const gtmId = import.meta.env.GTM_ID;
           height="0" width="0" style="display:none;visibility:hidden"></iframe>
       </noscript>
     )}
+    <CxThemeVars />
     <slot />
   </body>
 </html>

@@ -95,9 +95,9 @@
 
    @if $input {
       width: $width;
-      height: 100%; //cx-calc($line-height, cx-top($padding), cx-bottom($padding), cx-top($border-width), cx-bottom($border-width));
 
       @if ($cx-use-box-line-height-fix) {
+         height: 100%;
          //100% line-height fix - inputs work better in all browser, especially in Firefox
          $styles: cx-deep-map-merge(
             $styles,
@@ -187,8 +187,8 @@
    position: absolute;
    left: 50%;
    top: 50%;
-   margin-top: -$size * 0.5;
-   margin-left: -$size * 0.5;
+   margin-top: cx-multiply($size, -0.5);
+   margin-left: cx-multiply($size, -0.5);
    height: $size;
    width: $size;
    line-height: $size;

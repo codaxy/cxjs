@@ -20,11 +20,25 @@
 //       will not be aligned in case of pixel boundaries and icons may appear blurry in some desktop browsers.
 //
 
+@use "../util/scss/clockwise.scss" as *;
+
 $cx-default-box-font-size: 13px !default;
 $cx-default-box-font-family: inherit !default;
 $cx-default-box-line-height: 16px !default;
-$cx-default-box-padding: 5px !default; //should not be a list
+
+// Box padding - individual values for full control
+$cx-default-box-padding: 5px !default;
+$cx-default-box-padding-top: cx-top($cx-default-box-padding) !default;
+$cx-default-box-padding-right: cx-right($cx-default-box-padding) !default;
+$cx-default-box-padding-bottom: cx-bottom($cx-default-box-padding) !default;
+$cx-default-box-padding-left: cx-left($cx-default-box-padding) !default;
+
+// Box border width - individual values for full control
 $cx-default-box-border-width: 1px !default;
+$cx-default-box-border-width-top: cx-top($cx-default-box-border-width) !default;
+$cx-default-box-border-width-right: cx-right($cx-default-box-border-width) !default;
+$cx-default-box-border-width-bottom: cx-bottom($cx-default-box-border-width) !default;
+$cx-default-box-border-width-left: cx-left($cx-default-box-border-width) !default;
 
 //Icons
 $cx-default-icon-size: 16px !default;

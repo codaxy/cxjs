@@ -48,14 +48,13 @@
          $state-style-map,
          $placeholder: $placeholder,
          $overrides: (
-            padding: cx-top($cx-default-input-padding)
+            padding: $cx-default-input-padding-top
                calc(
-                  #{cx-right($cx-default-input-padding)} +
+                  #{$cx-default-input-padding-right} +
                      #{$cx-default-clear-size} -
-                     #{cx-right($cx-default-input-padding)}
+                     #{$cx-default-input-padding-right}
                )
-               cx-bottom($cx-default-input-padding)
-               cx-left($cx-default-input-padding),
+               $cx-default-input-padding-bottom $cx-default-input-padding-left,
             -webkit-appearance: none,
             -moz-appearance: none,
             -ms-appearance: none,
@@ -64,7 +63,11 @@
       );
 
       .#{$state}icon > & {
-         padding-left: cx-calc(cx-multiply(2, cx-left($padding)), $icon-size);
+         padding-left: cx-calc(
+            cx-left($padding),
+            $cx-default-input-left-tool-size,
+            $cx-default-input-left-tool-spacing
+         );
       }
 
       .#{$state}empty > & {
