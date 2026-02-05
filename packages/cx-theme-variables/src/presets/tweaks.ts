@@ -22,7 +22,6 @@ export const roundingLarge: Partial<ThemeVariables> = {
    borderRadius: "8px",
 };
 
-
 // Density tweaks
 export const densityMinimal: Partial<ThemeVariables> = {
    baseFontSize: "12px",
@@ -74,10 +73,10 @@ export const densityNormal: Partial<ThemeVariables> = {
 
 export const densityComfortable: Partial<ThemeVariables> = {
    baseFontSize: "14px",
-   inputLineHeight: "23px",
+   inputLineHeight: "24px",
    inputPaddingX: "6px",
    inputPaddingY: "6px",
-   buttonLineHeight: "23px",
+   buttonLineHeight: "24px",
    buttonPaddingX: "18px",
    buttonPaddingY: "6px",
    checkboxSize: "17px",

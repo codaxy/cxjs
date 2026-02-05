@@ -37,6 +37,7 @@ export interface ThemeVariables {
    fontWeight: string;
 
    // Input
+   inputColor: string;
    inputBackgroundColor: string;
    inputBorderColor: string;
    inputFontSize: string;
@@ -108,6 +109,7 @@ export const variableMap: Record<keyof ThemeVariables, string> = {
    fontWeight: "--cx-theme-font-weight",
 
    // Input
+   inputColor: "--cx-input-color",
    inputBackgroundColor: "--cx-input-background-color",
    inputBorderColor: "--cx-input-border-color",
    inputFontSize: "--cx-input-font-size",

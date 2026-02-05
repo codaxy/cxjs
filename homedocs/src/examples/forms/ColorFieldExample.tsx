@@ -16,7 +16,7 @@ const m = createModel<Model>();
 // @index
 export default (
   <LabelsTopLayout columns={2}>
-    <ColorField label="Standard (RGBA)" value={m.color} autoFocus />
+    <ColorField label="Standard (RGBA)" value={m.color}  />
     <ColorField label="HSLA Format" value={m.hsla} format="hsla" />
     <ColorField label="Hex Format" value={m.hex} format="hex" />
     <ColorField label="Disabled" value={m.color} disabled />

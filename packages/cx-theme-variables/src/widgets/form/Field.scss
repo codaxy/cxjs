@@ -11,6 +11,10 @@
 $cx-input-state-style-map: cx-deep-map-merge(
    $cx-input-state-style-map,
    (
+      disabled: (
+         background: null,
+         color: null,
+      ),
       focus: (
          border-color: var(--cx-theme-primary-color),
          box-shadow: var(--cx-theme-focus-box-shadow),
@@ -20,7 +24,7 @@ $cx-input-state-style-map: cx-deep-map-merge(
 
 // Standard form field
 $cx-std-field-state-style-map: cx-deep-map-merge(
-   $cx-input-state-style-map,
+   $cx-std-field-state-style-map,
    (
       default: (
          box-shadow: none,
@@ -29,21 +33,25 @@ $cx-std-field-state-style-map: cx-deep-map-merge(
       hover: (),
       focus: (
          box-shadow: var(--cx-theme-focus-box-shadow),
-         background-color: white,
       ),
       disabled: (
-         color: rgba(0, 0, 0, 0.38),
-         background-color: rgba(0, 0, 0, 0.04),
+         background: null,
+         color: null,
+         opacity: 0.5,
          box-shadow: none,
-         border-color: rgba(0, 0, 0, 0.12),
       ),
       error: (
-         background-color: #ffebee,
+         background-color: color-mix(
+               in oklch,
+               var(--cx-theme-danger-color) 10%,
+               var(--cx-theme-background-color)
+            ),
          border-color: var(--cx-theme-danger-color),
       ),
       error-focus: (
          border-color: var(--cx-theme-danger-color-dark),
-         box-shadow: 0 0 0 2px rgba(211, 47, 47, 0.3),
+         box-shadow: 0 0 0 2px
+            color-mix(in oklch, var(--cx-theme-danger-color) 30%, transparent),
       ),
    )
 );
@@ -83,16 +91,14 @@ $cx-checkbox-state-style-map: cx-deep-map-merge(
          opacity: 1,
       ),
       checked-focus: (
-         background-color: var(--cx-theme-primary-color-dark),
-         border-color: var(--cx-theme-primary-color-dark),
+         background-color: var(--cx-theme-primary-color),
+         border-color: var(--cx-theme-primary-color),
       ),
       disabled: (
-         background-color: transparent,
-         border-color: rgba(0, 0, 0, 0.26),
+         opacity: 0.5,
       ),
       disabled-checked: (
-         background-color: rgba(0, 0, 0, 0.26),
-         border-color: transparent,
+         opacity: 0.5,
       ),
    )
 );
@@ -107,23 +113,21 @@ $cx-radio-state-style-map: cx-deep-map-merge(
       ),
       checked-focus: (
          color: var(--cx-theme-primary-color),
-         border-color: var(--cx-theme-primary-color-dark),
+         border-color: var(--cx-theme-primary-color),
       ),
       checked-hover: (
          color: var(--cx-theme-primary-color),
-         border-color: var(--cx-theme-primary-color-dark),
+         border-color: var(--cx-theme-primary-color),
       ),
       focus: (
          box-shadow: var(--cx-theme-focus-box-shadow),
          border-color: var(--cx-theme-primary-color),
       ),
       disabled: (
-         background-color: transparent,
-         border-color: rgba(0, 0, 0, 0.26),
+         opacity: 0.5,
       ),
       disabled-checked: (
-         color: rgba(0, 0, 0, 0.26),
-         border-color: rgba(0, 0, 0, 0.12),
+         opacity: 0.5,
       ),
    )
 );
@@ -140,7 +144,11 @@ $cx-input-tag-state-style-map: cx-deep-map-merge(
          margin: -1px,
       ),
       hover: (
-         background-color: #e0e0e0,
+         background-color: color-mix(
+               in oklch,
+               var(--cx-theme-active-state-color) 12%,
+               transparent
+            ),
       ),
    )
 );
@@ -154,12 +162,12 @@ $cx-slider-handle-styles: cx-deep-map-merge(
          background-color: var(--cx-theme-primary-color-light),
       ),
       active: (
-         background-color: var(--cx-theme-primary-color-dark),
-         border-color: var(--cx-theme-primary-color-dark),
+         background-color: var(--cx-theme-primary-color),
+         border-color: var(--cx-theme-primary-color),
       ),
       focus: (
          box-shadow: var(--cx-theme-box-shadow-elevated),
-         background-color: var(--cx-theme-primary-color-dark),
+         background-color: var(--cx-theme-primary-color),
       ),
    )
 );
@@ -175,7 +183,11 @@ $cx-switch-handle-styles: cx-deep-map-merge(
          box-shadow: var(--cx-theme-box-shadow),
       ),
       active: (
-         background-color: #e0e0e0,
+         background-color: color-mix(
+               in oklch,
+               var(--cx-theme-active-state-color) 12%,
+               var(--cx-theme-background-color)
+            ),
          border-color: transparent,
       ),
       focus: (
@@ -187,7 +199,11 @@ $cx-switch-handle-styles: cx-deep-map-merge(
          border-color: transparent,
       ),
       on-active: (
-         background-color: #e0e0e0,
+         background-color: color-mix(
+               in oklch,
+               var(--cx-theme-active-state-color) 12%,
+               var(--cx-theme-background-color)
+            ),
       ),
    )
 );

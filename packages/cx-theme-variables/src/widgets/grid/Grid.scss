@@ -72,7 +72,7 @@ $cx-grid-pagination-state-style-map: cx-deep-map-merge(
          padding: $cx-default-box-padding,
       ),
       active: (
-         color: var(--cx-theme-primary-color-dark),
+         color: var(--cx-theme-primary-color),
       ),
       cursor: (),
       selected-cursor: (

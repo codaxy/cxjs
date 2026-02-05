@@ -39,6 +39,7 @@ const defaultPreset: ThemeVariables = {
    fontWeight: "400",
 
    // Input
+   inputColor: "inherit",
    inputBackgroundColor: "white",
    inputBorderColor: "lightgray",
    inputFontSize: "var(--cx-theme-base-font-size)",

@@ -98,7 +98,7 @@ Icon.register("grip-vertical", getRenderer(GripVertical));
 Icon.register("palette", getRenderer(Palette));
 Icon.register("circle", getRenderer(Circle));
 Icon.register("info", getRenderer(Info));
-Icon.register("square", getRenderer(Square));
+//Icon.register("square", getRenderer(Square)); // it needs to be filled
 Icon.register("type", getRenderer(Type));
 Icon.register("panel-top", getRenderer(PanelTop));
 Icon.register("table", getRenderer(Table2));

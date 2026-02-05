@@ -106,6 +106,7 @@ $cx-theme-box-padding: var(--cx-input-padding-y) var(--cx-input-padding-x);
    // Form / Input
    // -------------------------------------------------------------------------
    $cx-default-input-width: 200px !default,
+   $cx-default-input-color: var(--cx-input-color) !default,
    $cx-default-input-background-color: var(--cx-input-background-color) !default,
    $cx-default-input-font-size: var(--cx-input-font-size) !default,
    $cx-default-input-border-color: var(--cx-input-border-color) !default,
