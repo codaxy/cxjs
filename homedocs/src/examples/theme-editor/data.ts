@@ -9,6 +9,8 @@ import {
   densityTweaks,
   fontTweaks,
 } from "cx-theme-variables";
+import homedocsLightPreset from "../../styles/homedocsLight";
+import homedocsDarkPreset from "../../styles/homedocsDark";
 
 // Variable metadata - maps ThemeVariables keys to labels, types, and categories
 const variableMetadata: Array<{
@@ -25,6 +27,18 @@ const variableMetadata: Array<{
     category: "colors",
   },
   {
+    key: "primaryTextColor",
+    label: "Primary text color",
+    type: "color",
+    category: "colors",
+  },
+  {
+    key: "primaryBorderColor",
+    label: "Primary border color",
+    type: "text",
+    category: "colors",
+  },
+  {
     key: "accentColor",
     label: "Accent color",
     type: "color",
@@ -34,6 +48,18 @@ const variableMetadata: Array<{
     key: "dangerColor",
     label: "Danger/error color",
     type: "color",
+    category: "colors",
+  },
+  {
+    key: "dangerTextColor",
+    label: "Danger text color",
+    type: "color",
+    category: "colors",
+  },
+  {
+    key: "dangerBorderColor",
+    label: "Danger border color",
+    type: "text",
     category: "colors",
   },
   { key: "textColor", label: "Text color", type: "color", category: "colors" },
@@ -55,14 +81,20 @@ const variableMetadata: Array<{
     type: "color",
     category: "colors",
   },
-  {
-    key: "activeStateColor",
-    label: "Hover overlay (black/white)",
-    type: "color",
-    category: "colors",
-  },
 
   // Inputs
+  {
+    key: "inputWidth",
+    label: "Width",
+    type: "size",
+    category: "inputs",
+  },
+  {
+    key: "inputColor",
+    label: "Color",
+    type: "text",
+    category: "inputs",
+  },
   {
     key: "inputBackgroundColor",
     label: "Background",
@@ -99,11 +131,30 @@ const variableMetadata: Array<{
     type: "size",
     category: "inputs",
   },
+  // Checks & Switches
   {
     key: "checkboxSize",
     label: "Checkbox/Radio size",
     type: "size",
-    category: "inputs",
+    category: "checks",
+  },
+  {
+    key: "switchAxisSize",
+    label: "Switch axis size",
+    type: "size",
+    category: "checks",
+  },
+  {
+    key: "switchHandleSize",
+    label: "Switch handle size",
+    type: "size",
+    category: "checks",
+  },
+  {
+    key: "switchWidth",
+    label: "Switch width",
+    type: "size",
+    category: "checks",
   },
 
   // Buttons
@@ -158,6 +209,42 @@ const variableMetadata: Array<{
   {
     key: "buttonBoxShadow",
     label: "Box shadow",
+    type: "text",
+    category: "buttons",
+  },
+  {
+    key: "buttonBorderRadius",
+    label: "Border radius",
+    type: "text",
+    category: "buttons",
+  },
+  {
+    key: "buttonHoverBoxShadow",
+    label: "Hover box shadow",
+    type: "text",
+    category: "buttons",
+  },
+  {
+    key: "buttonHoverStateMixColor",
+    label: "Hover mix color",
+    type: "text",
+    category: "buttons",
+  },
+  {
+    key: "buttonHoverStateMixAmount",
+    label: "Hover mix amount",
+    type: "text",
+    category: "buttons",
+  },
+  {
+    key: "buttonActiveStateMixColor",
+    label: "Active mix color",
+    type: "text",
+    category: "buttons",
+  },
+  {
+    key: "buttonActiveStateMixAmount",
+    label: "Active mix amount",
     type: "text",
     category: "buttons",
   },
@@ -230,18 +317,6 @@ const variableMetadata: Array<{
     category: "effects",
   },
   { key: "transition", label: "Transition", type: "text", category: "effects" },
-  {
-    key: "activeStateHoverAmount",
-    label: "Hover amount",
-    type: "text",
-    category: "effects",
-  },
-  {
-    key: "activeStatePressedAmount",
-    label: "Pressed amount",
-    type: "text",
-    category: "effects",
-  },
 
   // Calendar
   {
@@ -256,8 +331,9 @@ const categoryMetadata = [
   { id: "colors", name: "Colors", icon: "palette", group: "Theme" },
   { id: "sizing", name: "Sizing", icon: "move", group: "Theme" },
   { id: "effects", name: "Effects", icon: "zap", group: "Theme" },
-  { id: "inputs", name: "Inputs", icon: "text-cursor-input", group: "Components" },
   { id: "buttons", name: "Buttons", icon: "square", group: "Components" },
+  { id: "inputs", name: "Inputs", icon: "text-cursor-input", group: "Components" },
+  { id: "checks", name: "Checks & Switches", icon: "toggle-left", group: "Components" },
   { id: "grids", name: "Grids", icon: "table", group: "Components" },
   { id: "calendar", name: "Calendar", icon: "calendar", group: "Components" },
 ];
@@ -309,6 +385,8 @@ export const defaultCategories = themeToCategories(defaultPreset);
 
 export const presets = [
   { id: "default", text: "Default", theme: defaultPreset },
+  { id: "docs-light", text: "Docs Light", theme: homedocsLightPreset },
+  { id: "docs-dark", text: "Docs Dark", theme: homedocsDarkPreset },
   { id: "darkBlue", text: "Dark Blue", theme: darkBluePreset },
   { id: "darkGray", text: "Dark Gray", theme: darkGrayPreset },
   { id: "ocean", text: "Ocean", theme: oceanPreset },

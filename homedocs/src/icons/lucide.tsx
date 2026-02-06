@@ -38,6 +38,7 @@ import {
   Star,
   Table2,
   TextCursorInput,
+  ToggleLeft,
   TrendingDown,
   Trash2,
   Type,
@@ -107,3 +108,4 @@ Icon.register("copy", getRenderer(Copy));
 Icon.register("download", getRenderer(Download));
 Icon.register("refresh", getRenderer(RefreshCw));
 Icon.register("text-cursor-input", getRenderer(TextCursorInput));
+Icon.register("toggle-left", getRenderer(ToggleLeft));

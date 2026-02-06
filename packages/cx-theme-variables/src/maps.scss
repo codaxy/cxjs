@@ -128,10 +128,7 @@ $cx-window-header-state-style-map: cx-deep-map-merge(
       default: (
          border-top-left-radius: var(--cx-theme-border-radius),
          border-top-right-radius: var(--cx-theme-border-radius),
-      ),
-      hover: (
-         border-color: var(--cx-grid-header-border-color),
-      ),
+      )
    )
 );
 

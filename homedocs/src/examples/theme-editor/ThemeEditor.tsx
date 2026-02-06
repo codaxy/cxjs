@@ -1,5 +1,5 @@
 import { Controller } from "cx/ui";
-import { Button, LookupField } from "cx/widgets";
+import { Button, enableTooltips, LookupField } from "cx/widgets";
 
 import "../../icons/lucide";
 import { m, ThemeEditorModel } from "./model";
@@ -14,8 +14,12 @@ import { Sidebar } from "./Sidebar";
 import { VariableEditor } from "./VariableEditor";
 import { Preview } from "./Preview";
 
+enableTooltips();
+
 class ThemeEditorController extends Controller<ThemeEditorModel> {
   onInit() {
+    const saved = this.loadState();
+    if (saved) this.store.init(saved);
     this.store.init(m.activeCategory, "colors");
     this.store.init(m.presetName, "default");
 
@@ -43,6 +47,29 @@ class ThemeEditorController extends Controller<ThemeEditorModel> {
       },
       true,
     );
+
+    this.addTrigger(
+      "save-state",
+      [m.presetName, m.rounding, m.density, m.font, m.activeCategory],
+      (presetName, rounding, density, font, activeCategory) => {
+        this.saveState({ presetName, rounding, density, font, activeCategory });
+      },
+    );
+  }
+
+  loadState() {
+    try {
+      const json = localStorage.getItem("cx-theme-editor");
+      return json ? JSON.parse(json) : null;
+    } catch {
+      return null;
+    }
+  }
+
+  saveState(state: Record<string, string>) {
+    try {
+      localStorage.setItem("cx-theme-editor", JSON.stringify(state));
+    } catch {}
   }
 
   copyToClipboard() {

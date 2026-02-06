@@ -146,7 +146,7 @@ $cx-input-tag-state-style-map: cx-deep-map-merge(
       hover: (
          background-color: color-mix(
                in oklch,
-               var(--cx-theme-active-state-color) 12%,
+               var(--cx-button-active-state-mix-color) 12%,
                transparent
             ),
       ),
@@ -185,25 +185,14 @@ $cx-switch-handle-styles: cx-deep-map-merge(
       active: (
          background-color: color-mix(
                in oklch,
-               var(--cx-theme-active-state-color) 12%,
-               var(--cx-theme-background-color)
+               var(--cx-button-active-state-mix-color) 12%,
+               var(--cx-button-background-color)
             ),
          border-color: transparent,
       ),
       focus: (
          box-shadow: var(--cx-theme-box-shadow-elevated),
          border-color: transparent,
-      ),
-      on: (
-         background-color: var(--cx-theme-background-color),
-         border-color: transparent,
-      ),
-      on-active: (
-         background-color: color-mix(
-               in oklch,
-               var(--cx-theme-active-state-color) 12%,
-               var(--cx-theme-background-color)
-            ),
       ),
    )
 );

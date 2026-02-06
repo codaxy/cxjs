@@ -26,14 +26,14 @@ $cx-tab-state-style-map: cx-deep-map-merge(
       hover: (
          background-color: color-mix(
                in srgb,
-               var(--cx-theme-active-state-color),
+               var(--cx-button-active-state-mix-color),
                transparent 96%
             ),
       ),
       cursor: (
          background-color: color-mix(
                in srgb,
-               var(--cx-theme-active-state-color),
+               var(--cx-button-active-state-mix-color),
                transparent 92%
             ),
          outline: none,
@@ -43,11 +43,11 @@ $cx-tab-state-style-map: cx-deep-map-merge(
       ),
       selected: (
          background-color: var(--cx-theme-primary-color),
-         color: var(--cx-theme-background-color),
+         color: var(--cx-theme-primary-text-color),
          font-weight: $cx-default-tab-font-weight,
       ),
       selected-cursor: (
-         color: var(--cx-theme-background-color),
+         color: var(--cx-theme-primary-text-color),
          background-color: color-mix(
                in srgb,
                var(--cx-theme-primary-color),
@@ -81,14 +81,14 @@ $cx-tab-mods: cx-deep-map-merge(
             color: var(--cx-theme-text-color),
             background-color: color-mix(
                   in srgb,
-                  var(--cx-theme-active-state-color),
+                  var(--cx-button-active-state-mix-color),
                   transparent 96%
                ),
          ),
          cursor: (
             background-color: color-mix(
                   in srgb,
-                  var(--cx-theme-active-state-color),
+                  var(--cx-button-active-state-mix-color),
                   transparent 92%
                ),
             color: var(--cx-theme-text-color),
@@ -97,18 +97,22 @@ $cx-tab-mods: cx-deep-map-merge(
          selected: (
             color: var(--cx-theme-text-color),
             font-weight: $cx-default-tab-font-weight,
-            background-color: var(--cx-theme-background-color),
+            background-color: var(--cx-theme-surface-color),
          ),
          selected-cursor: (
             color: var(--cx-theme-text-color),
-            background-color: var(--cx-theme-background-color),
+            background-color: var(--cx-theme-surface-color),
          ),
          active: (
             background-color: transparent,
          ),
          disabled: (
             background-color: transparent,
-            color: color-mix(in srgb, var(--cx-theme-text-color), transparent 62%),
+            color: color-mix(
+                  in srgb,
+                  var(--cx-theme-text-color),
+                  transparent 62%
+               ),
          ),
       ),
       line: (
@@ -128,7 +132,7 @@ $cx-tab-mods: cx-deep-map-merge(
             font-weight: $cx-default-tab-font-weight,
             border-color: color-mix(
                   in srgb,
-                  var(--cx-theme-active-state-color),
+                  var(--cx-button-active-state-mix-color),
                   transparent 80%
                ),
             background-color: transparent,

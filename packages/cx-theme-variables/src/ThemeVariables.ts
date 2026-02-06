@@ -2,41 +2,29 @@
  * Theme variables that can be customized at runtime via CSS custom properties.
  */
 export interface ThemeVariables {
-   // Primary colors
    primaryColor: string;
    accentColor: string;
    dangerColor: string;
-
-   // Text colors
    textColor: string;
-
-   // Background colors
    backgroundColor: string;
    surfaceColor: string;
-
-   // Border colors
    borderColor: string;
-
-   // Active state overlay colors (use black for light themes, white for dark themes)
-   activeStateColor: string;
-   activeStateHoverAmount: string;
-   activeStatePressedAmount: string;
-
-   // Shadows
    boxShadow: string;
    boxShadowElevated: string;
    focusBoxShadow: string;
-
-   // Sizing
    borderRadius: string;
    baseFontSize: string;
    iconSize: string;
-
-   // Typography
    fontFamily: string;
    fontWeight: string;
+   transition: string;
 
-   // Input
+   primaryTextColor: string;
+   primaryBorderColor: string;
+   dangerTextColor: string;
+   dangerBorderColor: string;
+
+   inputWidth: string;
    inputColor: string;
    inputBackgroundColor: string;
    inputBorderColor: string;
@@ -46,7 +34,6 @@ export interface ThemeVariables {
    inputPaddingY: string;
    checkboxSize: string;
 
-   // Button
    buttonBackgroundColor: string;
    buttonBorderColor: string;
    buttonFontSize: string;
@@ -56,59 +43,52 @@ export interface ThemeVariables {
    buttonPaddingY: string;
    buttonBorderWidth: string;
    buttonBoxShadow: string;
+   buttonBorderRadius: string;
+   buttonHoverBoxShadow: string;
+   buttonHoverStateMixColor: string;
+   buttonHoverStateMixAmount: string;
+   buttonActiveStateMixColor: string;
+   buttonActiveStateMixAmount: string;
 
-   // Grid
+   switchAxisSize: string;
+   switchHandleSize: string;
+   switchWidth: string;
+
    gridHeaderBackgroundColor: string;
    gridHeaderFontWeight: string;
    gridDataBackgroundColor: string;
    gridDataBorderColor: string;
 
-   // Calendar
    calendarBackgroundColor: string;
-
-   // Transitions
-   transition: string;
 }
 
 /**
  * Maps ThemeVariables object keys to CSS custom property names
  */
 export const variableMap: Record<keyof ThemeVariables, string> = {
-   // Primary colors
    primaryColor: "--cx-theme-primary-color",
    accentColor: "--cx-theme-accent-color",
    dangerColor: "--cx-theme-danger-color",
-
-   // Text colors
    textColor: "--cx-theme-text-color",
-
-   // Background colors
    backgroundColor: "--cx-theme-background-color",
    surfaceColor: "--cx-theme-surface-color",
-
-   // Border colors
    borderColor: "--cx-theme-border-color",
-
-   // Active state
-   activeStateColor: "--cx-theme-active-state-color",
-   activeStateHoverAmount: "--cx-theme-active-state-hover-amount",
-   activeStatePressedAmount: "--cx-theme-active-state-pressed-amount",
-
-   // Shadows
    boxShadow: "--cx-theme-box-shadow",
    boxShadowElevated: "--cx-theme-box-shadow-elevated",
    focusBoxShadow: "--cx-theme-focus-box-shadow",
-
-   // Sizing
    borderRadius: "--cx-theme-border-radius",
    baseFontSize: "--cx-theme-base-font-size",
    iconSize: "--cx-theme-icon-size",
-
-   // Typography
    fontFamily: "--cx-theme-font-family",
    fontWeight: "--cx-theme-font-weight",
+   transition: "--cx-theme-transition",
 
-   // Input
+   primaryTextColor: "--cx-theme-primary-text-color",
+   primaryBorderColor: "--cx-theme-primary-border-color",
+   dangerTextColor: "--cx-theme-danger-text-color",
+   dangerBorderColor: "--cx-theme-danger-border-color",
+
+   inputWidth: "--cx-input-width",
    inputColor: "--cx-input-color",
    inputBackgroundColor: "--cx-input-background-color",
    inputBorderColor: "--cx-input-border-color",
@@ -118,7 +98,6 @@ export const variableMap: Record<keyof ThemeVariables, string> = {
    inputPaddingY: "--cx-input-padding-y",
    checkboxSize: "--cx-checkbox-size",
 
-   // Button
    buttonBackgroundColor: "--cx-button-background-color",
    buttonBorderColor: "--cx-button-border-color",
    buttonFontSize: "--cx-button-font-size",
@@ -128,18 +107,23 @@ export const variableMap: Record<keyof ThemeVariables, string> = {
    buttonPaddingY: "--cx-button-padding-y",
    buttonBorderWidth: "--cx-button-border-width",
    buttonBoxShadow: "--cx-button-box-shadow",
+   buttonBorderRadius: "--cx-button-border-radius",
+   buttonHoverBoxShadow: "--cx-button-hover-box-shadow",
+   buttonHoverStateMixColor: "--cx-button-hover-state-mix-color",
+   buttonHoverStateMixAmount: "--cx-button-hover-state-mix-amount",
+   buttonActiveStateMixColor: "--cx-button-active-state-mix-color",
+   buttonActiveStateMixAmount: "--cx-button-active-state-mix-amount",
 
-   // Grid
+   switchAxisSize: "--cx-switch-axis-size",
+   switchHandleSize: "--cx-switch-handle-size",
+   switchWidth: "--cx-switch-width",
+
    gridHeaderBackgroundColor: "--cx-grid-header-background-color",
    gridHeaderFontWeight: "--cx-grid-header-font-weight",
    gridDataBackgroundColor: "--cx-grid-data-background-color",
    gridDataBorderColor: "--cx-grid-data-border-color",
 
-   // Calendar
    calendarBackgroundColor: "--cx-calendar-background-color",
-
-   // Transitions
-   transition: "--cx-theme-transition",
 };
 
 /**
@@ -160,12 +144,24 @@ export function themeVariablesToStyle(theme: Partial<ThemeVariables>): Record<st
 }
 
 /**
- * Generates CSS text for :root with the given theme variables
+ * Generates CSS text with the given theme variables.
+ * @param theme - Theme variables to render
+ * @param selector - CSS selector (default: ":root")
+ * @param wrapper - Optional wrapper like "@media (prefers-color-scheme: dark)"
  */
-export function themeVariablesToCSS(theme: Partial<ThemeVariables>): string {
+export function themeVariablesToCSS(
+   theme: Partial<ThemeVariables>,
+   selector: string = ":root",
+   wrapper?: string,
+): string {
    const style = themeVariablesToStyle(theme);
+   const indent = wrapper ? "      " : "   ";
    const declarations = Object.entries(style)
-      .map(([key, value]) => `   ${key}: ${value};`)
+      .map(([key, value]) => `${indent}${key}: ${value};`)
       .join("\n");
-   return `:root {\n${declarations}\n}`;
+   const block = `${selector} {\n${declarations}\n${wrapper ? "   " : ""}}`;
+   if (wrapper) {
+      return `${wrapper} {\n   ${block}\n}`;
+   }
+   return block;
 }

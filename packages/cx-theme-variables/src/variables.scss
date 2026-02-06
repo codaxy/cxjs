@@ -49,8 +49,8 @@ $cx-theme-box-padding: var(--cx-input-padding-y) var(--cx-input-padding-x);
    $cx-default-button-border-width: var(--cx-button-border-width) !default,
    $cx-default-button-border-color: var(--cx-button-border-color) !default,
    $cx-default-button-box-shadow: var(--cx-button-box-shadow) !default,
+   $cx-default-button-border-radius: var(--cx-button-border-radius) !default,
    $cx-default-button-color: null !default,
-   $cx-default-button-border-radius: null !default,
    $cx-default-button-padding: var(--cx-button-padding-y)
       var(--cx-button-padding-x) !default,
 
@@ -92,8 +92,7 @@ $cx-theme-box-padding: var(--cx-input-padding-y) var(--cx-input-padding-x);
          --cx-grid-header-background-color
       )
       !default,
-   $cx-default-grid-header-border-color: var(--cx-grid-header-border-color)
-      !default,
+   $cx-default-grid-header-border-color: var(--cx-theme-border-color) !default,
    $cx-default-grid-header-box-shadow: none !default,
    $cx-default-grid-header-padding: $cx-theme-box-padding !default,
    $cx-default-grid-data-background-color: var(--cx-grid-data-background-color)
@@ -105,7 +104,7 @@ $cx-theme-box-padding: var(--cx-input-padding-y) var(--cx-input-padding-x);
    // -------------------------------------------------------------------------
    // Form / Input
    // -------------------------------------------------------------------------
-   $cx-default-input-width: 200px !default,
+   $cx-default-input-width: var(--cx-input-width) !default,
    $cx-default-input-color: var(--cx-input-color) !default,
    $cx-default-input-background-color: var(--cx-input-background-color) !default,
    $cx-default-input-font-size: var(--cx-input-font-size) !default,
@@ -234,16 +233,17 @@ $cx-theme-box-padding: var(--cx-input-padding-y) var(--cx-input-padding-x);
    // -------------------------------------------------------------------------
    // Switch
    // -------------------------------------------------------------------------
-   $cx-default-switch-axis-size: 24px !default,
-   $cx-default-switch-handle-size: 18px !default,
-   $cx-default-switch-width: 40px !default,
-   $cx-default-switch-axis-background-color: var(--cx-theme-border-color)
+   $cx-default-switch-axis-size: var(--cx-switch-axis-size) !default,
+   $cx-default-switch-handle-size: var(--cx-switch-handle-size) !default,
+   $cx-default-switch-width: var(--cx-switch-width) !default,
+   $cx-default-switch-axis-background-color: var(--cx-input-border-color)
       !default,
    $cx-default-switch-range-background-color: var(--cx-theme-primary-color)
       !default,
-   $cx-default-switch-handle-background-color: var(--cx-theme-background-color)
+   $cx-default-switch-handle-background-color: var(--cx-button-background-color)
       !default,
-   $cx-default-switch-handle-border-color: var(--cx-theme-border-color) !default,
+   $cx-default-switch-handle-border-color: var(--cx-button-border-color)
+      !default,
    $cx-default-switch-handle-box-shadow: var(--cx-theme-box-shadow) !default,
 
    // -------------------------------------------------------------------------
@@ -276,7 +276,11 @@ $cx-theme-box-padding: var(--cx-input-padding-y) var(--cx-input-padding-x);
    $cx-default-palette-fill-blacken: 5% !default,
    $cx-default-palette-fill-hover-blacken: 5% !default,
    $cx-default-palette-fill-selected-blacken: 7% !default,
-   $cx-default-palette-fill-disabled-blacken: 0% !default
+   $cx-default-palette-fill-disabled-blacken: 0% !default,
+
+   // cover
+   $cx-default-cover-background-color: var(--cx-theme-surface-color),
+   $cx-default-cover-border-color: var(--cx-theme-border-color)
 );
 
 // =============================================================================

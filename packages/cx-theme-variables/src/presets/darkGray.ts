@@ -13,7 +13,7 @@ const darkGrayPreset: ThemeVariables = {
    backgroundColor: "#212121",
    surfaceColor: "#303030",
    borderColor: "#505050",
-   activeStateColor: "white",
+   buttonActiveStateMixColor: "white",
    inputBackgroundColor: "#303030",
    inputBorderColor: "#505050",
    buttonBackgroundColor: "#424242",

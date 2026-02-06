@@ -55,7 +55,7 @@ export default (
           Disabled
         </Tab>
       </div>
-      <div className="border border-border bg-white p-4" text={m.tab} />
+      <div className="border cxm-cover p-4" text={m.tab} />
     </div>
   </div>
 );

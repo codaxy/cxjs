@@ -43,7 +43,8 @@
       "mcp__playwright__browser_close",
       "Bash(npx webpack --mode development)",
       "Bash(tree:*)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "WebSearch"
     ],
     "deny": [],
     "ask": []

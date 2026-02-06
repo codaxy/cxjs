@@ -14,7 +14,7 @@ const m = createModel<PageModel>();
 
 // @index
 export default (
-  <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+  <div class="flex flex-col gap-6 items-start">
     <div tooltip="This is a basic tooltip." style={{ cursor: "help" }}>
       Basic tooltip
     </div>

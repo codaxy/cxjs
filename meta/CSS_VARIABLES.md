@@ -190,3 +190,29 @@ Set SCSS `$cx-default-*` variables to `null` in the `@forward` block when they a
 3. **Use active-state-color** - Avoid hardcoding `black` or `white` for state changes
 4. **Reference theme variables** - Always reference `--cx-theme-*` variables so sub-theming works
 5. **Test sub-theming** - Verify that overriding theme variables in containers produces expected results
+
+## TODO: Missing Variables
+
+Features not yet covered by `ThemeVariables`. The homedocs theme works around these via
+direct CSS overrides in `homedocs/src/styles/theme/index.scss`.
+
+1. **Popover/dropdown background** - No `popoverBackgroundColor` variable
+2. **Dropdown box shadow** - No `dropdownBoxShadow` variable
+3. **Label/placeholder color** - No `labelColor` or `placeholderColor` variables
+4. **Window shadow, padding** - No window-specific variables
+5. **Tooltip styling** - No tooltip background, color, or border-radius variables
+6. **Slider track/range/handle colors** - No runtime CSS variables for slider
+7. **Calendar day sizing/styling** - Only `calendarBackgroundColor` exists
+8. **Progress bar indicator color** - No `progressBarColor` variable
+9. **List item state colors** - Hover/cursor/selected use hardcoded `rgba(0,0,0,...)`
+10. **Grid header text color** - Only background and font-weight exposed
+11. **Grid data row padding** - No runtime variable
+12. **Input tag background** (LookupField) - No `inputTagBackgroundColor`
+13. **Toast mod colors** - No variables for toast variants
+14. **Section header font weight** - No variable
+
+### Dark Theme Issue
+
+`maps.scss` uses hardcoded `rgba(0, 0, 0, ...)` for hover/selected states (list items,
+grid rows, calendar days). These don't invert for dark themes. Should use
+`color-mix(in srgb, var(--cx-theme-active-state-color), transparent NN%)` instead.

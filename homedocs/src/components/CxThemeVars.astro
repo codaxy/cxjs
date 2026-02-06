@@ -1,12 +1,11 @@
 ---
-import { themeVariablesToCSS, defaultPreset } from 'cx-theme-variables';
+import { themeVariablesToCSS } from 'cx-theme-variables';
+import homedocsLightPreset from '../styles/homedocsLight';
+import homedocsDarkPreset from '../styles/homedocsDark';
 
-interface Props {
-  theme?: typeof defaultPreset;
-}
-
-const { theme = defaultPreset } = Astro.props;
-const css = themeVariablesToCSS(theme);
+const css = themeVariablesToCSS(homedocsLightPreset)
+  + "\n"
+  + themeVariablesToCSS(homedocsDarkPreset, ".dark");
 ---
 
 <style set:html={css}></style>

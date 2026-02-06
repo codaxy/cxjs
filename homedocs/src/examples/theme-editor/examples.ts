@@ -45,19 +45,19 @@ export const examples: ExampleDef[] = [
   {
     id: "checkbox",
     name: "Checkbox",
-    categories: ["colors", "inputs", "sizing", "effects"],
+    categories: ["colors", "checks", "sizing", "effects"],
     component: () => import("../forms/CheckboxExample"),
   },
   {
     id: "radio",
     name: "Radio",
-    categories: ["colors", "inputs", "sizing", "effects"],
+    categories: ["colors", "checks", "sizing", "effects"],
     component: () => import("../forms/RadioExample"),
   },
   {
     id: "switch",
     name: "Switch",
-    categories: ["colors", "inputs", "effects"],
+    categories: ["colors", "checks", "effects"],
     component: () => import("../forms/SwitchExample"),
   },
   {
@@ -143,6 +143,36 @@ export const examples: ExampleDef[] = [
     name: "Grid",
     categories: ["colors", "grids", "sizing", "effects"],
     component: () => import("../tables/GridExample"),
+  },
+  {
+    id: "grid-cell-editing",
+    name: "Cell Editing",
+    categories: ["colors", "grids", "inputs", "sizing"],
+    component: () => import("../tables/CellEditingExample"),
+  },
+  {
+    id: "grid-grouping",
+    name: "Grouping",
+    categories: ["colors", "grids", "sizing"],
+    component: () => import("../tables/GroupingExample"),
+  },
+  {
+    id: "grid-tree",
+    name: "Tree Grid",
+    categories: ["colors", "grids", "sizing"],
+    component: () => import("../tables/TreeGridExample"),
+  },
+  {
+    id: "grid-complex-headers",
+    name: "Complex Headers",
+    categories: ["colors", "grids", "sizing"],
+    component: () => import("../tables/ComplexHeadersExample"),
+  },
+  {
+    id: "grid-multiple-selection",
+    name: "Multiple Selection",
+    categories: ["colors", "grids", "sizing", "effects"],
+    component: () => import("../tables/MultipleSelectionExample"),
   },
 
   // Typography

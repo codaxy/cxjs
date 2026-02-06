@@ -13,7 +13,7 @@ const darkBluePreset: ThemeVariables = {
    backgroundColor: "#1e1e1e",
    surfaceColor: "#2d2d2d",
    borderColor: "#444444",
-   activeStateColor: "white",
+   buttonActiveStateMixColor: "white",
    inputBackgroundColor: "#2d2d2d",
    inputBorderColor: "#444444",
    buttonBackgroundColor: "#3d3d3d",

@@ -6,7 +6,15 @@ import {
   PrivateStore,
   Prop,
 } from "cx/ui";
-import { ColorPicker, Dropdown, Repeater, TextField } from "cx/widgets";
+import {
+  ColorPicker,
+  Dropdown,
+  Icon,
+  Repeater,
+  TextField,
+  Tooltip,
+} from "cx/widgets";
+import { variableMap, ThemeVarsDiv, defaultPreset } from "cx-theme-variables";
 import { m } from "./model";
 
 interface ColorSwatchProps {
@@ -19,8 +27,10 @@ const ColorSwatch = createFunctionalComponent(({ value }: ColorSwatchProps) => {
     <PrivateStore data={{ value }}>
       <div class="relative">
         <div
-          class="w-9 h-9 rounded-md border border-border shrink-0 cursor-pointer hover:border-foreground transition-colors"
-          style={computable(state.value, (v) => ({ background: v }))}
+          class="w-8 h-8 rounded-md border border-border shrink-0 cursor-pointer hover:border-foreground transition-colors"
+          style={computable(state.value, (v) => ({
+            background: v,
+          }))}
           onClick={(e: any, { store }: any) => store.toggle(state.open)}
         />
         <Dropdown
@@ -45,7 +55,15 @@ const ColorSwatch = createFunctionalComponent(({ value }: ColorSwatchProps) => {
 });
 
 export const VariableEditor = createFunctionalComponent(() => (
-  <div class="w-80 border-r border-border p-4 overflow-y-auto bg-background">
+  <ThemeVarsDiv
+    theme={{
+      ...defaultPreset,
+      inputPaddingX: "6px",
+      inputPaddingY: "6px",
+      inputLineHeight: "18px",
+    }}
+    class="w-80 border-r border-border p-4 overflow-y-auto bg-background"
+  >
     <Repeater records={m.categories} recordAlias={m.$category} keyField="id">
       <div
         visible={expr(
@@ -70,12 +88,31 @@ export const VariableEditor = createFunctionalComponent(() => (
 
         <Repeater records={m.$category.variables} recordAlias={m.$variable}>
           <div class="mb-5">
-            <div
-              class="text-xs text-foreground mb-1"
-              text={m.$variable.label}
-            />
-            <div class="flex gap-2 items-center">
-              <TextField value={m.$variable.value} style="flex: 1;" />
+            <div class="flex items-center gap-1">
+              <div class="text-xs text-foreground" text={m.$variable.label} />
+              <div
+                class="text-muted-foreground cursor-help"
+                tooltip={{
+                  title: m.$variable.key,
+                  text: computable(
+                    m.$variable.key,
+                    (key) => `var(${variableMap[key]})`,
+                  ),
+                  placement: "up",
+                }}
+              >
+                <Icon
+                  name="info"
+                  style="width: 14px; height: 14px; display: block"
+                />
+              </div>
+            </div>
+            <div class="flex gap-2 items-center mt-1">
+              <TextField
+                value={m.$variable.value}
+                style="flex: 1;"
+                inputStyle="font-family: monospace"
+              />
               <ColorSwatch
                 value={m.$variable.value}
                 visible={expr(m.$variable.type, (type) => type === "color")}
@@ -85,5 +122,5 @@ export const VariableEditor = createFunctionalComponent(() => (
         </Repeater>
       </div>
     </Repeater>
-  </div>
+  </ThemeVarsDiv>
 ));

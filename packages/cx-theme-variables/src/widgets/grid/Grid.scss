@@ -13,14 +13,14 @@ $cx-grid-header-state-style-map: cx-deep-map-merge(
    $cx-grid-header-state-style-map,
    (
       default: (
-         background-color: var(--cx-grid-header-background-color),
+         background-color: var(--cx-grid-header-background-color),         
       ),
       hover: (
          background-color: color-mix(
                in srgb,
                var(--cx-grid-header-background-color),
-               var(--cx-theme-active-state-color)
-                  var(--cx-theme-active-state-hover-amount)
+               var(--cx-button-hover-state-mix-color)
+                  var(--cx-button-hover-state-mix-amount)
             ),
       ),
       sorted: (),
@@ -28,8 +28,8 @@ $cx-grid-header-state-style-map: cx-deep-map-merge(
          background-color: color-mix(
                in srgb,
                var(--cx-grid-header-background-color),
-               var(--cx-theme-active-state-color)
-                  var(--cx-theme-active-state-hover-amount)
+               var(--cx-button-hover-state-mix-color)
+                  var(--cx-button-hover-state-mix-amount)
             ),
       ),
    )

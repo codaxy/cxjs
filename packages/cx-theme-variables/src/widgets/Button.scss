@@ -17,23 +17,40 @@ $cx-button-state-style-map: cx-deep-map-merge(
          background-color: var(--cx-button-background-color),
          border-color: var(--cx-button-border-color),
          transition: var(--cx-theme-transition),
-         color: oklch(from var(--cx-button-background-color) calc(1 - round(l - 0.15)) 0 0),
+         color: oklch(
+               from var(--cx-button-background-color) calc(1 - round(l - 0.15))
+                  0 0
+            ),
       ),
       hover: (
-         background-color: color-mix(in srgb, var(--cx-button-background-color), var(--cx-theme-active-state-color) var(--cx-theme-active-state-hover-amount)),
-         border-color: color-mix(in srgb, var(--cx-button-border-color), var(--cx-theme-active-state-color) var(--cx-theme-active-state-hover-amount)),
+         background-color: color-mix(
+               in srgb,
+               var(--cx-button-background-color),
+               var(--cx-button-hover-state-mix-color)
+                  var(--cx-button-hover-state-mix-amount)
+            ),
+         border-color: color-mix(
+               in srgb,
+               var(--cx-button-border-color),
+               var(--cx-button-hover-state-mix-color)
+                  var(--cx-button-hover-state-mix-amount)
+            ),
+         box-shadow: var(--cx-button-hover-box-shadow),
       ),
       focus: (
          box-shadow: var(--cx-theme-focus-box-shadow),
       ),
       active: (
-         background-color: color-mix(in srgb, var(--cx-button-background-color), var(--cx-theme-active-state-color) var(--cx-theme-active-state-pressed-amount)),
+         background-color: color-mix(
+               in srgb,
+               var(--cx-button-background-color),
+               var(--cx-button-active-state-mix-color)
+                  var(--cx-button-active-state-mix-amount)
+            ),
          box-shadow: none,
       ),
       disabled: (
-         color: color-mix(in srgb, var(--cx-theme-text-color), transparent 62%),
-         background-color: color-mix(in srgb, var(--cx-theme-active-state-color), transparent 88%),
-         border-color: transparent,
+         opacity: 50%,
       ),
    )
 );
@@ -44,48 +61,59 @@ $cx-button-mods: cx-deep-map-merge(
       primary: (
          default: (
             transition: var(--cx-theme-transition),
-            color: oklch(from var(--cx-theme-primary-color) calc(1 - round(l - 0.15)) 0 0),
+            color: var(--cx-theme-primary-text-color),
             background-color: var(--cx-theme-primary-color),
-            border-color: color-mix(in srgb, var(--cx-theme-primary-color), var(--cx-theme-active-state-color) 20%),
+            border-color: var(--cx-theme-primary-border-color),
          ),
          hover: (
-            background-color: color-mix(in srgb, var(--cx-theme-primary-color), var(--cx-theme-background-color) 20%),
+            background-color: color-mix(
+                  in srgb,
+                  var(--cx-theme-primary-color),
+                  var(--cx-button-hover-state-mix-color)
+                     var(--cx-button-hover-state-mix-amount)
+               ),
          ),
          focus: (
             box-shadow: var(--cx-theme-focus-box-shadow),
          ),
          active: (
-            background-color: color-mix(in srgb, var(--cx-theme-primary-color), var(--cx-theme-active-state-color) 20%),
+            background-color: color-mix(
+                  in srgb,
+                  var(--cx-theme-primary-color),
+                  var(--cx-button-active-state-mix-color)
+                     var(--cx-button-active-state-mix-amount)
+               ),
          ),
-         disabled: (
-            box-shadow: none,
-            border-color: transparent,
-            color: color-mix(in srgb, var(--cx-theme-background-color), transparent 50%),
-            background-color: color-mix(in srgb, var(--cx-theme-primary-color), transparent 50%),
-         ),
+         disabled: (),
       ),
       danger: (
          default: (
             transition: var(--cx-theme-transition),
-            color: oklch(from var(--cx-theme-danger-color) calc(1 - round(l - 0.15)) 0 0),
+            color: var(--cx-theme-danger-text-color),
             background-color: var(--cx-theme-danger-color),
-            border-color: color-mix(in srgb, var(--cx-theme-danger-color), var(--cx-theme-active-state-color) 20%),
+            border-color: var(--cx-theme-danger-border-color),
          ),
          hover: (
-            background-color: color-mix(in srgb, var(--cx-theme-danger-color), var(--cx-theme-background-color) 20%),
+            background-color: color-mix(
+                  in srgb,
+                  var(--cx-theme-danger-color),
+                  var(--cx-button-hover-state-mix-color)
+                     var(--cx-button-hover-state-mix-amount)
+               ),
          ),
          focus: (
-            box-shadow: 0 0 0 2px color-mix(in srgb, var(--cx-theme-danger-color), transparent 70%),
+            box-shadow: 0 0 0 2px
+               color-mix(in srgb, var(--cx-theme-danger-color), transparent 70%),
          ),
          active: (
-            background-color: color-mix(in srgb, var(--cx-theme-danger-color), var(--cx-theme-active-state-color) 20%),
+            background-color: color-mix(
+                  in srgb,
+                  var(--cx-theme-danger-color),
+                  var(--cx-button-active-state-mix-color)
+                     var(--cx-button-active-state-mix-amount)
+               ),
          ),
-         disabled: (
-            box-shadow: none,
-            border-color: transparent,
-            color: color-mix(in srgb, var(--cx-theme-background-color), transparent 50%),
-            background-color: color-mix(in srgb, var(--cx-theme-danger-color), transparent 50%),
-         ),
+         disabled: (),
       ),
       hollow: (
          default: (
@@ -93,19 +121,24 @@ $cx-button-mods: cx-deep-map-merge(
             border-color: var(--cx-theme-border-color),
          ),
          hover: (
-            background-color: color-mix(in srgb, var(--cx-theme-active-state-color), transparent 96%),
+            background-color: var(--cx-button-background-color),
+            border-color: var(--cx-button-border-color),
+            box-shadow: var(--cx-button-hover-box-shadow),
          ),
          focus: (
-            background-color: color-mix(in srgb, var(--cx-theme-active-state-color), transparent 92%),
             box-shadow: var(--cx-theme-focus-box-shadow),
          ),
          active: (
-            background-color: color-mix(in srgb, var(--cx-theme-active-state-color), transparent 88%),
+            background-color: color-mix(
+                  in srgb,
+                  var(--cx-button-background-color),
+                  var(--cx-button-active-state-mix-color)
+                     var(--cx-button-active-state-mix-amount)
+               ),
+            border-color: var(--cx-button-border-color),
+            box-shadow: none,
          ),
-         disabled: (
-            color: color-mix(in srgb, var(--cx-theme-text-color), transparent 62%),
-            border-color: color-mix(in srgb, var(--cx-theme-active-state-color), transparent 88%),
-         ),
+         disabled: (),
       ),
    )
 );
