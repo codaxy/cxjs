@@ -83,6 +83,13 @@ export interface ThemeVariables {
    gridDataBackgroundColor: string;
    gridDataBorderColor: string;
 
+   toastBackgroundColor: string;
+   toastBorderWidth: string;
+   toastBorderColor: string;
+   toastBoxShadow: string;
+   toastBorderRadius: string;
+   toastPadding: string;
+
    sectionBoxShadow: string;
    sectionBorderWidth: string;
    sectionBorderRadius: string;
@@ -189,6 +196,13 @@ export const variableMap: Record<keyof ThemeVariables, string> = {
    gridDataPaddingY: "--cx-grid-data-padding-y",
    gridDataBackgroundColor: "--cx-grid-data-background-color",
    gridDataBorderColor: "--cx-grid-data-border-color",
+
+   toastBackgroundColor: "--cx-toast-background-color",
+   toastBorderWidth: "--cx-toast-border-width",
+   toastBorderColor: "--cx-toast-border-color",
+   toastBoxShadow: "--cx-toast-box-shadow",
+   toastBorderRadius: "--cx-toast-border-radius",
+   toastPadding: "--cx-toast-padding",
 
    sectionBoxShadow: "--cx-section-box-shadow",
    sectionBorderWidth: "--cx-section-border-width",

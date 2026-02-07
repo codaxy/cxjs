@@ -139,8 +139,20 @@ export const examples: ExampleDef[] = [
   {
     id: "toast",
     name: "Toast",
-    categories: ["colors", "effects"],
+    categories: ["colors", "toasts", "effects"],
     component: () => import("../layout/ToastExample"),
+  },
+  {
+    id: "toast-mods",
+    name: "Toast Mods",
+    categories: ["colors", "toasts", "effects"],
+    component: () => import("../layout/ToastModsExample"),
+  },
+  {
+    id: "toast-declarative",
+    name: "Toast Declarative",
+    categories: ["colors", "toasts", "effects"],
+    component: () => import("../layout/ToastDeclarativeExample"),
   },
   {
     id: "tooltip",

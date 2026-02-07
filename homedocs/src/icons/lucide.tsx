@@ -6,6 +6,7 @@ import type { IconNode } from "lucide";
 import {
   Activity,
   BarChart3,
+  Bell,
   ChevronDown,
   ChevronsRight,
   Bug,
@@ -113,3 +114,4 @@ Icon.register("text-cursor-input", getRenderer(TextCursorInput));
 Icon.register("toggle-left", getRenderer(ToggleLeft));
 Icon.register("forward", getRenderer(ChevronsRight));
 Icon.register("drop-down", getRenderer(ChevronDown));
+Icon.register("bell", getRenderer(Bell));

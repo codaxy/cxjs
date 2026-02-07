@@ -525,6 +525,43 @@ const variableMetadata: Array<{
     type: "size",
     category: "sections",
   },
+  // Toasts
+  {
+    key: "toastBackgroundColor",
+    label: "Background",
+    type: "color",
+    category: "toasts",
+  },
+  {
+    key: "toastBorderWidth",
+    label: "Border width",
+    type: "size",
+    category: "toasts",
+  },
+  {
+    key: "toastBorderColor",
+    label: "Border color",
+    type: "color",
+    category: "toasts",
+  },
+  {
+    key: "toastBoxShadow",
+    label: "Box shadow",
+    type: "text",
+    category: "toasts",
+  },
+  {
+    key: "toastBorderRadius",
+    label: "Border radius",
+    type: "size",
+    category: "toasts",
+  },
+  {
+    key: "toastPadding",
+    label: "Padding",
+    type: "size",
+    category: "toasts",
+  },
 
   // Calendar
   {
@@ -587,6 +624,7 @@ const categoryMetadata = [
   { id: "grids", name: "Grids", icon: "table", group: "Components" },
   { id: "calendar", name: "Calendar", icon: "calendar", group: "Components" },
   { id: "sections", name: "Sections", icon: "panel-top", group: "Components" },
+  { id: "toasts", name: "Toasts", icon: "bell", group: "Components" },
 ];
 
 export const categoryGroups = [

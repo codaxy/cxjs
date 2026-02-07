@@ -62,8 +62,14 @@ $cx-theme-box-padding: var(--cx-input-padding-y) var(--cx-input-padding-x);
    // -------------------------------------------------------------------------
    // Toast
    // -------------------------------------------------------------------------
-   $cx-default-toast-box-shadow: var(--cx-theme-box-shadow-elevated) !default,
-   $cx-default-toast-padding: 10px !default,
+   $cx-default-toast-color: var(--cx-theme-text-color) !default,
+   $cx-default-toast-background-color: var(--cx-toast-background-color) !default,
+   $cx-default-toast-border-width: var(--cx-toast-border-width) !default,
+   $cx-default-toast-border-color: var(--cx-toast-border-color) !default,
+   $cx-default-toast-box-shadow: var(--cx-toast-box-shadow) !default,
+   $cx-default-toast-border-radius: var(--cx-toast-border-radius) !default,
+   $cx-default-toast-font-size: var(--cx-theme-base-font-size) !default,
+   $cx-default-toast-padding: var(--cx-toast-padding) !default,
 
    // -------------------------------------------------------------------------
    // Window

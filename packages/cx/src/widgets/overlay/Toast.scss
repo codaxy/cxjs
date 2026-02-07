@@ -26,7 +26,8 @@
       border-style: solid;
       border-width: $cx-default-toast-border-width;
       border-color: $cx-default-toast-border-color;
-      border-radius: $cx-default-border-radius;
+      border-radius: $cx-default-toast-border-radius;
+      font-size: $cx-default-toast-font-size;
       display: flex;
       flex-direction: row;
       align-items: center;

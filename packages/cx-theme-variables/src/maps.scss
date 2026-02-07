@@ -15,6 +15,7 @@
 @use "./widgets/form/Calendar.scss" as *;
 @use "./widgets/form/Label.scss" as *;
 @use "./widgets/Section.scss" as *;
+@use "./widgets/overlay/Toast.scss" as *;
 
 // =============================================================================
 // VARIABLE MAPS - Using CSS Variables where possible
@@ -210,24 +211,7 @@ $cx-window-mods: (
    ),
 );
 
-// TOAST
-$cx-toast-mods: cx-deep-map-merge(
-   $cx-toast-mods,
-   (
-      dark: (
-         default: (
-            color: white,
-            background-color: #333,
-         ),
-      ),
-      primary: (
-         default: (
-            color: white,
-            background-color: var(--cx-theme-primary-color),
-         ),
-      ),
-   )
-);
+// TOAST - see widgets/overlay/Toast.scss
 
 // Date time picker
 $cx-wheel-selection-state-style-map: cx-deep-map-merge(
