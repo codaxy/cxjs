@@ -63,6 +63,7 @@
 
          &.#{$state}border {
             border: 1px solid $cx-default-grid-border-color;
+            background: $cx-default-grid-background;
 
             table {
                border: none;
@@ -102,6 +103,7 @@
                vertical-align: top;
                min-width: 100%;
                min-height: 100%;
+               padding-top: $cx-default-grid-scroll-wrapper-padding-top;
             }
          }
       }
@@ -122,6 +124,8 @@
       }
 
       &.#{$state}border {
+         background: $cx-default-grid-background;
+
          table {
             border: 1px solid $cx-default-grid-border-color;
          }
@@ -606,6 +610,10 @@
       border-color: $cx-default-grid-border-color;
       border-right-style: solid;
       border-right-width: 1px;
+
+      & > .#{$element}#{$name}-fixed-table-wrapper {
+         padding-top: $cx-default-grid-scroll-wrapper-padding-top;
+      }
 
       &.#{$state}fixed-footer
          > .#{$element}#{$name}-fixed-table-wrapper

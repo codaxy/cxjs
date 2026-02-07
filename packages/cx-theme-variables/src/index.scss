@@ -31,3 +31,19 @@ $mod: map.get($cx-besm, mod);
       }
    }
 }
+
+@if (cx-included("cx/widgets/Grid")) {
+   .#{$element}grid-data:last-child {
+      border-bottom-left-radius: var(--cx-grid-border-radius);
+   }
+
+   .#{$element}grid-header {
+      --cx-input-padding-x: calc(var(--cx-grid-header-padding-x) - 1px);
+      --cx-input-padding-y: calc(var(--cx-grid-header-padding-y) - 1px);
+   }
+
+   .#{$element}grid-data .#{$block}checkbox {
+      --cx-input-padding-x: calc(var(--cx-grid-data-padding-x) - 1px);
+      --cx-input-padding-y: calc(var(--cx-grid-data-padding-y) - 1px);
+   }
+}

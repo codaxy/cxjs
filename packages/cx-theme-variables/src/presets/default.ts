@@ -5,14 +5,15 @@ import { ThemeVariables } from "../ThemeVariables";
  */
 const defaultPreset: ThemeVariables = {
    primaryColor: "#1976d2",
-   accentColor: "#ffc107",
+   accentColor: "#e0e0e0",
    dangerColor: "#d32f2f",
    textColor: "rgba(0, 0, 0, 0.87)",
    backgroundColor: "white",
    surfaceColor: "white",
    borderColor: "lightgray",
    boxShadow: "0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)",
-   boxShadowElevated: "0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)",
+   boxShadowElevated:
+      "0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)",
    focusBoxShadow: "0 0 0 2px rgba(25, 118, 210, 0.4)",
    borderRadius: "4px",
    baseFontSize: "14px",
@@ -22,9 +23,12 @@ const defaultPreset: ThemeVariables = {
    transition: "all 0.2s ease",
 
    primaryTextColor: "white",
-   primaryBorderColor: "color-mix(in srgb, var(--cx-theme-primary-color), var(--cx-button-active-state-mix-color) 20%)",
+   primaryBorderColor:
+      "color-mix(in srgb, var(--cx-theme-primary-color), var(--cx-button-active-state-mix-color) 20%)",
+   accentTextColor: "rgba(0, 0, 0, 0.87)",
    dangerTextColor: "white",
-   dangerBorderColor: "color-mix(in srgb, var(--cx-theme-danger-color), var(--cx-button-active-state-mix-color) 20%)",
+   dangerBorderColor:
+      "color-mix(in srgb, var(--cx-theme-danger-color), var(--cx-button-active-state-mix-color) 20%)",
 
    inputWidth: "200px",
    inputColor: "inherit",
@@ -56,12 +60,27 @@ const defaultPreset: ThemeVariables = {
    switchHandleSize: "var(--cx-checkbox-size)",
    switchWidth: "calc(var(--cx-checkbox-size) * 2 + 4px)",
 
+   gridBackground: "white",
+   gridBorderRadius: "var(--cx-theme-border-radius)",
+   gridFontSize: "var(--cx-theme-base-font-size)",
+   gridHeaderFontSize: "calc(var(--cx-theme-base-font-size) - 2px)",
+   gridHeaderPaddingX: "var(--cx-input-padding-x)",
+   gridHeaderPaddingY: "var(--cx-input-padding-y)",
    gridHeaderBackgroundColor: "var(--cx-button-background-color)",
    gridHeaderFontWeight: "600",
-   gridDataBackgroundColor: "white",
+   gridDataPaddingX: "var(--cx-input-padding-x)",
+   gridDataPaddingY: "var(--cx-input-padding-y)",
+   gridDataBackgroundColor: "none",
    gridDataBorderColor: "#e0e0e0",
 
    calendarBackgroundColor: "white",
+   calendarPadding: "var(--cx-input-padding-y)",
+   calendarHeaderFontWeight: "500",
+   calendarHeaderBackgroundColor: "transparent",
+   calendarDayPaddingX: "calc(1.5 * var(--cx-input-padding-y))",
+   calendarDayPaddingY: "var(--cx-input-padding-y)",
+   calendarDayLineHeight: "var(--cx-input-line-height)",
+   calendarDayFontSize: "var(--cx-theme-base-font-size)",
 };
 
 export default defaultPreset;

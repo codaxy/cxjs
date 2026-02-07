@@ -1,0 +1,51 @@
+@use "sass:map";
+@use "../../variables.scss" as *;
+@use "cx/src/widgets/lists.scss" as *;
+@use "cx/src/widgets/grid/maps.scss" as *;
+@use "cx/src/util/scss/deep-merge" as *;
+
+// =============================================================================
+// PAGINATION - Map Overrides
+// =============================================================================
+
+$cx-grid-pagination-state-style-map: (
+   default: (
+      background-color: transparent,
+      border-color: var(--cx-button-border-color),
+      border-radius: var(--cx-button-border-radius),
+      padding: var(--cx-button-padding-y) var(--cx-button-padding-x),
+      margin: 0 0.125em,
+      transition: var(--cx-theme-transition),
+   ),
+   hover: (
+      background-color: var(--cx-button-background-color),
+      box-shadow: var(--cx-button-hover-box-shadow),
+   ),
+   active: (
+      background-color: color-mix(
+            in srgb,
+            var(--cx-button-background-color),
+            var(--cx-button-active-state-mix-color)
+               var(--cx-button-active-state-mix-amount)
+         ),
+      box-shadow: none,
+   ),
+   selected: (
+      background-color: var(--cx-theme-primary-color),
+      border-color: var(--cx-theme-primary-border-color),
+      color: var(--cx-theme-primary-text-color),
+   ),
+   selected-cursor: (
+      background-color: var(--cx-theme-primary-color),
+      border-color: var(--cx-theme-primary-border-color),
+      color: var(--cx-theme-primary-text-color),
+      box-shadow: var(--cx-theme-focus-box-shadow),
+   ),
+   cursor: (
+      box-shadow: var(--cx-theme-focus-box-shadow),
+   ),
+   disabled: (
+      opacity: 0.5,
+      pointer-events: none,
+   ),
+);

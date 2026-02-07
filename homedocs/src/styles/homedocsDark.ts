@@ -37,8 +37,9 @@ const homedocsDarkPreset: ThemeVariables = {
    buttonBorderColor: "#383838",
 
    // Grid
+   gridBackground: "#1f1f1f",
    gridHeaderBackgroundColor: "#2e2e2e",
-   gridDataBackgroundColor: "#1f1f1f",
+   gridDataBackgroundColor: "none",
    gridDataBorderColor: "#383838",
 
    // Calendar

@@ -88,6 +88,12 @@ export const examples: ExampleDef[] = [
     id: "calendar",
     name: "Calendar",
     categories: ["colors", "calendar", "sizing", "effects"],
+    component: () => import("../forms/CalendarExample"),
+  },
+  {
+    id: "calendar-day-data",
+    name: "Calendar Day Data",
+    categories: ["colors", "calendar", "sizing", "effects"],
     component: () => import("../forms/CalendarDayDataExample"),
   },
   {
@@ -173,6 +179,12 @@ export const examples: ExampleDef[] = [
     name: "Multiple Selection",
     categories: ["colors", "grids", "sizing", "effects"],
     component: () => import("../tables/MultipleSelectionExample"),
+  },
+  {
+    id: "grid-pagination",
+    name: "Pagination",
+    categories: ["colors", "grids", "sizing"],
+    component: () => import("../tables/PaginationExample"),
   },
 
   // Typography

@@ -7,7 +7,6 @@ import defaultPreset from "./default";
 const darkBluePreset: ThemeVariables = {
    ...defaultPreset,
    primaryColor: "#2196f3",
-   accentColor: "#ffc107",
    dangerColor: "#f44336",
    textColor: "rgba(255, 255, 255, 0.87)",
    backgroundColor: "#1e1e1e",
@@ -17,7 +16,7 @@ const darkBluePreset: ThemeVariables = {
    inputBackgroundColor: "#2d2d2d",
    inputBorderColor: "#444444",
    buttonBackgroundColor: "#3d3d3d",
-   gridDataBackgroundColor: "#2d2d2d",
+   gridBackground: "#2d2d2d",
    gridDataBorderColor: "#444444",
    calendarBackgroundColor: "#2d2d2d",
    focusBoxShadow: "0 0 0 2px rgba(33, 150, 243, 0.4)",

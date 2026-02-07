@@ -11,7 +11,8 @@ const homedocsLightPreset: ThemeVariables = {
   primaryColor: "var(--cx-c-brand)",
   primaryTextColor: "white",
   primaryBorderColor: "transparent",
-  accentColor: "#ffc107",
+  accentColor: "hsl(var(--accent))",
+  accentTextColor: "hsl(var(--accent-foreground))",
   dangerColor: "hsl(var(--destructive))",
   dangerTextColor: "white",
   dangerBorderColor: "transparent",
@@ -71,9 +72,10 @@ const homedocsLightPreset: ThemeVariables = {
   switchWidth: "calc(var(--cx-checkbox-size) * 2 + 4px)",
 
   // Grid
+  gridBackground: "hsl(var(--background))",
   gridHeaderBackgroundColor: "hsl(var(--muted))",
   gridHeaderFontWeight: "700",
-  gridDataBackgroundColor: "hsl(var(--background))",
+  gridDataBackgroundColor: "none",
   gridDataBorderColor: "hsl(var(--border))",
 
   // Calendar

@@ -13,7 +13,7 @@ $cx-grid-header-state-style-map: cx-deep-map-merge(
    $cx-grid-header-state-style-map,
    (
       default: (
-         background-color: var(--cx-grid-header-background-color),         
+         background-color: var(--cx-grid-header-background-color),
       ),
       hover: (
          background-color: color-mix(
@@ -35,54 +35,54 @@ $cx-grid-header-state-style-map: cx-deep-map-merge(
    )
 );
 
+// Grid cell cursor (cell editing)
+$cx-grid-cell-cursor-style: map.merge(
+   $cx-grid-cell-cursor-style,
+   (
+      left: 0,
+      background: transparent,
+      border: none,
+      box-shadow: inset 0 0 0 2px var(--cx-theme-primary-color),
+   )
+);
+
 // Grid data rows
 $cx-grid-data-state-style-map: cx-deep-map-merge(
    $cx-grid-data-state-style-map,
    (
       hover: (
-         background-color: rgba(0, 0, 0, 0.04),
-         color: var(--cx-theme-text-color),
+         background-color: color-mix(
+               in srgb,
+               var(--cx-button-active-state-mix-color) 4%,
+               transparent
+            ),
       ),
       cursor: (
-         background-color: rgba(0, 0, 0, 0.08),
+         background-color: transparent,
+         box-shadow: inset 0 0 0 1px var(--cx-theme-primary-color),
+         position: relative,
       ),
       selected: (
-         background-color: rgba(0, 0, 0, 0.12),
+         background-color: var(--cx-theme-accent-color),
+         color: var(--cx-theme-accent-text-color),
       ),
       selected-hover: (
-         background-color: rgba(0, 0, 0, 0.16),
-         color: var(--cx-theme-primary-color),
+         background-color: color-mix(
+               in srgb,
+               var(--cx-theme-accent-color),
+               var(--cx-button-active-state-mix-color)
+                  var(--cx-button-hover-state-mix-amount)
+            ),
+         color: var(--cx-theme-accent-text-color),
       ),
       selected-cursor: (
-         background-color: rgba(0, 0, 0, 0.16),
+         background-color: var(--cx-theme-accent-color),
+         color: var(--cx-theme-accent-text-color),
+         box-shadow: inset 0 0 0 1px var(--cx-theme-primary-color),
+         position: relative,
       ),
       disabled: (
          background-color: transparent,
-      ),
-   )
-);
-
-// Grid pagination
-$cx-grid-pagination-state-style-map: cx-deep-map-merge(
-   $cx-list-item,
-   (
-      default: (
-         border-color: transparent,
-         border-radius: var(--cx-theme-border-radius),
-         padding: $cx-default-box-padding,
-      ),
-      active: (
-         color: var(--cx-theme-primary-color),
-      ),
-      cursor: (),
-      selected-cursor: (
-         box-shadow: var(--cx-theme-box-shadow),
-         background-color: var(--cx-theme-primary-color),
-         color: white,
-      ),
-      selected: (
-         background-color: var(--cx-theme-primary-color),
-         color: white,
       ),
    )
 );

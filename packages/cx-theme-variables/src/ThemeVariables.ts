@@ -21,6 +21,7 @@ export interface ThemeVariables {
 
    primaryTextColor: string;
    primaryBorderColor: string;
+   accentTextColor: string;
    dangerTextColor: string;
    dangerBorderColor: string;
 
@@ -54,12 +55,27 @@ export interface ThemeVariables {
    switchHandleSize: string;
    switchWidth: string;
 
+   gridBackground: string;
+   gridBorderRadius: string;
+   gridFontSize: string;
+   gridHeaderFontSize: string;
+   gridHeaderPaddingX: string;
+   gridHeaderPaddingY: string;
    gridHeaderBackgroundColor: string;
    gridHeaderFontWeight: string;
+   gridDataPaddingX: string;
+   gridDataPaddingY: string;
    gridDataBackgroundColor: string;
    gridDataBorderColor: string;
 
    calendarBackgroundColor: string;
+   calendarPadding: string;
+   calendarHeaderFontWeight: string;
+   calendarHeaderBackgroundColor: string;
+   calendarDayPaddingX: string;
+   calendarDayPaddingY: string;
+   calendarDayLineHeight: string;
+   calendarDayFontSize: string;
 }
 
 /**
@@ -85,6 +101,7 @@ export const variableMap: Record<keyof ThemeVariables, string> = {
 
    primaryTextColor: "--cx-theme-primary-text-color",
    primaryBorderColor: "--cx-theme-primary-border-color",
+   accentTextColor: "--cx-theme-accent-text-color",
    dangerTextColor: "--cx-theme-danger-text-color",
    dangerBorderColor: "--cx-theme-danger-border-color",
 
@@ -118,12 +135,27 @@ export const variableMap: Record<keyof ThemeVariables, string> = {
    switchHandleSize: "--cx-switch-handle-size",
    switchWidth: "--cx-switch-width",
 
+   gridBackground: "--cx-grid-background",
+   gridBorderRadius: "--cx-grid-border-radius",
+   gridFontSize: "--cx-grid-font-size",
+   gridHeaderFontSize: "--cx-grid-header-font-size",
+   gridHeaderPaddingX: "--cx-grid-header-padding-x",
+   gridHeaderPaddingY: "--cx-grid-header-padding-y",
    gridHeaderBackgroundColor: "--cx-grid-header-background-color",
    gridHeaderFontWeight: "--cx-grid-header-font-weight",
+   gridDataPaddingX: "--cx-grid-data-padding-x",
+   gridDataPaddingY: "--cx-grid-data-padding-y",
    gridDataBackgroundColor: "--cx-grid-data-background-color",
    gridDataBorderColor: "--cx-grid-data-border-color",
 
    calendarBackgroundColor: "--cx-calendar-background-color",
+   calendarPadding: "--cx-calendar-padding",
+   calendarHeaderFontWeight: "--cx-calendar-header-font-weight",
+   calendarHeaderBackgroundColor: "--cx-calendar-header-background-color",
+   calendarDayPaddingX: "--cx-calendar-day-padding-x",
+   calendarDayPaddingY: "--cx-calendar-day-padding-y",
+   calendarDayLineHeight: "--cx-calendar-day-line-height",
+   calendarDayFontSize: "--cx-calendar-day-font-size",
 };
 
 /**

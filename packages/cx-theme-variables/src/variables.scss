@@ -72,7 +72,7 @@ $cx-theme-box-padding: var(--cx-input-padding-y) var(--cx-input-padding-x);
    $cx-default-window-header-padding: 10px 10px 10px 20px !default,
    $cx-default-window-header-font-size: 18px !default,
    $cx-default-window-body-padding: 10px 20px 10px 20px !default,
-   $cx-default-window-header-color: var(---cx-theme-primary-color) !default,
+   $cx-default-window-header-color: var(--cx-theme-primary-color) !default,
    $cx-default-window-header-background-color: var(--cx-theme-background-color)
       !default,
 
@@ -81,11 +81,11 @@ $cx-theme-box-padding: var(--cx-input-padding-y) var(--cx-input-padding-x);
    // -------------------------------------------------------------------------
    $cx-default-grid-header-font-weight: var(--cx-grid-header-font-weight)
       !default,
-   $cx-default-grid-font-size: var(--cx-theme-base-font-size) !default,
-   $cx-default-grid-border-radius: var(--cx-theme-border-radius) !default,
+   $cx-default-grid-font-size: var(--cx-grid-font-size) !default,
+   $cx-default-grid-background: var(--cx-grid-background) !default,
+   $cx-default-grid-border-radius: var(--cx-grid-border-radius) !default,
    $cx-default-grid-border-color: var(--cx-theme-border-color) !default,
-   $cx-default-grid-header-font-size: calc(var(--cx-theme-base-font-size) - 2px)
-      !default,
+   $cx-default-grid-header-font-size: var(--cx-grid-header-font-size) !default,
    $cx-default-grid-header-line-height: $cx-theme-box-line-height !default,
    $cx-default-grid-header-color: var(--cx-theme-text-color) !default,
    $cx-default-grid-header-background-color: var(
@@ -94,12 +94,13 @@ $cx-theme-box-padding: var(--cx-input-padding-y) var(--cx-input-padding-x);
       !default,
    $cx-default-grid-header-border-color: var(--cx-theme-border-color) !default,
    $cx-default-grid-header-box-shadow: none !default,
-   $cx-default-grid-header-padding: $cx-theme-box-padding !default,
+   $cx-default-grid-header-padding: var(--cx-grid-header-padding-y) var(--cx-grid-header-padding-x) !default,
    $cx-default-grid-data-background-color: var(--cx-grid-data-background-color)
       !default,
    $cx-default-grid-data-border-color: var(--cx-grid-data-border-color) !default,
-   $cx-default-grid-data-padding: $cx-theme-box-padding !default,
+   $cx-default-grid-data-padding: var(--cx-grid-data-padding-y) var(--cx-grid-data-padding-x) !default,
    $cx-default-grid-data-line-height: $cx-theme-box-line-height !default,
+   $cx-default-grid-scroll-wrapper-padding-top: 1px !default,
 
    // -------------------------------------------------------------------------
    // Form / Input
@@ -136,18 +137,18 @@ $cx-theme-box-padding: var(--cx-input-padding-y) var(--cx-input-padding-x);
    $cx-default-calendar-background-color: var(--cx-calendar-background-color)
       !default,
    $cx-default-calendar-border-width: 1px !default,
-   $cx-default-calendar-padding: 0 0 10px !default,
+   $cx-default-calendar-padding: var(--cx-calendar-padding) !default,
    $cx-default-calendar-border-color: var(--cx-theme-border-color) !default,
    $cx-default-calendar-border-radius: var(--cx-theme-border-radius) !default,
-   $cx-default-calendar-box-shadow: var(--cx-theme-box-shadow-elevated) !default,
+   $cx-default-calendar-box-shadow: none !default,
    $cx-default-calendar-header-font-size: var(--cx-theme-base-font-size)
       !default,
-   $cx-default-calendar-header-color: var(--cx-theme-text-color) !default,
-   $cx-default-calendar-header-background-color: var(
-         --cx-theme-background-color
-      )
+   $cx-default-calendar-header-font-weight: var(--cx-calendar-header-font-weight)
       !default,
-   $cx-default-calendar-day-font-size: 11px !default,
+   $cx-default-calendar-header-color: var(--cx-theme-text-color) !default,
+   $cx-default-calendar-header-background-color: var(--cx-calendar-header-background-color)
+      !default,
+   $cx-default-calendar-day-font-size: var(--cx-calendar-day-font-size) !default,
    $cx-default-calendar-day-border-radius: var(--cx-theme-border-radius)
       !default,
 

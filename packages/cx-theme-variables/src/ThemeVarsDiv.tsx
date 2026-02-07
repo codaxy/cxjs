@@ -15,8 +15,8 @@ const resetStyle = {
 };
 
 export interface ThemeVarsDivConfig extends StyledContainerConfig {
-  /** Theme variables to apply */
-  theme?: Prop<ThemeVariables>;
+  /** Theme variables to apply (partial - only overrides the specified variables) */
+  theme?: Prop<Partial<ThemeVariables>>;
 
   /** Apply reset styles (background, color, font) to the div */
   applyReset?: boolean;

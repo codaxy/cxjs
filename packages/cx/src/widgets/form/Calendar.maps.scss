@@ -9,6 +9,7 @@ $cx-calendar-state-style-map: cx-deep-map-merge(
    $cx-input-state-style-map,
    (
       default: (
+         width: 18em,
          font-size: $cx-default-calendar-font-size,
          background-color: $cx-default-calendar-background-color,
          border-style: solid,

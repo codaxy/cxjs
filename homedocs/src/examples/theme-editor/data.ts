@@ -45,6 +45,12 @@ const variableMetadata: Array<{
     category: "colors",
   },
   {
+    key: "accentTextColor",
+    label: "Accent text color",
+    type: "color",
+    category: "colors",
+  },
+  {
     key: "dangerColor",
     label: "Danger/error color",
     type: "color",
@@ -251,6 +257,42 @@ const variableMetadata: Array<{
 
   // Grids
   {
+    key: "gridBackground",
+    label: "Background",
+    type: "color",
+    category: "grids",
+  },
+  {
+    key: "gridBorderRadius",
+    label: "Border radius",
+    type: "size",
+    category: "grids",
+  },
+  {
+    key: "gridFontSize",
+    label: "Font size",
+    type: "text",
+    category: "grids",
+  },
+  {
+    key: "gridHeaderFontSize",
+    label: "Header font size",
+    type: "text",
+    category: "grids",
+  },
+  {
+    key: "gridHeaderPaddingX",
+    label: "Header padding X",
+    type: "size",
+    category: "grids",
+  },
+  {
+    key: "gridHeaderPaddingY",
+    label: "Header padding Y",
+    type: "size",
+    category: "grids",
+  },
+  {
     key: "gridHeaderBackgroundColor",
     label: "Header background",
     type: "text",
@@ -260,6 +302,18 @@ const variableMetadata: Array<{
     key: "gridHeaderFontWeight",
     label: "Header font weight",
     type: "text",
+    category: "grids",
+  },
+  {
+    key: "gridDataPaddingX",
+    label: "Data padding X",
+    type: "size",
+    category: "grids",
+  },
+  {
+    key: "gridDataPaddingY",
+    label: "Data padding Y",
+    type: "size",
     category: "grids",
   },
   {
@@ -323,6 +377,48 @@ const variableMetadata: Array<{
     key: "calendarBackgroundColor",
     label: "Background",
     type: "color",
+    category: "calendar",
+  },
+  {
+    key: "calendarPadding",
+    label: "Padding",
+    type: "size",
+    category: "calendar",
+  },
+  {
+    key: "calendarHeaderFontWeight",
+    label: "Header font weight",
+    type: "text",
+    category: "calendar",
+  },
+  {
+    key: "calendarHeaderBackgroundColor",
+    label: "Header background",
+    type: "color",
+    category: "calendar",
+  },
+  {
+    key: "calendarDayPaddingX",
+    label: "Day padding X",
+    type: "size",
+    category: "calendar",
+  },
+  {
+    key: "calendarDayPaddingY",
+    label: "Day padding Y",
+    type: "size",
+    category: "calendar",
+  },
+  {
+    key: "calendarDayLineHeight",
+    label: "Day line height",
+    type: "size",
+    category: "calendar",
+  },
+  {
+    key: "calendarDayFontSize",
+    label: "Day font size",
+    type: "text",
     category: "calendar",
   },
 ];

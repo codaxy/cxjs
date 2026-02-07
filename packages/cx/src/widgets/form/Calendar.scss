@@ -23,7 +23,6 @@
    .#{$block}calendar {
       display: inline-block;
       vertical-align: middle;
-      width: 18em;
       overflow-y: auto;
       box-sizing: border-box;
 
@@ -48,6 +47,8 @@
       table {
          border-spacing: 0;
          width: 100%;
+         border-collapse: separate;
+         font-size: inherit;
       }
 
       td,
@@ -60,6 +61,7 @@
 
       th {
          font-weight: cx-get-state-rule($state-style-map, header, font-weight);
+         font-size: inherit;
       }
 
       tbody td {

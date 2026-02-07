@@ -17,7 +17,7 @@ const darkGrayPreset: ThemeVariables = {
    inputBackgroundColor: "#303030",
    inputBorderColor: "#505050",
    buttonBackgroundColor: "#424242",
-   gridDataBackgroundColor: "#303030",
+   gridBackground: "#303030",
    gridDataBorderColor: "#505050",
    calendarBackgroundColor: "#303030",
    focusBoxShadow: "0 0 0 2px rgba(120, 144, 156, 0.4)",

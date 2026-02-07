@@ -14,7 +14,7 @@ import {
   TextField,
   Tooltip,
 } from "cx/widgets";
-import { variableMap, ThemeVarsDiv, defaultPreset } from "cx-theme-variables";
+import { variableMap, ThemeVarsDiv } from "cx-theme-variables";
 import { m } from "./model";
 
 interface ColorSwatchProps {
@@ -57,7 +57,6 @@ const ColorSwatch = createFunctionalComponent(({ value }: ColorSwatchProps) => {
 export const VariableEditor = createFunctionalComponent(() => (
   <ThemeVarsDiv
     theme={{
-      ...defaultPreset,
       inputPaddingX: "6px",
       inputPaddingY: "6px",
       inputLineHeight: "18px",

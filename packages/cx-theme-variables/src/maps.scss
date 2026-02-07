@@ -11,6 +11,8 @@
 @use "./widgets/nav/Tab.scss" as *;
 @use "./widgets/form/Field.scss" as *;
 @use "./widgets/grid/Grid.scss" as *;
+@use "./widgets/grid/Pagination.scss" as *;
+@use "./widgets/form/Calendar.scss" as *;
 
 // =============================================================================
 // VARIABLE MAPS - Using CSS Variables where possible
@@ -26,26 +28,30 @@ $cx-list-item: cx-deep-map-merge(
          font-size: var(--cx-input-font-size),
       ),
       hover: (
-         background-color: rgba(0, 0, 0, 0.04),
+         background-color: color-mix(in srgb, var(--cx-button-active-state-mix-color) 4%, transparent),
       ),
       cursor: (
-         background-color: rgba(0, 0, 0, 0.08),
+         background-color: transparent,
+         box-shadow: inset 0 0 0 1px var(--cx-theme-primary-color),
+         position: relative,
       ),
       selected: (
-         background-color: rgba(0, 0, 0, 0.12),
-         color: var(---cx-theme-primary-color),
+         background-color: var(--cx-theme-accent-color),
+         color: var(--cx-theme-accent-text-color),
       ),
       selected-hover: (
-         background-color: rgba(0, 0, 0, 0.16),
-         color: var(---cx-theme-primary-color),
+         background-color: color-mix(in srgb, var(--cx-theme-accent-color), var(--cx-button-active-state-mix-color) var(--cx-button-hover-state-mix-amount)),
+         color: var(--cx-theme-accent-text-color),
       ),
       selected-cursor: (
-         background-color: rgba(0, 0, 0, 0.16),
-         color: var(---cx-theme-primary-color),
+         background-color: var(--cx-theme-accent-color),
+         color: var(--cx-theme-accent-text-color),
+         box-shadow: inset 0 0 0 1px var(--cx-theme-primary-color),
+         position: relative,
       ),
       disabled: (
          background-color: transparent,
-         color: rgba(0, 0, 0, 0.38),
+         opacity: 0.4,
       ),
    )
 );
@@ -192,51 +198,6 @@ $cx-toast-mods: cx-deep-map-merge(
    )
 );
 
-// CALENDAR
-$cx-calendar-state-style-map: cx-deep-map-merge(
-   $cx-calendar-state-style-map,
-   (
-      default: (
-         padding: 5px,
-      ),
-      focus: (
-         box-shadow: var(--cx-theme-box-shadow-elevated),
-         border-color: var(--cx-theme-border-color),
-      ),
-   )
-);
-
-// Calendar days
-$cx-calendar-day-state-style-map: cx-deep-map-merge(
-   $cx-calendar-day-state-style-map,
-   (
-      default: (
-         height: 32px,
-         line-height: 32px,
-         width: 32px,
-         font-weight: var(--cx-theme-font-weight),
-      ),
-      hover-focus: (
-         background-color: rgba(0, 0, 0, 0.08),
-      ),
-      hover: (
-         background-color: rgba(0, 0, 0, 0.08),
-      ),
-      today: (
-         background-color: rgba(0, 0, 0, 0.08),
-         font-weight: bold,
-      ),
-      selected: (
-         background-color: var(--cx-theme-primary-color),
-         color: white,
-         box-shadow: var(--cx-theme-box-shadow),
-      ),
-      selected-focus: (
-         background-color: var(--cx-theme-primary-color-light),
-         box-shadow: var(--cx-theme-box-shadow-elevated),
-      ),
-   )
-);
 
 // Date time picker
 $cx-wheel-selection-state-style-map: cx-deep-map-merge(
@@ -244,12 +205,12 @@ $cx-wheel-selection-state-style-map: cx-deep-map-merge(
    (
       default: (
          border-color: transparent,
-         background-color: rgba(0, 0, 0, 0.08),
+         background-color: color-mix(in srgb, var(--cx-button-active-state-mix-color) 8%, transparent),
          border-radius: var(--cx-theme-border-radius),
       ),
       active: (
          border-color: transparent,
-         background-color: rgba(0, 0, 0, 0.12),
+         background-color: color-mix(in srgb, var(--cx-button-active-state-mix-color) 12%, transparent),
       ),
    )
 );

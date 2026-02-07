@@ -7,6 +7,7 @@
 // GRID
 $cx-default-grid-font-size: $cx-default-box-font-size !default;
 $cx-default-grid-border-color: $cx-default-border-color !default;
+$cx-default-grid-background: null !default;
 $cx-default-grid-border-radius: null !default;
 $cx-default-grid-box-shadow: null !default;
 
@@ -28,6 +29,7 @@ $cx-default-grid-data-background-color: transparent !default;
 $cx-default-grid-data-alternate-background-color: null !default;
 $cx-default-grid-data-border-color: $cx-default-grid-border-color !default;
 $cx-default-grid-data-padding: 5px !default;
+$cx-default-grid-scroll-wrapper-padding-top: 0 !default;
 $cx-default-grid-caption-gap: 15px !default;
 
 // pagination
