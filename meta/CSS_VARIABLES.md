@@ -276,6 +276,12 @@ Full set of button variables exposed:
 ### Icons
 Lucide icons registered for: `forward` (ChevronsRight), `drop-down` (ChevronDown)
 
+### Label & Placeholder Variables
+- `--cx-label-padding-x` / `--cx-label-padding-y` - Label padding (split X/Y)
+- `--cx-label-font-size` / `--cx-label-font-family` / `--cx-label-font-weight` / `--cx-label-line-height`
+- `--cx-label-color` - Label text color
+- `--cx-placeholder-color` - Placeholder/empty text color
+
 ## TODO: Remaining
 
 Features not yet covered by `ThemeVariables`. The homedocs theme works around these via
@@ -283,11 +289,10 @@ direct CSS overrides in `homedocs/src/styles/theme/index.scss`.
 
 1. **Popover/dropdown background** - No `popoverBackgroundColor` variable
 2. **Dropdown box shadow** - No `dropdownBoxShadow` variable
-3. **Label/placeholder color** - No `labelColor` or `placeholderColor` variables
-4. **Tooltip styling** - No tooltip background, color, or border-radius variables
-5. **Slider track/range/handle colors** - No runtime CSS variables for slider
-6. **Progress bar indicator color** - No `progressBarColor` variable
-7. **Input tag background** (LookupField) - No `inputTagBackgroundColor`
-8. **Toast mod colors** - No variables for toast variants
-9. **Section header font weight** - No variable
-10. **Window body/footer padding** - Basic window variables exist but not comprehensive
+3. **Tooltip styling** - No tooltip background, color, or border-radius variables
+4. **Slider track/range/handle colors** - No runtime CSS variables for slider
+5. **Progress bar indicator color** - No `progressBarColor` variable
+6. **Input tag background** (LookupField) - No `inputTagBackgroundColor`
+7. **Toast mod colors** - No variables for toast variants
+8. **Section header font weight** - No variable
+9. **Window body/footer padding** - Basic window variables exist but not comprehensive

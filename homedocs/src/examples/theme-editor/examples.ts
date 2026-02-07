@@ -121,8 +121,14 @@ export const examples: ExampleDef[] = [
   {
     id: "section",
     name: "Section",
-    categories: ["colors", "sizing", "effects"],
+    categories: ["colors", "sections", "sizing", "effects"],
     component: () => import("../layout/SectionExample"),
+  },
+  {
+    id: "section-mods",
+    name: "Section Mods",
+    categories: ["colors", "sections", "effects"],
+    component: () => import("../layout/SectionModsExample"),
   },
   {
     id: "window",

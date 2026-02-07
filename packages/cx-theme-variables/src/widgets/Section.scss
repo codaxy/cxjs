@@ -1,0 +1,26 @@
+@use "sass:map";
+@use "cx/src/util/scss/deep-merge" as *;
+@use "cx/src/maps" as *;
+
+$cx-section-header-state-style-map: cx-deep-map-merge(
+   $cx-section-header-state-style-map,
+   (
+      default: (
+         padding: var(--cx-section-header-padding),
+         margin: var(--cx-section-header-margin),
+         border-bottom-color: inherit,
+         font-weight: var(--cx-section-header-font-weight),
+      ),
+   )
+);
+
+$cx-section-footer-state-style-map: cx-deep-map-merge(
+   $cx-section-footer-state-style-map,
+   (
+      default: (
+         padding: var(--cx-section-footer-padding),
+         margin: var(--cx-section-footer-margin),
+         border-top-color: inherit,
+      ),
+   )
+);

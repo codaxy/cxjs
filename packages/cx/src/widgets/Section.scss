@@ -28,10 +28,8 @@
    }
 
    .#{$element}#{$name}-header {
-      margin: 0 1.5rem;
-      padding: 1rem 0;
       box-sizing: border-box;
-      border-bottom: 1px solid rgba(128, 128, 128, 0.3);
+      @include cx-add-state-rules($cx-section-header-state-style-map, default);
    }
 
    .#{$element}#{$name}-body {
@@ -40,15 +38,13 @@
       overflow: auto;
 
       .#{$state}pad > & {
-         padding: 1rem 1.5rem;
+         @include cx-add-state-rules($cx-section-body-state-style-map, default);
       }
    }
 
    .#{$element}#{$name}-footer {
-      margin: 0 1.5rem;
-      padding: 1rem 0;
       box-sizing: border-box;
-      border-top: 1px solid rgba(128, 128, 128, 0.3);
+      @include cx-add-state-rules($cx-section-footer-state-style-map, default);
    }
 }
 

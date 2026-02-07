@@ -33,6 +33,33 @@ $cx-caption-level-style-map: (
 // SECTION
 $cx-section-styles: () !default;
 
+$cx-section-header-state-style-map: (
+   default: (
+      margin: $cx-default-section-header-margin,
+      padding: $cx-default-section-header-padding,
+      border-bottom-width: $cx-default-section-header-border-width,
+      border-bottom-style: solid,
+      border-bottom-color: $cx-default-section-header-border-color,
+      font-weight: $cx-default-section-header-font-weight,
+   ),
+) !default;
+
+$cx-section-footer-state-style-map: (
+   default: (
+      margin: $cx-default-section-footer-margin,
+      padding: $cx-default-section-footer-padding,
+      border-top-width: $cx-default-section-footer-border-width,
+      border-top-style: solid,
+      border-top-color: $cx-default-section-footer-border-color,
+   ),
+) !default;
+
+$cx-section-body-state-style-map: (
+   default: (
+      padding: $cx-default-section-body-padding,
+   ),
+) !default;
+
 $cx-section-mods: (
    card: (
       default: (

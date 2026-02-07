@@ -13,6 +13,8 @@
 @use "./widgets/grid/Grid.scss" as *;
 @use "./widgets/grid/Pagination.scss" as *;
 @use "./widgets/form/Calendar.scss" as *;
+@use "./widgets/form/Label.scss" as *;
+@use "./widgets/Section.scss" as *;
 
 // =============================================================================
 // VARIABLE MAPS - Using CSS Variables where possible
@@ -28,7 +30,11 @@ $cx-list-item: cx-deep-map-merge(
          font-size: var(--cx-input-font-size),
       ),
       hover: (
-         background-color: color-mix(in srgb, var(--cx-button-active-state-mix-color) 4%, transparent),
+         background-color: color-mix(
+               in srgb,
+               var(--cx-button-active-state-mix-color) 4%,
+               transparent
+            ),
       ),
       cursor: (
          background-color: transparent,
@@ -40,7 +46,12 @@ $cx-list-item: cx-deep-map-merge(
          color: var(--cx-theme-accent-text-color),
       ),
       selected-hover: (
-         background-color: color-mix(in srgb, var(--cx-theme-accent-color), var(--cx-button-active-state-mix-color) var(--cx-button-hover-state-mix-amount)),
+         background-color: color-mix(
+               in srgb,
+               var(--cx-theme-accent-color),
+               var(--cx-button-active-state-mix-color)
+                  var(--cx-button-hover-state-mix-amount)
+            ),
          color: var(--cx-theme-accent-text-color),
       ),
       selected-cursor: (
@@ -62,32 +73,52 @@ $cx-section-mods: cx-deep-map-merge(
    (
       card: (
          default: (
+            color: var(--cx-theme-text-color),
             background-color: var(--cx-theme-surface-color),
-            border-radius: var(--cx-theme-border-radius),
-            box-shadow: var(--cx-theme-box-shadow),
+            border-color: var(--cx-theme-border-color),
+            border-radius: var(--cx-section-border-radius),
+            border-width: var(--cx-section-border-width),
+            box-shadow: var(--cx-section-box-shadow),
          ),
       ),
       primary: (
          default: (
-            color: white,
+            color: var(--cx-theme-primary-text-color),
             background-color: var(--cx-theme-primary-color),
-            border-radius: var(--cx-theme-border-radius),
-            box-shadow: var(--cx-theme-box-shadow),
+            border-color: var(--cx-theme-primary-border-color),
+            border-width: var(--cx-section-border-width),
+            border-radius: var(--cx-section-border-radius),
+            box-shadow: var(--cx-section-box-shadow),
          ),
       ),
       success: (
          default: (
-            box-shadow: var(--cx-theme-box-shadow),
+            color: var(--cx-theme-success-text-color),
+            background-color: var(--cx-theme-success-color),
+            border-color: var(--cx-theme-success-border-color),
+            border-width: var(--cx-section-border-width),
+            border-radius: var(--cx-section-border-radius),
+            box-shadow: var(--cx-section-box-shadow),
          ),
       ),
       warning: (
          default: (
-            box-shadow: var(--cx-theme-box-shadow),
+            color: var(--cx-theme-warning-text-color),
+            background-color: var(--cx-theme-warning-color),
+            border-color: var(--cx-theme-warning-border-color),
+            border-width: var(--cx-section-border-width),
+            border-radius: var(--cx-section-border-radius),
+            box-shadow: var(--cx-section-box-shadow),
          ),
       ),
       error: (
          default: (
-            box-shadow: var(--cx-theme-box-shadow),
+            color: var(--cx-theme-danger-text-color),
+            background-color: var(--cx-theme-danger-color),
+            border-color: var(--cx-theme-danger-border-color),
+            border-width: var(--cx-section-border-width),
+            border-radius: var(--cx-section-border-radius),
+            box-shadow: var(--cx-section-box-shadow),
          ),
       ),
    )
@@ -134,7 +165,7 @@ $cx-window-header-state-style-map: cx-deep-map-merge(
       default: (
          border-top-left-radius: var(--cx-theme-border-radius),
          border-top-right-radius: var(--cx-theme-border-radius),
-      )
+      ),
    )
 );
 
@@ -198,19 +229,26 @@ $cx-toast-mods: cx-deep-map-merge(
    )
 );
 
-
 // Date time picker
 $cx-wheel-selection-state-style-map: cx-deep-map-merge(
    $cx-wheel-selection-state-style-map,
    (
       default: (
          border-color: transparent,
-         background-color: color-mix(in srgb, var(--cx-button-active-state-mix-color) 8%, transparent),
+         background-color: color-mix(
+               in srgb,
+               var(--cx-button-active-state-mix-color) 8%,
+               transparent
+            ),
          border-radius: var(--cx-theme-border-radius),
       ),
       active: (
          border-color: transparent,
-         background-color: color-mix(in srgb, var(--cx-button-active-state-mix-color) 12%, transparent),
+         background-color: color-mix(
+               in srgb,
+               var(--cx-button-active-state-mix-color) 12%,
+               transparent
+            ),
       ),
    )
 );

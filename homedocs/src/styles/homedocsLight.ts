@@ -19,6 +19,9 @@ const homedocsLightPreset: ThemeVariables = {
 
   // Text
   textColor: "hsl(var(--foreground))",
+  labelColor: "hsl(var(--muted-foreground))",
+  labelFontWeight: "500",
+  placeholderColor: "hsl(var(--muted-foreground))",
 
   // Backgrounds
   backgroundColor: "hsl(var(--background))",

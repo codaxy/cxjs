@@ -94,11 +94,13 @@ $cx-theme-box-padding: var(--cx-input-padding-y) var(--cx-input-padding-x);
       !default,
    $cx-default-grid-header-border-color: var(--cx-theme-border-color) !default,
    $cx-default-grid-header-box-shadow: none !default,
-   $cx-default-grid-header-padding: var(--cx-grid-header-padding-y) var(--cx-grid-header-padding-x) !default,
+   $cx-default-grid-header-padding: var(--cx-grid-header-padding-y)
+      var(--cx-grid-header-padding-x) !default,
    $cx-default-grid-data-background-color: var(--cx-grid-data-background-color)
       !default,
    $cx-default-grid-data-border-color: var(--cx-grid-data-border-color) !default,
-   $cx-default-grid-data-padding: var(--cx-grid-data-padding-y) var(--cx-grid-data-padding-x) !default,
+   $cx-default-grid-data-padding: var(--cx-grid-data-padding-y)
+      var(--cx-grid-data-padding-x) !default,
    $cx-default-grid-data-line-height: $cx-theme-box-line-height !default,
    $cx-default-grid-scroll-wrapper-padding-top: 1px !default,
 
@@ -128,8 +130,14 @@ $cx-theme-box-padding: var(--cx-input-padding-y) var(--cx-input-padding-x);
    // -------------------------------------------------------------------------
    // Label
    // -------------------------------------------------------------------------
-   $cx-default-label-font-size: 12px !default,
-   $cx-default-label-color: var(--cx-theme-text-color-light) !default,
+   $cx-default-label-padding: var(--cx-label-padding-y)
+      var(--cx-label-padding-x) !default,
+   $cx-default-label-font-size: var(--cx-label-font-size) !default,
+   $cx-default-label-font-family: var(--cx-label-font-family) !default,
+   $cx-default-label-font-weight: var(--cx-label-font-weight) !default,
+   $cx-default-label-line-height: var(--cx-label-line-height) !default,
+   $cx-default-label-color: var(--cx-label-color) !default,
+   $cx-default-empty-text-color: var(--cx-placeholder-color) !default,
 
    // -------------------------------------------------------------------------
    // Calendar
@@ -143,10 +151,14 @@ $cx-theme-box-padding: var(--cx-input-padding-y) var(--cx-input-padding-x);
    $cx-default-calendar-box-shadow: none !default,
    $cx-default-calendar-header-font-size: var(--cx-theme-base-font-size)
       !default,
-   $cx-default-calendar-header-font-weight: var(--cx-calendar-header-font-weight)
+   $cx-default-calendar-header-font-weight: var(
+         --cx-calendar-header-font-weight
+      )
       !default,
    $cx-default-calendar-header-color: var(--cx-theme-text-color) !default,
-   $cx-default-calendar-header-background-color: var(--cx-calendar-header-background-color)
+   $cx-default-calendar-header-background-color: var(
+         --cx-calendar-header-background-color
+      )
       !default,
    $cx-default-calendar-day-font-size: var(--cx-calendar-day-font-size) !default,
    $cx-default-calendar-day-border-radius: var(--cx-theme-border-radius)
@@ -278,6 +290,21 @@ $cx-theme-box-padding: var(--cx-input-padding-y) var(--cx-input-padding-x);
    $cx-default-palette-fill-hover-blacken: 5% !default,
    $cx-default-palette-fill-selected-blacken: 7% !default,
    $cx-default-palette-fill-disabled-blacken: 0% !default,
+
+   // -------------------------------------------------------------------------
+   // Section
+   // -------------------------------------------------------------------------
+   $cx-default-section-header-border-color: inherit !default,
+   $cx-default-section-header-border-width: var(
+         --cx-section-header-border-width
+      )
+      !default,
+   $cx-default-section-footer-border-color: inherit !default,
+   $cx-default-section-footer-border-width: var(
+         --cx-section-footer-border-width
+      )
+      !default,
+   $cx-default-section-body-padding: var(--cx-section-body-padding) !default,
 
    // cover
    $cx-default-cover-background-color: var(--cx-theme-surface-color),

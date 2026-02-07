@@ -17,6 +17,20 @@ $cx-selection-background-color: rgba(135, 206, 250, 0.6);
 //List
 $cx-default-list-item-padding: 5px 10px !default;
 
+// Section
+$cx-default-section-header-padding: 1rem 0 !default;
+$cx-default-section-header-margin: 0 1.5rem !default;
+$cx-default-section-header-border-width: 1px !default;
+$cx-default-section-header-border-color: rgba(128, 128, 128, 0.3) !default;
+$cx-default-section-header-font-weight: null !default;
+
+$cx-default-section-footer-padding: 1rem 0 !default;
+$cx-default-section-footer-margin: 0 1.5rem !default;
+$cx-default-section-footer-border-width: 1px !default;
+$cx-default-section-footer-border-color: rgba(128, 128, 128, 0.3) !default;
+
+$cx-default-section-body-padding: 1rem 1.5rem !default;
+
 // ProgressBar
 $cx-default-progressbar-width: 180px !default;
 $cx-default-progressbar-height: 24px !default;

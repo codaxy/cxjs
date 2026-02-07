@@ -26,9 +26,24 @@ const defaultPreset: ThemeVariables = {
    primaryBorderColor:
       "color-mix(in srgb, var(--cx-theme-primary-color), var(--cx-button-active-state-mix-color) 20%)",
    accentTextColor: "rgba(0, 0, 0, 0.87)",
+   warningColor: "#f09037",
+   warningTextColor: "white",
+   warningBorderColor: "transparent",
+   successColor: "#5cb85c",
+   successTextColor: "white",
+   successBorderColor: "transparent",
    dangerTextColor: "white",
    dangerBorderColor:
       "color-mix(in srgb, var(--cx-theme-danger-color), var(--cx-button-active-state-mix-color) 20%)",
+
+   labelPaddingX: "0",
+   labelPaddingY: "var(--cx-input-padding-y)",
+   labelFontSize: "calc(var(--cx-theme-base-font-size) - 1px)",
+   labelFontFamily: "var(--cx-theme-font-family)",
+   labelFontWeight: "inherit",
+   labelLineHeight: "var(--cx-input-line-height)",
+   labelColor: "rgba(0, 0, 0, 0.6)",
+   placeholderColor: "rgba(128, 128, 128, 0.7)",
 
    inputWidth: "200px",
    inputColor: "inherit",
@@ -72,6 +87,21 @@ const defaultPreset: ThemeVariables = {
    gridDataPaddingY: "var(--cx-input-padding-y)",
    gridDataBackgroundColor: "none",
    gridDataBorderColor: "#e0e0e0",
+
+   sectionBoxShadow: "none",
+   sectionBorderWidth: "1px",
+   sectionBorderRadius: "var(--cx-theme-border-radius)",
+   sectionHeaderPadding:
+      "var(--cx-button-padding-x) var(--cx-button-padding-x) 0",
+   sectionHeaderMargin: "0",
+   sectionHeaderBorderWidth: "0",
+   sectionHeaderFontWeight: "600",
+   sectionBodyPadding:
+      "var(--cx-button-padding-y) var(--cx-button-padding-x) var(--cx-button-padding-x)",
+   sectionFooterPadding:
+      "0 var(--cx-button-padding-x) var(--cx-button-padding-x)",
+   sectionFooterMargin: "0",
+   sectionFooterBorderWidth: "0",
 
    calendarBackgroundColor: "white",
    calendarPadding: "var(--cx-input-padding-y)",

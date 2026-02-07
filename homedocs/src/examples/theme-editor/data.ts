@@ -51,6 +51,42 @@ const variableMetadata: Array<{
     category: "colors",
   },
   {
+    key: "warningColor",
+    label: "Warning color",
+    type: "color",
+    category: "colors",
+  },
+  {
+    key: "warningTextColor",
+    label: "Warning text color",
+    type: "color",
+    category: "colors",
+  },
+  {
+    key: "warningBorderColor",
+    label: "Warning border color",
+    type: "color",
+    category: "colors",
+  },
+  {
+    key: "successColor",
+    label: "Success color",
+    type: "color",
+    category: "colors",
+  },
+  {
+    key: "successTextColor",
+    label: "Success text color",
+    type: "color",
+    category: "colors",
+  },
+  {
+    key: "successBorderColor",
+    label: "Success border color",
+    type: "color",
+    category: "colors",
+  },
+  {
     key: "dangerColor",
     label: "Danger/error color",
     type: "color",
@@ -86,6 +122,56 @@ const variableMetadata: Array<{
     label: "Border color",
     type: "color",
     category: "colors",
+  },
+
+  // Labels & Placeholders
+  {
+    key: "labelPaddingX",
+    label: "Label padding X",
+    type: "size",
+    category: "inputs",
+  },
+  {
+    key: "labelPaddingY",
+    label: "Label padding Y",
+    type: "size",
+    category: "inputs",
+  },
+  {
+    key: "labelFontSize",
+    label: "Label font size",
+    type: "text",
+    category: "inputs",
+  },
+  {
+    key: "labelFontFamily",
+    label: "Label font family",
+    type: "text",
+    category: "inputs",
+  },
+  {
+    key: "labelFontWeight",
+    label: "Label font weight",
+    type: "text",
+    category: "inputs",
+  },
+  {
+    key: "labelLineHeight",
+    label: "Label line height",
+    type: "text",
+    category: "inputs",
+  },
+  {
+    key: "labelColor",
+    label: "Label color",
+    type: "color",
+    category: "inputs",
+  },
+  {
+    key: "placeholderColor",
+    label: "Placeholder color",
+    type: "color",
+    category: "inputs",
   },
 
   // Inputs
@@ -372,6 +458,74 @@ const variableMetadata: Array<{
   },
   { key: "transition", label: "Transition", type: "text", category: "effects" },
 
+  // Sections
+  {
+    key: "sectionBoxShadow",
+    label: "Box shadow",
+    type: "text",
+    category: "sections",
+  },
+  {
+    key: "sectionBorderWidth",
+    label: "Border width",
+    type: "size",
+    category: "sections",
+  },
+  {
+    key: "sectionBorderRadius",
+    label: "Border radius",
+    type: "size",
+    category: "sections",
+  },
+  {
+    key: "sectionHeaderPadding",
+    label: "Header padding",
+    type: "text",
+    category: "sections",
+  },
+  {
+    key: "sectionHeaderMargin",
+    label: "Header margin",
+    type: "text",
+    category: "sections",
+  },
+  {
+    key: "sectionHeaderBorderWidth",
+    label: "Header border width",
+    type: "size",
+    category: "sections",
+  },
+  {
+    key: "sectionHeaderFontWeight",
+    label: "Header font weight",
+    type: "text",
+    category: "sections",
+  },
+  {
+    key: "sectionBodyPadding",
+    label: "Body padding",
+    type: "text",
+    category: "sections",
+  },
+  {
+    key: "sectionFooterPadding",
+    label: "Footer padding",
+    type: "text",
+    category: "sections",
+  },
+  {
+    key: "sectionFooterMargin",
+    label: "Footer margin",
+    type: "text",
+    category: "sections",
+  },
+  {
+    key: "sectionFooterBorderWidth",
+    label: "Footer border width",
+    type: "size",
+    category: "sections",
+  },
+
   // Calendar
   {
     key: "calendarBackgroundColor",
@@ -432,6 +586,7 @@ const categoryMetadata = [
   { id: "checks", name: "Checks & Switches", icon: "toggle-left", group: "Components" },
   { id: "grids", name: "Grids", icon: "table", group: "Components" },
   { id: "calendar", name: "Calendar", icon: "calendar", group: "Components" },
+  { id: "sections", name: "Sections", icon: "panel-top", group: "Components" },
 ];
 
 export const categoryGroups = [
