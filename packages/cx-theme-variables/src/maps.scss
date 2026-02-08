@@ -15,6 +15,7 @@
 @use "./widgets/form/Calendar.scss" as *;
 @use "./widgets/form/Label.scss" as *;
 @use "./widgets/Section.scss" as *;
+@use "./widgets/overlay/Dropdown.scss" as *;
 @use "./widgets/overlay/Toast.scss" as *;
 
 // =============================================================================
@@ -125,18 +126,7 @@ $cx-section-mods: cx-deep-map-merge(
    )
 );
 
-// MENU
-$cx-dropdown-styles: map-merge(
-   $cx-dropdown-styles,
-   (
-      font-size: $cx-default-box-font-size - 1px,
-      font-weight: var(--cx-theme-font-weight),
-      border-width: 1px,
-      border-style: solid,
-      border-color: var(--cx-theme-border-color),
-      box-shadow: var(--cx-theme-box-shadow-elevated),
-   )
-);
+// MENU / DROPDOWN - see widgets/overlay/Dropdown.scss
 
 $cx-menu-state-style-map: map-merge(
    $cx-menu-state-style-map,

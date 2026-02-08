@@ -69,7 +69,7 @@ export const examples: ExampleDef[] = [
   {
     id: "lookup-field",
     name: "LookupField",
-    categories: ["colors", "inputs", "sizing", "effects"],
+    categories: ["colors", "inputs", "dropdowns", "sizing", "effects"],
     component: () => import("../forms/LookupFieldExample"),
   },
   {
@@ -153,6 +153,18 @@ export const examples: ExampleDef[] = [
     name: "Toast Declarative",
     categories: ["colors", "toasts", "effects"],
     component: () => import("../layout/ToastDeclarativeExample"),
+  },
+  {
+    id: "dropdown-basic",
+    name: "Dropdown",
+    categories: ["colors", "dropdowns", "effects"],
+    component: () => import("../layout/DropdownBasicExample"),
+  },
+  {
+    id: "dropdown-search",
+    name: "Dropdown Search",
+    categories: ["colors", "dropdowns", "effects"],
+    component: () => import("../layout/DropdownSearchExample"),
   },
   {
     id: "tooltip",
@@ -263,8 +275,14 @@ export const examples: ExampleDef[] = [
   {
     id: "menu",
     name: "Menu",
-    categories: ["colors", "sizing", "effects"],
+    categories: ["colors", "dropdowns", "sizing", "effects"],
     component: () => import("../layout/MenuVerticalExample"),
+  },
+  {
+    id: "context-menu",
+    name: "Context Menu",
+    categories: ["colors", "dropdowns", "effects"],
+    component: () => import("../layout/ContextMenuExample"),
   },
 
   // Icons

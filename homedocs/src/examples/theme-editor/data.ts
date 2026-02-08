@@ -223,6 +223,12 @@ const variableMetadata: Array<{
     type: "size",
     category: "inputs",
   },
+  {
+    key: "inputBorderWidth",
+    label: "Border width",
+    type: "size",
+    category: "inputs",
+  },
   // Checks & Switches
   {
     key: "checkboxSize",
@@ -525,6 +531,14 @@ const variableMetadata: Array<{
     type: "size",
     category: "sections",
   },
+  // Dropdowns
+  {
+    key: "dropdownBorderWidth",
+    label: "Border width",
+    type: "size",
+    category: "dropdowns",
+  },
+
   // Toasts
   {
     key: "toastBackgroundColor",
@@ -564,6 +578,12 @@ const variableMetadata: Array<{
   },
 
   // Calendar
+  {
+    key: "calendarBorderWidth",
+    label: "Border width",
+    type: "size",
+    category: "calendar",
+  },
   {
     key: "calendarBackgroundColor",
     label: "Background",
@@ -625,6 +645,7 @@ const categoryMetadata = [
   { id: "calendar", name: "Calendar", icon: "calendar", group: "Components" },
   { id: "sections", name: "Sections", icon: "panel-top", group: "Components" },
   { id: "toasts", name: "Toasts", icon: "bell", group: "Components" },
+  { id: "dropdowns", name: "Dropdowns", icon: "drop-down", group: "Components" },
 ];
 
 export const categoryGroups = [

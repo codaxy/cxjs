@@ -20,6 +20,12 @@ export interface ThemeVarsDivConfig extends StyledContainerConfig {
 
   /** Apply reset styles (background, color, font) to the div */
   applyReset?: boolean;
+
+  /** CSS selector (e.g. ".my-theme") to use class-based scoping instead of inline styles.
+   * When provided, the class is applied to the div and a data-theme-container-class attribute
+   * is set so portaled overlays can inherit the scoped theme. A separate ThemeVarsRoot with
+   * the same cssSelector must define the actual CSS variables. */
+  cssSelector?: string;
 }
 
 /**
@@ -29,6 +35,7 @@ export interface ThemeVarsDivConfig extends StyledContainerConfig {
 export class ThemeVarsDiv extends StyledContainer {
   declare theme: Partial<ThemeVariables>;
   declare applyReset: boolean;
+  declare cssSelector: string;
 
   constructor(config: ThemeVarsDivConfig) {
     super(config);
@@ -43,18 +50,20 @@ export class ThemeVarsDiv extends StyledContainer {
   render(context: any, instance: any, key: string) {
     const { data } = instance;
     const { theme } = data;
-
     const themeStyle = themeVariablesToStyle(theme);
+
+    let themeCssClass = this.cssSelector?.startsWith(".") ? this.cssSelector.substring(1) : this.cssSelector;
 
     return (
       <div
         key={key}
-        className={data.classNames}
+        className={this.CSS.expand(data.classNames, themeCssClass)}
         style={{
           ...themeStyle,
           ...(this.applyReset ? resetStyle : null),
           ...data.style,
         }}
+        data-theme-container-class={themeCssClass}
       >
         {this.renderChildren(context, instance)}
       </div>

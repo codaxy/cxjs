@@ -34,7 +34,7 @@
 
    .#{$element}#{$name}-arrow-border {
       color: map.get($styles, border-color);
-      border-width: $border-width + $arrow-size;
+      border-width: cx-calc($border-width, $arrow-size);
    }
 
    .#{$element}#{$name}-arrow-fill {
@@ -56,7 +56,7 @@
          right: 100%;
          top: 50%;
          border-right-color: currentColor;
-         margin-top: cx-calc(-$border-width, -$arrow-size);
+         margin-top: cx-calc(cx-multiply($border-width, -1), -$arrow-size);
       }
    }
 
@@ -74,7 +74,7 @@
          left: 100%;
          top: 50%;
          border-left-color: currentColor;
-         margin-top: cx-calc(-$border-width, -$arrow-size);
+         margin-top: cx-calc(cx-multiply($border-width, -1), -$arrow-size);
       }
    }
 
@@ -111,7 +111,7 @@
          left: 50%;
          top: 100%;
          border-top-color: currentColor;
-         margin-left: cx-calc(-$border-width, -$arrow-size);
+         margin-left: cx-calc(cx-multiply($border-width, -1), -$arrow-size);
       }
    }
 
@@ -129,7 +129,7 @@
          left: 50%;
          bottom: 100%;
          border-bottom-color: currentColor;
-         margin-left: cx-calc(-$border-width, -$arrow-size);
+         margin-left: cx-calc(cx-multiply($border-width, -1), -$arrow-size);
       }
    }
 

@@ -13,7 +13,7 @@ const defaultPreset: ThemeVariables = {
    borderColor: "lightgray",
    boxShadow: "0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)",
    boxShadowElevated:
-      "0 4px 8px rgba(0, 0, 0, 0.2), 0 4px 8px rgba(0, 0, 0, 0.3)",
+      "0 4px 8px rgba(0, 0, 0, 0.17), 0 4px 8px rgba(0, 0, 0, 0.23)",
    focusBoxShadow: "0 0 0 2px rgba(25, 118, 210, 0.4)",
    borderRadius: "4px",
    baseFontSize: "14px",
@@ -53,6 +53,7 @@ const defaultPreset: ThemeVariables = {
    inputLineHeight: "22px",
    inputPaddingX: "6px",
    inputPaddingY: "6px",
+   inputBorderWidth: "1px",
    checkboxSize: "16px",
 
    buttonBackgroundColor: "#f5f5f5",
@@ -88,6 +89,8 @@ const defaultPreset: ThemeVariables = {
    gridDataBackgroundColor: "none",
    gridDataBorderColor: "#e0e0e0",
 
+   dropdownBorderWidth: "1px",
+
    toastBackgroundColor: "var(--cx-theme-surface-color)",
    toastBorderWidth: "1px",
    toastBorderColor: "var(--cx-theme-border-color)",
@@ -110,6 +113,7 @@ const defaultPreset: ThemeVariables = {
    sectionFooterMargin: "0",
    sectionFooterBorderWidth: "0",
 
+   calendarBorderWidth: "var(--cx-input-border-width)",
    calendarBackgroundColor: "white",
    calendarPadding: "var(--cx-input-padding-y)",
    calendarHeaderFontWeight: "500",

@@ -6,7 +6,7 @@ import {
   Prop,
 } from "cx/ui";
 import { Repeater } from "cx/widgets";
-import { ThemeVarsDiv } from "cx-theme-variables";
+import { ThemeVarsDiv, ThemeVarsRoot } from "cx-theme-variables";
 import { m } from "./model";
 import { examples, ExampleDef } from "./examples";
 import { categoriesToTheme, fontOptions } from "./data";
@@ -43,9 +43,14 @@ function getGoogleFontUrl(fontId: string | null): string | undefined {
 export const Preview = createFunctionalComponent(() => (
   <ThemeVarsDiv
     theme={computable(m.categories, categoriesToTheme)}
+    cssSelector=".theme-editor-preview"
     class="flex-1 p-6 overflow-y-auto border-r border-border"
     applyReset
   >
+    <ThemeVarsRoot
+      theme={computable(m.categories, categoriesToTheme)}
+      cssSelector=".theme-editor-preview"
+    />
     <link
       href={computable(m.font, getGoogleFontUrl)}
       rel="stylesheet"

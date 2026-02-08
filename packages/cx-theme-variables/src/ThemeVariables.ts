@@ -48,6 +48,7 @@ export interface ThemeVariables {
    inputLineHeight: string;
    inputPaddingX: string;
    inputPaddingY: string;
+   inputBorderWidth: string;
    checkboxSize: string;
 
    buttonBackgroundColor: string;
@@ -83,6 +84,8 @@ export interface ThemeVariables {
    gridDataBackgroundColor: string;
    gridDataBorderColor: string;
 
+   dropdownBorderWidth: string;
+
    toastBackgroundColor: string;
    toastBorderWidth: string;
    toastBorderColor: string;
@@ -102,6 +105,7 @@ export interface ThemeVariables {
    sectionFooterMargin: string;
    sectionFooterBorderWidth: string;
 
+   calendarBorderWidth: string;
    calendarBackgroundColor: string;
    calendarPadding: string;
    calendarHeaderFontWeight: string;
@@ -162,6 +166,7 @@ export const variableMap: Record<keyof ThemeVariables, string> = {
    inputLineHeight: "--cx-input-line-height",
    inputPaddingX: "--cx-input-padding-x",
    inputPaddingY: "--cx-input-padding-y",
+   inputBorderWidth: "--cx-input-border-width",
    checkboxSize: "--cx-checkbox-size",
 
    buttonBackgroundColor: "--cx-button-background-color",
@@ -197,6 +202,8 @@ export const variableMap: Record<keyof ThemeVariables, string> = {
    gridDataBackgroundColor: "--cx-grid-data-background-color",
    gridDataBorderColor: "--cx-grid-data-border-color",
 
+   dropdownBorderWidth: "--cx-dropdown-border-width",
+
    toastBackgroundColor: "--cx-toast-background-color",
    toastBorderWidth: "--cx-toast-border-width",
    toastBorderColor: "--cx-toast-border-color",
@@ -216,6 +223,7 @@ export const variableMap: Record<keyof ThemeVariables, string> = {
    sectionFooterMargin: "--cx-section-footer-margin",
    sectionFooterBorderWidth: "--cx-section-footer-border-width",
 
+   calendarBorderWidth: "--cx-calendar-border-width",
    calendarBackgroundColor: "--cx-calendar-background-color",
    calendarPadding: "--cx-calendar-padding",
    calendarHeaderFontWeight: "--cx-calendar-header-font-weight",

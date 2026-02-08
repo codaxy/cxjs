@@ -30,7 +30,7 @@ $cx-theme-box-padding: var(--cx-input-padding-y) var(--cx-input-padding-x);
    $cx-default-icon-size: var(--cx-theme-icon-size) !default,
    $cx-default-box-font-size: var(--cx-input-font-size) !default,
    $cx-default-box-line-height: var(--cx-input-line-height) !default,
-   $cx-default-box-border-width: 1px !default,
+   $cx-default-box-border-width: var(--cx-input-border-width) !default,
    $cx-default-box-padding: var(--cx-input-padding-y) var(--cx-input-padding-x)
       !default,
    $cx-default-box-padding-top: var(--cx-input-padding-y) !default,
@@ -150,7 +150,7 @@ $cx-theme-box-padding: var(--cx-input-padding-y) var(--cx-input-padding-x);
    // -------------------------------------------------------------------------
    $cx-default-calendar-background-color: var(--cx-calendar-background-color)
       !default,
-   $cx-default-calendar-border-width: 1px !default,
+   $cx-default-calendar-border-width: var(--cx-calendar-border-width) !default,
    $cx-default-calendar-padding: var(--cx-calendar-padding) !default,
    $cx-default-calendar-border-color: var(--cx-theme-border-color) !default,
    $cx-default-calendar-border-radius: var(--cx-theme-border-radius) !default,
