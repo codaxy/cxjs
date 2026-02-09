@@ -3,7 +3,7 @@ import { ThemeVariables } from "../ThemeVariables";
 /**
  * Default light theme - base for all other presets
  */
-const defaultPreset: ThemeVariables = {
+export const defaultPreset: ThemeVariables = {
    primaryColor: "#1976d2",
    accentColor: "#e0e0e0",
    dangerColor: "#d32f2f",
@@ -66,7 +66,7 @@ const defaultPreset: ThemeVariables = {
    buttonBorderWidth: "1px",
    buttonBoxShadow: "inset 0 -2px rgba(128, 128, 128, 0.1)",
    buttonBorderRadius: "var(--cx-theme-border-radius)",
-   buttonHoverBoxShadow: "0 1px 2px rgba(0, 0, 0, 0.3)",
+   buttonHoverBoxShadow: "0 1px 2px rgba(0, 0, 0, 0.1)",
    buttonHoverStateMixColor: "var(--cx-theme-background-color)",
    buttonHoverStateMixAmount: "8%",
    buttonActiveStateMixColor: "black",
@@ -89,7 +89,16 @@ const defaultPreset: ThemeVariables = {
    gridDataBackgroundColor: "none",
    gridDataBorderColor: "#e0e0e0",
 
+   menuItemPaddingX: "var(--cx-button-padding-x)",
+   menuItemPaddingY: "var(--cx-button-padding-y)",
+
+   dropdownPadding: "6px",
    dropdownBorderWidth: "1px",
+   dropdownArrowSize: "6px",
+   dropdownArrowOffset: "24px",
+   dropdownArrowShadowColor: "rgba(0, 0, 0, 0.15)",
+   dropdownArrowShadowSize: "2px",
+   dropdownArrowShadowOffset: "2px",
 
    toastBackgroundColor: "var(--cx-theme-surface-color)",
    toastBorderWidth: "1px",
@@ -113,6 +122,17 @@ const defaultPreset: ThemeVariables = {
    sectionFooterMargin: "0",
    sectionFooterBorderWidth: "0",
 
+   tooltipBackgroundColor: "white",
+   tooltipBorderColor: "var(--cx-theme-border-color)",
+   tooltipBorderWidth: "1px",
+   tooltipBorderRadius: "var(--cx-theme-border-radius)",
+   tooltipArrowSize: "5px",
+   tooltipColor: "var(--cx-theme-text-color)",
+   tooltipPadding: "var(--cx-button-padding-y)",
+   tooltipErrorBackgroundColor: "var(--cx-theme-danger-color)",
+   tooltipErrorBorderColor: "var(--cx-theme-danger-border-color)",
+   tooltipErrorColor: "var(--cx-theme-danger-text-color)",
+
    calendarBorderWidth: "var(--cx-input-border-width)",
    calendarBackgroundColor: "white",
    calendarPadding: "var(--cx-input-padding-y)",
@@ -123,5 +143,3 @@ const defaultPreset: ThemeVariables = {
    calendarDayLineHeight: "var(--cx-input-line-height)",
    calendarDayFontSize: "var(--cx-theme-base-font-size)",
 };
-
-export default defaultPreset;

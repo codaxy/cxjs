@@ -34,6 +34,7 @@ import {
 } from "../../ui/Prop";
 import type { TooltipInstance } from "../overlay";
 import type { FormRenderingContext } from "./ValidationGroup";
+import { isObject } from "../../util";
 
 export interface FieldConfig extends PureContainerConfig, WidgetStyleConfig {
   /** Field label. For advanced use cases. */
@@ -221,11 +222,14 @@ export class Field<
   }
 
   public initComponents(_context: RenderingContext, instance: Instance): void {
-    if (this.validationMode == "tooltip" && isUndefined(this.errorTooltip)) {
+    if (
+      this.validationMode == "tooltip" &&
+      (isUndefined(this.errorTooltip) || isObject(this.errorTooltip))
+    ) {
       this.errorTooltip = {
         text: { bind: "$error" },
         mod: "error",
-        ...(this.errorTooltip || {}),
+        ...this.errorTooltip,
       };
     }
 

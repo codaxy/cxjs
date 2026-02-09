@@ -22,6 +22,10 @@ export const roundingLarge: Partial<ThemeVariables> = {
    borderRadius: "8px",
 };
 
+export const roundingVeryLarge: Partial<ThemeVariables> = {
+   borderRadius: "12px",
+};
+
 // Density tweaks
 export const densityMinimal: Partial<ThemeVariables> = {
    baseFontSize: "12px",
@@ -34,6 +38,9 @@ export const densityMinimal: Partial<ThemeVariables> = {
    buttonPaddingY: "3px",
    checkboxSize: "14px",
    iconSize: "14px",
+   dropdownPadding: "2px",
+   dropdownArrowSize: "4px",
+   dropdownArrowOffset: "16px",
 };
 
 export const densityCondensed: Partial<ThemeVariables> = {
@@ -47,6 +54,9 @@ export const densityCondensed: Partial<ThemeVariables> = {
    buttonPaddingY: "4px",
    checkboxSize: "14px",
    iconSize: "14px",
+   dropdownPadding: "3px",
+   dropdownArrowSize: "5px",
+   dropdownArrowOffset: "18px",
 };
 
 export const densityCompact: Partial<ThemeVariables> = {
@@ -60,6 +70,9 @@ export const densityCompact: Partial<ThemeVariables> = {
    buttonPaddingY: "5px",
    checkboxSize: "16px",
    iconSize: "16px",
+   dropdownPadding: "4px",
+   dropdownArrowSize: "5px",
+   dropdownArrowOffset: "20px",
 };
 
 export const densityNormal: Partial<ThemeVariables> = {
@@ -73,6 +86,9 @@ export const densityNormal: Partial<ThemeVariables> = {
    buttonPaddingY: "6px",
    checkboxSize: "16px",
    iconSize: "16px",
+   dropdownPadding: "6px",
+   dropdownArrowSize: "6px",
+   dropdownArrowOffset: "26px",
 };
 
 export const densityComfortable: Partial<ThemeVariables> = {
@@ -86,6 +102,9 @@ export const densityComfortable: Partial<ThemeVariables> = {
    buttonPaddingY: "6px",
    checkboxSize: "17px",
    iconSize: "17px",
+   dropdownPadding: "7px",
+   dropdownArrowSize: "7px",
+   dropdownArrowOffset: "28px",
 };
 
 export const densitySpacious: Partial<ThemeVariables> = {
@@ -99,6 +118,9 @@ export const densitySpacious: Partial<ThemeVariables> = {
    buttonPaddingY: "7px",
    checkboxSize: "18px",
    iconSize: "18px",
+   dropdownPadding: "8px",
+   dropdownArrowSize: "7px",
+   dropdownArrowOffset: "30px",
 };
 
 // Grouped exports for easier discovery
@@ -107,6 +129,7 @@ export const roundingTweaks = {
    small: roundingSmall,
    medium: roundingMedium,
    large: roundingLarge,
+   veryLarge: roundingVeryLarge,
 };
 
 export const densityTweaks = {

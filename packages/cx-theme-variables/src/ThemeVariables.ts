@@ -84,7 +84,15 @@ export interface ThemeVariables {
    gridDataBackgroundColor: string;
    gridDataBorderColor: string;
 
+   menuItemPaddingX: string;
+   menuItemPaddingY: string;
+   dropdownPadding: string;
    dropdownBorderWidth: string;
+   dropdownArrowSize: string;
+   dropdownArrowOffset: string;
+   dropdownArrowShadowColor: string;
+   dropdownArrowShadowSize: string;
+   dropdownArrowShadowOffset: string;
 
    toastBackgroundColor: string;
    toastBorderWidth: string;
@@ -104,6 +112,17 @@ export interface ThemeVariables {
    sectionFooterPadding: string;
    sectionFooterMargin: string;
    sectionFooterBorderWidth: string;
+
+   tooltipBackgroundColor: string;
+   tooltipBorderColor: string;
+   tooltipBorderWidth: string;
+   tooltipBorderRadius: string;
+   tooltipArrowSize: string;
+   tooltipColor: string;
+   tooltipPadding: string;
+   tooltipErrorBackgroundColor: string;
+   tooltipErrorBorderColor: string;
+   tooltipErrorColor: string;
 
    calendarBorderWidth: string;
    calendarBackgroundColor: string;
@@ -202,7 +221,15 @@ export const variableMap: Record<keyof ThemeVariables, string> = {
    gridDataBackgroundColor: "--cx-grid-data-background-color",
    gridDataBorderColor: "--cx-grid-data-border-color",
 
+   menuItemPaddingX: "--cx-menu-item-padding-x",
+   menuItemPaddingY: "--cx-menu-item-padding-y",
+   dropdownPadding: "--cx-dropdown-padding",
    dropdownBorderWidth: "--cx-dropdown-border-width",
+   dropdownArrowSize: "--cx-dropdown-arrow-size",
+   dropdownArrowOffset: "--cx-dropdown-arrow-offset",
+   dropdownArrowShadowColor: "--cx-dropdown-arrow-shadow-color",
+   dropdownArrowShadowSize: "--cx-dropdown-arrow-shadow-size",
+   dropdownArrowShadowOffset: "--cx-dropdown-arrow-shadow-offset",
 
    toastBackgroundColor: "--cx-toast-background-color",
    toastBorderWidth: "--cx-toast-border-width",
@@ -222,6 +249,17 @@ export const variableMap: Record<keyof ThemeVariables, string> = {
    sectionFooterPadding: "--cx-section-footer-padding",
    sectionFooterMargin: "--cx-section-footer-margin",
    sectionFooterBorderWidth: "--cx-section-footer-border-width",
+
+   tooltipBackgroundColor: "--cx-tooltip-background-color",
+   tooltipBorderColor: "--cx-tooltip-border-color",
+   tooltipBorderWidth: "--cx-tooltip-border-width",
+   tooltipBorderRadius: "--cx-tooltip-border-radius",
+   tooltipArrowSize: "--cx-tooltip-arrow-size",
+   tooltipColor: "--cx-tooltip-color",
+   tooltipPadding: "--cx-tooltip-padding",
+   tooltipErrorBackgroundColor: "--cx-tooltip-error-background-color",
+   tooltipErrorBorderColor: "--cx-tooltip-error-border-color",
+   tooltipErrorColor: "--cx-tooltip-error-color",
 
    calendarBorderWidth: "--cx-calendar-border-width",
    calendarBackgroundColor: "--cx-calendar-background-color",

@@ -1,0 +1,19 @@
+@use "cx/src/maps" as *;
+@use "cx/src/util/scss/deep-merge.scss" as *;
+
+$cx-menu-padding-options: (
+   xsmall: var(--cx-menu-item-padding-y) var(--cx-menu-item-padding-x),
+   small: var(--cx-menu-item-padding-y) var(--cx-menu-item-padding-x),
+   medium: var(--cx-menu-item-padding-y) var(--cx-menu-item-padding-x),
+   large: var(--cx-menu-item-padding-y) var(--cx-menu-item-padding-x),
+   xlarge: var(--cx-menu-item-padding-y) var(--cx-menu-item-padding-x),
+);
+
+$cx-menu-list-item: cx-deep-map-merge(
+   $cx-list-item,
+   (
+      default: (
+         padding: null,
+      ),
+   )
+);

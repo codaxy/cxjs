@@ -111,7 +111,7 @@ class ThemeEditorController extends Controller<ThemeEditorModel> {
 
 export default (
   <div
-    class="flex flex-col h-full bg-background text-foreground"
+    class="flex flex-col h-full bg-background text-foreground overflow-hidden"
     controller={ThemeEditorController}
   >
     {/* Top Bar */}

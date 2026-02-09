@@ -136,27 +136,37 @@ $cx-button-mods: cx-deep-map-merge(
 ```
 packages/cx-theme-variables/src/
 ├── index.scss              # Main entry, component-specific CSS overrides
-├── variables.scss          # Theme variables, @forward cx/src/variables
+├── index.ts                # Main TS entry, applyThemeOverrides(), re-exports
+├── variables.scss          # Theme variables, @forward cx/src/variables with CSS var() overrides
 ├── maps.scss               # @use component files, map overrides for lists, sections, menus, windows, toasts, calendar wheel, globals
-├── functions.scss           # Theme functions
+├── functions.scss          # Theme functions
+├── configureOverlayContainer.ts  # Propagates theme CSS classes to portaled overlay containers
 ├── widgets/
 │   ├── Button.scss         # Button state map + mods (primary, danger, hollow)
+│   ├── Section.scss        # Section header/footer/body styling
 │   ├── form/
 │   │   ├── Field.scss      # Input, checkbox, radio, textarea, slider, switch, clear icon state maps
-│   │   └── Calendar.scss   # Calendar + calendar day state maps
+│   │   ├── Calendar.scss   # Calendar + calendar day state maps
+│   │   └── Label.scss      # Label state map
 │   ├── grid/
 │   │   ├── Grid.scss       # Grid header, data row, cell cursor state maps
 │   │   └── Pagination.scss # Pagination state map (button-like styling)
-│   └── nav/
-│       └── Tab.scss        # Tab state maps
+│   ├── nav/
+│   │   ├── Tab.scss        # Tab state maps
+│   │   └── Menu.scss       # Menu padding options + list item styling overrides
+│   └── overlay/
+│       ├── Dropdown.scss   # Dropdown state map (surface color, border, shadow)
+│       └── Toast.scss      # Toast state map
 ├── presets/
-│   ├── default.ts          # Base light theme preset
+│   ├── index.ts            # Barrel: export * from each preset + tweaks
+│   ├── default.ts          # Base light theme preset (named export: defaultPreset)
 │   ├── darkBlue.ts         # Dark blue preset (extends default)
 │   ├── darkGray.ts         # Dark gray preset (extends default)
-│   └── ocean.ts            # Ocean preset (extends default)
-├── tweaks/                 # Rounding, density, font tweaks
+│   ├── ocean.ts            # Ocean preset (extends default)
+│   └── tweaks.ts           # Rounding, density, font tweaks (partial presets)
 ├── ThemeVariables.ts       # TypeScript interface + variableMap + CSS generation utilities
-└── ThemeVarsDiv.tsx        # React component for applying theme variables
+├── ThemeVarsRoot.tsx        # CxJS component for applying theme at :root level
+└── ThemeVarsDiv.tsx         # CxJS component for scoped theme variables (inline or cssSelector)
 ```
 
 ## Sub-theming
@@ -282,17 +292,52 @@ Lucide icons registered for: `forward` (ChevronsRight), `drop-down` (ChevronDown
 - `--cx-label-color` - Label text color
 - `--cx-placeholder-color` - Placeholder/empty text color
 
+### Dropdown Variables
+- `--cx-dropdown-padding` - Inner padding of dropdown containers (default: 6px)
+- `--cx-dropdown-border-width` - Dropdown border width (default: 1px)
+- `--cx-dropdown-arrow-size` - Size of the dropdown arrow triangle (default: 6px)
+- `--cx-dropdown-arrow-offset` - Offset of the arrow from the dropdown edge (default: 26px)
+- `--cx-dropdown-arrow-shadow-color` - Arrow drop-shadow color (default: rgba(0, 0, 0, 0.15))
+- `--cx-dropdown-arrow-shadow-size` - Arrow drop-shadow blur radius (default: 2px)
+- `--cx-dropdown-arrow-shadow-offset` - Arrow drop-shadow offset (default: 2px)
+
+Core SCSS changes: `$cx-default-dropdown-padding` extracted from `$cx-default-container-padding` in `packages/cx/src/widgets/overlay/variables.scss`. All arrow negation expressions in `Dropdown.scss` use `cx-multiply()` and `cx-calc()` for CSS variable compatibility.
+
+### Menu Variables
+- `--cx-menu-item-padding-x` / `--cx-menu-item-padding-y` - Menu item padding (defaults to button padding)
+
+Menu padding architecture: `$cx-menu-padding-options` and `$cx-menu-list-item` moved from `Menu.variables.scss` to `packages/cx/src/widgets/nav/maps.scss` in core to allow theme-level overrides. The theme's `Menu.scss` overrides all padding size variants (xsmall through xlarge) to use the same CSS variable values, and applies list-item styling via `cx-deep-map-merge($cx-list-item, (default: (padding: null)))`.
+
+### Section Variables
+- `--cx-section-box-shadow` / `--cx-section-border-width` / `--cx-section-border-radius`
+- `--cx-section-header-padding` / `--cx-section-header-margin` / `--cx-section-header-border-width`
+- `--cx-section-header-font-weight`
+- `--cx-section-body-padding`
+- `--cx-section-footer-padding` / `--cx-section-footer-margin` / `--cx-section-footer-border-width`
+- Section mods (card, primary, success, warning, error) use theme color variables
+
+### Toast Variables
+- `--cx-toast-background-color` / `--cx-toast-border-width` / `--cx-toast-border-color`
+- `--cx-toast-box-shadow` / `--cx-toast-border-radius` / `--cx-toast-padding`
+
+### Overlay Container Configuration
+Portal-based overlays (Dropdowns, Tooltips, Context Menus) render outside the widget tree in `document.body`. `configureOverlayContainer` propagates CSS classes from the nearest `ThemeVarsDiv[data-theme-container-class]` ancestor to the portaled container element. Registered via `OverlayBase.configureOverlayContainer` in `applyThemeOverrides()`.
+
+### Density & Rounding Tweaks
+Partial presets in `tweaks.ts` that can be layered on base themes:
+- **Rounding**: none (0), small (3px), medium (5px), large (8px), veryLarge (12px)
+- **Density**: minimal, condensed, compact, normal, comfortable, spacious
+  - Each density preset scales: baseFontSize, inputWidth, inputLineHeight, inputPaddingX/Y, buttonLineHeight, buttonPaddingX/Y, checkboxSize, iconSize, dropdownPadding, dropdownArrowSize, dropdownArrowOffset
+- **Font**: system, inter, roboto, openSans, poppins, lato
+
 ## TODO: Remaining
 
 Features not yet covered by `ThemeVariables`. The homedocs theme works around these via
 direct CSS overrides in `homedocs/src/styles/theme/index.scss`.
 
-1. **Popover/dropdown background** - No `popoverBackgroundColor` variable
-2. **Dropdown box shadow** - No `dropdownBoxShadow` variable
-3. **Tooltip styling** - No tooltip background, color, or border-radius variables
-4. **Slider track/range/handle colors** - No runtime CSS variables for slider
-5. **Progress bar indicator color** - No `progressBarColor` variable
-6. **Input tag background** (LookupField) - No `inputTagBackgroundColor`
-7. **Toast mod colors** - No variables for toast variants
-8. **Section header font weight** - No variable
-9. **Window body/footer padding** - Basic window variables exist but not comprehensive
+1. **Tooltip styling** - No tooltip background, color, or border-radius variables
+2. **Slider track/range/handle colors** - No runtime CSS variables for slider
+3. **Progress bar indicator color** - No `progressBarColor` variable
+4. **Input tag background** (LookupField) - No `inputTagBackgroundColor`
+5. **Toast mod colors** - No variables for toast variants (success, error, warning, info)
+6. **Window body/footer padding** - Basic window variables exist but not comprehensive

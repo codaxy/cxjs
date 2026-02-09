@@ -28,6 +28,8 @@ import {
   Info,
   ListTodo,
   LoaderCircle,
+  Menu,
+  MessageCircle,
   Move,
   Palette,
   PanelTop,
@@ -115,3 +117,5 @@ Icon.register("toggle-left", getRenderer(ToggleLeft));
 Icon.register("forward", getRenderer(ChevronsRight));
 Icon.register("drop-down", getRenderer(ChevronDown));
 Icon.register("bell", getRenderer(Bell));
+Icon.register("menu", getRenderer(Menu));
+Icon.register("message-circle", getRenderer(MessageCircle));

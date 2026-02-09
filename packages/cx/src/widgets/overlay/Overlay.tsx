@@ -32,10 +32,6 @@ import { captureMouseOrTouch, getCursorPos } from "./captureMouse";
  - stop mouse events from bubbling to parents, but allow keystrokes
  */
 
-export interface ConfigureOverlayContainerContext {
-  relatedElement?: HTMLElement;
-}
-
 export interface OverlayConfig extends StyledContainerConfig {
   /** Set to `true` to enable resizing. */
   resizable?: BooleanProp;
@@ -130,6 +126,21 @@ export interface OverlayConfig extends StyledContainerConfig {
 
   /** Callback for click event. */
   onClick?: string;
+}
+
+export interface OverlayOpenOptions {
+  initiatingEvent?: React.SyntheticEvent;
+  name?: string;
+  dismiss?: () => void;
+  parentEl?: Element;
+  subscribeToBeforeDismiss?: (callback: () => boolean) => void;
+  destroyDelay?: number;
+  removeParentDOMElement?: boolean;
+}
+
+export interface ConfigureOverlayContainerContext {
+  relatedElement?: HTMLElement;
+  initiatingEvent?: React.SyntheticEvent;
 }
 
 export class OverlayInstance<
@@ -279,8 +290,11 @@ export class OverlayBase<
 
   getConfigureOverlayContainerContext(
     instance?: InstanceType,
+    initiatingEvent?: React.SyntheticEvent,
   ): ConfigureOverlayContainerContext {
-    return {};
+    return {
+      initiatingEvent,
+    };
   }
 
   overlayDidMount(instance: InstanceType, component: any): void {
@@ -328,7 +342,10 @@ export class OverlayBase<
     return document.body;
   }
 
-  containerFactory(instance?: InstanceType): HTMLElement {
+  containerFactory(
+    instance?: InstanceType,
+    initiatingEvent?: React.SyntheticEvent,
+  ): HTMLElement {
     let el = document.createElement("div");
     let container = this.getOverlayContainer();
     container.appendChild(el);
@@ -339,16 +356,19 @@ export class OverlayBase<
     if (OverlayBase.configureOverlayContainer)
       OverlayBase.configureOverlayContainer(
         el,
-        this.getConfigureOverlayContainerContext(instance),
+        this.getConfigureOverlayContainerContext(instance, initiatingEvent),
       );
 
     return el;
   }
 
-  open(storeOrInstance?: View | Instance, options?: any): () => void {
+  open(
+    storeOrInstance?: View | Instance,
+    options?: OverlayOpenOptions,
+  ): () => void {
     if (!this.initialized) this.init();
 
-    let el = this.containerFactory();
+    let el = this.containerFactory(undefined, options?.initiatingEvent);
     el.style.display = "hidden";
 
     let beforeDismiss: (() => boolean) | null = null;
@@ -370,7 +390,7 @@ export class OverlayBase<
     };
     options.name = options.name || "overlay";
     stop = startAppLoop(el, storeOrInstance, this, options);
-    return options.dismiss;
+    return options.dismiss!;
   }
 
   handleMove(e: any, instance: InstanceType, component: any): void {

@@ -11,7 +11,7 @@
 
 @mixin cx-menuitem(
    $name: "menuitem",
-   $state-style-map: cx-deep-map-merge($cx-list-item, $cx-menu-list-item),
+   $state-style-map: $cx-menu-list-item,
    $icon-size: $cx-default-icon-size,
    $besm: $cx-besm
 ) {
@@ -57,6 +57,12 @@
          &:focus {
             outline: none;
          }
+      }
+
+      & > hr {
+         border: none;
+         border-top: 1px solid $cx-default-menu-separator-color;
+         margin: map.get($cx-menu-padding-options, medium);
       }
 
       @each $size, $value in $cx-menu-padding-options {

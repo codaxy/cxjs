@@ -20,6 +20,10 @@ $cx-default-dropdown-color: $cx-default-color !default;
 $cx-default-dropdown-background-color: white !default;
 $cx-default-dropdown-arrow-size: 6px !default;
 $cx-default-dropdown-arrow-offset: 16px !default;
+$cx-default-dropdown-arrow-shadow-color: null !default;
+$cx-default-dropdown-arrow-shadow-size: 2px !default;
+$cx-default-dropdown-arrow-shadow-offset: 2px !default;
+$cx-default-dropdown-padding: $cx-default-container-padding !default;
 
 // TOAST
 $cx-default-toast-color: $cx-default-color !default;

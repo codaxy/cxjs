@@ -6,7 +6,7 @@ $cx-dropdown-styles: map-merge(
    $cx-dropdown-styles,
    (
       color: var(--cx-theme-text-color),
-      background-color: var(--cx-theme-surface-color),
+      background-color: var(--cx-theme-background-color),
       font-size: var(--cx-theme-base-font-size),
       font-weight: var(--cx-theme-font-weight),
       border-width: var(--cx-dropdown-border-width),

@@ -57,7 +57,26 @@ $cx-theme-box-padding: var(--cx-input-padding-y) var(--cx-input-padding-x);
    // -------------------------------------------------------------------------
    // Dropdown
    // -------------------------------------------------------------------------
-   $cx-default-dropdown-arrow-offset: 26px !default,
+   $cx-default-dropdown-padding: var(--cx-dropdown-padding) !default,
+   $cx-default-dropdown-arrow-size: var(--cx-dropdown-arrow-size) !default,
+   $cx-default-dropdown-arrow-offset: var(--cx-dropdown-arrow-offset) !default,
+   $cx-default-dropdown-arrow-shadow-color: var(--cx-dropdown-arrow-shadow-color) !default,
+   $cx-default-dropdown-arrow-shadow-size: var(--cx-dropdown-arrow-shadow-size) !default,
+   $cx-default-dropdown-arrow-shadow-offset: var(--cx-dropdown-arrow-shadow-offset) !default,
+
+   // -------------------------------------------------------------------------
+   // Tooltip
+   // -------------------------------------------------------------------------
+   $cx-tooltip-background-color: var(--cx-tooltip-background-color) !default,
+   $cx-tooltip-border-color: var(--cx-tooltip-border-color) !default,
+   $cx-tooltip-border-width: var(--cx-tooltip-border-width) !default,
+   $cx-tooltip-border-radius: var(--cx-tooltip-border-radius) !default,
+   $cx-tooltip-arrow-size: var(--cx-tooltip-arrow-size) !default,
+   $cx-tooltip-color: var(--cx-tooltip-color) !default,
+   $cx-tooltip-padding: var(--cx-tooltip-padding) !default,
+   $cx-tooltip-background-color-error: var(--cx-tooltip-error-background-color) !default,
+   $cx-tooltip-border-color-error: var(--cx-tooltip-error-border-color) !default,
+   $cx-tooltip-color-error: var(--cx-tooltip-error-color) !default,
 
    // -------------------------------------------------------------------------
    // Toast

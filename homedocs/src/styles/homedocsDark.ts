@@ -9,6 +9,8 @@ const homedocsDarkPreset: ThemeVariables = {
 
    // Primary colors
    primaryColor: "#5bbac7",
+   accentColor: "hsl(210, 15%, 22%)",
+   accentTextColor: "hsl(0, 0%, 98%)",
    dangerColor: "#ef4444",
 
    // Text
@@ -44,6 +46,9 @@ const homedocsDarkPreset: ThemeVariables = {
 
    // Calendar
    calendarBackgroundColor: "#1f1f1f",
+
+   // Tooltip
+   tooltipBackgroundColor: "#1f1f1f",
 };
 
 export default homedocsDarkPreset;

@@ -15,9 +15,18 @@ export function applyThemeOverrides() {
       destroyDelay: 200,
    });
 
+   Localization.override("cx/widgets/DateField", {
+      dropdownOptions: {
+         arrow: true,
+         offset: 5,
+      },
+   });
+
    Localization.override("cx/widgets/MenuItem", {
       dropdownOptions: {
-         pad: false,
+         arrow: true,
+         pad: true,
+         elementExplode: 7,
       },
    });
 
@@ -31,6 +40,7 @@ export function applyThemeOverrides() {
    Localization.override("cx/widgets/ContextMenu", {
       arrow: true,
       offset: 5,
+      pad: true,
    });
 }
 

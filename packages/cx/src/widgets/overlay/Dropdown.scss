@@ -9,10 +9,21 @@
 @use "../../util/scss/include.scss" as *;
 @use "./Overlay.scss" as *;
 
+@mixin cx-dropdown-arrow-shadow($name, $element, $shadow-color, $shadow-size, $dx, $dy) {
+   @if ($shadow-color) {
+      & > .#{$element}#{$name}-arrow-border {
+         filter: drop-shadow(#{$dx} #{$dy} #{$shadow-size} $shadow-color);
+      }
+   }
+}
+
 @mixin cx-dropdown-arrows(
    $name: "dropdown",
    $styles: $cx-dropdown-styles,
    $arrow-size: $cx-default-dropdown-arrow-size,
+   $arrow-shadow-color: $cx-default-dropdown-arrow-shadow-color,
+   $arrow-shadow-size: $cx-default-dropdown-arrow-shadow-size,
+   $arrow-shadow-offset: $cx-default-dropdown-arrow-shadow-offset,
    $besm: $cx-besm
 ) {
    $block: map.get($besm, block);
@@ -49,15 +60,17 @@
          right: 100%;
          top: 50%;
          border-right-color: currentColor;
-         margin-top: -$arrow-size;
+         margin-top: cx-multiply($arrow-size, -1);
       }
 
       & > .#{$element}#{$name}-arrow-border {
          right: 100%;
          top: 50%;
          border-right-color: currentColor;
-         margin-top: cx-calc(cx-multiply($border-width, -1), -$arrow-size);
+         margin-top: cx-calc(cx-multiply($border-width, -1), cx-multiply($arrow-size, -1));
       }
+
+      @include cx-dropdown-arrow-shadow($name, $element, $arrow-shadow-color, $arrow-shadow-size, cx-multiply($arrow-shadow-offset, -1), 0);
    }
 
    .#{$state}place-left,
@@ -67,15 +80,17 @@
          left: 100%;
          top: 50%;
          border-left-color: currentColor;
-         margin-top: -$arrow-size;
+         margin-top: cx-multiply($arrow-size, -1);
       }
 
       & > .#{$element}#{$name}-arrow-border {
          left: 100%;
          top: 50%;
          border-left-color: currentColor;
-         margin-top: cx-calc(cx-multiply($border-width, -1), -$arrow-size);
+         margin-top: cx-calc(cx-multiply($border-width, -1), cx-multiply($arrow-size, -1));
       }
+
+      @include cx-dropdown-arrow-shadow($name, $element, $arrow-shadow-color, $arrow-shadow-size, $arrow-shadow-offset, 0);
    }
 
    .#{$state}place-right-down,
@@ -93,7 +108,7 @@
    .#{$state}place-left-up {
       & > .#{$element}#{$name}-arrow-fill,
       & > .#{$element}#{$name}-arrow-border {
-         top: cx-calc(100%, -$cx-default-dropdown-arrow-offset);
+         top: cx-calc(100%, cx-multiply($cx-default-dropdown-arrow-offset, -1));
       }
    }
 
@@ -104,15 +119,17 @@
          left: 50%;
          top: 100%;
          border-top-color: currentColor;
-         margin-left: -$arrow-size;
+         margin-left: cx-multiply($arrow-size, -1);
       }
 
       & > .#{$element}#{$name}-arrow-border {
          left: 50%;
          top: 100%;
          border-top-color: currentColor;
-         margin-left: cx-calc(cx-multiply($border-width, -1), -$arrow-size);
+         margin-left: cx-calc(cx-multiply($border-width, -1), cx-multiply($arrow-size, -1));
       }
+
+      @include cx-dropdown-arrow-shadow($name, $element, $arrow-shadow-color, $arrow-shadow-size, 0, $arrow-shadow-offset);
    }
 
    .#{$state}place-down,
@@ -122,15 +139,17 @@
          left: 50%;
          bottom: 100%;
          border-bottom-color: currentColor;
-         margin-left: -$arrow-size;
+         margin-left: cx-multiply($arrow-size, -1);
       }
 
       & > .#{$element}#{$name}-arrow-border {
          left: 50%;
          bottom: 100%;
          border-bottom-color: currentColor;
-         margin-left: cx-calc(cx-multiply($border-width, -1), -$arrow-size);
+         margin-left: cx-calc(cx-multiply($border-width, -1), cx-multiply($arrow-size, -1));
       }
+
+      @include cx-dropdown-arrow-shadow($name, $element, $arrow-shadow-color, $arrow-shadow-size, 0, cx-multiply($arrow-shadow-offset, -1));
    }
 
    .#{$state}place-down-right,
@@ -144,11 +163,11 @@
    .#{$state}place-down-left,
    .#{$state}place-up-left {
       & > .#{$element}#{$name}-arrow-fill {
-         left: cx-calc(100%, -$cx-default-dropdown-arrow-offset);
+         left: cx-calc(100%, cx-multiply($cx-default-dropdown-arrow-offset, -1));
       }
 
       & > .#{$element}#{$name}-arrow-border {
-         left: cx-calc(100%, -$cx-default-dropdown-arrow-offset);
+         left: cx-calc(100%, cx-multiply($cx-default-dropdown-arrow-offset, -1));
       }
    }
 }
@@ -178,7 +197,7 @@
       }
 
       &.#{$state}pad {
-         padding: $cx-default-container-padding;
+         padding: $cx-default-dropdown-padding;
       }
    }
 
@@ -189,7 +208,8 @@
       visibility: hidden;
    }
 
-   @include cx-dropdown-arrows($name, $styles, $arrow-size, $besm);
+   @include cx-dropdown-arrows($name, $styles, $arrow-size, $besm: $besm);
+
 }
 
 @if (cx-should-include("cx/widgets/Dropdown")) {

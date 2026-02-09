@@ -1,10 +1,10 @@
 import { ThemeVariables } from "../ThemeVariables";
-import defaultPreset from "./default";
+import { defaultPreset } from "./default";
 
 /**
  * Dark gray theme
  */
-const darkGrayPreset: ThemeVariables = {
+export const darkGrayPreset: ThemeVariables = {
    ...defaultPreset,
    primaryColor: "#78909c",
    accentColor: "#ffab40",
@@ -21,6 +21,6 @@ const darkGrayPreset: ThemeVariables = {
    gridDataBorderColor: "#505050",
    calendarBackgroundColor: "#303030",
    focusBoxShadow: "0 0 0 2px rgba(120, 144, 156, 0.4)",
+   tooltipBackgroundColor: "#303030",
 };
 
-export default darkGrayPreset;

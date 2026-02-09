@@ -531,10 +531,123 @@ const variableMetadata: Array<{
     type: "size",
     category: "sections",
   },
+  // Menu
+  {
+    key: "menuItemPaddingX",
+    label: "Item padding X",
+    type: "size",
+    category: "menu",
+  },
+  {
+    key: "menuItemPaddingY",
+    label: "Item padding Y",
+    type: "size",
+    category: "menu",
+  },
+
+  // Tooltips
+  {
+    key: "tooltipBackgroundColor",
+    label: "Background",
+    type: "color",
+    category: "tooltips",
+  },
+  {
+    key: "tooltipBorderColor",
+    label: "Border color",
+    type: "color",
+    category: "tooltips",
+  },
+  {
+    key: "tooltipBorderWidth",
+    label: "Border width",
+    type: "size",
+    category: "tooltips",
+  },
+  {
+    key: "tooltipBorderRadius",
+    label: "Border radius",
+    type: "text",
+    category: "tooltips",
+  },
+  {
+    key: "tooltipArrowSize",
+    label: "Arrow size",
+    type: "size",
+    category: "tooltips",
+  },
+  {
+    key: "tooltipColor",
+    label: "Text color",
+    type: "text",
+    category: "tooltips",
+  },
+  {
+    key: "tooltipPadding",
+    label: "Padding",
+    type: "text",
+    category: "tooltips",
+  },
+
+  {
+    key: "tooltipErrorBackgroundColor",
+    label: "Error background",
+    type: "text",
+    category: "tooltips",
+  },
+  {
+    key: "tooltipErrorBorderColor",
+    label: "Error border color",
+    type: "text",
+    category: "tooltips",
+  },
+  {
+    key: "tooltipErrorColor",
+    label: "Error text color",
+    type: "text",
+    category: "tooltips",
+  },
+
   // Dropdowns
+  {
+    key: "dropdownPadding",
+    label: "Padding",
+    type: "size",
+    category: "dropdowns",
+  },
   {
     key: "dropdownBorderWidth",
     label: "Border width",
+    type: "size",
+    category: "dropdowns",
+  },
+  {
+    key: "dropdownArrowSize",
+    label: "Arrow size",
+    type: "size",
+    category: "dropdowns",
+  },
+  {
+    key: "dropdownArrowOffset",
+    label: "Arrow offset",
+    type: "size",
+    category: "dropdowns",
+  },
+  {
+    key: "dropdownArrowShadowColor",
+    label: "Arrow shadow color",
+    type: "text",
+    category: "dropdowns",
+  },
+  {
+    key: "dropdownArrowShadowSize",
+    label: "Arrow shadow size",
+    type: "size",
+    category: "dropdowns",
+  },
+  {
+    key: "dropdownArrowShadowOffset",
+    label: "Arrow shadow offset",
     type: "size",
     category: "dropdowns",
   },
@@ -645,6 +758,8 @@ const categoryMetadata = [
   { id: "calendar", name: "Calendar", icon: "calendar", group: "Components" },
   { id: "sections", name: "Sections", icon: "panel-top", group: "Components" },
   { id: "toasts", name: "Toasts", icon: "bell", group: "Components" },
+  { id: "tooltips", name: "Tooltips", icon: "message-circle", group: "Components" },
+  { id: "menu", name: "Menu", icon: "menu", group: "Components" },
   { id: "dropdowns", name: "Dropdowns", icon: "drop-down", group: "Components" },
 ];
 
@@ -707,6 +822,7 @@ export const roundingOptions = [
   { id: "small", text: "Small", tweak: roundingTweaks.small },
   { id: "medium", text: "Medium", tweak: roundingTweaks.medium },
   { id: "large", text: "Large", tweak: roundingTweaks.large },
+  { id: "veryLarge", text: "Very Large", tweak: roundingTweaks.veryLarge },
 ];
 
 export const densityOptions = [

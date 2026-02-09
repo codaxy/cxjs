@@ -81,7 +81,7 @@ export const examples: ExampleDef[] = [
   {
     id: "date-field",
     name: "DateField",
-    categories: ["colors", "inputs", "calendar", "sizing", "effects"],
+    categories: ["colors", "inputs", "dropdowns", "calendar", "sizing", "effects"],
     component: () => import("../forms/DateFieldExample"),
   },
   {
@@ -167,10 +167,28 @@ export const examples: ExampleDef[] = [
     component: () => import("../layout/DropdownSearchExample"),
   },
   {
-    id: "tooltip",
-    name: "Tooltip",
-    categories: ["colors", "effects"],
-    component: () => import("../layout/TooltipExample"),
+    id: "tooltip-basic",
+    name: "Tooltip Basic",
+    categories: ["colors", "tooltips"],
+    component: () => import("../layout/TooltipBasicExample"),
+  },
+  {
+    id: "tooltip-interactive",
+    name: "Tooltip Interactive",
+    categories: ["colors", "tooltips"],
+    component: () => import("../layout/TooltipInteractiveExample"),
+  },
+  {
+    id: "tooltip-rich-content",
+    name: "Tooltip Rich Content",
+    categories: ["colors", "tooltips"],
+    component: () => import("../layout/TooltipRichContentExample"),
+  },
+  {
+    id: "tooltip-validation",
+    name: "Tooltip Validation",
+    categories: ["colors", "tooltips", "inputs"],
+    component: () => import("../layout/TooltipValidationExample"),
   },
 
   // Tables & Grids
@@ -275,13 +293,31 @@ export const examples: ExampleDef[] = [
   {
     id: "menu",
     name: "Menu",
-    categories: ["colors", "dropdowns", "sizing", "effects"],
+    categories: ["colors", "menu", "dropdowns", "sizing", "effects"],
     component: () => import("../layout/MenuVerticalExample"),
+  },
+  {
+    id: "menu-horizontal",
+    name: "Horizontal Menu",
+    categories: ["colors", "menu", "sizing"],
+    component: () => import("../layout/MenuHorizontalExample"),
+  },
+  {
+    id: "menu-icons",
+    name: "Menu Icons",
+    categories: ["colors", "menu", "sizing"],
+    component: () => import("../layout/MenuIconsExample"),
+  },
+  {
+    id: "menu-overflow",
+    name: "Menu Overflow",
+    categories: ["colors", "menu", "sizing"],
+    component: () => import("../layout/MenuOverflowExample"),
   },
   {
     id: "context-menu",
     name: "Context Menu",
-    categories: ["colors", "dropdowns", "effects"],
+    categories: ["colors", "menu", "dropdowns", "effects"],
     component: () => import("../layout/ContextMenuExample"),
   },
 
