@@ -17,10 +17,7 @@ $cx-button-state-style-map: cx-deep-map-merge(
          background-color: var(--cx-button-background-color),
          border-color: var(--cx-button-border-color),
          transition: var(--cx-theme-transition),
-         color: oklch(
-               from var(--cx-button-background-color) calc(1 - round(l - 0.15))
-                  0 0
-            ),
+         color: var(--cx-button-color),
       ),
       hover: (
          background-color: color-mix(

@@ -19,46 +19,43 @@ async function build() {
                {
                   name: "index",
                   options: {
-                     input: [themeBuild("index.js")]
+                     input: [themeBuild("index.js")],
                   },
-                  output: {}
-               }
+                  output: {},
+               },
             ],
             null,
-            ["cx/ui", "cx/widgets"]
+            ["cx/ui", "cx/widgets"],
          ),
          buildSCSS(
-            [
-               themeSrc("variables.scss"),
-               resolvePath("../cx-build-tools/reset.scss")
-            ],
-            theme("dist/reset.css")
+            [themeSrc("variables.reset.scss"), themeSrc("reset.scss")],
+            theme("dist/reset.css"),
          ),
          buildSCSS(
             [
                themeSrc("variables.scss"),
                cxSrc("variables.scss"),
                cxSrc("widgets/index.scss"),
-               cxSrc("ui/index.scss")
+               cxSrc("ui/index.scss"),
             ],
-            theme("dist/widgets.css")
+            theme("dist/widgets.css"),
          ),
          buildSCSS(
             [
                themeSrc("variables.scss"),
                cxSrc("variables.scss"),
-               cxSrc("charts/index.scss")
+               cxSrc("charts/index.scss"),
             ],
-            theme("dist/charts.css")
+            theme("dist/charts.css"),
          ),
          buildSCSS(
             [
                themeSrc("variables.scss"),
                cxSrc("variables.scss"),
-               cxSrc("svg/index.scss")
+               cxSrc("svg/index.scss"),
             ],
-            theme("dist/svg.css")
-         )
+            theme("dist/svg.css"),
+         ),
       ]);
    } catch (err) {
       console.error(err);

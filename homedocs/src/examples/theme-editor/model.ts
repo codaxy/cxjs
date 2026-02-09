@@ -25,6 +25,8 @@ export interface ThemeEditorModel {
   density: string;
   font: string;
   categories: Category[];
+  exportVisible: boolean;
+  exportTab: string;
   $category: Category;
   $variable: ThemeVariable;
   $example: ExampleDef;

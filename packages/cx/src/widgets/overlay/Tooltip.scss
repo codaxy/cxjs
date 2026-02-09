@@ -46,7 +46,7 @@
       display: block;
       left: -10000px;
       top: -10000px;
-      box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.3);
+      box-shadow: $cx-tooltip-box-shadow;
       background-color: $cx-tooltip-background-color;
       border: $cx-tooltip-border-width solid $cx-tooltip-border-color;
       color: $cx-tooltip-color;

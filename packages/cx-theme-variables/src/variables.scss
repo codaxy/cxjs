@@ -50,7 +50,7 @@ $cx-theme-box-padding: var(--cx-input-padding-y) var(--cx-input-padding-x);
    $cx-default-button-border-color: var(--cx-button-border-color) !default,
    $cx-default-button-box-shadow: var(--cx-button-box-shadow) !default,
    $cx-default-button-border-radius: var(--cx-button-border-radius) !default,
-   $cx-default-button-color: null !default,
+   $cx-default-button-color: var(--cx-button-color) !default,
    $cx-default-button-padding: var(--cx-button-padding-y)
       var(--cx-button-padding-x) !default,
 
@@ -74,6 +74,7 @@ $cx-theme-box-padding: var(--cx-input-padding-y) var(--cx-input-padding-x);
    $cx-tooltip-arrow-size: var(--cx-tooltip-arrow-size) !default,
    $cx-tooltip-color: var(--cx-tooltip-color) !default,
    $cx-tooltip-padding: var(--cx-tooltip-padding) !default,
+   $cx-tooltip-box-shadow: var(--cx-tooltip-box-shadow) !default,
    $cx-tooltip-background-color-error: var(--cx-tooltip-error-background-color) !default,
    $cx-tooltip-border-color-error: var(--cx-tooltip-error-border-color) !default,
    $cx-tooltip-color-error: var(--cx-tooltip-error-color) !default,

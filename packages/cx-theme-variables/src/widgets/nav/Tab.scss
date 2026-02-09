@@ -1,6 +1,6 @@
 @use "sass:map";
 @use "../../variables.scss" as *;
-@use "cx/src/widgets/nav/Tab.maps.scss" as *;
+@use "cx/src/maps" as *;
 @use "cx/src/util/scss/deep-merge" as *;
 @use "cx/src/util/scss/clockwise" as *;
 @use "cx/src/util/scss/calc" as *;

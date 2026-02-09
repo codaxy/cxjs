@@ -52,6 +52,7 @@ export interface ThemeVariables {
    checkboxSize: string;
 
    buttonBackgroundColor: string;
+   buttonColor: string;
    buttonBorderColor: string;
    buttonFontSize: string;
    buttonFontWeight: string;
@@ -120,6 +121,7 @@ export interface ThemeVariables {
    tooltipArrowSize: string;
    tooltipColor: string;
    tooltipPadding: string;
+   tooltipBoxShadow: string;
    tooltipErrorBackgroundColor: string;
    tooltipErrorBorderColor: string;
    tooltipErrorColor: string;
@@ -189,6 +191,7 @@ export const variableMap: Record<keyof ThemeVariables, string> = {
    checkboxSize: "--cx-checkbox-size",
 
    buttonBackgroundColor: "--cx-button-background-color",
+   buttonColor: "--cx-button-color",
    buttonBorderColor: "--cx-button-border-color",
    buttonFontSize: "--cx-button-font-size",
    buttonFontWeight: "--cx-button-font-weight",
@@ -257,6 +260,7 @@ export const variableMap: Record<keyof ThemeVariables, string> = {
    tooltipArrowSize: "--cx-tooltip-arrow-size",
    tooltipColor: "--cx-tooltip-color",
    tooltipPadding: "--cx-tooltip-padding",
+   tooltipBoxShadow: "--cx-tooltip-box-shadow",
    tooltipErrorBackgroundColor: "--cx-tooltip-error-background-color",
    tooltipErrorBorderColor: "--cx-tooltip-error-border-color",
    tooltipErrorColor: "--cx-tooltip-error-color",

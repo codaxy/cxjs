@@ -35,7 +35,7 @@ const variableMetadata: Array<{
   {
     key: "primaryBorderColor",
     label: "Primary border color",
-    type: "text",
+    type: "color",
     category: "colors",
   },
   {
@@ -101,7 +101,7 @@ const variableMetadata: Array<{
   {
     key: "dangerBorderColor",
     label: "Danger border color",
-    type: "text",
+    type: "color",
     category: "colors",
   },
   { key: "textColor", label: "Text color", type: "color", category: "colors" },
@@ -184,7 +184,7 @@ const variableMetadata: Array<{
   {
     key: "inputColor",
     label: "Color",
-    type: "text",
+    type: "color",
     category: "inputs",
   },
   {
@@ -263,9 +263,15 @@ const variableMetadata: Array<{
     category: "buttons",
   },
   {
+    key: "buttonColor",
+    label: "Color",
+    type: "color",
+    category: "buttons",
+  },
+  {
     key: "buttonBorderColor",
     label: "Border color",
-    type: "text",
+    type: "color",
     category: "buttons",
   },
   {
@@ -325,7 +331,7 @@ const variableMetadata: Array<{
   {
     key: "buttonHoverStateMixColor",
     label: "Hover mix color",
-    type: "text",
+    type: "color",
     category: "buttons",
   },
   {
@@ -337,7 +343,7 @@ const variableMetadata: Array<{
   {
     key: "buttonActiveStateMixColor",
     label: "Active mix color",
-    type: "text",
+    type: "color",
     category: "buttons",
   },
   {
@@ -387,7 +393,7 @@ const variableMetadata: Array<{
   {
     key: "gridHeaderBackgroundColor",
     label: "Header background",
-    type: "text",
+    type: "color",
     category: "grids",
   },
   {
@@ -579,7 +585,7 @@ const variableMetadata: Array<{
   {
     key: "tooltipColor",
     label: "Text color",
-    type: "text",
+    type: "color",
     category: "tooltips",
   },
   {
@@ -588,23 +594,29 @@ const variableMetadata: Array<{
     type: "text",
     category: "tooltips",
   },
+  {
+    key: "tooltipBoxShadow",
+    label: "Box shadow",
+    type: "text",
+    category: "tooltips",
+  },
 
   {
     key: "tooltipErrorBackgroundColor",
     label: "Error background",
-    type: "text",
+    type: "color",
     category: "tooltips",
   },
   {
     key: "tooltipErrorBorderColor",
     label: "Error border color",
-    type: "text",
+    type: "color",
     category: "tooltips",
   },
   {
     key: "tooltipErrorColor",
     label: "Error text color",
-    type: "text",
+    type: "color",
     category: "tooltips",
   },
 
@@ -636,7 +648,7 @@ const variableMetadata: Array<{
   {
     key: "dropdownArrowShadowColor",
     label: "Arrow shadow color",
-    type: "text",
+    type: "color",
     category: "dropdowns",
   },
   {

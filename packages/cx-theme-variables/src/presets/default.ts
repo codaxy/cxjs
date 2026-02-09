@@ -57,6 +57,7 @@ export const defaultPreset: ThemeVariables = {
    checkboxSize: "16px",
 
    buttonBackgroundColor: "#f5f5f5",
+   buttonColor: "oklch(from var(--cx-button-background-color) calc(1 - round(l - 0.15)) 0 0)",
    buttonBorderColor: "var(--cx-theme-border-color)",
    buttonFontSize: "var(--cx-theme-base-font-size)",
    buttonFontWeight: "var(--cx-theme-font-weight)",
@@ -66,7 +67,8 @@ export const defaultPreset: ThemeVariables = {
    buttonBorderWidth: "1px",
    buttonBoxShadow: "inset 0 -2px rgba(128, 128, 128, 0.1)",
    buttonBorderRadius: "var(--cx-theme-border-radius)",
-   buttonHoverBoxShadow: "0 1px 2px rgba(0, 0, 0, 0.1)",
+   buttonHoverBoxShadow:
+      "var(--cx-button-box-shadow), 0 0 3px rgba(0, 0, 0, 0.3)",
    buttonHoverStateMixColor: "var(--cx-theme-background-color)",
    buttonHoverStateMixAmount: "8%",
    buttonActiveStateMixColor: "black",
@@ -129,6 +131,7 @@ export const defaultPreset: ThemeVariables = {
    tooltipArrowSize: "5px",
    tooltipColor: "var(--cx-theme-text-color)",
    tooltipPadding: "var(--cx-button-padding-y)",
+   tooltipBoxShadow: "var(--cx-theme-box-shadow-elevated)",
    tooltipErrorBackgroundColor: "var(--cx-theme-danger-color)",
    tooltipErrorBorderColor: "var(--cx-theme-danger-border-color)",
    tooltipErrorColor: "var(--cx-theme-danger-text-color)",

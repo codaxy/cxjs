@@ -1,5 +1,5 @@
 @use "cx/src/maps" as *;
-@use "cx/src/util/scss/deep-merge.scss" as *;
+@use "cx/src/util/scss/deep-merge" as *;
 
 $cx-menu-padding-options: (
    xsmall: var(--cx-menu-item-padding-y) var(--cx-menu-item-padding-x),

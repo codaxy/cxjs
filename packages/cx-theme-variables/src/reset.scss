@@ -1,0 +1,7 @@
+// Reset entry: loads theme maps (for $cx-element-style-map overrides)
+// and the global rules module (which emits html/body/heading/link styles).
+// Does NOT load the full index.scss to avoid pulling in all widget CSS.
+
+@use "./variables.scss" as *;
+@use "./maps.scss" as *;
+@use "cx/src/util/scss/global" as *;

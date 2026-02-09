@@ -14,7 +14,7 @@
 @use "cx/src/index" as *;
 
 // 5. Load include utilities for conditional CSS
-@use "cx/src/util/scss/include.scss" as *;
+@use "cx/src/util/scss/include" as *;
 
 $block: map.get($cx-besm, block);
 $element: map.get($cx-besm, element);

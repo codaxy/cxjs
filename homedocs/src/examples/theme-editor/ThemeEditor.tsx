@@ -4,6 +4,7 @@ import { Button, enableTooltips, LookupField } from "cx/widgets";
 import "../../icons/lucide";
 import { m, ThemeEditorModel } from "./model";
 import {
+  categoriesToTheme,
   presets,
   roundingOptions,
   densityOptions,
@@ -13,6 +14,7 @@ import {
 import { Sidebar } from "./Sidebar";
 import { VariableEditor } from "./VariableEditor";
 import { Preview } from "./Preview";
+import { ExportWindow, getExportText } from "./ExportWindow";
 
 enableTooltips();
 
@@ -72,16 +74,30 @@ class ThemeEditorController extends Controller<ThemeEditorModel> {
     } catch {}
   }
 
-  copyToClipboard() {
+  openExport() {
+    this.store.set(m.exportVisible, true);
+  }
+
+  copyExport() {
     const categories = this.store.get(m.categories);
-    let css = ":root {\n";
-    for (const cat of categories) {
-      for (const v of cat.variables) {
-        css += `  ${v.key}: ${v.value};\n`;
-      }
-    }
-    css += "}\n";
-    navigator.clipboard.writeText(css);
+    const tab = this.store.get(m.exportTab) || "css";
+    const text = getExportText(categories, tab);
+    navigator.clipboard.writeText(text);
+  }
+
+  downloadExport() {
+    const categories = this.store.get(m.categories);
+    const tab = this.store.get(m.exportTab) || "css";
+    const text = getExportText(categories, tab);
+    const ext = tab === "js" ? "ts" : "css";
+    const filename = `theme.${ext}`;
+    const blob = new Blob([text], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
   }
 
   reset() {
@@ -147,11 +163,10 @@ export default (
         />
         <div class="flex-1" />
         <Button icon="refresh" text="Reset" onClick="reset" mod="hollow" />
-        <Button icon="download" text="Download" mod="hollow" />
         <Button
-          icon="copy"
-          text="Copy to Clipboard"
-          onClick="copyToClipboard"
+          icon="download"
+          text="Export"
+          onClick="openExport"
           mod="primary"
         />
       </div>
@@ -165,5 +180,7 @@ export default (
         <Preview />
       </div>
     </div>
+
+    {ExportWindow}
   </div>
 );
