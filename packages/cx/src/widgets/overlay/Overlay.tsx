@@ -139,7 +139,7 @@ export interface OverlayOpenOptions {
 }
 
 export interface ConfigureOverlayContainerContext {
-  relatedElement?: HTMLElement;
+  relatedElement?: HTMLElement | null;
   initiatingEvent?: React.SyntheticEvent;
 }
 
@@ -149,6 +149,7 @@ export class OverlayInstance<
   declare positionChangeSubscribers: SubscriberList;
   declare dismiss?: () => void;
   onBeforeDismiss?: () => boolean;
+  declare beaconEl?: HTMLElement | null;
 }
 
 export class OverlayBase<
@@ -273,14 +274,19 @@ export class OverlayBase<
 
   render(context: RenderingContext, instance: InstanceType, key: string): any {
     return (
-      <OverlayComponent
+      <OverlayBeacon
         key={key}
-        instance={instance}
-        subscribeToBeforeDismiss={context.options.subscribeToBeforeDismiss}
-        parentEl={context.options.parentEl}
-      >
-        {this.renderContents(context, instance)}
-      </OverlayComponent>
+        childrenFactory={(beaconEl) => (
+          <OverlayComponent
+            beaconEl={beaconEl}
+            instance={instance}
+            subscribeToBeforeDismiss={context.options.subscribeToBeforeDismiss}
+            parentEl={context.options.parentEl}
+          >
+            {this.renderContents(context, instance)}
+          </OverlayComponent>
+        )}
+      />
     );
   }
 
@@ -294,6 +300,7 @@ export class OverlayBase<
   ): ConfigureOverlayContainerContext {
     return {
       initiatingEvent,
+      relatedElement: instance?.beaconEl,
     };
   }
 
@@ -517,6 +524,7 @@ export interface OverlayComponentProps {
   parentEl?: HTMLElement;
   subscribeToBeforeDismiss?: (cb: () => boolean) => void;
   children: any;
+  beaconEl: HTMLElement;
 }
 
 export interface OverlayComponentState {
@@ -550,20 +558,24 @@ export class OverlayComponent<
   render() {
     let { instance, parentEl } = this.props;
     let { widget } = instance;
+    let { baseClass, CSS } = widget;
 
     if (widget.inline || parentEl) return this.renderOverlay();
 
     if (!this.containerEl) {
+      instance.beaconEl = this.props.beaconEl;
       this.ownedEl = widget.containerFactory(instance);
       this.ownedEl.style.display = "hidden";
       this.containerEl = this.ownedEl;
     }
 
-    if (VDOM.DOM.createPortal)
-      return VDOM.DOM.createPortal(this.renderOverlay(), this.containerEl);
+    let portal =
+      VDOM.DOM.createPortal && this.containerEl
+        ? VDOM.DOM.createPortal(this.renderOverlay(), this.containerEl)
+        : null;
 
-    //rendered in componentDidUpdate if portals are not supported
-    return null;
+    // content is rendered in componentDidUpdate if portals are not supported
+    return portal;
   }
 
   renderOverlay() {
@@ -1036,5 +1048,37 @@ export class OverlayComponent<
       this.root.render(this.renderOverlay());
     }
     this.overlayDidUpdate();
+  }
+}
+
+interface OverlayBeaconProps {
+  childrenFactory: (beacon: HTMLElement) => React.ReactNode;
+}
+
+export interface OverlayBeaconState {
+  children?: React.ReactNode;
+}
+
+export class OverlayBeacon extends VDOM.Component<
+  OverlayBeaconProps,
+  OverlayBeaconState
+> {
+  el: HTMLElement | null;
+  render() {
+    return (
+      <>
+        <div
+          ref={(el) => {
+            this.el = el;
+          }}
+          style={{ position: "absolute", display: "none" }}
+        />
+        {this.state?.children}
+      </>
+    );
+  }
+
+  componentDidMount(): void {
+    this.setState({ children: this.props.childrenFactory(this.el!) });
   }
 }

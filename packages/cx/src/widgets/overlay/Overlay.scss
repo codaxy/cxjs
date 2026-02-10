@@ -52,6 +52,11 @@
    overflow: auto;
 }
 
+@mixin cxe-overlay-beacon {
+   position: absolute;
+   display: none;
+}
+
 @mixin cx-overlay($name: "overlay", $besm: $cx-besm) {
    $block: map.get($besm, block);
    $element: map.get($besm, element);
@@ -71,6 +76,10 @@
 
    .#{$element}#{$name}-shadow {
       @include cxe-overlay-shadow;
+   }
+
+   .#{$element}#{$name}-beacon {
+      @include cxe-overlay-beacon;
    }
 }
 

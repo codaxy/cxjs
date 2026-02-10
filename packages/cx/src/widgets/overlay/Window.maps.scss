@@ -30,14 +30,21 @@ $cx-window-footer-state-style-map: (
 
 $cx-window-body-state-style-map: (
    default: (
-      background: white,
+      background: $cx-default-window-body-background-color,
    ),
 ) !default;
 
 $cx-window-mods: (
    alert: (
-      frame: (),
-      body: (),
-      footer: (),
+      frame: (
+         min-width: 300px,
+      ),
+      body: (
+         padding: 2.5rem,
+         text-align: center,
+      ),
+      footer: (
+         text-align: center,
+      ),
    ),
-);
+) !default;

@@ -8,6 +8,7 @@
 @use "../../util/scss/calc.scss" as *;
 @use "../../util/scss/besm.scss" as *;
 @use "../../util/scss/include.scss" as *;
+@use "./Overlay.scss" as *;
 
 @mixin cx-toast($name: "toast", $besm: $cx-besm, $mods: $cx-toast-mods) {
    $block: map.get($besm, block);
@@ -72,6 +73,10 @@
             }
          }
       }
+   }
+
+   .#{$element}#{$name}-beacon {
+      @include cxe-overlay-beacon;
    }
 }
 

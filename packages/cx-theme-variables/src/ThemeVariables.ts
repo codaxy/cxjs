@@ -102,6 +102,28 @@ export interface ThemeVariables {
    toastBorderRadius: string;
    toastPadding: string;
 
+   windowBackgroundColor: string;
+   windowBorderColor: string;
+   windowBorderWidth: string;
+   windowColor: string;
+   windowFontSize: string;
+   windowHeaderColor: string;
+   windowHeaderBackgroundColor: string;
+   windowHeaderPadding: string;
+   windowHeaderMargin: string;
+   windowHeaderFontSize: string;
+   windowHeaderFontWeight: string;
+   windowHeaderBorderWidth: string;
+   windowBodyPadding: string;
+   windowBodyBackgroundColor: string;
+   windowFooterBackgroundColor: string;
+   windowFooterPadding: string;
+   windowFooterMargin: string;
+   windowFooterBorderWidth: string;
+
+   sectionBackgroundColor: string;
+   sectionBorderColor: string;
+   sectionColor: string;
    sectionBoxShadow: string;
    sectionBorderWidth: string;
    sectionBorderRadius: string;
@@ -241,6 +263,28 @@ export const variableMap: Record<keyof ThemeVariables, string> = {
    toastBorderRadius: "--cx-toast-border-radius",
    toastPadding: "--cx-toast-padding",
 
+   windowBackgroundColor: "--cx-window-background-color",
+   windowBorderColor: "--cx-window-border-color",
+   windowBorderWidth: "--cx-window-border-width",
+   windowColor: "--cx-window-color",
+   windowFontSize: "--cx-window-font-size",
+   windowHeaderColor: "--cx-window-header-color",
+   windowHeaderBackgroundColor: "--cx-window-header-background-color",
+   windowHeaderPadding: "--cx-window-header-padding",
+   windowHeaderMargin: "--cx-window-header-margin",
+   windowHeaderFontSize: "--cx-window-header-font-size",
+   windowHeaderFontWeight: "--cx-window-header-font-weight",
+   windowHeaderBorderWidth: "--cx-window-header-border-width",
+   windowBodyPadding: "--cx-window-body-padding",
+   windowBodyBackgroundColor: "--cx-window-body-background-color",
+   windowFooterBackgroundColor: "--cx-window-footer-background-color",
+   windowFooterPadding: "--cx-window-footer-padding",
+   windowFooterMargin: "--cx-window-footer-margin",
+   windowFooterBorderWidth: "--cx-window-footer-border-width",
+
+   sectionBackgroundColor: "--cx-section-background-color",
+   sectionBorderColor: "--cx-section-border-color",
+   sectionColor: "--cx-section-color",
    sectionBoxShadow: "--cx-section-box-shadow",
    sectionBorderWidth: "--cx-section-border-width",
    sectionBorderRadius: "--cx-section-border-radius",

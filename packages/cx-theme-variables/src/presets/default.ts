@@ -57,7 +57,8 @@ export const defaultPreset: ThemeVariables = {
    checkboxSize: "16px",
 
    buttonBackgroundColor: "#f5f5f5",
-   buttonColor: "oklch(from var(--cx-button-background-color) calc(1 - round(l - 0.15)) 0 0)",
+   buttonColor:
+      "oklch(from var(--cx-button-background-color) calc(1 - round(l - 0.15)) 0 0)",
    buttonBorderColor: "var(--cx-theme-border-color)",
    buttonFontSize: "var(--cx-theme-base-font-size)",
    buttonFontWeight: "var(--cx-theme-font-weight)",
@@ -109,6 +110,30 @@ export const defaultPreset: ThemeVariables = {
    toastBorderRadius: "var(--cx-theme-border-radius)",
    toastPadding: "var(--cx-button-padding-y)",
 
+   windowBackgroundColor: "var(--cx-theme-surface-color)",
+   windowBorderColor: "var(--cx-theme-border-color)",
+   windowColor: "var(--cx-theme-text-color)",
+   windowFontSize: "var(--cx-theme-base-font-size)",
+   windowBorderWidth: "1px",
+   windowHeaderColor: "var(--cx-theme-primary-color)",
+   windowHeaderBackgroundColor: "transparent",
+   windowHeaderPadding:
+      "var(--cx-button-padding-x) var(--cx-button-padding-x) 0",
+   windowHeaderMargin: "0",
+   windowHeaderFontSize: "18px",
+   windowHeaderFontWeight: "500",
+   windowHeaderBorderWidth: "0",
+   windowBodyPadding: "var(--cx-button-padding-x)",
+   windowBodyBackgroundColor: "transparent",
+   windowFooterBackgroundColor: "transparent",
+   windowFooterPadding:
+      "0 var(--cx-button-padding-x) var(--cx-button-padding-x)",
+   windowFooterMargin: "0",
+   windowFooterBorderWidth: "0",
+
+   sectionBackgroundColor: "var(--cx-theme-surface-color)",
+   sectionBorderColor: "var(--cx-theme-border-color)",
+   sectionColor: "var(--cx-theme-text-color)",
    sectionBoxShadow: "none",
    sectionBorderWidth: "1px",
    sectionBorderRadius: "var(--cx-theme-border-radius)",

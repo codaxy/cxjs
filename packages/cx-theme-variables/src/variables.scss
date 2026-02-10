@@ -94,13 +94,17 @@ $cx-theme-box-padding: var(--cx-input-padding-y) var(--cx-input-padding-x);
    // -------------------------------------------------------------------------
    // Window
    // -------------------------------------------------------------------------
+   $cx-default-window-background-color: var(--cx-window-background-color) !default,
    $cx-default-window-box-shadow: var(--cx-theme-box-shadow-elevated) !default,
-   $cx-default-window-header-padding: 10px 10px 10px 20px !default,
-   $cx-default-window-header-font-size: 18px !default,
-   $cx-default-window-body-padding: 10px 20px 10px 20px !default,
-   $cx-default-window-header-color: var(--cx-theme-primary-color) !default,
-   $cx-default-window-header-background-color: var(--cx-theme-background-color)
-      !default,
+   $cx-default-window-header-color: var(--cx-window-header-color) !default,
+   $cx-default-window-header-background-color: var(--cx-window-header-background-color) !default,
+   $cx-default-window-header-padding: var(--cx-window-header-padding) !default,
+   $cx-default-window-header-font-size: var(--cx-window-header-font-size) !default,
+   $cx-default-window-body-padding: var(--cx-window-body-padding) !default,
+   $cx-default-window-body-background-color: var(--cx-window-body-background-color) !default,
+   $cx-default-window-footer-color: var(--cx-theme-text-color) !default,
+   $cx-default-window-footer-background-color: var(--cx-window-footer-background-color) !default,
+   $cx-default-window-footer-padding: var(--cx-window-footer-padding) !default,
 
    // -------------------------------------------------------------------------
    // Grid

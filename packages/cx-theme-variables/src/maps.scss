@@ -18,6 +18,7 @@
 @use "./widgets/nav/Menu.scss" as *;
 @use "./widgets/overlay/Dropdown.scss" as *;
 @use "./widgets/overlay/Toast.scss" as *;
+@use "./widgets/overlay/Window.scss" as *;
 
 // =============================================================================
 // VARIABLE MAPS - Using CSS Variables where possible
@@ -76,9 +77,9 @@ $cx-section-mods: cx-deep-map-merge(
    (
       card: (
          default: (
-            color: var(--cx-theme-text-color),
-            background-color: var(--cx-theme-surface-color),
-            border-color: var(--cx-theme-border-color),
+            color: var(--cx-section-color),
+            background-color: var(--cx-section-background-color),
+            border-color: var(--cx-section-border-color),
             border-radius: var(--cx-section-border-radius),
             border-width: var(--cx-section-border-width),
             box-shadow: var(--cx-section-box-shadow),
@@ -136,70 +137,6 @@ $cx-menu-state-style-map: map-merge(
          color: inherit,
       ),
    )
-);
-
-// WINDOW
-$cx-window-state-style-map: cx-deep-map-merge(
-   $cx-window-state-style-map,
-   (
-      default: (
-         background: var(--cx-theme-surface-color),
-         border-radius: var(--cx-theme-border-radius),
-         box-shadow: var(--cx-theme-box-shadow-elevated),
-      ),
-   )
-);
-
-// Window header
-$cx-window-header-state-style-map: cx-deep-map-merge(
-   $cx-window-header-state-style-map,
-   (
-      default: (
-         border-top-left-radius: var(--cx-theme-border-radius),
-         border-top-right-radius: var(--cx-theme-border-radius),
-      ),
-   )
-);
-
-// Window body
-$cx-window-body-state-style-map: cx-deep-map-merge(
-   $cx-window-body-state-style-map,
-   (
-      default: (
-         background: null,
-      ),
-   )
-);
-
-// Window footer
-$cx-window-footer-state-style-map: cx-deep-map-merge(
-   $cx-window-footer-state-style-map,
-   (
-      default: (
-         background: null,
-         margin: 0 1.5rem,
-         padding: 1rem 0,
-         border-top: none,
-      ),
-   )
-);
-
-// Window mods
-$cx-window-mods: (
-   alert: (
-      frame: (
-         font-size: 16px,
-         color: var(--cx-theme-secondary-text-color),
-      ),
-      body: (
-         padding: 24px 24px 20px,
-         text-align: left,
-      ),
-      footer: (
-         border-top: none,
-         padding: 8px 0,
-      ),
-   ),
 );
 
 // TOAST - see widgets/overlay/Toast.scss

@@ -470,7 +470,135 @@ const variableMetadata: Array<{
   },
   { key: "transition", label: "Transition", type: "text", category: "effects" },
 
+  // Windows
+  {
+    key: "windowBackgroundColor",
+    label: "Background",
+    type: "color",
+    category: "windows",
+  },
+  {
+    key: "windowBorderColor",
+    label: "Border color",
+    type: "color",
+    category: "windows",
+  },
+  {
+    key: "windowBorderWidth",
+    label: "Border width",
+    type: "text",
+    category: "windows",
+  },
+  {
+    key: "windowColor",
+    label: "Text color",
+    type: "color",
+    category: "windows",
+  },
+  {
+    key: "windowFontSize",
+    label: "Font size",
+    type: "text",
+    category: "windows",
+  },
+  {
+    key: "windowHeaderColor",
+    label: "Header color",
+    type: "color",
+    category: "windows",
+  },
+  {
+    key: "windowHeaderBackgroundColor",
+    label: "Header background",
+    type: "color",
+    category: "windows",
+  },
+  {
+    key: "windowHeaderPadding",
+    label: "Header padding",
+    type: "text",
+    category: "windows",
+  },
+  {
+    key: "windowHeaderMargin",
+    label: "Header margin",
+    type: "text",
+    category: "windows",
+  },
+  {
+    key: "windowHeaderFontSize",
+    label: "Header font size",
+    type: "text",
+    category: "windows",
+  },
+  {
+    key: "windowHeaderFontWeight",
+    label: "Header font weight",
+    type: "text",
+    category: "windows",
+  },
+  {
+    key: "windowHeaderBorderWidth",
+    label: "Header border width",
+    type: "size",
+    category: "windows",
+  },
+  {
+    key: "windowBodyPadding",
+    label: "Body padding",
+    type: "text",
+    category: "windows",
+  },
+  {
+    key: "windowBodyBackgroundColor",
+    label: "Body background",
+    type: "color",
+    category: "windows",
+  },
+  {
+    key: "windowFooterBackgroundColor",
+    label: "Footer background",
+    type: "color",
+    category: "windows",
+  },
+  {
+    key: "windowFooterPadding",
+    label: "Footer padding",
+    type: "text",
+    category: "windows",
+  },
+  {
+    key: "windowFooterMargin",
+    label: "Footer margin",
+    type: "text",
+    category: "windows",
+  },
+  {
+    key: "windowFooterBorderWidth",
+    label: "Footer border width",
+    type: "size",
+    category: "windows",
+  },
+
   // Sections
+  {
+    key: "sectionBackgroundColor",
+    label: "Background",
+    type: "color",
+    category: "sections",
+  },
+  {
+    key: "sectionBorderColor",
+    label: "Border color",
+    type: "color",
+    category: "sections",
+  },
+  {
+    key: "sectionColor",
+    label: "Text color",
+    type: "color",
+    category: "sections",
+  },
   {
     key: "sectionBoxShadow",
     label: "Box shadow",
@@ -769,6 +897,7 @@ const categoryMetadata = [
   { id: "grids", name: "Grids", icon: "table", group: "Components" },
   { id: "calendar", name: "Calendar", icon: "calendar", group: "Components" },
   { id: "sections", name: "Sections", icon: "panel-top", group: "Components" },
+  { id: "windows", name: "Windows", icon: "app-window", group: "Components" },
   { id: "toasts", name: "Toasts", icon: "bell", group: "Components" },
   { id: "tooltips", name: "Tooltips", icon: "message-circle", group: "Components" },
   { id: "menu", name: "Menu", icon: "menu", group: "Components" },

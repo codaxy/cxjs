@@ -1,0 +1,79 @@
+@use "cx/src/maps" as *;
+@use "cx/src/util/scss/deep-merge" as *;
+
+// =============================================================================
+// WINDOW - Map Overrides
+// =============================================================================
+
+$cx-window-state-style-map: cx-deep-map-merge(
+   $cx-window-state-style-map,
+   (
+      default: (
+         background: var(--cx-window-background-color),
+         color: var(--cx-window-color),
+         font-size: var(--cx-window-font-size),
+         border-color: var(--cx-window-border-color),
+         border-width: var(--cx-window-border-width),
+         border-radius: var(--cx-theme-border-radius),
+         box-shadow: var(--cx-theme-box-shadow-elevated),
+      ),
+   )
+);
+
+// Window header
+$cx-window-header-state-style-map: cx-deep-map-merge(
+   $cx-window-header-state-style-map,
+   (
+      default: (
+         color: var(--cx-window-header-color),
+         background: var(--cx-window-header-background-color),
+         padding: var(--cx-window-header-padding),
+         margin: var(--cx-window-header-margin),
+         font-size: var(--cx-window-header-font-size),
+         font-weight: var(--cx-window-header-font-weight),
+         border-bottom-width: var(--cx-window-header-border-width),
+         border-bottom-style: solid,
+         border-bottom-color: inherit,
+         border-top-left-radius: var(--cx-theme-border-radius),
+         border-top-right-radius: var(--cx-theme-border-radius),
+      ),
+   )
+);
+
+// Window body
+$cx-window-body-state-style-map: cx-deep-map-merge(
+   $cx-window-body-state-style-map,
+   (
+      default: (
+         background: var(--cx-window-body-background-color),
+         padding: var(--cx-window-body-padding),
+      ),
+   )
+);
+
+// Window footer
+$cx-window-footer-state-style-map: cx-deep-map-merge(
+   $cx-window-footer-state-style-map,
+   (
+      default: (
+         background: var(--cx-window-footer-background-color),
+         padding: var(--cx-window-footer-padding),
+         margin: var(--cx-window-footer-margin),
+         border-top-width: var(--cx-window-footer-border-width),
+         border-top-style: solid,
+         border-top-color: inherit,
+      ),
+   )
+);
+
+// Window mods
+$cx-window-mods: cx-deep-map-merge(
+   $cx-window-mods,
+   (
+      alert: (
+         body: (
+            padding: calc(2 * var(--cx-button-padding-x)),
+         ),
+      ),
+   )
+);

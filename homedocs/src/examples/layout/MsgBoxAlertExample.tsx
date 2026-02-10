@@ -11,21 +11,23 @@ export default (
       Simple Alert
     </Button>
     <Button
-      onClick={() => {
+      onClick={(e) => {
         MsgBox.alert({
           title: "Information",
           message: "This alert has a custom title.",
+          initiatingEvent: e,
         });
       }}
     >
       Alert with Title
     </Button>
     <Button
-      onClick={() => {
+      onClick={(e) => {
         MsgBox.alert({
           title: "Custom Button",
           message: "Click the button below to close.",
           okText: "Got it!",
+          initiatingEvent: e,
         });
       }}
     >

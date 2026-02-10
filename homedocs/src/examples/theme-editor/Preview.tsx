@@ -43,13 +43,13 @@ function getGoogleFontUrl(fontId: string | null): string | undefined {
 export const Preview = createFunctionalComponent(() => (
   <ThemeVarsDiv
     theme={computable(m.categories, categoriesToTheme)}
-    cssSelector=".theme-editor-preview"
+    cssSelector=".theme-editor-variables"
     class="flex-1 p-6 overflow-y-auto border-r border-border"
     applyReset
   >
     <ThemeVarsRoot
       theme={computable(m.categories, categoriesToTheme)}
-      cssSelector=".theme-editor-preview"
+      cssSelector=".theme-editor-variables"
     />
     <link
       href={computable(m.font, getGoogleFontUrl)}

@@ -133,8 +133,20 @@ export const examples: ExampleDef[] = [
   {
     id: "window",
     name: "Window",
-    categories: ["colors", "buttons", "sizing", "effects"],
+    categories: ["colors", "windows", "buttons", "sizing", "effects"],
     component: () => import("../layout/WindowExample"),
+  },
+  {
+    id: "msgbox-alert",
+    name: "MsgBox Alert",
+    categories: ["colors", "windows", "buttons", "effects"],
+    component: () => import("../layout/MsgBoxAlertExample"),
+  },
+  {
+    id: "msgbox-yesno",
+    name: "MsgBox Yes/No",
+    categories: ["colors", "windows", "buttons", "effects"],
+    component: () => import("../layout/MsgBoxYesNoExample"),
   },
   {
     id: "toast",
