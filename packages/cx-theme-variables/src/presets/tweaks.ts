@@ -41,6 +41,10 @@ export const densityMinimal: Partial<ThemeVariables> = {
    dropdownPadding: "2px",
    dropdownArrowSize: "4px",
    dropdownArrowOffset: "16px",
+   sliderAxisSize: "4px",
+   sliderHandleSize: "12px",
+   progressBarHeight: "10px",
+   scrollbarWidth: "thin",
 };
 
 export const densityCondensed: Partial<ThemeVariables> = {
@@ -57,6 +61,10 @@ export const densityCondensed: Partial<ThemeVariables> = {
    dropdownPadding: "3px",
    dropdownArrowSize: "5px",
    dropdownArrowOffset: "18px",
+   sliderAxisSize: "5px",
+   sliderHandleSize: "14px",
+   progressBarHeight: "12px",
+   scrollbarWidth: "thin",
 };
 
 export const densityCompact: Partial<ThemeVariables> = {
@@ -73,6 +81,9 @@ export const densityCompact: Partial<ThemeVariables> = {
    dropdownPadding: "4px",
    dropdownArrowSize: "5px",
    dropdownArrowOffset: "20px",
+   sliderAxisSize: "6px",
+   sliderHandleSize: "16px",
+   progressBarHeight: "14px",
 };
 
 export const densityNormal: Partial<ThemeVariables> = {
@@ -89,6 +100,9 @@ export const densityNormal: Partial<ThemeVariables> = {
    dropdownPadding: "6px",
    dropdownArrowSize: "6px",
    dropdownArrowOffset: "26px",
+   sliderAxisSize: "6px",
+   sliderHandleSize: "18px",
+   progressBarHeight: "16px",
 };
 
 export const densityComfortable: Partial<ThemeVariables> = {
@@ -105,6 +119,9 @@ export const densityComfortable: Partial<ThemeVariables> = {
    dropdownPadding: "7px",
    dropdownArrowSize: "7px",
    dropdownArrowOffset: "28px",
+   sliderAxisSize: "7px",
+   sliderHandleSize: "20px",
+   progressBarHeight: "18px",
 };
 
 export const densitySpacious: Partial<ThemeVariables> = {
@@ -121,6 +138,9 @@ export const densitySpacious: Partial<ThemeVariables> = {
    dropdownPadding: "8px",
    dropdownArrowSize: "7px",
    dropdownArrowOffset: "30px",
+   sliderAxisSize: "8px",
+   sliderHandleSize: "22px",
+   progressBarHeight: "20px",
 };
 
 // Grouped exports for easier discovery

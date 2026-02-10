@@ -232,6 +232,7 @@ Window.prototype.fixed = false;
 Window.prototype.autoFocus = true;
 Window.prototype.focusable = true;
 Window.prototype.pad = true;
+Window.prototype.needsBeacon = true;
 
 Widget.alias("window", Window);
 Localization.registerPrototype("cx/widgets/Window", Window);

@@ -75,7 +75,7 @@ export const examples: ExampleDef[] = [
   {
     id: "slider",
     name: "Slider",
-    categories: ["colors", "inputs", "effects"],
+    categories: ["colors", "sliders", "inputs", "effects"],
     component: () => import("../forms/SliderExample"),
   },
   {
@@ -345,7 +345,7 @@ export const examples: ExampleDef[] = [
   {
     id: "progress-bar",
     name: "ProgressBar",
-    categories: ["colors", "sizing"],
+    categories: ["colors", "sliders", "sizing"],
     component: () => import("../layout/ProgressBarExample"),
   },
 

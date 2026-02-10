@@ -36,6 +36,7 @@ $cx-window-header-state-style-map: cx-deep-map-merge(
          border-bottom-color: inherit,
          border-top-left-radius: var(--cx-theme-border-radius),
          border-top-right-radius: var(--cx-theme-border-radius),
+         align-items: start,
       ),
    )
 );

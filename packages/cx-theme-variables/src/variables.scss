@@ -73,6 +73,7 @@ $cx-theme-box-padding: var(--cx-input-padding-y) var(--cx-input-padding-x);
    $cx-tooltip-border-radius: var(--cx-tooltip-border-radius) !default,
    $cx-tooltip-arrow-size: var(--cx-tooltip-arrow-size) !default,
    $cx-tooltip-color: var(--cx-tooltip-color) !default,
+   $cx-tooltip-font-size: var(--cx-tooltip-font-size) !default,
    $cx-tooltip-padding: var(--cx-tooltip-padding) !default,
    $cx-tooltip-box-shadow: var(--cx-tooltip-box-shadow) !default,
    $cx-tooltip-background-color-error: var(--cx-tooltip-error-background-color) !default,
@@ -260,18 +261,18 @@ $cx-theme-box-padding: var(--cx-input-padding-y) var(--cx-input-padding-x);
    // -------------------------------------------------------------------------
    // Slider
    // -------------------------------------------------------------------------
-   $cx-default-slider-axis-size: 4px !default,
-   $cx-default-slider-handle-size: 16px !default,
-   $cx-default-slider-handle-border-width: 0 !default,
-   $cx-default-slider-axis-background-color: var(--cx-theme-border-color)
+   $cx-default-slider-axis-size: var(--cx-slider-axis-size) !default,
+   $cx-default-slider-handle-size: var(--cx-slider-handle-size) !default,
+   $cx-default-slider-handle-border-width: var(--cx-slider-handle-border-width) !default,
+   $cx-default-slider-axis-background-color: var(--cx-slider-axis-color)
       !default,
-   $cx-default-slider-range-background-color: var(--cx-theme-primary-color)
+   $cx-default-slider-range-background-color: var(--cx-slider-range-color)
       !default,
-   $cx-default-slider-handle-background-color: var(--cx-theme-primary-color)
+   $cx-default-slider-handle-background-color: var(--cx-slider-handle-color)
       !default,
-   $cx-default-slider-handle-border-color: var(--cx-theme-primary-color)
+   $cx-default-slider-handle-border-color: var(--cx-slider-handle-border-color)
       !default,
-   $cx-default-slider-handle-box-shadow: var(--cx-theme-box-shadow) !default,
+   $cx-default-slider-handle-box-shadow: var(--cx-slider-handle-box-shadow) !default,
 
    // -------------------------------------------------------------------------
    // Switch
@@ -293,14 +294,15 @@ $cx-theme-box-padding: var(--cx-input-padding-y) var(--cx-input-padding-x);
    // Progress bar
    // -------------------------------------------------------------------------
    $cx-default-progressbar-width: 200px !default,
-   $cx-default-progressbar-height: 16px !default,
+   $cx-default-progressbar-height: var(--cx-progressbar-height) !default,
    $cx-default-progressbar-font-size: 10px !default,
    $cx-default-progressbar-border-width: 0 !default,
-   $cx-default-progressbar-color: var(--cx-theme-text-color) !default,
-   $cx-default-progressbar-background-color: var(--cx-theme-border-color)
+   $cx-default-progressbar-border-radius: var(--cx-progressbar-border-radius) !default,
+   $cx-default-progressbar-color: var(--cx-progressbar-color) !default,
+   $cx-default-progressbar-background-color: var(--cx-progressbar-background-color)
       !default,
    $cx-default-progressbar-indicator-background-color: var(
-         --cx-theme-primary-color
+         --cx-progressbar-indicator-color
       )
       !default,
 

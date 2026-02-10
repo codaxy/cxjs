@@ -52,7 +52,7 @@
       color: $cx-tooltip-color;
       padding: $cx-tooltip-padding;
       border-radius: $cx-tooltip-border-radius;
-      font-size: smaller;
+      font-size: $cx-tooltip-font-size;
       transition: opacity 0.2s ease-in;
       max-width: 400px;
       pointer-events: none;

@@ -469,6 +469,24 @@ const variableMetadata: Array<{
     category: "effects",
   },
   { key: "transition", label: "Transition", type: "text", category: "effects" },
+  {
+    key: "scrollbarThumbColor",
+    label: "Scrollbar thumb",
+    type: "color",
+    category: "effects",
+  },
+  {
+    key: "scrollbarTrackColor",
+    label: "Scrollbar track",
+    type: "color",
+    category: "effects",
+  },
+  {
+    key: "scrollbarWidth",
+    label: "Scrollbar width",
+    type: "text",
+    category: "effects",
+  },
 
   // Windows
   {
@@ -717,6 +735,12 @@ const variableMetadata: Array<{
     category: "tooltips",
   },
   {
+    key: "tooltipFontSize",
+    label: "Font size",
+    type: "text",
+    category: "tooltips",
+  },
+  {
     key: "tooltipPadding",
     label: "Padding",
     type: "text",
@@ -885,6 +909,92 @@ const variableMetadata: Array<{
     type: "text",
     category: "calendar",
   },
+
+  // Sliders & Progress
+  {
+    key: "sliderAxisColor",
+    label: "Track color",
+    type: "color",
+    category: "sliders",
+  },
+  {
+    key: "sliderAxisSize",
+    label: "Track size",
+    type: "size",
+    category: "sliders",
+  },
+  {
+    key: "sliderRangeColor",
+    label: "Range color",
+    type: "color",
+    category: "sliders",
+  },
+  {
+    key: "sliderHandleColor",
+    label: "Handle color",
+    type: "color",
+    category: "sliders",
+  },
+  {
+    key: "sliderHandleBorderColor",
+    label: "Handle border color",
+    type: "color",
+    category: "sliders",
+  },
+  {
+    key: "sliderHandleBorderWidth",
+    label: "Handle border width",
+    type: "text",
+    category: "sliders",
+  },
+  {
+    key: "sliderHandleSize",
+    label: "Handle size",
+    type: "size",
+    category: "sliders",
+  },
+  {
+    key: "sliderHandleBoxShadow",
+    label: "Handle shadow",
+    type: "text",
+    category: "sliders",
+  },
+  {
+    key: "sliderHandleHoverBoxShadow",
+    label: "Handle hover shadow",
+    type: "text",
+    category: "sliders",
+  },
+  {
+    key: "progressBarHeight",
+    label: "Progress bar height",
+    type: "size",
+    category: "sliders",
+  },
+  {
+    key: "progressBarBackgroundColor",
+    label: "Progress bar background",
+    type: "color",
+    category: "sliders",
+  },
+  {
+    key: "progressBarIndicatorColor",
+    label: "Progress bar indicator",
+    type: "color",
+    category: "sliders",
+  },
+  {
+    key: "progressBarColor",
+    label: "Progress bar text",
+    type: "color",
+    category: "sliders",
+  },
+  {
+    key: "progressBarBorderRadius",
+    label: "Progress bar radius",
+    type: "text",
+    category: "sliders",
+  },
 ];
 
 const categoryMetadata = [
@@ -895,6 +1005,7 @@ const categoryMetadata = [
   { id: "inputs", name: "Inputs", icon: "text-cursor-input", group: "Components" },
   { id: "checks", name: "Checks & Switches", icon: "toggle-left", group: "Components" },
   { id: "grids", name: "Grids", icon: "table", group: "Components" },
+  { id: "sliders", name: "Sliders & Progress", icon: "sliders-horizontal", group: "Components" },
   { id: "calendar", name: "Calendar", icon: "calendar", group: "Components" },
   { id: "sections", name: "Sections", icon: "panel-top", group: "Components" },
   { id: "windows", name: "Windows", icon: "app-window", group: "Components" },

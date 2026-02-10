@@ -118,3 +118,4 @@ Toast.prototype.animate = true;
 Toast.prototype.baseClass = "toast";
 Toast.prototype.placement = "top";
 Toast.prototype.destroyDelay = 300;
+Toast.prototype.needsBeacon = true;

@@ -19,6 +19,10 @@ export interface ThemeVariables {
    fontWeight: string;
    transition: string;
 
+   scrollbarThumbColor: string;
+   scrollbarTrackColor: string;
+   scrollbarWidth: string;
+
    primaryTextColor: string;
    primaryBorderColor: string;
    accentTextColor: string;
@@ -142,11 +146,28 @@ export interface ThemeVariables {
    tooltipBorderRadius: string;
    tooltipArrowSize: string;
    tooltipColor: string;
+   tooltipFontSize: string;
    tooltipPadding: string;
    tooltipBoxShadow: string;
    tooltipErrorBackgroundColor: string;
    tooltipErrorBorderColor: string;
    tooltipErrorColor: string;
+
+   sliderAxisColor: string;
+   sliderAxisSize: string;
+   sliderRangeColor: string;
+   sliderHandleColor: string;
+   sliderHandleBorderColor: string;
+   sliderHandleBorderWidth: string;
+   sliderHandleSize: string;
+   sliderHandleBoxShadow: string;
+   sliderHandleHoverBoxShadow: string;
+
+   progressBarHeight: string;
+   progressBarBackgroundColor: string;
+   progressBarIndicatorColor: string;
+   progressBarColor: string;
+   progressBarBorderRadius: string;
 
    calendarBorderWidth: string;
    calendarBackgroundColor: string;
@@ -179,6 +200,10 @@ export const variableMap: Record<keyof ThemeVariables, string> = {
    fontFamily: "--cx-theme-font-family",
    fontWeight: "--cx-theme-font-weight",
    transition: "--cx-theme-transition",
+
+   scrollbarThumbColor: "--cx-scrollbar-thumb-color",
+   scrollbarTrackColor: "--cx-scrollbar-track-color",
+   scrollbarWidth: "--cx-scrollbar-width",
 
    primaryTextColor: "--cx-theme-primary-text-color",
    primaryBorderColor: "--cx-theme-primary-border-color",
@@ -303,11 +328,28 @@ export const variableMap: Record<keyof ThemeVariables, string> = {
    tooltipBorderRadius: "--cx-tooltip-border-radius",
    tooltipArrowSize: "--cx-tooltip-arrow-size",
    tooltipColor: "--cx-tooltip-color",
+   tooltipFontSize: "--cx-tooltip-font-size",
    tooltipPadding: "--cx-tooltip-padding",
    tooltipBoxShadow: "--cx-tooltip-box-shadow",
    tooltipErrorBackgroundColor: "--cx-tooltip-error-background-color",
    tooltipErrorBorderColor: "--cx-tooltip-error-border-color",
    tooltipErrorColor: "--cx-tooltip-error-color",
+
+   sliderAxisColor: "--cx-slider-axis-color",
+   sliderAxisSize: "--cx-slider-axis-size",
+   sliderRangeColor: "--cx-slider-range-color",
+   sliderHandleColor: "--cx-slider-handle-color",
+   sliderHandleBorderColor: "--cx-slider-handle-border-color",
+   sliderHandleBorderWidth: "--cx-slider-handle-border-width",
+   sliderHandleSize: "--cx-slider-handle-size",
+   sliderHandleBoxShadow: "--cx-slider-handle-box-shadow",
+   sliderHandleHoverBoxShadow: "--cx-slider-handle-hover-box-shadow",
+
+   progressBarHeight: "--cx-progressbar-height",
+   progressBarBackgroundColor: "--cx-progressbar-background-color",
+   progressBarIndicatorColor: "--cx-progressbar-indicator-color",
+   progressBarColor: "--cx-progressbar-color",
+   progressBarBorderRadius: "--cx-progressbar-border-radius",
 
    calendarBorderWidth: "--cx-calendar-border-width",
    calendarBackgroundColor: "--cx-calendar-background-color",

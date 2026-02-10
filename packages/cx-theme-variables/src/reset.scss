@@ -5,3 +5,28 @@
 @use "./variables.scss" as *;
 @use "./maps.scss" as *;
 @use "cx/src/util/scss/global" as *;
+
+// Scrollbar styling
+* {
+   scrollbar-width: var(--cx-scrollbar-width);
+   scrollbar-color: var(--cx-scrollbar-thumb-color)
+      var(--cx-scrollbar-track-color);
+}
+
+::-webkit-scrollbar {
+   width: 16px;
+   height: 16px;
+}
+
+::-webkit-scrollbar-track {
+   background: var(--cx-scrollbar-track-color);
+}
+
+::-webkit-scrollbar-thumb {
+   background: var(--cx-scrollbar-thumb-color);
+   border-radius: var(--cx-theme-border-radius);
+}
+
+::-webkit-scrollbar-thumb:hover {
+   background: rgba(128, 128, 128, 0.6);
+}

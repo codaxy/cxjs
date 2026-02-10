@@ -13,7 +13,7 @@ export const defaultPreset: ThemeVariables = {
    borderColor: "lightgray",
    boxShadow: "0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)",
    boxShadowElevated:
-      "0 4px 8px rgba(0, 0, 0, 0.17), 0 4px 8px rgba(0, 0, 0, 0.23)",
+      "0 2px 8px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.15)",
    focusBoxShadow: "0 0 0 2px rgba(25, 118, 210, 0.4)",
    borderRadius: "4px",
    baseFontSize: "14px",
@@ -21,6 +21,10 @@ export const defaultPreset: ThemeVariables = {
    fontFamily: "'Inter', sans-serif",
    fontWeight: "400",
    transition: "all 0.2s ease",
+
+   scrollbarThumbColor: "rgba(128, 128, 128, 0.4)",
+   scrollbarTrackColor: "rgba(128, 128, 128, 0.1)",
+   scrollbarWidth: "auto",
 
    primaryTextColor: "white",
    primaryBorderColor:
@@ -155,11 +159,28 @@ export const defaultPreset: ThemeVariables = {
    tooltipBorderRadius: "var(--cx-theme-border-radius)",
    tooltipArrowSize: "5px",
    tooltipColor: "var(--cx-theme-text-color)",
+   tooltipFontSize: "var(--cx-theme-base-font-size)",
    tooltipPadding: "var(--cx-button-padding-y)",
    tooltipBoxShadow: "var(--cx-theme-box-shadow-elevated)",
    tooltipErrorBackgroundColor: "var(--cx-theme-danger-color)",
    tooltipErrorBorderColor: "var(--cx-theme-danger-border-color)",
    tooltipErrorColor: "var(--cx-theme-danger-text-color)",
+
+   sliderAxisColor: "var(--cx-theme-border-color)",
+   sliderAxisSize: "6px",
+   sliderRangeColor: "var(--cx-theme-primary-color)",
+   sliderHandleColor: "var(--cx-theme-primary-color)",
+   sliderHandleBorderColor: "var(--cx-slider-handle-color)",
+   sliderHandleBorderWidth: "1px",
+   sliderHandleSize: "18px",
+   sliderHandleBoxShadow: "var(--cx-button-box-shadow)",
+   sliderHandleHoverBoxShadow: "var(--cx-button-hover-box-shadow)",
+
+   progressBarHeight: "16px",
+   progressBarBackgroundColor: "var(--cx-theme-border-color)",
+   progressBarIndicatorColor: "var(--cx-theme-primary-color)",
+   progressBarColor: "var(--cx-theme-primary-text-color)",
+   progressBarBorderRadius: "var(--cx-theme-border-radius)",
 
    calendarBorderWidth: "var(--cx-input-border-width)",
    calendarBackgroundColor: "white",

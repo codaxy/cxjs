@@ -17,6 +17,7 @@ $cx-window-header-state-style-map: (
       background: $cx-default-window-header-background-color,
       padding: $cx-default-window-header-padding,
       font-size: $cx-default-window-header-font-size,
+      align-items: center,
    ),
    active: (),
 ) !default;

@@ -156,7 +156,8 @@ packages/cx-theme-variables/src/
 │   │   └── Menu.scss       # Menu padding options + list item styling overrides
 │   └── overlay/
 │       ├── Dropdown.scss   # Dropdown state map (surface color, border, shadow)
-│       └── Toast.scss      # Toast state map
+│       ├── Toast.scss      # Toast state map
+│       └── Window.scss     # Window state map + header/body/footer/mods
 ├── presets/
 │   ├── index.ts            # Barrel: export * from each preset + tweaks
 │   ├── default.ts          # Base light theme preset (named export: defaultPreset)
@@ -164,6 +165,7 @@ packages/cx-theme-variables/src/
 │   ├── darkGray.ts         # Dark gray preset (extends default)
 │   ├── ocean.ts            # Ocean preset (extends default)
 │   └── tweaks.ts           # Rounding, density, font tweaks (partial presets)
+├── reset.scss              # Reset entry: scrollbar styling + global rules (no widget CSS)
 ├── ThemeVariables.ts       # TypeScript interface + variableMap + CSS generation utilities
 ├── ThemeVarsRoot.tsx        # CxJS component for applying theme at :root level
 └── ThemeVarsDiv.tsx         # CxJS component for scoped theme variables (inline or cssSelector)
@@ -309,6 +311,7 @@ Core SCSS changes: `$cx-default-dropdown-padding` extracted from `$cx-default-co
 Menu padding architecture: `$cx-menu-padding-options` and `$cx-menu-list-item` moved from `Menu.variables.scss` to `packages/cx/src/widgets/nav/maps.scss` in core to allow theme-level overrides. The theme's `Menu.scss` overrides all padding size variants (xsmall through xlarge) to use the same CSS variable values, and applies list-item styling via `cx-deep-map-merge($cx-list-item, (default: (padding: null)))`.
 
 ### Section Variables
+- `--cx-section-background-color` / `--cx-section-border-color` / `--cx-section-color`
 - `--cx-section-box-shadow` / `--cx-section-border-width` / `--cx-section-border-radius`
 - `--cx-section-header-padding` / `--cx-section-header-margin` / `--cx-section-header-border-width`
 - `--cx-section-header-font-weight`
@@ -323,6 +326,29 @@ Menu padding architecture: `$cx-menu-padding-options` and `$cx-menu-list-item` m
 ### Overlay Container Configuration
 Portal-based overlays (Dropdowns, Tooltips, Context Menus) render outside the widget tree in `document.body`. `configureOverlayContainer` propagates CSS classes from the nearest `ThemeVarsDiv[data-theme-container-class]` ancestor to the portaled container element. Registered via `OverlayBase.configureOverlayContainer` in `applyThemeOverrides()`.
 
+### Tooltip Variables
+- `--cx-tooltip-background-color` / `--cx-tooltip-border-color` / `--cx-tooltip-border-width`
+- `--cx-tooltip-border-radius` / `--cx-tooltip-arrow-size`
+- `--cx-tooltip-color` / `--cx-tooltip-padding` / `--cx-tooltip-box-shadow`
+- `--cx-tooltip-error-background-color` / `--cx-tooltip-error-border-color` / `--cx-tooltip-error-color`
+
+### Window Variables
+- `--cx-window-background-color` / `--cx-window-border-color` / `--cx-window-border-width`
+- `--cx-window-color` / `--cx-window-font-size`
+- `--cx-window-header-color` / `--cx-window-header-background-color`
+- `--cx-window-header-padding` / `--cx-window-header-margin`
+- `--cx-window-header-font-size` / `--cx-window-header-font-weight` / `--cx-window-header-border-width`
+- `--cx-window-body-padding` / `--cx-window-body-background-color`
+- `--cx-window-footer-background-color` / `--cx-window-footer-padding`
+- `--cx-window-footer-margin` / `--cx-window-footer-border-width`
+- Window mods: alert body padding override using `calc(2 * var(--cx-button-padding-x))`
+- Alert mod defaults (frame min-width, body padding/text-align, footer text-align) moved to core `Window.maps.scss`
+
+### Scrollbar Variables
+- `--cx-scrollbar-thumb-color` / `--cx-scrollbar-track-color` / `--cx-scrollbar-width`
+- Standard `scrollbar-color` / `scrollbar-width` + `::-webkit-scrollbar` fallbacks
+- Thumb border-radius uses `var(--cx-theme-border-radius)`
+
 ### Density & Rounding Tweaks
 Partial presets in `tweaks.ts` that can be layered on base themes:
 - **Rounding**: none (0), small (3px), medium (5px), large (8px), veryLarge (12px)
@@ -335,9 +361,6 @@ Partial presets in `tweaks.ts` that can be layered on base themes:
 Features not yet covered by `ThemeVariables`. The homedocs theme works around these via
 direct CSS overrides in `homedocs/src/styles/theme/index.scss`.
 
-1. **Tooltip styling** - No tooltip background, color, or border-radius variables
-2. **Slider track/range/handle colors** - No runtime CSS variables for slider
-3. **Progress bar indicator color** - No `progressBarColor` variable
-4. **Input tag background** (LookupField) - No `inputTagBackgroundColor`
-5. **Toast mod colors** - No variables for toast variants (success, error, warning, info)
-6. **Window body/footer padding** - Basic window variables exist but not comprehensive
+1. **Slider track/range/handle colors** - No runtime CSS variables for slider
+2. **Progress bar indicator color** - No `progressBarColor` variable
+3. **Input tag background** (LookupField) - No `inputTagBackgroundColor`

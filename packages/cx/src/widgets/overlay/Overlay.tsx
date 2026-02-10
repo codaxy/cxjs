@@ -198,6 +198,7 @@ export class OverlayBase<
   declare overlayWillDismiss?: (instance: Instance, component: any) => boolean;
   declare style?: any;
   declare pad?: boolean;
+  declare needsBeacon: boolean;
 
   init() {
     if (this.center) this.centerX = this.centerY = this.center;
@@ -273,20 +274,34 @@ export class OverlayBase<
   }
 
   render(context: RenderingContext, instance: InstanceType, key: string): any {
+    if (this.needsBeacon)
+      return (
+        <OverlayBeacon
+          key={key}
+          childrenFactory={(beaconEl) => (
+            <OverlayComponent
+              beaconEl={beaconEl}
+              instance={instance}
+              subscribeToBeforeDismiss={
+                context.options.subscribeToBeforeDismiss
+              }
+              parentEl={context.options.parentEl}
+            >
+              {this.renderContents(context, instance)}
+            </OverlayComponent>
+          )}
+        />
+      );
+
     return (
-      <OverlayBeacon
-        key={key}
-        childrenFactory={(beaconEl) => (
-          <OverlayComponent
-            beaconEl={beaconEl}
-            instance={instance}
-            subscribeToBeforeDismiss={context.options.subscribeToBeforeDismiss}
-            parentEl={context.options.parentEl}
-          >
-            {this.renderContents(context, instance)}
-          </OverlayComponent>
-        )}
-      />
+      <OverlayComponent
+        beaconEl={null}
+        instance={instance}
+        subscribeToBeforeDismiss={context.options.subscribeToBeforeDismiss}
+        parentEl={context.options.parentEl}
+      >
+        {this.renderContents(context, instance)}
+      </OverlayComponent>
     );
   }
 
@@ -459,6 +474,7 @@ OverlayBase.prototype.focusable = false;
 OverlayBase.prototype.containerStyle = undefined;
 OverlayBase.prototype.dismissOnPopState = false;
 OverlayBase.prototype.closeOnEscape = false;
+OverlayBase.prototype.needsBeacon = false;
 
 export class Overlay extends OverlayBase<OverlayConfig, OverlayInstance> {}
 
@@ -524,7 +540,7 @@ export interface OverlayComponentProps {
   parentEl?: HTMLElement;
   subscribeToBeforeDismiss?: (cb: () => boolean) => void;
   children: any;
-  beaconEl: HTMLElement;
+  beaconEl: HTMLElement | null;
 }
 
 export interface OverlayComponentState {
@@ -558,7 +574,6 @@ export class OverlayComponent<
   render() {
     let { instance, parentEl } = this.props;
     let { widget } = instance;
-    let { baseClass, CSS } = widget;
 
     if (widget.inline || parentEl) return this.renderOverlay();
 
@@ -569,13 +584,10 @@ export class OverlayComponent<
       this.containerEl = this.ownedEl;
     }
 
-    let portal =
-      VDOM.DOM.createPortal && this.containerEl
-        ? VDOM.DOM.createPortal(this.renderOverlay(), this.containerEl)
-        : null;
-
     // content is rendered in componentDidUpdate if portals are not supported
-    return portal;
+    return VDOM.DOM.createPortal
+      ? VDOM.DOM.createPortal!(this.renderOverlay(), this.containerEl)
+      : null;
   }
 
   renderOverlay() {

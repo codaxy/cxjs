@@ -158,16 +158,15 @@ $cx-slider-handle-styles: cx-deep-map-merge(
    $cx-slider-handle-styles,
    (
       hover: (
-         box-shadow: var(--cx-theme-box-shadow),
-         background-color: var(--cx-theme-primary-color-light),
+         box-shadow: var(--cx-slider-handle-hover-box-shadow),
       ),
       active: (
-         background-color: var(--cx-theme-primary-color),
-         border-color: var(--cx-theme-primary-color),
+         background-color: var(--cx-slider-handle-color),
+         border-color: var(--cx-slider-handle-border-color),
       ),
       focus: (
-         box-shadow: var(--cx-theme-box-shadow-elevated),
-         background-color: var(--cx-theme-primary-color),
+         box-shadow: var(--cx-theme-focus-box-shadow),
+         background-color: var(--cx-slider-handle-color),
       ),
    )
 );

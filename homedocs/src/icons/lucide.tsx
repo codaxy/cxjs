@@ -5,6 +5,7 @@ import { Icon } from "cx/widgets";
 import type { IconNode } from "lucide";
 import {
   Activity,
+  AppWindow,
   BarChart3,
   Bell,
   ChevronDown,
@@ -38,6 +39,7 @@ import {
   Plus,
   RefreshCw,
   Search,
+  SlidersHorizontal,
   Space,
   Square,
   Star,
@@ -104,7 +106,9 @@ Icon.register("grip-vertical", getRenderer(GripVertical));
 Icon.register("palette", getRenderer(Palette));
 Icon.register("circle", getRenderer(Circle));
 Icon.register("info", getRenderer(Info));
-//Icon.register("square", getRenderer(Square)); // it needs to be filled
+Icon.register("square", getRenderer(Square));
+Icon.register("sliders-horizontal", getRenderer(SlidersHorizontal));
+Icon.register("app-window", getRenderer(AppWindow));
 Icon.register("type", getRenderer(Type));
 Icon.register("panel-top", getRenderer(PanelTop));
 Icon.register("table", getRenderer(Table2));
