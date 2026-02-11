@@ -27,6 +27,7 @@ import {
   FolderOpen,
   GripVertical,
   Info,
+  List,
   ListTodo,
   LoaderCircle,
   Menu,
@@ -123,3 +124,4 @@ Icon.register("drop-down", getRenderer(ChevronDown));
 Icon.register("bell", getRenderer(Bell));
 Icon.register("menu", getRenderer(Menu));
 Icon.register("message-circle", getRenderer(MessageCircle));
+Icon.register("list", getRenderer(List));

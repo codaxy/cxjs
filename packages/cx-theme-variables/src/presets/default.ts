@@ -58,6 +58,13 @@ export const defaultPreset: ThemeVariables = {
    inputPaddingX: "6px",
    inputPaddingY: "6px",
    inputBorderWidth: "1px",
+   inputTagBackgroundColor: "var(--cx-button-background-color)",
+   inputTagFontSize: "var(--cx-button-font-size)",
+   inputTagSpacing: "3px",
+   inputTagBorderRadius: "var(--cx-button-border-radius)",
+   inputTagBorderWidth: "var(--cx-button-border-width)",
+   inputTagPadding:
+      "calc(var(--cx-input-padding-y) - var(--cx-input-tag-spacing) - var(--cx-input-tag-border-width))",
    checkboxSize: "16px",
 
    buttonBackgroundColor: "#f5f5f5",
@@ -95,6 +102,9 @@ export const defaultPreset: ThemeVariables = {
    gridDataPaddingY: "var(--cx-input-padding-y)",
    gridDataBackgroundColor: "none",
    gridDataBorderColor: "#e0e0e0",
+
+   listItemPaddingX: "calc(var(--cx-input-padding-y) * 1.5)",
+   listItemPaddingY: "var(--cx-input-padding-y)",
 
    menuItemPaddingX: "var(--cx-button-padding-x)",
    menuItemPaddingY: "var(--cx-button-padding-y)",

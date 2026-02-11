@@ -82,19 +82,6 @@
          )
       );
 
-      .#{$state}multiple > & {
-         padding: $cx-default-input-tag-spacing
-            cx-calc(
-               cx-right($padding),
-               $cx-default-clear-size,
-               $cx-default-input-tag-spacing
-            )
-            $cx-default-input-tag-spacing $cx-default-input-tag-spacing;
-         align-items: center;
-         flex-wrap: wrap;
-         gap: $cx-default-input-tag-spacing;
-      }
-
       .#{$state}single > & {
          overflow: hidden;
          text-overflow: ellipsis;
@@ -110,6 +97,29 @@
             $cx-default-input-left-tool-spacing
          );
       }
+   }
+
+   .#{$element}#{$name}-tags {
+      display: flex;
+      margin: cx-calc(
+            $cx-default-input-tag-spacing,
+            cx-multiply(cx-top($padding), -1)
+         )
+         cx-calc(
+            $cx-default-input-tag-spacing,
+            cx-multiply(cx-right($padding), -1)
+         )
+         cx-calc(
+            $cx-default-input-tag-spacing,
+            cx-multiply(cx-bottom($padding), -1)
+         )
+         cx-calc(
+            $cx-default-input-tag-spacing,
+            cx-multiply(cx-left($padding), -1)
+         );
+      align-items: center;
+      flex-wrap: wrap;
+      gap: $cx-default-input-tag-spacing;
    }
 
    .#{$element}#{$name}-tag {

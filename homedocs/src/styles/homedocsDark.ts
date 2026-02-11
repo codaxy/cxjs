@@ -49,6 +49,7 @@ const homedocsDarkPreset: ThemeVariables = {
 
    // Tooltip
    tooltipBackgroundColor: "#1f1f1f",
+
 };
 
 export default homedocsDarkPreset;

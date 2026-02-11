@@ -73,6 +73,12 @@ export const examples: ExampleDef[] = [
     component: () => import("../forms/LookupFieldExample"),
   },
   {
+    id: "lookup-field-query",
+    name: "LookupField Query",
+    categories: ["colors", "inputs", "dropdowns", "sizing", "effects"],
+    component: () => import("../forms/LookupFieldQueryExample"),
+  },
+  {
     id: "slider",
     name: "Slider",
     categories: ["colors", "sliders", "inputs", "effects"],
@@ -95,6 +101,18 @@ export const examples: ExampleDef[] = [
     name: "Calendar Day Data",
     categories: ["colors", "calendar", "sizing", "effects"],
     component: () => import("../forms/CalendarDayDataExample"),
+  },
+  {
+    id: "month-picker",
+    name: "MonthPicker",
+    categories: ["colors", "calendar", "sizing", "effects"],
+    component: () => import("../forms/MonthPickerExample"),
+  },
+  {
+    id: "month-picker-range",
+    name: "MonthPicker Range",
+    categories: ["colors", "calendar", "sizing", "effects"],
+    component: () => import("../forms/MonthPickerRangeExample"),
   },
   {
     id: "color-field",
@@ -353,7 +371,7 @@ export const examples: ExampleDef[] = [
   {
     id: "list",
     name: "List",
-    categories: ["colors", "sizing", "effects"],
+    categories: ["colors", "lists", "sizing", "effects"],
     component: () => import("../forms/ListExample"),
   },
 ];

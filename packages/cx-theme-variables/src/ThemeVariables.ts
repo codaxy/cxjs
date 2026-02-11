@@ -53,6 +53,12 @@ export interface ThemeVariables {
    inputPaddingX: string;
    inputPaddingY: string;
    inputBorderWidth: string;
+   inputTagBackgroundColor: string;
+   inputTagFontSize: string;
+   inputTagSpacing: string;
+   inputTagBorderRadius: string;
+   inputTagBorderWidth: string;
+   inputTagPadding: string;
    checkboxSize: string;
 
    buttonBackgroundColor: string;
@@ -88,6 +94,9 @@ export interface ThemeVariables {
    gridDataPaddingY: string;
    gridDataBackgroundColor: string;
    gridDataBorderColor: string;
+
+   listItemPaddingX: string;
+   listItemPaddingY: string;
 
    menuItemPaddingX: string;
    menuItemPaddingY: string;
@@ -235,6 +244,12 @@ export const variableMap: Record<keyof ThemeVariables, string> = {
    inputPaddingX: "--cx-input-padding-x",
    inputPaddingY: "--cx-input-padding-y",
    inputBorderWidth: "--cx-input-border-width",
+   inputTagBackgroundColor: "--cx-input-tag-background-color",
+   inputTagFontSize: "--cx-input-tag-font-size",
+   inputTagSpacing: "--cx-input-tag-spacing",
+   inputTagBorderRadius: "--cx-input-tag-border-radius",
+   inputTagBorderWidth: "--cx-input-tag-border-width",
+   inputTagPadding: "--cx-input-tag-padding",
    checkboxSize: "--cx-checkbox-size",
 
    buttonBackgroundColor: "--cx-button-background-color",
@@ -270,6 +285,9 @@ export const variableMap: Record<keyof ThemeVariables, string> = {
    gridDataPaddingY: "--cx-grid-data-padding-y",
    gridDataBackgroundColor: "--cx-grid-data-background-color",
    gridDataBorderColor: "--cx-grid-data-border-color",
+
+   listItemPaddingX: "--cx-list-item-padding-x",
+   listItemPaddingY: "--cx-list-item-padding-y",
 
    menuItemPaddingX: "--cx-menu-item-padding-x",
    menuItemPaddingY: "--cx-menu-item-padding-y",

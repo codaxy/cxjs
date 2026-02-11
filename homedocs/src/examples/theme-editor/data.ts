@@ -229,6 +229,42 @@ const variableMetadata: Array<{
     type: "size",
     category: "inputs",
   },
+  {
+    key: "inputTagBackgroundColor",
+    label: "Tag background",
+    type: "color",
+    category: "inputs",
+  },
+  {
+    key: "inputTagFontSize",
+    label: "Tag font size",
+    type: "text",
+    category: "inputs",
+  },
+  {
+    key: "inputTagSpacing",
+    label: "Tag spacing",
+    type: "size",
+    category: "inputs",
+  },
+  {
+    key: "inputTagBorderRadius",
+    label: "Tag border radius",
+    type: "text",
+    category: "inputs",
+  },
+  {
+    key: "inputTagBorderWidth",
+    label: "Tag border width",
+    type: "text",
+    category: "inputs",
+  },
+  {
+    key: "inputTagPadding",
+    label: "Tag padding",
+    type: "text",
+    category: "inputs",
+  },
   // Checks & Switches
   {
     key: "checkboxSize",
@@ -351,6 +387,20 @@ const variableMetadata: Array<{
     label: "Active mix amount",
     type: "text",
     category: "buttons",
+  },
+
+  // Lists
+  {
+    key: "listItemPaddingX",
+    label: "Item padding X",
+    type: "text",
+    category: "lists",
+  },
+  {
+    key: "listItemPaddingY",
+    label: "Item padding Y",
+    type: "text",
+    category: "lists",
   },
 
   // Grids
@@ -1004,9 +1054,10 @@ const categoryMetadata = [
   { id: "buttons", name: "Buttons", icon: "square", group: "Components" },
   { id: "inputs", name: "Inputs", icon: "text-cursor-input", group: "Components" },
   { id: "checks", name: "Checks & Switches", icon: "toggle-left", group: "Components" },
-  { id: "grids", name: "Grids", icon: "table", group: "Components" },
   { id: "sliders", name: "Sliders & Progress", icon: "sliders-horizontal", group: "Components" },
   { id: "calendar", name: "Calendar", icon: "calendar", group: "Components" },
+  { id: "lists", name: "Lists", icon: "list", group: "Components" },
+  { id: "grids", name: "Grids", icon: "table", group: "Components" },
   { id: "sections", name: "Sections", icon: "panel-top", group: "Components" },
   { id: "windows", name: "Windows", icon: "app-window", group: "Components" },
   { id: "toasts", name: "Toasts", icon: "bell", group: "Components" },

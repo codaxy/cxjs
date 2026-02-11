@@ -10,6 +10,9 @@ $cx-input-tag-state-style-map: (
       padding: $cx-default-input-tag-padding,
       padding-right: cx-calc($cx-default-clear-size, 2px),
       border-radius: $cx-default-input-tag-border-radius,
+      border-width: $cx-default-button-border-width,
+      border-style: solid,
+      border-color: $cx-default-button-border-color,
    ),
 ) !default;
 

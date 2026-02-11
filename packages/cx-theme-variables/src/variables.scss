@@ -211,10 +211,11 @@ $cx-theme-box-padding: var(--cx-input-padding-y) var(--cx-input-padding-x);
    // -------------------------------------------------------------------------
    // Lookup tag
    // -------------------------------------------------------------------------
-   $cx-default-input-tag-font-size: 12px !default,
-   $cx-default-input-tag-border-radius: var(--cx-theme-border-radius) !default,
-   $cx-default-input-tag-spacing: 4px !default,
-   $cx-default-input-tag-padding: 0 !default,
+   $cx-default-input-tag-background-color: var(--cx-input-tag-background-color) !default,
+   $cx-default-input-tag-font-size: var(--cx-input-tag-font-size) !default,
+   $cx-default-input-tag-border-radius: var(--cx-input-tag-border-radius) !default,
+   $cx-default-input-tag-spacing: var(--cx-input-tag-spacing) !default,
+   $cx-default-input-tag-padding: var(--cx-input-tag-padding) !default,
 
    // -------------------------------------------------------------------------
    // ColorPicker
@@ -309,7 +310,7 @@ $cx-theme-box-padding: var(--cx-input-padding-y) var(--cx-input-padding-x);
    // -------------------------------------------------------------------------
    // List
    // -------------------------------------------------------------------------
-   $cx-default-list-item-padding: 8px 12px !default,
+   $cx-default-list-item-padding: var(--cx-list-item-padding-y) var(--cx-list-item-padding-x) !default,
 
    // -------------------------------------------------------------------------
    // Chart palette

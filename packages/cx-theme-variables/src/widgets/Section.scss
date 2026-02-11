@@ -24,3 +24,59 @@ $cx-section-footer-state-style-map: cx-deep-map-merge(
       ),
    )
 );
+
+$cx-section-mods: cx-deep-map-merge(
+   $cx-section-mods,
+   (
+      card: (
+         default: (
+            color: var(--cx-section-color),
+            background-color: var(--cx-section-background-color),
+            border-color: var(--cx-section-border-color),
+            border-radius: var(--cx-section-border-radius),
+            border-width: var(--cx-section-border-width),
+            box-shadow: var(--cx-section-box-shadow),
+         ),
+      ),
+      primary: (
+         default: (
+            color: var(--cx-theme-primary-text-color),
+            background-color: var(--cx-theme-primary-color),
+            border-color: var(--cx-theme-primary-border-color),
+            border-width: var(--cx-section-border-width),
+            border-radius: var(--cx-section-border-radius),
+            box-shadow: var(--cx-section-box-shadow),
+         ),
+      ),
+      success: (
+         default: (
+            color: var(--cx-theme-success-text-color),
+            background-color: var(--cx-theme-success-color),
+            border-color: var(--cx-theme-success-border-color),
+            border-width: var(--cx-section-border-width),
+            border-radius: var(--cx-section-border-radius),
+            box-shadow: var(--cx-section-box-shadow),
+         ),
+      ),
+      warning: (
+         default: (
+            color: var(--cx-theme-warning-text-color),
+            background-color: var(--cx-theme-warning-color),
+            border-color: var(--cx-theme-warning-border-color),
+            border-width: var(--cx-section-border-width),
+            border-radius: var(--cx-section-border-radius),
+            box-shadow: var(--cx-section-box-shadow),
+         ),
+      ),
+      error: (
+         default: (
+            color: var(--cx-theme-danger-text-color),
+            background-color: var(--cx-theme-danger-color),
+            border-color: var(--cx-theme-danger-border-color),
+            border-width: var(--cx-section-border-width),
+            border-radius: var(--cx-section-border-radius),
+            box-shadow: var(--cx-section-box-shadow),
+         ),
+      ),
+   )
+);

@@ -146,6 +146,7 @@ packages/cx-theme-variables/src/
 │   ├── Section.scss        # Section header/footer/body styling
 │   ├── form/
 │   │   ├── Field.scss      # Input, checkbox, radio, textarea, slider, switch, clear icon state maps
+│   │   ├── LookupField.scss # LookupField tag + tag clear state maps
 │   │   ├── Calendar.scss   # Calendar + calendar day state maps
 │   │   └── Label.scss      # Label state map
 │   ├── grid/
@@ -349,18 +350,36 @@ Portal-based overlays (Dropdowns, Tooltips, Context Menus) render outside the wi
 - Standard `scrollbar-color` / `scrollbar-width` + `::-webkit-scrollbar` fallbacks
 - Thumb border-radius uses `var(--cx-theme-border-radius)`
 
+### Slider Variables
+- `--cx-slider-axis-color` / `--cx-slider-axis-size` - Track styling
+- `--cx-slider-range-color` - Active range color
+- `--cx-slider-handle-color` / `--cx-slider-handle-border-color` / `--cx-slider-handle-border-width`
+- `--cx-slider-handle-size` / `--cx-slider-handle-box-shadow` / `--cx-slider-handle-hover-box-shadow`
+
+### Progress Bar Variables
+- `--cx-progressbar-height` / `--cx-progressbar-background-color`
+- `--cx-progressbar-indicator-color` / `--cx-progressbar-color`
+- `--cx-progressbar-border-radius`
+
+### LookupField Tag Variables
+- `--cx-input-tag-background-color` - Tag background (defaults to button background)
+- `--cx-input-tag-font-size` - Tag font size (defaults to button font size)
+- `--cx-input-tag-spacing` - Gap between tags and container padding in multi-select mode
+- `--cx-input-tag-border-radius` - Tag border radius (defaults to button border radius)
+- `--cx-input-tag-border-width` - Tag border width (defaults to button border width)
+- `--cx-input-tag-padding` - Tag padding, auto-calculated: `calc(inputPaddingY - tagSpacing - tagBorderWidth)` so tag height matches regular input fields
+- Tag border uses button border-width/border-color via SCSS state map (no separate SCSS variable)
+- Tag clear button `right` position set to `var(--cx-input-tag-padding)` for equal distance from all edges
+- Density presets include scaled `inputTagSpacing` values
+
 ### Density & Rounding Tweaks
 Partial presets in `tweaks.ts` that can be layered on base themes:
 - **Rounding**: none (0), small (3px), medium (5px), large (8px), veryLarge (12px)
 - **Density**: minimal, condensed, compact, normal, comfortable, spacious
-  - Each density preset scales: baseFontSize, inputWidth, inputLineHeight, inputPaddingX/Y, buttonLineHeight, buttonPaddingX/Y, checkboxSize, iconSize, dropdownPadding, dropdownArrowSize, dropdownArrowOffset
+  - Each density preset scales: baseFontSize, inputWidth, inputLineHeight, inputPaddingX/Y, inputTagSpacing, buttonLineHeight, buttonPaddingX/Y, checkboxSize, iconSize, dropdownPadding, dropdownArrowSize, dropdownArrowOffset
 - **Font**: system, inter, roboto, openSans, poppins, lato
 
 ## TODO: Remaining
 
-Features not yet covered by `ThemeVariables`. The homedocs theme works around these via
-direct CSS overrides in `homedocs/src/styles/theme/index.scss`.
-
-1. **Slider track/range/handle colors** - No runtime CSS variables for slider
-2. **Progress bar indicator color** - No `progressBarColor` variable
-3. **Input tag background** (LookupField) - No `inputTagBackgroundColor`
+1. **MonthPicker styling** - No dedicated CSS variables for MonthPicker
+2. **Charts styling** - No CSS variables for chart components (axes, legends, palette colors, etc.)

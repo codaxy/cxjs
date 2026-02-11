@@ -132,27 +132,6 @@ $cx-radio-state-style-map: cx-deep-map-merge(
    )
 );
 
-// Lookupfield tag
-$cx-input-tag-state-style-map: cx-deep-map-merge(
-   $cx-input-tag-state-style-map,
-   (
-      default: (
-         border-color: var(--cx-theme-border-color),
-         border-radius: var(--cx-theme-border-radius),
-         border-width: 1px,
-         border-style: solid,
-         margin: -1px,
-      ),
-      hover: (
-         background-color: color-mix(
-               in oklch,
-               var(--cx-button-active-state-mix-color) 12%,
-               transparent
-            ),
-      ),
-   )
-);
-
 // Slider
 $cx-slider-handle-styles: cx-deep-map-merge(
    $cx-slider-handle-styles,

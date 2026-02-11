@@ -1,0 +1,36 @@
+@use "sass:map";
+@use "../../variables.scss" as *;
+@use "cx/src/maps" as *;
+@use "cx/src/util/scss/deep-merge" as *;
+
+// =============================================================================
+// LOOKUPFIELD TAG - Map Overrides
+// =============================================================================
+
+$cx-input-tag-state-style-map: cx-deep-map-merge(
+   $cx-input-tag-state-style-map,
+   (
+      default: (
+         border-color: var(--cx-theme-border-color),
+         border-radius: var(--cx-theme-border-radius),
+         border-width: 1px,
+         border-style: solid,
+      ),
+      hover: (
+         background-color: color-mix(
+               in oklch,
+               var(--cx-button-active-state-mix-color) 12%,
+               transparent
+            ),
+      ),
+   )
+);
+
+$cx-input-tag-clear-state-style-map: cx-deep-map-merge(
+   $cx-input-tag-clear-state-style-map,
+   (
+      default: (
+         right: var(--cx-input-tag-padding),
+      ),
+   )
+);
