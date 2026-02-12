@@ -309,13 +309,13 @@ export const examples: ExampleDef[] = [
   {
     id: "line-chart",
     name: "Line Chart",
-    categories: ["colors"],
+    categories: ["colors", "charts"],
     component: () => import("../charts/OverviewLineChartExample"),
   },
   {
     id: "pie-chart",
     name: "Pie Chart",
-    categories: ["colors"],
+    categories: ["colors", "charts"],
     component: () => import("../charts/OverviewPieChartExample"),
   },
 

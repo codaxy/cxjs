@@ -43,6 +43,7 @@ const ColorSwatch = createFunctionalComponent(({ value }: ColorSwatchProps) => {
           dismissOnFocusOut
         >
           <ColorPicker
+            mod="dropdown"
             value={state.value}
             onColorClick={(e, { store }) => {
               store.set(state.open, false);

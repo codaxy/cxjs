@@ -63,6 +63,7 @@ $cx-theme-box-padding: var(--cx-input-padding-y) var(--cx-input-padding-x);
    $cx-default-dropdown-arrow-shadow-color: var(--cx-dropdown-arrow-shadow-color) !default,
    $cx-default-dropdown-arrow-shadow-size: var(--cx-dropdown-arrow-shadow-size) !default,
    $cx-default-dropdown-arrow-shadow-offset: var(--cx-dropdown-arrow-shadow-offset) !default,
+   $cx-default-dropdown-background-color: var(--cx-theme-surface-color) !default,
 
    // -------------------------------------------------------------------------
    // Tooltip
@@ -155,6 +156,7 @@ $cx-theme-box-padding: var(--cx-input-padding-y) var(--cx-input-padding-x);
    //$cx-default-input-right-tool-right: 6px !default,
    $cx-default-input-tool-size: var(--cx-input-line-height) !default,
    $cx-default-input-left-tool-size: var(--cx-input-line-height) !default,
+   $cx-default-input-left-tool-border-radius: calc(var(--cx-theme-border-radius) * 0.5) !default,
    $cx-default-clear-size: var(--cx-input-line-height) !default,
    $cx-use-box-line-height-fix: false !default,
 
@@ -238,7 +240,7 @@ $cx-theme-box-padding: var(--cx-input-padding-y) var(--cx-input-padding-x);
    // -------------------------------------------------------------------------
    // ColorPicker
    // -------------------------------------------------------------------------
-   $cx-default-colorpicker-border-width: 1px !default,
+   $cx-default-colorpicker-border-width: var(--cx-colorpicker-border-width) !default,
    $cx-default-colorpicker-box-shadow: none !default,
    $cx-default-colorpicker-font-family: var(--cx-theme-font-family) !default,
    $cx-default-colorpicker-background-color: var(--cx-theme-background-color)
@@ -331,8 +333,14 @@ $cx-theme-box-padding: var(--cx-input-padding-y) var(--cx-input-padding-x);
    $cx-default-list-item-padding: var(--cx-list-item-padding-y) var(--cx-list-item-padding-x) !default,
 
    // -------------------------------------------------------------------------
-   // Chart palette
+   // Chart
    // -------------------------------------------------------------------------
+   $cx-default-chart-axis-line-color: var(--cx-chart-axis-line-color) !default,
+   $cx-default-chart-axis-tick-color: var(--cx-chart-axis-tick-color) !default,
+   $cx-default-chart-axis-label-color: var(--cx-chart-axis-label-color) !default,
+   $cx-default-chart-gridline-color: var(--cx-chart-gridline-color) !default,
+
+   // Chart palette
    $cx-default-palette-fill-whiten: 30% !default,
    $cx-default-palette-fill-hover-whiten: 50% !default,
    $cx-default-palette-fill-selected-whiten: 0% !default,

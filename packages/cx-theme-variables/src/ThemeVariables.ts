@@ -191,6 +191,13 @@ export interface ThemeVariables {
    monthPickerYearFontWeight: string;
    monthPickerYearColor: string;
 
+   chartAxisLineColor: string;
+   chartAxisTickColor: string;
+   chartAxisLabelColor: string;
+   chartGridlineColor: string;
+
+   colorPickerBorderWidth: string;
+
    calendarBorderWidth: string;
    calendarBackgroundColor: string;
    calendarPadding: string;
@@ -394,6 +401,13 @@ export const variableMap: Record<keyof ThemeVariables, string> = {
    monthPickerYearFontSize: "--cx-monthpicker-year-font-size",
    monthPickerYearFontWeight: "--cx-monthpicker-year-font-weight",
    monthPickerYearColor: "--cx-monthpicker-year-color",
+
+   chartAxisLineColor: "--cx-chart-axis-line-color",
+   chartAxisTickColor: "--cx-chart-axis-tick-color",
+   chartAxisLabelColor: "--cx-chart-axis-label-color",
+   chartGridlineColor: "--cx-chart-gridline-color",
+
+   colorPickerBorderWidth: "--cx-colorpicker-border-width",
 
    calendarBorderWidth: "--cx-calendar-border-width",
    calendarBackgroundColor: "--cx-calendar-background-color",

@@ -1119,6 +1119,32 @@ const variableMetadata: Array<{
     type: "text",
     category: "sliders",
   },
+
+  // Charts
+  {
+    key: "chartAxisLineColor",
+    label: "Axis line color",
+    type: "color",
+    category: "charts",
+  },
+  {
+    key: "chartAxisTickColor",
+    label: "Axis tick color",
+    type: "color",
+    category: "charts",
+  },
+  {
+    key: "chartAxisLabelColor",
+    label: "Axis label color",
+    type: "color",
+    category: "charts",
+  },
+  {
+    key: "chartGridlineColor",
+    label: "Gridline color",
+    type: "color",
+    category: "charts",
+  },
 ];
 
 const categoryMetadata = [
@@ -1138,6 +1164,7 @@ const categoryMetadata = [
   { id: "tooltips", name: "Tooltips", icon: "message-circle", group: "Components" },
   { id: "menu", name: "Menu", icon: "menu", group: "Components" },
   { id: "dropdowns", name: "Dropdowns", icon: "drop-down", group: "Components" },
+  { id: "charts", name: "Charts", icon: "bar-chart", group: "Charts" },
 ];
 
 export const categoryGroups = [
@@ -1148,6 +1175,10 @@ export const categoryGroups = [
   {
     name: "Components",
     categories: categoryMetadata.filter((c) => c.group === "Components"),
+  },
+  {
+    name: "Charts",
+    categories: categoryMetadata.filter((c) => c.group === "Charts"),
   },
 ];
 

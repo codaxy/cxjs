@@ -1,10 +1,10 @@
 @use "sass:math";
+@use "sass:map";
 @use "../util/scss/besm.scss" as *;
 @use "../util/scss/include.scss" as *;
 @use "../util/scss/add-rules.scss" as *;
 @use "../util/scss/clockwise.scss" as *;
-
-@use "sass:map";
+@use "./variables" as *;
 
 @mixin cx-gridlines($name: "gridlines", $besm: $cx-besm) {
    $block: map.get($besm, block);
@@ -15,7 +15,7 @@
       shape-rendering: crispEdges;
 
       path {
-         stroke: rgba(128, 128, 128, 0.15);
+         stroke: $cx-default-chart-gridline-color;
          fill: none;
          stroke-width: 1;
       }

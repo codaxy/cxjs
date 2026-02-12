@@ -56,5 +56,9 @@ $cx-calendar-day-state-style-map: cx-deep-map-merge(
          // box-shadow: inset 0 0 0 1px var(--cx-theme-primary-color),
           // position: relative,
       ),
+      outside: (
+         color: inherit,
+         opacity: 0.4,
+      ),
    )
 );

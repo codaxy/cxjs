@@ -30,6 +30,20 @@ export function applyThemeOverrides() {
       },
    });
 
+   Localization.override("cx/widgets/MonthField", {
+      dropdownOptions: {
+         arrow: true,
+         offset: 5,
+      },
+   });
+
+   Localization.override("cx/widgets/ColorField", {
+      dropdownOptions: {
+         arrow: true,
+         offset: 5,
+      },
+   });
+
    // Set all MsgBox buttons to flat-primary
    Localization.override("cx/widgets/MsgBox", {
       buttonMod: "flat-primary",

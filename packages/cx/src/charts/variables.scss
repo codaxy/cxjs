@@ -6,6 +6,7 @@
 
 $cx-default-swimlanes-lane-background-color: #f1f1f1;
 $cx-default-range-marker-color: #696969;
+$cx-default-chart-gridline-color: rgba(128, 128, 128, 0.15) !default;
 
 $cx-dependencies: map.merge(
    $cx-dependencies,

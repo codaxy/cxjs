@@ -205,6 +205,13 @@ export const defaultPreset: ThemeVariables = {
    monthPickerYearFontWeight: "500",
    monthPickerYearColor: "var(--cx-theme-primary-color)",
 
+   chartAxisLineColor: "rgba(128, 128, 128, 0.2)",
+   chartAxisTickColor: "rgba(128, 128, 128, 0.3)",
+   chartAxisLabelColor: "currentColor",
+   chartGridlineColor: "rgba(128, 128, 128, 0.15)",
+
+   colorPickerBorderWidth: "var(--cx-input-border-width)",
+
    calendarBorderWidth: "var(--cx-input-border-width)",
    calendarBackgroundColor: "white",
    calendarPadding: "var(--cx-input-padding-y)",
