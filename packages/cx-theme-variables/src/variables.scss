@@ -171,6 +171,24 @@ $cx-theme-box-padding: var(--cx-input-padding-y) var(--cx-input-padding-x);
    $cx-default-empty-text-color: var(--cx-placeholder-color) !default,
 
    // -------------------------------------------------------------------------
+   // MonthPicker
+   // -------------------------------------------------------------------------
+   $cx-default-monthpicker-font-size: var(--cx-monthpicker-font-size) !default,
+   $cx-default-monthpicker-font-weight: normal !default,
+   $cx-default-monthpicker-background-color: var(--cx-monthpicker-background-color) !default,
+   $cx-default-monthpicker-border-width: var(--cx-input-border-width) !default,
+   $cx-default-monthpicker-border-color: var(--cx-input-border-color) !default,
+   $cx-default-monthpicker-border-radius: var(--cx-theme-border-radius) !default,
+   $cx-default-monthpicker-padding: var(--cx-monthpicker-padding) !default,
+   $cx-default-monthpicker-width: var(--cx-monthpicker-width) !default,
+   $cx-default-monthpicker-cell-padding: var(--cx-monthpicker-cell-padding) !default,
+   $cx-default-monthpicker-cell-line-height: var(--cx-monthpicker-cell-line-height) !default,
+   $cx-default-monthpicker-quarter-color: var(--cx-monthpicker-quarter-color) !default,
+   $cx-default-monthpicker-year-font-size: var(--cx-monthpicker-year-font-size) !default,
+   $cx-default-monthpicker-year-font-weight: var(--cx-monthpicker-year-font-weight) !default,
+   $cx-default-monthpicker-year-color: var(--cx-monthpicker-year-color) !default,
+
+   // -------------------------------------------------------------------------
    // Calendar
    // -------------------------------------------------------------------------
    $cx-default-calendar-background-color: var(--cx-calendar-background-color)

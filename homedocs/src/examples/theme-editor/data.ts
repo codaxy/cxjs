@@ -903,60 +903,128 @@ const variableMetadata: Array<{
     type: "size",
     category: "toasts",
   },
-
+  
   // Calendar
   {
     key: "calendarBorderWidth",
-    label: "Border width",
+    label: "Calendar border width",
     type: "size",
     category: "calendar",
   },
   {
     key: "calendarBackgroundColor",
-    label: "Background",
+    label: "Calendar background",
     type: "color",
     category: "calendar",
   },
   {
     key: "calendarPadding",
-    label: "Padding",
+    label: "Calendar padding",
     type: "size",
     category: "calendar",
   },
   {
     key: "calendarHeaderFontWeight",
-    label: "Header font weight",
+    label: "Calendar header font weight",
     type: "text",
     category: "calendar",
   },
   {
     key: "calendarHeaderBackgroundColor",
-    label: "Header background",
+    label: "Calendar header background",
     type: "color",
     category: "calendar",
   },
   {
     key: "calendarDayPaddingX",
-    label: "Day padding X",
+    label: "Calendar day padding X",
     type: "size",
     category: "calendar",
   },
   {
     key: "calendarDayPaddingY",
-    label: "Day padding Y",
+    label: "Calendar day padding Y",
     type: "size",
     category: "calendar",
   },
   {
     key: "calendarDayLineHeight",
-    label: "Day line height",
+    label: "Calendar day line height",
     type: "size",
     category: "calendar",
   },
   {
     key: "calendarDayFontSize",
-    label: "Day font size",
+    label: "Calendar day font size",
     type: "text",
+    category: "calendar",
+  },
+
+  // MonthPicker
+  {
+    key: "monthPickerBackgroundColor",
+    label: "MonthPicker background",
+    type: "color",
+    category: "calendar",
+  },
+  {
+    key: "monthPickerWidth",
+    label: "MonthPicker width",
+    type: "text",
+    category: "calendar",
+  },
+  {
+    key: "monthPickerPadding",
+    label: "MonthPicker padding",
+    type: "text",
+    category: "calendar",
+  },
+  {
+    key: "monthPickerFontSize",
+    label: "MonthPicker font size",
+    type: "text",
+    category: "calendar",
+  },
+  {
+    key: "monthPickerCellFontSize",
+    label: "MonthPicker cell font size",
+    type: "text",
+    category: "calendar",
+  },
+  {
+    key: "monthPickerCellPadding",
+    label: "MonthPicker cell padding",
+    type: "text",
+    category: "calendar",
+  },
+  {
+    key: "monthPickerCellLineHeight",
+    label: "MonthPicker cell line height",
+    type: "text",
+    category: "calendar",
+  },
+  {
+    key: "monthPickerQuarterColor",
+    label: "MonthPicker quarter color",
+    type: "color",
+    category: "calendar",
+  },
+  {
+    key: "monthPickerYearFontSize",
+    label: "MonthPicker year font size",
+    type: "text",
+    category: "calendar",
+  },
+  {
+    key: "monthPickerYearFontWeight",
+    label: "MonthPicker year font weight",
+    type: "text",
+    category: "calendar",
+  },
+  {
+    key: "monthPickerYearColor",
+    label: "MonthPicker year color",
+    type: "color",
     category: "calendar",
   },
 

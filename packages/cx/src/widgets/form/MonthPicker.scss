@@ -12,7 +12,8 @@
 
 @mixin cx-monthpicker(
    $name: "monthpicker",
-   $state-style-map: $cx-input-state-style-map,
+   $state-style-map: $cx-monthpicker-state-style-map,
+   $cell-style-map: $cx-monthpicker-cell-state-style-map,
    $besm: $cx-besm
 ) {
    $block: map.get($besm, block);
@@ -20,22 +21,26 @@
    $state: map.get($besm, state);
 
    .#{$block}#{$name} {
+      display: inline-block;
       overflow-y: scroll;
       overflow-x: hidden;
       min-height: 10em;
-      max-height: 30em; //100vh;
+      max-height: 30em;
       height: 100%;
       position: relative;
-      width: 23em;
       overflow-anchor: none;
       touch-action: pan-y;
 
-      @include cxe-field-input($besm, $state-style-map, $input: false);
+      @include cx-add-state-rules($state-style-map, default);
+
+      &:focus {
+         @include cx-add-state-rules($state-style-map, focus);
+      }
 
       table {
          border-spacing: 0;
          width: 100%;
-         font-size: 0.9em;
+         font-size: inherit;
       }
 
       $border-color: cx-get-state-rule($state-style-map, default, border-color);
@@ -59,36 +64,34 @@
       th,
       td {
          text-align: center;
-         font-size: $cx-default-monthpicker-font-size;
-         font-weight: $cx-default-monthpicker-font-weight;
-         line-height: 2em;
          cursor: pointer;
          -webkit-user-select: none;
          -ms-user-select: none;
          -moz-user-select: none;
          user-select: none;
+         @include cx-add-state-rules($cell-style-map, default);
       }
 
       th {
          padding: 0 0.5em;
-         color: lightgray;
+         @include cx-add-state-rules($cell-style-map, quarter);
+      }
+
+      td:hover,
+      th:hover {
+         @include cx-add-state-rules($cell-style-map, hover);
       }
 
       th.#{$state}unselectable {
-         @include cx-add-state-rules($cx-list-item, disabled);
+         @include cx-add-state-rules($cell-style-map, disabled);
       }
 
       .#{$element}#{$name}-year {
-         font-size: 120%;
-         color: gray;
-      }
-
-      td {
-         padding: 0.5em 1em;
+         @include cx-add-state-rules($cell-style-map, year);
       }
 
       td.#{$state}outside {
-         color: lightgray;
+         @include cx-add-state-rules($cell-style-map, outside);
       }
 
       td.#{$state}unselectable {
@@ -97,31 +100,22 @@
 
       td.#{$state}selected {
          border-color: transparent;
-         @include cx-add-state-rules($cx-list-item, selected);
-
-         &:hover {
-            @include cx-add-state-rules($cx-list-item, selected-hover);
-         }
-      }
-
-      td.#{$state}cursor,
-      th.#{$state}cursor {
-         @include cx-add-state-rules($cx-list-item, hover);
+         @include cx-add-state-rules($cell-style-map, selected);
       }
 
       &:focus {
-         td.#{$state}selected {
-            @include cx-add-state-rules($cx-list-item, selected);
-         }
-
          td.#{$state}cursor,
          th.#{$state}cursor {
-            @include cx-add-state-rules($cx-list-item, selected-cursor);
+            @include cx-add-state-rules($cx-list-item, cursor);
+
+            &.#{$state}selected {
+               border-color: transparent;
+               @include cx-add-state-rules($cell-style-map, selected-cursor);
+            }
          }
       }
 
       td.#{$state}handle {
-         //@include cx-add-state-rules($cx-list-item, selected-cursor);
          touch-action: none;
       }
    }

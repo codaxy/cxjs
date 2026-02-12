@@ -192,6 +192,18 @@ export const defaultPreset: ThemeVariables = {
    progressBarColor: "var(--cx-theme-primary-text-color)",
    progressBarBorderRadius: "var(--cx-theme-border-radius)",
 
+   monthPickerBackgroundColor: "var(--cx-input-background-color)",
+   monthPickerWidth: "20em",
+   monthPickerPadding: "var(--cx-input-padding-y)",
+   monthPickerCellPadding: "var(--cx-input-padding-y) var(--cx-input-padding-x)",
+   monthPickerCellLineHeight: "var(--cx-input-line-height)",
+   monthPickerFontSize: "var(--cx-theme-base-font-size)",
+   monthPickerCellFontSize: "smaller",
+   monthPickerQuarterColor: "var(--cx-theme-primary-color)",
+   monthPickerYearFontSize: "inherit",
+   monthPickerYearFontWeight: "500",
+   monthPickerYearColor: "var(--cx-theme-primary-color)",
+
    calendarBorderWidth: "var(--cx-input-border-width)",
    calendarBackgroundColor: "white",
    calendarPadding: "var(--cx-input-padding-y)",

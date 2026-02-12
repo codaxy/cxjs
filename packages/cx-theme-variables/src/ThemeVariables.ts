@@ -178,6 +178,18 @@ export interface ThemeVariables {
    progressBarColor: string;
    progressBarBorderRadius: string;
 
+   monthPickerBackgroundColor: string;
+   monthPickerWidth: string;
+   monthPickerPadding: string;
+   monthPickerCellPadding: string;
+   monthPickerCellLineHeight: string;
+   monthPickerFontSize: string;
+   monthPickerCellFontSize: string;
+   monthPickerQuarterColor: string;
+   monthPickerYearFontSize: string;
+   monthPickerYearFontWeight: string;
+   monthPickerYearColor: string;
+
    calendarBorderWidth: string;
    calendarBackgroundColor: string;
    calendarPadding: string;
@@ -368,6 +380,18 @@ export const variableMap: Record<keyof ThemeVariables, string> = {
    progressBarIndicatorColor: "--cx-progressbar-indicator-color",
    progressBarColor: "--cx-progressbar-color",
    progressBarBorderRadius: "--cx-progressbar-border-radius",
+
+   monthPickerBackgroundColor: "--cx-monthpicker-background-color",
+   monthPickerWidth: "--cx-monthpicker-width",
+   monthPickerPadding: "--cx-monthpicker-padding",
+   monthPickerCellPadding: "--cx-monthpicker-cell-padding",
+   monthPickerCellLineHeight: "--cx-monthpicker-cell-line-height",
+   monthPickerFontSize: "--cx-monthpicker-font-size",
+   monthPickerCellFontSize: "--cx-monthpicker-cell-font-size",
+   monthPickerQuarterColor: "--cx-monthpicker-quarter-color",
+   monthPickerYearFontSize: "--cx-monthpicker-year-font-size",
+   monthPickerYearFontWeight: "--cx-monthpicker-year-font-weight",
+   monthPickerYearColor: "--cx-monthpicker-year-color",
 
    calendarBorderWidth: "--cx-calendar-border-width",
    calendarBackgroundColor: "--cx-calendar-background-color",
