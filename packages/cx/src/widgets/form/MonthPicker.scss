@@ -30,6 +30,7 @@
       position: relative;
       overflow-anchor: none;
       touch-action: pan-y;
+      vertical-align: top;
 
       @include cx-add-state-rules($state-style-map, default);
 

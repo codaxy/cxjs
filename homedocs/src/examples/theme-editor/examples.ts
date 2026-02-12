@@ -81,8 +81,14 @@ export const examples: ExampleDef[] = [
   {
     id: "slider",
     name: "Slider",
-    categories: ["colors", "sliders", "inputs", "effects"],
+    categories: ["colors", "sliders", "effects"],
     component: () => import("../forms/SliderExample"),
+  },
+  {
+    id: "month-field",
+    name: "MonthField",
+    categories: ["colors", "inputs", "dropdowns", "calendar", "sizing", "effects"],
+    component: () => import("../forms/MonthFieldExample"),
   },
   {
     id: "date-field",

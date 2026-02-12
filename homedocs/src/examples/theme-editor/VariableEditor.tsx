@@ -25,7 +25,7 @@ const ColorSwatch = createFunctionalComponent(({ value }: ColorSwatchProps) => {
   const state = createModel<{ open: boolean; value: string }>();
   return (
     <PrivateStore data={{ value }}>
-      <div class="relative">
+      <div class="relative theme-editor-variables">
         <div
           class="w-8 h-8 rounded-md border border-border shrink-0 cursor-pointer hover:border-foreground transition-colors"
           style={computable(state.value, (v) => ({

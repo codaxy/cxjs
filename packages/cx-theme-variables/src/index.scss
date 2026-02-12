@@ -32,11 +32,15 @@ $mod: map.get($cx-besm, mod);
    }
 }
 
-@if (
-   cx-included("cx/widgets/Dropdown") and cx-included("cx/widgets/Calendar")
-) {
-   .#{$block}dropdown > .#{$block}calendar {
+@if (cx-included("cx/widgets/Calendar")) {
+   .#{$block}calendar.#{$mod}dropdown {
       --cx-calendar-border-width: 0;
+   }
+}
+
+@if (cx-included("cx/widgets/MonthPicker")) {
+   .#{$block}monthpicker.#{$mod}dropdown {
+      --cx-monthpicker-border-width: 0;
    }
 }
 

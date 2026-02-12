@@ -968,6 +968,12 @@ const variableMetadata: Array<{
     category: "calendar",
   },
   {
+    key: "monthPickerBorderWidth",
+    label: "MonthPicker border width",
+    type: "text",
+    category: "calendar",
+  },
+  {
     key: "monthPickerWidth",
     label: "MonthPicker width",
     type: "text",

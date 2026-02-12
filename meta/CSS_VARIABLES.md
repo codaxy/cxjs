@@ -381,5 +381,5 @@ Partial presets in `tweaks.ts` that can be layered on base themes:
 
 ## TODO: Remaining
 
-1. **MonthPicker styling** - No dedicated CSS variables for MonthPicker
-2. **Charts styling** - No CSS variables for chart components (axes, legends, palette colors, etc.)
+1. **Charts styling** - No CSS variables for chart components (axes, legends, palette colors, etc.)
+2. **Pre-built CSS files** - Build all presets and tweaks into ready-to-use CSS files

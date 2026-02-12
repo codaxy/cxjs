@@ -12,7 +12,6 @@ $cx-list-item: cx-deep-map-merge(
    (
       default: (
          color: inherit,
-         padding: var(--cx-list-item-padding-y) 0,
          font-size: var(--cx-input-font-size),
       ),
       hover: (

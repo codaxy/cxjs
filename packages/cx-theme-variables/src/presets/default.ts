@@ -193,6 +193,7 @@ export const defaultPreset: ThemeVariables = {
    progressBarBorderRadius: "var(--cx-theme-border-radius)",
 
    monthPickerBackgroundColor: "var(--cx-input-background-color)",
+   monthPickerBorderWidth: "var(--cx-input-border-width)",
    monthPickerWidth: "20em",
    monthPickerPadding: "var(--cx-input-padding-y)",
    monthPickerCellPadding: "var(--cx-input-padding-y) var(--cx-input-padding-x)",

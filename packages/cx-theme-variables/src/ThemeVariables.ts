@@ -179,6 +179,7 @@ export interface ThemeVariables {
    progressBarBorderRadius: string;
 
    monthPickerBackgroundColor: string;
+   monthPickerBorderWidth: string;
    monthPickerWidth: string;
    monthPickerPadding: string;
    monthPickerCellPadding: string;
@@ -382,6 +383,7 @@ export const variableMap: Record<keyof ThemeVariables, string> = {
    progressBarBorderRadius: "--cx-progressbar-border-radius",
 
    monthPickerBackgroundColor: "--cx-monthpicker-background-color",
+   monthPickerBorderWidth: "--cx-monthpicker-border-width",
    monthPickerWidth: "--cx-monthpicker-width",
    monthPickerPadding: "--cx-monthpicker-padding",
    monthPickerCellPadding: "--cx-monthpicker-cell-padding",
