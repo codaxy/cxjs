@@ -3,6 +3,7 @@
 @use "../util/scss/include.scss" as *;
 @use "../util/scss/add-rules.scss" as *;
 @use "../util/scss/clockwise.scss" as *;
+@use "./variables" as *;
 
 @use "sass:map";
 
@@ -13,15 +14,15 @@
 
    .#{$element}#{$name}-slice {
       stroke-width: 0;
-      fill: #eee;
-      stroke: #ccc;
+      fill: $cx-default-chart-shape-fill-color;
+      stroke: $cx-default-chart-shape-stroke-color;
 
       &.#{$state}selectable {
          cursor: pointer;
       }
 
       &.#{$state}selected {
-         stroke-width: 2px;
+         stroke-width: $cx-default-chart-selected-stroke-width;
       }
    }
 }

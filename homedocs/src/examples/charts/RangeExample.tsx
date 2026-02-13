@@ -7,6 +7,7 @@ import {
   Marker,
   LineGraph,
   Legend,
+  LegendScope,
 } from "cx/charts";
 import { createModel } from "cx/data";
 import { Controller } from "cx/ui";
@@ -54,7 +55,7 @@ class PageController extends Controller {
 
 // @index
 export default (
-  <div controller={PageController}>
+  <LegendScope controller={PageController}>
     <Svg style="width: 100%; height: 400px">
       <Chart
         offset="20 -10 -40 40"
@@ -99,6 +100,6 @@ export default (
       </Chart>
     </Svg>
     <Legend />
-  </div>
+  </LegendScope>
 );
 // @index-end

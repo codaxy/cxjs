@@ -309,14 +309,68 @@ export const examples: ExampleDef[] = [
   {
     id: "line-chart",
     name: "Line Chart",
-    categories: ["colors", "charts"],
+    categories: ["colors", "chart-axes", "chart-elements", "chart-legend"],
     component: () => import("../charts/OverviewLineChartExample"),
   },
   {
     id: "pie-chart",
     name: "Pie Chart",
-    categories: ["colors", "charts"],
+    categories: ["colors", "chart-elements", "chart-legend"],
     component: () => import("../charts/OverviewPieChartExample"),
+  },
+  {
+    id: "bar-chart",
+    name: "Bar Chart",
+    categories: ["colors", "chart-axes", "chart-elements"],
+    component: () => import("../charts/BarExample"),
+  },
+  {
+    id: "column-chart",
+    name: "Column Chart",
+    categories: ["colors", "chart-axes", "chart-elements"],
+    component: () => import("../charts/ColumnExample"),
+  },
+  {
+    id: "column-graph",
+    name: "Column Graph",
+    categories: ["colors", "chart-axes", "chart-elements", "chart-legend"],
+    component: () => import("../charts/ColumnGraphExample"),
+  },
+  {
+    id: "scatter-graph",
+    name: "Scatter Graph",
+    categories: ["colors", "chart-axes", "chart-elements"],
+    component: () => import("../charts/ScatterGraphExample"),
+  },
+  {
+    id: "marker-lines",
+    name: "Marker Lines",
+    categories: ["colors", "chart-axes", "chart-elements"],
+    component: () => import("../charts/MarkerLineExample"),
+  },
+  {
+    id: "range",
+    name: "Range",
+    categories: ["colors", "chart-axes", "chart-elements"],
+    component: () => import("../charts/RangeExample"),
+  },
+  {
+    id: "legend",
+    name: "Legend",
+    categories: ["colors", "chart-legend"],
+    component: () => import("../charts/LegendExample"),
+  },
+  {
+    id: "color-palette",
+    name: "Color Palette",
+    categories: ["palette"],
+    component: () => import("../charts/ColorPaletteExample"),
+  },
+  {
+    id: "pie-chart-palette",
+    name: "Pie Chart",
+    categories: ["palette", "chart-elements"],
+    component: () => import("../charts/PieChartExample"),
   },
 
   // Tabs / Navigation

@@ -1120,30 +1120,322 @@ const variableMetadata: Array<{
     category: "sliders",
   },
 
-  // Charts
+  // Charts - Axes & Gridlines
   {
     key: "chartAxisLineColor",
     label: "Axis line color",
     type: "color",
-    category: "charts",
+    category: "chart-axes",
   },
   {
     key: "chartAxisTickColor",
     label: "Axis tick color",
     type: "color",
-    category: "charts",
+    category: "chart-axes",
   },
   {
     key: "chartAxisLabelColor",
     label: "Axis label color",
     type: "color",
-    category: "charts",
+    category: "chart-axes",
+  },
+  {
+    key: "chartAxisLabelFontSize",
+    label: "Axis label font size",
+    type: "text",
+    category: "chart-axes",
   },
   {
     key: "chartGridlineColor",
     label: "Gridline color",
     type: "color",
-    category: "charts",
+    category: "chart-axes",
+  },
+
+  // Charts - Elements
+  {
+    key: "chartShapeFillColor",
+    label: "Shape fill color",
+    type: "color",
+    category: "chart-elements",
+  },
+  {
+    key: "chartShapeStrokeColor",
+    label: "Shape stroke color",
+    type: "color",
+    category: "chart-elements",
+  },
+  {
+    key: "chartShapeStrokeWidth",
+    label: "Shape stroke width",
+    type: "text",
+    category: "chart-elements",
+  },
+  {
+    key: "chartSelectedStrokeWidth",
+    label: "Selected stroke width",
+    type: "text",
+    category: "chart-elements",
+  },
+  {
+    key: "chartLineStrokeColor",
+    label: "Line stroke color",
+    type: "color",
+    category: "chart-elements",
+  },
+  {
+    key: "chartLineStrokeWidth",
+    label: "Line stroke width",
+    type: "text",
+    category: "chart-elements",
+  },
+  {
+    key: "chartAreaOpacity",
+    label: "Area opacity",
+    type: "text",
+    category: "chart-elements",
+  },
+  {
+    key: "chartMarkerColor",
+    label: "Marker color",
+    type: "color",
+    category: "chart-elements",
+  },
+  {
+    key: "chartMarkerStrokeWidth",
+    label: "Marker stroke width",
+    type: "text",
+    category: "chart-elements",
+  },
+  {
+    key: "chartMarkerLineStrokeWidth",
+    label: "MarkerLine stroke width",
+    type: "text",
+    category: "chart-elements",
+  },
+  {
+    key: "chartRangeFillColor",
+    label: "Range fill color",
+    type: "color",
+    category: "chart-elements",
+  },
+  {
+    key: "chartRangeOpacity",
+    label: "Range opacity",
+    type: "text",
+    category: "chart-elements",
+  },
+  {
+    key: "chartRangeMarkerColor",
+    label: "Range marker color",
+    type: "color",
+    category: "chart-elements",
+  },
+  {
+    key: "chartSwimlaneLaneColor",
+    label: "Swimlane lane color",
+    type: "color",
+    category: "chart-elements",
+  },
+
+  // Charts - Legend
+  {
+    key: "chartLegendFontSize",
+    label: "Legend font size",
+    type: "text",
+    category: "chart-legend",
+  },
+  {
+    key: "chartLegendPadding",
+    label: "Legend padding",
+    type: "text",
+    category: "chart-legend",
+  },
+  {
+    key: "chartLegendGap",
+    label: "Legend gap",
+    type: "text",
+    category: "chart-legend",
+  },
+  {
+    key: "chartLegendEntryGap",
+    label: "Legend entry gap",
+    type: "text",
+    category: "chart-legend",
+  },
+  {
+    key: "chartLegendShapeColor",
+    label: "Legend shape color",
+    type: "color",
+    category: "chart-legend",
+  },
+  {
+    key: "chartLegendShapeStrokeWidth",
+    label: "Legend shape stroke width",
+    type: "text",
+    category: "chart-legend",
+  },
+
+  // Palette - Colors
+  {
+    key: "paletteColor0",
+    label: "Color 0",
+    type: "color",
+    category: "palette",
+  },
+  {
+    key: "paletteColor1",
+    label: "Color 1",
+    type: "color",
+    category: "palette",
+  },
+  {
+    key: "paletteColor2",
+    label: "Color 2",
+    type: "color",
+    category: "palette",
+  },
+  {
+    key: "paletteColor3",
+    label: "Color 3",
+    type: "color",
+    category: "palette",
+  },
+  {
+    key: "paletteColor4",
+    label: "Color 4",
+    type: "color",
+    category: "palette",
+  },
+  {
+    key: "paletteColor5",
+    label: "Color 5",
+    type: "color",
+    category: "palette",
+  },
+  {
+    key: "paletteColor6",
+    label: "Color 6",
+    type: "color",
+    category: "palette",
+  },
+  {
+    key: "paletteColor7",
+    label: "Color 7",
+    type: "color",
+    category: "palette",
+  },
+  {
+    key: "paletteColor8",
+    label: "Color 8",
+    type: "color",
+    category: "palette",
+  },
+  {
+    key: "paletteColor9",
+    label: "Color 9",
+    type: "color",
+    category: "palette",
+  },
+  {
+    key: "paletteColor10",
+    label: "Color 10",
+    type: "color",
+    category: "palette",
+  },
+  {
+    key: "paletteColor11",
+    label: "Color 11",
+    type: "color",
+    category: "palette",
+  },
+  {
+    key: "paletteColor12",
+    label: "Color 12",
+    type: "color",
+    category: "palette",
+  },
+  {
+    key: "paletteColor13",
+    label: "Color 13",
+    type: "color",
+    category: "palette",
+  },
+  {
+    key: "paletteColor14",
+    label: "Color 14",
+    type: "color",
+    category: "palette",
+  },
+  {
+    key: "paletteColor15",
+    label: "Color 15",
+    type: "color",
+    category: "palette",
+  },
+
+  // Palette - Fill effects
+  {
+    key: "paletteFillWhiten",
+    label: "Fill whiten",
+    type: "text",
+    category: "palette",
+  },
+  {
+    key: "paletteFillBlacken",
+    label: "Fill blacken",
+    type: "text",
+    category: "palette",
+  },
+  {
+    key: "paletteFillHoverWhiten",
+    label: "Hover whiten",
+    type: "text",
+    category: "palette",
+  },
+  {
+    key: "paletteFillHoverBlacken",
+    label: "Hover blacken",
+    type: "text",
+    category: "palette",
+  },
+  {
+    key: "paletteFillSelectedWhiten",
+    label: "Selected whiten",
+    type: "text",
+    category: "palette",
+  },
+  {
+    key: "paletteFillSelectedBlacken",
+    label: "Selected blacken",
+    type: "text",
+    category: "palette",
+  },
+  {
+    key: "paletteFillDisabledWhiten",
+    label: "Disabled whiten",
+    type: "text",
+    category: "palette",
+  },
+  {
+    key: "paletteFillDisabledBlacken",
+    label: "Disabled blacken",
+    type: "text",
+    category: "palette",
+  },
+
+  // Palette - Stroke effects
+  {
+    key: "paletteStrokeWhiten",
+    label: "Stroke whiten",
+    type: "text",
+    category: "palette",
+  },
+  {
+    key: "paletteStrokeBlacken",
+    label: "Stroke blacken",
+    type: "text",
+    category: "palette",
   },
 ];
 
@@ -1164,7 +1456,10 @@ const categoryMetadata = [
   { id: "tooltips", name: "Tooltips", icon: "message-circle", group: "Components" },
   { id: "menu", name: "Menu", icon: "menu", group: "Components" },
   { id: "dropdowns", name: "Dropdowns", icon: "drop-down", group: "Components" },
-  { id: "charts", name: "Charts", icon: "bar-chart", group: "Charts" },
+  { id: "chart-axes", name: "Axes & Gridlines", icon: "bar-chart", group: "Charts" },
+  { id: "chart-elements", name: "Elements", icon: "bar-chart", group: "Charts" },
+  { id: "chart-legend", name: "Legend", icon: "bar-chart", group: "Charts" },
+  { id: "palette", name: "Palette", icon: "palette", group: "Charts" },
 ];
 
 export const categoryGroups = [

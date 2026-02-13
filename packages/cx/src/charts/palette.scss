@@ -25,8 +25,8 @@
       $c: list.nth($palette-colors, 1 + (($i - 1) * 1) % list.length($palette-colors));
 
       .#{$state}color-#{$i - 1} {
-         $fill: cx-blacken(cx-whiten($c, $palette-fill-whiten), $palette-fill-blacken);
-         $stroke: cx-blacken(cx-whiten($fill, $palette-stroke-whiten), $palette-stroke-blacken);
+         $fill: color-mix(in srgb, color-mix(in srgb, #{$c}, white #{$palette-fill-whiten}), black #{$palette-fill-blacken});
+         $stroke: color-mix(in srgb, color-mix(in srgb, #{$fill}, white #{$palette-stroke-whiten}), black #{$palette-stroke-blacken});
          fill: $fill;
          stroke: $stroke;
          background: $fill;
@@ -36,8 +36,8 @@
          &.#{$state}selectable.#{$state}hover,
          .#{$state}color-root:hover &,
          .#{$state}color-root.#{$state}hover & {
-            $fill: cx-blacken(cx-whiten($c, $palette-fill-hover-whiten), $palette-fill-hover-blacken);
-            $stroke: cx-blacken(cx-whiten($fill, $palette-stroke-whiten), $palette-stroke-blacken);
+            $fill: color-mix(in srgb, color-mix(in srgb, #{$c}, white #{$palette-fill-hover-whiten}), black #{$palette-fill-hover-blacken});
+            $stroke: color-mix(in srgb, color-mix(in srgb, #{$fill}, white #{$palette-stroke-whiten}), black #{$palette-stroke-blacken});
             fill: $fill;
             stroke: $stroke;
             background: $fill;
@@ -50,8 +50,8 @@
          .#{$state}color-root.#{$state}selected &,
          .#{$state}color-root.#{$state}selected:hover &,
          .#{$state}color-root.#{$state}selected.#{$state}hover & {
-            $fill: cx-blacken(cx-whiten($c, $palette-fill-selected-whiten), $palette-fill-selected-blacken);
-            $stroke: cx-blacken(cx-whiten($fill, $palette-stroke-whiten), $palette-stroke-blacken);
+            $fill: color-mix(in srgb, color-mix(in srgb, #{$c}, white #{$palette-fill-selected-whiten}), black #{$palette-fill-selected-blacken});
+            $stroke: color-mix(in srgb, color-mix(in srgb, #{$fill}, white #{$palette-stroke-whiten}), black #{$palette-stroke-blacken});
             fill: $fill;
             stroke: $stroke;
             background: $fill;
@@ -60,8 +60,8 @@
 
          &.#{$state}disabled,
          .#{$state}color-root.#{$state}disabled & {
-            $fill: cx-blacken(cx-whiten($c, $palette-fill-disabled-whiten), $palette-fill-disabled-blacken);
-            $stroke: cx-blacken(cx-whiten($fill, $palette-stroke-whiten), $palette-stroke-blacken);
+            $fill: color-mix(in srgb, color-mix(in srgb, #{$c}, white #{$palette-fill-disabled-whiten}), black #{$palette-fill-disabled-blacken});
+            $stroke: color-mix(in srgb, color-mix(in srgb, #{$fill}, white #{$palette-stroke-whiten}), black #{$palette-stroke-blacken});
             fill: $fill;
             stroke: $stroke;
             background: $fill;

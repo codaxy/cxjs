@@ -3,6 +3,7 @@
 @use "../util/scss/include.scss" as *;
 @use "../util/scss/add-rules.scss" as *;
 @use "../util/scss/clockwise.scss" as *;
+@use "./variables" as *;
 
 @use "sass:map";
 
@@ -15,7 +16,7 @@
    }
 
    .#{$element}#{$name}-bubble {
-      fill: rgb(128, 128, 128);
+      fill: $cx-default-chart-marker-color;
       opacity: 0.5;
 
       &:hover {
@@ -24,7 +25,7 @@
 
       &.#{$state}selected {
          stroke: black;
-         stroke-width: 2px;
+         stroke-width: $cx-default-chart-selected-stroke-width;
       }
    }
 }

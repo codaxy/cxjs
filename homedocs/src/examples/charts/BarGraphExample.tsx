@@ -6,6 +6,7 @@ import {
   Gridlines,
   BarGraph,
   Legend,
+  LegendScope,
 } from "cx/charts";
 import { createModel } from "cx/data";
 import { Controller } from "cx/ui";
@@ -38,9 +39,9 @@ class PageController extends Controller {
 
 // @index
 export default (
-  <div controller={PageController}>
+  <LegendScope controller={PageController}>
     <Legend />
-    <Svg style="height: 300px; border: 1px dashed #ddd">
+    <Svg style="height: 300px; ">
       <Chart
         margin="20 20 30 80"
         axes={{
@@ -48,7 +49,6 @@ export default (
           y: <CategoryAxis vertical />,
         }}
       >
-        <Rectangle fill="white" />
         <Gridlines />
         <BarGraph
           name="Q1"
@@ -72,6 +72,6 @@ export default (
         />
       </Chart>
     </Svg>
-  </div>
+  </Legend>
 );
 // @index-end

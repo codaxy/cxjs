@@ -4,6 +4,7 @@
 @use "../util/scss/include.scss" as *;
 @use "../util/scss/add-rules.scss" as *;
 @use "../util/scss/clockwise.scss" as *;
+@use "./variables" as *;
 
 @mixin cx-linegraph($name: "linegraph", $besm: $cx-besm) {
    $block: map-get($besm, block);
@@ -11,14 +12,14 @@
    $state: map-get($besm, state);
 
    .#{$element}#{$name}-line {
-      stroke: gray;
-      stroke-width: 2px;
+      stroke: $cx-default-chart-line-stroke-color;
+      stroke-width: $cx-default-chart-line-stroke-width;
       fill: none !important;
    }
 
    .#{$element}#{$name}-area {
       stroke-width: 0;
-      opacity: 0.5;
+      opacity: $cx-default-chart-area-opacity;
    }
 }
 

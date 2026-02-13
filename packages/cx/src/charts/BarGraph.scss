@@ -4,6 +4,7 @@
 @use "../util/scss/include.scss" as *;
 @use "../util/scss/add-rules.scss" as *;
 @use "../util/scss/clockwise.scss" as *;
+@use "./variables" as *;
 
 @mixin cx-bargraph($name: "bargraph", $besm: $cx-besm) {
    $block: map-get($besm, block);
@@ -11,16 +12,16 @@
    $state: map-get($besm, state);
 
    .#{$element}#{$name}-bar {
-      stroke-width: 1px;
-      fill: #eee;
-      stroke: #ccc;
+      stroke-width: $cx-default-chart-shape-stroke-width;
+      fill: $cx-default-chart-shape-fill-color;
+      stroke: $cx-default-chart-shape-stroke-color;
 
       &.#{$state}selectable {
          cursor: pointer;
       }
 
       &.#{$state}selected {
-         stroke-width: 2px;
+         stroke-width: $cx-default-chart-selected-stroke-width;
       }
    }
 }

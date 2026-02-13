@@ -338,17 +338,46 @@ $cx-theme-box-padding: var(--cx-input-padding-y) var(--cx-input-padding-x);
    $cx-default-chart-axis-line-color: var(--cx-chart-axis-line-color) !default,
    $cx-default-chart-axis-tick-color: var(--cx-chart-axis-tick-color) !default,
    $cx-default-chart-axis-label-color: var(--cx-chart-axis-label-color) !default,
+   $cx-default-chart-axis-label-font-size: var(--cx-chart-axis-label-font-size) !default,
    $cx-default-chart-gridline-color: var(--cx-chart-gridline-color) !default,
+   $cx-default-chart-shape-fill-color: var(--cx-chart-shape-fill-color) !default,
+   $cx-default-chart-shape-stroke-color: var(--cx-chart-shape-stroke-color) !default,
+   $cx-default-chart-shape-stroke-width: var(--cx-chart-shape-stroke-width) !default,
+   $cx-default-chart-selected-stroke-width: var(--cx-chart-selected-stroke-width) !default,
+   $cx-default-chart-line-stroke-color: var(--cx-chart-line-stroke-color) !default,
+   $cx-default-chart-line-stroke-width: var(--cx-chart-line-stroke-width) !default,
+   $cx-default-chart-area-opacity: var(--cx-chart-area-opacity) !default,
+   $cx-default-chart-marker-color: var(--cx-chart-marker-color) !default,
+   $cx-default-chart-marker-stroke-width: var(--cx-chart-marker-stroke-width) !default,
+   $cx-default-chart-markerline-stroke-width: var(--cx-chart-markerline-stroke-width) !default,
+   $cx-default-chart-range-fill-color: var(--cx-chart-range-fill-color) !default,
+   $cx-default-chart-range-opacity: var(--cx-chart-range-opacity) !default,
+   $cx-default-range-marker-color: var(--cx-chart-range-marker-color) !default,
+   $cx-default-swimlanes-lane-background-color: var(--cx-chart-swimlane-lane-color) !default,
+   $cx-default-chart-legend-font-size: var(--cx-chart-legend-font-size) !default,
+   $cx-default-chart-legend-padding: var(--cx-chart-legend-padding) !default,
+   $cx-default-chart-legend-gap: var(--cx-chart-legend-gap) !default,
+   $cx-default-chart-legend-entry-gap: var(--cx-chart-legend-entry-gap) !default,
+   $cx-default-chart-legend-shape-color: var(--cx-chart-legend-shape-color) !default,
+   $cx-default-chart-legend-shape-stroke-width: var(--cx-chart-legend-shape-stroke-width) !default,
 
    // Chart palette
-   $cx-default-palette-fill-whiten: 30% !default,
-   $cx-default-palette-fill-hover-whiten: 50% !default,
-   $cx-default-palette-fill-selected-whiten: 0% !default,
-   $cx-default-palette-fill-disabled-whiten: 90% !default,
-   $cx-default-palette-fill-blacken: 5% !default,
-   $cx-default-palette-fill-hover-blacken: 5% !default,
-   $cx-default-palette-fill-selected-blacken: 7% !default,
-   $cx-default-palette-fill-disabled-blacken: 0% !default,
+   $cx-default-palette-fill-whiten: var(--cx-palette-fill-whiten) !default,
+   $cx-default-palette-fill-hover-whiten: var(--cx-palette-fill-hover-whiten) !default,
+   $cx-default-palette-fill-selected-whiten: var(--cx-palette-fill-selected-whiten) !default,
+   $cx-default-palette-fill-disabled-whiten: var(--cx-palette-fill-disabled-whiten) !default,
+   $cx-default-palette-fill-blacken: var(--cx-palette-fill-blacken) !default,
+   $cx-default-palette-fill-hover-blacken: var(--cx-palette-fill-hover-blacken) !default,
+   $cx-default-palette-fill-selected-blacken: var(--cx-palette-fill-selected-blacken) !default,
+   $cx-default-palette-fill-disabled-blacken: var(--cx-palette-fill-disabled-blacken) !default,
+   $cx-default-palette-stroke-whiten: var(--cx-palette-stroke-whiten) !default,
+   $cx-default-palette-stroke-blacken: var(--cx-palette-stroke-blacken) !default,
+   $cx-default-palette-colors:
+      var(--cx-palette-color-0) var(--cx-palette-color-1) var(--cx-palette-color-2) var(--cx-palette-color-3)
+      var(--cx-palette-color-4) var(--cx-palette-color-5) var(--cx-palette-color-6) var(--cx-palette-color-7)
+      var(--cx-palette-color-8) var(--cx-palette-color-9) var(--cx-palette-color-10) var(--cx-palette-color-11)
+      var(--cx-palette-color-12) var(--cx-palette-color-13) var(--cx-palette-color-14) var(--cx-palette-color-15)
+      !default,
 
    // -------------------------------------------------------------------------
    // Section

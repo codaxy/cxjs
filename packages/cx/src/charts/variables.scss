@@ -4,9 +4,37 @@
 
 @use "../util/scss/include.scss" as *;
 
-$cx-default-swimlanes-lane-background-color: #f1f1f1;
-$cx-default-range-marker-color: #696969;
+$cx-default-swimlanes-lane-background-color: #f1f1f1 !default;
+$cx-default-range-marker-color: #696969 !default;
 $cx-default-chart-gridline-color: rgba(128, 128, 128, 0.15) !default;
+
+// Shape defaults (bars, columns, pie slices)
+$cx-default-chart-shape-fill-color: #eee !default;
+$cx-default-chart-shape-stroke-color: #ccc !default;
+$cx-default-chart-shape-stroke-width: 1px !default;
+$cx-default-chart-selected-stroke-width: 2px !default;
+
+// Line defaults
+$cx-default-chart-line-stroke-color: gray !default;
+$cx-default-chart-line-stroke-width: 2px !default;
+$cx-default-chart-area-opacity: 0.5 !default;
+
+// Marker defaults (markers, scatter, bubble)
+$cx-default-chart-marker-color: rgb(128, 128, 128) !default;
+$cx-default-chart-marker-stroke-width: 1px !default;
+$cx-default-chart-markerline-stroke-width: 1px !default;
+
+// Range defaults
+$cx-default-chart-range-fill-color: lightgray !default;
+$cx-default-chart-range-opacity: 0.3 !default;
+
+// Legend defaults
+$cx-default-chart-legend-font-size: smaller !default;
+$cx-default-chart-legend-padding: 5px !default;
+$cx-default-chart-legend-gap: 5px 10px !default;
+$cx-default-chart-legend-entry-gap: 5px !default;
+$cx-default-chart-legend-shape-color: rgba(128, 128, 128, 0.1) !default;
+$cx-default-chart-legend-shape-stroke-width: 1px !default;
 
 $cx-dependencies: map.merge(
    $cx-dependencies,

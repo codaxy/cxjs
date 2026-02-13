@@ -4,6 +4,7 @@
 @use "../util/scss/include.scss" as *;
 @use "../util/scss/add-rules.scss" as *;
 @use "../util/scss/clockwise.scss" as *;
+@use "./variables" as *;
 
 @mixin cx-range($name: "range", $besm: $cx-besm) {
    $block: map.get($besm, block);
@@ -12,8 +13,8 @@
 
    .#{$element}#{$name}-rect {
       stroke-width: 0;
-      fill-opacity: 0.3;
-      fill: lightgray;
+      fill-opacity: $cx-default-chart-range-opacity;
+      fill: $cx-default-chart-range-fill-color;
    }
 }
 

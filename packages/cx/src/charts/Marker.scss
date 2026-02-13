@@ -4,6 +4,7 @@
 @use "../util/scss/include.scss" as *;
 @use "../util/scss/add-rules.scss" as *;
 @use "../util/scss/clockwise.scss" as *;
+@use "./variables" as *;
 
 @mixin cx-marker($name: "marker", $besm: $cx-besm) {
    $block: map.get($besm, block);
@@ -11,9 +12,9 @@
    $state: map.get($besm, state);
 
    .#{$element}#{$name}-shape {
-      fill: rgb(128, 128, 128);
-      stroke: rgb(128, 128, 128);
-      stroke-width: 1px;
+      fill: $cx-default-chart-marker-color;
+      stroke: $cx-default-chart-marker-color;
+      stroke-width: $cx-default-chart-marker-stroke-width;
 
       .#{$state}draggable-x > & {
          cursor: ew-resize;

@@ -3,6 +3,7 @@
 @use "../util/scss/include.scss" as *;
 @use "../util/scss/add-rules.scss" as *;
 @use "../util/scss/clockwise.scss" as *;
+@use "./variables" as *;
 
 @use "sass:map";
 
@@ -12,8 +13,8 @@
    $state: map.get($besm, state);
 
    .#{$element}#{$name}-line {
-      stroke: rgb(128, 128, 128);
-      stroke-width: 1px;
+      stroke: $cx-default-chart-marker-color;
+      stroke-width: $cx-default-chart-markerline-stroke-width;
    }
 }
 

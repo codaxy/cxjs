@@ -194,7 +194,55 @@ export interface ThemeVariables {
    chartAxisLineColor: string;
    chartAxisTickColor: string;
    chartAxisLabelColor: string;
+   chartAxisLabelFontSize: string;
    chartGridlineColor: string;
+   chartShapeFillColor: string;
+   chartShapeStrokeColor: string;
+   chartShapeStrokeWidth: string;
+   chartSelectedStrokeWidth: string;
+   chartLineStrokeColor: string;
+   chartLineStrokeWidth: string;
+   chartAreaOpacity: string;
+   chartMarkerColor: string;
+   chartMarkerStrokeWidth: string;
+   chartMarkerLineStrokeWidth: string;
+   chartRangeFillColor: string;
+   chartRangeOpacity: string;
+   chartRangeMarkerColor: string;
+   chartSwimlaneLaneColor: string;
+   chartLegendFontSize: string;
+   chartLegendPadding: string;
+   chartLegendGap: string;
+   chartLegendEntryGap: string;
+   chartLegendShapeColor: string;
+   chartLegendShapeStrokeWidth: string;
+
+   paletteColor0: string;
+   paletteColor1: string;
+   paletteColor2: string;
+   paletteColor3: string;
+   paletteColor4: string;
+   paletteColor5: string;
+   paletteColor6: string;
+   paletteColor7: string;
+   paletteColor8: string;
+   paletteColor9: string;
+   paletteColor10: string;
+   paletteColor11: string;
+   paletteColor12: string;
+   paletteColor13: string;
+   paletteColor14: string;
+   paletteColor15: string;
+   paletteFillWhiten: string;
+   paletteFillHoverWhiten: string;
+   paletteFillSelectedWhiten: string;
+   paletteFillDisabledWhiten: string;
+   paletteFillBlacken: string;
+   paletteFillHoverBlacken: string;
+   paletteFillSelectedBlacken: string;
+   paletteFillDisabledBlacken: string;
+   paletteStrokeWhiten: string;
+   paletteStrokeBlacken: string;
 
    colorPickerBorderWidth: string;
 
@@ -405,7 +453,55 @@ export const variableMap: Record<keyof ThemeVariables, string> = {
    chartAxisLineColor: "--cx-chart-axis-line-color",
    chartAxisTickColor: "--cx-chart-axis-tick-color",
    chartAxisLabelColor: "--cx-chart-axis-label-color",
+   chartAxisLabelFontSize: "--cx-chart-axis-label-font-size",
    chartGridlineColor: "--cx-chart-gridline-color",
+   chartShapeFillColor: "--cx-chart-shape-fill-color",
+   chartShapeStrokeColor: "--cx-chart-shape-stroke-color",
+   chartShapeStrokeWidth: "--cx-chart-shape-stroke-width",
+   chartSelectedStrokeWidth: "--cx-chart-selected-stroke-width",
+   chartLineStrokeColor: "--cx-chart-line-stroke-color",
+   chartLineStrokeWidth: "--cx-chart-line-stroke-width",
+   chartAreaOpacity: "--cx-chart-area-opacity",
+   chartMarkerColor: "--cx-chart-marker-color",
+   chartMarkerStrokeWidth: "--cx-chart-marker-stroke-width",
+   chartMarkerLineStrokeWidth: "--cx-chart-markerline-stroke-width",
+   chartRangeFillColor: "--cx-chart-range-fill-color",
+   chartRangeOpacity: "--cx-chart-range-opacity",
+   chartRangeMarkerColor: "--cx-chart-range-marker-color",
+   chartSwimlaneLaneColor: "--cx-chart-swimlane-lane-color",
+   chartLegendFontSize: "--cx-chart-legend-font-size",
+   chartLegendPadding: "--cx-chart-legend-padding",
+   chartLegendGap: "--cx-chart-legend-gap",
+   chartLegendEntryGap: "--cx-chart-legend-entry-gap",
+   chartLegendShapeColor: "--cx-chart-legend-shape-color",
+   chartLegendShapeStrokeWidth: "--cx-chart-legend-shape-stroke-width",
+
+   paletteColor0: "--cx-palette-color-0",
+   paletteColor1: "--cx-palette-color-1",
+   paletteColor2: "--cx-palette-color-2",
+   paletteColor3: "--cx-palette-color-3",
+   paletteColor4: "--cx-palette-color-4",
+   paletteColor5: "--cx-palette-color-5",
+   paletteColor6: "--cx-palette-color-6",
+   paletteColor7: "--cx-palette-color-7",
+   paletteColor8: "--cx-palette-color-8",
+   paletteColor9: "--cx-palette-color-9",
+   paletteColor10: "--cx-palette-color-10",
+   paletteColor11: "--cx-palette-color-11",
+   paletteColor12: "--cx-palette-color-12",
+   paletteColor13: "--cx-palette-color-13",
+   paletteColor14: "--cx-palette-color-14",
+   paletteColor15: "--cx-palette-color-15",
+   paletteFillWhiten: "--cx-palette-fill-whiten",
+   paletteFillHoverWhiten: "--cx-palette-fill-hover-whiten",
+   paletteFillSelectedWhiten: "--cx-palette-fill-selected-whiten",
+   paletteFillDisabledWhiten: "--cx-palette-fill-disabled-whiten",
+   paletteFillBlacken: "--cx-palette-fill-blacken",
+   paletteFillHoverBlacken: "--cx-palette-fill-hover-blacken",
+   paletteFillSelectedBlacken: "--cx-palette-fill-selected-blacken",
+   paletteFillDisabledBlacken: "--cx-palette-fill-disabled-blacken",
+   paletteStrokeWhiten: "--cx-palette-stroke-whiten",
+   paletteStrokeBlacken: "--cx-palette-stroke-blacken",
 
    colorPickerBorderWidth: "--cx-colorpicker-border-width",
 
