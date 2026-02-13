@@ -1,19 +1,14 @@
 root = true
 
-[*.js]
+[{*.js,*.ts,*tsx}]
 indent_style = space
 indent_size = 3
 end_of_line = lf
 trim_trailing_whitespace = true
-
-[*.ts]
-indent_style = space
-indent_size = 3
-end_of_line = lf
-trim_trailing_whitespace = true
+max_line_length = 120
 
 [*.scss]
 indent_style = space
 indent_size = 3
 end_of_line = lf
-
+max_line_length = 120
