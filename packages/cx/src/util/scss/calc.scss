@@ -1,3 +1,4 @@
+@use "sass:color";
 @use "sass:list";
 @use "sass:map";
 @use "sass:math";
@@ -8,13 +9,34 @@
 @function cx-is-css-var($value) {
    @if meta.type-of($value) == "string" {
       @return string.index($value, "var(") != null or
-         string.index($value, "calc(") != null;
+         string.index($value, "calc(") != null or
+         string.index($value, "color-mix(") != null;
    }
    // Also check for calc type returned by calc()
    @if meta.type-of($value) == "calculation" {
       @return true;
    }
    @return false;
+}
+
+// Lighten a color, supporting CSS variables
+// For CSS variables, outputs color-mix(in srgb, color, white amount)
+// For Sass colors, uses color.adjust at compile time
+@function cx-lighten($color, $amount) {
+   @if cx-is-css-var($color) or cx-is-css-var($amount) {
+      @return #{"color-mix(in srgb, " + $color + ", white " + $amount + ")"};
+   }
+   @return color.mix(white, $color, $amount);
+}
+
+// Darken a color, supporting CSS variables
+// For CSS variables, outputs color-mix(in srgb, color, black amount)
+// For Sass colors, uses color.mix at compile time
+@function cx-darken($color, $amount) {
+   @if cx-is-css-var($color) or cx-is-css-var($amount) {
+      @return #{"color-mix(in srgb, " + $color + ", black " + $amount + ")"};
+   }
+   @return color.mix(black, $color, $amount);
 }
 
 // Multiply a value by a factor, supporting CSS variables

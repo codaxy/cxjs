@@ -20,3 +20,5 @@
 [x] Set OnThisPage nav to collapsed where needed
 [x] Fix Dropdown focus issues (cell editing)
 [ ] Fix MonthField rendering empty
+[ ] Fix remaining Gallery themes
+[ ] Render presets to css

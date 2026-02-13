@@ -343,11 +343,6 @@ $cx-theme-button-background-color: #f3f3f3;
 );
 
 // =============================================================================
-// Use cx variables to make them available locally
-// =============================================================================
-@use "cx/src/variables" as *;
-
-// =============================================================================
 // THEME-SPECIFIC VARIABLES (not in cx framework)
 // These are only available in this file and files that @use this file
 // =============================================================================

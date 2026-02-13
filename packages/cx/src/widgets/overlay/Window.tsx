@@ -325,7 +325,7 @@ class WindowComponent extends OverlayComponent<
   onFocusIn() {
     super.onFocusIn();
     if (!this.state.active) {
-      if (this.containerEl!.contains(document.activeElement))
+      if (this.containerEl?.contains(document.activeElement))
         this.setZIndex(ZIndexManager.next());
       this.setState({ active: true });
     }

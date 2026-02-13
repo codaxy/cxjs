@@ -1,18 +1,14 @@
 @use "sass:map";
-
-// Forward theme maps
-@forward "cx-theme-aquamarine/src/maps";
-
-// Use maps locally
 @use "cx-theme-aquamarine/src/maps" as *;
-@use "cx/src/util/scss/deep-merge" as *;
+
+@debug $cx-tab-mods;
 
 // Add "code" tab mod (copy of "line" mod)
 $cx-tab-mods: cx-deep-map-merge(
-   $cx-tab-mods,
-   (
-      code: map.get($cx-tab-mods, "line"),
-   )
+    $cx-tab-mods,
+    (
+        code: map.get($cx-tab-mods, "line"),
+    )
 ) !default;
 
 // Disable link styles from theme
