@@ -21,13 +21,15 @@ export interface DataAdapterConfig {
    sealed?: boolean;
 }
 
-export abstract class DataAdapter<T = any> extends Component {
-   declare public recordName: string;
-   declare public indexName: string;
-   declare public immutable: boolean;
-   declare public sealed?: boolean;
+export type DataAdapterRecordFilter<T = any> = (record: T, index: number) => boolean;
 
-   declare protected filterFn?: (data: T) => boolean;
+export abstract class DataAdapter<T = any> extends Component {
+   public declare recordName: string;
+   public declare indexName: string;
+   public declare immutable: boolean;
+   public declare sealed?: boolean;
+
+   protected declare filterFn?: DataAdapterRecordFilter<T>;
 
    constructor(config?: DataAdapterConfig) {
       super(config);
@@ -40,7 +42,7 @@ export abstract class DataAdapter<T = any> extends Component {
       parentStore: View,
    ): DataAdapterRecord<T>[];
 
-   public setFilter(filterFn?: (data: T) => boolean): void {
+   public setFilter(filterFn?: DataAdapterRecordFilter<T>): void {
       this.filterFn = filterFn;
    }
 
