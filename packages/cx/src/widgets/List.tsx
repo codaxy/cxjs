@@ -24,6 +24,7 @@ import {
    StyleProp,
 } from "../ui/Prop";
 import { Create } from "../util/Component";
+import { DataAdapterRecordFilter } from "src/ui";
 
 export interface ListConfig<T = any> extends StyledContainerConfig {
    /** An array of records to be displayed in the list. */
@@ -78,7 +79,7 @@ export interface ListConfig<T = any> extends StyledContainerConfig {
    filterParams?: StructuredProp;
 
    /** Callback to create a filter function for given filter params. */
-   onCreateFilter?: (filterParams: any, instance?: Instance) => (record: T) => boolean;
+   onCreateFilter?: (filterParams: any, instance?: Instance) => DataAdapterRecordFilter<T>;
 
    /** Scroll selection into the view. Default value is false. */
    scrollSelectionIntoView?: BooleanProp;
@@ -126,53 +127,52 @@ export class List extends StyledContainerBase<ListConfig> {
       super(config);
    }
 
-   declare public recordAlias?: string;
-   declare public recordName: string;
-   declare public indexAlias?: string;
-   declare public indexName: string;
-   declare public adapter: GroupAdapter;
-   declare public child: ListItem;
-   declare public selection: Selection;
-   declare public itemClass?: string;
-   declare public itemClassName?: string;
-   declare public itemStyle?: string;
-   declare public itemDisabled?: boolean;
-   declare public item?: Widget;
-   declare public layout?: any;
-   declare public keyField?: string;
-   declare public records?: any[];
-   declare public sortOptions?: any;
-   declare public grouping?: string | GroupingConfig | (string | GroupingConfig)[];
-   declare public focusable?: boolean;
-   declare public focused?: boolean;
-   declare public itemPad?: boolean;
-   declare public cached?: boolean;
-   declare public scrollSelectionIntoView?: boolean;
-   declare public selectMode?: boolean;
-   declare public selectOnTab?: boolean;
-   declare public pipeKeyDown?:
+   public declare recordAlias?: string;
+   public declare recordName: string;
+   public declare indexAlias?: string;
+   public declare indexName: string;
+   public declare adapter: GroupAdapter;
+   public declare child: ListItem;
+   public declare selection: Selection;
+   public declare itemClass?: string;
+   public declare itemClassName?: string;
+   public declare itemStyle?: string;
+   public declare itemDisabled?: boolean;
+   public declare item?: Widget;
+   public declare layout?: any;
+   public declare keyField?: string;
+   public declare records?: any[];
+   public declare sortOptions?: any;
+   public declare grouping?: string | GroupingConfig | (string | GroupingConfig)[];
+   public declare focusable?: boolean;
+   public declare focused?: boolean;
+   public declare itemPad?: boolean;
+   public declare cached?: boolean;
+   public declare scrollSelectionIntoView?: boolean;
+   public declare selectMode?: boolean;
+   public declare selectOnTab?: boolean;
+   public declare pipeKeyDown?:
       | string
       | ((handler: ((e: React.KeyboardEvent) => void) | null, instance: Instance) => void);
-   declare public autoFocus?: boolean;
-   declare public baseClass: string;
-   declare public filter?: (item: unknown, filterParams: Record<string, unknown>) => boolean;
-   declare public onCreateFilter?: (
+   public declare autoFocus?: boolean;
+   public declare baseClass: string;
+   public declare onCreateFilter?: (
       filterParams: Record<string, unknown>,
       instance: Instance,
-   ) => (record: unknown) => boolean;
-   declare public onItemClick?: (e: React.MouseEvent, instance: Instance) => void;
-   declare public onItemDoubleClick?: (e: React.MouseEvent, instance: Instance) => void;
-   declare public onKeyDown?: (e: React.KeyboardEvent, instance: Instance) => void;
-   declare public onScroll?: (event: Event, instance: Instance) => void;
-   declare public onFocus?: (event: FocusEvent, instance: Instance) => void;
-   declare public onBlur?: (event: FocusEvent, instance: Instance) => void;
-   declare public onMouseLeave?: (event: React.MouseEvent, instance: Instance) => void;
-   declare public onMouseEnter?: (event: React.MouseEvent, instance: Instance) => void;
-   declare public onMouseMove?: (event: React.MouseEvent, instance: Instance) => void;
-   declare public onMouseUp?: (event: React.MouseEvent, instance: Instance) => void;
-   declare public onMouseDown?: (event: React.MouseEvent, instance: Instance) => void;
-   declare public onMouseOver?: (event: React.MouseEvent, instance: Instance) => void;
-   declare public onMouseOut?: (event: React.MouseEvent, instance: Instance) => void;
+   ) => DataAdapterRecordFilter<any>;
+   public declare onItemClick?: (e: React.MouseEvent, instance: Instance) => void;
+   public declare onItemDoubleClick?: (e: React.MouseEvent, instance: Instance) => void;
+   public declare onKeyDown?: (e: React.KeyboardEvent, instance: Instance) => void;
+   public declare onScroll?: (event: Event, instance: Instance) => void;
+   public declare onFocus?: (event: FocusEvent, instance: Instance) => void;
+   public declare onBlur?: (event: FocusEvent, instance: Instance) => void;
+   public declare onMouseLeave?: (event: React.MouseEvent, instance: Instance) => void;
+   public declare onMouseEnter?: (event: React.MouseEvent, instance: Instance) => void;
+   public declare onMouseMove?: (event: React.MouseEvent, instance: Instance) => void;
+   public declare onMouseUp?: (event: React.MouseEvent, instance: Instance) => void;
+   public declare onMouseDown?: (event: React.MouseEvent, instance: Instance) => void;
+   public declare onMouseOver?: (event: React.MouseEvent, instance: Instance) => void;
+   public declare onMouseOut?: (event: React.MouseEvent, instance: Instance) => void;
 
    init() {
       if (this.recordAlias) this.recordName = this.recordAlias;
@@ -253,7 +253,6 @@ export class List extends StyledContainerBase<ListConfig> {
 
       let filter = null;
       if (this.onCreateFilter) filter = instance.invoke("onCreateFilter", data.filterParams, instance);
-      else if (this.filter) filter = (item: unknown) => this.filter!(item, data.filterParams);
       this.adapter.setFilter(filter);
       instance.mappedRecords = this.adapter.getRecords(context, instance, data.records, instance.store);
 

@@ -38,15 +38,15 @@ export interface ResolvedSorter {
 }
 
 export class ArrayAdapter<T = any> extends DataAdapter<T> {
-   declare public recordsAccessor: Accessor;
-   declare public recordsBinding?: Prop<T[]>;
-   declare public keyField: string | null;
-   declare public cacheByKeyField: boolean;
-   declare public sortOptions?: CollatorOptions;
-   declare public preserveOrder?: boolean;
+   public declare recordsAccessor: Accessor;
+   public declare recordsBinding?: Prop<T[]>;
+   public declare keyField: string | null;
+   public declare cacheByKeyField: boolean;
+   public declare sortOptions?: CollatorOptions;
+   public declare preserveOrder?: boolean;
    declare isTreeAdapter: boolean;
 
-   declare protected sorter?: (data: DataAdapterRecord<T>[]) => DataAdapterRecord<T>[];
+   protected declare sorter?: (data: DataAdapterRecord<T>[]) => DataAdapterRecord<T>[];
 
    constructor(config?: ArrayAdapterConfig) {
       super(config);
@@ -99,7 +99,7 @@ export class ArrayAdapter<T = any> extends DataAdapter<T> {
 
       if (isArray(records)) {
          records.forEach((data, index) => {
-            if (this.filterFn && !this.filterFn(data)) return;
+            if (this.filterFn && !this.filterFn(data, index)) return;
 
             const record = this.mapRecord(context, instance, data, parentStore, recordsAccessor, index);
             result.push(record);
@@ -172,10 +172,6 @@ export class ArrayAdapter<T = any> extends DataAdapter<T> {
          type: "data",
          key: this.keyField && isObject(data) ? (data as any)[this.keyField] : index,
       };
-   }
-
-   public setFilter(filterFn?: (data: T) => boolean): void {
-      this.filterFn = filterFn;
    }
 
    public getComparer(sortOptions?: CollatorOptions): ((a: any, b: any) => number) | undefined {
