@@ -35,7 +35,7 @@ $cx-button-state-style-map: cx-deep-map-merge(
          background-color: rgba(70, 87, 109, 0.5),
       ),
    )
-) !default;
+);
 
 $cx-button-mods: cx-deep-map-merge(
    $cx-button-mods,
@@ -124,7 +124,7 @@ $cx-button-mods: cx-deep-map-merge(
             background-color: rgba(#000, 0.07),
          ),
          selected: (
-            font-weight: $cx-default-font-weight,
+            font-weight: $cx-default-button-font-weight,
             background-color: rgba(#000, 0.09),
          ),
          selected-hover: (
@@ -154,7 +154,7 @@ $cx-button-mods: cx-deep-map-merge(
          ),
          selected: (
             color: $cx-theme-primary-color-light,
-            font-weight: $cx-default-font-weight,
+            font-weight: $cx-default-button-font-weight,
             background-color: rgba($cx-theme-primary-color, 0.1),
          ),
          selected-hover: (
@@ -240,7 +240,7 @@ $cx-button-mods: cx-deep-map-merge(
          ),
       ),
    )
-) !default;
+);
 
 // =============================================================================
 // SECTION
@@ -283,7 +283,7 @@ $cx-section-mods: cx-deep-map-merge(
          ),
       ),
    )
-) !default;
+);
 
 // =============================================================================
 // MENU
@@ -296,7 +296,7 @@ $cx-dropdown-styles: map.merge(
       font-weight: 600,
       border-color: transparent,
    )
-) !default;
+);
 
 // =============================================================================
 // TAB
@@ -328,7 +328,7 @@ $cx-tab-state-style-map: cx-deep-map-merge(
          color: $cx-theme-disabled-text,
       ),
    )
-) !default;
+);
 
 $cx-tab-mods: cx-deep-map-merge(
    $cx-tab-mods,
@@ -359,7 +359,7 @@ $cx-tab-mods: cx-deep-map-merge(
          ),
       ),
    )
-) !default;
+);
 
 // =============================================================================
 // LIST
@@ -378,7 +378,7 @@ $cx-list-item: cx-deep-map-merge(
          background-color: rgba($cx-theme-primary-color, 0.2),
       ),
    )
-) !default;
+);
 
 // =============================================================================
 // GRID
@@ -398,7 +398,7 @@ $cx-grid-header-state-style-map: cx-deep-map-merge(
          background-color: color.adjust($cx-default-grid-header-background-color, $lightness: 4%),
       ),
    )
-) !default;
+);
 
 $cx-grid-cell-cursor-style: (
    left: 0,
@@ -407,7 +407,7 @@ $cx-grid-cell-cursor-style: (
    bottom: 0,
    background-color: rgba(#ffcd78, 0.05),
    border: 1px solid rgba(#ffcd78, 0.5),
-) !default;
+);
 
 // =============================================================================
 // WINDOW
@@ -421,7 +421,7 @@ $cx-window-state-style-map: cx-deep-map-merge(
          box-shadow: 0 3px 8px 2px rgba(0, 0, 0, 0.2),
       ),
    )
-) !default;
+);
 
 $cx-window-header-state-style-map: cx-deep-map-merge(
    $cx-window-header-state-style-map,
@@ -432,10 +432,10 @@ $cx-window-header-state-style-map: cx-deep-map-merge(
          margin: 0,
          padding: 10px 15px,
          color: $cx-theme-primary-color,
-         font-weight: $cx-default-font-weight,
+         font-weight: $cx-default-button-font-weight,
       ),
    )
-) !default;
+);
 
 $cx-window-body-state-style-map: cx-deep-map-merge(
    $cx-window-body-state-style-map,
@@ -445,7 +445,7 @@ $cx-window-body-state-style-map: cx-deep-map-merge(
          padding: 0 15px 20px,
       ),
    )
-) !default;
+);
 
 $cx-window-footer-state-style-map: cx-deep-map-merge(
    $cx-window-footer-state-style-map,
@@ -456,7 +456,7 @@ $cx-window-footer-state-style-map: cx-deep-map-merge(
          padding: 0 15px 15px,
       ),
    )
-) !default;
+);
 
 $cx-window-mods: (
    alert: (
@@ -475,7 +475,7 @@ $cx-window-mods: (
          border-top: none,
       ),
    ),
-) !default;
+);
 
 // =============================================================================
 // TOAST
@@ -508,7 +508,7 @@ $cx-toast-mods: cx-deep-map-merge(
          ),
       ),
    )
-) !default;
+);
 
 // =============================================================================
 // CALENDAR
@@ -520,7 +520,7 @@ $cx-calendar-state-style-map: cx-deep-map-merge(
          box-shadow: none,
       ),
    )
-) !default;
+);
 
 $cx-calendar-day-state-style-map: cx-deep-map-merge(
    $cx-calendar-day-state-style-map,
@@ -550,7 +550,7 @@ $cx-calendar-day-state-style-map: cx-deep-map-merge(
          color: $cx-theme-disabled-text,
       ),
    )
-) !default;
+);
 
 // =============================================================================
 // DATE TIME PICKER
@@ -567,7 +567,7 @@ $cx-wheel-selection-state-style-map: cx-deep-map-merge(
          background-color: rgba($cx-theme-primary-color, 0.4),
       ),
    )
-) !default;
+);
 
 // =============================================================================
 // COLORPICKER
@@ -583,7 +583,7 @@ $cx-colorpicker-state-style-map: cx-deep-map-merge(
          border-color: color.change(cx-get-state-rule($cx-input-state-style-map, focus, border-color), $alpha: 0.5),
       ),
    )
-) !default;
+);
 
 // =============================================================================
 // FORM
@@ -621,7 +621,7 @@ $cx-std-field-state-style-map: cx-deep-map-merge(
          border-color: color.adjust($cx-theme-error-input-background-color, $lightness: -3%),
       ),
    )
-) !default;
+);
 
 $cx-textarea-state-style-map: cx-deep-map-merge(
    $cx-textarea-state-style-map,
@@ -649,7 +649,7 @@ $cx-textarea-state-style-map: cx-deep-map-merge(
          box-shadow: none,
       ),
    )
-) !default;
+);
 
 // =============================================================================
 // CHECKBOX
@@ -681,7 +681,7 @@ $cx-checkbox-state-style-map: cx-deep-map-merge(
          border-color: rgba(0, 0, 0, 0.04),
       ),
    )
-) !default;
+);
 
 // =============================================================================
 // RADIO
@@ -712,7 +712,7 @@ $cx-radio-state-style-map: cx-deep-map-merge(
          border-color: rgba($cx-default-radio-color, 0.36),
       ),
    )
-) !default;
+);
 
 // =============================================================================
 // SLIDER
@@ -734,7 +734,7 @@ $cx-slider-handle-styles: cx-deep-map-merge(
          box-shadow: 0 0 10px 0 color.adjust($cx-theme-default-background-color-lighter, $lightness: -10%),
       ),
    )
-) !default;
+);
 
 // =============================================================================
 // LOOKUP FIELD TAG
@@ -744,14 +744,14 @@ $cx-input-tag-state-style-map: cx-deep-map-merge(
    (
       default: (
          background-color: rgba($cx-theme-primary-color, 0.4),
-         font-weight: $cx-default-font-weight,
+         font-weight: $cx-default-button-font-weight,
          color: $cx-theme-accent-color,
       ),
       hover: (
          background-color: rgba($cx-theme-primary-color, 0.6),
       ),
    )
-) !default;
+);
 
 // =============================================================================
 // GLOBALS
@@ -790,4 +790,4 @@ $cx-element-style-map: cx-deep-map-merge(
          color: $cx-theme-primary-color-light,
       ),
    )
-) !default;
+);

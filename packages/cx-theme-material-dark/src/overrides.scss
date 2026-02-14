@@ -17,10 +17,6 @@ $mod: map.get($cx-besm, mod);
 // GLOBAL ELEMENT OVERRIDES (dark theme)
 // =============================================================================
 @if ($cx-include-global-rules) {
-   html {
-      background: $cx-theme-default-background-color;
-   }
-
    h1,
    h2,
    h3,
