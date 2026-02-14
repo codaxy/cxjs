@@ -308,7 +308,7 @@ export class MonthPicker<
 MonthPicker.prototype.baseClass = "monthpicker";
 MonthPicker.prototype.range = false;
 MonthPicker.prototype.startYear = 1980;
-MonthPicker.prototype.endYear = 2030;
+MonthPicker.prototype.endYear = 2050;
 MonthPicker.prototype.bufferSize = 15;
 MonthPicker.prototype.hideQuarters = false;
 
@@ -987,10 +987,10 @@ export class MonthPickerComponent extends VDOM.Component<
         floor5(Math.floor(this.dom.el.scrollTop / this.state.yearHeight)) -
         visibleItems,
     );
-    if (start != this.state.start && start + bufferSize <= endYear) {
+    if (start != this.state.start) {
       this.setState({
         start,
-        end: start + 15,
+        end: Math.min(start + bufferSize, endYear),
       });
     }
   }

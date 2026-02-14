@@ -7,7 +7,7 @@
 [x] add List and TextField example and piping keyboard events
 [x] Homepage copy
 [x] Homepage examples
-[ ] Theme
+[x] Theme
 [x] Dark mode
 [x] HoverSync is broken
 [x] NumberField wheel example
@@ -19,6 +19,8 @@
 [x] Add OG image
 [x] Set OnThisPage nav to collapsed where needed
 [x] Fix Dropdown focus issues (cell editing)
-[ ] Fix MonthField rendering empty
+[x] Fix MonthField rendering empty
 [ ] Fix remaining Gallery themes
 [ ] Render presets to css
+[ ] Write Theme Docs
+[ ] On this page should render closed on mobile
