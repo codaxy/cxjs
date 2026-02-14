@@ -67,6 +67,7 @@ $cx-theme-default-box-shadow: 0 0 4px $cx-theme-primary-color;
    $cx-default-button-background-color: #e0e0e0 !default,
    $cx-default-button-border-width: 0 !default,
    $cx-default-button-border-radius: 2px !default,
+   $cx-default-button-padding: ($cx-theme-default-box-padding-value + 1px) (2 * $cx-theme-default-box-padding-value + 6px) !default,
 
    // Chart palette
    $cx-default-palette-fill-blacken: 30% !default,
@@ -85,6 +86,7 @@ $cx-theme-default-box-shadow: 0 0 4px $cx-theme-primary-color;
    $cx-default-tab-border-width: 0 0 2px !default,
    $cx-default-tab-border-color: transparent !default,
    $cx-default-tab-border-radius: 2px !default,
+   $cx-default-tab-padding: ($cx-theme-default-box-padding-value + 1px) (2 * $cx-theme-default-box-padding-value + 10px) !default,
 
    // Tooltip
    $cx-tooltip-background-color: #505050 !default,
@@ -101,7 +103,7 @@ $cx-theme-default-box-shadow: 0 0 4px $cx-theme-primary-color;
    $cx-default-window-footer-background-color: $cx-theme-default-medium-light-background-overlay !default,
 
    // Toast
-   $cx-default-toast-padding: 10px !default,
+   $cx-default-toast-padding: (2 * $cx-theme-default-box-padding-value) !default,
    $cx-default-toast-background-color: $cx-theme-default-medium-light-background-overlay !default,
    $cx-default-toast-color: rgba(#fff, 0.87) !default,
    $cx-default-toast-box-shadow: none !default,

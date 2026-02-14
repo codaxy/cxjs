@@ -1,4 +1,8 @@
-// Main entry point that combines all theme styles
+// 1. Load theme variables (configures cx variables via @forward...with())
 @use "./variables.reset" as *;
-@use "reset";
-@use "widgets";
+
+// 2. Load theme maps (configures cx maps via deep-merge)
+@use "./maps.scss" as *;
+
+// 3. Load theme overrides (loads cx/src/index + CSS overrides)
+@use "./overrides.scss" as *;
