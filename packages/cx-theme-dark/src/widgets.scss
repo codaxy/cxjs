@@ -1,12 +1,22 @@
-@use "sass:map";
+// Forward theme variables to configure cx
+@forward "./variables";
 
+// Load variables and maps
+@use "sass:map";
+@use "./variables" as *;
+@use "./maps" as *;
+
+// Load cx widget and ui styles (generates CSS using configured values)
+@use "cx/src/widgets/index" as widgets;
+@use "cx/src/ui/index" as ui;
+
+// Theme-specific CSS overrides
 $block: map.get($cx-besm, block);
 $element: map.get($cx-besm, element);
 $state: map.get($cx-besm, state);
 $mod: map.get($cx-besm, mod);
 
-@if (cx-included('cx/widgets/Section')) {
-
+@if (cx-included("cx/widgets/Section")) {
    $section-mods: primary success warning error;
 
    @each $i in $section-mods {
@@ -23,8 +33,7 @@ $mod: map.get($cx-besm, mod);
    }
 }
 
-@if (cx-included('cx/widgets/Grid')) {
-
+@if (cx-included("cx/widgets/Grid")) {
    .#{$block}grid.#{$state}scrollable.#{$state}border {
       border-color: $cx-default-grid-header-border-color;
    }
@@ -34,17 +43,19 @@ $mod: map.get($cx-besm, mod);
    }
 
    .#{$element}grid-header .#{$element}textfield-input {
-      background-color: $cx-default-background-color;
+      background-color: $cx-theme-default-background-color;
    }
 }
 
-//override for chrome mobile default press effect
-.#{$block}button, .#{$block}tab, .#{$block}menu {
+// Override for chrome mobile default press effect
+.#{$block}button,
+.#{$block}tab,
+.#{$block}menu {
    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
 }
 
-//progressbar
-@if (cx-included('cx/widgets/ProgressBar')) {
+// Progressbar
+@if (cx-included("cx/widgets/ProgressBar")) {
    .#{$block}progressbar {
       overflow: hidden;
    }

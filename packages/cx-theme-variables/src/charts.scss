@@ -1,0 +1,11 @@
+// 1. Load theme variables FIRST (configures cx variables)
+@use "./variables.scss" as *;
+
+// 2. Load theme maps (configures cx maps)
+@use "./maps.scss" as *;
+
+// 3. Load theme functions
+@use "./functions.scss" as *;
+
+// 4. Load cx charts which generates CSS using configured values
+@use "cx/src/charts/index" as *;

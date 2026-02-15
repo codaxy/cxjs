@@ -1,0 +1,41 @@
+@use "sass:color";
+
+// Pick accent color based on primary color
+@function get-accent-color($primary-color) {
+   $accent-color: null;
+   @if color.channel($primary-color, "green", $space: rgb) <= 80 {
+      $accent-color: #ffeb3b;
+   } @else if
+      color.channel($primary-color, "green", $space: rgb) >=
+      150 and
+      color.channel($primary-color, "red", $space: rgb) <
+      20 and
+      color.channel($primary-color, "saturation", $space: hsl) >
+      90%
+   {
+      $accent-color: #cddc39;
+   } @else if
+      color.channel($primary-color, "green", $space: rgb) >
+      80 and
+      color.channel($primary-color, "green", $space: rgb) <=
+      175 and
+      color.channel($primary-color, "saturation", $space: hsl) <
+      50% and
+      color.channel($primary-color, "saturation", $space: hsl) >
+      20%
+   {
+      $accent-color: #ff9800;
+   } @else {
+      $accent-color: #ffc107;
+   }
+   @return $accent-color;
+}
+
+// Float button text color picker
+@function set-text-color($bg-color) {
+   @if (color.channel($bg-color, "lightness", $space: hsl) > 55%) {
+      @return rgba(0, 0, 0, 0.87); // Lighter background, return dark color
+   } @else {
+      @return #ffffff; // Darker background, return light color
+   }
+}

@@ -1,2 +1,2 @@
-@import "~cx/src/variables.scss";
-@import "~cx/src/index.scss";
+@use "cx/src/variables.scss" as *;
+@use "cx/src/index.scss" as *;

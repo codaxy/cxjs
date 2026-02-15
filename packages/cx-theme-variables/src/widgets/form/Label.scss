@@ -1,0 +1,13 @@
+@use "sass:map";
+@use "cx/src/util/scss/deep-merge" as *;
+@use "cx/src/maps" as *;
+
+$cx-label-state-style-map: cx-deep-map-merge(
+   $cx-label-state-style-map,
+   (
+      disabled: (
+         color: null,
+         opacity: 0.5,
+      ),
+   )
+);

@@ -1,4 +1,13 @@
+@use "sass:math";
 @use "sass:map";
+@use "../variables" as *;
+@use "../maps" as *;
+@use "../../util/scss/besm.scss" as *;
+@use "../../util/scss/add-rules.scss" as *;
+@use "../../util/scss/calc.scss" as *;
+@use "../../util/scss/clockwise.scss" as *;
+@use "../../util/scss/include.scss" as *;
+@use "./Field.scss" as *;
 
 @mixin cx-numberfield(
    $name: "numberfield",
@@ -22,7 +31,11 @@
    }
 
    .#{$element}#{$name}-input {
-      @include cxe-field-input($besm, $state-style-map, $placeholder: $placeholder);
+      @include cxe-field-input(
+         $besm,
+         $state-style-map,
+         $placeholder: $placeholder
+      );
 
       &::-webkit-inner-spin-button,
       &::-webkit-outer-spin-button {
@@ -31,7 +44,11 @@
       }
 
       .#{$state}icon > & {
-         padding-left: cx-calc(2 * cx-left($padding), $icon-size);
+         padding-left: cx-calc(
+            cx-left($padding),
+            $cx-default-input-left-tool-size,
+            $cx-default-input-left-tool-spacing
+         );
       }
    }
 

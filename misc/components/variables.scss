@@ -1,0 +1,7 @@
+// Re-export layout variables
+@forward "../layout/variables";
+
+// Component-specific variables
+$sidenav-width: 250px !default;
+$master-sidenav-link-color: #718096 !default;
+$master-sidenav-active-link-color: #666 !default;

@@ -1,0 +1,37 @@
+@use "sass:map";
+@use "cx/src/util/scss/deep-merge" as *;
+@use "cx/src/maps" as *;
+
+$cx-toast-mods: cx-deep-map-merge(
+   $cx-toast-mods,
+   (
+      primary: (
+         default: (
+            color: var(--cx-theme-primary-text-color),
+            background-color: var(--cx-theme-primary-color),
+            border-color: var(--cx-theme-primary-border-color),
+         ),
+      ),
+      success: (
+         default: (
+            color: var(--cx-theme-success-text-color),
+            background-color: var(--cx-theme-success-color),
+            border-color: var(--cx-theme-success-border-color),
+         ),
+      ),
+      warning: (
+         default: (
+            color: var(--cx-theme-warning-text-color),
+            background-color: var(--cx-theme-warning-color),
+            border-color: var(--cx-theme-warning-border-color),
+         ),
+      ),
+      error: (
+         default: (
+            color: var(--cx-theme-danger-text-color),
+            background-color: var(--cx-theme-danger-color),
+            border-color: var(--cx-theme-danger-border-color),
+         ),
+      ),
+   )
+);

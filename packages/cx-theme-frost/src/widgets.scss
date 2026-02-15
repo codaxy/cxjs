@@ -1,0 +1,93 @@
+// Forward theme variables to configure cx
+@forward "./variables";
+
+// Load variables and maps
+@use "sass:map";
+@use "./variables" as *;
+@use "./maps" as *;
+
+// Load cx widget and ui styles (generates CSS using configured values)
+@use "cx/src/widgets/index" as widgets;
+@use "cx/src/ui/index" as ui;
+
+// Theme-specific CSS overrides
+$block: map.get($cx-besm, block);
+$element: map.get($cx-besm, element);
+$state: map.get($cx-besm, state);
+$mod: map.get($cx-besm, mod);
+
+@if (cx-included("cx/widgets/Section")) {
+   $section-mods: primary success warning error;
+
+   @each $i in $section-mods {
+      .#{$block}section.#{$mod}#{$i} {
+         .#{$element}section-header {
+            border-bottom-color: rgba(#fff, 0.4);
+         }
+      }
+   }
+
+   .#{$block}section.#{$mod}card.#{$mod}card {
+      box-shadow: $cx-theme-default-section-box-shadow;
+   }
+
+   // can be used interchangeably with mod='card'
+   .#{$mod}well {
+      @extend .#{$mod}card;
+   }
+
+   .#{$element}section-header.#{$element}section-header {
+      font-weight: normal;
+
+      .#{$mod}pad > & {
+         border: none;
+      }
+   }
+
+   @for $i from 1 through 6 {
+      .#{$element}section-header h#{$i} {
+         .#{$mod}primary &,
+         .#{$mod}error &,
+         .#{$mod}success &,
+         .#{$mod}warning & {
+            color: #fff;
+         }
+      }
+   }
+}
+
+@if (cx-included("cx/widgets/DateTimeField")) {
+   .#{$block}datetimefield .#{$block}calendar {
+      border-color: transparent !important;
+   }
+
+   .#{$block}datetimefield .#{$block}datetimepicker {
+      border-color: transparent !important;
+   }
+}
+
+@if (cx-included("cx/widgets/MonthField")) {
+   .#{$block}monthfield .#{$block}monthpicker {
+      border-color: transparent !important;
+   }
+}
+
+@if (cx-included("cx/widgets/ColorPicker")) {
+   .#{$block}colorfield .#{$block}colorpicker {
+      border-color: transparent !important;
+   }
+}
+
+// Override for chrome mobile default press effect
+.#{$block}button,
+.#{$block}tab,
+.#{$block}menu {
+   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+}
+
+// Progressbar
+@if (cx-included("cx/widgets/ProgressBar")) {
+   .#{$block}progressbar {
+      overflow: hidden;
+   }
+}

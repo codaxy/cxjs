@@ -1,0 +1,105 @@
+@forward "cx/src/maps";
+@use "sass:color";
+@use "./variables.scss" as *;
+@use "cx/src/maps" as *;
+@use "cx/src/util/scss/deep-merge" as *;
+
+// =============================================================================
+// Component Maps
+// =============================================================================
+@use "./widgets/List.scss" as *;
+@use "./widgets/Button.scss" as *;
+@use "./widgets/nav/Tab.scss" as *;
+@use "./widgets/form/Field.scss" as *;
+@use "./widgets/form/LookupField.scss" as *;
+@use "./widgets/grid/Grid.scss" as *;
+@use "./widgets/grid/Pagination.scss" as *;
+@use "./widgets/form/Calendar.scss" as *;
+@use "./widgets/form/MonthPicker.scss" as *;
+@use "./widgets/form/Label.scss" as *;
+@use "./widgets/Section.scss" as *;
+@use "./widgets/nav/Menu.scss" as *;
+@use "./widgets/overlay/Dropdown.scss" as *;
+@use "./widgets/overlay/Toast.scss" as *;
+@use "./widgets/overlay/Window.scss" as *;
+
+// =============================================================================
+// VARIABLE MAPS - Using CSS Variables where possible
+// =============================================================================
+
+// MENU / DROPDOWN - see widgets/overlay/Dropdown.scss
+
+$cx-menu-state-style-map: map-merge(
+   $cx-menu-state-style-map,
+   (
+      default: (
+         color: inherit,
+      ),
+   )
+);
+
+// TOAST - see widgets/overlay/Toast.scss
+
+// Date time picker
+$cx-wheel-selection-state-style-map: cx-deep-map-merge(
+   $cx-wheel-selection-state-style-map,
+   (
+      default: (
+         border-color: transparent,
+         background-color: color-mix(
+               in srgb,
+               var(--cx-button-active-state-mix-color) 8%,
+               transparent
+            ),
+         border-radius: var(--cx-theme-border-radius),
+      ),
+      active: (
+         border-color: transparent,
+         background-color: color-mix(
+               in srgb,
+               var(--cx-button-active-state-mix-color) 12%,
+               transparent
+            ),
+      ),
+   )
+);
+
+// GLOBALS
+$cx-element-style-map: cx-deep-map-merge(
+   $cx-element-style-map,
+   (
+      html: (
+         background-color: var(--cx-theme-background-color),
+         font-family: var(--cx-theme-font-family),
+         font-size: var(--cx-theme-font-size),
+         font-weight: var(--cx-theme-font-weight),
+      ),
+      h1: (
+         font-weight: 300,
+         color: var(--cx-theme-text-color),
+      ),
+      h2: (
+         font-weight: 300,
+         color: var(--cx-theme-text-color),
+      ),
+      h3: (
+         font-weight: 400,
+         color: var(--cx-theme-text-color),
+      ),
+      h4: (
+         font-weight: 400,
+         color: var(--cx-theme-text-color),
+      ),
+      h5: (
+         font-weight: 500,
+         color: var(--cx-theme-text-color),
+      ),
+      h6: (
+         font-weight: 500,
+         color: var(--cx-theme-text-color),
+      ),
+      a: (
+         color: var(--cx-theme-primary-color),
+      ),
+   )
+);

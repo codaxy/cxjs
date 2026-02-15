@@ -1,9 +1,5 @@
-$cx-include-global-rules: true;
+@use "cx-theme-frost/src/index" as theme;
 
-@import "~cx-theme-frost/src/variables";
-@import "./util/divide.scss";
-@import "~cx-theme-frost/src/index";
-
-@import "./util/customize-master";
+@use "./util/customize-master" as *;
 
 @include customize-master($brand-background: #4db3d0, $brand-highlight-color: #4db3d0);

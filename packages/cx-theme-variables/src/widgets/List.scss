@@ -1,0 +1,54 @@
+@use "sass:map";
+@use "../variables.scss" as *;
+@use "cx/src/maps" as *;
+@use "cx/src/util/scss/deep-merge" as *;
+
+// =============================================================================
+// LIST - Map Overrides
+// =============================================================================
+
+$cx-list-item: cx-deep-map-merge(
+   $cx-list-item,
+   (
+      default: (
+         color: inherit,
+         font-size: var(--cx-input-font-size),
+      ),
+      hover: (
+         background-color: color-mix(
+               in srgb,
+               var(--cx-button-active-state-mix-color) 4%,
+               transparent
+            ),
+      ),
+      cursor: (
+         background-color: transparent,
+         box-shadow: var(--cx-cursor-box-shadow),
+         border-radius: var(--cx-cursor-border-radius),
+         position: relative,
+      ),
+      selected: (
+         background-color: var(--cx-theme-accent-color),
+         color: var(--cx-theme-accent-text-color),
+      ),
+      selected-hover: (
+         background-color: color-mix(
+               in srgb,
+               var(--cx-theme-accent-color),
+               var(--cx-button-active-state-mix-color)
+                  var(--cx-button-hover-state-mix-amount)
+            ),
+         color: var(--cx-theme-accent-text-color),
+      ),
+      selected-cursor: (
+         background-color: var(--cx-theme-accent-color),
+         color: var(--cx-theme-accent-text-color),
+         box-shadow: var(--cx-cursor-box-shadow),
+         position: relative,
+      ),
+      disabled: (
+         background-color: transparent,
+         opacity: 0.4,
+      ),
+   )
+);

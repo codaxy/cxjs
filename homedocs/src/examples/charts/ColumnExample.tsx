@@ -1,5 +1,12 @@
 import { Svg, Rectangle } from "cx/svg";
-import { Chart, NumericAxis, CategoryAxis, Gridlines, Column } from "cx/charts";
+import {
+  Chart,
+  NumericAxis,
+  CategoryAxis,
+  Gridlines,
+  Column,
+  LegendScope,
+} from "cx/charts";
 import { createModel } from "cx/data";
 import { Controller, Repeater, expr, format } from "cx/ui";
 import { enableTooltips } from "cx/widgets";
@@ -54,8 +61,8 @@ class PageController extends Controller {
 
 // @index
 export default (
-  <div controller={PageController}>
-    <Svg style="height: 350px; border: 1px dashed #ddd">
+  <LegendScope controller={PageController}>
+    <Svg style="height: 350px;">
       <Chart
         margin="20 20 120 50"
         axes={{
@@ -69,7 +76,6 @@ export default (
           y: <NumericAxis vertical snapToTicks={1} />,
         }}
       >
-        <Rectangle fill="white" />
         <Gridlines />
         <Repeater records={m.data} recordAlias="$point">
           <Column
@@ -85,6 +91,6 @@ export default (
         </Repeater>
       </Chart>
     </Svg>
-  </div>
+  </LegendScope>
 );
 // @index-end

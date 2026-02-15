@@ -1,4 +1,13 @@
+@use "sass:math";
 @use "sass:map";
+@use "../variables" as *;
+@use "../maps" as *;
+@use "../../util/scss/add-rules.scss" as *;
+@use "../../util/scss/clockwise.scss" as *;
+@use "../../util/scss/besm.scss" as *;
+@use "../../util/scss/calc.scss" as *;
+@use "../../util/scss/include.scss" as *;
+@use "./Field.scss" as *;
 
 @mixin cx-lookupfield(
    $name: "lookupfield",
@@ -19,8 +28,9 @@
    $state: map.get($besm, state);
 
    $padding: cx-get-state-rule($state-style-map, default, padding);
-   $border-radius-offset: round(
-      cx-get-state-rule($tag-state-style-map, default, border-radius) * 0.25
+   $border-radius-offset: cx-multiply(
+      cx-get-state-rule($tag-state-style-map, default, border-radius),
+      0.25
    );
 
    .#{$block}#{$name} {
@@ -28,7 +38,6 @@
       width: $width;
       font: cx-get-state-rule($state-style-map, default, "font");
       font-size: cx-get-state-rule($state-style-map, default, "font-size");
-      vertical-align: top;
 
       @include cxb-field($besm, $state-style-map, $input: false);
 
@@ -44,6 +53,11 @@
             padding-right: cx-right($padding);
          }
       }
+
+      // &::before {
+      //    content: "\200B";
+      //    pointer-events: none;
+      // }
    }
 
    .#{$element}#{$name}-input {
@@ -54,6 +68,8 @@
          $input: false,
          $overrides: (
             default: (
+               width: 100%,
+               display: inline-flex,
                text-overflow: null,
                padding: cx-top($padding)
                   cx-calc(
@@ -66,31 +82,44 @@
          )
       );
 
-      .#{$state}multiple > & {
-         padding: 0
-            cx-calc(
-               cx-right($padding),
-               $cx-default-clear-size,
-               $cx-default-input-tag-spacing
-            )
-            $cx-default-input-tag-spacing 0;
-         align-items: center;
-         flex-wrap: wrap;
-         display: flex;
-      }
-
       .#{$state}single > & {
          overflow: hidden;
          text-overflow: ellipsis;
          white-space: nowrap;
-         display: block;
          flex-basis: 0%;
          flex-grow: 1;
       }
 
       .#{$state}icon > & {
-         padding-left: cx-calc(2 * cx-left($padding), $icon-size);
+         padding-left: cx-calc(
+            cx-left($padding),
+            $cx-default-input-left-tool-size,
+            $cx-default-input-left-tool-spacing
+         );
       }
+   }
+
+   .#{$element}#{$name}-tags {
+      display: flex;
+      margin: cx-calc(
+            $cx-default-input-tag-spacing,
+            cx-multiply(cx-top($padding), -1)
+         )
+         cx-calc(
+            $cx-default-input-tag-spacing,
+            cx-multiply(cx-right($padding), -1)
+         )
+         cx-calc(
+            $cx-default-input-tag-spacing,
+            cx-multiply(cx-bottom($padding), -1)
+         )
+         cx-calc(
+            $cx-default-input-tag-spacing,
+            cx-multiply(cx-left($padding), -1)
+         );
+      align-items: center;
+      flex-wrap: wrap;
+      gap: $cx-default-input-tag-spacing;
    }
 
    .#{$element}#{$name}-tag {
@@ -112,28 +141,6 @@
 
    .#{$element}#{$name}-placeholder {
       color: $cx-default-input-placeholder-color;
-
-      .#{$block}#{$name}.#{$state}multiple & {
-         display: inline-block;
-         margin: $cx-default-input-tag-spacing 0 0 $cx-default-input-tag-spacing;
-         box-sizing: border-box;
-         padding: cx-calc(
-               cx-top($cx-default-input-padding),
-               -$cx-default-input-tag-spacing
-            )
-            cx-calc(
-               cx-right($cx-default-input-padding),
-               -$cx-default-input-tag-spacing
-            )
-            cx-calc(
-               cx-bottom($cx-default-input-padding),
-               -$cx-default-input-tag-spacing
-            )
-            cx-calc(
-               cx-left($cx-default-input-padding),
-               -$cx-default-input-tag-spacing
-            );
-      }
    }
 
    .#{$element}#{$name}-tag-value {

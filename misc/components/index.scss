@@ -1,5 +1,4 @@
-$sidenav-width: 250px;
-
-@import 'SideNav';
-@import 'Animicon';
-@import 'util';
+@use "./variables" as *;
+@use "SideNav";
+@use "Animicon";
+@use "util";

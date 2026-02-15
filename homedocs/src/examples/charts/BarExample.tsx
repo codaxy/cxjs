@@ -6,6 +6,7 @@ import {
   Gridlines,
   Bar,
   Legend,
+  LegendScope,
 } from "cx/charts";
 import { createModel } from "cx/data";
 import { Controller, Repeater, format } from "cx/ui";
@@ -47,9 +48,9 @@ class PageController extends Controller {
 
 // @index
 export default (
-  <div controller={PageController}>
+  <LegendScope controller={PageController}>
     <Legend />
-    <Svg style="height: 280px; border: 1px dashed #ddd">
+    <Svg style="height: 280px;">
       <Chart
         margin="20 20 30 100"
         axes={{
@@ -57,7 +58,6 @@ export default (
           y: <CategoryAxis vertical />,
         }}
       >
-        <Rectangle fill="white" />
         <Gridlines />
         <Repeater records={m.data} recordAlias="$point">
           <Bar
@@ -83,6 +83,6 @@ export default (
         </Repeater>
       </Chart>
     </Svg>
-  </div>
+  </LegendScope>
 );
 // @index-end

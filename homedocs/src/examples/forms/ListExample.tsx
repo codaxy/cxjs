@@ -45,7 +45,7 @@ export default (
       recordAlias={m.$record}
     >
       <div class="font-medium" text={m.$record.text} />
-      <div class="text-sm text-gray-500" text={m.$record.description} />
+      <div class="text-gray-500" text={m.$record.description} />
     </List>
   </div>
 );

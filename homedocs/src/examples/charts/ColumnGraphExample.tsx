@@ -6,6 +6,7 @@ import {
   Gridlines,
   ColumnGraph,
   Legend,
+  LegendScope,
 } from "cx/charts";
 import { createModel } from "cx/data";
 import { Controller } from "cx/ui";
@@ -39,9 +40,9 @@ class PageController extends Controller {
 
 // @index
 export default (
-  <div controller={PageController}>
+  <LegendScope controller={PageController}>
     <Legend />
-    <Svg style="height: 300px; border: 1px dashed #ddd">
+    <Svg style="height: 300px;">
       <Chart
         margin="20 20 40 50"
         axes={{
@@ -49,7 +50,6 @@ export default (
           y: <NumericAxis vertical snapToTicks={1} />,
         }}
       >
-        <Rectangle fill="white" />
         <Gridlines />
         <ColumnGraph
           name="Q1"
@@ -73,6 +73,6 @@ export default (
         />
       </Chart>
     </Svg>
-  </div>
+  </LegendScope>
 );
 // @index-end

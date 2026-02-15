@@ -1,10 +1,13 @@
+@use "sass:math";
 @use "sass:map";
 
-@mixin cx-resizer(
-   $name: 'resizer',
-   $besm: $cx-besm
-) {
+@use "./box.scss" as *;
+@use "../util/scss/add-rules.scss" as *;
+@use "../util/scss/clockwise.scss" as *;
+@use "../util/scss/besm.scss" as *;
+@use "../util/scss/include.scss" as *;
 
+@mixin cx-resizer($name: "resizer", $besm: $cx-besm) {
    $block: map.get($besm, block);
    $element: map.get($besm, element);
    $state: map.get($besm, state);
@@ -18,7 +21,6 @@
          width: 5px;
          cursor: col-resize;
       }
-
 
       &.#{$state}horizontal {
          height: 5px;
@@ -39,6 +41,6 @@
    }
 }
 
-@if (cx-should-include('cx/widgets/Resizer')) {
+@if (cx-should-include("cx/widgets/Resizer")) {
    @include cx-resizer();
 }

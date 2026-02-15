@@ -1067,30 +1067,34 @@ class LookupComponent extends VDOM.Component<
           widget.onGetRecordDisplayText ??
           ((record: Record<string, any>) =>
             record[widget.valueTextField] as string);
-        text = data.records.map((v, i) => (
-          <div
-            key={i}
-            className={CSS.element(baseClass, "tag", {
-              readonly: readOnly,
-            })}
-          >
-            <span className={CSS.element(baseClass, "tag-value")}>
-              {valueTextFormatter(v, instance)}
-            </span>
-            {!readOnly && (
+        text = (
+          <div className={CSS.element(baseClass, "tags")}>
+            {data.records.map((v, i) => (
               <div
-                className={CSS.element(baseClass, "tag-clear")}
-                onMouseDown={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                }}
-                onClick={(e) => this.onClearClick(e, v)}
+                key={i}
+                className={CSS.element(baseClass, "tag", {
+                  readonly: readOnly,
+                })}
               >
-                <ClearIcon className={CSS.element(baseClass, "icon")} />
+                <span className={CSS.element(baseClass, "tag-value")}>
+                  {valueTextFormatter(v, instance)}
+                </span>
+                {!readOnly && (
+                  <div
+                    className={CSS.element(baseClass, "tag-clear")}
+                    onMouseDown={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                    }}
+                    onClick={(e) => this.onClearClick(e, v)}
+                  >
+                    <ClearIcon className={CSS.element(baseClass, "icon")} />
+                  </div>
+                )}
               </div>
-            )}
+            ))}
           </div>
-        ));
+        );
       } else {
         text = this.getPlaceholder(data.placeholder);
       }

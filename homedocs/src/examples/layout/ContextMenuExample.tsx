@@ -13,10 +13,10 @@ export default (
       openContextMenu(
         e,
         <Menu>
-          <MenuItem autoClose>Cut</MenuItem>
-          <MenuItem autoClose>Copy</MenuItem>
-          <MenuItem autoClose>Paste</MenuItem>
-          <MenuItem autoClose disabled>Delete</MenuItem>
+          <MenuItem autoClose onClick={() => {}}>Cut</MenuItem>
+          <MenuItem autoClose onClick={() => {}}>Copy</MenuItem>
+          <MenuItem autoClose onClick={() => {}}>Paste</MenuItem>
+          <MenuItem autoClose onClick={() => {}} disabled>Delete</MenuItem>
         </Menu>,
         instance
       );

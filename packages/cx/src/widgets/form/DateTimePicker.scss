@@ -1,7 +1,17 @@
+@use "sass:math";
 @use "sass:map";
+@use "../variables" as *;
+@use "../maps" as *;
+@use "../../util/scss/add-rules.scss" as *;
+@use "../../util/scss/clockwise.scss" as *;
+@use "../../util/scss/deep-merge.scss" as *;
+@use "../../util/scss/besm.scss" as *;
+@use "../../util/scss/include.scss" as *;
+@use "./Field.scss" as *;
+@use "./Wheel.scss" as *;
 
 @mixin cx-datetimepicker(
-   $name: 'datetimepicker',
+   $name: "datetimepicker",
    $dtp-font-size: $cx-default-font-size,
    $dtp-background-color: $cx-default-datetimepicker-background-color,
    $dtp-border-width: $cx-default-datetimepicker-border-width,
@@ -34,7 +44,7 @@
       }
    }
 
-   @include cx-wheel-elements($name+'-wheel', $tool-size, $icon-size, $besm);
+   @include cx-wheel-elements($name + "-wheel", $tool-size, $icon-size, $besm);
 
    .#{$element}#{$name}-spacer {
       width: 20px;
@@ -42,6 +52,6 @@
    }
 }
 
-@if (cx-should-include('cx/widgets/DateTimePicker')) {
+@if (cx-should-include("cx/widgets/DateTimePicker")) {
    @include cx-datetimepicker();
 }

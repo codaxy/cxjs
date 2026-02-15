@@ -5,7 +5,7 @@ import { Chart, Gridlines, Legend, LineGraph, NumericAxis } from "cx/charts";
 export default (
   <div>
     <Legend.Scope>
-      <Svg style="height: 200px; border: 1px solid #ddd">
+      <Svg style="height: 200px;">
         <Chart
           margin="10 20 30 50"
           axes={{
@@ -13,7 +13,6 @@ export default (
             y: { type: NumericAxis, vertical: true },
           }}
         >
-          <Rectangle fill="white" />
           <Gridlines />
           <LineGraph
             name="Line 1"

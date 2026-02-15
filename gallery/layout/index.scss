@@ -1,3 +1,5 @@
+@use "sass:color";
+
 $header-color: #2196f3;
 $aside-width: 260px;
 $small-device-width: 800px;
@@ -49,12 +51,12 @@ $small-device-width: 800px;
       //    background: #f3f5f7;
 
       .cxb-link.cxs-active {
-         color: darken(#49d2e4, 10);
+         color: color.adjust(#49d2e4, $lightness: -10%);
       }
    }
 
    .header {
-      background: linear-gradient(to top right, darken(#49d2e4, 15), #49d2e4);
+      background: linear-gradient(to top right, color.adjust(#49d2e4, $lightness: -15%), #49d2e4);
 
       .title a {
          color: #ffffb0;

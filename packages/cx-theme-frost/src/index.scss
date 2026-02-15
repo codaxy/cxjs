@@ -1,5 +1,17 @@
+// 1. Load theme variables (configures cx variables via @forward...with())
+@use "./variables.reset" as *;
+
+// 2. Load theme maps (configures cx maps via deep-merge)
+@use "./maps" as *;
+
+// 3. Load cx/src/index which generates CSS using configured values
+@use "cx/src/index" as *;
+
+// 4. Load reset
+@use "./reset";
+
+// 5. Theme-specific CSS overrides
 @use "sass:map";
-@import "~cx/src/index";
 
 $block: map.get($cx-besm, block);
 $element: map.get($cx-besm, element);
@@ -18,8 +30,9 @@ $mod: map.get($cx-besm, mod);
    }
 
    .#{$block}section.#{$mod}card.#{$mod}card {
-      box-shadow: $cx-default-section-box-shadow;
+      box-shadow: $cx-theme-default-section-box-shadow;
    }
+
    // can be used interchangeably with mod='card'
    .#{$mod}well {
       @extend .#{$mod}card;
@@ -32,6 +45,7 @@ $mod: map.get($cx-besm, mod);
          border: none;
       }
    }
+
    @for $i from 1 through 6 {
       .#{$element}section-header h#{$i} {
          .#{$mod}primary &,
@@ -66,14 +80,14 @@ $mod: map.get($cx-besm, mod);
    }
 }
 
-//override for chrome mobile default press effect
+// Override for chrome mobile default press effect
 .#{$block}button,
 .#{$block}tab,
 .#{$block}menu {
    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
 }
 
-//progressbar
+// Progressbar
 @if (cx-included("cx/widgets/ProgressBar")) {
    .#{$block}progressbar {
       overflow: hidden;

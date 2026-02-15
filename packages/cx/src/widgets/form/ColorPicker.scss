@@ -1,3 +1,12 @@
+@use "sass:math";
+@use "../variables" as *;
+@use "../maps" as *;
+@use "../../util/scss/besm.scss" as *;
+@use "../../util/scss/add-rules.scss" as *;
+@use "../../util/scss/deep-merge.scss" as *;
+@use "../../util/scss/include.scss" as *;
+@use "./Field.scss" as *;
+
 //@if cx-call-once("cx/widgets/checker-background") {
 //   %cx-checker-bg {
 //      background-repeat: repeat;
@@ -8,8 +17,10 @@
 @use "sass:map";
 
 @mixin cx-checker-background($tile-size: 4px, $color: rgba(gray, 0.5)) {
-   background-image: linear-gradient(45deg, $color 25%, transparent 25%),
-      linear-gradient(-45deg, $color 25%, transparent 25%), linear-gradient(45deg, transparent 75%, $color 75%),
+   background-image:
+      linear-gradient(45deg, $color 25%, transparent 25%),
+      linear-gradient(-45deg, $color 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, $color 75%),
       linear-gradient(-45deg, transparent 75%, $color 75%);
    background-size: 2 * $tile-size 2 * $tile-size;
    background-position:
@@ -32,6 +43,9 @@
    $size: 220px;
 
    .#{$block}#{$name} {
+      display: inline-flex;
+      flex-direction: column;
+
       $styles: cx-deep-map-merge(
          $state-style-map,
          (
@@ -40,10 +54,6 @@
             ),
          )
       );
-
-      display: inline-flex;
-      flex-direction: column;
-
       @include cx-add-state-rules($styles, default);
 
       @media screen and (min-width: 500px) {
@@ -87,7 +97,11 @@
             hsla(0, 0%, 0%, 0) 50%,
             hsl(0, 0%, 0%) 100%
          ),
-         -webkit-linear-gradient(left, hsl(0, 0%, 50%) 0%, hsla(0, 0%, 50%, 0) 100%);
+         -webkit-linear-gradient(
+               left,
+               hsl(0, 0%, 50%) 0%,
+               hsla(0, 0%, 50%, 0) 100%
+            );
       background:
          -moz-linear-gradient(
             top,
@@ -96,7 +110,11 @@
             hsla(0, 0%, 0%, 0) 50%,
             hsl(0, 0%, 0%) 100%
          ),
-         -moz-linear-gradient(left, hsl(0, 0%, 50%) 0%, hsla(0, 0%, 50%, 0) 100%);
+         -moz-linear-gradient(
+               left,
+               hsl(0, 0%, 50%) 0%,
+               hsla(0, 0%, 50%, 0) 100%
+            );
       background:
          -ms-linear-gradient(
             top,
@@ -184,7 +202,6 @@
 
    .#{$element}#{$name}-alpha {
       height: 16px;
-      //@extend %cx-checker-bg;
       @include cx-checker-background();
       position: relative;
       touch-action: none;

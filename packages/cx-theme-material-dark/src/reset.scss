@@ -1,4 +1,10 @@
-//SCROLLBAR
+@use "./variables.reset" as *;
+@use "./maps" as *;
+@use "cx/src/util/scss/global";
+
+// =============================================================================
+// SCROLLBAR (theme-specific)
+// =============================================================================
 @if ($cx-include-global-rules) {
    @media screen and (min-width: 700px) {
       ::-webkit-scrollbar {

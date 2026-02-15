@@ -1,24 +1,49 @@
+@use "sass:math";
 @use "sass:map";
+@use "../variables" as *;
+@use "../../util/scss/besm.scss" as *;
+@use "../../util/scss/add-rules.scss" as *;
+@use "../../util/scss/calc.scss" as *;
+@use "../../util/scss/clockwise.scss" as *;
+@use "../../util/scss/deep-merge.scss" as *;
 
-@mixin cxb-field($besm, $state-style-map, $input: true, $box: false, $width: null) {
+@mixin cxb-field(
+   $besm,
+   $state-style-map,
+   $input: true,
+   $box: false,
+   $width: null
+) {
    position: relative;
    display: inline-block;
    box-sizing: border-box;
 
-   $line-height: cx-get-state-rule($state-style-map, default, "line-height", 1.2em);
+   $line-height: cx-get-state-rule(
+      $state-style-map,
+      default,
+      "line-height",
+      1.2em
+   );
    $padding: cx-get-state-rule($state-style-map, default, "padding", 0);
-   $border-width: cx-get-state-rule($state-style-map, default, "border-width", 1px);
+   $border-width: cx-get-state-rule(
+      $state-style-map,
+      default,
+      "border-width",
+      1px
+   );
 
    @if $input {
       width: $width;
       line-height: 0;
-      height: cx-calc(
-         $line-height,
-         cx-top($padding),
-         cx-bottom($padding),
-         cx-top($border-width),
-         cx-bottom($border-width)
-      );
+      @if ($cx-use-box-line-height-fix) {
+         height: cx-calc(
+            $line-height,
+            cx-top($padding),
+            cx-bottom($padding),
+            cx-top($border-width),
+            cx-bottom($border-width)
+         );
+      }
 
       //font: cx-get-state-rule($state-style-map, default, 'font');
       //font-size: cx-get-state-rule($state-style-map, default, 'font-size');
@@ -50,7 +75,14 @@
    }
 }
 
-@mixin cxe-field-input($besm, $state-style-map, $overrides: null, $placeholder: null, $width: 100%, $input: true) {
+@mixin cxe-field-input(
+   $besm,
+   $state-style-map,
+   $overrides: null,
+   $placeholder: null,
+   $width: 100%,
+   $input: true
+) {
    $state: map.get($besm, state);
 
    $styles: cx-deep-map-merge($state-style-map, $overrides);
@@ -63,17 +95,21 @@
 
    @if $input {
       width: $width;
-      height: 100%; //cx-calc($line-height, cx-top($padding), cx-bottom($padding), cx-top($border-width), cx-bottom($border-width));
 
       @if ($cx-use-box-line-height-fix) {
+         height: 100%;
          //100% line-height fix - inputs work better in all browser, especially in Firefox
          $styles: cx-deep-map-merge(
             $styles,
             (
                default: (
-                  line-height: cx-calc($line-height, cx-top($padding), cx-bottom($padding)),
-                  padding: 0 cx-right($padding) 0 cx-left($padding),
-               ),
+                     line-height: cx-calc(
+                           $line-height,
+                           cx-top($padding),
+                           cx-bottom($padding)
+                        ),
+                     padding: 0 cx-right($padding) 0 cx-left($padding),
+                  ),
             )
          );
       }
@@ -151,8 +187,8 @@
    position: absolute;
    left: 50%;
    top: 50%;
-   margin-top: -$size * 0.5;
-   margin-left: -$size * 0.5;
+   margin-top: cx-multiply($size, -0.5);
+   margin-left: cx-multiply($size, -0.5);
    height: $size;
    width: $size;
    line-height: $size;

@@ -1,7 +1,16 @@
 @use "sass:map";
+@use "sass:math";
+@use "../variables" as *;
+@use "../maps" as *;
+@use "../../util/scss/add-rules.scss" as *;
+@use "../../util/scss/clockwise.scss" as *;
+@use "../../util/scss/deep-merge.scss" as *;
+@use "../../util/scss/calc.scss" as *;
+@use "../../util/scss/besm.scss" as *;
+@use "../../util/scss/include.scss" as *;
 
 @mixin cx-dragclone(
-   $name: 'dragclone',
+   $name: "dragclone",
    $style: $cx-dragclone-style,
    $besm: $cx-besm
 ) {
@@ -11,7 +20,6 @@
    $mod: map.get($besm, mod);
 
    .#{$block}#{$name} {
-
       @include cx-add-rules($style);
 
       pointer-events: none;
@@ -31,6 +39,6 @@
    }
 }
 
-@if (cx-should-include('cx/widgets/DragClone')) {
+@if (cx-should-include("cx/widgets/DragClone")) {
    @include cx-dragclone();
 }

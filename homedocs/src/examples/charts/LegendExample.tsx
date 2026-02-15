@@ -37,7 +37,7 @@ class PageController extends Controller {
 export default (
   <div controller={PageController}>
     <Legend />
-    <Svg style="width: 500px; height: 300px; border: 1px dashed #ddd">
+    <Svg style="width: 500px; height: 300px;">
       <Chart
         margin="20 20 40 50"
         axes={{
@@ -45,7 +45,7 @@ export default (
           y: <NumericAxis vertical />,
         }}
       >
-        <Rectangle fill="white" />
+        <Rectangle mod="cover" />
         <Gridlines />
         <LineGraph
           name="Sales"

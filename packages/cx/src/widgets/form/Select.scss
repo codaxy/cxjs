@@ -1,6 +1,13 @@
+@use "sass:math";
 @use "sass:map";
-
-@import "../overlay/Dropdown";
+@use "../variables" as *;
+@use "../maps" as *;
+@use "../../util/scss/add-rules.scss" as *;
+@use "../../util/scss/calc.scss" as *;
+@use "../../util/scss/clockwise.scss" as *;
+@use "../../util/scss/besm.scss" as *;
+@use "../../util/scss/include.scss" as *;
+@use "./Field.scss" as *;
 
 @mixin cx-select(
    $name: "select",
@@ -20,7 +27,12 @@
    $mod: map.get($besm, mod);
 
    .#{$block}#{$name} {
-      @include cxb-field($besm, $state-style-map: $state-style-map, $width: $width, $input: true);
+      @include cxb-field(
+         $besm,
+         $state-style-map: $state-style-map,
+         $width: $width,
+         $input: true
+      );
 
       .#{$element}#{$name}-left-icon {
          pointer-events: none;
@@ -36,13 +48,13 @@
          $state-style-map,
          $placeholder: $placeholder,
          $overrides: (
-            padding: cx-top($cx-default-input-padding)
+            padding: $cx-default-input-padding-top
                calc(
-                  #{cx-right($cx-default-input-padding)} + #{$cx-default-clear-size} - #{cx-right(
-                        $cx-default-input-padding
-                     )}
+                  #{$cx-default-input-padding-right} +
+                     #{$cx-default-clear-size} -
+                     #{$cx-default-input-padding-right}
                )
-               cx-bottom($cx-default-input-padding) cx-left($cx-default-input-padding),
+               $cx-default-input-padding-bottom $cx-default-input-padding-left,
             -webkit-appearance: none,
             -moz-appearance: none,
             -ms-appearance: none,
@@ -51,7 +63,11 @@
       );
 
       .#{$state}icon > & {
-         padding-left: cx-calc(2 * cx-left($padding), $icon-size);
+         padding-left: cx-calc(
+            cx-left($padding),
+            $cx-default-input-left-tool-size,
+            $cx-default-input-left-tool-spacing
+         );
       }
 
       .#{$state}empty > & {

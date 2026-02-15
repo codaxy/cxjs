@@ -1,0 +1,11 @@
+---
+import { themeVariablesToCSS } from 'cx-theme-variables';
+import homedocsLightPreset from '../styles/homedocsLight';
+import homedocsDarkPreset from '../styles/homedocsDark';
+
+const css = themeVariablesToCSS(homedocsLightPreset)
+  + "\n"
+  + themeVariablesToCSS(homedocsDarkPreset, ".dark");
+---
+
+<style set:html={css}></style>

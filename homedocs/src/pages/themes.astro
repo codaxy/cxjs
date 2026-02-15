@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HomeHeader from '../components/HomeHeader.astro';
+import ThemeEditor from '../examples/theme-editor/ThemeEditor.tsx';
+---
+
+<BaseLayout title="Theme Editor - CxJS">
+  <div class="h-screen flex flex-col overflow-hidden">
+    <HomeHeader />
+
+    <main class="flex-1 overflow-hidden">
+      <ThemeEditor client:load />
+    </main>
+  </div>
+</BaseLayout>

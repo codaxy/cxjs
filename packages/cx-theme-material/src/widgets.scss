@@ -1,5 +1,22 @@
-@use "sass:map";
+// Forward theme variables to configure cx
+@forward "./variables";
 
+// Load variables and maps
+@use "sass:color";
+@use "sass:map";
+@use "./variables" as *;
+@use "./maps" as *;
+
+// Load cx widget and ui styles (generates CSS using configured values)
+@use "cx/src/widgets/index" as widgets;
+@use "cx/src/ui/index" as ui;
+
+// Load clockwise utilities for cx-top, cx-right, etc.
+@use "cx/src/util/scss/clockwise" as *;
+// Load calc utilities for cx-calc
+@use "cx/src/util/scss/calc" as *;
+
+// Theme-specific CSS overrides
 $block: map.get($cx-besm, block);
 $element: map.get($cx-besm, element);
 $state: map.get($cx-besm, state);
@@ -22,6 +39,9 @@ $mod: map.get($cx-besm, mod);
          .#{$mod}error &,
          .#{$mod}success & {
             color: #fff;
+         }
+         .#{$mod}warning & {
+            color: $cx-default-color;
          }
       }
    }
@@ -271,7 +291,7 @@ $form-list: (TextField NumberField LookupField DateTimeField MonthField ColorFie
    // radio focus effect
    .#{$element}radio-input {
       border-width: 2px;
-      border-color: darken(#dbdbdb, 10);
+      border-color: color.adjust(#dbdbdb, $lightness: -10%);
       color: $cx-theme-primary-color;
 
       &:after {
@@ -289,7 +309,7 @@ $form-list: (TextField NumberField LookupField DateTimeField MonthField ColorFie
       }
 
       &:hover {
-         border-color: darken(#dbdbdb, 10);
+         border-color: color.adjust(#dbdbdb, $lightness: -10%);
       }
 
       &.#{$state}checked {
@@ -313,7 +333,7 @@ $form-list: (TextField NumberField LookupField DateTimeField MonthField ColorFie
          box-shadow: none;
          background-color: #fff;
          border-width: 0 0 1px;
-         border-color: darken($cx-default-input-border-color, 5);
+         border-color: color.adjust($cx-default-input-border-color, $lightness: -5%);
          border-radius: 0;
          padding: 2px 6px;
 
@@ -540,9 +560,9 @@ $form-list: (TextField NumberField LookupField DateTimeField MonthField ColorFie
 
    .#{$state}sorted-asc,
    .#{$state}sorted-desc {
-      border-color: darken($cx-default-grid-header-background-color, 2);
+      border-color: color.adjust($cx-default-grid-header-background-color, $lightness: -2%);
       &:hover {
-         border-color: darken($cx-default-grid-header-background-color, 3);
+         border-color: color.adjust($cx-default-grid-header-background-color, $lightness: -3%);
       }
    }
 }
@@ -574,7 +594,7 @@ $form-list: (TextField NumberField LookupField DateTimeField MonthField ColorFie
    > .#{$block}menu > li > div {
       > span {
          padding: 0 $cx-theme-base-size * 0.5 !important;
-         line-height: $cx-default-grid-header-line-height + 2 * (cx-top($cx-default-grid-header-padding)-1px); //temporary solution TODO
+         line-height: $cx-default-grid-header-line-height + 2 * (cx-top($cx-default-grid-header-padding) - 1px); //temporary solution TODO
       }
    }
 }
@@ -608,7 +628,7 @@ $form-list: (TextField NumberField LookupField DateTimeField MonthField ColorFie
          td {
             border-bottom: 1px solid $cx-default-grid-data-border-color;
             font-weight: 600;
-            background-color: darken(#f7f7f7, $i);
+            background-color: color.adjust(#f7f7f7, $lightness: -1% * $i);
          }
       }
    }

@@ -1,0 +1,15 @@
+// 1. Load theme variables FIRST (configures cx variables)
+@use "./variables.scss" as *;
+
+// 2. Load theme maps (configures cx maps)
+@use "./maps.scss" as *;
+
+// 3. Load theme functions
+@use "./functions.scss" as *;
+
+// 4. Load cx widgets + ui which generates CSS using configured values
+@use "cx/src/widgets/index" as *;
+@use "cx/src/ui/index" as *;
+
+// 5. Component-specific overrides
+@use "./overrides.scss";

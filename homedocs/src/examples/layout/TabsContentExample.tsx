@@ -24,7 +24,7 @@ export default (
         Notifications
       </Tab>
     </div>
-    <div className="border border-gray-300 bg-white p-4">
+    <div className="border cxm-cover p-4">
       <div visible={equal(m.tab, "tab1")}>Profile content goes here.</div>
       <div visible={equal(m.tab, "tab2")}>Settings content goes here.</div>
       <div visible={equal(m.tab, "tab3")}>Notifications content goes here.</div>

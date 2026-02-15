@@ -1,29 +1,29 @@
 {
-   "name": "cx-build-tools",
-   "version": "21.1.0",
-   "description": "Tools and utilities required for building CxJS and related packages.",
-   "main": "index.js",
-   "jsnext:main": "src/index.js",
-   "author": "Codaxy",
-   "license": "MIT",
-   "bugs": {
-      "url": "https://github.com/codaxy/cxjs"
-   },
-   "homepage": "https://github.com/codaxy/cxjs",
-   "dependencies": {
-      "@babel/core": "^7.28.5",
-      "@babel/preset-env": "^7.28.5",
-      "@babel/preset-typescript": "^7.28.5",
-      "@rollup/plugin-babel": "^6.1.0",
-      "@rollup/plugin-node-resolve": "^16.0.3",
-      "babel-preset-cx-env": "^24.0.0",
-      "prettier": "^3.3.3",
-      "rollup": "^4.28.1",
-      "rollup-plugin-prettier": "^4.1.1",
-      "sass": "^1.77.8"
-   },
-   "repository": {
-      "type": "git",
-      "url": "git@github.com:codaxy/cx.git"
-   }
+  "name": "cx-build-tools",
+  "version": "21.1.0",
+  "description": "Tools and utilities required for building CxJS and related packages.",
+  "main": "index.js",
+  "jsnext:main": "src/index.js",
+  "author": "Codaxy",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/codaxy/cxjs"
+  },
+  "homepage": "https://github.com/codaxy/cxjs",
+  "dependencies": {
+    "@babel/core": "^7.28.5",
+    "@babel/preset-env": "^7.28.5",
+    "@babel/preset-typescript": "^7.28.5",
+    "@rollup/plugin-babel": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "babel-preset-cx-env": "^24.0.0",
+    "prettier": "^3.3.3",
+    "rollup": "^4.28.1",
+    "rollup-plugin-prettier": "^4.1.1",
+    "sass": "^1.77.8"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:codaxy/cx.git"
+  }
 }

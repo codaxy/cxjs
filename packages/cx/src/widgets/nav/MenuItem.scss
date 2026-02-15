@@ -1,8 +1,17 @@
+@use "sass:math";
 @use "sass:map";
+@use "../variables" as *;
+@use "../maps" as *;
+@use "../../util/scss/add-rules.scss" as *;
+@use "../../util/scss/clockwise.scss" as *;
+@use "../../util/scss/deep-merge.scss" as *;
+@use "../../util/scss/calc.scss" as *;
+@use "../../util/scss/besm.scss" as *;
+@use "../../util/scss/include.scss" as *;
 
 @mixin cx-menuitem(
    $name: "menuitem",
-   $state-style-map: cx-deep-map-merge($cx-list-item, $cx-menu-list-item),
+   $state-style-map: $cx-menu-list-item,
    $icon-size: $cx-default-icon-size,
    $besm: $cx-besm
 ) {
@@ -50,6 +59,12 @@
          }
       }
 
+      & > hr {
+         border: none;
+         border-top: 1px solid $cx-default-menu-separator-color;
+         margin: map.get($cx-menu-padding-options, medium);
+      }
+
       @each $size, $value in $cx-menu-padding-options {
          &.#{$state}#{$size}-padding {
             & > a,
@@ -69,11 +84,11 @@
             }
 
             &.#{$state}empty {
-               padding-right: cx-calc($icon-size) * 0.5;
+               padding-right: cx-multiply($icon-size, 0.5);
             }
 
             & > .#{$element}#{$name}-arrow {
-               right: cx-right($value) * 0.5;
+               right: cx-multiply(cx-right($value), 0.5);
             }
 
             & > .#{$element}#{$name}-button {
@@ -88,7 +103,7 @@
       width: $icon-size;
       height: $icon-size;
       top: 50%;
-      margin-top: -$icon-size * 0.5;
+      margin-top: cx-multiply($icon-size, -0.5);
 
       .#{$state}vertical > & {
          transform: rotate(-90deg);
@@ -117,8 +132,8 @@
       height: $icon-size;
       top: 50%;
       left: 50%;
-      margin-top: -$icon-size * 0.5;
-      margin-left: -$icon-size * 0.5;
+      margin-top: cx-multiply($icon-size, -0.5);
+      margin-left: cx-multiply($icon-size, -0.5);
       text-align: center;
       line-height: 1;
       font-size: $icon-size;

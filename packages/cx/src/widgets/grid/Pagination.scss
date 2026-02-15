@@ -1,4 +1,13 @@
+@use "sass:math";
 @use "sass:map";
+@use "../variables" as *;
+@use "../maps" as *;
+@use "../../util/scss/add-rules.scss" as *;
+@use "../../util/scss/clockwise.scss" as *;
+@use "../../util/scss/deep-merge.scss" as *;
+@use "../../util/scss/calc.scss" as *;
+@use "../../util/scss/besm.scss" as *;
+@use "../../util/scss/include.scss" as *;
 
 @mixin cx-pagination(
    $name: "pagination",
@@ -100,9 +109,9 @@
       line-height: $icon-size;
       position: absolute;
       top: 50%;
-      margin-top: -$icon-size * 0.5;
+      margin-top: cx-multiply($icon-size, -0.5);
       left: 50%;
-      margin-left: -$icon-size * 0.5;
+      margin-left: cx-multiply($icon-size, -0.5);
    }
 
    .#{$element}#{$name}-icon-prev-page {

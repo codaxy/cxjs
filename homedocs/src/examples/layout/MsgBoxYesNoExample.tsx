@@ -11,7 +11,14 @@ const m = createModel<PageModel>();
 
 // @index
 export default (
-  <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", alignItems: "center" }}>
+  <div
+    style={{
+      display: "flex",
+      flexWrap: "wrap",
+      gap: "8px",
+      alignItems: "center",
+    }}
+  >
     <Button
       onClick={async (e, { store }) => {
         const result = await MsgBox.yesNo("Do you want to proceed?");
@@ -28,13 +35,16 @@ export default (
           yesText: "Delete",
           noText: "Cancel",
           yesButtonMod: "primary",
+          initiatingEvent: e,
         });
         store.set(m.result, result);
       }}
     >
       Custom Buttons
     </Button>
-    <span text={{ expr: `{${m.result}} ? "Last result: " + {${m.result}} : ""` }} />
+    <span
+      text={{ expr: `{${m.result}} ? "Last result: " + {${m.result}} : ""` }}
+    />
   </div>
 );
 // @index-end

@@ -1,10 +1,4 @@
-$master-header-height: 45px;
-$master-font-family: sans-serif;
-$master-brand-highlight-color: #017be6 !default;
-$master-brand-background: linear-gradient(90deg, #017be6, #00d7eb) !default;
-$master-brand-color: white;
-$master-desktop-screen-width: 1000px;
-$master-theme-color: #4f7aea;
+@use "./variables" as *;
 
 .master_header {
    position: fixed;

@@ -1,13 +1,14 @@
-@import "../misc/layout/index";
-@import "../misc/components/index";
-@import "components/index";
-@import "layout/index";
-@import "routes/index";
+@use "../misc/layout/index" as misc-layout;
+@use "../misc/components/index" as misc-components;
+@use "../misc/components/variables" as misc-vars;
+@use "components/index" as components;
+@use "layout/index" as layout;
+@use "routes/index" as routes;
 
 :root {
    --master-sidebar-background: rgba(255, 255, 255, 0.5);
-   --master-sidebar-color: #{$master-sidenav-link-color};
-   --master-sidebar-active-color: #{$master-sidenav-active-link-color};
+   --master-sidebar-color: #{misc-vars.$master-sidenav-link-color};
+   --master-sidebar-active-color: #{misc-vars.$master-sidenav-active-link-color};
 }
 
 .topbanner {

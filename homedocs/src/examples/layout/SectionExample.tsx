@@ -18,7 +18,7 @@ export default (
     </Section>
 
     <Section mod="card">
-      <FlexRow align="center" putInto="header">
+      <FlexRow align="start" putInto="header">
         <Heading level={4} className="text-blue-400">
           Custom Header
         </Heading>
