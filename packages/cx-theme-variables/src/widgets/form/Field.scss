@@ -32,6 +32,7 @@ $cx-std-field-state-style-map: cx-deep-map-merge(
       ),
       hover: (),
       focus: (
+         border-color: var(--cx-theme-primary-color),
          box-shadow: var(--cx-theme-focus-box-shadow),
       ),
       disabled: (
@@ -49,7 +50,7 @@ $cx-std-field-state-style-map: cx-deep-map-merge(
          border-color: var(--cx-theme-danger-color),
       ),
       error-focus: (
-         border-color: var(--cx-theme-danger-color-dark),
+         border-color: var(--cx-theme-danger-border-color),
          box-shadow: 0 0 0 2px
             color-mix(in oklch, var(--cx-theme-danger-color) 30%, transparent),
       ),
@@ -85,14 +86,14 @@ $cx-checkbox-state-style-map: cx-deep-map-merge(
          border-color: var(--cx-theme-primary-color),
       ),
       checked: (
-         background-color: var(--cx-theme-primary-color),
-         border-color: var(--cx-theme-primary-color),
-         color: white,
+         background-color: var(--cx-checkbox-checked-background-color),
+         border-color: var(--cx-checkbox-checked-border-color),
+         color: var(--cx-checkbox-checked-color),
          opacity: 1,
       ),
       checked-focus: (
-         background-color: var(--cx-theme-primary-color),
-         border-color: var(--cx-theme-primary-color),
+         background-color: var(--cx-checkbox-checked-background-color),
+         border-color: var(--cx-checkbox-checked-border-color),
       ),
       disabled: (
          opacity: 0.5,
@@ -108,16 +109,16 @@ $cx-radio-state-style-map: cx-deep-map-merge(
    $cx-radio-state-style-map,
    (
       checked: (
-         color: var(--cx-theme-primary-color),
-         border-color: var(--cx-theme-primary-color),
+         color: var(--cx-radio-checked-color),
+         border-color: var(--cx-radio-checked-border-color),
       ),
       checked-focus: (
-         color: var(--cx-theme-primary-color),
-         border-color: var(--cx-theme-primary-color),
+         color: var(--cx-radio-checked-color),
+         border-color: var(--cx-radio-checked-border-color),
       ),
       checked-hover: (
-         color: var(--cx-theme-primary-color),
-         border-color: var(--cx-theme-primary-color),
+         color: var(--cx-radio-checked-color),
+         border-color: var(--cx-radio-checked-border-color),
       ),
       focus: (
          box-shadow: var(--cx-theme-focus-box-shadow),
@@ -169,7 +170,7 @@ $cx-switch-handle-styles: cx-deep-map-merge(
          border-color: transparent,
       ),
       focus: (
-         box-shadow: var(--cx-theme-box-shadow-elevated),
+         box-shadow: var(--cx-overlay-box-shadow),
          border-color: transparent,
       ),
    )
@@ -192,41 +193,3 @@ $cx-clear-state-style-map: cx-deep-map-merge(
       ),
    )
 );
-
-// // Right icon
-// $cx-input-right-icon-state-style-map: cx-deep-map-merge(
-//    $cx-input-right-icon-state-style-map,
-//    (
-//       default: (
-//          color: var(--cx-theme-secondary-text-color),
-//          opacity: 1,
-//       ),
-//       focus: (
-//          color: var(--cx-theme-primary-color),
-//       ),
-//       error: (
-//          color: var(--cx-theme-text-color),
-//          opacity: 0.6,
-//       ),
-//    )
-// );
-
-// // Left icon
-// $cx-input-left-icon-state-style-map: cx-deep-map-merge(
-//    $cx-input-left-icon-state-style-map,
-//    (
-//       default: (
-//          left: calc(
-//                1px + (var(--cx-input-padding-x) + var(--cx-input-padding-y)) / 2
-//             ),
-//       ),
-//       focus: (
-//          color: var(--cx-theme-primary-color),
-//          opacity: 1,
-//       ),
-//       error: (
-//          color: var(--cx-theme-text-color),
-//          opacity: 0.6,
-//       ),
-//    )
-// );

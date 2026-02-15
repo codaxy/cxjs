@@ -71,7 +71,7 @@ $cx-element-style-map: cx-deep-map-merge(
       html: (
          background-color: var(--cx-theme-background-color),
          font-family: var(--cx-theme-font-family),
-         font-size: var(--cx-theme-base-font-size),
+         font-size: var(--cx-theme-font-size),
          font-weight: var(--cx-theme-font-weight),
       ),
       h1: (

@@ -36,12 +36,11 @@ const homedocsLightPreset: ThemeVariables = {
 
   // Shadows - no CSS variable available, hardcoded
   boxShadow: "0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)",
-  //boxShadowElevated: "0 10px 25px rgba(0, 0, 0, 0.15)",
-  focusBoxShadow: "0 0 0 2px rgba(39, 170, 225, 0.2)",
+  //overlayBoxShadow: "0 10px 25px rgba(0, 0, 0, 0.15)",
 
   // Sizing
   borderRadius: "6px",
-  baseFontSize: "14px",
+  fontSize: "14px",
   iconSize: "16px",
 
   // Typography
@@ -53,7 +52,7 @@ const homedocsLightPreset: ThemeVariables = {
   inputColor: "inherit",
   inputBackgroundColor: "hsl(var(--background))",
   inputBorderColor: "hsl(var(--input))",
-  inputFontSize: "var(--cx-theme-base-font-size)",
+  inputFontSize: "var(--cx-theme-font-size)",
   inputLineHeight: "20px",
   inputPaddingX: "10px",
   inputPaddingY: "8px",
@@ -62,7 +61,7 @@ const homedocsLightPreset: ThemeVariables = {
   // Button
   buttonBackgroundColor: "hsl(var(--secondary))",
   buttonBorderColor: "hsl(var(--border))",
-  buttonFontSize: "var(--cx-theme-base-font-size)",
+  buttonFontSize: "var(--cx-theme-font-size)",
   buttonFontWeight: "inherit",
   buttonLineHeight: "20px",
   buttonPaddingX: "16px",

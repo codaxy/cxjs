@@ -99,6 +99,7 @@ export const VariableEditor = createFunctionalComponent(() => (
                     (key) => `var(${variableMap[key]})`,
                   ),
                   placement: "up",
+                  mouseTrap: true,
                 }}
               >
                 <Icon

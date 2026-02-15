@@ -14,6 +14,5 @@ export const oceanPreset: ThemeVariables = {
    inputBorderColor: "#b2ebf2",
    buttonBackgroundColor: "#e0f7fa",
    gridDataBorderColor: "#b2ebf2",
-   focusBoxShadow: "0 0 0 2px rgba(0, 151, 167, 0.4)",
 };
 

@@ -7,12 +7,12 @@ $cx-dropdown-styles: map-merge(
    (
       color: var(--cx-theme-text-color),
       background-color: var(--cx-theme-background-color),
-      font-size: var(--cx-theme-base-font-size),
+      font-size: var(--cx-theme-font-size),
       font-weight: var(--cx-theme-font-weight),
       border-width: var(--cx-dropdown-border-width),
       border-style: solid,
       border-color: var(--cx-theme-border-color),
       border-radius: var(--cx-theme-border-radius),
-      box-shadow: var(--cx-theme-box-shadow-elevated),
+      box-shadow: var(--cx-overlay-box-shadow),
    )
 );

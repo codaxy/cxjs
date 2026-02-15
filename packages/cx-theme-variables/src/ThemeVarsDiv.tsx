@@ -11,7 +11,7 @@ const resetStyle = {
   color: "var(--cx-theme-text-color)",
   fontFamily: "var(--cx-theme-font-family)",
   fontWeight: "var(--cx-theme-font-weight)",
-  fontSize: "var(--cx-theme-base-font-size)",
+  fontSize: "var(--cx-theme-font-size)",
 };
 
 export interface ThemeVarsDivConfig extends StyledContainerConfig {

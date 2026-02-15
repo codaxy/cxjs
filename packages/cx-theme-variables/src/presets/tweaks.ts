@@ -28,7 +28,7 @@ export const roundingVeryLarge: Partial<ThemeVariables> = {
 
 // Density tweaks
 export const densityMinimal: Partial<ThemeVariables> = {
-   baseFontSize: "12px",
+   fontSize: "12px",
    inputWidth: "150px",
    inputLineHeight: "16px",
    inputPaddingX: "3px",
@@ -49,7 +49,7 @@ export const densityMinimal: Partial<ThemeVariables> = {
 };
 
 export const densityCondensed: Partial<ThemeVariables> = {
-   baseFontSize: "13px",
+   fontSize: "13px",
    inputWidth: "160px",
    inputLineHeight: "18px",
    inputPaddingX: "4px",
@@ -70,7 +70,7 @@ export const densityCondensed: Partial<ThemeVariables> = {
 };
 
 export const densityCompact: Partial<ThemeVariables> = {
-   baseFontSize: "14px",
+   fontSize: "14px",
    inputWidth: "180px",
    inputLineHeight: "20px",
    inputPaddingX: "5px",
@@ -90,7 +90,7 @@ export const densityCompact: Partial<ThemeVariables> = {
 };
 
 export const densityNormal: Partial<ThemeVariables> = {
-   baseFontSize: "14px",
+   fontSize: "14px",
    inputWidth: "200px",
    inputLineHeight: "22px",
    inputPaddingX: "6px",
@@ -110,7 +110,7 @@ export const densityNormal: Partial<ThemeVariables> = {
 };
 
 export const densityComfortable: Partial<ThemeVariables> = {
-   baseFontSize: "15px",
+   fontSize: "15px",
    inputWidth: "220px",
    inputLineHeight: "24px",
    inputPaddingX: "6px",
@@ -130,7 +130,7 @@ export const densityComfortable: Partial<ThemeVariables> = {
 };
 
 export const densitySpacious: Partial<ThemeVariables> = {
-   baseFontSize: "16px",
+   fontSize: "16px",
    inputWidth: "240px",
    inputLineHeight: "24px",
    inputPaddingX: "7px",

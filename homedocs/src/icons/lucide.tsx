@@ -107,7 +107,7 @@ Icon.register("grip-vertical", getRenderer(GripVertical));
 Icon.register("palette", getRenderer(Palette));
 Icon.register("circle", getRenderer(Circle));
 Icon.register("info", getRenderer(Info));
-Icon.register("square", getRenderer(Square));
+//Icon.register("square", getRenderer(Square)); // need to use default icon for indeterminate checkboxes
 Icon.register("sliders-horizontal", getRenderer(SlidersHorizontal));
 Icon.register("app-window", getRenderer(AppWindow));
 Icon.register("type", getRenderer(Type));

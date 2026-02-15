@@ -15,7 +15,7 @@ $cx-window-state-style-map: cx-deep-map-merge(
          border-color: var(--cx-window-border-color),
          border-width: var(--cx-window-border-width),
          border-radius: var(--cx-theme-border-radius),
-         box-shadow: var(--cx-theme-box-shadow-elevated),
+         box-shadow: var(--cx-overlay-box-shadow),
       ),
    )
 );

@@ -20,17 +20,18 @@
    $state: map.get($besm, state);
    $mod: map.get($besm, mod);
 
+   $line-height: cx-get-state-rule(
+      $state-style-map,
+      default,
+      "line-height",
+      1.2em
+   );
+
    .#{$block}#{$name} {
       position: relative;
       box-sizing: border-box;
       display: inline-block;
 
-      $line-height: cx-get-state-rule(
-         $state-style-map,
-         default,
-         "line-height",
-         1.2em
-      );
       $padding: cx-get-state-rule($state-style-map, default, "padding", 0);
       $border-width: cx-get-state-rule(
          $state-style-map,
@@ -118,8 +119,7 @@
 
    .#{$element}#{$name}-baseline {
       display: inline-block;
-      width: 1px;
-      margin-left: -1px;
+      min-width: $line-height;
    }
 
    .#{$block}#{$name}.#{$state}icon {
@@ -127,9 +127,13 @@
          cx-calc(cx-left($padding), $icon-size);
 
       &.#{$state}empty {
-         padding: cx-top($padding) cx-multiply(0.5, cx-right($padding))
-            cx-bottom($padding)
-            cx-calc(cx-multiply(0.5, cx-left($padding)), $icon-size);
+         padding: cx-top($padding) cx-top($padding) cx-bottom($padding)
+            cx-top($padding);
+
+         .#{$element}#{$name}-icon {
+            left: 50%;
+            margin-left: cx-multiply($icon-size, -0.5);
+         }
       }
    }
 }

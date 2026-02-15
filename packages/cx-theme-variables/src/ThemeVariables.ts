@@ -10,10 +10,10 @@ export interface ThemeVariables {
    surfaceColor: string;
    borderColor: string;
    boxShadow: string;
-   boxShadowElevated: string;
+   overlayBoxShadow: string;
    focusBoxShadow: string;
    borderRadius: string;
-   baseFontSize: string;
+   fontSize: string;
    iconSize: string;
    fontFamily: string;
    fontWeight: string;
@@ -60,6 +60,11 @@ export interface ThemeVariables {
    inputTagBorderWidth: string;
    inputTagPadding: string;
    checkboxSize: string;
+   checkboxCheckedBackgroundColor: string;
+   checkboxCheckedBorderColor: string;
+   checkboxCheckedColor: string;
+   radioCheckedColor: string;
+   radioCheckedBorderColor: string;
 
    buttonBackgroundColor: string;
    buttonColor: string;
@@ -94,6 +99,12 @@ export interface ThemeVariables {
    gridDataPaddingY: string;
    gridDataBackgroundColor: string;
    gridDataBorderColor: string;
+   gridDataAlternateBackgroundColor: string;
+
+   cursorColor: string;
+   cursorBorderWidth: string;
+   cursorBorderRadius: string;
+   cursorBoxShadow: string;
 
    listItemPaddingX: string;
    listItemPaddingY: string;
@@ -269,10 +280,10 @@ export const variableMap: Record<keyof ThemeVariables, string> = {
    surfaceColor: "--cx-theme-surface-color",
    borderColor: "--cx-theme-border-color",
    boxShadow: "--cx-theme-box-shadow",
-   boxShadowElevated: "--cx-theme-box-shadow-elevated",
+   overlayBoxShadow: "--cx-overlay-box-shadow",
    focusBoxShadow: "--cx-theme-focus-box-shadow",
    borderRadius: "--cx-theme-border-radius",
-   baseFontSize: "--cx-theme-base-font-size",
+   fontSize: "--cx-theme-font-size",
    iconSize: "--cx-theme-icon-size",
    fontFamily: "--cx-theme-font-family",
    fontWeight: "--cx-theme-font-weight",
@@ -319,6 +330,11 @@ export const variableMap: Record<keyof ThemeVariables, string> = {
    inputTagBorderWidth: "--cx-input-tag-border-width",
    inputTagPadding: "--cx-input-tag-padding",
    checkboxSize: "--cx-checkbox-size",
+   checkboxCheckedBackgroundColor: "--cx-checkbox-checked-background-color",
+   checkboxCheckedBorderColor: "--cx-checkbox-checked-border-color",
+   checkboxCheckedColor: "--cx-checkbox-checked-color",
+   radioCheckedColor: "--cx-radio-checked-color",
+   radioCheckedBorderColor: "--cx-radio-checked-border-color",
 
    buttonBackgroundColor: "--cx-button-background-color",
    buttonColor: "--cx-button-color",
@@ -353,6 +369,12 @@ export const variableMap: Record<keyof ThemeVariables, string> = {
    gridDataPaddingY: "--cx-grid-data-padding-y",
    gridDataBackgroundColor: "--cx-grid-data-background-color",
    gridDataBorderColor: "--cx-grid-data-border-color",
+   gridDataAlternateBackgroundColor: "--cx-grid-data-alternate-background-color",
+
+   cursorColor: "--cx-cursor-color",
+   cursorBorderWidth: "--cx-cursor-border-width",
+   cursorBorderRadius: "--cx-cursor-border-radius",
+   cursorBoxShadow: "--cx-cursor-box-shadow",
 
    listItemPaddingX: "--cx-list-item-padding-x",
    listItemPaddingY: "--cx-list-item-padding-y",
@@ -554,4 +576,21 @@ export function themeVariablesToCSS(
       return `${wrapper} {\n   ${block}\n}`;
    }
    return block;
+}
+
+/**
+ * Renders theme variables by appending a <style> tag to document.head.
+ * @param theme - Theme variables to render
+ * @param selector - CSS selector (default: ":root")
+ * @param cssWrapper - Optional wrapper like "@media (prefers-color-scheme: dark)"
+ */
+export function renderThemeVariables(
+   theme: Partial<ThemeVariables>,
+   selector: string = ":root",
+   cssWrapper?: string,
+): void {
+   const css = themeVariablesToCSS(theme, selector, cssWrapper);
+   const style = document.createElement("style");
+   style.textContent = css;
+   document.head.appendChild(style);
 }

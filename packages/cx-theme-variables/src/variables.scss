@@ -90,14 +90,14 @@ $cx-theme-box-padding: var(--cx-input-padding-y) var(--cx-input-padding-x);
    $cx-default-toast-border-color: var(--cx-toast-border-color) !default,
    $cx-default-toast-box-shadow: var(--cx-toast-box-shadow) !default,
    $cx-default-toast-border-radius: var(--cx-toast-border-radius) !default,
-   $cx-default-toast-font-size: var(--cx-theme-base-font-size) !default,
+   $cx-default-toast-font-size: var(--cx-theme-font-size) !default,
    $cx-default-toast-padding: var(--cx-toast-padding) !default,
 
    // -------------------------------------------------------------------------
    // Window
    // -------------------------------------------------------------------------
    $cx-default-window-background-color: var(--cx-window-background-color) !default,
-   $cx-default-window-box-shadow: var(--cx-theme-box-shadow-elevated) !default,
+   $cx-default-window-box-shadow: var(--cx-overlay-box-shadow) !default,
    $cx-default-window-header-color: var(--cx-window-header-color) !default,
    $cx-default-window-header-background-color: var(--cx-window-header-background-color) !default,
    $cx-default-window-header-padding: var(--cx-window-header-padding) !default,
@@ -200,7 +200,7 @@ $cx-theme-box-padding: var(--cx-input-padding-y) var(--cx-input-padding-x);
    $cx-default-calendar-border-color: var(--cx-theme-border-color) !default,
    $cx-default-calendar-border-radius: var(--cx-theme-border-radius) !default,
    $cx-default-calendar-box-shadow: none !default,
-   $cx-default-calendar-header-font-size: var(--cx-theme-base-font-size)
+   $cx-default-calendar-header-font-size: var(--cx-theme-font-size)
       !default,
    $cx-default-calendar-header-font-weight: var(
          --cx-calendar-header-font-weight
@@ -225,7 +225,6 @@ $cx-theme-box-padding: var(--cx-input-padding-y) var(--cx-input-padding-x);
    // Radio
    // -------------------------------------------------------------------------
    $cx-default-radio-size: var(--cx-checkbox-size) !default,
-   $cx-default-radio-color: var(--cx-theme-primary-color) !default,
    $cx-default-radio-border-color: var(--cx-theme-border-color) !default,
 
    // -------------------------------------------------------------------------
@@ -263,7 +262,7 @@ $cx-theme-box-padding: var(--cx-input-padding-y) var(--cx-input-padding-x);
    $cx-default-tab-border-width: 0 !default,
    $cx-default-tab-border-color: transparent !default,
    $cx-default-tab-color: var(--cx-theme-text-color) !default,
-   $cx-default-tab-font-size: var(--cx-theme-base-font-size) !default,
+   $cx-default-tab-font-size: var(--cx-theme-font-size) !default,
    $cx-default-tab-border-radius: var(--cx-theme-border-radius) !default,
    $cx-default-tab-padding: var(--cx-button-padding-y)
       var(--cx-button-padding-x) !default,

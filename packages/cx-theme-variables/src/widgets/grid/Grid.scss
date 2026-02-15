@@ -42,7 +42,8 @@ $cx-grid-cell-cursor-style: map.merge(
       left: 0,
       background: transparent,
       border: none,
-      box-shadow: inset 0 0 0 2px var(--cx-theme-primary-color),
+      box-shadow: var(--cx-cursor-box-shadow),
+      border-radius: var(--cx-cursor-border-radius),
    )
 );
 
@@ -59,7 +60,8 @@ $cx-grid-data-state-style-map: cx-deep-map-merge(
       ),
       cursor: (
          background-color: transparent,
-         box-shadow: inset 0 0 0 1px var(--cx-theme-primary-color),
+         box-shadow: var(--cx-cursor-box-shadow),
+         border-radius: var(--cx-cursor-border-radius),
          position: relative,
       ),
       selected: (
@@ -78,8 +80,11 @@ $cx-grid-data-state-style-map: cx-deep-map-merge(
       selected-cursor: (
          background-color: var(--cx-theme-accent-color),
          color: var(--cx-theme-accent-text-color),
-         box-shadow: inset 0 0 0 1px var(--cx-theme-primary-color),
+         box-shadow: var(--cx-cursor-box-shadow),
          position: relative,
+      ),
+      alternate: (
+         background-color: var(--cx-grid-data-alternate-background-color),
       ),
       disabled: (
          background-color: transparent,

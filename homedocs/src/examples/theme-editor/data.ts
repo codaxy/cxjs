@@ -5,12 +5,15 @@ import {
   darkBluePreset,
   darkGrayPreset,
   oceanPreset,
+  docsLightPreset,
+  docsDarkPreset,
+  blackAndWhitePreset,
+  packedDarkPreset,
+  classicPreset,
   roundingTweaks,
   densityTweaks,
   fontTweaks,
 } from "cx-theme-variables";
-import homedocsLightPreset from "../../styles/homedocsLight";
-import homedocsDarkPreset from "../../styles/homedocsDark";
 
 // Variable metadata - maps ThemeVariables keys to labels, types, and categories
 const variableMetadata: Array<{
@@ -273,6 +276,36 @@ const variableMetadata: Array<{
     category: "checks",
   },
   {
+    key: "checkboxCheckedBackgroundColor",
+    label: "Checked background",
+    type: "color",
+    category: "checks",
+  },
+  {
+    key: "checkboxCheckedBorderColor",
+    label: "Checked border",
+    type: "color",
+    category: "checks",
+  },
+  {
+    key: "checkboxCheckedColor",
+    label: "Checked color",
+    type: "color",
+    category: "checks",
+  },
+  {
+    key: "radioCheckedColor",
+    label: "Radio checked color",
+    type: "color",
+    category: "checks",
+  },
+  {
+    key: "radioCheckedBorderColor",
+    label: "Radio checked border",
+    type: "color",
+    category: "checks",
+  },
+  {
     key: "switchAxisSize",
     label: "Switch axis size",
     type: "size",
@@ -476,6 +509,12 @@ const variableMetadata: Array<{
     type: "color",
     category: "grids",
   },
+  {
+    key: "gridDataAlternateBackgroundColor",
+    label: "Alternate row background",
+    type: "color",
+    category: "grids",
+  },
 
   // Sizing
   {
@@ -485,8 +524,8 @@ const variableMetadata: Array<{
     category: "sizing",
   },
   {
-    key: "baseFontSize",
-    label: "Base font size",
+    key: "fontSize",
+    label: "Font size",
     type: "size",
     category: "sizing",
   },
@@ -507,8 +546,8 @@ const variableMetadata: Array<{
   // Effects
   { key: "boxShadow", label: "Box shadow", type: "text", category: "effects" },
   {
-    key: "boxShadowElevated",
-    label: "Elevated shadow",
+    key: "overlayBoxShadow",
+    label: "Overlay box shadow",
     type: "text",
     category: "effects",
   },
@@ -519,6 +558,30 @@ const variableMetadata: Array<{
     category: "effects",
   },
   { key: "transition", label: "Transition", type: "text", category: "effects" },
+  {
+    key: "cursorColor",
+    label: "Cursor color",
+    type: "color",
+    category: "effects",
+  },
+  {
+    key: "cursorBorderWidth",
+    label: "Cursor border width",
+    type: "size",
+    category: "effects",
+  },
+  {
+    key: "cursorBorderRadius",
+    label: "Cursor border radius",
+    type: "size",
+    category: "effects",
+  },
+  {
+    key: "cursorBoxShadow",
+    label: "Cursor box shadow",
+    type: "text",
+    category: "effects",
+  },
   {
     key: "scrollbarThumbColor",
     label: "Scrollbar thumb",
@@ -1513,11 +1576,14 @@ export const defaultCategories = themeToCategories(defaultPreset);
 
 export const presets = [
   { id: "default", text: "Default", theme: defaultPreset },
-  { id: "docs-light", text: "Docs Light", theme: homedocsLightPreset },
-  { id: "docs-dark", text: "Docs Dark", theme: homedocsDarkPreset },
+  { id: "docs-light", text: "Docs Light", theme: docsLightPreset },
+  { id: "docs-dark", text: "Docs Dark", theme: docsDarkPreset },
   { id: "darkBlue", text: "Dark Blue", theme: darkBluePreset },
   { id: "darkGray", text: "Dark Gray", theme: darkGrayPreset },
   { id: "ocean", text: "Ocean", theme: oceanPreset },
+  { id: "blackAndWhite", text: "Black & White", theme: blackAndWhitePreset },
+  { id: "packedDark", text: "Packed Dark", theme: packedDarkPreset },
+  { id: "classic", text: "Classic", theme: classicPreset },
 ];
 
 export const roundingOptions = [

@@ -22,5 +22,8 @@
 [x] Fix MonthField rendering empty
 [x] Fix remaining Gallery themes
 [ ] Render presets to css
-[ ] Write Theme Docs
+[ ] Write Theme Migration Docs
 [ ] On this page should render closed on mobile
+[x] Move homedocs presets to cx-theme-variables
+[ ] Make Stackblitz use cx-theme-variables
+[ ] Allow .md extension on each article

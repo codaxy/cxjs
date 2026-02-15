@@ -214,3 +214,7 @@
 .dark .prose > table th {
   background: hsl(var(--secondary) / 0.3);
 }
+
+.prose .cxb-heading {
+  margin: 0 !important;
+}

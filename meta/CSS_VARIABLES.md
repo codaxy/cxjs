@@ -376,7 +376,7 @@ Portal-based overlays (Dropdowns, Tooltips, Context Menus) render outside the wi
 Partial presets in `tweaks.ts` that can be layered on base themes:
 - **Rounding**: none (0), small (3px), medium (5px), large (8px), veryLarge (12px)
 - **Density**: minimal, condensed, compact, normal, comfortable, spacious
-  - Each density preset scales: baseFontSize, inputWidth, inputLineHeight, inputPaddingX/Y, inputTagSpacing, buttonLineHeight, buttonPaddingX/Y, checkboxSize, iconSize, dropdownPadding, dropdownArrowSize, dropdownArrowOffset
+  - Each density preset scales: fontSize, inputWidth, inputLineHeight, inputPaddingX/Y, inputTagSpacing, buttonLineHeight, buttonPaddingX/Y, checkboxSize, iconSize, dropdownPadding, dropdownArrowSize, dropdownArrowOffset
 - **Font**: system, inter, roboto, openSans, poppins, lato
 
 ## TODO: Remaining
