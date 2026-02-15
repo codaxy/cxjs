@@ -32,28 +32,15 @@ async function build() {
             theme("dist/reset.css"),
          ),
          buildSCSS(
-            [
-               themeSrc("variables.scss"),
-               cxSrc("variables.scss"),
-               cxSrc("widgets/index.scss"),
-               cxSrc("ui/index.scss"),
-            ],
+            [themeSrc("widgets.scss")],
             theme("dist/widgets.css"),
          ),
          buildSCSS(
-            [
-               themeSrc("variables.scss"),
-               cxSrc("variables.scss"),
-               cxSrc("charts/index.scss"),
-            ],
+            [themeSrc("charts.scss")],
             theme("dist/charts.css"),
          ),
          buildSCSS(
-            [
-               themeSrc("variables.scss"),
-               cxSrc("variables.scss"),
-               cxSrc("svg/index.scss"),
-            ],
+            [themeSrc("svg.scss")],
             theme("dist/svg.css"),
          ),
       ]);

@@ -1,6 +1,7 @@
 ---
 import { Code } from "astro:components";
 import * as prettier from "prettier";
+import lucideIcons from "../icons/lucide?raw";
 
 interface Props {
   title?: string;
@@ -141,7 +142,8 @@ function generateStackBlitzProject(
       "index.html": generateIndexHtml(),
       "src/theme.css": generateThemeCss(),
       "src/app.tsx": generateAppTsx(),
-      "src/index.tsx": generateIndexTsx(code, imports, sections),
+      "src/index.tsx": generateIndexTsx(code),
+      "src/icons.tsx": lucideIcons
     },
     template: "node" as const,
     title: "CxJS Example",
@@ -154,18 +156,20 @@ function generatePackageJson() {
     {
       name: "cxjs-example",
       version: "1.0.0",
+      private: true,
       type: "module",
       scripts: { dev: "vite", build: "vite build" },
       dependencies: {
         cx: "latest",
         "cx-react": "latest",
-        "cx-theme-space-blue": "latest",
-        react: "^18.2.0",
-        "react-dom": "^18.2.0",
+        "cx-theme-variables": "latest",
+        react: "^19.2.0",
+        "react-dom": "^19.2.0",
+        "lucide": "^0.562.0",
       },
       devDependencies: {
-        "@types/react": "^18.2.0",
-        "@types/react-dom": "^18.2.0",
+        "@types/react": "^19.2.0",
+        "@types/react-dom": "^19.2.0",
         typescript: "^5.0.0",
         vite: "^5.0.0",
       },
@@ -218,8 +222,9 @@ function generateIndexHtml() {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CxJS Example</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <style>
-      html, body { height: 100%; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+      html, body { height: 100%; margin: 0; padding: 0; }
       #app {  }
       .app-frame {
         min-height: 100px;
@@ -239,17 +244,21 @@ function generateIndexHtml() {
 }
 
 function generateThemeCss() {
-  return `@import "cx-theme-space-blue/dist/reset.css";
-@import "cx-theme-space-blue/dist/widgets.css";
-@import "cx-theme-space-blue/dist/charts.css";
-@import "cx-theme-space-blue/dist/svg.css";`;
+  return `@import "cx-theme-variables/dist/reset.css";
+@import "cx-theme-variables/dist/widgets.css";
+@import "cx-theme-variables/dist/charts.css";
+@import "cx-theme-variables/dist/svg.css";`;
 }
 
 function generateAppTsx() {
   return `import "./theme.css";
 import { startAppLoop } from "cx/ui";
 import { Store } from "cx/data";
+import { renderThemeVariables, docsLightPreset } from "cx-theme-variables";
+import "./icons";
 import Content from "./index";
+
+renderThemeVariables(docsLightPreset);
 
 const store = new Store();
 
@@ -281,6 +290,7 @@ function generateIndexTsx(fullCode: string) {
   return fullCode
     .split("\n")
     .filter((line) => !line.trim().match(/^\/\/\s*@(model|controller|components|index)(-end)?$/))
+    .filter((line) => !line.trim().match(/^import\s+['"].*icons\/lucide.*['"];?\s*$/))
     .join("\n");
 }
 

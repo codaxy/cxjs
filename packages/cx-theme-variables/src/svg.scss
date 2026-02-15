@@ -7,8 +7,5 @@
 // 3. Load theme functions
 @use "./functions.scss" as *;
 
-// 4. NOW load cx/src/index which generates CSS using configured values
-@use "cx/src/index" as *;
-
-// 5. Component-specific overrides
-@use "./overrides.scss";
+// 4. Load cx svg which generates CSS using configured values
+@use "cx/src/svg/index" as *;

@@ -7,8 +7,9 @@
 // 3. Load theme functions
 @use "./functions.scss" as *;
 
-// 4. NOW load cx/src/index which generates CSS using configured values
-@use "cx/src/index" as *;
+// 4. Load cx widgets + ui which generates CSS using configured values
+@use "cx/src/widgets/index" as *;
+@use "cx/src/ui/index" as *;
 
 // 5. Component-specific overrides
 @use "./overrides.scss";

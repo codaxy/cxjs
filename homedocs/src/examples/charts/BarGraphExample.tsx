@@ -72,6 +72,6 @@ export default (
         />
       </Chart>
     </Svg>
-  </Legend>
+  </LegendScope>
 );
 // @index-end

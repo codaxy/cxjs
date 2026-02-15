@@ -215,7 +215,7 @@ renderThemeVariables(darkBluePreset, ".dark-section");
 | `--cx-theme-active-state-pressed-amount` | `12%`              | Pressed overlay opacity                |
 | `--cx-theme-border-radius`               | `4px`              | Default border radius                  |
 | `--cx-theme-box-shadow`                  | Material shadow    | Standard elevation shadow              |
-| `--cx-overlay-box-shadow`          | Material shadow    | Overlay/elevated shadow                |
+| `--cx-overlay-box-shadow`                | Material shadow    | Overlay/elevated shadow                |
 | `--cx-theme-focus-box-shadow`            | Focus ring         | Focus indicator shadow                 |
 | `--cx-theme-transition`                  | `all 0.2s ease`    | Default transition                     |
 
