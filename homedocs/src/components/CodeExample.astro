@@ -168,10 +168,12 @@ function generatePackageJson() {
         "lucide": "^0.562.0",
       },
       devDependencies: {
+        "@tailwindcss/vite": "^4.1.18",
         "@types/react": "^19.2.0",
         "@types/react-dom": "^19.2.0",
-        typescript: "^5.0.0",
-        vite: "^5.0.0",
+        "typescript": "^5.9.3",
+        "vite": "^7.3.0",
+        "tailwindcss": "^4.1.18"
       },
     },
     null,
@@ -205,8 +207,10 @@ function generateTsConfig() {
 
 function generateViteConfig() {
   return `import { defineConfig } from "vite";
+import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
+  plugins: [tailwindcss()],
   esbuild: {
     loader: "tsx",
     jsx: "automatic",
@@ -244,10 +248,13 @@ function generateIndexHtml() {
 }
 
 function generateThemeCss() {
-  return `@import "cx-theme-variables/dist/reset.css";
-@import "cx-theme-variables/dist/widgets.css";
-@import "cx-theme-variables/dist/charts.css";
-@import "cx-theme-variables/dist/svg.css";`;
+  return `@import "tailwindcss";
+
+@import "cx-theme-variables/dist/reset.css" layer(base);
+@import "cx-theme-variables/dist/widgets.css" layer(components);
+@import "cx-theme-variables/dist/svg.css" layer(components);
+@import "cx-theme-variables/dist/charts.css" layer(components);
+`
 }
 
 function generateAppTsx() {
