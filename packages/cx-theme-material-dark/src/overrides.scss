@@ -14,29 +14,6 @@ $state: map.get($cx-besm, state);
 $mod: map.get($cx-besm, mod);
 
 // =============================================================================
-// GLOBAL ELEMENT OVERRIDES (dark theme)
-// =============================================================================
-@if ($cx-include-global-rules) {
-   h1,
-   h2,
-   h3,
-   h4,
-   h5,
-   h6 {
-      font-weight: 400;
-      color: $cx-default-color;
-   }
-
-   a {
-      color: #4db6ac;
-   }
-
-   p {
-      line-height: $cx-theme-default-paragraph-line-height;
-   }
-}
-
-// =============================================================================
 // SECTION
 // =============================================================================
 @if (cx-included("cx/widgets/Section")) {

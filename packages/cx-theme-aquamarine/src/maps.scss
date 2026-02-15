@@ -38,6 +38,8 @@ $cx-list-item: cx-deep-map-merge(
    )
 );
 
+$cx-menu-list-item: $cx-list-item;
+
 //BUTTON
 $cx-button-state-style-map: cx-deep-map-merge(
    $cx-button-state-style-map,

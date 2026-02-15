@@ -8,6 +8,8 @@
 @use "cx/src/util/scss/add-rules" as *;
 @use "cx/src/util/scss/clockwise" as *;
 
+@debug "TEST" $cx-theme-default-section-background;
+
 // =============================================================================
 // BUTTON
 // =============================================================================
@@ -19,15 +21,24 @@ $cx-button-state-style-map: cx-deep-map-merge(
          color: #fff,
       ),
       hover: (
-         background-color: color.adjust($cx-theme-default-background-color-lighter, $lightness: 2%),
+         background-color: color.adjust(
+               $cx-theme-default-background-color-lighter,
+               $lightness: 2%
+            ),
          box-shadow: none,
       ),
       focus: (
          box-shadow: $cx-theme-primary-box-shadow,
-         background-color: color.adjust($cx-theme-default-background-color-lighter, $lightness: 3%),
+         background-color: color.adjust(
+               $cx-theme-default-background-color-lighter,
+               $lightness: 3%
+            ),
       ),
       active: (
-         background-color: color.adjust($cx-theme-default-background-color-lighter, $lightness: 3%),
+         background-color: color.adjust(
+               $cx-theme-default-background-color-lighter,
+               $lightness: 3%
+            ),
       ),
       disabled: (
          color: $cx-theme-disabled-text,
@@ -65,7 +76,10 @@ $cx-button-mods: cx-deep-map-merge(
             color: $cx-theme-default-color,
          ),
          hover: (
-            background-color: color.adjust($cx-theme-secondary-color-dark, $lightness: 2%),
+            background-color: color.adjust(
+                  $cx-theme-secondary-color-dark,
+                  $lightness: 2%
+               ),
             color: $cx-theme-default-color,
          ),
          active: (
@@ -87,7 +101,10 @@ $cx-button-mods: cx-deep-map-merge(
             background-color: $cx-theme-danger-color-light,
          ),
          active: (
-            background-color: color.adjust($cx-theme-danger-color, $lightness: -5%),
+            background-color: color.adjust(
+                  $cx-theme-danger-color,
+                  $lightness: -5%
+               ),
          ),
          disabled: (
             background-color: $cx-theme-danger-color,
@@ -100,10 +117,16 @@ $cx-button-mods: cx-deep-map-merge(
             color: color.mix(#000, $cx-theme-warning-color, 70%),
          ),
          hover: (
-            background-color: color.adjust($cx-theme-warning-color, $lightness: 3%),
+            background-color: color.adjust(
+                  $cx-theme-warning-color,
+                  $lightness: 3%
+               ),
          ),
          active: (
-            background-color: color.adjust($cx-theme-warning-color, $lightness: -5%),
+            background-color: color.adjust(
+                  $cx-theme-warning-color,
+                  $lightness: -5%
+               ),
          ),
          disabled: (
             background-color: $cx-theme-warning-color,
@@ -250,7 +273,13 @@ $cx-section-mods: cx-deep-map-merge(
    (
       card: (
          default: (
-            background-color: $cx-default-section-background,
+            background-color: $cx-theme-default-section-background,
+            color: $cx-theme-default-color,
+         ),
+      ),
+      well: (
+         default: (
+            background-color: $cx-theme-default-section-background,
             color: $cx-theme-default-color,
          ),
       ),
@@ -380,6 +409,8 @@ $cx-list-item: cx-deep-map-merge(
    )
 );
 
+$cx-menu-list-item: $cx-list-item;
+
 // =============================================================================
 // GRID
 // =============================================================================
@@ -387,15 +418,24 @@ $cx-grid-header-state-style-map: cx-deep-map-merge(
    $cx-grid-header-state-style-map,
    (
       hover: (
-         background-color: color.adjust($cx-default-grid-header-background-color, $lightness: 0.3%),
+         background-color: color.adjust(
+               $cx-default-grid-header-background-color,
+               $lightness: 0.3%
+            ),
          color: color.adjust($cx-theme-primary-text-color, $lightness: 8%),
       ),
       sorted: (
          color: color.adjust($cx-theme-primary-text-color, $lightness: 9%),
-         background-color: color.adjust($cx-default-grid-header-background-color, $lightness: 4%),
+         background-color: color.adjust(
+               $cx-default-grid-header-background-color,
+               $lightness: 4%
+            ),
       ),
       sorted-hover: (
-         background-color: color.adjust($cx-default-grid-header-background-color, $lightness: 4%),
+         background-color: color.adjust(
+               $cx-default-grid-header-background-color,
+               $lightness: 4%
+            ),
       ),
    )
 );
@@ -543,7 +583,10 @@ $cx-calendar-day-state-style-map: cx-deep-map-merge(
          background-color: rgba($cx-theme-primary-color, 0.3),
       ),
       selected: (
-         background-color: color.adjust($cx-theme-primary-color, $lightness: -8%),
+         background-color: color.adjust(
+               $cx-theme-primary-color,
+               $lightness: -8%
+            ),
          color: $cx-theme-default-color-dark,
       ),
       outside: (
@@ -580,7 +623,14 @@ $cx-colorpicker-state-style-map: cx-deep-map-merge(
          font-size: 11px,
       ),
       hover: (
-         border-color: color.change(cx-get-state-rule($cx-input-state-style-map, focus, border-color), $alpha: 0.5),
+         border-color: color.change(
+               cx-get-state-rule(
+                  $cx-input-state-style-map,
+                  focus,
+                  border-color
+               ),
+               $alpha: 0.5
+            ),
       ),
    )
 );
@@ -617,8 +667,14 @@ $cx-std-field-state-style-map: cx-deep-map-merge(
       ),
       error-focus: (
          box-shadow: none,
-         background-color: color.adjust($cx-theme-error-input-background-color, $lightness: -3%),
-         border-color: color.adjust($cx-theme-error-input-background-color, $lightness: -3%),
+         background-color: color.adjust(
+               $cx-theme-error-input-background-color,
+               $lightness: -3%
+            ),
+         border-color: color.adjust(
+               $cx-theme-error-input-background-color,
+               $lightness: -3%
+            ),
       ),
    )
 );
@@ -667,11 +723,17 @@ $cx-checkbox-state-style-map: cx-deep-map-merge(
       ),
       checked-focus: (
          color: color.adjust($cx-default-checkbox-color, $lightness: 10%),
-         background-color: color.adjust($cx-theme-default-input-background-color, $lightness: 15%),
+         background-color: color.adjust(
+               $cx-theme-default-input-background-color,
+               $lightness: 15%
+            ),
       ),
       focus: (
          box-shadow: none,
-         background-color: color.adjust($cx-theme-default-input-background-color, $lightness: 20%),
+         background-color: color.adjust(
+               $cx-theme-default-input-background-color,
+               $lightness: 20%
+            ),
       ),
       disabled: (
          opacity: 0.5,
@@ -721,17 +783,38 @@ $cx-slider-handle-styles: cx-deep-map-merge(
    $cx-slider-handle-styles,
    (
       default: (
-         background-color: color.adjust($cx-theme-default-background-color-lighter, $lightness: 5%),
+         background-color: color.adjust(
+               $cx-theme-default-background-color-lighter,
+               $lightness: 5%
+            ),
          border-color: transparent,
-         box-shadow: 0 0 10px 0 color.adjust($cx-theme-default-background-color-lighter, $lightness: -10%),
+         box-shadow: 0 0 10px 0
+            color.adjust(
+               $cx-theme-default-background-color-lighter,
+               $lightness: -10%
+            ),
       ),
       hover: (
-         background-color: color.adjust($cx-theme-default-background-color-lighter, $lightness: 8%),
-         box-shadow: 0 0 10px 0 color.adjust($cx-theme-default-background-color-lighter, $lightness: -10%),
+         background-color: color.adjust(
+               $cx-theme-default-background-color-lighter,
+               $lightness: 8%
+            ),
+         box-shadow: 0 0 10px 0
+            color.adjust(
+               $cx-theme-default-background-color-lighter,
+               $lightness: -10%
+            ),
       ),
       active: (
-         background-color: color.adjust($cx-theme-default-background-color-lighter, $lightness: 10%),
-         box-shadow: 0 0 10px 0 color.adjust($cx-theme-default-background-color-lighter, $lightness: -10%),
+         background-color: color.adjust(
+               $cx-theme-default-background-color-lighter,
+               $lightness: 10%
+            ),
+         box-shadow: 0 0 10px 0
+            color.adjust(
+               $cx-theme-default-background-color-lighter,
+               $lightness: -10%
+            ),
       ),
    )
 );

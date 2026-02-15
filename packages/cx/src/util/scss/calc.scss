@@ -21,22 +21,22 @@
 
 // Lighten a color, supporting CSS variables
 // For CSS variables, outputs color-mix(in srgb, color, white amount)
-// For Sass colors, uses color.adjust at compile time
+// For Sass colors, uses color.adjust (same as old lighten) at compile time
 @function cx-lighten($color, $amount) {
    @if cx-is-css-var($color) or cx-is-css-var($amount) {
       @return #{"color-mix(in srgb, " + $color + ", white " + $amount + ")"};
    }
-   @return color.mix(white, $color, $amount);
+   @return color.adjust($color, $lightness: $amount);
 }
 
 // Darken a color, supporting CSS variables
 // For CSS variables, outputs color-mix(in srgb, color, black amount)
-// For Sass colors, uses color.mix at compile time
+// For Sass colors, uses color.adjust (same as old darken) at compile time
 @function cx-darken($color, $amount) {
    @if cx-is-css-var($color) or cx-is-css-var($amount) {
       @return #{"color-mix(in srgb, " + $color + ", black " + $amount + ")"};
    }
-   @return color.mix(black, $color, $amount);
+   @return color.adjust($color, $lightness: -$amount);
 }
 
 // Multiply a value by a factor, supporting CSS variables

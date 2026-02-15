@@ -20,7 +20,7 @@
 [x] Set OnThisPage nav to collapsed where needed
 [x] Fix Dropdown focus issues (cell editing)
 [x] Fix MonthField rendering empty
-[ ] Fix remaining Gallery themes
+[x] Fix remaining Gallery themes
 [ ] Render presets to css
 [ ] Write Theme Docs
 [ ] On this page should render closed on mobile

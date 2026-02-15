@@ -213,10 +213,3 @@ $cx-theme-default-section-box-shadow: none !default;
 // Use cx variables for derived values
 @use "cx/src/variables" as *;
 
-// =============================================================================
-// THEME-SPECIFIC DERIVED VARIABLES (for use in maps and widgets)
-// =============================================================================
-
-// Expose default-named variables from @forward for use in widgets
-$cx-default-section-background: $cx-theme-default-section-background !default;
-$cx-default-section-box-shadow: $cx-theme-default-section-box-shadow !default;

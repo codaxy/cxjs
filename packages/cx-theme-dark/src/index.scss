@@ -2,11 +2,7 @@
 @use "./variables.reset" as *;
 
 // 2. Load theme maps (configures cx maps via deep-merge)
-@use "./maps" as *;
+@use "./maps.scss" as *;
 
-// 3. Load cx/src/index which generates CSS using configured values
-@use "cx/src/index" as *;
-
-// 4. Load reset and widget overrides
-@use "./reset";
-@use "./widgets";
+// 3. Load theme overrides (loads cx/src/index + CSS overrides)
+@use "./overrides.scss" as *;

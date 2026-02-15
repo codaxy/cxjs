@@ -1,5 +1,6 @@
 const getPathResolver = require("cx-build-tools/getPathResolver"),
    resolvePath = getPathResolver(__dirname),
+   cxSrc = getPathResolver(resolvePath("../cx/src")),
    buildJS = require("cx-build-tools/buildJS"),
    buildSCSS = require("cx-build-tools/buildSCSS");
 
@@ -31,15 +32,28 @@ async function build() {
             theme("dist/reset.css")
          ),
          buildSCSS(
-            [themeSrc("widgets.scss")],
+            [
+               themeSrc("variables.scss"),
+               cxSrc("variables.scss"),
+               cxSrc("widgets/index.scss"),
+               cxSrc("ui/index.scss")
+            ],
             theme("dist/widgets.css")
          ),
          buildSCSS(
-            [themeSrc("charts.scss")],
+            [
+               themeSrc("variables.scss"),
+               cxSrc("variables.scss"),
+               cxSrc("charts/index.scss")
+            ],
             theme("dist/charts.css")
          ),
          buildSCSS(
-            [themeSrc("svg.scss")],
+            [
+               themeSrc("variables.scss"),
+               cxSrc("variables.scss"),
+               cxSrc("svg/index.scss")
+            ],
             theme("dist/svg.css")
          )
       ]);

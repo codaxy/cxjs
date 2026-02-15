@@ -6,6 +6,7 @@
 @use "cx/src/maps" as *;
 @use "cx/src/util/scss/deep-merge" as *;
 @use "cx/src/util/scss/add-rules" as *;
+@use "cx/src/util/scss/calc" as *;
 
 // =============================================================================
 // BUTTON
@@ -32,33 +33,45 @@ $cx-button-state-style-map: cx-deep-map-merge(
          box-shadow: 0 0 1px 1px $cx-theme-default-highlight-color,
       ),
    )
-) !default;
+);
 
 $cx-button-mods: cx-deep-map-merge(
    $cx-button-mods,
    (
       primary: (
          default: (
-            color: color.adjust(white, $lightness: -15%),
+            color: cx-darken(white, 15%),
             background-color: $cx-theme-default-primary-button-background-color,
             border-color: transparent,
-            box-shadow: inset 0 -1px color.adjust($cx-theme-default-primary-button-background-color, $lightness: 3%),
+            box-shadow: inset 0 -1px
+               cx-lighten($cx-theme-default-primary-button-background-color, 3%),
          ),
          disabled: (
-            background-color: color.change($cx-theme-default-primary-button-background-color, $alpha: 0.3),
+            background-color: color.change(
+                  $cx-theme-default-primary-button-background-color,
+                  $alpha: 0.3
+               ),
             border-color: transparent,
             color: color.change(white, $alpha: 0.6),
             box-shadow: none,
          ),
          hover: (
-            background-color: color.adjust($cx-theme-default-primary-button-background-color, $lightness: -3%),
+            background-color: cx-darken(
+                  $cx-theme-default-primary-button-background-color,
+                  3%
+               ),
             border-color: transparent,
-            box-shadow: inset 0 -1px color.adjust($cx-theme-default-primary-button-background-color, $lightness: -1%),
+            box-shadow: inset 0 -1px
+               cx-darken($cx-theme-default-primary-button-background-color, 1%),
          ),
          active: (
-            background-color: color.adjust($cx-theme-default-primary-button-background-color, $lightness: -8%),
+            background-color: cx-darken(
+                  $cx-theme-default-primary-button-background-color,
+                  8%
+               ),
             border-color: transparent,
-            box-shadow: inset 0 -1px color.adjust($cx-theme-default-primary-button-background-color, $lightness: -8%),
+            box-shadow: inset 0 -1px
+               cx-darken($cx-theme-default-primary-button-background-color, 8%),
          ),
       ),
       hollow: (
@@ -75,27 +88,39 @@ $cx-button-mods: cx-deep-map-merge(
          default: (
             background-color: $cx-theme-default-danger-button-background-color,
             border-color: transparent,
-            box-shadow: inset 0 -1px color.adjust($cx-theme-default-danger-button-background-color, $lightness: 1%),
+            box-shadow: inset 0 -1px
+               cx-lighten($cx-theme-default-danger-button-background-color, 1%),
          ),
          disabled: (
-            background-color: color.change($cx-theme-default-danger-button-background-color, $alpha: 0.3),
+            background-color: color.change(
+                  $cx-theme-default-danger-button-background-color,
+                  $alpha: 0.3
+               ),
             border-color: transparent,
             color: color.change(white, $alpha: 0.6),
             box-shadow: none,
          ),
          hover: (
-            background-color: color.adjust($cx-theme-default-danger-button-background-color, $lightness: -3%),
+            background-color: cx-darken(
+                  $cx-theme-default-danger-button-background-color,
+                  3%
+               ),
             border-color: transparent,
-            box-shadow: inset 0 -1px color.adjust($cx-theme-default-danger-button-background-color, $lightness: -1%),
+            box-shadow: inset 0 -1px
+               cx-darken($cx-theme-default-danger-button-background-color, 1%),
          ),
          active: (
-            background-color: color.adjust($cx-theme-default-danger-button-background-color, $lightness: -6%),
+            background-color: cx-darken(
+                  $cx-theme-default-danger-button-background-color,
+                  6%
+               ),
             border-color: transparent,
-            box-shadow: inset 0 -1px color.adjust($cx-theme-default-danger-button-background-color, $lightness: -6%),
+            box-shadow: inset 0 -1px
+               cx-darken($cx-theme-default-danger-button-background-color, 6%),
          ),
       ),
    )
-) !default;
+);
 
 // =============================================================================
 // LIST
@@ -107,7 +132,7 @@ $cx-list: cx-deep-map-merge(
          scrollbar-width: thin,
       ),
    )
-) !default;
+);
 
 $cx-list-item: cx-deep-map-merge(
    $cx-list-item,
@@ -125,7 +150,7 @@ $cx-list-item: cx-deep-map-merge(
          background-color: $cx-theme-default-border-color,
       ),
    )
-) !default;
+);
 
 // =============================================================================
 // TAB
@@ -165,7 +190,7 @@ $cx-tab-state-style-map: cx-deep-map-merge(
          background-color: transparent,
       ),
    )
-) !default;
+);
 
 $cx-tab-mods: cx-deep-map-merge(
    $cx-tab-mods,
@@ -187,7 +212,7 @@ $cx-tab-mods: cx-deep-map-merge(
          ),
       ),
    )
-) !default;
+);
 
 // =============================================================================
 // SECTION
@@ -196,6 +221,15 @@ $cx-section-mods: cx-deep-map-merge(
    $cx-section-mods,
    (
       card: (
+         default: (
+            background-color: rgb(22, 23, 26),
+            border-width: 1px,
+            border-style: solid,
+            border-color: $cx-theme-default-border-color,
+            border-radius: $cx-default-border-radius + 2px,
+         ),
+      ),
+      well: (
          default: (
             background-color: rgb(22, 23, 26),
             border-width: 1px,
@@ -225,7 +259,7 @@ $cx-section-mods: cx-deep-map-merge(
          ),
       ),
    )
-) !default;
+);
 
 // =============================================================================
 // MENU
@@ -239,7 +273,7 @@ $cx-menu-padding-options: cx-deep-map-merge(
       large: 4px 10px,
       xlarge: 6px 12px,
    )
-) !default;
+);
 
 $cx-menu-list-item: cx-deep-map-merge(
    $cx-menu-list-item,
@@ -248,7 +282,7 @@ $cx-menu-list-item: cx-deep-map-merge(
          border: 1px solid transparent,
       ),
    )
-) !default;
+);
 
 // =============================================================================
 // DROPDOWN
@@ -260,7 +294,7 @@ $cx-dropdown-styles: cx-deep-map-merge(
       border-style: solid,
       border-width: 1px,
    )
-) !default;
+);
 
 // =============================================================================
 // FORM
@@ -273,10 +307,10 @@ $cx-input-state-style-map: cx-deep-map-merge(
          box-shadow: 0 0 2px $cx-theme-default-highlight-color,
       ),
       disabled: (
-         background: color.adjust($cx-theme-default-border-color, $lightness: -3%),
+         background: cx-darken($cx-theme-default-border-color, 3%),
       ),
    )
-) !default;
+);
 
 $cx-std-field-state-style-map: cx-deep-map-merge(
    $cx-input-state-style-map,
@@ -285,7 +319,7 @@ $cx-std-field-state-style-map: cx-deep-map-merge(
          background-color: rgb(15, 16, 17),
       ),
    )
-) !default;
+);
 
 // =============================================================================
 // CALENDAR
@@ -297,11 +331,22 @@ $cx-calendar-state-style-map: cx-deep-map-merge(
          border-color: $cx-theme-default-input-border-color,
       ),
       focus: (
-         border-color: cx-get-state-rule($cx-input-state-style-map, focus, border-color),
-         box-shadow: cx-get-state-rule($cx-input-state-style-map, focus, box-shadow),
+         border-color: cx-get-state-rule(
+               $cx-input-state-style-map,
+               focus,
+               border-color
+            ),
+         box-shadow: cx-get-state-rule(
+               $cx-input-state-style-map,
+               focus,
+               box-shadow
+            ),
+      ),
+      disabled: (
+         opacity: 50%,
       ),
    )
-) !default;
+);
 
 $cx-calendar-day-state-style-map: cx-deep-map-merge(
    $cx-calendar-day-state-style-map,
@@ -315,23 +360,23 @@ $cx-calendar-day-state-style-map: cx-deep-map-merge(
          background-color: $cx-theme-default-background-color-dark,
       ),
       hover-focus: (
-         background-color: color.adjust($cx-theme-default-highlight-color, $lightness: -12%),
+         background-color: cx-darken($cx-theme-default-highlight-color, 12%),
       ),
       selected: (
-         background-color: color.adjust($cx-theme-default-highlight-color, $lightness: -6%),
+         background-color: cx-darken($cx-theme-default-highlight-color, 6%),
       ),
       selected-focus: (
          background-color: $cx-theme-default-highlight-color,
       ),
       today: (
          background-color: transparent,
-         border-color: color.adjust($cx-theme-default-error-color, $lightness: -10%),
+         border-color: cx-darken($cx-theme-default-error-color, 10%),
       ),
       outside: (
          color: rgba(204, 204, 204, 0.3),
       ),
    )
-) !default;
+);
 
 // =============================================================================
 // DATE TIME PICKER
@@ -348,7 +393,7 @@ $cx-wheel-selection-state-style-map: cx-deep-map-merge(
          background-color: rgba($cx-theme-default-highlight-color-light, 0.5),
       ),
    )
-) !default;
+);
 
 // =============================================================================
 // CHECKBOX
@@ -357,15 +402,23 @@ $cx-checkbox-state-style-map: cx-deep-map-merge(
    $cx-checkbox-state-style-map,
    (
       focus: (
-         border-color: cx-get-state-rule($cx-input-state-style-map, focus, border-color),
+         border-color: cx-get-state-rule(
+               $cx-input-state-style-map,
+               focus,
+               border-color
+            ),
          outline: cx-get-state-rule($cx-input-state-style-map, focus, outline),
-         box-shadow: cx-get-state-rule($cx-input-state-style-map, focus, box-shadow),
+         box-shadow: cx-get-state-rule(
+               $cx-input-state-style-map,
+               focus,
+               box-shadow
+            ),
       ),
       disabled: (
-         background: color.adjust($cx-theme-default-border-color, $lightness: -3%),
+         background: cx-darken($cx-theme-default-border-color, 3%),
       ),
    )
-) !default;
+);
 
 // =============================================================================
 // RADIO
@@ -374,20 +427,28 @@ $cx-radio-state-style-map: cx-deep-map-merge(
    $cx-radio-state-style-map,
    (
       focus: (
-         border-color: cx-get-state-rule($cx-input-state-style-map, focus, border-color),
+         border-color: cx-get-state-rule(
+               $cx-input-state-style-map,
+               focus,
+               border-color
+            ),
          outline: cx-get-state-rule($cx-input-state-style-map, focus, outline),
-         box-shadow: cx-get-state-rule($cx-input-state-style-map, focus, box-shadow),
+         box-shadow: cx-get-state-rule(
+               $cx-input-state-style-map,
+               focus,
+               box-shadow
+            ),
       ),
       disabled: (
-         background: color.adjust($cx-theme-default-border-color, $lightness: -3%),
+         background: cx-darken($cx-theme-default-border-color, 3%),
       ),
    )
-) !default;
+);
 
 // =============================================================================
 // TEXTAREA
 // =============================================================================
-$cx-textarea-state-style-map: cx-deep-map-merge($cx-input-state-style-map, ()) !default;
+$cx-textarea-state-style-map: cx-deep-map-merge($cx-input-state-style-map, ());
 
 // =============================================================================
 // SLIDER
@@ -396,22 +457,22 @@ $cx-slider-handle-styles: cx-deep-map-merge(
    $cx-slider-handle-styles,
    (
       default: (
-         background-color: color.adjust($cx-theme-default-background-color-light, $lightness: 12%),
-         border-color: color.adjust($cx-theme-default-background-color-light, $lightness: 12%),
+         background-color: cx-lighten($cx-theme-default-background-color-light, 12%),
+         border-color: cx-lighten($cx-theme-default-background-color-light, 12%),
          box-shadow: none,
       ),
       hover: (
-         background-color: color.adjust($cx-theme-default-background-color-light, $lightness: 8%),
+         background-color: cx-lighten($cx-theme-default-background-color-light, 8%),
          box-shadow: none,
       ),
       focus: (),
       disabled: (),
       active: (
-         background-color: color.adjust($cx-theme-default-background-color-light, $lightness: 6%),
-         border-color: color.adjust($cx-theme-default-background-color-light, $lightness: 10%),
+         background-color: cx-lighten($cx-theme-default-background-color-light, 6%),
+         border-color: cx-lighten($cx-theme-default-background-color-light, 10%),
       ),
    )
-) !default;
+);
 
 // =============================================================================
 // WINDOW
@@ -426,7 +487,7 @@ $cx-window-state-style-map: cx-deep-map-merge(
          border-width: 1px,
       ),
    )
-) !default;
+);
 
 $cx-window-header-state-style-map: cx-deep-map-merge(
    $cx-window-header-state-style-map,
@@ -436,7 +497,7 @@ $cx-window-header-state-style-map: cx-deep-map-merge(
          color: white,
       ),
    )
-) !default;
+);
 
 $cx-window-body-state-style-map: cx-deep-map-merge(
    $cx-window-body-state-style-map,
@@ -445,7 +506,7 @@ $cx-window-body-state-style-map: cx-deep-map-merge(
          background: null,
       ),
    )
-) !default;
+);
 
 $cx-window-footer-state-style-map: cx-deep-map-merge(
    $cx-window-footer-state-style-map,
@@ -454,7 +515,7 @@ $cx-window-footer-state-style-map: cx-deep-map-merge(
          background: null,
       ),
    )
-) !default;
+);
 
 // =============================================================================
 // GLOBALS
@@ -471,7 +532,7 @@ $cx-element-style-map: cx-deep-map-merge(
          scrollbar-width: thin,
       ),
       a: (
-         color: color.adjust(#9faed2, $lightness: -4%),
+         color: cx-darken(#9faed2, 4%),
       ),
    )
-) !default;
+);
