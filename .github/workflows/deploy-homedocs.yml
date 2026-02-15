@@ -28,7 +28,7 @@ jobs:
         run: yarn workspace cx-react run build && yarn workspace cx run build && yarn workspace cx-theme-variables run build
 
       - name: Build homedocs
-        run: yarn -cwd homedocs build
+        run: yarn --cwd homedocs build
 
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v3
