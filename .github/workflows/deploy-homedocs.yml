@@ -3,7 +3,7 @@ name: Deploy Homedocs to Netlify
 on:
   push:
     branches:
-      - homedocs
+      - master
   workflow_dispatch:
 
 jobs:
