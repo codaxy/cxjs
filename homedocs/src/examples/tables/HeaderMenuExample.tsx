@@ -145,16 +145,18 @@ const visibleColumnsMenu = (
 );
 
 const columnMenu = (filter: any) => (
-  <Menu horizontal itemPadding="none">
-    <Submenu placement="down-left" class="mr-1 mt-2">
-      <Icon name="menu" />
-      <Menu putInto="dropdown">
-        {filter}
-        <hr />
-        {visibleColumnsMenu}
-      </Menu>
-    </Submenu>
-  </Menu>
+  <div class="w-full h-full flex items-center">
+    <Menu horizontal itemPadding="none">
+      <Submenu placement="down-left" class="p-1">
+        <Icon name="menu" />
+        <Menu putInto="dropdown">
+          {filter}
+          <hr />
+          {visibleColumnsMenu}
+        </Menu>
+      </Submenu>
+    </Menu>
+  </div>
 );
 
 const checkboxFilterMenu = (valuesPath: string) =>
