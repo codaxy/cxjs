@@ -7,9 +7,9 @@
 @use "./variables" as *;
 
 @mixin cx-legendentry($name: "legendentry", $besm: $cx-besm) {
-   $block: map-get($besm, block);
-   $element: map-get($besm, element);
-   $state: map-get($besm, state);
+   $block: map.get($besm, block);
+   $element: map.get($besm, element);
+   $state: map.get($besm, state);
 
    .#{$block}#{$name} {
       display: inline-flex;

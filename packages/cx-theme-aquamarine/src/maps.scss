@@ -1,4 +1,5 @@
 @forward "cx/src/maps";
+@use "sass:map";
 @use "sass:color";
 @use "./variables.scss" as *;
 @use "cx/src/maps" as *;
@@ -55,10 +56,7 @@ $cx-button-state-style-map: cx-deep-map-merge(
          box-shadow: $cx-theme-focus-box-shadow,
       ),
       active: (
-         background-color: color.adjust(
-               $cx-default-button-background-color,
-               $lightness: -4%
-            ),
+         background-color: color.adjust($cx-default-button-background-color, $lightness: -4%),
          box-shadow: none,
          top: 0,
       ),
@@ -75,19 +73,13 @@ $cx-button-mods: cx-deep-map-merge(
       primary: (
          default: (
             transition: all 0.1s,
-            border-color: color.adjust(
-                  $cx-theme-primary-color,
-                  $lightness: -10%
-               ),
+            border-color: color.adjust($cx-theme-primary-color, $lightness: -10%),
             background: $cx-theme-background-gradient,
          ),
          hover: (),
          focus: (),
          active: (
-            background-color: color.adjust(
-                  $cx-theme-primary-color,
-                  $lightness: -9%
-               ),
+            background-color: color.adjust($cx-theme-primary-color, $lightness: -9%),
             box-shadow: none,
             background: linear-gradient(
                   to top right,
@@ -111,24 +103,14 @@ $cx-button-mods: cx-deep-map-merge(
       danger: (
          default: (
             transition: all 0.1s,
-            background: linear-gradient(
-                  to top right,
-                  $cx-theme-danger-color-dark,
-                  $cx-theme-danger-color
-               ),
+            background: linear-gradient(to top right, $cx-theme-danger-color-dark, $cx-theme-danger-color),
          ),
          hover: (),
          focus: (
-            background-color: color.adjust(
-                  $cx-theme-danger-color,
-                  $lightness: -10%
-               ),
+            background-color: color.adjust($cx-theme-danger-color, $lightness: -10%),
          ),
          active: (
-            background-color: color.adjust(
-                  $cx-theme-danger-color,
-                  $lightness: -9%
-               ),
+            background-color: color.adjust($cx-theme-danger-color, $lightness: -9%),
             background: linear-gradient(
                   to top right,
                   color.adjust($cx-theme-danger-color-dark, $lightness: -10%),
@@ -150,18 +132,15 @@ $cx-button-mods: cx-deep-map-merge(
             border-color: transparent,
             box-shadow: none,
          ),
-         hover: map-merge(
-               map-get($cx-list-item, hover),
+         hover: map.merge(
+               map.get($cx-list-item, hover),
                (
                   box-shadow: none,
                   border-color: transparent,
                )
             ),
          focus: (
-            background-color: color.adjust(
-                  $cx-theme-default-background-color,
-                  $lightness: -8%
-               ),
+            background-color: color.adjust($cx-theme-default-background-color, $lightness: -8%),
             box-shadow: none,
          ),
          active: (
@@ -179,18 +158,15 @@ $cx-button-mods: cx-deep-map-merge(
             border-color: transparent,
             box-shadow: none,
          ),
-         hover: map-merge(
-               map-get($cx-list-item, hover),
+         hover: map.merge(
+               map.get($cx-list-item, hover),
                (
                   box-shadow: none,
                   border-color: transparent,
                )
             ),
          focus: (
-            background-color: color.adjust(
-                  $cx-theme-default-background-color,
-                  $lightness: -8%
-               ),
+            background-color: color.adjust($cx-theme-default-background-color, $lightness: -8%),
             box-shadow: none,
          ),
          active: (
@@ -228,16 +204,10 @@ $cx-button-mods: cx-deep-map-merge(
             box-shadow: 0 5px 8px rgba(0, 0, 0, 0.45),
          ),
          focus: (
-            background-color: color.adjust(
-                  $cx-theme-accent-color,
-                  $lightness: -4%
-               ),
+            background-color: color.adjust($cx-theme-accent-color, $lightness: -4%),
          ),
          active: (
-            background-color: color.adjust(
-                  $cx-theme-accent-color,
-                  $lightness: 3%
-               ),
+            background-color: color.adjust($cx-theme-accent-color, $lightness: 3%),
             box-shadow: 0 8px 12px rgba(0, 0, 0, 0.45),
          ),
          disabled: (
@@ -274,10 +244,7 @@ $cx-tab-state-style-map: cx-deep-map-merge(
       ),
       selected-cursor: (
          color: #fff,
-         background-color: color.adjust(
-               $cx-theme-primary-color,
-               $lightness: -5%
-            ),
+         background-color: color.adjust($cx-theme-primary-color, $lightness: -5%),
       ),
       active: (
          color: $cx-theme-primary-color,
@@ -322,8 +289,7 @@ $cx-tab-mods: cx-deep-map-merge(
          selected-cursor: (
             color: $cx-theme-primary-text-color,
             background-color: transparent,
-            border-color: rgba($cx-theme-primary-color-dark, 0.8)
-               $cx-default-border-color transparent,
+            border-color: rgba($cx-theme-primary-color-dark, 0.8) $cx-default-border-color transparent,
             box-shadow: inset 0 2px deepskyblue,
          ),
          active: (
@@ -400,10 +366,7 @@ $cx-tab-mods: cx-deep-map-merge(
                border-color: $cx-theme-accent-color,
             ),
             selected-cursor: (
-               border-color: color.adjust(
-                     $cx-theme-accent-color,
-                     $lightness: 10%
-                  ),
+               border-color: color.adjust($cx-theme-accent-color, $lightness: 10%),
             ),
             disabled: (
                color: rgba(255, 255, 255, 0.3),
@@ -559,23 +522,14 @@ $cx-grid-header-state-style-map: cx-deep-map-merge(
          background-color: $cx-default-grid-header-background-color,
       ),
       hover: (
-         background-color: color.adjust(
-               $cx-default-grid-header-background-color,
-               $lightness: -3%
-            ),
+         background-color: color.adjust($cx-default-grid-header-background-color, $lightness: -3%),
       ),
       sorted: (
          color: $cx-theme-primary-text-color,
-         background-color: color.adjust(
-               $cx-default-grid-header-background-color,
-               $lightness: -5%
-            ),
+         background-color: color.adjust($cx-default-grid-header-background-color, $lightness: -5%),
       ),
       sorted-hover: (
-         background-color: color.adjust(
-               $cx-default-grid-header-background-color,
-               $lightness: -5%
-            ),
+         background-color: color.adjust($cx-default-grid-header-background-color, $lightness: -5%),
       ),
    )
 );
@@ -718,10 +672,7 @@ $cx-calendar-day-state-style-map: cx-deep-map-merge(
          background-color: rgba($cx-theme-primary-color-light, 0.3),
       ),
       today: (
-         background-color: rgba(
-               color.adjust($cx-theme-accent-color, $saturation: -20%),
-               0.6
-            ),
+         background-color: rgba(color.adjust($cx-theme-accent-color, $saturation: -20%), 0.6),
       ),
       selected: (
          background-color: $cx-theme-primary-color,
@@ -822,19 +773,13 @@ $cx-input-tag-state-style-map: cx-deep-map-merge(
    $cx-input-tag-state-style-map,
    (
       default: (
-         border-color: color.adjust(
-               $cx-default-input-tag-background-color,
-               $lightness: -10%
-            ),
+         border-color: color.adjust($cx-default-input-tag-background-color, $lightness: -10%),
          border-radius: $cx-default-border-radius,
          border-width: 1px,
          border-style: solid,
       ),
       hover: (
-         background-color: color.adjust(
-               $cx-default-input-tag-background-color,
-               $lightness: -10%
-            ),
+         background-color: color.adjust($cx-default-input-tag-background-color, $lightness: -10%),
       ),
    )
 );
@@ -845,10 +790,7 @@ $cx-slider-handle-styles: cx-deep-map-merge(
    (
       hover: (
          box-shadow: $cx-default-slider-handle-box-shadow,
-         background-color: color.adjust(
-               $cx-default-slider-handle-background-color,
-               $lightness: 5%
-            ),
+         background-color: color.adjust($cx-default-slider-handle-background-color, $lightness: 5%),
       ),
       active: (
          background-color: $cx-theme-primary-color-dark,
@@ -884,10 +826,7 @@ $cx-switch-handle-styles: cx-deep-map-merge(
          border-color: transparent,
       ),
       on-active: (
-         background-color: color.adjust(
-               $cx-theme-primary-color-light,
-               $lightness: 20%
-            ),
+         background-color: color.adjust($cx-theme-primary-color-light, $lightness: 20%),
       ),
    )
 );

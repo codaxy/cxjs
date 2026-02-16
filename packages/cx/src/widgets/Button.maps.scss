@@ -1,3 +1,4 @@
+@use "sass:map";
 @use "./lists" as *;
 @use "./variables" as *;
 
@@ -81,24 +82,22 @@ $cx-button-mods: (
          color: inherit,
          box-shadow: none,
       ),
-      hover:
-         map-merge(
-            map-get($cx-list-item, hover),
+      hover: map.merge(
+            map.get($cx-list-item, hover),
             (
                box-shadow: none,
                border-color: transparent,
             )
          ),
-      focus:
-         map-merge(
-            map-get($cx-list-item, selected-cursor),
+      focus: map.merge(
+            map.get($cx-list-item, selected-cursor),
             (
                box-shadow: none,
                border-color: transparent,
             )
          ),
       disabled: (
-      color: rgba(128, 128, 128, 0.5),
+         color: rgba(128, 128, 128, 0.5),
       ),
    ),
 ) !default;

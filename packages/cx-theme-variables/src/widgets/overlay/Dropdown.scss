@@ -2,7 +2,7 @@
 @use "cx/src/maps" as *;
 @use "../../variables.scss" as *;
 
-$cx-dropdown-styles: map-merge(
+$cx-dropdown-styles: map.merge(
    $cx-dropdown-styles,
    (
       color: var(--cx-theme-text-color),
