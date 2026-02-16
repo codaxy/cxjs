@@ -44,7 +44,7 @@ export const Preview = createFunctionalComponent(() => (
   <ThemeVarsDiv
     theme={computable(m.categories, categoriesToTheme)}
     cssSelector=".theme-editor-variables"
-    class="flex-1 p-6 overflow-y-auto border-r border-border"
+    class="flex-1 p-6 overflow-y-auto border-r border-border relative"
     applyReset
   >
     <ThemeVarsRoot
