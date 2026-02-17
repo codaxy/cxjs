@@ -9,8 +9,7 @@ import llmsTxt from "./src/integrations/llms-txt";
 
 // https://astro.build/config
 export default defineConfig({
-  site: process.env.ASTRO_SITE || "https://cxjs.io",
-  base: process.env.BASE_PATH || "/",
+  site: "https://cxjs.io",
   integrations: [
     cxjs(),
     react(),

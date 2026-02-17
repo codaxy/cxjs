@@ -49,12 +49,6 @@ jobs:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
 
-      - name: Rebuild homedocs for GitHub Pages
-        run: yarn --cwd homedocs build
-        env:
-          BASE_PATH: /cxjs/
-          ASTRO_SITE: https://codaxy.github.io
-
       - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
