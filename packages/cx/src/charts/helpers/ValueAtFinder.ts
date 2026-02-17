@@ -1,10 +1,5 @@
-import {
-   PointReducer,
-   PointReducerConfig,
-   PointReducerInstance,
-   PointReducerAccumulator,
-} from "./PointReducer";
-import { NumberProp, StringProp, Bind } from "../../ui/Prop";
+import { PointReducer, PointReducerConfig, PointReducerInstance, PointReducerAccumulator } from "./PointReducer";
+import { NumberProp, StringProp, Bind, Prop } from "../../ui/Prop";
 import { AccessorChain } from "../../data/createAccessorModelProxy";
 
 export interface ValueAtAccumulator extends PointReducerAccumulator {
@@ -15,10 +10,10 @@ export interface ValueAtAccumulator extends PointReducerAccumulator {
 
 export interface ValueAtFinderConfig extends PointReducerConfig {
    /** X axis probe value. */
-   at?: NumberProp | StringProp;
+   at?: Prop<string | number | null | undefined>;
 
    /** A binding used to receive the measured y axis value */
-   value?: Bind | AccessorChain<number | null>;
+   value?: Bind | AccessorChain<number | null | undefined>;
 
    /** A function used to convert x values into numeric format. Commonly used with dates. */
    convert?: (value: number | string) => number;
@@ -39,10 +34,7 @@ export class ValueAtFinder extends PointReducer<ValueAtAccumulator> {
       });
    }
 
-   onInitAccumulator = (
-      acc: ValueAtAccumulator,
-      { data }: PointReducerInstance<ValueAtAccumulator>,
-   ) => {
+   onInitAccumulator = (acc: ValueAtAccumulator, { data }: PointReducerInstance<ValueAtAccumulator>) => {
       acc.at = this.convert((data as any).at);
    };
 
@@ -65,18 +57,12 @@ export class ValueAtFinder extends PointReducer<ValueAtAccumulator> {
       }
    };
 
-   onReduce = (
-      acc: ValueAtAccumulator,
-      instance: PointReducerInstance<ValueAtAccumulator>,
-   ) => {
+   onReduce = (acc: ValueAtAccumulator, instance: PointReducerInstance<ValueAtAccumulator>) => {
       let y: number | null = null;
       if (acc.left && acc.right) {
          if (acc.left.x == acc.right.x) y = acc.left.y;
          else if (acc.left.y != null && acc.right.y != null) {
-            y =
-               acc.left.y +
-               ((acc.right.y - acc.left.y) * (acc.at - acc.left.x)) /
-                  (acc.right.x - acc.left.x);
+            y = acc.left.y + ((acc.right.y - acc.left.y) * (acc.at - acc.left.x)) / (acc.right.x - acc.left.x);
          }
       }
       instance.set("value", y);

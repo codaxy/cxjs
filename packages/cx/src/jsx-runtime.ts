@@ -1,5 +1,6 @@
 import type { ComponentClass, FunctionComponent, JSX as ReactJSX } from "react";
 import type { CxFunctionalComponent } from "./ui/createFunctionalComponent";
+import type { PureContainerConfig } from "./ui/PureContainer";
 import { Widget } from "./ui/Widget";
 import { isArray } from "./util/isArray";
 import { isString } from "./util/isString";
@@ -57,7 +58,7 @@ type CxIntrinsicElements = {
 // Uses a workaround to avoid TypeScript inference issues with conditional types in LibraryManagedAttributes
 // We use Omit to exclude componentType since it's added automatically by the jsx-runtime
 type TransformReactComponentProps<C, P> = [C] extends [CxFunctionalComponent<any>]
-   ? P // CxJS functional components already have proper types
+   ? P & Omit<PureContainerConfig, keyof P> // Add container props (visible, if, controller, layout, etc.) without overriding component props
    : [C] extends [FunctionComponent<any>]
      ? ReactElementWrapperConfig<P>
      : [C] extends [ComponentClass<any>]

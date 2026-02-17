@@ -32,10 +32,10 @@ export interface SnapPointFinderConfig extends PointReducerConfig {
    cursorY?: NumberProp;
 
    /** A binding used to receive the x value of the nearest point.*/
-   snapX?: Bind | AccessorChain<number> | AccessorChain<string>;
+   snapX?: Bind | AccessorChain<number | null | undefined> | AccessorChain<string | null | undefined>;
 
    /** A binding used to receive the y value of the nearest point. */
-   snapY?: Bind | AccessorChain<number> | AccessorChain<string>;
+   snapY?: Bind | AccessorChain<number | null | undefined> | AccessorChain<string | null | undefined>;
 
    /** A binding used to receive the record prop */
    snapRecord?: Prop<DataRecord>;
