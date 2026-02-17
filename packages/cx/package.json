@@ -1,100 +1,100 @@
 {
-  "name": "cx",
-  "version": "26.2.3",
-  "description": "Advanced JavaScript UI framework for admin and dashboard applications with ready to use grid, form and chart components.",
-  "exports": {
-    "./data": {
-      "types": "./build/data/index.d.ts",
-      "default": "./build/data/index.js"
+    "name": "cx",
+    "version": "26.2.2",
+    "description": "Advanced JavaScript UI framework for admin and dashboard applications with ready to use grid, form and chart components.",
+    "exports": {
+        "./data": {
+            "types": "./build/data/index.d.ts",
+            "default": "./build/data/index.js"
+        },
+        "./data/*": "./build/data/*",
+        "./util": {
+            "types": "./build/util/index.d.ts",
+            "default": "./build/util/index.js"
+        },
+        "./util/*": "./build/util/*",
+        "./widgets": {
+            "types": "./build/widgets/index.d.ts",
+            "default": "./build/widgets/index.js"
+        },
+        "./widgets/*": "./build/widgets/*",
+        "./ui": {
+            "types": "./build/ui/index.d.ts",
+            "default": "./build/ui/index.js"
+        },
+        "./ui/*": "./build/ui/*",
+        "./hooks": {
+            "types": "./build/hooks/index.d.ts",
+            "default": "./build/hooks/index.js"
+        },
+        "./hooks/*": "./build/hooks/*",
+        "./svg": {
+            "types": "./build/svg/index.d.ts",
+            "default": "./build/svg/index.js"
+        },
+        "./svg/*": "./build/svg/*",
+        "./charts": {
+            "types": "./build/charts/index.d.ts",
+            "default": "./build/charts/index.js"
+        },
+        "./charts/*": "./build/charts/*",
+        "./jsx-runtime": "./build/jsx-runtime.js",
+        "./jsx-runtime.js": "./build/jsx-runtime.js",
+        "./jsx-dev-runtime": "./build/jsx-dev-runtime.js",
+        "./jsx-dev-runtime.js": "./build/jsx-dev-runtime.js",
+        "./build/*": "./build/*",
+        "./src/core": "./src/core.d.ts",
+        "./src/*": "./src/*",
+        "./sass/*": "./src/*",
+        "./locale/*": "./build/locale/*",
+        "./manifest": "./dist/manifest.js",
+        "./manifest.js": "./dist/manifest.js"
     },
-    "./data/*": "./build/data/*",
-    "./util": {
-      "types": "./build/util/index.d.ts",
-      "default": "./build/util/index.js"
+    "sideEffects": [
+        "./src/widgets/icons/*.tsx",
+        "./src/widgets/icons/*.ts",
+        "./build/widgets/icons/*.js"
+    ],
+    "scripts": {
+        "build": "yarn compile && node build",
+        "compile": "tsc -p tsconfig.compile.json",
+        "check-types": "tsc --noEmit",
+        "test": "ts-mocha -p tsconfig.mocha.json"
     },
-    "./util/*": "./build/util/*",
-    "./widgets": {
-      "types": "./build/widgets/index.d.ts",
-      "default": "./build/widgets/index.js"
+    "author": "Codaxy",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/codaxy/cxjs"
     },
-    "./widgets/*": "./build/widgets/*",
-    "./ui": {
-      "types": "./build/ui/index.d.ts",
-      "default": "./build/ui/index.js"
+    "homepage": "https://cxjs.io",
+    "dependencies": {
+        "@types/route-parser": "^0.1.7",
+        "intl-io": "^0.4.4",
+        "route-parser-ts": "^1.1.0"
     },
-    "./ui/*": "./build/ui/*",
-    "./hooks": {
-      "types": "./build/hooks/index.d.ts",
-      "default": "./build/hooks/index.js"
+    "peerDependencies": {
+        "@types/react": ">=18",
+        "@types/react-dom": ">=18",
+        "cx-react": ">=26",
+        "react": ">=18",
+        "react-dom": ">=18"
     },
-    "./hooks/*": "./build/hooks/*",
-    "./svg": {
-      "types": "./build/svg/index.d.ts",
-      "default": "./build/svg/index.js"
+    "repository": {
+        "type": "git",
+        "url": "git+ssh://git@github.com/codaxy/cxjs.git"
     },
-    "./svg/*": "./build/svg/*",
-    "./charts": {
-      "types": "./build/charts/index.d.ts",
-      "default": "./build/charts/index.js"
-    },
-    "./charts/*": "./build/charts/*",
-    "./jsx-runtime": "./build/jsx-runtime.js",
-    "./jsx-runtime.js": "./build/jsx-runtime.js",
-    "./jsx-dev-runtime": "./build/jsx-dev-runtime.js",
-    "./jsx-dev-runtime.js": "./build/jsx-dev-runtime.js",
-    "./build/*": "./build/*",
-    "./src/core": "./src/core.d.ts",
-    "./src/*": "./src/*",
-    "./sass/*": "./src/*",
-    "./locale/*": "./build/locale/*",
-    "./manifest": "./dist/manifest.js",
-    "./manifest.js": "./dist/manifest.js"
-  },
-  "sideEffects": [
-    "./src/widgets/icons/*.tsx",
-    "./src/widgets/icons/*.ts",
-    "./build/widgets/icons/*.js"
-  ],
-  "scripts": {
-    "build": "yarn compile && node build",
-    "compile": "tsc -p tsconfig.compile.json",
-    "check-types": "tsc --noEmit",
-    "test": "ts-mocha -p tsconfig.mocha.json"
-  },
-  "author": "Codaxy",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/codaxy/cxjs"
-  },
-  "homepage": "https://cxjs.io",
-  "dependencies": {
-    "@types/route-parser": "^0.1.7",
-    "intl-io": "^0.4.4",
-    "route-parser-ts": "^1.1.0"
-  },
-  "peerDependencies": {
-    "@types/react": ">=18",
-    "@types/react-dom": ">=18",
-    "cx-react": ">=26",
-    "react": ">=18",
-    "react-dom": ">=18"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/codaxy/cxjs.git"
-  },
-  "devDependencies": {
-    "@types/jest": "^30.0.0",
-    "@types/mocha": "^10.0.10",
-    "@types/node": "^25.0.3",
-    "@types/react-dom": "^19.2.3",
-    "@types/react-test-renderer": "^19.1.0",
-    "cx-react": "workspace:*",
-    "mocha": "^11.7.5",
-    "react-test-renderer": "^19.2.3",
-    "ts-mocha": "^11.1.0",
-    "ts-node": "^10.9.2",
-    "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.9.3"
-  }
+    "devDependencies": {
+        "@types/jest": "^30.0.0",
+        "@types/mocha": "^10.0.10",
+        "@types/node": "^25.0.3",
+        "@types/react-dom": "^19.2.3",
+        "@types/react-test-renderer": "^19.1.0",
+        "cx-react": "workspace:*",
+        "mocha": "^11.7.5",
+        "react-test-renderer": "^19.2.3",
+        "ts-mocha": "^11.1.0",
+        "ts-node": "^10.9.2",
+        "tsconfig-paths": "^4.2.0",
+        "typescript": "^5.9.3"
+    }
 }
