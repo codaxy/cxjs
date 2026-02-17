@@ -8,12 +8,12 @@ interface Props {
 const { collapsed = false } = Astro.props;
 ---
 
-<aside class="on-this-page not-prose border border-border rounded-lg p-4 bg-card relative z-10 w-full mt-6 mb-6 xl:absolute xl:-right-58 xl:top-6 xl:mt-0 xl:mb-0 xl:ml-6 xl:w-64 xl:max-h-[calc(100vh-6rem)] xl:overflow-y-auto">
+<aside class="on-this-page not-prose border border-border rounded-lg p-4 bg-card relative z-10 w-full mt-6 mb-6 xl:absolute xl:-right-58 xl:top-6 xl:mt-0 xl:mb-0 xl:ml-6 xl:w-64 xl:max-h-[calc(100vh-6rem)] xl:overflow-y-auto" {...(collapsed ? { 'data-collapsed': '' } : {})}>
   <div>
     <button
       class="on-this-page-btn flex w-full items-center justify-between text-xs font-semibold uppercase tracking-wider text-muted-foreground hover:text-foreground transition-colors"
       type="button"
-      aria-expanded={collapsed ? "false" : "true"}
+      aria-expanded="false"
     >
       On This Page
       <svg
@@ -26,7 +26,7 @@ const { collapsed = false } = Astro.props;
         <path d="m6 9 6 6 6-6"/>
       </svg>
     </button>
-    <nav class="on-this-page-content" data-open={collapsed ? "false" : "true"}>
+    <nav class="on-this-page-content" data-open="false">
       <div class="text-sm on-this-page-links flex flex-col gap-2">
         <!-- Links will be populated by JavaScript -->
       </div>
@@ -78,29 +78,6 @@ const { collapsed = false } = Astro.props;
   .on-this-page-links :global(.toc-h3) {
     padding-left: 0.75rem;
     font-size: small;
-  }
-
-  /* Force collapsed on mobile */
-  @media (max-width: 1279px) {
-    .on-this-page-content {
-      visibility: hidden;
-      opacity: 0;
-      height: 0;
-    }
-
-    .on-this-page-content[data-open="true"] {
-      visibility: visible;
-      opacity: 1;
-      height: auto;
-    }
-
-    .on-this-page-btn .chevron {
-      transform: rotate(-90deg);
-    }
-
-    .on-this-page-btn[aria-expanded="true"] .chevron {
-      transform: rotate(0deg);
-    }
   }
 
   .on-this-page:has(.on-this-page-content[data-open="true"]) {
@@ -164,9 +141,14 @@ const { collapsed = false } = Astro.props;
       linksList.appendChild(a);
     });
 
-    // Set up toggle button
     const btn = container.querySelector('.on-this-page-btn');
     const content = container.querySelector('.on-this-page-content');
+
+    // Expand on desktop if not explicitly collapsed
+    if (btn && content && window.innerWidth >= 1280 && !container.hasAttribute('data-collapsed')) {
+      btn.setAttribute('aria-expanded', 'true');
+      content.setAttribute('data-open', 'true');
+    }
 
     if (btn && content) {
       // Remove existing listeners by cloning
