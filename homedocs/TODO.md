@@ -26,4 +26,4 @@
 [x] On this page should render closed on mobile
 [x] Move homedocs presets to cx-theme-variables
 [x] Make Stackblitz use cx-theme-variables
-[ ] Allow .md extension on each article
+[x] Allow .md extension on each article

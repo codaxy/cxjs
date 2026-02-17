@@ -83,6 +83,19 @@ ${navIndex}`;
 
         await writeFile(join(distDir, "llms.txt"), indexContent, "utf-8");
         console.log("✅ llms.txt generated");
+
+        // Generate individual .md files for each doc page
+        let mdCount = 0;
+        for (const page of allPages) {
+          const mdxPath = join(srcDir, `${page.path}.mdx`);
+          try {
+            await access(mdxPath);
+            const content = await extractMdxContent(mdxPath, srcDir, false);
+            await writeFile(join(distDir, `${page.path}.md`), content, "utf-8");
+            mdCount++;
+          } catch {}
+        }
+        console.log(`✅ ${mdCount} individual .md files generated`);
       },
     },
   };
@@ -103,7 +116,7 @@ function generateNavigationIndex(site) {
       categoryLines.push(`\n#### ${group.title}`);
 
       for (const item of group.items) {
-        const url = `${site}/docs/${category.slug}/${item.slug}`;
+        const url = `${site}/docs/${category.slug}/${item.slug}.md`;
         const description = item.description ? `: ${item.description}` : "";
         categoryLines.push(`- [${item.title}](${url})${description}`);
       }
@@ -210,6 +223,12 @@ async function extractMdxContent(mdxPath, srcDir, onlyStructure) {
       },
     );
   }
+
+  // Replace ImportPath component with code block (before import removal)
+  processedContent = processedContent.replace(
+    /<ImportPath\s+path="([^"]*)"\s*\/?>/g,
+    (_, path) => path ? "```ts\n" + path + "\n```" : "",
+  );
 
   // Remove import statements from MDX (but NOT from code blocks)
   // Split by code blocks, remove imports from non-code parts only
