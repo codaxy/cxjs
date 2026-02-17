@@ -1506,7 +1506,7 @@ const categoryMetadata = [
   { id: "colors", name: "Colors", icon: "palette", group: "Theme" },
   { id: "sizing", name: "Sizing", icon: "move", group: "Theme" },
   { id: "effects", name: "Effects", icon: "zap", group: "Theme" },
-  { id: "buttons", name: "Buttons", icon: "square", group: "Components" },
+  { id: "buttons", name: "Buttons", icon: "square-hollow", group: "Components" },
   { id: "inputs", name: "Inputs", icon: "text-cursor-input", group: "Components" },
   { id: "checks", name: "Checks & Switches", icon: "toggle-left", group: "Components" },
   { id: "sliders", name: "Sliders & Progress", icon: "sliders-horizontal", group: "Components" },

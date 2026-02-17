@@ -140,11 +140,6 @@ export const navigation = [
         title: "Migration",
         items: [
           {
-            title: "Changelog",
-            slug: "changelog",
-            description: "Version history and release notes",
-          },
-          {
             title: "Breaking Changes",
             slug: "breaking-changes",
             description: "List of breaking changes between major versions",

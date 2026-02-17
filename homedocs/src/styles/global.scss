@@ -149,6 +149,7 @@ html {
   font-weight: 400;
   height: 100%;
   scroll-behavior: smooth;
+  overflow-y: scroll;
 }
 
 // Offset for anchor links (account for fixed header)

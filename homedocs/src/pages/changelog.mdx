@@ -1,14 +1,8 @@
 ---
-layout: ../../../layouts/DocsLayout.astro
+layout: ../layouts/LegalLayout.astro
 title: Changelog
 description: Version history and release notes
 ---
-
-import OnThisPage from "../../../components/OnThisPage.astro";
-
-# Changelog
-
-<OnThisPage />
 
 ## cx@26.2.1
 
@@ -30,7 +24,7 @@ import OnThisPage from "../../../components/OnThisPage.astro";
 - Modern build tooling support (Vite, esbuild, SWC)
 - Split HTML and React elements for better type inference
 
-See [Breaking Changes](/intro/breaking-changes#2610) for migration details.
+See [Breaking Changes](/docs/intro/breaking-changes#2610) for migration details.
 
 ---
 
@@ -40,7 +34,7 @@ See [Breaking Changes](/intro/breaking-changes#2610) for migration details.
 
 - Date only (2025-01-01) strings are now parsed as local time, instead of UTC.
 - `encodeDate` function can be used to format date objects as date only strings, i.e. 2025-01-01. This function can be set as `encoding` for the `DateField`, `MonthField`, `Calendar`, and `MonthPicker` components.
-- `MonthField` and `MonthPicker` now include a flag `inclusiveTo` which allow month ranges to end with the last day of the month, instead of the first day of the next month.
+- `MonthField` and `MonthPicker` now include a flag `inclusiveTo` which allows month ranges to end with the last day of the month, instead of the first day of the next month.
 
 ---
 
@@ -56,7 +50,7 @@ See [Breaking Changes](/intro/breaking-changes#2610) for migration details.
 
 **Fixes**
 
-- Fix on validate arguments for multiple lookups
+- Fix onValidate arguments for multiple lookups
 
 ---
 
@@ -72,7 +66,7 @@ See [Breaking Changes](/intro/breaking-changes#2610) for migration details.
 
 **Features**
 
-- `Window.pad` option. See [Breaking changes](/intro/breaking-changes).
+- `Window.pad` option. See [Breaking changes](/docs/intro/breaking-changes).
 
 ---
 
@@ -181,7 +175,7 @@ See [Breaking Changes](/intro/breaking-changes#2610) for migration details.
 
 **Fixes**
 
-- Fix getCursorPos properly resolves position within iframes in Firefox
+- Fix getCursorPos to properly resolve position within iframes in Firefox
 - Fix drag and drop within iframes
 
 ---
@@ -275,7 +269,7 @@ See [Breaking Changes](/intro/breaking-changes#2610) for migration details.
 
 **Features**
 
-- Dart Sass compatibility (see [Breaking Changes](/intro/breaking-changes))
+- Dart Sass compatibility (see [Breaking Changes](/docs/intro/breaking-changes))
 - Dropping IE support
 
 ---
@@ -329,7 +323,7 @@ See [Breaking Changes](/intro/breaking-changes#2610) for migration details.
 
 **Fixes**
 
-- Properly sort by the second column if the values in first column are null
+- Properly sort by the second column if the values in the first column are null
 
 ---
 
@@ -404,7 +398,7 @@ See [Breaking Changes](/intro/breaking-changes#2610) for migration details.
 
 **Features**
 
-- TreeAdapter now support the flag `hideRootNodes`
+- TreeAdapter now supports the flag `hideRootNodes`
 - Added the function `findTreePath` to `cx/data`.
 
 **Fixes**

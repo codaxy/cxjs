@@ -33,11 +33,11 @@ const isDocs = pathname.startsWith('/docs');
       <a href="/" class:list={["text-sm transition-colors", isHome ? "text-foreground font-medium" : "text-muted-foreground hover:text-foreground"]}>
         Home
       </a>
-      <a href="/docs/intro/changelog" class:list={["text-sm transition-colors", isChangelog ? "text-foreground font-medium" : "text-muted-foreground hover:text-foreground"]}>
-        Changelog
-      </a>
       <a href="/themes" class:list={["text-sm transition-colors", isThemes ? "text-foreground font-medium" : "text-muted-foreground hover:text-foreground"]}>
         Themes
+      </a>
+      <a href="/changelog" class:list={["text-sm transition-colors", isChangelog ? "text-foreground font-medium" : "text-muted-foreground hover:text-foreground"]}>
+        Changelog
       </a>
       <a href="/docs/intro/what-is-cxjs" class:list={["text-sm transition-colors", isDocs ? "text-foreground font-medium" : "text-muted-foreground hover:text-foreground"]}>
         Documentation
@@ -84,7 +84,7 @@ const isDocs = pathname.startsWith('/docs');
       <a href="/" class:list={["text-sm transition-colors py-2", isHome ? "text-foreground font-medium" : "text-muted-foreground hover:text-foreground"]}>
         Home
       </a>
-      <a href="/docs/intro/changelog" class:list={["text-sm transition-colors py-2", isChangelog ? "text-foreground font-medium" : "text-muted-foreground hover:text-foreground"]}>
+      <a href="/changelog" class:list={["text-sm transition-colors py-2", isChangelog ? "text-foreground font-medium" : "text-muted-foreground hover:text-foreground"]}>
         Changelog
       </a>
       <a href="/docs/intro/what-is-cxjs" class:list={["text-sm transition-colors py-2", isDocs ? "text-foreground font-medium" : "text-muted-foreground hover:text-foreground"]}>
