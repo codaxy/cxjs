@@ -1,0 +1,159 @@
+@use "sass:map";
+@use "../../variables.scss" as *;
+@use "cx/src/maps" as *;
+@use "cx/src/util/scss/deep-merge" as *;
+@use "cx/src/util/scss/clockwise" as *;
+@use "cx/src/util/scss/calc" as *;
+
+// =============================================================================
+// TAB - Map Overrides
+// =============================================================================
+// Note: color-mix() calculations are placed directly in the maps (not in
+// intermediate CSS variables) so that sub-theming works correctly.
+// See meta/CSS_VARIABLES.md for details on this limitation.
+
+$cx-tab-state-style-map: cx-deep-map-merge(
+   $cx-tab-state-style-map,
+   (
+      default: (
+         color: var(--cx-theme-text-color),
+         background-color: transparent,
+         border-color: transparent,
+         border-radius: var(--cx-theme-border-radius),
+         line-height: var(--cx-button-line-height),
+         transition: var(--cx-theme-transition),
+      ),
+      hover: (
+         background-color: color-mix(
+               in srgb,
+               var(--cx-button-active-state-mix-color),
+               transparent 96%
+            ),
+      ),
+      cursor: (
+         background-color: color-mix(
+               in srgb,
+               var(--cx-button-active-state-mix-color),
+               transparent 92%
+            ),
+         outline: none,
+      ),
+      focus: (
+         box-shadow: var(--cx-theme-focus-box-shadow),
+      ),
+      selected: (
+         background-color: var(--cx-theme-primary-color),
+         color: var(--cx-theme-primary-text-color),
+         font-weight: $cx-default-tab-font-weight,
+      ),
+      selected-cursor: (
+         color: var(--cx-theme-primary-text-color),
+         background-color: color-mix(
+               in srgb,
+               var(--cx-theme-primary-color),
+               var(--cx-theme-background-color) 20%
+            ),
+      ),
+      active: (
+         color: var(--cx-theme-primary-color),
+         background-color: transparent,
+      ),
+      disabled: (
+         color: color-mix(in srgb, var(--cx-theme-text-color), transparent 62%),
+         background-color: transparent,
+      ),
+   )
+);
+
+$cx-tab-mods: cx-deep-map-merge(
+   $cx-tab-mods,
+   (
+      classic: (
+         default: (
+            line-height: cx-calc(var(--cx-button-line-height), -2px),
+            border-bottom-width: 0,
+            border-left-width: 0,
+            border-color: var(--cx-theme-border-color),
+            box-shadow: none,
+            border-radius: 0,
+         ),
+         hover: (
+            color: var(--cx-theme-text-color),
+            background-color: color-mix(
+                  in srgb,
+                  var(--cx-button-active-state-mix-color),
+                  transparent 96%
+               ),
+         ),
+         cursor: (
+            background-color: color-mix(
+                  in srgb,
+                  var(--cx-button-active-state-mix-color),
+                  transparent 92%
+               ),
+            color: var(--cx-theme-text-color),
+            outline: none,
+         ),
+         selected: (
+            color: var(--cx-theme-text-color),
+            font-weight: $cx-default-tab-font-weight,
+            background-color: var(--cx-theme-surface-color),
+         ),
+         selected-cursor: (
+            color: var(--cx-theme-text-color),
+            background-color: var(--cx-theme-surface-color),
+         ),
+         active: (
+            background-color: transparent,
+         ),
+         disabled: (
+            background-color: transparent,
+            color: color-mix(
+                  in srgb,
+                  var(--cx-theme-text-color),
+                  transparent 62%
+               ),
+         ),
+      ),
+      line: (
+         default: (
+            border-bottom-width: 2px,
+            line-height: cx-calc(var(--cx-button-line-height), -4px),
+            padding: var(--cx-button-padding-y) 0,
+            margin: 0 var(--cx-button-padding-x),
+         ),
+         hover: (
+            border-color: transparent,
+            color: var(--cx-theme-text-color),
+            background-color: transparent,
+         ),
+         cursor: (
+            color: var(--cx-theme-text-color),
+            font-weight: $cx-default-tab-font-weight,
+            border-color: color-mix(
+                  in srgb,
+                  var(--cx-button-active-state-mix-color),
+                  transparent 80%
+               ),
+            background-color: transparent,
+         ),
+         selected: (
+            box-shadow: none,
+            color: var(--cx-theme-text-color),
+            font-weight: $cx-default-tab-font-weight,
+            border-color: var(--cx-theme-primary-color),
+            background-color: transparent,
+         ),
+         selected-cursor: (
+            color: var(--cx-theme-text-color),
+            font-weight: $cx-default-tab-font-weight,
+            border-color: color-mix(
+                  in srgb,
+                  var(--cx-theme-primary-color),
+                  var(--cx-theme-background-color) 30%
+               ),
+            background-color: transparent,
+         ),
+      ),
+   )
+);

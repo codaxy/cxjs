@@ -1,0 +1,64 @@
+@use "sass:map";
+@use "../../variables.scss" as *;
+@use "cx/src/maps" as *;
+@use "cx/src/util/scss/deep-merge" as *;
+
+// =============================================================================
+// CALENDAR - Map Overrides
+// =============================================================================
+
+$cx-calendar-state-style-map: cx-deep-map-merge(
+   $cx-calendar-state-style-map,
+   (
+      default: (
+         border-color: var(--cx-theme-border-color),
+         width: auto,
+      ),
+      focus: (
+         box-shadow: none,
+         border-color: null,
+      ),
+   )
+);
+
+// Calendar days
+$cx-calendar-day-state-style-map: cx-deep-map-merge(
+   $cx-calendar-day-state-style-map,
+   (
+      default: (
+         border-radius: var(--cx-theme-border-radius),
+         padding: var(--cx-calendar-day-padding-y)
+            var(--cx-calendar-day-padding-x),
+         line-height: var(--cx-calendar-day-line-height),
+      ),
+      hover-focus: (
+         // background-color: none,
+         // box-shadow: inset 0 0 0 1px var(--cx-theme-primary-color),
+          // position: relative,
+      ),
+      hover: (
+         background-color: none,
+         box-shadow: var(--cx-cursor-box-shadow),
+      ),
+      today: (
+         background-color: var(--cx-theme-accent-color),
+         color: var(--cx-theme-accent-text-color),
+         font-weight: bold,
+      ),
+      selected: (
+         background-color: var(--cx-theme-primary-color),
+         color: var(--cx-theme-primary-text-color),
+         position: relative,
+      ),
+      selected-focus: (
+         // background-color: var(--cx-theme-accent-color),
+         // color: var(--cx-theme-accent-text-color),
+         // box-shadow: inset 0 0 0 1px var(--cx-theme-primary-color),
+          // position: relative,
+      ),
+      outside: (
+         color: inherit,
+         opacity: 0.4,
+      ),
+   )
+);

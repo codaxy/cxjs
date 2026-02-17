@@ -1,0 +1,220 @@
+// ========================================
+// Prose/Typography Styles
+// ========================================
+
+.prose {
+  font-weight: 400;
+  color: var(--sl-color-gray-1);
+  font-size: 1rem;
+  line-height: 1.75;
+  letter-spacing: -0.01em;
+}
+
+.dark .prose {
+  color: var(--sl-color-gray-2);
+}
+
+.prose p {
+  margin-bottom: 1.25rem;
+}
+
+.prose ul,
+.prose ol {
+  margin-bottom: 1rem;
+  padding-left: 1.25rem;
+}
+
+.prose ul > li,
+.prose ol > li {
+  padding-left: 0.25rem;
+  line-height: 1.5;
+}
+
+.prose ul > li {
+  list-style: disc;
+}
+
+.prose ol > li {
+  list-style: decimal;
+}
+
+// Nested lists
+.prose li ul,
+.prose li ol {
+  margin: 0.25rem 0 0.25rem 0;
+  padding-left: 1rem;
+}
+
+// Remove ALL extra spacing from lists
+.prose li p,
+.prose li > p {
+  margin: 0 !important;
+  padding: 0;
+}
+
+.prose a:not(.cxb-button):not(.cxb-tab) {
+  color: var(--sl-color-text-accent);
+  text-decoration: none;
+  //border-bottom: 1px solid transparent;
+  //transition: border-color 0.15s ease;
+
+  &:hover {
+    //border-bottom-color: currentColor;
+  }
+}
+
+.prose blockquote {
+  @apply pl-4 italic border-l-2;
+  color: var(--sl-color-gray-3);
+  border-color: var(--sl-color-gray-4);
+}
+
+.prose b,
+.prose strong {
+  @apply font-bold;
+  color: var(--sl-color-text);
+}
+
+.prose h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: var(--sl-color-text);
+}
+
+.prose > p:first-of-type {
+  font-size: 1.125rem;
+  color: var(--sl-color-gray-2);
+  line-height: 1.7;
+}
+
+.dark .prose > p:first-of-type {
+  color: var(--sl-color-gray-3);
+}
+
+.prose h2,
+.prose h3 {
+  position: relative;
+
+  &:hover .heading-anchor {
+    opacity: 1;
+  }
+}
+
+.prose h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 2rem 0 1rem;
+  color: var(--sl-color-text);
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &:first-child {
+    margin-top: 0;
+  }
+}
+
+.prose h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 1.5rem 0 0.75rem;
+  color: var(--sl-color-text);
+}
+
+.prose h2 a:not(.heading-anchor),
+.prose h3 a:not(.heading-anchor) {
+  color: inherit;
+}
+
+.heading-anchor {
+  margin-left: 0.5rem;
+  color: var(--sl-color-text-accent);
+  text-decoration: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  font-weight: 400;
+}
+
+.heading-anchor:hover {
+  text-decoration: underline;
+}
+
+.prose code::before,
+.prose code::after {
+  content: none;
+}
+
+.prose p code,
+.prose li code {
+  font-size: inherit;
+  font-weight: 600;
+  color: var(--sl-color-text-accent);
+  background: var(--sl-color-gray-6);
+  @apply px-1 rounded;
+}
+
+.prose a:has(code) {
+  color: var(--sl-color-text-accent);
+}
+
+// Table styles - only apply to direct table children to avoid conflicts with CxJS widgets
+.prose > table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  margin: 1.5rem 0;
+
+  thead {
+    border-bottom: 1px solid hsl(var(--border));
+  }
+
+  th {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-weight: 600;
+    color: hsl(var(--foreground));
+    background: hsl(var(--secondary) / 0.5);
+
+    &:first-child {
+      border-radius: 0.5rem 0 0 0;
+    }
+
+    &:last-child {
+      border-radius: 0 0.5rem 0 0;
+    }
+  }
+
+  tbody {
+    color: hsl(var(--muted-foreground));
+  }
+
+  td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid hsl(var(--border) / 0.5);
+
+    code {
+      color: hsl(var(--primary));
+      background: hsl(var(--secondary));
+      padding: 0.125rem 0.375rem;
+      border-radius: 0.25rem;
+      font-size: 0.8125rem;
+      font-weight: 500;
+    }
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+}
+
+.dark .prose > table th {
+  background: hsl(var(--secondary) / 0.3);
+}
+
+.prose .cxb-heading {
+  margin: 0 !important;
+}

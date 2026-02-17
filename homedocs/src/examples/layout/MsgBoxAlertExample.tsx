@@ -1,7 +1,7 @@
 import { Button, MsgBox } from "cx/widgets";
 
 // @index
-export default () => (
+export default (
   <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
     <Button
       onClick={() => {
@@ -11,21 +11,23 @@ export default () => (
       Simple Alert
     </Button>
     <Button
-      onClick={() => {
+      onClick={(e) => {
         MsgBox.alert({
           title: "Information",
           message: "This alert has a custom title.",
+          initiatingEvent: e,
         });
       }}
     >
       Alert with Title
     </Button>
     <Button
-      onClick={() => {
+      onClick={(e) => {
         MsgBox.alert({
           title: "Custom Button",
           message: "Click the button below to close.",
           okText: "Got it!",
+          initiatingEvent: e,
         });
       }}
     >

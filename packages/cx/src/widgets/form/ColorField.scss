@@ -1,4 +1,16 @@
+@use "sass:math";
 @use "sass:map";
+@use "../variables" as *;
+@use "../maps" as *;
+@use "../../util/call-once.scss" as *;
+@use "../../util/scss/add-rules.scss" as *;
+@use "../../util/scss/calc.scss" as *;
+@use "../../util/scss/clockwise.scss" as *;
+@use "../../util/scss/deep-merge.scss" as *;
+@use "../../util/scss/besm.scss" as *;
+@use "../../util/scss/include.scss" as *;
+@use "./Field.scss" as *;
+@use "./ColorPicker.scss" as *;
 
 @mixin cx-colorfield(
    $name: "colorfield",
@@ -31,8 +43,14 @@
             default: (
                font-family: $cx-default-colorfield-font-family,
                font-size: 11px,
-               padding: cx-top($padding) cx-calc(cx-right($padding), $cx-default-clear-size) cx-bottom($padding)
-                  cx-calc(cx-left($padding), $cx-default-input-left-tool-size, $cx-default-input-left-tool-spacing),
+               padding: cx-top($padding)
+                  cx-calc(cx-right($padding), $cx-default-clear-size)
+                  cx-bottom($padding)
+                  cx-calc(
+                     cx-left($padding),
+                     $cx-default-input-left-tool-size,
+                     $cx-default-input-left-tool-spacing
+                  ),
             )
          )
       );
@@ -81,6 +99,7 @@
       div {
          width: 100%;
          height: 100%;
+         border-radius: inherit;
       }
    }
 

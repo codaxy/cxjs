@@ -8,7 +8,7 @@ export interface CxVDOM extends Omit<typeof React, "DOM"> {
    allowRenderOutputCaching?: boolean;
    DOM: {
       unstable_batchedUpdates: typeof unstable_batchedUpdates;
-      createPortal: typeof createPortal;
+      createPortal?: typeof createPortal;
       createRoot: typeof createRoot;
       hydrateRoot: typeof hydrateRoot;
    };

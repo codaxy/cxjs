@@ -1,5 +1,9 @@
 /** @jsxImportSource react */
-import { TooltipConfig, TooltipOptions, TooltipParentInstance } from "../overlay/tooltip-ops";
+import {
+  TooltipConfig,
+  TooltipOptions,
+  TooltipParentInstance,
+} from "../overlay/tooltip-ops";
 import { isSelector } from "../../data/isSelector";
 import { FocusManager } from "../../ui/FocusManager";
 import { Instance, PartialInstance } from "../../ui/Instance";
@@ -19,552 +23,650 @@ import { FieldIcon } from "./FieldIcon";
 import { HelpText } from "./HelpText";
 import { Label } from "./Label";
 import { ValidationError } from "./ValidationError";
-import { BooleanProp, ClassProp, Config, Prop, StringProp, StructuredProp, StyleProp } from "../../ui/Prop";
+import {
+  BooleanProp,
+  ClassProp,
+  Config,
+  Prop,
+  StringProp,
+  StructuredProp,
+  StyleProp,
+} from "../../ui/Prop";
 import type { TooltipInstance } from "../overlay";
 import type { FormRenderingContext } from "./ValidationGroup";
+import { isObject } from "../../util";
 
 export interface FieldConfig extends PureContainerConfig, WidgetStyleConfig {
-   /** Field label. For advanced use cases. */
-   label?: StringProp | Config;
+  /** Field label. For advanced use cases. */
+  label?: StringProp | Config;
 
-   /** Set to `material` to use custom label placement instruction. Used in Material theme to implement animated labels. */
-   labelPlacement?: "material";
+  /** Set to `material` to use custom label placement instruction. Used in Material theme to implement animated labels. */
+  labelPlacement?: "material";
 
-   /** Set to `material` to use custom help placement instruction. Used in Material theme to implement absolutely positioned validation messages. */
-   helpPlacement?: "material";
+  /** Set to `material` to use custom help placement instruction. Used in Material theme to implement absolutely positioned validation messages. */
+  helpPlacement?: "material";
 
-   /** Either `view` or `edit` (default). In `view` mode, the field is displayed as plain text. */
-   mode?: Prop<"view" | "edit">;
+  /** Either `view` or `edit` (default). In `view` mode, the field is displayed as plain text. */
+  mode?: Prop<"view" | "edit">;
 
-   /** Set to `true` to switch to widget view mode. Same as `mode="view"`. Default is false. */
-   viewMode?: BooleanProp;
+  /** Set to `true` to switch to widget view mode. Same as `mode="view"`. Default is false. */
+  viewMode?: BooleanProp;
 
-   id?: Prop<string | number>;
+  id?: Prop<string | number>;
 
-   /** Used for validation. If error evaluates to non-null, the field is marked in red. */
-   error?: StringProp;
+  /** Used for validation. If error evaluates to non-null, the field is marked in red. */
+  error?: StringProp;
 
-   /** Style object applied to the input element. Used for setting visual elements, such as borders and backgrounds. */
-   inputStyle?: StyleProp;
+  /** Style object applied to the input element. Used for setting visual elements, such as borders and backgrounds. */
+  inputStyle?: StyleProp;
 
-   /** Additional CSS class applied to the input element. Used for setting visual elements, such as borders and backgrounds. */
-   inputClass?: ClassProp;
+  /** Additional CSS class applied to the input element. Used for setting visual elements, such as borders and backgrounds. */
+  inputClass?: ClassProp;
 
-   /** Additional attributes that should be rendered on the input element. E.g. inputAttrs={{ autoComplete: "off" }}. */
-   inputAttrs?: Config;
+  /** Additional attributes that should be rendered on the input element. E.g. inputAttrs={{ autoComplete: "off" }}. */
+  inputAttrs?: Config;
 
-   /** Text to be rendered in view mode when the field is empty. */
-   emptyText?: StringProp;
+  /** Text to be rendered in view mode when the field is empty. */
+  emptyText?: StringProp;
 
-   /** Set to `true` to make error indicators visible in pristine state. By default, validation errors are not shown until the user visits the field. */
-   visited?: BooleanProp;
+  /** Set to `true` to make error indicators visible in pristine state. By default, validation errors are not shown until the user visits the field. */
+  visited?: BooleanProp;
 
-   /** Set to `true` to automatically focus the field, after it renders for the first time. */
-   autoFocus?: BooleanProp;
+  /** Set to `true` to automatically focus the field, after it renders for the first time. */
+  autoFocus?: BooleanProp;
 
-   /** Defines how to present validation errors. Default mode is `tooltip`. Other options are `help` and `help-block`. */
-   validationMode?: "tooltip" | "help" | "help-block";
+  /** Defines how to present validation errors. Default mode is `tooltip`. Other options are `help` and `help-block`. */
+  validationMode?: "tooltip" | "help" | "help-block";
 
-   /** Defaults to `false`. Set to `true` to disable the field. */
-   disabled?: BooleanProp;
+  /** Defaults to `false`. Set to `true` to disable the field. */
+  disabled?: BooleanProp;
 
-   /** Defaults to `false`. Used to make the field required. */
-   required?: BooleanProp;
+  /** The opposite of `disabled`. */
+  enabled?: BooleanProp;
 
-   /** Used to indicate that required fields should not be marked as invalid before the user visits them. */
-   suppressErrorsUntilVisited?: boolean;
+  /** Defaults to `false`. Used to make the field required. */
+  required?: BooleanProp;
 
-   /** Error message used to indicate that field is required. */
-   requiredText?: string;
+  /** Used to indicate that required fields should not be marked as invalid before the user visits them. */
+  suppressErrorsUntilVisited?: boolean;
 
-   /** Append asterisk to the label to indicate a required field. */
-   asterisk?: BooleanProp;
+  /** Error message used to indicate that field is required. */
+  requiredText?: string;
 
-   /** Text displayed to the user to indicate that server-side validation is in progress. */
-   validatingText?: string;
+  /** Append asterisk to the label to indicate a required field. */
+  asterisk?: BooleanProp;
 
-   /** Text displayed to the user to indicate that server-side validation has thrown an exception. */
-   validationExceptionText?: string;
+  /** Text displayed to the user to indicate that server-side validation is in progress. */
+  validatingText?: string;
 
-   /** Configuration of the tooltip used to indicate validation errors. */
-   errorTooltip?: Config;
+  /** Text displayed to the user to indicate that server-side validation has thrown an exception. */
+  validationExceptionText?: string;
 
-   /** Tooltip configuration. */
-   tooltip?: StringProp | StructuredProp;
+  /** Configuration of the tooltip used to indicate validation errors. */
+  errorTooltip?: Config;
 
-   /** Indicates that `help` should be separated from the input with a whitespace. Default is `true`. */
-   helpSpacer?: boolean;
+  /** Tooltip configuration. */
+  tooltip?: StringProp | StructuredProp;
 
-   /** If set to `true` top level element will get additional CSS class indicating that input is focused. Default is `false`. */
-   trackFocus?: boolean;
+  /** Indicates that `help` should be separated from the input with a whitespace. Default is `true`. */
+  helpSpacer?: boolean;
 
-   /** Custom tab index */
-   tabIndex?: StringProp;
+  /** If set to `true` top level element will get additional CSS class indicating that input is focused. Default is `false`. */
+  trackFocus?: boolean;
 
-   /** Additional content to be displayed next to the field. */
-   help?: string | Config;
+  /** Custom tab index */
+  tabIndex?: StringProp;
 
-   /** Validation parameters to be passed to the validation function. */
-   validationParams?: Config;
+  /** Additional content to be displayed next to the field. */
+  help?: string | Config;
 
-   onValidationException?: string | ((error: unknown, instance: FieldInstance) => void);
+  /** Validation parameters to be passed to the validation function. */
+  validationParams?: Config;
 
-   /** Value to be set in the store if the field is empty. Default value is null. */
-   emptyValue?: unknown;
+  onValidationException?:
+    | string
+    | ((error: unknown, instance: FieldInstance) => void);
 
-   /** Additional CSS style to be passed to the label object. */
-   labelStyle?: StyleProp;
+  /** Value to be set in the store if the field is empty. Default value is null. */
+  emptyValue?: unknown;
 
-   /** Additional CSS class to be passed to the label object. */
-   labelClass?: ClassProp;
+  /** Additional CSS style to be passed to the label object. */
+  labelStyle?: StyleProp;
+
+  /** Additional CSS class to be passed to the label object. */
+  labelClass?: ClassProp;
 }
 
 export class FieldInstance<F extends Field<any, any> = Field<any, any>>
-   extends Instance<F>
-   implements TooltipParentInstance
+  extends Instance<F>
+  implements TooltipParentInstance
 {
-   declare state: Record<string, any>;
-   declare parentDisabled?: boolean;
-   declare parentReadOnly?: boolean;
-   declare parentViewMode?: boolean | string;
-   declare parentTabOnEnterKey?: boolean;
-   declare parentVisited?: boolean;
-   declare tooltips: { [key: string]: TooltipInstance };
+  declare state: Record<string, any>;
+  declare parentDisabled?: boolean;
+  declare parentReadOnly?: boolean;
+  declare parentViewMode?: boolean | string;
+  declare parentTabOnEnterKey?: boolean;
+  declare parentVisited?: boolean;
+  declare tooltips: { [key: string]: TooltipInstance };
 }
 
 export class Field<
-   Config extends FieldConfig = FieldConfig,
-   InstanceType extends FieldInstance<any> = FieldInstance<any>,
+  Config extends FieldConfig = FieldConfig,
+  InstanceType extends FieldInstance<any> = FieldInstance<any>,
 > extends PureContainerBase<Config, InstanceType> {
-   declare public inputStyle?: Record<string, unknown> | string;
-   declare public validationMode?: string;
-   declare public errorTooltip?: Record<string, unknown>;
-   declare public tooltip?: TooltipConfig;
-   declare public help?: Record<string, unknown> | string;
-   declare public label?: Record<string, unknown> | string;
-   declare public mod?: Record<string, unknown>;
-   declare public disabled?: boolean;
-   declare public required?: boolean;
-   declare public asterisk?: boolean;
-   declare public labelStyle?: Record<string, unknown> | string;
-   declare public labelClass?: string;
-   declare public icon?: null | string;
-   declare public visited?: boolean;
-   declare public labelPlacement?: string | boolean;
-   declare public helpPlacement?: string | boolean;
-   declare public emptyValue?: unknown;
-   declare public requiredText?: string;
-   declare public validatingText?: string;
-   declare public onValidate?:
-      | string
-      | ((value: unknown, instance: Instance, validationParams: Record<string, unknown>) => unknown);
-   declare public validationExceptionText?: string;
-   declare public onValidationException?: string | ((error: unknown, instance: Instance) => void);
-   declare public onKeyDown?: string | ((e: React.KeyboardEvent, instance: Instance) => boolean | void);
-   declare public suppressErrorsUntilVisited?: boolean;
-   declare public autoFocus?: boolean;
-   declare public helpSpacer?: boolean;
-   declare public trackFocus?: boolean;
-   declare public baseClass: string;
+  declare public inputStyle?: Record<string, unknown> | string;
+  declare public validationMode?: string;
+  declare public errorTooltip?: Record<string, unknown>;
+  declare public tooltip?: TooltipConfig;
+  declare public help?: Record<string, unknown> | string;
+  declare public label?: Record<string, unknown> | string;
+  declare public mod?: Record<string, unknown>;
+  declare public disabled?: boolean;
+  declare public required?: boolean;
+  declare public asterisk?: boolean;
+  declare public labelStyle?: Record<string, unknown> | string;
+  declare public labelClass?: string;
+  declare public icon?: null | string;
+  declare public visited?: boolean;
+  declare public labelPlacement?: string | boolean;
+  declare public helpPlacement?: string | boolean;
+  declare public emptyValue?: unknown;
+  declare public requiredText?: string;
+  declare public validatingText?: string;
+  declare public onValidate?:
+    | string
+    | ((
+        value: unknown,
+        instance: Instance,
+        validationParams: Record<string, unknown>,
+      ) => unknown);
+  declare public validationExceptionText?: string;
+  declare public onValidationException?:
+    | string
+    | ((error: unknown, instance: Instance) => void);
+  declare public onKeyDown?:
+    | string
+    | ((e: React.KeyboardEvent, instance: Instance) => boolean | void);
+  declare public suppressErrorsUntilVisited?: boolean;
+  declare public autoFocus?: boolean;
+  declare public helpSpacer?: boolean;
+  declare public trackFocus?: boolean;
+  declare public baseClass: string;
 
-   public declareData(...args: Record<string, unknown>[]): void {
-      super.declareData(
-         {
-            label: undefined,
-            labelWidth: undefined,
-            mode: undefined,
-            viewMode: undefined,
-            id: undefined,
-            error: undefined,
-            inputStyle: { structured: true },
-            inputClass: { structured: true },
-            inputAttrs: { structured: true },
-            emptyText: undefined,
-            visited: undefined,
-            autoFocus: undefined,
-            tabOnEnterKey: undefined,
-            tabIndex: undefined,
-            validationParams: { structured: true },
-         },
-         ...args,
-      );
-   }
+  public declareData(...args: Record<string, unknown>[]): void {
+    super.declareData(
+      {
+        label: undefined,
+        labelWidth: undefined,
+        mode: undefined,
+        viewMode: undefined,
+        id: undefined,
+        error: undefined,
+        inputStyle: { structured: true },
+        inputClass: { structured: true },
+        inputAttrs: { structured: true },
+        emptyText: undefined,
+        visited: undefined,
+        autoFocus: undefined,
+        tabOnEnterKey: undefined,
+        tabIndex: undefined,
+        validationParams: { structured: true },
+      },
+      ...args,
+    );
+  }
 
-   public init(): void {
-      this.inputStyle = parseStyle(this.inputStyle);
-      super.init();
-   }
+  public init(): void {
+    this.inputStyle = parseStyle(this.inputStyle);
+    super.init();
+  }
 
-   public initComponents(_context: RenderingContext, instance: Instance): void {
-      if (this.validationMode == "tooltip" && isUndefined(this.errorTooltip)) {
-         this.errorTooltip = {
-            text: { bind: "$error" },
-            mod: "error",
-            ...(this.errorTooltip || {}),
-         };
-      }
-
-      if (isUndefined(this.help)) {
-         switch (this.validationMode) {
-            case "help":
-            case "help-inline":
-               this.help = ValidationError as any;
-               break;
-
-            case "help-block":
-               this.help = {
-                  type: ValidationError as any,
-                  mod: "block",
-               };
-               break;
-         }
-      }
-
-      if (this.help != null) {
-         let helpConfig: any = {};
-
-         if ((this.help as any).isComponentType) helpConfig = this.help;
-         else if (isSelector(this.help)) helpConfig.text = this.help;
-         else Object.assign(helpConfig, this.help);
-
-         this.help = HelpText.create(helpConfig) as any;
-      }
-
-      if (this.label != null) {
-         let labelConfig: any = {
-            mod: this.mod,
-            disabled: this.disabled,
-            required: this.required,
-            asterisk: this.asterisk,
-            style: this.labelStyle,
-            class: this.labelClass,
-         };
-
-         if ((this.label as any).isComponentType) labelConfig = this.label;
-         else if (isSelector(this.label)) labelConfig.text = this.label;
-         else Object.assign(labelConfig, this.label);
-
-         this.label = Label.create(labelConfig) as any;
-      }
-
-      if (this.icon != null) {
-         let iconConfig: any = {
-            className: this.CSS.element(this.baseClass, "icon"),
-         };
-         if (isSelector(this.icon)) iconConfig.name = this.icon;
-         else Object.assign(iconConfig, this.icon);
-
-         this.icon = FieldIcon.create(iconConfig) as any;
-      }
-
-      super.initComponents({
-         label: this.label,
-         help: this.help,
-         icon: this.icon,
-      });
-   }
-
-   public initState(_context: RenderingContext, instance: InstanceType): void {
-      instance.state = {
-         inputError: false,
-         visited: this.visited === true,
+  public initComponents(_context: RenderingContext, instance: Instance): void {
+    if (
+      this.validationMode == "tooltip" &&
+      (isUndefined(this.errorTooltip) || isObject(this.errorTooltip))
+    ) {
+      this.errorTooltip = {
+        text: { bind: "$error" },
+        mod: "error",
+        ...this.errorTooltip,
       };
-   }
+    }
 
-   public prepareData(context: FormRenderingContext, instance: InstanceType, ...args: Record<string, unknown>[]): void {
-      let { data, state } = instance;
-      if (!data.id) data.id = "fld-" + instance.id;
+    if (isUndefined(this.help)) {
+      switch (this.validationMode) {
+        case "help":
+        case "help-inline":
+          this.help = ValidationError as any;
+          break;
 
-      data._disabled = data.disabled;
-      data._readOnly = data.readOnly;
-      data._viewMode = data.mode === "view" || data.viewMode;
-      data._tabOnEnterKey = data.tabOnEnterKey;
-      data.validationValue = this.getValidationValue(data);
-      instance.parentDisabled = context.parentDisabled;
-      instance.parentReadOnly = context.parentReadOnly;
-      instance.parentViewMode = context.parentViewMode;
-      instance.parentTabOnEnterKey = context.parentTabOnEnterKey;
-      instance.parentVisited = context.parentVisited;
+        case "help-block":
+          this.help = {
+            type: ValidationError as any,
+            mod: "block",
+          };
+          break;
+      }
+    }
 
-      if (typeof data.enabled !== "undefined") data._disabled = !data.enabled;
+    if (this.help != null) {
+      let helpConfig: any = {};
 
+      if ((this.help as any).isComponentType) helpConfig = this.help;
+      else if (isSelector(this.help)) helpConfig.text = this.help;
+      else Object.assign(helpConfig, this.help);
+
+      this.help = HelpText.create(helpConfig) as any;
+    }
+
+    if (this.label != null) {
+      let labelConfig: any = {
+        mod: this.mod,
+        disabled: this.disabled,
+        required: this.required,
+        asterisk: this.asterisk,
+        style: this.labelStyle,
+        class: this.labelClass,
+      };
+
+      if ((this.label as any).isComponentType) labelConfig = this.label;
+      else if (isSelector(this.label)) labelConfig.text = this.label;
+      else Object.assign(labelConfig, this.label);
+
+      this.label = Label.create(labelConfig) as any;
+    }
+
+    if (this.icon != null) {
+      let iconConfig: any = {
+        className: this.CSS.element(this.baseClass, "icon"),
+      };
+      if (isSelector(this.icon)) iconConfig.name = this.icon;
+      else Object.assign(iconConfig, this.icon);
+
+      this.icon = FieldIcon.create(iconConfig) as any;
+    }
+
+    super.initComponents({
+      label: this.label,
+      help: this.help,
+      icon: this.icon,
+    });
+  }
+
+  public initState(_context: RenderingContext, instance: InstanceType): void {
+    instance.state = {
+      inputError: false,
+      visited: this.visited === true,
+    };
+  }
+
+  public prepareData(
+    context: FormRenderingContext,
+    instance: InstanceType,
+    ...args: Record<string, unknown>[]
+  ): void {
+    let { data, state } = instance;
+    if (!data.id) data.id = "fld-" + instance.id;
+
+    data._disabled = data.disabled;
+    data._readOnly = data.readOnly;
+    data._viewMode = data.mode === "view" || data.viewMode;
+    data._tabOnEnterKey = data.tabOnEnterKey;
+    data.validationValue = this.getValidationValue(data);
+    instance.parentDisabled = context.parentDisabled;
+    instance.parentReadOnly = context.parentReadOnly;
+    instance.parentViewMode = context.parentViewMode;
+    instance.parentTabOnEnterKey = context.parentTabOnEnterKey;
+    instance.parentVisited = context.parentVisited;
+
+    if (typeof data.enabled !== "undefined") data._disabled = !data.enabled;
+
+    this.disableOrValidate(context, instance);
+
+    data.inputStyle = parseStyle(data.inputStyle);
+
+    if (this.labelPlacement && this.label)
+      data.mod = [data.mod, "label-placement-" + this.labelPlacement];
+
+    if (this.helpPlacement && this.help)
+      data.mod = [data.mod, "help-placement-" + this.helpPlacement];
+
+    data.empty = this.isEmpty(data);
+
+    super.prepareData(context, instance);
+  }
+
+  protected disableOrValidate(
+    context: FormRenderingContext,
+    instance: Instance,
+  ): void {
+    let { data, state } = instance;
+
+    //if the parent is strict and sets some flag to true, it is not allowed to overrule that flag by field settings
+
+    data.disabled = coalesce(
+      context.parentStrict ? context.parentDisabled : null,
+      data._disabled,
+      context.parentDisabled,
+    );
+    data.readOnly = coalesce(
+      context.parentStrict ? context.parentReadOnly : null,
+      data._readOnly,
+      context.parentReadOnly,
+    );
+    data.viewMode = coalesce(
+      context.parentStrict ? context.parentViewMode : null,
+      data._viewMode,
+      context.parentViewMode,
+    );
+    data.tabOnEnterKey = coalesce(
+      context.parentStrict ? context.parentTabOnEnterKey : null,
+      data._tabOnEnterKey,
+      context.parentTabOnEnterKey,
+    );
+    data.visited = coalesce(
+      context.parentStrict ? context.parentVisited : null,
+      data.visited,
+      context.parentVisited,
+    );
+
+    if (!data.error && !data.disabled && !data.viewMode)
+      this.validate(context, instance);
+
+    if (data.visited && !state?.visited) {
+      //feels hacky but it should be ok since we're in the middle of a new render cycle
+      state!.visited = true;
+    }
+
+    data.stateMods = {
+      ...data.stateMods,
+      disabled: data.disabled,
+      "edit-mode": !data.viewMode,
+      "view-mode": data.viewMode,
+    };
+  }
+
+  explore(context: FormRenderingContext, instance: InstanceType): void {
+    let { data, state } = instance;
+
+    instance.parentDisabled = context.parentDisabled;
+    instance.parentReadOnly = context.parentReadOnly;
+    instance.parentViewMode = context.parentViewMode;
+    instance.parentTabOnEnterKey = context.parentTabOnEnterKey;
+    instance.parentVisited = context.parentVisited;
+
+    if (
+      instance.cache("parentDisabled", context.parentDisabled) ||
+      instance.cache("parentReadOnly", context.parentReadOnly) ||
+      instance.cache("parentViewMode", context.parentViewMode) ||
+      instance.cache("parentTabOnEnterKey", context.parentTabOnEnterKey) ||
+      instance.cache("parentVisited", context.parentVisited)
+    ) {
+      instance.markShouldUpdate(context);
       this.disableOrValidate(context, instance);
+      this.prepareCSS(context, instance);
+    }
 
-      data.inputStyle = parseStyle(data.inputStyle);
-
-      if (this.labelPlacement && this.label) data.mod = [data.mod, "label-placement-" + this.labelPlacement];
-
-      if (this.helpPlacement && this.help) data.mod = [data.mod, "help-placement-" + this.helpPlacement];
-
-      data.empty = this.isEmpty(data);
-
-      super.prepareData(context, instance);
-   }
-
-   protected disableOrValidate(context: FormRenderingContext, instance: Instance): void {
-      let { data, state } = instance;
-
-      //if the parent is strict and sets some flag to true, it is not allowed to overrule that flag by field settings
-
-      data.disabled = coalesce(
-         context.parentStrict ? context.parentDisabled : null,
-         data._disabled,
-         context.parentDisabled,
-      );
-      data.readOnly = coalesce(
-         context.parentStrict ? context.parentReadOnly : null,
-         data._readOnly,
-         context.parentReadOnly,
-      );
-      data.viewMode = coalesce(
-         context.parentStrict ? context.parentViewMode : null,
-         data._viewMode,
-         context.parentViewMode,
-      );
-      data.tabOnEnterKey = coalesce(
-         context.parentStrict ? context.parentTabOnEnterKey : null,
-         data._tabOnEnterKey,
-         context.parentTabOnEnterKey,
-      );
-      data.visited = coalesce(context.parentStrict ? context.parentVisited : null, data.visited, context.parentVisited);
-
-      if (!data.error && !data.disabled && !data.viewMode) this.validate(context, instance);
-
-      if (data.visited && !state?.visited) {
-         //feels hacky but it should be ok since we're in the middle of a new render cycle
-         state!.visited = true;
-      }
-
-      data.stateMods = {
-         ...data.stateMods,
-         disabled: data.disabled,
-         "edit-mode": !data.viewMode,
-         "view-mode": data.viewMode,
+    if (!context.validation)
+      context.validation = {
+        errors: [],
       };
-   }
 
-   explore(context: FormRenderingContext, instance: InstanceType): void {
-      let { data, state } = instance;
+    if (data.error) {
+      context.validation.errors.push({
+        fieldId: data.id,
+        message: data.error,
+        visited: state?.visited,
+        type: "error",
+      });
+    }
 
-      instance.parentDisabled = context.parentDisabled;
-      instance.parentReadOnly = context.parentReadOnly;
-      instance.parentViewMode = context.parentViewMode;
-      instance.parentTabOnEnterKey = context.parentTabOnEnterKey;
-      instance.parentVisited = context.parentVisited;
+    context.push("lastFieldId", data.id);
+    super.explore(context, instance);
+  }
 
-      if (
-         instance.cache("parentDisabled", context.parentDisabled) ||
-         instance.cache("parentReadOnly", context.parentReadOnly) ||
-         instance.cache("parentViewMode", context.parentViewMode) ||
-         instance.cache("parentTabOnEnterKey", context.parentTabOnEnterKey) ||
-         instance.cache("parentVisited", context.parentVisited)
-      ) {
-         instance.markShouldUpdate(context);
-         this.disableOrValidate(context, instance);
-         this.prepareCSS(context, instance);
-      }
+  exploreCleanup(context: FormRenderingContext, instance: Instance): void {
+    context.pop("lastFieldId");
+  }
 
-      if (!context.validation)
-         context.validation = {
-            errors: [],
-         };
+  isEmpty(data: Record<string, unknown>): boolean {
+    return data.value == null || data.value === this.emptyValue;
+  }
 
-      if (data.error) {
-         context.validation.errors.push({
-            fieldId: data.id,
-            message: data.error,
-            visited: state?.visited,
-            type: "error",
-         });
-      }
+  validateRequired(
+    context: FormRenderingContext,
+    instance: Instance,
+  ): string | undefined {
+    let { data } = instance;
+    if (this.isEmpty(data)) return this.requiredText;
+  }
 
-      context.push("lastFieldId", data.id);
-      super.explore(context, instance);
-   }
+  getValidationValue(data: Record<string, unknown>): unknown {
+    return data.value;
+  }
 
-   exploreCleanup(context: FormRenderingContext, instance: Instance): void {
-      context.pop("lastFieldId");
-   }
+  validate(context: FormRenderingContext, instance: Instance): void {
+    let { data } = instance;
+    let state = instance.state || {};
 
-   isEmpty(data: Record<string, unknown>): boolean {
-      return data.value == null || data.value === this.emptyValue;
-   }
+    let empty = this.isEmpty(data);
 
-   validateRequired(context: FormRenderingContext, instance: Instance): string | undefined {
-      let { data } = instance;
-      if (this.isEmpty(data)) return this.requiredText;
-   }
+    if (!data.error) {
+      if (state.inputError) data.error = state.inputError;
+      else if (state.validating && !empty) data.error = this.validatingText;
+      else if (
+        state.validationError &&
+        data.validationValue === state.lastValidatedValue &&
+        shallowEquals(data.validationParams, state.lastValidationParams)
+      )
+        data.error = state.validationError;
+      else if (data.required)
+        data.error = this.validateRequired(context, instance);
+    }
 
-   getValidationValue(data: Record<string, unknown>): unknown {
-      return data.value;
-   }
+    if (
+      !empty &&
+      !state.validating &&
+      !data.error &&
+      this.onValidate &&
+      (!state.previouslyValidated ||
+        data.validationValue != state.lastValidatedValue ||
+        data.validationParams != state.lastValidationParams)
+    ) {
+      let result = instance.invoke(
+        "onValidate",
+        data.validationValue,
+        instance,
+        data.validationParams,
+      );
+      if (isPromise(result)) {
+        data.error = this.validatingText;
+        instance.setState({
+          validating: true,
+          lastValidatedValue: data.validationValue,
+          previouslyValidated: true,
+          lastValidationParams: data.validationParams,
+        });
+        result
+          .then((r) => {
+            let { data, state } = instance;
+            let error =
+              data.validationValue == state?.lastValidatedValue &&
+              shallowEquals(data.validationParams, state?.lastValidationParams)
+                ? r
+                : this.validatingText; //parameters changed, this will be revalidated
 
-   validate(context: FormRenderingContext, instance: Instance): void {
-      let { data } = instance;
-      let state = instance.state || {};
-
-      let empty = this.isEmpty(data);
-
-      if (!data.error) {
-         if (state.inputError) data.error = state.inputError;
-         else if (state.validating && !empty) data.error = this.validatingText;
-         else if (
-            state.validationError &&
-            data.validationValue === state.lastValidatedValue &&
-            shallowEquals(data.validationParams, state.lastValidationParams)
-         )
-            data.error = state.validationError;
-         else if (data.required) data.error = this.validateRequired(context, instance);
-      }
-
-      if (
-         !empty &&
-         !state.validating &&
-         !data.error &&
-         this.onValidate &&
-         (!state.previouslyValidated ||
-            data.validationValue != state.lastValidatedValue ||
-            data.validationParams != state.lastValidationParams)
-      ) {
-         let result = instance.invoke("onValidate", data.validationValue, instance, data.validationParams);
-         if (isPromise(result)) {
-            data.error = this.validatingText;
             instance.setState({
-               validating: true,
-               lastValidatedValue: data.validationValue,
-               previouslyValidated: true,
-               lastValidationParams: data.validationParams,
+              validating: false,
+              validationError: error,
             });
-            result
-               .then((r) => {
-                  let { data, state } = instance;
-                  let error =
-                     data.validationValue == state?.lastValidatedValue &&
-                     shallowEquals(data.validationParams, state?.lastValidationParams)
-                        ? r
-                        : this.validatingText; //parameters changed, this will be revalidated
-
-                  instance.setState({
-                     validating: false,
-                     validationError: error,
-                  });
-               })
-               .catch((e) => {
-                  instance.setState({
-                     validating: false,
-                     validationError: this.validationExceptionText,
-                  });
-                  if (this.onValidationException) instance.invoke("onValidationException", e, instance);
-                  else {
-                     Console.warn("Unhandled validation exception:", e);
-                  }
-               });
-         } else {
-            data.error = result;
-         }
+          })
+          .catch((e) => {
+            instance.setState({
+              validating: false,
+              validationError: this.validationExceptionText,
+            });
+            if (this.onValidationException)
+              instance.invoke("onValidationException", e, instance);
+            else {
+              Console.warn("Unhandled validation exception:", e);
+            }
+          });
+      } else {
+        data.error = result;
       }
-   }
+    }
+  }
 
-   renderLabel(context: RenderingContext, instance: Instance, key: string): React.ReactNode {
-      if (instance.components?.label) return getContent(instance.components.label.vdom);
-   }
+  renderLabel(
+    context: RenderingContext,
+    instance: Instance,
+    key: string,
+  ): React.ReactNode {
+    if (instance.components?.label)
+      return getContent(instance.components.label.vdom);
+  }
 
-   renderInput(context: RenderingContext, instance: Instance, key: string): React.ReactNode {
-      throw new Error("Not implemented.");
-   }
+  renderInput(
+    context: RenderingContext,
+    instance: Instance,
+    key: string,
+  ): React.ReactNode {
+    throw new Error("Not implemented.");
+  }
 
-   renderHelp(context: RenderingContext, instance: Instance, key: string): React.ReactNode {
-      if (instance.components?.help) return getContent(instance.components.help.render(context));
-   }
+  renderHelp(
+    context: RenderingContext,
+    instance: Instance,
+    key: string,
+  ): React.ReactNode {
+    if (instance.components?.help)
+      return getContent(instance.components.help.render(context));
+  }
 
-   renderIcon(context: RenderingContext, instance: Instance, key: string): React.ReactNode {
-      if (instance.components?.icon) return getContent(instance.components.icon.render(context));
-   }
+  renderIcon(
+    context: RenderingContext,
+    instance: Instance,
+    key: string,
+  ): React.ReactNode {
+    if (instance.components?.icon)
+      return getContent(instance.components.icon.render(context));
+  }
 
-   formatValue(context: RenderingContext, { data }: Instance): string | React.ReactNode {
-      return data.text || data.value;
-   }
+  formatValue(
+    context: RenderingContext,
+    { data }: Instance,
+  ): string | React.ReactNode {
+    return data.text || data.value;
+  }
 
-   renderValue(context: RenderingContext, instance: FieldInstance, key?: string | number): React.ReactNode {
-      let text = this.formatValue(context, instance as Instance);
-      if (text) {
-         return (
-            <span
-               key={key}
-               onMouseMove={(e: any) => {
-                  const tooltip = getFieldTooltip(instance);
-                  if (tooltip) (tooltipMouseMove as any)(e, tooltip, null, null);
-               }}
-               onMouseLeave={(e: any) => {
-                  const tooltip = getFieldTooltip(instance);
-                  if (tooltip) (tooltipMouseLeave as any)(e, tooltip, null, null);
-               }}
-            >
-               {text}
-            </span>
-         );
-      }
-   }
-
-   protected renderContent(context: RenderingContext, instance: FieldInstance, key: string): React.ReactNode {
-      let content = this.renderValue(context, instance, key) || this.renderEmptyText(context, instance, key);
-      return this.renderWrap(context, instance, key, content);
-   }
-
-   protected renderWrap(
-      context: RenderingContext,
-      instance: Instance,
-      key: string,
-      content: React.ReactNode,
-   ): React.ReactNode {
-      let { data } = instance;
-      let interactive = !data.viewMode && !data.disabled;
+  renderValue(
+    context: RenderingContext,
+    instance: FieldInstance,
+    key?: string | number,
+  ): React.ReactNode {
+    let text = this.formatValue(context, instance as Instance);
+    if (text) {
       return (
-         <div
-            key={key}
-            className={data.classNames}
-            style={data.style}
-            onMouseDown={interactive ? stopPropagation : undefined}
-            onTouchStart={interactive ? stopPropagation : undefined}
-         >
-            {content}
-            {this.labelPlacement && this.renderLabel(context, instance, "label")}
-         </div>
+        <span
+          key={key}
+          onMouseMove={(e: any) => {
+            const tooltip = getFieldTooltip(instance);
+            if (tooltip) (tooltipMouseMove as any)(e, tooltip, null, null);
+          }}
+          onMouseLeave={(e: any) => {
+            const tooltip = getFieldTooltip(instance);
+            if (tooltip) (tooltipMouseLeave as any)(e, tooltip, null, null);
+          }}
+        >
+          {text}
+        </span>
       );
-   }
+    }
+  }
 
-   protected renderEmptyText(_context: RenderingContext, { data }: Instance, key: string): React.ReactNode {
-      return (
-         <span key={key} className={this.CSS.element(this.baseClass, "empty-text")}>
-            {data.emptyText || <span>&nbsp;</span>}
-         </span>
-      );
-   }
+  protected renderContent(
+    context: RenderingContext,
+    instance: FieldInstance,
+    key: string,
+  ): React.ReactNode {
+    let content =
+      this.renderValue(context, instance, key) ||
+      this.renderEmptyText(context, instance, key);
+    return this.renderWrap(context, instance, key, content);
+  }
 
-   public render(context: RenderingContext, instance: InstanceType, key: string): Record<string, React.ReactNode> {
-      let { data } = instance;
-      let content = !data.viewMode
-         ? this.renderInput(context, instance, key)
-         : this.renderContent(context, instance, key);
+  protected renderWrap(
+    context: RenderingContext,
+    instance: Instance,
+    key: string,
+    content: React.ReactNode,
+  ): React.ReactNode {
+    let { data } = instance;
+    let interactive = !data.viewMode && !data.disabled;
+    return (
+      <div
+        key={key}
+        className={data.classNames}
+        style={data.style}
+        onMouseDown={interactive ? stopPropagation : undefined}
+        onTouchStart={interactive ? stopPropagation : undefined}
+      >
+        {content}
+        {this.labelPlacement && this.renderLabel(context, instance, "label")}
+      </div>
+    );
+  }
 
-      return {
-         label: !this.labelPlacement && this.renderLabel(context, instance, key),
-         content: content,
-         helpSpacer: this.helpSpacer && instance.components?.help ? " " : undefined,
-         help: !this.helpPlacement && this.renderHelp(context, instance, key),
-      };
-   }
+  protected renderEmptyText(
+    _context: RenderingContext,
+    { data }: Instance,
+    key: string,
+  ): React.ReactNode {
+    return (
+      <span
+        key={key}
+        className={this.CSS.element(this.baseClass, "empty-text")}
+      >
+        {data.emptyText || <span>&nbsp;</span>}
+      </span>
+    );
+  }
 
-   public handleKeyDown(e: React.KeyboardEvent, instance: Instance): boolean | void {
-      if (this.onKeyDown && instance.invoke("onKeyDown", e, instance) === false) return false;
+  public render(
+    context: RenderingContext,
+    instance: InstanceType,
+    key: string,
+  ): Record<string, React.ReactNode> {
+    let { data } = instance;
+    let content = !data.viewMode
+      ? this.renderInput(context, instance, key)
+      : this.renderContent(context, instance, key);
 
-      if (instance.data.tabOnEnterKey && e.keyCode === 13) {
-         let target = e.target;
-         setTimeout(() => {
-            if (!instance.state?.inputError) (FocusManager as any).focusNext(target);
-         }, 10);
-      }
-   }
+    return {
+      label: !this.labelPlacement && this.renderLabel(context, instance, key),
+      content: content,
+      helpSpacer:
+        this.helpSpacer && instance.components?.help ? " " : undefined,
+      help: !this.helpPlacement && this.renderHelp(context, instance, key),
+    };
+  }
+
+  public handleKeyDown(
+    e: React.KeyboardEvent,
+    instance: Instance,
+  ): boolean | void {
+    if (this.onKeyDown && instance.invoke("onKeyDown", e, instance) === false)
+      return false;
+
+    if (instance.data.tabOnEnterKey && e.keyCode === 13) {
+      let target = e.target;
+      setTimeout(() => {
+        if (!instance.state?.inputError)
+          (FocusManager as any).focusNext(target);
+      }, 10);
+    }
+  }
 }
 
 Field.prototype.validationMode = "tooltip";
@@ -573,7 +675,8 @@ Field.prototype.requiredText = "This field is required.";
 Field.prototype.autoFocus = false;
 Field.prototype.asterisk = false;
 Field.prototype.validatingText = "Validation is in progress...";
-Field.prototype.validationExceptionText = "Something went wrong during input validation. Check log for more details.";
+Field.prototype.validationExceptionText =
+  "Something went wrong during input validation. Check log for more details.";
 Field.prototype.helpSpacer = true;
 Field.prototype.trackFocus = false; //add cxs-focus on parent element
 Field.prototype.labelPlacement = false;
@@ -590,19 +693,23 @@ Field.prototype.styled = true;
 Localization.registerPrototype("cx/widgets/Field", Field);
 
 export function getFieldTooltip(
-   instance: FieldInstance<any>,
+  instance: FieldInstance<any>,
 ): [FieldInstance<any>, TooltipConfig, TooltipOptions | undefined] {
-   let { widget, data, state } = instance;
+  let { widget, data, state } = instance;
 
-   if (widget.errorTooltip && data.error && (!state || state.visited || !widget.suppressErrorsUntilVisited))
-      return [
-         instance,
-         widget.errorTooltip,
-         {
-            data: {
-               $error: data.error,
-            },
-         },
-      ];
-   return [instance, widget.tooltip!, undefined];
+  if (
+    widget.errorTooltip &&
+    data.error &&
+    (!state || state.visited || !widget.suppressErrorsUntilVisited)
+  )
+    return [
+      instance,
+      widget.errorTooltip,
+      {
+        data: {
+          $error: data.error,
+        },
+      },
+    ];
+  return [instance, widget.tooltip!, undefined];
 }

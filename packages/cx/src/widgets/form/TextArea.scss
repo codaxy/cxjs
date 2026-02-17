@@ -1,4 +1,12 @@
+@use "sass:math";
 @use "sass:map";
+@use "../variables" as *;
+@use "../maps" as *;
+@use "../../util/scss/add-rules.scss" as *;
+@use "../../util/scss/clockwise.scss" as *;
+@use "../../util/scss/besm.scss" as *;
+@use "../../util/scss/include.scss" as *;
+@use "./Field.scss" as *;
 
 @mixin cx-textarea(
    $name: "textarea",
@@ -24,7 +32,12 @@
    .#{$element}#{$name}-input {
       width: 100%;
       height: 100%;
-      @include cxe-field-input($besm, $state-style-map, $placeholder: $placeholder, $input: false);
+      @include cxe-field-input(
+         $besm,
+         $state-style-map,
+         $placeholder: $placeholder,
+         $input: false
+      );
    }
 
    .#{$element}#{$name}-tool {

@@ -16,7 +16,7 @@ import "./index.scss";
 //import Demo from './performance/LongList';
 // import Demo from "./dev/batchListUpdates";
 
-//import Demo from './features/flexbox';
+//import Demo from "./features/flexbox";
 //import Demo from './features/drag-drop/ReorderInsertionLine';
 //import Demo from './features/drag-drop/Dashboard';
 //import Demo from './features/drag-drop/trello';

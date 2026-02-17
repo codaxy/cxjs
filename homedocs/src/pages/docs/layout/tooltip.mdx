@@ -1,10 +1,12 @@
 ---
 layout: ../../../layouts/DocsLayout.astro
 title: Tooltip
+description: Hover tooltips and popovers
 ---
 
 import ImportPath from "../../../components/ImportPath.astro";
 import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 import TooltipBasicExample from "../../../examples/layout/TooltipBasicExample.tsx";
 import TooltipBasicExampleCode from "../../../examples/layout/TooltipBasicExample.tsx?raw";
@@ -21,6 +23,8 @@ import TooltipRichContentExampleCode from "../../../examples/layout/TooltipRichC
 # Tooltip
 
 <ImportPath path="import { enableTooltips } from 'cx/widgets';" />
+
+<OnThisPage />
 
 Tooltips provide additional information about an element when the user hovers over it. In CxJS, tooltips are also used to display validation errors on form fields.
 

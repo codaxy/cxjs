@@ -4,10 +4,19 @@ import { VDOM } from "cx/ui";
 import { Icon } from "cx/widgets";
 import type { IconNode } from "lucide";
 import {
+  Activity,
+  AppWindow,
+  BarChart3,
+  Bell,
+  ChevronDown,
+  ChevronsRight,
   Bug,
   Calculator,
   Calendar,
   Check,
+  Circle,
+  Copy,
+  Download,
   Eye,
   EyeOff,
   File,
@@ -16,15 +25,34 @@ import {
   FileText,
   Folder,
   FolderOpen,
+  GripVertical,
+  Info,
+  List,
+  ListTodo,
   LoaderCircle,
+  Menu,
+  MessageCircle,
+  Move,
+  Palette,
+  PanelTop,
   Pencil,
+  PieChart,
   Plus,
   RefreshCw,
   Search,
+  SlidersHorizontal,
+  Space,
+  Square,
   Star,
+  Table2,
+  TextCursorInput,
+  ToggleLeft,
+  TrendingDown,
   Trash2,
+  Type,
   Upload,
   X,
+  Zap,
 } from "lucide";
 
 // Convert Lucide IconNode to React element
@@ -69,3 +97,32 @@ Icon.register("file-text", getRenderer(FileText));
 Icon.register("trash", getRenderer(Trash2));
 Icon.register("folder-open", getRenderer(FolderOpen));
 Icon.register("loading", getRenderer(LoaderCircle));
+Icon.register("trending-down", getRenderer(TrendingDown));
+Icon.register("bar-chart", getRenderer(BarChart3));
+Icon.register("pie-chart", getRenderer(PieChart));
+Icon.register("list-todo", getRenderer(ListTodo));
+Icon.register("zap", getRenderer(Zap));
+Icon.register("activity", getRenderer(Activity));
+Icon.register("grip-vertical", getRenderer(GripVertical));
+Icon.register("palette", getRenderer(Palette));
+Icon.register("circle", getRenderer(Circle));
+Icon.register("info", getRenderer(Info));
+//Icon.register("square", getRenderer(Square)); // need to use default icon for indeterminate checkboxes
+Icon.register("square-hollow", getRenderer(Square));
+Icon.register("sliders-horizontal", getRenderer(SlidersHorizontal));
+Icon.register("app-window", getRenderer(AppWindow));
+Icon.register("type", getRenderer(Type));
+Icon.register("panel-top", getRenderer(PanelTop));
+Icon.register("table", getRenderer(Table2));
+Icon.register("move", getRenderer(Move));
+Icon.register("copy", getRenderer(Copy));
+Icon.register("download", getRenderer(Download));
+Icon.register("refresh", getRenderer(RefreshCw));
+Icon.register("text-cursor-input", getRenderer(TextCursorInput));
+Icon.register("toggle-left", getRenderer(ToggleLeft));
+Icon.register("forward", getRenderer(ChevronsRight));
+Icon.register("drop-down", getRenderer(ChevronDown));
+Icon.register("bell", getRenderer(Bell));
+Icon.register("menu", getRenderer(Menu));
+Icon.register("message-circle", getRenderer(MessageCircle));
+Icon.register("list", getRenderer(List));

@@ -1,0 +1,103 @@
+// ========================================
+// Component Styles (CodeSnippet, ImportPath, etc.)
+// ========================================
+
+// CodeSnippet/Code styles
+.codesnippet {
+  position: relative;
+  font-size: 13px;
+  padding: 16px 24px;
+  background: #24292e;
+
+  pre {
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    overflow: visible !important;
+
+    & > code {
+      background: transparent;
+      border-radius: 0;
+    }
+  }
+}
+
+// Background pattern
+.bg-dot-pattern {
+  background-color: var(--sl-color-bg-content);
+  background-image: radial-gradient(
+    circle,
+    var(--sl-color-gray-4) 1px,
+    transparent 1px
+  );
+  background-size: 16px 16px;
+}
+
+.dark .bg-dot-pattern {
+  background-image: radial-gradient(
+    circle,
+    var(--sl-color-gray-5) 1px,
+    transparent 1px
+  );
+}
+
+// ImportPath styles
+.cxb-importpath {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 0;
+
+  & > code {
+    background: none;
+    color: #9f9f9f;
+    padding: 0;
+    font-size: 14px;
+    cursor: pointer;
+
+    &:hover {
+      color: grey;
+    }
+
+    &:hover > .copy-icon {
+      visibility: visible;
+    }
+  }
+
+  .copy-icon {
+    float: right;
+    vertical-align: middle;
+    visibility: hidden;
+    margin-left: 6px;
+    font-style: normal;
+  }
+
+  // tooltip
+  span {
+    white-space: nowrap;
+    background-color: black;
+    color: white;
+    text-align: center;
+    padding: 2px 0.5em;
+    border-radius: 5px;
+    vertical-align: middle;
+    font-size: 0.9em;
+
+    position: absolute;
+    z-index: 1;
+    top: -2px;
+    left: 100%;
+    margin-left: 10px;
+
+    &::after {
+      content: " ";
+      position: absolute;
+      top: 50%;
+      right: 100%;
+      margin-top: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: transparent black transparent transparent;
+    }
+  }
+}

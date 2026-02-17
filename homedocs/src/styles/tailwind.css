@@ -5,6 +5,9 @@
 /* Source paths for class detection */
 @source "../**/*.{astro,html,js,jsx,md,mdx,ts,tsx}";
 
+/* Enable class-based dark mode */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* Theme customization */
 @theme {
   --font-sans: Inter, system-ui, sans-serif;

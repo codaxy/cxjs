@@ -1,0 +1,56 @@
+{
+  "name": "cxjs-skill",
+  "version": "1.0.0",
+  "type": "skill",
+  "displayName": "CxJS Expert",
+  "description": "CxJS framework expert for analyzing, generating, and improving CxJS code with focus on quality and maintenance",
+  "icon": "⚛️",
+  "capabilities": [
+    "pattern-recognition",
+    "code-generation",
+    "debugging",
+    "refactoring",
+    "code-quality-analysis",
+    "best-practices"
+  ],
+  "tags": [
+    "cxjs",
+    "framework",
+    "javascript",
+    "typescript",
+    "web-development",
+    "code-quality"
+  ],
+  "commands": {
+    "cxjs": {
+      "description": "Analyze, generate, or improve CxJS code with framework expertise",
+      "prompt": "prompts/cxjs.md",
+      "examples": [
+        "/cxjs Analyze the UserForm component and suggest improvements",
+        "/cxjs Generate a Grid with CRUD operations for products",
+        "/cxjs Debug why the store binding isn't updating",
+        "/cxjs Refactor this controller to use best practices"
+      ]
+    }
+  },
+  "author": {
+    "name": "Codaxy",
+    "url": "https://cxjs.io"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/codaxy/cxjs-skill"
+  },
+  "documentation": "https://github.com/codaxy/cxjs-skill#readme",
+  "support": {
+    "email": "cxjs@codaxy.com ",
+    "url": "https://github.com/codaxy/cxjs-skill/issues"
+  },
+  "dependencies": {
+    "claude-code": ">=1.0.0"
+  },
+  "compatibility": {
+    "cxjs": ">=26.0.0"
+  }
+}

@@ -1,0 +1,108 @@
+@use "sass:map";
+@use "sass:color";
+@use "./variables" as *;
+@use "./maps" as *;
+@use "cx/src/util/scss/calc" as *;
+
+@use "cx/src/index" as *;
+
+$block: map.get($cx-besm, block);
+$element: map.get($cx-besm, element);
+$state: map.get($cx-besm, state);
+$mod: map.get($cx-besm, mod);
+
+// =============================================================================
+// SECTION
+// =============================================================================
+@if (cx-included("cx/widgets/Section")) {
+   $section-mods: primary success warning error;
+
+   @each $i in $section-mods {
+      .#{$block}section.#{$mod}#{$i} {
+         .#{$element}section-header {
+            border-bottom-color: rgba(#fff, 0.5);
+         }
+      }
+   }
+
+   // can be used interchangeably with mod='card'
+   .cxm-well {
+      @extend .cxm-card;
+   }
+}
+
+// =============================================================================
+// GRID
+// =============================================================================
+@if (cx-included("cx/widgets/Grid")) {
+   .#{$block}grid.#{$state}scrollable.#{$state}border {
+      border-color: $cx-default-grid-header-border-color;
+   }
+
+   .#{$element}grid-group-caption td {
+      border-bottom: 1px solid $cx-default-grid-header-border-color;
+   }
+
+   .#{$element}grid-header .#{$element}textfield-input {
+      background-color: $cx-theme-default-background-color;
+   }
+}
+
+// =============================================================================
+// BUTTONS, TABS, MENUS
+// =============================================================================
+// Override for chrome mobile default press effect
+.#{$block}button,
+.#{$block}tab,
+.#{$block}menu {
+   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+}
+
+// =============================================================================
+// PROGRESSBAR
+// =============================================================================
+@if (cx-included("cx/widgets/ProgressBar")) {
+   .#{$block}progressbar {
+      overflow: hidden;
+   }
+}
+
+// =============================================================================
+// SCROLLBAR (theme-specific)
+// =============================================================================
+@if ($cx-include-global-rules) {
+   @media screen and (min-width: 700px) {
+      ::-webkit-scrollbar {
+         width: 10px;
+         height: 10px;
+         background-color: $cx-theme-default-background-color-dark;
+      }
+
+      ::-webkit-scrollbar-thumb {
+         -webkit-border-radius: 8px;
+
+         &:vertical {
+            background-color: cx-lighten($cx-theme-default-background-color-light, 6%);
+
+            &:hover {
+               background-color: cx-lighten($cx-theme-default-background-color-light, 8%);
+            }
+         }
+
+         &:horizontal {
+            background-color: cx-lighten($cx-theme-default-background-color-light, 8%);
+
+            &:hover {
+               background-color: cx-lighten($cx-theme-default-background-color-light, 10%);
+            }
+         }
+      }
+
+      ::-webkit-scrollbar-corner {
+         background-color: cx-darken($cx-theme-default-background-color-light, 2%);
+         border-left: 1px solid $cx-default-border-color;
+         border-top: 1px solid $cx-default-border-color;
+         -webkit-box-shadow: cx-darken($cx-theme-default-background-color, 3%) 0 1px inset;
+      }
+   }
+}

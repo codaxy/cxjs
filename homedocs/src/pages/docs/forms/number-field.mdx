@@ -1,10 +1,12 @@
 ---
 layout: ../../../layouts/DocsLayout.astro
 title: NumberField
+description: Numeric input with formatting
 ---
 
 import ImportPath from "../../../components/ImportPath.astro";
 import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 import NumberFieldExample from "../../../examples/forms/NumberFieldExample.tsx";
 import NumberFieldExampleCode from "../../../examples/forms/NumberFieldExample.tsx?raw";
@@ -15,6 +17,8 @@ import NumberFieldFormattingExampleCode from "../../../examples/forms/NumberFiel
 # NumberField
 
 <ImportPath path="import { NumberField } from 'cx/widgets';" />
+
+<OnThisPage collapsed />
 
 The `NumberField` widget is used for numeric inputs. It supports formatting for currencies, percentages, and decimal places, with built-in validation for min/max values.
 
@@ -67,6 +71,8 @@ NumberField supports various number formats including currencies and percentages
 | `incrementPercentage` | `number`  | `0.1`   | Auto-calculated increment as percentage of current value          |
 | `snapToIncrement`     | `boolean` | `true`  | If `true`, values snap to increment multiples on wheel change     |
 
+Add `wheel` to `reactOn` to change values using the mouse wheel. When enabled, page scrolling is disabled while the field is focused.
+
 ### Validation
 
 | Property                | Type     | Default                              | Description                                               |
@@ -97,13 +103,13 @@ NumberField supports various number formats including currencies and percentages
 | Property       | Type      | Default        | Description                                         |
 | -------------- | --------- | -------------- | --------------------------------------------------- |
 | `autoFocus`    | `boolean` | `false`        | Automatically focuses the field on mount            |
-| `reactOn`      | `string`  | `"enter blur"` | Events that trigger value updates                   |
+| `reactOn`      | `string`  | `"enter blur"` | Events that trigger value updates. Options: `"change"`, `"enter"`, `"blur"`, `"wheel"`. Separate with space |
 | `trackFocus`   | `boolean` | `false`        | Adds `cxs-focus` CSS class when input is focused    |
 | `inputType`    | `string`  | `"text"`       | HTML input type                                     |
 | `onParseInput` | `function`|                | Custom parser for text input                        |
 
 ### Callbacks
 
-| Property     | Type       | Description                                                                   |
-| ------------ | ---------- | ----------------------------------------------------------------------------- |
-| `onValidate` | `function` | `(value, instance, validationParams) => string|undefined` - Custom validation |
+| Property     | Description                                                                        |
+| ------------ | ---------------------------------------------------------------------------------- |
+| `onValidate` | `(value, instance, validationParams) => string` - Return error message to validate |

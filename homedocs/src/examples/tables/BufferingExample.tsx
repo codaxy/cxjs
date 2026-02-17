@@ -36,7 +36,7 @@ const continents = [
 const browsers = ["Chrome", "Firefox", "Safari", "Edge", "Opera"];
 
 // @controller
-class PageController extends Controller<typeof m> {
+class PageController extends Controller {
   onInit() {
     this.store.init(
       m.records,
@@ -53,7 +53,7 @@ class PageController extends Controller<typeof m> {
 // @controller-end
 
 // @index
-export default () => (
+export default (
   <div controller={PageController}>
     <Grid
       records={m.records}

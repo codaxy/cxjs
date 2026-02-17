@@ -16,7 +16,7 @@ const m = createModel<PageModel>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <table class="w-full text-sm">
     <thead>
       <tr>

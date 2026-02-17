@@ -1,0 +1,95 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: filter
+description: Filter array with predicate
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import FilterExample from "../../../examples/utilities/FilterExample.tsx";
+import FilterExampleCode from "../../../examples/utilities/FilterExample.tsx?raw";
+
+# filter
+
+<ImportPath path="import { filter } from 'cx/data';" />
+<OnThisPage collapsed />
+
+`filter` performs immutable array filtering. Unlike native `Array.filter()`, it returns the original array reference if no items are removed, enabling efficient change detection.
+
+<CodeExample code={FilterExampleCode}>
+  <FilterExample client:load />
+</CodeExample>
+
+## Signature
+
+```ts
+function filter<T>(
+  array: T[],
+  callback: (item: T, index: number, array: T[]) => boolean,
+): T[];
+```
+
+## Parameters
+
+| Parameter  | Type       | Description                                     |
+| ---------- | ---------- | ----------------------------------------------- |
+| `array`    | `T[]`      | The array to filter.                            |
+| `callback` | `function` | Predicate function. Return `true` to keep item. |
+
+## Return Value
+
+Returns a new array with items that pass the test, or the **original array** if all items pass (preserves reference equality).
+
+## Examples
+
+### Basic usage
+
+```ts
+const items = [1, 2, 3, 4, 5];
+const result = filter(items, (n) => n > 2);
+// [3, 4, 5]
+```
+
+### Reference preservation
+
+```ts
+const items = [1, 2, 3];
+
+// All items pass - returns same reference
+const result1 = filter(items, (n) => n > 0);
+console.log(result1 === items); // true
+
+// Some items removed - returns new array
+const result2 = filter(items, (n) => n > 1);
+console.log(result2 === items); // false
+```
+
+### With null array
+
+```ts
+const result = filter(null, (n) => n > 0);
+// null
+```
+
+## Why Use This Instead of Array.filter()?
+
+The native `Array.filter()` always returns a new array, even if no items are removed. This can cause unnecessary re-renders in reactive frameworks since reference equality checks fail.
+
+```ts
+const items = [1, 2, 3];
+
+// Native filter - always new array
+const native = items.filter((n) => n > 0);
+console.log(native === items); // false (always)
+
+// cx filter - preserves reference if unchanged
+const cx = filter(items, (n) => n > 0);
+console.log(cx === items); // true
+```
+
+## See Also
+
+- [updateArray](/docs/utilities/update-array) - Update and optionally remove items
+- [append](/docs/utilities/append) - Add items to array

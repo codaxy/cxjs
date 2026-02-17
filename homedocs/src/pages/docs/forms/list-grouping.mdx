@@ -23,23 +23,23 @@ The `List` widget supports grouping records by a computed key. Groups can have c
 
 The `grouping` property accepts an object with the following options:
 
-| Property     | Type     | Description                                              |
-| ------------ | -------- | -------------------------------------------------------- |
-| `key`        | `object` | Object defining group key fields using expressions       |
-| `aggregates` | `object` | Aggregate calculations (count, sum, avg, min, max)       |
-| `header`     | `Widget` | Widget rendered at the start of each group               |
-| `footer`     | `Widget` | Widget rendered at the end of each group                 |
+| Property     | Type     | Description                                        |
+| ------------ | -------- | -------------------------------------------------- |
+| `key`        | `object` | Object defining group key fields using expressions |
+| `aggregates` | `object` | Aggregate calculations (count, sum, avg, min, max) |
+| `header`     | `Widget` | Widget rendered at the start of each group         |
+| `footer`     | `Widget` | Widget rendered at the end of each group           |
 
 ## Aggregates
 
 Available aggregate types:
 
-| Type    | Description                    |
-| ------- | ------------------------------ |
-| `count` | Count of records in the group  |
-| `sum`   | Sum of values                  |
-| `avg`   | Average of values              |
-| `min`   | Minimum value                  |
-| `max`   | Maximum value                  |
+| Type    | Description                   |
+| ------- | ----------------------------- |
+| `count` | Count of records in the group |
+| `sum`   | Sum of values                 |
+| `avg`   | Average of values             |
+| `min`   | Minimum value                 |
+| `max`   | Maximum value                 |
 
 Aggregates are accessible via the `$group` alias in headers and footers.

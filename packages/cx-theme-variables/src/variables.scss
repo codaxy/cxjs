@@ -1,0 +1,404 @@
+@use "sass:math";
+@use "sass:map";
+@use "sass:color";
+@use "cx/src/util/scss/calc" as *;
+
+// =============================================================================
+// SASS Variables (used during compilation)
+// =============================================================================
+
+// // Core base values
+$cx-theme-box-line-height: var(--cx-input-line-height);
+$cx-theme-box-padding: var(--cx-input-padding-y) var(--cx-input-padding-x);
+
+// =============================================================================
+// Forward cx/src/variables with ALL theme overrides
+// =============================================================================
+@forward "cx/src/variables" with (
+   // -------------------------------------------------------------------------
+   // Core defaults
+   // -------------------------------------------------------------------------
+   $cx-default-font-family: var(--cx-theme-font-family) !default,
+   $cx-default-color: var(--cx-theme-text-color) !default,
+   $cx-default-border-color: var(--cx-theme-border-color) !default,
+   $cx-default-border-radius: var(--cx-theme-border-radius) !default,
+   $cx-default-container-padding: 5px !default,
+
+   // -------------------------------------------------------------------------
+   // Box (shared sizing for inputs)
+   // -------------------------------------------------------------------------
+   $cx-default-icon-size: var(--cx-theme-icon-size) !default,
+   $cx-default-box-font-size: var(--cx-input-font-size) !default,
+   $cx-default-box-line-height: var(--cx-input-line-height) !default,
+   $cx-default-box-border-width: var(--cx-input-border-width) !default,
+   $cx-default-box-padding: var(--cx-input-padding-y) var(--cx-input-padding-x)
+      !default,
+   $cx-default-box-padding-top: var(--cx-input-padding-y) !default,
+   $cx-default-box-padding-right: var(--cx-input-padding-x) !default,
+   $cx-default-box-padding-bottom: var(--cx-input-padding-y) !default,
+   $cx-default-box-padding-left: var(--cx-input-padding-x) !default,
+
+   // -------------------------------------------------------------------------
+   // Button
+   // -------------------------------------------------------------------------
+   $cx-default-button-font-size: var(--cx-button-font-size) !default,
+   $cx-default-button-font-weight: var(--cx-button-font-weight) !default,
+   $cx-default-button-line-height: var(--cx-button-line-height) !default,
+   $cx-default-button-background-color: var(--cx-button-background-color)
+      !default,
+   $cx-default-button-border-width: var(--cx-button-border-width) !default,
+   $cx-default-button-border-color: var(--cx-button-border-color) !default,
+   $cx-default-button-box-shadow: var(--cx-button-box-shadow) !default,
+   $cx-default-button-border-radius: var(--cx-button-border-radius) !default,
+   $cx-default-button-color: var(--cx-button-color) !default,
+   $cx-default-button-padding: var(--cx-button-padding-y)
+      var(--cx-button-padding-x) !default,
+
+   // -------------------------------------------------------------------------
+   // Dropdown
+   // -------------------------------------------------------------------------
+   $cx-default-dropdown-padding: var(--cx-dropdown-padding) !default,
+   $cx-default-dropdown-arrow-size: var(--cx-dropdown-arrow-size) !default,
+   $cx-default-dropdown-arrow-offset: var(--cx-dropdown-arrow-offset) !default,
+   $cx-default-dropdown-arrow-shadow-color: var(--cx-dropdown-arrow-shadow-color) !default,
+   $cx-default-dropdown-arrow-shadow-size: var(--cx-dropdown-arrow-shadow-size) !default,
+   $cx-default-dropdown-arrow-shadow-offset: var(--cx-dropdown-arrow-shadow-offset) !default,
+   $cx-default-dropdown-background-color: var(--cx-theme-surface-color) !default,
+
+   // -------------------------------------------------------------------------
+   // Tooltip
+   // -------------------------------------------------------------------------
+   $cx-tooltip-background-color: var(--cx-tooltip-background-color) !default,
+   $cx-tooltip-border-color: var(--cx-tooltip-border-color) !default,
+   $cx-tooltip-border-width: var(--cx-tooltip-border-width) !default,
+   $cx-tooltip-border-radius: var(--cx-tooltip-border-radius) !default,
+   $cx-tooltip-arrow-size: var(--cx-tooltip-arrow-size) !default,
+   $cx-tooltip-color: var(--cx-tooltip-color) !default,
+   $cx-tooltip-font-size: var(--cx-tooltip-font-size) !default,
+   $cx-tooltip-padding: var(--cx-tooltip-padding) !default,
+   $cx-tooltip-box-shadow: var(--cx-tooltip-box-shadow) !default,
+   $cx-tooltip-background-color-error: var(--cx-tooltip-error-background-color) !default,
+   $cx-tooltip-border-color-error: var(--cx-tooltip-error-border-color) !default,
+   $cx-tooltip-color-error: var(--cx-tooltip-error-color) !default,
+
+   // -------------------------------------------------------------------------
+   // Toast
+   // -------------------------------------------------------------------------
+   $cx-default-toast-color: var(--cx-theme-text-color) !default,
+   $cx-default-toast-background-color: var(--cx-toast-background-color) !default,
+   $cx-default-toast-border-width: var(--cx-toast-border-width) !default,
+   $cx-default-toast-border-color: var(--cx-toast-border-color) !default,
+   $cx-default-toast-box-shadow: var(--cx-toast-box-shadow) !default,
+   $cx-default-toast-border-radius: var(--cx-toast-border-radius) !default,
+   $cx-default-toast-font-size: var(--cx-theme-font-size) !default,
+   $cx-default-toast-padding: var(--cx-toast-padding) !default,
+
+   // -------------------------------------------------------------------------
+   // Window
+   // -------------------------------------------------------------------------
+   $cx-default-window-background-color: var(--cx-window-background-color) !default,
+   $cx-default-window-box-shadow: var(--cx-overlay-box-shadow) !default,
+   $cx-default-window-header-color: var(--cx-window-header-color) !default,
+   $cx-default-window-header-background-color: var(--cx-window-header-background-color) !default,
+   $cx-default-window-header-padding: var(--cx-window-header-padding) !default,
+   $cx-default-window-header-font-size: var(--cx-window-header-font-size) !default,
+   $cx-default-window-body-padding: var(--cx-window-body-padding) !default,
+   $cx-default-window-body-background-color: var(--cx-window-body-background-color) !default,
+   $cx-default-window-footer-color: var(--cx-theme-text-color) !default,
+   $cx-default-window-footer-background-color: var(--cx-window-footer-background-color) !default,
+   $cx-default-window-footer-padding: var(--cx-window-footer-padding) !default,
+
+   // -------------------------------------------------------------------------
+   // Grid
+   // -------------------------------------------------------------------------
+   $cx-default-grid-header-font-weight: var(--cx-grid-header-font-weight)
+      !default,
+   $cx-default-grid-font-size: var(--cx-grid-font-size) !default,
+   $cx-default-grid-background: var(--cx-grid-background) !default,
+   $cx-default-grid-border-radius: var(--cx-grid-border-radius) !default,
+   $cx-default-grid-border-color: var(--cx-theme-border-color) !default,
+   $cx-default-grid-header-font-size: var(--cx-grid-header-font-size) !default,
+   $cx-default-grid-header-line-height: $cx-theme-box-line-height !default,
+   $cx-default-grid-header-color: var(--cx-theme-text-color) !default,
+   $cx-default-grid-header-background-color: var(
+         --cx-grid-header-background-color
+      )
+      !default,
+   $cx-default-grid-header-border-color: var(--cx-theme-border-color) !default,
+   $cx-default-grid-header-box-shadow: none !default,
+   $cx-default-grid-header-padding: var(--cx-grid-header-padding-y)
+      var(--cx-grid-header-padding-x) !default,
+   $cx-default-grid-data-background-color: var(--cx-grid-data-background-color)
+      !default,
+   $cx-default-grid-data-border-color: var(--cx-grid-data-border-color) !default,
+   $cx-default-grid-data-padding: var(--cx-grid-data-padding-y)
+      var(--cx-grid-data-padding-x) !default,
+   $cx-default-grid-data-line-height: $cx-theme-box-line-height !default,
+   $cx-default-grid-scroll-wrapper-padding-top: 1px !default,
+
+   // -------------------------------------------------------------------------
+   // Form / Input
+   // -------------------------------------------------------------------------
+   $cx-default-input-width: var(--cx-input-width) !default,
+   $cx-default-input-color: var(--cx-input-color) !default,
+   $cx-default-input-background-color: var(--cx-input-background-color) !default,
+   $cx-default-input-font-size: var(--cx-input-font-size) !default,
+   $cx-default-input-border-color: var(--cx-input-border-color) !default,
+   $cx-default-input-border-radius: var(--cx-theme-border-radius) !default,
+   $cx-default-input-padding: var(--cx-input-padding-y)
+      var(--cx-input-padding-x) !default,
+   $cx-default-input-padding-top: var(--cx-input-padding-y) !default,
+   $cx-default-input-padding-right: var(--cx-input-padding-x) !default,
+   $cx-default-input-padding-bottom: var(--cx-input-padding-y) !default,
+   $cx-default-input-padding-left: var(--cx-input-padding-x) !default,
+   //$cx-default-input-left-tool-left:  !default,
+   $cx-default-input-left-tool-spacing: var(--cx-input-padding-y) !default,
+   //$cx-default-input-right-tool-right: 6px !default,
+   $cx-default-input-tool-size: var(--cx-input-line-height) !default,
+   $cx-default-input-left-tool-size: var(--cx-input-line-height) !default,
+   $cx-default-input-left-tool-border-radius: calc(var(--cx-theme-border-radius) * 0.5) !default,
+   $cx-default-clear-size: var(--cx-input-line-height) !default,
+   $cx-use-box-line-height-fix: false !default,
+
+   // -------------------------------------------------------------------------
+   // Label
+   // -------------------------------------------------------------------------
+   $cx-default-label-padding: var(--cx-label-padding-y)
+      var(--cx-label-padding-x) !default,
+   $cx-default-label-font-size: var(--cx-label-font-size) !default,
+   $cx-default-label-font-family: var(--cx-label-font-family) !default,
+   $cx-default-label-font-weight: var(--cx-label-font-weight) !default,
+   $cx-default-label-line-height: var(--cx-label-line-height) !default,
+   $cx-default-label-color: var(--cx-label-color) !default,
+   $cx-default-empty-text-color: var(--cx-placeholder-color) !default,
+
+   // -------------------------------------------------------------------------
+   // MonthPicker
+   // -------------------------------------------------------------------------
+   $cx-default-monthpicker-font-size: var(--cx-monthpicker-font-size) !default,
+   $cx-default-monthpicker-font-weight: normal !default,
+   $cx-default-monthpicker-background-color: var(--cx-monthpicker-background-color) !default,
+   $cx-default-monthpicker-border-width: var(--cx-monthpicker-border-width) !default,
+   $cx-default-monthpicker-border-color: var(--cx-input-border-color) !default,
+   $cx-default-monthpicker-border-radius: var(--cx-theme-border-radius) !default,
+   $cx-default-monthpicker-padding: var(--cx-monthpicker-padding) !default,
+   $cx-default-monthpicker-width: var(--cx-monthpicker-width) !default,
+   $cx-default-monthpicker-cell-padding: var(--cx-monthpicker-cell-padding) !default,
+   $cx-default-monthpicker-cell-line-height: var(--cx-monthpicker-cell-line-height) !default,
+   $cx-default-monthpicker-quarter-color: var(--cx-monthpicker-quarter-color) !default,
+   $cx-default-monthpicker-year-font-size: var(--cx-monthpicker-year-font-size) !default,
+   $cx-default-monthpicker-year-font-weight: var(--cx-monthpicker-year-font-weight) !default,
+   $cx-default-monthpicker-year-color: var(--cx-monthpicker-year-color) !default,
+
+   // -------------------------------------------------------------------------
+   // Calendar
+   // -------------------------------------------------------------------------
+   $cx-default-calendar-background-color: var(--cx-calendar-background-color)
+      !default,
+   $cx-default-calendar-border-width: var(--cx-calendar-border-width) !default,
+   $cx-default-calendar-padding: var(--cx-calendar-padding) !default,
+   $cx-default-calendar-border-color: var(--cx-theme-border-color) !default,
+   $cx-default-calendar-border-radius: var(--cx-theme-border-radius) !default,
+   $cx-default-calendar-box-shadow: none !default,
+   $cx-default-calendar-header-font-size: var(--cx-theme-font-size)
+      !default,
+   $cx-default-calendar-header-font-weight: var(
+         --cx-calendar-header-font-weight
+      )
+      !default,
+   $cx-default-calendar-header-color: var(--cx-theme-text-color) !default,
+   $cx-default-calendar-header-background-color: var(
+         --cx-calendar-header-background-color
+      )
+      !default,
+   $cx-default-calendar-day-font-size: var(--cx-calendar-day-font-size) !default,
+   $cx-default-calendar-day-border-radius: var(--cx-theme-border-radius)
+      !default,
+
+   // -------------------------------------------------------------------------
+   // Checkbox
+   // -------------------------------------------------------------------------
+   $cx-default-checkbox-size: var(--cx-checkbox-size) !default,
+   $cx-default-checkbox-border-color: var(--cx-theme-border-color) !default,
+
+   // -------------------------------------------------------------------------
+   // Radio
+   // -------------------------------------------------------------------------
+   $cx-default-radio-size: var(--cx-checkbox-size) !default,
+   $cx-default-radio-border-color: var(--cx-theme-border-color) !default,
+
+   // -------------------------------------------------------------------------
+   // Lookup tag
+   // -------------------------------------------------------------------------
+   $cx-default-input-tag-background-color: var(--cx-input-tag-background-color) !default,
+   $cx-default-input-tag-font-size: var(--cx-input-tag-font-size) !default,
+   $cx-default-input-tag-border-radius: var(--cx-input-tag-border-radius) !default,
+   $cx-default-input-tag-spacing: var(--cx-input-tag-spacing) !default,
+   $cx-default-input-tag-padding: var(--cx-input-tag-padding) !default,
+
+   // -------------------------------------------------------------------------
+   // ColorPicker
+   // -------------------------------------------------------------------------
+   $cx-default-colorpicker-border-width: var(--cx-colorpicker-border-width) !default,
+   $cx-default-colorpicker-box-shadow: none !default,
+   $cx-default-colorpicker-font-family: var(--cx-theme-font-family) !default,
+   $cx-default-colorpicker-background-color: var(--cx-theme-background-color)
+      !default,
+
+   // -------------------------------------------------------------------------
+   // DateTimePicker
+   // -------------------------------------------------------------------------
+   $cx-default-datetimepicker-border-color: var(--cx-theme-border-color)
+      !default,
+   $cx-default-datetimepicker-border-radius: var(--cx-theme-border-radius)
+      !default,
+   $cx-default-wheel-clip-border-color: var(--cx-theme-border-color) !default,
+
+   // -------------------------------------------------------------------------
+   // Tab
+   // -------------------------------------------------------------------------
+   $cx-default-tab-font-weight: var(--cx-button-font-weight) !default,
+   $cx-default-tab-background-color: transparent !default,
+   $cx-default-tab-border-width: 0 !default,
+   $cx-default-tab-border-color: transparent !default,
+   $cx-default-tab-color: var(--cx-theme-text-color) !default,
+   $cx-default-tab-font-size: var(--cx-theme-font-size) !default,
+   $cx-default-tab-border-radius: var(--cx-theme-border-radius) !default,
+   $cx-default-tab-padding: var(--cx-button-padding-y)
+      var(--cx-button-padding-x) !default,
+   $cx-default-tab-box-shadow: null !default,
+
+   // -------------------------------------------------------------------------
+   // Scroller
+   // -------------------------------------------------------------------------
+   $cx-default-scroller-button-size: 30px !default,
+
+   // -------------------------------------------------------------------------
+   // Menu separator
+   // -------------------------------------------------------------------------
+   $cx-default-menu-separator-color: var(--cx-theme-border-color) !default,
+
+   // -------------------------------------------------------------------------
+   // Slider
+   // -------------------------------------------------------------------------
+   $cx-default-slider-axis-size: var(--cx-slider-axis-size) !default,
+   $cx-default-slider-handle-size: var(--cx-slider-handle-size) !default,
+   $cx-default-slider-handle-border-width: var(--cx-slider-handle-border-width) !default,
+   $cx-default-slider-axis-background-color: var(--cx-slider-axis-color)
+      !default,
+   $cx-default-slider-range-background-color: var(--cx-slider-range-color)
+      !default,
+   $cx-default-slider-handle-background-color: var(--cx-slider-handle-color)
+      !default,
+   $cx-default-slider-handle-border-color: var(--cx-slider-handle-border-color)
+      !default,
+   $cx-default-slider-handle-box-shadow: var(--cx-slider-handle-box-shadow) !default,
+
+   // -------------------------------------------------------------------------
+   // Switch
+   // -------------------------------------------------------------------------
+   $cx-default-switch-axis-size: var(--cx-switch-axis-size) !default,
+   $cx-default-switch-handle-size: var(--cx-switch-handle-size) !default,
+   $cx-default-switch-width: var(--cx-switch-width) !default,
+   $cx-default-switch-axis-background-color: var(--cx-input-border-color)
+      !default,
+   $cx-default-switch-range-background-color: var(--cx-theme-primary-color)
+      !default,
+   $cx-default-switch-handle-background-color: var(--cx-button-background-color)
+      !default,
+   $cx-default-switch-handle-border-color: var(--cx-button-border-color)
+      !default,
+   $cx-default-switch-handle-box-shadow: var(--cx-theme-box-shadow) !default,
+
+   // -------------------------------------------------------------------------
+   // Progress bar
+   // -------------------------------------------------------------------------
+   $cx-default-progressbar-width: 200px !default,
+   $cx-default-progressbar-height: var(--cx-progressbar-height) !default,
+   $cx-default-progressbar-font-size: 10px !default,
+   $cx-default-progressbar-border-width: 0 !default,
+   $cx-default-progressbar-border-radius: var(--cx-progressbar-border-radius) !default,
+   $cx-default-progressbar-color: var(--cx-progressbar-color) !default,
+   $cx-default-progressbar-background-color: var(--cx-progressbar-background-color)
+      !default,
+   $cx-default-progressbar-indicator-background-color: var(
+         --cx-progressbar-indicator-color
+      )
+      !default,
+
+   // -------------------------------------------------------------------------
+   // List
+   // -------------------------------------------------------------------------
+   $cx-default-list-item-padding: var(--cx-list-item-padding-y) var(--cx-list-item-padding-x) !default,
+
+   // -------------------------------------------------------------------------
+   // Chart
+   // -------------------------------------------------------------------------
+   $cx-default-chart-axis-line-color: var(--cx-chart-axis-line-color) !default,
+   $cx-default-chart-axis-tick-color: var(--cx-chart-axis-tick-color) !default,
+   $cx-default-chart-axis-label-color: var(--cx-chart-axis-label-color) !default,
+   $cx-default-chart-axis-label-font-size: var(--cx-chart-axis-label-font-size) !default,
+   $cx-default-chart-gridline-color: var(--cx-chart-gridline-color) !default,
+   $cx-default-chart-shape-fill-color: var(--cx-chart-shape-fill-color) !default,
+   $cx-default-chart-shape-stroke-color: var(--cx-chart-shape-stroke-color) !default,
+   $cx-default-chart-shape-stroke-width: var(--cx-chart-shape-stroke-width) !default,
+   $cx-default-chart-selected-stroke-width: var(--cx-chart-selected-stroke-width) !default,
+   $cx-default-chart-line-stroke-color: var(--cx-chart-line-stroke-color) !default,
+   $cx-default-chart-line-stroke-width: var(--cx-chart-line-stroke-width) !default,
+   $cx-default-chart-area-opacity: var(--cx-chart-area-opacity) !default,
+   $cx-default-chart-marker-color: var(--cx-chart-marker-color) !default,
+   $cx-default-chart-marker-stroke-width: var(--cx-chart-marker-stroke-width) !default,
+   $cx-default-chart-markerline-stroke-width: var(--cx-chart-markerline-stroke-width) !default,
+   $cx-default-chart-range-fill-color: var(--cx-chart-range-fill-color) !default,
+   $cx-default-chart-range-opacity: var(--cx-chart-range-opacity) !default,
+   $cx-default-range-marker-color: var(--cx-chart-range-marker-color) !default,
+   $cx-default-swimlanes-lane-background-color: var(--cx-chart-swimlane-lane-color) !default,
+   $cx-default-chart-legend-font-size: var(--cx-chart-legend-font-size) !default,
+   $cx-default-chart-legend-padding: var(--cx-chart-legend-padding) !default,
+   $cx-default-chart-legend-gap: var(--cx-chart-legend-gap) !default,
+   $cx-default-chart-legend-entry-gap: var(--cx-chart-legend-entry-gap) !default,
+   $cx-default-chart-legend-shape-color: var(--cx-chart-legend-shape-color) !default,
+   $cx-default-chart-legend-shape-stroke-width: var(--cx-chart-legend-shape-stroke-width) !default,
+
+   // Chart palette
+   $cx-default-palette-fill-whiten: var(--cx-palette-fill-whiten) !default,
+   $cx-default-palette-fill-hover-whiten: var(--cx-palette-fill-hover-whiten) !default,
+   $cx-default-palette-fill-selected-whiten: var(--cx-palette-fill-selected-whiten) !default,
+   $cx-default-palette-fill-disabled-whiten: var(--cx-palette-fill-disabled-whiten) !default,
+   $cx-default-palette-fill-blacken: var(--cx-palette-fill-blacken) !default,
+   $cx-default-palette-fill-hover-blacken: var(--cx-palette-fill-hover-blacken) !default,
+   $cx-default-palette-fill-selected-blacken: var(--cx-palette-fill-selected-blacken) !default,
+   $cx-default-palette-fill-disabled-blacken: var(--cx-palette-fill-disabled-blacken) !default,
+   $cx-default-palette-stroke-whiten: var(--cx-palette-stroke-whiten) !default,
+   $cx-default-palette-stroke-blacken: var(--cx-palette-stroke-blacken) !default,
+   $cx-default-palette-colors:
+      var(--cx-palette-color-0) var(--cx-palette-color-1) var(--cx-palette-color-2) var(--cx-palette-color-3)
+      var(--cx-palette-color-4) var(--cx-palette-color-5) var(--cx-palette-color-6) var(--cx-palette-color-7)
+      var(--cx-palette-color-8) var(--cx-palette-color-9) var(--cx-palette-color-10) var(--cx-palette-color-11)
+      var(--cx-palette-color-12) var(--cx-palette-color-13) var(--cx-palette-color-14) var(--cx-palette-color-15)
+      !default,
+
+   // -------------------------------------------------------------------------
+   // Section
+   // -------------------------------------------------------------------------
+   $cx-default-section-header-border-color: inherit !default,
+   $cx-default-section-header-border-width: var(
+         --cx-section-header-border-width
+      )
+      !default,
+   $cx-default-section-footer-border-color: inherit !default,
+   $cx-default-section-footer-border-width: var(
+         --cx-section-footer-border-width
+      )
+      !default,
+   $cx-default-section-body-padding: var(--cx-section-body-padding) !default,
+
+   // cover
+   $cx-default-cover-background-color: var(--cx-theme-surface-color),
+   $cx-default-cover-border-color: var(--cx-theme-border-color)
+);
+
+// =============================================================================
+// Use cx variables to make them available locally
+// =============================================================================
+@use "cx/src/variables" as *;

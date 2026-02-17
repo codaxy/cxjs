@@ -180,39 +180,50 @@ export class GroupAdapter<T = any> extends ArrayAdapter<T> {
       if (!groupings) {
          this.groupings = null;
       } else if (isArray(groupings)) {
-         this.groupings = groupings as unknown as ResolvedGrouping[];
-         this.groupings.forEach((g) => {
+         // Clone groupings to avoid mutating the original config
+         this.groupings = groupings.map((g) => {
             const groupSorters: Sorter[] = [];
             const key: Record<string, Prop<any>> = {};
+            const resolvedKey: Record<string, { value: Prop<any>; direction: SortDirection }> = {};
 
             for (const name in g.key) {
                const keyConfig = g.key[name];
                if (!keyConfig || typeof keyConfig !== "object" || !("value" in keyConfig)) {
-                  g.key[name] = { value: keyConfig as Prop<any>, direction: "ASC" };
+                  resolvedKey[name] = { value: keyConfig as Prop<any>, direction: "ASC" };
+               } else {
+                  resolvedKey[name] = keyConfig as { value: Prop<any>; direction: SortDirection };
                }
 
-               const resolvedKey = g.key[name] as { value: Prop<any>; direction: SortDirection };
-               key[name] = resolvedKey.value;
+               key[name] = resolvedKey[name].value;
                groupSorters.push({
                   field: name,
-                  direction: resolvedKey.direction,
+                  direction: resolvedKey[name].direction,
                });
             }
 
-            g.grouper = new Grouper(
+            const grouper = new Grouper(
                key,
                { ...this.aggregates, ...g.aggregates },
                (r: DataAdapterRecord<T>) => r.store.getData(),
                g.text,
             );
 
-            if (g.comparer == null && groupSorters.length > 0) {
-               g.comparer = getComparer(
-                  groupSorters,
-                  (x: any) => x.key,
-                  this.sortOptions ? Culture.getComparer(this.sortOptions) : undefined,
-               );
-            }
+            const comparer =
+               g.comparer ??
+               (groupSorters.length > 0
+                  ? getComparer(
+                       groupSorters,
+                       (x: any) => x.key,
+                       this.sortOptions ? Culture.getComparer(this.sortOptions) : undefined,
+                    )
+                  : null);
+
+            return {
+               ...g,
+               key: resolvedKey,
+               grouper,
+               comparer,
+            } as ResolvedGrouping;
          });
       } else {
          throw new Error("Invalid grouping provided.");

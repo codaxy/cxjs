@@ -19,7 +19,7 @@ class PageController extends Controller<PageModel> {
 // @controller-end
 
 // @index
-export default () => (
+export default (
   <div controller={PageController} class="flex flex-col gap-4">
     <nav class="flex gap-2">
       <Button onClick={(e, { store }) => store.set(m.url, "~/home")}>

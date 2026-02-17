@@ -1,0 +1,110 @@
+@use "../variables" as *;
+@use "../lists" as *;
+@use "../../util/scss/add-rules.scss" as *;
+@use "../../util/scss/deep-merge" as *;
+@use "../../util/scss/clockwise.scss" as *;
+
+$cx-grid-header-state-style-map: (
+   default: (
+      font-size: $cx-default-grid-header-font-size,
+      font-weight: $cx-default-grid-header-font-weight,
+      line-height: $cx-default-grid-header-line-height,
+      color: $cx-default-grid-header-color,
+      background-color: $cx-default-grid-header-background-color,
+      border-color: $cx-default-grid-header-border-color,
+      background-clip: border-box,
+      padding: $cx-default-grid-header-padding,
+   ),
+   hover: (
+      background-color: color-mix(
+            in srgb,
+            $cx-default-grid-header-background-color,
+            black 2%
+         ),
+   ),
+   sorted: (
+      background-color: color-mix(
+            in srgb,
+            $cx-default-grid-header-background-color,
+            black 7%
+         ),
+   ),
+   sorted-hover: (
+      background-color: color-mix(
+            in srgb,
+            $cx-default-grid-header-background-color,
+            black 5%
+         ),
+   ),
+) !default;
+
+$cx-grid-data-state-style-map: cx-deep-map-merge(
+   $cx-list-item,
+   (
+      default: (
+         font-size: $cx-default-grid-data-font-size,
+         line-height: $cx-default-grid-data-line-height,
+         font-weight: $cx-default-grid-data-font-weight,
+         background-color: $cx-default-grid-data-background-color,
+         border-color: $cx-default-grid-data-border-color,
+         padding: $cx-default-grid-data-padding,
+      ),
+      alternate: (
+         background-color: $cx-default-grid-data-alternate-background-color,
+      ),
+   )
+) !default;
+
+$cx-grid-pagination-state-style-map: cx-deep-map-merge(
+   $cx-list-item,
+   ()
+) !default;
+
+$cx-grid-cell-cursor-style: (
+   left: -1px,
+   top: -1px,
+   right: -1px,
+   bottom: -1px,
+   background: rgba(green, 0.1),
+   border: 2px solid rgba(green, 1),
+);
+
+$cx-grid-group-caption-level-style-map: (
+   level-1: (
+      font-size: 115%,
+   ),
+   level-2: (
+      font-size: 130%,
+      border-bottom: 1px solid grey,
+   ),
+   level-3: (
+      font-size: 145%,
+      border-bottom: 1px solid grey,
+   ),
+   level-4: (
+      font-size: 160%,
+      border-bottom: 1px solid grey,
+   ),
+) !default;
+
+$cx-grid-group-footer-level-style-map: (
+   level-1: (
+      font-weight: bold,
+      border-top: 1px solid $cx-default-grid-border-color,
+   ),
+   level-2: (
+      font-weight: bold,
+      font-size: 110%,
+      border-top: 1px solid grey,
+   ),
+   level-3: (
+      font-weight: bold,
+      font-size: 115%,
+      border-top: 1px solid grey,
+   ),
+   level-4: (
+      font-weight: bold,
+      font-size: 120%,
+      border-top: 1px solid grey,
+   ),
+) !default;

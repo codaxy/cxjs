@@ -1,0 +1,92 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: isDigit
+description: Check if character is digit
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+# isDigit
+
+<ImportPath path="import { isDigit } from 'cx/util';" />
+<OnThisPage />
+
+The `isDigit` function checks if a character is a digit (0-9).
+
+## Basic Usage
+
+```tsx
+import { isDigit } from "cx/util";
+
+isDigit("5"); // true
+isDigit("0"); // true
+isDigit("9"); // true
+isDigit("a"); // false
+isDigit(" "); // false
+isDigit(""); // false
+```
+
+## Common Use Cases
+
+### Input Validation
+
+```tsx
+import { isDigit } from "cx/util";
+
+function isNumericString(str: string): boolean {
+  for (const char of str) {
+    if (!isDigit(char)) return false;
+  }
+  return str.length > 0;
+}
+
+isNumericString("12345"); // true
+isNumericString("123a5"); // false
+```
+
+### Character Filtering
+
+```tsx
+import { isDigit } from "cx/util";
+
+function extractDigits(str: string): string {
+  return str.split("").filter(isDigit).join("");
+}
+
+extractDigits("abc123def456"); // "123456"
+extractDigits("Phone: (555) 123-4567"); // "5551234567"
+```
+
+### Parsing
+
+```tsx
+import { isDigit } from "cx/util";
+
+function parseLeadingNumber(str: string): number | null {
+  let numStr = "";
+  for (const char of str) {
+    if (isDigit(char)) {
+      numStr += char;
+    } else {
+      break;
+    }
+  }
+  return numStr ? parseInt(numStr, 10) : null;
+}
+
+parseLeadingNumber("123abc"); // 123
+parseLeadingNumber("abc123"); // null
+```
+
+## API
+
+```tsx
+function isDigit(x: any): boolean;
+```
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| x | `any` | The character to check |
+
+**Returns:** `true` if the value is a single digit character ('0'-'9').

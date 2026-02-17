@@ -14,7 +14,7 @@ const m = createModel<FormModel>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <LabelsLeftLayout>
     <TextField value={m.text} label="Label 1" />
     <Checkbox value={m.showMore}>Show More</Checkbox>

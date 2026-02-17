@@ -1,35 +1,43 @@
 ---
 layout: ../../../layouts/DocsLayout.astro
 title: NumericAxis
+description: Axis for numeric data
 ---
 
+import ImportPath from "../../../components/ImportPath.astro";
 import CodeExample from "../../../components/CodeExample.astro";
+
 import NumericAxisExample from "../../../examples/charts/NumericAxisExample.tsx";
+import NumericAxisExampleCode from "../../../examples/charts/NumericAxisExample.tsx?raw";
 
 # NumericAxis
 
-The `NumericAxis` widget is used to map numeric data along the horizontal or vertical axis of a chart.
+<ImportPath path="import { NumericAxis } from 'cx/charts';" />
 
-**Import:** `import { NumericAxis } from 'cx/charts';`
+The `NumericAxis` component maps numeric data along the horizontal or vertical axis of a chart. Graph components use it to calculate their position, and the axis adapts its visible range to the data being shown. The axis is also responsive—different tick configurations are selected based on available space.
 
-## Example
+This example shows four axes: primary X and Y axes with explicit ranges, and secondary inverted axes on the opposite sides.
 
-<CodeExample
-  code={`<Chart axes={{ x: { type: NumericAxis, min: 0, max: 100 }, y: { type: NumericAxis, vertical: true, min: 0, max: 500 } }}>
-  <Gridlines />
-</Chart>`}
->
+<CodeExample code={NumericAxisExampleCode}>
   <NumericAxisExample client:load />
 </CodeExample>
 
-## Properties
+Be careful with gridlines when using secondary axes as they may overlap.
 
-| Property      | Type      | Default     | Description            |
-| ------------- | --------- | ----------- | ---------------------- |
-| `min`         | `number`  | `undefined` | Minimum value          |
-| `max`         | `number`  | `undefined` | Maximum value          |
-| `vertical`    | `boolean` | `false`     | Vertical orientation   |
-| `inverted`    | `boolean` | `false`     | Invert axis direction  |
-| `labelAnchor` | `string`  | `"middle"`  | Label anchor position  |
-| `labelOffset` | `number`  | `10`        | Label offset from axis |
-| `format`      | `string`  | `undefined` | Number format          |
+## Configuration
+
+| Property           | Type      | Description                                                                                       |
+| ------------------ | --------- | ------------------------------------------------------------------------------------------------- |
+| `min`              | `number`  | Minimum value.                                                                                    |
+| `max`              | `number`  | Maximum value.                                                                                    |
+| `vertical`         | `boolean` | Set to `true` for a vertical (Y) axis.                                                            |
+| `secondary`        | `boolean` | Set to `true` to position the axis on the opposite side (right for vertical, top for horizontal). |
+| `inverted`         | `boolean` | Set to `true` to invert the axis direction.                                                       |
+| `snapToTicks`      | `number`  | Range alignment: `0` = lowest ticks, `1` = medium ticks (default), `2` = major ticks.             |
+| `normalized`       | `boolean` | Set to `true` to normalize the input range (0-1).                                                 |
+| `format`           | `string`  | Value format for labels. Default is `"n"`.                                                        |
+| `labelDivisor`     | `number`  | Divide values by this number before rendering labels. Default is `1`.                             |
+| `deadZone`         | `number`  | Size of a zone reserved for labels at both ends of the axis.                                      |
+| `upperDeadZone`    | `number`  | Size of a zone reserved for labels near the upper end of the axis.                                |
+| `lowerDeadZone`    | `number`  | Size of a zone reserved for labels near the lower end of the axis.                                |
+| `minLabelTickSize` | `number`  | Minimum value increment between labels. Set to `1` for integer axes to avoid duplicate labels.    |

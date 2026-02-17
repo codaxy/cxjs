@@ -431,6 +431,36 @@ describe("Controller", () => {
       // let tree = component.toJSON();
       assert.deepStrictEqual(testValid, [1, 2]);
    });
+
+   it("getParentControllerByType returns typed parent controller", async () => {
+      let parentValue = 0;
+
+      class ParentController extends Controller {
+         getValue() {
+            return 42;
+         }
+      }
+
+      class ChildController extends Controller {
+         onInit() {
+            let parent = this.getParentControllerByType(ParentController);
+            parentValue = parent.getValue();
+         }
+      }
+
+      let store = new Store();
+
+      const component = await createTestRenderer(
+         store,
+         <cx>
+            <div controller={ParentController}>
+               <div controller={ChildController} />
+            </div>
+         </cx>,
+      );
+
+      assert.equal(parentValue, 42);
+   });
 });
 
 describe("Controller types", () => {

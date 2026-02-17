@@ -21,7 +21,7 @@ const options = [
 // @model-end
 
 // @index
-export default () => (
+export default (
   <LabelsTopLayout columns={2}>
     <LookupField
       label="Single Select"

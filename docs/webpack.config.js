@@ -31,7 +31,6 @@ if (production) {
                      options: {
                         sassOptions: {
                            quietDeps: true,
-                           silenceDeprecations: ["import", "global-builtin"],
                         },
                      },
                   },
@@ -102,7 +101,6 @@ if (production) {
                      options: {
                         sassOptions: {
                            quietDeps: true,
-                           silenceDeprecations: ["import", "global-builtin"],
                         },
                      },
                   },

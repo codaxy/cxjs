@@ -1,25 +1,30 @@
 @use "sass:map";
+@use "sass:math";
+@use "../util/scss/screen-size.scss" as *;
+@use "../util/scss/pad-size.scss" as *;
+@use "../util/scss/include.scss" as *;
+@use "../util/scss/besm.scss" as *;
 
 @mixin cx-flexbox-spacing($divider, $besm: $cx-besm) {
    $state: map.get($besm, state);
    @each $pad, $size in $cx-pad-size {
       &.#{$state}#{$pad}-hspacing {
-         margin-left: cx-divide(-$size, $divider);
-         margin-right: cx-divide(-$size, $divider);
+         margin-left: -(math.div($size, $divider));
+         margin-right: -(math.div($size, $divider));
 
          & > * {
-            margin-left: cx-divide($size, $divider);
-            margin-right: cx-divide($size, $divider);
+            margin-left: math.div($size, $divider);
+            margin-right: math.div($size, $divider);
          }
       }
 
       &.#{$state}#{$pad}-vspacing {
-         margin-top: cx-divide(-$size, $divider);
-         margin-bottom: cx-divide(-$size, $divider);
+         margin-top: -(math.div($size, $divider));
+         margin-bottom: -(math.div($size, $divider));
 
          & > * {
-            margin-top: cx-divide($size, $divider);
-            margin-bottom: cx-divide($size, $divider);
+            margin-top: math.div($size, $divider);
+            margin-bottom: math.div($size, $divider);
          }
       }
    }
@@ -121,21 +126,21 @@
       }
 
       &.#{$state}target-phone {
-         @media not screen and (min-width: $cx-screen-size-small) {
+         @media not screen and (min-width: $screen-size-small) {
             display: block;
             @include cx-flexbox-spacing(1, $besm);
          }
       }
 
       &.#{$state}target-tablet {
-         @media not screen and (min-width: $cx-screen-size-medium) {
+         @media not screen and (min-width: $screen-size-medium) {
             display: block;
             @include cx-flexbox-spacing(1, $besm);
          }
       }
 
       &.#{$state}target-desktop {
-         @media not screen and (min-width: $cx-screen-size-large) {
+         @media not screen and (min-width: $screen-size-large) {
             display: block;
             @include cx-flexbox-spacing(1, $besm);
          }

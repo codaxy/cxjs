@@ -1,4 +1,14 @@
+@use "sass:math";
 @use "sass:map";
+@use "../variables" as *;
+@use "../maps" as *;
+@use "../../util/scss/add-rules.scss" as *;
+@use "../../util/scss/clockwise.scss" as *;
+@use "../../util/scss/deep-merge.scss" as *;
+@use "../../util/scss/calc.scss" as *;
+@use "../../util/scss/besm.scss" as *;
+@use "../../util/scss/include.scss" as *;
+@use "./Overlay.scss" as *;
 
 @mixin cx-window(
    $name: "window",
@@ -15,7 +25,7 @@
    $mod: map.get($besm, mod);
 
    .#{$block}#{$name} {
-      @extend %cxb-overlay;
+      @include cxb-overlay($name, $besm);
       display: flex;
       flex-direction: column;
 
@@ -26,17 +36,12 @@
             @include cx-add-state-rules($state-style-map, resizable);
          }
       }
-
-      &.#{$mod}alert {
-         min-width: 300px;
-      }
    }
 
    .#{$element}#{$name}-header {
       position: relative; //put on top of modal backdrop
       box-sizing: border-box;
       display: flex;
-      align-items: center;
       flex: none;
       touch-action: none;
 
@@ -67,10 +72,6 @@
          content: " ";
          height: 0;
       }
-
-      .#{$mod}alert & {
-         text-align: center;
-      }
    }
 
    .#{$element}#{$name}-body {
@@ -95,11 +96,6 @@
       &.#{$state}pad {
          padding: $padding;
       }
-
-      .#{$mod}alert & {
-         padding: 2.5rem;
-         text-align: center;
-      }
    }
 
    @each $modname, $config in $mods {
@@ -116,11 +112,15 @@
    }
 
    .#{$element}#{$name}-modal-backdrop {
-      @extend %cxe-overlay-modal-backdrop;
+      @include cxe-overlay-modal-backdrop;
    }
 
    .#{$element}#{$name}-shadow {
-      @extend %cxe-overlay-shadow;
+      @include cxe-overlay-shadow;
+   }
+
+   .#{$element}#{$name}-beacon {
+      @include cxe-overlay-beacon;
    }
 }
 

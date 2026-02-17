@@ -71,7 +71,7 @@ class PageController extends Controller {
 // @controller-end
 
 // @index
-export default () => (
+export default (
   <Grid
     controller={PageController}
     records={m.records}
@@ -97,6 +97,7 @@ export default () => (
               <Button
                 mod="hollow"
                 icon="drop-down"
+                style="--cx-button-padding-y: 0"
                 onClick={(e, { store }) => {
                   store.toggle(m.$record.expanded);
                 }}

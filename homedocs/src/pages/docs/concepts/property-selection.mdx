@@ -1,16 +1,20 @@
 ---
 layout: ../../../layouts/DocsLayout.astro
 title: PropertySelection
+description: Selection stored in record properties
 ---
 
 import CodeExample from "../../../components/CodeExample.astro";
 import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 import PropertySelectionExample from "../../../examples/concepts/PropertySelectionExample.tsx";
 import PropertySelectionExampleCode from "../../../examples/concepts/PropertySelectionExample.tsx?raw";
 
 # PropertySelection
 
 <ImportPath path="import { PropertySelection } from 'cx/ui';" />
+
+<OnThisPage />
 
 PropertySelection tracks selection state using a boolean property on each record. When an item is selected, its `selected` property (or custom field) is set to `true`.
 

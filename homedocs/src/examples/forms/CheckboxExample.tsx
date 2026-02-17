@@ -12,7 +12,7 @@ const m = createModel<Model>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <LabelsTopLayout columns={2}>
     <Checkbox label="Standard" value={bind(m.checked, true)} text="I agree to terms" />
     <Checkbox label="Native" value={m.checked} text="I agree to terms" native />

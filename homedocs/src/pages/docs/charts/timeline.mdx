@@ -1,0 +1,40 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Timeline
+description: Timeline visualization with bars
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+import TimelineExample from "../../../examples/charts/TimelineExample.tsx";
+import TimelineExampleCode from "../../../examples/charts/TimelineExample.tsx?raw";
+
+# Timeline
+
+<OnThisPage />
+
+This example demonstrates how to create a zoomable timeline chart using `Range`, `ClipRect`, and `Marker` components. The lower chart serves as a navigator with draggable handles to control the visible range in the main chart above.
+
+<CodeExample code={TimelineExampleCode}>
+  <TimelineExample client:load />
+</CodeExample>
+
+## How It Works
+
+1. **Two charts in one Svg** - The main chart uses `anchors` to occupy the top 80%, while the navigator chart takes the bottom 20%
+2. **Dynamic range** - The main chart's `TimeAxis` binds its `min` and `max` to the range values
+3. **Draggable selection** - `Range` with `draggableX` allows moving the entire selection, while `Marker` components with `draggableX` adjust individual boundaries
+4. **ClipRect** - Clips the column graph to the visible area in both charts
+5. **Visual feedback** - The selected range in the navigator is highlighted with a different color
+
+## Configuration
+
+| Property     | Type      | Description                                              |
+| ------------ | --------- | -------------------------------------------------------- |
+| `anchors`    | `string`  | Position chart within Svg: `"top right bottom left"`.    |
+| `draggableX` | `boolean` | Enable horizontal dragging on Range or Marker.           |
+| `constrainX` | `boolean` | Constrain Range dragging to chart bounds.                |
+| `constrain`  | `boolean` | Constrain Marker dragging to chart bounds.               |
+| `hidden`     | `boolean` | Hide the Range background while keeping children visible.|

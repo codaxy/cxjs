@@ -1,0 +1,113 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: encodeDate
+description: Encode date as string
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+# encodeDate
+
+<ImportPath path="import { encodeDate } from 'cx/util';" />
+<OnThisPage />
+
+The `encodeDate` function formats a Date object as an ISO date string in `YYYY-MM-DD` format.
+
+## Basic Usage
+
+```tsx
+import { encodeDate } from "cx/util";
+
+const date = new Date(2024, 5, 15); // June 15, 2024
+encodeDate(date); // "2024-06-15"
+
+const date2 = new Date(2024, 0, 5); // January 5, 2024
+encodeDate(date2); // "2024-01-05"
+```
+
+## How It Works
+
+The function extracts year, month, and day components and formats them with zero-padding.
+
+```tsx
+import { encodeDate } from "cx/util";
+
+// Single-digit month and day are zero-padded
+const date = new Date(2024, 0, 1);
+encodeDate(date); // "2024-01-01"
+
+// Time component is ignored
+const dateWithTime = new Date(2024, 5, 15, 14, 30, 45);
+encodeDate(dateWithTime); // "2024-06-15"
+```
+
+## Common Use Cases
+
+### API Requests
+
+```tsx
+import { encodeDate } from "cx/util";
+
+async function fetchDataForDate(date: Date) {
+  const dateStr = encodeDate(date);
+  const response = await fetch(`/api/data?date=${dateStr}`);
+  return response.json();
+}
+```
+
+### Form Values
+
+```tsx
+import { encodeDate } from "cx/util";
+
+// Convert Date to string for HTML date input
+const date = new Date(2024, 5, 15);
+const inputValue = encodeDate(date);
+// Use as: <input type="date" value={inputValue} />
+```
+
+### Data Storage
+
+```tsx
+import { encodeDate } from "cx/util";
+
+interface Record {
+  id: string;
+  date: string; // Stored as ISO string
+}
+
+function createRecord(date: Date): Record {
+  return {
+    id: crypto.randomUUID(),
+    date: encodeDate(date),
+  };
+}
+```
+
+### URL Parameters
+
+```tsx
+import { encodeDate } from "cx/util";
+
+function buildReportUrl(startDate: Date, endDate: Date): string {
+  const start = encodeDate(startDate);
+  const end = encodeDate(endDate);
+  return `/reports?from=${start}&to=${end}`;
+}
+
+buildReportUrl(new Date(2024, 0, 1), new Date(2024, 11, 31));
+// "/reports?from=2024-01-01&to=2024-12-31"
+```
+
+## API
+
+```tsx
+function encodeDate(date: Date): string;
+```
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| date | `Date` | The date to format |
+
+**Returns:** ISO date string in `YYYY-MM-DD` format.

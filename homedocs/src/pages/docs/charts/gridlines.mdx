@@ -1,30 +1,31 @@
 ---
 layout: ../../../layouts/DocsLayout.astro
 title: Gridlines
+description: Background grid lines for charts
 ---
 
+import ImportPath from "../../../components/ImportPath.astro";
 import CodeExample from "../../../components/CodeExample.astro";
+
 import GridlinesExample from "../../../examples/charts/GridlinesExample.tsx";
+import GridlinesExampleCode from "../../../examples/charts/GridlinesExample.tsx?raw";
 
 # Gridlines
 
-The `Gridlines` widget draws horizontal and vertical gridlines in the chart background.
+<ImportPath path="import { Gridlines } from 'cx/charts';" />
 
-**Import:** `import { Gridlines } from 'cx/charts';`
+The `Gridlines` component draws horizontal and vertical gridlines in the chart background. Besides aesthetics, gridlines make it easier to read axis values.
 
-## Example
+Gridlines automatically align with axis tick marks. Use `xAxis` and `yAxis` properties to target different axes or set them to `false` to hide gridlines in that direction.
 
-<CodeExample
-  code={`<Chart axes={{ x: { type: NumericAxis }, y: { type: NumericAxis, vertical: true } }}>
-  <Gridlines />
-</Chart>`}
->
+<CodeExample code={GridlinesExampleCode}>
   <GridlinesExample client:load />
 </CodeExample>
 
-## Properties
+## Configuration
 
-| Property | Type     | Default | Description        |
-| -------- | -------- | ------- | ------------------ |
-| `xAxis`  | `string` | `"x"`   | Name of the x-axis |
-| `yAxis`  | `string` | `"y"`   | Name of the y-axis |
+| Property | Type             | Description                                                                                       |
+| -------- | ---------------- | ------------------------------------------------------------------------------------------------- |
+| `xAxis`  | `string/boolean` | Name of the horizontal axis. Default is `"x"`. Set to `false` to hide horizontal gridlines.       |
+| `yAxis`  | `string/boolean` | Name of the vertical axis. Default is `"y"`. Set to `false` to hide vertical gridlines.           |
+| `style`  | `object/string`  | Custom CSS styles for the gridlines path element.                                                 |

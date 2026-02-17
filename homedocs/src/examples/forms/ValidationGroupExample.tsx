@@ -17,7 +17,7 @@ const m = createModel<Model>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <div class="flex flex-col gap-4">
     <ValidationGroup valid={m.valid} visited={m.visited} asterisk>
       <LabelsTopLayout vertical>

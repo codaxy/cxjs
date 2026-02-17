@@ -18,17 +18,38 @@ Guidelines for AI agents working on the CxJS documentation project.
 ### JSX Syntax (Breaking Change)
 
 - React JSX and CxJS JSX are now separated
-- The `<cx>` wrapper tag can be omitted in examples
+- The `<cx>` wrapper tag is no longer needed in examples
+- Use `export default (` syntax for examples (not `export default () =>`)
 
 ### Bindings (Breaking Change)
 
 Binding attributes (`-bind`, `-tpl`, `-expr`) are deprecated without plugins.
 
-Use function syntax instead:
+Use typed accessor chains and helper functions:
 
-- `bind("path")` instead of `value-bind="path"`
-- `expr("...")` instead of `value-expr="..."`
-- `tpl("...")` instead of `value-tpl="..."`
+- `m.field` - Direct accessor for two-way binding
+- `bind(m.field, defaultValue)` - Accessor with default value (written to store if undefined)
+- `expr(m.field1, m.field2, (v1, v2) => ...)` - Computed value from multiple accessors
+- `tpl(m.field, "Template {0}")` - Formatted template string
+- `format(m.field, "n;2")` - Formatted value
+
+Example:
+```tsx
+// Direct binding - use when no default needed
+<TextField value={m.name} />
+
+// With default value - use bind()
+<TextField value={bind(m.name, "Default")} />
+
+// Computed value - use expr()
+<div text={expr(m.firstName, m.lastName, (f, l) => `${f} ${l}`)} />
+```
+
+### File Naming
+
+- Documentation pages and example files should match component names (singular, not plural)
+- Use kebab-case for `.mdx` files matching the navigation slug
+- Examples: `line-graph.mdx` (not `line-graphs.mdx`), `LineGraphExample.tsx`
 
 ## Content Guidelines
 
@@ -49,6 +70,26 @@ import ImportPath from "../../components/ImportPath.astro";
 
 <ImportPath path="import { ComponentName } from 'cx/widgets';" />
 ```
+
+### OnThisPage Component
+
+Use `OnThisPage` on documentation pages that have **2 or more subheadings** (h2/h3) to provide "On This Page" navigation links. Place it:
+- After `<ImportPath>` if the page has one
+- After the `# Title` heading if there's no ImportPath
+
+Do NOT add OnThisPage if the page has only one subheading or no subheadings.
+
+```mdx
+import OnThisPage from "../../components/OnThisPage.astro";
+
+# ComponentName
+
+<ImportPath path="import { ComponentName } from 'cx/widgets';" />
+
+<OnThisPage />
+```
+
+The component automatically extracts h2 and h3 headings from the page. On desktop (xl+), it appears in the right margin and expands on hover. On mobile, it renders inline and is collapsed by default.
 
 ### CodeExample Component
 
@@ -94,7 +135,7 @@ class PageController extends Controller {
 // @controller-end
 
 // @index
-export default () => (
+export default (
   <div>...</div>
 );
 // @index-end

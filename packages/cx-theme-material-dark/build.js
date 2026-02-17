@@ -28,11 +28,7 @@ async function build() {
             ["cx/ui", "cx/widgets"]
          ),
          buildSCSS(
-            [
-               themeSrc("variables.scss"),
-               resolvePath("../cx-build-tools/reset.scss"),
-               themeSrc("reset.scss")
-            ],
+            [themeSrc("reset.scss")],
             theme("dist/reset.css")
          ),
          buildSCSS(
@@ -40,8 +36,7 @@ async function build() {
                themeSrc("variables.scss"),
                cxSrc("variables.scss"),
                cxSrc("widgets/index.scss"),
-               cxSrc("ui/index.scss"),
-               themeSrc("widgets.scss")
+               cxSrc("ui/index.scss")
             ],
             theme("dist/widgets.css")
          ),

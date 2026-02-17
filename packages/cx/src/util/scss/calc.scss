@@ -1,45 +1,137 @@
+@use "sass:color";
 @use "sass:list";
 @use "sass:map";
 @use "sass:math";
+@use "sass:meta";
+@use "sass:string";
+
+// Check if a value is or contains a CSS variable (var(--...)) or calc expression
+@function cx-is-css-var($value) {
+   @if meta.type-of($value) == "string" {
+      @return string.index($value, "var(") != null or
+         string.index($value, "calc(") != null or
+         string.index($value, "color-mix(") != null;
+   }
+   // Also check for calc type returned by calc()
+   @if meta.type-of($value) == "calculation" {
+      @return true;
+   }
+   @return false;
+}
+
+// Lighten a color, supporting CSS variables
+// For CSS variables, outputs color-mix(in srgb, color, white amount)
+// For Sass colors, uses color.adjust (same as old lighten) at compile time
+@function cx-lighten($color, $amount) {
+   @if cx-is-css-var($color) or cx-is-css-var($amount) {
+      @return #{"color-mix(in srgb, " + $color + ", white " + $amount + ")"};
+   }
+   @return color.adjust($color, $lightness: $amount);
+}
+
+// Darken a color, supporting CSS variables
+// For CSS variables, outputs color-mix(in srgb, color, black amount)
+// For Sass colors, uses color.adjust (same as old darken) at compile time
+@function cx-darken($color, $amount) {
+   @if cx-is-css-var($color) or cx-is-css-var($amount) {
+      @return #{"color-mix(in srgb, " + $color + ", black " + $amount + ")"};
+   }
+   @return color.adjust($color, $lightness: -$amount);
+}
+
+// Multiply a value by a factor, supporting CSS variables
+// For CSS variables, outputs calc(var(...) * factor)
+// For numeric values, performs the multiplication at compile time
+@function cx-multiply($value, $factor) {
+   @if cx-is-css-var($value) or cx-is-css-var(($factor)) {
+      @return calc(#{$value} * #{$factor});
+   }
+   @return $value * $factor;
+}
+
+@function cx-divide($value, $factor) {
+   @if cx-is-css-var($value) or cx-is-css-var(($factor)) {
+      @return calc(#{$value} / #{$factor});
+   }
+   @return math.div($value, $factor);
+}
+
+// Round a value, supporting CSS variables
+// For CSS variables, outputs CSS round() function
+// For numeric values, performs the rounding at compile time
+@function cx-round($value) {
+   @if cx-is-css-var($value) {
+      @return round(#{$value});
+   }
+   @return math.round($value);
+}
 
 @function cx-calc($lengths...) {
    $units: ();
+   $css-vars: ();
 
    @each $l in $lengths {
-      $unit: math.unit($l);
-      @if (map.has-key($units, $unit)) {
-         $nl: map.get($units, $unit) + $l;
-         $units: map.merge($units, ($unit: $nl))
+      // Handle CSS variables separately
+      @if cx-is-css-var($l) {
+         $css-vars: list.append($css-vars, $l);
       } @else {
-         $units: map.merge($units, ($unit: $l))
+         $unit: math.unit($l);
+         @if (map.has-key($units, $unit)) {
+            $nl: map.get($units, $unit) + $l;
+            $units: map.merge(
+               $units,
+               (
+                  $unit: $nl,
+               )
+            );
+         } @else {
+            $units: map.merge(
+               $units,
+               (
+                  $unit: $l,
+               )
+            );
+         }
       }
    }
 
    $keys: map.keys($units);
-   @if (list.length($keys) == 1) {
+   $has-css-vars: list.length($css-vars) > 0;
+
+   // If only one unit type and no CSS vars, return directly
+   @if (list.length($keys) == 1 and not $has-css-vars) {
       @return map.get($units, list.nth($keys, 1));
    }
 
-   $calc: '';
+   $calc: "";
    $count: 0;
 
    @each $u, $v in $units {
       @if ($v != 0) {
          $count: $count + 1;
          @if ($count > 1) {
-            $calc: $calc + ' + ';
+            $calc: $calc + " + ";
          }
          $calc: $calc + $v;
       }
+   }
+
+   // Add CSS variables to the calc expression
+   @each $var in $css-vars {
+      $count: $count + 1;
+      @if ($count > 1) {
+         $calc: $calc + " + ";
+      }
+      $calc: $calc + $var;
    }
 
    @if ($count == 0) {
       @return 0;
    }
 
-   @if ($count == 1) {
+   @if ($count == 1 and not $has-css-vars) {
       @return #{$calc};
    }
 
-   @return #{'calc(' + $calc  + ')'};
+   @return #{"calc(" + $calc + ")"};
 }

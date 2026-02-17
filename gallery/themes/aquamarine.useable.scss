@@ -1,13 +1,12 @@
-$cx-include-global-rules: true;
+@use "sass:color";
+@use "cx-theme-aquamarine/src/index" as theme;
 
-@import "~cx-theme-aquamarine/src/variables";
-@import "./util/divide.scss";
+@use "./util/customize-master" as *;
 
-@import "~cx-theme-aquamarine/src/index";
-
-@import "./util/customize-master";
+// Using literal value from $cx-theme-primary-color
+$_primary-color: #49c7de;
 
 @include customize-master(
-   $brand-background: darken($cx-theme-primary-color, 10%),
-   $brand-highlight-color: darken($cx-theme-primary-color, 10%)
+   $brand-background: color.adjust($_primary-color, $lightness: -10%),
+   $brand-highlight-color: color.adjust($_primary-color, $lightness: -10%)
 );

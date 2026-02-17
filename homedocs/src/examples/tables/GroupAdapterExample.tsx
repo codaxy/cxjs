@@ -36,7 +36,7 @@ const contacts = [
 ];
 
 // @controller
-class PageController extends Controller<typeof m> {
+class PageController extends Controller {
   onInit() {
     this.store.set(
       m.records,
@@ -45,14 +45,14 @@ class PageController extends Controller<typeof m> {
         fullName: c.fullName,
         phone: `555-${String(1000 + i).padStart(4, "0")}`,
         city: c.city,
-      }))
+      })),
     );
   }
 }
 // @controller-end
 
 // @index
-export default () => (
+export default (
   <div controller={PageController}>
     <List
       records={m.records}
@@ -65,7 +65,10 @@ export default () => (
           count: { type: "count", value: 1 },
         },
         header: (
-          <div class="p-2 pt-4 pb-1 font-bold text-gray-500" text={m.$group.city} />
+          <div
+            class="p-2 pt-4 pb-1 font-bold text-gray-500"
+            text={m.$group.city}
+          />
         ),
         footer: (
           <div class="text-sm text-gray-500 p-2 border-t border-gray-300">

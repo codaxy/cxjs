@@ -1,16 +1,20 @@
 ---
 layout: ../../../layouts/DocsLayout.astro
 title: Sandbox
+description: Isolate store changes for cancel/save workflows
 ---
 
 import CodeExample from "../../../components/CodeExample.astro";
 import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 import SandboxExample from "../../../examples/concepts/SandboxExample.tsx";
 import SandboxExampleCode from "../../../examples/concepts/SandboxExample.tsx?raw";
 
 # Sandbox
 
 <ImportPath path="import { Sandbox } from 'cx/widgets';" />
+
+<OnThisPage />
 
 Sandbox acts as a data multiplexer. It selects a value from a `storage` object based on a dynamic `key` and exposes it through a `recordAlias`. When the key changes, Sandbox automatically switches to the corresponding data in storage.
 

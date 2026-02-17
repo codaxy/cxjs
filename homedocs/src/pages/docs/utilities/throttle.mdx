@@ -1,0 +1,107 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: throttle
+description: Limit function call frequency
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+# throttle
+
+<ImportPath path="import { throttle } from 'cx/util';" />
+<OnThisPage />
+
+`throttle` limits function execution to at most once per specified interval. Unlike `debounce`, it executes the function during ongoing calls rather than waiting for them to stop.
+
+## Signature
+
+```ts
+function throttle<T extends (...args: any[]) => void>(
+  callback: T,
+  delay: number
+): T
+```
+
+## Parameters
+
+| Parameter  | Type       | Description                              |
+| ---------- | ---------- | ---------------------------------------- |
+| `callback` | `function` | The function to throttle.                |
+| `delay`    | `number`   | Minimum interval in milliseconds.        |
+
+## Return Value
+
+Returns a throttled function that executes at most once per delay interval.
+
+## Examples
+
+### Basic usage
+
+```ts
+const log = throttle((message: string) => {
+  console.log(message);
+}, 1000);
+
+// Called rapidly
+log("1"); // executes immediately
+log("2"); // ignored (within 1s)
+log("3"); // ignored (within 1s)
+// After 1 second, next call will execute
+log("4"); // executes
+```
+
+### Scroll handler
+
+```ts
+const handleScroll = throttle(() => {
+  const scrollY = window.scrollY;
+  updateHeader(scrollY);
+}, 100);
+
+window.addEventListener("scroll", handleScroll);
+```
+
+### Mouse move handler
+
+```ts
+const handleMouseMove = throttle((e: MouseEvent) => {
+  updateTooltipPosition(e.clientX, e.clientY);
+}, 50);
+
+element.addEventListener("mousemove", handleMouseMove);
+```
+
+### Resize handler
+
+```ts
+const handleResize = throttle(() => {
+  recalculateLayout();
+}, 200);
+
+window.addEventListener("resize", handleResize);
+```
+
+## debounce vs throttle
+
+| Scenario                    | Recommended |
+| --------------------------- | ----------- |
+| Search as user types        | `debounce`  |
+| Window resize               | Either      |
+| Scroll position tracking    | `throttle`  |
+| Button click (prevent double) | `debounce` |
+| Mouse move tracking         | `throttle`  |
+| Form auto-save              | `debounce`  |
+
+### Visual comparison
+
+```
+Time:     0   100   200   300   400   500ms
+Calls:    X X X X X X X X X X X X
+Debounce:                         X (after calls stop)
+Throttle: X         X         X     (periodic execution)
+```
+
+## See Also
+
+- [debounce](/docs/utilities/debounce) - Delay until calls stop

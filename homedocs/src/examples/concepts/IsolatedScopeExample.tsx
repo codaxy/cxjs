@@ -16,7 +16,7 @@ export const model = {
 // @model-end
 
 // @index
-export default () => (
+export default (
   <div className="flex gap-4">
     <IsolatedScope bind={m.scope1}>
       <div className="p-4 bg-gray-100 rounded">

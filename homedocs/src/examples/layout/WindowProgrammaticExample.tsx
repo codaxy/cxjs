@@ -2,10 +2,10 @@ import { Store } from "cx/data";
 import { Button, Widget, Window } from "cx/widgets";
 
 // @index
-export default () => (
+export default (
   <Button
-    onClick={() => {
-      let window = Widget.create(
+    onClick={(e) => {
+      let window: Window = Widget.create(
         <Window title="Programmatic Window" center modal>
           <div>
             <p>This window was opened programmatically.</p>
@@ -18,7 +18,7 @@ export default () => (
           </div>
         </Window>,
       );
-      window.open(new Store());
+      window.open(new Store(), { initiatingEvent: e });
     }}
   >
     Open Programmatic Window

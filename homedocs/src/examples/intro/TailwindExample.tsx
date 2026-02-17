@@ -10,7 +10,7 @@ const m = createModel<PageModel>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <div class="flex gap-4 p-4">
     <TextField value={m.name} placeholder="Your name" class="flex-1" />
     <Button text="Submit" />

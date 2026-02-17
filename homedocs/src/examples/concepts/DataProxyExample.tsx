@@ -17,7 +17,7 @@ const mProxy = createModel<ProxyModel>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <div>
     <div class="text-sm font-medium leading-none mb-2">Original</div>
     <Slider value={m.level} />

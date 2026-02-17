@@ -24,6 +24,7 @@ export interface ControllerMethods {
    instance: Instance;
    widget?: Widget;
    invokeParentMethod(method: string, ...args: any[]): any;
+   getParentControllerByType<T extends Controller>(type: new (...args: any[]) => T): T;
    addTrigger<Selectors extends readonly ComputableSelector[]>(
       name: string,
       args: [...Selectors],
@@ -167,6 +168,10 @@ export class Controller<D = any> extends Component implements ControllerMethods 
 
    invokeMethod(methodName: string, ...args: any[]): any {
       return this.instance.invokeControllerMethod(methodName, ...args);
+   }
+
+   getParentControllerByType<T extends Controller>(type: new (...args: any[]) => T): T {
+      return this.instance.getControllerByType(type);
    }
 }
 

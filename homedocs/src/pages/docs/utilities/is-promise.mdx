@@ -1,0 +1,180 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: isPromise
+description: Check if value is promise
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+# isPromise
+
+<ImportPath path="import { isPromise } from 'cx/util';" />
+<OnThisPage />
+
+The `isPromise` type guard checks if a value is a Promise or any object with a `then` method (thenable).
+
+## Basic Usage
+
+```tsx
+import { isPromise } from "cx/util";
+
+isPromise(Promise.resolve(42)); // true
+isPromise(new Promise(() => {})); // true
+isPromise(fetch("/api")); // true
+isPromise({ then: () => {} }); // true (thenable)
+isPromise(async () => {}); // false (async function, not Promise)
+isPromise(() => {}); // false
+isPromise(42); // false
+isPromise(null); // false
+isPromise(undefined); // false
+```
+
+## How It Works
+
+The function checks if the value is an object with a `then` method.
+
+```tsx
+import { isFunction } from "./isFunction";
+import { isObject } from "./isObject";
+
+export function isPromise(x: unknown): x is Promise<any> {
+  return isObject(x) && isFunction((x as any)["then"]);
+}
+```
+
+## Type Narrowing
+
+The function is a TypeScript type guard that narrows the type to `Promise<any>`.
+
+```tsx
+import { isPromise } from "cx/util";
+
+async function handleResult<T>(result: T | Promise<T>): Promise<T> {
+  if (isPromise(result)) {
+    // result is typed as Promise<any> here
+    return await result;
+  }
+  return result;
+}
+```
+
+## Common Use Cases
+
+### Async Value Resolution
+
+```tsx
+import { isPromise } from "cx/util";
+
+type MaybeAsync<T> = T | Promise<T>;
+
+async function resolveValue<T>(value: MaybeAsync<T>): Promise<T> {
+  return isPromise(value) ? await value : value;
+}
+
+// Usage
+const syncResult = await resolveValue(42);
+const asyncResult = await resolveValue(Promise.resolve(42));
+```
+
+### Callback Normalization
+
+```tsx
+import { isPromise } from "cx/util";
+
+type Callback<T> = () => T | Promise<T>;
+
+async function executeCallback<T>(callback: Callback<T>): Promise<T> {
+  const result = callback();
+  return isPromise(result) ? await result : result;
+}
+```
+
+### Error Handling
+
+```tsx
+import { isPromise } from "cx/util";
+
+function safeExecute<T>(fn: () => T | Promise<T>): Promise<T> {
+  try {
+    const result = fn();
+    if (isPromise(result)) {
+      return result.catch((error) => {
+        console.error("Async error:", error);
+        throw error;
+      });
+    }
+    return Promise.resolve(result);
+  } catch (error) {
+    console.error("Sync error:", error);
+    return Promise.reject(error);
+  }
+}
+```
+
+### Memoization with Async Support
+
+```tsx
+import { isPromise } from "cx/util";
+
+function memoize<T>(fn: () => T | Promise<T>): () => Promise<T> {
+  let cached: T | undefined;
+  let pending: Promise<T> | undefined;
+
+  return () => {
+    if (cached !== undefined) {
+      return Promise.resolve(cached);
+    }
+    if (pending) {
+      return pending;
+    }
+
+    const result = fn();
+    if (isPromise(result)) {
+      pending = result.then((value) => {
+        cached = value;
+        pending = undefined;
+        return value;
+      });
+      return pending;
+    }
+
+    cached = result;
+    return Promise.resolve(result);
+  };
+}
+```
+
+### Middleware Pattern
+
+```tsx
+import { isPromise } from "cx/util";
+
+type Middleware<T> = (value: T) => T | Promise<T>;
+
+async function applyMiddleware<T>(
+  value: T,
+  middlewares: Middleware<T>[]
+): Promise<T> {
+  let result = value;
+
+  for (const middleware of middlewares) {
+    const next = middleware(result);
+    result = isPromise(next) ? await next : next;
+  }
+
+  return result;
+}
+```
+
+## API
+
+```tsx
+function isPromise(x: unknown): x is Promise<any>;
+```
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| x | `unknown` | The value to check |
+
+**Returns:** `true` if the value is a Promise or thenable (object with a `then` method).

@@ -38,7 +38,7 @@ class PageController extends Controller {
 // @controller-end
 
 // @index
-export default () => (
+export default (
   <div class="flex flex-col gap-4" controller={PageController}>
     <div class="text-sm text-gray-600">
       Click outside the checkboxes and press the shortcuts:

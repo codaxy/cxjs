@@ -65,7 +65,7 @@ export interface LookupFieldPagedQueryParams {
 }
 
 /** Common LookupField properties shared across all variants */
-interface LookupFieldBaseConfig<TOption = unknown> extends FieldConfig {
+interface LookupFieldBaseConfig<TOption = any> extends FieldConfig {
   /** The opposite of `disabled`. */
   enabled?: BooleanProp;
 
@@ -179,7 +179,7 @@ interface LookupFieldBaseConfig<TOption = unknown> extends FieldConfig {
     | ((
         value: number | string,
         instance: Instance,
-        validationParams: Record<string, unknown>
+        validationParams: Record<string, unknown>,
       ) => unknown);
 }
 
@@ -188,7 +188,7 @@ interface LookupFieldBaseConfig<TOption = unknown> extends FieldConfig {
 // =============================================================================
 
 /** Props for infinite mode: uses onQueryPage */
-interface LookupFieldInfiniteProps<TOption = unknown> {
+interface LookupFieldInfiniteProps<TOption = any> {
   /** Enable infinite scrolling. */
   infinite: true;
   /** Number of items per page. Default is `100`. */
@@ -198,28 +198,22 @@ interface LookupFieldInfiniteProps<TOption = unknown> {
     | string
     | ((
         params: LookupFieldPagedQueryParams,
-        instance: Instance
+        instance: Instance,
       ) => TOption[] | Promise<TOption[]>);
-  /** Not available in infinite mode. */
-  onQuery?: never;
 }
 
 /** Props for standard mode: uses onQuery */
-interface LookupFieldStandardProps<TOption = unknown> {
+interface LookupFieldStandardProps<TOption = any> {
   /** Standard mode (no infinite scrolling). */
   infinite?: false;
-  /** Not available in standard mode. */
-  pageSize?: never;
-  /** Query function for standard mode. */
+
   onQuery?:
     | string
     | ((query: string, instance: Instance) => TOption[] | Promise<TOption[]>);
-  /** Not available in standard mode. */
-  onQueryPage?: never;
 }
 
 /** Props for multiple selection mode */
-interface LookupFieldMultipleProps<TRecord = unknown> {
+interface LookupFieldMultipleProps<TRecord = any> {
   /** Enable multiple selection. */
   multiple: true;
   /** A list of selected ids. */
@@ -230,10 +224,6 @@ interface LookupFieldMultipleProps<TRecord = unknown> {
   onGetRecordDisplayText?:
     | ((record: TRecord, instance: Instance) => string)
     | null;
-  /** Not available in multiple mode. */
-  value?: never;
-  /** Not available in multiple mode. */
-  text?: never;
 }
 
 /** Props for single selection mode */
@@ -241,15 +231,9 @@ interface LookupFieldSingleProps {
   /** Single selection (default). */
   multiple?: false;
   /** Selected value. */
-  value?: Prop<number | string>;
+  value?: Prop<number | string | null>;
   /** Text associated with the selection. */
   text?: StringProp;
-  /** Not available in single mode. */
-  values?: never;
-  /** Not available in single mode. */
-  records?: never;
-  /** Not available in single mode. */
-  onGetRecordDisplayText?: never;
 }
 
 // =============================================================================
@@ -257,36 +241,46 @@ interface LookupFieldSingleProps {
 // =============================================================================
 
 type LookupFieldInfiniteMultipleConfig<
-  TOption = unknown,
-  TRecord = unknown,
+  TOption = any,
+  TRecord = any,
 > = LookupFieldBaseConfig<TOption> &
   LookupFieldInfiniteProps<TOption> &
   LookupFieldMultipleProps<TRecord>;
 
-type LookupFieldInfiniteSingleConfig<TOption = unknown> =
+type LookupFieldInfiniteSingleConfig<TOption = any> =
   LookupFieldBaseConfig<TOption> &
     LookupFieldInfiniteProps<TOption> &
     LookupFieldSingleProps;
 
 type LookupFieldStandardMultipleConfig<
-  TOption = unknown,
-  TRecord = unknown,
+  TOption = any,
+  TRecord = any,
 > = LookupFieldBaseConfig<TOption> &
   LookupFieldStandardProps<TOption> &
   LookupFieldMultipleProps<TRecord>;
 
-type LookupFieldStandardSingleConfig<TOption = unknown> =
+type LookupFieldStandardSingleConfig<TOption = any> =
   LookupFieldBaseConfig<TOption> &
     LookupFieldStandardProps<TOption> &
     LookupFieldSingleProps;
 
-export type LookupFieldConfig<TOption = unknown, TRecord = unknown> =
+export type LookupFieldConfig<TOption = any, TRecord = any> =
   | LookupFieldInfiniteMultipleConfig<TOption, TRecord>
   | LookupFieldInfiniteSingleConfig<TOption>
   | LookupFieldStandardMultipleConfig<TOption, TRecord>
   | LookupFieldStandardSingleConfig<TOption>;
 
-export class LookupField<TOption = unknown, TRecord = unknown> extends Field<
+export interface LookupFieldUniversalConfig<TOption = any, TRecord = any>
+  extends LookupFieldBaseConfig<TOption>,
+    Omit<Partial<LookupFieldSingleProps>, "multiple">,
+    Omit<Partial<LookupFieldMultipleProps<TRecord>>, "multiple">,
+    Omit<Partial<LookupFieldStandardProps<TOption>>, "infinite">,
+    Omit<Partial<LookupFieldInfiniteProps<TOption>>, "infinite"> {
+  multiple?: boolean;
+  infinite?: boolean;
+}
+
+export class LookupField<TOption = any, TRecord = any> extends Field<
   LookupFieldConfig<TOption, TRecord>
 > {
   declare public baseClass: string;
@@ -324,19 +318,19 @@ export class LookupField<TOption = unknown, TRecord = unknown> extends Field<
     | string
     | ((
         query: string,
-        instance: Instance
+        instance: Instance,
       ) => Promise<Record<string, any>[]> | Record<string, any>[]);
   declare public onQueryPage?:
     | string
     | ((
         params: LookupFieldPagedQueryParams,
-        instance: Instance
+        instance: Instance,
       ) => Promise<Record<string, any>[]> | Record<string, any>[]);
   declare public onCreateVisibleOptionsFilter?:
     | string
     | ((
         filterParams: unknown,
-        instance: Instance
+        instance: Instance,
       ) => (option: Record<string, any>) => boolean);
   declare public value?: BindingInput;
   declare public text?: BindingInput<string>;
@@ -370,7 +364,7 @@ export class LookupField<TOption = unknown, TRecord = unknown> extends Field<
         filterParams: { structured: true },
       },
       additionalAttributes,
-      ...args
+      ...args,
     );
   }
 
@@ -441,7 +435,7 @@ export class LookupField<TOption = unknown, TRecord = unknown> extends Field<
 
   prepareData(
     context: RenderingContext,
-    instance: FieldInstance<LookupField>
+    instance: FieldInstance<LookupField>,
   ): void {
     let { data, store } = instance;
 
@@ -457,7 +451,7 @@ export class LookupField<TOption = unknown, TRecord = unknown> extends Field<
       let filterPredicate = instance.invoke(
         "onCreateVisibleOptionsFilter",
         data.filterParams,
-        instance
+        instance,
       );
       data.visibleOptions = data.options.filter(filterPredicate);
     }
@@ -467,7 +461,7 @@ export class LookupField<TOption = unknown, TRecord = unknown> extends Field<
     if (this.multiple) {
       if (isArray(data.values) && isArray(data.options)) {
         data.selectedKeys = data.values.map((v) =>
-          this.keyBindings!.length == 1 ? [v] : v
+          this.keyBindings!.length == 1 ? [v] : v,
         );
         let map: Record<number, Record<string, any>> = {};
         data.options.filter(($option) => {
@@ -484,20 +478,22 @@ export class LookupField<TOption = unknown, TRecord = unknown> extends Field<
       } else if (isArray(data.records))
         data.selectedKeys.push(
           ...data.records.map(($value) =>
-            this.keyBindings!.map((b) => Binding.get(b.local).value({ $value }))
-          )
+            this.keyBindings!.map((b) =>
+              Binding.get(b.local).value({ $value }),
+            ),
+          ),
         );
     } else {
       let dataViewData = store.getData();
       data.selectedKeys.push(
-        this.keyBindings!.map((b) => Binding.get(b.local).value(dataViewData))
+        this.keyBindings!.map((b) => Binding.get(b.local).value(dataViewData)),
       );
       if (!this.text && isArray(data.options)) {
         let option = data.options.find(($option) =>
           areKeysEqual(
             getOptionKey(this.keyBindings!, { $option }),
-            data.selectedKeys[0]
-          )
+            data.selectedKeys[0],
+          ),
         );
         data.text = (option && (option as any)[this.optionTextField!]) || "";
       }
@@ -511,7 +507,7 @@ export class LookupField<TOption = unknown, TRecord = unknown> extends Field<
   renderInput(
     context: RenderingContext,
     instance: FieldInstance<LookupField>,
-    key: string
+    key: string,
   ): React.ReactNode {
     return (
       <LookupComponent
@@ -538,14 +534,14 @@ export class LookupField<TOption = unknown, TRecord = unknown> extends Field<
   filterOptions(
     instance: Instance,
     options: DataRecord[],
-    query?: string
+    query?: string,
   ): DataRecord[] {
     if (!query) return options;
     let textPredicate = getSearchQueryPredicate(query);
     return options.filter(
       (o) =>
         isString(o[this.optionTextField!]) &&
-        textPredicate((o as any)[this.optionTextField!] as string)
+        textPredicate((o as any)[this.optionTextField!] as string),
     );
   }
 
@@ -562,7 +558,7 @@ export class LookupField<TOption = unknown, TRecord = unknown> extends Field<
 
   formatValue(
     context: RenderingContext,
-    instance: Instance
+    instance: Instance,
   ): string | React.ReactNode {
     if (!this.multiple) return super.formatValue(context, instance);
 
@@ -575,7 +571,7 @@ export class LookupField<TOption = unknown, TRecord = unknown> extends Field<
               (record as any)[this.valueTextField!] ||
               (record as any)[this.valueIdField!];
       return records.map((record) =>
-        valueTextFormatter(record as any, instance)
+        valueTextFormatter(record as any, instance),
       );
     }
 
@@ -584,7 +580,7 @@ export class LookupField<TOption = unknown, TRecord = unknown> extends Field<
         return values
           .map((id) => {
             let option = options.find(
-              (o) => (o as any)[this.optionIdField!] == id
+              (o) => (o as any)[this.optionIdField!] == id,
             );
             return option ? (option as any)[this.valueTextField!] : id;
           })
@@ -645,7 +641,7 @@ interface BindingConfig {
 
 function getOptionKey(
   bindings: BindingConfig[],
-  data: Record<string, any>
+  data: Record<string, any>,
 ): unknown[] {
   return bindings
     .filter((a) => a.key)
@@ -662,7 +658,7 @@ function areKeysEqual(key1: unknown[], key2: unknown[]): boolean {
 
 function convertOption(
   bindings: BindingConfig[],
-  data: Record<string, any>
+  data: Record<string, any>,
 ): Record<string, any> {
   let result: Record<string, any> = { $value: {} };
   bindings.forEach((b) => {
@@ -685,7 +681,7 @@ class SelectionDelegate extends Selection {
   }
 
   getIsSelectedDelegate(
-    store: unknown
+    store: unknown,
   ): (record: Record<string, any>, index: number) => boolean {
     return (record: Record<string, any>, index: number) =>
       this.delegate(record, index);
@@ -810,7 +806,7 @@ class LookupComponent extends VDOM.Component<
         type: SelectionDelegate,
         delegate: (data: any) =>
           this.props.instance.data.selectedKeys.find((x: any) =>
-            areKeysEqual(x, this.getOptionKey({ $option: data }))
+            areKeysEqual(x, this.getOptionKey({ $option: data })),
           ) != null,
       },
       children: this.props.itemConfig,
@@ -1071,30 +1067,34 @@ class LookupComponent extends VDOM.Component<
           widget.onGetRecordDisplayText ??
           ((record: Record<string, any>) =>
             record[widget.valueTextField] as string);
-        text = data.records.map((v, i) => (
-          <div
-            key={i}
-            className={CSS.element(baseClass, "tag", {
-              readonly: readOnly,
-            })}
-          >
-            <span className={CSS.element(baseClass, "tag-value")}>
-              {valueTextFormatter(v, instance)}
-            </span>
-            {!readOnly && (
+        text = (
+          <div className={CSS.element(baseClass, "tags")}>
+            {data.records.map((v, i) => (
               <div
-                className={CSS.element(baseClass, "tag-clear")}
-                onMouseDown={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                }}
-                onClick={(e) => this.onClearClick(e, v)}
+                key={i}
+                className={CSS.element(baseClass, "tag", {
+                  readonly: readOnly,
+                })}
               >
-                <ClearIcon className={CSS.element(baseClass, "icon")} />
+                <span className={CSS.element(baseClass, "tag-value")}>
+                  {valueTextFormatter(v, instance)}
+                </span>
+                {!readOnly && (
+                  <div
+                    className={CSS.element(baseClass, "tag-clear")}
+                    onMouseDown={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                    }}
+                    onClick={(e) => this.onClearClick(e, v)}
+                  >
+                    <ClearIcon className={CSS.element(baseClass, "icon")} />
+                  </div>
+                )}
               </div>
-            )}
+            ))}
           </div>
-        ));
+        );
       } else {
         text = this.getPlaceholder(data.placeholder);
       }
@@ -1126,7 +1126,7 @@ class LookupComponent extends VDOM.Component<
           id={data.id}
           className={CSS.expand(
             CSS.element(widget.baseClass, "input"),
-            data.inputClass
+            data.inputClass,
           )}
           style={data.inputStyle}
           tabIndex={data.disabled ? null : data.tabIndex || 0}
@@ -1175,7 +1175,7 @@ class LookupComponent extends VDOM.Component<
 
   onItemClick(
     e: React.KeyboardEvent | React.MouseEvent,
-    { store }: { store: { getData: () => Record<string, any> } }
+    { store }: { store: { getData: () => Record<string, any> } },
   ): void {
     this.select(e, [store.getData()]);
     if (!this.props.instance.widget.submitOnEnterKey || e.type != "keydown")
@@ -1185,7 +1185,7 @@ class LookupComponent extends VDOM.Component<
 
   onClearClick(
     e: React.MouseEvent | React.KeyboardEvent,
-    value?: Record<string, any>
+    value?: Record<string, any>,
   ): void {
     let { instance } = this.props;
     let { data, store, widget } = instance;
@@ -1196,7 +1196,7 @@ class LookupComponent extends VDOM.Component<
       if (isArray(data.records)) {
         let itemKey = this.getLocalKey({ $value: value });
         let newRecords = data.records.filter(
-          (v) => !areKeysEqual(this.getLocalKey({ $value: v }), itemKey)
+          (v) => !areKeysEqual(this.getLocalKey({ $value: v }), itemKey),
         );
 
         instance.set("records", newRecords);
@@ -1225,7 +1225,7 @@ class LookupComponent extends VDOM.Component<
   select(
     e: React.KeyboardEvent | React.MouseEvent,
     itemsData: Record<string, any>[],
-    reset?: boolean
+    reset?: boolean,
   ): void {
     let { instance } = this.props;
     let { store, data, widget } = instance;
@@ -1245,7 +1245,8 @@ class LookupComponent extends VDOM.Component<
         selectedKeys.find((k: any) => areKeysEqual(optionKey!, k))
       ) {
         newRecords = records.filter(
-          (v: any) => !areKeysEqual(optionKey!, this.getLocalKey({ $value: v }))
+          (v: any) =>
+            !areKeysEqual(optionKey!, this.getLocalKey({ $value: v })),
         );
       } else {
         itemsData.forEach((itemData) => {
@@ -1255,7 +1256,7 @@ class LookupComponent extends VDOM.Component<
           bindings!.forEach((b) => {
             valueData = Binding.get(b.local).set(
               valueData,
-              Binding.get(b.remote).value(itemData)
+              Binding.get(b.remote).value(itemData),
             );
           });
           newRecords.push(valueData.$value as Record<string, any>);
@@ -1403,7 +1404,7 @@ class LookupComponent extends VDOM.Component<
 
   toggleDropdown(
     e: React.KeyboardEvent | React.MouseEvent,
-    keepFocus?: boolean
+    keepFocus?: boolean,
   ): void {
     if (this.state.dropdownOpen) this.closeDropdown(e, keepFocus);
     else this.openDropdown(e);
@@ -1411,14 +1412,14 @@ class LookupComponent extends VDOM.Component<
 
   closeDropdown(
     e?: React.KeyboardEvent | React.MouseEvent | null,
-    keepFocus?: boolean
+    keepFocus?: boolean,
   ): void {
     if (this.state.dropdownOpen) {
       this.setState(
         {
           dropdownOpen: false,
         },
-        () => keepFocus && this.dom.input?.focus()
+        () => keepFocus && this.dom.input?.focus(),
       );
 
       this.props.instance.setState({
@@ -1441,7 +1442,7 @@ class LookupComponent extends VDOM.Component<
         },
         () => {
           if (this.dom.dropdown) this.dom.dropdown.focus();
-        }
+        },
       );
     }
   }
@@ -1469,7 +1470,7 @@ class LookupComponent extends VDOM.Component<
         status: "info",
         message: StringTemplate.format(
           widget.minQueryLengthMessageText,
-          widget.minQueryLength
+          widget.minQueryLength,
         ),
       });
       return;
@@ -1479,7 +1480,7 @@ class LookupComponent extends VDOM.Component<
       let results = widget.filterOptions(
         this.props.instance,
         data.visibleOptions as DataRecord[],
-        q
+        q,
       );
       this.setState({
         options: results,
@@ -1529,7 +1530,7 @@ class LookupComponent extends VDOM.Component<
               results = widget.filterOptions(
                 this.props.instance,
                 results,
-                this.lastQuery
+                this.lastQuery,
               );
             }
 
@@ -1542,7 +1543,7 @@ class LookupComponent extends VDOM.Component<
               },
               () => {
                 if (widget.infinite) this.onListScroll();
-              }
+              },
             );
           })
           .catch((err) => {
@@ -1596,7 +1597,7 @@ class LookupComponent extends VDOM.Component<
           },
           () => {
             this.onListScroll();
-          }
+          },
         );
       })
       .catch((err) => {
@@ -1612,7 +1613,7 @@ class LookupComponent extends VDOM.Component<
     if (this.dom.input) {
       tooltipParentWillReceiveProps(
         this.dom.input,
-        ...getFieldTooltip(props.instance)
+        ...getFieldTooltip(props.instance),
       );
     }
   }
@@ -1621,7 +1622,7 @@ class LookupComponent extends VDOM.Component<
     if (this.dom.input) {
       tooltipParentDidMount(
         this.dom.input,
-        ...getFieldTooltip(this.props.instance)
+        ...getFieldTooltip(this.props.instance),
       );
       autoFocus(this.dom.input, this);
     }
@@ -1651,7 +1652,7 @@ class LookupComponent extends VDOM.Component<
         (e) => this.onListWheel(e as WheelEvent),
         {
           passive: false,
-        }
+        },
       );
     }
   }
@@ -1668,7 +1669,7 @@ class LookupComponent extends VDOM.Component<
         () => this.onListScroll(),
         {
           passive: false,
-        }
+        },
       );
     }
   }

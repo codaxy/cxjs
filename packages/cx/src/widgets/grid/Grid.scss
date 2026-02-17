@@ -1,4 +1,13 @@
+@use "sass:math";
 @use "sass:map";
+@use "../variables" as *;
+@use "../maps" as *;
+@use "../../util/scss/add-rules.scss" as *;
+@use "../../util/scss/clockwise.scss" as *;
+@use "../../util/scss/deep-merge.scss" as *;
+@use "../../util/scss/calc.scss" as *;
+@use "../../util/scss/besm.scss" as *;
+@use "../../util/scss/include.scss" as *;
 
 @mixin cx-grid(
    $name: "grid",
@@ -31,6 +40,7 @@
          border-collapse: collapse;
          width: 100%;
          position: relative;
+         font-size: inherit;
       }
 
       .#{$state}aligned-left {
@@ -53,6 +63,7 @@
 
          &.#{$state}border {
             border: 1px solid $cx-default-grid-border-color;
+            background: $cx-default-grid-background;
 
             table {
                border: none;
@@ -92,6 +103,7 @@
                vertical-align: top;
                min-width: 100%;
                min-height: 100%;
+               padding-top: $cx-default-grid-scroll-wrapper-padding-top;
             }
          }
       }
@@ -112,6 +124,8 @@
       }
 
       &.#{$state}border {
+         background: $cx-default-grid-background;
+
          table {
             border: 1px solid $cx-default-grid-border-color;
          }
@@ -330,7 +344,7 @@
       width: $icon-size;
       height: $icon-size;
       top: 50%;
-      margin-top: -$icon-size * 0.5;
+      margin-top: cx-multiply($icon-size, -0.5);
       position: absolute;
       transition: transform 0.1s linear;
 
@@ -476,7 +490,6 @@
 
    .#{$element}#{$name}-group-caption {
       font-weight: bold;
-      font-size: 115%;
 
       td {
          padding: cx-get-state-rule($data-state-style-map, default, padding);
@@ -597,6 +610,10 @@
       border-color: $cx-default-grid-border-color;
       border-right-style: solid;
       border-right-width: 1px;
+
+      & > .#{$element}#{$name}-fixed-table-wrapper {
+         padding-top: $cx-default-grid-scroll-wrapper-padding-top;
+      }
 
       &.#{$state}fixed-footer
          > .#{$element}#{$name}-fixed-table-wrapper

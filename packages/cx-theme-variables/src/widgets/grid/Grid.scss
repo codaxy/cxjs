@@ -1,0 +1,93 @@
+@use "sass:map";
+@use "../../variables.scss" as *;
+@use "cx/src/widgets/lists" as *;
+@use "cx/src/widgets/grid/maps" as *;
+@use "cx/src/util/scss/deep-merge" as *;
+
+// =============================================================================
+// GRID - Map Overrides
+// =============================================================================
+
+// Grid header
+$cx-grid-header-state-style-map: cx-deep-map-merge(
+   $cx-grid-header-state-style-map,
+   (
+      default: (
+         background-color: var(--cx-grid-header-background-color),
+      ),
+      hover: (
+         background-color: color-mix(
+               in srgb,
+               var(--cx-grid-header-background-color),
+               var(--cx-button-hover-state-mix-color)
+                  var(--cx-button-hover-state-mix-amount)
+            ),
+      ),
+      sorted: (),
+      sorted-hover: (
+         background-color: color-mix(
+               in srgb,
+               var(--cx-grid-header-background-color),
+               var(--cx-button-hover-state-mix-color)
+                  var(--cx-button-hover-state-mix-amount)
+            ),
+      ),
+   )
+);
+
+// Grid cell cursor (cell editing)
+$cx-grid-cell-cursor-style: map.merge(
+   $cx-grid-cell-cursor-style,
+   (
+      left: 0,
+      background: transparent,
+      border: none,
+      box-shadow: var(--cx-cursor-box-shadow),
+      border-radius: var(--cx-cursor-border-radius),
+   )
+);
+
+// Grid data rows
+$cx-grid-data-state-style-map: cx-deep-map-merge(
+   $cx-grid-data-state-style-map,
+   (
+      hover: (
+         background-color: color-mix(
+               in srgb,
+               var(--cx-button-active-state-mix-color) 4%,
+               transparent
+            ),
+      ),
+      cursor: (
+         background-color: transparent,
+         box-shadow: var(--cx-cursor-box-shadow),
+         border-radius: var(--cx-cursor-border-radius),
+         position: relative,
+      ),
+      selected: (
+         background-color: var(--cx-theme-accent-color),
+         color: var(--cx-theme-accent-text-color),
+      ),
+      selected-hover: (
+         background-color: color-mix(
+               in srgb,
+               var(--cx-theme-accent-color),
+               var(--cx-button-active-state-mix-color)
+                  var(--cx-button-hover-state-mix-amount)
+            ),
+         color: var(--cx-theme-accent-text-color),
+      ),
+      selected-cursor: (
+         background-color: var(--cx-theme-accent-color),
+         color: var(--cx-theme-accent-text-color),
+         box-shadow: var(--cx-cursor-box-shadow),
+         position: relative,
+      ),
+      alternate: (
+         background-color: var(--cx-grid-data-alternate-background-color),
+      ),
+      disabled: (
+         background-color: transparent,
+      ),
+   )
+);

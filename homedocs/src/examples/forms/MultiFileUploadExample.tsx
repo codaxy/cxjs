@@ -83,7 +83,7 @@ function uploadFilesWithProgress(
 }
 
 // @controller
-class PageController extends Controller<typeof m> {
+class PageController extends Controller {
   onUploadStarting(xhr: XMLHttpRequest, instance: any, file: File) {
     const invalidSize = file.size > 1e6;
     const invalidType = !file.type.startsWith("image/");
@@ -136,7 +136,7 @@ class PageController extends Controller<typeof m> {
 // @controller-end
 
 // @index
-export default () => (
+export default (
   <div controller={PageController}>
     <ValidationGroup invalid={m.form.invalid} errors={m.form.errors}>
       <Validator

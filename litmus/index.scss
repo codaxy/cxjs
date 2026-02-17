@@ -1,14 +1,9 @@
-@use 'sass:math';
+@use "cx/src/index.scss";
 
-@import "../packages/cx/src/variables";
-
-@function cx-divide($a, $b) {
-   @return math.div($a, $b);
-}
-
-//@import "manifest";
-
-@import "../packages/cx/src/index";
+@use "features/drag-drop/trello/index" as *;
+@use "features/wheel/index" as *;
+@use "features/hscroll/index" as *;
+@use "features/logo/index" as *;
 
 html {
    height: 100%;
@@ -38,8 +33,3 @@ section {
       margin: 10px 0 20px 0;
    }
 }
-
-@import "features/drag-drop/trello/index";
-@import "features/wheel/index";
-@import "features/hscroll/index";
-@import "features/logo/index";

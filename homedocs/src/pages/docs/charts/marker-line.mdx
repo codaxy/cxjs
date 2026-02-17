@@ -1,0 +1,39 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: MarkerLine
+description: Vertical or horizontal reference line
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import MarkerLineExample from "../../../examples/charts/MarkerLineExample.tsx";
+import MarkerLineExampleCode from "../../../examples/charts/MarkerLineExample.tsx?raw";
+
+# MarkerLine
+
+<ImportPath path="import { MarkerLine } from 'cx/charts';" />
+
+`MarkerLine` draws horizontal or vertical lines to highlight important values such as minimum, maximum, thresholds, or averages. Child elements (like `Text`) can be placed inside to add labels.
+
+<CodeExample code={MarkerLineExampleCode}>
+  <MarkerLineExample client:load />
+</CodeExample>
+
+> Note how `deadZone` is used on the vertical axis to reserve space for min/max labels.
+
+## Configuration
+
+| Property       | Type      | Default    | Description                                       |
+| -------------- | --------- | ---------- | ------------------------------------------------- |
+| `x`            | `number`  |            | Draw a vertical line at this x value.             |
+| `y`            | `number`  |            | Draw a horizontal line at this y value.           |
+| `colorIndex`   | `number`  |            | Color palette index.                              |
+| `colorMap`     | `string`  |            | Name of the color map to use.                     |
+| `colorName`    | `string`  |            | Name for color map lookup.                        |
+| `name`         | `string`  |            | Name for legend.                                  |
+| `legend`       | `string`  | `"legend"` | Legend name to show in.                           |
+| `active`       | `boolean` | `true`     | Whether the line is active (visible).             |
+| `affectsAxes`  | `boolean` | `true`     | Whether line position affects axis range.         |
+| `lineStyle`    | `string`  |            | CSS style string for the line.                    |
+| `class`        | `string`  |            | CSS class for the line element.                   |

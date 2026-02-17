@@ -1,21 +1,22 @@
+@use "../variables" as *;
 
 @mixin cxb-axis() {
    shape-rendering: crispEdges;
 }
 
 @mixin cxe-axis-ticks() {
-   stroke: $cx-axis-ticks-stroke;
+   stroke: $cx-default-chart-axis-tick-color;
    stroke-width: 1px;
 }
 
 @mixin cxe-axis-line() {
-   stroke: $cx-axis-line-stroke;
+   stroke: $cx-default-chart-axis-line-color;
    stroke-width: 1px;
 }
 
 @mixin cxe-axis-label() {
-   font-size: smaller;
-   fill: currentColor;
+   font-size: $cx-default-chart-axis-label-font-size;
+   fill: $cx-default-chart-axis-label-color;
 }
 
 @mixin cxe-axis-label-offset() {

@@ -22,13 +22,42 @@ interface Model {
 const m = createModel<Model>();
 // @model-end
 
-const browsers = ["Chrome", "Firefox", "Internet Explorer", "Opera", "Safari", "Edge"];
+const browsers = [
+  "Chrome",
+  "Firefox",
+  "Internet Explorer",
+  "Opera",
+  "Safari",
+  "Edge",
+];
 const operatingSystems = ["Windows", "Mac OS", "Ubuntu", "Android", "iOS"];
-const firstNames = ["Alice", "Bob", "Charlie", "Diana", "Edward", "Fiona", "George", "Hannah", "Ivan", "Julia"];
-const lastNames = ["Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Wilson", "Taylor"];
+const firstNames = [
+  "Alice",
+  "Bob",
+  "Charlie",
+  "Diana",
+  "Edward",
+  "Fiona",
+  "George",
+  "Hannah",
+  "Ivan",
+  "Julia",
+];
+const lastNames = [
+  "Smith",
+  "Johnson",
+  "Williams",
+  "Brown",
+  "Jones",
+  "Garcia",
+  "Miller",
+  "Davis",
+  "Wilson",
+  "Taylor",
+];
 
 // @controller
-class PageController extends Controller<typeof m> {
+class PageController extends Controller {
   onInit() {
     this.store.set(
       m.userOptions,
@@ -44,8 +73,11 @@ class PageController extends Controller<typeof m> {
 // @controller-end
 
 // @index
-export default () => (
-  <div layout={{ type: LabelsTopLayout, vertical: true }} controller={PageController}>
+export default (
+  <div
+    layout={{ type: LabelsTopLayout, vertical: true }}
+    controller={PageController}
+  >
     <LookupField
       label="User"
       value={m.user}
@@ -69,7 +101,12 @@ export default () => (
                 direction: "ASC",
               },
             },
-            header: <div text={m.$group.browser} class="text-xs uppercase font-semibold text-gray-500 py-2 pl-6" />,
+            header: (
+              <div
+                text={m.$group.browser}
+                class="text-xs uppercase font-semibold text-gray-500 py-2 pl-6"
+              />
+            ),
           },
         ],
         itemStyle: "padding-left: 40px;",

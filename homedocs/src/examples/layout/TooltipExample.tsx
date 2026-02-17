@@ -13,8 +13,8 @@ const m = createModel<PageModel>();
 // @model-end
 
 // @index
-export default () => (
-  <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+export default (
+  <div class="flex flex-col gap-6 items-start">
     <div tooltip="This is a basic tooltip." style={{ cursor: "help" }}>
       Basic tooltip
     </div>

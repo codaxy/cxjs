@@ -1,0 +1,231 @@
+// Import pagefind default UI CSS first, then override below
+@import "@pagefind/default-ui/css/ui.css";
+
+// ========================================
+// Pagefind Search Styles (Overrides)
+// ========================================
+.pagefind-ui {
+  --pagefind-ui-scale: 0.85;
+  --pagefind-ui-primary: hsl(var(--primary));
+  --pagefind-ui-text: hsl(var(--foreground));
+  --pagefind-ui-background: hsl(var(--secondary));
+  --pagefind-ui-border: hsl(var(--border));
+  --pagefind-ui-tag: hsl(var(--muted));
+  --pagefind-ui-border-width: 1px;
+  --pagefind-ui-border-radius: 0.375rem;
+  --pagefind-ui-font: "Inter", system-ui, sans-serif;
+  position: relative;
+}
+
+.pagefind-ui .pagefind-ui__form {
+  position: relative;
+}
+
+.pagefind-ui .pagefind-ui__results-area {
+  margin-top: 0 !important;
+}
+
+.pagefind-ui .pagefind-ui__search-input {
+  width: 220px;
+  height: 36px;
+  padding: 0 60px 0 36px !important;
+  font-size: 14px;
+  background: hsl(var(--secondary)) !important;
+  border: 1px solid hsl(var(--border)) !important;
+  border-radius: 6px !important;
+  color: hsl(var(--foreground)) !important;
+  font-weight: 400 !important;
+
+  &::placeholder {
+    color: hsl(var(--muted-foreground));
+  }
+
+  &:focus {
+    outline: none !important;
+    border-color: hsl(var(--primary)) !important;
+    box-shadow: 0 0 0 2px hsl(var(--primary) / 0.2) !important;
+  }
+}
+
+// Keyboard shortcut hint
+.search-kbd {
+  transition: opacity 0.15s ease;
+  line-height: 1;
+}
+
+// Search icon positioning
+.pagefind-ui .pagefind-ui__form::before {
+  content: "";
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cpath d='m21 21-4.3-4.3'%3E%3C/path%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  z-index: 1;
+  pointer-events: none;
+}
+
+// Hide default search icon
+.pagefind-ui .pagefind-ui__search-icon {
+  display: none !important;
+}
+
+.pagefind-ui .pagefind-ui__search-clear {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 8px;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  background: hsl(var(--muted-foreground) / 0.2);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 0;
+  color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &::before {
+    content: "×";
+    font-size: 14px;
+    color: hsl(var(--muted-foreground));
+    line-height: 1;
+  }
+
+  &:hover {
+    background: hsl(var(--muted-foreground) / 0.3);
+  }
+}
+
+// Results dropdown
+.pagefind-ui .pagefind-ui__drawer {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  left: auto;
+  width: 480px;
+  max-width: calc(100vw - 32px);
+  max-height: 60vh;
+  overflow-y: auto;
+  background: hsl(var(--background));
+  border: 1px solid hsl(var(--border));
+  border-radius: 8px;
+  box-shadow:
+    0 4px 24px -4px rgba(0, 0, 0, 0.15),
+    0 8px 32px -8px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+}
+
+.pagefind-ui .pagefind-ui__message {
+  padding: 16px;
+  text-align: center;
+  color: hsl(var(--muted-foreground));
+  font-size: 14px;
+}
+
+.pagefind-ui .pagefind-ui__result {
+  position: relative;
+  padding: 12px 16px !important;
+  transition: background 0.15s ease;
+  list-style: none !important;
+
+  &:hover {
+    background: hsl(var(--secondary));
+  }
+}
+
+.pagefind-ui__button {
+  margin: 16px !important;
+  width: calc(100% - 32px) !important;
+}
+
+// Make the entire result clickable by stretching the link
+.pagefind-ui .pagefind-ui__result-link::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.pagefind-ui .pagefind-ui__results {
+  padding: 0 !important;
+  gap: 2px;
+}
+
+.pagefind-ui .pagefind-ui__result-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0 !important;
+}
+
+.pagefind-ui .pagefind-ui__result-title {
+  margin: 0;
+}
+
+.pagefind-ui .pagefind-ui__result-link {
+  color: hsl(var(--foreground));
+  font-weight: 600;
+  font-size: 14px;
+  text-decoration: none !important;
+
+  &:hover {
+    color: hsl(var(--primary));
+  }
+}
+
+.pagefind-ui .pagefind-ui__result-excerpt {
+  color: hsl(var(--muted-foreground));
+  font-size: 12px;
+  line-height: 1.6;
+  margin: 4px 0 0 0;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  word-break: break-word;
+}
+
+.pagefind-ui .pagefind-ui__result-nested {
+  padding-left: 12px;
+  margin-top: 6px;
+  border-left: 2px solid hsl(var(--border));
+  font-size: 12px;
+}
+
+.pagefind-ui .pagefind-ui__result-thumb {
+  display: none;
+}
+
+.pagefind-ui mark {
+  background: hsl(var(--primary) / 0.2);
+  color: hsl(var(--foreground));
+  padding: 1px 3px;
+  border-radius: 3px;
+  font-weight: 500;
+}
+
+// Hide loading spinner text
+.pagefind-ui .pagefind-ui__loading {
+  padding: 16px;
+  text-align: center;
+  color: hsl(var(--muted-foreground));
+}
+
+// Dark mode
+.dark .pagefind-ui .pagefind-ui__form::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cpath d='m21 21-4.3-4.3'%3E%3C/path%3E%3C/svg%3E");
+}
+
+.dark .pagefind-ui .pagefind-ui__drawer {
+  box-shadow:
+    0 4px 24px -4px rgba(0, 0, 0, 0.4),
+    0 8px 32px -8px rgba(0, 0, 0, 0.3);
+}

@@ -1,0 +1,50 @@
+@use "../variables" as *;
+@use "./Field.maps.scss" as *;
+@use "../lists.scss" as *;
+@use "../../util/scss/deep-merge" as *;
+@use "../../util/scss/add-rules.scss" as *;
+
+// MONTHPICKER - container
+$cx-monthpicker-state-style-map: cx-deep-map-merge(
+   $cx-input-state-style-map,
+   (
+      default: (
+         width: $cx-default-monthpicker-width,
+         font-size: $cx-default-monthpicker-font-size,
+         background-color: $cx-default-monthpicker-background-color,
+         border-style: solid,
+         border-width: $cx-default-monthpicker-border-width,
+         border-color: $cx-default-monthpicker-border-color,
+         border-radius: $cx-default-monthpicker-border-radius,
+         padding: $cx-default-monthpicker-padding,
+      ),
+      hover: (),
+      focus: (
+         outline: none,
+      ),
+   )
+) !default;
+
+// MONTHPICKER - cell styles
+$cx-monthpicker-cell-state-style-map: cx-deep-map-merge(
+   $cx-list-item,
+   (
+      default: (
+         padding: $cx-default-monthpicker-cell-padding,
+         line-height: $cx-default-monthpicker-cell-line-height,
+      ),
+      quarter: (
+         color: $cx-default-monthpicker-quarter-color,
+      ),
+      outside: (
+         opacity: 0.5,
+      ),
+      year: (
+         font-size: $cx-default-monthpicker-year-font-size,
+         font-weight: $cx-default-monthpicker-year-font-weight,
+         color: $cx-default-monthpicker-year-color,
+      ),
+   )
+) !default;
+
+$cx-monthpicker-mods: () !default;

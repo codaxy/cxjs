@@ -23,14 +23,62 @@ const m = createModel<PageModel>();
 class PageController extends Controller {
   onInit() {
     this.store.set(m.records, [
-      { id: 1, fullName: "Alice Johnson", continent: "North America", browser: "Chrome", visits: 45 },
-      { id: 2, fullName: "Bob Smith", continent: "Europe", browser: "Firefox", visits: 32 },
-      { id: 3, fullName: "Carol White", continent: "Asia", browser: "Safari", visits: 28 },
-      { id: 4, fullName: "David Brown", continent: "Europe", browser: "Edge", visits: 51 },
-      { id: 5, fullName: "Eva Green", continent: "North America", browser: "Chrome", visits: 19 },
-      { id: 6, fullName: "Frank Wilson", continent: "Asia", browser: "Firefox", visits: 37 },
-      { id: 7, fullName: "Grace Lee", continent: "Europe", browser: "Chrome", visits: 42 },
-      { id: 8, fullName: "Henry Taylor", continent: "North America", browser: "Safari", visits: 25 },
+      {
+        id: 1,
+        fullName: "Alice Johnson",
+        continent: "North America",
+        browser: "Chrome",
+        visits: 45,
+      },
+      {
+        id: 2,
+        fullName: "Bob Smith",
+        continent: "Europe",
+        browser: "Firefox",
+        visits: 32,
+      },
+      {
+        id: 3,
+        fullName: "Carol White",
+        continent: "Asia",
+        browser: "Safari",
+        visits: 28,
+      },
+      {
+        id: 4,
+        fullName: "David Brown",
+        continent: "Europe",
+        browser: "Edge",
+        visits: 51,
+      },
+      {
+        id: 5,
+        fullName: "Eva Green",
+        continent: "North America",
+        browser: "Chrome",
+        visits: 19,
+      },
+      {
+        id: 6,
+        fullName: "Frank Wilson",
+        continent: "Asia",
+        browser: "Firefox",
+        visits: 37,
+      },
+      {
+        id: 7,
+        fullName: "Grace Lee",
+        continent: "Europe",
+        browser: "Chrome",
+        visits: 42,
+      },
+      {
+        id: 8,
+        fullName: "Henry Taylor",
+        continent: "North America",
+        browser: "Safari",
+        visits: 25,
+      },
     ]);
   }
 }
@@ -52,7 +100,7 @@ const browserOptions = [
 ];
 
 // @index
-export default () => (
+export default (
   <Grid
     controller={PageController}
     records={m.records}
@@ -73,19 +121,40 @@ export default () => (
         header: "Continent",
         field: "continent",
         editor: (
-          <LookupField value={m.$record.continent} options={continentOptions} required autoOpen submitOnEnterKey />
+          <LookupField
+            value={m.$record.continent}
+            options={continentOptions}
+            required
+            autoOpen
+            submitOnEnterKey
+          />
         ),
       },
       {
         header: "Browser",
         field: "browser",
-        editor: <LookupField value={m.$record.browser} options={browserOptions} required autoOpen submitOnEnterKey />,
+        editor: (
+          <LookupField
+            value={m.$record.browser}
+            options={browserOptions}
+            required
+            autoOpen
+            submitOnEnterKey
+          />
+        ),
       },
       {
         header: "Visits",
         field: "visits",
         align: "right",
-        editor: <NumberField value={m.$record.visits} required visited inputStyle="text-align: right" />,
+        editor: (
+          <NumberField
+            value={m.$record.visits}
+            required
+            visited
+            inputStyle="text-align: right"
+          />
+        ),
       },
     ]}
     recordAlias={m.$record}

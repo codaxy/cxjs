@@ -11,7 +11,7 @@ const m = createModel<Model>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <LabelsTopLayout columns={2}>
     <DateField label="Date" value={bind(m.datetime, "2024-06-15T14:30:00")} partial />
     <TimeField label="Time" value={m.datetime} partial />

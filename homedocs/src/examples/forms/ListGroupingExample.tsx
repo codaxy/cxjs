@@ -36,7 +36,7 @@ const contacts = [
 ];
 
 // @controller
-class PageController extends Controller<typeof m> {
+class PageController extends Controller {
   onInit() {
     this.store.set(
       m.records,
@@ -52,7 +52,7 @@ class PageController extends Controller<typeof m> {
 // @controller-end
 
 // @index
-export default () => (
+export default (
   <div controller={PageController}>
     <List
       records={m.records}
@@ -74,7 +74,7 @@ export default () => (
           />
         ),
         footer: (
-          <div class="text-sm text-gray-500 p-2 border-t border-gray-300">
+          <div class="text-sm text-gray-500 p-2 border-t border-gray-200">
             <span text={m.$group.count} /> contact(s)
           </div>
         ),

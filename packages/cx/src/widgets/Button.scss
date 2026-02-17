@@ -1,4 +1,12 @@
+@use "sass:math";
 @use "sass:map";
+@use "./variables" as *;
+@use "./maps" as *;
+@use "../util/scss/besm.scss" as *;
+@use "../util/scss/add-rules.scss" as *;
+@use "../util/scss/calc.scss" as *;
+@use "../util/scss/clockwise.scss" as *;
+@use "../util/scss/include.scss" as *;
 
 @mixin cx-button(
    $name: "button",
@@ -12,14 +20,25 @@
    $state: map.get($besm, state);
    $mod: map.get($besm, mod);
 
+   $line-height: cx-get-state-rule(
+      $state-style-map,
+      default,
+      "line-height",
+      1.2em
+   );
+
    .#{$block}#{$name} {
       position: relative;
       box-sizing: border-box;
       display: inline-block;
 
-      $line-height: cx-get-state-rule($state-style-map, default, "line-height", 1.2em);
       $padding: cx-get-state-rule($state-style-map, default, "padding", 0);
-      $border-width: cx-get-state-rule($state-style-map, default, "border-width", 1px);
+      $border-width: cx-get-state-rule(
+         $state-style-map,
+         default,
+         "border-width",
+         1px
+      );
 
       height: cx-calc(
          $line-height,
@@ -90,8 +109,8 @@
       display: inline-block;
       position: absolute;
       top: 50%;
-      left: cx-left($padding) * 0.5;
-      margin-top: -$icon-size * 0.5;
+      left: cx-divide(cx-left($padding), 2);
+      margin-top: cx-multiply($icon-size, -0.5);
       height: $icon-size;
       width: $icon-size;
       line-height: $icon-size;
@@ -100,16 +119,21 @@
 
    .#{$element}#{$name}-baseline {
       display: inline-block;
-      width: 1px;
-      margin-left: -1px;
+      min-width: $line-height;
    }
 
    .#{$block}#{$name}.#{$state}icon {
-      padding: cx-top($padding) cx-right($padding) cx-bottom($padding) cx-calc(cx-left($padding), $icon-size);
+      padding: cx-top($padding) cx-right($padding) cx-bottom($padding)
+         cx-calc(cx-left($padding), $icon-size);
 
       &.#{$state}empty {
-         padding: cx-top($padding) cx-right($padding) * 0.5 cx-bottom($padding)
-            cx-calc(cx-left($padding) * 0.5, $icon-size);
+         padding: cx-top($padding) cx-top($padding) cx-bottom($padding)
+            cx-top($padding);
+
+         .#{$element}#{$name}-icon {
+            left: 50%;
+            margin-left: cx-multiply($icon-size, -0.5);
+         }
       }
    }
 }

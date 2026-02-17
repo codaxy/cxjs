@@ -1,10 +1,12 @@
 ---
 layout: ../../../layouts/DocsLayout.astro
 title: Overlay
+description: Positioned overlay container
 ---
 
 import ImportPath from "../../../components/ImportPath.astro";
 import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 import OverlayContextualExample from "../../../examples/layout/OverlayContextualExample.tsx";
 import OverlayContextualExampleCode from "../../../examples/layout/OverlayContextualExample.tsx?raw";
@@ -15,6 +17,8 @@ import OverlayIndependentExampleCode from "../../../examples/layout/OverlayIndep
 # Overlay
 
 <ImportPath path="import { Overlay } from 'cx/widgets';" />
+
+<OnThisPage />
 
 Overlays are page elements displayed on top of the main UI. They include windows, message boxes, dropdowns, tooltips, etc. Overlays may be defined in the widget tree context or opened independently. In either case, overlays are appended inside the `body` element.
 

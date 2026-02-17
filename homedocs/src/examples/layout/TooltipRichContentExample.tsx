@@ -25,7 +25,7 @@ class PageController extends Controller<PageModel> {
 // @controller-end
 
 // @index
-export default () => (
+export default (
   <div controller={PageController} className="flex flex-col items-start gap-4">
     <div
       className="cursor-help"

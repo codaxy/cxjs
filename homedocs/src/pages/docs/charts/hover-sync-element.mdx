@@ -1,0 +1,36 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: HoverSyncElement
+description: Apply hover effects to arbitrary elements within HoverSync
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import HoverSyncElementExample from "../../../examples/charts/HoverSyncElementExample.tsx";
+import HoverSyncElementExampleCode from "../../../examples/charts/HoverSyncElementExample.tsx?raw";
+
+# HoverSyncElement
+
+<ImportPath path="import { HoverSyncElement } from 'cx/ui';" />
+
+`HoverSyncElement` is a container that participates in [HoverSync](./hover-sync) coordination. Use it to apply hover effects to custom elements like divs, cards, or SVG groups that don't have built-in hover sync support.
+
+The component renders a `div` in HTML context or a `g` element in SVG context. When hovered (directly or via another element with the same `hoverId`), it applies the `cxs-hover` CSS state class along with any specified `hoverClass` and `hoverStyle`.
+
+<CodeExample code={HoverSyncElementExampleCode}>
+  <HoverSyncElementExample client:load />
+</CodeExample>
+
+Hover over any item in the list or any rectangle to see synchronized highlighting.
+
+## Configuration
+
+| Property       | Type              | Default     | Description                                              |
+| -------------- | ----------------- | ----------- | -------------------------------------------------------- |
+| `hoverId`      | `string \| number`|             | Identifier for synchronized hover highlighting.          |
+| `hoverChannel` | `string`          | `"default"` | Channel name for isolating multiple hover contexts.      |
+| `hoverClass`   | `string`          |             | CSS class applied when the element is in hover state.    |
+| `hoverStyle`   | `string \| object`|             | CSS styles applied when the element is in hover state.   |
+| `class`        | `string`          |             | CSS class for the container element.                     |
+| `style`        | `string \| object`|             | CSS styles for the container element.                    |

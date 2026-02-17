@@ -52,7 +52,7 @@ class PageController extends Controller {
 // @controller-end
 
 // @index
-export default () => (
+export default (
   <div class="flex gap-4" controller={PageController}>
     <DropZone
       class="flex flex-col gap-2 p-4 border rounded min-w-32 min-h-32 bg-gray-50"

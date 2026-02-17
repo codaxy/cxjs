@@ -72,9 +72,18 @@ export class Toast extends OverlayBase<ToastConfig, OverlayInstance> {
       if (component.timeoutTimer) clearTimeout(component.timeoutTimer);
    }
 
-   containerFactory(): HTMLElement {
+   containerFactory(
+      instance?: OverlayInstance,
+      initiatingEvent?: React.SyntheticEvent,
+   ): HTMLElement {
       let el = document.createElement("div");
       el.className = this.CSS.element("toaster", "item");
+      if (OverlayBase.configureOverlayContainer)
+         OverlayBase.configureOverlayContainer(
+            el,
+            this.getConfigureOverlayContainerContext(instance, initiatingEvent),
+         );
+
       let placement = this.placement || "top";
       let toaster = getToaster(placement);
       toaster.el.className = this.CSS.block("toaster", null, {
@@ -109,3 +118,4 @@ Toast.prototype.animate = true;
 Toast.prototype.baseClass = "toast";
 Toast.prototype.placement = "top";
 Toast.prototype.destroyDelay = 300;
+Toast.prototype.needsBeacon = true;

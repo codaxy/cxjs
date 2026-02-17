@@ -25,7 +25,7 @@ function queryCity(query: string) {
 // @model-end
 
 // @index
-export default () => (
+export default (
   <LabelsTopLayout columns={2}>
     <LookupField
       label="Query on Each Keystroke"

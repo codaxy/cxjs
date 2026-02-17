@@ -10,7 +10,7 @@ const m = createModel<PageModel>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <div>
     <Button
       onClick={(e, { store }) => {

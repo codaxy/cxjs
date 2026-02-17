@@ -1,0 +1,60 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: zeroTime
+description: Set time to midnight
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+# zeroTime
+
+<ImportPath path="import { zeroTime } from 'cx/util';" />
+<OnThisPage />
+
+Sets the time portion of a date to midnight (00:00:00.000).
+
+## Signature
+
+```ts
+function zeroTime(date: Date): Date
+```
+
+## Examples
+
+```ts
+const date = new Date("2026-01-21T14:30:45.123");
+const midnight = zeroTime(date);
+// 2026-01-21T00:00:00.000
+
+// Original is unchanged
+console.log(date.getHours()); // 14
+console.log(midnight.getHours()); // 0
+```
+
+## Use Cases
+
+### Date comparison
+
+```ts
+function isSameDay(d1: Date, d2: Date): boolean {
+  return zeroTime(d1).getTime() === zeroTime(d2).getTime();
+}
+```
+
+### Date range queries
+
+```ts
+const startOfDay = zeroTime(new Date());
+const endOfDay = new Date(startOfDay);
+endOfDay.setDate(endOfDay.getDate() + 1);
+
+const todaysRecords = records.filter(
+  (r) => r.date >= startOfDay && r.date < endOfDay
+);
+```
+
+## See Also
+
+- [sameDate](/docs/utilities/same-date) - Compare dates ignoring time
+- [monthStart](/docs/utilities/month-start) - Get first day of month

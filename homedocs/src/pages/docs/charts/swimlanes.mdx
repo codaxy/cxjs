@@ -1,34 +1,42 @@
 ---
 layout: ../../../layouts/DocsLayout.astro
 title: Swimlanes
+description: Multiple swimlane bands
 ---
 
+import ImportPath from "../../../components/ImportPath.astro";
 import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
 import SwimlanesExample from "../../../examples/charts/SwimlanesExample.tsx";
+import SwimlanesExampleCode from "../../../examples/charts/SwimlanesExample.tsx?raw";
 
 # Swimlanes
 
-Draws horizontal and vertical swimlane backgrounds on charts.
+<ImportPath path="import { Swimlanes } from 'cx/charts';" />
 
-**Import:** `import { Swimlanes } from 'cx/charts';`
+<OnThisPage />
 
-## Example
+`Swimlanes` draws horizontal or vertical bands in the chart background. Besides aesthetics, swimlanes make it easier to read axis values by providing visual separation between categories.
 
-<CodeExample
-  code={`<Chart axes={{ x: { type: CategoryAxis }, y: { type: NumericAxis, vertical: true } }}>
-  <Swimlanes xAxis="x" />
-  <Gridlines />
-  <ColumnGraph data-bind="data" xField="month" yField="value" colorIndex={2} />
-</Chart>`}
->
+<CodeExample code={SwimlanesExampleCode}>
   <SwimlanesExample client:load />
 </CodeExample>
 
-## Properties
+## Features
 
-| Property | Type     | Default     | Description                   |
-| -------- | -------- | ----------- | ----------------------------- |
-| `xAxis`  | `string` | `undefined` | Axis for vertical swimlanes   |
-| `yAxis`  | `string` | `undefined` | Axis for horizontal swimlanes |
-| `size`   | `number` | `1`         | Swimlane size                 |
-| `step`   | `number` | `1`         | Step between swimlanes        |
+- Automatic swimlane generation based on axis
+- Works with both horizontal and vertical orientations
+- Configurable size and step
+- Combines well with bar graphs for grouped data visualization
+
+## Configuration
+
+| Property | Type     | Default | Description                                            |
+| -------- | -------- | ------- | ------------------------------------------------------ |
+| `xAxis`  | `string` |         | Axis name for vertical swimlanes.                      |
+| `yAxis`  | `string` |         | Axis name for horizontal swimlanes (auto-detected).    |
+| `size`   | `number` | `1`     | Swimlane width relative to axis step (0-1).            |
+| `step`   | `number` | `1`     | Step between swimlanes. Use `2` for alternating lanes. |
+| `style`  | `object` |         | CSS style for swimlane rectangles.                     |
+| `class`  | `string` |         | CSS class for swimlane elements.                       |

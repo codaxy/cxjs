@@ -1,10 +1,12 @@
 ---
 layout: ../../../layouts/DocsLayout.astro
 title: MsgBox
+description: Alert, confirm, and prompt dialogs
 ---
 
 import ImportPath from "../../../components/ImportPath.astro";
 import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 import MsgBoxAlertExample from "../../../examples/layout/MsgBoxAlertExample.tsx";
 import MsgBoxAlertExampleCode from "../../../examples/layout/MsgBoxAlertExample.tsx?raw";
@@ -18,6 +20,8 @@ import MsgBoxRichContentExampleCode from "../../../examples/layout/MsgBoxRichCon
 # MsgBox
 
 <ImportPath path="import { MsgBox } from 'cx/widgets';" />
+
+<OnThisPage />
 
 The `MsgBox` class provides utility methods for displaying alert and confirmation dialogs. Both methods return Promises, making it easy to handle user responses with async/await.
 

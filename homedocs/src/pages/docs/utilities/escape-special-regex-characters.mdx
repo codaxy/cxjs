@@ -1,0 +1,113 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: escapeSpecialRegexCharacters
+description: Escape regex special chars
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+# escapeSpecialRegexCharacters
+
+<ImportPath path="import { escapeSpecialRegexCharacters } from 'cx/util';" />
+<OnThisPage />
+
+The `escapeSpecialRegexCharacters` function escapes special regex characters in a string, making it safe to use in a regular expression.
+
+## Basic Usage
+
+```tsx
+import { escapeSpecialRegexCharacters } from "cx/util";
+
+escapeSpecialRegexCharacters("hello.world");
+// "hello\\.world"
+
+escapeSpecialRegexCharacters("price: $100");
+// "price: \\$100"
+
+escapeSpecialRegexCharacters("[test]");
+// "\\[test\\]"
+```
+
+## Escaped Characters
+
+The following characters are escaped: `\ ^ $ * + ? . ( ) | [ ] { }`
+
+```tsx
+import { escapeSpecialRegexCharacters } from "cx/util";
+
+escapeSpecialRegexCharacters("a.b");    // "a\\.b"
+escapeSpecialRegexCharacters("a*b");    // "a\\*b"
+escapeSpecialRegexCharacters("a+b");    // "a\\+b"
+escapeSpecialRegexCharacters("a?b");    // "a\\?b"
+escapeSpecialRegexCharacters("a|b");    // "a\\|b"
+escapeSpecialRegexCharacters("(a)");    // "\\(a\\)"
+escapeSpecialRegexCharacters("[a]");    // "\\[a\\]"
+escapeSpecialRegexCharacters("{a}");    // "\\{a\\}"
+escapeSpecialRegexCharacters("^a$");    // "\\^a\\$"
+escapeSpecialRegexCharacters("a\\b");   // "a\\\\b"
+```
+
+## Common Use Cases
+
+### Safe Search Patterns
+
+```tsx
+import { escapeSpecialRegexCharacters } from "cx/util";
+
+function createSearchRegex(userInput: string): RegExp {
+  const escaped = escapeSpecialRegexCharacters(userInput);
+  return new RegExp(escaped, "gi");
+}
+
+// User searches for "C++" - without escaping, + is a quantifier
+const regex = createSearchRegex("C++");
+regex.test("Learn C++ programming"); // true
+```
+
+### Dynamic Pattern Building
+
+```tsx
+import { escapeSpecialRegexCharacters } from "cx/util";
+
+function highlightText(text: string, searchTerm: string): string {
+  const escaped = escapeSpecialRegexCharacters(searchTerm);
+  const regex = new RegExp(`(${escaped})`, "gi");
+  return text.replace(regex, "<mark>$1</mark>");
+}
+
+highlightText("File: test.txt", "test.txt");
+// "File: <mark>test.txt</mark>"
+```
+
+### Filter with Literal Match
+
+```tsx
+import { escapeSpecialRegexCharacters } from "cx/util";
+
+function filterByExactSubstring(items: string[], search: string): string[] {
+  const escaped = escapeSpecialRegexCharacters(search);
+  const regex = new RegExp(escaped, "i");
+  return items.filter((item) => regex.test(item));
+}
+
+const files = ["config.json", "data.json", "test[1].json"];
+filterByExactSubstring(files, "[1]");
+// ["test[1].json"]
+```
+
+## API
+
+```tsx
+function escapeSpecialRegexCharacters(s: string): string;
+```
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| s | `string` | The string to escape |
+
+**Returns:** The input string with all regex special characters escaped.
+
+## See Also
+
+- [getSearchQueryPredicate](/docs/utilities/get-search-query-predicate) - Uses this internally for safe search matching

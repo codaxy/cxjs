@@ -2,7 +2,7 @@ import { Button, FlexRow, Heading, Section } from "cx/widgets";
 import "../../icons/lucide";
 
 // @index
-export default () => (
+export default (
   <div className="flex flex-col gap-4">
     <Section mod="card" title="Simple Section">
       This is a simple section with a title and some content.
@@ -18,7 +18,7 @@ export default () => (
     </Section>
 
     <Section mod="card">
-      <FlexRow align="center" putInto="header">
+      <FlexRow align="start" putInto="header">
         <Heading level={4} className="text-blue-400">
           Custom Header
         </Heading>

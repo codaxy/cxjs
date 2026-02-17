@@ -1,10 +1,12 @@
 ---
 layout: ../../../layouts/DocsLayout.astro
 title: Validation
+description: Form validation concepts and patterns
 ---
 
 import ImportPath from "../../../components/ImportPath.astro";
 import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 import ValidationDefaultExample from "../../../examples/forms/ValidationDefaultExample.tsx";
 import ValidationDefaultExampleCode from "../../../examples/forms/ValidationDefaultExample.tsx?raw";
@@ -27,6 +29,8 @@ import ValidationAsyncExampleCode from "../../../examples/forms/ValidationAsyncE
 # Validation
 
 <ImportPath path="import { ValidationGroup, Validator, ValidationError } from 'cx/widgets';" />
+
+<OnThisPage />
 
 CxJS provides a comprehensive validation system for form fields. The main components are:
 

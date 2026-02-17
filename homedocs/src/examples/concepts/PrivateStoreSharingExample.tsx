@@ -18,7 +18,7 @@ const mPrivate = createModel<PrivateModel>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <div>
     <div class="text-sm font-medium leading-none mb-2">Global Store</div>
     <Slider value={m.slider} />

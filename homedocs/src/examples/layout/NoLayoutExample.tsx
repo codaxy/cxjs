@@ -11,7 +11,7 @@ const m = createModel<FormModel>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <div>
     First some text.
     <TextField value={m.text} label="Label 1" />

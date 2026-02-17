@@ -14,7 +14,7 @@ const m = createModel<Model>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <LabelsTopLayout columns={2}>
     <MonthField label="Single Month" value={bind(m.month, "2024-06-01")} autoFocus />
     <MonthField label="Month Range" range from={bind(m.from, "2024-03-01")} to={bind(m.to, "2024-06-01")} />

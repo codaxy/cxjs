@@ -1,32 +1,18 @@
 ---
-import '../styles/tailwind.css';
-import '../styles/global.scss';
-import '@pagefind/default-ui/css/ui.css';
-import { ClientRouter } from 'astro:transitions';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HomeHeader from '../components/HomeHeader.astro';
+import Footer from '../components/Footer.astro';
+import TrelloExample from '../examples/homepage/TrelloExample.tsx';
+import InvoiceExample from '../examples/homepage/InvoiceExample.tsx';
+import DashboardExample from '../examples/homepage/DashboardExample.tsx';
+import InventoryExample from '../examples/homepage/InventoryExample.tsx';
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CxJS - Advanced JavaScript UI Framework</title>
-    <meta name="description" content="CxJS is a modern JavaScript framework for building data-oriented web applications with a complete set of widgets, charts, and powerful data-binding." />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-    <ClientRouter />
-    <script is:inline data-astro-rerun>
-      (function() {
-        const theme = localStorage.getItem('theme') ||
-          (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-        if (theme === 'dark') {
-          document.documentElement.classList.add('dark');
-        }
-      })();
-    </script>
-    <style>
+<BaseLayout
+  title="CxJS - The One-Stop Shop for Portals and Dashboards"
+  description="A TypeScript UI framework with 50+ widgets, data tables, charts, routing, and state management designed for productivity and great developer experience."
+>
+  <style slot="head">
       /* Animations */
       @keyframes float {
         0%, 100% { transform: translateY(0) rotate(0deg); }
@@ -106,95 +92,9 @@ import { ClientRouter } from 'astro:transitions';
       .feature-icon {
         transition: transform 0.3s ease;
       }
-    </style>
-  </head>
-  <body>
+  </style>
     <div class="min-h-screen bg-background overflow-x-hidden">
-      <!-- Header -->
-      <header class="border-b border-border bg-background/80 backdrop-blur-sm sticky top-0 z-50">
-        <div class="container mx-auto flex h-16 items-center px-4">
-          <!-- Mobile menu button -->
-          <button
-            id="home-mobile-menu-btn"
-            type="button"
-            class="sm:hidden mr-2 p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
-            aria-label="Toggle menu"
-          >
-            <svg class="menu-icon h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-            </svg>
-            <svg class="close-icon h-5 w-5 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-
-          <a href="/" class="flex items-center gap-2 group">
-            <img src="/favicon.svg" alt="CxJS" class="h-9 w-9 transition-transform group-hover:scale-110" />
-            <span class="text-xl font-semibold text-foreground">CxJS</span>
-          </a>
-
-          <!-- Desktop nav -->
-          <nav class="hidden sm:flex flex-1 items-center justify-center gap-6">
-            <a href="/docs/intro/what-is-cxjs" class="text-sm text-muted-foreground hover:text-foreground transition-colors">
-              Docs
-            </a>
-            <a href="https://gallery.cxjs.io/" class="text-sm text-muted-foreground hover:text-foreground transition-colors">
-              Gallery
-            </a>
-            <a href="/docs/intro/changelog" class="text-sm text-muted-foreground hover:text-foreground transition-colors">
-              Changelog
-            </a>
-          </nav>
-
-          <div class="flex items-center gap-4 ml-auto">
-            <a
-              href="https://github.com/codaxy/cxjs"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-muted-foreground hover:text-foreground transition-colors"
-            >
-              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-              </svg>
-            </a>
-            <button
-              id="theme-toggle"
-              class="p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
-              title="Toggle theme"
-            >
-              <svg class="sun-icon h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="5"></circle>
-                <line x1="12" y1="1" x2="12" y2="3"></line>
-                <line x1="12" y1="21" x2="12" y2="23"></line>
-                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                <line x1="1" y1="12" x2="3" y2="12"></line>
-                <line x1="21" y1="12" x2="23" y2="12"></line>
-                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-              </svg>
-              <svg class="moon-icon h-5 w-5 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        <!-- Mobile menu dropdown -->
-        <nav id="home-mobile-menu" class="hidden sm:hidden border-t border-border bg-background">
-          <div class="container mx-auto px-4 py-4 flex flex-col gap-3">
-            <a href="/docs/intro/what-is-cxjs" class="text-sm text-muted-foreground hover:text-foreground transition-colors py-2">
-              Docs
-            </a>
-            <a href="https://gallery.cxjs.io/" class="text-sm text-muted-foreground hover:text-foreground transition-colors py-2">
-              Gallery
-            </a>
-            <a href="/docs/intro/changelog" class="text-sm text-muted-foreground hover:text-foreground transition-colors py-2">
-              Changelog
-            </a>
-          </div>
-        </nav>
-      </header>
+      <HomeHeader />
 
       <!-- Hero -->
       <section class="relative overflow-hidden py-24 lg:py-36">
@@ -239,14 +139,13 @@ import { ClientRouter } from 'astro:transitions';
           </div>
 
           <h1 class="fade-in-up animate-delay-100 text-4xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight">
-            Build <span class="gradient-text">Data-Driven</span> Apps
+            The One-Stop Shop for
             <br />
-            <span class="text-heading">With Ease</span>
+            <span class="gradient-text">Portals and Dashboards</span>
           </h1>
 
           <p class="fade-in-up animate-delay-200 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10">
-            CxJS is a complete JavaScript framework for building sophisticated business applications.
-            Widgets, charts, forms, grids, and powerful data-binding — all in one package.
+            Born from a decade of development in finance, telecom, and legal, CxJS bakes in the UI patterns teams keep rebuilding. <strong>Open source, battle-tested, and now TypeScript-first.</strong>
           </p>
 
           <div class="fade-in-up animate-delay-300 flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -279,71 +178,117 @@ import { ClientRouter } from 'astro:transitions';
         <div class="container mx-auto px-4">
           <div class="text-center mb-16">
             <h2 class="text-3xl md:text-4xl font-bold text-heading mb-4">
-              Everything You Need
+              A Complete UI Framework in One Package
             </h2>
             <p class="text-lg text-muted-foreground max-w-2xl mx-auto">
-              CxJS provides all the tools and components you need to build
-              modern, data-driven web applications.
+              Built as one cohesive system for data-driven web applications, with consistent patterns and a great developer experience.
             </p>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <!-- Feature 1 -->
+            <!-- Widgets -->
             <div class="feature-card p-6 rounded-xl border border-border bg-card/50 backdrop-blur-sm">
               <div class="feature-icon h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                <svg class="h-6 w-6 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="3" y="3" width="7" height="7"></rect>
-                  <rect x="14" y="3" width="7" height="7"></rect>
-                  <rect x="14" y="14" width="7" height="7"></rect>
-                  <rect x="3" y="14" width="7" height="7"></rect>
+                <svg class="h-6 w-6 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+                  <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+                  <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+                  <rect x="14" y="14" width="7" height="7" rx="1"></rect>
                 </svg>
               </div>
-              <h3 class="text-lg font-semibold text-heading mb-2">50+ Widgets</h3>
-              <p class="text-sm text-muted-foreground">
-                Forms, grids, trees, menus, tooltips, and more — ready to use.
-              </p>
+              <h3 class="text-lg font-semibold text-heading mb-3">Extensive Widget Library</h3>
+              <ul class="text-sm text-muted-foreground space-y-1.5">
+                <li class="flex items-start gap-2">
+                  <span class="text-primary">•</span>
+                  Forms with validation and lookups
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-primary">•</span>
+                  Tables with grouping, selection, and editing
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-primary">•</span>
+                  SVG charts for dashboards and reporting
+                </li>
+              </ul>
             </div>
 
-            <!-- Feature 2 -->
+            <!-- Navigation and App Shell -->
             <div class="feature-card p-6 rounded-xl border border-border bg-card/50 backdrop-blur-sm">
               <div class="feature-icon h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                <svg class="h-6 w-6 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <line x1="18" y1="20" x2="18" y2="10"></line>
-                  <line x1="12" y1="20" x2="12" y2="4"></line>
-                  <line x1="6" y1="20" x2="6" y2="14"></line>
+                <svg class="h-6 w-6 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                  <path d="M3 9h18"></path>
+                  <path d="M9 21V9"></path>
                 </svg>
               </div>
-              <h3 class="text-lg font-semibold text-heading mb-2">SVG Charts</h3>
-              <p class="text-sm text-muted-foreground">
-                Line, bar, pie, scatter charts with animations and interactivity.
-              </p>
+              <h3 class="text-lg font-semibold text-heading mb-3">Navigation and App Shell</h3>
+              <ul class="text-sm text-muted-foreground space-y-1.5">
+                <li class="flex items-start gap-2">
+                  <span class="text-primary">•</span>
+                  Client-side routing with URLs and history
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-primary">•</span>
+                  Layouts and overlays: menus, windows, tooltips
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-primary">•</span>
+                  Keyboard shortcuts and localization
+                </li>
+              </ul>
             </div>
 
-            <!-- Feature 3 -->
+            <!-- Ecosystem-Friendly -->
             <div class="feature-card p-6 rounded-xl border border-border bg-card/50 backdrop-blur-sm">
               <div class="feature-icon h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                <svg class="h-6 w-6 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <polyline points="4 17 10 11 4 5"></polyline>
-                  <line x1="12" y1="19" x2="20" y2="19"></line>
+                <svg class="h-6 w-6 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+                  <path d="M2 12h20"></path>
                 </svg>
               </div>
-              <h3 class="text-lg font-semibold text-heading mb-2">TypeScript First</h3>
-              <p class="text-sm text-muted-foreground">
-                Full TypeScript support with typed models and accessor chains.
-              </p>
+              <h3 class="text-lg font-semibold text-heading mb-3">Ecosystem-Friendly</h3>
+              <ul class="text-sm text-muted-foreground space-y-1.5">
+                <li class="flex items-start gap-2">
+                  <span class="text-primary">•</span>
+                  Extends easily with React components
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-primary">•</span>
+                  Tailwind CSS support and theming
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-primary">•</span>
+                  Plays well with modern AI tooling
+                </li>
+              </ul>
             </div>
 
-            <!-- Feature 4 -->
+            <!-- Domain-Friendly -->
             <div class="feature-card p-6 rounded-xl border border-border bg-card/50 backdrop-blur-sm">
               <div class="feature-icon h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                <svg class="h-6 w-6 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                <svg class="h-6 w-6 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 3v18"></path>
+                  <rect x="4" y="8" width="6" height="12" rx="1"></rect>
+                  <rect x="14" y="4" width="6" height="16" rx="1"></rect>
                 </svg>
               </div>
-              <h3 class="text-lg font-semibold text-heading mb-2">Two-Way Binding</h3>
-              <p class="text-sm text-muted-foreground">
-                Reactive data binding that keeps your UI and state in perfect sync.
-              </p>
+              <h3 class="text-lg font-semibold text-heading mb-3">Domain-Friendly</h3>
+              <ul class="text-sm text-muted-foreground space-y-1.5">
+                <li class="flex items-start gap-2">
+                  <span class="text-primary">•</span>
+                  Typed models as the source of truth
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-primary">•</span>
+                  Functional components for your domain
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-primary">•</span>
+                  Predictable data binding and formatting
+                </li>
+              </ul>
             </div>
           </div>
         </div>
@@ -358,43 +303,115 @@ import { ClientRouter } from 'astro:transitions';
           <div class="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 class="text-3xl md:text-4xl font-bold text-heading mb-4">
-                Intuitive JSX Syntax
+                Predictable Developer Experience
               </h2>
               <p class="text-lg text-muted-foreground mb-6">
-                Write clean, declarative code with CxJS's extended JSX syntax.
-                Two-way binding and computed values make state management a breeze.
+                Typed models, consistent binding, and layout primitives keep screens easy to build, easy to refactor, and easy to autocomplete.
               </p>
               <ul class="space-y-3 text-muted-foreground">
                 <li class="flex items-center gap-3">
                   <div class="h-2 w-2 rounded-full bg-primary"></div>
-                  Familiar JSX with powerful extensions
+                  JSX that stays clean as screens grow
                 </li>
                 <li class="flex items-center gap-3">
                   <div class="h-2 w-2 rounded-full bg-primary"></div>
-                  Reactive two-way data binding
+                  Typed models for safe refactoring
                 </li>
                 <li class="flex items-center gap-3">
                   <div class="h-2 w-2 rounded-full bg-primary"></div>
-                  Computed values and expressions
+                  Autocomplete for props, bindings, and values
                 </li>
               </ul>
             </div>
 
-            <div class="relative group">
+            <div class="relative group min-w-0">
               <div class="absolute -inset-4 bg-gradient-to-r from-primary/20 via-cyan-500/20 to-purple-500/20 rounded-2xl blur-2xl opacity-50 group-hover:opacity-75 transition-opacity"></div>
               <pre class="relative overflow-x-auto p-6 rounded-xl border border-code-border bg-code-bg font-mono text-sm shadow-2xl">
-<code class="text-gray-300"><span class="text-cyan-400">import</span><span class="text-gray-300"> &#123; TextField, Button &#125; </span><span class="text-cyan-400">from</span><span class="text-green-400"> 'cx/widgets'</span><span class="text-gray-300">;</span>
-<span class="text-cyan-400">import</span><span class="text-gray-300"> &#123; $page &#125; </span><span class="text-cyan-400">from</span><span class="text-green-400"> './stores'</span><span class="text-gray-300">;</span>
+<code class="text-gray-300"><span class="text-cyan-400">import</span><span class="text-gray-300"> &#123; TextField, LookupField &#125; </span><span class="text-cyan-400">from</span><span class="text-green-400"> 'cx/widgets'</span><span class="text-gray-300">;</span>
+<span class="text-cyan-400">import</span><span class="text-gray-300"> &#123; createModel, LabelsTopLayout &#125; </span><span class="text-cyan-400">from</span><span class="text-green-400"> 'cx/ui'</span><span class="text-gray-300">;</span>
 
-<span class="text-purple-400">&lt;cx&gt;</span>
-  <span class="text-yellow-400">&lt;TextField</span>
-    <span class="text-cyan-400">value</span><span class="text-gray-300">=&#123;</span><span class="text-orange-400">$page</span><span class="text-gray-300">.</span><span class="text-cyan-400">user</span><span class="text-gray-300">.</span><span class="text-cyan-400">name</span><span class="text-gray-300">&#125;</span>
-    <span class="text-cyan-400">placeholder</span><span class="text-gray-300">=</span><span class="text-green-400">"Enter name"</span>
-  <span class="text-yellow-400">/&gt;</span>
-  <span class="text-yellow-400">&lt;Button</span>
-    <span class="text-cyan-400">text</span><span class="text-gray-300">=&#123;&#123; </span><span class="text-cyan-400">tpl</span><span class="text-gray-300">: </span><span class="text-green-400">"Hello &#123;user.name&#125;!"</span><span class="text-gray-300"> &#125;&#125;</span>
-  <span class="text-yellow-400">/&gt;</span>
-<span class="text-purple-400">&lt;/cx&gt;</span></code></pre>
+<span class="text-cyan-400">interface</span><span class="text-yellow-400"> UserModel</span><span class="text-gray-300"> &#123;</span>
+<span class="text-gray-300">  firstName</span><span class="text-cyan-400">:</span><span class="text-green-400"> string</span><span class="text-gray-300">;</span>
+<span class="text-gray-300">  lastName</span><span class="text-cyan-400">:</span><span class="text-green-400"> string</span><span class="text-gray-300">;</span>
+<span class="text-gray-300">  email</span><span class="text-cyan-400">:</span><span class="text-green-400"> string</span><span class="text-gray-300">;</span>
+<span class="text-gray-300">  countryId</span><span class="text-cyan-400">:</span><span class="text-green-400"> number</span><span class="text-gray-300">;</span>
+<span class="text-gray-300">&#125;</span>
+
+<span class="text-cyan-400">const</span><span class="text-gray-300"> m = </span><span class="text-yellow-400">createModel</span><span class="text-gray-300">&lt;</span><span class="text-yellow-400">UserModel</span><span class="text-gray-300">&gt;();</span>
+
+<span class="text-cyan-400">export default</span><span class="text-gray-300"> (</span>
+  <span class="text-purple-400">&lt;LabelsTopLayout</span> <span class="text-cyan-400">columns</span><span class="text-gray-300">=&#123;2&#125;</span><span class="text-purple-400">&gt;</span>
+    <span class="text-yellow-400">&lt;TextField</span> <span class="text-cyan-400">value</span><span class="text-gray-300">=&#123;m.firstName&#125;</span> <span class="text-cyan-400">label</span><span class="text-gray-300">=</span><span class="text-green-400">"First Name"</span> <span class="text-yellow-400">/&gt;</span>
+    <span class="text-yellow-400">&lt;TextField</span> <span class="text-cyan-400">value</span><span class="text-gray-300">=&#123;m.lastName&#125;</span> <span class="text-cyan-400">label</span><span class="text-gray-300">=</span><span class="text-green-400">"Last Name"</span> <span class="text-yellow-400">/&gt;</span>
+    <span class="text-yellow-400">&lt;TextField</span> <span class="text-cyan-400">value</span><span class="text-gray-300">=&#123;m.email&#125;</span> <span class="text-cyan-400">label</span><span class="text-gray-300">=</span><span class="text-green-400">"Email"</span> <span class="text-yellow-400">/&gt;</span>
+    <span class="text-yellow-400">&lt;LookupField</span> <span class="text-cyan-400">value</span><span class="text-gray-300">=&#123;m.countryId&#125;</span> <span class="text-cyan-400">label</span><span class="text-gray-300">=</span><span class="text-green-400">"Country"</span> <span class="text-cyan-400">options</span><span class="text-gray-300">=&#123;countries&#125;</span> <span class="text-yellow-400">/&gt;</span>
+  <span class="text-purple-400">&lt;/LabelsTopLayout&gt;</span>
+<span class="text-gray-300">);</span></code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- What You Can Build - Desktop Only -->
+      <section class="hidden lg:block py-24 border-t border-border relative">
+        <div class="container mx-auto px-4">
+          <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-heading mb-4">
+              How It All Fits Together
+            </h2>
+            <p class="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Interactive examples that combine models, widgets, and charts into real portal screens.
+            </p>
+          </div>
+
+          <!-- Tabs -->
+          <div class="flex justify-center gap-2 mb-8" id="example-tabs">
+            <button
+              class="example-tab px-6 py-2 rounded-lg font-medium transition-all bg-primary text-primary-foreground"
+              data-tab="dashboard"
+            >
+              Dashboard
+            </button>
+            <button
+              class="example-tab px-6 py-2 rounded-lg font-medium transition-all bg-secondary text-secondary-foreground hover:bg-secondary/80"
+              data-tab="trello"
+            >
+              Trello Clone
+            </button>
+            <button
+              class="example-tab px-6 py-2 rounded-lg font-medium transition-all bg-secondary text-secondary-foreground hover:bg-secondary/80"
+              data-tab="invoice"
+            >
+              Invoice Editor
+            </button>
+            <button
+              class="example-tab px-6 py-2 rounded-lg font-medium transition-all bg-secondary text-secondary-foreground hover:bg-secondary/80"
+              data-tab="inventory"
+            >
+              Inventory
+            </button>
+          </div>
+
+          <!-- Example Panels -->
+          <div class="relative rounded-xl border border-border bg-card overflow-hidden" style="min-height: 500px;">
+            <!-- Dashboard -->
+            <div class="example-panel" id="panel-dashboard">
+              <DashboardExample client:load />
+            </div>
+
+            <!-- Trello Clone -->
+            <div class="example-panel hidden" id="panel-trello">
+              <TrelloExample client:load />
+            </div>
+
+            <!-- Invoice Editor -->
+            <div class="example-panel hidden" id="panel-invoice">
+              <InvoiceExample client:load />
+            </div>
+
+            <!-- Inventory -->
+            <div class="example-panel hidden" id="panel-inventory">
+              <InventoryExample client:load />
             </div>
           </div>
         </div>
@@ -408,11 +425,10 @@ import { ClientRouter } from 'astro:transitions';
 
         <div class="container mx-auto px-4 text-center relative">
           <h2 class="text-3xl md:text-4xl font-bold text-heading mb-4">
-            Ready to Build?
+            Your Next Portal Starts Here
           </h2>
           <p class="text-lg text-muted-foreground max-w-xl mx-auto mb-8">
-            Start building your next application with CxJS today.
-            Comprehensive docs and examples await.
+            Explore the docs, try the examples, and start building today.
           </p>
           <a
             href="/docs/intro/hello-world"
@@ -426,73 +442,40 @@ import { ClientRouter } from 'astro:transitions';
         </div>
       </section>
 
-      <!-- Footer -->
-      <footer class="border-t border-border py-8 bg-secondary/30">
-        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div class="flex items-center gap-2 text-muted-foreground">
-            <img src="/favicon.svg" alt="CxJS" class="h-6 w-6" />
-            <span class="text-sm">CxJS Documentation</span>
-          </div>
-          <div class="flex items-center gap-6 text-sm text-muted-foreground">
-            <a href="https://github.com/codaxy/cxjs" class="hover:text-foreground transition-colors">
-              GitHub
-            </a>
-            <a href="https://codaxy.com" class="hover:text-foreground transition-colors">
-              Codaxy
-            </a>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
 
     <script is:inline>
       function initHomePage() {
-        // Mobile menu toggle
-        const mobileMenuBtn = document.getElementById('home-mobile-menu-btn');
-        const mobileMenu = document.getElementById('home-mobile-menu');
-        const menuIcon = mobileMenuBtn?.querySelector('.menu-icon');
-        const closeIcon = mobileMenuBtn?.querySelector('.close-icon');
+        // Example tabs
+        const tabs = document.querySelectorAll('.example-tab');
+        const panels = document.querySelectorAll('.example-panel');
 
-        if (mobileMenuBtn && mobileMenu) {
-          mobileMenuBtn.onclick = () => {
-            const isOpen = !mobileMenu.classList.contains('hidden');
-            if (isOpen) {
-              mobileMenu.classList.add('hidden');
-              menuIcon?.classList.remove('hidden');
-              closeIcon?.classList.add('hidden');
-            } else {
-              mobileMenu.classList.remove('hidden');
-              menuIcon?.classList.add('hidden');
-              closeIcon?.classList.remove('hidden');
-            }
+        tabs.forEach(tab => {
+          tab.onclick = () => {
+            const targetTab = tab.dataset.tab;
+
+            // Update tab styles
+            tabs.forEach(t => {
+              if (t.dataset.tab === targetTab) {
+                t.classList.remove('bg-secondary', 'text-secondary-foreground', 'hover:bg-secondary/80');
+                t.classList.add('bg-primary', 'text-primary-foreground');
+              } else {
+                t.classList.remove('bg-primary', 'text-primary-foreground');
+                t.classList.add('bg-secondary', 'text-secondary-foreground', 'hover:bg-secondary/80');
+              }
+            });
+
+            // Show/hide panels
+            panels.forEach(panel => {
+              if (panel.id === `panel-${targetTab}`) {
+                panel.classList.remove('hidden');
+              } else {
+                panel.classList.add('hidden');
+              }
+            });
           };
-        }
-
-        // Theme toggle
-        const toggle = document.getElementById('theme-toggle');
-        if (!toggle) {
-          return;
-        }
-
-        const sunIcon = toggle.querySelector('.sun-icon');
-        const moonIcon = toggle.querySelector('.moon-icon');
-
-        function updateIcons() {
-          const isDark = document.documentElement.classList.contains('dark');
-          if (sunIcon && moonIcon) {
-            sunIcon.classList.toggle('hidden', isDark);
-            moonIcon.classList.toggle('hidden', !isDark);
-          }
-        }
-
-        toggle.onclick = () => {
-          document.documentElement.classList.toggle('dark');
-          const isDark = document.documentElement.classList.contains('dark');
-          localStorage.setItem('theme', isDark ? 'dark' : 'light');
-          updateIcons();
-        };
-
-        updateIcons();
+        });
 
         // Intersection Observer for scroll animations
         const observerOptions = {
@@ -517,5 +500,4 @@ import { ClientRouter } from 'astro:transitions';
 
       document.addEventListener('astro:page-load', initHomePage);
     </script>
-  </body>
-</html>
+</BaseLayout>

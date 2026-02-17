@@ -12,7 +12,7 @@ const m = createModel<PageModel>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
     <Button
       onClick={(e, { store }) => {
@@ -20,7 +20,7 @@ export default () => (
           message: "This is a toast at the top.",
           placement: "top",
           timeout: 3000,
-        }).open(store);
+        }).open(store, { initiatingEvent: e });
       }}
     >
       Top
@@ -31,7 +31,10 @@ export default () => (
           message: "This is a toast on the right.",
           placement: "right",
           timeout: 3000,
-        }).open(store);
+        }).open(
+          store,
+          { initiatingEvent: e }, //required for mixed theming
+        );
       }}
     >
       Right
@@ -42,7 +45,10 @@ export default () => (
           message: "This is a toast at the bottom.",
           placement: "bottom",
           timeout: 3000,
-        }).open(store);
+        }).open(
+          store,
+          { initiatingEvent: e }, //required for mixed theming
+        );
       }}
     >
       Bottom
@@ -53,7 +59,10 @@ export default () => (
           message: "This is a toast on the left.",
           placement: "left",
           timeout: 3000,
-        }).open(store);
+        }).open(
+          store,
+          { initiatingEvent: e }, //required for mixed theming
+        );
       }}
     >
       Left

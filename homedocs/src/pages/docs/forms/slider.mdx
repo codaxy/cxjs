@@ -1,10 +1,12 @@
 ---
 layout: ../../../layouts/DocsLayout.astro
 title: Slider
+description: Range slider input
 ---
 
 import ImportPath from "../../../components/ImportPath.astro";
 import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 import SliderExample from "../../../examples/forms/SliderExample.tsx";
 import SliderExampleCode from "../../../examples/forms/SliderExample.tsx?raw";
@@ -12,6 +14,8 @@ import SliderExampleCode from "../../../examples/forms/SliderExample.tsx?raw";
 # Slider
 
 <ImportPath path="import { Slider } from 'cx/widgets';" />
+
+<OnThisPage />
 
 The `Slider` widget allows selecting numerical values by dragging the slider handle. It supports single values, ranges, stepping, mouse wheel control, and vertical orientation.
 

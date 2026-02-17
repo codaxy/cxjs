@@ -1,15 +1,12 @@
-$cx-include-global-rules: true;
+@use "cx-theme-space-blue/src/variables.reset.scss" as *;
+@use "cx-theme-space-blue/src/maps.scss" as *;
+@use "cx-theme-space-blue/src/overrides.scss" as *;
 
-@import "../../packages/cx-theme-space-blue/src/variables";
-@import "./util/divide.scss";
-
-@import "../../packages/cx-theme-space-blue/src/index";
-
-@import "./util/customize-master";
+@use "./util/customize-master" as *;
 
 @include customize-master(
-   $brand-background: $cx-default-background-color-lighter,
-   $brand-highlight-color: $cx-default-background-color-lighter,
+   $brand-background: $cx-theme-default-background-color-lighter,
+   $brand-highlight-color: $cx-theme-default-background-color-lighter,
    $sidebar-background-color: rgba(0, 0, 0, 0.3),
    $sidebar-active-link-color: rgba(255, 255, 255, 0.8)
 );

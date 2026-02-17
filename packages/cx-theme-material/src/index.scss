@@ -1,3 +1,12 @@
-@import "~cx/src/index";
-@import "reset";
-@import "widgets";
+// 1. Load theme variables (configures cx variables via @forward...with())
+@use "./variables.reset" as *;
+
+// 2. Load theme maps (configures cx maps via deep-merge)
+@use "./maps" as *;
+
+// 3. Load cx/src/index which generates CSS using configured values
+@use "cx/src/index" as *;
+
+// 4. Load reset and widget overrides
+@use "./reset";
+@use "./widgets";

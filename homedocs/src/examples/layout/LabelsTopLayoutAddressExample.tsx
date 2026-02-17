@@ -13,7 +13,7 @@ const m = createModel<AddressModel>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <LabelsTopLayout>
     <TextField
       value={m.street}

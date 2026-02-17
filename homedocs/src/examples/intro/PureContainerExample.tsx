@@ -19,7 +19,7 @@ export const model = {
 // @model-end
 
 // @index
-export default () => (
+export default (
   <div>
     <Checkbox value={m.showContactInfo}>Show contact information</Checkbox>
     <PureContainer visible={m.showContactInfo}>

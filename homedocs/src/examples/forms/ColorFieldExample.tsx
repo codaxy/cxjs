@@ -14,14 +14,18 @@ const m = createModel<Model>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <LabelsTopLayout columns={2}>
-    <ColorField label="Standard (RGBA)" value={m.color} autoFocus />
+    <ColorField label="Standard (RGBA)" value={m.color}  />
     <ColorField label="HSLA Format" value={m.hsla} format="hsla" />
     <ColorField label="Hex Format" value={m.hex} format="hex" />
     <ColorField label="Disabled" value={m.color} disabled />
     <ColorField label="Read-only" value={m.color} readOnly />
-    <ColorField label="Placeholder" value={m.placeholder} placeholder="Pick a color..." />
+    <ColorField
+      label="Placeholder"
+      value={m.placeholder}
+      placeholder="Pick a color..."
+    />
   </LabelsTopLayout>
 );
 // @index-end

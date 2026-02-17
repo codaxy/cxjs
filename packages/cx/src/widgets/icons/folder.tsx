@@ -1,6 +1,5 @@
 /** @jsxImportSource react */
-import {VDOM} from '../../ui/Widget';
-import {registerIcon} from './registry';
+import { registerIcon } from './registry';
 
 export default registerIcon('folder', ({ key, ...props }: any) => {
    return <svg

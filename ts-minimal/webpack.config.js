@@ -4,7 +4,9 @@ const webpack = require("webpack"),
    { merge } = require("webpack-merge"),
    path = require("path");
 
-let production = process.env.npm_lifecycle_event && process.env.npm_lifecycle_event.indexOf("build") == 0;
+let production =
+   process.env.npm_lifecycle_event &&
+   process.env.npm_lifecycle_event.indexOf("build") == 0;
 
 let common = {
    resolve: {
@@ -61,18 +63,18 @@ let common = {
    stats: {
       usedExports: true,
    },
-   cache: {
-      // 1. Set cache type to filesystem
-      type: "filesystem",
+   // cache: {
+   //    // 1. Set cache type to filesystem
+   //    type: "filesystem",
 
-      buildDependencies: {
-         // 2. Add your config as buildDependency to get cache invalidation on config change
-         config: [__filename],
+   //    buildDependencies: {
+   //       // 2. Add your config as buildDependency to get cache invalidation on config change
+   //       config: [__filename],
 
-         // 3. If you have other things the build depends on you can add them here
-         // Note that webpack, loaders and all modules referenced from your config are automatically added
-      },
-   },
+   //       // 3. If you have other things the build depends on you can add them here
+   //       // Note that webpack, loaders and all modules referenced from your config are automatically added
+   //    },
+   // },
 };
 
 let specific;
@@ -93,7 +95,6 @@ if (production) {
                      options: {
                         sassOptions: {
                            quietDeps: true,
-                           silenceDeprecations: ["legacy-js-api", "import", "global-builtin"],
                         },
                      },
                   },
@@ -140,7 +141,6 @@ if (production) {
                      options: {
                         sassOptions: {
                            quietDeps: true,
-                           silenceDeprecations: ["legacy-js-api", "import", "global-builtin"],
                         },
                      },
                   },

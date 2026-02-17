@@ -95,7 +95,7 @@ class PageController extends Controller {
 // @controller-end
 
 // @index
-export default () => (
+export default (
   <Grid
     controller={PageController}
     records={m.records}

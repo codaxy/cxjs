@@ -13,7 +13,7 @@ const m = createModel<Model>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <LabelsTopLayout columns={2}>
     <DateTimeField label="Date & Time" value={bind(m.datetime, "2024-06-15T14:30:00")} autoFocus />
     <DateTimeField label="Time (segment)" value={bind(m.time, "2024-06-15T14:30:00")} segment="time" />

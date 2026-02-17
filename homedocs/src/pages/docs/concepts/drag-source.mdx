@@ -1,10 +1,12 @@
 ---
 layout: ../../../layouts/DocsLayout.astro
 title: DragSource
+description: Make elements draggable
 ---
 
 import CodeExample from "../../../components/CodeExample.astro";
 import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 import DragSourceExample from "../../../examples/concepts/DragSourceExample.tsx";
 import DragSourceExampleCode from "../../../examples/concepts/DragSourceExample.tsx?raw";
 import DragSourceAdvancedExample from "../../../examples/concepts/DragSourceAdvancedExample.tsx";
@@ -13,6 +15,8 @@ import DragSourceAdvancedExampleCode from "../../../examples/concepts/DragSource
 # DragSource
 
 <ImportPath path="import { DragSource } from 'cx/widgets';" />
+
+<OnThisPage />
 
 `DragSource` wraps elements that can be dragged. The `data` property specifies what data is passed to the drop zone when the element is dropped.
 

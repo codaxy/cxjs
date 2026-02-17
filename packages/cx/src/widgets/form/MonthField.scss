@@ -1,7 +1,17 @@
+@use "sass:math";
 @use "sass:map";
+@use "../variables" as *;
+@use "../maps" as *;
+@use "../../util/scss/add-rules.scss" as *;
+@use "../../util/scss/calc.scss" as *;
+@use "../../util/scss/clockwise.scss" as *;
+@use "../../util/scss/deep-merge.scss" as *;
+@use "../../util/scss/besm.scss" as *;
+@use "../../util/scss/include.scss" as *;
+@use "./Field.scss" as *;
 
 @mixin cx-monthfield(
-   $name: 'monthfield',
+   $name: "monthfield",
    $state-style-map: $cx-std-field-state-style-map,
    $placeholder: $cx-input-placeholder,
    $empty-text: $cx-empty-text,
@@ -17,14 +27,10 @@
    $state: map.get($besm, state);
 
    .#{$block}#{$name} {
-      @include cxb-field(
-         $besm,
-         $state-style-map,
-         $width: $width
-      );
+      @include cxb-field($besm, $state-style-map, $width: $width);
    }
 
-   $padding: cx-get-state-rule($state-style-map, default, 'padding');
+   $padding: cx-get-state-rule($state-style-map, default, "padding");
 
    .#{$element}#{$name}-input {
       @include cxe-field-input(
@@ -33,7 +39,18 @@
          $placeholder: $placeholder,
          $overrides: (
             default: (
-               padding: cx-top($padding) cx-calc(cx-right($padding), $cx-default-clear-size) cx-bottom($padding) cx-calc(2 * cx-left($padding), $icon-size)
+               padding: cx-top($padding)
+                  cx-calc(
+                     cx-right($padding),
+                     $cx-default-clear-size,
+                     $cx-default-clear-spacing
+                  )
+                  cx-bottom($padding)
+                  cx-calc(
+                     cx-left($padding),
+                     $cx-default-input-left-tool-size,
+                     $cx-default-input-left-tool-spacing
+                  ),
             )
          )
       );
@@ -43,30 +60,36 @@
       @include cxe-field-button($besm, $clear-state-style-map);
 
       .#{$state}focus > & {
-        @include cx-add-state-rules($clear-state-style-map, focus);
+         @include cx-add-state-rules($clear-state-style-map, focus);
       }
-       .#{$state}error > & {
-        @include cx-add-state-rules($clear-state-style-map, error);
+      .#{$state}error > & {
+         @include cx-add-state-rules($clear-state-style-map, error);
       }
    }
 
    .#{$element}#{$name}-left-icon {
-      @include cxe-field-button($besm, cx-deep-map-merge($left-icon-state-style-map, (
-         default: (
-            cursor: pointer
+      @include cxe-field-button(
+         $besm,
+         cx-deep-map-merge(
+            $left-icon-state-style-map,
+            (
+               default: (
+                  cursor: pointer,
+               ),
+            )
          )
-      )));
+      );
 
       .#{$state}disabled > & {
-        @include cx-add-state-rules($state-style-map, disabled);
-        border-width: 0;
+         @include cx-add-state-rules($state-style-map, disabled);
+         border-width: 0;
       }
 
       .#{$state}focus > & {
-        @include cx-add-state-rules($left-icon-state-style-map, focus);
+         @include cx-add-state-rules($left-icon-state-style-map, focus);
       }
-       .#{$state}error > & {
-        @include cx-add-state-rules($left-icon-state-style-map, error);
+      .#{$state}error > & {
+         @include cx-add-state-rules($left-icon-state-style-map, error);
       }
    }
 
@@ -74,14 +97,14 @@
       @include cxe-field-button($besm, $right-icon-state-style-map);
 
       .#{$state}disabled > & {
-        @include cx-add-state-rules($state-style-map, disabled);
-        border-width: 0;
+         @include cx-add-state-rules($state-style-map, disabled);
+         border-width: 0;
       }
       .#{$state}focus > & {
-        @include cx-add-state-rules($right-icon-state-style-map, focus);
+         @include cx-add-state-rules($right-icon-state-style-map, focus);
       }
       .#{$state}error > & {
-        @include cx-add-state-rules($right-icon-state-style-map, error);
+         @include cx-add-state-rules($right-icon-state-style-map, error);
       }
    }
 
@@ -94,7 +117,6 @@
    }
 }
 
-@if (cx-should-include('cx/widgets/MonthField')) {
+@if (cx-should-include("cx/widgets/MonthField")) {
    @include cx-monthfield();
 }
-

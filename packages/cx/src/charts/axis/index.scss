@@ -1,5 +1,4 @@
-
-@import 'Axis';
-@import "NumericAxis";
-@import "CategoryAxis";
-@import "TimeAxis";
+@use 'Axis';
+@use "NumericAxis";
+@use "CategoryAxis";
+@use "TimeAxis";

@@ -1,7 +1,7 @@
 import { Section } from "cx/widgets";
 
 // @index
-export default () => (
+export default (
   <div className="grid grid-cols-2 gap-4">
     <Section mod="primary" title="mod=primary">
       Primary style with blue background.

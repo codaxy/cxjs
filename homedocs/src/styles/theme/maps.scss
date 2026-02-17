@@ -1,0 +1,176 @@
+// Forward cx maps first
+@forward "cx/src/maps";
+
+// Import dependencies for map overrides
+@use "./variables" as *;
+@use "cx/src/maps" as *;
+@use "cx/src/util/scss/deep-merge" as *;
+
+// ========================================
+// Map Overrides
+// ========================================
+
+// TAB
+$cx-tab-state-style-map: cx-deep-map-merge(
+  $cx-tab-state-style-map,
+  (
+    default: (
+      font-weight: 600,
+    ),
+    selected: (
+      font-weight: null,
+    ),
+    cursor: (
+      font-weight: null,
+    ),
+    selected-cursor: (
+      font-weight: null,
+    ),
+  )
+);
+
+// LINK
+$cx-link-state-style-map: (
+  active: (
+    font-weight: null,
+  ),
+);
+
+// STANDARD FIELD
+$cx-std-field-state-style-map: cx-deep-map-merge(
+  $cx-std-field-state-style-map,
+  (
+    default: (
+      font-weight: inherit,
+      border-radius: 8px,
+      padding: 8px 10px,
+      color: inherit,
+    ),
+    focus: (
+      border-color: rgb(77, 144, 254),
+      box-shadow: 0 0 0 1px rgba(77, 144, 254, 0.8),
+    ),
+    disabled: (
+      background: hsl(var(--muted)),
+      color: hsl(var(--muted-foreground)),
+    ),
+    error: (
+      border-color: #dc2626,
+      box-shadow: 0 0 0 1px rgba(#dc2626, 0.8),
+    ),
+    error-focus: (
+      border-color: #f59e0b,
+      box-shadow: 0 0 0 1px rgba(#f59e0b, 0.8),
+    ),
+  )
+);
+
+// TEXTAREA
+$cx-textarea-state-style-map: cx-deep-map-merge(
+  $cx-textarea-state-style-map,
+  (
+    default: (
+      font-weight: inherit,
+      border-radius: 8px,
+      padding: 8px 10px,
+      color: inherit,
+    ),
+    focus: (
+      border-color: rgb(77, 144, 254),
+      box-shadow: 0 0 0 1px rgba(77, 144, 254, 0.8),
+    ),
+    disabled: (
+      background: hsl(var(--muted)),
+      color: hsl(var(--muted-foreground)),
+    ),
+    error: (
+      border-color: #dc2626,
+      box-shadow: 0 0 0 1px rgba(#dc2626, 0.8),
+    ),
+    error-focus: (
+      border-color: #f59e0b,
+      box-shadow: 0 0 0 1px rgba(#f59e0b, 0.8),
+    ),
+  )
+);
+
+// BUTTON
+$cx-button-state-style-map: cx-deep-map-merge(
+  $cx-button-state-style-map,
+  (
+    default: (
+      font-weight: inherit,
+      border-radius: 6px,
+      background-color: #f4f4f4,
+    ),
+  )
+);
+
+// LIST ITEM
+$cx-list-item: cx-deep-map-merge(
+  $cx-list-item,
+  (
+    hover: (
+      background-color: hsl(var(--muted)),
+    ),
+    cursor: (
+      background-color: transparent,
+      box-shadow: inset 0 0 0 1px hsl(var(--primary)),
+      position: relative,
+      z-index: 1,
+    ),
+    selected: (
+      background-color: hsl(var(--accent)),
+      color: hsl(var(--accent-foreground)),
+    ),
+    selected-hover: (
+      background-color: hsl(var(--accent)),
+      color: hsl(var(--accent-foreground)),
+    ),
+    selected-cursor: (
+      background-color: hsl(var(--accent)),
+      color: hsl(var(--accent-foreground)),
+      box-shadow: inset 0 0 0 1px hsl(var(--primary)),
+      position: relative,
+      z-index: 1,
+    ),
+    disabled: (
+      opacity: 0.4,
+    ),
+  )
+);
+
+// GRID PAGINATION
+$cx-grid-pagination-state-style-map: $cx-list-item;
+
+// GRID GROUP CAPTION
+$cx-grid-group-caption-level-style-map: cx-deep-map-merge(
+  $cx-grid-group-caption-level-style-map,
+  (
+    level-1: (
+      font-size: 100%,
+      font-weight: 600,
+    ),
+    level-2: (
+      font-size: 115%,
+      font-weight: 600,
+    ),
+    level-3: (
+      font-size: 130%,
+      font-weight: 600,
+    ),
+    level-4: (
+      font-size: 145%,
+      font-weight: 600,
+    ),
+  )
+);
+
+// DROPDOWN
+$cx-dropdown-styles: cx-deep-map-merge(
+  $cx-dropdown-styles,
+  (
+    font-weight: 500,
+    color: #374151,
+  )
+);

@@ -1,14 +1,14 @@
-@import "ImportPath";
-@import "CodeSplit";
-@import "CodeSnippet";
-@import "ConfigTable";
-@import "MethodTable";
-@import "Zenburn";
-@import "SideNav";
-@import "EditOnGitX";
-@import "Floater";
-@import "DocSearch";
-@import "Md";
+@use "ImportPath";
+@use "CodeSplit";
+@use "CodeSnippet";
+@use "ConfigTable";
+@use "MethodTable";
+@use "Zenburn";
+@use "SideNav";
+@use "EditOnGitX";
+@use "Floater";
+@use "DocSearch";
+@use "Md";
 
 .dxb-table {
    max-width: 50em;

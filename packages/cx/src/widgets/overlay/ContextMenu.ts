@@ -1,4 +1,5 @@
 import { Store } from "../../data/Store";
+import { Localization } from "../../ui/Localization";
 import { Instance } from "../../ui/Instance";
 import { Dropdown, DropdownConfig } from "./Dropdown";
 import { getCursorPos } from "./captureMouse";
@@ -19,6 +20,8 @@ ContextMenu.prototype.offset = 0;
 ContextMenu.prototype.autoFocus = true;
 ContextMenu.prototype.autoFocusFirstChild = false;
 ContextMenu.prototype.focusable = true;
+
+Localization.registerPrototype("cx/widgets/ContextMenu", ContextMenu);
 
 export const openContextMenu = (
    e: React.MouseEvent,

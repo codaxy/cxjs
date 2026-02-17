@@ -1,0 +1,97 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Chart
+description: Chart container with axes configuration
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+import ChartBasicExample from "../../../examples/charts/ChartBasicExample.tsx";
+import ChartBasicExampleCode from "../../../examples/charts/ChartBasicExample.tsx?raw";
+
+import ChartSecondaryAxisExample from "../../../examples/charts/ChartSecondaryAxisExample.tsx";
+import ChartSecondaryAxisExampleCode from "../../../examples/charts/ChartSecondaryAxisExample.tsx?raw";
+
+# Chart
+
+<ImportPath path="import { Chart } from 'cx/charts';" />
+
+<OnThisPage />
+
+The `Chart` widget defines axes and bounds for two-dimensional charts such as line, scatter, bar, and column charts.
+
+<CodeExample code={ChartBasicExampleCode}>
+  <ChartBasicExample client:load />
+</CodeExample>
+
+## Axis Configuration
+
+The most important part is **axis configuration**. A chart typically needs two axes:
+
+- **Horizontal axis** (x) — default orientation
+- **Vertical axis** (y) — set `vertical: true`
+
+Numeric, category, and time axis types are supported. One axis must be vertical for proper chart orientation.
+
+## Margin and Offset
+
+The `margin` property on the `Chart` element reserves space for axis labels and ticks. Use the format `"top right bottom left"` (e.g., `margin="10 20 30 50"`).
+
+The `offset` property works similarly to `margin` but with different sign conventions — it always works in the top-to-bottom and left-to-right direction. For right and bottom offsets, use negative numbers.
+
+Example: `offset="10 -20 -30 50"` is equivalent to `margin="10 20 30 50"`.
+
+## Secondary Axes
+
+Charts can have secondary axes displayed at the top (x2) or right (y2) side. Set `secondary: true` on the axis configuration.
+
+<CodeExample code={ChartSecondaryAxisExampleCode}>
+  <ChartSecondaryAxisExample client:load />
+</CodeExample>
+
+Key axis properties:
+- `secondary` — Displays axis at top/right instead of bottom/left
+- `inverted` — Reverses the axis direction (values in descending order)
+- `vertical` — Required for y-axes
+
+> Be careful with gridlines when using secondary axes — you may need separate `Gridlines` components for each axis pair.
+
+## Main Chart Elements
+
+### Axes
+
+- [NumericAxis](/docs/charts/numeric-axis) — For numerical data
+- [CategoryAxis](/docs/charts/category-axis) — For categorical data
+- [TimeAxis](/docs/charts/time-axis) — For date/time data
+
+### Graphs (Series)
+
+- [LineGraph](/docs/charts/line-graph) — Line and area charts
+- [BarGraph](/docs/charts/bar-graph) — Horizontal bar series
+- [ColumnGraph](/docs/charts/column-graph) — Vertical column series
+- [ScatterGraph](/docs/charts/scatter-graph) — Scatter plots
+
+### Individual Elements
+
+- [Column](/docs/charts/column) — Single column in column charts (use when columns differ)
+- [Bar](/docs/charts/bar) — Single bar in bar charts (use when bars differ)
+- [Marker](/docs/charts/marker) — Point markers for scatter charts, supports dragging
+- [MarkerLine](/docs/charts/marker-line) — Highlight specific values (e.g., min/max)
+- [Range](/docs/charts/range) — Draw rectangular areas (zones)
+
+### SVG Elements
+
+- [Rectangle](/docs/charts/rectangle) — Draw rectangles
+- [Line](/docs/charts/line) — Draw lines
+
+## Configuration
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `axes` | `object` | Axis definitions. Each key represents an axis name, each value holds axis configuration. |
+| `margin` | `string` | Space reserved for axis labels in `"top right bottom left"` format. |
+| `offset` | `string` | Alternative to margin using top-to-bottom, left-to-right direction. Use negative values for right/bottom. |
+| `axesOnTop` | `boolean` | Set to `true` to render axes on top of the data series. |
+

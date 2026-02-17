@@ -12,12 +12,6 @@ export interface TextFieldConfig extends FieldConfig {
   /** Default text displayed when the field is empty. */
   placeholder?: StringProp;
 
-  /** Defaults to `false`. Set to `true` to disable the field. */
-  disabled?: BooleanProp;
-
-  /** The opposite of `disabled`. */
-  enabled?: BooleanProp;
-
   /** Defaults to `false`. Used to make the field read-only. */
   readOnly?: BooleanProp;
 
@@ -75,12 +69,6 @@ export interface TextFieldConfig extends FieldConfig {
   /** If `trackFocus` is set, this value will be set when the field receives or loses focus. */
   focused?: BooleanProp;
 
-  /** Callback invoked when the value changes. */
-  onChange?: string | ((value: any, instance: Instance) => void);
-
-  /** Callback invoked on each input event. */
-  onInput?: string | ((value: any, instance: Instance) => void);
-
   /** Callback invoked when the field receives focus. */
   onFocus?: string | ((e: FocusEvent, instance: Instance) => void);
 
@@ -90,7 +78,7 @@ export interface TextFieldConfig extends FieldConfig {
   /** Handler triggered on key down events. Return `false` to prevent default behavior. */
   onKeyDown?:
     | string
-    | ((e: KeyboardEvent, instance: Instance) => boolean | void);
+    | ((e: React.KeyboardEvent, instance: Instance) => boolean | void);
 
   /** Custom validation function. Can return a Promise for async validation. */
   onValidate?:
@@ -98,7 +86,7 @@ export interface TextFieldConfig extends FieldConfig {
     | ((
         value: string,
         instance: Instance,
-        validationParams: any
+        validationParams: any,
       ) => string | undefined | false | Promise<string | undefined | false>);
 }
 
@@ -160,7 +148,7 @@ export class TextField<
         trim: undefined,
         inputType: undefined,
       },
-      ...args
+      ...args,
     );
   }
 
@@ -200,7 +188,7 @@ export class TextField<
         data.error = StringTemplate.format(
           this.minLengthValidationErrorText,
           data.minLength,
-          data.value.length
+          data.value.length,
         );
       else if (
         typeof data.value === "string" &&
@@ -210,7 +198,7 @@ export class TextField<
         data.error = StringTemplate.format(
           this.maxLengthValidationErrorText,
           data.maxLength,
-          data.value.length
+          data.value.length,
         );
     }
   }
@@ -292,7 +280,7 @@ class Input extends VDOM.Component<any, any> {
             error:
               data.error &&
               (state.visited || !suppressErrorsUntilVisited || !empty),
-          })
+          }),
         )}
         style={data.style}
         onMouseDown={stopPropagation}
@@ -304,7 +292,7 @@ class Input extends VDOM.Component<any, any> {
           }}
           className={CSS.expand(
             CSS.element(baseClass, "input"),
-            data.inputClass
+            data.inputClass,
           )}
           defaultValue={data.value}
           id={data.id}
@@ -347,13 +335,13 @@ class Input extends VDOM.Component<any, any> {
   }
 
   onBlur(e: any): void {
+    this.onChange((e.target as any).value, "blur");
     if (this.state.focus) {
       this.setState({
         focus: false,
       });
       this.props.instance.set("focused", false);
     }
-    this.onChange((e.target as any).value, "blur");
   }
 
   onClearClick(_e: any): void {
@@ -424,7 +412,7 @@ class Input extends VDOM.Component<any, any> {
       this.input!,
       tooltip[0],
       tooltip[1],
-      tooltip[2]
+      tooltip[2],
     );
   }
 

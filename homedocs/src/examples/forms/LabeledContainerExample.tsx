@@ -14,7 +14,7 @@ const m = createModel<PageModel>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <LabelsTopLayout vertical>
     <LabeledContainer label="Full Name">
       <div className="flex gap-2">

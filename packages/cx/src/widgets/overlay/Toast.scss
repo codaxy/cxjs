@@ -1,11 +1,16 @@
 @use "sass:map";
+@use "sass:math";
+@use "../variables" as *;
+@use "../maps" as *;
+@use "../../util/scss/add-rules.scss" as *;
+@use "../../util/scss/clockwise.scss" as *;
+@use "../../util/scss/deep-merge.scss" as *;
+@use "../../util/scss/calc.scss" as *;
+@use "../../util/scss/besm.scss" as *;
+@use "../../util/scss/include.scss" as *;
+@use "./Overlay.scss" as *;
 
-@mixin cx-toast(
-   $name: 'toast',
-   $besm: $cx-besm,
-   $mods: $cx-toast-mods
-) {
-
+@mixin cx-toast($name: "toast", $besm: $cx-besm, $mods: $cx-toast-mods) {
    $block: map.get($besm, block);
    $element: map.get($besm, element);
    $state: map.get($besm, state);
@@ -22,7 +27,8 @@
       border-style: solid;
       border-width: $cx-default-toast-border-width;
       border-color: $cx-default-toast-border-color;
-      border-radius: $cx-default-border-radius;
+      border-radius: $cx-default-toast-border-radius;
+      font-size: $cx-default-toast-font-size;
       display: flex;
       flex-direction: row;
       align-items: center;
@@ -45,26 +51,32 @@
       }
 
       @each $modname, $config in $mods {
-        &.#{$mod}#{$modname} {
-          @include cx-add-state-rules($config, default);
+         &.#{$mod}#{$modname} {
+            @include cx-add-state-rules($config, default);
 
-          &[disabled], &.#{$state}disabled {
-              @include cx-add-state-rules($config, disabled);
-          }
+            &[disabled],
+            &.#{$state}disabled {
+               @include cx-add-state-rules($config, disabled);
+            }
 
-          &:hover {
-              @include cx-add-state-rules($config, hover);
-          }
+            &:hover {
+               @include cx-add-state-rules($config, hover);
+            }
 
-          &:focus {
-              @include cx-add-state-rules($config, focus);
-          }
+            &:focus {
+               @include cx-add-state-rules($config, focus);
+            }
 
-          &:active, &.#{$state}pressed {
-              @include cx-add-state-rules($config, active);
-          }
-        }
+            &:active,
+            &.#{$state}pressed {
+               @include cx-add-state-rules($config, active);
+            }
+         }
       }
+   }
+
+   .#{$element}#{$name}-beacon {
+      @include cxe-overlay-beacon;
    }
 }
 
@@ -92,11 +104,7 @@
    }
 }
 
-@mixin cx-toaster(
-   $name: 'toaster',
-   $besm: $cx-besm
-) {
-
+@mixin cx-toaster($name: "toaster", $besm: $cx-besm) {
    $block: map.get($besm, block);
    $element: map.get($besm, element);
    $state: map.get($besm, state);
@@ -158,7 +166,7 @@
    }
 }
 
-@if (cx-should-include('cx/widgets/Toast')) {
+@if (cx-should-include("cx/widgets/Toast")) {
    @include cx-toast();
    @include cx-toaster();
 }

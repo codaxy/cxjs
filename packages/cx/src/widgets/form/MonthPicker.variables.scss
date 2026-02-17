@@ -1,0 +1,24 @@
+@use "../box" as *;
+@use "./Field.variables.scss" as *;
+@use "../../util/scss/defaults.scss" as *;
+
+$cx-default-monthpicker-font-size: smaller !default;
+$cx-default-monthpicker-font-weight: normal !default;
+$cx-default-monthpicker-background-color: $cx-default-input-background-color !default;
+$cx-default-monthpicker-border-width: $cx-default-box-border-width !default;
+$cx-default-monthpicker-border-color: $cx-default-input-border-color !default;
+$cx-default-monthpicker-border-radius: $cx-default-border-radius !default;
+$cx-default-monthpicker-padding: 0 !default;
+$cx-default-monthpicker-width: 23em !default;
+
+// cell
+$cx-default-monthpicker-cell-padding: 0.5em 1em !default;
+$cx-default-monthpicker-cell-line-height: 2em !default;
+
+// header (quarters)
+$cx-default-monthpicker-quarter-color: lightgray !default;
+
+// year
+$cx-default-monthpicker-year-font-size: 120% !default;
+$cx-default-monthpicker-year-font-weight: normal !default;
+$cx-default-monthpicker-year-color: gray !default;

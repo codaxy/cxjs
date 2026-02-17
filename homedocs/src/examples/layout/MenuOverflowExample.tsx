@@ -1,37 +1,37 @@
 import { Menu, Submenu, MenuItem, MenuSpacer } from "cx/widgets";
 
 // @index
-export default () => (
+export default (
   <Menu horizontal overflow style={{ width: "300px" }}>
     <Submenu>
       File
       <Menu putInto="dropdown">
-        <MenuItem autoClose>New</MenuItem>
-        <MenuItem autoClose>Open</MenuItem>
-        <MenuItem autoClose>Save</MenuItem>
+        <MenuItem autoClose onClick={() => {}}>New</MenuItem>
+        <MenuItem autoClose onClick={() => {}}>Open</MenuItem>
+        <MenuItem autoClose onClick={() => {}}>Save</MenuItem>
       </Menu>
     </Submenu>
     <Submenu>
       Edit
       <Menu putInto="dropdown">
-        <MenuItem autoClose>Cut</MenuItem>
-        <MenuItem autoClose>Copy</MenuItem>
-        <MenuItem autoClose>Paste</MenuItem>
+        <MenuItem autoClose onClick={() => {}}>Cut</MenuItem>
+        <MenuItem autoClose onClick={() => {}}>Copy</MenuItem>
+        <MenuItem autoClose onClick={() => {}}>Paste</MenuItem>
       </Menu>
     </Submenu>
     <Submenu>
       View
       <Menu putInto="dropdown">
-        <MenuItem autoClose>Zoom In</MenuItem>
-        <MenuItem autoClose>Zoom Out</MenuItem>
+        <MenuItem autoClose onClick={() => {}}>Zoom In</MenuItem>
+        <MenuItem autoClose onClick={() => {}}>Zoom Out</MenuItem>
       </Menu>
     </Submenu>
     <MenuSpacer />
     <Submenu>
       Help
       <Menu putInto="dropdown">
-        <MenuItem autoClose>Documentation</MenuItem>
-        <MenuItem autoClose>About</MenuItem>
+        <MenuItem autoClose onClick={() => {}}>Documentation</MenuItem>
+        <MenuItem autoClose onClick={() => {}}>About</MenuItem>
       </Menu>
     </Submenu>
   </Menu>

@@ -1,6 +1,7 @@
 ---
 layout: ../../../layouts/DocsLayout.astro
 title: Hello World
+description: Build your first CxJS application step by step
 ---
 
 import CodeExample from "../../../components/CodeExample.astro";
@@ -13,7 +14,7 @@ Let's build a simple interactive example to see CxJS in action.
 
 ## Your First Example
 
-CxJS uses JSX syntax similar to React. Here's a basic component with a text field and data binding:
+CxJS uses JSX syntax similar to React. Here's a simple form with a text field and a button:
 
 <CodeExample code={HelloWorldExampleCode}>
   <HelloWorldExample client:load />
@@ -21,11 +22,11 @@ CxJS uses JSX syntax similar to React. Here's a basic component with a text fiel
 
 Let's break down the key parts:
 
-- **PageModel** - TypeScript interface defining the shape of your data
-- **TextField**, **DateField** - CxJS form widgets for text and date input
-- **LabelsTopLayout** - A layout that positions labels above form fields
-- **expr()** - Creates a computed expression that updates when dependencies change
-- **hasValue()** - Returns true if the bound value is defined
-- **createModel** - Creates a typed accessor model for store bindings
+- **PageModel** — TypeScript interface defining the shape of your data
+- **createModel** — Creates a typed accessor model for store bindings
+- **TextField** — A CxJS form widget with built-in two-way data binding
+- **LabelsTopLayout** — A layout that positions labels above form fields
+- **Button** with **onClick** — Access the `store` to read bound values
+- **MsgBox.alert** — A built-in dialog for displaying messages
 
-When the user enters their name or date of birth, the bindings update the store and the UI re-renders automatically. This declarative data binding is a core concept in CxJS—you define what data each widget uses, and the framework handles synchronization.
+When the user types into the text field, the value is automatically written to the store via the `m.name` binding. The button's `onClick` handler reads this value from the store and displays a greeting.

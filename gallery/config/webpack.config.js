@@ -73,7 +73,6 @@ module.exports = (production) => ({
                      sourceMap: !production,
                      sassOptions: {
                         quietDeps: true,
-                        silenceDeprecations: ["import", "global-builtin", "color-functions", "slash-div"],
                      },
                   },
                },

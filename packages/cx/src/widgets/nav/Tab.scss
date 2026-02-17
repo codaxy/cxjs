@@ -1,9 +1,16 @@
-
+@use "sass:math";
 @use "sass:map";
-@import "cover";
+@use "../variables" as *;
+@use "../maps" as *;
+@use "../../util/scss/add-rules.scss" as *;
+@use "../../util/scss/clockwise.scss" as *;
+@use "../../util/scss/deep-merge.scss" as *;
+@use "../../util/scss/besm.scss" as *;
+@use "../../util/scss/include.scss" as *;
+@use "cover" as *;
 
 @mixin cx-tab(
-   $name: 'tab',
+   $name: "tab",
    $state-style-map: $cx-tab-state-style-map,
    $besm: $cx-besm
 ) {
@@ -17,7 +24,6 @@
       display: inline-block;
 
       @include cx-add-state-rules($state-style-map, default);
-
 
       &:hover {
          @include cx-add-state-rules($state-style-map, hover);
@@ -66,7 +72,7 @@
       }
 
       &.#{$mod}classic.#{$state}active:after {
-         content: ' ';
+         content: " ";
          position: absolute;
          top: 100%;
          left: 0;
@@ -77,6 +83,6 @@
    }
 }
 
-@if (cx-should-include('cx/widgets/Tab')) {
+@if (cx-should-include("cx/widgets/Tab")) {
    @include cx-tab();
 }

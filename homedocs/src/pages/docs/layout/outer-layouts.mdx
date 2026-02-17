@@ -1,13 +1,17 @@
 ---
 layout: ../../../layouts/DocsLayout.astro
 title: Outer Layouts
+description: Page-level layout templates
 ---
 
 import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 import OuterLayoutsExample from "../../../examples/layout/OuterLayoutsExample.tsx";
 import OuterLayoutsExampleCode from "../../../examples/layout/OuterLayoutsExample.tsx?raw";
 
 # Outer Layouts
+
+<OnThisPage />
 
 Outer layouts wrap content in a reusable frame — a header, sidebar, footer, or any combination. Define the frame once, then reuse it across your application.
 

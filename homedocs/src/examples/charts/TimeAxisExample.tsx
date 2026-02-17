@@ -1,44 +1,61 @@
-/** @jsxImportSource cx */
 import { Svg, Rectangle } from "cx/svg";
-import { Chart, TimeAxis, NumericAxis, Gridlines, LineGraph } from "cx/charts";
-import { Controller } from "cx/ui";
+import {
+  Chart,
+  NumericAxis,
+  TimeAxis,
+  Gridlines,
+  ColumnGraph,
+} from "cx/charts";
+import { createModel } from "cx/data";
+import { Controller, enableCultureSensitiveFormatting } from "cx/ui";
 
+enableCultureSensitiveFormatting();
+
+// @model
+interface Model {
+  data: { date: Date; value: number }[];
+}
+
+const m = createModel<Model>();
+// @model-end
+
+// @controller
 class PageController extends Controller {
   onInit() {
-    const now = Date.now();
-    const day = 24 * 60 * 60 * 1000;
     this.store.set(
-      "data",
-      Array.from({ length: 30 }, (_, i) => ({
-        date: new Date(now - (30 - i) * day),
-        value: 50 + Math.sin(i * 0.3) * 30 + Math.random() * 20,
+      m.data,
+      Array.from({ length: 24 }, (_, i) => ({
+        date: new Date(2023, i, 1),
+        value: Math.round(Math.random() * 1000),
       })),
     );
   }
 }
+// @controller-end
 
-export default () => (
-  <cx>
-    <div controller={PageController}>
-      <Svg style="width: 100%; height: 250px;">
-        <Chart
-          margin="20 20 40 50"
-          axes={{
-            x: { type: TimeAxis },
-            y: { type: NumericAxis, vertical: true },
-          }}
-        >
-          <Rectangle fill="white" />
-          <Gridlines />
-          <LineGraph
-            data-bind="data"
-            xField="date"
-            yField="value"
-            colorIndex={0}
-            area
-          />
-        </Chart>
-      </Svg>
-    </div>
-  </cx>
+// @index
+export default (
+  <div controller={PageController}>
+    <Svg style="width: 500px; height: 300px; border: 1px dashed #ddd">
+      <Chart
+        margin="60 20 40 60"
+        axes={{
+          x: <TimeAxis />,
+          y: <NumericAxis vertical />,
+        }}
+      >
+        <Rectangle fill="white" />
+        <Gridlines />
+        <ColumnGraph
+          data={m.data}
+          size={30 * 24 * 60 * 60 * 1000}
+          offset={15 * 24 * 60 * 60 * 1000}
+          xField="date"
+          yField="value"
+          colorIndex={0}
+        />
+      </Chart>
+    </Svg>
+  </div>
 );
+// @index-end

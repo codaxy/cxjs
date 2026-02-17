@@ -1,34 +1,38 @@
 ---
 layout: ../../../layouts/DocsLayout.astro
 title: TimeAxis
+description: Axis for date and time data
 ---
 
+import ImportPath from "../../../components/ImportPath.astro";
 import CodeExample from "../../../components/CodeExample.astro";
+
 import TimeAxisExample from "../../../examples/charts/TimeAxisExample.tsx";
+import TimeAxisExampleCode from "../../../examples/charts/TimeAxisExample.tsx?raw";
 
 # TimeAxis
 
-Maps date/time data along the horizontal or vertical axis of a chart.
+<ImportPath path="import { TimeAxis } from 'cx/charts';" />
 
-**Import:** `import { TimeAxis } from 'cx/charts';`
+The `TimeAxis` component maps date/time data along the horizontal or vertical axis of a chart. It automatically selects appropriate tick intervals and label formats based on the time range being displayed.
 
-## Example
+This example shows monthly data over two years using a column graph. The axis automatically formats labels to show months and years.
 
-<CodeExample
-  code={`<Chart axes={{ x: { type: TimeAxis }, y: { type: NumericAxis, vertical: true } }}>
-  <Gridlines />
-  <LineGraph data-bind="data" xField="date" yField="value" colorIndex={0} area />
-</Chart>`}
->
+<CodeExample code={TimeAxisExampleCode}>
   <TimeAxisExample client:load />
 </CodeExample>
 
-## Properties
+## Configuration
 
-| Property      | Type      | Default     | Description            |
-| ------------- | --------- | ----------- | ---------------------- |
-| `min`         | `Date`    | `undefined` | Minimum date           |
-| `max`         | `Date`    | `undefined` | Maximum date           |
-| `vertical`    | `boolean` | `false`     | Vertical orientation   |
-| `format`      | `string`  | `undefined` | Date format            |
-| `snapToTicks` | `number`  | `undefined` | Snap to tick divisions |
+| Property       | Type               | Description                                                                           |
+| -------------- | ------------------ | ------------------------------------------------------------------------------------- |
+| `min`          | `date`             | Minimum value.                                                                        |
+| `max`          | `date`             | Maximum value.                                                                        |
+| `vertical`     | `boolean`          | Set to `true` for a vertical (Y) axis.                                                |
+| `secondary`    | `boolean`          | Set to `true` to position the axis on the opposite side.                              |
+| `inverted`     | `boolean`          | Set to `true` to invert the axis direction.                                           |
+| `snapToTicks`  | `number`           | Range alignment: `0` = lowest ticks (default), `1` = medium ticks, `2` = major ticks. |
+| `format`       | `string`           | Label format override. If not set, format is selected based on the time range.        |
+| `deadZone`     | `number`           | Size of a zone reserved for labels at both ends of the axis.                          |
+| `upperDeadZone`| `number`           | Size of a zone reserved for labels near the upper end of the axis.                    |
+| `lowerDeadZone`| `number`           | Size of a zone reserved for labels near the lower end of the axis.                    |

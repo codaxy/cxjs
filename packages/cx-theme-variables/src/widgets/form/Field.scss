@@ -1,0 +1,195 @@
+@use "sass:map";
+@use "../../variables.scss" as *;
+@use "cx/src/maps" as *;
+@use "cx/src/util/scss/deep-merge" as *;
+
+// =============================================================================
+// FORM FIELD - Map Overrides
+// =============================================================================
+
+// Global inputs
+$cx-input-state-style-map: cx-deep-map-merge(
+   $cx-input-state-style-map,
+   (
+      disabled: (
+         background: null,
+         color: null,
+      ),
+      focus: (
+         border-color: var(--cx-theme-primary-color),
+         box-shadow: var(--cx-theme-focus-box-shadow),
+      ),
+   )
+);
+
+// Standard form field
+$cx-std-field-state-style-map: cx-deep-map-merge(
+   $cx-std-field-state-style-map,
+   (
+      default: (
+         box-shadow: none,
+         transition: var(--cx-theme-transition),
+      ),
+      hover: (),
+      focus: (
+         border-color: var(--cx-theme-primary-color),
+         box-shadow: var(--cx-theme-focus-box-shadow),
+      ),
+      disabled: (
+         background: null,
+         color: null,
+         opacity: 0.5,
+         box-shadow: none,
+      ),
+      error: (
+         background-color: color-mix(
+               in oklch,
+               var(--cx-theme-danger-color) 10%,
+               var(--cx-theme-background-color)
+            ),
+         border-color: var(--cx-theme-danger-color),
+      ),
+      error-focus: (
+         border-color: var(--cx-theme-danger-border-color),
+         box-shadow: 0 0 0 2px
+            color-mix(in oklch, var(--cx-theme-danger-color) 30%, transparent),
+      ),
+   )
+);
+
+// Textarea
+$cx-textarea-state-style-map: cx-deep-map-merge(
+   $cx-std-field-state-style-map,
+   (
+      default: (
+         border-color: var(--cx-input-border-color),
+      ),
+      focus: (
+         box-shadow: var(--cx-theme-focus-box-shadow),
+      ),
+      hover: (),
+   )
+);
+
+// Checkbox
+$cx-checkbox-state-style-map: cx-deep-map-merge(
+   $cx-checkbox-state-style-map,
+   (
+      default: (
+         opacity: 1,
+      ),
+      hover: (
+         border-color: var(--cx-theme-border-color),
+      ),
+      focus: (
+         box-shadow: var(--cx-theme-focus-box-shadow),
+         border-color: var(--cx-theme-primary-color),
+      ),
+      checked: (
+         background-color: var(--cx-checkbox-checked-background-color),
+         border-color: var(--cx-checkbox-checked-border-color),
+         color: var(--cx-checkbox-checked-color),
+         opacity: 1,
+      ),
+      checked-focus: (
+         background-color: var(--cx-checkbox-checked-background-color),
+         border-color: var(--cx-checkbox-checked-border-color),
+      ),
+      disabled: (
+         opacity: 0.5,
+      ),
+      disabled-checked: (
+         opacity: 0.5,
+      ),
+   )
+);
+
+// Radio
+$cx-radio-state-style-map: cx-deep-map-merge(
+   $cx-radio-state-style-map,
+   (
+      checked: (
+         color: var(--cx-radio-checked-color),
+         border-color: var(--cx-radio-checked-border-color),
+      ),
+      checked-focus: (
+         color: var(--cx-radio-checked-color),
+         border-color: var(--cx-radio-checked-border-color),
+      ),
+      checked-hover: (
+         color: var(--cx-radio-checked-color),
+         border-color: var(--cx-radio-checked-border-color),
+      ),
+      focus: (
+         box-shadow: var(--cx-theme-focus-box-shadow),
+         border-color: var(--cx-theme-primary-color),
+      ),
+      disabled: (
+         opacity: 0.5,
+      ),
+      disabled-checked: (
+         opacity: 0.5,
+      ),
+   )
+);
+
+// Slider
+$cx-slider-handle-styles: cx-deep-map-merge(
+   $cx-slider-handle-styles,
+   (
+      hover: (
+         box-shadow: var(--cx-slider-handle-hover-box-shadow),
+      ),
+      active: (
+         background-color: var(--cx-slider-handle-color),
+         border-color: var(--cx-slider-handle-border-color),
+      ),
+      focus: (
+         box-shadow: var(--cx-theme-focus-box-shadow),
+         background-color: var(--cx-slider-handle-color),
+      ),
+   )
+);
+
+// Switch
+$cx-switch-handle-styles: cx-deep-map-merge(
+   $cx-switch-handle-styles,
+   (
+      default: (
+         box-shadow: var(--cx-theme-box-shadow),
+      ),
+      hover: (
+         box-shadow: var(--cx-theme-box-shadow),
+      ),
+      active: (
+         background-color: color-mix(
+               in oklch,
+               var(--cx-button-active-state-mix-color) 12%,
+               var(--cx-button-background-color)
+            ),
+         border-color: transparent,
+      ),
+      focus: (
+         box-shadow: var(--cx-overlay-box-shadow),
+         border-color: transparent,
+      ),
+   )
+);
+
+// Clear icon
+$cx-clear-state-style-map: cx-deep-map-merge(
+   $cx-clear-state-style-map,
+   (
+      hover: (
+         color: var(--cx-theme-text-color),
+         background-color: transparent,
+      ),
+      focus: (
+         color: var(--cx-theme-primary-color),
+      ),
+      error: (
+         color: var(--cx-theme-text-color),
+         opacity: 0.6,
+      ),
+   )
+);

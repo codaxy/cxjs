@@ -1,34 +1,39 @@
 ---
 layout: ../../../layouts/DocsLayout.astro
 title: MinMaxFinder
+description: Find min/max values in data
 ---
 
+import ImportPath from "../../../components/ImportPath.astro";
 import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
 import MinMaxFinderExample from "../../../examples/charts/MinMaxFinderExample.tsx";
+import MinMaxFinderExampleCode from "../../../examples/charts/MinMaxFinderExample.tsx?raw";
 
 # MinMaxFinder
 
-Determines minimum and maximum values displayed on a graph.
+<ImportPath path="import { MinMaxFinder } from 'cx/charts';" />
 
-**Import:** `import { MinMaxFinder } from 'cx/charts';`
+<OnThisPage />
 
-## Example
+`MinMaxFinder` determines the minimum and maximum values displayed by its child graph elements. Use it to highlight data ranges, draw min/max marker lines, or display extreme values.
 
-<CodeExample
-  code={`<MinMaxFinder minY-bind="minValue" maxY-bind="maxValue">
-  <LineGraph data-bind="points" colorIndex={0} />
-</MinMaxFinder>
-<MarkerLine y-bind="minValue" colorIndex={8} />
-<MarkerLine y-bind="maxValue" colorIndex={4} />`}
->
+<CodeExample code={MinMaxFinderExampleCode}>
   <MinMaxFinderExample client:load />
 </CodeExample>
 
-## Properties
+## How It Works
 
-| Property | Type         | Default     | Description        |
-| -------- | ------------ | ----------- | ------------------ |
-| `minX`   | `Sx<number>` | `undefined` | Bind for minimum X |
-| `maxX`   | `Sx<number>` | `undefined` | Bind for maximum X |
-| `minY`   | `Sx<number>` | `undefined` | Bind for minimum Y |
-| `maxY`   | `Sx<number>` | `undefined` | Bind for maximum Y |
+1. Wrap graph elements (LineGraph, ColumnGraph, etc.) inside `MinMaxFinder`
+2. Bind `minY`/`maxY` (or `minX`/`maxX`) to store the discovered extremes
+3. Use the bound values with Range, MarkerLine, or Text elements
+
+## Configuration
+
+| Property | Type     | Description                          |
+| -------- | -------- | ------------------------------------ |
+| `minX`   | `number` | Bind for minimum X value found.      |
+| `maxX`   | `number` | Bind for maximum X value found.      |
+| `minY`   | `number` | Bind for minimum Y value found.      |
+| `maxY`   | `number` | Bind for maximum Y value found.      |

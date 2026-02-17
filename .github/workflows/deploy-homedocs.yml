@@ -3,7 +3,7 @@ name: Deploy Homedocs to Netlify
 on:
   push:
     branches:
-      - homedocs
+      - master
   workflow_dispatch:
 
 jobs:
@@ -24,8 +24,8 @@ jobs:
       - name: Install dependencies
         run: yarn install --immutable
 
-      - name: Build cx package
-        run: yarn build
+      - name: Build required cx packages and themes
+        run: yarn workspace cx-react run build && yarn workspace cx run build && yarn workspace cx-theme-variables run build
 
       - name: Build homedocs
         run: yarn --cwd homedocs build

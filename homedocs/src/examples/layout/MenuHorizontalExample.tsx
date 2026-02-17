@@ -1,7 +1,7 @@
 import { Menu, Submenu, MenuItem } from "cx/widgets";
 
 // @index
-export default () => (
+export default (
   <Menu horizontal>
     <Submenu>
       File
@@ -22,21 +22,21 @@ export default () => (
     <Submenu>
       Edit
       <Menu putInto="dropdown">
-        <MenuItem autoClose>Cut</MenuItem>
-        <MenuItem autoClose>Copy</MenuItem>
-        <MenuItem autoClose>Paste</MenuItem>
+        <MenuItem autoClose onClick={() => {}}>Cut</MenuItem>
+        <MenuItem autoClose onClick={() => {}}>Copy</MenuItem>
+        <MenuItem autoClose onClick={() => {}}>Paste</MenuItem>
       </Menu>
     </Submenu>
     <Submenu>
       View
       <Menu putInto="dropdown">
-        <MenuItem autoClose>Zoom In</MenuItem>
-        <MenuItem autoClose>Zoom Out</MenuItem>
+        <MenuItem autoClose onClick={() => {}}>Zoom In</MenuItem>
+        <MenuItem autoClose onClick={() => {}}>Zoom Out</MenuItem>
         <Submenu arrow>
           More Options
           <Menu putInto="dropdown">
-            <MenuItem autoClose>Option 1</MenuItem>
-            <MenuItem autoClose>Option 2</MenuItem>
+            <MenuItem autoClose onClick={() => {}}>Option 1</MenuItem>
+            <MenuItem autoClose onClick={() => {}}>Option 2</MenuItem>
           </Menu>
         </Submenu>
       </Menu>

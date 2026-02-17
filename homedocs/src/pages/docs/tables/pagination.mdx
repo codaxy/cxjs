@@ -1,10 +1,12 @@
 ---
 layout: ../../../layouts/DocsLayout.astro
 title: Pagination
+description: Page through large datasets
 ---
 
 import ImportPath from "../../../components/ImportPath.astro";
 import CodeExample from "../../../components/CodeExample.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 
 import PaginationExample from "../../../examples/tables/PaginationExample.tsx";
 import PaginationExampleCode from "../../../examples/tables/PaginationExample.tsx?raw";
@@ -12,6 +14,8 @@ import PaginationExampleCode from "../../../examples/tables/PaginationExample.ts
 # Pagination
 
 <ImportPath path="import { Grid, Pagination } from 'cx/widgets';" />
+
+<OnThisPage />
 
 Grid is commonly used with server-side pagination, sorting, and filtering. The `Pagination` widget provides navigation controls, while reactive triggers manage data fetching.
 

@@ -25,7 +25,7 @@ const m = createModel<PageModel>();
 // @model-end
 
 // @controller
-class PageController extends Controller<typeof m> {
+class PageController extends Controller {
   visibleIdsMap: Record<number, boolean> = {};
 
   onInit() {
@@ -93,7 +93,7 @@ class PageController extends Controller<typeof m> {
 // @controller-end
 
 // @index
-export default () => (
+export default (
   <div controller={PageController}>
     <TextField
       value={m.searchText}
@@ -121,13 +121,13 @@ export default () => (
       columns={[
         {
           header: {
-            style: "padding: 2px",
+            style: "padding: 4px 6px",
             children: (
               <Checkbox
                 value={m.selectAll}
                 indeterminate
                 unfocusable
-                class="ml-4"
+                class="p-0"
               />
             ),
           },
@@ -136,7 +136,7 @@ export default () => (
           pad: false,
           align: "center",
           children: (
-            <Checkbox value={m.$record.selected} unfocusable class="ml-4" />
+            <Checkbox value={m.$record.selected} unfocusable class="p-0" />
           ),
         },
         { header: "Name", field: "fullName", sortable: true },

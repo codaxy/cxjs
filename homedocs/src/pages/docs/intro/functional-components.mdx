@@ -1,10 +1,12 @@
 ---
 layout: ../../../layouts/DocsLayout.astro
 title: Functional Components
+description: Create reusable components with functions
 ---
 
 import CodeExample from "../../../components/CodeExample.astro";
 import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
 import FunctionalComponentExample from "../../../examples/intro/FunctionalComponentExample.tsx";
 import FunctionalComponentExampleCode from "../../../examples/intro/FunctionalComponentExample.tsx?raw";
 import FunctionalComponentChartExample from "../../../examples/intro/FunctionalComponentChartExample.tsx";
@@ -15,6 +17,8 @@ import CreateFunctionalComponentExampleCode from "../../../examples/intro/Create
 # Functional Components
 
 <ImportPath path="import { createFunctionalComponent } from 'cx/ui';" />
+
+<OnThisPage />
 
 Functional components provide a simple way to create reusable structures composed of CxJS widgets. Use `createFunctionalComponent` to define a CxJS functional component:
 

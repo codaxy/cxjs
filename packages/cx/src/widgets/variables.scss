@@ -1,97 +1,35 @@
+// Forward utility variables first (so they're available to consumers)
+@forward "../util/scss/defaults.scss";
+@forward "../util/scss/include.scss";
+
+// Forward widget base variables
+@forward "./box.scss";
+@forward "Button.variables.scss";
+
+// Use utilities locally for derived variable definitions
 @use "sass:map";
+@use "../util/scss/defaults.scss" as *;
+@use "../util/scss/include.scss" as include;
 
-// Padding
-$cx-default-padding-extra-small: 3px !default;
-$cx-default-padding-small: 5px !default;
-$cx-default-padding-medium: 10px !default;
-$cx-default-padding-large: 15px !default;
-$cx-default-padding-extra-large: 20px !default;
+//Selection
+$cx-selection-background-color: rgba(135, 206, 250, 0.6);
 
-$cx-pad-size: (
-   xsmall: $cx-default-padding-extra-small,
-   small: $cx-default-padding-small,
-   medium: $cx-default-padding-medium,
-   large: $cx-default-padding-large,
-   xlarge: $cx-default-padding-extra-large,
-) !default;
+//List
+$cx-default-list-item-padding: 5px 10px !default;
 
-@import "form/variables";
-@import "grid/variables";
-@import "nav/variables";
-@import "overlay/variables";
-@import "drag-drop/variables";
-@import "Button.variables";
+// Section
+$cx-default-section-header-padding: 1rem 0 !default;
+$cx-default-section-header-margin: 0 1.5rem !default;
+$cx-default-section-header-border-width: 1px !default;
+$cx-default-section-header-border-color: rgba(128, 128, 128, 0.3) !default;
+$cx-default-section-header-font-weight: null !default;
 
-// HEADING
-$cx-caption-style-map: () !default;
+$cx-default-section-footer-padding: 1rem 0 !default;
+$cx-default-section-footer-margin: 0 1.5rem !default;
+$cx-default-section-footer-border-width: 1px !default;
+$cx-default-section-footer-border-color: rgba(128, 128, 128, 0.3) !default;
 
-$cx-caption-level-style-map: (
-   1: (
-      margin: 0,
-      padding: 0,
-   ),
-   2: (
-      margin: 0,
-      padding: 0,
-   ),
-   3: (
-      margin: 0,
-      padding: 0,
-   ),
-   4: (
-      margin: 0,
-      padding: 0,
-   ),
-   5: (
-      margin: 0,
-      padding: 0,
-   ),
-   6: (
-      margin: 0,
-      padding: 0,
-   ),
-) !default;
-
-// SECTION
-$cx-section-styles: () !default;
-
-$cx-section-mods: (
-   card: (
-      default: (
-         background-color: rgba(255, 255, 255, 0.9),
-         border-radius: 3px,
-         border-color: $cx-default-border-color,
-      ),
-   ),
-   warning: (
-      default: (
-         color: #fff,
-         background-color: #f09037,
-         border-radius: 3px,
-      ),
-   ),
-   primary: (
-      default: (
-         color: #fff,
-         background-color: #1f99f8,
-         border-radius: 3px,
-      ),
-   ),
-   success: (
-      default: (
-         color: #fff,
-         background-color: #5cb85c,
-         border-radius: 3px,
-      ),
-   ),
-   error: (
-      default: (
-         color: #fff,
-         background-color: #d9534f,
-         border-radius: 3px,
-      ),
-   ),
-) !default;
+$cx-default-section-body-padding: 1rem 1.5rem !default;
 
 // ProgressBar
 $cx-default-progressbar-width: 180px !default;
@@ -105,38 +43,16 @@ $cx-default-progressbar-border-radius: 0 !default;
 
 $cx-default-progressbar-indicator-background-color: rgba(#98d4ff, 0.8) !default;
 
-$cx-progressbar-state-style-map: (
-   default: (
-      position: relative,
-      width: $cx-default-progressbar-width,
-      min-height: $cx-default-progressbar-height,
-      background-color: $cx-default-progressbar-background-color,
-      border-style: solid,
-      border-color: $cx-default-progressbar-border-color,
-      border-width: $cx-default-progressbar-border-width,
-      border-radius: $cx-default-progressbar-border-radius,
-      font-size: $cx-default-progressbar-font-size,
-      text-align: center,
-      line-height: $cx-default-progressbar-height,
-   ),
-   disabled: (
-      opacity: 0.2,
-   ),
-);
-
-$cx-progressbar-mods: ();
-
-$cx-highlightedsearchtext-style-map: (
-   font-weight: bold,
-) !default;
-
-// for backward compatibility
-.cxm-well {
-   @extend .cxm-card !optional;
-}
+@forward "form/Field.variables.scss";
+@forward "form/variables";
+@forward "grid/variables";
+@forward "nav/variables";
+@forward "overlay/variables";
+@forward "drag-drop/variables";
+@forward "overlay/variables";
 
 $cx-dependencies: map.merge(
-   $cx-dependencies,
+   include.$cx-dependencies,
    (
       "cx/widgets/FlexRow": "cx/widgets/FlexBox",
       "cx/widgets/FlexCol": "cx/widgets/FlexBox",

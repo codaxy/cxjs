@@ -18,7 +18,7 @@ const mProxy = createModel<ProxyModel>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <div>
     <LabelsTopLayout>
       <Slider value={m.level} label="Original" />

@@ -18,7 +18,7 @@ const m = createModel<PageModel>();
 // @model-end
 
 // @index
-export default () => (
+export default (
   <div>
     <div class="flex gap-4">
       <Radio value={m.place} option="winner" default>

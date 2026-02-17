@@ -1,7 +1,14 @@
 @use "sass:map";
+@use "sass:math";
+@use "../variables" as *;
+@use "../maps" as *;
+@use "../../util/scss/besm.scss" as *;
+@use "../../util/scss/add-rules.scss" as *;
+@use "../../util/scss/clockwise.scss" as *;
+@use "../../util/scss/include.scss" as *;
 
 @mixin cx-label(
-   $name: 'label',
+   $name: "label",
    $state-style-map: $cx-label-state-style-map,
    $besm: $cx-besm
 ) {
@@ -33,6 +40,6 @@
    }
 }
 
-@if (cx-should-include('cx/widgets/Label')) {
+@if (cx-should-include("cx/widgets/Label")) {
    @include cx-label();
 }

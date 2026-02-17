@@ -1,11 +1,17 @@
+@use "./box" as *;
+@use "../util/scss/defaults.scss" as *;
+@use "../util/scss/clockwise.scss" as *;
+@use "../util/scss/calc.scss" as *;
 @use "sass:color";
 @use "sass:map";
 
 $cx-default-button-font-family: $cx-default-box-font-family !default;
 $cx-default-button-font-size: $cx-default-box-font-size !default;
 $cx-default-button-font-weight: normal !default;
-$cx-default-button-padding: cx-top($cx-default-box-padding) 2 * cx-right($cx-default-box-padding)
-   cx-bottom($cx-default-box-padding) 2 * cx-left($cx-default-box-padding) !default;
+$cx-default-button-padding: $cx-default-box-padding-top
+   cx-multiply($cx-default-box-padding-right, 2)
+   $cx-default-box-padding-bottom
+   cx-multiply($cx-default-box-padding-left, 2) !default;
 $cx-default-button-border-width: $cx-default-box-border-width !default;
 $cx-default-button-line-height: $cx-default-box-line-height !default;
 $cx-default-button-background-color: #eee !default;
@@ -13,105 +19,3 @@ $cx-default-button-border-color: #ccc !default;
 $cx-default-button-border-radius: $cx-default-border-radius !default;
 $cx-default-button-color: null !default;
 $cx-default-button-box-shadow: inset 0 -2px rgba(128, 128, 128, 0.1) !default;
-
-$cx-button-state-style-map: (
-   default: (
-      background-color: $cx-default-button-background-color,
-      box-shadow: $cx-default-button-box-shadow,
-      border-color: $cx-default-button-border-color,
-      border-width: $cx-default-button-border-width,
-      border-radius: $cx-default-button-border-radius,
-      border-style: solid,
-      user-select: none,
-      color: $cx-default-button-color,
-      font-family: $cx-default-button-font-family,
-      font-size: $cx-default-button-font-size,
-      font-weight: $cx-default-button-font-weight,
-      line-height: $cx-default-button-line-height,
-      padding: $cx-default-button-padding,
-      cursor: pointer,
-      -webkit-appearance: none,
-      -moz-appearance: none,
-      appearance: none,
-      white-space: nowrap,
-      text-decoration: none,
-   ),
-   hover: (
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3),
-      text-decoration: none,
-   ),
-   focus: (
-      outline: none,
-      box-shadow: 0 0 1px 1px rgba(77, 144, 254, 0.8),
-   ),
-   hover-focus: (),
-   disabled: (
-      color: gray,
-      box-shadow: none,
-      pointer-events: none,
-   ),
-   active: (
-      top: 1px,
-      box-shadow: none,
-   ),
-) !default;
-
-$cx-button-mods: (
-   primary: (
-      default: (
-         background-color: #1f99f8,
-         border-color: #1e88e5,
-         color: white,
-      ),
-      disabled: (
-         background-color: color.adjust(#1f99f8, $alpha: -0.5),
-         border-color: color.adjust(#1e88e5, $alpha: -0.9),
-         color: color.adjust(white, $alpha: -0.4),
-      ),
-      hover: (
-         background-color: #1f99f8,
-      ),
-   ),
-   danger: (
-      default: (
-         background-color: #d32f2f,
-         border-color: #c62828,
-         color: white,
-      ),
-      disabled: (
-         background-color: color.adjust(#d32f2f, $alpha: -0.4),
-         border-color: color.adjust(#c62828, $alpha: -0.9),
-         color: color.adjust(white, $alpha: -0.5),
-      ),
-      hover: (
-         background-color: #d32f2f,
-      ),
-   ),
-   hollow: (
-      default: (
-         background-color: transparent,
-         border-color: transparent,
-         color: inherit,
-         box-shadow: none,
-      ),
-      hover:
-         map.merge(
-            map.get($cx-list-item, hover),
-            (
-               box-shadow: none,
-               border-color: transparent,
-            )
-         ),
-      focus:
-         map.merge(
-            map.get($cx-list-item, selected-cursor),
-            (
-               box-shadow: none,
-               border-color: transparent,
-            )
-         ),
-      disabled: (
-         color: rgba(128, 128, 128, 0.5),
-      ),
-   ),
-) !default;

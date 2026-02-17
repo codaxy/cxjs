@@ -1,0 +1,50 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: isDefined
+description: Check if value is defined
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+# isDefined
+
+<ImportPath path="import { isDefined } from 'cx/util';" />
+<OnThisPage />
+
+Type guard that checks if a value is not `undefined`. Note: `null` is considered defined.
+
+## Signature
+
+```ts
+function isDefined<T>(value: T | undefined): value is T
+```
+
+## Examples
+
+```ts
+isDefined("hello");        // true
+isDefined(0);              // true
+isDefined(false);          // true
+isDefined(null);           // true (null is defined)
+isDefined(undefined);      // false
+isDefined(void 0);         // false
+```
+
+## Use Cases
+
+```ts
+function getConfig(options?: { timeout?: number }) {
+  if (isDefined(options?.timeout)) {
+    // Use the provided timeout
+    return { timeout: options.timeout };
+  }
+  // Use default
+  return { timeout: 5000 };
+}
+```
+
+## See Also
+
+- [coalesce](/docs/utilities/coalesce) - Return first non-null value
+- [isUndefined](/docs/utilities/is-defined) - Opposite check
