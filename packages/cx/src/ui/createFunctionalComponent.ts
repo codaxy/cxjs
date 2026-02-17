@@ -49,9 +49,19 @@ export interface CxFunctionalComponent<Props = any> {
    __cxFunctionalComponent: true;
 }
 
-export function createFunctionalComponent<Props = any>(
+// Overload 1: Preserves generic factory types (e.g. <T>(props: Props<T>) => ...)
+export function createFunctionalComponent<F extends (props: any) => ChildNode | ChildNode[]>(
+   factory: F,
+): F & { __cxFunctionalComponent: true };
+
+// Overload 2: Explicit Props type parameter (e.g. createFunctionalComponent<MyProps>(fn))
+export function createFunctionalComponent<Props>(
    factory: (props: Props) => ChildNode | ChildNode[],
-): CxFunctionalComponent<Props> {
+): CxFunctionalComponent<Props>;
+
+export function createFunctionalComponent(
+   factory: (props: any) => ChildNode | ChildNode[],
+): any {
    if (isComponentFactory(factory)) return factory as any;
 
    return createComponentFactory(factory, (props: any = {}) => {

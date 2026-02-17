@@ -11,6 +11,61 @@ import { LabeledContainer } from "../widgets/form/LabeledContainer";
 import { Repeater } from "./Repeater";
 import { FirstVisibleChildLayout } from "./layout/FirstVisibleChildLayout";
 import { useStoreMethods } from "../hooks";
+import { AccessorChain, createAccessorModelProxy } from "../data/createAccessorModelProxy";
+
+describe("createFunctionalComponent generic type safety", () => {
+  interface User {
+    id: number;
+    name: string;
+  }
+
+  interface GenericListProps<T> {
+    items: AccessorChain<T[]>;
+    onSelect?: (item: T) => void;
+  }
+
+  const GenericList = createFunctionalComponent(
+    <T,>({ items, onSelect }: GenericListProps<T>) => (
+      <cx>
+        <div />
+      </cx>
+    )
+  );
+
+  it("infers generic type parameter from AccessorChain", () => {
+    let model = createAccessorModelProxy<{ users: User[] }>();
+
+    const widget = (
+      <cx>
+        <GenericList
+          items={model.users}
+          onSelect={(user) => {
+            // user should be inferred as User
+            const id: number = user.id;
+            const name: string = user.name;
+            // @ts-expect-error - nonExistent does not exist on User
+            const x = user.nonExistent;
+          }}
+        />
+      </cx>
+    );
+    assert.ok(widget);
+  });
+
+  it("accepts PureContainerConfig props like visible", () => {
+    let model = createAccessorModelProxy<{ users: User[] }>();
+
+    const widget = (
+      <cx>
+        <GenericList
+          items={model.users}
+          visible={true}
+        />
+      </cx>
+    );
+    assert.ok(widget);
+  });
+});
 
 describe("createFunctionalComponent type safety", () => {
   interface MyComponentProps {
