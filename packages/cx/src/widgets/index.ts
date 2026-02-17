@@ -8,6 +8,8 @@ import { Restate, PrivateStore } from "../ui/Restate";
 import { DataProxy } from "../ui/DataProxy";
 import { Content } from "../ui/layout/Content";
 import { ContentPlaceholder, ContentPlaceholderScope } from "../ui/layout/ContentPlaceholder";
+import { LabelsTopLayout, LabelsTopLayoutCell } from "../ui/layout/LabelsTopLayout";
+import { LabelsLeftLayout } from "../ui/layout/LabelsLeftLayout";
 import { ContentResolver } from "../ui/ContentResolver";
 import { Rescope } from "../ui/Rescope";
 import { Repeater } from "../ui/Repeater";
@@ -29,6 +31,9 @@ export {
    Restate,
    PrivateStore,
    DataProxy,
+   LabelsTopLayout,
+   LabelsTopLayoutCell,
+   LabelsLeftLayout,
 };
 
 export * from "./cx";
