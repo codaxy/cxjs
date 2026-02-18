@@ -324,6 +324,29 @@ export const navigation = [
           },
         ],
       },
+      {
+        title: "Theming",
+        items: [
+          {
+            title: "Overview",
+            slug: "theming",
+            description:
+              "How the CxJS SCSS theming system works",
+          },
+          {
+            title: "CSS Variables Theme",
+            slug: "css-variables-theme",
+            description:
+              "Runtime theme customization with cx-theme-variables",
+          },
+          {
+            title: "Classic Themes",
+            slug: "classic-themes",
+            description:
+              "Compile-time SCSS themes with variables, maps, and overrides",
+          },
+        ],
+      },
     ],
   },
   {

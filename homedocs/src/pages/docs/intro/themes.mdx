@@ -10,59 +10,51 @@ import OnThisPage from "../../../components/OnThisPage.astro";
 
 <OnThisPage />
 
-CxJS provides pre-built themes that style all framework widgets consistently. See them in action at the [CxJS Gallery](https://gallery.cxjs.io/).
+CxJS offers two theming approaches: a modern **CSS variables theme** for runtime customization, and **classic themes** with compile-time SCSS configuration.
 
-## Available Themes
+## cx-theme-variables (Recommended)
 
-| Theme      | Package               | Description                                 |
-| ---------- | --------------------- | ------------------------------------------- |
-| Aquamarine | `cx-theme-aquamarine` | Clean, modern theme with aquamarine accents |
-| Material   | `cx-theme-material`   | Google Material Design inspired theme       |
-| Frost      | `cx-theme-frost`      | Light theme with subtle blue tones          |
-| Dark       | `cx-theme-dark`       | Dark theme for low-light environments       |
-| Space Blue | `cx-theme-space-blue` | Dark blue theme                             |
+The [`cx-theme-variables`](https://www.npmjs.com/package/cx-theme-variables) theme uses CSS custom properties, enabling runtime theme switching (e.g., light/dark mode) without recompiling SCSS. It supports presets, tweaks, dynamic themes, and dark mode out of the box. Preview it in the [Theme Editor](/themes).
 
-## Installation
+```bash
+npm install cx-theme-variables
+```
 
-Install the theme package of your choice:
+```tsx
+import "cx-theme-variables/dist/reset.css";
+import "cx-theme-variables/dist/widgets.css";
+import "cx-theme-variables/dist/charts.css";
+import "cx-theme-variables/dist/svg.css";
+```
+
+Or import from SCSS source:
+
+```scss
+@use "cx-theme-variables/src/index";
+```
+
+For presets, tweaks, dark mode, dynamic themes, and CSS variable overrides, see the [detailed documentation](/docs/concepts/css-variables-theme).
+
+## Classic Themes
+
+Classic themes use SCSS variables that are resolved at compile time. They produce smaller CSS output but require recompilation to change. See them in action at the [CxJS Gallery](https://gallery.cxjs.io/).
+
+| Theme           | Package                 | Description                             |
+| --------------- | ----------------------- | --------------------------------------- |
+| Aquamarine      | `cx-theme-aquamarine`   | Clean, modern theme with aquamarine accents |
+| Material        | `cx-theme-material`     | Google Material Design inspired theme   |
+| Material Dark   | `cx-theme-material-dark`| Material Design dark variant            |
+| Frost           | `cx-theme-frost`        | Light theme with subtle blue tones      |
+| Dark            | `cx-theme-dark`         | Dark theme for low-light environments   |
+| Space Blue      | `cx-theme-space-blue`   | Dark blue theme                         |
+| Packed Dark     | `cx-theme-packed-dark`  | Compact dark theme for data-dense UIs   |
 
 ```bash
 npm install cx-theme-aquamarine
 ```
 
-## Usage
-
-Import the theme CSS in your entry file:
-
-```tsx
-import "cx-theme-aquamarine/dist/index.css";
-```
-
-## Customization
-
-Instead of importing the precompiled CSS file, you can import the theme's SCSS source files directly. This is a common approach that allows you to customize theme variables.
-
-Create an `index.scss` file:
-
 ```scss
-// Pre-set theme variables
-$cx-theme-primary-color: #3b82f6;
-
-// Import theme variables
-@import "cx-theme-aquamarine/src/variables";
-
-// Advanced customizations go here
-
-// Import theme styles
-@import "cx-theme-aquamarine/src/index";
-
-// Add classes that override default theme behavior
+@use "cx-theme-aquamarine/src/index";
 ```
 
-Then import it in your entry file:
-
-```tsx
-import "./index.scss";
-```
-
-Check the theme's repository for available SCSS variables.
+For customization with variables, state style maps, and CSS overrides, see the [detailed documentation](/docs/concepts/classic-themes).

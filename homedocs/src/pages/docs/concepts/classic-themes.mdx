@@ -1,0 +1,118 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Classic Themes
+description: Compile-time SCSS themes with variables, maps, and overrides
+---
+
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+# Classic Themes
+
+<OnThisPage />
+
+Classic themes use SCSS variables that are resolved at compile time. They produce smaller CSS output but require recompilation to change. See them in action at the [CxJS Gallery](https://gallery.cxjs.io/).
+
+## Available Themes
+
+| Theme           | Package                 | Description                             |
+| --------------- | ----------------------- | --------------------------------------- |
+| Aquamarine      | `cx-theme-aquamarine`   | Clean, modern theme with aquamarine accents |
+| Material        | `cx-theme-material`     | Google Material Design inspired theme   |
+| Material Dark   | `cx-theme-material-dark`| Material Design dark variant            |
+| Frost           | `cx-theme-frost`        | Light theme with subtle blue tones      |
+| Dark            | `cx-theme-dark`         | Dark theme for low-light environments   |
+| Space Blue      | `cx-theme-space-blue`   | Dark blue theme                         |
+| Packed Dark     | `cx-theme-packed-dark`  | Compact dark theme for data-dense UIs   |
+
+## Installation
+
+```bash
+npm install cx-theme-aquamarine
+```
+
+## Usage
+
+Import the theme in your SCSS entry file:
+
+```scss
+@use "cx-theme-aquamarine/src/index";
+```
+
+Alternatively, import the precompiled CSS:
+
+```tsx
+import "cx-theme-aquamarine/dist/reset.css";
+import "cx-theme-aquamarine/dist/widgets.css";
+import "cx-theme-aquamarine/dist/charts.css";
+import "cx-theme-aquamarine/dist/svg.css";
+```
+
+## Customization
+
+Classic themes are customized at three levels: **variables**, **maps**, and **CSS overrides**.
+To use any of these, import the theme from SCSS source instead of the precompiled CSS.
+
+### Level 1: Variables
+
+Variables control base values like colors, border radius, and font sizes. Use `@forward...with()` to override them before they reach the framework.
+
+Create a `variables.scss` file:
+
+```scss
+@forward "cx-theme-aquamarine/src/variables" with (
+   $cx-theme-primary-color: #3b82f6 !default,
+   $cx-default-border-radius: 8px !default
+);
+```
+
+The `!default` flag ensures your values take priority — the theme and framework will only set values that haven't been defined yet.
+
+### Level 2: State Style Maps
+
+Maps define how widgets look in different states (default, hover, focus, disabled, etc.). Use `cx-deep-map-merge()` to modify specific states without replacing the entire map.
+
+Create a `maps.scss` file:
+
+```scss
+@use "./variables" as *;
+@use "cx-theme-aquamarine/src/maps" as *;
+@use "cx/src/util/scss/deep-merge" as *;
+
+// Make primary buttons bolder on hover
+$cx-button-state-style-map: cx-deep-map-merge(
+   $cx-button-state-style-map,
+   (
+      hover: (font-weight: bold)
+   )
+);
+```
+
+### Level 3: CSS Overrides
+
+For styling that can't be expressed through variables or maps, add CSS rules after the theme is loaded.
+
+Create an `index.scss` entry point that brings everything together:
+
+```scss
+// 1. Forward your variables (configures the theme)
+@forward "./variables";
+
+// 2. Load your maps (extends state style maps)
+@use "./maps" as *;
+
+// 3. Load theme overrides (generates all CSS)
+@use "cx-theme-aquamarine/src/overrides";
+
+// 4. Add your own CSS overrides
+.cxb-button.cxm-primary {
+   text-transform: uppercase;
+}
+```
+
+Import it in your app entry file:
+
+```tsx
+import "./index.scss";
+```
+
+Check the theme's repository for available SCSS variables and maps.

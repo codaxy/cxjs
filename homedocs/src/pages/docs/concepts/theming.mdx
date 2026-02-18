@@ -1,0 +1,153 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: Theming Overview
+description: How the CxJS SCSS theming system works
+---
+
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+# Theming Overview
+
+<OnThisPage />
+
+CxJS uses a layered SCSS architecture that makes every visual aspect of the framework customizable.
+Understanding the key building blocks — CSS class naming, state style maps, and the variable/map/override pipeline — will help you get the most out of any theme.
+
+## BESM Class Naming
+
+CxJS uses a BEM-like naming convention called **BESM** (Block, Element, State, Modifier) with short prefixes:
+
+| Prefix | Role     | Example            | Meaning                          |
+| ------ | -------- | ------------------ | -------------------------------- |
+| `cxb-` | Block    | `cxb-button`       | Top-level component element      |
+| `cxe-` | Element  | `cxe-button-icon`  | Part of a block component        |
+| `cxs-` | State    | `cxs-disabled`     | State that affects appearance    |
+| `cxm-` | Modifier | `cxm-primary`      | User-supplied variant            |
+
+A primary button in its disabled state would have the classes `cxb-button cxm-primary cxs-disabled`.
+
+## State Style Maps
+
+Every widget's appearance is defined by a **state style map** — an SCSS map that holds CSS properties for each visual state (default, hover, focus, active, disabled, etc.):
+
+```scss
+$cx-button-state-style-map: (
+   default: (
+      background-color: #eee,
+      color: #333,
+      border-width: 1px,
+   ),
+   hover: (
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3),
+   ),
+   focus: (
+      outline: none,
+      box-shadow: 0 0 1px 1px rgba(77, 144, 254, 0.8),
+   ),
+   disabled: (
+      color: gray,
+      pointer-events: none,
+   ),
+) !default;
+```
+
+The framework compiles these maps into CSS rules using mixins that iterate over the map entries and emit the corresponding properties for each pseudo-class and modifier combination.
+
+Because state style maps are just data, themes and applications can **merge** additional properties into them without replacing the whole map.
+
+## Modifiers
+
+Widgets also define **modifier maps** for variants like `primary`, `danger`, or `hollow`.
+Each modifier has its own set of state overrides:
+
+```scss
+$cx-button-mods: (
+   primary: (
+      default: (background-color: #1f99f8, color: white),
+      hover:   (background-color: darken(#1f99f8, 5%)),
+   ),
+   danger: (
+      default: (background-color: #d32f2f, color: white),
+   ),
+) !default;
+```
+
+These get compiled into CSS rules like `.cxb-button.cxm-primary { ... }` and `.cxb-button.cxm-primary:hover { ... }`.
+
+## Three-Layer Customization
+
+Themes and applications customize the framework at three levels:
+
+### 1. Variables
+
+Variables control base values — colors, spacing, border radius, font sizes.
+They are defined with `!default` so that outer values take precedence:
+
+```scss
+$cx-default-button-background-color: #eee !default;
+$cx-default-button-border-width: 1px !default;
+```
+
+Themes override variables using `@forward...with()`, which sets the values before the framework sees them:
+
+```scss
+@forward "cx/src/variables" with (
+   $cx-default-button-background-color: #f6f6f6 !default,
+   $cx-default-button-border-width: 0 !default
+);
+```
+
+### 2. Maps
+
+After variables are resolved, state style maps are constructed.
+Themes use `cx-deep-map-merge()` to overlay their changes without replacing the whole map:
+
+```scss
+@use "cx/src/util/scss/deep-merge" as *;
+
+$cx-button-state-style-map: cx-deep-map-merge(
+   $cx-button-state-style-map,
+   (
+      default: (transition: all 0.15s ease),
+      hover:   (box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5)),
+   )
+);
+```
+
+Only the specified keys are overridden — all other states and properties remain intact.
+
+### 3. CSS Overrides
+
+For anything that doesn't fit into variables or maps, plain CSS rules can be added after the theme is loaded:
+
+```scss
+.cxb-button.cxm-primary {
+   text-transform: uppercase;
+}
+```
+
+## How a Theme Plugs In
+
+A typical theme package has this structure:
+
+```
+cx-theme-aquamarine/src/
+├── index.scss       — Entry point (controls load order)
+├── variables.scss   — Overrides CxJS variable defaults
+├── maps.scss        — Merges into state style maps
+└── overrides.scss   — Additional CSS rules
+```
+
+The load order matters:
+
+1. **Variables** are forwarded first, setting values before the framework reads them.
+2. **Maps** are loaded next, merging theme-specific state overrides into the framework maps.
+3. **The framework SCSS** compiles, using the now-customized variables and maps to generate CSS.
+4. **Overrides** add any final CSS rules on top.
+
+When an application uses a theme, it imports the theme's entry point, and the SCSS compiler resolves everything in a single pass.
+
+## Next Steps
+
+- [CSS Variables Theme](/docs/concepts/css-variables-theme) — runtime theming with `cx-theme-variables`
+- [Classic Themes](/docs/concepts/classic-themes) — compile-time SCSS themes and customization

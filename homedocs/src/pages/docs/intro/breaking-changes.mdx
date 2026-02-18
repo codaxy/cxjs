@@ -15,6 +15,216 @@ Sometimes we are forced to introduce breaking changes to the framework.
 This page will provide information about breaking changes and how to migrate your applications to the latest
 versions of the framework.
 
+## 26.3.1 - Modern Sass Modules
+
+CxJS 26.3.1 migrates all SCSS files from the deprecated `@import` syntax to modern Sass modules (`@use` and `@forward`).
+This affects how projects import CxJS styles and theme packages.
+
+### Why This Change?
+
+Sass has deprecated `@import` in favor of `@use` and `@forward`. The old `@import` system uses global scope, leading to
+naming conflicts and unpredictable load order. The new module system provides explicit dependencies, better encapsulation,
+and access to modern Sass features like `sass:color` and `sass:math`.
+
+### Package Upgrades Required
+
+All CxJS theme packages have been restructured. Upgrade to the latest versions:
+
+| Package | Description |
+|---------|-------------|
+| `cx` | Core framework |
+| `cx-theme-aquamarine` | Aquamarine theme |
+| `cx-theme-dark` | Dark theme |
+| `cx-theme-frost` | Frost theme |
+| `cx-theme-material` | Material theme |
+| `cx-theme-material-dark` | Material Dark theme |
+| `cx-theme-packed-dark` | Packed Dark theme |
+| `cx-theme-space-blue` | Space Blue theme |
+| `cx-theme-variables` | **New** — CSS custom properties theme |
+
+### Migration: Projects Without a Theme
+
+If your project imports CxJS styles directly without a theme:
+
+**Before:**
+```scss
+@use 'sass:math';
+
+$cx-include-global-rules: true;
+@import "~cx/src/variables";
+
+@function cx-divide($a, $b) {
+   @return math.div($a, $b);
+}
+
+@import "~cx/src/index";
+```
+
+**After:**
+```scss
+@use "cx/src/variables" as *;
+@use "cx/src/index" as *;
+```
+
+Key changes:
+- Replace `@import` with `@use ... as *`
+- Remove the `~` prefix (not needed with modern bundlers)
+- Remove the `cx-divide` compatibility shim (no longer needed)
+- `$cx-include-global-rules` is now set through the forward chain (see variable overrides below)
+
+### Migration: Projects Using a Theme
+
+If your project uses one of the CxJS theme packages:
+
+**Before:**
+```scss
+@use 'sass:math';
+
+$cx-include-global-rules: true;
+@import "~cx-theme-frost/src/variables";
+
+@function cx-divide($a, $b) {
+   @return math.div($a, $b);
+}
+
+@import "~cx-theme-frost/src/index";
+```
+
+**After:**
+```scss
+@use "cx-theme-frost/src/index";
+```
+
+That's it. Theme packages now handle all variable and map configuration internally.
+The `cx-divide` shim and `$cx-include-global-rules` are no longer needed — themes set these through the module system.
+
+### Migration: Projects With Custom Variable Overrides
+
+If your project customizes theme variables, use the `@forward...with()` pattern.
+
+**Before:**
+```scss
+$cx-default-color: #333;
+$cx-default-border-radius: 8px;
+@import "~cx-theme-frost/src/variables";
+@import "~cx-theme-frost/src/index";
+```
+
+**After (single file):**
+```scss
+// variables.scss
+@forward "cx-theme-frost/src/variables" with (
+   $cx-default-color: #333 !default,
+   $cx-default-border-radius: 8px !default
+);
+```
+
+```scss
+// index.scss
+@use "./variables" as *;
+@use "cx-theme-frost/src/maps" as *;
+@use "cx-theme-frost/src/overrides";
+```
+
+The `@forward...with()` mechanism configures variables at load time. Values marked `!default` respect earlier
+overrides, enabling a clean three-layer configuration chain: **app → theme → framework**.
+
+### Migration: Custom Themes
+
+If you maintain a custom CxJS theme, restructure it to follow the new module pattern:
+
+```
+my-theme/src/
+├── index.scss          # Entry point
+├── variables.scss      # @forward cx/src/variables with (overrides)
+├── variables.reset.scss # @forward ./variables with ($cx-include-global-rules: true)
+├── maps.scss           # @forward cx/src/maps + deep-merge overrides
+└── overrides.scss      # CSS overrides (loads cx/src/index)
+```
+
+**index.scss** — Entry point that loads everything in the correct order:
+```scss
+@use "sass:map";
+
+// 1. Load theme variables (configures cx variables via @forward...with())
+@use "./variables.reset" as *;
+
+// 2. Load theme maps (configures cx maps via deep-merge)
+@use "./maps" as *;
+
+// 3. Load theme overrides (loads cx/src/index + CSS overrides)
+@use "./overrides";
+```
+
+**variables.reset.scss** — Enables global rules and forwards variables:
+```scss
+@forward "./variables" with ($cx-include-global-rules: true);
+```
+
+**variables.scss** — Define overrides and forward to the framework:
+```scss
+@use "sass:color";
+
+// Theme-specific variables
+$my-primary: #3f51b5 !default;
+
+// Forward framework variables with theme defaults
+@forward "cx/src/variables" with (
+   $cx-default-color: #333 !default,
+   $cx-default-border-radius: 4px !default,
+   $cx-default-button-background-color: $my-primary !default
+);
+```
+
+**maps.scss** — Override state style maps:
+```scss
+@forward "cx/src/maps";
+
+@use "./variables" as *;
+@use "cx/src/maps" as *;
+@use "cx/src/util/scss/deep-merge" as *;
+
+$cx-button-state-style-map: cx-deep-map-merge(
+   $cx-button-state-style-map,
+   (
+      hover: (background-color: color.adjust($my-primary, $lightness: -5%))
+   )
+);
+```
+
+**overrides.scss** — Load the framework and add CSS overrides:
+```scss
+@use "./variables" as *;
+@use "cx/src/index" as *;
+
+.cxb-button {
+   text-transform: uppercase;
+}
+```
+
+### Deprecated Sass Functions
+
+Replace deprecated color functions with their modern equivalents:
+
+| Deprecated | Modern |
+|-----------|--------|
+| `darken($color, 10%)` | `color.adjust($color, $lightness: -10%)` |
+| `lighten($color, 10%)` | `color.adjust($color, $lightness: 10%)` |
+| `transparentize($color, 0.5)` | `color.adjust($color, $alpha: -0.5)` |
+| `$a / $b` (division) | `math.div($a, $b)` |
+
+Add `@use "sass:color";` and `@use "sass:math";` at the top of files that use these functions.
+
+CxJS also provides CSS variable-aware alternatives: `cx-lighten()`, `cx-darken()`, and `cx-calc()` from
+`cx/src/util/scss/calc`. These support both regular values and CSS custom properties.
+
+### New Theme: cx-theme-variables
+
+This release introduces [`cx-theme-variables`](https://www.npmjs.com/package/cx-theme-variables), a new theme built entirely on CSS custom properties.
+Unlike traditional themes where colors are baked in at compile time, this theme outputs `var(--cx-...)` references,
+enabling runtime theme switching (e.g., light/dark mode) without recompilation.
+Try it out in the [Theme Editor](/themes).
+
 ## 26.2.0
 
 ### LookupField: Improved TypeScript discrimination

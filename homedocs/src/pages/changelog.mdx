@@ -4,6 +4,22 @@ title: Changelog
 description: Version history and release notes
 ---
 
+## cx\@26.3.1
+
+**Breaking Changes**
+
+- Migrated all SCSS files from `@import` to `@use`/`@forward` (modern Sass modules)
+- All theme packages have been restructured to use the new module system
+- Projects must update their SCSS entry points — see [Breaking Changes](/docs/intro/breaking-changes#2631---modern-sass-modules) for migration instructions
+
+**Features**
+
+- New [`cx-theme-variables`](https://www.npmjs.com/package/cx-theme-variables) theme based entirely on CSS custom properties, enabling runtime theme switching. Try it out in the [Theme Editor](/themes).
+- Three-layer theming with `@forward...with()` for clean variable configuration through app, theme, and framework layers
+- CSS variable-aware utility functions (`cx-lighten`, `cx-darken`, `cx-calc`)
+
+---
+
 ## cx\@26.2.4
 
 **Fixes**

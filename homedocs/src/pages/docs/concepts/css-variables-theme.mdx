@@ -1,0 +1,140 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: CSS Variables Theme
+description: Runtime theme customization with cx-theme-variables
+---
+
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+# CSS Variables Theme
+
+<OnThisPage />
+
+The [`cx-theme-variables`](https://www.npmjs.com/package/cx-theme-variables) theme uses CSS custom properties, enabling runtime theme switching (e.g., light/dark mode) without recompiling SCSS. Preview it in the [Theme Editor](/themes).
+
+## Installation
+
+```bash
+npm install cx-theme-variables
+```
+
+## Usage
+
+Import the CSS files in your application:
+
+```tsx
+import "cx-theme-variables/dist/reset.css";
+import "cx-theme-variables/dist/widgets.css";
+import "cx-theme-variables/dist/charts.css";
+import "cx-theme-variables/dist/svg.css";
+```
+
+Or import from SCSS source:
+
+```scss
+@use "cx-theme-variables/src/index";
+```
+
+## Customization with Presets
+
+The preferred way to customize this theme is through JavaScript using `renderThemeVariables` with presets and tweaks:
+
+```tsx
+import {
+   renderThemeVariables,
+   defaultPreset,
+   roundingLarge,
+   densityCompact,
+   fontInter,
+} from "cx-theme-variables";
+
+renderThemeVariables({
+   ...defaultPreset,
+   ...roundingLarge,
+   ...densityCompact,
+   ...fontInter,
+});
+```
+
+Available presets: `defaultPreset`, `darkBluePreset`, `darkGrayPreset`, `oceanPreset`.
+
+Available tweaks:
+- **Rounding**: `roundingNone`, `roundingSmall`, `roundingMedium`, `roundingLarge`, `roundingVeryLarge`
+- **Density**: `densityMinimal`, `densityCondensed`, `densityCompact`, `densityNormal`, `densityComfortable`, `densitySpacious`
+- **Font**: `fontSystem`, `fontInter`, `fontRoboto`, `fontOpenSans`, `fontPoppins`, `fontLato`
+
+## Dark Mode
+
+Use the `cssWrapper` parameter to scope a preset to a media query:
+
+```tsx
+import {
+   renderThemeVariables,
+   defaultPreset,
+   darkBluePreset,
+} from "cx-theme-variables";
+
+// Light theme by default
+renderThemeVariables(defaultPreset);
+
+// Dark theme when user prefers dark mode
+renderThemeVariables(
+   darkBluePreset,
+   ":root",
+   "@media (prefers-color-scheme: dark)",
+);
+```
+
+## Dynamic Themes with ThemeVarsRoot
+
+For dynamic theme changes driven by application state, use the `ThemeVarsRoot` CxJS widget instead of `renderThemeVariables`.
+It renders a `<style>` element with CSS variables and re-renders automatically when the bound theme data changes.
+
+```tsx
+import { createModel } from "cx/ui";
+import { ThemeVarsRoot, ThemeVariables } from "cx-theme-variables";
+
+interface AppModel {
+   theme: ThemeVariables;
+}
+
+const m = createModel<AppModel>();
+
+<cx>
+   <ThemeVarsRoot theme={m.theme} />
+</cx>
+```
+
+Update the theme in the store to switch themes at runtime:
+
+```tsx
+store.set(m.theme, {
+   ...defaultPreset,
+   ...darkBluePreset,
+});
+```
+
+For scoped theming within a section of the page, use `ThemeVarsDiv` which applies CSS variables as inline styles on a `<div>`:
+
+```tsx
+import { ThemeVarsDiv } from "cx-theme-variables";
+
+<cx>
+   <ThemeVarsDiv theme={m.sidebarTheme} applyReset>
+      {/* children inherit the scoped theme */}
+   </ThemeVarsDiv>
+</cx>
+```
+
+## CSS Variable Overrides
+
+You can also override individual CSS variables directly:
+
+```css
+:root {
+   --cx-theme-primary-color: #1976d2;
+   --cx-theme-border-radius: 8px;
+   --cx-theme-background-color: white;
+   --cx-theme-text-color: rgba(0, 0, 0, 0.87);
+}
+```
