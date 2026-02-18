@@ -140,7 +140,7 @@ import "./index.scss";
 // import Demo from "./features/charts/PointReducer";
 // import Demo from "./features/charts/line-graph/LineGraph";
 // import Demo from "./bugs/GridDefaultSortFieldClearableSortIssue";
-import Demo from "./bugs/GridFixedColumnsFixedHeaderColumnsPosition";
+import Demo from "./bugs/GridOnCreateFilterIndexPaging";
 // import Demo from "./features/charts/axis/ComplexAxisLabels";
 // import Demo from "./bugs/pie-chart-active-bind";
 let store = (window.store = new Store());

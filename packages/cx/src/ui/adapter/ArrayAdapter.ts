@@ -99,7 +99,7 @@ export class ArrayAdapter<T = any> extends DataAdapter<T> {
 
       if (isArray(records)) {
          records.forEach((data, index) => {
-            if (this.filterFn && !this.filterFn(data)) return;
+            if (this.filterFn && !this.filterFn(data, index)) return;
 
             const record = this.mapRecord(context, instance, data, parentStore, recordsAccessor, index);
             result.push(record);
@@ -172,10 +172,6 @@ export class ArrayAdapter<T = any> extends DataAdapter<T> {
          type: "data",
          key: this.keyField && isObject(data) ? (data as any)[this.keyField] : index,
       };
-   }
-
-   public setFilter(filterFn?: (data: T) => boolean): void {
-      this.filterFn = filterFn;
    }
 
    public getComparer(sortOptions?: CollatorOptions): ((a: any, b: any) => number) | undefined {

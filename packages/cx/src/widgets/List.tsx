@@ -24,6 +24,7 @@ import {
    StyleProp,
 } from "../ui/Prop";
 import { Create } from "../util/Component";
+import { DataAdapterRecordFilter } from "src/ui";
 
 export interface ListConfig<T = any> extends StyledContainerConfig {
    /** An array of records to be displayed in the list. */
@@ -78,7 +79,7 @@ export interface ListConfig<T = any> extends StyledContainerConfig {
    filterParams?: StructuredProp;
 
    /** Callback to create a filter function for given filter params. */
-   onCreateFilter?: (filterParams: any, instance?: Instance) => (record: T) => boolean;
+   onCreateFilter?: (filterParams: any, instance?: Instance) => DataAdapterRecordFilter<T>;
 
    /** Scroll selection into the view. Default value is false. */
    scrollSelectionIntoView?: BooleanProp;
@@ -159,7 +160,7 @@ export class List extends StyledContainerBase<ListConfig> {
    declare public onCreateFilter?: (
       filterParams: Record<string, unknown>,
       instance: Instance,
-   ) => (record: unknown) => boolean;
+   ) => DataAdapterRecordFilter<any>;
    declare public onItemClick?: (e: React.MouseEvent, instance: Instance) => void;
    declare public onItemDoubleClick?: (e: React.MouseEvent, instance: Instance) => void;
    declare public onKeyDown?: (e: React.KeyboardEvent, instance: Instance) => void;
@@ -253,7 +254,6 @@ export class List extends StyledContainerBase<ListConfig> {
 
       let filter = null;
       if (this.onCreateFilter) filter = instance.invoke("onCreateFilter", data.filterParams, instance);
-      else if (this.filter) filter = (item: unknown) => this.filter!(item, data.filterParams);
       this.adapter.setFilter(filter);
       instance.mappedRecords = this.adapter.getRecords(context, instance, data.records, instance.store);
 

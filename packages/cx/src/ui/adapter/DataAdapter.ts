@@ -21,13 +21,15 @@ export interface DataAdapterConfig {
    sealed?: boolean;
 }
 
+export type DataAdapterRecordFilter<T = any> = (record: T, index: number) => boolean;
+
 export abstract class DataAdapter<T = any> extends Component {
    declare public recordName: string;
    declare public indexName: string;
    declare public immutable: boolean;
    declare public sealed?: boolean;
 
-   declare protected filterFn?: (data: T) => boolean;
+   declare protected filterFn?: DataAdapterRecordFilter<T>;
 
    constructor(config?: DataAdapterConfig) {
       super(config);

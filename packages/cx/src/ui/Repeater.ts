@@ -7,7 +7,7 @@ import { getAccessor } from "../data/getAccessor";
 import { RenderingContext } from "./RenderingContext";
 import { Prop, StringProp, StructuredProp, RecordAlias, SortersProp, CollatorOptions, SortDirection } from "./Prop";
 import { Instance } from "./Instance";
-import { DataAdapter, DataAdapterRecord } from "./adapter/DataAdapter";
+import { DataAdapter, DataAdapterRecord, DataAdapterRecordFilter } from "./adapter/DataAdapter";
 import type { GroupAdapter } from "./adapter/GroupAdapter";
 import type { TreeAdapter } from "./adapter/TreeAdapter";
 import { Create } from "../util/Component";
@@ -50,7 +50,7 @@ export interface RepeaterConfig<T = any> extends ContainerConfig {
    filterParams?: StructuredProp;
 
    /** Callback to create a filter function for given filter params. */
-   onCreateFilter?: (filterParams: any, instance: Instance) => (record: T) => boolean;
+   onCreateFilter?: (filterParams: any, instance: Instance) => DataAdapterRecordFilter<T>;
 
    /**
     * Callback function to track and retrieve displayed records.
@@ -85,7 +85,7 @@ export class Repeater<T = any> extends ContainerBase<RepeaterConfig<T>> {
    declare immutable: boolean;
    declare sealed: boolean;
    declare sortOptions?: any;
-   item: any;
+   item: PureContainer;
    declare cached: boolean;
    declare onCreateFilter?: any;
    filter?: any;
@@ -156,9 +156,8 @@ export class Repeater<T = any> extends ContainerBase<RepeaterConfig<T>> {
             },
          ];
       this.dataAdapter.sort(data.sorters);
-      let filter = null;
+      let filter: DataAdapterRecordFilter<T> | null = null;
       if (this.onCreateFilter) filter = instance.invoke("onCreateFilter", data.filterParams, instance);
-      else if (this.filter) filter = (item: any) => this.filter(item, data.filterParams);
       this.dataAdapter.setFilter(filter);
       instance.mappedRecords = this.dataAdapter.getRecords(context, instance, data.records, instance.store);
 
