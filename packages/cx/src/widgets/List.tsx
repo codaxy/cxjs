@@ -86,6 +86,12 @@ export interface ListConfig<T = any> extends StyledContainerConfig {
    /** Options for data sorting. */
    sortOptions?: CollatorOptions;
 
+   /** A binding used to store the name of the field used for sorting grids. Available only if sorters are not used. */
+   sortField?: StringProp;
+
+   /** A binding used to store the sort direction. Available only if sorters are not used. Possible values are "ASC" and "DESC". Defaults to "ASC". */
+   sortDirection?: StringProp;
+
    /** Parameter for disabling specific items. */
    itemDisabled?: BooleanProp;
 
@@ -142,6 +148,8 @@ export class List extends StyledContainerBase<ListConfig> {
    declare public keyField?: string;
    declare public records?: any[];
    declare public sortOptions?: any;
+   declare sortField?: any;
+   declare sortDirection?: any;
    declare public grouping?: string | GroupingConfig | (string | GroupingConfig)[];
    declare public focusable?: boolean;
    declare public focused?: boolean;
