@@ -29,7 +29,8 @@ CxScssManifestPlugin.prototype.apply = function (compiler) {
 
    const write = () => {
       let content = "//THIS FILE IS AUTO-GENERATED USING cx-scss-manifest-webpack-plugin\n\n";
-      content += "$cx-include-all: false;\n\n";
+      content +=
+         '@use "cx/src/util/scss/include.scss" as * with ($cx-include-all: false);\n\n';
 
       let keys = Object.keys(manifest);
       keys.sort();

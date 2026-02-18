@@ -6168,7 +6168,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"cx-scss-manifest-webpack-plugin@workspace:packages/cx-scss-manifest-webpack-plugin":
+"cx-scss-manifest-webpack-plugin@workspace:*, cx-scss-manifest-webpack-plugin@workspace:packages/cx-scss-manifest-webpack-plugin":
   version: 0.0.0-use.local
   resolution: "cx-scss-manifest-webpack-plugin@workspace:packages/cx-scss-manifest-webpack-plugin"
   peerDependencies:
@@ -9778,6 +9778,7 @@ __metadata:
     cx: "workspace:*"
     cx-immer: "workspace:*"
     cx-react: "workspace:*"
+    cx-scss-manifest-webpack-plugin: "workspace:*"
     file-loader: "npm:^6.2.0"
     html-webpack-plugin: "npm:^5.6.5"
     if-loader: "npm:^1.0.2"

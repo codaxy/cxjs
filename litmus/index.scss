@@ -1,3 +1,5 @@
+@use "manifest.scss";
+@use "./variables.scss";
 @use "cx/src/index.scss";
 
 @use "features/drag-drop/trello/index" as *;

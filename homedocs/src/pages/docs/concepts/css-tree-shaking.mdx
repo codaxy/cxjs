@@ -1,0 +1,125 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: CSS Tree-Shaking
+description: Reduce CSS bundle size by including only used widget styles
+---
+
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+# CSS Tree-Shaking
+
+<OnThisPage />
+
+CxJS ships SCSS for every widget — Button, Grid, Window, Calendar, and many more.
+By default, all widget styles are included during SCSS compilation, which can produce
+a large CSS bundle even if your app only uses a handful of components.
+
+You can reduce the CSS output by writing a manifest file that tells the SCSS compiler
+to include only the styles for widgets you actually use. For smaller apps, this can
+cut CSS size by 70–90%.
+
+## How It Works
+
+Each CxJS widget SCSS file guards its output with a `cx-should-include()` check:
+
+```scss
+@if (cx-should-include("cx/widgets/Button")) {
+  @include cx-button;
+}
+```
+
+By default, `$cx-include-all` is `true` and every widget emits CSS. A manifest file
+overrides this by setting `$cx-include-all: false` and listing exactly which modules
+should be included.
+
+## Writing a Manifest
+
+Create a `manifest.scss` file in your project that configures the include system
+and lists the CxJS modules your app uses:
+
+```scss
+@use "cx/src/util/scss/include.scss" as * with (
+  $cx-include-all: false
+);
+
+@include cx-widgets(
+  "cx/widgets/Button",
+  "cx/widgets/Grid",
+  "cx/widgets/HtmlElement",
+  "cx/widgets/TextField",
+  "cx/widgets/Window"
+);
+```
+
+Module names follow the pattern `"cx/{namespace}/{ModuleName}"` where the namespace
+is `widgets`, `ui`, `charts`, or `svg`. You can find available names by looking at
+the SCSS files inside `packages/cx/src/` — each file that uses `cx-should-include()`
+has its module name in the call.
+
+The `cx-widgets` mixin also resolves dependencies automatically, so you don't need
+to list internal modules that a widget depends on.
+
+### Import Order
+
+In your main SCSS entry file, import the manifest **before** the CxJS SCSS:
+
+```scss
+@use "manifest";
+@use "cx/src/index";
+```
+
+The import order is critical — the manifest must be loaded first so it configures
+the include system before any widget styles are compiled.
+
+When using a classic SCSS theme, import the manifest before the theme:
+
+```scss
+@use "manifest";
+@use "cx-theme-aquamarine/src/index";
+```
+
+The theme internally loads `cx/src/index`, so you don't need to import it separately.
+
+## Automatic Manifests with Webpack
+
+Instead of maintaining the manifest by hand, the `cx-scss-manifest-webpack-plugin`
+can generate it automatically by analyzing your application's import graph.
+
+### Installation
+
+```bash
+npm install cx-scss-manifest-webpack-plugin --save-dev
+```
+
+### Setup
+
+Add the plugin to your `webpack.config.js`:
+
+```js
+const CxScssManifestPlugin = require("cx-scss-manifest-webpack-plugin");
+const path = require("path");
+
+module.exports = {
+  plugins: [
+    new CxScssManifestPlugin({
+      outputPath: path.join(__dirname, "manifest.scss"),
+    }),
+  ],
+};
+```
+
+Then import the generated manifest in your main SCSS file as described above.
+
+The plugin hooks into webpack's compilation to scan the module graph for CxJS imports,
+writes the manifest, and updates it whenever new CxJS modules are detected.
+
+### Notes
+
+- The generated `manifest.scss` must be checked into version control. The plugin updates
+  the manifest during compilation, but SCSS is compiled in the same pass — so the manifest
+  from the _previous_ build is what actually takes effect. On a fresh checkout with no
+  manifest, all styles are included on the first build; the plugin then writes the real
+  manifest, which takes effect on the next build.
+- Do not hand-edit the manifest — your changes will be overwritten by the plugin.
+- When you add new CxJS widgets to your app, the plugin updates the manifest automatically.
+  The new styles will appear after the next build or hot-reload cycle.

@@ -1,6 +1,6 @@
 const webpack = require("webpack"),
    HtmlWebpackPlugin = require("html-webpack-plugin"),
-   CxScssManifestPlugin = require("../packages/cx-scss-manifest-webpack-plugin/src/index"),
+   CxScssManifestPlugin = require("cx-scss-manifest-webpack-plugin"),
    BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin,
    { merge } = require("webpack-merge"),
    path = require("path"),
@@ -55,9 +55,9 @@ let common = {
       new HtmlWebpackPlugin({
          template: path.join(__dirname, "index.html"),
       }),
-      // new CxScssManifestPlugin({
-      //    outputPath: path.join(__dirname, "manifest.scss")
-      // })
+      new CxScssManifestPlugin({
+         outputPath: path.join(__dirname, "manifest.scss"),
+      }),
    ],
    stats: {
       usedExports: true,

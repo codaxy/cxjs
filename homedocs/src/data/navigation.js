@@ -345,6 +345,12 @@ export const navigation = [
             description:
               "Compile-time SCSS themes with variables, maps, and overrides",
           },
+          {
+            title: "CSS Tree-Shaking",
+            slug: "css-tree-shaking",
+            description:
+              "Reduce CSS bundle size by including only used widget styles",
+          },
         ],
       },
     ],

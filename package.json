@@ -10,7 +10,7 @@
     "build:docs": "webpack --config docs/webpack.config.js",
     "build:docs:root": "webpack --config docs/webpack.config.js",
     "measure:docs": "webpack-dev-server --config docs/webpack.config.js --open",
-    "litmus": "webpack-dev-server --config litmus/webpack.config.js --open",
+    "litmus": "yarn workspace litmus run start",
     "build:litmus": "webpack --config litmus/webpack.config.js",
     "benchmark": "webpack --config benchmark/webpack.config.js --watch",
     "build:benchmark": "webpack --config benchmark/webpack.config.js",
