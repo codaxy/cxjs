@@ -14,8 +14,7 @@ export default (
       text="Greet"
       onClick={(event, { store }) => {
         let name = store.get(m.name);
-        if (!name) return;
-        MsgBox.alert(`Hello, ${name}! Welcome to CxJS!`);
+        MsgBox.alert(`Hello, ${name ?? "Stranger"}! Welcome to CxJS!`);
       }}
       class="mt-2"
     />

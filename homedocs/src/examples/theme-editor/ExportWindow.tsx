@@ -1,5 +1,5 @@
 import { computable } from "cx/ui";
-import { Button, Tab, TextArea, Window } from "cx/widgets";
+import { Button, Tab, TextArea, TextField, Window } from "cx/widgets";
 import { themeVariablesToCSS } from "cx-theme-variables";
 
 import { m, ThemeEditorModel } from "./model";
@@ -48,7 +48,7 @@ export const ExportWindow = (
           getExportText(cats, tab || "css"),
         )}
         readOnly
-        class="flex-1 w-auto font-mono text-xs resize-none mx-2"
+        class="flex-1 w-auto font-mono text-xs resize-none"
       />
     </div>
     <div putInto="footer" class="flex gap-2 justify-end">
