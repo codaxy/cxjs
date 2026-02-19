@@ -15,5 +15,12 @@ $cx-menu-list-item: cx-deep-map-merge(
       default: (
          padding: null,
       ),
+      selected-cursor: (
+         background-color: var(--cx-item-active-background-color),
+         //background-color: null,
+         //box-shadow: var(--cx-theme-focus-box-shadow),
+         box-shadow: null,
+         color: null,
+      ),
    )
 );

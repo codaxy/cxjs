@@ -8,6 +8,7 @@ export const darkGrayPreset: ThemeVariables = {
    ...defaultPreset,
    primaryColor: "#78909c",
    accentColor: "#ffab40",
+   accentTextColor: "rgba(0, 0, 0, 0.87)",
    dangerColor: "#ef5350",
    textColor: "rgba(255, 255, 255, 0.87)",
    labelColor: "rgba(255, 255, 255, 0.5)",

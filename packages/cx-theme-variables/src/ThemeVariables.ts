@@ -103,6 +103,9 @@ export interface ThemeVariables {
    gridDataBorderColor: string;
    gridDataAlternateBackgroundColor: string;
 
+   itemHoverBackgroundColor: string;
+   itemActiveBackgroundColor: string;
+
    cursorColor: string;
    cursorBorderWidth: string;
    cursorBorderRadius: string;
@@ -374,6 +377,9 @@ export const variableMap: Record<keyof ThemeVariables, string> = {
    gridDataBackgroundColor: "--cx-grid-data-background-color",
    gridDataBorderColor: "--cx-grid-data-border-color",
    gridDataAlternateBackgroundColor: "--cx-grid-data-alternate-background-color",
+
+   itemHoverBackgroundColor: "--cx-item-hover-background-color",
+   itemActiveBackgroundColor: "--cx-item-active-background-color",
 
    cursorColor: "--cx-cursor-color",
    cursorBorderWidth: "--cx-cursor-border-width",

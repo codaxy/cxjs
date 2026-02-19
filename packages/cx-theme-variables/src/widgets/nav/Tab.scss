@@ -24,19 +24,12 @@ $cx-tab-state-style-map: cx-deep-map-merge(
          transition: var(--cx-theme-transition),
       ),
       hover: (
-         background-color: color-mix(
-               in srgb,
-               var(--cx-button-active-state-mix-color),
-               transparent 96%
-            ),
+         background-color: var(--cx-item-hover-background-color),
       ),
       cursor: (
-         background-color: color-mix(
-               in srgb,
-               var(--cx-button-active-state-mix-color),
-               transparent 92%
-            ),
+         background-color: var(--cx-item-active-background-color),
          outline: none,
+         box-shadow: var(--cx-theme-focus-box-shadow),
       ),
       focus: (
          box-shadow: var(--cx-theme-focus-box-shadow),
@@ -48,11 +41,7 @@ $cx-tab-state-style-map: cx-deep-map-merge(
       ),
       selected-cursor: (
          color: var(--cx-theme-primary-text-color),
-         background-color: color-mix(
-               in srgb,
-               var(--cx-theme-primary-color),
-               var(--cx-theme-background-color) 20%
-            ),
+         background-color: color-mix(in srgb, var(--cx-theme-primary-color), var(--cx-theme-background-color) 20%),
       ),
       active: (
          color: var(--cx-theme-primary-color),
@@ -79,20 +68,13 @@ $cx-tab-mods: cx-deep-map-merge(
          ),
          hover: (
             color: var(--cx-theme-text-color),
-            background-color: color-mix(
-                  in srgb,
-                  var(--cx-button-active-state-mix-color),
-                  transparent 96%
-               ),
+            background-color: var(--cx-item-hover-background-color),
          ),
          cursor: (
-            background-color: color-mix(
-                  in srgb,
-                  var(--cx-button-active-state-mix-color),
-                  transparent 92%
-               ),
+            background-color: var(--cx-item-active-background-color),
             color: var(--cx-theme-text-color),
             outline: none,
+            box-shadow: null,
          ),
          selected: (
             color: var(--cx-theme-text-color),
@@ -102,17 +84,14 @@ $cx-tab-mods: cx-deep-map-merge(
          selected-cursor: (
             color: var(--cx-theme-text-color),
             background-color: var(--cx-theme-surface-color),
+            box-shadow: null,
          ),
          active: (
             background-color: transparent,
          ),
          disabled: (
             background-color: transparent,
-            color: color-mix(
-                  in srgb,
-                  var(--cx-theme-text-color),
-                  transparent 62%
-               ),
+            color: color-mix(in srgb, var(--cx-theme-text-color), transparent 62%),
          ),
       ),
       line: (
@@ -123,19 +102,16 @@ $cx-tab-mods: cx-deep-map-merge(
             margin: 0 var(--cx-button-padding-x),
          ),
          hover: (
-            border-color: transparent,
+            border-color: var(--cx-theme-border-color),
             color: var(--cx-theme-text-color),
             background-color: transparent,
          ),
          cursor: (
             color: var(--cx-theme-text-color),
             font-weight: $cx-default-tab-font-weight,
-            border-color: color-mix(
-                  in srgb,
-                  var(--cx-button-active-state-mix-color),
-                  transparent 80%
-               ),
+            border-color: color-mix(in srgb, var(--cx-button-active-state-mix-color), transparent 80%),
             background-color: transparent,
+            box-shadow: null,
          ),
          selected: (
             box-shadow: none,
@@ -147,11 +123,7 @@ $cx-tab-mods: cx-deep-map-merge(
          selected-cursor: (
             color: var(--cx-theme-text-color),
             font-weight: $cx-default-tab-font-weight,
-            border-color: color-mix(
-                  in srgb,
-                  var(--cx-theme-primary-color),
-                  var(--cx-theme-background-color) 30%
-               ),
+            border-color: color-mix(in srgb, var(--cx-theme-primary-color), var(--cx-theme-background-color) 30%),
             background-color: transparent,
          ),
       ),

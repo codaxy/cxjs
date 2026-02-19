@@ -2,7 +2,7 @@ import { Widget, VDOM } from "../../ui/Widget";
 import { HtmlElement, HtmlElementConfigBase, HtmlElementInstance } from "../HtmlElement";
 import { Instance } from "../../ui/Instance";
 import { RenderingContext } from "../../ui/RenderingContext";
-import { preventFocusOnTouch } from "../../ui/FocusManager";
+import { preventFocus, preventFocusOnTouch } from "../../ui/FocusManager";
 import { isUndefined } from "../../util/isUndefined";
 import { BooleanProp, Prop, StringProp } from "../../ui/Prop";
 
@@ -75,7 +75,8 @@ export class Tab extends HtmlElement<TabConfig> {
          case "default":
             return false;
 
-         default: return super.isValidHtmlAttribute(attrName);
+         default:
+            return super.isValidHtmlAttribute(attrName);
       }
    }
 
@@ -88,8 +89,9 @@ export class Tab extends HtmlElement<TabConfig> {
          delete props.value;
 
          props.onMouseDown = (e: any) => {
-            if (this.onMouseDown) instance.invoke("onMouseDown", e, instance);
-            preventFocusOnTouch(e);
+            if (this.onMouseDown && instance.invoke("onMouseDown", e, instance) === false) return;
+            if (!this.focusOnMouseDown) preventFocus(e);
+            else preventFocusOnTouch(e);
          };
 
          props.onClick = (e: any) => this.handleClick(e, instance);

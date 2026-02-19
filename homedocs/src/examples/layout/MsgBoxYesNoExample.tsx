@@ -35,6 +35,7 @@ export default (
           yesText: "Delete",
           noText: "Cancel",
           yesButtonMod: "primary",
+          noButtonMod: "secondary",
           initiatingEvent: e,
         });
         store.set(m.result, result);

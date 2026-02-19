@@ -31,7 +31,7 @@ $cx-monthpicker-cell-state-style-map: cx-deep-map-merge(
          color: color-mix(in srgb, var(--cx-theme-text-color) 30%, transparent),
       ),
       cursor: (
-         background-color: none,
+         background-color: var(--cx-item-hover-background-color),
          box-shadow: var(--cx-cursor-box-shadow),
       ),
       selected: (

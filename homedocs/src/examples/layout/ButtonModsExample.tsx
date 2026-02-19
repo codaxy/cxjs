@@ -13,6 +13,15 @@ export default (
       </Button>
     </div>
     <div className="flex flex-wrap gap-2 items-center">
+      <Button mod="secondary">Secondary</Button>
+      <Button mod="secondary" pressed>
+        Pressed
+      </Button>
+      <Button mod="secondary" disabled>
+        Disabled
+      </Button>
+    </div>
+    <div className="flex flex-wrap gap-2 items-center">
       <Button mod="danger">Danger</Button>
       <Button mod="danger" pressed>
         Pressed

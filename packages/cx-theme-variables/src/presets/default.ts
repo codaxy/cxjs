@@ -5,7 +5,7 @@ import { ThemeVariables } from "../ThemeVariables";
  */
 export const defaultPreset: ThemeVariables = {
    primaryColor: "#1976d2",
-   accentColor: "#e0e0e0",
+   accentColor: "color-mix(in srgb, var(--cx-theme-primary-color) 12%, var(--cx-theme-background-color))",
    dangerColor: "#d32f2f",
    textColor: "rgba(0, 0, 0, 0.87)",
    backgroundColor: "white",
@@ -30,7 +30,7 @@ export const defaultPreset: ThemeVariables = {
    primaryTextColor: "white",
    primaryBorderColor:
       "color-mix(in srgb, var(--cx-theme-primary-color), var(--cx-button-active-state-mix-color) 20%)",
-   accentTextColor: "rgba(0, 0, 0, 0.87)",
+   accentTextColor: "var(--cx-theme-primary-color)",
    warningColor: "#f09037",
    warningTextColor: "white",
    warningBorderColor: "transparent",
@@ -111,6 +111,11 @@ export const defaultPreset: ThemeVariables = {
    gridDataBackgroundColor: "none",
    gridDataBorderColor: "#e0e0e0",
    gridDataAlternateBackgroundColor: "transparent",
+
+   itemHoverBackgroundColor:
+      "color-mix(in srgb, var(--cx-button-active-state-mix-color), transparent 96%)",
+   itemActiveBackgroundColor:
+      "color-mix(in srgb, var(--cx-button-active-state-mix-color), transparent 92%)",
 
    cursorColor: "var(--cx-theme-primary-color)",
    cursorBorderWidth: "2px",

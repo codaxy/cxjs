@@ -15,11 +15,7 @@ $cx-list-item: cx-deep-map-merge(
          font-size: var(--cx-input-font-size),
       ),
       hover: (
-         background-color: color-mix(
-               in srgb,
-               var(--cx-button-active-state-mix-color) 4%,
-               transparent
-            ),
+         background-color: var(--cx-item-hover-background-color),
       ),
       cursor: (
          background-color: transparent,

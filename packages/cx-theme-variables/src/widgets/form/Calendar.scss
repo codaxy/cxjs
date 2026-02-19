@@ -37,7 +37,7 @@ $cx-calendar-day-state-style-map: cx-deep-map-merge(
           // position: relative,
       ),
       hover: (
-         background-color: none,
+         background-color: var(--cx-item-hover-background-color),
          box-shadow: var(--cx-cursor-box-shadow),
       ),
       today: (

@@ -571,6 +571,18 @@ const variableMetadata: Array<{
   },
   { key: "transition", label: "Transition", type: "text", category: "effects" },
   {
+    key: "itemHoverBackgroundColor",
+    label: "Item hover background",
+    type: "text",
+    category: "effects",
+  },
+  {
+    key: "itemActiveBackgroundColor",
+    label: "Item active background",
+    type: "text",
+    category: "effects",
+  },
+  {
     key: "cursorColor",
     label: "Cursor color",
     type: "color",
