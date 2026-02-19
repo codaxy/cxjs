@@ -10,13 +10,43 @@ $cx-used: null !default;
 
 $cx-dependencies: () !default;
 
+@mixin cx-register-dependencies($deps) {
+   $cx-dependencies: map.merge($cx-dependencies, $deps) !global;
+}
+
+$cx-deps-resolved: false !default;
+
+// Recursively add all transitive dependencies of $name into $used
+@function cx-resolve-module-deps($name, $used) {
+   $deps: map.get($cx-dependencies, $name);
+   @if $deps != null {
+      @each $dep in $deps {
+         @if map.get($used, $dep) != true {
+            $used: map.merge(
+               $used,
+               (
+                  $dep: true,
+               )
+            );
+            $used: cx-resolve-module-deps($dep, $used);
+         }
+      }
+   }
+   @return $used;
+}
+
 @function cx-should-include($name, $once: true) {
+   // Resolve dependencies once, on first call (after all deps are registered)
+   @if not $cx-deps-resolved and $cx-used != null {
+      @each $module in map.keys($cx-used) {
+         $cx-used: cx-resolve-module-deps($module, $cx-used) !global;
+      }
+      $cx-deps-resolved: true !global;
+   }
+
    @return (
          (map.get($cx-excluded, $name) != true) and
-            (
-               $cx-include-all or
-                  ($cx-used != null and map.get($cx-used, $name) == true)
-            )
+            ($cx-include-all or ($cx-used != null and map.get($cx-used, $name) == true))
       )
       and ($once != true or cx-call-once($name));
 }
@@ -25,32 +55,15 @@ $cx-dependencies: () !default;
    @return cx-called-once($name);
 }
 
-@function cx-widget($name) {
-   @if (map.get($cx-excluded, $name)) {
-      @return 0;
-   }
-   $cx-used: map.merge(
-      $cx-used,
-      (
-         $name: true,
-      )
-   ) !global;
-   $dummy: 1;
-   $deps: map.get($cx-dependencies, $name);
-   @if ($deps == null) {
-      @return 0;
-   }
-   @each $dep in $deps {
-      $dummy: cx-widget($dep);
-   }
-   @return $dummy;
-}
-
 @mixin cx-widgets($names...) {
-   $dummy: 1;
    $cx-used: () !default !global;
 
    @each $name in $names {
-      $dummy: cx-widget($name);
+      $cx-used: map.merge(
+         $cx-used,
+         (
+            $name: true,
+         )
+      ) !global;
    }
 }

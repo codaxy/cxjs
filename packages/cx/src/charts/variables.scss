@@ -36,8 +36,7 @@ $cx-default-chart-legend-entry-gap: 5px !default;
 $cx-default-chart-legend-shape-color: rgba(128, 128, 128, 0.1) !default;
 $cx-default-chart-legend-shape-stroke-width: 1px !default;
 
-$cx-dependencies: map.merge(
-   $cx-dependencies,
+@include cx-register-dependencies(
    (
       "cx/charts/Bar": "cx/charts/palette",
       "cx/charts/BarGraph": "cx/charts/palette",

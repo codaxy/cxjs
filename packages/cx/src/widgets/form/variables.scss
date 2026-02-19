@@ -91,8 +91,7 @@ $cx-default-input-tag-padding: cx-calc($cx-default-input-padding-top, -$cx-defau
 @forward "./Radio.variables.scss";
 @forward "./ColorPicker.variables.scss";
 
-$cx-dependencies: map.merge(
-   $cx-dependencies,
+@include cx-register-dependencies(
    (
       "cx/widgets/Field": "cx/widgets/Label" "cx/widgets/Tooltip" "cx/widgets/ValidationError" "cx/widgets/HelpText",
       "cx/widgets/DateTimeField": "cx/widgets/Field" "cx/widgets/DateTimePicker" "cx/widgets/Calendar"

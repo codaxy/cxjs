@@ -474,8 +474,20 @@ const variableMetadata: Array<{
     category: "grids",
   },
   {
+    key: "gridHeaderColor",
+    label: "Header text",
+    type: "color",
+    category: "grids",
+  },
+  {
     key: "gridHeaderBackgroundColor",
     label: "Header background",
+    type: "color",
+    category: "grids",
+  },
+  {
+    key: "gridHeaderBorderColor",
+    label: "Header border",
     type: "color",
     category: "grids",
   },

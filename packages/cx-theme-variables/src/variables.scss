@@ -119,12 +119,12 @@ $cx-theme-box-padding: var(--cx-input-padding-y) var(--cx-input-padding-x);
    $cx-default-grid-border-color: var(--cx-theme-border-color) !default,
    $cx-default-grid-header-font-size: var(--cx-grid-header-font-size) !default,
    $cx-default-grid-header-line-height: $cx-theme-box-line-height !default,
-   $cx-default-grid-header-color: var(--cx-theme-text-color) !default,
+   $cx-default-grid-header-color: var(--cx-grid-header-color) !default,
    $cx-default-grid-header-background-color: var(
          --cx-grid-header-background-color
       )
       !default,
-   $cx-default-grid-header-border-color: var(--cx-theme-border-color) !default,
+   $cx-default-grid-header-border-color: var(--cx-grid-header-border-color) !default,
    $cx-default-grid-header-box-shadow: none !default,
    $cx-default-grid-header-padding: var(--cx-grid-header-padding-y)
       var(--cx-grid-header-padding-x) !default,

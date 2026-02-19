@@ -93,7 +93,9 @@ export interface ThemeVariables {
    gridHeaderFontSize: string;
    gridHeaderPaddingX: string;
    gridHeaderPaddingY: string;
+   gridHeaderColor: string;
    gridHeaderBackgroundColor: string;
+   gridHeaderBorderColor: string;
    gridHeaderFontWeight: string;
    gridDataPaddingX: string;
    gridDataPaddingY: string;
@@ -363,7 +365,9 @@ export const variableMap: Record<keyof ThemeVariables, string> = {
    gridHeaderFontSize: "--cx-grid-header-font-size",
    gridHeaderPaddingX: "--cx-grid-header-padding-x",
    gridHeaderPaddingY: "--cx-grid-header-padding-y",
+   gridHeaderColor: "--cx-grid-header-color",
    gridHeaderBackgroundColor: "--cx-grid-header-background-color",
+   gridHeaderBorderColor: "--cx-grid-header-border-color",
    gridHeaderFontWeight: "--cx-grid-header-font-weight",
    gridDataPaddingX: "--cx-grid-data-padding-x",
    gridDataPaddingY: "--cx-grid-data-padding-y",

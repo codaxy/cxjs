@@ -11,8 +11,7 @@ $cx-default-scroller-button-size: 20px !default;
 @forward "Menu.variables";
 @forward "Tab.variables";
 
-$cx-dependencies: map.merge(
-   $cx-dependencies,
+@include cx-register-dependencies(
    (
       "cx/widgets/HScroller": "cx/widgets/Scroller",
       "cx/widgets/VScroller": "cx/widgets/Scroller",

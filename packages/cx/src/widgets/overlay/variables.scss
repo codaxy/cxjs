@@ -40,8 +40,7 @@ $cx-default-toast-padding: 10px !default;
 // WINDOW
 @forward "Window.variables";
 
-$cx-dependencies: map.merge(
-   $cx-dependencies,
+@include cx-register-dependencies(
    (
       "cx/widgets/Overlay": "cx/widgets/captureMouse",
       "cx/widgets/Dropdown": "cx/widgets/Overlay",

@@ -10,8 +10,7 @@ $cx-dragclone-style: (
    opacity: 0.9,
 ) !default;
 
-$cx-dependencies: map.merge(
-   $cx-dependencies,
+@include cx-register-dependencies(
    (
       "cx/widgets/DragSource": "cx/widgets/DragClone",
    )

@@ -50,8 +50,7 @@ $cx-default-progressbar-indicator-background-color: rgba(#98d4ff, 0.8) !default;
 @forward "drag-drop/variables";
 @forward "overlay/variables";
 
-$cx-dependencies: map.merge(
-   include.$cx-dependencies,
+@include include.cx-register-dependencies(
    (
       "cx/widgets/FlexRow": "cx/widgets/FlexBox",
       "cx/widgets/FlexCol": "cx/widgets/FlexBox",

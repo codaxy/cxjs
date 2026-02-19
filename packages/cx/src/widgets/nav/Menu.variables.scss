@@ -4,8 +4,7 @@
 // MENU
 $cx-default-menu-separator-color: lightgray !default;
 
-$cx-dependencies: map.merge(
-   $cx-dependencies,
+@include cx-register-dependencies(
    (
       "cx/widgets/Menu": "cx/widgets/MenuItem",
       "cx/widgets/MenuItem": "cx/widgets/Dropdown",

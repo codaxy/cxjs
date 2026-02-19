@@ -40,8 +40,7 @@ $cx-grid-pagination-default-border-radius: null !default;
 $cx-grid-pagination-default-outer-border-radius: $cx-default-border-radius !default;
 $cx-grid-pagination-default-padding: $cx-default-box-padding-top cx-multiply(2, $cx-default-box-padding-top) !default;
 
-$cx-dependencies: map.merge(
-   $cx-dependencies,
+@include cx-register-dependencies(
    (
       "cx/widgets/Grid": "cx/widgets/DragClone",
    )

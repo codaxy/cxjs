@@ -29,7 +29,7 @@
 
 // MENU / DROPDOWN - see widgets/overlay/Dropdown.scss
 
-$cx-menu-state-style-map: map-merge(
+$cx-menu-state-style-map: cx-deep-map-merge(
    $cx-menu-state-style-map,
    (
       default: (
@@ -46,20 +46,12 @@ $cx-wheel-selection-state-style-map: cx-deep-map-merge(
    (
       default: (
          border-color: transparent,
-         background-color: color-mix(
-               in srgb,
-               var(--cx-button-active-state-mix-color) 8%,
-               transparent
-            ),
+         background-color: color-mix(in srgb, var(--cx-button-active-state-mix-color) 8%, transparent),
          border-radius: var(--cx-theme-border-radius),
       ),
       active: (
          border-color: transparent,
-         background-color: color-mix(
-               in srgb,
-               var(--cx-button-active-state-mix-color) 12%,
-               transparent
-            ),
+         background-color: color-mix(in srgb, var(--cx-button-active-state-mix-color) 12%, transparent),
       ),
    )
 );
