@@ -12,15 +12,7 @@ export default (
         Disabled
       </Button>
     </div>
-    <div className="flex flex-wrap gap-2 items-center">
-      <Button mod="secondary">Secondary</Button>
-      <Button mod="secondary" pressed>
-        Pressed
-      </Button>
-      <Button mod="secondary" disabled>
-        Disabled
-      </Button>
-    </div>
+
     <div className="flex flex-wrap gap-2 items-center">
       <Button mod="danger">Danger</Button>
       <Button mod="danger" pressed>
@@ -30,6 +22,17 @@ export default (
         Disabled
       </Button>
     </div>
+
+    <div className="flex flex-wrap gap-2 items-center">
+      <Button mod="secondary">Secondary</Button>
+      <Button mod="secondary" pressed>
+        Pressed
+      </Button>
+      <Button mod="secondary" disabled>
+        Disabled
+      </Button>
+    </div>
+
     <div className="flex flex-wrap gap-2 items-center">
       <Button mod="hollow">Hollow</Button>
       <Button mod="hollow" pressed>
