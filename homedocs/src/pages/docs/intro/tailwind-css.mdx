@@ -55,24 +55,27 @@ export default {
 };
 ```
 
-Create a `tailwind.css` file with proper layer setup. Tailwind 4 uses CSS layers, and it's important to define a `cxjs` layer between `base` and `utilities` so CxJS styles have the correct specificity:
+Import Tailwind CSS and your CxJS theme styles into the Tailwind `components` layer in your main stylesheet.
+CxJS styles need to be in the `components` layer so they have the correct specificity — higher than Tailwind's base styles but lower than utility classes.
+
+For CSS themes:
 
 ```css
-@layer theme, base, cxjs, utilities;
+@import "tailwindcss";
 
-@import "tailwindcss/theme.css" layer(theme);
-@import "tailwindcss/preflight.css" layer(base);
-@import "tailwindcss/utilities.css" layer(utilities);
+@layer components {
+  @import "cx-theme-variables/dist/widgets.css";
+}
 ```
 
-Then import your CxJS theme styles into the `cxjs` layer in your main stylesheet:
+For SCSS themes, `@layer` does not work well with SCSS `@use`, so use `sass:meta` to load the theme:
 
-```css
-@import "./tailwind.css";
+```scss
+@import "tailwindcss";
+@use "sass:meta";
 
-@layer cxjs {
-  @import "cx-theme-aquamarine/src/variables";
-  @import "cx-theme-aquamarine/src/index";
+@layer components {
+  @include meta.load-css("cx-theme-variables/src/index");
 }
 ```
 
@@ -80,15 +83,19 @@ Then import your CxJS theme styles into the `cxjs` layer in your main stylesheet
 
 ### Vite
 
-Vite has built-in PostCSS support. After running `npx tailwindcss init -p`, it creates a `postcss.config.js` file that Vite picks up automatically:
+Install the Tailwind CSS Vite plugin and configure it in `vite.config.js`:
 
 ```javascript
-export default {
-  plugins: {
-    tailwindcss: {},
-    autoprefixer: {},
+import { defineConfig } from "vite";
+import tailwindcss from "@tailwindcss/vite";
+
+export default defineConfig({
+  plugins: [tailwindcss()],
+  esbuild: {
+    jsx: "automatic",
+    jsxImportSource: "cx",
   },
-};
+});
 ```
 
 ### webpack
