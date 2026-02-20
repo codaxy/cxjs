@@ -22,7 +22,7 @@
 [x] Fix MonthField rendering empty
 [x] Fix remaining Gallery themes
 [ ] Render presets to css
-[ ] Write Theme Migration Docs
+[x] Write Theme Migration Docs
 [x] On this page should render closed on mobile
 [x] Move homedocs presets to cx-theme-variables
 [x] Make Stackblitz use cx-theme-variables
