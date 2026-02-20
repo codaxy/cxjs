@@ -58,7 +58,7 @@ module system before any widget styles are compiled.
 
 ### With a Theme
 
-When using a classic SCSS theme, import the manifest before the theme:
+When using a SCSS theme, import the manifest before the theme:
 
 ```scss
 @use "manifest";

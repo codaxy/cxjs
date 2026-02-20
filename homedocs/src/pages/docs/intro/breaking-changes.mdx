@@ -225,6 +225,20 @@ Unlike traditional themes where colors are baked in at compile time, this theme 
 enabling runtime theme switching (e.g., light/dark mode) without recompilation.
 Try it out in the [Theme Editor](/themes).
 
+### SCSS Manifest Must Be the First Import
+
+If you use `cx-scss-manifest-webpack-plugin` or a hand-written manifest for CSS tree-shaking,
+the manifest **must** be the very first `@use` in your SCSS entry file — before the theme or any other CxJS imports.
+
+```scss
+@use "manifest";
+@use "cx-theme-frost/src/index";
+```
+
+CxJS now registers widget dependencies during variable loading. The manifest must be loaded first so the
+include system is configured before any dependency registration or style compilation occurs.
+If the manifest is loaded after the theme, styles will not be correctly tree-shaken.
+
 ## 26.2.0
 
 ### LookupField: Improved TypeScript discrimination
