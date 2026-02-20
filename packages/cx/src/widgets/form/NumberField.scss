@@ -31,11 +31,7 @@
    }
 
    .#{$element}#{$name}-input {
-      @include cxe-field-input(
-         $besm,
-         $state-style-map,
-         $placeholder: $placeholder
-      );
+      @include cxe-field-input($besm, $state-style-map, $placeholder: $placeholder);
 
       &::-webkit-inner-spin-button,
       &::-webkit-outer-spin-button {
@@ -44,11 +40,7 @@
       }
 
       .#{$state}icon > & {
-         padding-left: cx-calc(
-            cx-left($padding),
-            $cx-default-input-left-tool-size,
-            $cx-default-input-left-tool-spacing
-         );
+         padding-left: cx-calc(cx-top($padding), $cx-default-input-left-tool-size, $cx-default-input-left-tool-spacing);
       }
    }
 

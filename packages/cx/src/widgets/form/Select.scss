@@ -27,12 +27,7 @@
    $mod: map.get($besm, mod);
 
    .#{$block}#{$name} {
-      @include cxb-field(
-         $besm,
-         $state-style-map: $state-style-map,
-         $width: $width,
-         $input: true
-      );
+      @include cxb-field($besm, $state-style-map: $state-style-map, $width: $width, $input: true);
 
       .#{$element}#{$name}-left-icon {
          pointer-events: none;
@@ -49,11 +44,7 @@
          $placeholder: $placeholder,
          $overrides: (
             padding: $cx-default-input-padding-top
-               calc(
-                  #{$cx-default-input-padding-right} +
-                     #{$cx-default-clear-size} -
-                     #{$cx-default-input-padding-right}
-               )
+               calc(#{$cx-default-input-padding-right} + #{$cx-default-clear-size} - #{$cx-default-input-padding-right})
                $cx-default-input-padding-bottom $cx-default-input-padding-left,
             -webkit-appearance: none,
             -moz-appearance: none,
@@ -63,11 +54,7 @@
       );
 
       .#{$state}icon > & {
-         padding-left: cx-calc(
-            cx-left($padding),
-            $cx-default-input-left-tool-size,
-            $cx-default-input-left-tool-spacing
-         );
+         padding-left: cx-calc(cx-top($padding), $cx-default-input-left-tool-size, $cx-default-input-left-tool-spacing);
       }
 
       .#{$state}empty > & {

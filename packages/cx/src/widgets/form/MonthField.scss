@@ -39,18 +39,9 @@
          $placeholder: $placeholder,
          $overrides: (
             default: (
-               padding: cx-top($padding)
-                  cx-calc(
-                     cx-right($padding),
-                     $cx-default-clear-size,
-                     $cx-default-clear-spacing
-                  )
+               padding: cx-top($padding) cx-calc(cx-top($padding), $cx-default-clear-size, $cx-default-clear-spacing)
                   cx-bottom($padding)
-                  cx-calc(
-                     cx-left($padding),
-                     $cx-default-input-left-tool-size,
-                     $cx-default-input-left-tool-spacing
-                  ),
+                  cx-calc(cx-top($padding), $cx-default-input-left-tool-size, $cx-default-input-left-tool-spacing),
             )
          )
       );

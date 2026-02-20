@@ -28,10 +28,7 @@
    $state: map.get($besm, state);
 
    $padding: cx-get-state-rule($state-style-map, default, padding);
-   $border-radius-offset: cx-multiply(
-      cx-get-state-rule($tag-state-style-map, default, border-radius),
-      0.25
-   );
+   $border-radius-offset: cx-multiply(cx-get-state-rule($tag-state-style-map, default, border-radius), 0.25);
 
    .#{$block}#{$name} {
       cursor: pointer;
@@ -72,12 +69,8 @@
                display: inline-flex,
                text-overflow: null,
                padding: cx-top($padding)
-                  cx-calc(
-                     cx-right($padding),
-                     $cx-default-clear-size,
-                     $cx-default-input-tag-spacing
-                  )
-                  cx-bottom($padding) cx-left($padding),
+                  cx-calc(cx-right($padding), $cx-default-clear-size, $cx-default-input-tag-spacing) cx-bottom($padding)
+                  cx-left($padding),
             )
          )
       );
@@ -91,32 +84,16 @@
       }
 
       .#{$state}icon > & {
-         padding-left: cx-calc(
-            cx-left($padding),
-            $cx-default-input-left-tool-size,
-            $cx-default-input-left-tool-spacing
-         );
+         padding-left: cx-calc(cx-top($padding), $cx-default-input-left-tool-size, $cx-default-input-left-tool-spacing);
       }
    }
 
    .#{$element}#{$name}-tags {
       display: flex;
-      margin: cx-calc(
-            $cx-default-input-tag-spacing,
-            cx-multiply(cx-top($padding), -1)
-         )
-         cx-calc(
-            $cx-default-input-tag-spacing,
-            cx-multiply(cx-right($padding), -1)
-         )
-         cx-calc(
-            $cx-default-input-tag-spacing,
-            cx-multiply(cx-bottom($padding), -1)
-         )
-         cx-calc(
-            $cx-default-input-tag-spacing,
-            cx-multiply(cx-left($padding), -1)
-         );
+      margin: cx-calc($cx-default-input-tag-spacing, cx-multiply(cx-top($padding), -1))
+         cx-calc($cx-default-input-tag-spacing, cx-multiply(cx-right($padding), -1))
+         cx-calc($cx-default-input-tag-spacing, cx-multiply(cx-bottom($padding), -1))
+         cx-calc($cx-default-input-tag-spacing, cx-multiply(cx-left($padding), -1));
       align-items: center;
       flex-wrap: wrap;
       gap: $cx-default-input-tag-spacing;

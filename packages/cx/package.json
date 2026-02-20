@@ -1,6 +1,6 @@
 {
   "name": "cx",
-  "version": "26.3.4",
+  "version": "26.3.5",
   "description": "Advanced JavaScript UI framework for admin and dashboard applications with ready to use grid, form and chart components.",
   "exports": {
     "./data": {
