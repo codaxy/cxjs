@@ -2647,6 +2647,7 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
                   pageRecords.forEach((page) => {
                      if (Array.isArray(page)) {
                         records.push(...page);
+                        lastPage = records.length < pageSize;
                      } else {
                         if (!Array.isArray(page.records))
                            throw new Error(
@@ -2663,14 +2664,17 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
 
                   if (!isNumber(totalRecordCount)) {
                      totalRecordCount = (startPage - 1) * pageSize + records.length;
-                     if (!lastPage && records.length == (endPage - startPage + 1) * pageSize) totalRecordCount++;
-                     if (data.totalRecordCount > totalRecordCount) totalRecordCount = data.totalRecordCount;
+                     if (!lastPage) {
+                        if (records.length == (endPage - startPage + 1) * pageSize) totalRecordCount++;
+                        if (data.totalRecordCount > totalRecordCount) totalRecordCount = data.totalRecordCount;
+                     }
                   }
 
                   instance.buffer.totalRecordCount = data.totalRecordCount = totalRecordCount;
                   instance.buffer.records = data.records = records;
                   instance.buffer.page = data.page = startPage;
                   data.offset = (startPage - 1) * pageSize;
+                  data.empty = totalRecordCount == 0;
 
                   instance.store.silently(() => {
                      instance.set("records", records);
@@ -2693,7 +2697,7 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
                })
                .catch((error) => {
                   this.loading = false;
-                  if (widget.onLoadingError) instance.invoke(error, "onLoadingError", instance);
+                  if (widget.onLoadingError) instance.invoke("onLoadingError", error, instance);
                });
          }, 30);
 
