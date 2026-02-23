@@ -2674,6 +2674,7 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
                   instance.buffer.records = data.records = records;
                   instance.buffer.page = data.page = startPage;
                   data.offset = (startPage - 1) * pageSize;
+                  data.empty = totalRecordCount == 0;
 
                   instance.store.silently(() => {
                      instance.set("records", records);
@@ -2696,7 +2697,7 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
                })
                .catch((error) => {
                   this.loading = false;
-                  if (widget.onLoadingError) instance.invoke(error, "onLoadingError", instance);
+                  if (widget.onLoadingError) instance.invoke("onLoadingError", error, instance);
                });
          }, 30);
 

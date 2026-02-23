@@ -1,5 +1,5 @@
 import { bind, createAccessorModelProxy, createFunctionalComponent, KeySelection } from "cx/ui";
-import { Button, Grid, GridColumnConfig, LookupField, PureContainer } from "cx/widgets";
+import { Grid, GridColumnConfig } from "cx/widgets";
 
 const tags = ["history", "american", "crime", "tets"].map((tag) => ({
    name: tag,
@@ -35,30 +35,26 @@ export default createFunctionalComponent(() => (
       {/* <Button text="Show Grid" onClick={(e, { store }) => store.toggle(m.$page.showGrid)} /> */}
 
       <div>
-         <div>
-            <div>
-               <Grid
-                  columns={columns}
-                  infinite
-                  emptyText="No data"
-                  scrollable
-                  remoteSort
-                  selection={{ type: KeySelection, bind: "$page.selection", keyField: "id" }}
-                  sortDirection={bind("sortDir")}
-                  sortField={bind("sortField")}
-                  onFetchRecords={async ({}) => {
-                     const response = await fetch(`https://dummyjson.com/posts`);
-                     const data = await response.json();
-                     let finalData = data.posts;
+         <Grid
+            columns={columns}
+            infinite
+            emptyText="No data"
+            scrollable
+            remoteSort
+            selection={{ type: KeySelection, bind: "$page.selection", keyField: "id" }}
+            sortDirection={bind("sortDir")}
+            sortField={bind("sortField")}
+            onFetchRecords={async ({}) => {
+               const response = await fetch(`https://dummyjson.com/posts`);
+               const data = await response.json();
+               let finalData = data.posts;
 
-                     return {
-                        records: finalData,
-                        totalRecordCount: finalData.length,
-                     };
-                  }}
-               />
-            </div>
-         </div>
+               return {
+                  records: finalData,
+                  totalRecordCount: finalData.length,
+               };
+            }}
+         />
       </div>
    </cx>
 ));
