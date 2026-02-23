@@ -110,6 +110,7 @@ export const defaultPreset: ThemeVariables = {
    gridDataPaddingY: "var(--cx-input-padding-y)",
    gridDataBackgroundColor: "none",
    gridDataBorderColor: "#e0e0e0",
+   gridDataLineHeight: "var(--cx-input-line-height)",
    gridDataAlternateBackgroundColor: "transparent",
 
    itemHoverBackgroundColor:

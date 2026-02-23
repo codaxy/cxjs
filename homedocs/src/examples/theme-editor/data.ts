@@ -522,6 +522,12 @@ const variableMetadata: Array<{
     category: "grids",
   },
   {
+    key: "gridDataLineHeight",
+    label: "Data line height",
+    type: "size",
+    category: "grids",
+  },
+  {
     key: "gridDataAlternateBackgroundColor",
     label: "Alternate row background",
     type: "color",

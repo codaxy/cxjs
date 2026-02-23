@@ -133,7 +133,7 @@ $cx-theme-box-padding: var(--cx-input-padding-y) var(--cx-input-padding-x);
    $cx-default-grid-data-border-color: var(--cx-grid-data-border-color) !default,
    $cx-default-grid-data-padding: var(--cx-grid-data-padding-y)
       var(--cx-grid-data-padding-x) !default,
-   $cx-default-grid-data-line-height: $cx-theme-box-line-height !default,
+   $cx-default-grid-data-line-height: var(--cx-grid-data-line-height) !default,
    $cx-default-grid-scroll-wrapper-padding-top: 1px !default,
 
    // -------------------------------------------------------------------------

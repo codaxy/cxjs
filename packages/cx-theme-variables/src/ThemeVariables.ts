@@ -101,6 +101,7 @@ export interface ThemeVariables {
    gridDataPaddingY: string;
    gridDataBackgroundColor: string;
    gridDataBorderColor: string;
+   gridDataLineHeight: string;
    gridDataAlternateBackgroundColor: string;
 
    itemHoverBackgroundColor: string;
@@ -376,6 +377,7 @@ export const variableMap: Record<keyof ThemeVariables, string> = {
    gridDataPaddingY: "--cx-grid-data-padding-y",
    gridDataBackgroundColor: "--cx-grid-data-background-color",
    gridDataBorderColor: "--cx-grid-data-border-color",
+   gridDataLineHeight: "--cx-grid-data-line-height",
    gridDataAlternateBackgroundColor: "--cx-grid-data-alternate-background-color",
 
    itemHoverBackgroundColor: "--cx-item-hover-background-color",
