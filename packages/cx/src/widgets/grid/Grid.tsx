@@ -2647,6 +2647,7 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
                   pageRecords.forEach((page) => {
                      if (Array.isArray(page)) {
                         records.push(...page);
+                        lastPage = records.length < pageSize;
                      } else {
                         if (!Array.isArray(page.records))
                            throw new Error(
@@ -2663,8 +2664,10 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
 
                   if (!isNumber(totalRecordCount)) {
                      totalRecordCount = (startPage - 1) * pageSize + records.length;
-                     if (!lastPage && records.length == (endPage - startPage + 1) * pageSize) totalRecordCount++;
-                     if (data.totalRecordCount > totalRecordCount) totalRecordCount = data.totalRecordCount;
+                     if (!lastPage) {
+                        if (records.length == (endPage - startPage + 1) * pageSize) totalRecordCount++;
+                        if (data.totalRecordCount > totalRecordCount) totalRecordCount = data.totalRecordCount;
+                     }
                   }
 
                   instance.buffer.totalRecordCount = data.totalRecordCount = totalRecordCount;
