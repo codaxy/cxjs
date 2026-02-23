@@ -1992,6 +1992,7 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
          this.end = end;
          this.loadingStartPage = 0;
          this.loadingEndPage = 0;
+         this.lastSorters = props.data.sorters;
       }
 
       this.scrollerRef = (el) => {
