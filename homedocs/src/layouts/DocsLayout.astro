@@ -16,7 +16,7 @@ interface Props {
 const { frontmatter, title: directTitle, description: directDescription } = Astro.props;
 const title = frontmatter?.title || directTitle || '';
 const description = frontmatter?.description || directDescription || '';
-const mdUrl = Astro.url.pathname.replace(/\/$/, '') + '.md';
+const mdUrl = Astro.url.pathname + '.md';
 ---
 
 <BaseLayout title={`${title} - CxJS Documentation`} description={description}>

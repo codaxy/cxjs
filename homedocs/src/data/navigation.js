@@ -1610,5 +1610,5 @@ export function getNavigationForCategory(categorySlug) {
  * @returns {NavCategory | undefined}
  */
 export function getCurrentCategory(pathname) {
-  return navigation.find((cat) => pathname.includes(`/docs/${cat.slug}/`));
+  return navigation.find((cat) => pathname.match(new RegExp(`/docs/${cat.slug}(/|$)`)));
 }

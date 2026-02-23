@@ -22,8 +22,9 @@ export default defineConfig({
       site: "https://new.cxjs.io",
     }),
   ],
+  trailingSlash: "never",
   build: {
-    format: "directory",
+    format: "file",
   },
   prefetch: {
     defaultStrategy: "hover",

@@ -9,14 +9,11 @@ const { href, text, isActive: isActiveProp } = Astro.props;
 const pathname = Astro.url.pathname;
 
 // Use prop if provided, otherwise calculate from pathname
-const normalizedHref = href.replace(/\/$/, '') || '/';
-const normalizedPath = pathname.replace(/\/$/, '') || '/';
-
 const isActive = isActiveProp !== undefined
   ? isActiveProp
-  : (normalizedHref === '/'
-    ? normalizedPath === '/'
-    : normalizedPath === normalizedHref || normalizedPath.startsWith(normalizedHref + '/'));
+  : (href === '/'
+    ? pathname === '/'
+    : pathname === href || pathname.startsWith(href + '/'));
 ---
 
 <li>
