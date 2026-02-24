@@ -31,6 +31,8 @@
    .#{$element}#{$name}-clip {
       position: relative;
       overflow: hidden;
+      width: fit-content;
+      box-sizing: content-box;
       background: inherit;
       user-select: none;
       background-color: $cx-default-wheel-clip-background-color;
@@ -50,11 +52,11 @@
    }
 
    .#{$element}#{$name}-vscroll {
-      width: calc(100% + 20px);
       display: flex;
       overflow-y: auto;
       overflow-x: hidden;
       touch-action: pan-y;
+      scrollbar-width: none;
 
       &::-webkit-scrollbar {
          display: none;
@@ -65,7 +67,7 @@
    }
 
    .#{$element}#{$name}-option {
-      padding: 5px 15px;
+      padding: $cx-default-wheel-option-padding;
       flex: 0 0 auto;
 
       &.cxs-dummy {

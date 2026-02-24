@@ -97,6 +97,12 @@ export const examples: ExampleDef[] = [
     component: () => import("../forms/DateFieldExample"),
   },
   {
+    id: "datetime-field",
+    name: "DateTimeField",
+    categories: ["colors", "inputs", "dropdowns", "calendar", "sizing", "effects"],
+    component: () => import("../forms/DateTimeFieldExample"),
+  },
+  {
     id: "calendar",
     name: "Calendar",
     categories: ["colors", "calendar", "sizing", "effects"],

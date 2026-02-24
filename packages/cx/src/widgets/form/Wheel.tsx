@@ -82,7 +82,6 @@ export interface WheelComponentProps {
 
 interface WheelComponentState {
    wheelHeight?: number;
-   wheelWidth?: number;
 }
 
 export class WheelComponent extends VDOM.Component<WheelComponentProps, WheelComponentState> {
@@ -145,9 +144,6 @@ export class WheelComponent extends VDOM.Component<WheelComponentProps, WheelCom
          >
             <div
                className={CSS.element(baseClass, "clip")}
-               style={{
-                  width: this.state.wheelWidth,
-               }}
                onMouseDown={onMouseDown}
             >
                <div
@@ -220,7 +216,6 @@ export class WheelComponent extends VDOM.Component<WheelComponentProps, WheelCom
       this.setState(
          {
             wheelHeight: this.wheelEl.offsetHeight,
-            wheelWidth: this.wheelEl.offsetWidth,
          },
          () => {
             if (this.state.wheelHeight !== undefined) {

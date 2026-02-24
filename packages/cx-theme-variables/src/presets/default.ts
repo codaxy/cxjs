@@ -95,6 +95,11 @@ export const defaultPreset: ThemeVariables = {
    switchAxisSize: "calc(var(--cx-checkbox-size) + 4px)",
    switchHandleSize: "var(--cx-checkbox-size)",
    switchWidth: "calc(var(--cx-checkbox-size) * 2 + 4px)",
+   switchAxisBackgroundColor: "var(--cx-input-border-color)",
+   switchRangeBackgroundColor: "var(--cx-theme-primary-color)",
+   switchHandleBackgroundColor: "var(--cx-button-background-color)",
+   switchHandleBorderColor: "var(--cx-button-border-color)",
+   switchHandleBoxShadow: "var(--cx-theme-box-shadow)",
 
    gridBackground: "white",
    gridBorderRadius: "var(--cx-theme-border-radius)",
@@ -281,6 +286,14 @@ export const defaultPreset: ThemeVariables = {
    paletteStrokeBlacken: "10%",
 
    colorPickerBorderWidth: "var(--cx-input-border-width)",
+
+   dateTimePickerBackgroundColor: "var(--cx-input-background-color)",
+   dateTimePickerBorderWidth: "var(--cx-input-border-width)",
+   dateTimePickerPadding: "0 var(--cx-input-padding-y)",
+   wheelBorderWidth: "var(--cx-input-border-width)",
+   wheelBorderColor: "var(--cx-theme-border-color)",
+   wheelOptionPaddingX: "var(--cx-button-padding-x)",
+   wheelOptionPaddingY: "var(--cx-button-padding-y)",
 
    calendarBorderWidth: "var(--cx-input-border-width)",
    calendarBackgroundColor: "white",

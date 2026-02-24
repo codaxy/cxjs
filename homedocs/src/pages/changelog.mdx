@@ -4,6 +4,21 @@ title: Changelog
 description: Version history and release notes
 ---
 
+## cx\@26.3.9
+
+**Fixes**
+
+- Replaced wheel scrollbar-hiding hack (`width: calc(100% + 20px)`) with `scrollbar-width: none`
+- Fixed wheel clip overflow by using `width: fit-content` and `box-sizing: content-box`
+
+**Features**
+
+- Added dedicated CSS variables for switch styling (`--cx-switch-axis-background-color`, `--cx-switch-range-background-color`, `--cx-switch-handle-background-color`, `--cx-switch-handle-border-color`, `--cx-switch-handle-box-shadow`)
+- Added CSS variables for DateTimePicker (`--cx-datetimepicker-background-color`, `--cx-datetimepicker-border-width`, `--cx-datetimepicker-padding`)
+- Added CSS variables for wheel styling (`--cx-wheel-border-width`, `--cx-wheel-border-color`, `--cx-wheel-option-padding-x`, `--cx-wheel-option-padding-y`)
+
+---
+
 ## cx\@26.3.7
 
 **Fixes**

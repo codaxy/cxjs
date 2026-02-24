@@ -323,6 +323,36 @@ const variableMetadata: Array<{
     type: "size",
     category: "checks",
   },
+  {
+    key: "switchAxisBackgroundColor",
+    label: "Switch axis color",
+    type: "color",
+    category: "checks",
+  },
+  {
+    key: "switchRangeBackgroundColor",
+    label: "Switch range color",
+    type: "color",
+    category: "checks",
+  },
+  {
+    key: "switchHandleBackgroundColor",
+    label: "Switch handle color",
+    type: "color",
+    category: "checks",
+  },
+  {
+    key: "switchHandleBorderColor",
+    label: "Switch handle border",
+    type: "color",
+    category: "checks",
+  },
+  {
+    key: "switchHandleBoxShadow",
+    label: "Switch handle shadow",
+    type: "shadow",
+    category: "checks",
+  },
 
   // Buttons
   {
@@ -1050,6 +1080,50 @@ const variableMetadata: Array<{
     key: "calendarDayFontSize",
     label: "Calendar day font size",
     type: "text",
+    category: "calendar",
+  },
+
+  // DateTimePicker
+  {
+    key: "dateTimePickerBackgroundColor",
+    label: "DateTimePicker background",
+    type: "color",
+    category: "calendar",
+  },
+  {
+    key: "dateTimePickerBorderWidth",
+    label: "DateTimePicker border width",
+    type: "size",
+    category: "calendar",
+  },
+  {
+    key: "dateTimePickerPadding",
+    label: "DateTimePicker padding",
+    type: "size",
+    category: "calendar",
+  },
+  {
+    key: "wheelBorderWidth",
+    label: "Wheel border width",
+    type: "size",
+    category: "calendar",
+  },
+  {
+    key: "wheelBorderColor",
+    label: "Wheel border color",
+    type: "color",
+    category: "calendar",
+  },
+  {
+    key: "wheelOptionPaddingX",
+    label: "Wheel option padding X",
+    type: "size",
+    category: "calendar",
+  },
+  {
+    key: "wheelOptionPaddingY",
+    label: "Wheel option padding Y",
+    type: "size",
     category: "calendar",
   },
 

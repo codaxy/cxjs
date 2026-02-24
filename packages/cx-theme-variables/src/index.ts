@@ -15,7 +15,7 @@ export function applyThemeOverrides() {
       destroyDelay: 200,
    });
 
-   Localization.override("cx/widgets/DateField", {
+   Localization.override("cx/widgets/DateTimeField", {
       dropdownOptions: {
          arrow: true,
          offset: 5,

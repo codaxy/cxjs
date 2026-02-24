@@ -86,6 +86,11 @@ export interface ThemeVariables {
    switchAxisSize: string;
    switchHandleSize: string;
    switchWidth: string;
+   switchAxisBackgroundColor: string;
+   switchRangeBackgroundColor: string;
+   switchHandleBackgroundColor: string;
+   switchHandleBorderColor: string;
+   switchHandleBoxShadow: string;
 
    gridBackground: string;
    gridBorderRadius: string;
@@ -263,6 +268,14 @@ export interface ThemeVariables {
 
    colorPickerBorderWidth: string;
 
+   dateTimePickerBackgroundColor: string;
+   dateTimePickerBorderWidth: string;
+   dateTimePickerPadding: string;
+   wheelBorderWidth: string;
+   wheelBorderColor: string;
+   wheelOptionPaddingX: string;
+   wheelOptionPaddingY: string;
+
    calendarBorderWidth: string;
    calendarBackgroundColor: string;
    calendarPadding: string;
@@ -362,6 +375,11 @@ export const variableMap: Record<keyof ThemeVariables, string> = {
    switchAxisSize: "--cx-switch-axis-size",
    switchHandleSize: "--cx-switch-handle-size",
    switchWidth: "--cx-switch-width",
+   switchAxisBackgroundColor: "--cx-switch-axis-background-color",
+   switchRangeBackgroundColor: "--cx-switch-range-background-color",
+   switchHandleBackgroundColor: "--cx-switch-handle-background-color",
+   switchHandleBorderColor: "--cx-switch-handle-border-color",
+   switchHandleBoxShadow: "--cx-switch-handle-box-shadow",
 
    gridBackground: "--cx-grid-background",
    gridBorderRadius: "--cx-grid-border-radius",
@@ -538,6 +556,14 @@ export const variableMap: Record<keyof ThemeVariables, string> = {
    paletteStrokeBlacken: "--cx-palette-stroke-blacken",
 
    colorPickerBorderWidth: "--cx-colorpicker-border-width",
+
+   dateTimePickerBackgroundColor: "--cx-datetimepicker-background-color",
+   dateTimePickerBorderWidth: "--cx-datetimepicker-border-width",
+   dateTimePickerPadding: "--cx-datetimepicker-padding",
+   wheelBorderWidth: "--cx-wheel-border-width",
+   wheelBorderColor: "--cx-wheel-border-color",
+   wheelOptionPaddingX: "--cx-wheel-option-padding-x",
+   wheelOptionPaddingY: "--cx-wheel-option-padding-y",
 
    calendarBorderWidth: "--cx-calendar-border-width",
    calendarBackgroundColor: "--cx-calendar-background-color",

@@ -29,7 +29,13 @@ export default (
       text={bind(m.selectedText, "Apple")}
       options={options}
     />
-    <LookupField label="Multiple Select" records={m.selectedRecords} options={options} multiple />
+    <LookupField
+      label="Multiple Select"
+      records={m.selectedRecords}
+      options={options}
+      multiple
+      icon="search"
+    />
   </LabelsTopLayout>
 );
 // @index-end

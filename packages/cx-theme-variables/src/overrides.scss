@@ -35,6 +35,12 @@ $mod: map.get($cx-besm, mod);
    }
 }
 
+@if (cx-included("cx/widgets/DateTimePicker")) {
+   .#{$block}datetimepicker.#{$mod}dropdown {
+      --cx-datetimepicker-border-width: 0;
+   }
+}
+
 @if (cx-included("cx/widgets/List")) {
    .#{$block}list.#{$mod}bordered,
    .#{$block}list.#{$mod}dropdown {

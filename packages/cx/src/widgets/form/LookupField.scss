@@ -51,10 +51,9 @@
          }
       }
 
-      // &::before {
-      //    content: "\200B";
-      //    pointer-events: none;
-      // }
+      .#{$state}icon > .#{$element}#{$name}-input > .#{$element}#{$name}-tags {
+         margin-left: 0;
+      }
    }
 
    .#{$element}#{$name}-input {

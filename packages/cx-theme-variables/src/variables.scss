@@ -248,11 +248,30 @@ $cx-theme-box-padding: var(--cx-input-padding-y) var(--cx-input-padding-x);
    // -------------------------------------------------------------------------
    // DateTimePicker
    // -------------------------------------------------------------------------
+   $cx-default-datetimepicker-background-color: var(
+         --cx-datetimepicker-background-color
+      )
+      !default,
+   $cx-default-datetimepicker-border-width: var(
+         --cx-datetimepicker-border-width
+      )
+      !default,
    $cx-default-datetimepicker-border-color: var(--cx-theme-border-color)
       !default,
    $cx-default-datetimepicker-border-radius: var(--cx-theme-border-radius)
       !default,
-   $cx-default-wheel-clip-border-color: var(--cx-theme-border-color) !default,
+   $cx-default-datetimepicker-padding: var(--cx-datetimepicker-padding)
+      !default,
+   $cx-default-wheel-clip-background-color: var(
+         --cx-datetimepicker-background-color
+      )
+      !default,
+   $cx-default-wheel-clip-border-width: var(--cx-wheel-border-width) !default,
+   $cx-default-wheel-clip-border-radius: var(--cx-theme-border-radius)
+      !default,
+   $cx-default-wheel-clip-border-color: var(--cx-wheel-border-color) !default,
+   $cx-default-wheel-option-padding: var(--cx-wheel-option-padding-y)
+      var(--cx-wheel-option-padding-x) !default,
 
    // -------------------------------------------------------------------------
    // Tab
@@ -300,15 +319,24 @@ $cx-theme-box-padding: var(--cx-input-padding-y) var(--cx-input-padding-x);
    $cx-default-switch-axis-size: var(--cx-switch-axis-size) !default,
    $cx-default-switch-handle-size: var(--cx-switch-handle-size) !default,
    $cx-default-switch-width: var(--cx-switch-width) !default,
-   $cx-default-switch-axis-background-color: var(--cx-input-border-color)
+   $cx-default-switch-axis-background-color: var(
+         --cx-switch-axis-background-color
+      )
       !default,
-   $cx-default-switch-range-background-color: var(--cx-theme-primary-color)
+   $cx-default-switch-range-background-color: var(
+         --cx-switch-range-background-color
+      )
       !default,
-   $cx-default-switch-handle-background-color: var(--cx-button-background-color)
+   $cx-default-switch-handle-background-color: var(
+         --cx-switch-handle-background-color
+      )
       !default,
-   $cx-default-switch-handle-border-color: var(--cx-button-border-color)
+   $cx-default-switch-handle-border-color: var(
+         --cx-switch-handle-border-color
+      )
       !default,
-   $cx-default-switch-handle-box-shadow: var(--cx-theme-box-shadow) !default,
+   $cx-default-switch-handle-box-shadow: var(--cx-switch-handle-box-shadow)
+      !default,
 
    // -------------------------------------------------------------------------
    // Progress bar
