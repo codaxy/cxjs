@@ -80,7 +80,12 @@
             }
 
             &.#{$state}icon {
-               padding-left: cx-calc($icon-size);
+               padding-left: cx-calc(
+                  max(1lh, $icon-size),
+                  cx-top($value),
+                  cx-top($value),
+                  cx-multiply(cx-left($value), -1)
+               );
             }
 
             &.#{$state}empty {
@@ -92,7 +97,7 @@
             }
 
             & > .#{$element}#{$name}-button {
-               width: cx-calc(cx-left($value), $icon-size);
+               left: cx-calc(cx-top($value), 0.5lh, cx-multiply($icon-size, -0.5));
             }
          }
       }
@@ -112,9 +117,9 @@
 
    .#{$element}#{$name}-button {
       position: absolute;
-      left: 0;
       top: 0;
       bottom: 0;
+      width: max($icon-size, 1lh);
    }
 
    .#{$element}#{$name}-baseline {

@@ -305,8 +305,8 @@ class MenuItemComponent extends VDOM.Component<MenuItemComponentProps, MenuItemC
             onClick={this.onClick.bind(this)}
             onBlur={this.onBlur.bind(this)}
          >
-            {children}
             {icon}
+            {children}
             {arrow}
             {dropdown}
          </div>

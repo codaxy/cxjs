@@ -140,17 +140,19 @@ export default (
           required
           style="width: 140px;"
         />
-        <span class="text-sm text-muted-foreground">Rounding:</span>
-        <LookupField
-          value={m.rounding}
-          options={roundingOptions}
-          placeholder="Use default"
-          style="width: 140px;"
-        />
+
         <span class="text-sm text-muted-foreground">Density:</span>
         <LookupField
           value={m.density}
           options={densityOptions}
+          placeholder="Use default"
+          style="width: 140px;"
+        />
+
+        <span class="text-sm text-muted-foreground">Rounding:</span>
+        <LookupField
+          value={m.rounding}
+          options={roundingOptions}
           placeholder="Use default"
           style="width: 140px;"
         />
