@@ -42,17 +42,12 @@ $cx-std-field-state-style-map: cx-deep-map-merge(
          box-shadow: none,
       ),
       error: (
-         background-color: color-mix(
-               in oklch,
-               var(--cx-theme-danger-color) 10%,
-               var(--cx-theme-background-color)
-            ),
+         background-color: color-mix(in oklch, var(--cx-theme-danger-color) 10%, var(--cx-theme-background-color)),
          border-color: var(--cx-theme-danger-color),
       ),
       error-focus: (
          border-color: var(--cx-theme-danger-border-color),
-         box-shadow: 0 0 0 2px
-            color-mix(in oklch, var(--cx-theme-danger-color) 30%, transparent),
+         box-shadow: 0 0 0 2px color-mix(in oklch, var(--cx-theme-danger-color) 30%, transparent),
       ),
    )
 );
@@ -183,13 +178,6 @@ $cx-clear-state-style-map: cx-deep-map-merge(
       hover: (
          color: var(--cx-theme-text-color),
          background-color: transparent,
-      ),
-      focus: (
-         color: var(--cx-theme-primary-color),
-      ),
-      error: (
-         color: var(--cx-theme-text-color),
-         opacity: 0.6,
       ),
    )
 );
