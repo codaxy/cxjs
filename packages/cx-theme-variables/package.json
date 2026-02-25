@@ -1,6 +1,6 @@
 {
   "name": "cx-theme-variables",
-  "version": "26.3.5",
+  "version": "26.3.6",
   "description": "CSS Variables-based theme for Cx applications with customizable colors",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",

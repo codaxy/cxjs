@@ -97,7 +97,7 @@
             }
 
             & > .#{$element}#{$name}-button {
-               left: cx-calc(cx-top($value), 0.5lh, cx-multiply($icon-size, -0.5));
+               width: cx-calc(cx-top($value), max($icon-size, 1lh), cx-top($value));
             }
          }
       }
@@ -119,7 +119,7 @@
       position: absolute;
       top: 0;
       bottom: 0;
-      width: max($icon-size, 1lh);
+      left: 0;
    }
 
    .#{$element}#{$name}-baseline {
