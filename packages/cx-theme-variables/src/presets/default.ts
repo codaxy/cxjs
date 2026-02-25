@@ -64,6 +64,7 @@ export const defaultPreset: ThemeVariables = {
    inputTagSpacing: "3px",
    inputTagBorderRadius: "var(--cx-button-border-radius)",
    inputTagBorderWidth: "var(--cx-button-border-width)",
+   inputTagBorderColor: "var(--cx-button-border-color)",
    inputTagPadding:
       "calc(var(--cx-input-padding-y) - var(--cx-input-tag-spacing) - var(--cx-input-tag-border-width))",
    checkboxSize: "16px",

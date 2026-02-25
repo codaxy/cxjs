@@ -83,6 +83,8 @@ $cx-default-input-tag-spacing: 3px !default;
 $cx-default-input-tag-font-size: null !default;
 $cx-default-input-tag-background-color: #eee !default;
 $cx-default-input-tag-border-radius: $cx-default-border-radius !default;
+$cx-default-input-tag-border-width: $cx-default-button-border-width !default;
+$cx-default-input-tag-border-color: $cx-default-button-border-color !default;
 $cx-default-input-tag-padding: cx-calc($cx-default-input-padding-top, -$cx-default-input-tag-spacing) !default;
 
 // Note: Field.variables.scss is @use'd above, not @forward'd here

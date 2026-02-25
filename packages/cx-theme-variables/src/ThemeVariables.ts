@@ -58,6 +58,7 @@ export interface ThemeVariables {
    inputTagSpacing: string;
    inputTagBorderRadius: string;
    inputTagBorderWidth: string;
+   inputTagBorderColor: string;
    inputTagPadding: string;
    checkboxSize: string;
    checkboxCheckedBackgroundColor: string;
@@ -347,6 +348,7 @@ export const variableMap: Record<keyof ThemeVariables, string> = {
    inputTagSpacing: "--cx-input-tag-spacing",
    inputTagBorderRadius: "--cx-input-tag-border-radius",
    inputTagBorderWidth: "--cx-input-tag-border-width",
+   inputTagBorderColor: "--cx-input-tag-border-color",
    inputTagPadding: "--cx-input-tag-padding",
    checkboxSize: "--cx-checkbox-size",
    checkboxCheckedBackgroundColor: "--cx-checkbox-checked-background-color",
