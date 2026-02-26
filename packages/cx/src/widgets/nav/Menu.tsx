@@ -66,6 +66,11 @@ export class Menu extends HtmlElement<MenuConfig, MenuInstance> {
    declare public autoFocus?: boolean;
    static Item: typeof MenuItem;
    static Spacer: typeof MenuSpacer;
+
+   constructor(config?: MenuConfig) {
+      super(config);
+   }
+
    init() {
       if (this.itemPadding === true) this.itemPadding = "medium";
 
