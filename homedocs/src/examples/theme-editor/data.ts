@@ -350,7 +350,7 @@ const variableMetadata: Array<{
   {
     key: "switchHandleBoxShadow",
     label: "Switch handle shadow",
-    type: "shadow",
+    type: "text",
     category: "checks",
   },
 
@@ -1026,7 +1026,7 @@ const variableMetadata: Array<{
     type: "size",
     category: "toasts",
   },
-  
+
   // Calendar
   {
     key: "calendarBorderWidth",
@@ -1610,21 +1610,61 @@ const categoryMetadata = [
   { id: "colors", name: "Colors", icon: "palette", group: "Theme" },
   { id: "sizing", name: "Sizing", icon: "move", group: "Theme" },
   { id: "effects", name: "Effects", icon: "zap", group: "Theme" },
-  { id: "buttons", name: "Buttons", icon: "square-hollow", group: "Components" },
-  { id: "inputs", name: "Inputs", icon: "text-cursor-input", group: "Components" },
-  { id: "checks", name: "Checks & Switches", icon: "toggle-left", group: "Components" },
-  { id: "sliders", name: "Sliders & Progress", icon: "sliders-horizontal", group: "Components" },
+  {
+    id: "buttons",
+    name: "Buttons",
+    icon: "square-hollow",
+    group: "Components",
+  },
+  {
+    id: "inputs",
+    name: "Inputs",
+    icon: "text-cursor-input",
+    group: "Components",
+  },
+  {
+    id: "checks",
+    name: "Checks & Switches",
+    icon: "toggle-left",
+    group: "Components",
+  },
+  {
+    id: "sliders",
+    name: "Sliders & Progress",
+    icon: "sliders-horizontal",
+    group: "Components",
+  },
   { id: "calendar", name: "Calendar", icon: "calendar", group: "Components" },
   { id: "lists", name: "Lists", icon: "list", group: "Components" },
   { id: "grids", name: "Grids", icon: "table", group: "Components" },
   { id: "sections", name: "Sections", icon: "panel-top", group: "Components" },
   { id: "windows", name: "Windows", icon: "app-window", group: "Components" },
   { id: "toasts", name: "Toasts", icon: "bell", group: "Components" },
-  { id: "tooltips", name: "Tooltips", icon: "message-circle", group: "Components" },
+  {
+    id: "tooltips",
+    name: "Tooltips",
+    icon: "message-circle",
+    group: "Components",
+  },
   { id: "menu", name: "Menu", icon: "menu", group: "Components" },
-  { id: "dropdowns", name: "Dropdowns", icon: "drop-down", group: "Components" },
-  { id: "chart-axes", name: "Axes & Gridlines", icon: "bar-chart", group: "Charts" },
-  { id: "chart-elements", name: "Elements", icon: "bar-chart", group: "Charts" },
+  {
+    id: "dropdowns",
+    name: "Dropdowns",
+    icon: "drop-down",
+    group: "Components",
+  },
+  {
+    id: "chart-axes",
+    name: "Axes & Gridlines",
+    icon: "bar-chart",
+    group: "Charts",
+  },
+  {
+    id: "chart-elements",
+    name: "Elements",
+    icon: "bar-chart",
+    group: "Charts",
+  },
   { id: "chart-legend", name: "Legend", icon: "bar-chart", group: "Charts" },
   { id: "palette", name: "Palette", icon: "palette", group: "Charts" },
 ];
@@ -1709,9 +1749,34 @@ export const densityOptions = [
 
 export const fontOptions = [
   { id: "system", text: "System", tweak: fontTweaks.system, googleFont: null },
-  { id: "inter", text: "Inter", tweak: fontTweaks.inter, googleFont: "Inter:wght@400;500;600;700" },
-  { id: "roboto", text: "Roboto", tweak: fontTweaks.roboto, googleFont: "Roboto:wght@400;500;700" },
-  { id: "openSans", text: "Open Sans", tweak: fontTweaks.openSans, googleFont: "Open+Sans:wght@400;500;600;700" },
-  { id: "poppins", text: "Poppins", tweak: fontTweaks.poppins, googleFont: "Poppins:wght@400;500;600;700" },
-  { id: "lato", text: "Lato", tweak: fontTweaks.lato, googleFont: "Lato:wght@400;700" },
+  {
+    id: "inter",
+    text: "Inter",
+    tweak: fontTweaks.inter,
+    googleFont: "Inter:wght@400;500;600;700",
+  },
+  {
+    id: "roboto",
+    text: "Roboto",
+    tweak: fontTweaks.roboto,
+    googleFont: "Roboto:wght@400;500;700",
+  },
+  {
+    id: "openSans",
+    text: "Open Sans",
+    tweak: fontTweaks.openSans,
+    googleFont: "Open+Sans:wght@400;500;600;700",
+  },
+  {
+    id: "poppins",
+    text: "Poppins",
+    tweak: fontTweaks.poppins,
+    googleFont: "Poppins:wght@400;500;600;700",
+  },
+  {
+    id: "lato",
+    text: "Lato",
+    tweak: fontTweaks.lato,
+    googleFont: "Lato:wght@400;700",
+  },
 ];

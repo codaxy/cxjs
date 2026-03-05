@@ -2,6 +2,7 @@ import { Store } from "../data/Store";
 import { Repeater } from "./Repeater";
 import { bind } from "./bind";
 import { createTestRenderer, act } from "../util/test/createTestRenderer";
+import { createAccessorModelProxy } from "../data/createAccessorModelProxy";
 
 import assert from "assert";
 
@@ -139,5 +140,42 @@ describe("Repeater", () => {
       assert.equal(divInstances[0].store.get("$item.value"), "A");
       assert.equal(divInstances[1].store.get("$item.value"), "B");
       assert.equal(divInstances[2].store.get("$item.value"), "C");
+   });
+
+   it("infers T from AccessorChain<T[]> for onCreateFilter callback", () => {
+      interface Item {
+         name: string;
+         active: boolean;
+      }
+
+      interface AppModel {
+         items: Item[];
+         $item: Item;
+      }
+
+      const m = createAccessorModelProxy<AppModel>();
+
+      // onCreateFilter should receive (record: Item) => boolean when T is inferred from AccessorChain<Item[]>
+      const widget = (
+         <cx>
+            <div>
+               <Repeater
+                  records={m.items}
+                  recordAlias={m.$item}
+                  onCreateFilter={() => (record) => {
+                     // If T is correctly inferred as Item, record.name should be string
+                     const name: string = record.name;
+                     // @ts-expect-error - record.name should be string, not number
+                     const wrong: number = record.name;
+                     return record.active;
+                  }}
+               >
+                  <div text={m.$item.name} />
+               </Repeater>
+            </div>
+         </cx>
+      );
+
+      assert.ok(widget);
    });
 });

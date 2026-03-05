@@ -43,7 +43,7 @@
     "style-loader": "^4.0.0",
     "svg-url-loader": "^8.0.0",
     "ts-loader": "^9.5.1",
-    "typescript": "^5.7.2",
+    "typescript": "^5.9.3",
     "url-loader": "^4.1.1",
     "webpack": "^5.103.0",
     "webpack-bundle-analyzer": "^4.10.2",
