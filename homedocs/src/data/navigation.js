@@ -1,4 +1,4 @@
-/** @typedef {{ title: string; slug: string, llms?: 'small' | 'full', description?: string }} NavItem */
+/** @typedef {{ title: string; slug: string, llms?: 'small' | 'full', description?: string, hideOnMobile?: boolean }} NavItem */
 /** @typedef {{ title: string; items: NavItem[] }} NavGroup */
 /** @typedef {{ title: string; slug: string; groups: NavGroup[] }} NavCategory */
 
@@ -35,6 +35,7 @@ export const navigation = [
             slug: "themes",
             description:
               "Apply and customize visual themes for your application",
+            hideOnMobile: true,
           },
           {
             title: "Tailwind CSS",

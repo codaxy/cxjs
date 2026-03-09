@@ -3,9 +3,10 @@ interface Props {
   href: string;
   text: string;
   isActive?: boolean;
+  hideOnMobile?: boolean;
 }
 
-const { href, text, isActive: isActiveProp } = Astro.props;
+const { href, text, isActive: isActiveProp, hideOnMobile } = Astro.props;
 const pathname = Astro.url.pathname;
 
 // Use prop if provided, otherwise calculate from pathname
@@ -16,7 +17,7 @@ const isActive = isActiveProp !== undefined
     : pathname === href || pathname.startsWith(href + '/'));
 ---
 
-<li>
+<li class:list={[hideOnMobile && "hidden md:block"]}>
   <a
     href={href}
     class:list={[
