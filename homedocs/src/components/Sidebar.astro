@@ -34,6 +34,7 @@ const currentSlug = pathParts[pathParts.length - 1];
             text={item.title}
             href={`/docs/${currentCategory.slug}/${item.slug}`}
             isActive={item.slug === currentSlug}
+            hideOnMobile={item.hideOnMobile}
           />
         ))}
       </SidebarSection>
@@ -46,6 +47,7 @@ const currentSlug = pathParts[pathParts.length - 1];
           <NavItem
             text={item.title}
             href={`/docs/${navigation[0].slug}/${item.slug}`}
+            hideOnMobile={item.hideOnMobile}
           />
         ))}
       </SidebarSection>
