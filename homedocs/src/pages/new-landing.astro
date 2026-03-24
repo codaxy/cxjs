@@ -1,0 +1,759 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import NewLandingHeader from "../components/NewLandingHeader.astro";
+import HoneycombBackground from "../components/HoneycombBackground.astro";
+import DashboardExample from "../examples/homepage/DashboardExample.tsx";
+import InvoiceExample from "../examples/homepage/InvoiceExample.tsx";
+import TrelloExample from "../examples/homepage/TrelloExample.tsx";
+import InventoryExample from "../examples/homepage/InventoryExample.tsx";
+---
+
+<BaseLayout
+  title="CxJS - New Landing Page"
+  description="CxJS - A TypeScript UI framework for building complex web front-ends."
+>
+  <div class="min-h-screen bg-background transition-colors duration-300">
+    <NewLandingHeader />
+
+    <!-- Hero -->
+    <section class="relative pt-48 pb-64 lg:pt-96 lg:pb-112">
+      <div
+        class="absolute z-0 inset-0 overflow-hidden pointer-events-none dark:hidden"
+      >
+        <div
+          class="absolute left-[calc(50%+100px)] -translate-x-1/2 top-[calc(50%-280px)] w-[300px] h-[300px] rounded-full opacity-30 blur-[80px]"
+          style="background: radial-gradient(circle, #FFFFFF 0%, #80ECFF 40%, #A6A6FF 70%, transparent 100%);"
+        >
+        </div>
+      </div>
+      <div
+        class="absolute z-0 inset-0 overflow-hidden pointer-events-none hidden dark:block"
+      >
+        <div
+          class="absolute left-1/2 -translate-x-1/2 bottom-0 w-[800px] h-[500px] rounded-full opacity-40 blur-[120px]"
+          style="background: radial-gradient(ellipse, #00BBFF 0%, #007BE0 40%, #6D00AD 70%, transparent 100%);"
+        >
+        </div>
+      </div>
+
+      <!-- Honeycomb background -->
+      <div class="absolute z-[1] inset-0 overflow-hidden pointer-events-none">
+        <img src="/honeycomb-light.png" class="w-full h-full object-cover dark:hidden" alt="" />
+        <img src="/honeycomb-dark.png" class="w-full h-full object-cover hidden dark:block" alt="" />
+      </div>
+      <div class="absolute z-[2] inset-0 flex items-center justify-center overflow-hidden pointer-events-none">
+        <HoneycombBackground />
+      </div>
+
+      <div class="relative z-10 mx-auto max-w-[900px] px-6 text-center">
+        <!-- Badge -->
+        <div
+          class="inline-flex items-center gap-2 rounded-full border border-border bg-background px-4 py-1.5 text-sm text-muted-foreground mb-8 transition-colors duration-300"
+        >
+          <span class="h-2 w-2 rounded-full bg-[#4ade80]"></span>
+          Version 26 Now Available
+        </div>
+
+        <!-- Heading -->
+        <h1
+          class="text-4xl md:text-5xl lg:text-[64px] font-bold leading-[1.1] tracking-tight text-[#1a2341] dark:text-white mb-6 transition-colors duration-300"
+        >
+          The One-Stop Shop for<br />
+          Portals and Dashboards
+        </h1>
+
+        <!-- Description -->
+        <p
+          class="text-[16px] md:text-[18px] leading-relaxed text-muted-foreground max-w-[560px] mx-auto mb-10 transition-colors duration-300"
+        >
+          Born from a decade of development in finance, telecom and legal, CxJS
+          bakes in the UI patterns teams keep rebuilding. Open source,
+          battle-tested, and now TypeScript-first.
+        </p>
+
+        <!-- CTA Buttons -->
+        <div class="flex items-center justify-center gap-3">
+          <a
+            href="/docs/intro/hello-world"
+            class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-[#27aae1] text-white text-[16px] font-medium hover:bg-[#1e96c8] transition-all duration-200 shadow-md hover:shadow-lg hover:-translate-y-0.5"
+          >
+            Get started
+            <svg class="w-4 h-4" viewBox="0 0 16 16" fill="currentColor">
+              <path
+                d="M6.47 4.29a.75.75 0 0 1 1.06 0l3.75 3.75a.75.75 0 0 1 0 1.06l-3.75 3.75a.75.75 0 1 1-1.06-1.06L9.69 8.5H2.75a.75.75 0 0 1 0-1.5h6.94L6.47 5.35a.75.75 0 0 1 0-1.06z"
+              ></path>
+            </svg>
+          </a>
+          <a
+            href="https://github.com/codaxy/cxjs"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-border bg-background text-foreground text-[16px] font-medium hover:bg-secondary/60 transition-all duration-200 hover:-translate-y-0.5"
+          >
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+              ></path>
+            </svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Features section -->
+    <section class="relative transition-colors duration-300">
+      <div class="hidden lg:block absolute top-0 bottom-0 left-[calc((100%-1450px)/2)] w-px bg-[#D5D6D7] dark:bg-[#404040] z-10 transition-colors duration-300"></div>
+      <div class="hidden lg:block absolute top-0 bottom-0 right-[calc((100%-1450px)/2)] w-px bg-[#D5D6D7] dark:bg-[#404040] z-10 transition-colors duration-300"></div>
+      <div
+        class="bg-[#D5D6D7] dark:bg-[#404040] pt-px pb-px px-px flex flex-col lg:flex-row gap-px transition-colors duration-300 max-w-[1450px] mx-auto"
+      >
+        <!-- Left sticky column -->
+        <div
+          class="lg:flex-1 bg-background rounded-[8px] p-8 lg:p-12 transition-colors duration-300"
+        >
+          <div class="lg:sticky lg:top-32">
+            <div class="flex items-center gap-2 mb-4">
+              <span class="h-2 w-2 rounded-full bg-[#27aae1]"></span>
+              <span
+                class="text-xs font-medium tracking-[0.15em] uppercase text-muted-foreground"
+                style="font-family: 'IBM Plex Mono', monospace"
+                >All-in-one platform</span
+              >
+            </div>
+
+            <h2
+              class="text-3xl md:text-4xl font-bold leading-tight text-[#1a2341] dark:text-white mb-4 transition-colors duration-300"
+            >
+              A Complete UI Framework in One Package
+            </h2>
+
+            <p
+              class="text-muted-foreground mb-6 transition-colors duration-300"
+            >
+              CxJS is a complete JavaScript framework for building sophisticated
+              business applications.
+            </p>
+
+            <a
+              href="/docs/intro/what-is-cxjs"
+              class="inline-flex items-center gap-1 text-[14px] font-medium text-foreground hover:text-[#27aae1] transition-colors"
+            >
+              See Demo Apps
+              <svg class="w-4 h-4" viewBox="0 0 16 16" fill="currentColor">
+                <path
+                  d="M6.47 4.29a.75.75 0 0 1 1.06 0l3.75 3.75a.75.75 0 0 1 0 1.06l-3.75 3.75a.75.75 0 1 1-1.06-1.06L9.69 8.5H2.75a.75.75 0 0 1 0-1.5h6.94L6.47 5.35a.75.75 0 0 1 0-1.06z"
+                ></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Right scrollable column -->
+        <div class="flex-1 flex flex-col gap-px">
+          <!-- Feature 1: Extensive Widget Library -->
+          <div
+            class="bg-background rounded-[8px] p-8 lg:p-10 transition-colors duration-300"
+          >
+            <h3
+              class="text-xl font-semibold text-[#1a2341] dark:text-white mb-2 transition-colors duration-300"
+            >
+              Extensive Widget Library
+            </h3>
+            <p
+              class="text-muted-foreground mb-6 transition-colors duration-300"
+            >
+              A rich set of ready-to-use widgets for building forms, working
+              with data tables, and visualizing data through SVG charts.
+            </p>
+            <div class="flex justify-center">
+              <img src="/features/Extensive-Widget-Library-Animation-Light.gif" alt="Extensive Widget Library" class="max-w-full rounded-lg shadow-lg dark:hidden" />
+              <img src="/features/Extensive-Widget-Library-Animation-Dark.gif" alt="Extensive Widget Library" class="max-w-full rounded-lg shadow-lg hidden dark:block" />
+            </div>
+          </div>
+
+          <!-- Feature 2: Navigation and App Shell -->
+          <div
+            class="bg-background rounded-[8px] p-8 lg:p-10 transition-colors duration-300"
+          >
+            <h3
+              class="text-xl font-semibold text-[#1a2341] dark:text-white mb-2 transition-colors duration-300"
+            >
+              Navigation and App Shell
+            </h3>
+            <p
+              class="text-muted-foreground mb-6 transition-colors duration-300"
+            >
+              Built-in client-side routing with flexible layouts, overlays, and
+              support for keyboard shortcuts and localization.
+            </p>
+            <div class="flex justify-center">
+              <img src="/features/Navigation-And-App-Shell-Light.gif" alt="Navigation and App Shell" class="max-w-full rounded-lg shadow-lg dark:hidden" />
+              <img src="/features/Navigation-And-App-Shell-Dark.gif" alt="Navigation and App Shell" class="max-w-full rounded-lg shadow-lg hidden dark:block" />
+            </div>
+          </div>
+
+          <!-- Feature 3: Ecosystem-Friendly -->
+          <div
+            class="bg-background rounded-[8px] p-8 lg:p-10 transition-colors duration-300"
+          >
+            <h3
+              class="text-xl font-semibold text-[#1a2341] dark:text-white mb-2 transition-colors duration-300"
+            >
+              Ecosystem-Friendly
+            </h3>
+            <p
+              class="text-muted-foreground mb-6 transition-colors duration-300"
+            >
+              Easily extends with React components, supports Tailwind CSS and
+              theming, and integrates well with modern AI tooling.
+            </p>
+            <div class="flex justify-center">
+              <img src="/features/Eco-System-Friendly-Light.gif" alt="Ecosystem-Friendly" class="max-w-full rounded-lg shadow-lg dark:hidden" />
+              <img src="/features/Eco-System-Friendly-Dark.gif" alt="Ecosystem-Friendly" class="max-w-full rounded-lg shadow-lg hidden dark:block" />
+            </div>
+          </div>
+
+          <!-- Feature 4: Domain-Friendly -->
+          <div
+            class="bg-background rounded-[8px] p-8 lg:p-10 transition-colors duration-300"
+          >
+            <h3
+              class="text-xl font-semibold text-[#1a2341] dark:text-white mb-2 transition-colors duration-300"
+            >
+              Domain-Friendly
+            </h3>
+            <p
+              class="text-muted-foreground mb-6 transition-colors duration-300"
+            >
+              Strongly typed models define the domain, with functional
+              components and predictable data binding and formatting.
+            </p>
+            <div class="flex justify-center">
+              <img src="/features/Domain-Friendly-Animation-Light.gif" alt="Domain-Friendly" class="max-w-full rounded-lg shadow-lg dark:hidden" />
+              <img src="/features/Domain-Friendly-Animation-Dark.gif" alt="Domain-Friendly" class="max-w-full rounded-lg shadow-lg hidden dark:block" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty spacer row -->
+      <div
+        class="bg-[#D5D6D7] dark:bg-[#404040] pt-0 pb-px px-px transition-colors duration-300 max-w-[1450px] mx-auto"
+      >
+        <div
+          class="bg-background rounded-[8px] h-16 transition-colors duration-300"
+        >
+        </div>
+      </div>
+
+      <!-- Code Preview row -->
+      <div
+        class="bg-[#D5D6D7] dark:bg-[#404040] pt-0 pb-px px-px transition-colors duration-300 max-w-[1450px] mx-auto"
+      >
+        <div
+          class="bg-[#D5D6D7] dark:bg-[#404040] flex flex-col lg:flex-row gap-px transition-colors duration-300"
+        >
+          <!-- Left: text -->
+          <div
+            class="lg:flex-1 bg-background rounded-[8px] p-8 lg:p-12 transition-colors duration-300"
+          >
+            <div class="flex items-center gap-2 mb-4">
+              <span class="h-2 w-2 rounded-full bg-[#27aae1]"></span>
+              <span
+                class="text-xs font-medium tracking-[0.15em] uppercase text-muted-foreground"
+                style="font-family: 'IBM Plex Mono', monospace"
+                >Safe & Scalable</span
+              >
+            </div>
+
+            <h2
+              class="text-3xl md:text-4xl font-bold leading-tight text-[#1a2341] dark:text-white mb-4 transition-colors duration-300"
+            >
+              Predictable Developer Experience.
+            </h2>
+
+            <p
+              class="text-muted-foreground mb-6 transition-colors duration-300"
+            >
+              Typed models and consistent bindings keep screens clean and easy
+              to change.
+            </p>
+
+            <ul class="space-y-3 text-muted-foreground mb-8">
+              <li class="flex items-center gap-2">
+                <span class="text-[#27aae1]">✓</span>
+                JSX that stays clean as screens grow
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-[#27aae1]">✓</span>
+                Typed models for safe refactoring
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-[#27aae1]">✓</span>
+                Autocomplete for props, bindings, and values
+              </li>
+            </ul>
+
+            <a
+              href="/docs/intro/what-is-cxjs"
+              class="inline-flex items-center gap-1 text-[14px] font-medium text-foreground hover:text-[#27aae1] transition-colors"
+            >
+              See documentation
+              <svg class="w-4 h-4" viewBox="0 0 16 16" fill="currentColor">
+                <path
+                  d="M6.47 4.29a.75.75 0 0 1 1.06 0l3.75 3.75a.75.75 0 0 1 0 1.06l-3.75 3.75a.75.75 0 1 1-1.06-1.06L9.69 8.5H2.75a.75.75 0 0 1 0-1.5h6.94L6.47 5.35a.75.75 0 0 1 0-1.06z"
+                ></path>
+              </svg>
+            </a>
+          </div>
+
+          <!-- Right: code -->
+          <div
+            class="lg:flex-1 bg-background rounded-[8px] p-8 lg:p-10 transition-colors duration-300"
+          >
+            <div
+              class="rounded-xl border border-code-border bg-code-bg overflow-hidden shadow-lg"
+            >
+              <div
+                class="flex items-center justify-between px-4 py-2 border-b border-code-border"
+              >
+                <span class="text-xs text-gray-400 font-mono"
+                  >app/users/page.tsx</span
+                >
+                <button
+                  class="text-gray-500 hover:text-gray-300 transition-colors"
+                  title="Copy code"
+                >
+                  <svg
+                    class="w-4 h-4"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    ><rect x="9" y="9" width="13" height="13" rx="2"
+                    ></rect><path
+                      d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+                    ></path></svg
+                  >
+                </button>
+              </div>
+              <pre
+                class="overflow-x-auto p-5 font-mono text-sm leading-relaxed"><code class="text-gray-300"><span class="text-gray-500"> 1</span>  <span class="text-cyan-400">import</span> &#123; TextField, LookupField &#125; <span class="text-cyan-400">from</span> <span class="text-green-400">'cx/widgets'</span>;
+<span class="text-gray-500"> 2</span>  <span class="text-cyan-400">import</span> &#123; createModel, LabelsTopLayout &#125; <span class="text-cyan-400">from</span> <span class="text-green-400">'cx/ui'</span>;
+<span class="text-gray-500"> 3</span>
+<span class="text-gray-500"> 4</span>  <span class="text-cyan-400">interface</span> <span class="text-yellow-400">UserModel</span> &#123;
+<span class="text-gray-500"> 5</span>    firstName<span class="text-cyan-400">:</span> <span class="text-green-400">string</span>;
+<span class="text-gray-500"> 6</span>    lastName<span class="text-cyan-400">:</span> <span class="text-green-400">string</span>;
+<span class="text-gray-500"> 7</span>    email<span class="text-cyan-400">:</span> <span class="text-green-400">string</span>;
+<span class="text-gray-500"> 8</span>    countryId<span class="text-cyan-400">:</span> <span class="text-green-400">number</span>;
+<span class="text-gray-500"> 9</span>  &#125;
+<span class="text-gray-500">10</span>
+<span class="text-gray-500">11</span>  <span class="text-cyan-400">const</span> m = <span class="text-yellow-400">createModel</span>&lt;<span class="text-yellow-400">UserModel</span>&gt;();
+<span class="text-gray-500">12</span>
+<span class="text-gray-500">13</span>  <span class="text-cyan-400">export default</span> (
+<span class="text-gray-500">14</span>    <span class="text-purple-400">&lt;LabelsTopLayout</span> <span class="text-cyan-400">columns</span>=&#123;2&#125;<span class="text-purple-400">&gt;</span>
+<span class="text-gray-500">15</span>      <span class="text-yellow-400">&lt;TextField</span> <span class="text-cyan-400">value</span>=&#123;m.firstName&#125; <span class="text-cyan-400">label</span>=<span class="text-green-400">"First Name"</span> <span class="text-yellow-400">/&gt;</span>
+<span class="text-gray-500">16</span>      <span class="text-yellow-400">&lt;TextField</span> <span class="text-cyan-400">value</span>=&#123;m.lastName&#125; <span class="text-cyan-400">label</span>=<span class="text-green-400">"Last Name"</span> <span class="text-yellow-400">/&gt;</span>
+<span class="text-gray-500">17</span>      <span class="text-yellow-400">&lt;TextField</span> <span class="text-cyan-400">value</span>=&#123;m.email&#125; <span class="text-cyan-400">label</span>=<span class="text-green-400">"Email"</span> <span class="text-yellow-400">/&gt;</span>
+<span class="text-gray-500">18</span>      <span class="text-yellow-400">&lt;LookupField</span> <span class="text-cyan-400">value</span>=&#123;m.countryId&#125; <span class="text-cyan-400">label</span>=<span class="text-green-400">"Country"</span> <span class="text-cyan-400">options</span>=&#123;countries&#125; <span class="text-yellow-400">/&gt;</span>
+<span class="text-gray-500">19</span>    <span class="text-purple-400">&lt;/LabelsTopLayout&gt;</span>
+);</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom spacer row -->
+      <div
+        class="bg-[#D5D6D7] dark:bg-[#404040] pt-0 pb-px px-px transition-colors duration-300 max-w-[1450px] mx-auto"
+      >
+        <div
+          class="bg-background rounded-[8px] h-16 transition-colors duration-300"
+        >
+        </div>
+      </div>
+
+      <!-- How It All Fits Together -->
+      <div
+        class="bg-[#D5D6D7] dark:bg-[#404040] pt-0 pb-px px-px transition-colors duration-300 max-w-[1450px] mx-auto"
+      >
+        <div
+          class="bg-background rounded-[8px] py-16 transition-colors duration-300"
+        >
+          <!-- Header -->
+          <div class="text-center mb-10">
+            <div class="flex items-center justify-center gap-2 mb-4">
+              <span class="h-2 w-2 rounded-full bg-[#27aae1]"></span>
+              <span
+                class="text-xs font-medium tracking-[0.15em] uppercase text-muted-foreground"
+                style="font-family: 'IBM Plex Mono', monospace"
+                >Build Faster</span
+              >
+            </div>
+            <h2
+              class="text-3xl md:text-4xl font-bold text-[#1a2341] dark:text-white mb-4 transition-colors duration-300"
+            >
+              How It All Fits Together
+            </h2>
+            <p
+              class="text-muted-foreground max-w-xl mx-auto transition-colors duration-300"
+            >
+              Interactive examples that combine models, widgets, and charts into
+              real portal screens.
+            </p>
+          </div>
+
+          <!-- Tabs -->
+          <div class="px-6 lg:px-10">
+            <div
+              class="flex border border-border rounded-t-lg overflow-hidden"
+              id="nl-example-tabs"
+            >
+              <button
+                class="nl-example-tab flex-1 py-3 text-xs font-medium tracking-[0.1em] uppercase text-foreground bg-secondary/40 transition-colors"
+                style="font-family: 'IBM Plex Mono', monospace"
+                data-tab="dashboard"
+              >
+                Issue Tracker Dashboard
+              </button>
+              <button
+                class="nl-example-tab flex-1 py-3 text-xs font-medium tracking-[0.1em] uppercase text-muted-foreground hover:text-foreground border-l border-border transition-colors"
+                style="font-family: 'IBM Plex Mono', monospace"
+                data-tab="invoice"
+              >
+                Invoice Editor
+              </button>
+              <button
+                class="nl-example-tab flex-1 py-3 text-xs font-medium tracking-[0.1em] uppercase text-muted-foreground hover:text-foreground border-l border-border transition-colors"
+                style="font-family: 'IBM Plex Mono', monospace"
+                data-tab="trello"
+              >
+                Trello Clone
+              </button>
+              <button
+                class="nl-example-tab flex-1 py-3 text-xs font-medium tracking-[0.1em] uppercase text-muted-foreground hover:text-foreground border-l border-border transition-colors"
+                style="font-family: 'IBM Plex Mono', monospace"
+                data-tab="inventory"
+              >
+                Inventory
+              </button>
+            </div>
+
+            <!-- Example Panels -->
+            <div
+              class="relative border border-t-0 border-border rounded-b-lg bg-card overflow-hidden"
+              style="min-height: 500px;"
+            >
+              <div class="example-panel" id="nl-panel-dashboard">
+                <DashboardExample client:load />
+              </div>
+              <div class="example-panel hidden" id="nl-panel-invoice">
+                <InvoiceExample client:load />
+              </div>
+              <div class="example-panel hidden" id="nl-panel-trello">
+                <TrelloExample client:load />
+              </div>
+              <div class="example-panel hidden" id="nl-panel-inventory">
+                <InventoryExample client:load />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom spacer -->
+      <div
+        class="bg-[#D5D6D7] dark:bg-[#404040] pt-0 pb-px px-px transition-colors duration-300 max-w-[1450px] mx-auto"
+      >
+        <div
+          class="bg-background rounded-[8px] h-16 transition-colors duration-300"
+        >
+        </div>
+      </div>
+
+      <div
+        class="bg-[#D5D6D7] dark:bg-[#404040] pt-0 pb-px px-px transition-colors duration-300 max-w-[1450px] mx-auto"
+      >
+        <div
+          class="relative bg-background rounded-[8px] py-32 lg:py-40 text-center overflow-hidden transition-colors duration-300"
+        >
+          <img src="/cta-gradient-light.png" class="absolute inset-0 w-full h-full object-cover pointer-events-none dark:hidden" alt="" />
+          <img src="/cta-gradient-dark.png" class="absolute inset-0 w-full h-full object-cover pointer-events-none hidden dark:block" alt="" />
+
+          <div class="relative z-10">
+            <h2
+              class="text-3xl md:text-4xl font-bold text-[#1a2341] dark:text-white mb-4 transition-colors duration-300"
+            >
+              Your next portal starts here.
+            </h2>
+            <p
+              class="text-muted-foreground mb-8 transition-colors duration-300"
+            >
+              Explore the docs, try the examples and start building today.
+            </p>
+            <a
+              href="/docs/intro/hello-world"
+              class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-[#27aae1] text-white text-[16px] font-medium hover:bg-[#1e96c8] transition-all duration-200 shadow-md hover:shadow-lg hover:-translate-y-0.5"
+            >
+              Get started
+              <svg class="w-4 h-4" viewBox="0 0 16 16" fill="currentColor">
+                <path
+                  d="M6.47 4.29a.75.75 0 0 1 1.06 0l3.75 3.75a.75.75 0 0 1 0 1.06l-3.75 3.75a.75.75 0 1 1-1.06-1.06L9.69 8.5H2.75a.75.75 0 0 1 0-1.5h6.94L6.47 5.35a.75.75 0 0 1 0-1.06z"
+                ></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="bg-[#D5D6D7] dark:bg-[#404040] pt-0 pb-px px-px transition-colors duration-300 max-w-[1450px] mx-auto"
+      >
+        <div
+          class="bg-background rounded-[8px] px-8 lg:px-16 py-16 transition-colors duration-300"
+        >
+          <div class="flex flex-col lg:flex-row gap-12 lg:gap-24">
+            <div class="shrink-0">
+              <a href="/new-landing" class="flex items-center gap-1">
+                <img src="/favicon.svg" alt="CxJS" class="h-9 w-[52px]" />
+                <span
+                  class="text-lg font-semibold text-foreground transition-colors duration-300"
+                  >CxJS</span
+                >
+              </a>
+            </div>
+
+            <div class="flex-1 grid grid-cols-2 sm:grid-cols-4 gap-8">
+              <div>
+                <h3
+                  class="font-semibold text-foreground mb-4 transition-colors duration-300"
+                >
+                  Resources
+                </h3>
+                <ul class="space-y-3 text-sm text-muted-foreground">
+                  <li>
+                    <a
+                      href="/docs/intro/what-is-cxjs"
+                      class="hover:text-foreground transition-colors"
+                      >Documentation</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="/docs/intro/sample-applications"
+                      class="hover:text-foreground transition-colors"
+                      >Sample Applications</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="https://github.com/codaxy/cxjs"
+                      class="hover:text-foreground transition-colors">GitHub</a
+                    >
+                  </li>
+                </ul>
+              </div>
+
+              <div>
+                <h3
+                  class="font-semibold text-foreground mb-4 transition-colors duration-300"
+                >
+                  Legacy
+                </h3>
+                <ul class="space-y-3 text-sm text-muted-foreground">
+                  <li>
+                    <a
+                      href="https://docs.cxjs.io"
+                      class="hover:text-foreground transition-colors"
+                      >Documentation</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="https://fiddle.cxjs.io"
+                      class="hover:text-foreground transition-colors">Fiddle</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="https://gallery.cxjs.io"
+                      class="hover:text-foreground transition-colors">Gallery</a
+                    >
+                  </li>
+                </ul>
+              </div>
+
+              <div>
+                <h3
+                  class="font-semibold text-foreground mb-4 transition-colors duration-300"
+                >
+                  About
+                </h3>
+                <ul class="space-y-3 text-sm text-muted-foreground">
+                  <li>
+                    <a
+                      href="https://codaxy.com"
+                      class="hover:text-foreground transition-colors">Codaxy</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="https://codaxy.com/blog"
+                      class="hover:text-foreground transition-colors">Blog</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="https://codaxy.com/contact"
+                      class="hover:text-foreground transition-colors">Contact</a
+                    >
+                  </li>
+                </ul>
+              </div>
+
+              <div>
+                <h3
+                  class="font-semibold text-foreground mb-4 transition-colors duration-300"
+                >
+                  Legal
+                </h3>
+                <ul class="space-y-3 text-sm text-muted-foreground">
+                  <li>
+                    <a
+                      href="https://github.com/codaxy/cxjs/blob/master/LICENSE.md"
+                      class="hover:text-foreground transition-colors">Licence</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="/privacy-policy"
+                      class="hover:text-foreground transition-colors"
+                      >Privacy Policy</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="/cookie-policy"
+                      class="hover:text-foreground transition-colors"
+                      >Cookie Policy</a
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="bg-[#D5D6D7] dark:bg-[#404040] pt-0 pb-px px-px transition-colors duration-300 max-w-[1450px] mx-auto"
+      >
+        <div
+          class="bg-background rounded-[8px] px-8 lg:px-16 py-5 transition-colors duration-300"
+        >
+          <div class="flex items-center justify-between">
+            <p class="text-sm text-muted-foreground">
+              &copy; 2026 Codaxy d.o.o. All rights reserved.
+            </p>
+            <div class="flex items-center gap-4">
+              <!-- GitHub -->
+              <a
+                href="https://github.com/codaxy/cxjs"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"
+                  ><path
+                    d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+                  ></path></svg
+                >
+              </a>
+              <!-- npm -->
+              <a
+                href="https://www.npmjs.com/package/cx"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"
+                  ><path
+                    d="M1.763 0C.786 0 0 .786 0 1.763v20.474C0 23.214.786 24 1.763 24h20.474c.977 0 1.763-.786 1.763-1.763V1.763C24 .786 23.214 0 22.237 0zM5.13 5.323h13.837v13.548h-3.464V8.97h-3.46v9.901H5.13z"
+                  ></path></svg
+                >
+              </a>
+              <!-- Stack Overflow -->
+              <a
+                href="https://stackoverflow.com/questions/tagged/cxjs"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"
+                  ><path
+                    d="M15.725 0l-1.72 1.277 6.39 8.588 1.72-1.277L15.725 0zm-3.94 3.418l-1.369 1.644 8.225 6.85 1.369-1.644-8.225-6.85zm-3.15 4.465l-.905 1.94 9.702 4.517.905-1.94-9.702-4.517zm-1.85 4.86l-.44 2.093 10.473 2.201.44-2.092-10.473-2.203zM1.89 15.47V24h19.19v-8.53h-2.133v6.397H4.021v-6.396H1.89zm4.265 2.133v2.13h10.66v-2.13H6.154z"
+                  ></path></svg
+                >
+              </a>
+              <!-- Codaxy -->
+              <a
+                href="https://codaxy.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"
+                  ><path
+                    d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
+                  ></path></svg
+                >
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script is:inline>
+    (function () {
+      function initNewLandingTabs() {
+        var tabs = document.querySelectorAll(".nl-example-tab");
+        var panels = document.querySelectorAll('[id^="nl-panel-"]');
+
+        tabs.forEach(function (tab) {
+          tab.onclick = function () {
+            var target = tab.dataset.tab;
+
+            tabs.forEach(function (t) {
+              if (t.dataset.tab === target) {
+                t.classList.remove("text-muted-foreground");
+                t.classList.add("text-foreground", "bg-secondary/40");
+              } else {
+                t.classList.remove("text-foreground", "bg-secondary/40");
+                t.classList.add("text-muted-foreground");
+              }
+            });
+
+            panels.forEach(function (panel) {
+              if (panel.id === "nl-panel-" + target) {
+                panel.classList.remove("hidden");
+              } else {
+                panel.classList.add("hidden");
+              }
+            });
+          };
+        });
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initNewLandingTabs);
+      } else {
+        initNewLandingTabs();
+      }
+      document.addEventListener("astro:page-load", initNewLandingTabs);
+    })();
+  </script>
+</BaseLayout>

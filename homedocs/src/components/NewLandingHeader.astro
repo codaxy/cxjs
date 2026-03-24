@@ -1,0 +1,341 @@
+---
+
+---
+
+<header id="nl-header" class="sticky top-0 z-50 transition-all duration-300">
+  <div id="nl-header-bg" class="relative transition-all duration-300">
+    <div id="nl-header-inner" class="transition-all duration-300">
+      <div class="max-w-[1450px] mx-auto">
+        <div class="flex h-[71px] items-center px-6 lg:px-12">
+      <!-- Logo -->
+      <a href="/new-landing" class="flex items-center gap-1 group shrink-0">
+        <img
+          src="/favicon.svg"
+          alt="CxJS"
+          class="h-9 w-[52px] transition-transform group-hover:scale-105"
+        />
+        <span
+          class="text-lg font-semibold text-foreground transition-colors duration-300"
+          >CxJS</span
+        >
+      </a>
+
+      <!-- Desktop nav -->
+      <nav class="hidden md:flex items-center ml-10 gap-0">
+        <a
+          href="/docs/intro/what-is-cxjs"
+          class="px-3 py-2 rounded-md text-[14px] font-[500] text-foreground/90 hover:text-foreground hover:bg-secondary/60 transition-all duration-200"
+        >
+          Product
+        </a>
+        <a
+          href="/docs/components/buttons"
+          class="px-3 py-2 rounded-md text-[14px] font-[500] text-foreground/90 hover:text-foreground hover:bg-secondary/60 transition-all duration-200"
+        >
+          Resources
+        </a>
+        <a
+          href="https://www.codaxy.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="px-3 py-2 rounded-md text-[14px] font-[500] text-foreground/90 hover:text-foreground hover:bg-secondary/60 transition-all duration-200"
+        >
+          Company
+        </a>
+        <a
+          href="/docs/intro/changelog"
+          class="px-3 py-2 rounded-md text-[14px] font-[500] text-foreground/90 hover:text-foreground hover:bg-secondary/60 transition-all duration-200"
+        >
+          Support
+        </a>
+      </nav>
+
+      <!-- Right side -->
+      <div class="ml-auto flex items-center gap-4">
+        <!-- Theme toggle pill -->
+        <div
+          id="new-theme-toggle-pill"
+          class="relative flex items-center gap-1 rounded-full bg-[#f5f5f5] dark:bg-[#2a2a2a] border border-[#e6e6e6] dark:border-[#404040] p-[3px] cursor-pointer transition-colors duration-300"
+          role="button"
+          tabindex="0"
+          aria-label="Toggle theme"
+        >
+          <!-- Sliding indicator -->
+          <div
+            id="new-theme-indicator"
+            class="absolute top-[3px] left-[3px] w-6 h-6 rounded-full bg-white dark:bg-[#404040] shadow-sm transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]"
+          >
+          </div>
+
+          <!-- Sun icon -->
+          <div class="relative z-10 w-6 h-6 flex items-center justify-center">
+            <svg
+              class="w-[18px] h-[18px] text-[#364153] dark:text-white transition-colors duration-300"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="4"></circle>
+              <line x1="12" y1="2" x2="12" y2="4"></line>
+              <line x1="12" y1="20" x2="12" y2="22"></line>
+              <line x1="4.93" y1="4.93" x2="6.34" y2="6.34"></line>
+              <line x1="17.66" y1="17.66" x2="19.07" y2="19.07"></line>
+              <line x1="2" y1="12" x2="4" y2="12"></line>
+              <line x1="20" y1="12" x2="22" y2="12"></line>
+              <line x1="4.93" y1="19.07" x2="6.34" y2="17.66"></line>
+              <line x1="17.66" y1="6.34" x2="19.07" y2="4.93"></line>
+            </svg>
+          </div>
+
+          <!-- Moon icon -->
+          <div class="relative z-10 w-6 h-6 flex items-center justify-center">
+            <svg
+              class="w-[16px] h-[16px] text-[#364153] dark:text-white transition-colors duration-300"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </div>
+        </div>
+
+        <!-- View on GitHub button -->
+        <a
+          href="https://github.com/codaxy/cxjs"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="hidden sm:inline-flex items-center justify-center px-6 py-[9px] rounded-md border border-[#e6e6e6] dark:border-[#404040] bg-background text-foreground text-[16px] font-medium leading-6 shadow-[0px_2px_2px_0px_rgba(0,0,0,0.04)] hover:bg-secondary/60 transition-all duration-200"
+        >
+          View on GitHub
+        </a>
+
+        <!-- Mobile menu button -->
+        <button
+          id="new-landing-mobile-menu-btn"
+          type="button"
+          class="md:hidden p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+          aria-label="Toggle menu"
+        >
+          <svg
+            class="menu-icon h-5 w-5"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
+          </svg>
+          <svg
+            class="close-icon h-5 w-5 hidden"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+      </div>
+    </div>
+    </div>
+  </div>
+
+  <div id="nl-header-spacer" class="hidden h-px transition-colors duration-300">
+  </div>
+
+  <div
+    id="nl-header-fade"
+    class="h-8 bg-gradient-to-b from-background/80 to-transparent pointer-events-none transition-colors duration-300"
+  >
+  </div>
+
+  <!-- Mobile menu dropdown -->
+  <nav
+    id="new-landing-mobile-menu"
+    class="hidden md:hidden border-t border-border bg-background transition-colors duration-300 absolute left-0 right-0"
+  >
+    <div class="mx-auto px-6 py-4 flex flex-col gap-1">
+      <a
+        href="/docs/intro/what-is-cxjs"
+        class="px-3 py-2.5 rounded-md text-sm font-medium text-foreground hover:bg-secondary transition-colors"
+      >
+        Product
+      </a>
+      <a
+        href="/docs/components/buttons"
+        class="px-3 py-2.5 rounded-md text-sm font-medium text-foreground hover:bg-secondary transition-colors"
+      >
+        Resources
+      </a>
+      <a
+        href="https://www.codaxy.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="px-3 py-2.5 rounded-md text-sm font-medium text-foreground hover:bg-secondary transition-colors"
+      >
+        Company
+      </a>
+      <a
+        href="/docs/intro/changelog"
+        class="px-3 py-2.5 rounded-md text-sm font-medium text-foreground hover:bg-secondary transition-colors"
+      >
+        Support
+      </a>
+      <div class="border-t border-border mt-2 pt-2">
+        <a
+          href="https://github.com/codaxy/cxjs"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex items-center gap-2 px-3 py-2.5 rounded-md text-sm font-medium text-foreground hover:bg-secondary transition-colors"
+        >
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+            ></path>
+          </svg>
+          View on GitHub
+        </a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<script is:inline>
+  function initNewLandingHeader() {
+    // Mobile menu toggle
+    const mobileMenuBtn = document.getElementById(
+      "new-landing-mobile-menu-btn",
+    );
+    const mobileMenu = document.getElementById("new-landing-mobile-menu");
+    const menuIcon = mobileMenuBtn?.querySelector(".menu-icon");
+    const closeIcon = mobileMenuBtn?.querySelector(".close-icon");
+
+    if (mobileMenuBtn && mobileMenu) {
+      mobileMenuBtn.onclick = () => {
+        const isOpen = !mobileMenu.classList.contains("hidden");
+        if (isOpen) {
+          mobileMenu.classList.add("hidden");
+          menuIcon?.classList.remove("hidden");
+          closeIcon?.classList.add("hidden");
+        } else {
+          mobileMenu.classList.remove("hidden");
+          menuIcon?.classList.add("hidden");
+          closeIcon?.classList.remove("hidden");
+        }
+      };
+    }
+
+    // Theme toggle pill
+    const pill = document.getElementById("new-theme-toggle-pill");
+    const indicator = document.getElementById("new-theme-indicator");
+    if (!pill || !indicator) return;
+
+    function updateIndicator() {
+      const isDark = document.documentElement.classList.contains("dark");
+      if (isDark) {
+        indicator.style.transform = "translateX(calc(100% + 4px))";
+      } else {
+        indicator.style.transform = "translateX(0)";
+      }
+    }
+
+    pill.onclick = () => {
+      const isDark = document.documentElement.classList.contains("dark");
+      const newTheme = isDark ? "light" : "dark";
+
+      if (newTheme === "dark") {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+      localStorage.setItem("theme", newTheme);
+      updateIndicator();
+    };
+
+    pill.onkeydown = (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        pill.click();
+      }
+    };
+
+    updateIndicator();
+
+    var headerBg = document.getElementById("nl-header-bg");
+    var headerInner = document.getElementById("nl-header-inner");
+    var headerFade = document.getElementById("nl-header-fade");
+    var headerSpacer = document.getElementById("nl-header-spacer");
+    var heroSection = document.querySelector("section.relative.pt-48");
+
+    function updateHeaderOnScroll() {
+      if (!heroSection || !headerBg || !headerInner) return;
+      var scrolled = heroSection.getBoundingClientRect().bottom <= 71;
+      var isDark = document.documentElement.classList.contains("dark");
+      var borderColor = isDark ? "#404040" : "#D5D6D7";
+
+      if (scrolled) {
+        headerBg.style.backgroundColor = borderColor;
+        headerBg.style.borderTop = "1px solid " + borderColor;
+        headerInner.className = "bg-background rounded-b-[8px] transition-all duration-300";
+        if (headerSpacer) {
+          headerSpacer.classList.remove("hidden");
+          headerSpacer.style.backgroundColor = borderColor;
+        }
+        if (headerFade) headerFade.classList.add("hidden");
+      } else {
+        headerBg.style.backgroundColor = "";
+        headerBg.style.borderTop = "";
+        headerInner.className = "transition-all duration-300";
+        if (headerSpacer) headerSpacer.classList.add("hidden");
+        if (headerFade) headerFade.classList.remove("hidden");
+      }
+    }
+
+    window.addEventListener("scroll", updateHeaderOnScroll, { passive: true });
+    updateHeaderOnScroll();
+  }
+
+  // Apply theme immediately to prevent flash
+  (function () {
+    function getTheme() {
+      if (
+        typeof localStorage !== "undefined" &&
+        localStorage.getItem("theme")
+      ) {
+        return localStorage.getItem("theme");
+      }
+      return window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light";
+    }
+
+    const theme = getTheme();
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+    localStorage.setItem("theme", theme);
+  })();
+
+  document.addEventListener("astro:page-load", initNewLandingHeader);
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initNewLandingHeader);
+  } else {
+    initNewLandingHeader();
+  }
+</script>
