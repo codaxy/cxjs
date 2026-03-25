@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import HomeHeader from '../components/HomeHeader.astro';
+import HoneycombBackground from '../components/HoneycombBackground.astro';
 import Footer from '../components/Footer.astro';
 import TrelloExample from '../examples/homepage/TrelloExample.tsx';
 import InvoiceExample from '../examples/homepage/InvoiceExample.tsx';
@@ -97,76 +98,45 @@ import InventoryExample from '../examples/homepage/InventoryExample.tsx';
       <HomeHeader />
 
       <!-- Hero -->
-      <section class="relative overflow-hidden py-24 lg:py-36">
-        <!-- Grid pattern background -->
-        <div class="absolute inset-0 grid-pattern"></div>
-
-        <!-- Animated gradient orbs -->
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/20 rounded-full blur-3xl pulse-glow"></div>
-        <div class="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-cyan-500/10 rounded-full blur-3xl float-1"></div>
-        <div class="absolute bottom-1/4 right-1/4 w-[300px] h-[300px] bg-purple-500/10 rounded-full blur-3xl float-2"></div>
-
-        <!-- Floating decorative elements -->
-        <div class="absolute top-20 left-[10%] opacity-20 float-1">
-          <svg class="w-16 h-16 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <rect x="3" y="3" width="7" height="7" rx="1"></rect>
-            <rect x="14" y="3" width="7" height="7" rx="1"></rect>
-            <rect x="3" y="14" width="7" height="7" rx="1"></rect>
-            <rect x="14" y="14" width="7" height="7" rx="1"></rect>
-          </svg>
+      <section id="hero-section" class="relative py-40 lg:py-52">
+        <div class="absolute z-0 inset-0 overflow-hidden pointer-events-none dark:hidden">
+          <div class="absolute left-[calc(50%+100px)] -translate-x-1/2 top-[calc(50%-280px)] w-[300px] h-[300px] rounded-full opacity-30 blur-[80px]" style="background: radial-gradient(circle, #FFFFFF 0%, #80ECFF 40%, #A6A6FF 70%, transparent 100%);"></div>
         </div>
-        <div class="absolute top-40 right-[15%] opacity-20 float-2">
-          <svg class="w-20 h-20 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
-          </svg>
-        </div>
-        <div class="absolute bottom-32 left-[20%] opacity-15 float-3">
-          <svg class="w-14 h-14 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <circle cx="12" cy="12" r="10"></circle>
-            <path d="M12 2 L12 12 L18 18"></path>
-          </svg>
-        </div>
-        <div class="absolute bottom-20 right-[10%] opacity-20 float-4">
-          <svg class="w-12 h-12 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
-          </svg>
+        <div class="absolute z-0 inset-0 overflow-hidden pointer-events-none hidden dark:block">
+          <div class="absolute left-1/2 -translate-x-1/2 bottom-0 w-[800px] h-[500px] rounded-full opacity-40 blur-[120px]" style="background: radial-gradient(ellipse, #00BBFF 0%, #007BE0 40%, #6D00AD 70%, transparent 100%);"></div>
         </div>
 
-        <div class="container relative mx-auto px-4 text-center">
-          <div class="fade-in-up inline-flex items-center gap-2 rounded-full border border-border bg-secondary/50 backdrop-blur-sm px-4 py-1.5 text-sm text-muted-foreground mb-6">
-            <span class="h-2 w-2 rounded-full bg-primary animate-pulse"></span>
+        <div class="absolute z-[1] inset-0 overflow-hidden pointer-events-none">
+          <img src="/honeycomb-light.png" fetchpriority="high" class="w-full h-full object-cover dark:hidden" alt="" />
+          <img src="/honeycomb-dark.png" fetchpriority="high" class="w-full h-full object-cover hidden dark:block" alt="" />
+        </div>
+        <div class="absolute z-[2] inset-0 flex items-center justify-center overflow-hidden pointer-events-none">
+          <div class="scale-75">
+            <HoneycombBackground />
+          </div>
+        </div>
+
+        <div class="relative z-10 mx-auto max-w-[900px] px-6 text-center">
+          <div class="inline-flex items-center gap-2 rounded-full border border-border bg-background px-4 py-1.5 text-sm text-muted-foreground mb-8 transition-colors duration-300">
+            <span class="h-2 w-2 rounded-full bg-[#4ade80]"></span>
             Version 26 Now Available
           </div>
 
-          <h1 class="fade-in-up animate-delay-100 text-4xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight">
-            The One-Stop Shop for
-            <br />
-            <span class="gradient-text">Portals and Dashboards</span>
+          <h1 class="text-4xl md:text-5xl lg:text-[64px] font-bold leading-[1.1] tracking-tight text-heading mb-6 transition-colors duration-300">
+            The One-Stop Shop for<br />Portals and Dashboards
           </h1>
 
-          <p class="fade-in-up animate-delay-200 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10">
-            Born from a decade of development in finance, telecom, and legal, CxJS bakes in the UI patterns teams keep rebuilding. <strong>Open source, battle-tested, and now TypeScript-first.</strong>
+          <p class="text-[16px] md:text-[18px] leading-relaxed text-muted-foreground max-w-[560px] mx-auto mb-10 transition-colors duration-300">
+            Born from a decade of development in finance, telecom and legal, CxJS bakes in the UI patterns teams keep rebuilding. Open source, battle-tested, and now TypeScript-first.
           </p>
 
-          <div class="fade-in-up animate-delay-300 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a
-              href="/docs/intro/hello-world"
-              class="group inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary text-primary-foreground font-semibold hover:bg-primary/90 transition-all shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5"
-            >
-              Get Started
-              <svg class="h-4 w-4 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M5 12h14M12 5l7 7-7 7"/>
-              </svg>
+          <div class="flex items-center justify-center gap-3">
+            <a href="/docs/intro/hello-world" class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-[var(--cx-c-brand)] text-white text-[16px] font-medium hover:bg-[var(--cx-c-brand-dark)] transition-all duration-200 shadow-md hover:shadow-lg hover:-translate-y-0.5">
+              Get started
+              <svg class="w-4 h-4" viewBox="0 0 16 16" fill="currentColor"><path d="M6.47 4.29a.75.75 0 0 1 1.06 0l3.75 3.75a.75.75 0 0 1 0 1.06l-3.75 3.75a.75.75 0 1 1-1.06-1.06L9.69 8.5H2.75a.75.75 0 0 1 0-1.5h6.94L6.47 5.35a.75.75 0 0 1 0-1.06z"></path></svg>
             </a>
-            <a
-              href="https://github.com/codaxy/cxjs"
-              target="_blank"
-              rel="noopener"
-              class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-secondary/80 backdrop-blur-sm text-secondary-foreground font-semibold hover:bg-secondary transition-all border border-border hover:-translate-y-0.5"
-            >
-              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-              </svg>
+            <a href="https://github.com/codaxy/cxjs" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-border bg-background text-foreground text-[16px] font-medium hover:bg-secondary/60 transition-all duration-200 hover:-translate-y-0.5">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path></svg>
               GitHub
             </a>
           </div>
@@ -324,29 +294,36 @@ import InventoryExample from '../examples/homepage/InventoryExample.tsx';
               </ul>
             </div>
 
-            <div class="relative group min-w-0">
-              <div class="absolute -inset-4 bg-gradient-to-r from-primary/20 via-cyan-500/20 to-purple-500/20 rounded-2xl blur-2xl opacity-50 group-hover:opacity-75 transition-opacity"></div>
-              <pre class="relative overflow-x-auto p-6 rounded-xl border border-code-border bg-code-bg font-mono text-sm shadow-2xl">
-<code class="text-gray-300"><span class="text-cyan-400">import</span><span class="text-gray-300"> &#123; TextField, LookupField &#125; </span><span class="text-cyan-400">from</span><span class="text-green-400"> 'cx/widgets'</span><span class="text-gray-300">;</span>
-<span class="text-cyan-400">import</span><span class="text-gray-300"> &#123; createModel, LabelsTopLayout &#125; </span><span class="text-cyan-400">from</span><span class="text-green-400"> 'cx/ui'</span><span class="text-gray-300">;</span>
-
-<span class="text-cyan-400">interface</span><span class="text-yellow-400"> UserModel</span><span class="text-gray-300"> &#123;</span>
-<span class="text-gray-300">  firstName</span><span class="text-cyan-400">:</span><span class="text-green-400"> string</span><span class="text-gray-300">;</span>
-<span class="text-gray-300">  lastName</span><span class="text-cyan-400">:</span><span class="text-green-400"> string</span><span class="text-gray-300">;</span>
-<span class="text-gray-300">  email</span><span class="text-cyan-400">:</span><span class="text-green-400"> string</span><span class="text-gray-300">;</span>
-<span class="text-gray-300">  countryId</span><span class="text-cyan-400">:</span><span class="text-green-400"> number</span><span class="text-gray-300">;</span>
-<span class="text-gray-300">&#125;</span>
-
-<span class="text-cyan-400">const</span><span class="text-gray-300"> m = </span><span class="text-yellow-400">createModel</span><span class="text-gray-300">&lt;</span><span class="text-yellow-400">UserModel</span><span class="text-gray-300">&gt;();</span>
-
-<span class="text-cyan-400">export default</span><span class="text-gray-300"> (</span>
-  <span class="text-purple-400">&lt;LabelsTopLayout</span> <span class="text-cyan-400">columns</span><span class="text-gray-300">=&#123;2&#125;</span><span class="text-purple-400">&gt;</span>
-    <span class="text-yellow-400">&lt;TextField</span> <span class="text-cyan-400">value</span><span class="text-gray-300">=&#123;m.firstName&#125;</span> <span class="text-cyan-400">label</span><span class="text-gray-300">=</span><span class="text-green-400">"First Name"</span> <span class="text-yellow-400">/&gt;</span>
-    <span class="text-yellow-400">&lt;TextField</span> <span class="text-cyan-400">value</span><span class="text-gray-300">=&#123;m.lastName&#125;</span> <span class="text-cyan-400">label</span><span class="text-gray-300">=</span><span class="text-green-400">"Last Name"</span> <span class="text-yellow-400">/&gt;</span>
-    <span class="text-yellow-400">&lt;TextField</span> <span class="text-cyan-400">value</span><span class="text-gray-300">=&#123;m.email&#125;</span> <span class="text-cyan-400">label</span><span class="text-gray-300">=</span><span class="text-green-400">"Email"</span> <span class="text-yellow-400">/&gt;</span>
-    <span class="text-yellow-400">&lt;LookupField</span> <span class="text-cyan-400">value</span><span class="text-gray-300">=&#123;m.countryId&#125;</span> <span class="text-cyan-400">label</span><span class="text-gray-300">=</span><span class="text-green-400">"Country"</span> <span class="text-cyan-400">options</span><span class="text-gray-300">=&#123;countries&#125;</span> <span class="text-yellow-400">/&gt;</span>
-  <span class="text-purple-400">&lt;/LabelsTopLayout&gt;</span>
-<span class="text-gray-300">);</span></code></pre>
+            <div class="relative min-w-0">
+            <div class="rounded-xl border border-code-border bg-code-bg overflow-hidden shadow-lg">
+              <div class="flex items-center justify-between px-4 py-2 border-b border-code-border">
+                <span class="text-xs text-gray-400 font-mono">app/users/page.tsx</span>
+                <button id="nl2-copy-code-btn" class="text-gray-500 hover:text-gray-300 transition-colors" title="Copy code">
+                  <svg class="w-4 h-4 copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                  <svg class="w-4 h-4 check-icon hidden text-green-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
+                </button>
+              </div>
+              <pre class="overflow-x-auto p-5 font-mono text-sm leading-relaxed"><code id="nl2-code-sample" class="text-gray-300"><span class="text-gray-500"> 1</span>  <span class="text-cyan-400">import</span> &#123; TextField, LookupField &#125; <span class="text-cyan-400">from</span> <span class="text-green-400">'cx/widgets'</span>;
+<span class="text-gray-500"> 2</span>  <span class="text-cyan-400">import</span> &#123; createModel, LabelsTopLayout &#125; <span class="text-cyan-400">from</span> <span class="text-green-400">'cx/ui'</span>;
+<span class="text-gray-500"> 3</span>
+<span class="text-gray-500"> 4</span>  <span class="text-cyan-400">interface</span> <span class="text-yellow-400">UserModel</span> &#123;
+<span class="text-gray-500"> 5</span>    firstName<span class="text-cyan-400">:</span> <span class="text-green-400">string</span>;
+<span class="text-gray-500"> 6</span>    lastName<span class="text-cyan-400">:</span> <span class="text-green-400">string</span>;
+<span class="text-gray-500"> 7</span>    email<span class="text-cyan-400">:</span> <span class="text-green-400">string</span>;
+<span class="text-gray-500"> 8</span>    countryId<span class="text-cyan-400">:</span> <span class="text-green-400">number</span>;
+<span class="text-gray-500"> 9</span>  &#125;
+<span class="text-gray-500">10</span>
+<span class="text-gray-500">11</span>  <span class="text-cyan-400">const</span> m = <span class="text-yellow-400">createModel</span>&lt;<span class="text-yellow-400">UserModel</span>&gt;();
+<span class="text-gray-500">12</span>
+<span class="text-gray-500">13</span>  <span class="text-cyan-400">export default</span> (
+<span class="text-gray-500">14</span>    <span class="text-purple-400">&lt;LabelsTopLayout</span> <span class="text-cyan-400">columns</span>=&#123;2&#125;<span class="text-purple-400">&gt;</span>
+<span class="text-gray-500">15</span>      <span class="text-yellow-400">&lt;TextField</span> <span class="text-cyan-400">value</span>=&#123;m.firstName&#125; <span class="text-cyan-400">label</span>=<span class="text-green-400">"First Name"</span> <span class="text-yellow-400">/&gt;</span>
+<span class="text-gray-500">16</span>      <span class="text-yellow-400">&lt;TextField</span> <span class="text-cyan-400">value</span>=&#123;m.lastName&#125; <span class="text-cyan-400">label</span>=<span class="text-green-400">"Last Name"</span> <span class="text-yellow-400">/&gt;</span>
+<span class="text-gray-500">17</span>      <span class="text-yellow-400">&lt;TextField</span> <span class="text-cyan-400">value</span>=&#123;m.email&#125; <span class="text-cyan-400">label</span>=<span class="text-green-400">"Email"</span> <span class="text-yellow-400">/&gt;</span>
+<span class="text-gray-500">18</span>      <span class="text-yellow-400">&lt;LookupField</span> <span class="text-cyan-400">value</span>=&#123;m.countryId&#125; <span class="text-cyan-400">label</span>=<span class="text-green-400">"Country"</span> <span class="text-cyan-400">options</span>=&#123;countries&#125; <span class="text-yellow-400">/&gt;</span>
+<span class="text-gray-500">19</span>    <span class="text-purple-400">&lt;/LabelsTopLayout&gt;</span>
+);</code></pre>
+            </div>
             </div>
           </div>
         </div>
@@ -476,6 +453,24 @@ import InventoryExample from '../examples/homepage/InventoryExample.tsx';
             });
           };
         });
+
+        // Copy code button
+        var copyBtn = document.getElementById('nl2-copy-code-btn');
+        if (copyBtn) {
+          copyBtn.onclick = function () {
+            var codeEl = document.getElementById('nl2-code-sample');
+            if (!codeEl) return;
+            var text = codeEl.textContent.replace(/^\s*\d+\s*/gm, '').trim();
+            navigator.clipboard.writeText(text).then(function () {
+              copyBtn.querySelector('.copy-icon').classList.add('hidden');
+              copyBtn.querySelector('.check-icon').classList.remove('hidden');
+              setTimeout(function () {
+                copyBtn.querySelector('.copy-icon').classList.remove('hidden');
+                copyBtn.querySelector('.check-icon').classList.add('hidden');
+              }, 2000);
+            });
+          };
+        }
 
         // Intersection Observer for scroll animations
         const observerOptions = {
