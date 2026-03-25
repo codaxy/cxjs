@@ -98,7 +98,7 @@ import InventoryExample from '../examples/homepage/InventoryExample.tsx';
       <HomeHeader />
 
       <!-- Hero -->
-      <section id="hero-section" class="relative py-24 lg:py-36">
+      <section id="hero-section" class="relative py-40 lg:py-52">
         <div class="absolute z-0 inset-0 overflow-hidden pointer-events-none dark:hidden">
           <div class="absolute left-[calc(50%+100px)] -translate-x-1/2 top-[calc(50%-280px)] w-[300px] h-[300px] rounded-full opacity-30 blur-[80px]" style="background: radial-gradient(circle, #FFFFFF 0%, #80ECFF 40%, #A6A6FF 70%, transparent 100%);"></div>
         </div>
@@ -111,7 +111,9 @@ import InventoryExample from '../examples/homepage/InventoryExample.tsx';
           <img src="/honeycomb-dark.png" fetchpriority="high" class="w-full h-full object-cover hidden dark:block" alt="" />
         </div>
         <div class="absolute z-[2] inset-0 flex items-center justify-center overflow-hidden pointer-events-none">
-          <HoneycombBackground />
+          <div class="scale-75">
+            <HoneycombBackground />
+          </div>
         </div>
 
         <div class="relative z-10 mx-auto max-w-[900px] px-6 text-center">
