@@ -13,7 +13,7 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
   description="CxJS - A TypeScript UI framework for building complex web front-ends."
 >
   <link slot="head" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <div class="min-h-screen bg-background transition-colors duration-300">
+  <div class="min-h-screen bg-background transition-colors duration-300 nl-page">
     <NewLandingHeader />
 
     <!-- Hero -->
@@ -39,8 +39,8 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
 
       <!-- Honeycomb background -->
       <div class="absolute z-[1] inset-0 overflow-hidden pointer-events-none">
-        <img src="/honeycomb-light.png" class="w-full h-full object-cover dark:hidden" alt="" />
-        <img src="/honeycomb-dark.png" class="w-full h-full object-cover hidden dark:block" alt="" />
+        <img src="/honeycomb-light.png" fetchpriority="high" class="w-full h-full object-cover dark:hidden" alt="" />
+        <img src="/honeycomb-dark.png" fetchpriority="high" class="w-full h-full object-cover hidden dark:block" alt="" />
       </div>
       <div class="absolute z-[2] inset-0 flex items-center justify-center overflow-hidden pointer-events-none">
         <HoneycombBackground />
@@ -118,8 +118,7 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
             <div class="flex items-center gap-2 mb-4">
               <span class="h-2 w-2 rounded-full bg-[var(--cx-c-brand)]"></span>
               <span
-                class="text-xs font-medium tracking-[0.15em] uppercase text-muted-foreground"
-                style="font-family: 'IBM Plex Mono', monospace"
+                class="nl-mono text-xs font-medium tracking-[0.15em] uppercase text-muted-foreground"
                 >All-in-one platform</span
               >
             </div>
@@ -169,8 +168,8 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
               with data tables, and visualizing data through SVG charts.
             </p>
             <div class="flex justify-center">
-              <video src="/features/Extensive-Widget-Library-Animation-Light.mp4" autoplay muted loop playsinline class="max-w-full rounded-lg shadow-lg dark:hidden"></video>
-              <video src="/features/Extensive-Widget-Library-Animation-Dark.mp4" autoplay muted loop playsinline class="max-w-full rounded-lg shadow-lg hidden dark:block"></video>
+              <video src="/features/Extensive-Widget-Library-Animation-Light.mp4" autoplay muted loop playsinline aria-label="Extensive Widget Library demo" class="max-w-full rounded-lg shadow-lg dark:hidden"></video>
+              <video src="/features/Extensive-Widget-Library-Animation-Dark.mp4" autoplay muted loop playsinline aria-label="Extensive Widget Library demo" class="max-w-full rounded-lg shadow-lg hidden dark:block"></video>
             </div>
           </div>
 
@@ -190,8 +189,8 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
               support for keyboard shortcuts and localization.
             </p>
             <div class="flex justify-center">
-              <video src="/features/Navigation-And-App-Shell-Light.mp4" autoplay muted loop playsinline class="max-w-full rounded-lg shadow-lg dark:hidden"></video>
-              <video src="/features/Navigation-And-App-Shell-Dark.mp4" autoplay muted loop playsinline class="max-w-full rounded-lg shadow-lg hidden dark:block"></video>
+              <video src="/features/Navigation-And-App-Shell-Light.mp4" autoplay muted loop playsinline aria-label="Navigation and App Shell demo" class="max-w-full rounded-lg shadow-lg dark:hidden"></video>
+              <video src="/features/Navigation-And-App-Shell-Dark.mp4" autoplay muted loop playsinline aria-label="Navigation and App Shell demo" class="max-w-full rounded-lg shadow-lg hidden dark:block"></video>
             </div>
           </div>
 
@@ -211,8 +210,8 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
               theming, and integrates well with modern AI tooling.
             </p>
             <div class="flex justify-center">
-              <video src="/features/Eco-System-Friendly-Light.mp4" autoplay muted loop playsinline class="max-w-full rounded-lg shadow-lg dark:hidden"></video>
-              <video src="/features/Eco-System-Friendly-Dark.mp4" autoplay muted loop playsinline class="max-w-full rounded-lg shadow-lg hidden dark:block"></video>
+              <video src="/features/Eco-System-Friendly-Light.mp4" autoplay muted loop playsinline aria-label="Ecosystem-Friendly integration demo" class="max-w-full rounded-lg shadow-lg dark:hidden"></video>
+              <video src="/features/Eco-System-Friendly-Dark.mp4" autoplay muted loop playsinline aria-label="Ecosystem-Friendly integration demo" class="max-w-full rounded-lg shadow-lg hidden dark:block"></video>
             </div>
           </div>
 
@@ -232,8 +231,8 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
               components and predictable data binding and formatting.
             </p>
             <div class="flex justify-center">
-              <video src="/features/Domain-Friendly-Animation-Light.mp4" autoplay muted loop playsinline class="max-w-full rounded-lg shadow-lg dark:hidden"></video>
-              <video src="/features/Domain-Friendly-Animation-Dark.mp4" autoplay muted loop playsinline class="max-w-full rounded-lg shadow-lg hidden dark:block"></video>
+              <video src="/features/Domain-Friendly-Animation-Light.mp4" autoplay muted loop playsinline aria-label="Domain-Friendly typed models demo" class="max-w-full rounded-lg shadow-lg dark:hidden"></video>
+              <video src="/features/Domain-Friendly-Animation-Dark.mp4" autoplay muted loop playsinline aria-label="Domain-Friendly typed models demo" class="max-w-full rounded-lg shadow-lg hidden dark:block"></video>
             </div>
           </div>
         </div>
@@ -263,8 +262,7 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
             <div class="flex items-center gap-2 mb-4">
               <span class="h-2 w-2 rounded-full bg-[var(--cx-c-brand)]"></span>
               <span
-                class="text-xs font-medium tracking-[0.15em] uppercase text-muted-foreground"
-                style="font-family: 'IBM Plex Mono', monospace"
+                class="nl-mono text-xs font-medium tracking-[0.15em] uppercase text-muted-foreground"
                 >Safe & Scalable</span
               >
             </div>
@@ -350,7 +348,7 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
                 </button>
               </div>
               <pre
-                class="overflow-x-auto p-5 font-mono text-sm leading-relaxed"><code class="text-gray-300"><span class="text-gray-500"> 1</span>  <span class="text-cyan-400">import</span> &#123; TextField, LookupField &#125; <span class="text-cyan-400">from</span> <span class="text-green-400">'cx/widgets'</span>;
+                class="overflow-x-auto p-5 font-mono text-sm leading-relaxed"><code id="nl-code-sample" class="text-gray-300"><span class="text-gray-500"> 1</span>  <span class="text-cyan-400">import</span> &#123; TextField, LookupField &#125; <span class="text-cyan-400">from</span> <span class="text-green-400">'cx/widgets'</span>;
 <span class="text-gray-500"> 2</span>  <span class="text-cyan-400">import</span> &#123; createModel, LabelsTopLayout &#125; <span class="text-cyan-400">from</span> <span class="text-green-400">'cx/ui'</span>;
 <span class="text-gray-500"> 3</span>
 <span class="text-gray-500"> 4</span>  <span class="text-cyan-400">interface</span> <span class="text-yellow-400">UserModel</span> &#123;
@@ -397,8 +395,7 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
             <div class="flex items-center justify-center gap-2 mb-4">
               <span class="h-2 w-2 rounded-full bg-[var(--cx-c-brand)]"></span>
               <span
-                class="text-xs font-medium tracking-[0.15em] uppercase text-muted-foreground"
-                style="font-family: 'IBM Plex Mono', monospace"
+                class="nl-mono text-xs font-medium tracking-[0.15em] uppercase text-muted-foreground"
                 >Build Faster</span
               >
             </div>
@@ -423,8 +420,7 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
               role="tablist"
             >
               <button
-                class="nl-example-tab flex-1 py-3 text-xs font-medium tracking-[0.1em] uppercase text-foreground bg-secondary/40 transition-colors"
-                style="font-family: 'IBM Plex Mono', monospace"
+                class="nl-example-tab nl-mono flex-1 py-3 text-xs font-medium tracking-[0.1em] uppercase text-foreground bg-secondary/40 transition-colors"
                 data-tab="dashboard"
                 role="tab"
                 aria-selected="true"
@@ -433,8 +429,7 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
                 Issue Tracker Dashboard
               </button>
               <button
-                class="nl-example-tab flex-1 py-3 text-xs font-medium tracking-[0.1em] uppercase text-muted-foreground hover:text-foreground border-l border-border transition-colors"
-                style="font-family: 'IBM Plex Mono', monospace"
+                class="nl-example-tab nl-mono flex-1 py-3 text-xs font-medium tracking-[0.1em] uppercase text-muted-foreground hover:text-foreground border-l border-border transition-colors"
                 data-tab="invoice"
                 role="tab"
                 aria-selected="false"
@@ -443,8 +438,7 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
                 Invoice Editor
               </button>
               <button
-                class="nl-example-tab flex-1 py-3 text-xs font-medium tracking-[0.1em] uppercase text-muted-foreground hover:text-foreground border-l border-border transition-colors"
-                style="font-family: 'IBM Plex Mono', monospace"
+                class="nl-example-tab nl-mono flex-1 py-3 text-xs font-medium tracking-[0.1em] uppercase text-muted-foreground hover:text-foreground border-l border-border transition-colors"
                 data-tab="trello"
                 role="tab"
                 aria-selected="false"
@@ -453,8 +447,7 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
                 Trello Clone
               </button>
               <button
-                class="nl-example-tab flex-1 py-3 text-xs font-medium tracking-[0.1em] uppercase text-muted-foreground hover:text-foreground border-l border-border transition-colors"
-                style="font-family: 'IBM Plex Mono', monospace"
+                class="nl-example-tab nl-mono flex-1 py-3 text-xs font-medium tracking-[0.1em] uppercase text-muted-foreground hover:text-foreground border-l border-border transition-colors"
                 data-tab="inventory"
                 role="tab"
                 aria-selected="false"
@@ -473,13 +466,13 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
                 <DashboardExample client:load />
               </div>
               <div class="example-panel hidden" id="nl-panel-invoice" role="tabpanel">
-                <InvoiceExample client:load />
+                <InvoiceExample client:visible />
               </div>
               <div class="example-panel hidden" id="nl-panel-trello" role="tabpanel">
-                <TrelloExample client:load />
+                <TrelloExample client:visible />
               </div>
               <div class="example-panel hidden" id="nl-panel-inventory" role="tabpanel">
-                <InventoryExample client:load />
+                <InventoryExample client:visible />
               </div>
             </div>
           </div>
@@ -502,8 +495,14 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
         <div
           class="relative bg-background rounded-[8px] py-32 lg:py-40 text-center overflow-hidden transition-colors duration-300"
         >
-          <img src="/cta-gradient-light.png" class="absolute inset-0 w-full h-full object-cover pointer-events-none dark:hidden" alt="" />
-          <img src="/cta-gradient-dark.png" class="absolute inset-0 w-full h-full object-cover pointer-events-none hidden dark:block" alt="" />
+          <picture class="absolute inset-0 w-full h-full pointer-events-none dark:hidden">
+            <source srcset="/cta-gradient-light.webp" type="image/webp" />
+            <img src="/cta-gradient-light.png" class="w-full h-full object-cover" alt="" />
+          </picture>
+          <picture class="absolute inset-0 w-full h-full pointer-events-none hidden dark:block">
+            <source srcset="/cta-gradient-dark.webp" type="image/webp" />
+            <img src="/cta-gradient-dark.png" class="w-full h-full object-cover" alt="" />
+          </picture>
 
           <div class="relative z-10">
             <h2
@@ -531,6 +530,9 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
         </div>
       </div>
 
+    </section>
+
+    <footer>
       <div
         class="bg-border pt-0 pb-px px-px transition-colors duration-300 max-w-[1450px] mx-auto"
       >
@@ -737,7 +739,7 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
           </div>
         </div>
       </div>
-    </section>
+    </footer>
   </div>
 
   <script is:inline>
@@ -777,7 +779,7 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
         var copyBtn = document.getElementById("nl-copy-code-btn");
         if (copyBtn) {
           copyBtn.onclick = function () {
-            var codeEl = document.querySelector(".relative.border.border-code-border code");
+            var codeEl = document.getElementById("nl-code-sample");
             if (!codeEl) return;
             var text = codeEl.textContent.replace(/^\s*\d+\s*/gm, "").trim();
             navigator.clipboard.writeText(text).then(function () {
@@ -806,4 +808,13 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
       document.addEventListener("astro:page-load", initNewLanding);
     })();
   </script>
+
+  <style is:global>
+    .dark .nl-page {
+      --background: 218 36% 9%;
+    }
+    .nl-mono {
+      font-family: 'IBM Plex Mono', monospace;
+    }
+  </style>
 </BaseLayout>

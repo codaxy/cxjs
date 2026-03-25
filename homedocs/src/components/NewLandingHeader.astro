@@ -55,7 +55,7 @@
         <!-- Theme toggle pill -->
         <div
           id="new-theme-toggle-pill"
-          class="relative flex items-center gap-1 rounded-full bg-[#f5f5f5] dark:bg-[#2a2a2a] border border-[#e6e6e6] dark:border-[#404040] p-[3px] cursor-pointer transition-colors duration-300"
+          class="relative flex items-center gap-1 rounded-full bg-secondary border border-border p-[3px] cursor-pointer transition-colors duration-300"
           role="button"
           tabindex="0"
           aria-label="Toggle theme"
@@ -63,14 +63,14 @@
           <!-- Sliding indicator -->
           <div
             id="new-theme-indicator"
-            class="absolute top-[3px] left-[3px] w-6 h-6 rounded-full bg-white dark:bg-[#404040] shadow-sm transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]"
+            class="absolute top-[3px] left-[3px] w-6 h-6 rounded-full bg-background dark:bg-muted shadow-sm transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]"
           >
           </div>
 
           <!-- Sun icon -->
           <div class="relative z-10 w-6 h-6 flex items-center justify-center">
             <svg
-              class="w-[18px] h-[18px] text-[#364153] dark:text-white transition-colors duration-300"
+              class="w-[18px] h-[18px] text-foreground transition-colors duration-300"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -93,7 +93,7 @@
           <!-- Moon icon -->
           <div class="relative z-10 w-6 h-6 flex items-center justify-center">
             <svg
-              class="w-[16px] h-[16px] text-[#364153] dark:text-white transition-colors duration-300"
+              class="w-[16px] h-[16px] text-foreground transition-colors duration-300"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -111,7 +111,7 @@
           href="https://github.com/codaxy/cxjs"
           target="_blank"
           rel="noopener noreferrer"
-          class="hidden sm:inline-flex items-center justify-center px-6 py-[9px] rounded-md border border-[#e6e6e6] dark:border-[#404040] bg-background text-foreground text-[16px] font-medium leading-6 shadow-[0px_2px_2px_0px_rgba(0,0,0,0.04)] hover:bg-secondary/60 transition-all duration-200"
+          class="hidden sm:inline-flex items-center justify-center px-6 py-[9px] rounded-md border border-border bg-background text-foreground text-[16px] font-medium leading-6 shadow-[0px_2px_2px_0px_rgba(0,0,0,0.04)] hover:bg-secondary/60 transition-all duration-200"
         >
           View on GitHub
         </a>
@@ -311,29 +311,6 @@
     window.addEventListener("scroll", updateHeaderOnScroll, { passive: true });
     updateHeaderOnScroll();
   }
-
-  // Apply theme immediately to prevent flash
-  (function () {
-    function getTheme() {
-      if (
-        typeof localStorage !== "undefined" &&
-        localStorage.getItem("theme")
-      ) {
-        return localStorage.getItem("theme");
-      }
-      return window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? "dark"
-        : "light";
-    }
-
-    const theme = getTheme();
-    if (theme === "dark") {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-    localStorage.setItem("theme", theme);
-  })();
 
   document.addEventListener("astro:page-load", initNewLandingHeader);
   if (document.readyState === "loading") {
