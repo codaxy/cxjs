@@ -122,6 +122,7 @@
           type="button"
           class="md:hidden p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
           aria-label="Toggle menu"
+          aria-expanded="false"
         >
           <svg
             class="menu-icon h-5 w-5"
@@ -231,10 +232,12 @@
           mobileMenu.classList.add("hidden");
           menuIcon?.classList.remove("hidden");
           closeIcon?.classList.add("hidden");
+          mobileMenuBtn.setAttribute("aria-expanded", "false");
         } else {
           mobileMenu.classList.remove("hidden");
           menuIcon?.classList.add("hidden");
           closeIcon?.classList.remove("hidden");
+          mobileMenuBtn.setAttribute("aria-expanded", "true");
         }
       };
     }
@@ -279,13 +282,13 @@
     var headerInner = document.getElementById("nl-header-inner");
     var headerFade = document.getElementById("nl-header-fade");
     var headerSpacer = document.getElementById("nl-header-spacer");
-    var heroSection = document.querySelector("section.relative.pt-48");
+    var heroSection = document.getElementById("hero-section");
 
     function updateHeaderOnScroll() {
       if (!heroSection || !headerBg || !headerInner) return;
       var scrolled = heroSection.getBoundingClientRect().bottom <= 71;
-      var isDark = document.documentElement.classList.contains("dark");
-      var borderColor = isDark ? "#404040" : "#D5D6D7";
+      var borderColor = getComputedStyle(document.documentElement).getPropertyValue("--border").trim();
+      borderColor = "hsl(" + borderColor + ")";
 
       if (scrolled) {
         headerBg.style.backgroundColor = borderColor;

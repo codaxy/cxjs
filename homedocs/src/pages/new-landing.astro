@@ -12,11 +12,12 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
   title="CxJS - New Landing Page"
   description="CxJS - A TypeScript UI framework for building complex web front-ends."
 >
+  <link slot="head" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <div class="min-h-screen bg-background transition-colors duration-300">
     <NewLandingHeader />
 
     <!-- Hero -->
-    <section class="relative pt-48 pb-64 lg:pt-96 lg:pb-112">
+    <section id="hero-section" class="relative pt-48 pb-64 lg:pt-96 lg:pb-112">
       <div
         class="absolute z-0 inset-0 overflow-hidden pointer-events-none dark:hidden"
       >
@@ -56,7 +57,7 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
 
         <!-- Heading -->
         <h1
-          class="text-4xl md:text-5xl lg:text-[64px] font-bold leading-[1.1] tracking-tight text-[#1a2341] dark:text-white mb-6 transition-colors duration-300"
+          class="text-4xl md:text-5xl lg:text-[64px] font-bold leading-[1.1] tracking-tight text-heading mb-6 transition-colors duration-300"
         >
           The One-Stop Shop for<br />
           Portals and Dashboards
@@ -75,7 +76,7 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
         <div class="flex items-center justify-center gap-3">
           <a
             href="/docs/intro/hello-world"
-            class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-[#27aae1] text-white text-[16px] font-medium hover:bg-[#1e96c8] transition-all duration-200 shadow-md hover:shadow-lg hover:-translate-y-0.5"
+            class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-[var(--cx-c-brand)] text-white text-[16px] font-medium hover:bg-[var(--cx-c-brand-dark)] transition-all duration-200 shadow-md hover:shadow-lg hover:-translate-y-0.5"
           >
             Get started
             <svg class="w-4 h-4" viewBox="0 0 16 16" fill="currentColor">
@@ -104,10 +105,10 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
 
     <!-- Features section -->
     <section class="relative transition-colors duration-300">
-      <div class="hidden lg:block absolute top-0 bottom-0 left-[calc((100%-1450px)/2)] w-px bg-[#D5D6D7] dark:bg-[#404040] z-10 transition-colors duration-300"></div>
-      <div class="hidden lg:block absolute top-0 bottom-0 right-[calc((100%-1450px)/2)] w-px bg-[#D5D6D7] dark:bg-[#404040] z-10 transition-colors duration-300"></div>
+      <div class="hidden lg:block absolute top-0 bottom-0 left-[calc((100%-1450px)/2)] w-px bg-border z-10 transition-colors duration-300"></div>
+      <div class="hidden lg:block absolute top-0 bottom-0 right-[calc((100%-1450px)/2)] w-px bg-border z-10 transition-colors duration-300"></div>
       <div
-        class="bg-[#D5D6D7] dark:bg-[#404040] pt-px pb-px px-px flex flex-col lg:flex-row gap-px transition-colors duration-300 max-w-[1450px] mx-auto"
+        class="bg-border pt-px pb-px px-px flex flex-col lg:flex-row gap-px transition-colors duration-300 max-w-[1450px] mx-auto"
       >
         <!-- Left sticky column -->
         <div
@@ -115,7 +116,7 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
         >
           <div class="lg:sticky lg:top-32">
             <div class="flex items-center gap-2 mb-4">
-              <span class="h-2 w-2 rounded-full bg-[#27aae1]"></span>
+              <span class="h-2 w-2 rounded-full bg-[var(--cx-c-brand)]"></span>
               <span
                 class="text-xs font-medium tracking-[0.15em] uppercase text-muted-foreground"
                 style="font-family: 'IBM Plex Mono', monospace"
@@ -124,7 +125,7 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
             </div>
 
             <h2
-              class="text-3xl md:text-4xl font-bold leading-tight text-[#1a2341] dark:text-white mb-4 transition-colors duration-300"
+              class="text-3xl md:text-4xl font-bold leading-tight text-heading mb-4 transition-colors duration-300"
             >
               A Complete UI Framework in One Package
             </h2>
@@ -138,7 +139,7 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
 
             <a
               href="/docs/intro/what-is-cxjs"
-              class="inline-flex items-center gap-1 text-[14px] font-medium text-foreground hover:text-[#27aae1] transition-colors"
+              class="inline-flex items-center gap-1 text-[14px] font-medium text-foreground hover:text-[var(--cx-c-brand)] transition-colors"
             >
               See Demo Apps
               <svg class="w-4 h-4" viewBox="0 0 16 16" fill="currentColor">
@@ -157,7 +158,7 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
             class="bg-background rounded-[8px] p-8 lg:p-10 transition-colors duration-300"
           >
             <h3
-              class="text-xl font-semibold text-[#1a2341] dark:text-white mb-2 transition-colors duration-300"
+              class="text-xl font-semibold text-heading mb-2 transition-colors duration-300"
             >
               Extensive Widget Library
             </h3>
@@ -168,8 +169,8 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
               with data tables, and visualizing data through SVG charts.
             </p>
             <div class="flex justify-center">
-              <img src="/features/Extensive-Widget-Library-Animation-Light.gif" alt="Extensive Widget Library" class="max-w-full rounded-lg shadow-lg dark:hidden" />
-              <img src="/features/Extensive-Widget-Library-Animation-Dark.gif" alt="Extensive Widget Library" class="max-w-full rounded-lg shadow-lg hidden dark:block" />
+              <video src="/features/Extensive-Widget-Library-Animation-Light.mp4" autoplay muted loop playsinline class="max-w-full rounded-lg shadow-lg dark:hidden"></video>
+              <video src="/features/Extensive-Widget-Library-Animation-Dark.mp4" autoplay muted loop playsinline class="max-w-full rounded-lg shadow-lg hidden dark:block"></video>
             </div>
           </div>
 
@@ -178,7 +179,7 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
             class="bg-background rounded-[8px] p-8 lg:p-10 transition-colors duration-300"
           >
             <h3
-              class="text-xl font-semibold text-[#1a2341] dark:text-white mb-2 transition-colors duration-300"
+              class="text-xl font-semibold text-heading mb-2 transition-colors duration-300"
             >
               Navigation and App Shell
             </h3>
@@ -189,8 +190,8 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
               support for keyboard shortcuts and localization.
             </p>
             <div class="flex justify-center">
-              <img src="/features/Navigation-And-App-Shell-Light.gif" alt="Navigation and App Shell" class="max-w-full rounded-lg shadow-lg dark:hidden" />
-              <img src="/features/Navigation-And-App-Shell-Dark.gif" alt="Navigation and App Shell" class="max-w-full rounded-lg shadow-lg hidden dark:block" />
+              <video src="/features/Navigation-And-App-Shell-Light.mp4" autoplay muted loop playsinline class="max-w-full rounded-lg shadow-lg dark:hidden"></video>
+              <video src="/features/Navigation-And-App-Shell-Dark.mp4" autoplay muted loop playsinline class="max-w-full rounded-lg shadow-lg hidden dark:block"></video>
             </div>
           </div>
 
@@ -199,7 +200,7 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
             class="bg-background rounded-[8px] p-8 lg:p-10 transition-colors duration-300"
           >
             <h3
-              class="text-xl font-semibold text-[#1a2341] dark:text-white mb-2 transition-colors duration-300"
+              class="text-xl font-semibold text-heading mb-2 transition-colors duration-300"
             >
               Ecosystem-Friendly
             </h3>
@@ -210,8 +211,8 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
               theming, and integrates well with modern AI tooling.
             </p>
             <div class="flex justify-center">
-              <img src="/features/Eco-System-Friendly-Light.gif" alt="Ecosystem-Friendly" class="max-w-full rounded-lg shadow-lg dark:hidden" />
-              <img src="/features/Eco-System-Friendly-Dark.gif" alt="Ecosystem-Friendly" class="max-w-full rounded-lg shadow-lg hidden dark:block" />
+              <video src="/features/Eco-System-Friendly-Light.mp4" autoplay muted loop playsinline class="max-w-full rounded-lg shadow-lg dark:hidden"></video>
+              <video src="/features/Eco-System-Friendly-Dark.mp4" autoplay muted loop playsinline class="max-w-full rounded-lg shadow-lg hidden dark:block"></video>
             </div>
           </div>
 
@@ -220,7 +221,7 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
             class="bg-background rounded-[8px] p-8 lg:p-10 transition-colors duration-300"
           >
             <h3
-              class="text-xl font-semibold text-[#1a2341] dark:text-white mb-2 transition-colors duration-300"
+              class="text-xl font-semibold text-heading mb-2 transition-colors duration-300"
             >
               Domain-Friendly
             </h3>
@@ -231,8 +232,8 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
               components and predictable data binding and formatting.
             </p>
             <div class="flex justify-center">
-              <img src="/features/Domain-Friendly-Animation-Light.gif" alt="Domain-Friendly" class="max-w-full rounded-lg shadow-lg dark:hidden" />
-              <img src="/features/Domain-Friendly-Animation-Dark.gif" alt="Domain-Friendly" class="max-w-full rounded-lg shadow-lg hidden dark:block" />
+              <video src="/features/Domain-Friendly-Animation-Light.mp4" autoplay muted loop playsinline class="max-w-full rounded-lg shadow-lg dark:hidden"></video>
+              <video src="/features/Domain-Friendly-Animation-Dark.mp4" autoplay muted loop playsinline class="max-w-full rounded-lg shadow-lg hidden dark:block"></video>
             </div>
           </div>
         </div>
@@ -240,7 +241,7 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
 
       <!-- Empty spacer row -->
       <div
-        class="bg-[#D5D6D7] dark:bg-[#404040] pt-0 pb-px px-px transition-colors duration-300 max-w-[1450px] mx-auto"
+        class="bg-border pt-0 pb-px px-px transition-colors duration-300 max-w-[1450px] mx-auto"
       >
         <div
           class="bg-background rounded-[8px] h-16 transition-colors duration-300"
@@ -250,17 +251,17 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
 
       <!-- Code Preview row -->
       <div
-        class="bg-[#D5D6D7] dark:bg-[#404040] pt-0 pb-px px-px transition-colors duration-300 max-w-[1450px] mx-auto"
+        class="bg-border pt-0 pb-px px-px transition-colors duration-300 max-w-[1450px] mx-auto"
       >
         <div
-          class="bg-[#D5D6D7] dark:bg-[#404040] flex flex-col lg:flex-row gap-px transition-colors duration-300"
+          class="bg-border flex flex-col lg:flex-row gap-px transition-colors duration-300"
         >
           <!-- Left: text -->
           <div
             class="lg:flex-1 bg-background rounded-[8px] p-8 lg:p-12 transition-colors duration-300"
           >
             <div class="flex items-center gap-2 mb-4">
-              <span class="h-2 w-2 rounded-full bg-[#27aae1]"></span>
+              <span class="h-2 w-2 rounded-full bg-[var(--cx-c-brand)]"></span>
               <span
                 class="text-xs font-medium tracking-[0.15em] uppercase text-muted-foreground"
                 style="font-family: 'IBM Plex Mono', monospace"
@@ -269,7 +270,7 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
             </div>
 
             <h2
-              class="text-3xl md:text-4xl font-bold leading-tight text-[#1a2341] dark:text-white mb-4 transition-colors duration-300"
+              class="text-3xl md:text-4xl font-bold leading-tight text-heading mb-4 transition-colors duration-300"
             >
               Predictable Developer Experience.
             </h2>
@@ -283,22 +284,22 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
 
             <ul class="space-y-3 text-muted-foreground mb-8">
               <li class="flex items-center gap-2">
-                <span class="text-[#27aae1]">✓</span>
+                <span class="text-[var(--cx-c-brand)]">✓</span>
                 JSX that stays clean as screens grow
               </li>
               <li class="flex items-center gap-2">
-                <span class="text-[#27aae1]">✓</span>
+                <span class="text-[var(--cx-c-brand)]">✓</span>
                 Typed models for safe refactoring
               </li>
               <li class="flex items-center gap-2">
-                <span class="text-[#27aae1]">✓</span>
+                <span class="text-[var(--cx-c-brand)]">✓</span>
                 Autocomplete for props, bindings, and values
               </li>
             </ul>
 
             <a
               href="/docs/intro/what-is-cxjs"
-              class="inline-flex items-center gap-1 text-[14px] font-medium text-foreground hover:text-[#27aae1] transition-colors"
+              class="inline-flex items-center gap-1 text-[14px] font-medium text-foreground hover:text-[var(--cx-c-brand)] transition-colors"
             >
               See documentation
               <svg class="w-4 h-4" viewBox="0 0 16 16" fill="currentColor">
@@ -323,11 +324,12 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
                   >app/users/page.tsx</span
                 >
                 <button
+                  id="nl-copy-code-btn"
                   class="text-gray-500 hover:text-gray-300 transition-colors"
                   title="Copy code"
                 >
                   <svg
-                    class="w-4 h-4"
+                    class="w-4 h-4 copy-icon"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -336,6 +338,14 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
                     ></rect><path
                       d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
                     ></path></svg
+                  >
+                  <svg
+                    class="w-4 h-4 check-icon hidden text-green-400"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    ><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg
                   >
                 </button>
               </div>
@@ -367,7 +377,7 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
 
       <!-- Bottom spacer row -->
       <div
-        class="bg-[#D5D6D7] dark:bg-[#404040] pt-0 pb-px px-px transition-colors duration-300 max-w-[1450px] mx-auto"
+        class="bg-border pt-0 pb-px px-px transition-colors duration-300 max-w-[1450px] mx-auto"
       >
         <div
           class="bg-background rounded-[8px] h-16 transition-colors duration-300"
@@ -377,7 +387,7 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
 
       <!-- How It All Fits Together -->
       <div
-        class="bg-[#D5D6D7] dark:bg-[#404040] pt-0 pb-px px-px transition-colors duration-300 max-w-[1450px] mx-auto"
+        class="bg-border pt-0 pb-px px-px transition-colors duration-300 max-w-[1450px] mx-auto"
       >
         <div
           class="bg-background rounded-[8px] py-16 transition-colors duration-300"
@@ -385,7 +395,7 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
           <!-- Header -->
           <div class="text-center mb-10">
             <div class="flex items-center justify-center gap-2 mb-4">
-              <span class="h-2 w-2 rounded-full bg-[#27aae1]"></span>
+              <span class="h-2 w-2 rounded-full bg-[var(--cx-c-brand)]"></span>
               <span
                 class="text-xs font-medium tracking-[0.15em] uppercase text-muted-foreground"
                 style="font-family: 'IBM Plex Mono', monospace"
@@ -393,7 +403,7 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
               >
             </div>
             <h2
-              class="text-3xl md:text-4xl font-bold text-[#1a2341] dark:text-white mb-4 transition-colors duration-300"
+              class="text-3xl md:text-4xl font-bold text-heading mb-4 transition-colors duration-300"
             >
               How It All Fits Together
             </h2>
@@ -410,11 +420,15 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
             <div
               class="flex border border-border rounded-t-lg overflow-hidden"
               id="nl-example-tabs"
+              role="tablist"
             >
               <button
                 class="nl-example-tab flex-1 py-3 text-xs font-medium tracking-[0.1em] uppercase text-foreground bg-secondary/40 transition-colors"
                 style="font-family: 'IBM Plex Mono', monospace"
                 data-tab="dashboard"
+                role="tab"
+                aria-selected="true"
+                aria-controls="nl-panel-dashboard"
               >
                 Issue Tracker Dashboard
               </button>
@@ -422,6 +436,9 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
                 class="nl-example-tab flex-1 py-3 text-xs font-medium tracking-[0.1em] uppercase text-muted-foreground hover:text-foreground border-l border-border transition-colors"
                 style="font-family: 'IBM Plex Mono', monospace"
                 data-tab="invoice"
+                role="tab"
+                aria-selected="false"
+                aria-controls="nl-panel-invoice"
               >
                 Invoice Editor
               </button>
@@ -429,6 +446,9 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
                 class="nl-example-tab flex-1 py-3 text-xs font-medium tracking-[0.1em] uppercase text-muted-foreground hover:text-foreground border-l border-border transition-colors"
                 style="font-family: 'IBM Plex Mono', monospace"
                 data-tab="trello"
+                role="tab"
+                aria-selected="false"
+                aria-controls="nl-panel-trello"
               >
                 Trello Clone
               </button>
@@ -436,6 +456,9 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
                 class="nl-example-tab flex-1 py-3 text-xs font-medium tracking-[0.1em] uppercase text-muted-foreground hover:text-foreground border-l border-border transition-colors"
                 style="font-family: 'IBM Plex Mono', monospace"
                 data-tab="inventory"
+                role="tab"
+                aria-selected="false"
+                aria-controls="nl-panel-inventory"
               >
                 Inventory
               </button>
@@ -446,16 +469,16 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
               class="relative border border-t-0 border-border rounded-b-lg bg-card overflow-hidden"
               style="min-height: 500px;"
             >
-              <div class="example-panel" id="nl-panel-dashboard">
+              <div class="example-panel" id="nl-panel-dashboard" role="tabpanel">
                 <DashboardExample client:load />
               </div>
-              <div class="example-panel hidden" id="nl-panel-invoice">
+              <div class="example-panel hidden" id="nl-panel-invoice" role="tabpanel">
                 <InvoiceExample client:load />
               </div>
-              <div class="example-panel hidden" id="nl-panel-trello">
+              <div class="example-panel hidden" id="nl-panel-trello" role="tabpanel">
                 <TrelloExample client:load />
               </div>
-              <div class="example-panel hidden" id="nl-panel-inventory">
+              <div class="example-panel hidden" id="nl-panel-inventory" role="tabpanel">
                 <InventoryExample client:load />
               </div>
             </div>
@@ -465,7 +488,7 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
 
       <!-- Bottom spacer -->
       <div
-        class="bg-[#D5D6D7] dark:bg-[#404040] pt-0 pb-px px-px transition-colors duration-300 max-w-[1450px] mx-auto"
+        class="bg-border pt-0 pb-px px-px transition-colors duration-300 max-w-[1450px] mx-auto"
       >
         <div
           class="bg-background rounded-[8px] h-16 transition-colors duration-300"
@@ -474,7 +497,7 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
       </div>
 
       <div
-        class="bg-[#D5D6D7] dark:bg-[#404040] pt-0 pb-px px-px transition-colors duration-300 max-w-[1450px] mx-auto"
+        class="bg-border pt-0 pb-px px-px transition-colors duration-300 max-w-[1450px] mx-auto"
       >
         <div
           class="relative bg-background rounded-[8px] py-32 lg:py-40 text-center overflow-hidden transition-colors duration-300"
@@ -484,7 +507,7 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
 
           <div class="relative z-10">
             <h2
-              class="text-3xl md:text-4xl font-bold text-[#1a2341] dark:text-white mb-4 transition-colors duration-300"
+              class="text-3xl md:text-4xl font-bold text-heading mb-4 transition-colors duration-300"
             >
               Your next portal starts here.
             </h2>
@@ -495,7 +518,7 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
             </p>
             <a
               href="/docs/intro/hello-world"
-              class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-[#27aae1] text-white text-[16px] font-medium hover:bg-[#1e96c8] transition-all duration-200 shadow-md hover:shadow-lg hover:-translate-y-0.5"
+              class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-[var(--cx-c-brand)] text-white text-[16px] font-medium hover:bg-[var(--cx-c-brand-dark)] transition-all duration-200 shadow-md hover:shadow-lg hover:-translate-y-0.5"
             >
               Get started
               <svg class="w-4 h-4" viewBox="0 0 16 16" fill="currentColor">
@@ -509,7 +532,7 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
       </div>
 
       <div
-        class="bg-[#D5D6D7] dark:bg-[#404040] pt-0 pb-px px-px transition-colors duration-300 max-w-[1450px] mx-auto"
+        class="bg-border pt-0 pb-px px-px transition-colors duration-300 max-w-[1450px] mx-auto"
       >
         <div
           class="bg-background rounded-[8px] px-8 lg:px-16 py-16 transition-colors duration-300"
@@ -648,14 +671,14 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
       </div>
 
       <div
-        class="bg-[#D5D6D7] dark:bg-[#404040] pt-0 pb-px px-px transition-colors duration-300 max-w-[1450px] mx-auto"
+        class="bg-border pt-0 pb-px px-px transition-colors duration-300 max-w-[1450px] mx-auto"
       >
         <div
           class="bg-background rounded-[8px] px-8 lg:px-16 py-5 transition-colors duration-300"
         >
           <div class="flex items-center justify-between">
             <p class="text-sm text-muted-foreground">
-              &copy; 2026 Codaxy d.o.o. All rights reserved.
+              &copy; <span id="nl-copyright-year"></span> Codaxy d.o.o. All rights reserved.
             </p>
             <div class="flex items-center gap-4">
               <!-- GitHub -->
@@ -719,7 +742,8 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
 
   <script is:inline>
     (function () {
-      function initNewLandingTabs() {
+      function initNewLanding() {
+        // Tabs
         var tabs = document.querySelectorAll(".nl-example-tab");
         var panels = document.querySelectorAll('[id^="nl-panel-"]');
 
@@ -731,9 +755,11 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
               if (t.dataset.tab === target) {
                 t.classList.remove("text-muted-foreground");
                 t.classList.add("text-foreground", "bg-secondary/40");
+                t.setAttribute("aria-selected", "true");
               } else {
                 t.classList.remove("text-foreground", "bg-secondary/40");
                 t.classList.add("text-muted-foreground");
+                t.setAttribute("aria-selected", "false");
               }
             });
 
@@ -746,14 +772,38 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
             });
           };
         });
+
+        // Copy code button
+        var copyBtn = document.getElementById("nl-copy-code-btn");
+        if (copyBtn) {
+          copyBtn.onclick = function () {
+            var codeEl = document.querySelector(".relative.border.border-code-border code");
+            if (!codeEl) return;
+            var text = codeEl.textContent.replace(/^\s*\d+\s*/gm, "").trim();
+            navigator.clipboard.writeText(text).then(function () {
+              var copyIcon = copyBtn.querySelector(".copy-icon");
+              var checkIcon = copyBtn.querySelector(".check-icon");
+              if (copyIcon) copyIcon.classList.add("hidden");
+              if (checkIcon) checkIcon.classList.remove("hidden");
+              setTimeout(function () {
+                if (copyIcon) copyIcon.classList.remove("hidden");
+                if (checkIcon) checkIcon.classList.add("hidden");
+              }, 2000);
+            });
+          };
+        }
+
+        // Copyright year
+        var yearEl = document.getElementById("nl-copyright-year");
+        if (yearEl) yearEl.textContent = new Date().getFullYear();
       }
 
       if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", initNewLandingTabs);
+        document.addEventListener("DOMContentLoaded", initNewLanding);
       } else {
-        initNewLandingTabs();
+        initNewLanding();
       }
-      document.addEventListener("astro:page-load", initNewLandingTabs);
+      document.addEventListener("astro:page-load", initNewLanding);
     })();
   </script>
 </BaseLayout>
