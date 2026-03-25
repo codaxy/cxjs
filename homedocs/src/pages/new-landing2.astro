@@ -169,8 +169,7 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
     </section>
 
     <!-- Code Preview -->
-    <section class="py-24 border-t border-border bg-secondary/20 relative overflow-hidden">
-      <div class="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-primary/5 to-transparent"></div>
+    <section class="py-24 border-t border-border relative overflow-hidden">
       <div class="container mx-auto px-4 relative">
         <div class="grid lg:grid-cols-2 gap-12 items-center">
           <div>
@@ -182,29 +181,36 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
               <li class="flex items-center gap-3"><div class="h-2 w-2 rounded-full bg-primary"></div>Autocomplete for props, bindings, and values</li>
             </ul>
           </div>
-          <div class="relative group min-w-0">
-            <div class="absolute -inset-4 bg-gradient-to-r from-primary/20 via-cyan-500/20 to-purple-500/20 rounded-2xl blur-2xl opacity-50 group-hover:opacity-75 transition-opacity"></div>
-            <pre class="relative overflow-x-auto p-6 rounded-xl border border-code-border bg-code-bg font-mono text-sm shadow-2xl">
-<code class="text-gray-300"><span class="text-cyan-400">import</span><span class="text-gray-300"> &#123; TextField, LookupField &#125; </span><span class="text-cyan-400">from</span><span class="text-green-400"> 'cx/widgets'</span><span class="text-gray-300">;</span>
-<span class="text-cyan-400">import</span><span class="text-gray-300"> &#123; createModel, LabelsTopLayout &#125; </span><span class="text-cyan-400">from</span><span class="text-green-400"> 'cx/ui'</span><span class="text-gray-300">;</span>
-
-<span class="text-cyan-400">interface</span><span class="text-yellow-400"> UserModel</span><span class="text-gray-300"> &#123;</span>
-<span class="text-gray-300">  firstName</span><span class="text-cyan-400">:</span><span class="text-green-400"> string</span><span class="text-gray-300">;</span>
-<span class="text-gray-300">  lastName</span><span class="text-cyan-400">:</span><span class="text-green-400"> string</span><span class="text-gray-300">;</span>
-<span class="text-gray-300">  email</span><span class="text-cyan-400">:</span><span class="text-green-400"> string</span><span class="text-gray-300">;</span>
-<span class="text-gray-300">  countryId</span><span class="text-cyan-400">:</span><span class="text-green-400"> number</span><span class="text-gray-300">;</span>
-<span class="text-gray-300">&#125;</span>
-
-<span class="text-cyan-400">const</span><span class="text-gray-300"> m = </span><span class="text-yellow-400">createModel</span><span class="text-gray-300">&lt;</span><span class="text-yellow-400">UserModel</span><span class="text-gray-300">&gt;();</span>
-
-<span class="text-cyan-400">export default</span><span class="text-gray-300"> (</span>
-  <span class="text-purple-400">&lt;LabelsTopLayout</span> <span class="text-cyan-400">columns</span><span class="text-gray-300">=&#123;2&#125;</span><span class="text-purple-400">&gt;</span>
-    <span class="text-yellow-400">&lt;TextField</span> <span class="text-cyan-400">value</span><span class="text-gray-300">=&#123;m.firstName&#125;</span> <span class="text-cyan-400">label</span><span class="text-gray-300">=</span><span class="text-green-400">"First Name"</span> <span class="text-yellow-400">/&gt;</span>
-    <span class="text-yellow-400">&lt;TextField</span> <span class="text-cyan-400">value</span><span class="text-gray-300">=&#123;m.lastName&#125;</span> <span class="text-cyan-400">label</span><span class="text-gray-300">=</span><span class="text-green-400">"Last Name"</span> <span class="text-yellow-400">/&gt;</span>
-    <span class="text-yellow-400">&lt;TextField</span> <span class="text-cyan-400">value</span><span class="text-gray-300">=&#123;m.email&#125;</span> <span class="text-cyan-400">label</span><span class="text-gray-300">=</span><span class="text-green-400">"Email"</span> <span class="text-yellow-400">/&gt;</span>
-    <span class="text-yellow-400">&lt;LookupField</span> <span class="text-cyan-400">value</span><span class="text-gray-300">=&#123;m.countryId&#125;</span> <span class="text-cyan-400">label</span><span class="text-gray-300">=</span><span class="text-green-400">"Country"</span> <span class="text-cyan-400">options</span><span class="text-gray-300">=&#123;countries&#125;</span> <span class="text-yellow-400">/&gt;</span>
-  <span class="text-purple-400">&lt;/LabelsTopLayout&gt;</span>
-<span class="text-gray-300">);</span></code></pre>
+          <div class="relative min-w-0">
+            <div class="rounded-xl border border-code-border bg-code-bg overflow-hidden shadow-lg">
+              <div class="flex items-center justify-between px-4 py-2 border-b border-code-border">
+                <span class="text-xs text-gray-400 font-mono">app/users/page.tsx</span>
+                <button id="nl2-copy-code-btn" class="text-gray-500 hover:text-gray-300 transition-colors" title="Copy code">
+                  <svg class="w-4 h-4 copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                  <svg class="w-4 h-4 check-icon hidden text-green-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
+                </button>
+              </div>
+              <pre class="overflow-x-auto p-5 font-mono text-sm leading-relaxed"><code id="nl2-code-sample" class="text-gray-300"><span class="text-gray-500"> 1</span>  <span class="text-cyan-400">import</span> &#123; TextField, LookupField &#125; <span class="text-cyan-400">from</span> <span class="text-green-400">'cx/widgets'</span>;
+<span class="text-gray-500"> 2</span>  <span class="text-cyan-400">import</span> &#123; createModel, LabelsTopLayout &#125; <span class="text-cyan-400">from</span> <span class="text-green-400">'cx/ui'</span>;
+<span class="text-gray-500"> 3</span>
+<span class="text-gray-500"> 4</span>  <span class="text-cyan-400">interface</span> <span class="text-yellow-400">UserModel</span> &#123;
+<span class="text-gray-500"> 5</span>    firstName<span class="text-cyan-400">:</span> <span class="text-green-400">string</span>;
+<span class="text-gray-500"> 6</span>    lastName<span class="text-cyan-400">:</span> <span class="text-green-400">string</span>;
+<span class="text-gray-500"> 7</span>    email<span class="text-cyan-400">:</span> <span class="text-green-400">string</span>;
+<span class="text-gray-500"> 8</span>    countryId<span class="text-cyan-400">:</span> <span class="text-green-400">number</span>;
+<span class="text-gray-500"> 9</span>  &#125;
+<span class="text-gray-500">10</span>
+<span class="text-gray-500">11</span>  <span class="text-cyan-400">const</span> m = <span class="text-yellow-400">createModel</span>&lt;<span class="text-yellow-400">UserModel</span>&gt;();
+<span class="text-gray-500">12</span>
+<span class="text-gray-500">13</span>  <span class="text-cyan-400">export default</span> (
+<span class="text-gray-500">14</span>    <span class="text-purple-400">&lt;LabelsTopLayout</span> <span class="text-cyan-400">columns</span>=&#123;2&#125;<span class="text-purple-400">&gt;</span>
+<span class="text-gray-500">15</span>      <span class="text-yellow-400">&lt;TextField</span> <span class="text-cyan-400">value</span>=&#123;m.firstName&#125; <span class="text-cyan-400">label</span>=<span class="text-green-400">"First Name"</span> <span class="text-yellow-400">/&gt;</span>
+<span class="text-gray-500">16</span>      <span class="text-yellow-400">&lt;TextField</span> <span class="text-cyan-400">value</span>=&#123;m.lastName&#125; <span class="text-cyan-400">label</span>=<span class="text-green-400">"Last Name"</span> <span class="text-yellow-400">/&gt;</span>
+<span class="text-gray-500">17</span>      <span class="text-yellow-400">&lt;TextField</span> <span class="text-cyan-400">value</span>=&#123;m.email&#125; <span class="text-cyan-400">label</span>=<span class="text-green-400">"Email"</span> <span class="text-yellow-400">/&gt;</span>
+<span class="text-gray-500">18</span>      <span class="text-yellow-400">&lt;LookupField</span> <span class="text-cyan-400">value</span>=&#123;m.countryId&#125; <span class="text-cyan-400">label</span>=<span class="text-green-400">"Country"</span> <span class="text-cyan-400">options</span>=&#123;countries&#125; <span class="text-yellow-400">/&gt;</span>
+<span class="text-gray-500">19</span>    <span class="text-purple-400">&lt;/LabelsTopLayout&gt;</span>
+);</code></pre>
+            </div>
           </div>
         </div>
       </div>
@@ -278,6 +284,26 @@ import InventoryExample from "../examples/homepage/InventoryExample.tsx";
             });
           };
         });
+
+        // Copy code button
+        var copyBtn = document.getElementById('nl2-copy-code-btn');
+        if (copyBtn) {
+          copyBtn.onclick = function () {
+            var codeEl = document.getElementById('nl2-code-sample');
+            if (!codeEl) return;
+            var text = codeEl.textContent.replace(/^\s*\d+\s*/gm, '').trim();
+            navigator.clipboard.writeText(text).then(function () {
+              var copyIcon = copyBtn.querySelector('.copy-icon');
+              var checkIcon = copyBtn.querySelector('.check-icon');
+              if (copyIcon) copyIcon.classList.add('hidden');
+              if (checkIcon) checkIcon.classList.remove('hidden');
+              setTimeout(function () {
+                if (copyIcon) copyIcon.classList.remove('hidden');
+                if (checkIcon) checkIcon.classList.add('hidden');
+              }, 2000);
+            });
+          };
+        }
 
         // Feature card animations
         var observer = new IntersectionObserver(function (entries) {
