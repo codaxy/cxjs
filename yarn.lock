@@ -5062,9 +5062,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"benchmark@workspace:benchmark":
+"benchmark@workspace:legacy/benchmark":
   version: 0.0.0-use.local
-  resolution: "benchmark@workspace:benchmark"
+  resolution: "benchmark@workspace:legacy/benchmark"
   dependencies:
     "@babel/core": "npm:^7.28.5"
     "@babel/preset-env": "npm:^7.28.5"
@@ -6633,9 +6633,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"docs@workspace:docs":
+"docs@workspace:legacy/docs":
   version: 0.0.0-use.local
-  resolution: "docs@workspace:docs"
+  resolution: "docs@workspace:legacy/docs"
   dependencies:
     "@babel/core": "npm:^7.28.5"
     "@babel/preset-env": "npm:^7.28.5"
@@ -7612,9 +7612,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fiddle@workspace:fiddle":
+"fiddle@workspace:legacy/fiddle":
   version: 0.0.0-use.local
-  resolution: "fiddle@workspace:fiddle"
+  resolution: "fiddle@workspace:legacy/fiddle"
   dependencies:
     "@babel/core": "npm:^7.28.5"
     "@babel/preset-env": "npm:^7.28.5"
@@ -7920,9 +7920,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"gallery@workspace:gallery":
+"gallery@workspace:legacy/gallery":
   version: 0.0.0-use.local
-  resolution: "gallery@workspace:gallery"
+  resolution: "gallery@workspace:legacy/gallery"
   dependencies:
     "@babel/core": "npm:^7.28.5"
     "@babel/preset-env": "npm:^7.28.5"
@@ -14371,9 +14371,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-minimal@workspace:ts-minimal":
+"ts-minimal@workspace:legacy/ts-minimal":
   version: 0.0.0-use.local
-  resolution: "ts-minimal@workspace:ts-minimal"
+  resolution: "ts-minimal@workspace:legacy/ts-minimal"
   dependencies:
     "@babel/core": "npm:^7.28.5"
     "@types/node": "npm:^25.0.3"
