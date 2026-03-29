@@ -15,5 +15,6 @@ build
 
 Thumbs.db
 .playwright-mcp
+.claude/settings.local.json
 sass-test
 /nul
