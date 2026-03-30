@@ -16,7 +16,7 @@ const pages: NavPage[] = navigation.flatMap(category =>
   )
 );
 
-const pathname = Astro.url.pathname;
+const pathname = Astro.url.pathname.replace(/\.html$/, '').replace(/\/$/, '');
 
 const currentIndex = pages.findIndex(p => p.href === pathname);
 const prevPage = currentIndex > 0 ? pages[currentIndex - 1] : null;

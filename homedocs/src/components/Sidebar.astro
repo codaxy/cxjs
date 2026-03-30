@@ -4,7 +4,7 @@ import SidebarSection from './SidebarSection.astro';
 import CategoryDropdown from './CategoryDropdown.astro';
 import { navigation, getCurrentCategory } from '../data/navigation.js';
 
-const pathname = Astro.url.pathname;
+const pathname = Astro.url.pathname.replace(/\.html$/, '');
 const currentCategory = getCurrentCategory(pathname);
 
 // Get current slug for active state
