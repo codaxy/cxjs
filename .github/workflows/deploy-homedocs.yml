@@ -38,6 +38,8 @@ jobs:
 
       - name: Build homedocs
         run: yarn --cwd homedocs build
+        env:
+          GTM_ID: ${{ secrets.GTM_ID }}
 
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v3
