@@ -18,6 +18,16 @@
          //   width: 10em;
          //}
       }
+
+      &.#{$mod}top {
+         tbody > tr:first-child > .#{$element}labelstoplayout-label {
+            padding-top: 0;
+
+            .#{$block}label {
+               padding-top: 0;
+            }
+         }
+      }
    }
 
    .#{$element}labelstoplayout-field {

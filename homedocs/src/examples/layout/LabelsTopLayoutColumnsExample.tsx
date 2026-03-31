@@ -17,7 +17,7 @@ const m = createModel<FormModel>();
 
 // @index
 export default (
-  <LabelsTopLayout columns={3}>
+  <LabelsTopLayout columns={3} mod="top">
     <TextField label="Field 1" value={m.field1} />
     <TextField label="Field 2" value={m.field2} />
     <TextField label="Field 3" value={m.field3} />
