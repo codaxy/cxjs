@@ -43,6 +43,20 @@ export const MasterLayout = createFunctionalComponent(
       <cx>
          <PureContainer>
             <header ws class={{ master_header: true, shadow, elevate: { expr: "!!{master.drawer.icon}" } }}>
+               <div
+                  class="master_banner"
+               >
+                  <span class="master_banner_full">
+                     You're viewing the legacy site. Visit{" "}
+                     <a href="https://cxjs.io/docs">cxjs.io/docs</a>{" "}
+                     for the latest documentation.
+                  </span>
+                  <span class="master_banner_short">
+                     Legacy site. Visit{" "}
+                     <a href="https://cxjs.io/docs">cxjs.io/docs</a>{" "}
+                     for new docs.
+                  </span>
+               </div>
                <div class="master_topbar">
                   <div class="master_hamburger">
                      <Animicon

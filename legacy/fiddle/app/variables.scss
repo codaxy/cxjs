@@ -1,0 +1,4 @@
+@forward "../../misc/layout/variables";
+@forward "cx-theme-aquamarine/src/variables" with (
+   $cx-theme-primary-color: #4f7aea !default
+);

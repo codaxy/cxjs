@@ -4,7 +4,14 @@ import { Store } from "cx/data";
 import deepEqual from "deep-equal";
 import casualData from "app/components/casual";
 
-import * as Cx from "cx/index";
+import * as CxUI from "cx/ui";
+import * as CxWidgets from "cx/widgets";
+import * as CxData from "cx/data";
+import * as CxUtil from "cx/util";
+import * as CxSVG from "cx/svg";
+import * as CxCharts from "cx/charts";
+
+const Cx = { ui: CxUI, widgets: CxWidgets, data: CxData, util: CxUtil, svg: CxSVG, charts: CxCharts };
 
 export class Preview extends HtmlElement {
    declareData() {

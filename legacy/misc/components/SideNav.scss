@@ -11,8 +11,8 @@
    color: $master-sidenav-link-color;
 
    &.sticky {
-      top: 90px;
-      height: calc(100vh - 148px);
+      top: 90px + $master-banner-height;
+      height: calc(100vh - 148px - $master-banner-height);
 
       @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
          position: static;
@@ -22,7 +22,7 @@
    }
 
    &.extended {
-      height: calc(100vh - 90px);
+      height: calc(100vh - 90px - $master-banner-height);
    }
 
    &.gray {

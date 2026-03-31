@@ -18,6 +18,36 @@
    }
 }
 
+.master_banner {
+   background: #f0f0f0;
+   color: #555;
+   text-align: center;
+   padding: 4px 16px;
+   font-size: 12px;
+   border-bottom: 1px solid #ddd;
+
+   a {
+      color: #333;
+      font-weight: 600;
+   }
+
+   .master_banner_short {
+      display: none;
+   }
+}
+
+@media screen and (max-width: $master-desktop-screen-width) {
+   .master_banner {
+      .master_banner_full {
+         display: none;
+      }
+
+      .master_banner_short {
+         display: inline;
+      }
+   }
+}
+
 .master_topbar {
    font-family: $master-font-family;
    display: flex;
@@ -76,7 +106,7 @@
    background: $master-brand-background;
    color: $master-brand-color;
    min-height: 105px;
-   padding-top: $master-header-height;
+   padding-top: $master-header-height + $master-banner-height;
    box-shadow: 0 0 5px rgba(black, 0.3);
    z-index: 1500;
    position: relative;
@@ -150,7 +180,7 @@
 .master_sidedrawer {
    position: fixed;
    left: -250px;
-   top: $master-header-height !important;
+   top: $master-header-height + $master-banner-height !important;
    bottom: 0;
    width: 250px;
    background: white;
@@ -201,7 +231,7 @@
       flex-direction: row;
 
       &.fullheight {
-         height: calc(100vh - 147px);
+         height: calc(100vh - 147px - $master-banner-height);
       }
    }
 }
@@ -221,7 +251,7 @@
 
    .master_content {
       &.fullheight {
-         height: calc(100vh - 120px);
+         height: calc(100vh - 120px - $master-banner-height);
       }
    }
 

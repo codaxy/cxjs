@@ -9,7 +9,3 @@
       box-sizing: border-box;
    }
 }
-
-.cxe-codemirror-input {
-   @include cxe-field-input($cx-besm, $cx-input-state-style-map);
-}
