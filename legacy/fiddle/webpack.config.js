@@ -93,7 +93,7 @@ var common = {
   // },
   output: {
     path: __dirname,
-    //publicPath: '/',
+    //publicPath: "/",
     filename: "[name].js",
   },
   plugins: [
@@ -206,6 +206,9 @@ if (production) {
       hot: true,
       port: 8089,
       historyApiFallback: true,
+      static: {
+        directory: __dirname,
+      },
     },
   };
 }

@@ -11,7 +11,7 @@ $toolbar-height: 20px;
    flex-direction: column;
 
    .master_header ~ & {
-      padding-top: $master-header-height;
+      padding-top: $master-header-height + $master-banner-height;
    }
 
    & > header {

@@ -11,13 +11,20 @@ import * as CxUtil from "cx/util";
 import * as CxSVG from "cx/svg";
 import * as CxCharts from "cx/charts";
 
-const Cx = { ui: CxUI, widgets: CxWidgets, data: CxData, util: CxUtil, svg: CxSVG, charts: CxCharts };
+const Cx = {
+   ui: CxUI,
+   widgets: CxWidgets,
+   data: CxData,
+   util: CxUtil,
+   svg: CxSVG,
+   charts: CxCharts,
+};
 
 export class Preview extends HtmlElement {
    declareData() {
       super.declareData(...arguments, {
          js: undefined,
-         data: undefined
+         data: undefined,
       });
    }
 
@@ -33,7 +40,11 @@ class PreviewComponent extends VDOM.Component {
       var { data } = this.props.instance;
       return (
          <div className={data.classNames} style={data.style}>
-            <div ref="el" />
+            <div
+               ref={(el) => {
+                  this.el = el;
+               }}
+            />
          </div>
       );
    }
@@ -60,8 +71,8 @@ class PreviewComponent extends VDOM.Component {
    getReportableData() {
       var data = { ...this.store.getData() };
       Object.keys(data)
-         .filter(k => k[0] == "$")
-         .forEach(k => delete data[k]);
+         .filter((k) => k[0] == "$")
+         .forEach((k) => delete data[k]);
       return data;
    }
 
@@ -110,7 +121,7 @@ class PreviewComponent extends VDOM.Component {
             break;
          }
 
-         this.stop = startAppLoop(this.refs.el, store, preview);
+         this.stop = startAppLoop(this.el, store, preview);
       } catch (e) {
          console.log(e);
          preview = (
@@ -127,8 +138,7 @@ class PreviewComponent extends VDOM.Component {
             </cx>
          );
 
-      if (!this.stop)
-         this.stop = startAppLoop(this.refs.el, this.store, preview);
+      if (!this.stop) this.stop = startAppLoop(this.el, this.store, preview);
    }
 
    componentWillUnmount() {
@@ -141,7 +151,7 @@ class PreviewComponent extends VDOM.Component {
 Preview.prototype.baseClass = "preview";
 
 function transformImports(code) {
-   return code.replace(/require\(('|").*('|")\)/g, match => {
+   return code.replace(/require\(('|").*('|")\)/g, (match) => {
       return match.substring(9, match.length - 2).replace(/\//g, ".");
    });
 }
