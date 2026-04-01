@@ -14,7 +14,7 @@ const m = createModel<AddressModel>();
 
 // @index
 export default (
-  <LabelsTopLayout>
+  <LabelsTopLayout mod="top">
     <TextField
       value={m.street}
       label="Address"

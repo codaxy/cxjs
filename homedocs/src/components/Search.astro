@@ -41,6 +41,10 @@ const bundlePath = join(import.meta.env.BASE_URL, "pagefind/");
         ...opts,
         element: elSelector,
         bundlePath,
+        processResult: (result) => {
+          result.url = result.url.replace(/\.html$/, "");
+          return result;
+        },
       });
       el.classList.remove("pagefind-init");
       const query = el.getAttribute("data-query");

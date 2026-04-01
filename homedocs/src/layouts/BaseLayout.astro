@@ -12,7 +12,7 @@ interface Props {
 
 const { title, description, image } = Astro.props;
 const siteUrl = 'https://cxjs.io';
-const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
+const canonicalUrl = new URL(Astro.url.pathname.replace(/\.html$/, ''), siteUrl).toString();
 const ogImage = image || `${siteUrl}/cxjs-logo.png`;
 const defaultDescription = 'CxJS is a feature-rich JavaScript framework for building complex web front-ends, such as dashboards and admin applications.';
 const metaDescription = description || defaultDescription;
