@@ -48,6 +48,17 @@ const homedocsDarkPreset: ThemeVariables = {
    // Calendar
    calendarBackgroundColor: "#1f1f1f",
 
+   // Charts
+   chartSwimlaneLaneColor: "rgba(255, 255, 255, 0.06)",
+   chartShapeFillColor: "#333",
+   chartShapeStrokeColor: "#555",
+   chartGridlineColor: "rgba(255, 255, 255, 0.08)",
+   chartAxisLineColor: "rgba(255, 255, 255, 0.15)",
+   chartAxisTickColor: "rgba(255, 255, 255, 0.2)",
+   chartRangeFillColor: "#444",
+   chartRangeMarkerColor: "#999",
+   chartLegendShapeColor: "rgba(255, 255, 255, 0.08)",
+
    // Cursor
    cursorColor: "hsl(var(--primary))",
 

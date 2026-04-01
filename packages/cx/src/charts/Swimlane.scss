@@ -1,4 +1,7 @@
 @use "sass:map";
+@use "../util/scss/besm.scss" as *;
+@use "../util/scss/include.scss" as *;
+@use "./variables" as *;
 
 @mixin cx-swimlane($name: "swimlane", $besm: $cx-besm, $lane-color: $cx-default-swimlanes-lane-background-color) {
    $block: map.get($besm, block);
