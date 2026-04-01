@@ -6,7 +6,7 @@ import {reformatCode} from 'app/core/reformatCode';
 import {createFiddle, updateFiddle, deleteFiddle} from 'app/api/fiddles';
 import {openOpenDialog} from 'app/components/OpenDialog';
 
-import Route from 'route-parser';
+import Route from 'route-parser-ts';
 import {getToken} from 'app/api/token';
 import {getFiddle} from 'app/api/fiddles';
 import {getFiddleStar} from 'app/api/stars';

@@ -1,5 +1,5 @@
-import { Widget, VDOM, CSS } from 'cx/ui';
-import codemirror from 'codemirror';
+import { Widget, VDOM, CSS } from "cx/ui";
+import codemirror from "codemirror";
 import "codemirror/lib/codemirror.css";
 import "codemirror/mode/jsx/jsx";
 import "codemirror/mode/javascript/javascript";
@@ -7,31 +7,35 @@ import "codemirror/mode/css/css";
 import "codemirror/addon/edit/matchtags";
 import "codemirror/addon/edit/closetag";
 
-
 export class CodeMirror extends Widget {
-
    declareData() {
       return super.declareData(...arguments, {
-         code: undefined
+         code: undefined,
       });
    }
 
    render(context, instance, key) {
-      return <Component key={key} instance={instance} data={instance.data} />
+      return <Component key={key} instance={instance} data={instance.data} />;
    }
 }
 
-CodeMirror.prototype.baseClass = 'codemirror';
+CodeMirror.prototype.baseClass = "codemirror";
 CodeMirror.prototype.styled = true;
 
 class Component extends VDOM.Component {
    render() {
-      var {data, widget} = this.props.instance;
-      return <div className={data.classNames} style={data.style}>
-         <textarea className={CSS.element(widget.baseClass, 'input')}
-                   defaultValue={data.code}
-                   ref="input"/>
-      </div>
+      var { data, widget } = this.props.instance;
+      return (
+         <div className={data.classNames} style={data.style}>
+            <textarea
+               className={CSS.element(widget.baseClass, "input")}
+               defaultValue={data.code}
+               ref={(el) => {
+                  this.input = el;
+               }}
+            />
+         </div>
+      );
    }
 
    shouldComponentUpdate() {
@@ -39,38 +43,37 @@ class Component extends VDOM.Component {
    }
 
    componentDidMount() {
-      var {widget} = this.props.instance;
-      this.cm = codemirror.fromTextArea(this.refs.input, {
+      var { widget } = this.props.instance;
+      this.cm = codemirror.fromTextArea(this.input, {
          lineNumbers: true,
          mode: widget.mode,
          tabSize: 2,
-         matchTags: {bothTags: true},
+         matchTags: { bothTags: true },
          autoCloseTags: true,
          extraKeys: {
-            'Ctrl-R': ::this.save,
-            'Ctrl-S': ::this.save,
-            'Ctrl-I': ::this.resolveImport,
-         }
+            "Ctrl-R": this.save.bind(this),
+            "Ctrl-S": this.save.bind(this),
+            "Ctrl-I": this.resolveImport.bind(this),
+         },
       });
-      this.cm.on('blur', ::this.onBlur);
+      this.cm.on("blur", this.onBlur.bind(this));
    }
-   
-   componentWillReceiveProps(props) {
+
+   UNSAFE_componentWillReceiveProps(props) {
       if (props.data.code != this.cm.getValue())
-         this.cm.setValue(props.data.code || '');
+         this.cm.setValue(props.data.code || "");
    }
 
    save() {
-      var {widget, store} = this.props.instance;
+      var { widget, store } = this.props.instance;
       if (widget.nameMap.code) {
          var value = this.cm.getValue();
-         if (typeof value == 'string')
-            store.set(widget.nameMap.code, value);
+         if (typeof value == "string") store.set(widget.nameMap.code, value);
       }
    }
 
    resolveImport() {
-      var {widget} = this.props.instance;
+      var { widget } = this.props.instance;
       var selection = this.cm.getSelection();
       if (selection && widget.onImportName) {
          var code = widget.onImportName(this.cm.getValue(), selection);
@@ -83,4 +86,4 @@ class Component extends VDOM.Component {
    }
 }
 
-CodeMirror.prototype.mode = 'javascript';
+CodeMirror.prototype.mode = "javascript";

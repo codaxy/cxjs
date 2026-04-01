@@ -1,3 +1,5 @@
+@use "../../../../misc/layout/variables" as *;
+
 $header-line-height: 20px;
 $header-padding: 0px;
 $toolbar-height: 20px;
@@ -9,7 +11,7 @@ $toolbar-height: 20px;
    flex-direction: column;
 
    .master_header ~ & {
-      padding-top: $master-header-height;
+      padding-top: $master-header-height + $master-banner-height;
    }
 
    & > header {
