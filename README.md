@@ -13,167 +13,125 @@
 
 <br />
 
-CxJS, or simply Cx, is a feature-rich JavaScript framework for building complex web front-ends, such as BI tools,
-dashboards and admin apps.
+CxJS is a TypeScript UI framework with 50+ widgets, data tables, charts, routing, and state management
+designed for building data-intensive web applications such as portals, dashboards and admin apps.
+Built on top of React, it provides everything needed to build complex front-ends out of the box.
 
-## Learn CxJS
+Learn more at [cxjs.io/docs](https://cxjs.io/docs).
 
-Explore CxJS by checking out available online resources:
+## Quick Start
 
--  [Documentation](https://cxjs.io/docs)
--  [Gallery of Widgets & Themes ](https://cxjs.io/gallery)
--  [Fiddle](https://cxjs.io/fiddle)
--  [Demo Apps](https://cxjs.io/demos)
--  [Examples](https://cxjs.io/examples)
-
-If you need help, ask a question on [StackOverflow](https://stackoverflow.com/questions/tagged/cxjs).
-If you find a bug, please [raise an issue](https://github.com/codaxy/cxjs/issues).
-[Request an invite to our Slack channel](https://cxjs.io/support)
-and become a member of the CxJS community.
-
-## Starting a new project
-
-CxJS is available as an NPM package - `cx`, which includes
-compiled code, source code and TypeScript definitions.
-
-Besides the `cx` package, you'll need other packages such as `cx-react` (or `cx-preact`) and `babel-preset-cx-env`.
-
-You'll also need to configure Babel and webpack.
-
-The quickest way to setup everything up is to use CLI:
+Install the core packages:
 
 ```bash
-npm install cx-cli --global
-cx create my-app
-cd my-app
-npm start
+npm install cx cx-react
 ```
 
-Or if you prefer Yarn:
+Add a theme:
 
 ```bash
-yarn create cx-app my-app
-cd my-app
-yarn start
+npm install cx-theme-variables
 ```
 
-Alternatively, you can download the files from one of the project templates:
+Configure TypeScript for CxJS JSX:
 
--  https://github.com/codaxy/cxjs-tailwindcss-template
--  https://github.com/codaxy/cx-starter-kit
--  https://codesandbox.io/s/github/codaxy/cxjs-codesandbox-template
+```json
+{
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "cx"
+  }
+}
+```
 
-### Themes
+Set up the entry point:
 
-Once you create a new project, you may want to try our ready-to-use visual themes:
+```tsx
+import { startAppLoop } from "cx/ui";
+import { Store } from "cx/data";
 
--  [cx-theme-material](https://www.npmjs.com/package/cx-theme-material) ([Demo](https://cxjs.io/gallery/material))
--  [cx-theme-frost](https://www.npmjs.com/package/cx-theme-frost) ([Demo](https://cxjs.io/gallery/frost))
--  [cx-theme-dark](https://www.npmjs.com/package/cx-theme-dark) ([Demo](https://cxjs.io/gallery/dark))
+import "cx-theme-variables/dist/widgets.css";
+import { renderThemeVariables, defaultPreset } from "cx-theme-variables";
 
-Install the theme using `npm` or `yarn`.
+renderThemeVariables(defaultPreset);
+
+const store = new Store();
+
+startAppLoop(
+  document.getElementById("app"),
+  store,
+  <div>
+    <h1>Welcome to CxJS</h1>
+  </div>,
+);
+```
+
+A simple form with two-way data binding:
+
+```tsx
+import { createModel } from "cx/ui";
+import { Button, LabelsTopLayout, MsgBox, TextField } from "cx/widgets";
+
+interface PageModel {
+  name: string;
+}
+
+const m = createModel<PageModel>();
+
+export default (
+  <LabelsTopLayout vertical>
+    <TextField value={m.name} label="Name" />
+    <Button
+      text="Greet"
+      onClick={(event, { store }) => {
+        let name = store.get(m.name);
+        MsgBox.alert(`Hello, ${name}!`);
+      }}
+    />
+  </LabelsTopLayout>
+);
+```
+
+For a complete project setup, use the CLI or one of the [application templates](https://cxjs.io/docs/intro/application-templates):
 
 ```bash
-npm install cx-theme-frost
+npx cx-cli create my-app
 ```
 
-Open `my-app/app/index.scss` and replace
+## Repository Structure
+
+This is a monorepo managed with Yarn (v4) workspaces.
 
 ```
-@import "~cx/src/variables";
-@import "~cx/src/index";
+packages/
+  cx/                     Core framework (widgets, charts, data binding, state management)
+  cx-react/               React adapter
+  cx-build-tools/         Rollup-based build tooling
+  cx-theme-*/             Visual themes
+  babel-plugin-*/         Babel plugins for CxJS JSX and import optimization
+  swc-plugin-*/           SWC equivalents of the Babel plugins
+  cx-cli, create-cx-app/  CLI tools for scaffolding projects
+  cx-immer/               Immer integration for immutable store updates
+
+homedocs/                 Documentation site (cxjs.io), built with Astro
+litmus/                   Testing environment for bug reproduction and feature development
+legacy/                   Previous-generation docs, gallery, and fiddle apps (being phased out)
 ```
-
-with
-
-```
-@import "~theme-package-name/src/variables";
-@import "~theme-package-name/src/index";
-```
-
-Please read theme NPM package documentation to learn how to enable theme specific features.
-
-## Features
-
-CxJS uses React for DOM manipulation and offers many high-level features on top of it.
-
-### Widgets
-
--  form elements ([DateTimeField](https://cxjs.io/docs/widgets/date-time-fields), [LookupField](https://cxjs.io/docs/widgets/lookup-fields), [ColorField](https://cxjs.io/docs/widgets/color-fields))
--  advanced [Grid (data table)](https://cxjs.io/gallery/material/grid) control
--  navigation elements ([Menu](https://cxjs.io/gallery/material/menu/states), [Tab](https://cxjs.io/docs/widgets/tabs), [Link](https://cxjs.io/docs/widgets/links))
--  overlays ([Window](https://cxjs.io/docs/widgets/windows), [MsgBox](https://cxjs.io/docs/widgets/msg-boxes), [Tooltip](https://cxjs.io/docs/widgets/tooltips), [Toast](https://cxjs.io/docs/widgets/toasts))
-
-### Charts
-
--  various chart types ([PieChart](https://cxjs.io/docs/charts/pie-charts), [LineGraph](https://cxjs.io/docs/charts/line-graphs), [ColumnGraph](https://cxjs.io/docs/charts/column-graphs), [BarGraph](https://cxjs.io/docs/charts/bar-graphs))
--  axis types ([CategoryAxis](https://cxjs.io/docs/charts/category-axis), [NumericAxis](https://cxjs.io/docs/charts/numeric-axis), [TimeAxis](https://cxjs.io/docs/charts/time-axis))
--  help elements ([Legend](https://cxjs.io/docs/charts/legend), [Marker](https://cxjs.io/docs/charts/markers), [Range](https://cxjs.io/docs/charts/ranges))
-
-### UI Concepts
-
--  [form validation](https://cxjs.io/docs/widgets/validation-groups)
--  [culture sensitive formatting and localization](https://cxjs.io/docs/concepts/localization)
--  [client-side routing](https://cxjs.io/docs/concepts/router)
--  [selection models](https://cxjs.io/docs/concepts/selections)
-
-### State Management
-
--  [two-way data-binding](https://cxjs.io/docs/concepts/data-binding)
--  [controllers](https://cxjs.io/docs/concepts/controllers)
--  [computed values](https://cxjs.io/docs/concepts/controllers#computed-values)
--  [triggers](https://cxjs.io/docs/concepts/controllers#triggers)
--  [repeater](https://cxjs.io/docs/concepts/repeater)
--  [rescope](https://cxjs.io/docs/concepts/rescope)
--  [sandbox](https://cxjs.io/docs/concepts/sandbox)
--  [data proxy](https://cxjs.io/docs/concepts/data-proxy)
-
-### Layout
-
--  [inner (form) layouts](https://cxjs.io/docs/concepts/inner-layouts)
--  [outer (page) layouts](https://cxjs.io/docs/concepts/outer-layouts)
-
-### Theming
-
--  [SCSS variables and mixins](https://cxjs.io/docs/concepts/css)
--  ready to use themes ([Material](https://cxjs.io/gallery/material), [Frost](https://cxjs.io/gallery/frost), [Dark](https://cxjs.io/gallery/dark))
 
 ## Development
 
-This is a monolith repository used to develop main npm packages, documentation, widget gallery and fiddle. It uses yarn workspaces, so please use `yarn` to install packages and run the applications.
-
 ```bash
-yarn install
+yarn install              # Install dependencies
+yarn build                # Build cx-react and cx
+yarn build:themes         # Build all themes
+yarn test                 # Run tests
 ```
 
-Build CxJS:
+### Running Apps
 
 ```bash
-yarn build
-```
-
-Run tests:
-
-```bash
-yarn test
-```
-
-Run Docs:
-
-```bash
-yarn start
-```
-
-Run Gallery:
-
-```bash
-yarn gallery
-```
-
-Run Fiddle:
-
-```bash
-yarn fiddle
+cd homedocs && yarn dev   # Documentation site
+yarn litmus               # Litmus testing environment
 ```
 
 ## License
