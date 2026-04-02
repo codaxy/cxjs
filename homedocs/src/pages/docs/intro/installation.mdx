@@ -59,14 +59,17 @@ The key setting is `jsxImportSource: "cx"` which enables CxJS-specific JSX types
 
 ### Vite
 
-Vite is the recommended build tool for new projects. Create `vite.config.ts`:
+Vite is the recommended build tool for new projects. The [CxJS Vite Template](https://github.com/codaxy/cxjs-vite-template) provides a basic project setup, or you can configure manually by creating `vite.config.ts`:
 
 ```typescript
 import { defineConfig } from "vite";
 
 export default defineConfig({
-  esbuild: {
-    jsxImportSource: "cx",
+  oxc: {
+    jsx: {
+      runtime: "automatic",
+      importSource: "cx",
+    },
   },
 });
 ```
