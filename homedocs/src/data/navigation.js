@@ -146,9 +146,14 @@ export const navigation = [
             description: "List of breaking changes between major versions",
           },
           {
-            title: "Migration Guide",
-            slug: "migration-guide",
-            description: "Step-by-step guide for upgrading CxJS versions",
+            title: "TypeScript Migration Guide",
+            slug: "ts-migration-guide",
+            description: "Migrate CxJS applications to TypeScript with full type safety",
+          },
+          {
+            title: "SCSS Migration Guide",
+            slug: "scss-migration-guide",
+            description: "Migrate CxJS SCSS from @import to modern Sass modules (@use/@forward)",
           },
         ],
       },
