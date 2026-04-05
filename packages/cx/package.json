@@ -1,6 +1,6 @@
 {
   "name": "cx",
-  "version": "26.4.0",
+  "version": "26.4.1",
   "description": "Advanced JavaScript UI framework for admin and dashboard applications with ready to use grid, form and chart components.",
   "exports": {
     "./data": {
@@ -48,7 +48,8 @@
     "./sass/*": "./src/*",
     "./locale/*": "./build/locale/*",
     "./manifest": "./dist/manifest.js",
-    "./manifest.js": "./dist/manifest.js"
+    "./manifest.js": "./dist/manifest.js",
+    "./package.json": "./package.json"
   },
   "sideEffects": [
     "./src/widgets/icons/*.tsx",
