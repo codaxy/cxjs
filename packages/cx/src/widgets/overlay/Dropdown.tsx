@@ -52,6 +52,12 @@ export interface DropdownConfig extends OverlayConfig {
   /** Show an arrow pointing to the trigger element. */
   arrow?: boolean;
 
+  /** Shift the dropdown so the arrow tip lines up with the target point (e.g. the mouse cursor for context menus). Only applies when `arrow` is also set. */
+  alignArrow?: boolean;
+
+  /** Distance of the arrow tip from the dropdown's edge, in pixels. Override for the theme's default. */
+  arrowOffset?: number;
+
   /** Add padding around the dropdown. */
   pad?: boolean;
 
@@ -131,6 +137,8 @@ export class DropdownBase<
   declare positioning?: string;
   declare touchFriendly?: boolean;
   declare arrow?: boolean;
+  declare alignArrow?: boolean;
+  declare arrowOffset?: number;
   declare elementExplode?: number;
   declare screenPadding: number;
   declare firstChildDefinesHeight?: boolean;
@@ -172,6 +180,16 @@ export class DropdownBase<
     instance.mousePosition = this.mousePosition;
     instance.parentPositionChangeEvent = context.parentPositionChangeEvent;
     super.initInstance(context, instance);
+  }
+
+  prepareData(context: RenderingContext, instance: InstanceType): void {
+    super.prepareData(context, instance);
+    if (this.arrowOffset != null) {
+      instance.data.style = {
+        ...instance.data.style,
+        "--cx-js-dropdown-arrow-offset": `${this.arrowOffset}px`,
+      };
+    }
   }
 
   explore(context: RenderingContext, instance: InstanceType): void {
@@ -318,6 +336,8 @@ export class DropdownBase<
       component.lastPlacement,
     );
 
+    var arrowAdjust = this.getArrowAdjust(component);
+
     this.applyPositioningPlacementStyles(
       style,
       placement,
@@ -325,6 +345,7 @@ export class DropdownBase<
       parentBounds,
       el,
       false,
+      arrowAdjust,
     );
     component.setCustomStyle(style);
     this.setDirectionClass(component, placement);
@@ -344,6 +365,7 @@ export class DropdownBase<
           parentBounds,
           el,
           true,
+          arrowAdjust,
         );
         component.setCustomStyle(newStyle);
       }
@@ -369,6 +391,19 @@ export class DropdownBase<
     instance.positionChangeSubscribers.notify();
   }
 
+  getArrowAdjust(component: any): number {
+    if (!this.alignArrow || !this.arrow) return 0;
+    if (component.cachedArrowOffset != null) return component.cachedArrowOffset;
+    if (!component.el) return 0;
+    let raw = getComputedStyle(component.el)
+      .getPropertyValue("--cx-scss-dropdown-arrow-offset")
+      .trim();
+    let parsed = parseFloat(raw);
+    if (!isFinite(parsed)) return 0;
+    component.cachedArrowOffset = parsed;
+    return parsed;
+  }
+
   applyFixedPositioningPlacementStyles(
     style: any,
     placement: string,
@@ -376,6 +411,7 @@ export class DropdownBase<
     rel: any,
     el: HTMLElement,
     noAuto: boolean,
+    arrowAdjust: number = 0,
   ): void {
     let viewport = getViewportRect(this.screenPadding);
     style.position = "fixed";
@@ -410,11 +446,11 @@ export class DropdownBase<
 
       case "down-right":
         style.right = "auto";
-        style.left = `${rel.left}px`;
+        style.left = `${rel.left - arrowAdjust}px`;
         break;
 
       case "down-left":
-        style.right = `${document.documentElement.offsetWidth - rel.right}px`;
+        style.right = `${document.documentElement.offsetWidth - rel.right - arrowAdjust}px`;
         style.left = "auto";
         break;
 
@@ -426,11 +462,11 @@ export class DropdownBase<
 
       case "up-right":
         style.right = "auto";
-        style.left = `${rel.left}px`;
+        style.left = `${rel.left - arrowAdjust}px`;
         break;
 
       case "up-left":
-        style.right = `${document.documentElement.offsetWidth - rel.right}px`;
+        style.right = `${document.documentElement.offsetWidth - rel.right - arrowAdjust}px`;
         style.left = "auto";
         break;
 
@@ -443,7 +479,7 @@ export class DropdownBase<
         break;
 
       case "right-down":
-        style.top = `${rel.top}px`;
+        style.top = `${rel.top - arrowAdjust}px`;
         style.right = "auto";
         style.bottom = "auto";
         style.left = `${rel.right + this.offset}px`;
@@ -452,7 +488,7 @@ export class DropdownBase<
       case "right-up":
         style.top = "auto";
         style.right = "auto";
-        style.bottom = `${document.documentElement.offsetHeight - rel.bottom}px`;
+        style.bottom = `${document.documentElement.offsetHeight - rel.bottom - arrowAdjust}px`;
         style.left = `${rel.right + this.offset}px`;
         break;
 
@@ -465,7 +501,7 @@ export class DropdownBase<
         break;
 
       case "left-down":
-        style.top = `${rel.top}px`;
+        style.top = `${rel.top - arrowAdjust}px`;
         style.right = `${document.documentElement.offsetWidth - rel.left + this.offset}px`;
         style.bottom = "auto";
         style.left = "auto";
@@ -474,7 +510,7 @@ export class DropdownBase<
       case "left-up":
         style.top = "auto";
         style.right = `${document.documentElement.offsetWidth - rel.left + this.offset}px`;
-        style.bottom = `${document.documentElement.offsetHeight - rel.bottom}px`;
+        style.bottom = `${document.documentElement.offsetHeight - rel.bottom - arrowAdjust}px`;
         style.left = "auto";
         break;
 
@@ -502,6 +538,7 @@ export class DropdownBase<
     rel: any,
     el: HTMLElement,
     noAuto: boolean,
+    arrowAdjust: number = 0,
   ): void {
     var viewport = getViewportRect(this.screenPadding);
 
@@ -532,11 +569,11 @@ export class DropdownBase<
 
       case "down-right":
         style.right = "auto";
-        style.left = `0`;
+        style.left = `${-arrowAdjust}px`;
         break;
 
       case "down-left":
-        style.right = `0`;
+        style.right = `${-arrowAdjust}px`;
         style.left = "auto";
         break;
 
@@ -548,11 +585,11 @@ export class DropdownBase<
 
       case "up-right":
         style.right = "auto";
-        style.left = `0`;
+        style.left = `${-arrowAdjust}px`;
         break;
 
       case "up-left":
-        style.right = `0`;
+        style.right = `${-arrowAdjust}px`;
         style.left = "auto";
         break;
 
@@ -565,7 +602,7 @@ export class DropdownBase<
         break;
 
       case "right-down":
-        style.top = `0`;
+        style.top = `${-arrowAdjust}px`;
         style.right = "auto";
         style.bottom = "auto";
         style.left = `${rel.right - rel.left + this.offset}px`;
@@ -574,7 +611,7 @@ export class DropdownBase<
       case "right-up":
         style.top = "auto";
         style.right = "auto";
-        style.bottom = `0`;
+        style.bottom = `${-arrowAdjust}px`;
         style.left = `${rel.right - rel.left + this.offset}px`;
         break;
 
@@ -587,7 +624,7 @@ export class DropdownBase<
         break;
 
       case "left-down":
-        style.top = `0`;
+        style.top = `${-arrowAdjust}px`;
         style.right = `${rel.right - rel.left + this.offset}px`;
         style.bottom = "auto";
         style.left = "auto";
@@ -596,7 +633,7 @@ export class DropdownBase<
       case "left-up":
         style.top = "auto";
         style.right = `${rel.right - rel.left + this.offset}px`;
-        style.bottom = `0`;
+        style.bottom = `${-arrowAdjust}px`;
         style.left = "auto";
         break;
     }
@@ -609,6 +646,7 @@ export class DropdownBase<
     parentBounds: any,
     el: HTMLElement,
     noAuto: boolean,
+    arrowAdjust: number = 0,
   ): void {
     switch (this.positioning) {
       case "absolute":
@@ -619,6 +657,7 @@ export class DropdownBase<
           parentBounds,
           el,
           noAuto,
+          arrowAdjust,
         );
         break;
 
@@ -631,6 +670,7 @@ export class DropdownBase<
             parentBounds,
             el,
             noAuto,
+            arrowAdjust,
           );
         else
           this.applyFixedPositioningPlacementStyles(
@@ -640,6 +680,7 @@ export class DropdownBase<
             parentBounds,
             el,
             noAuto,
+            arrowAdjust,
           );
         break;
 
@@ -651,6 +692,7 @@ export class DropdownBase<
           parentBounds,
           el,
           noAuto,
+          arrowAdjust,
         );
         break;
     }
@@ -914,6 +956,7 @@ DropdownBase.prototype.constrain = false;
 DropdownBase.prototype.positioning = "fixed";
 DropdownBase.prototype.touchFriendly = false;
 DropdownBase.prototype.arrow = false;
+DropdownBase.prototype.alignArrow = false;
 DropdownBase.prototype.pad = false;
 DropdownBase.prototype.elementExplode = 0;
 DropdownBase.prototype.closeOnScrollDistance = 50;

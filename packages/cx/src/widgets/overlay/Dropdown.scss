@@ -96,11 +96,11 @@
    .#{$state}place-right-down,
    .#{$state}place-left-down {
       & > .#{$element}#{$name}-arrow-fill {
-         top: $cx-default-dropdown-arrow-offset;
+         top: var(--cx-scss-dropdown-arrow-offset);
       }
 
       & > .#{$element}#{$name}-arrow-border {
-         top: $cx-default-dropdown-arrow-offset;
+         top: var(--cx-scss-dropdown-arrow-offset);
       }
    }
 
@@ -108,7 +108,7 @@
    .#{$state}place-left-up {
       & > .#{$element}#{$name}-arrow-fill,
       & > .#{$element}#{$name}-arrow-border {
-         top: cx-calc(100%, cx-multiply($cx-default-dropdown-arrow-offset, -1));
+         top: calc(100% - var(--cx-scss-dropdown-arrow-offset));
       }
    }
 
@@ -156,18 +156,18 @@
    .#{$state}place-up-right {
       & > .#{$element}#{$name}-arrow-fill,
       & > .#{$element}#{$name}-arrow-border {
-         left: $cx-default-dropdown-arrow-offset;
+         left: var(--cx-scss-dropdown-arrow-offset);
       }
    }
 
    .#{$state}place-down-left,
    .#{$state}place-up-left {
       & > .#{$element}#{$name}-arrow-fill {
-         left: cx-calc(100%, cx-multiply($cx-default-dropdown-arrow-offset, -1));
+         left: calc(100% - var(--cx-scss-dropdown-arrow-offset));
       }
 
       & > .#{$element}#{$name}-arrow-border {
-         left: cx-calc(100%, cx-multiply($cx-default-dropdown-arrow-offset, -1));
+         left: calc(100% - var(--cx-scss-dropdown-arrow-offset));
       }
    }
 }
@@ -187,6 +187,7 @@
       display: block;
       left: -10000px;
       top: -10000px;
+      --cx-scss-dropdown-arrow-offset: var(--cx-js-dropdown-arrow-offset, #{$cx-default-dropdown-arrow-offset});
 
       @include cx-add-rules($styles);
 

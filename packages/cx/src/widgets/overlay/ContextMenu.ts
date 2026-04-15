@@ -20,6 +20,7 @@ ContextMenu.prototype.offset = 0;
 ContextMenu.prototype.autoFocus = true;
 ContextMenu.prototype.autoFocusFirstChild = false;
 ContextMenu.prototype.focusable = true;
+ContextMenu.prototype.alignArrow = true;
 
 Localization.registerPrototype("cx/widgets/ContextMenu", ContextMenu);
 
