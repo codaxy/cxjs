@@ -11,12 +11,14 @@ CxJS Skill is a specialized Claude Code skill designed to help developers work e
 ## Key Features
 
 ### 🎯 TypeScript First
+
 - All code generation in TypeScript with proper types
 - Type-safe accessor chains and store bindings
 - Interface definitions for props and data models
 - No `any` types - leverages TypeScript's full power
 
 ### 🎨 Modern Layout Patterns
+
 - **Avoids outdated FlexRow/FlexCol components**
 - Automatically detects Tailwind CSS availability
 - Uses Tailwind utility classes when available
@@ -24,12 +26,14 @@ CxJS Skill is a specialized Claude Code skill designed to help developers work e
 - Semantic HTML and CSS-first approach
 
 ### 🔍 Intelligent Pattern Recognition
+
 - Identifies outdated patterns in existing code
 - Suggests modern refactoring approaches
 - Detects anti-patterns and provides solutions
 - Validates proper use of CxJS features
 
 ### 🛠️ Component Generation
+
 - Generates functional components with TypeScript
 - Proper data binding with typed accessors
 - Controller setup for computed values
@@ -37,12 +41,14 @@ CxJS Skill is a specialized Claude Code skill designed to help developers work e
 - Grid configurations with CRUD operations
 
 ### 💾 Store Management
+
 - Typed store structures
 - Namespaced organization
 - Computed values via controllers
 - Reactive binding patterns
 
 ### 🐛 Debugging Support
+
 - Common CxJS issue identification
 - Step-by-step debugging strategies
 - Performance optimization suggestions
@@ -74,26 +80,31 @@ cp /path/to/cxjs-skill/prompts/cxjs.md .claude/commands/
 Invoke the skill using the `/cxjs` command:
 
 ### Code Analysis
+
 ```
 /cxjs Analyze the UserProfile component for improvements
 ```
 
 ### Component Generation
+
 ```
 /cxjs Create a TypeScript Grid component with CRUD for managing users
 ```
 
 ### Refactoring
+
 ```
 /cxjs Refactor this form to use modern patterns and TypeScript
 ```
 
 ### Debugging
+
 ```
 /cxjs Why isn't my store binding updating the UI?
 ```
 
 ### Layout Migration
+
 ```
 /cxjs Convert these FlexRow components to modern Tailwind layout
 ```
@@ -101,18 +112,21 @@ Invoke the skill using the `/cxjs` command:
 ## What Makes This Skill Different
 
 ### Modern Standards
+
 - **No FlexRow/FlexCol**: Uses modern CSS or Tailwind instead
 - **TypeScript mandatory**: All code generation uses proper types
-- **new.cxjs.io**: References the latest CxJS documentation
+- **cxjs.io**: References the latest CxJS documentation
 - **Smart detection**: Automatically adapts to your project setup
 
 ### Context-Aware
+
 - Detects if Tailwind is available in your project
 - Matches existing code conventions
 - Suggests project-specific improvements
 - Provides before/after examples
 
 ### Quality Focused
+
 - Maintainable, readable code
 - Proper error handling
 - Performance considerations
@@ -122,18 +136,22 @@ Invoke the skill using the `/cxjs` command:
 ## Examples
 
 ### Before (Outdated Pattern)
-```javascript
-import { FlexRow } from 'cx/widgets';
 
-export default <cx>
-  <FlexRow spacing>
-    <TextField value:bind="name" />
-    <Button>Save</Button>
-  </FlexRow>
-</cx>
+```javascript
+import { FlexRow } from "cx/widgets";
+
+export default (
+  <cx>
+    <FlexRow spacing>
+      <TextField value:bind="name" />
+      <Button>Save</Button>
+    </FlexRow>
+  </cx>
+);
 ```
 
 ### After (Modern TypeScript + Tailwind)
+
 ```typescript
 import { cx, TextField, Button } from 'cx/widgets';
 import { bind } from 'cx/ui';
@@ -153,8 +171,9 @@ export const UserForm = ({ onSave }: UserFormProps) => (
 ```
 
 ### TypeScript Controller
+
 ```typescript
-import { Controller } from 'cx/ui';
+import { Controller } from "cx/ui";
 
 interface UserData {
   firstName: string;
@@ -166,8 +185,8 @@ export class UserController extends Controller {
     this.store.init<string>(
       "$page.fullName",
       this.computable("$page.user", (user: UserData) =>
-        `${user.firstName} ${user.lastName}`.trim()
-      )
+        `${user.firstName} ${user.lastName}`.trim(),
+      ),
     );
   }
 }
@@ -177,7 +196,7 @@ See the [examples](./examples/) directory for more use cases.
 
 ## Documentation
 
-- **CxJS Official Docs**: [new.cxjs.io](https://new.cxjs.io)
+- **CxJS Official Docs**: [cxjs.io](https://cxjs.io)
 - **Framework Repository**: [github.com/codaxy/cxjs](https://github.com/codaxy/cxjs)
 - **CxJS Gallery**: [cxjs.io/gallery](https://cxjs.io/gallery)
 
@@ -191,6 +210,7 @@ See the [examples](./examples/) directory for more use cases.
 ## What the Skill Does
 
 ### ✅ DO
+
 - Generate TypeScript code with proper types
 - Use Tailwind classes (if available) or modern CSS
 - Create functional components
@@ -201,6 +221,7 @@ See the [examples](./examples/) directory for more use cases.
 - Suggest performance optimizations
 
 ### ❌ DON'T
+
 - Use FlexRow or FlexCol components
 - Generate JavaScript without types
 - Use `any` type
@@ -234,7 +255,7 @@ To modify this skill:
 
 - **Issues**: [GitHub Issues](https://github.com/codaxy/cxjs-skill/issues)
 - **CxJS Discord**: [discord.gg/cxjs](https://discord.gg/cxjs)
-- **Documentation**: [new.cxjs.io](https://new.cxjs.io)
+- **Documentation**: [cxjs.io](https://cxjs.io)
 
 ## Roadmap
 
@@ -259,6 +280,6 @@ Built for the CxJS community. Thanks to all contributors and the CxJS framework 
 ## Related Resources
 
 - [CxJS Framework](https://github.com/codaxy/cxjs)
-- [CxJS Documentation](https://new.cxjs.io)
+- [CxJS Documentation](https://cxjs.io)
 - [CxJS Gallery](https://cxjs.io/gallery)
 - [CxJS Fiddle](https://cxjs.io/fiddle)

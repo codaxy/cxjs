@@ -22,7 +22,7 @@ export default defineConfig({
       title: "CxJS",
       description:
         "CxJS is a feature-rich JavaScript (TypeScript) framework for building complex web front-ends, such as portals, dashboards and admin applications.",
-      site: "https://new.cxjs.io",
+      site: "https://cxjs.io",
     }),
   ],
   trailingSlash: "never",
