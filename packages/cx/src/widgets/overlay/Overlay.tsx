@@ -278,6 +278,7 @@ export class OverlayBase<
 
       return (
          <OverlayComponent
+            key={key}
             beaconEl={null}
             instance={instance}
             subscribeToBeforeDismiss={context.options.subscribeToBeforeDismiss}

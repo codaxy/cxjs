@@ -35,39 +35,45 @@ export function getAvailableShapes(): string[] {
 }
 
 export function circle(cx: number, cy: number, size: number, props?: Config, options?: Config): React.ReactElement {
-   return <circle {...props} cx={cx} cy={cy} r={size / 2} />;
+   const { key, ...rest } = props ?? {};
+   return <circle key={key} {...rest} cx={cx} cy={cy} r={size / 2} />;
 }
 registerShape("circle", circle);
 
 export function square(cx: number, cy: number, size: number, props?: Config, options?: Config): React.ReactElement {
    size *= 0.9;
-   return <rect {...props} x={cx - size / 2} y={cy - size / 2} width={size} height={size} />;
+   const { key, ...rest } = props ?? {};
+   return <rect key={key} {...rest} x={cx - size / 2} y={cy - size / 2} width={size} height={size} />;
 }
 registerShape("square", square);
 registerShape("rect", square);
 
 export function bar(cx: number, cy: number, size: number, props?: Config, options?: Config): React.ReactElement {
    size *= 0.9;
-   return <rect {...props} x={cx - size / 2} y={cy - size / 4} width={size} height={size / 2} />;
+   const { key, ...rest } = props ?? {};
+   return <rect key={key} {...rest} x={cx - size / 2} y={cy - size / 4} width={size} height={size / 2} />;
 }
 registerShape("bar", bar);
 
 export function column(cx: number, cy: number, size: number, props?: Config, options?: Config): React.ReactElement {
    size *= 0.9;
-   return <rect {...props} x={cx - size / 4} y={cy - size / 2} width={size / 2} height={size} />;
+   const { key, ...rest } = props ?? {};
+   return <rect key={key} {...rest} x={cx - size / 4} y={cy - size / 2} width={size / 2} height={size} />;
 }
 registerShape("column", column);
 
 export function line(cx: number, cy: number, size: number, props?: Config, options?: Config): React.ReactElement {
    size *= 0.9;
-   return <line {...props} x1={cx - size / 2} y1={cy} x2={cx + size / 2} y2={cy} />;
+   const { key, ...rest } = props ?? {};
+   return <line key={key} {...rest} x1={cx - size / 2} y1={cy} x2={cx + size / 2} y2={cy} />;
 }
 registerShape("line", line);
 registerShape("hline", line);
 
 export function vline(cx: number, cy: number, size: number, props?: Config, options?: Config): React.ReactElement {
    size *= 0.9;
-   return <line {...props} x1={cx} y1={cy - size / 2} x2={cx} y2={cy + size / 2} />;
+   const { key, ...rest } = props ?? {};
+   return <line key={key} {...rest} x1={cx} y1={cy - size / 2} x2={cx} y2={cy + size / 2} />;
 }
 registerShape("vline", vline);
 
@@ -80,7 +86,8 @@ export function triangle(cx: number, cy: number, size: number, props?: Config, o
    d += `L ${cx + (cos * size) / 2} ${cy + (sin * size) / 2} `;
    d += `L ${cx - (cos * size) / 2} ${cy + (sin * size) / 2} `;
    d += `Z`;
-   return <path {...props} d={d} />;
+   const { key, ...rest } = props ?? {};
+   return <path key={key} {...rest} d={d} />;
 }
 
 registerShape("triangle", triangle);
