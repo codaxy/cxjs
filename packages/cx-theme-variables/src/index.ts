@@ -10,11 +10,6 @@ export * from "./presets";
 export function applyThemeOverrides() {
    OverlayBase.configureOverlayContainer = configureOverlayContainer;
 
-   Localization.override("cx/widgets/Window", {
-      animate: true,
-      destroyDelay: 200,
-   });
-
    Localization.override("cx/widgets/DateTimeField", {
       dropdownOptions: {
          arrow: true,
