@@ -4,7 +4,7 @@ module.exports = function (production) {
       cacheIdentifier: "v15",
       plugins: [],
       presets: [
-         "@babel/preset-typescript",
+         ["@babel/preset-typescript", { allowDeclareFields: true }],
          [
             "cx-env",
             {

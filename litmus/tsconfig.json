@@ -7,12 +7,6 @@
     "module": "es2015",
     "sourceMap": false,
     "jsxFactory": "cx",
-    "baseUrl": ".",
-    "paths": {
-      "cx": ["../packages/cx"],
-      "cx-react": ["../packages/cx-react"],
-      "cx-immer": ["../packages/cx-immer"]
-    },
     "outDir": "./build/"
   },
   "exclude": ["node_modules", "./babel-config.js", "./webpack.config.js"]
