@@ -19,11 +19,12 @@ export class AugmentedViewBase<D = any> extends View<D> {
       let parentStoreData = this.store.getData();
       let result = this.getBaseData(parentStoreData);
       this.embedAugmentData(result, parentStoreData);
-      this.cache.result = result;
-      this.cache.parentStoreData = parentStoreData;
-      this.cache.version = this.meta.version;
+      if (this.sealed) {
+         this.cache.result = result;
+         this.cache.version = this.meta.version;
+      }
       this.meta = this.store.meta;
-      return this.cache.result;
+      return result;
    }
 
    protected getBaseData(parentStoreData: any): any {
