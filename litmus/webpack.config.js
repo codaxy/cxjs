@@ -6,7 +6,9 @@ const webpack = require("webpack"),
    path = require("path"),
    babelConfig = require("./babel-config");
 
-let production = process.env.npm_lifecycle_event && process.env.npm_lifecycle_event.indexOf("build") == 0;
+module.exports = (env, argv) => {
+let production = (argv && argv.mode === "production")
+   || (process.env.npm_lifecycle_event && process.env.npm_lifecycle_event.indexOf("build") == 0);
 
 let common = {
    resolve: {
@@ -78,89 +80,39 @@ let common = {
 
 let specific;
 
-if (production) {
-   let sass = new ExtractTextPlugin({
-      filename: "app.css",
-      allChunks: true,
-   });
-   specific = {
-      mode: "production",
-      target: ["web", "es5"], //IE 11
-      module: {
-         rules: [
-            {
-               test: /\.scss$/,
-               loaders: sass.extract(["css-loader", "sass-loader"]),
-            },
-            {
-               test: /\.css$/,
-               loaders: sass.extract(["css-loader"]),
-            },
-         ],
-      },
-
-      plugins: [
-         new webpack.DefinePlugin({
-            "process.env.NODE_ENV": JSON.stringify("production"),
-         }),
-
-         new webpack.optimize.UglifyJsPlugin({
-            compress: true,
-            mangle: false,
-            beautify: true,
-         }),
-
-         // new BabiliPlugin({ mangle: false }),
-
-         //new webpack.optimize.ModuleConcatenationPlugin(),
-         sass,
-         new BundleAnalyzerPlugin(),
+specific = {
+   mode: production ? "production" : "development",
+   module: {
+      rules: [
+         {
+            test: /\.scss$/,
+            use: ["style-loader", "css-loader", "sass-loader"],
+         },
+         {
+            test: /\.css$/,
+            use: ["style-loader", "css-loader"],
+         },
       ],
+   },
+   plugins: [
+      new webpack.DefinePlugin({
+         "process.env.NODE_ENV": JSON.stringify(production ? "production" : "development"),
+         "process.env.NODE_DEBUG": JSON.stringify(false),
+      }),
+   ],
+   output: {
+      publicPath: "/",
+   },
+   performance: {
+      hints: false,
+   },
+   devtool: production ? false : "eval",
+   devServer: {
+      hot: !production,
+      port: 8085,
+      historyApiFallback: true,
+   },
+};
 
-      output: {
-         path: path.join(__dirname, "dist"),
-         publicPath: ".",
-      },
-   };
-} else {
-   specific = {
-      module: {
-         rules: [
-            {
-               test: /\.scss$/,
-               use: ["style-loader", "css-loader", "sass-loader"],
-            },
-            {
-               test: /\.css$/,
-               use: ["style-loader", "css-loader"],
-            },
-         ],
-      },
-      mode: "development",
-      //target: ["web", "es5"], //Uncomment for IE testing
-      plugins: [
-         new webpack.DefinePlugin({
-            "process.env.NODE_ENV": JSON.stringify("development"),
-            "process.env.NODE_DEBUG": JSON.stringify(false),
-         }),
-      ],
-      output: {
-         publicPath: "/",
-      },
-      performance: {
-         hints: false,
-      },
-      devtool: "eval",
-      devServer: {
-         //contentBase: "/",
-         hot: true,
-         port: 8085,
-         //noInfo: false,
-         //inline: true,
-         historyApiFallback: true,
-         //quiet: true
-      },
-   };
-}
-
-module.exports = merge(common, specific);
+return merge(common, specific);
+};

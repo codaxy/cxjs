@@ -3,7 +3,8 @@
   "private": true,
   "version": "1.0.0",
   "scripts": {
-    "start": "webpack-dev-server --open"
+    "start": "webpack-dev-server --open",
+    "start:prod": "webpack serve --mode production --open"
   },
   "dependencies": {
     "casual": "^1.6.2",
