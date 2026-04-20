@@ -1099,9 +1099,12 @@ class LookupComponent extends VDOM.Component<
         text = this.getPlaceholder(data.placeholder);
       }
     } else {
-      text = !data.empty
+      let content = !data.empty
         ? data.text || this.getPlaceholder()
         : this.getPlaceholder(data.placeholder);
+      text = (
+        <span className={CSS.element(baseClass, "text")}>{content}</span>
+      );
     }
 
     let states = {
