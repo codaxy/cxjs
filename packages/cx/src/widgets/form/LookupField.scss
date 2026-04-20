@@ -65,6 +65,7 @@
          $overrides: (
             default: (
                width: 100%,
+               // inline-flex preserves baseline alignment with sibling fields/buttons; ellipsis is applied on the inner -text span
                display: inline-flex,
                text-overflow: null,
                padding: cx-top($padding)
@@ -75,9 +76,6 @@
       );
 
       .#{$state}single > & {
-         overflow: hidden;
-         text-overflow: ellipsis;
-         white-space: nowrap;
          flex-basis: 0%;
          flex-grow: 1;
       }
@@ -85,6 +83,15 @@
       .#{$state}icon > & {
          padding-left: cx-calc(cx-top($padding), $cx-default-input-left-tool-size, $cx-default-input-left-tool-spacing);
       }
+   }
+
+   .#{$element}#{$name}-text {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      min-width: 0;
+      flex-basis: 0%;
+      flex-grow: 1;
    }
 
    .#{$element}#{$name}-tags {
