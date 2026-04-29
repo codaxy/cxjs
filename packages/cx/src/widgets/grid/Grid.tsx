@@ -405,7 +405,7 @@ export interface GridConfig<T = any> extends StyledContainerConfig {
    onColumnContextMenu?: string | ((e: React.MouseEvent<any>, columnInstance: Instance) => void);
 
    /** Callback to create a filter function for given filter params. */
-   onCreateFilter?: (filterParams: any, instance?: Instance) => (record: T) => boolean;
+   onCreateFilter?: (filterParams: any, instance?: Instance) => undefined | null | ((record: T) => boolean);
 
    /** Enable infinite scrolling */
    infinite?: boolean;
