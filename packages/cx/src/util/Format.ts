@@ -5,6 +5,7 @@ import { isUndefined } from "../util/isUndefined";
 import { isArray } from "../util/isArray";
 import { capitalize } from "./capitalize";
 import { parseDateInvariant } from "./date/parseDateInvariant";
+import { dayBefore } from "./date/dayBefore";
 
 //Culture dependent formatters are defined in the ui package.
 
@@ -98,6 +99,11 @@ let formatFactory: Record<string, (...args: any[]) => (value: any) => string> = 
       return (value: any) => date(value) + " " + time(value);
    },
 
+   dayBefore: function () {
+      let datetime = formatFactory.datetime();
+      return (value: any) => datetime(dayBefore(parseDateInvariant(value)));
+   },
+
    ellipsis: function (part0, length, where) {
       length = Number(length);
       if (!(length > 3)) length = 10;
@@ -168,6 +174,7 @@ formatFactory.ps = formatFactory.percentageSign;
 formatFactory.d = formatFactory.date;
 formatFactory.t = formatFactory.time;
 formatFactory.dt = formatFactory.datetime;
+formatFactory.daybefore = formatFactory.dayBefore;
 formatFactory.zeropad = formatFactory.zeroPad;
 formatFactory.leftpad = formatFactory.leftPad;
 formatFactory.capitalize = formatFactory.capitalize;

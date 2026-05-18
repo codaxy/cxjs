@@ -2,7 +2,7 @@ import { Culture, getCurrentCultureCache } from "./Culture";
 import { Format as Fmt, resolveMinMaxFractionDigits, setGetFormatCacheCallback } from "../util/Format";
 import { setGetExpressionCacheCallback } from "../data/Expression";
 import { setGetStringTemplateCacheCallback } from "../data/StringTemplate";
-import { parseDateInvariant } from "../util";
+import { dayBefore, parseDateInvariant } from "../util";
 import { GlobalCacheIdentifier } from "../util/GlobalCacheIdentifier";
 
 export const Format = Fmt;
@@ -84,6 +84,12 @@ export function enableCultureSensitiveFormatting() {
       let culture = Culture.getDateTimeCulture();
       let formatter = culture.getFormatter(format);
       return (value: any) => formatter.format(parseDateInvariant(value));
+   });
+
+   Fmt.registerFactory(["dayBefore", "daybefore"], (fmt: any, format = "yyyyMd hhmm") => {
+      let culture = Culture.getDateTimeCulture();
+      let formatter = culture.getFormatter(format);
+      return (value: any) => formatter.format(dayBefore(parseDateInvariant(value)));
    });
 
    setGetFormatCacheCallback(() => {
