@@ -47,6 +47,17 @@ describe("Format", function () {
       });
    });
 
+   describe("daybefore", function () {
+      it("formats the date shifted back by one day", function () {
+         assert.equal(Format.value(new Date(2015, 3, 1, 5, 6, 14), "daybefore"), "3/31/2015 05:06");
+         assert.equal(Format.value(new Date(2015, 3, 1, 5, 6, 14), "dayBefore"), "3/31/2015 05:06");
+      });
+
+      it("steps back across month and year boundaries", function () {
+         assert.equal(Format.value(new Date(2021, 0, 1), "daybefore"), "12/31/2020 00:00");
+      });
+   });
+
    describe("ellipsis", function () {
       it("can shorten long texts", function () {
          assert.equal(Format.value("This is a very long text.", "ellipsis;7"), "This...");

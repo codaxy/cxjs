@@ -168,6 +168,15 @@ Date and time patterns can be combined: `d;yyyyMMddHHmm` formats both date and t
 
 For more details on culture-sensitive formatting, see [intl-io](https://github.com/codaxy/intl-io).
 
+### Day-Before Format
+
+The `daybefore` format renders a date shifted back by one calendar day. It accepts the same pattern argument as `datetime`, which makes it convenient for displaying the *exclusive* end of a date range as an inclusive value — for example, a period running from `2020-01-01` up to (but not including) `2021-01-01` can be shown as `Dec 2020`.
+
+| Format               | Example Input | Example Output |
+| -------------------- | ------------- | -------------- |
+| `daybefore;MMM yyyy` | `2021-01-01`  | `Dec 2020`     |
+| `daybefore;yyyyMMdd` | `2021-01-01`  | `12/31/2020`   |
+
 ## Programmatic Formatting
 
 Use `Format.value()` to format values in code:
