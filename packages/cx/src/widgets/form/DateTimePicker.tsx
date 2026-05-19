@@ -52,6 +52,18 @@ DateTimePicker.prototype.size = 3;
 DateTimePicker.prototype.autoFocus = false;
 DateTimePicker.prototype.segment = "datetime";
 DateTimePicker.prototype.showSeconds = false;
+
+// Builds the option spans for a numeric wheel. The list is three times the
+// value range — a lead range, the visible range, and a trail range — so a
+// scroll keeps a full range of headroom on each side before it must recentre.
+// The current value is centred by passing `index = value + range`; a scroll
+// that lands outside the centre range [range, 2*range) recentres the wheel.
+function buildNumberWheel(range: number, startAt: number): React.ReactNode[] {
+  return Array.from({ length: range * 3 }, (_, j) => (
+    <span key={j}>{String((j % range) + startAt).padStart(2, "0")}</span>
+  ));
+}
+
 interface DateTimePickerComponentProps {
   instance: Instance;
   data: Record<string, unknown>;
@@ -80,6 +92,7 @@ class DateTimePickerComponent extends VDOM.Component<
   declare hours: any[];
   declare minutes: any[];
   declare century: number;
+  declare firstYear: number;
   declare numberOfDaysInMonth: number;
 
   constructor(props: DateTimePickerComponentProps) {
@@ -176,72 +189,36 @@ class DateTimePickerComponent extends VDOM.Component<
     let culture = Culture.getDateTimeCulture();
     let monthNames = culture.getMonthNames("short");
 
-    let years = [];
-    if (!this.years || this.century !== ((date.getFullYear() / 100) | 0)) {
-      this.century = (date.getFullYear() / 100) | 0;
-
-      for (
-        let y = this.century * 100 - 3;
-        y <= (this.century + 1) * 100 + 5;
-        y++
-      )
-        years.push(<span key={y}>{y}</span>);
-      this.years = years;
-    } else {
-      years = this.years;
+    // Years: a window spanning the current century, rebuilt when it changes.
+    let currentCentury = (date.getFullYear() / 100) | 0;
+    if (!this.years || this.century !== currentCentury) {
+      this.century = currentCentury;
+      this.firstYear = currentCentury * 100 - 3;
+      let lastYear = (currentCentury + 1) * 100 + 5;
+      this.years = [];
+      for (let y = this.firstYear; y <= lastYear; y++)
+        this.years.push(<span key={y}>{y}</span>);
     }
+    let years = this.years;
 
-    let days = [];
-    const daysInThisMonth = new Date(
+    // Day/hour/minute wheels use a 3x buffer (see buildNumberWheel). The day
+    // buffer depends on the month length, so it is rebuilt when that changes.
+    const numberOfDaysInMonth = new Date(
       date.getFullYear(),
       date.getMonth() + 1,
       0,
     ).getDate();
-    this.numberOfDaysInMonth ??= daysInThisMonth;
-
-    if (!this.days || this.numberOfDaysInMonth !== daysInThisMonth) {
-      days = Array.from({ length: 5 }, (_, d) => (
-        <span key={d}>
-          {daysInThisMonth - 4 + d < 10
-            ? "0" + (daysInThisMonth - 4 + d)
-            : daysInThisMonth - 4 + d}
-        </span>
-      ));
-      days.push(
-        ...Array.from({ length: 36 }, (_, d) => (
-          <span key={d + 5}>
-            {(d % daysInThisMonth) + 1 < 10
-              ? "0" + ((d % daysInThisMonth) + 1)
-              : (d % daysInThisMonth) + 1}
-          </span>
-        )),
-      );
-
-      this.days = days;
-      this.numberOfDaysInMonth = daysInThisMonth;
-    } else {
-      days = this.days;
+    if (!this.days || this.numberOfDaysInMonth !== numberOfDaysInMonth) {
+      this.numberOfDaysInMonth = numberOfDaysInMonth;
+      this.days = buildNumberWheel(numberOfDaysInMonth, 1);
     }
+    let days = this.days;
 
-    let hours = [];
-    if (!this.hours) {
-      hours = Array.from({ length: 52 }, (_, h) => (
-        <span key={h}>{h % 24 < 10 ? "0" + (h % 24) : h % 24}</span>
-      ));
-      this.hours = hours;
-    } else {
-      hours = this.hours;
-    }
+    if (!this.hours) this.hours = buildNumberWheel(24, 0);
+    let hours = this.hours;
 
-    let minutes = [];
-    if (!this.minutes) {
-      minutes = Array.from({ length: 130 }, (_, h) => (
-        <span key={h}>{h % 60 < 10 ? "0" + (h % 60) : h % 60}</span>
-      ));
-      this.minutes = minutes;
-    } else {
-      minutes = this.minutes;
-    }
+    if (!this.minutes) this.minutes = buildNumberWheel(60, 0);
+    let minutes = this.minutes;
 
     return (
       <div
@@ -261,14 +238,14 @@ class DateTimePickerComponent extends VDOM.Component<
             CSS={CSS}
             active={this.state.activeWheel === "year"}
             baseClass={baseClass + "-wheel"}
-            index={date.getFullYear() - Number(this.years[0].key)}
+            index={date.getFullYear() - this.firstYear}
             onChange={(newIndex) => {
               this.setState(
                 (state) => ({
                   date: this.setDateComponent(
-                    this.state.date,
+                    state.date,
                     "year",
-                    newIndex + Number(this.years[0].key),
+                    newIndex + this.firstYear,
                   ),
                 }),
                 this.handleChange,
@@ -295,11 +272,7 @@ class DateTimePickerComponent extends VDOM.Component<
             onChange={(newIndex) => {
               this.setState(
                 (state) => ({
-                  date: this.setDateComponent(
-                    this.state.date,
-                    "month",
-                    newIndex,
-                  ),
+                  date: this.setDateComponent(state.date, "month", newIndex),
                 }),
                 this.handleChange,
               );
@@ -324,23 +297,19 @@ class DateTimePickerComponent extends VDOM.Component<
             CSS={CSS}
             active={this.state.activeWheel === "date"}
             baseClass={baseClass + "-wheel"}
-            index={date.getDate() + 4}
-            onChange={(newDate) => {
-              newDate -= 5;
-              if (newDate < 0) {
-                newDate += this.numberOfDaysInMonth;
-              } else {
-                newDate = newDate % this.numberOfDaysInMonth;
-              }
-
+            index={date.getDate() - 1 + this.numberOfDaysInMonth}
+            onChange={(rawIndex) => {
+              let range = this.numberOfDaysInMonth;
+              let day = rawIndex % range;
               this.setState(
                 (state) => ({
-                  date: this.setDateComponent(state.date, "date", newDate + 1),
+                  date: this.setDateComponent(state.date, "date", day + 1),
+                  // Recentre the wheel when the scroll lands outside the
+                  // centre range [range, 2*range) of the 3x buffer.
                   daysResetKey:
-                    ((state.date.getDate() - 1) ^ newDate) ===
-                    this.numberOfDaysInMonth - 1
-                      ? state.daysResetKey + 1
-                      : state.daysResetKey,
+                    rawIndex === day + range
+                      ? state.daysResetKey
+                      : state.daysResetKey + 1,
                 }),
                 this.handleChange,
               );
@@ -366,16 +335,15 @@ class DateTimePickerComponent extends VDOM.Component<
             active={this.state.activeWheel === "hours"}
             baseClass={baseClass + "-wheel"}
             index={date.getHours() + 24}
-            onChange={(newIndex) => {
-              const newHour = newIndex % 24;
-
+            onChange={(rawIndex) => {
+              let hour = rawIndex % 24;
               this.setState(
-                (s) => ({
-                  date: this.setDateComponent(s.date, "hours", newHour),
+                (state) => ({
+                  date: this.setDateComponent(state.date, "hours", hour),
                   hoursResetKey:
-                    (s.date.getHours() ^ newHour) == 23
-                      ? s.hoursResetKey + 1
-                      : s.hoursResetKey,
+                    rawIndex === hour + 24
+                      ? state.hoursResetKey
+                      : state.hoursResetKey + 1,
                 }),
                 this.handleChange,
               );
@@ -399,19 +367,15 @@ class DateTimePickerComponent extends VDOM.Component<
             baseClass={baseClass + "-wheel"}
             active={this.state.activeWheel === "minutes"}
             index={date.getMinutes() + 60}
-            onChange={(newIndex) => {
-              const newMinutes = newIndex % 60;
+            onChange={(rawIndex) => {
+              let minute = rawIndex % 60;
               this.setState(
                 (state) => ({
-                  date: this.setDateComponent(
-                    state.date,
-                    "minutes",
-                    newMinutes,
-                  ),
+                  date: this.setDateComponent(state.date, "minutes", minute),
                   minutesResetKey:
-                    (state.date.getMinutes() ^ newMinutes) == 59
-                      ? state.minutesResetKey + 1
-                      : state.minutesResetKey,
+                    rawIndex === minute + 60
+                      ? state.minutesResetKey
+                      : state.minutesResetKey + 1,
                 }),
                 this.handleChange,
               );
@@ -435,19 +399,15 @@ class DateTimePickerComponent extends VDOM.Component<
             baseClass={baseClass + "-wheel"}
             active={this.state.activeWheel === "seconds"}
             index={date.getSeconds() + 60}
-            onChange={(newIndex) => {
-              const newSeconds = newIndex % 60;
+            onChange={(rawIndex) => {
+              let second = rawIndex % 60;
               this.setState(
                 (state) => ({
-                  date: this.setDateComponent(
-                    state.date,
-                    "seconds",
-                    newSeconds,
-                  ),
+                  date: this.setDateComponent(state.date, "seconds", second),
                   secondsResetKey:
-                    (state.date.getSeconds() ^ newSeconds) == 59
-                      ? state.secondsResetKey + 1
-                      : state.secondsResetKey,
+                    rawIndex === second + 60
+                      ? state.secondsResetKey
+                      : state.secondsResetKey + 1,
                 }),
                 this.handleChange,
               );
