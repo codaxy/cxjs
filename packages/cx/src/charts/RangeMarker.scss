@@ -1,4 +1,7 @@
 @use "sass:map";
+@use "../util/scss/besm.scss" as *;
+@use "../util/scss/include.scss" as *;
+@use "./variables" as *;
 
 @mixin cx-rangemarker($name: "rangemarker", $besm: $cx-besm, $range-marker-color: $cx-default-range-marker-color) {
    $block: map.get($besm, block);
