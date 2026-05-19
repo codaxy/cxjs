@@ -53,14 +53,12 @@ DateTimePicker.prototype.autoFocus = false;
 DateTimePicker.prototype.segment = "datetime";
 DateTimePicker.prototype.showSeconds = false;
 
-// Builds the option spans for a numeric wheel. The list is three times the
-// value range — a lead range, the visible range, and a trail range — so a
-// scroll keeps a full range of headroom on each side before it must recentre.
-// The current value is centred by passing `index = value + range`; a scroll
-// that lands outside the centre range [range, 2*range) recentres the wheel.
+// Builds the option spans for a numeric wheel — one zero-padded span per value.
+// Pass the result to a WheelComponent with `cycle` set to make it scroll
+// endlessly; centre the current value by passing `index = value + range`.
 function buildNumberWheel(range: number, startAt: number): React.ReactNode[] {
-  return Array.from({ length: range * 3 }, (_, j) => (
-    <span key={j}>{String((j % range) + startAt).padStart(2, "0")}</span>
+  return Array.from({ length: range }, (_, j) => (
+    <span key={j}>{String(j + startAt).padStart(2, "0")}</span>
   ));
 }
 
@@ -74,10 +72,6 @@ interface DateTimePickerComponentProps {
 interface DateTimePickerComponentState {
   date: Date;
   activeWheel: string | null;
-  daysResetKey: number;
-  hoursResetKey: number;
-  minutesResetKey: number;
-  secondsResetKey: number;
 }
 
 class DateTimePickerComponent extends VDOM.Component<
@@ -104,10 +98,6 @@ class DateTimePickerComponent extends VDOM.Component<
     this.state = {
       date: date,
       activeWheel: null,
-      daysResetKey: 0,
-      hoursResetKey: 0,
-      minutesResetKey: 0,
-      secondsResetKey: 0,
     };
     this.century = (date.getFullYear() / 100) | 0;
 
@@ -292,24 +282,18 @@ class DateTimePickerComponent extends VDOM.Component<
         {this.wheels.month && this.wheels.date && <span>-</span>}
         {this.wheels.date && (
           <WheelComponent
-            key={`days-${this.state.daysResetKey}`}
+            key="date"
             size={size}
             CSS={CSS}
+            cycle
             active={this.state.activeWheel === "date"}
             baseClass={baseClass + "-wheel"}
             index={date.getDate() - 1 + this.numberOfDaysInMonth}
             onChange={(rawIndex) => {
-              let range = this.numberOfDaysInMonth;
-              let day = rawIndex % range;
+              let day = rawIndex % this.numberOfDaysInMonth;
               this.setState(
                 (state) => ({
                   date: this.setDateComponent(state.date, "date", day + 1),
-                  // Recentre the wheel when the scroll lands outside the
-                  // centre range [range, 2*range) of the 3x buffer.
-                  daysResetKey:
-                    rawIndex === day + range
-                      ? state.daysResetKey
-                      : state.daysResetKey + 1,
                 }),
                 this.handleChange,
               );
@@ -329,9 +313,10 @@ class DateTimePickerComponent extends VDOM.Component<
         )}
         {this.wheels.hours && (
           <WheelComponent
-            key={`hours-${this.state.hoursResetKey}`}
+            key="hours"
             size={size}
             CSS={CSS}
+            cycle
             active={this.state.activeWheel === "hours"}
             baseClass={baseClass + "-wheel"}
             index={date.getHours() + 24}
@@ -340,10 +325,6 @@ class DateTimePickerComponent extends VDOM.Component<
               this.setState(
                 (state) => ({
                   date: this.setDateComponent(state.date, "hours", hour),
-                  hoursResetKey:
-                    rawIndex === hour + 24
-                      ? state.hoursResetKey
-                      : state.hoursResetKey + 1,
                 }),
                 this.handleChange,
               );
@@ -361,9 +342,10 @@ class DateTimePickerComponent extends VDOM.Component<
         {this.wheels.hours && this.wheels.minutes && <span>:</span>}
         {this.wheels.minutes && (
           <WheelComponent
-            key={`minutes-${this.state.minutesResetKey}`}
+            key="minutes"
             size={size}
             CSS={CSS}
+            cycle
             baseClass={baseClass + "-wheel"}
             active={this.state.activeWheel === "minutes"}
             index={date.getMinutes() + 60}
@@ -372,10 +354,6 @@ class DateTimePickerComponent extends VDOM.Component<
               this.setState(
                 (state) => ({
                   date: this.setDateComponent(state.date, "minutes", minute),
-                  minutesResetKey:
-                    rawIndex === minute + 60
-                      ? state.minutesResetKey
-                      : state.minutesResetKey + 1,
                 }),
                 this.handleChange,
               );
@@ -393,9 +371,10 @@ class DateTimePickerComponent extends VDOM.Component<
         {this.wheels.minutes && this.wheels.seconds && <span>:</span>}
         {this.wheels.seconds && (
           <WheelComponent
-            key={`seconds-${this.state.secondsResetKey}`}
+            key="seconds"
             size={size}
             CSS={CSS}
+            cycle
             baseClass={baseClass + "-wheel"}
             active={this.state.activeWheel === "seconds"}
             index={date.getSeconds() + 60}
@@ -404,10 +383,6 @@ class DateTimePickerComponent extends VDOM.Component<
               this.setState(
                 (state) => ({
                   date: this.setDateComponent(state.date, "seconds", second),
-                  secondsResetKey:
-                    rawIndex === second + 60
-                      ? state.secondsResetKey
-                      : state.secondsResetKey + 1,
                 }),
                 this.handleChange,
               );
