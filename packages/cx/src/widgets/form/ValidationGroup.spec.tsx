@@ -1,8 +1,9 @@
 import { Store } from "../../data/Store";
 import { ValidationGroup } from "./ValidationGroup";
 import { Validator } from "./Validator";
+import { TextField } from "./TextField";
 import { bind } from "../../ui/bind";
-import { createTestRenderer } from "../../util/test/createTestRenderer";
+import { createTestRenderer, act } from "../../util/test/createTestRenderer";
 
 import assert from "assert";
 
@@ -105,6 +106,34 @@ describe("ValidationGroup", () => {
 
       let tree = component.toJSON();
       assert(visited);
+   });
+
+   it("visited flag changes are propagated to fields after being initialized to false", async () => {
+      let widget = (
+         <cx>
+            <ValidationGroup errors={bind("errors")} visited={bind("form.visited")}>
+               <TextField required value={bind("value1")} />
+            </ValidationGroup>
+         </cx>
+      );
+
+      let store = new Store();
+      //initializing the bound value to false used to shadow later updates
+      store.set("form.visited", false);
+
+      const component = await createTestRenderer(store, widget);
+
+      let errors = store.get("errors");
+      assert.equal(errors.length, 1);
+      assert.equal(errors[0].visited, false);
+
+      await act(async () => {
+         store.set("form.visited", true);
+      });
+
+      errors = store.get("errors");
+      assert.equal(errors.length, 1);
+      assert.equal(errors[0].visited, true);
    });
 
    it("disabled flag can be overruled by the field props", async () => {
