@@ -4,6 +4,24 @@ title: Changelog
 description: Version history and release notes
 ---
 
+## cx\@26.5.1
+
+**Features**
+
+- Added a `daybefore` date format that renders a date shifted back by one calendar day, using the same pattern argument as `datetime` — handy for displaying the exclusive end of a date range as an inclusive value. Also added the `dayBefore` date utility ([#1290](https://github.com/codaxy/cxjs/issues/1290))
+- Added a `quarter` date format that renders the calendar quarter of a date from a string-template pattern (`{q}`, `{yyyy}`, `{yy}`), with an `exclusive` flag for displaying the end of a half-open range. Also added the `dateQuarter` date utility
+- Added a `hideClippedLabels` option to chart axes that drops a first/last label, and its tick, when it would be clipped at the chart edge — enabled by default on `TimeAxis` ([#1291](https://github.com/codaxy/cxjs/issues/1291))
+- `DateTimePicker` date and time wheels now scroll endlessly, so picking values across large ranges no longer hits hard list boundaries
+
+**Fixes**
+
+- `Grid`'s `onCreateFilter` callback may now return `null` to apply no filter
+- Fixed the `ValidationGroup` `visited` flag not propagating to nested fields when a field's own bound data was unchanged ([#1276](https://github.com/codaxy/cxjs/issues/1276))
+- Added the missing SCSS import for the `RangeMarker` chart component — its styles were not being generated
+- Added missing `@use` declarations in `RangeMarker.scss` for `besm`, `include`, and `variables`
+
+---
+
 ## cx\@26.4.4
 
 **Fixes**
