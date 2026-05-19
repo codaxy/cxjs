@@ -1455,6 +1455,16 @@ export const navigation = [
             slug: "parse-date-invariant",
             description: "Parse date in invariant format",
           },
+          {
+            title: "dayBefore",
+            slug: "day-before",
+            description: "Get the previous calendar day",
+          },
+          {
+            title: "dateQuarter",
+            slug: "date-quarter",
+            description: "Get the calendar quarter of a date",
+          },
         ],
       },
       {
