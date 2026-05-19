@@ -1,4 +1,5 @@
 export * from "./dateDiff";
+export * from "./dateQuarter";
 export * from "./dayBefore";
 export * from "./zeroTime";
 export * from "./monthStart";
