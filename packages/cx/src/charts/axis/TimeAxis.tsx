@@ -212,6 +212,7 @@ TimeAxis.prototype.minLabelDistance = 60;
 TimeAxis.prototype.minTickDistance = 60;
 TimeAxis.prototype.minTickUnit = "second";
 TimeAxis.prototype.useLabelDistanceFormatOverrides = false;
+TimeAxis.prototype.hideClippedLabels = true;
 TimeAxis.prototype.minLabelDistanceFormatOverrideDefaults = {
   [TimeFormats.fullDateAndTime]: 150,
   [TimeFormats.shortMonthDate]: 90,

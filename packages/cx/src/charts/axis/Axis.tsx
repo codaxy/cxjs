@@ -74,6 +74,14 @@ export interface AxisConfig extends BoundedObjectConfig {
    /** Set to true to hide the axis labels. */
    hideLabels?: boolean;
 
+   /**
+    * Set to `true` to drop a boundary (first/last) label, together with its tick,
+    * when the label would not fit within the chart and get clipped at the edge.
+    * Minor ticks are unaffected. Only affects horizontal axes. Defaults to `false`,
+    * except on `TimeAxis` where it defaults to `true`.
+    */
+   hideClippedLabels?: boolean;
+
    /** Set to true to hide the axis line. */
    hideLine?: boolean;
 
@@ -131,6 +139,7 @@ export class Axis extends BoundedObject<AxisConfig, AxisInstance> {
    declare inverted: boolean;
    declare hidden: boolean;
    declare hideLabels: boolean;
+   declare hideClippedLabels: boolean;
    declare hideTicks: boolean;
    declare hideLine: boolean;
    declare tickSize: number;
@@ -185,6 +194,7 @@ export class Axis extends BoundedObject<AxisConfig, AxisInstance> {
          {
             anchors: undefined,
             hideLabels: undefined,
+            hideClippedLabels: undefined,
             hideLine: undefined,
             hideTicks: undefined,
             labelRotation: undefined,
@@ -259,9 +269,26 @@ export class Axis extends BoundedObject<AxisConfig, AxisInstance> {
       var t: string[] = [];
       if (!!size && !data.hideLabels) {
          var ticks = calculator.getTicks([size]);
+
+         // A boundary label is dropped when it would be clipped at the chart edge.
+         // How far a label reaches toward an edge depends only on its text anchor
+         // and minLabelDistance, so it is resolved once here rather than per tick.
+         // Chart bounds (parentRect) are used rather than axis bounds, since an
+         // axis can be inset within its chart and one Svg may host several charts.
+         let chartBounds = instance.parentRect;
+         let clipBoundaryLabels = !this.vertical && !!data.hideClippedLabels && !!chartBounds;
+         let reach = minLabelDistance * 0.8;
+         let leftReach = data.labelAnchor == "end" ? reach : data.labelAnchor == "middle" ? reach / 2 : 0;
+         let rightReach = data.labelAnchor == "start" ? reach : data.labelAnchor == "middle" ? reach / 2 : 0;
+
          ticks.forEach((serie: any[], si: number) => {
             serie.forEach((v: any, i: number) => {
                var s = calculator.map(v);
+
+               // Drop this boundary label (and its major tick) if it would be
+               // clipped at the chart edge; minor ticks render separately and stay.
+               let clipped =
+                  clipBoundaryLabels && (s + rightReach > chartBounds.r || s - leftReach < chartBounds.l);
 
                if (this.secondary) {
                   x1 = this.vertical ? bounds.r + tickOffset : s;
@@ -275,7 +302,9 @@ export class Axis extends BoundedObject<AxisConfig, AxisInstance> {
                   y2 = this.vertical ? s : bounds.b + tickOffset + tickSize;
                }
 
-               if (!this.useGridlineTicks) t.push(`M ${x1} ${y1} L ${x2} ${y2}`);
+               if (!this.useGridlineTicks && !clipped) t.push(`M ${x1} ${y1} L ${x2} ${y2}`);
+
+               if (clipped) return;
 
                var x, y;
                let labelOffset =
@@ -422,6 +451,7 @@ Axis.prototype.secondary = false;
 Axis.prototype.inverted = false;
 Axis.prototype.hidden = false;
 Axis.prototype.hideLabels = false;
+Axis.prototype.hideClippedLabels = false;
 Axis.prototype.hideTicks = false;
 Axis.prototype.hideLine = false;
 

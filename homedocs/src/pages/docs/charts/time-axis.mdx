@@ -33,6 +33,7 @@ This example shows monthly data over two years using a column graph. The axis au
 | `inverted`     | `boolean`          | Set to `true` to invert the axis direction.                                           |
 | `snapToTicks`  | `number`           | Range alignment: `0` = lowest ticks (default), `1` = medium ticks, `2` = major ticks. |
 | `format`       | `string`           | Label format override. If not set, format is selected based on the time range.        |
+| `hideClippedLabels` | `boolean`     | Drop a first/last label (with its tick) that would not fit and get clipped at the chart edge. Defaults to `true` on `TimeAxis`. |
 | `deadZone`     | `number`           | Size of a zone reserved for labels at both ends of the axis.                          |
 | `upperDeadZone`| `number`           | Size of a zone reserved for labels near the upper end of the axis.                    |
 | `lowerDeadZone`| `number`           | Size of a zone reserved for labels near the lower end of the axis.                    |
