@@ -312,6 +312,7 @@ export class Field<
     data._readOnly = data.readOnly;
     data._viewMode = data.mode === "view" || data.viewMode;
     data._tabOnEnterKey = data.tabOnEnterKey;
+    data._visited = data.visited;
     data.validationValue = this.getValidationValue(data);
     instance.parentDisabled = context.parentDisabled;
     instance.parentReadOnly = context.parentReadOnly;
@@ -366,7 +367,7 @@ export class Field<
     );
     data.visited = coalesce(
       context.parentStrict ? context.parentVisited : null,
-      data.visited,
+      data._visited,
       context.parentVisited,
     );
 
