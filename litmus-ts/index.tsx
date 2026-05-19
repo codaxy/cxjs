@@ -1,10 +1,15 @@
 import { Store } from "cx/data";
 import "cx/locale/de-de.js";
-import { History, Widget } from "cx/ui";
+import {
+  Culture,
+  enableCultureSensitiveFormatting,
+  History,
+  Widget,
+} from "cx/ui";
 import { startHotAppLoop } from "cx/ui/app/startHotAppLoop.js";
 import { Debug, Timing } from "cx/util";
 import { enableMsgBoxAlerts, enableTooltips } from "cx/widgets";
-import Demo from "./bugs/GridOnFetchRecords";
+import test from "./bugs/DateTimePickerInfinite";
 
 let store = new Store();
 
@@ -14,18 +19,14 @@ Widget.resetCounter();
 //Timing.enable('vdom-render');
 Timing.enable("app-loop");
 Debug.enable("app-data");
+enableCultureSensitiveFormatting();
 
 enableTooltips();
 enableMsgBoxAlerts();
 
 History.connect(store, "url");
 
-startHotAppLoop(
-   module,
-   document.getElementById("app"),
-   store,
-   <cx>
+Culture.setCulture("sr-latn");
 
-      <Demo />
-   </cx>,
-);
+// @ts-expect-error
+startHotAppLoop(module, document.getElementById("app"), store, test);
