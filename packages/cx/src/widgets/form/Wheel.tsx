@@ -65,6 +65,10 @@ Wheel.prototype.baseClass = "wheel";
 Wheel.prototype.size = 3;
 Wheel.prototype.styled = true;
 
+/** A cyclic wheel renders its option list this many times, leaving scroll
+ * headroom on both sides of the centre copy. */
+export const WHEEL_BUFFER_COPIES = 3;
+
 export interface WheelComponentProps {
    size: number;
    children: React.ReactNode[];
@@ -74,6 +78,11 @@ export interface WheelComponentProps {
    className?: string;
    style?: React.CSSProperties;
    index?: number;
+   /** Set to render the option list as an endlessly scrolling wheel. The list
+    * is rendered `WHEEL_BUFFER_COPIES` times and the wheel snaps to whichever
+    * copy of the selected value is nearest its current position, so a wrap
+    * scrolls seamlessly into the adjacent identical copy. */
+   cycle?: boolean;
    onChange: (newIndex: number) => void;
    onPipeKeyDown?: (fn: (e: React.KeyboardEvent) => void) => void;
    onMouseDown?: () => void;
@@ -109,23 +118,30 @@ export class WheelComponent extends VDOM.Component<WheelComponentProps, WheelCom
    scrollRef: (el: HTMLDivElement | null) => void;
 
    render(): React.ReactNode {
-      let { size, children, CSS, baseClass, active, className, style, onMouseDown } = this.props;
+      let { size, children, CSS, baseClass, active, className, style, onMouseDown, cycle } = this.props;
       let optionClass = CSS.element(baseClass, "option");
       let dummyClass = CSS.element(baseClass, "option", { dummy: true });
+
+      // A cyclic wheel repeats the option list so it can scroll past either end.
+      let options = children;
+      if (cycle) {
+         options = [];
+         for (let i = 0; i < WHEEL_BUFFER_COPIES; i++) options.push(...children);
+      }
 
       let tpad = [],
          bpad = [],
          padSize = 0;
 
       for (let i = 0; i < (size - 1) / 2; i++) {
-         tpad.push({ key: -1 - i, child: children[0], cls: dummyClass });
-         bpad.push({ key: -100 - i, child: children[0], cls: dummyClass });
+         tpad.push({ key: -1 - i, child: options[0], cls: dummyClass });
+         bpad.push({ key: -100 - i, child: options[0], cls: dummyClass });
          padSize++;
       }
 
       let displayedOptions = [
          ...tpad,
-         ...children.map((c, i) => ({
+         ...options.map((c, i) => ({
             key: i,
             child: c,
             cls: optionClass,
@@ -228,7 +244,19 @@ export class WheelComponent extends VDOM.Component<WheelComponentProps, WheelCom
    }
 
    UNSAFE_componentWillReceiveProps(props: WheelComponentProps): void {
-      this.index = props.index || 0;
+      let newIndex = props.index || 0;
+      // A cyclic wheel renders the option list several times, so the same value
+      // appears in several copies. Snap to the copy nearest the wheel's current
+      // position rather than the one `props.index` names — a wrap then scrolls
+      // one item into the adjacent (identical) copy with no jump, instead of
+      // animating all the way back to the centre copy.
+      if (props.cycle) {
+         let period = props.children.length;
+         let value = ((newIndex % period) + period) % period;
+         newIndex = value + period * Math.round((this.index - value) / period);
+         newIndex = Math.max(0, Math.min(period * WHEEL_BUFFER_COPIES - 1, newIndex));
+      }
+      this.index = newIndex;
       this.scrollTo();
    }
 
@@ -272,8 +300,9 @@ export class WheelComponent extends VDOM.Component<WheelComponentProps, WheelCom
    }
 
    select(newIndex: number): void {
-      let { children } = this.props;
-      newIndex = Math.max(0, Math.min(children.length - 1, newIndex));
+      let { children, cycle } = this.props;
+      let length = children.length * (cycle ? WHEEL_BUFFER_COPIES : 1);
+      newIndex = Math.max(0, Math.min(length - 1, newIndex));
       if (this.index !== newIndex) {
          this.index = newIndex;
          this.props.onChange(newIndex);
