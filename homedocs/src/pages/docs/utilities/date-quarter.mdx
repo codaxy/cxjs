@@ -1,0 +1,50 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: dateQuarter
+description: Get the calendar quarter of a date
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+# dateQuarter
+
+<ImportPath path="import { dateQuarter } from 'cx/util';" />
+<OnThisPage />
+
+Returns the calendar quarter (`1`–`4`) the given date falls in.
+
+## Signature
+
+```ts
+function dateQuarter(date: Date): number
+```
+
+## Examples
+
+```ts
+dateQuarter(new Date(2024, 0, 15)); // 1 — January
+dateQuarter(new Date(2024, 5, 1)); // 2 — June
+dateQuarter(new Date(2024, 8, 30)); // 3 — September
+dateQuarter(new Date(2024, 11, 31)); // 4 — December
+```
+
+## Use Cases
+
+### Grouping records by quarter
+
+```ts
+const byQuarter: Record<number, Sale[]> = {};
+for (const sale of sales) {
+  const q = dateQuarter(sale.date);
+  if (!byQuarter[q]) byQuarter[q] = [];
+  byQuarter[q].push(sale);
+}
+```
+
+To render quarters for display, see the `quarter` [format](/docs/intro/formatting#quarter-format).
+
+## See Also
+
+- [monthStart](/docs/utilities/month-start) - Get first day of month
+- [dayBefore](/docs/utilities/day-before) - Get the previous calendar day

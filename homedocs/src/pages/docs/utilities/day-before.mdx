@@ -1,0 +1,56 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: dayBefore
+description: Get the previous calendar day
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import OnThisPage from "../../../components/OnThisPage.astro";
+
+# dayBefore
+
+<ImportPath path="import { dayBefore } from 'cx/util';" />
+<OnThisPage />
+
+Returns a new `Date` representing the calendar day before the given date, keeping the same time of day. Month and year boundaries are handled automatically, and the input is not mutated.
+
+## Signature
+
+```ts
+function dayBefore(date: Date): Date
+```
+
+## Examples
+
+```ts
+dayBefore(new Date(2021, 0, 1));
+// 2020-12-31 — steps across the year boundary
+
+dayBefore(new Date(2024, 2, 1, 9, 30));
+// 2024-02-29 09:30 — handles the leap day, keeps the time
+
+// The input is unchanged
+const date = new Date(2024, 5, 15);
+dayBefore(date);
+console.log(date.getDate()); // 15
+```
+
+## Use Cases
+
+### Displaying an exclusive range end
+
+Date ranges are often stored half-open, with an exclusive end. `dayBefore` converts that exclusive end into the last day actually contained in the range.
+
+```ts
+// Range [2020-01-01, 2021-01-01) shown to the user as 2020-01-01 – 2020-12-31
+const exclusiveTo = new Date(2021, 0, 1);
+const inclusiveTo = dayBefore(exclusiveTo); // 2020-12-31
+```
+
+To render such values directly, see the `daybefore` [format](/docs/intro/formatting#day-before-format).
+
+## See Also
+
+- [dateDiff](/docs/utilities/date-diff) - Calculate date difference
+- [zeroTime](/docs/utilities/zero-time) - Set time to midnight
+- [dateQuarter](/docs/utilities/date-quarter) - Get the calendar quarter of a date

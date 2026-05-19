@@ -177,6 +177,25 @@ The `daybefore` format renders a date shifted back by one calendar day. It accep
 | `daybefore;MMM yyyy` | `2021-01-01`  | `Dec 2020`     |
 | `daybefore;yyyyMMdd` | `2021-01-01`  | `12/31/2020`   |
 
+## Quarter Format
+
+The `quarter` format renders the calendar quarter of a date. Its pattern is a string template with `{q}` (quarter number, 1–4), `{yyyy}` (4-digit year), and `{yy}` (2-digit year) placeholders; any other text is literal. Placeholders are case-insensitive — `{Q}`, `{YYYY}`, and `{YY}` work too.
+
+| Format             | Example Input | Example Output |
+| ------------------ | ------------- | -------------- |
+| `quarter`          | `2020-02-15`  | `Q1 2020`      |
+| `quarter;{yy}Q{q}` | `2020-02-15`  | `20Q1`         |
+| `quarter;{q}Q{yy}` | `2020-02-15`  | `1Q20`         |
+
+Add `exclusive` (or the short forms `ex` / `e`) as the last argument to treat the date as the **exclusive end** of a range. It steps back one calendar day before computing the quarter, so a half-open range from `2020-01-01` up to `2021-01-01` displays as `20Q1 - 20Q4`:
+
+| Format                       | Example Input | Example Output |
+| ----------------------------- | ------------- | -------------- |
+| `quarter;{yy}Q{q};exclusive`  | `2021-01-01`  | `20Q4`         |
+| `quarter;;e`                  | `2021-01-01`  | `Q4 2020`      |
+
+The last row shows the empty middle argument falling back to the default pattern while still applying the exclusive flag.
+
 ## Programmatic Formatting
 
 Use `Format.value()` to format values in code:

@@ -1,11 +1,30 @@
 import { Culture, getCurrentCultureCache } from "./Culture";
 import { Format as Fmt, resolveMinMaxFractionDigits, setGetFormatCacheCallback } from "../util/Format";
 import { setGetExpressionCacheCallback } from "../data/Expression";
-import { setGetStringTemplateCacheCallback } from "../data/StringTemplate";
-import { dayBefore, parseDateInvariant } from "../util";
+import { setGetStringTemplateCacheCallback, StringTemplate } from "../data/StringTemplate";
+import { dateQuarter, dayBefore, parseDateInvariant } from "../util";
 import { GlobalCacheIdentifier } from "../util/GlobalCacheIdentifier";
 
 export const Format = Fmt;
+
+// The `quarter` formatter renders a calendar quarter via a string-template
+// pattern with `{q}` (quarter number), `{yyyy}` and `{yy}` (year) placeholders.
+// Placeholders are case-insensitive (`{Q}`, `{YYYY}`, `{YY}` work too). It lives
+// here rather than in util/Format because it depends on StringTemplate from the
+// data layer, which util/ cannot import. It is registered eagerly since it does
+// not depend on culture settings.
+Fmt.registerFactory("quarter", (fmt: any, pattern?: string, mode?: string) => {
+   let exclusive = mode === "exclusive" || mode === "ex" || mode === "e";
+   let template = StringTemplate.get(pattern || "Q{q} {yyyy}");
+   return (value: any) => {
+      let date = parseDateInvariant(value);
+      if (exclusive) date = dayBefore(date);
+      let q = dateQuarter(date);
+      let yyyy = date.getFullYear();
+      let yy = String(yyyy % 100).padStart(2, "0");
+      return template({ q, Q: q, yyyy, YYYY: yyyy, yy, YY: yy });
+   };
+});
 
 let cultureSensitiveFormatsRegistered = false;
 
