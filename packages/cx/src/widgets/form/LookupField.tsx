@@ -117,6 +117,12 @@ interface LookupFieldBaseConfig<TOption = any> extends FieldConfig {
   /** Error message displayed if server query throws an exception. */
   queryErrorText?: string;
 
+  /** Set to `true` to report a validation error when the selected value is not present in `options`. Only applies when `options` is an array. Default is `false`. */
+  validateOptionExists?: boolean;
+
+  /** Error message displayed when the selected value is not present in `options`. */
+  invalidOptionText?: string;
+
   /** Message to be displayed if no entries match the user query. */
   noResultsText?: string;
 
@@ -292,6 +298,8 @@ export class LookupField<TOption = any, TRecord = any> extends Field<
   declare public minOptionsForSearchField: number;
   declare public loadingText: string;
   declare public queryErrorText: string;
+  declare public validateOptionExists: boolean;
+  declare public invalidOptionText: string;
   declare public noResultsText: string;
   declare public optionIdField: string;
   declare public optionTextField: string;
@@ -501,6 +509,22 @@ export class LookupField<TOption = any, TRecord = any> extends Field<
 
     (instance as DropdownInstance).lastDropdown = context.lastDropdown;
 
+    if (
+      this.validateOptionExists &&
+      isArray(data.options) &&
+      !this.isEmpty(data)
+    ) {
+      let invalid = this.multiple
+        ? isArray(data.values) && data.records!.length < data.values.length
+        : !data.options.some(($option) =>
+            areKeysEqual(
+              getOptionKey(this.keyBindings!, { $option }),
+              data.selectedKeys[0],
+            ),
+          );
+      if (invalid) data.error = this.invalidOptionText;
+    }
+
     super.prepareData(context, instance);
   }
 
@@ -604,6 +628,9 @@ LookupField.prototype.minOptionsForSearchField = 7;
 LookupField.prototype.loadingText = "Loading...";
 LookupField.prototype.queryErrorText =
   "Error occurred while querying for lookup data.";
+LookupField.prototype.validateOptionExists = false;
+LookupField.prototype.invalidOptionText =
+  "The selected option is no longer available.";
 LookupField.prototype.noResultsText = "No results found.";
 LookupField.prototype.optionIdField = "id";
 LookupField.prototype.optionTextField = "text";

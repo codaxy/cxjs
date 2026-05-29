@@ -16,6 +16,7 @@ Localization.localize(c, "cx/widgets/LookupField", {
    queryErrorText: "Ocorreu um erro ao consultar os dados de pesquisa.",
    noResultsText: "Nenhum resultado encontrado.",
    minQueryLengthMessageText: "Digite pelo menos {0} caractere(s).",
+   invalidOptionText: "A opção selecionada já não está disponível.",
 });
 
 // In common for Calendar and MonthPicker
