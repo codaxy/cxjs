@@ -4,6 +4,14 @@ title: Changelog
 description: Version history and release notes
 ---
 
+## Unreleased
+
+**Features**
+
+- Added `validateOptionExists` flag to `LookupField`. When enabled and `options` is an array, the field reports a validation error (`invalidOptionText`) if the stored selection is not present in the options list. Useful for surfacing stale ids preserved across sessions ([#1271](https://github.com/codaxy/cxjs/issues/1271))
+
+---
+
 ## cx\@26.5.1
 
 **Features**

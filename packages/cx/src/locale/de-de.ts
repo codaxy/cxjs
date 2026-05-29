@@ -16,6 +16,7 @@ Localization.localize(c, "cx/widgets/LookupField", {
    queryErrorText: "Bei der Abfrage der gesuchten Daten ist ein Felhler aufgetreten.",
    noResultsText: "Keine Ergebnisse gefunden.",
    minQueryLengthMessageText: "Geben Sie mindestens {0} Zeichen ein.",
+   invalidOptionText: "Die ausgewählte Option ist nicht mehr verfügbar.",
 });
 
 // In common for Calendar and MonthPicker

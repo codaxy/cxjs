@@ -1,5 +1,10 @@
 import { createAccessorModelProxy } from "../../data/createAccessorModelProxy";
 import { LookupField } from "./LookupField";
+import { Store } from "../../data/Store";
+import { ValidationGroup } from "./ValidationGroup";
+import { bind } from "../../ui/bind";
+import { createTestRenderer } from "../../util/test/createTestRenderer";
+import assert from "assert";
 
 interface User {
    id: number;
@@ -89,5 +94,149 @@ describe("LookupField", () => {
             />
          </cx>
       );
+   });
+
+   describe("validateOptionExists", () => {
+      const options = [
+         { id: 1, text: "One" },
+         { id: 2, text: "Two" },
+      ];
+
+      it("reports an error when the selected value is missing from options", async () => {
+         let widget = (
+            <cx>
+               <ValidationGroup errors={bind("errors")}>
+                  <LookupField
+                     value={bind("value")}
+                     text={bind("text")}
+                     options={options}
+                     validateOptionExists
+                  />
+               </ValidationGroup>
+            </cx>
+         );
+
+         let store = new Store();
+         store.set("value", 99);
+         store.set("text", "Stale");
+
+         await createTestRenderer(store, widget);
+
+         let errors = store.get("errors");
+         assert.equal(errors.length, 1);
+         assert.equal(errors[0].message, "The selected option is no longer available.");
+      });
+
+      it("does not report an error when the selected value matches an option", async () => {
+         let widget = (
+            <cx>
+               <ValidationGroup errors={bind("errors")}>
+                  <LookupField
+                     value={bind("value")}
+                     text={bind("text")}
+                     options={options}
+                     validateOptionExists
+                  />
+               </ValidationGroup>
+            </cx>
+         );
+
+         let store = new Store();
+         store.set("value", 1);
+         store.set("text", "One");
+
+         await createTestRenderer(store, widget);
+
+         let errors = store.get("errors");
+         assert.equal(errors.length, 0);
+      });
+
+      it("does not report an error when the field is empty", async () => {
+         let widget = (
+            <cx>
+               <ValidationGroup errors={bind("errors")}>
+                  <LookupField
+                     value={bind("value")}
+                     text={bind("text")}
+                     options={options}
+                     validateOptionExists
+                  />
+               </ValidationGroup>
+            </cx>
+         );
+
+         let store = new Store();
+
+         await createTestRenderer(store, widget);
+
+         let errors = store.get("errors");
+         assert.equal(errors.length, 0);
+      });
+
+      it("does not report an error when options are not provided (server-side mode)", async () => {
+         let widget = (
+            <cx>
+               <ValidationGroup errors={bind("errors")}>
+                  <LookupField
+                     value={bind("value")}
+                     text={bind("text")}
+                     onQuery={() => []}
+                     validateOptionExists
+                  />
+               </ValidationGroup>
+            </cx>
+         );
+
+         let store = new Store();
+         store.set("value", 99);
+         store.set("text", "Stale");
+
+         await createTestRenderer(store, widget);
+
+         let errors = store.get("errors");
+         assert.equal(errors.length, 0);
+      });
+
+      it("reports an error in multiple mode when some ids are not in options", async () => {
+         let widget = (
+            <cx>
+               <ValidationGroup errors={bind("errors")}>
+                  <LookupField
+                     multiple
+                     values={bind("values")}
+                     options={options}
+                     validateOptionExists
+                  />
+               </ValidationGroup>
+            </cx>
+         );
+
+         let store = new Store();
+         store.set("values", [1, 99]);
+
+         await createTestRenderer(store, widget);
+
+         let errors = store.get("errors");
+         assert.equal(errors.length, 1);
+      });
+
+      it("does not validate by default (back-compat)", async () => {
+         let widget = (
+            <cx>
+               <ValidationGroup errors={bind("errors")}>
+                  <LookupField value={bind("value")} text={bind("text")} options={options} />
+               </ValidationGroup>
+            </cx>
+         );
+
+         let store = new Store();
+         store.set("value", 99);
+         store.set("text", "Stale");
+
+         await createTestRenderer(store, widget);
+
+         let errors = store.get("errors");
+         assert.equal(errors.length, 0);
+      });
    });
 });
