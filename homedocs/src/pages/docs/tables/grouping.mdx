@@ -14,6 +14,9 @@ import GroupingExampleCode from "../../../examples/tables/GroupingExample.tsx?ra
 import GroupCaptionsExample from "../../../examples/tables/GroupCaptionsExample.tsx";
 import GroupCaptionsExampleCode from "../../../examples/tables/GroupCaptionsExample.tsx?raw";
 
+import GroupRowNumbersExample from "../../../examples/tables/GroupRowNumbersExample.tsx";
+import GroupRowNumbersExampleCode from "../../../examples/tables/GroupRowNumbersExample.tsx?raw";
+
 # Grouping
 
 <OnThisPage collapsed />
@@ -74,14 +77,14 @@ columns={[
 
 ## Aggregate Functions
 
-| Function | Description |
-| -------- | ----------- |
-| `count` | Count non-null values |
-| `sum` | Sum numeric values |
-| `avg` | Average of numeric values |
-| `min` | Minimum value |
-| `max` | Maximum value |
-| `distinct` | Count unique values |
+| Function   | Description               |
+| ---------- | ------------------------- |
+| `count`    | Count non-null values     |
+| `sum`      | Sum numeric values        |
+| `avg`      | Average of numeric values |
+| `min`      | Minimum value             |
+| `max`      | Maximum value             |
+| `distinct` | Count unique values       |
 
 ## Aggregate Alias
 
@@ -105,40 +108,38 @@ Use `showCaption: true` in the grouping configuration to display a caption row f
   <GroupCaptionsExample client:load />
 </CodeExample>
 
-```tsx
-grouping={[{ key: { continent: { bind: "$record.continent" } }, showCaption: true }]}
-columns={[
-  {
-    header: "Name",
-    field: "fullName",
-    aggregate: "count",
-    caption: tpl(m.$group.continent, m.$group.fullName, "{0} ({1} people)"),
-  },
-  // ...
-]}
-```
+## Per-Group Row Numbers
+
+Add a column with the built-in `cxe-grid-row-number` class to display automatic row numbers. By default these count continuously across the whole grid. Set `resetRowNumbers: true` on a grouping level to restart numbering from 1 at the beginning of each group:
+
+<CodeExample code={GroupRowNumbersExampleCode}>
+  <GroupRowNumbersExample client:load />
+</CodeExample>
+
+The counter resets on the group caption row, so the grouping level needs a caption (`showCaption` or `caption`) for the reset to take effect.
 
 ## Group Data
 
 The `$group` object contains:
 
-| Property | Description |
-| -------- | ----------- |
-| `$name` | Group name/label |
-| `$level` | Nesting level (0 for deepest) |
-| `$records` | Records in the group |
-| `$key` | Serialized group key |
-| `[field]` | Aggregate value for each field |
+| Property   | Description                    |
+| ---------- | ------------------------------ |
+| `$name`    | Group name/label               |
+| `$level`   | Nesting level (0 for deepest)  |
+| `$records` | Records in the group           |
+| `$key`     | Serialized group key           |
+| `[field]`  | Aggregate value for each field |
 
 ## Grouping Configuration
 
-| Property | Type | Description |
-| -------- | ---- | ----------- |
-| `key` | `object` | Fields to group by. Empty object groups all records. |
-| `showHeader` | `boolean` | Show group header row. |
-| `showFooter` | `boolean` | Show group footer row. |
-| `showCaption` | `boolean` | Show group caption. |
-| `caption` | `StringProp` | Caption template. |
-| `text` | `StringProp` | Group name template. |
+| Property          | Type         | Description                                                                                                  |
+| ----------------- | ------------ | ------------------------------------------------------------------------------------------------------------ |
+| `key`             | `object`     | Fields to group by. Empty object groups all records.                                                         |
+| `showHeader`      | `boolean`    | Show group header row.                                                                                       |
+| `showFooter`      | `boolean`    | Show group footer row.                                                                                       |
+| `showCaption`     | `boolean`    | Show group caption.                                                                                          |
+| `resetRowNumbers` | `boolean`    | Restart `cxe-grid-row-number` numbering from 1 at the start of each group at this level. Requires a caption. |
+| `caption`         | `StringProp` | Caption template.                                                                                            |
+| `text`            | `StringProp` | Group name template.                                                                                         |
 
 See also: [Dynamic Grouping](/docs/tables/dynamic-grouping), [GroupAdapter](/docs/tables/group-adapter)

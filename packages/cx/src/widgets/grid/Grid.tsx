@@ -156,6 +156,11 @@ export interface GridGroupingConfig<T> {
    showCaption?: boolean;
    showFooter?: boolean;
    showHeader?: boolean;
+   /**
+    * Restart automatic row numbers (`cxe-grid-row-number`) from 1 at the beginning of each group
+    * at this grouping level instead of counting continuously across the whole grid. Defaults to `false`.
+    */
+   resetRowNumbers?: boolean;
    caption?: StringProp;
    name?: StringProp;
    text?: StringProp;
@@ -1510,12 +1515,13 @@ export class Grid<T = unknown> extends ContainerBase<GridConfig<T>, GridInstance
    ) {
       let { CSS, baseClass } = this;
       let data = store.getData();
+      let resetRowNumbers = g.resetRowNumbers ? "reset-row-numbers" : null;
       if (g.caption) {
          let caption = g.caption(data);
          return (
             <tbody
                key={`g-${level}-${group.$key}`}
-               className={CSS.element(baseClass, "group-caption", ["level-" + level])}
+               className={CSS.element(baseClass, "group-caption", ["level-" + level, resetRowNumbers])}
                data-group-key={group.$key}
                data-group-element={`group-caption-${level}`}
             >
@@ -1598,7 +1604,7 @@ export class Grid<T = unknown> extends ContainerBase<GridConfig<T>, GridInstance
          return (
             <tbody
                key={"c" + group.$key}
-               className={CSS.element(baseClass, "group-caption", ["level-" + level])}
+               className={CSS.element(baseClass, "group-caption", ["level-" + level, resetRowNumbers])}
                data-group-key={group.$key}
                data-group-element={`group-caption-${level}`}
             >
