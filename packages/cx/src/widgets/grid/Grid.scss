@@ -184,6 +184,12 @@
       content: counter(cx-row-number);
    }
 
+   // counter-set (not counter-reset) updates the existing row-number counter in place; a
+   // counter-reset here would create a nested counter that the following data rows ignore.
+   .#{$element}#{$name}-group-caption.#{$state}reset-row-numbers {
+      counter-set: cx-row-number 0;
+   }
+
    .#{$element}#{$name}-fixed-header {
       overflow: hidden;
       position: absolute;

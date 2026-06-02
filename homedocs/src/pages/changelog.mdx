@@ -8,6 +8,7 @@ description: Version history and release notes
 
 **Features**
 
+- Added a `resetRowNumbers` flag to `Grid` grouping levels. When set on a grouping level (which must render a caption), the automatic `cxe-grid-row-number` column restarts numbering from 1 at the beginning of each group instead of counting continuously across the grid
 - Added `validateOptionExists` flag to `LookupField`. When enabled and `options` is an array, the field reports a validation error (`invalidOptionText`) if the stored selection is not present in the options list. Useful for surfacing stale ids preserved across sessions ([#1271](https://github.com/codaxy/cxjs/issues/1271))
 
 ---
