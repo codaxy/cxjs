@@ -81,6 +81,7 @@ export interface MappedGridRecord<T = any> extends DataAdapterRecord<T> {
    row?: GridRowInstance;
    vdom?: any;
    fixedVdom?: any;
+   rightFixedVdom?: any;
    grouping?: any;
    level?: number;
    group?: any;
@@ -205,6 +206,12 @@ export interface GridColumnCaptionConfig {
    colSpan?: NumberProp;
 }
 
+/**
+ * Side to which a column is frozen. `true` is treated as `"left"` for
+ * backwards compatibility.
+ */
+export type GridColumnFreeze = "left" | "right";
+
 export interface GridColumnConfig {
    align?: GridColumnAlignment;
    field?: string;
@@ -213,7 +220,8 @@ export interface GridColumnConfig {
    header1?: StringProp | GridColumnHeaderConfig;
    header2?: StringProp | GridColumnHeaderConfig;
    header3?: StringProp | GridColumnHeaderConfig;
-   fixed?: BooleanProp;
+   /** Freeze the column to an edge. `true` freezes to the left (back-compat); use `"left"` or `"right"` for explicit placement. */
+   fixed?: Prop<boolean | GridColumnFreeze>;
    sortable?: boolean;
    aggregate?: "min" | "max" | "count" | "sum" | "distinct" | "avg";
    aggregateAlias?: string;
@@ -525,7 +533,10 @@ export class GridInstance<T = any> extends Instance<Grid<T>> {
    declare row?: any;
    declare fixedFooterVDOM?: any;
    declare fixedColumnsFixedFooterVDOM?: any;
+   declare rightFixedColumnsFixedFooterVDOM?: any;
    declare hasFixedColumns?: boolean;
+   declare hasLeftFixedColumns?: boolean;
+   declare hasRightFixedColumns?: boolean;
    declare recordInstanceCache?: any;
    declare records?: MappedGridRecord<T>[];
    declare isSelected: (record: any, index?: number) => boolean;
@@ -535,6 +546,8 @@ export class GridInstance<T = any> extends Instance<Grid<T>> {
    declare fixedFooterIsGroupFooter?: boolean;
 
    declare fixedColumnCount: number;
+   declare fixedLeftColumnCount: number;
+   declare fixedRightColumnCount: number;
    declare fixedHeaderResizeEvent?: any;
    declare hoverSync?: any;
    declare header?: any;
@@ -1040,19 +1053,50 @@ export class Grid<T = unknown> extends ContainerBase<GridConfig<T>, GridInstance
 
    exploreCleanup(context: RenderingContext, instance: GridInstance) {
       context.pop("parentPositionChangeEvent");
-      let fixedColumnCount = 0,
+      let fixedLeftColumnCount = 0,
+         fixedRightColumnCount = 0,
          visibleColumns: any[] = [];
+      // Ordering warnings only make sense for single-line headers; multi-line
+      // rows have independent columns per line.
+      let warnOrdering = process.env.NODE_ENV !== "production" && instance.header.children.length == 1;
+      let seenScrolling = false;
       instance.header.children.forEach((line: any) => {
          line.children.forEach((col: any) => {
-            if (col.data.fixed) fixedColumnCount++;
+            let freeze = normalizeFreeze(col.data.fixed);
+            col.data.freeze = freeze;
+            if (freeze == "left") {
+               fixedLeftColumnCount++;
+               if (warnOrdering && seenScrolling)
+                  console.warn(
+                     "[CxJS Grid] A left-fixed column appears after a scrolling column. " +
+                        "Left-fixed columns should be authored before all scrolling columns.",
+                  );
+            } else if (freeze == "right") {
+               fixedRightColumnCount++;
+            } else {
+               seenScrolling = true;
+               if (warnOrdering && fixedRightColumnCount > 0)
+                  console.warn(
+                     "[CxJS Grid] A scrolling column appears after a right-fixed column. " +
+                        "Right-fixed columns should be authored after all scrolling columns.",
+                  );
+            }
             visibleColumns.push(col.widget);
          });
       });
+      let fixedColumnCount = fixedLeftColumnCount + fixedRightColumnCount;
       instance.visibleColumns = visibleColumns;
       instance.hasFixedColumns = fixedColumnCount > 0;
+      instance.hasLeftFixedColumns = fixedLeftColumnCount > 0;
+      instance.hasRightFixedColumns = fixedRightColumnCount > 0;
       instance.fixedColumnCount = fixedColumnCount;
+      instance.fixedLeftColumnCount = fixedLeftColumnCount;
+      instance.fixedRightColumnCount = fixedRightColumnCount;
       if (fixedColumnCount > 0) {
-         instance.data.classNames += ` ${instance.widget.CSS.state("fixed-columns")}`;
+         let { CSS } = instance.widget;
+         instance.data.classNames += ` ${CSS.state("fixed-columns")}`;
+         if (fixedLeftColumnCount > 0) instance.data.classNames += ` ${CSS.state("fixed-columns-left")}`;
+         if (fixedRightColumnCount > 0) instance.data.classNames += ` ${CSS.state("fixed-columns-right")}`;
       }
    }
 
@@ -1099,25 +1143,34 @@ export class Grid<T = unknown> extends ContainerBase<GridConfig<T>, GridInstance
    }
 
    render(context: RenderingContext, instance: GridInstance, key: string) {
-      let { data, hasFixedColumns } = instance;
+      let { data, hasLeftFixedColumns, hasRightFixedColumns } = instance;
 
       let fixedHeader =
-         data.scrollable && this.showHeader && this.renderHeader(context, instance, "header", true, false);
+         data.scrollable && this.showHeader && this.renderHeader(context, instance, "header", true, "scrolling");
 
       let fixedColumnsFixedHeader =
          data.scrollable &&
          this.showHeader &&
-         hasFixedColumns &&
-         this.renderHeader(context, instance, "header", true, true);
+         hasLeftFixedColumns &&
+         this.renderHeader(context, instance, "header", true, "left");
+
+      let rightFixedColumnsFixedHeader =
+         data.scrollable &&
+         this.showHeader &&
+         hasRightFixedColumns &&
+         this.renderHeader(context, instance, "header", true, "right");
 
       if (!this.buffered) this.renderRows(context, instance);
 
       if (this.fixedFooter) this.renderFixedFooter(context, instance);
 
-      let header = this.showHeader && this.renderHeader(context, instance, "header", false, false);
+      let header = this.showHeader && this.renderHeader(context, instance, "header", false, "scrolling");
 
       let fixedColumnsHeader =
-         this.showHeader && hasFixedColumns && this.renderHeader(context, instance, "header", false, true);
+         this.showHeader && hasLeftFixedColumns && this.renderHeader(context, instance, "header", false, "left");
+
+      let rightFixedColumnsHeader =
+         this.showHeader && hasRightFixedColumns && this.renderHeader(context, instance, "header", false, "right");
 
       return (
          <GridComponent
@@ -1128,9 +1181,12 @@ export class Grid<T = unknown> extends ContainerBase<GridConfig<T>, GridInstance
             header={header}
             fixedColumnsHeader={fixedColumnsHeader}
             fixedColumnsFixedHeader={fixedColumnsFixedHeader}
+            rightFixedColumnsHeader={rightFixedColumnsHeader}
+            rightFixedColumnsFixedHeader={rightFixedColumnsFixedHeader}
             fixedHeader={fixedHeader}
             fixedFooter={instance.fixedFooterVDOM}
             fixedColumnsFixedFooter={instance.fixedColumnsFixedFooterVDOM}
+            rightFixedColumnsFixedFooter={instance.rightFixedColumnsFixedFooterVDOM}
          >
             {this.renderChildren(context, instance)}
          </GridComponent>
@@ -1241,7 +1297,7 @@ export class Grid<T = unknown> extends ContainerBase<GridConfig<T>, GridInstance
       );
    }
 
-   renderHeader(context: RenderingContext, instance: GridInstance, key: any, fixed: any, fixedColumns: any) {
+   renderHeader(context: RenderingContext, instance: GridInstance, key: any, fixed: any, region: GridRenderRegion) {
       let { data, widget, header } = instance;
 
       let { CSS, baseClass } = widget;
@@ -1264,7 +1320,7 @@ export class Grid<T = unknown> extends ContainerBase<GridConfig<T>, GridInstance
 
                if (skip[colKey]) continue;
 
-               if (Boolean(hdinst.data.fixed) != fixedColumns) continue;
+               if (!cellInRegion(hdinst.data, region)) continue;
 
                let header = hdinst.components[`header${l + 1}`];
                let colSpan,
@@ -1391,7 +1447,7 @@ export class Grid<T = unknown> extends ContainerBase<GridConfig<T>, GridInstance
          lineIndex += result.length;
 
          if (result[0]) {
-            if (fixed && !fixedColumns) {
+            if (fixed && region == "scrolling") {
                result[0].push(
                   <th key="dummy" rowSpan={result.length} className={CSS.element(baseClass, "col-header")} />,
                );
@@ -1511,7 +1567,7 @@ export class Grid<T = unknown> extends ContainerBase<GridConfig<T>, GridInstance
       group: any,
       i: any,
       store: any,
-      fixedColumns: any,
+      region: GridRenderRegion,
    ) {
       let { CSS, baseClass } = this;
       let data = store.getData();
@@ -1542,7 +1598,7 @@ export class Grid<T = unknown> extends ContainerBase<GridConfig<T>, GridInstance
             let cells = line.children.map((ci: any, i: any) => {
                if (--skip >= 0) return null;
 
-               if (Boolean(ci.data.fixed) != fixedColumns) return null;
+               if (!cellInRegion(ci.data, region)) return null;
 
                let v,
                   c = ci.widget,
@@ -1623,7 +1679,7 @@ export class Grid<T = unknown> extends ContainerBase<GridConfig<T>, GridInstance
       i: any,
       store: any,
       fixed: any,
-      fixedColumns: any,
+      region: GridRenderRegion,
    ) {
       let { CSS, baseClass } = this;
       let data = store.getData();
@@ -1639,7 +1695,7 @@ export class Grid<T = unknown> extends ContainerBase<GridConfig<T>, GridInstance
          let cells = line.children.map((ci: any, i: any) => {
             if (--skip >= 0) return null;
 
-            if (Boolean(ci.data.fixed) != fixedColumns) return null;
+            if (!cellInRegion(ci.data, region)) return null;
 
             let v,
                c = ci.widget,
@@ -1699,7 +1755,7 @@ export class Grid<T = unknown> extends ContainerBase<GridConfig<T>, GridInstance
 
          if (empty) return;
 
-         if (fixed && !fixedColumns)
+         if (fixed && region == "scrolling")
             cells.push(<td key="dummy" className={CSS.element(baseClass, "fixed-footer-corner")} />);
 
          lines.push(<tr key={lineIndex}>{cells}</tr>);
@@ -1721,7 +1777,7 @@ export class Grid<T = unknown> extends ContainerBase<GridConfig<T>, GridInstance
    }
 
    renderRows(context: RenderingContext, instance: GridInstance) {
-      let { records, hasFixedColumns } = instance;
+      let { records, hasLeftFixedColumns, hasRightFixedColumns } = instance;
 
       if (!isArray<any>(records)) return null;
 
@@ -1734,6 +1790,7 @@ export class Grid<T = unknown> extends ContainerBase<GridConfig<T>, GridInstance
          if (record.type == "group-header") {
             record.vdom = [];
             record.fixedVdom = [];
+            record.rightFixedVdom = [];
             g = record.grouping;
             if (g.caption || g.showCaption)
                record.vdom.push(
@@ -1745,11 +1802,11 @@ export class Grid<T = unknown> extends ContainerBase<GridConfig<T>, GridInstance
                      record.group,
                      record.key + "-caption",
                      record.store,
-                     false,
+                     "scrolling",
                   ),
                );
 
-            if (hasFixedColumns)
+            if (hasLeftFixedColumns)
                record.fixedVdom.push(
                   this.renderGroupHeader(
                      context,
@@ -1759,14 +1816,32 @@ export class Grid<T = unknown> extends ContainerBase<GridConfig<T>, GridInstance
                      record.group,
                      record.key + "-caption",
                      record.store,
-                     true,
+                     "left",
+                  ),
+               );
+
+            if (hasRightFixedColumns)
+               record.rightFixedVdom.push(
+                  this.renderGroupHeader(
+                     context,
+                     instance,
+                     g,
+                     record.level,
+                     record.group,
+                     record.key + "-caption",
+                     record.store,
+                     "right",
                   ),
                );
 
             if (g.showHeader) {
-               record.vdom.push(this.renderHeader(context, instance, record.key + "-header", false, false));
-               if (hasFixedColumns)
-                  record.fixedVdom.push(this.renderHeader(context, instance, record.key + "-header", false, true));
+               record.vdom.push(this.renderHeader(context, instance, record.key + "-header", false, "scrolling"));
+               if (hasLeftFixedColumns)
+                  record.fixedVdom.push(this.renderHeader(context, instance, record.key + "-header", false, "left"));
+               if (hasRightFixedColumns)
+                  record.rightFixedVdom.push(
+                     this.renderHeader(context, instance, record.key + "-header", false, "right"),
+                  );
             }
          }
 
@@ -1782,9 +1857,9 @@ export class Grid<T = unknown> extends ContainerBase<GridConfig<T>, GridInstance
                   record.key + "-footer",
                   record.store,
                   false,
-                  false,
+                  "scrolling",
                );
-               if (hasFixedColumns)
+               if (hasLeftFixedColumns)
                   record.fixedVdom = this.renderGroupFooter(
                      context,
                      instance,
@@ -1794,7 +1869,19 @@ export class Grid<T = unknown> extends ContainerBase<GridConfig<T>, GridInstance
                      record.key + "-footer",
                      record.store,
                      false,
-                     true,
+                     "left",
+                  );
+               if (hasRightFixedColumns)
+                  record.rightFixedVdom = this.renderGroupFooter(
+                     context,
+                     instance,
+                     g,
+                     record.level,
+                     record.group,
+                     record.key + "-footer",
+                     record.store,
+                     false,
+                     "right",
                   );
             }
          }
@@ -1802,10 +1889,11 @@ export class Grid<T = unknown> extends ContainerBase<GridConfig<T>, GridInstance
    }
 
    renderFixedFooter(context: RenderingContext, instance: GridInstance) {
-      let { records, hasFixedColumns, data } = instance;
+      let { records, hasLeftFixedColumns, hasRightFixedColumns, data } = instance;
 
       instance.fixedFooterVDOM = null;
       instance.fixedColumnsFixedFooterVDOM = null;
+      instance.rightFixedColumnsFixedFooterVDOM = null;
 
       if (data.empty || !isNonEmptyArray(records)) return;
 
@@ -1825,10 +1913,10 @@ export class Grid<T = unknown> extends ContainerBase<GridConfig<T>, GridInstance
          record.key + "-footer",
          record.store,
          true,
-         false,
+         "scrolling",
       );
 
-      if (hasFixedColumns)
+      if (hasLeftFixedColumns)
          instance.fixedColumnsFixedFooterVDOM = this.renderGroupFooter(
             context,
             instance,
@@ -1838,7 +1926,20 @@ export class Grid<T = unknown> extends ContainerBase<GridConfig<T>, GridInstance
             record.key + "-footer",
             record.store,
             true,
+            "left",
+         );
+
+      if (hasRightFixedColumns)
+         instance.rightFixedColumnsFixedFooterVDOM = this.renderGroupFooter(
+            context,
+            instance,
+            record.grouping,
+            record.level,
+            record.group || { $key: "fixed-footer" },
+            record.key + "-footer",
+            record.store,
             true,
+            "right",
          );
    }
 
@@ -1914,9 +2015,12 @@ interface GridComponentProps {
    header?: any;
    fixedColumnsHeader?: any;
    fixedColumnsFixedHeader?: any;
+   rightFixedColumnsHeader?: any;
+   rightFixedColumnsFixedHeader?: any;
    fixedHeader?: any;
    fixedFooter?: any;
    fixedColumnsFixedFooter?: any;
+   rightFixedColumnsFixedFooter?: any;
    children?: any;
 }
 
@@ -1944,10 +2048,14 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
       scroller?: HTMLElement | null;
       fixedScroller?: HTMLElement | null;
       fixedTable?: HTMLElement | null;
+      fixedRightScroller?: HTMLElement | null;
+      fixedRightTable?: HTMLElement | null;
       fixedHeader?: HTMLElement | null;
       fixedColumnsFixedHeader?: HTMLElement | null;
+      fixedRightColumnsFixedHeader?: HTMLElement | null;
       fixedFooter?: HTMLElement | null;
       fixedColumnsFixedFooter?: HTMLElement | null;
+      fixedRightColumnsFixedFooter?: HTMLElement | null;
    };
    syncBuffering: boolean = false;
    declare start?: number;
@@ -1959,6 +2067,7 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
    declare rowHeight?: number;
    scrollerRef: (el: HTMLElement | null) => void;
    fixedScrollerRef: (el: HTMLElement | null) => void;
+   fixedRightScrollerRef: (el: HTMLElement | null) => void;
    gridRef: (el: HTMLElement | null) => void;
    declare cellEditorValid?: boolean;
    declare scrollWidth: number;
@@ -2009,6 +2118,10 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
          this.dom.fixedScroller = el;
       };
 
+      this.fixedRightScrollerRef = (el) => {
+         this.dom.fixedRightScroller = el;
+      };
+
       this.gridRef = (el) => {
          this.dom.el = el;
       };
@@ -2052,7 +2165,16 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
       let { colWidth, dimensionsVersion } = instance.state;
       let { hasMergedCells } = row;
 
-      return (record: MappedGridRecord, index: number, standalone: any, fixed: any) => {
+      return (record: MappedGridRecord, index: number, standalone: any, region: GridRenderRegion) => {
+         let fixed = region != "scrolling";
+         // Offset of this region's first cell within the full visibleColumns list,
+         // used to compute global cell indices for selection/editing.
+         let cellIndexOffset =
+            region == "left"
+               ? 0
+               : region == "right"
+                 ? visibleColumns.length - instance.fixedRightColumnCount
+                 : instance.fixedLeftColumnCount;
          let { store, key, row } = record;
          let isDragged = dragged && (row?.selected || record == dragged);
          let mod: Record<string, any> = {
@@ -2098,12 +2220,13 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
                   shouldUpdate={row?.shouldUpdate}
                   dimensionsVersion={dimensionsVersion}
                   fixed={fixed}
+                  cellIndexOffset={cellIndexOffset}
                   useTrTag={hasMergedCells}
                >
                   {children.content.map(({ key, data, content }: any, line: any) => {
                      let cells = content.map(
                         ({ key, data, content, uniqueColumnId, merged, mergeRowSpan }: any, cellIndex: number) => {
-                           if (Boolean(data.fixed) !== fixed) return null;
+                           if (!cellInRegion(data, region)) return null;
                            if (merged) return null;
                            let cellected =
                               index == cursor && cellIndex == cursorCellIndex && widget.cellEditable && line == 0;
@@ -2186,8 +2309,8 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
    }
 
    render() {
-      let { instance, data, fixedFooter, fixedColumnsFixedFooter } = this.props;
-      let { widget, hasFixedColumns } = instance;
+      let { instance, data, fixedFooter, fixedColumnsFixedFooter, rightFixedColumnsFixedFooter } = this.props;
+      let { widget, hasFixedColumns, hasLeftFixedColumns, hasRightFixedColumns } = instance;
       let { CSS, baseClass } = widget;
       let { start, end } = this.getBufferStartEnd();
 
@@ -2198,13 +2321,15 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
       }
 
       let children: any[] = [],
-         fixedChildren: any[] = [];
+         fixedChildren: any[] = [],
+         rightFixedChildren: any[] = [];
 
       let renderRow = this.createRowRenderer(cellWrap);
 
       let addRow = (record: any, index: number, standalone?: boolean) => {
-         children.push(renderRow(record, index, standalone, false));
-         if (hasFixedColumns) fixedChildren.push(renderRow(record, index, standalone, true));
+         children.push(renderRow(record, index, standalone, "scrolling"));
+         if (hasLeftFixedColumns) fixedChildren.push(renderRow(record, index, standalone, "left"));
+         if (hasRightFixedColumns) rightFixedChildren.push(renderRow(record, index, standalone, "right"));
 
          //avoid re-rendering on cursor change
          record.row.shouldUpdate = false;
@@ -2269,11 +2394,11 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
                            record.group,
                            record.key + "-caption",
                            record.store,
-                           false,
+                           "scrolling",
                         ),
                      );
 
-                     if (hasFixedColumns)
+                     if (hasLeftFixedColumns)
                         fixedChildren.push(
                            widget.renderGroupHeader(
                               null,
@@ -2283,7 +2408,21 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
                               record.group,
                               record.key + "-caption",
                               record.store,
-                              true,
+                              "left",
+                           ),
+                        );
+
+                     if (hasRightFixedColumns)
+                        rightFixedChildren.push(
+                           widget.renderGroupHeader(
+                              null,
+                              instance,
+                              g,
+                              record.level,
+                              record.group,
+                              record.key + "-caption",
+                              record.store,
+                              "right",
                            ),
                         );
                   }
@@ -2300,11 +2439,11 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
                            record.key + "-footer",
                            record.store,
                            false,
-                           false,
+                           "scrolling",
                         ),
                      );
 
-                     if (hasFixedColumns)
+                     if (hasLeftFixedColumns)
                         fixedChildren.push(
                            widget.renderGroupFooter(
                               null,
@@ -2315,7 +2454,22 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
                               record.key + "-footer",
                               record.store,
                               false,
-                              true,
+                              "left",
+                           ),
+                        );
+
+                     if (hasRightFixedColumns)
+                        rightFixedChildren.push(
+                           widget.renderGroupFooter(
+                              null,
+                              instance,
+                              g,
+                              record.level,
+                              record.group,
+                              record.key + "-footer",
+                              record.store,
+                              false,
+                              "right",
                            ),
                         );
                   }
@@ -2372,7 +2526,8 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
             if (record.type == "data") addRow(record, i, false);
             else {
                children.push(record.vdom);
-               if (hasFixedColumns) fixedChildren.push(record.fixedVdom);
+               if (hasLeftFixedColumns) fixedChildren.push(record.fixedVdom);
+               if (hasRightFixedColumns) rightFixedChildren.push(record.rightFixedVdom);
             }
          });
       }
@@ -2419,7 +2574,8 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
       }
 
       let content = [],
-         fixedColumnsContent = [];
+         fixedColumnsContent = [],
+         rightFixedColumnsContent = [];
 
       //instance.records holds the record count after filtering
       if (data.emptyText && data.empty) {
@@ -2432,15 +2588,17 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
          ];
       } else if (widget.fixedFooter && (widget.buffered || !instance.fixedFooterIsGroupFooter)) {
          //add fixed footer content for buffered grids
-         if (fixedFooter || fixedColumnsFixedFooter) {
+         if (fixedFooter || fixedColumnsFixedFooter || rightFixedColumnsFixedFooter) {
             children.push(fixedFooter);
-            if (hasFixedColumns) fixedChildren.push(fixedColumnsFixedFooter);
+            if (hasLeftFixedColumns) fixedChildren.push(fixedColumnsFixedFooter);
+            if (hasRightFixedColumns) rightFixedChildren.push(rightFixedColumnsFixedFooter);
          }
       }
 
-      let shouldRenderFixedFooter = widget.scrollable && (fixedFooter || fixedColumnsFixedFooter);
+      let shouldRenderFixedFooter =
+         widget.scrollable && (fixedFooter || fixedColumnsFixedFooter || rightFixedColumnsFixedFooter);
 
-      if (hasFixedColumns) {
+      if (hasLeftFixedColumns) {
          fixedColumnsContent.push(
             <div
                key="fixedscroller"
@@ -2458,6 +2616,31 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
                   >
                      {this.props.fixedColumnsHeader}
                      {fixedChildren}
+                  </table>
+               </div>
+            </div>,
+         );
+      }
+
+      if (hasRightFixedColumns) {
+         rightFixedColumnsContent.push(
+            <div
+               key="rightfixedscroller"
+               ref={this.fixedRightScrollerRef}
+               className={CSS.element(baseClass, "fixed-scroll-area", {
+                  "right-fixed": true,
+                  "fixed-header": !!this.props.fixedHeader,
+                  "fixed-footer": shouldRenderFixedFooter,
+               })}
+            >
+               <div className={CSS.element(baseClass, "fixed-table-wrapper")}>
+                  <table
+                     ref={(el) => {
+                        this.dom.fixedRightTable = el;
+                     }}
+                  >
+                     {this.props.rightFixedColumnsHeader}
+                     {rightFixedChildren}
                   </table>
                </div>
             </div>,
@@ -2520,6 +2703,22 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
             </div>,
          );
 
+      if (this.props.rightFixedColumnsFixedHeader)
+         rightFixedColumnsContent.push(
+            <div
+               key="rfcfh"
+               ref={(el) => {
+                  this.dom.fixedRightColumnsFixedHeader = el;
+               }}
+               className={CSS.element(baseClass, "fixed-fixed-header", { "right-fixed": true })}
+               style={{
+                  display: this.scrollWidth > 0 ? "block" : "none",
+               }}
+            >
+               <table>{this.props.rightFixedColumnsFixedHeader}</table>
+            </div>,
+         );
+
       if (shouldRenderFixedFooter) {
          content.push(
             <div
@@ -2533,7 +2732,7 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
             </div>,
          );
 
-         if (hasFixedColumns)
+         if (hasLeftFixedColumns)
             fixedColumnsContent.push(
                <div
                   key="fcff"
@@ -2543,6 +2742,19 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
                   className={CSS.element(baseClass, "fixed-fixed-footer")}
                >
                   <table>{fixedColumnsFixedFooter}</table>
+               </div>,
+            );
+
+         if (hasRightFixedColumns)
+            rightFixedColumnsContent.push(
+               <div
+                  key="rfcff"
+                  ref={(el) => {
+                     this.dom.fixedRightColumnsFixedFooter = el;
+                  }}
+                  className={CSS.element(baseClass, "fixed-fixed-footer", { "right-fixed": true })}
+               >
+                  <table>{rightFixedColumnsFixedFooter}</table>
                </div>,
             );
       }
@@ -2575,6 +2787,7 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
          >
             {fixedColumnsContent}
             {content}
+            {rightFixedColumnsContent}
             {columnInsertionMarker}
             {this.props.children}
          </div>
@@ -2731,6 +2944,10 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
          this.dom.fixedScroller!.scrollTop = this.dom.scroller!.scrollTop;
       }
 
+      if (this.dom.fixedRightScroller!) {
+         this.dom.fixedRightScroller!.scrollTop = this.dom.scroller!.scrollTop;
+      }
+
       let { instance, data } = this.props;
       let { widget } = instance;
       if (widget.buffered && !this.pending) {
@@ -2790,9 +3007,12 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
       if (widget.pipeKeyDown) instance.invoke("pipeKeyDown", this.handleKeyDown.bind(this), instance);
       this.unregisterDropZone = registerDropZone(this);
       if (widget.infinite) this.ensureData(0, 0);
-      if (this.dom.fixedScroller!) {
+      if (this.dom.fixedScroller! || this.dom.fixedRightScroller!) {
          this.onFixedColumnsWheel = this.onFixedColumnsWheel.bind(this);
-         this.dom.fixedScroller!.addEventListener("wheel", this.onFixedColumnsWheel, { passive: false });
+         if (this.dom.fixedScroller!)
+            this.dom.fixedScroller!.addEventListener("wheel", this.onFixedColumnsWheel, { passive: false });
+         if (this.dom.fixedRightScroller!)
+            this.dom.fixedRightScroller!.addEventListener("wheel", this.onFixedColumnsWheel, { passive: false });
       }
    }
 
@@ -3073,6 +3293,10 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
       if (this.dom.fixedScroller!) {
          this.dom.fixedScroller!.removeEventListener("wheel", this.onFixedColumnsWheel);
       }
+
+      if (this.dom.fixedRightScroller!) {
+         this.dom.fixedRightScroller!.removeEventListener("wheel", this.onFixedColumnsWheel);
+      }
    }
 
    estimateHeight(
@@ -3170,6 +3394,12 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
                this.dom.fixedTable!.firstChild as HTMLTableSectionElement,
             );
 
+         if (this.dom.fixedRightTable!)
+            syncHeaderHeights(
+               this.dom.table!.firstChild as HTMLTableSectionElement,
+               this.dom.fixedRightTable!.firstChild as HTMLTableSectionElement,
+            );
+
          if (this.dom.fixedHeader!) {
             let fixedHeaderTBody = this.dom.fixedHeader!.firstChild!.firstChild as HTMLTableSectionElement;
 
@@ -3185,9 +3415,11 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
             this.dom.scroller!.style.marginTop = `${headerHeight}px`;
             if (this.dom.fixedScroller!) this.dom.fixedScroller!.style.marginTop = `${headerHeight}px`;
             else if (this.dom.fixedHeader!.style.left != null) this.dom.fixedHeader!.style.removeProperty("left");
+            if (this.dom.fixedRightScroller!) this.dom.fixedRightScroller!.style.marginTop = `${headerHeight}px`;
          } else {
             this.dom.scroller!.style.removeProperty("marginTop");
             if (this.dom.fixedScroller!) this.dom.fixedScroller!.style.removeProperty("marginTop");
+            if (this.dom.fixedRightScroller!) this.dom.fixedRightScroller!.style.removeProperty("marginTop");
          }
 
          if (this.dom.fixedColumnsFixedHeader!) {
@@ -3209,7 +3441,27 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
             }
          }
 
-         if (this.dom.fixedFooter! || this.dom.fixedColumnsFixedFooter!) {
+         if (this.dom.fixedRightColumnsFixedHeader!) {
+            let rightColumnsWidth = `${this.dom.fixedRightScroller!.offsetWidth}px`;
+            this.dom.fixedRightColumnsFixedHeader!.style.left = "auto";
+            this.dom.fixedRightColumnsFixedHeader!.style.right = "0";
+            this.dom.fixedRightColumnsFixedHeader!.style.width = rightColumnsWidth;
+            if (this.dom.fixedHeader!) this.dom.fixedHeader!.style.right = rightColumnsWidth;
+
+            this.dom.fixedRightColumnsFixedHeader!.style.display = "block";
+
+            let fixedHeaderTBody = this.dom.fixedRightColumnsFixedHeader!.firstElementChild
+               ?.firstElementChild as HTMLTableSectionElement;
+
+            if (this.dom.fixedRightTable!.firstChild) {
+               resized = copyCellSize(
+                  this.dom.fixedRightTable!.firstElementChild as HTMLTableSectionElement,
+                  fixedHeaderTBody,
+               );
+            }
+         }
+
+         if (this.dom.fixedFooter! || this.dom.fixedColumnsFixedFooter! || this.dom.fixedRightColumnsFixedFooter!) {
             if (this.dom.fixedColumnsFixedFooter!) {
                let fixedColumnsWidth = `${this.dom.fixedScroller!.offsetWidth}px`;
                this.dom.fixedColumnsFixedFooter!.style.right = "auto";
@@ -3221,6 +3473,22 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
                   let srcTableBody = this.dom.fixedTable!.lastElementChild as HTMLTableSectionElement;
                   copyCellSize(srcTableBody, dstTableBody, fixedFooterOverlap);
                   this.dom.fixedColumnsFixedFooter!.style.display = "block";
+                  footerHeight = this.dom.fixedFooter!.offsetHeight;
+               }
+            }
+
+            if (this.dom.fixedRightColumnsFixedFooter!) {
+               let rightColumnsWidth = `${this.dom.fixedRightScroller!.offsetWidth}px`;
+               this.dom.fixedRightColumnsFixedFooter!.style.left = "auto";
+               this.dom.fixedRightColumnsFixedFooter!.style.right = "0";
+               this.dom.fixedRightColumnsFixedFooter!.style.width = rightColumnsWidth;
+
+               let dstTableBody = this.dom.fixedRightColumnsFixedFooter!.firstElementChild
+                  ?.firstElementChild as HTMLTableSectionElement;
+               if (dstTableBody) {
+                  let srcTableBody = this.dom.fixedRightTable!.lastElementChild as HTMLTableSectionElement;
+                  copyCellSize(srcTableBody, dstTableBody, fixedFooterOverlap);
+                  this.dom.fixedRightColumnsFixedFooter!.style.display = "block";
                   footerHeight = this.dom.fixedFooter!.offsetHeight;
                }
             }
@@ -3244,13 +3512,19 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
                if (this.dom.fixedScroller!)
                   this.dom.fixedFooter!.style.left = `${this.dom.fixedScroller!.offsetWidth}px`;
                else if (this.dom.fixedFooter!.style.left != null) this.dom.fixedFooter!.style.removeProperty("left");
+
+               if (this.dom.fixedRightScroller!)
+                  this.dom.fixedFooter!.style.right = `${this.dom.fixedRightScroller!.offsetWidth}px`;
+               else if (this.dom.fixedFooter!.style.right != null) this.dom.fixedFooter!.style.removeProperty("right");
             }
 
             this.dom.scroller!.style.marginBottom = `${footerHeight}px`;
             if (this.dom.fixedScroller!) this.dom.fixedScroller!.style.marginBottom = `${footerHeight}px`;
+            if (this.dom.fixedRightScroller!) this.dom.fixedRightScroller!.style.marginBottom = `${footerHeight}px`;
          } else {
             this.dom.scroller!.style.marginBottom = "0";
             if (this.dom.fixedScroller!) this.dom.fixedScroller!.style.marginBottom = "0";
+            if (this.dom.fixedRightScroller!) this.dom.fixedRightScroller!.style.marginBottom = "0";
          }
 
          let scrollOverlap = fixedFooterOverlap ? footerHeight : 0;
@@ -3310,6 +3584,11 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
          if (this.dom.fixedTable!) {
             this.dom.fixedTable!.style.marginTop = this.dom.table!.style.marginTop;
             this.dom.fixedTable!.style.marginBottom = this.dom.table!.style.marginBottom;
+         }
+
+         if (this.dom.fixedRightTable!) {
+            this.dom.fixedRightTable!.style.marginTop = this.dom.table!.style.marginTop;
+            this.dom.fixedRightTable!.style.marginBottom = this.dom.table!.style.marginBottom;
          }
 
          this.rowHeight = rowHeight;
@@ -3794,7 +4073,7 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
 
       let contents = selected.map((record, i) => ({
          type: StaticText,
-         text: renderRow(record, i, true, false),
+         text: renderRow(record, i, true, "scrolling"),
       }));
 
       initiateDragDrop(
@@ -3934,7 +4213,7 @@ export interface GridColumnHeaderConfig extends WidgetConfig {
    format?: StringProp;
    width?: NumberProp;
    defaultWidth?: NumberProp;
-   fixed?: BooleanProp;
+   fixed?: Prop<boolean | GridColumnFreeze>;
    field?: string;
    sortable?: boolean;
    resizable?: boolean;
@@ -4079,7 +4358,7 @@ export interface GridColumnHeaderCellConfig extends PureContainerConfig {
    width?: NumberProp;
    defaultWidth?: NumberProp;
    resizable?: BooleanProp;
-   fixed?: BooleanProp;
+   fixed?: Prop<boolean | GridColumnFreeze>;
    draggable?: BooleanProp;
    tool?: any;
    allowSorting?: boolean;
@@ -4133,6 +4412,30 @@ GridColumnHeaderCell.prototype.fixed = false;
 //       if (g.caption) g.caption = getSelector(g.caption);
 //    });
 // }
+
+/**
+ * Normalize the column `fixed` value to a freeze side.
+ * `true`/`"left"` => `"left"`, `"right"` => `"right"`, anything else => `null`.
+ */
+function normalizeFreeze(fixed: any): GridColumnFreeze | null {
+   if (fixed === "right") return "right";
+   if (fixed === true || fixed === "left") return "left";
+   return null;
+}
+
+/** The three table regions a grid is split into when columns are frozen. */
+type GridRenderRegion = "left" | "scrolling" | "right";
+
+/**
+ * Whether a cell belongs to the given render region, based on its column's
+ * `fixed` value. The scrolling region holds non-frozen columns; the left/right
+ * regions hold columns frozen to that edge.
+ */
+function cellInRegion(data: any, region: GridRenderRegion): boolean {
+   let freeze = normalizeFreeze(data.fixed);
+   if (region == "scrolling") return freeze == null;
+   return freeze == region;
+}
 
 function copyCellSize(
    srcTableBody: HTMLTableSectionElement,

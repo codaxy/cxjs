@@ -100,6 +100,7 @@ export interface GridRowComponentProps {
    shouldUpdate?: boolean;
    dimensionsVersion?: number;
    fixed?: boolean;
+   cellIndexOffset?: number;
    children?: React.ReactNode;
 }
 
@@ -231,11 +232,10 @@ export class GridRowComponent extends VDOM.Component<GridRowComponentProps, Grid
 
    getCellIndex(e: React.MouseEvent | React.TouchEvent | React.KeyboardEvent): number {
       let td = closest(e.target as Element, (node) => (node as Element).tagName == "TD") as HTMLTableCellElement | null;
-      if (td)
-         return (
-            (this.props.fixed ? 0 : this.props.grid.fixedColumnCount) +
-            Array.from(td.parentElement!.children).indexOf(td)
-         );
+      if (td) {
+         let offset = this.props.cellIndexOffset ?? (this.props.fixed ? 0 : this.props.grid.fixedColumnCount);
+         return offset + Array.from(td.parentElement!.children).indexOf(td);
+      }
       return -1;
    }
 

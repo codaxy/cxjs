@@ -602,6 +602,23 @@
             border: none;
          }
       }
+
+      // Columns frozen to the right edge: border on the left instead of the right.
+      &.#{$state}right-fixed {
+         border-right-style: none;
+         border-left-style: solid;
+         border-left-width: 1px;
+      }
+   }
+
+   // Sticky header/footer overlays for the right-frozen block are anchored to
+   // the right edge (JS sets right/width) and carry a left border.
+   .#{$element}#{$name}-fixed-fixed-header.#{$state}right-fixed,
+   .#{$element}#{$name}-fixed-fixed-footer.#{$state}right-fixed {
+      left: auto;
+      right: 0;
+      border-right: none;
+      border-left: 1px solid $cx-default-grid-border-color;
    }
 
    .#{$element}#{$name}-col-header-tool {
