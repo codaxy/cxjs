@@ -67,7 +67,7 @@ export class ExposedValueView extends View {
       if (path == this.recordName) {
          data = this.getData();
          container = this.containerBinding.value(data);
-         if (!container || !container.hasOwnProperty(path)) return false;
+         if (!container || !container.hasOwnProperty(this.key)) return false;
          newContainer = Object.assign({}, container);
          delete newContainer[this.key];
          this.store.set(this.containerBinding.path, newContainer);
