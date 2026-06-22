@@ -4,6 +4,20 @@ title: Changelog
 description: Version history and release notes
 ---
 
+## cx\@26.7.0
+
+**Features**
+
+- Group sorting can now target aggregates and keys declaratively: grouping levels accept `sortField`/`sortDirection` or a `sorters` array, resolved against the group's key fields, aggregate aliases and `$name`. Added a `sortGroups` flag to `Grid` that reorders groups when a column whose field is a group key or aggregate is sorted ([#1303](https://github.com/codaxy/cxjs/issues/1303))
+- Pressing `Esc` during a drag & drop operation now cancels it — nothing is dropped, drop zones reset, and the drag clone is removed. `onDragEnd` now receives a `DragEndEvent` with a `cancelled` flag so handlers can tell a cancel apart from a drop ([#1301](https://github.com/codaxy/cxjs/issues/1301))
+
+**Fixes**
+
+- Reserved right padding on `NumberField` for the clear button when `showClear` is enabled, so the value no longer sits underneath the clear icon
+- `ExposedValueView` now deletes the exposed record by its slot key ([#1302](https://github.com/codaxy/cxjs/pull/1302))
+
+---
+
 ## cx\@26.6.0
 
 **Features**
