@@ -81,8 +81,9 @@ The `$group` object exposes the following fields in headers and footers:
 | `indexName` | `string` | Alias used to expose record index. Default is `$index`. |
 | `keyField` | `string` | Field used as the unique record key. |
 | `groupName` | `string` | Alias used to expose group data. Default is `$group`. |
-| `groupings` | `array` | Defines criteria for grouping records. Supports header and footer configuration. |
+| `groupings` | `array` | Defines criteria for grouping records. Each level also accepts `sortField`/`sortDirection`, a `sorters` array, or a custom `comparer` to order groups by key, aggregate or name. |
 | `aggregates` | `object` | Defines computed values based on grouped records (e.g., count, sum, avg). |
+| `sortGroupsBySorters` | `boolean` | When enabled, the active record sorters also reorder groups (resolved against each group's key/aggregates/name). The Grid's `sortGroups` prop sets this. |
 | `groupRecordsName` | `string` | Alias used to expose records within a group. Default is `$records`. |
 | `groupRecordsAlias` | `string` | Alias used to expose group records outside the group. |
 | `sortOptions` | `object` | Options for data sorting. See [Intl.Collator options](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Collator). |

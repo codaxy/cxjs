@@ -4,11 +4,13 @@ import { ReadOnlyDataView } from "../../data/ReadOnlyDataView";
 import { View } from "../../data/View";
 import { isDataRecord } from "../../util";
 import { isArray } from "../../util/isArray";
+import { isDefined } from "../../util/isDefined";
+import { isNonEmptyArray } from "../../util/isNonEmptyArray";
 import { Culture } from "../Culture";
 import { Instance } from "../Instance";
 import { Prop, SortDirection, Sorter, StructuredProp } from "../Prop";
 import { RenderingContext } from "../RenderingContext";
-import { ArrayAdapter, ArrayAdapterConfig, RecordStoreCache } from "./ArrayAdapter";
+import { ArrayAdapter, ArrayAdapterConfig, ExtendedSorter, RecordStoreCache } from "./ArrayAdapter";
 import { DataAdapterRecord } from "./DataAdapter";
 
 export interface GroupKey {
@@ -21,7 +23,17 @@ export interface GroupingConfig {
    text?: Prop<string>;
    includeHeader?: boolean;
    includeFooter?: boolean;
+   /** Custom group comparer. Takes precedence over `sortField`/`sortDirection`/`sorters`. */
    comparer?: ((a: any, b: any) => number) | null;
+   /**
+    * Sort groups by a single field resolved against the group's `key`, `aggregates` and `name`.
+    * Use an aggregate alias (e.g. `"total"`) to sort by an aggregate, or a key field to sort by key.
+    */
+   sortField?: string;
+   /** Sort direction used together with `sortField`. Defaults to `"ASC"`. */
+   sortDirection?: SortDirection;
+   /** Multi-field group sorting. Each sorter's `field` is resolved against the group's `key`, `aggregates` and `name`. */
+   sorters?: Sorter[];
    header?: any;
    footer?: any;
 }
@@ -50,6 +62,8 @@ export interface GroupAdapterConfig extends ArrayAdapterConfig {
    groupRecordsName?: string;
    groupings?: GroupingConfig[] | null;
    groupName?: string;
+   /** When enabled, the active record sorters also reorder groups (resolved against each group's key/aggregates/name). */
+   sortGroupsBySorters?: boolean;
 }
 
 export class GroupAdapter<T = any> extends ArrayAdapter<T> {
@@ -58,9 +72,39 @@ export class GroupAdapter<T = any> extends ArrayAdapter<T> {
    declare public groupRecordsName?: string;
    declare public groupings?: ResolvedGrouping[] | null;
    declare public groupName: string;
+   declare public sortGroupsBySorters?: boolean;
+
+   /**
+    * Per-level comparer derived from the active record sorters, used to reorder groups when
+    * `sortGroupsBySorters` is set. A level's entry is `null` when no active sorter maps to that
+    * level's key/aggregate, so the grouping's own configured order is kept.
+    */
+   protected groupSortComparers?: (((a: any, b: any) => number) | null)[];
 
    constructor(config?: GroupAdapterConfig) {
       super(config);
+   }
+
+   public sort(sorters?: ExtendedSorter[]): void {
+      super.sort(sorters);
+
+      // When enabled, derive a group comparer from the active record sorters so that interactive
+      // column sorting also reorders the groups. A column only reorders groups at levels where its
+      // field is a group key or aggregate; other levels keep their configured order. The record-level
+      // value selector is ignored — the field is resolved against the group's key/aggregates/name.
+      if (this.sortGroupsBySorters && this.groupings) {
+         const cultureComparer = this.sortOptions ? Culture.getComparer(this.sortOptions) : undefined;
+         const colSorters: ExtendedSorter[] = isNonEmptyArray(sorters)
+            ? sorters.map((s) => ({ field: s.field, direction: s.direction, comparer: s.comparer }))
+            : [];
+
+         this.groupSortComparers = this.groupings.map((g) => {
+            if (colSorters.length === 0) return null;
+            const fields = groupFieldNames(g, this.aggregates);
+            const applicable = colSorters.filter((s) => s.field && fields.has(s.field));
+            return applicable.length > 0 ? buildGroupComparer(applicable, cultureComparer) : null;
+         });
+      }
    }
 
    public init(): void {
@@ -116,8 +160,13 @@ export class GroupAdapter<T = any> extends ArrayAdapter<T> {
       grouper.processAll(records);
       let results = grouper.getResults();
 
-      if (grouping.comparer && !this.preserveOrder) {
-         results.sort(grouping.comparer);
+      // An active column sort that maps to this level's key/aggregate (when `sortGroupsBySorters` is
+      // enabled) takes over; otherwise the grouping's configured comparer (or implicit key order) applies.
+      const dynamicComparer = this.sortGroupsBySorters ? this.groupSortComparers?.[level] : undefined;
+      const comparer = dynamicComparer ?? grouping.comparer;
+
+      if (comparer && !this.preserveOrder) {
+         results.sort(comparer);
       }
 
       results.forEach((gr) => {
@@ -208,15 +257,22 @@ export class GroupAdapter<T = any> extends ArrayAdapter<T> {
                g.text,
             );
 
+            const cultureComparer = this.sortOptions ? Culture.getComparer(this.sortOptions) : undefined;
+
+            // Sort groups by an aggregate/key/name through `sortField`/`sortDirection` or a `sorters` array.
+            let sortSorters: Sorter[] | null = null;
+            if (isNonEmptyArray(g.sorters)) sortSorters = g.sorters!;
+            else if (g.sortField) sortSorters = [{ field: g.sortField, direction: g.sortDirection ?? "ASC" }];
+
+            // `comparer`, `sortField`/`sorters` and the implicit key order are equivalent alternatives; an
+            // explicit `comparer` wins, then declarative sorters, then sorting by key in declaration order.
             const comparer =
                g.comparer ??
-               (groupSorters.length > 0
-                  ? getComparer(
-                       groupSorters,
-                       (x: any) => x.key,
-                       this.sortOptions ? Culture.getComparer(this.sortOptions) : undefined,
-                    )
-                  : null);
+               (sortSorters
+                  ? buildGroupComparer(sortSorters, cultureComparer)
+                  : groupSorters.length > 0
+                    ? getComparer(groupSorters, (x: any) => x.key, cultureComparer)
+                    : null);
 
             return {
                ...g,
@@ -233,6 +289,43 @@ export class GroupAdapter<T = any> extends ArrayAdapter<T> {
 
 GroupAdapter.prototype.groupName = "$group";
 GroupAdapter.prototype.preserveOrder = false;
+GroupAdapter.prototype.sortGroupsBySorters = false;
+
+// The set of fields a group can be sorted by at a given level: its key fields, its aggregate aliases
+// and the group name. Used to decide whether an active column sort applies to that grouping level.
+function groupFieldNames(grouping: ResolvedGrouping, adapterAggregates?: StructuredProp): Set<string> {
+   const names = new Set<string>();
+   for (const k of grouping.grouper.keys) names.add(k.name);
+   const aggregates = { ...adapterAggregates, ...grouping.aggregates };
+   for (const a in aggregates) names.add(a);
+   names.add("name");
+   names.add("$name");
+   return names;
+}
+
+// Reads a sort field straight from the GroupResult — first its key fields, then its aggregates, then
+// its name. Returns a plain selector so groups can be sorted without cloning the result per comparison.
+function groupFieldSelector(field: string): (gr: any) => any {
+   if (field === "name" || field === "$name") return (gr) => gr?.name;
+   return (gr) => {
+      if (gr?.key && field in gr.key) return gr.key[field];
+      if (gr?.aggregates && field in gr.aggregates) return gr.aggregates[field];
+      return undefined;
+   };
+}
+
+// Builds a group comparer from a list of sorters. Each sorter resolves by its explicit `value`
+// selector, or by `field` looked up against the group's key/aggregates/name.
+function buildGroupComparer(
+   sorters: ExtendedSorter[],
+   cultureComparer?: (a: any, b: any) => number,
+): (a: any, b: any) => number {
+   return getComparer(
+      sorters.map((s) => (isDefined(s.value) || !s.field ? s : { ...s, value: groupFieldSelector(s.field) })),
+      undefined,
+      cultureComparer,
+   );
+}
 
 function serializeKey(data: any): string {
    if (isDataRecord(data)) {

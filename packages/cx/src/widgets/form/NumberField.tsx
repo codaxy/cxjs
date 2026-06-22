@@ -312,6 +312,7 @@ class Input extends VDOM.Component<InputProps, InputState> {
             visited: state.visited,
             focus: this.state.focus,
             icon: !!icon,
+            clear: insideButton != null,
             empty: empty && !data.placeholder,
             error:
               data.error &&

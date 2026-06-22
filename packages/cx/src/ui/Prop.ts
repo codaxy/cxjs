@@ -127,7 +127,7 @@ export type SortDirection = "ASC" | "DESC";
 
 export interface Sorter {
    field?: string;
-   value?: (record: DataRecord) => any;
+   value?: Prop<any>;
    direction: SortDirection;
 }
 

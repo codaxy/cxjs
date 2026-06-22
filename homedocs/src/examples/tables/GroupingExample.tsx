@@ -111,11 +111,13 @@ export default (
     style="height: 500px"
     scrollable
     border
+    sortGroups
     grouping={[{ key: {}, showFooter: true }, "continent"]}
     columns={[
       {
         header: "Name",
         field: "fullName",
+        sortable: true,
         aggregate: "count",
         footer: tpl(m.$group.fullName, "{0} people"),
       },
@@ -136,6 +138,7 @@ export default (
         header: "Visits",
         field: "visits",
         align: "right",
+        sortable: true,
         aggregate: "sum",
       },
     ]}

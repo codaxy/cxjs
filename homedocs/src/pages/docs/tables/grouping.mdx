@@ -27,7 +27,7 @@ Grid supports grouping records by one or more fields with aggregation and custom
   <GroupingExample client:load />
 </CodeExample>
 
-Records are grouped by continent with aggregate calculations shown in the footer.
+Records are grouped by continent with aggregate calculations shown in the footer. Because the grid sets `sortGroups`, clicking the **Visits** header also reorders the continents by their total visits, and **Name** orders them by head count.
 
 ## Basic Grouping
 
@@ -118,6 +118,30 @@ Add a column with the built-in `cxe-grid-row-number` class to display automatic 
 
 The counter resets on the group caption row, so the grouping level needs a caption (`showCaption` or `caption`) for the reset to take effect.
 
+## Sorting Groups
+
+By default groups are ordered by their key, ascending. There are three ways to change that.
+
+**Sort by an aggregate or key declaratively.** Set `sortField` (and optionally `sortDirection`) on a grouping level. The field is resolved against the group's key fields, aggregate aliases and `$name`, so an aggregate alias sorts groups by that aggregate:
+
+```tsx
+grouping={[
+  {
+    key: { continent: { bind: "$record.continent" } },
+    sortField: "visits",     // aggregate alias
+    sortDirection: "DESC",   // highest total first
+  },
+]}
+```
+
+Use a `sorters` array for multi-field group sorting (`[{ field, direction }, ...]`). A custom `comparer` still takes precedence over both.
+
+**Sort groups by clicking column headers.** Set `sortGroups` on the grid. When the user sorts a column whose field is a group key or aggregate, the groups reorder to match; sorting any other column leaves the group order untouched. This is ignored when `preserveGroupOrder` is set.
+
+```tsx
+<Grid sortGroups grouping={["continent"]} columns={[ /* sortable columns */ ]} />
+```
+
 ## Group Data
 
 The `$group` object contains:
@@ -141,5 +165,9 @@ The `$group` object contains:
 | `resetRowNumbers` | `boolean`    | Restart `cxe-grid-row-number` numbering from 1 at the start of each group at this level. Requires a caption. |
 | `caption`         | `StringProp` | Caption template.                                                                                            |
 | `text`            | `StringProp` | Group name template.                                                                                         |
+| `sortField`       | `string`     | Sort groups by this field, resolved against the group's key fields, aggregate aliases and `$name`.           |
+| `sortDirection`   | `string`     | Sort direction for `sortField` (`ASC` or `DESC`). Defaults to `ASC`.                                          |
+| `sorters`         | `array`      | Multi-field group sorting: `[{ field, direction }, ...]`.                                                     |
+| `comparer`        | `function`   | Custom group comparer. Takes precedence over `sortField`/`sorters`.                                          |
 
 See also: [Dynamic Grouping](/docs/tables/dynamic-grouping), [GroupAdapter](/docs/tables/group-adapter)
