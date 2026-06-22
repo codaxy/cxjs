@@ -21,6 +21,18 @@ export interface DragEvent {
    result?: any;
 }
 
+export interface DragEndEvent {
+   type: "dragend";
+   /** The triggering pointer event, or `null` when the operation was cancelled via the keyboard. */
+   event: DragEvent["event"] | null;
+   /** Cursor position, or `null` when the operation was cancelled via the keyboard. */
+   cursor: CursorPosition | null;
+   source: DragEvent["source"];
+   /** `true` when the operation was cancelled (e.g. by pressing Esc) instead of dropped. */
+   cancelled: boolean;
+   result?: any;
+}
+
 export interface DragDropOptions {
    sourceEl?: Element | null;
    clone?: any;
@@ -38,7 +50,7 @@ export interface IDropZone {
    onDragStart?: DragEventHandler;
    onDragAway?: DragEventHandler;
    onDragNear?: DragEventHandler;
-   onDragEnd?: DragEventHandler;
+   onDragEnd?: (e: DragEndEvent) => void;
    onDragMeasure?: (
       e: DragEvent,
       operation: DragDropOperationContext,
@@ -62,7 +74,6 @@ import { getTopLevelBoundingClientRect } from "../../util/getTopLevelBoundingCli
 import { VDOM } from "../../ui/VDOM";
 import { Container } from "../../ui/Container";
 import { Console } from "../../util";
-import { WidgetConfig } from "../../ui";
 
 interface Puppet {
    deltaX: number;
@@ -70,7 +81,7 @@ interface Puppet {
    el: HTMLDivElement;
    clone: any;
    source: any;
-   onDragEnd?: (e?: DragEvent) => void;
+   onDragEnd?: (e?: DragEndEvent) => void;
    stop?: () => void;
 }
 
@@ -82,6 +93,7 @@ let puppet: Puppet | null = null;
 let scrollTimer: number | null = null;
 let vscrollParent: Element | null = null;
 let hscrollParent: Element | null = null;
+let releaseCapture: (() => void) | null = null;
 
 export function registerDropZone(dropZone: IDropZone): UnregisterFunction {
    dropZones.push(dropZone);
@@ -94,7 +106,7 @@ export function registerDropZone(dropZone: IDropZone): UnregisterFunction {
 export function initiateDragDrop(
    e: MouseEvent | TouchEvent | React.MouseEvent | React.TouchEvent,
    options: DragDropOptions = {},
-   onDragEnd?: (e?: DragEvent) => void,
+   onDragEnd?: (e?: DragEndEvent) => void,
 ): void {
    if (puppet) {
       //last operation didn't finish properly
@@ -187,7 +199,16 @@ export function initiateDragDrop(
 
    notifyDragMove(e, null);
 
-   captureMouseOrTouch(e, notifyDragMove, notifyDragDrop);
+   releaseCapture = captureMouseOrTouch(e, notifyDragMove, notifyDragDrop);
+   document.addEventListener("keydown", onDragKeyDown, true);
+}
+
+function onDragKeyDown(e: KeyboardEvent): void {
+   if (!puppet || e.key !== "Escape") return;
+   //cancel the operation without dropping; there is no pointer event to report
+   e.preventDefault();
+   e.stopPropagation();
+   notifyDragDrop(null, true);
 }
 
 function notifyDragMove(e: React.MouseEvent | React.TouchEvent | MouseEvent | TouchEvent, _captureData: any): void {
@@ -321,29 +342,50 @@ function clearScrollTimer() {
    }
 }
 
-function notifyDragDrop(e: MouseEvent | TouchEvent | React.MouseEvent | React.TouchEvent): void {
+function notifyDragDrop(
+   e: MouseEvent | TouchEvent | React.MouseEvent | React.TouchEvent | null,
+   cancelled: boolean = false,
+): void {
+   if (!puppet) return;
+
    clearScrollTimer();
+   document.removeEventListener("keydown", onDragKeyDown, true);
 
-   let event = getDragEvent(e, "dragdrop");
+   if (puppet.stop) puppet.stop();
 
-   if (puppet!.stop) puppet!.stop();
+   //a keyboard cancellation has no pointer event, so the drop and away notifications are skipped
+   let dropEvent = !cancelled && e ? getDragEvent(e, "dragdrop") : null;
 
-   if (activeZone && activeZone.onDrop) event.result = activeZone.onDrop(event);
+   let result: any;
+   if (dropEvent && activeZone && activeZone.onDrop) result = activeZone.onDrop(dropEvent);
+
+   let endEvent: DragEndEvent = {
+      type: "dragend",
+      event: e,
+      cursor: e ? getCursorPos(e) : null,
+      source: puppet.source,
+      cancelled,
+      result,
+   };
 
    dropZones.forEach((zone) => {
-      if (nearZones != null && zone.onDragAway && nearZones.has(zone)) zone.onDragAway(event);
+      if (dropEvent && nearZones != null && zone.onDragAway && nearZones.has(zone)) zone.onDragAway(dropEvent);
 
       if (!dragStartedZones!.has(zone)) return;
 
-      if (zone.onDragEnd) zone.onDragEnd(event);
+      if (zone.onDragEnd) zone.onDragEnd(endEvent);
    });
 
-   if (puppet!.onDragEnd) puppet!.onDragEnd(event);
+   if (puppet.onDragEnd) puppet.onDragEnd(endEvent);
+
+   //tear down the mouse/touch capture when cancelling; on a normal drop the capture ends itself
+   if (cancelled && releaseCapture) releaseCapture();
 
    nearZones = null;
    activeZone = null;
    puppet = null;
    dragStartedZones = null;
+   releaseCapture = null;
 }
 
 function getDragEvent(
