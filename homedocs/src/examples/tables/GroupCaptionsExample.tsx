@@ -106,6 +106,7 @@ export default (
       { key: {}, showFooter: true },
       { key: { continent: { bind: "$record.continent" } }, showCaption: true },
     ]}
+    sortGroups
     columns={[
       {
         header: "Name",
@@ -113,6 +114,7 @@ export default (
         aggregate: "count",
         footer: tpl(m.$group.fullName, "{0} people"),
         caption: tpl(m.$group.continent, m.$group.fullName, "{0} ({1} people)"),
+        sortable: true,
       },
       {
         header: "Browser",
@@ -121,6 +123,8 @@ export default (
         aggregateAlias: "browsers",
         footer: tpl(m.$group.browsers, "{0} browsers"),
         caption: tpl(m.$group.browsers, "{0} browsers"),
+        sortable: true,
+        sortField: "browsers",
       },
       {
         header: "Visits",
@@ -128,6 +132,7 @@ export default (
         align: "right",
         aggregate: "sum",
         caption: m.$group.visits,
+        sortable: true,
       },
     ]}
     recordAlias={m.$record}
