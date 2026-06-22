@@ -1,6 +1,6 @@
 import { DataAdapter, DataAdapterRecord, DataAdapterConfig } from "./DataAdapter";
 import { ReadOnlyDataView } from "../../data/ReadOnlyDataView";
-import { sorter } from "../../data/comparer";
+import { sorter, type ExtendedSorter } from "../../data/comparer";
 import { isArray } from "../../util/isArray";
 import { ArrayElementView } from "../../data/ArrayElementView";
 import { Accessor, getAccessor } from "../../data/getAccessor";
@@ -9,7 +9,7 @@ import { isDefined, isObject } from "../../util";
 import { RenderingContext } from "../RenderingContext";
 import { Instance } from "../Instance";
 import { View } from "../../data/View";
-import { Prop, Sorter, CollatorOptions } from "../Prop";
+import { Prop, CollatorOptions } from "../Prop";
 
 export interface RecordStoreCache {
    recordStoreCache: WeakMap<any, View>;
@@ -26,10 +26,8 @@ export interface ArrayAdapterConfig extends DataAdapterConfig {
    preserveOrder?: boolean;
 }
 
-export interface ExtendedSorter extends Sorter {
-   comparer?: (a: any, b: any) => number;
-   sortOptions?: CollatorOptions;
-}
+// Re-exported for back-compat; the canonical definition lives in `data/comparer`.
+export type { ExtendedSorter } from "../../data/comparer";
 
 export interface ResolvedSorter {
    getter: (x: any) => any;
@@ -213,9 +211,9 @@ export class ArrayAdapter<T = any> extends DataAdapter<T> {
       }
    }
 
-   public sort(sorters?: Sorter[] | ExtendedSorter[]): void {
+   public sort(sorters?: ExtendedSorter[]): void {
       if (sorters) {
-         this.buildSorter(sorters as ExtendedSorter[]);
+         this.buildSorter(sorters);
       }
    }
 }

@@ -85,7 +85,7 @@ export class GroupAdapter<T = any> extends ArrayAdapter<T> {
       super(config);
    }
 
-   public sort(sorters?: Sorter[] | ExtendedSorter[]): void {
+   public sort(sorters?: ExtendedSorter[]): void {
       super.sort(sorters);
 
       // When enabled, derive a group comparer from the active record sorters so that interactive
@@ -95,7 +95,7 @@ export class GroupAdapter<T = any> extends ArrayAdapter<T> {
       if (this.sortGroupsBySorters && this.groupings) {
          const cultureComparer = this.sortOptions ? Culture.getComparer(this.sortOptions) : undefined;
          const colSorters: ExtendedSorter[] = isNonEmptyArray(sorters)
-            ? (sorters as ExtendedSorter[]).map((s) => ({ field: s.field, direction: s.direction, comparer: s.comparer }))
+            ? sorters.map((s) => ({ field: s.field, direction: s.direction, comparer: s.comparer }))
             : [];
 
          this.groupSortComparers = this.groupings.map((g) => {

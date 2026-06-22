@@ -1,17 +1,16 @@
 import { getSelector } from "./getSelector";
 import { isDefined } from "../util/isDefined";
 import { defaultCompare } from "./defaultCompare";
+import type { CollatorOptions, Sorter } from "../ui/Prop";
 
-interface Sorter {
-   value?: any;
-   field?: string;
-   direction?: string;
+export interface ExtendedSorter extends Sorter {
    comparer?: (a: any, b: any) => number;
    compare?: (a: any, b: any) => number;
+   sortOptions?: CollatorOptions;
 }
 
 export function getComparer(
-   sorters: Sorter[],
+   sorters: ExtendedSorter[],
    dataAccessor?: (x: any) => any,
    comparer?: (a: any, b: any) => number,
 ): (a: any, b: any) => number {
@@ -51,7 +50,7 @@ export function getComparer(
 }
 
 export function indexSorter(
-   sorters: Sorter[],
+   sorters: ExtendedSorter[],
    dataAccessor?: (x: any) => any,
    compare?: (a: any, b: any) => number,
 ): (data: any[]) => number[] {
@@ -64,7 +63,7 @@ export function indexSorter(
 }
 
 export function sorter(
-   sorters: Sorter[],
+   sorters: ExtendedSorter[],
    dataAccessor?: (x: any) => any,
    compare?: (a: any, b: any) => number,
 ): (data: any[]) => any[] {
