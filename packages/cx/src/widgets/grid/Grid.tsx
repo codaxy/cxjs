@@ -63,6 +63,7 @@ import {
    ddMouseDown,
    DragDropOperationContext,
    DragEvent,
+   DragEndEvent,
    initiateDragDrop,
    registerDropZone,
 } from "../drag-drop/ops";
@@ -400,7 +401,7 @@ export interface GridConfig<T = any> extends StyledContainerConfig {
    onDrop?: string | ((e: GridDragEvent<T>, instance: Instance) => void);
    onDropTest?: string | ((e: DragEvent, instance: Instance) => boolean);
    onDragStart?: string | ((e: DragEvent, instance: Instance) => void);
-   onDragEnd?: string | ((e: DragEvent, instance: Instance) => void);
+   onDragEnd?: string | ((e: DragEndEvent, instance: Instance) => void);
    onDragOver?: string | ((e: GridDragEvent<T>, instance: Instance) => void | boolean);
 
    onRowDropTest?: string | ((e: DragEvent, instance: Instance) => boolean);
@@ -2871,7 +2872,7 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
       return (grid || row || column) && { grid, row, column };
    }
 
-   onDragEnd(e: DragEvent) {
+   onDragEnd(e: DragEndEvent) {
       this.setState({
          dropTarget: null,
          dropInsertionIndex: null,

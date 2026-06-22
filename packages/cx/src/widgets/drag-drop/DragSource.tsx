@@ -2,7 +2,7 @@
 
 import { Widget, VDOM } from "../../ui/Widget";
 import { ContainerBase, ContainerConfig, StyledContainerBase, StyledContainerConfig } from "../../ui/Container";
-import { ddMouseDown, ddDetect, ddMouseUp, initiateDragDrop, isDragHandleEvent } from "./ops";
+import { ddMouseDown, ddDetect, ddMouseUp, initiateDragDrop, isDragHandleEvent, DragEndEvent } from "./ops";
 import { preventFocus } from "../../ui/FocusManager";
 import { parseStyle } from "../../util/parseStyle";
 import { Instance } from "../../ui/Instance";
@@ -30,7 +30,7 @@ export interface DragSourceConfig extends StyledContainerConfig {
 
    onDragStart?: (e: React.MouseEvent | React.TouchEvent, instance: Instance) => any;
 
-   onDragEnd?: (e: React.MouseEvent | React.TouchEvent, instance: Instance) => void;
+   onDragEnd?: (e: DragEndEvent, instance: Instance) => void;
 
    id?: StringProp;
 
@@ -64,7 +64,7 @@ export class DragSource extends StyledContainerBase<DragSourceConfig, DragSource
    declare cloneStyle: any;
    declare draggedStyle: any;
    declare onDragStart?: (e: React.MouseEvent | React.TouchEvent, instance: DragSourceInstance) => any;
-   declare onDragEnd?: (e: React.MouseEvent | React.TouchEvent, instance: DragSourceInstance) => void;
+   declare onDragEnd?: (e: DragEndEvent, instance: DragSourceInstance) => void;
 
    constructor(config?: DragSourceConfig) {
       super(config);

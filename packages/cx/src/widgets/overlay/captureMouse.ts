@@ -31,7 +31,7 @@ interface CaptureMouseOptions {
 export function captureMouse2(
    e: React.MouseEvent | React.TouchEvent | MouseEvent | TouchEvent,
    options: CaptureMouseOptions,
-): void {
+): () => void {
    let surface = document.createElement("div");
    surface.className = "cxb-mousecapture";
    surface.style.cursor = options.cursor || getComputedStyle(e.currentTarget as Element).cursor;
@@ -66,6 +66,8 @@ export function captureMouse2(
    }
 
    e.stopPropagation();
+
+   return tear;
 
    function move(e: Event) {
       if (!active) {
@@ -110,7 +112,7 @@ export function captureMouse2(
 export function captureMouseOrTouch2(
    e: React.MouseEvent | React.TouchEvent | MouseEvent | TouchEvent,
    options: CaptureMouseOptions,
-): void {
+): () => void {
    if (e.type.indexOf("touch") == 0) {
       let el = e.currentTarget as HTMLElement;
 
@@ -136,7 +138,12 @@ export function captureMouseOrTouch2(
       el.addEventListener("touchend", end);
 
       e.stopPropagation();
-   } else captureMouse2(e, options);
+
+      return () => {
+         el.removeEventListener("touchmove", move);
+         el.removeEventListener("touchend", end);
+      };
+   } else return captureMouse2(e, options);
 }
 
 /**
@@ -153,8 +160,8 @@ export function captureMouse(
    onMouseUp?: (e: MouseEvent | TouchEvent, captureData?: any) => void,
    captureData?: any,
    cursor?: string,
-): void {
-   captureMouse2(e, {
+): () => void {
+   return captureMouse2(e, {
       onMouseMove,
       onMouseUp,
       captureData,
@@ -176,8 +183,8 @@ export function captureMouseOrTouch(
    onMouseUp?: (e: MouseEvent, captureData?: any) => void,
    captureData?: any,
    cursor?: string,
-): void {
-   captureMouseOrTouch2(e, { onMouseMove, onMouseUp, captureData, cursor });
+): () => void {
+   return captureMouseOrTouch2(e, { onMouseMove, onMouseUp, captureData, cursor });
 }
 
 /**

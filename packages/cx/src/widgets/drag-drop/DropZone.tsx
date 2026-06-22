@@ -3,7 +3,7 @@
 import { Widget, VDOM } from "../../ui/Widget";
 import { ContainerBase, ContainerConfig, StyledContainerBase, StyledContainerConfig } from "../../ui/Container";
 import { parseStyle } from "../../util/parseStyle";
-import { registerDropZone, DragDropContext, DragEvent } from "./ops";
+import { registerDropZone, DragDropContext, DragEvent, DragEndEvent } from "./ops";
 import { findScrollableParent } from "../../util/findScrollableParent";
 import { isNumber } from "../../util/isNumber";
 import { getTopLevelBoundingClientRect } from "../../util/getTopLevelBoundingClientRect";
@@ -90,8 +90,8 @@ export interface DropZoneConfig extends StyledContainerConfig {
    /** A callback method invoked when at the beginning of the drag & drop operation. */
    onDragStart?: string | ((event: DragEvent, instance: Instance) => void);
 
-   /** A callback method invoked when at the end of the drag & drop operation. */
-   onDragEnd?: string | ((event: DragEvent, instance: Instance) => void);
+   /** A callback method invoked when at the end of the drag & drop operation. `event.cancelled` is `true` when the operation was cancelled (e.g. via Esc) instead of dropped. */
+   onDragEnd?: string | ((event: DragEndEvent, instance: Instance) => void);
 
    /** Match height of the item being dragged */
    matchHeight?: boolean;
@@ -126,7 +126,7 @@ export class DropZone extends StyledContainerBase<DropZoneConfig, DropZoneInstan
    declare onDragEnter?: string | ((event?: DragEvent, instance?: Instance) => void);
    declare onDragLeave?: string | ((event?: DragEvent, instance?: Instance) => void);
    declare onDragStart?: string | ((event?: DragEvent, instance?: Instance) => void);
-   declare onDragEnd?: string | ((event?: DragEvent, instance?: Instance) => void);
+   declare onDragEnd?: string | ((event?: DragEndEvent, instance?: Instance) => void);
 
    constructor(config?: DropZoneConfig) {
       super(config);
@@ -342,7 +342,7 @@ class DropZoneComponent extends VDOM.Component<DropZoneComponentProps, DropZoneC
       if (this.state.state == "over" && widget.onDrop) instance.invoke("onDrop", e, instance);
    }
 
-   onDragEnd(e: DragEvent) {
+   onDragEnd(e: DragEndEvent) {
       this.setState({
          state: false,
          style: null,
