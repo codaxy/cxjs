@@ -23,6 +23,7 @@ import {
    NumberProp,
    Prop,
    RecordAlias,
+   Sorter,
    SortDirection,
    SortersProp,
    StringProp,
@@ -165,6 +166,15 @@ export interface GridGroupingConfig<T> {
    name?: StringProp;
    text?: StringProp;
    comparer?: (a: GroupingResult<T>, b: GroupingResult<T>) => number;
+   /**
+    * Sort groups by a single field resolved against the group's key, aggregates and name.
+    * Use an aggregate alias to sort by an aggregate, or a key field to sort by key.
+    */
+   sortField?: string;
+   /** Sort direction used together with `sortField`. Defaults to `"ASC"`. */
+   sortDirection?: SortDirection;
+   /** Multi-field group sorting. Each sorter's `field` is resolved against the group's key, aggregates and name. */
+   sorters?: Sorter[];
 }
 
 export interface GridColumnHeaderConfig {
@@ -502,6 +512,13 @@ export interface GridConfig<T = any> extends StyledContainerConfig {
 
    /** When enabled, groups are shown in the same order as the source records. */
    preserveGroupOrder?: boolean;
+
+   /**
+    * When enabled, sorting by a column header also reorders groups. The active sort field is resolved
+    * against each group's key fields, aggregates and name, so it works for both grouping columns and
+    * aggregate columns. Ignored when `preserveGroupOrder` is set.
+    */
+   sortGroups?: boolean;
 }
 
 export interface GridCellInfo {
@@ -635,6 +652,7 @@ export class Grid<T = unknown> extends ContainerBase<GridConfig<T>, GridInstance
    declare onCreateIsRecordDraggable?: any;
    declare onRef?: any;
    declare preserveGroupOrder: boolean;
+   declare sortGroups: boolean;
    declare styled: boolean;
    declare selectable?: boolean;
    declare recordsAccessor: any;
@@ -844,6 +862,7 @@ export class Grid<T = unknown> extends ContainerBase<GridConfig<T>, GridInstance
                     sortOptions: this.sortOptions,
                     groupings: grouping,
                     preserveOrder: this.preserveGroupOrder,
+                    sortGroupsBySorters: this.sortGroups,
                  },
                  this.dataAdapter,
               );
@@ -1903,6 +1922,7 @@ Grid.prototype.hoverChannel = "default";
 Grid.prototype.focusable = null; // automatically resolved
 Grid.prototype.allowsFileDrops = false;
 Grid.prototype.preserveGroupOrder = false;
+Grid.prototype.sortGroups = false;
 
 Widget.alias("grid", Grid);
 Localization.registerPrototype("cx/widgets/Grid", Grid);

@@ -154,7 +154,10 @@ Each grouping level supports the following options:
 | `showHeader`  | `boolean`  | Show a header row within each group. Useful for long printable reports.                                       |
 | `showCaption` | `boolean`  | Show a caption row at the start of each group. Caption content is defined in the column's `caption` property. |
 | `text`        | `string`   | A selector for text available as `$group.$name` in templates.                                                 |
-| `comparer`    | `function` | A function to determine group ordering.                                                                       |
+| `sortField`     | `string`   | Sort groups by this field, resolved against the group's key fields, aggregate aliases and `$name`.          |
+| `sortDirection` | `string`   | Sort direction for `sortField` (`ASC` or `DESC`). Defaults to `ASC`.                                         |
+| `sorters`       | `array`    | Multi-field group sorting: `[{ field, direction }, ...]`.                                                    |
+| `comparer`    | `function` | A function to determine group ordering. Takes precedence over `sortField`/`sorters`.                          |
 
 Column aggregates (`sum`, `count`, `avg`, `distinct`) are automatically calculated and available in footer/caption templates via `$group`.
 
@@ -266,6 +269,7 @@ See also: [Row Drag and Drop](/docs/tables/row-drag-and-drop)
 | `groupingParams`    | `any`      | Parameters passed to `onGetGrouping` for dynamic grouping.    |
 | `onGetGrouping`     | `function` | Callback to dynamically generate grouping when params change. |
 | `preserveGroupOrder`| `boolean`  | Keep groups in the same order as source records.              |
+| `sortGroups`        | `boolean`  | Reorder groups when a column is sorted, if its field is a group key or aggregate. Ignored with `preserveGroupOrder`. |
 
 ### Filtering
 
