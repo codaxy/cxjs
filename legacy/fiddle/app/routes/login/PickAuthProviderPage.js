@@ -6,7 +6,7 @@ class PickController extends Controller {
    init() {
       super.init();
 
-      var state = String(Math.random() * 1000000);
+      var state = Array.from(crypto.getRandomValues(new Uint8Array(16)), b => b.toString(16).padStart(2, '0')).join('');
 
       this.store.set('login.providers', Object.keys(config.login).map(id=> {
          var c = config.login[id];
