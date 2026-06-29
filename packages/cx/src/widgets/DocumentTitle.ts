@@ -80,6 +80,8 @@ export class DocumentTitle extends Widget<DocumentTitleConfig> {
    }
 
    prepare(context: RenderingContext, instance: Instance): void {
+      if (typeof document == "undefined") return;
+
       if ((context as any).documentTitle.activeInstance == instance)
          document.title = (context as any).documentTitle.title;
    }

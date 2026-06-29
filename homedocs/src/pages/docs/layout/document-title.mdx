@@ -1,0 +1,46 @@
+---
+layout: ../../../layouts/DocsLayout.astro
+title: DocumentTitle
+description: Set the browser document (tab) title from the widget tree
+---
+
+import ImportPath from "../../../components/ImportPath.astro";
+import CodeExample from "../../../components/CodeExample.astro";
+
+import DocumentTitleExample from "../../../examples/layout/DocumentTitleExample.tsx";
+import DocumentTitleExampleCode from "../../../examples/layout/DocumentTitleExample.tsx?raw";
+
+# DocumentTitle
+
+<ImportPath path="import { DocumentTitle } from 'cx/widgets';" />
+
+`DocumentTitle` is a non-visual widget that sets `document.title` (the text shown in the browser tab). It renders nothing, so it can be placed anywhere in the widget tree. Because the title is data-bound, it updates automatically whenever the bound value changes — making it easy to reflect the current route, selected record, or unsaved-changes state in the tab.
+
+<CodeExample code={DocumentTitleExampleCode}>
+  <DocumentTitleExample client:load />
+</CodeExample>
+
+## Combining titles
+
+Multiple `DocumentTitle` widgets compose into a single title. The first instance encountered in the tree becomes the one that actually writes to `document.title`, while every instance contributes its `text` according to its `action` (`append`, `prepend`, or `replace`).
+
+This is convenient for app shells: place a base `DocumentTitle` at the application root and add per-page `DocumentTitle` widgets that prepend the page name.
+
+```tsx
+// Application root — establishes the base title
+<DocumentTitle value="My App" action="replace" />;
+
+// A page deeper in the tree — prepends its name with a separator
+<DocumentTitle value="Dashboard" action="prepend" separator=" – " />;
+// Result: "Dashboard – My App"
+```
+
+## Configuration
+
+| Property    | Type                                  | Description                                                                                                              |
+| ----------- | ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `value`     | `string`                              | Text value to use for the document title. Supports data binding.                                                       |
+| `text`      | `string`                              | Alias for `value`. If both are set, `value` takes precedence.                                                          |
+| `action`    | `"append" \| "prepend" \| "replace"` | How to combine this widget's text with the title contributed by other `DocumentTitle` widgets. Defaults to `"append"`. |
+| `separator` | `string`                              | Separator inserted between titles when using `append` or `prepend`. Defaults to an empty string.                       |
+| `append`    | `boolean`                             | Deprecated. Use `action="append"` instead.                                                                              |
