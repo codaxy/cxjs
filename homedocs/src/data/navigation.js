@@ -456,6 +456,12 @@ export const navigation = [
             llms: "small",
             description: "Inject content into layout placeholders",
           },
+          {
+            title: "DocumentTitle",
+            slug: "document-title",
+            llms: "small",
+            description: "Set the browser tab title from the widget tree",
+          },
         ],
       },
       {
