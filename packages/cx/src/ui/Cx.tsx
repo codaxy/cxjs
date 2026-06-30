@@ -35,6 +35,32 @@ export interface CxState {
    data?: any;
 }
 
+// Guard against React's "Maximum update depth exceeded" during very large synchronous render bursts.
+// On the initial render of a large document the store can be mutated thousands of times within a single
+// React commit: every Instance.setState wraps store.notify() in batchUpdates(), so isBatchingUpdates() stays
+// true and every subscribed Cx takes its *synchronous* setState branch on each notification. React counts
+// those as nested render-phase updates and aborts past ~50 (surfacing as the recoverable "error during
+// concurrent rendering"). Once back-to-back updates exceed the limit we fall back to the coalesced setTimeout
+// branch, which renders the latest store data on the next tick. The counter is global (it mirrors React's
+// global nested-update counter) and resets after any idle gap, so the guard is inert outside of a pathological
+// synchronous storm. trackSyncUpdateBurst() must be called on EVERY update() -- counting only the synchronous
+// branch would let the window reset whenever a deferred update lands between two synchronous ones, so the
+// counter would never reach the limit. performance.now() gives sub-ms resolution (Date.now() is the fallback;
+// Timing.now() can't be used here because it returns 0 in production).
+const SYNC_UPDATE_BURST_LIMIT = 30;
+const SYNC_UPDATE_BURST_RESET_MS = 10;
+const syncUpdateBurstNow: () => number =
+   typeof performance !== "undefined" && performance.now ? () => performance.now() : () => Date.now();
+let syncUpdateBurstCount = 0;
+let syncUpdateBurstLastAt = 0;
+
+function trackSyncUpdateBurst(): boolean {
+   let t = syncUpdateBurstNow();
+   if (t - syncUpdateBurstLastAt > SYNC_UPDATE_BURST_RESET_MS) syncUpdateBurstCount = 0;
+   syncUpdateBurstLastAt = t;
+   return ++syncUpdateBurstCount > SYNC_UPDATE_BURST_LIMIT;
+}
+
 export class Cx extends VDOM.Component<CxProps, CxState> {
    widget: Widget;
    store: View;
@@ -159,17 +185,23 @@ export class Cx extends VDOM.Component<CxProps, CxState> {
    update(): void {
       let data = this.store.getData();
       debug(appDataFlag, data);
+      let overBurstLimit = trackSyncUpdateBurst();
       if (this.flags.preparing) this.flags.dirty = true;
-      else if (isBatchingUpdates() || this.props.immediate) {
+      // `immediate` is the explicit opt-in to synchronous updates, so it always renders synchronously and is
+      // never deferred by the burst guard; the guard only throttles batching-driven updates (which is what
+      // produces the render storm).
+      else if (this.props.immediate || (isBatchingUpdates() && !overBurstLimit)) {
          notifyBatchedUpdateStarting();
          this.setState({ data: data }, notifyBatchedUpdateCompleted);
       } else {
-         //in standard mode sequential store commands are batched
+         //in standard mode sequential store commands are batched -- as is any update that exceeds the
+         //synchronous burst limit above, which falls through here to avoid React's max-update-depth abort
          if (!this.pendingUpdateTimer) {
             notifyBatchedUpdateStarting();
             this.pendingUpdateTimer = setTimeout(() => {
                delete this.pendingUpdateTimer;
-               this.setState({ data: data }, notifyBatchedUpdateCompleted);
+               //read fresh data at fire time so a deferred (coalesced) update always renders the latest state
+               this.setState({ data: this.store.getData() }, notifyBatchedUpdateCompleted);
             }, 0);
          }
       }
