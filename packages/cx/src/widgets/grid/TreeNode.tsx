@@ -41,6 +41,9 @@ export interface TreeNodeConfig extends StyledContainerConfig {
   /** Icon for folder. */
   folderIcon?: StringProp;
 
+  /** Icon used for the expand/collapse arrow. Defaults to `drop-down`. */
+  arrowIcon?: StringProp;
+
   /** Set to `true` to hide the icon. */
   hideIcon?: boolean;
 
