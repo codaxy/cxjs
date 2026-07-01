@@ -4,6 +4,15 @@ title: Changelog
 description: Version history and release notes
 ---
 
+## cx\@26.7.4
+
+**Fixes**
+
+- `Cx` now coalesces re-entrant synchronous updates. Large renders that write to the store while rendering (e.g. a several-hundred-page report) could re-render the root hundreds of times in one synchronous burst, exceeding React's nested-update limit and crashing the render. Updates that settle in a single render behave as before; only deep re-entrant bursts yield to a microtask so React's counter resets. On by default. If you suspect it causes trouble, opt out at startup with `disableSyncUpdateCoalescing()` and please [report the issue](https://github.com/codaxy/cxjs/issues) so it can be fixed. The burst threshold can be tuned with `enableSyncUpdateCoalescing(limit)` ([#1310](https://github.com/codaxy/cxjs/pull/1310))
+- Added the missing `arrowIcon` prop to `TreeNodeConfig`, so setting the expand/collapse glyph from JSX no longer raises a type error ([#1309](https://github.com/codaxy/cxjs/pull/1309))
+
+---
+
 ## cx\@26.7.0
 
 **Features**
