@@ -6,6 +6,28 @@ import { bind } from "./bind";
 import { createTestRenderer, createTestWidget, act } from "../util/test/createTestRenderer";
 import assert from "assert";
 import { HtmlElement } from "../widgets/HtmlElement";
+import { batchUpdatesAndNotify } from "./batchUpdates";
+
+// A widget that, each time it explores, bumps `n` by one until it reaches `target`. This reproduces the
+// shape of a large report's initial render: the render writes to the store, which schedules another
+// render, until the store reaches a fixpoint. It drives Cx's coalescing update path across many rounds.
+function convergingWidget(target: number) {
+   return (
+      <cx>
+         <div
+            text={bind("n")}
+            onExplore={(context: any, instance: any) => {
+               let n = instance.store.get("n");
+               if (n < target) instance.store.set("n", n + 1);
+            }}
+         />
+      </cx>
+   );
+}
+
+function renderedValue(component: any): number {
+   return Number(component.toJSON().children[0]);
+}
 
 describe("Cx", () => {
    it("can render cx content", async () => {
@@ -206,5 +228,41 @@ describe("Cx", () => {
          ["render", "0.0"],
          ["render", "0"],
       ]);
+   });
+
+   // Coalescing of re-entrant synchronous updates is the default. These cover the two guarantees that
+   // matter for large, store-mutating-during-render trees (e.g. report page-breaking).
+
+   it("resolves batchUpdatesAndNotify only after the store reaches its fixpoint", async () => {
+      const TARGET = 6; // shallow, like page-breaking convergence -> stays fully synchronous under a notifier
+      let store = new Store({ data: { n: 0 } });
+      const component = await createTestRenderer(store, convergingWidget(TARGET));
+      assert.equal(renderedValue(component), TARGET);
+
+      let notifiedStoreValue = -1;
+      let notifiedRenderedValue = -1;
+      await act(async () => {
+         batchUpdatesAndNotify(
+            () => {
+               store.set("n", 0); // reset -> the render cascade re-converges back up to TARGET
+            },
+            () => {
+               notifiedStoreValue = store.get("n");
+               notifiedRenderedValue = renderedValue(component);
+            },
+         );
+      });
+
+      // The notify callback is what page-breaking relies on: it must run only once the change is fully
+      // implemented -- both the store and the rendered DOM are at the final value, never an intermediate.
+      assert.equal(notifiedStoreValue, TARGET, "notify saw a pre-fixpoint store value");
+      assert.equal(notifiedRenderedValue, TARGET, "notify fired before the DOM reflected the final value");
+   });
+
+   it("converges a deep render burst without tripping React's max-update-depth guard", async () => {
+      const TARGET = 200; // far beyond React's ~50 nested-update limit; only survives because of the yield
+      let store = new Store({ data: { n: 0 } });
+      const component = await createTestRenderer(store, convergingWidget(TARGET));
+      assert.equal(renderedValue(component), TARGET);
    });
 });
