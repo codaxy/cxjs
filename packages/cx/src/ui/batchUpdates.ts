@@ -27,6 +27,13 @@ export function isBatchingUpdates(): boolean {
    return isBatching > 0;
 }
 
+// True while a batchUpdatesAndNotify accumulator is subscribed, i.e. some caller is waiting for the
+// current batch's renders to finish. Cx uses this to stay fully synchronous during page-breaking so the
+// notify callback still fires right after the change commits.
+export function hasBatchedUpdateSubscribers(): boolean {
+   return !promiseSubscribers.isEmpty();
+}
+
 export function notifyBatchedUpdateStarting(): void {
    promiseSubscribers.execute((x: any) => {
       (x as UpdateCallback).pending++;
