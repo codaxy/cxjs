@@ -4,10 +4,12 @@ import { SubscriberList } from "../util/SubscriberList";
 interface UpdateCallback {
    pending: number;
    finished: number;
+   watermark: number;
    complete: (success?: boolean) => void;
 }
 
 let isBatching = 0;
+let updateSequence = 0;
 let promiseSubscribers = new SubscriberList();
 
 export function batchUpdates(callback: () => void): void {
@@ -27,22 +29,22 @@ export function isBatchingUpdates(): boolean {
    return isBatching > 0;
 }
 
-// True while a batchUpdatesAndNotify accumulator is subscribed, i.e. some caller is waiting for the
-// current batch's renders to finish. Cx uses this to stay fully synchronous during page-breaking so the
-// notify callback still fires right after the change commits.
-export function hasBatchedUpdateSubscribers(): boolean {
-   return !promiseSubscribers.isEmpty();
-}
-
-export function notifyBatchedUpdateStarting(): void {
+// Returns a sequence number identifying the update; pass it to notifyBatchedUpdateCompleted once the
+// update is rendered.
+export function notifyBatchedUpdateStarting(): number {
+   let seq = ++updateSequence;
    promiseSubscribers.execute((x: any) => {
       (x as UpdateCallback).pending++;
    });
+   return seq;
 }
 
-export function notifyBatchedUpdateCompleted(): void {
+export function notifyBatchedUpdateCompleted(seq: number): void {
    promiseSubscribers.execute((x: any) => {
       let cb = x as UpdateCallback;
+      // ignore updates that started before this subscriber attached -- counting them would let the notify
+      // callback fire before the updates the subscriber is actually waiting on are rendered
+      if (seq <= cb.watermark) return;
       cb.finished++;
       if (cb.finished >= cb.pending) cb.complete(true);
    });
@@ -60,6 +62,7 @@ export function batchUpdatesAndNotify(
    const update: UpdateCallback = {
       pending: 0,
       finished: 0,
+      watermark: updateSequence,
       complete: (success?: boolean) => {
          if (!done) {
             done = true;

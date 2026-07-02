@@ -259,6 +259,33 @@ describe("Cx", () => {
       assert.equal(notifiedRenderedValue, TARGET, "notify fired before the DOM reflected the final value");
    });
 
+   it("does not fire the notify callback early when an update is already in flight", async () => {
+      const TARGET = 50;
+      let store = new Store({ data: { n: 0 } });
+      const component = await createTestRenderer(store, convergingWidget(TARGET));
+      assert.equal(renderedValue(component), TARGET);
+
+      let notifiedStoreValue = -1;
+      let notifiedRenderedValue = -1;
+      await act(async () => {
+         store.set("n", 0); // puts an update in flight before the notifier below subscribes
+         batchUpdatesAndNotify(
+            () => {
+               store.set("n", 1);
+            },
+            () => {
+               notifiedStoreValue = store.get("n");
+               notifiedRenderedValue = renderedValue(component);
+            },
+         );
+      });
+
+      // The write issued inside batchUpdatesAndNotify must be rendered before the notify callback runs,
+      // even though it landed while a previous update was still converging.
+      assert.equal(notifiedStoreValue, TARGET, "notify saw a pre-fixpoint store value");
+      assert.equal(notifiedRenderedValue, TARGET, "notify fired before the DOM reflected the final value");
+   });
+
    it("converges a deep render burst without tripping React's max-update-depth guard", async () => {
       const TARGET = 200; // far beyond React's ~50 nested-update limit; only survives because of the yield
       let store = new Store({ data: { n: 0 } });

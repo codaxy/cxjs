@@ -5,12 +5,7 @@ import { Instance } from "./Instance";
 import { RenderingContext } from "./RenderingContext";
 import { debug, appDataFlag } from "../util/Debug";
 import { Timing, now, appLoopFlag, vdomRenderFlag } from "../util/Timing";
-import {
-   isBatchingUpdates,
-   notifyBatchedUpdateStarting,
-   notifyBatchedUpdateCompleted,
-   hasBatchedUpdateSubscribers,
-} from "./batchUpdates";
+import { isBatchingUpdates, notifyBatchedUpdateStarting, notifyBatchedUpdateCompleted } from "./batchUpdates";
 import { shallowEquals } from "../util/shallowEquals";
 import { PureContainer } from "./PureContainer";
 import { onIdleCallback } from "../util/onIdleCallback";
@@ -18,34 +13,40 @@ import { getCurrentCulture, pushCulture, popCulture, CultureInfo, ResolvedCultur
 import { View } from "../data/View";
 import { Config } from "./Prop";
 
-// On by default. Cx coalesces re-entrant synchronous updates and, once a burst grows deep, yields to a
-// microtask so React's global per-root nested-update counter resets before continuing -- preventing
-// "Maximum update depth exceeded" on large renders that write to the store while they render (e.g. a
-// several-hundred-page report). For updates that settle in a single render -- virtually all of them --
-// this is equivalent to the previous behavior; it only diverges under a deep re-entrant render burst.
-// If you suspect it causes trouble, opt out at app startup with disableSyncUpdateCoalescing() -- and
-// please report the issue so it can be fixed.
-let coalesceSyncUpdates = true;
+// On by default. Once a synchronous update burst grows deep, Cx starts issuing updates from microtasks
+// so React's global nested-update counter resets before continuing -- preventing "Maximum update depth
+// exceeded" on large renders that write to the store while they render (e.g. a several-hundred-page
+// report). For updates that settle in a single render -- virtually all of them -- this is equivalent to
+// rendering synchronously; it only diverges under a deep re-entrant render burst. If you suspect it
+// causes trouble, opt out at app startup with disableSyncUpdateCoalescing() -- and please report the
+// issue so it can be fixed.
 
-// Consecutive commit-phase re-render rounds allowed before Cx yields to a microtask. Kept under React's
-// ~50 nested-update limit (which is global to the root, not per component); the default trades a little
-// initial-render time for a safety margin. Override via enableSyncUpdateCoalescing(limit) if needed.
-let syncBurstLimit = 35;
+// Synchronous updates allowed within one burst before Cx switches to issuing updates from a microtask.
+// Kept under React's ~50 nested-update limit (which is global to the root, not per component); the
+// default trades a little initial-render time for a safety margin. Override via
+// enableSyncUpdateCoalescing(limit) if needed.
+const defaultSyncBurstLimit = 35;
+let syncBurstLimit = defaultSyncBurstLimit;
+
+// Microtask-issued updates allowed within one burst before Cx escalates to setTimeout. Deep enough that
+// only a store that never converges reaches it; timeouts let the event loop turn, so the page stays
+// responsive and batchUpdatesAndNotify fallback timers can fire instead of the tab hanging.
+let microtaskBurstLimit = 1000;
 
 export function enableSyncUpdateCoalescing(limit?: number): void {
-   coalesceSyncUpdates = true;
-   if (limit != null) syncBurstLimit = limit;
+   syncBurstLimit = limit ?? defaultSyncBurstLimit;
 }
 export function disableSyncUpdateCoalescing(): void {
-   coalesceSyncUpdates = false;
+   syncBurstLimit = Infinity;
 }
 
-// Module-global because React's nested-update limit is global to the root, not per component. A large
-// initial render can re-render the root Cx and every detached page Restate hundreds of times in one
-// synchronous burst; once the burst grows past syncBurstLimit we yield so React's commit finishes
-// without a synchronously-scheduled follow-up (which resets its counter) before we render again.
-let activeSyncUpdates = 0; // Cx instances with a synchronous setState in flight
-let syncBurstRounds = 0; // commit-phase re-render rounds issued since the last yield / burst start
+// Module-global because React's nested-update limit is global to the root, not per component. The burst
+// counter resets only when all notifications settle (see completeNotification) -- tying the burst
+// window to unsettled work makes it immune to how React schedules the flushes. Legacy React chains
+// re-entrant updates synchronously within one task, but React 19 may run each round from its own
+// microtask, so no task/microtask boundary is a reliable reset point.
+let syncBurstRounds = 0; // updates issued in the current burst
+let outstandingNotifications = 0; // reported notifications not yet rendered, across all Cx instances
 
 export interface CxProps {
    widget?: Config;
@@ -67,6 +68,7 @@ export interface CxProps {
 export interface CxState {
    deferToken: number;
    data?: any;
+   error?: boolean;
 }
 
 export class Cx extends VDOM.Component<CxProps, CxState> {
@@ -77,14 +79,18 @@ export class Cx extends VDOM.Component<CxProps, CxState> {
    flags: { preparing?: boolean; dirty?: boolean; rendering?: boolean };
    renderCount: number;
    unsubscribe?: () => void;
-   componentDidCatch?: (error: Error, info: any) => void;
    forceUpdateCallback: () => void;
    deferCounter: number;
    pendingUpdateTimer?: NodeJS.Timeout;
    unsubscribeIdleRequest?: () => void;
-   // true while a coalesced synchronous setState is in flight for this Cx (re-entrancy guard for update());
-   // only used when coalesceSyncUpdates is enabled
-   stateUpdateInFlight: boolean = false;
+   // store notifications reported to batchUpdatesAndNotify subscribers but not yet rendered and completed
+   owedNotifications: Set<number> = new Set();
+   // setState is not allowed before the component mounts; pre-mount notifications set flags.dirty instead
+   // and componentDidMount picks them up (see update())
+   mounted: boolean = false;
+   // true once this instance has contributed to syncBurstRounds for the current render round; cleared on
+   // render, so bursts are counted per round rather than per notification (see update())
+   burstRoundCounted: boolean = false;
 
    constructor(props: CxProps) {
       super(props);
@@ -115,17 +121,13 @@ export class Cx extends VDOM.Component<CxProps, CxState> {
          this.unsubscribe = this.store.subscribe(this.update.bind(this));
       }
 
-      this.onStateUpdateCompleted = this.onStateUpdateCompleted.bind(this);
-
       this.flags = {};
       this.renderCount = 0;
 
-      if (props.onError) this.componentDidCatch = this.componentDidCatchHandler.bind(this);
-
       this.forceUpdateCallback = this.forceUpdate.bind(this);
 
-      this.deferCounter = 0;
-      this.waitForIdle();
+      // deferredUntilIdle content stays hidden until the idle callback scheduled on mount bumps the token
+      this.deferCounter = props.deferredUntilIdle ? 1 : 0;
    }
 
    UNSAFE_componentWillReceiveProps(props: CxProps): void {
@@ -165,6 +167,12 @@ export class Cx extends VDOM.Component<CxProps, CxState> {
    }
 
    render() {
+      this.burstRoundCounted = false;
+
+      // an error was captured and is being dispatched to the onError callback (see componentDidCatch);
+      // render nothing until the callback repairs the state
+      if (this.state.error) return null;
+
       if (this.props.deferredUntilIdle && this.state.deferToken < this.deferCounter) return null;
 
       let cultureInfo = this.props.cultureInfo ?? getCurrentCulture();
@@ -183,6 +191,10 @@ export class Cx extends VDOM.Component<CxProps, CxState> {
    }
 
    componentDidMount(): void {
+      this.mounted = true;
+      // schedule the deferredUntilIdle reveal here rather than in the constructor -- the idle callback
+      // could otherwise fire before the component mounts and issue a setState React does not allow yet
+      this.waitForIdle();
       this.componentDidUpdate();
 
       if (this.props.options && this.props.options.onPipeUpdate)
@@ -198,80 +210,72 @@ export class Cx extends VDOM.Component<CxProps, CxState> {
    update(): void {
       let data = this.store.getData();
       debug(appDataFlag, data);
-      if (this.flags.preparing) this.flags.dirty = true;
+      if (this.flags.preparing || !this.mounted) this.flags.dirty = true;
       // Synchronous path: while batching (incl. batchUpdatesAndNotify, which page-breaking relies on) or for
       // `immediate` instances.
       else if (this.props.immediate || isBatchingUpdates()) {
-         if (!coalesceSyncUpdates) {
-            // Opt-out path (disableSyncUpdateCoalescing()): the original behavior -- render synchronously
-            // for every update, no coalescing.
-            notifyBatchedUpdateStarting();
-            this.setState({ data: data }, notifyBatchedUpdateCompleted);
-            return;
+         // Every notification is reported to batchUpdatesAndNotify subscribers up front and completed only
+         // once the setState that renders it commits, so notify callbacks never fire before the DOM reflects
+         // the change. Each notification always gets its own setState; only its timing escalates as the
+         // burst grows: synchronous at first, then from a microtask (lets React's commit finish so its
+         // global nested-update counter resets instead of tripping "Maximum update depth exceeded"), and
+         // finally from a timeout (lets the event loop turn, so a store that never converges degrades to a
+         // responsive page instead of a frozen tab).
+         let seq = notifyBatchedUpdateStarting();
+         this.owedNotifications.add(seq);
+         outstandingNotifications++;
+         // Count render rounds rather than notifications: only the first notification an instance
+         // receives per render round bumps the shared depth (the flag clears on render). This tracks
+         // React's nested-commit count -- the thing the escalation must stay under -- so a round that
+         // writes many values doesn't burn through the budget in one go.
+         if (!this.burstRoundCounted) {
+            this.burstRoundCounted = true;
+            ++syncBurstRounds;
+            if (process.env.NODE_ENV !== "production" && syncBurstRounds === microtaskBurstLimit + 1)
+               console.error(
+                  "Cx: store updates are not converging after " +
+                     microtaskBurstLimit +
+                     " render rounds -- possible update loop. Updates are now issued from timeouts to keep the page responsive. Look for code that writes a new value to the store on every render.",
+               );
          }
-         // Coalescing enabled: at most one setState may be in flight per Cx. Re-entrant update() calls (the
-         // render itself writing to the store, as happens throughout a large initial render) are skipped --
-         // the in-flight round re-reads the store on completion (see onStateUpdateCompleted), so nothing is
-         // dropped. Nesting these setStates deep is what trips React's "Maximum update depth exceeded".
-         if (this.stateUpdateInFlight) return;
-         if (activeSyncUpdates === 0) syncBurstRounds = 0; // fresh burst -> reset the shared round counter
-         activeSyncUpdates++;
-         this.stateUpdateInFlight = true;
-         notifyBatchedUpdateStarting();
-         this.issueSyncSetState();
+         if (syncBurstRounds <= syncBurstLimit) this.issueStateUpdate(seq);
+         else if (syncBurstRounds <= microtaskBurstLimit) queueMicrotask(() => this.issueStateUpdate(seq));
+         else setTimeout(() => this.issueStateUpdate(seq), 0);
       } else {
          // standard mode: coalesce sequential store commands into a single deferred update
          this.scheduleStateUpdate();
       }
    }
 
-   // Issue the next synchronous render round (coalescing path). Once a burst grows past SYNC_BURST_LIMIT we
-   // render from a microtask instead, so React's commit finishes without a synchronously-scheduled follow-up
-   // and its global nested-update counter resets before we continue. The yield is suppressed while a
-   // batchUpdatesAndNotify is in flight: page-breaking convergence is shallow, so staying fully synchronous
-   // keeps its notify callback firing right after the change commits (and the counter never gets near 50).
-   issueSyncSetState(): void {
-      if (hasBatchedUpdateSubscribers() || ++syncBurstRounds <= syncBurstLimit) {
-         this.setState({ data: this.store.getData() }, this.onStateUpdateCompleted);
-      } else {
-         queueMicrotask(() => {
-            // The event loop has turned, so React's global nested-update counter has reset; realign ours.
-            // Resetting here (not before scheduling) keeps the counter high through the rest of the current
-            // commit, so any other Cx re-arming in the same commit also yields instead of extending the chain.
-            syncBurstRounds = 0;
-            if (this.stateUpdateInFlight)
-               this.setState({ data: this.store.getData() }, this.onStateUpdateCompleted);
-         });
-      }
+   // Render the latest store data and report the notification completed once the commit is done, so
+   // batchUpdatesAndNotify resolves only when the DOM reflects the store.
+   issueStateUpdate(seq: number): void {
+      // skip notifications no longer owed -- unmount may have already released them
+      if (!this.owedNotifications.has(seq)) return;
+      this.setState({ data: this.store.getData() }, () => this.completeNotification(seq));
+   }
+
+   completeNotification(seq: number): void {
+      // skip notifications no longer owed -- unmount may have already released them
+      if (!this.owedNotifications.delete(seq)) return;
+      outstandingNotifications--;
+      notifyBatchedUpdateCompleted(seq);
+      // everything settled -- the next burst starts fresh, and so does React's nested-update counter
+      // (the commit that settled the last notification ends without scheduling further synchronous work)
+      if (outstandingNotifications === 0) syncBurstRounds = 0;
    }
 
    scheduleStateUpdate() {
       if (!this.pendingUpdateTimer) {
-         notifyBatchedUpdateStarting();
+         let seq = notifyBatchedUpdateStarting();
+         this.owedNotifications.add(seq);
+         outstandingNotifications++;
          this.pendingUpdateTimer = setTimeout(() => {
             delete this.pendingUpdateTimer;
             // read fresh data at fire time so the coalesced update renders the latest store state
-            this.setState({ data: this.store.getData() }, notifyBatchedUpdateCompleted);
+            this.setState({ data: this.store.getData() }, () => this.completeNotification(seq));
          }, 0);
       }
-   }
-
-   // Completion callback for the coalescing path's setState. React runs it after the commit, so the DOM
-   // already reflects this render. If the render wrote to the store, run another round -- keeping the
-   // batched-update accounting balanced (open the next round before closing this one) so `finished` never
-   // catches `pending` mid-convergence and batchUpdatesAndNotify resolves only at the store fixpoint.
-   // Otherwise the burst has settled: clear the in-flight flag and report completion.
-   onStateUpdateCompleted() {
-      if (this.state.data === this.store.getData()) {
-         // Converged: the store didn't change while this round rendered, so the DOM is up to date.
-         this.stateUpdateInFlight = false;
-         activeSyncUpdates--;
-         notifyBatchedUpdateCompleted();
-         return;
-      }
-      notifyBatchedUpdateStarting(); // open the next round
-      notifyBatchedUpdateCompleted(); // close this one
-      this.issueSyncSetState();
    }
 
    waitForIdle(): void {
@@ -291,13 +295,9 @@ export class Cx extends VDOM.Component<CxProps, CxState> {
    }
 
    componentWillUnmount(): void {
-      if (this.stateUpdateInFlight) {
-         // Release the open pending round so a waiting batchUpdatesAndNotify can settle instead of waiting
-         // out its fallback timeout, and keep the shared in-flight refcount balanced.
-         this.stateUpdateInFlight = false;
-         activeSyncUpdates--;
-         notifyBatchedUpdateCompleted();
-      }
+      // Release notifications that will never render so a waiting batchUpdatesAndNotify can settle instead
+      // of waiting out its fallback timeout.
+      for (let seq of this.owedNotifications) this.completeNotification(seq);
       if (this.pendingUpdateTimer) clearTimeout(this.pendingUpdateTimer);
       if (this.unsubscribeIdleRequest) this.unsubscribeIdleRequest();
       if (this.unsubscribe) this.unsubscribe();
@@ -319,9 +319,22 @@ export class Cx extends VDOM.Component<CxProps, CxState> {
       );
    }
 
-   componentDidCatchHandler(error: Error, info: any): void {
+   // Render null for the failed subtree while the error is dispatched to componentDidCatch below --
+   // returning a state update here is what React expects of an error boundary (rendering the broken
+   // children again would just rethrow).
+   static getDerivedStateFromError(): Partial<CxState> {
+      return { error: true };
+   }
+
+   componentDidCatch(error: Error, info: any): void {
       this.flags.preparing = false;
-      this.props.onError!(error, this.getInstance(), info);
+      // without an onError callback this instance is not an error boundary -- rethrow so the error
+      // reaches the nearest ancestor boundary, matching the behavior before getDerivedStateFromError
+      // was introduced
+      if (!this.props.onError) throw error;
+      this.props.onError(error, this.getInstance(), info);
+      // the callback had a chance to repair the state (e.g. replace the failing content) -- resume rendering
+      this.setState({ error: false });
    }
 }
 
