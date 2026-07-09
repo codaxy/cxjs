@@ -15,6 +15,11 @@ import { getTopLevelBoundingClientRect } from "cx/util";
 //   - bind `yMin`/`yMax` -> the selector zooms the y-axis
 //   - bind both          -> rectangular (x + y) zoom
 //
+// An optional `onZoom(range, instance)` callback fires after a zoom is applied
+// (and on double-click reset). `range` is `{ x, y, reset? }`, where `x`/`y` are
+// `[min, max]` for the axes that changed or `null` otherwise; `reset` is `true`
+// for a double-click reset.
+//
 // It relies on the axis calculators (available to any chart child via
 // `context.axes[...]`) to convert pixel <-> value:
 //   - trackValue(px, offset, constrain) : pixel -> value
@@ -171,6 +176,8 @@ class RangeSelector extends BoundedObject {
          window.removeEventListener("mousemove", move, true);
          window.removeEventListener("mouseup", up, true);
 
+         let range = { x: null, y: null };
+
          instance.store.batch(() => {
             instance.set("x1", null);
             instance.set("x2", null);
@@ -178,14 +185,18 @@ class RangeSelector extends BoundedObject {
             instance.set("y2", null);
 
             if (useX && ax && Math.abs(lastPxX - startPxX) >= 3) {
-               instance.set("xMin", Math.min(startX, lastX));
-               instance.set("xMax", Math.max(startX, lastX));
+               range.x = [Math.min(startX, lastX), Math.max(startX, lastX)];
+               instance.set("xMin", range.x[0]);
+               instance.set("xMax", range.x[1]);
             }
             if (useY && ay && Math.abs(lastPxY - startPxY) >= 3) {
-               instance.set("yMin", Math.min(startY, lastY));
-               instance.set("yMax", Math.max(startY, lastY));
+               range.y = [Math.min(startY, lastY), Math.max(startY, lastY)];
+               instance.set("yMin", range.y[0]);
+               instance.set("yMax", range.y[1]);
             }
          });
+
+         if ((range.x || range.y) && this.onZoom) instance.invoke("onZoom", range, instance);
       };
 
       window.addEventListener("mousemove", move, true);
@@ -203,6 +214,10 @@ class RangeSelector extends BoundedObject {
             instance.set("yMax", null);
          }
       });
+
+      // reset is signalled with null ranges for the axes this selector controls
+      if (this.onZoom)
+         instance.invoke("onZoom", { x: null, y: null, reset: true }, instance);
    }
 }
 
@@ -226,10 +241,19 @@ class PageController extends Controller {
    }
 }
 
+function describeZoom(range, label) {
+   if (range.reset) return `${label}: reset`;
+   let d = (ms) => new Date(ms).toLocaleDateString();
+   let parts = [];
+   if (range.x) parts.push(`x ${d(range.x[0])} → ${d(range.x[1])}`);
+   if (range.y) parts.push(`y ${range.y[0].toFixed(1)} → ${range.y[1].toFixed(1)}`);
+   return `${label}: ${parts.join(", ")}`;
+}
+
 // A single chart bound to the shared x-range ($page.range) and its own y-range.
 // `zoomY` decides whether the y-axis bindings are wired to the RangeSelector;
 // when they are omitted, the selector zooms the x-axis only.
-const ZoomChart = ({ lineStyle, yField, yRange, sel, zoomY }) => (
+const ZoomChart = ({ label, lineStyle, yField, yRange, sel, zoomY }) => (
    <cx>
       <Svg style="width:800px; height:260px;">
          <Chart
@@ -260,6 +284,7 @@ const ZoomChart = ({ lineStyle, yField, yRange, sel, zoomY }) => (
                y2={zoomY ? { bind: `${sel}.y2` } : undefined}
                yMin={zoomY ? { bind: `${yRange}.from` } : undefined}
                yMax={zoomY ? { bind: `${yRange}.to` } : undefined}
+               onZoom={(range, inst) => inst.store.set("$page.status", describeZoom(range, label))}
             />
          </Chart>
       </Svg>
@@ -282,13 +307,15 @@ export default (
                   store.set("$page.range", null);
                   store.set("$page.y1", null);
                   store.set("$page.y2", null);
+                  store.set("$page.status", null);
                }}
             >
                Reset zoom
             </Button>
+            <div style="color:#555; font-family:monospace" text-tpl="onZoom → {$page.status:s;—}" />
          </FlexRow>
-         <ZoomChart lineStyle="stroke: #555; stroke-width: 1.5" yField="value" yRange="$page.y1" sel="$page.sel1" />
-         <ZoomChart lineStyle="stroke: #888; stroke-width: 1.5" yField="value2" yRange="$page.y2" sel="$page.sel2" zoomY />
+         <ZoomChart label="Top" lineStyle="stroke: #555; stroke-width: 1.5" yField="value" yRange="$page.y1" sel="$page.sel1" />
+         <ZoomChart label="Bottom" lineStyle="stroke: #888; stroke-width: 1.5" yField="value2" yRange="$page.y2" sel="$page.sel2" zoomY />
       </div>
    </cx>
 );
