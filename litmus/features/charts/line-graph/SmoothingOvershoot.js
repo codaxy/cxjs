@@ -90,16 +90,15 @@ export default (
 
                <LineGraph
                   data-bind="$page.points"
-                  colorIndex={0}
+                  lineStyle="stroke: #0074eb; stroke-width: 2.5"
                   smooth-bind="$page.smooth"
                   smoothingRatio-bind="$page.smoothingRatio"
                   name="Smoothed"
                />
                <LineGraph
                   data-bind="$page.points"
-                  colorIndex={8}
                   visible-bind="$page.showRawLine"
-                  lineStyle="stroke-dasharray: 2 3; stroke-width: 1"
+                  lineStyle="stroke: #333; stroke-dasharray: 3 3; stroke-width: 1.5"
                   name="Actual data"
                />
 
@@ -110,7 +109,7 @@ export default (
                      y-bind="$record.y"
                      size={5}
                      shape="circle"
-                     colorIndex={8}
+                     style="fill: #333; stroke: #333"
                   />
                </Repeater>
             </Chart>
