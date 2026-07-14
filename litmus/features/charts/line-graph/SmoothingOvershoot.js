@@ -68,7 +68,7 @@ export default (
          <Legend />
          <Svg style="width:900px; height:550px;">
             <Chart
-               offset="60 -10 -80 50"
+               offset="100 -10 -100 50"
                axes={{
                   x: { type: NumericAxis, lineStyle: "stroke: transparent" },
                   y: { type: NumericAxis, vertical: true },
