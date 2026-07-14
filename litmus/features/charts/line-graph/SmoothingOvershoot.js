@@ -3,9 +3,9 @@ import { Svg } from "cx/svg";
 import { Controller, LabelsLeftLayout, Repeater } from "cx/ui";
 import { Select, Slider, Switch } from "cx/widgets";
 
-// Showcases how bezier-based smoothing overshoots the actual data range.
-// The smoothed curve dips below the minimum / rises above the maximum of the data,
-// which makes it look like the underlying values are incorrect.
+// Showcases how bezier-based smoothing overshoots the actual data range and
+// compares it side by side with monotone cubic interpolation (smooth="monotone")
+// which never leaves the vertical bounds of the data.
 // Most visible with steep slopes next to flat segments (steps, spikes, zeros).
 
 const datasets = {
@@ -42,8 +42,10 @@ const datasets = {
 class PageController extends Controller {
    onInit() {
       this.store.init("$page.dataset", "step");
-      this.store.init("$page.smooth", true);
+      this.store.init("$page.smooth1", "bezier");
+      this.store.init("$page.smooth2", "monotone");
       this.store.init("$page.smoothingRatio", 0.4);
+      this.store.init("$page.showArea", false);
       this.store.init("$page.showRawLine", true);
       this.store.init("$page.showMarkers", true);
       this.store.init("$page.showBounds", true);
@@ -62,11 +64,17 @@ class PageController extends Controller {
    }
 }
 
-export default (
+const SmoothingChart = ({ smoothBinding }) => (
    <cx>
-      <div class="widgets" style="padding-left: 30px" controller={PageController}>
-         <Legend />
-         <Svg style="width:900px; height:550px;">
+      <div>
+         <div style="display: flex; align-items: center; gap: 10px; padding-left: 50px">
+            <Select value-bind={smoothBinding}>
+               <option value="off">No smoothing</option>
+               <option value="bezier">Bezier (smooth=true)</option>
+               <option value="monotone">Monotone (smooth="monotone")</option>
+            </Select>
+         </div>
+         <Svg style="width:560px; height:500px;">
             <Chart
                offset="100 -10 -100 50"
                axes={{
@@ -80,7 +88,6 @@ export default (
                   y-bind="$page.yMax"
                   visible-bind="$page.showBounds"
                   style="stroke: red; stroke-dasharray: 4 4"
-                  name="Data bounds"
                />
                <MarkerLine
                   y-bind="$page.yMin"
@@ -91,15 +98,17 @@ export default (
                <LineGraph
                   data-bind="$page.points"
                   lineStyle="stroke: #0074eb; stroke-width: 2.5"
-                  smooth-bind="$page.smooth"
+                  areaStyle="fill: rgba(0, 116, 235, 0.15)"
+                  area-bind="$page.showArea"
+                  smooth={{ expr: `{${smoothBinding}} == 'off' ? false : {${smoothBinding}} == 'bezier' ? true : {${smoothBinding}}` }}
                   smoothingRatio-bind="$page.smoothingRatio"
-                  name="Smoothed"
+                  legend={false}
                />
                <LineGraph
                   data-bind="$page.points"
                   visible-bind="$page.showRawLine"
                   lineStyle="stroke: #333; stroke-dasharray: 3 3; stroke-width: 1.5"
-                  name="Actual data"
+                  legend={false}
                />
 
                <Repeater records-bind="$page.points">
@@ -110,10 +119,22 @@ export default (
                      size={5}
                      shape="circle"
                      style="fill: #333; stroke: #333"
+                     legend={false}
                   />
                </Repeater>
             </Chart>
          </Svg>
+      </div>
+   </cx>
+);
+
+export default (
+   <cx>
+      <div class="widgets" style="padding-left: 30px" controller={PageController}>
+         <div style="display: flex; gap: 20px">
+            <SmoothingChart smoothBinding="$page.smooth1" />
+            <SmoothingChart smoothBinding="$page.smooth2" />
+         </div>
 
          <div
             style="display: flex; flex-direction: column; gap: 10px; margin-top: 20px; width: 500px"
@@ -127,16 +148,15 @@ export default (
                <option value="unevenX" text={datasets.unevenX.label} />
             </Select>
 
-            <Switch label="Smooth" value-bind="$page.smooth" />
             <Slider
-               label="Smoothing ratio"
-               enabled-bind="$page.smooth"
+               label="Smoothing ratio (bezier)"
                value={{ bind: "$page.smoothingRatio", debounce: 100 }}
                maxValue={0.4}
                minValue={0}
                step={0.01}
                help-tpl="{$page.smoothingRatio:n;0;2}"
             />
+            <Switch label="Area" value-bind="$page.showArea" />
             <Switch label="Show actual data (dashed)" value-bind="$page.showRawLine" />
             <Switch label="Show markers" value-bind="$page.showMarkers" />
             <Switch label="Show data min/max bounds" value-bind="$page.showBounds" />
@@ -145,9 +165,9 @@ export default (
          <div style="margin-top: 20px; max-width: 700px; color: #666">
             <p>
                The smoothed curve should never cross the dashed red lines — those mark the actual minimum and maximum
-               of the data. With the current bezier smoothing, steep slopes next to flat segments push the curve
-               outside the data range (overshoot), so the graph appears to show values that don't exist in the data
-               (e.g. negative values where the data has zeros).
+               of the data. Bezier smoothing overshoots on steep slopes next to flat segments, so the graph appears to
+               show values that don't exist in the data. Monotone interpolation (<code>smooth="monotone"</code>) stays
+               within the data bounds.
             </p>
          </div>
       </div>
