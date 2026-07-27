@@ -359,8 +359,10 @@ See also: [Row Drag and Drop](/docs/tables/row-drag-and-drop)
 | `header`               | `string \| object` | Text or configuration object for the column header.     |
 | `format`               | `string`           | Format string for cell values.                          |
 | `align`                | `string`           | Column alignment: `left`, `right`, or `center`.         |
+| `value`                | `selector`         | Selector (binding, template, expression or computable) for the displayed cell value. Use it for computed values or columns without a direct record field. |
 | `sortable`             | `boolean`          | Set to `true` to make the column sortable.              |
 | `sortField`            | `string`           | Alternative field used for sorting.                     |
+| `sortValue`            | `selector`         | Selector used for sorting instead of the field or the displayed value. Takes precedence over all other sort sources. |
 | `primarySortDirection` | `string`           | Initial sort direction on first click: `ASC` or `DESC`. |
 | `aggregate`            | `string`           | Aggregate function: `sum`, `count`, `distinct`, `avg`.  |
 | `aggregateField`       | `string`           | Field used for aggregation if different from `field`.   |
