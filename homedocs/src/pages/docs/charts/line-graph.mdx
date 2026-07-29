@@ -23,7 +23,7 @@ Line charts are commonly used for data trends visualization. The `LineGraph` wid
   <LineGraphExample client:load />
 </CodeExample>
 
-The example above demonstrates multiple line series with area fill, smooth curves, and a range band (using `y0Field` and `yField` to define upper and lower bounds). Use the controls to adjust the number of data points, toggle area/line visibility, and modify the smoothing effect.
+The example above demonstrates multiple line series with area fill, smooth curves, and a range band (using `y0Field` and `yField` to define upper and lower bounds). Use the controls to adjust the number of data points, toggle area/line visibility, and toggle smoothing.
 
 ## Configuration
 
@@ -52,10 +52,11 @@ The example above demonstrates multiple line series with area fill, smooth curve
 
 ### Smoothing
 
-| Property         | Type      | Default | Description                                                                                    |
-| ---------------- | --------- | ------- | ---------------------------------------------------------------------------------------------- |
-| `smooth`         | `boolean` | `false` | Set to `true` to draw smoothed lines using cubic Bézier curves                                 |
-| `smoothingRatio` | `number`  | `0.05`  | Controls the intensity of smoothing (0 to 0.4). Higher values create more curved lines         |
+| Property | Type      | Default | Description                                                                                                                                             |
+| -------- | --------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `smooth` | `boolean` | `false` | Set to `true` to draw smoothed lines. Uses monotone cubic interpolation, so the curve never overshoots the vertical range of the data                    |
+
+> The `smoothingRatio` property is deprecated and ignored — the monotone interpolation used for smoothing does not have a configurable curvature.
 
 ### Stacking
 

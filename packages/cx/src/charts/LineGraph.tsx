@@ -5,7 +5,7 @@ import { isArray } from "../util/isArray";
 import { parseStyle } from "../util/parseStyle";
 import { Instance } from "../ui/Instance";
 import { RenderingContext } from "../ui/RenderingContext";
-import { NumberProp, BooleanProp, StringProp, RecordsProp, StyleProp, Prop } from "../ui/Prop";
+import { NumberProp, BooleanProp, StringProp, RecordsProp, StyleProp } from "../ui/Prop";
 import type { ChartRenderingContext } from "./Chart";
 import { ClassProp } from "../ui/Prop";
 
@@ -43,13 +43,13 @@ export interface LineGraphConfig extends WidgetConfig {
    stacked?: BooleanProp;
 
    /**
-    * Set to `true` to enable smooth (curved) line rendering using bezier curves.
-    * Set to `"monotone"` to use monotone cubic interpolation which never overshoots
-    * the actual data range, i.e. the curve stays within the vertical bounds of the data.
+    * Set to `true` to enable smooth (curved) line rendering. Uses monotone cubic
+    * interpolation which never overshoots the actual data range, i.e. the curve
+    * stays within the vertical bounds of the data.
     */
-   smooth?: Prop<boolean | "monotone">;
+   smooth?: BooleanProp;
 
-   /** Controls the curvature of smooth lines. Value should be between 0 and 0.4. Default is 0.05. Applies only to bezier smoothing. */
+   /** @deprecated Smoothing is based on monotone cubic interpolation and its curvature is not configurable. This property is ignored. */
    smoothingRatio?: NumberProp;
 
    /** Name of the horizontal axis. Default value is `x`. */
@@ -131,8 +131,7 @@ export class LineGraph extends Widget {
    declare legendAction: string;
    declare legendShape: string;
    declare stack: string;
-   declare smooth: boolean | "monotone";
-   declare smoothingRatio: number;
+   declare smooth: boolean;
 
    constructor(config: LineGraphConfig) {
       super(config);
@@ -163,7 +162,6 @@ export class LineGraph extends Widget {
          stack: undefined,
          stacked: undefined,
          smooth: undefined,
-         smoothingRatio: undefined,
       });
    }
 
@@ -171,11 +169,6 @@ export class LineGraph extends Widget {
       let { data } = instance;
 
       if (data.name && !data.colorName) data.colorName = data.name;
-
-      if (data.smooth && data.smoothingRatio != null) {
-         if (data.smoothingRatio < 0) data.smoothingRatio = 0;
-         if (data.smoothingRatio > 0.4) data.smoothingRatio = 0.4;
-      }
 
       super.prepareData(context, instance);
    }
@@ -303,21 +296,16 @@ export class LineGraph extends Widget {
       };
 
       let line: React.ReactNode, area: React.ReactNode;
-      const r = data.smoothingRatio;
 
       let linePath = "";
       if (data.line) {
          lineSpans.forEach((span) => {
             if (span.length == 0) return;
             linePath += `M ${span[0].x} ${span[0].y}`;
-            if (data.smooth == "monotone") linePath += this.getMonotoneSpanPath(span, "y");
+            if (data.smooth && span.length >= 2) linePath += this.getMonotoneSpanPath(span, "y");
             else
                span.forEach((p, i) => {
-                  if (i == 0) return;
-                  linePath +=
-                     !data.smooth || span.length < 2
-                        ? `L ${p.x} ${p.y}`
-                        : this.getCurvedPathSegment(p, span, i - 1, i - 2, i - 1, i + 1, r);
+                  if (i > 0) linePath += `L ${p.x} ${p.y}`;
                });
          });
 
@@ -333,43 +321,20 @@ export class LineGraph extends Widget {
       if (data.area) {
          let areaPath = "";
          lineSpans.forEach((span) => {
-            if (data.smooth == "monotone" && span.length >= 2) {
-               let last = span[span.length - 1];
-               areaPath += `M ${span[0].x} ${span[0].y}`;
+            if (span.length == 0) return;
+            let last = span[span.length - 1];
+            areaPath += `M ${span[0].x} ${span[0].y}`;
+            if (data.smooth && span.length >= 2) {
                areaPath += this.getMonotoneSpanPath(span, "y");
                areaPath += `L ${last.x} ${last.y0}`;
                areaPath += this.getMonotoneSpanPath(span, "y0", true);
-               areaPath += "Z";
-               return;
+            } else {
+               span.forEach((p, i) => {
+                  if (i > 0) areaPath += `L ${p.x} ${p.y}`;
+               });
+               areaPath += `L ${last.x} ${last.y0}`;
+               for (let i = span.length - 2; i >= 0; i--) areaPath += `L ${span[i].x} ${span[i].y0}`;
             }
-            let closePath = "";
-            span.forEach((p, i) => {
-               let segment = "";
-               if (i == 0) {
-                  segment = `M ${p.x} ${p.y}`;
-
-                  // closing point
-                  closePath =
-                     !data.smooth || span.length < 2
-                        ? `L ${p.x} ${p.y0}`
-                        : this.getCurvedPathSegment(p, span, i + 1, i + 2, i + 1, i - 1, r, "y0");
-               } else {
-                  if (!data.smooth) {
-                     segment = `L ${p.x} ${p.y}`;
-                     closePath = `L ${p.x} ${p.y0}` + closePath;
-                  } else {
-                     segment = this.getCurvedPathSegment(p, span, i - 1, i - 2, i - 1, i + 1, r, "y");
-
-                     // closing point
-                     if (i < span.length - 1)
-                        closePath = this.getCurvedPathSegment(p, span, i + 1, i + 2, i + 1, i - 1, r, "y0") + closePath;
-                  }
-               }
-               areaPath += segment;
-            });
-
-            areaPath += `L ${span[span.length - 1].x} ${span[span.length - 1].y0}`;
-            areaPath += closePath;
             areaPath += "Z";
          });
 
@@ -447,61 +412,6 @@ export class LineGraph extends Widget {
       return path;
    }
 
-   getCurvedPathSegment(
-      p: LinePoint,
-      points: LinePoint[],
-      i1: number,
-      i2: number,
-      j1: number,
-      j2: number,
-      r: number,
-      yField: "y" | "y0" = "y",
-   ): string {
-      const [sx, sy] = this.getControlPoint({ cp: points[i1], pp: points[i2], r, np: p, yField });
-      const [ex, ey] = this.getControlPoint({ cp: p, pp: points[j1], np: points[j2], r, reverse: true, yField });
-
-      return `C ${sx} ${sy}, ${ex} ${ey}, ${p.x} ${p[yField]}`;
-   }
-
-   getControlPoint({
-      cp,
-      pp,
-      np,
-      r,
-      reverse,
-      yField = "y",
-   }: {
-      cp: LinePoint;
-      pp: LinePoint | undefined;
-      np: LinePoint | undefined;
-      r: number;
-      reverse?: boolean;
-      yField?: "y" | "y0";
-   }): [number, number] {
-      // When 'current' is the first or last point of the array 'previous' or 'next' don't exist. Replace with 'current'.
-      const p = pp || cp;
-      const n = np || cp;
-
-      // Properties of the opposed-line
-      let { angle, length } = this.getLineInfo(p.x, p[yField], n.x, n[yField]);
-      // If it is end-control-point, add PI to the angle to go backward
-      angle = angle + (reverse ? Math.PI : 0);
-      length = length * r;
-      // The control point position is relative to the current point
-      const x = cp.x + Math.cos(angle) * length;
-      const y = cp[yField] + Math.sin(angle) * length;
-      return [x, y];
-   }
-
-   getLineInfo(p1x: number, p1y: number, p2x: number, p2y: number): { length: number; angle: number } {
-      const lengthX = p2x - p1x;
-      const lengthY = p2y - p1y;
-
-      return {
-         length: Math.sqrt(Math.pow(lengthX, 2) + Math.pow(lengthY, 2)),
-         angle: Math.atan2(lengthY, lengthX),
-      };
-   }
 }
 
 LineGraph.prototype.xAxis = "x";
@@ -522,7 +432,6 @@ LineGraph.prototype.stack = "stack";
 LineGraph.prototype.hiddenBase = false;
 
 LineGraph.prototype.smooth = false;
-LineGraph.prototype.smoothingRatio = 0.05;
 LineGraph.prototype.styled = true;
 
 Widget.alias("line-graph", LineGraph);
