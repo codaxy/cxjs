@@ -953,7 +953,8 @@ export class Grid<T = unknown> extends ContainerBase<GridConfig<T>, GridInstance
       if (sortField) {
          for (let l = 0; l < 10; l++) {
             let line = instance.row[`line${l}`];
-            let sortColumn = line && line.columns && line.columns.find((c: any) => (c.sortField || c.field) == sortField);
+            let sortColumn =
+               line && line.columns && line.columns.find((c: any) => (c.sortField || c.field) == sortField);
             if (sortColumn) {
                // precedence: sortValue > sortField > value > field
                data.sorters[0].value = isDefined(sortColumn.sortValue)
@@ -1336,7 +1337,9 @@ export class Grid<T = unknown> extends ContainerBase<GridConfig<T>, GridInstance
                      let sorted =
                         sorter &&
                         !!sorter.direction &&
-                        (sortColumnField ? sorter.field == sortColumnField : !sorter.field && isDefined(sortColumnValue)) &&
+                        (sortColumnField
+                           ? sorter.field == sortColumnField
+                           : !sorter.field && isDefined(sortColumnValue)) &&
                         sorter.value === sortColumnValue;
                      if (sorted) {
                         mods.push("sorted-" + sorter.direction.toLowerCase());
