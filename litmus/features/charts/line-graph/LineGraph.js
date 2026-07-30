@@ -9,7 +9,6 @@ class PageController extends Controller {
       this.store.init("$page.showArea", true);
       this.store.init("$page.showLine", true);
       this.store.init("$page.smooth", true);
-      this.store.init("$page.smoothingRatio", 0.1);
 
       this.addTrigger(
          "on-count-change",
@@ -54,7 +53,6 @@ export default (
                   area-bind="$page.showArea"
                   line={false}
                   smooth-bind="$page.smooth"
-                  smoothingRatio-bind="$page.smoothingRatio"
                   name="Line 1"
                />
                <LineGraph
@@ -65,7 +63,6 @@ export default (
                   line
                   visible-bind="$page.showLine"
                   smooth-bind="$page.smooth"
-                  smoothingRatio-bind="$page.smoothingRatio"
                   name="Line 1"
                />
 
@@ -76,7 +73,6 @@ export default (
                   area-bind="$page.showArea"
                   line-bind="$page.showLine"
                   smooth-bind="$page.smooth"
-                  smoothingRatio-bind="$page.smoothingRatio"
                   name="Line 2"
                />
                <PureContainer visible-bind="$page.showMarkers">
@@ -107,15 +103,6 @@ export default (
             <Switch label="Line" value-bind="$page.showLine" />
 
             <Switch label="Smooth" value-bind="$page.smooth" />
-            <Slider
-               label="Smoothing ratio"
-               enabled-bind="$page.smooth"
-               value={{ bind: "$page.smoothingRatio", debounce: 100 }}
-               maxValue={0.4}
-               minValue={0}
-               step={0.01}
-               help-tpl="{$page.smoothingRatio:n;0;2}"
-            />
             <Switch label="Show markers" value-bind="$page.showMarkers" />
          </div>
       </div>

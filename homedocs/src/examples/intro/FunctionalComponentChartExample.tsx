@@ -27,7 +27,6 @@ const LineChart = createFunctionalComponent(
           area={areaStyle != null}
           areaStyle={areaStyle}
           smooth
-          smoothingRatio={0.2}
         />
       </Chart>
     </Svg>

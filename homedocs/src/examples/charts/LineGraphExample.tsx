@@ -25,7 +25,6 @@ interface Model {
   showArea: boolean;
   showLine: boolean;
   smooth: boolean;
-  smoothingRatio: number;
   line1: boolean;
   line2: boolean;
 }
@@ -40,7 +39,6 @@ class PageController extends Controller {
     this.store.init(m.showArea, true);
     this.store.init(m.showLine, true);
     this.store.init(m.smooth, true);
-    this.store.init(m.smoothingRatio, 0.07);
 
     this.addTrigger(
       "on-count-change",
@@ -88,7 +86,6 @@ export default (
           line={false}
           area={m.showArea}
           smooth={m.smooth}
-          smoothingRatio={m.smoothingRatio}
         />
         <LineGraph
           name="Series 1"
@@ -97,7 +94,6 @@ export default (
           area={m.showArea}
           active={bind(m.line1, true)}
           smooth={m.smooth}
-          smoothingRatio={m.smoothingRatio}
           line={m.showLine}
         />
         <LineGraph
@@ -107,7 +103,6 @@ export default (
           yField="y2"
           active={bind(m.line2, true)}
           smooth={m.smooth}
-          smoothingRatio={m.smoothingRatio}
           line={m.showLine}
         />
       </Chart>
@@ -128,15 +123,6 @@ export default (
       <Switch label="Line" value={m.showLine} />
 
       <Switch label="Smooth" value={m.smooth} style="margin-right: 20px" />
-      <Slider
-        label="Smoothing ratio"
-        enabled={m.smooth}
-        value={bind(m.smoothingRatio, 0.07)}
-        maxValue={0.4}
-        minValue={0}
-        step={0.01}
-        help={expr(m.smoothingRatio, (v) => v?.toFixed(2) ?? "")}
-      />
     </LabelsTopLayout>
   </div>
 );
