@@ -144,6 +144,7 @@ import Demo from "./features/charts/line-graph/SmoothingOvershoot";
 // import Demo from "./bugs/GridFixedColumnsFixedHeaderColumnsPosition";
 // import Demo from "./bugs/GridOnFetchRecords";
 // import Demo from "./performance/GridMemoryLeak";
+// import Demo from "./bugs/grid-sorting-without-field";
 // import Demo from "./features/charts/axis/ComplexAxisLabels";
 // import Demo from "./bugs/pie-chart-active-bind";
 let store = (window.store = new Store());

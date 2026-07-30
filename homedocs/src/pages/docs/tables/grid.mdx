@@ -59,15 +59,18 @@ columns={[
 ]}
 ```
 
-Use `value` for computed display values while keeping `field` for sorting:
+Use `value` for computed display values and `sortField` to sort by the raw data:
 
 ```tsx
 {
   header: "Status",
-  field: "active",
+  sortField: "active",
   value: { expr: "{$record.active} ? 'Yes' : 'No'" }
 }
 ```
+
+When multiple sort sources are defined on a column, the sort key is picked in this
+order of precedence: `sortValue` > `sortField` > `value` > `field`.
 
 ### Headers
 
@@ -359,8 +362,10 @@ See also: [Row Drag and Drop](/docs/tables/row-drag-and-drop)
 | `header`               | `string \| object` | Text or configuration object for the column header.     |
 | `format`               | `string`           | Format string for cell values.                          |
 | `align`                | `string`           | Column alignment: `left`, `right`, or `center`.         |
+| `value`                | `selector`         | Selector (binding, template, expression or computable) for the displayed cell value. Use it for computed values or columns without a direct record field. |
 | `sortable`             | `boolean`          | Set to `true` to make the column sortable.              |
-| `sortField`            | `string`           | Alternative field used for sorting.                     |
+| `sortField`            | `string`           | Alternative field used for sorting. Takes precedence over the displayed `value`. |
+| `sortValue`            | `selector`         | Selector used for sorting instead of the field or the displayed value. Takes precedence over all other sort sources. |
 | `primarySortDirection` | `string`           | Initial sort direction on first click: `ASC` or `DESC`. |
 | `aggregate`            | `string`           | Aggregate function: `sum`, `count`, `distinct`, `avg`.  |
 | `aggregateField`       | `string`           | Field used for aggregation if different from `field`.   |
