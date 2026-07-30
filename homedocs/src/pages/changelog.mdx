@@ -4,6 +4,21 @@ title: Changelog
 description: Version history and release notes
 ---
 
+## cx\@26.8.0
+
+**Features**
+
+- `LineGraph` smoothing now uses monotone cubic interpolation. Curves rendered with `smooth` follow the data without ever overshooting its vertical range — flat segments stay flat and steep transitions no longer produce phantom peaks or dips, for both line and area rendering. The previous bezier-based smoothing has been removed, and `smoothingRatio` is deprecated and ignored, as monotone interpolation has no configurable curvature ([#1312](https://github.com/codaxy/cxjs/pull/1312))
+- `Grid` columns that define an explicit `sortField` now sort by it even when they also display a computed `value`. The sort key precedence is now `sortValue` > `sortField` > `value` > `field`, and the rule is documented on the `sortField` and `sortValue` column properties ([#1317](https://github.com/codaxy/cxjs/pull/1317))
+
+**Fixes**
+
+- Fixed sorting of `Grid` columns identified by a value selector instead of a field. Clicking such a column no longer crashes when the `sortField`/`sortDirection` bindings are declared but empty, sorted-header indicators and sort toggling now identify a sort by its field and value selector pair — so field-less columns no longer light up or toggle together, and columns sharing a field name no longer hijack each other's sort direction ([#1316](https://github.com/codaxy/cxjs/pull/1316))
+- `NumericScale.trackValue` now constrains the computed value instead of the raw pixel coordinate, matching `TimeScale`. Previously, with a pixel range wider than the value range, an in-range value whose pixel fell outside the scale bounds was wrongly clamped ([#1311](https://github.com/codaxy/cxjs/pull/1311))
+- Widgets defined in the `ui` namespace (`Widget`, `PureContainer`, `Repeater`, layout components, etc.) are now re-exported from `cx/widgets` using direct `export ... from` declarations instead of being imported and then re-exported, which improves tree-shaking
+
+---
+
 ## cx\@26.7.5
 
 **Fixes**
