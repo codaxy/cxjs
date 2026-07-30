@@ -241,7 +241,16 @@ export interface GridColumnConfig {
    children?: ChildNode | ChildNode[];
    key?: string;
    pad?: boolean;
+   /**
+    * Record field used for sorting instead of `field` or the displayed `value`.
+    * Use it when the column displays a computed value but should sort by raw data.
+    * Sort key precedence: `sortValue` > `sortField` > `value` > `field`.
+    */
    sortField?: string;
+   /**
+    * Selector (binding, template, expression or computable) used for sorting instead
+    * of `field`, `sortField` or the displayed `value`. Takes the highest precedence.
+    */
    sortValue?: Prop<any>;
    style?: StyleProp;
    trimWhitespace?: boolean;
@@ -944,9 +953,15 @@ export class Grid<T = unknown> extends ContainerBase<GridConfig<T>, GridInstance
       if (sortField) {
          for (let l = 0; l < 10; l++) {
             let line = instance.row[`line${l}`];
-            let sortColumn = line && line.columns && line.columns.find((c: any) => (c.sortField || c.field) == sortField);
+            let sortColumn =
+               line && line.columns && line.columns.find((c: any) => (c.sortField || c.field) == sortField);
             if (sortColumn) {
-               data.sorters[0].value = isDefined(sortColumn.sortValue) ? sortColumn.sortValue : sortColumn.value;
+               // precedence: sortValue > sortField > value > field
+               data.sorters[0].value = isDefined(sortColumn.sortValue)
+                  ? sortColumn.sortValue
+                  : sortColumn.sortField
+                    ? undefined
+                    : sortColumn.value;
                data.sorters[0].comparer = sortColumn.comparer;
                data.sorters[0].sortOptions = sortColumn.sortOptions;
                break;
@@ -1312,13 +1327,19 @@ export class Grid<T = unknown> extends ContainerBase<GridConfig<T>, GridInstance
                      mods.push("sortable");
                      let sorter = data.sorters && data.sorters[0];
                      let sortColumnField = hdwidget.sortField || hdwidget.field;
-                     let sortColumnValue = isDefined(hdwidget.sortValue) ? hdwidget.sortValue : hdwidget.value;
+                     let sortColumnValue = isDefined(hdwidget.sortValue)
+                        ? hdwidget.sortValue
+                        : hdwidget.sortField
+                          ? undefined
+                          : hdwidget.value;
                      // a sort is identified by its (field, value selector) pair, so columns
                      // sorting by the same field through different value selectors don't both match
                      let sorted =
                         sorter &&
                         !!sorter.direction &&
-                        (sortColumnField ? sorter.field == sortColumnField : !sorter.field && isDefined(sortColumnValue)) &&
+                        (sortColumnField
+                           ? sorter.field == sortColumnField
+                           : !sorter.field && isDefined(sortColumnValue)) &&
                         sorter.value === sortColumnValue;
                      if (sorted) {
                         mods.push("sorted-" + sorter.direction.toLowerCase());
@@ -1494,7 +1515,9 @@ export class Grid<T = unknown> extends ContainerBase<GridConfig<T>, GridInstance
       let header = column.components[`header${headerLine + 1}`];
 
       let field = column.sortField || column.field;
-      let value = isDefined(column.sortValue) ? column.sortValue : column.value;
+      // precedence: sortValue > sortField > value > field; the comparer prefers value
+      // over field, so value must not be attached when an explicit sortField is set
+      let value = isDefined(column.sortValue) ? column.sortValue : column.sortField ? undefined : column.value;
       let comparer = column.comparer;
       let sortOptions = column.sortOptions;
 

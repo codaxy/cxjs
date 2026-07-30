@@ -24,12 +24,14 @@ import { Grid, PureContainer } from "cx/widgets";
 //     direction of the previous sort (onHeaderClick falls back to data.sortField
 //     when the column has no field, so it always "matches" the current sorter).
 //
-// Grid 3 (precedence):
-//   - "Priority" defines both `field` (numeric) and `value` (display label).
-//     Clicking the header sorts by the DISPLAYED label (P1, P10, P2) instead of
-//     the numeric field (1, 2, 10), although docs say `field` is kept for sorting.
-//   - "Priority (sortField)" additionally sets `sortField: "priority"` and still
-//     sorts by the display label — `value` silently wins over `sortField`.
+// Grid 3 (precedence — sort key is picked as sortValue > sortField > value > field):
+//   - "Priority (field + value)" sorts by the DISPLAYED label (P1, P10, P2):
+//     the displayed `value` takes precedence over `field`.
+//   - "Priority (sortField + value)" sorts by the NUMERIC field (P1, P2, P10):
+//     an explicit `sortField` takes precedence over the displayed `value`.
+//   - "Priority (sortValue)" sorts by the negated priority (P10, P2, P1 on ASC):
+//     `sortValue` takes precedence over everything else.
+// Covered by unit tests in packages/cx/src/widgets/grid/Grid.sorting.spec.tsx.
 
 let records = [
    { id: 1, firstName: "Ann", lastName: "Zimmer", q1: 5, q2: 40, priority: 2 },
@@ -95,10 +97,10 @@ export default () => (
             </div>
 
             <div>
-               <h4>3. Precedence: value silently wins over field/sortField</h4>
+               <h4>3. Precedence: sortValue &gt; sortField &gt; value &gt; field</h4>
                <p>
-                  Both priority columns sort by the displayed label (P1, P10, P2) instead of the numeric field (1, 2,
-                  10) — even the one with an explicit <code>sortField</code>.
+                  Expected on ASC: <b>field + value</b> sorts by the label (P1, P10, P2), <b>sortField + value</b> sorts
+                  by the numeric field (P1, P2, P10), <b>sortValue</b> sorts by the negated priority (P10, P2, P1).
                </p>
                <Grid
                   records-bind="$page.records"
@@ -113,6 +115,13 @@ export default () => (
                      {
                         header: "Priority (sortField + value)",
                         sortField: "priority",
+                        value: { tpl: "P{$record.priority}" },
+                        sortable: true,
+                     },
+                     {
+                        header: "Priority (sortValue)",
+                        sortField: "priority",
+                        sortValue: computable("$record.priority", (p) => -p),
                         value: { tpl: "P{$record.priority}" },
                         sortable: true,
                      },
