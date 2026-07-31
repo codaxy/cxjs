@@ -4,7 +4,9 @@
   "version": "1.0.0",
   "scripts": {
     "start": "webpack-dev-server --open",
-    "start:prod": "webpack serve --mode production --open"
+    "start:prod": "webpack serve --mode production --open",
+    "start:vite": "vite",
+    "build:vite": "vite build"
   },
   "dependencies": {
     "casual": "^1.6.2",
@@ -30,6 +32,7 @@
     "babel-preset-cx-env": "workspace:*",
     "copy-webpack-plugin": "^12.0.2",
     "css-loader": "^7.1.2",
+    "cx-scss-manifest-vite-plugin": "workspace:*",
     "cx-scss-manifest-webpack-plugin": "workspace:*",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.6.5",
@@ -46,6 +49,7 @@
     "ts-loader": "^9.5.1",
     "typescript": "^5.9.3",
     "url-loader": "^4.1.1",
+    "vite": "^8.0.0",
     "webpack": "^5.103.0",
     "webpack-bundle-analyzer": "^4.10.2",
     "webpack-cleanup-plugin": "^0.5.1",
