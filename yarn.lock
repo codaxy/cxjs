@@ -6340,17 +6340,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"cx-scss-manifest-vite-plugin@workspace:*, cx-scss-manifest-vite-plugin@workspace:packages/cx-scss-manifest-vite-plugin":
-  version: 0.0.0-use.local
-  resolution: "cx-scss-manifest-vite-plugin@workspace:packages/cx-scss-manifest-vite-plugin"
-  dependencies:
-    es-module-lexer: "npm:^1.5.0"
-  peerDependencies:
-    cx: "*"
-    vite: ">=4.0.0"
-  languageName: unknown
-  linkType: soft
-
 "cx-scss-manifest-webpack-plugin@workspace:*, cx-scss-manifest-webpack-plugin@workspace:packages/cx-scss-manifest-webpack-plugin":
   version: 0.0.0-use.local
   resolution: "cx-scss-manifest-webpack-plugin@workspace:packages/cx-scss-manifest-webpack-plugin"
@@ -10081,7 +10070,6 @@ __metadata:
     cx: "workspace:*"
     cx-immer: "workspace:*"
     cx-react: "workspace:*"
-    cx-scss-manifest-vite-plugin: "workspace:*"
     cx-scss-manifest-webpack-plugin: "workspace:*"
     file-loader: "npm:^6.2.0"
     html-webpack-plugin: "npm:^5.6.5"
@@ -10103,6 +10091,8 @@ __metadata:
     typescript: "npm:^5.9.3"
     url-loader: "npm:^4.1.1"
     vite: "npm:^8.0.0"
+    vite-plugin-cx-scss-manifest: "workspace:*"
+    vite-plugin-transform-cx-imports: "workspace:*"
     webpack: "npm:^5.103.0"
     webpack-bundle-analyzer: "npm:^4.10.2"
     webpack-cleanup-plugin: "npm:^0.5.1"
@@ -15475,7 +15465,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite-plugin-transform-cx-imports@workspace:packages/vite-plugin-transform-cx-imports":
+"vite-plugin-cx-scss-manifest@workspace:*, vite-plugin-cx-scss-manifest@workspace:packages/vite-plugin-cx-scss-manifest":
+  version: 0.0.0-use.local
+  resolution: "vite-plugin-cx-scss-manifest@workspace:packages/vite-plugin-cx-scss-manifest"
+  dependencies:
+    es-module-lexer: "npm:^1.5.0"
+  peerDependencies:
+    cx: "*"
+    vite: ">=4.0.0"
+  languageName: unknown
+  linkType: soft
+
+"vite-plugin-transform-cx-imports@workspace:*, vite-plugin-transform-cx-imports@workspace:packages/vite-plugin-transform-cx-imports":
   version: 0.0.0-use.local
   resolution: "vite-plugin-transform-cx-imports@workspace:packages/vite-plugin-transform-cx-imports"
   dependencies:

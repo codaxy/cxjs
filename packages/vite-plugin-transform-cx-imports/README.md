@@ -43,7 +43,7 @@ export default defineConfig({
 - `scss` (default `false`) — also emit an import for the widget's SCSS file when the cx
   manifest lists one, e.g. `import "cx/widgets/Button.scss"`. This is an alternative to
   generating a global SCSS manifest with
-  [cx-scss-manifest-vite-plugin](../cx-scss-manifest-vite-plugin). Note that it only
+  [vite-plugin-cx-scss-manifest](../vite-plugin-cx-scss-manifest). Note that it only
   takes effect when the installed cx package's manifest contains SCSS entries.
 
 ## Behavior notes
@@ -55,6 +55,6 @@ export default defineConfig({
   one-time warning.
 - Exports re-exported across namespaces (e.g. a `cx/ui` widget imported from `cx/widgets`)
   are resolved through the manifest and rewritten to their actual source file.
-- When combined with `cx-scss-manifest-vite-plugin`, register the manifest plugin first
+- When combined with `vite-plugin-cx-scss-manifest`, register the manifest plugin first
   so it sees the original imports (it also understands the rewritten deep imports, so
   ordering is not critical).

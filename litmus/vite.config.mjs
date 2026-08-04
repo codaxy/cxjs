@@ -2,7 +2,7 @@ import { defineConfig } from "vite";
 import { transform } from "esbuild";
 import path from "path";
 import { fileURLToPath } from "url";
-import cxScssManifest from "cx-scss-manifest-vite-plugin";
+import cxScssManifest from "vite-plugin-cx-scss-manifest";
 import transformCxImports from "vite-plugin-transform-cx-imports";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));

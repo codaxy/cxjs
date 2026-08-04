@@ -1,4 +1,4 @@
-# cx-scss-manifest-vite-plugin
+# vite-plugin-cx-scss-manifest
 
 A Vite plugin that analyzes your application's source code and generates an SCSS manifest file
 to include only the CxJS widget styles that are actually used. For smaller apps, this can reduce
@@ -28,7 +28,7 @@ The generated `manifest.scss` looks like:
 ## Installation
 
 ```bash
-npm install cx-scss-manifest-vite-plugin --save-dev
+npm install vite-plugin-cx-scss-manifest --save-dev
 ```
 
 ## Usage
@@ -37,7 +37,7 @@ Add the plugin to your `vite.config.js`:
 
 ```js
 import { defineConfig } from "vite";
-import cxScssManifest from "cx-scss-manifest-vite-plugin";
+import cxScssManifest from "vite-plugin-cx-scss-manifest";
 import path from "path";
 
 export default defineConfig({

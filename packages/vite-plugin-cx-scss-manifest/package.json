@@ -1,5 +1,5 @@
 {
-  "name": "cx-scss-manifest-vite-plugin",
+  "name": "vite-plugin-cx-scss-manifest",
   "version": "26.8.0",
   "description": "Vite plugin that inspects app's source code and generates a manifest file for importing only required elements of CxJS SCSS",
   "main": "src/index.js",

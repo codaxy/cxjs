@@ -14,7 +14,7 @@ function loadCxManifest(root) {
       manifestPath = require.resolve("cx/manifest.js", { paths: [root, __dirname] });
    } catch (e) {
       throw new Error(
-         "cx-scss-manifest-vite-plugin: Unable to resolve cx/manifest.js. Make sure the cx package is installed."
+         "vite-plugin-cx-scss-manifest: Unable to resolve cx/manifest.js. Make sure the cx package is installed."
       );
    }
    return require(manifestPath);
@@ -22,7 +22,7 @@ function loadCxManifest(root) {
 
 module.exports = function cxScssManifestPlugin(options = {}) {
    let { outputPath } = options;
-   if (!outputPath) throw new Error("cx-scss-manifest-vite-plugin: The outputPath option is required.");
+   if (!outputPath) throw new Error("vite-plugin-cx-scss-manifest: The outputPath option is required.");
 
    let cxManifest = null;
    let nameLookup = null; // export name -> [manifest keys]
@@ -52,7 +52,7 @@ module.exports = function cxScssManifestPlugin(options = {}) {
 
    function write() {
       dirty = false;
-      let content = "//THIS FILE IS AUTO-GENERATED USING cx-scss-manifest-vite-plugin\n\n";
+      let content = "//THIS FILE IS AUTO-GENERATED USING vite-plugin-cx-scss-manifest\n\n";
       content += '@use "cx/src/util/scss/include.scss" as * with ($cx-include-all: false);\n\n';
 
       let keys = Object.keys(manifest);
