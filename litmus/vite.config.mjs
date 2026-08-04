@@ -3,6 +3,7 @@ import { transform } from "esbuild";
 import path from "path";
 import { fileURLToPath } from "url";
 import cxScssManifest from "cx-scss-manifest-vite-plugin";
+import transformCxImports from "vite-plugin-transform-cx-imports";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -14,6 +15,7 @@ export default defineConfig(({ command }) => ({
       cxScssManifest({
          outputPath: path.join(__dirname, "manifest.scss"),
       }),
+      transformCxImports(),
       {
          // litmus examples use JSX inside .js files, which rolldown's built-in
          // transform doesn't support, so those files go through esbuild instead
@@ -44,6 +46,9 @@ export default defineConfig(({ command }) => ({
          { find: /^cx\/src\/(.*)$/, replacement: `${cxSrc}/$1` },
          { find: /^cx\/(jsx-dev-runtime|jsx-runtime)$/, replacement: `${cxSrc}/$1.ts` },
          { find: /^cx\/([\w-]+)$/, replacement: `${cxSrc}/$1/index.ts` },
+         // manifest js paths point to compiled .js files - strip the extension
+         // so the resolver can pick up the .ts/.tsx sources
+         { find: /^cx\/([\w-]+)\/(.*)\.js$/, replacement: `${cxSrc}/$1/$2` },
          { find: /^cx\/([\w-]+)\/(.*)$/, replacement: `${cxSrc}/$1/$2` },
       ],
    },

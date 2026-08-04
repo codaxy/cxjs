@@ -50,6 +50,7 @@
     "typescript": "^5.9.3",
     "url-loader": "^4.1.1",
     "vite": "^8.0.0",
+    "vite-plugin-transform-cx-imports": "workspace:*",
     "webpack": "^5.103.0",
     "webpack-bundle-analyzer": "^4.10.2",
     "webpack-cleanup-plugin": "^0.5.1",
