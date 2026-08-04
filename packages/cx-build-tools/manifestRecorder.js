@@ -23,6 +23,13 @@ module.exports = function (manifest, paths, pkgSrc) {
             ExportNamedDeclaration: function (path, scope) {
                let names = [];
 
+               //re-exports with a source, e.g. export { Text } from "../ui/Text"
+               var sourcePath = null;
+               if (path.node.source) {
+                  sourcePath = pathResolve(p.dirname(scope.file.opts.filename), path.node.source.value);
+                  if (!/\.(js|jsx)$/.test(sourcePath)) sourcePath += ".js";
+               }
+
                if (path.node.specifiers) {
                   path.node.specifiers.forEach((s) => {
                      names.push(s.exported.name);
@@ -43,9 +50,9 @@ module.exports = function (manifest, paths, pkgSrc) {
 
                names.forEach((name) => {
                   let path = fixPathSeparators(scope.file.opts.filename),
-                     srcPath = path;
+                     srcPath = sourcePath || path;
 
-                  if (imports[path] && imports[path][name]) {
+                  if (!sourcePath && imports[path] && imports[path][name]) {
                      srcPath = imports[path][name];
                   }
 
