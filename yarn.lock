@@ -10281,7 +10281,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"magic-string@npm:^0.30.17, magic-string@npm:^0.30.21":
+"magic-string@npm:^0.30.0, magic-string@npm:^0.30.17, magic-string@npm:^0.30.21":
   version: 0.30.21
   resolution: "magic-string@npm:0.30.21"
   dependencies:
@@ -15474,6 +15474,18 @@ __metadata:
   checksum: 10/a5a85293c9eb8787aa42e180edaef00c13199a493d6ed82fecf13ab29a68526850788e22434d77808ea6b17a74e03ff899b9b4711df5b9eee75afcddd7c2e1fb
   languageName: node
   linkType: hard
+
+"vite-plugin-transform-cx-imports@workspace:packages/vite-plugin-transform-cx-imports":
+  version: 0.0.0-use.local
+  resolution: "vite-plugin-transform-cx-imports@workspace:packages/vite-plugin-transform-cx-imports"
+  dependencies:
+    es-module-lexer: "npm:^1.5.0"
+    magic-string: "npm:^0.30.0"
+  peerDependencies:
+    cx: "*"
+    vite: ">=4.0.0"
+  languageName: unknown
+  linkType: soft
 
 "vite@npm:^6.0.0 || ^7.0.0":
   version: 7.3.1
