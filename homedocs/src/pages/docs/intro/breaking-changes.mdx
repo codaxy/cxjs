@@ -15,6 +15,57 @@ Sometimes we are forced to introduce breaking changes to the framework.
 This page will provide information about breaking changes and how to migrate your applications to the latest
 versions of the framework.
 
+## 26.3.8
+
+### Grid row states are now styled from `$cx-grid-data-state-style-map`
+
+Interactive row states of selectable grids — `hover`, `cursor`, `selected`, and `selected-cursor` — were
+previously styled through the `$cx-list-item` map, shared with the `List` widget. Starting with 26.3.8,
+`Grid` reads these states from `$cx-grid-data-state-style-map`, so grids and lists can be styled independently.
+
+Two things to watch for when upgrading:
+
+- If your project customizes row hover/selection appearance through `$cx-list-item`, grid rows will
+  silently fall back to the default appearance — `List` widgets keep your styling, grids no longer do.
+- Any `hover`/`cursor`/`selected` entries already present in your `$cx-grid-data-state-style-map`
+  overrides were ignored by grids before 26.3.8 and will start to apply.
+
+**Before (grid rows inherited these from `$cx-list-item`):**
+```scss
+$cx-list-item: cx-deep-map-merge(
+   $cx-list-item,
+   (
+      hover: (
+         background-color: #f3f4f6,
+      ),
+      selected: (
+         background-color: rgb(219, 234, 254),
+      ),
+   )
+);
+```
+
+**After (style grid rows explicitly; keep `$cx-list-item` for `List` widgets):**
+```scss
+$cx-grid-data-state-style-map: cx-deep-map-merge(
+   $cx-grid-data-state-style-map,
+   (
+      hover: (
+         background-color: #f3f4f6,
+      ),
+      cursor: (
+         background-color: #f3f4f6,
+      ),
+      selected: (
+         background-color: rgb(219, 234, 254),
+      ),
+      selected-cursor: (
+         background-color: rgb(191, 219, 254),
+      ),
+   )
+);
+```
+
 ## 26.3.1 - Modern Sass Modules
 
 CxJS 26.3.1 migrates all SCSS files from the deprecated `@import` syntax to modern Sass modules (`@use` and `@forward`).
