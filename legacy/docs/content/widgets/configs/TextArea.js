@@ -7,6 +7,7 @@ export default {
    showClear: false,
    hideClear: false,
    inputType: false,
+   trim: false,
    reactOn: {
       type: 'string',
       description: <cx><Md>

@@ -18,7 +18,11 @@ import { autoFocus } from "../autoFocus";
 import { getActiveElement } from "../../util/getActiveElement";
 import { NumberProp } from "../../ui/Prop";
 
-export interface TextAreaConfig extends TextFieldConfig {
+/**
+ * `trim` is intentionally omitted: `TextArea` renders its own input which commits the raw value,
+ * so leading and trailing whitespace is always preserved.
+ */
+export interface TextAreaConfig extends Omit<TextFieldConfig, "trim"> {
    /** Specifies the number of visible lines. */
    rows?: NumberProp;
 
@@ -65,6 +69,8 @@ export class TextArea extends TextField<TextAreaConfig> {
 
 TextArea.prototype.baseClass = "textarea";
 TextArea.prototype.reactOn = "blur";
+// `trim` is not supported by TextArea, so a global `TextField.prototype.trim = true` must not leak into it.
+TextArea.prototype.trim = false;
 TextArea.prototype.suppressErrorsUntilVisited = true;
 
 interface InputProps {
