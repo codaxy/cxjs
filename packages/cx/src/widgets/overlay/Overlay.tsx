@@ -765,9 +765,11 @@ export class OverlayComponent<
          widget.handleResize(e, instance, this);
       } else {
          let prefix = this.getResizePrefix(e);
-         this.setCustomStyle({
-            cursor: prefix ? prefix + "-resize" : undefined,
-         });
+         if (prefix) this.setCustomStyle({ cursor: `${prefix}-resize` });
+         else if (this.customStyle.cursor) {
+            delete this.customStyle.cursor;
+            if (this.el) this.el.style.cursor = data.style?.cursor ?? "";
+         }
       }
    }
 
