@@ -1,6 +1,7 @@
 //IE sometimes returns null while other browsers always return document.body.
-export function getActiveElement(doc: Document = document): Element {
-   let active = doc.activeElement ?? doc.body;
+export function getActiveElement(doc?: Document): Element {
+   if (!doc) doc = document;
+   let active = doc?.activeElement ?? doc?.body;
 
    //when focus is inside a same-origin iframe, `doc.activeElement` only reports the
    //<iframe> element itself - drill into its own document to find the element that's
