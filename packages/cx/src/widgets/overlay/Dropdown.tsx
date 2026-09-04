@@ -423,7 +423,7 @@ export class DropdownBase<
       arrowAdjust: number = 0,
    ): void {
       let doc = el.ownerDocument || document;
-      let viewport = getViewportRect(this.screenPadding);
+      let viewport = getViewportRect(this.screenPadding, doc);
       style.position = "fixed";
 
       if (placement.startsWith("down")) {
