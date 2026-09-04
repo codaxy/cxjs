@@ -247,7 +247,15 @@ export class DropdownBase<
    updateDropdownPosition(instance: InstanceType, component: any): void {
       var { el, initialScreenPosition } = component;
       var { data, relatedElement } = instance;
-      var parentBounds = getTopLevelBoundingClientRect(relatedElement!);
+
+      //if the dropdown renders in the same document as its related element (e.g. not
+      //portaled to the top-level body, such as an inline dropdown living inside an
+      //iframe together with its field), no cross-document offset should be applied -
+      //getBoundingClientRect() is already relative to that shared document/viewport.
+      var isSameDocument = el && relatedElement && el.ownerDocument === relatedElement.ownerDocument;
+      var parentBounds = isSameDocument
+         ? relatedElement!.getBoundingClientRect()
+         : getTopLevelBoundingClientRect(relatedElement!);
 
       //getBoundingClientRect() will return an empty rect if the element is hidden or removed
       if (parentBounds.left == 0 && parentBounds.top == 0 && parentBounds.bottom == 0 && parentBounds.right == 0) {
@@ -288,7 +296,7 @@ export class DropdownBase<
       if (this.matchMaxWidth) style.maxWidth = `${parentBounds.right - parentBounds.left}px`;
 
       var contentSize = this.measureNaturalDropdownSize(instance, component);
-      var placement = this.findOptimalPlacement(contentSize, parentBounds, data.placement, component.lastPlacement);
+      var placement = this.findOptimalPlacement(contentSize, parentBounds, data.placement, component.lastPlacement, el);
 
       var arrowAdjust = this.getArrowAdjust(component);
 
@@ -345,7 +353,8 @@ export class DropdownBase<
       noAuto: boolean,
       arrowAdjust: number = 0,
    ): void {
-      let viewport = getViewportRect(this.screenPadding);
+      let doc = el.ownerDocument || document;
+      let viewport = getViewportRect(this.screenPadding, doc);
       style.position = "fixed";
 
       if (placement.startsWith("down")) {
@@ -361,8 +370,7 @@ export class DropdownBase<
             this.constrain && (noAuto || top < this.screenPadding + 10)
                ? Math.max(this.screenPadding, top) + "px"
                : "auto";
-         style.bottom =
-            document.documentElement.offsetHeight - (this.cover ? rel.bottom : rel.top) + this.offset + "px";
+         style.bottom = doc.documentElement.offsetHeight - (this.cover ? rel.bottom : rel.top) + this.offset + "px";
       }
 
       switch (placement) {
@@ -378,7 +386,7 @@ export class DropdownBase<
             break;
 
          case "down-left":
-            style.right = `${document.documentElement.offsetWidth - rel.right - arrowAdjust}px`;
+            style.right = `${doc.documentElement.offsetWidth - rel.right - arrowAdjust}px`;
             style.left = "auto";
             break;
 
@@ -394,7 +402,7 @@ export class DropdownBase<
             break;
 
          case "up-left":
-            style.right = `${document.documentElement.offsetWidth - rel.right - arrowAdjust}px`;
+            style.right = `${doc.documentElement.offsetWidth - rel.right - arrowAdjust}px`;
             style.left = "auto";
             break;
 
@@ -416,39 +424,39 @@ export class DropdownBase<
          case "right-up":
             style.top = "auto";
             style.right = "auto";
-            style.bottom = `${document.documentElement.offsetHeight - rel.bottom - arrowAdjust}px`;
+            style.bottom = `${doc.documentElement.offsetHeight - rel.bottom - arrowAdjust}px`;
             style.left = `${rel.right + this.offset}px`;
             break;
 
          case "left":
          case "left-center":
             style.top = `${Math.round((rel.top + rel.bottom - el.offsetHeight) / 2)}px`;
-            style.right = `${document.documentElement.offsetWidth - rel.left + this.offset}px`;
+            style.right = `${doc.documentElement.offsetWidth - rel.left + this.offset}px`;
             style.bottom = "auto";
             style.left = "auto";
             break;
 
          case "left-down":
             style.top = `${rel.top - arrowAdjust}px`;
-            style.right = `${document.documentElement.offsetWidth - rel.left + this.offset}px`;
+            style.right = `${doc.documentElement.offsetWidth - rel.left + this.offset}px`;
             style.bottom = "auto";
             style.left = "auto";
             break;
 
          case "left-up":
             style.top = "auto";
-            style.right = `${document.documentElement.offsetWidth - rel.left + this.offset}px`;
-            style.bottom = `${document.documentElement.offsetHeight - rel.bottom - arrowAdjust}px`;
+            style.right = `${doc.documentElement.offsetWidth - rel.left + this.offset}px`;
+            style.bottom = `${doc.documentElement.offsetHeight - rel.bottom - arrowAdjust}px`;
             style.left = "auto";
             break;
 
          case "screen-center":
-            let w = Math.min(contentSize.width, document.documentElement.offsetWidth - 2 * this.screenPadding);
-            let h = Math.min(contentSize.height, document.documentElement.offsetHeight - 2 * this.screenPadding);
-            style.top = `${Math.round((document.documentElement.offsetHeight - h) / 2)}px`;
-            style.right = `${Math.round((document.documentElement.offsetWidth - w) / 2)}px`;
-            style.bottom = `${Math.round((document.documentElement.offsetHeight - h) / 2)}px`;
-            style.left = `${Math.round((document.documentElement.offsetWidth - w) / 2)}px`;
+            let w = Math.min(contentSize.width, doc.documentElement.offsetWidth - 2 * this.screenPadding);
+            let h = Math.min(contentSize.height, doc.documentElement.offsetHeight - 2 * this.screenPadding);
+            style.top = `${Math.round((doc.documentElement.offsetHeight - h) / 2)}px`;
+            style.right = `${Math.round((doc.documentElement.offsetWidth - w) / 2)}px`;
+            style.bottom = `${Math.round((doc.documentElement.offsetHeight - h) / 2)}px`;
+            style.left = `${Math.round((doc.documentElement.offsetWidth - w) / 2)}px`;
             break;
       }
    }
@@ -462,7 +470,7 @@ export class DropdownBase<
       noAuto: boolean,
       arrowAdjust: number = 0,
    ): void {
-      var viewport = getViewportRect(this.screenPadding);
+      var viewport = getViewportRect(this.screenPadding, el.ownerDocument || document);
 
       style.position = "absolute";
 
@@ -661,13 +669,13 @@ export class DropdownBase<
       return size;
    }
 
-   findOptimalPlacement(contentSize: any, target: any, placement: string, lastPlacement: any): any {
+   findOptimalPlacement(contentSize: any, target: any, placement: string, lastPlacement: any, el?: HTMLElement): any {
       var placementOrder = this.placementOrder.split(" ");
       var best = lastPlacement || placement;
       var first;
 
       var score: Record<string, number> = {};
-      var viewport = getViewportRect();
+      var viewport = getViewportRect(0, el?.ownerDocument);
 
       for (var i = 0; i < placementOrder.length; i++) {
          var p = placementOrder[i];
@@ -835,11 +843,11 @@ export class Dropdown extends DropdownBase<DropdownConfig, DropdownInstance> {}
 Widget.alias("dropdown", Dropdown);
 Localization.registerPrototype("cx/widgets/Dropdown", Dropdown);
 
-function getViewportRect(padding = 0) {
+function getViewportRect(padding = 0, doc: Document = document) {
    return {
       left: padding,
       top: padding,
-      right: document.documentElement.offsetWidth - padding,
-      bottom: document.documentElement.offsetHeight - padding,
+      right: doc.documentElement.offsetWidth - padding,
+      bottom: doc.documentElement.offsetHeight - padding,
    };
 }
