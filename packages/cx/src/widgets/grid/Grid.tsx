@@ -72,10 +72,11 @@ import DropDownIcon from "../icons/sort-asc";
 import { captureMouse2, getCursorPos } from "../overlay/captureMouse";
 import { tooltipMouseLeave, tooltipMouseMove } from "../overlay/tooltip-ops";
 import { createGridCellEditor } from "./createGridCellEditor";
-import { GridRow, GridRowComponent, GridRowConfig, GridRowInstance } from "./GridRow";
+import { GridRow, GridRowComponent, GridRowInstance } from "./GridRow";
+import type { GridRowConfig } from "./GridRow";
 import { Create, CreateConfig } from "../../util";
 import type { TreeAdapter } from "../../ui/adapter/TreeAdapter";
-export { GridRowConfig };
+export type { GridRowConfig };
 
 export type GridFetchRecordsResult<T> = T[] | { records: T[]; lastPage?: boolean; totalRecordCount?: number };
 

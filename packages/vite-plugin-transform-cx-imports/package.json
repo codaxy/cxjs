@@ -1,0 +1,25 @@
+{
+  "name": "vite-plugin-transform-cx-imports",
+  "version": "26.8.0",
+  "description": "Vite plugin that rewrites CxJS namespace imports into direct file imports for faster dev-server startup and better tree shaking",
+  "main": "src/index.js",
+  "types": "src/index.d.ts",
+  "author": "Codaxy",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/codaxy/cxjs"
+  },
+  "homepage": "https://github.com/codaxy/cxjs",
+  "dependencies": {
+    "es-module-lexer": "^1.5.0",
+    "magic-string": "^0.30.0"
+  },
+  "peerDependencies": {
+    "cx": "*",
+    "vite": ">=4.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:codaxy/cx.git"
+  }
+}
