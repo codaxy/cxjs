@@ -12,10 +12,11 @@ const cxSrc = path.resolve(__dirname, "../packages/cx/src").replace(/\\/g, "/");
 
 export default defineConfig(({ command }) => ({
    plugins: [
+      transformCxImports(),
+      // registered after the rewrite so it only ever sees deep imports (collected in resolveId)
       cxScssManifest({
          outputPath: path.join(__dirname, "manifest.scss"),
       }),
-      transformCxImports(),
       {
          // litmus examples use JSX inside .js files, which rolldown's built-in
          // transform doesn't support, so those files go through esbuild instead

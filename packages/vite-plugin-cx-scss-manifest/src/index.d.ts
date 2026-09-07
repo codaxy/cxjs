@@ -7,6 +7,6 @@ declare namespace cxScssManifestPlugin {
    }
 }
 
-declare function cxScssManifestPlugin(options: cxScssManifestPlugin.Options): Plugin;
+declare function cxScssManifestPlugin(options: cxScssManifestPlugin.Options): Plugin[];
 
 export = cxScssManifestPlugin;

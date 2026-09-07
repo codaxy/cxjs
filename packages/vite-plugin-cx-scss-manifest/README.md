@@ -9,9 +9,18 @@ This is the Vite counterpart of [cx-scss-manifest-webpack-plugin](../cx-scss-man
 ## How It Works
 
 CxJS ships SCSS for every widget (Button, Grid, Window, etc.). By default, all widget styles are
-included during SCSS compilation. This plugin scans the import statements of your application's
-modules to determine which CxJS modules your app actually uses, then generates a manifest that
-tells the SCSS compiler to include only the styles for those modules.
+included during SCSS compilation. This plugin watches which CxJS modules your application's
+modules import, then generates a manifest that tells the SCSS compiler to include only the
+styles for those modules.
+
+Deep imports (`cx/widgets/grid/Grid.js`) are collected from Vite's module resolution, which
+costs nothing. Named imports from a namespace barrel (`import { Grid } from "cx/widgets"`) require
+a look at the import statements of that module, done with
+[es-module-lexer](https://github.com/guybedford/es-module-lexer), which costs a few percent of
+the transform Vite already runs on every module. Pair this plugin with
+[vite-plugin-transform-cx-imports](../vite-plugin-transform-cx-imports) (registered first) and,
+wherever that plugin's rewrite is active, barrel imports become deep imports before this plugin
+sees them, so no source parsing happens at all.
 
 The generated `manifest.scss` looks like:
 
@@ -37,11 +46,13 @@ Add the plugin to your `vite.config.js`:
 
 ```js
 import { defineConfig } from "vite";
+import transformCxImports from "vite-plugin-transform-cx-imports";
 import cxScssManifest from "vite-plugin-cx-scss-manifest";
 import path from "path";
 
 export default defineConfig({
    plugins: [
+      transformCxImports(),
       cxScssManifest({
          outputPath: path.join(__dirname, "manifest.scss"),
       }),
@@ -84,6 +95,10 @@ worst case is an unstyled first paint in a fresh clone until the manifest fills 
 - **Production build:** the full module graph is scanned, so all imports (including lazy
   routes) are detected. If the manifest changes during a build, the plugin emits a
   warning; run the build again to apply the changes.
+
+Importing a module records every manifest key that module provides, so the file also
+lists entries that have no styles of their own (e.g. `cx/widgets/Option` next to
+`cx/widgets/Select`). Those are harmless: the SCSS side only looks up the names it knows.
 
 Entries are only ever added, never removed — existing entries are re-read from the file
 on startup, so a dev session that visits only a few pages never shrinks the manifest.
