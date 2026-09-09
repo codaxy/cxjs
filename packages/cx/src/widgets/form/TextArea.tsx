@@ -16,13 +16,14 @@ import { stopPropagation } from "../../util/eventCallbacks";
 import { KeyCode } from "../../util/KeyCode";
 import { autoFocus } from "../autoFocus";
 import { getActiveElement } from "../../util/getActiveElement";
+import { isString } from "../../util/isString";
 import { NumberProp } from "../../ui/Prop";
 
 /**
- * `trim` is intentionally omitted: `TextArea` renders its own input which commits the raw value,
- * so leading and trailing whitespace is always preserved.
+ * `trim` applies to the commit that ends the edit, not to intermediate `input` commits. Whitespace
+ * inside the text is never touched.
  */
-export interface TextAreaConfig extends Omit<TextFieldConfig, "trim"> {
+export interface TextAreaConfig extends TextFieldConfig {
    /** Specifies the number of visible lines. */
    rows?: NumberProp;
 
@@ -69,8 +70,6 @@ export class TextArea extends TextField<TextAreaConfig> {
 
 TextArea.prototype.baseClass = "textarea";
 TextArea.prototype.reactOn = "blur";
-// `trim` is not supported by TextArea, so a global `TextField.prototype.trim = true` must not leak into it.
-TextArea.prototype.trim = false;
 TextArea.prototype.suppressErrorsUntilVisited = true;
 
 interface InputProps {
@@ -205,8 +204,12 @@ class Input extends VDOM.Component<InputProps, InputState> {
       }
 
       if (instance.widget.reactOn.indexOf(change) != -1) {
-         let value = inputValue || widget.emptyValue;
+         // Trimming on `input` would strip whitespace the user is still typing, so a trailing
+         // newline could never be entered.
+         let text = change != "input" && data.trim && isString(inputValue) ? inputValue.trim() : inputValue;
+         let value = text || widget.emptyValue;
          instance.set("value", value);
+         if (this.input && text != inputValue) this.input.value = text;
       }
    }
 

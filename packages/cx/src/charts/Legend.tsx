@@ -41,6 +41,15 @@ export interface LegendConfig extends HtmlElementConfig {
   /** Default shape to use for all entries. */
   shape?: StringProp;
 
+  /** ARIA role for each entry's shape `svg`. Defaults to `img` when `shapeAriaLabel` is set. */
+  shapeRole?: StringProp;
+
+  /**
+   * Accessible name for each entry's shape `svg`. Unnamed shapes are hidden from assistive
+   * technology, since the entry text already says what they mean.
+   */
+  shapeAriaLabel?: StringProp;
+
   /** Style applied to each entry. */
   entryStyle?: StyleProp;
 
@@ -97,6 +106,8 @@ export class Legend extends HtmlElement {
   declareData(...args: any[]): void {
     super.declareData(...args, {
       shape: undefined,
+      shapeRole: undefined,
+      shapeAriaLabel: undefined,
       entryStyle: { structured: true },
       entryClass: { structured: true },
       valueStyle: { structured: true },
@@ -124,6 +135,8 @@ export class Legend extends HtmlElement {
       case "shapeSize":
       case "svgSize":
       case "shape":
+      case "shapeRole":
+      case "shapeAriaLabel":
       case "entryStyle":
       case "entryClass":
       case "valueStyle":
@@ -177,7 +190,7 @@ export class Legend extends HtmlElement {
         instance.legends[this.name] && instance.legends[this.name].entries,
       list: React.ReactNode;
 
-    let { entryClass, entryStyle, shape, valueClass, valueStyle } =
+    let { entryClass, entryStyle, shape, shapeRole, shapeAriaLabel, valueClass, valueStyle } =
       instance.data;
     let valueFormatter = Format.parse(this.valueFormat);
 
@@ -210,7 +223,7 @@ export class Legend extends HtmlElement {
               onMouseMove={onMouseMove}
               onMouseLeave={onMouseLeave}
             >
-              {this.renderShape(e, shape)}
+              {this.renderShape(e, shape, shapeRole, shapeAriaLabel)}
               <div className={entryTextClass}>{e.displayText || e.name}</div>
               {this.showValues && (
                 <div className={valueClasses} style={valueStyle}>
@@ -229,6 +242,8 @@ export class Legend extends HtmlElement {
   renderShape(
     entry: LegendEntryData,
     legendEntriesShape: string | null | undefined,
+    role?: string,
+    ariaLabel?: string,
   ): React.ReactNode {
     const className = this.CSS.element(this.baseClass, "shape", {
       [`color-${entry.colorIndex}`]:
@@ -244,6 +259,11 @@ export class Legend extends HtmlElement {
     return (
       <svg
         className={this.CSS.element(this.baseClass, "svg")}
+        role={role ?? (ariaLabel ? "img" : undefined)}
+        aria-label={ariaLabel}
+        // Mutually exclusive with the above: `aria-hidden` removes the element from the
+        // accessibility tree, which is also what a tagged PDF is built from.
+        aria-hidden={role == null && !ariaLabel ? true : undefined}
         style={{
           width: `${this.svgSize}px`,
           height: `${this.svgSize}px`,

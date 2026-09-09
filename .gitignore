@@ -11,6 +11,7 @@ node_modules
 *.hot-update.js
 *.log
 dist
+dist-vite
 build
 
 Thumbs.db

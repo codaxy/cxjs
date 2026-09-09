@@ -1,4 +1,5 @@
 /** @jsxImportSource react */
+import { StringProp } from "../ui/Prop";
 import { RenderingContext } from "../ui/RenderingContext";
 import { ResizeManager } from "../ui/ResizeManager";
 import { VDOM, Widget } from "../ui/Widget";
@@ -18,6 +19,15 @@ interface SvgInstance extends BoundedObjectInstance {
 }
 
 export interface SvgConfig extends BoundedObjectConfig {
+   /** ARIA role for the `svg` element. Defaults to `img` when `ariaLabel` is set. */
+   role?: StringProp;
+
+   /**
+    * Accessible name for the `svg` element. Setting it announces the drawing as a single graphic
+    * instead of as its individual shapes, which is also how a tagged PDF export tags it.
+    */
+   ariaLabel?: StringProp;
+
    /** Set to `true` to automatically calculate width based on the measured height and `aspectRatio`. */
    autoWidth?: boolean;
 
@@ -51,6 +61,16 @@ export class Svg extends BoundedObject<SvgConfig, SvgInstance> {
 
    constructor(config?: SvgConfig) {
       super(config);
+   }
+
+   declareData(...args: any[]) {
+      return super.declareData(
+         {
+            role: undefined,
+            ariaLabel: undefined,
+         },
+         ...args,
+      );
    }
 
    initState(context: RenderingContext, instance: SvgInstance) {
@@ -147,6 +167,9 @@ class SvgComponent extends VDOM.Component<SvgComponentProps> {
       const { instance, data, size, children, eventHandlers } = this.props;
       const { widget } = instance;
 
+      // An unnamed drawing is left alone: `role="img"` would hide its text and put nothing in its place.
+      const role = data.role ?? (data.ariaLabel ? "img" : undefined);
+
       const defs: any[] = [];
       for (const k in (instance as any).clipRects) {
          let cr = (instance as any).clipRects[k];
@@ -181,7 +204,7 @@ class SvgComponent extends VDOM.Component<SvgComponentProps> {
             {...eventHandlers}
          >
             {size.width > 0 && size.height > 0 && (
-               <svg>
+               <svg role={role} aria-label={data.ariaLabel}>
                   <defs>{defs}</defs>
                   {children}
                </svg>
