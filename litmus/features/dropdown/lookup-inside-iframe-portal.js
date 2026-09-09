@@ -46,11 +46,15 @@ export default (
       </p>
 
       <p style="max-width: 420px; margin: 0 0 16px;">
-        The parent document's lookup has a red background, so the
-        inline-rendered lookup inside IFramePortal will pick up this style,
-        while the other lookup will not. Since IFramePortal does not allow
-        stylesheets from the outer document to leak into the iframe, we achieve
-        the desired style isolation on the other lookup.
+        IFramePortal copies every outer stylesheet into the iframe document (see
+        copyStyles), so both rules below - the red base rule and the more
+        specific blue ".inner-lookup" override - are present inside the iframe.
+        The lookup rendered inline (actually inside the iframe DOM, nested under
+        ".inner-lookup") matches the blue override. The lookup with
+        dropdownOptions inline false portals its dropdown out to the parent
+        document's body instead, outside the ".inner-lookup" ancestor, so it
+        only matches the red base rule and is not isolated from the parent
+        document at all.
       </p>
       <LabelsTopLayout>
         <LookupField
@@ -73,7 +77,7 @@ export default (
           <LabelsTopLayout>
             <LookupField
               class="inner-lookup"
-              label="IFrame Portal Lookup (inline)"
+              label="IFrame Portal Lookup"
               value-bind="city"
               options-bind="cities"
               placeholder="Select a city..."
@@ -83,7 +87,7 @@ export default (
             />
             <LookupField
               class="inner-lookup"
-              label="IFrame Portal Lookup"
+              label="IFrame Portal Lookup (inline)"
               value-bind="city"
               options-bind="cities"
               placeholder="Select a city..."

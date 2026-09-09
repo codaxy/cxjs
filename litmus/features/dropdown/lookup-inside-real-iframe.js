@@ -49,6 +49,15 @@ const HostPage = (
         navigation via iframe src, not a React portal). Open its dropdown and
         check whether it's positioned correctly relative to the field.
       </p>
+      <p style="max-width: 420px; margin: 0 0 16px;">
+        This also doubles as a repro for a related viewport-size bug: the
+        framed field has very little content compared to the iframe's 600px
+        height, and the framed page doesn't set html/body height to 100%
+        (the default). If the dropdown ever measures the fixed-position
+        viewport off the framed document's content height instead of its
+        actual (much taller) viewport, it will think there's no room below
+        the field and open upward instead of downward.
+      </p>
       <LabelsTopLayout>
         <LookupField
           label="Parent Document Lookup"

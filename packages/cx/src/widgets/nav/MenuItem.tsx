@@ -385,7 +385,7 @@ class MenuItemComponent extends VDOM.Component<MenuItemComponentProps, MenuItemC
          debug(menuFlag, "MenuItem", "mouseLeave", this.el);
          this.clearAutoFocusTimer();
 
-         if (widget.hoverToOpen && document.activeElement == this.el) unfocusElement(this.el!);
+         if (widget.hoverToOpen && getActiveElement() == this.el) unfocusElement(this.el!);
       }
 
       tooltipMouseLeave(e, this.props.instance, widget.tooltip);
@@ -486,7 +486,7 @@ class MenuItemComponent extends VDOM.Component<MenuItemComponentProps, MenuItemC
       let { widget } = this.props.instance;
       if (widget.dropdown) {
          oneFocusOut(this, this.el!, this.onFocusOut.bind(this));
-         debug(menuFlag, "MenuItem", "focus", this.el, document.activeElement);
+         debug(menuFlag, "MenuItem", "focus", this.el, getActiveElement());
          this.clearAutoFocusTimer();
          if (widget.openOnFocus) this.openDropdown();
       }

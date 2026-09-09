@@ -143,6 +143,7 @@ import "./index.scss";
 //import Demo from "./features/window/resize-cursor";
 import Demo from "./features/dropdown/lookup-inside-iframe-portal";
 // import Demo from "./features/dropdown/lookup-inside-real-iframe";
+// import Demo from "./features/dropdown/context-menu-iframe-focus";
 // import Demo from "./bugs/GridDefaultSortFieldClearableSortIssue";
 // import Demo from "./bugs/GridFixedColumnsFixedHeaderColumnsPosition";
 // import Demo from "./bugs/GridOnFetchRecords";
