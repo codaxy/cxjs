@@ -21,6 +21,7 @@ import { isDefined } from "../../util/isDefined";
 import { isString } from "../../util/isString";
 import { BooleanProp, StringProp, StyleProp, ClassProp } from "../../ui/Prop";
 import { RenderingContext } from "../../ui/RenderingContext";
+import { getActiveElement } from "src/util";
 
 export interface WindowConfig extends OverlayConfig {
    /** Text to be displayed in the header. */
@@ -292,7 +293,7 @@ class WindowComponent extends OverlayComponent<WindowComponentProps, WindowCompo
    onFocusIn() {
       super.onFocusIn();
       if (!this.state.active) {
-         if (this.containerEl?.contains(document.activeElement)) this.setZIndex(ZIndexManager.next());
+         if (this.containerEl?.contains(getActiveElement())) this.setZIndex(ZIndexManager.next());
          this.setState({ active: true });
       }
    }

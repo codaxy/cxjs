@@ -1,4 +1,5 @@
 import { isNumber } from "../util/isNumber";
+import { getActiveElement } from "./getActiveElement";
 
 type ElementFilter = (el: Element, condition: (el: Element) => boolean) => Element | null;
 
@@ -51,11 +52,11 @@ export function closestParent(el: Element, condition: (el: any) => boolean): HTM
 }
 
 export function isFocused(el: Element): boolean {
-   return document.activeElement == el;
+   return getActiveElement() == el;
 }
 
 export function isFocusedDeep(el: Element): boolean {
-   return document.activeElement == el || (!!document.activeElement && el.contains(document.activeElement));
+   return isSelfOrDescendant(el, getActiveElement());
 }
 
 const focusableWithoutTabIndex = ["INPUT", "SELECT", "TEXTAREA", "A", "BUTTON"];
@@ -76,13 +77,23 @@ export function isFocusable(el: Element): el is HTMLElement {
  * @returns {Element}
  */
 export function getFocusedElement(): Element | null {
-   return document.activeElement;
+   return getActiveElement();
 }
 
 export function isDescendant(el: Element, descEl: Element): boolean {
    return el.contains(descEl);
 }
 
+//`descEl` may live in a different document than `el` (e.g. focus is inside a same-origin
+//iframe) - Node.contains never crosses document boundaries, so walk out through each
+//frame's <iframe> element in its parent document until we either cross into el's document
+//or run out of ancestor frames.
 export function isSelfOrDescendant(el: Element, descEl: Element): boolean {
-   return el == descEl || el.contains(descEl);
+   let node: Element | null | undefined = descEl;
+   while (node) {
+      if (el == node || el.contains(node)) return true;
+      let win: Window | null = node.ownerDocument?.defaultView;
+      node = win?.frameElement;
+   }
+   return false;
 }
