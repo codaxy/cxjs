@@ -4,6 +4,27 @@ title: Changelog
 description: Version history and release notes
 ---
 
+## cx\@26.9.0
+
+**Features**
+
+- `Svg` now forwards `role` and `ariaLabel` to the rendered `svg` element, defaulting `role` to `img` when `ariaLabel` is set. Naming a drawing announces it as a single graphic instead of as its individual shapes, which is also how a tagged PDF export tags it. An unnamed drawing is left untouched ([#1327](https://github.com/codaxy/cxjs/pull/1327))
+- `Legend` entry shapes are now hidden from assistive technology by default — the shape is a color key whose meaning the entry text beside it already carries, so it is no longer announced as an unnamed graphic. Added `shapeRole` and `shapeAriaLabel` for callers that need the shape exposed and named ([#1327](https://github.com/codaxy/cxjs/pull/1327))
+- `TextArea` now implements the `trim` flag it inherits from `TextField`. Trimming applies to the commit that ends the edit, not to intermediate `input` commits, so a trailing newline can still be typed; whitespace inside the text is never touched ([#1321](https://github.com/codaxy/cxjs/pull/1321))
+- Added two Vite plugins as counterparts of the existing Babel and webpack tooling ([#1318](https://github.com/codaxy/cxjs/pull/1318)):
+  - `vite-plugin-transform-cx-imports` rewrites namespace imports (`import { Grid } from "cx/widgets"`) into direct file imports, for faster dev-server cold starts and deterministic tree shaking. It detects a pre-bundled `cx` and skips the rewrite where it would break resolution
+  - `vite-plugin-cx-scss-manifest` collects the CxJS modules an app actually imports and generates an SCSS manifest, so only those widget styles are compiled — which can cut the generated CSS by 70–90% in smaller apps. Deep imports are collected from Vite's module resolution at no cost; pairing it with the plugin above turns barrel imports into deep imports before it sees them, removing the source parsing entirely
+
+**Fixes**
+
+- Dropdowns, `LookupField` option lists and context menus now position correctly when the element they belong to lives inside a same-origin iframe. Placement is computed against the document the dropdown actually renders in, mouse-tracked placements translate the cursor into that document's coordinate space, and scroll and resize of every frame window between the related element and the top document are now observed, so the dropdown follows its field instead of drifting. Viewport measurement also switched from `offsetWidth`/`offsetHeight` to `clientWidth`/`clientHeight`, so scrollbars no longer count as available space ([#1325](https://github.com/codaxy/cxjs/pull/1325))
+- Focus detection now looks through same-origin iframes. `getActiveElement` takes an optional `document` and drills into the focused frame's own document instead of stopping at the `<iframe>` element, `isSelfOrDescendant` walks out through ancestor frame elements, and `Window`, `MenuItem` and the `DOM` focus helpers use it in place of `document.activeElement` ([#1325](https://github.com/codaxy/cxjs/pull/1325), [#1326](https://github.com/codaxy/cxjs/pull/1326))
+- `Overlay` now clears the resize cursor when the pointer leaves a resizable edge, restoring the cursor from the widget's own style instead of leaving the last `*-resize` value stuck ([#1322](https://github.com/codaxy/cxjs/pull/1322))
+- Type-only re-exports (`GridRowConfig`, `AccessorChain`, and the `JSX` namespace in `jsx-dev-runtime`) now use `export type`, so compiling CxJS sources with isolated-modules transpilers no longer fails ([#1318](https://github.com/codaxy/cxjs/pull/1318))
+- `cx-build-tools`' manifest recorder now resolves re-exports that declare a source, so re-exported entries are recorded against the module they actually come from ([#1318](https://github.com/codaxy/cxjs/pull/1318))
+
+---
+
 ## cx\@26.8.0
 
 **Features**
