@@ -21,7 +21,7 @@ import { isDefined } from "../../util/isDefined";
 import { isString } from "../../util/isString";
 import { BooleanProp, StringProp, StyleProp, ClassProp } from "../../ui/Prop";
 import { RenderingContext } from "../../ui/RenderingContext";
-import { getActiveElement } from "src/util";
+import { getActiveElement } from "../../util/getActiveElement";
 
 export interface WindowConfig extends OverlayConfig {
    /** Text to be displayed in the header. */
