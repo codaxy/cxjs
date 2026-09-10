@@ -25,6 +25,7 @@ export * from "./ArrayElementView";
 export * from "./getAccessor";
 export * from "./defaultCompare";
 export * from "./NestedDataView";
+export * from "./AggregateFunction";
 
 export * from "./createAccessorModelProxy";
 export * from "./Selector";
