@@ -4,6 +4,17 @@ title: Changelog
 description: Version history and release notes
 ---
 
+## cx\@26.9.2
+
+**Fixes**
+
+- `Grid` rows are no longer emitted as `tr` elements directly under `table`. Rows of a grid with merged cells are rendered as bare `tr`, because a `rowspan` cannot cross a row group boundary, but nothing enclosed them — so the rendered tree did not match the described one, React reported a hydration mismatch, and serializing the DOM produced one row group per row with the row's own `class` and `data-record-key` hoisted onto it. Consecutive such rows now share a generated `tbody` ([#1328](https://github.com/codaxy/cxjs/issues/1328))
+- `Grid` column headers now render inside `thead` instead of `tbody`. Headers repeated for each group through `grouping.showHeader` keep the `tbody` tag, as a second `thead` is not allowed between the data rows
+- `Grid` group captions now carry `role="columnheader"`. A caption is a heading for the rows it introduces rather than a value in the table, but it was exposed as an ordinary cell, so nothing associated it with those rows — a screen reader announced it as data, and accessibility checkers flagged the row as irregular, including when validating a tagged PDF export against PDF/UA. In the aggregate caption row (`grouping.showCaption`) only the cells that come from a column `caption` are marked; aggregate values stay plain cells ([#1329](https://github.com/codaxy/cxjs/issues/1329))
+- `Grid` looked its rows up as `tbody[data-record-key]` when scrolling the cursor into view, which silently matched nothing in a grid with merged cells
+
+---
+
 ## cx\@26.9.0
 
 **Features**
