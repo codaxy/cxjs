@@ -1280,7 +1280,14 @@ export class Grid<T = unknown> extends ContainerBase<GridConfig<T>, GridInstance
       );
    }
 
-   renderHeader(context: RenderingContext, instance: GridInstance, key: any, fixed: any, fixedColumns: any) {
+   renderHeader(
+      context: RenderingContext,
+      instance: GridInstance,
+      key: any,
+      fixed: any,
+      fixedColumns: any,
+      repeated?: boolean,
+   ) {
       let { data, widget, header } = instance;
 
       let { CSS, baseClass } = widget;
@@ -1458,10 +1465,12 @@ export class Grid<T = unknown> extends ContainerBase<GridConfig<T>, GridInstance
 
       if (headerRows.length == 0) return null;
 
-      return (
-         <tbody key={"h" + key} className={CSS.element(baseClass, "header")}>
-            {headerRows}
-         </tbody>
+      //headers repeated for each group sit between the data rows, where a second thead
+      //would not be allowed
+      return VDOM.createElement(
+         repeated ? "tbody" : "thead",
+         { key: "h" + key, className: CSS.element(baseClass, "header") },
+         headerRows,
       );
    }
 
@@ -1582,7 +1591,9 @@ export class Grid<T = unknown> extends ContainerBase<GridConfig<T>, GridInstance
                data-group-element={`group-caption-${level}`}
             >
                <tr>
-                  <td colSpan={1000}>{caption}</td>
+                  <td colSpan={1000} role="columnheader">
+                     {caption}
+                  </td>
                </tr>
             </tbody>
          );
@@ -1644,7 +1655,13 @@ export class Grid<T = unknown> extends ContainerBase<GridConfig<T>, GridInstance
                if (pad !== false) cls += (cls ? " " : "") + CSS.state("pad");
 
                return (
-                  <td key={i} className={cls} colSpan={colSpan} style={style}>
+                  <td
+                     key={i}
+                     className={cls}
+                     colSpan={colSpan}
+                     role={c.caption ? "columnheader" : undefined}
+                     style={style}
+                  >
                      {v}
                   </td>
                );
@@ -1820,9 +1837,11 @@ export class Grid<T = unknown> extends ContainerBase<GridConfig<T>, GridInstance
                );
 
             if (g.showHeader) {
-               record.vdom.push(this.renderHeader(context, instance, record.key + "-header", false, false));
+               record.vdom.push(this.renderHeader(context, instance, record.key + "-header", false, false, true));
                if (hasFixedColumns)
-                  record.fixedVdom.push(this.renderHeader(context, instance, record.key + "-header", false, true));
+                  record.fixedVdom.push(
+                     this.renderHeader(context, instance, record.key + "-header", false, true, true),
+                  );
             }
          }
 
@@ -2242,6 +2261,25 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
       };
    }
 
+   groupLooseRows(items: any[]): any[] {
+      let { CSS, baseClass } = this.props.instance.widget;
+      let result: any[] = [];
+      for (let i = 0; i < items.length; i++) {
+         if (!items[i]?.props?.useTrTag) {
+            result.push(items[i]);
+            continue;
+         }
+         let start = i;
+         while (i + 1 < items.length && items[i + 1]?.props?.useTrTag) i++;
+         result.push(
+            <tbody key={`rows-${items[start].key}`} className={CSS.element(baseClass, "row-group")}>
+               {items.slice(start, i + 1)}
+            </tbody>,
+         );
+      }
+      return result;
+   }
+
    render() {
       let { instance, data, fixedFooter, fixedColumnsFixedFooter } = this.props;
       let { widget, hasFixedColumns } = instance;
@@ -2493,6 +2531,13 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
             children.push(fixedFooter);
             if (hasFixedColumns) fixedChildren.push(fixedColumnsFixedFooter);
          }
+      }
+
+      //grids with merged cells render rows as tr elements, as rowspan cannot cross row group
+      //boundaries, so consecutive rows have to share a tbody instead of getting one each
+      if (instance.row.hasMergedCells) {
+         children = this.groupLooseRows(children);
+         if (hasFixedColumns) fixedChildren = this.groupLooseRows(fixedChildren);
       }
 
       let shouldRenderFixedFooter = widget.scrollable && (fixedFooter || fixedColumnsFixedFooter);
@@ -3526,20 +3571,23 @@ class GridComponent extends VDOM.Component<GridComponentProps, GridComponentStat
                if (scrollIntoView) {
                   let record = this.getRecordAt(index)!;
 
-                  let item = record && this.dom.table!.querySelector(`tbody[data-record-key="${record.key}"]`);
+                  //rows are tbody elements, except in grids with merged cells, where they are tr
+                  let cellsOf = (rowEl: Element) =>
+                     (rowEl.tagName == "TR" ? rowEl : (rowEl.firstChild as HTMLElement)).children;
+
+                  let item = record && this.dom.table!.querySelector(`[data-record-key="${record.key}"]`);
 
                   let hscroll = false;
                   if (item) {
                      if (widget.cellEditable)
                         if (this.state.cursorCellIndex >= this.props.instance.fixedColumnCount) {
                            hscroll = true;
-                           item = (item.firstChild as HTMLElement)!.children[
+                           item = cellsOf(item)[
                               this.state.cursorCellIndex - this.props.instance.fixedColumnCount
                            ] as Element;
                         } else {
-                           let fixedItem = this.dom.fixedTable!.querySelector(`tbody[data-record-key="${record.key}"]`);
-                           let cell =
-                              fixedItem && (fixedItem.firstChild as HTMLElement)!.children[this.state.cursorCellIndex];
+                           let fixedItem = this.dom.fixedTable!.querySelector(`[data-record-key="${record.key}"]`);
+                           let cell = fixedItem && cellsOf(fixedItem)[this.state.cursorCellIndex];
                            if (cell) scrollElementIntoView(cell, false, true, 10);
                         }
 
