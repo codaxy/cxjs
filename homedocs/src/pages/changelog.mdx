@@ -4,6 +4,15 @@ title: Changelog
 description: Version history and release notes
 ---
 
+## cx\@26.9.3
+
+**Fixes**
+
+- An accessor chain passed to a field's `help` or `label`, or to `LabeledContainer`'s `label`, no longer crashes rendering with `ins.scheduleExploreIfVisible is not a function`. Every property read on an accessor returns another accessor, so the check for a widget class mistook it for one; only a real component type now counts, and the accessor becomes the bound text, like `bind(...)` ([#1333](https://github.com/codaxy/cxjs/issues/1333))
+- A controller attached to a `Window` or another overlay can now close it with `this.instance.parentOptions.dismiss()`. Previously only code inside the overlay received its `dismiss` ([#1332](https://github.com/codaxy/cxjs/issues/1332))
+
+---
+
 ## cx\@26.9.2
 
 **Fixes**
