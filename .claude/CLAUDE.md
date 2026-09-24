@@ -4,129 +4,84 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-CxJS is a feature-rich JavaScript framework for building complex web front-ends, such as BI tools, dashboards and admin apps. This is a monorepo using yarn workspaces that contains the main cx package, documentation, gallery, testing environments, and various themes.
+CxJS is a TypeScript framework for building data-intensive web front-ends — admin apps, dashboards, BI tools. This is a yarn 4 workspaces monorepo containing the `cx` package, its React adapter, themes, build plugins, the documentation site, and a testing playground.
 
-## Development Commands
+Guidance for *using* CxJS in applications (conventions, patterns, pitfalls) lives in the [cxjs-skills](https://github.com/codaxy/cxjs-skills) repository, not here.
 
-### Build System
-- `yarn build` or `npm run build` - Builds the main CxJS library using custom build tools
-- `node packages/cx/build/index.js` - Direct build command for the cx package
+## Commands
 
-### Testing
-- `yarn test` or `npm test` - Runs tests using Mocha with custom configuration
-- Tests are configured in `test/mocha.config.js`
+Run from the repository root:
 
-### Development Servers
-- `yarn start` or `npm start` - Runs documentation site development server
-- `yarn docs` - Alternative command for documentation
-- `yarn gallery` - Runs the gallery application showcasing widgets and themes
-- `yarn litmus` - Runs the litmus testing environment for bug reproduction
-- `yarn fiddle` - Runs the online code editor/playground
+- `yarn build` — builds `cx-react`, then `cx`
+- `yarn test` — runs the tests of `cx` and the Babel plugins
+- `yarn litmus` — starts the litmus playground (webpack dev server)
+- `yarn build:themes` — builds all `cx-theme-*` packages
 
-### TypeScript Examples
-- `cd ts-minimal && yarn start` - Runs TypeScript minimal example development server
-- `cd ts-minimal && yarn build` - Builds TypeScript minimal example for production
+Per package:
 
-### Theme Building
-- `npm run build:theme:core` - Builds core theme
-- `npm run build:theme:dark` - Builds dark theme
-- `npm run build:theme:frost` - Builds frost theme
-- `npm run build:theme:material` - Builds material theme
+- `yarn workspace cx run test` — `cx` tests only (ts-mocha)
+- `yarn workspace cx run check-types` — type-check `cx`
+- `yarn workspace cxjs-homepage-and-documentation run dev` — documentation site (Astro)
 
-## Architecture
+## Repository Structure
 
-### Monorepo Structure
-The project uses yarn workspaces with these main areas:
-- `packages/cx/` - Core framework source code
-- `docs/` - Documentation site and content
-- `gallery/` - Widget gallery and theme showcase
-- `litmus/` - Bug reproduction and testing environment
-- `fiddle/` - Online code editor
-- `ts-minimal/` - TypeScript minimal example
-- `themes/` - Various UI themes
+- `packages/cx/` — the framework (`src/` is TypeScript and ships to npm alongside `build/`)
+- `packages/cx-react/` — React adapter
+- `packages/cx-theme-*/` — themes; `cx-theme-variables` is the CSS-custom-properties theme recommended for new projects
+- `packages/*-plugin-*`, `babel-preset-cx-env`, `cx-build-tools`, `cx-cli`, `create-cx-app` — build tooling
+- `homedocs/` — cxjs.io: homepage and documentation (Astro + MDX)
+- `litmus/` — manual testing playground: `bugs/`, `features/`, `performance/`
+- `legacy/` — old documentation, gallery, fiddle, benchmark and examples; not maintained
+- `meta/` — design documents (CSS variables, TypeScript migration, modern Sass)
 
-### Core Package Structure (packages/cx/)
-- `src/util/` - Utility functions and helpers
-- `src/data/` - Data binding, stores, and state management
-- `src/ui/` - Core UI framework and widgets
-- `src/widgets/` - Form controls, grids, overlays
-- `src/charts/` - Charting components
-- `src/svg/` - SVG drawing utilities
-- `src/hooks/` - React-like hooks for functional components
+### `packages/cx/src/`
 
-### Build System
-- Custom build tools located in `cx-build-tools` package
-- Uses Rollup for JavaScript bundling
-- SCSS compilation for stylesheets
-- Modular builds for different parts (util, data, ui, widgets, charts, svg, hooks)
+- `data/` — Store, bindings, `createModel` accessor chains, computables, immutable array/tree helpers
+- `ui/` — Widget base classes, Controller, Instance, layouts, selections, adapters, `expr`/`tpl`/`bind`, app loop, History/Url
+- `widgets/` — HTML elements, form fields, grid, overlays, navigation
+- `charts/`, `svg/` — charting and bounded SVG objects
+- `util/` — utilities (formatting, dates, DOM, debounce, …)
+- `hooks/`, `locale/` — hooks and culture data
+- `jsx-runtime.ts` — the CxJS JSX runtime used with `jsxImportSource: "cx"`
 
-## TypeScript Configuration
+## Working on the Framework
 
-### JSX Configuration
-- The project uses custom JSX configuration with `jsxImportSource: "cx"`
-- For newer TypeScript projects, use `"jsx": "react-jsx"` and `"jsxImportSource": "cx"`
-- For legacy projects, use `"jsxFactory": "cx"`
+### Widgets
 
-### Path Mapping
-Configure TypeScript paths for development:
-```json
-{
-  "paths": {
-    "cx": ["../packages/cx/src"],
-    "cx-react": ["../packages/cx-react"]
-  }
-}
-```
+Widgets are written in TypeScript; see `meta/MIGRATION.md` for the full pattern:
 
-## Key Framework Concepts
+- widget files use React JSX: `/** @jsxImportSource react */`
+- a `XxxConfig` interface with JSDoc on every prop, using bindable prop types (`StringProp`, `BooleanProp`, `Prop<T>`, …)
+- class fields with `declare`, so they do not overwrite config values
+- bindable props registered in `declareData`
+- defaults set on the prototype after the class: `Xxx.prototype.baseClass = "xxx"`
+- styles in `Xxx.scss`, with `Xxx.variables.scss` and `Xxx.maps.scss` next to it, using modern Sass modules (`@use`/`@forward`) — see `meta/MODERN_SASS.md`
 
-### Data Binding
-- Uses two-way data binding with store-based state management
-- Accessor chains for deep property access (e.g., `{bind: "user.profile.name"}`)
-- Controllers for computed values and business logic
+### Tests
 
-### Widget System
-- All UI components inherit from Widget base class
-- Supports both declarative configuration and functional components
-- Rich set of form controls, grids, charts, and layout components
+Tests are `*.spec.ts` / `*.spec.tsx` files next to the source they test, run with ts-mocha (`packages/cx/.mocharc.json`).
 
-### Theming
-- SCSS-based theming system with variables and mixins
-- Multiple ready-to-use themes available as separate packages
-- Theme packages follow pattern: `cx-theme-{name}`
+### Documentation
 
-## Testing Strategy
+- Pages: `homedocs/src/pages/docs/<section>/<page>.mdx`
+- Live examples: `homedocs/src/examples/<section>/*.tsx`, imported into pages with `?raw` for the code listing
+- Navigation: `homedocs/src/data/navigation.js`. Entries marked `llms: "small"` are included in `llms-small.txt`; every page is also published as `.md` and in `llms-full.txt`
+- Breaking changes: `homedocs/src/pages/docs/intro/breaking-changes.mdx`
 
-### Test Environments
-- `litmus/` - Manual testing environment for bug reproduction and feature development
-- Organized by bugs, features, and performance tests
-- Examples in `litmus/bugs/`, `litmus/features/`, `litmus/performance/`
+### Releases
 
-### Running Specific Tests
-- Tests are located in various subdirectories
-- Use Mocha test runner with Babel transpilation
-- Configuration in `test/mocha.config.js`
+Bump the version in `packages/cx/package.json` and add an entry to `homedocs/src/pages/changelog.mdx`.
 
-## Development Workflow
+### Commit Messages
 
-### Adding New Features
-1. Implement in appropriate `packages/cx/src/` subdirectory
-2. Add TypeScript definitions (.d.ts files)
-3. Create examples in `litmus/features/`
-4. Add documentation in `docs/content/`
-5. Update gallery examples if relevant
+Conventional style with the widget as scope: `fix(Grid): …`, `feat(Svg): …`.
 
-### Working with Themes
-- Theme source files are in individual theme packages
-- Use webpack configurations for building theme assets
-- Test themes using gallery application
+## Code Style
 
-### Package Management
-- Use yarn for consistency with workspace configuration
-- Install dependencies at root level for shared packages
-- Individual packages have their own package.json for specific dependencies
+Follow `.editorconfig`: 3-space indentation, LF line endings, 120-character lines. Prettier is available at the root.
 
 ## Claude Code Notes
 
 ### File Paths
-- Always use relative paths (e.g., `gallery/tsconfig.json`) instead of absolute paths (e.g., `D:/Code/CxJS/cxjs/gallery/tsconfig.json`) when reading and editing files to avoid "File has been unexpectedly modified" errors on Windows.
+
+- Always use relative paths (e.g., `homedocs/tsconfig.json`) instead of absolute paths (e.g., `D:/Code/CxJS/cxjs/homedocs/tsconfig.json`) when reading and editing files to avoid "File has been unexpectedly modified" errors on Windows.
