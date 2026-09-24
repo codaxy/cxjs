@@ -30,11 +30,21 @@ When working with AI coding assistants like Claude, ChatGPT, or Cursor, you can:
 
 ## CxJS Skill for Coding Agents
 
-A dedicated CxJS skill for AI coding agents is coming soon. This skill will provide:
+The [CxJS skill](https://github.com/codaxy/cxjs-skills) teaches coding agents such as Claude Code, Cursor and Codex how to write idiomatic CxJS: typed models and bindings, controllers, code organization, forms, grids, charts, overlays, routing and theming. It also tells the agent when to consult these docs and when to read the CxJS source.
 
-- Deep understanding of CxJS patterns and best practices
-- Accurate code generation for widgets, forms, grids, and charts
-- TypeScript-first approach with proper type inference
-- Integration with popular AI coding tools
+Install it in your project with the [skills CLI](https://github.com/vercel-labs/skills):
 
-Stay tuned for updates.
+```bash
+npx skills add codaxy/cxjs-skills
+```
+
+Or, in Claude Code, as a plugin:
+
+```
+/plugin marketplace add codaxy/cxjs-skills
+/plugin install cxjs@cxjs
+```
+
+The skill covers CxJS itself. Conventions specific to your application — shared components, API clients, routing helpers — belong in a project skill kept in your own repository; the [cxjs-skills repository](https://github.com/codaxy/cxjs-skills) includes a template to start from.
+
+Found the agent doing something wrong? [Open an issue](https://github.com/codaxy/cxjs-skills/issues) with the prompt, what it produced, and what it should have produced.
