@@ -252,7 +252,7 @@ export class Field<
     if (this.help != null) {
       let helpConfig: any = {};
 
-      if ((this.help as any).isComponentType) helpConfig = this.help;
+      if ((this.help as any).isComponentType === true) helpConfig = this.help;
       else if (isSelector(this.help)) helpConfig.text = this.help;
       else Object.assign(helpConfig, this.help);
 
@@ -269,7 +269,7 @@ export class Field<
         class: this.labelClass,
       };
 
-      if ((this.label as any).isComponentType) labelConfig = this.label;
+      if ((this.label as any).isComponentType === true) labelConfig = this.label;
       else if (isSelector(this.label)) labelConfig.text = this.label;
       else Object.assign(labelConfig, this.label);
 

@@ -43,7 +43,7 @@ export class LabeledContainer extends FieldGroup<LabeledContainerConfig> {
             required: true,
          };
 
-         if ((this.label as any).isComponentType) labelConfig = this.label as Record<string, unknown>;
+         if ((this.label as any).isComponentType === true) labelConfig = this.label as Record<string, unknown>;
          else if (isSelector(this.label)) labelConfig.text = this.label;
          else Object.assign(labelConfig, this.label);
 
