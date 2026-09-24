@@ -240,10 +240,14 @@ export class OverlayBase<
       } else if (context.options.dismiss) instance.dismiss = context.options.dismiss;
 
       if (instance.dismiss) {
-         context.push("parentOptions", {
+         let parentOptions = {
             ...context.parentOptions,
             dismiss: instance.dismiss,
-         });
+         };
+         context.push("parentOptions", parentOptions);
+         // The overlay's own instance captured parentOptions before this point, so
+         // a controller attached to the overlay would not see its own dismiss.
+         instance.parentOptions = parentOptions;
       }
 
       if (instance.cache("dismiss", instance.dismiss)) instance.markShouldUpdate(context);
