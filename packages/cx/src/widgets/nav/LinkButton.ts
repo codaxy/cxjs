@@ -126,11 +126,16 @@ export class LinkButton extends Button {
             return data.url && data.unresolvedHref && data.url.indexOf(data.unresolvedHref) === 0;
 
          case "subroute":
+            // `?` is a boundary like `/` — a page carrying query state
+            // (~/items?filter=x) is still on the href's route, the same way
+            // Route matching tolerates the query string.
             return (
                data.url &&
                data.unresolvedHref &&
                data.url.indexOf(data.unresolvedHref) === 0 &&
-               (data.url === data.unresolvedHref || data.url[data.unresolvedHref.length] === "/")
+               (data.url === data.unresolvedHref ||
+                  data.url[data.unresolvedHref.length] === "/" ||
+                  data.url[data.unresolvedHref.length] === "?")
             );
       }
    }
