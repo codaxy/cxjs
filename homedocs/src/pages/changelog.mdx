@@ -4,6 +4,14 @@ title: Changelog
 description: Version history and release notes
 ---
 
+## cx\@26.10.0
+
+**Changes**
+
+- A widget bound with an accessor chain now writes the prop's declared default to the store when it initializes, as a `{ bind }` object always has. Previously the store slot stayed `undefined`, so the outcome depended on how the binding was written: a chain-bound field held `undefined` instead of its `emptyValue` (`null`), a chain-bound `LineGraph` (or any other chart element with `active`) was not drawn until toggled, and a chain-bound `Slider` calculated its handle position from `undefined` and wrote `NaN` to the store on mouse wheel. Existing values are never overwritten. See [Breaking Changes](/docs/intro/breaking-changes) for what to check when upgrading ([#1337](https://github.com/codaxy/cxjs/issues/1337))
+
+---
+
 ## cx\@26.9.3
 
 **Fixes**
