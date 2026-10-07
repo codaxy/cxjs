@@ -48,10 +48,9 @@ function chart(active: any) {
    );
 }
 
-// LineGraph declares `active: true`. Bound with a binding object, that default
-// is written to the store when the graph initializes. Bound with an accessor
-// chain, nothing is written, the graph sees `active: undefined` and draws
-// nothing (#1337).
+// LineGraph declares `active: true`. That default is written to the store when
+// the graph initializes, whether `active` is bound with a binding object or an
+// accessor chain, so both draw the series until it is toggled off (#1337).
 describe("LineGraph active binding initialization", () => {
    const m = createModel<Model>();
 
@@ -62,23 +61,27 @@ describe("LineGraph active binding initialization", () => {
       assert.strictEqual(findByClass(component, "linegraph-line").length, 1);
    });
 
-   it("does not render the series for an accessor-chain binding with an empty store", async () => {
+   it("renders the series and seeds active = true for an accessor-chain binding", async () => {
       let store = new Store();
       let component = await createTestRenderer(store, chart(m.$page.chain));
-      assert.strictEqual(store.get(m.$page.chain), undefined);
-      assert.strictEqual(findByClass(component, "linegraph-line").length, 0);
-   });
-
-   it("still draws the legend entry as active for an accessor-chain binding", async () => {
-      let store = new Store();
-      let component = await createTestRenderer(store, chart(m.$page.chain));
-      assert.strictEqual(findByClass(component, "linegraph-line").length, 0);
-      assert.strictEqual(findByClass(component, "color-0").length, 1);
-   });
-
-   it("renders the series for an accessor-chain binding once the store holds true", async () => {
-      let store = new Store({ data: { $page: { chain: true } } });
-      let component = await createTestRenderer(store, chart(m.$page.chain));
+      assert.strictEqual(store.get(m.$page.chain), true);
       assert.strictEqual(findByClass(component, "linegraph-line").length, 1);
+   });
+
+   it("draws the legend entry as active for an accessor-chain binding", async () => {
+      let store = new Store();
+      let component = await createTestRenderer(store, chart(m.$page.chain));
+      let [shape] = findByClass(component, "legend-shape");
+      assert.ok(shape.props.className.includes("color-0"));
+   });
+
+   it("keeps a stored active = false for both binding styles", async () => {
+      let store = new Store({ data: { $page: { chain: false, boundObject: false } } });
+      let chainComponent = await createTestRenderer(store, chart(m.$page.chain));
+      let bindComponent = await createTestRenderer(store, chart({ bind: "$page.boundObject" }));
+      assert.strictEqual(store.get(m.$page.chain), false);
+      assert.strictEqual(store.get("$page.boundObject"), false);
+      assert.strictEqual(findByClass(chainComponent, "linegraph-line").length, 0);
+      assert.strictEqual(findByClass(bindComponent, "linegraph-line").length, 0);
    });
 });

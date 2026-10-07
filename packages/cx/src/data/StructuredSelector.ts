@@ -67,6 +67,8 @@ function getSelectorConfig(props: any, values: any, nameMap: any) {
       } else if (isFunction(v)) {
          if (isAccessorChain(v)) {
             let path = v.toString();
+            const dv = v != pv ? defaultValue(pv) : undefined;
+            if (isDefined(dv)) defaultValues[path] = dv;
             nameMap[p] = path;
             functions[p] = Binding.get(path).value;
          } else functions[p] = v;

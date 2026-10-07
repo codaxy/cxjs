@@ -1,11 +1,12 @@
-// Reproduction for #1337. Widgets declare defaults for some props (Field's
-// emptyValue = null, LineGraph's active = true, Slider's to = 0). Bound with a
-// binding object ({bind: ...} or the -bind shorthand), the default is written
-// to the store when the widget initializes. Bound with an accessor chain,
-// nothing is written and the widget sees undefined instead.
+// Regression page for #1337. Widgets declare defaults for some props (Field's
+// emptyValue = null, LineGraph's active = true, Slider's to = 0). The default
+// is written to the store when the widget initializes, whether the prop is
+// bound with a binding object ({bind: ...} or the -bind shorthand) or an
+// accessor chain. Before 26.10.0, accessor chains wrote nothing and the widget
+// saw undefined instead.
 //
 // The page shows each widget twice, side by side, with the two binding styles.
-// Each section says what you should see and what actually happens.
+// Each section says what you should see and how it looked before the fix.
 //
 // Run: import Demo from "./bugs/FieldBindingObjectNullSeeding"; in litmus/index.js
 import { computable } from "cx/ui";
@@ -75,7 +76,7 @@ const chart = (active, color) => (
 export default (
    <cx>
       <div style="padding: 20px; max-width: 900px">
-         <h2 style="margin-top: 0">#1337: the binding style decides whether the store gets the widget's default</h2>
+         <h2 style="margin-top: 0">#1337: both binding styles write the widget's default to the store</h2>
          <p
             innerHtml={
                "Every pair below is the same widget with the same store path. The only difference is how the " +
@@ -97,9 +98,9 @@ export default (
             </div>
             <p
                innerHtml={
-                  "Actual: the binding object stores <code>null</code>, while the accessor chain leaves the key " +
-                  "out. Code that compares these values strictly (<code>=== null</code>, <code>a === b</code>) " +
-                  "gets different results."
+                  "Both store <code>null</code>. Before 26.10.0, the accessor chain left the key out, so code " +
+                  "that compared the values strictly (<code>=== null</code>, <code>a === b</code>) got different " +
+                  "results."
                }
             />
          </Section>
@@ -118,10 +119,10 @@ export default (
             </div>
             <p
                innerHtml={
-                  "Actual: the accessor-chain chart is empty, because <code>active</code> is undefined and " +
-                  "LineGraph draws nothing when it is falsy. Its axes fall back to 0–100 because the graph does " +
-                  "not report its data range either. The legend still shows the entry as on. Clicking the entry " +
-                  "draws the line, because the toggle writes <code>!undefined</code>, which is <code>true</code>."
+                  "Both charts draw the line and store <code>active = true</code>. Clicking a legend entry hides " +
+                  "its line and stores <code>false</code>. Before 26.10.0, the accessor-chain chart was empty, " +
+                  "with axes at 0–100, because <code>active</code> was undefined and LineGraph draws nothing when " +
+                  "it is falsy."
                }
             />
          </Section>
@@ -145,18 +146,16 @@ export default (
             </div>
             <p
                innerHtml={
-                  "Actual: the accessor-chain slider does not move, and its store value becomes <code>NaN</code>. " +
-                  "The wheel handler adds the step to the current value, and <code>undefined + 1</code> is " +
-                  "<code>NaN</code>."
+                  "Both handles move and both values become 1. Before 26.10.0, the accessor-chain slider did not " +
+                  "move and its store value became <code>NaN</code>, because the wheel handler added the step to " +
+                  "<code>undefined</code>."
                }
             />
             <p
                innerHtml={
-                  "Before you scroll, both handles already look the same, but only by accident. The accessor-chain " +
-                  "slider calculates its handle position from undefined and renders <code>left: NaN%</code>. The " +
-                  "browser ignores that invalid value, so the handle falls back to the left edge. You can see it " +
-                  "in the element inspector: the binding-object handle has <code>style=&quot;left: 0%&quot;</code> " +
-                  "and the accessor-chain handle has no style at all."
+                  "Before you scroll, both handles have <code>style=&quot;left: 0%&quot;</code> in the element " +
+                  "inspector. Before 26.10.0, the accessor-chain handle rendered <code>left: NaN%</code>, which the " +
+                  "browser ignored, so it only looked right by accident."
                }
             />
          </Section>

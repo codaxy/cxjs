@@ -15,6 +15,48 @@ Sometimes we are forced to introduce breaking changes to the framework.
 This page will provide information about breaking changes and how to migrate your applications to the latest
 versions of the framework.
 
+## 26.10.0
+
+### Accessor-chain bindings write declared defaults to the store
+
+Some widget props declare a default value. When such a prop is bound with a `{ bind }` object (or the `-bind`
+shorthand), the default is written to the store when the widget initializes, unless the store already holds a
+value. Before 26.10.0, the same prop bound with an accessor chain wrote nothing and the store slot stayed
+`undefined`. Both binding styles now write the default.
+
+The props that declare a default:
+
+| Widget | Prop | Default |
+| --- | --- | --- |
+| `TextField`, `TextArea`, `NumberField`, `DateTimeField`, `ColorField`, `ColorPicker`, `MonthField`, `MonthPicker` | `value` | `emptyValue` (`null`) |
+| `MonthField`, `MonthPicker` (range) | `from`, `to` | `null` |
+| `Checkbox` (not indeterminate) | `value` | `false` |
+| `Switch` | `on` / `off` | `false` / `true` |
+| `Slider` | `from`, `to` (`value`) | `0` |
+| `MenuItem` | `checked` | `false` |
+| `LineGraph`, `ColumnGraph`, `BarGraph`, `ScatterGraph`, `Column`, `Bar`, `PieSlice`, `Marker`, `MarkerLine`, `Range`, `LegendEntry` | `active` | `true` |
+
+```tsx
+const m = createModel<PageModel>();
+
+<TextField value={m.$page.name} />;
+
+// before 26.10.0: store.get(m.$page.name) === undefined
+// since 26.10.0:  store.get(m.$page.name) === null
+```
+
+If your application binds these props with accessor chains, check for code that relies on the slot being
+`undefined`:
+
+- Strict comparisons such as `value === undefined`, or `a === b` between a slot that is now seeded and one that
+  is not. Compare with `== null` to treat both as empty.
+- Key checks such as `"name" in data` or `Object.keys(data)`.
+- Data sent to a server: `JSON.stringify` drops `undefined` keys but keeps `null`, so payloads built from the
+  store can now contain `"name": null`.
+- Editors bound to `$record` inside a `Grid` or `Repeater` write the default into each record they render,
+  which replaces those records with updated copies. Code that compares records by reference, or dirty-checks
+  them against the loaded data, can see them as changed.
+
 ## 26.3.8
 
 ### Grid row states are now styled from `$cx-grid-data-state-style-map`

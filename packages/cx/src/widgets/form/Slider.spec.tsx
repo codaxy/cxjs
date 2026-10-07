@@ -44,9 +44,9 @@ async function renderSlider(store: Store, widget: any) {
 }
 
 // Slider declares `from: 0` and `to: 0` (a `value` binding is moved to `to`).
-// Bound with a binding object, the default is written to the store when the
-// slider initializes. Bound with an accessor chain, nothing is written, so the
-// slider calculates its handle position and wheel steps from `undefined` (#1337).
+// That default is written to the store when the slider initializes, whether the
+// value is bound with a binding object or an accessor chain, so the handle
+// position and wheel steps start from 0 (#1337).
 describe("Slider value binding initialization", () => {
    const m = createModel<Model>();
 
@@ -57,11 +57,11 @@ describe("Slider value binding initialization", () => {
       assert.strictEqual(handleLeft(), "0%");
    });
 
-   it("leaves the store empty and positions the handle at NaN% for an accessor-chain binding", async () => {
+   it("seeds 0 and places the handle at the start for an accessor-chain binding", async () => {
       let store = new Store();
       let { handleLeft } = await renderSlider(store, <Slider value={m.$page.chain} />);
-      assert.strictEqual(store.get(m.$page.chain), undefined);
-      assert.strictEqual(handleLeft(), "NaN%");
+      assert.strictEqual(store.get(m.$page.chain), 0);
+      assert.strictEqual(handleLeft(), "0%");
    });
 
    it("steps from 0 on mouse wheel for a {bind} object", async () => {
@@ -71,10 +71,17 @@ describe("Slider value binding initialization", () => {
       assert.strictEqual(store.get("$page.boundObject"), 1);
    });
 
-   it("writes NaN to the store on mouse wheel for an accessor-chain binding", async () => {
+   it("steps from 0 on mouse wheel for an accessor-chain binding", async () => {
       let store = new Store();
       let { wheel } = await renderSlider(store, <Slider value={m.$page.chain} wheel />);
       await wheel(1);
-      assert.ok(Number.isNaN(store.get(m.$page.chain)));
+      assert.strictEqual(store.get(m.$page.chain), 1);
+   });
+
+   it("keeps an existing value for an accessor-chain binding", async () => {
+      let store = new Store({ data: { $page: { chain: 40 } } });
+      let { handleLeft } = await renderSlider(store, <Slider value={m.$page.chain} />);
+      assert.strictEqual(store.get(m.$page.chain), 40);
+      assert.strictEqual(handleLeft(), "40%");
    });
 });
