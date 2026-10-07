@@ -58,14 +58,11 @@ interface InitModel {
    };
 }
 
-// Documents how a field's value binding style affects store initialization
-// (StructuredSelector.getSelectorConfig): a binding OBJECT ({bind: ...})
-// collects the widget's declared prop default — Field's emptyValue, i.e.
-// null — into defaultValues, and StructuredSelector.init() writes it into
-// the store. An accessor-chain binding takes the isAccessorChain branch,
-// which registers the selector without any default, so the slot stays
-// undefined until the user interacts. Empty form fields therefore hold
-// null or undefined depending solely on how the binding was authored.
+// A bound field seeds its store slot with the widget's declared prop default
+// (Field's emptyValue, i.e. null) on initialization — StructuredSelector
+// collects it into defaultValues and init() writes it. Binding objects and
+// accessor chains behave the same, so an untouched field holds the same value
+// regardless of how the binding was authored (#1337).
 describe("Field value binding initialization", () => {
    const m = createModel<InitModel>();
 
@@ -82,17 +79,35 @@ describe("Field value binding initialization", () => {
       assert.strictEqual(store.get("$page.boundObjectDebounced"), null);
    });
 
-   it("leaves the store slot undefined for an accessor-chain binding", async () => {
+   it("seeds the store with null for an accessor-chain binding", async () => {
       let store = new Store();
       await createTestRenderer(store, <TextField value={m.$page.chain} />);
-      assert.strictEqual(store.get(m.$page.chain), undefined);
-      let page = store.get("$page");
-      assert.ok(page == null || !("chain" in page));
+      assert.strictEqual(store.get(m.$page.chain), null);
+      assert.ok("chain" in store.get("$page"));
    });
 
    it("seeds the declared emptyValue, proving the default comes from the widget's prop declaration", async () => {
       let store = new Store();
       await createTestRenderer(store, <TextField value={{ bind: "$page.customEmpty" }} emptyValue="" />);
       assert.strictEqual(store.get("$page.customEmpty"), "");
+   });
+
+   it("seeds the declared emptyValue for an accessor-chain binding", async () => {
+      let store = new Store();
+      await createTestRenderer(store, <TextField value={m.$page.customEmpty} emptyValue="" />);
+      assert.strictEqual(store.get(m.$page.customEmpty), "");
+   });
+
+   it("does not overwrite an existing value", async () => {
+      let store = new Store({ data: { $page: { chain: "x", boundObject: "y" } } });
+      await createTestRenderer(
+         store,
+         <div>
+            <TextField value={m.$page.chain} />
+            <TextField value={{ bind: "$page.boundObject" }} />
+         </div>,
+      );
+      assert.strictEqual(store.get(m.$page.chain), "x");
+      assert.strictEqual(store.get("$page.boundObject"), "y");
    });
 });

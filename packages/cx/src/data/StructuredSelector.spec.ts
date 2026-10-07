@@ -110,4 +110,32 @@ describe("StructuredSelector", function () {
       }).create();
       assert.deepEqual(s(x), { b: 2 });
    });
+
+   describe("default values", function () {
+      let m = createAccessorModelProxy<{ a: boolean; b: boolean; c: boolean; s: { color: string } }>();
+
+      it("are collected for binding objects and accessor chains alike", function () {
+         let s = new StructuredSelector({
+            props: { x: true, y: true, z: undefined },
+            values: { x: { bind: "a" }, y: m.b, z: m.c },
+         });
+         assert.deepEqual(s.config.defaultValues, { a: true, b: true });
+      });
+
+      it("prefer an explicit binding defaultValue over the declared default", function () {
+         let s = new StructuredSelector({
+            props: { x: true },
+            values: { x: { bind: "a", defaultValue: false } },
+         });
+         assert.deepEqual(s.config.defaultValues, { a: false });
+      });
+
+      it("are not collected for accessor chains nested in structured props", function () {
+         let s = new StructuredSelector({
+            props: { style: { structured: true } },
+            values: { style: { color: m.s.color } },
+         });
+         assert.deepEqual(s.config.defaultValues, {});
+      });
+   });
 });
