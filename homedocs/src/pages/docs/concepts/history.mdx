@@ -35,6 +35,7 @@ The store is updated whenever navigation happens, allowing the application to re
 | `History.subscribe(callback)`                          | Subscribe to location changes. Useful for setting up page tracking (e.g. Google Analytics). Returns an unsubscribe function.                                                     |
 | `History.reloadOnNextChange()`                         | Instructs the router to reload the page on next navigation. Commonly used with service workers.                                                                                  |
 | `History.addNavigateConfirmation(callback, permanent)` | Instructs the router to execute the given callback to confirm leaving the current page. The callback is executed only for the current page, unless `permanent` is set to `true`. |
+| `History.removeNavigateConfirmation()`                 | Removes the registered navigation confirmation, e.g. once the changes are saved.                                                                                                 |
 
 ## Programmatic Navigation
 
@@ -69,6 +70,17 @@ History.addNavigateConfirmation((url) => {
 ```
 
 The callback receives the target URL and should return a boolean or `Promise<boolean>`. By default, the confirmation is removed when leaving the page. Pass `true` as the second argument to make it permanent.
+
+The confirmation is asked for link navigation, for programmatic navigation through `pushState`, and for browser
+Back and Forward navigation.
+
+Browsers apply Back and Forward navigation before the application is notified, so it cannot be prevented. The
+router instead returns the browser to the entry which is displayed as soon as it learns about the navigation,
+and travels to the target only if the user confirms. This keeps the address bar in sync with the page while the
+confirmation is pending.
+
+Leaving the application entirely (closing the tab or entering a different address) is not covered by this
+mechanism and requires a `beforeunload` handler.
 
 ## Browser Support
 
