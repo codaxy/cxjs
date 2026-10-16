@@ -1,5 +1,6 @@
 import { Link } from "./Link";
 import { Store } from "../../data/Store";
+import { History } from "../../ui/app/History";
 import { createModel } from "../../data/createAccessorModelProxy";
 import { createTestRenderer } from "../../util/test/createTestRenderer";
 import assert from "assert";
@@ -107,6 +108,46 @@ describe("Link", () => {
 
       it("is inactive without a query", async () => {
          assert.equal(await isActive("~/page", { href: "~/page?tab=1" }), false);
+      });
+   });
+
+   describe("click on a local href", () => {
+      let pushState = History.pushState;
+      let pushed: string[];
+
+      beforeEach(() => {
+         pushed = [];
+         History.pushState = (state, title, url) => {
+            pushed.push(url);
+            return true;
+         };
+      });
+
+      afterEach(() => {
+         History.pushState = pushState;
+      });
+
+      async function click(target?: string) {
+         let store = new Store();
+         let component = await createTestRenderer(
+            store,
+            <cx>
+               <Link href="~/reports" target={target} text="Reports" />
+            </cx>,
+         );
+         let prevented = false;
+         findAnchor(component.toJSON()).props.onClick({ preventDefault: () => (prevented = true) });
+         return prevented;
+      }
+
+      it("navigates in the app without a target", async () => {
+         assert.equal(await click(), true);
+         assert.deepEqual(pushed, ["/reports"]);
+      });
+
+      it("leaves target=_blank to the browser", async () => {
+         assert.equal(await click("_blank"), false);
+         assert.deepEqual(pushed, []);
       });
    });
 
