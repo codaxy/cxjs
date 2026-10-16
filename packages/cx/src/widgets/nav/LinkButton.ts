@@ -168,7 +168,14 @@ export class LinkButton extends Button {
 
       if (this.onClick && instance.invoke("onClick", e, instance) === false) return;
 
-      if (data.href && Url.isLocal(data.href) && !e.ctrlKey && !e.shiftKey && !e.metaKey) {
+      if (
+         data.href &&
+         Url.isLocal(data.href) &&
+         (!data.target || data.target === "_self") &&
+         !e.ctrlKey &&
+         !e.shiftKey &&
+         !e.metaKey
+      ) {
          e.preventDefault();
          History.pushState({}, null, data.href);
       }
