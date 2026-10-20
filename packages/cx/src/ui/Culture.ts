@@ -81,7 +81,6 @@ export class Culture {
    static setCulture(cultureCode: string): void {
       let cultureSpecs = getDefaultCulture();
       cultureSpecs.culture = cultureCode;
-      cultureSpecs.cache = {};
       Localization.setCulture(cultureCode);
       this.invalidateCache();
    }
@@ -89,14 +88,12 @@ export class Culture {
    static setNumberCulture(cultureCode: string): void {
       let cultureSpecs = getDefaultCulture();
       cultureSpecs.numberCulture = cultureCode;
-      delete cultureSpecs.cache.numberCulture;
       this.invalidateCache();
    }
 
    static setDateTimeCulture(cultureCode: string): void {
       let cultureSpecs = getDefaultCulture();
       cultureSpecs.dateTimeCulture = cultureCode;
-      delete cultureSpecs.cache.dateTimeCulture;
       this.invalidateCache();
    }
 
@@ -119,6 +116,7 @@ export class Culture {
    }
 
    static invalidateCache(): void {
+      getDefaultCulture().cache = {};
       GlobalCacheIdentifier.change();
       invalidateExpressionCache();
       invalidateStringTemplateCache();
