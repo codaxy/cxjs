@@ -111,7 +111,7 @@ export class Restate<Config extends RestateConfig = RestateConfig> extends PureC
       if (!instance.subStore) this.initSubStore(context, instance);
       if (instance.subStore.parentDataCheck()) instance.markShouldUpdate();
       instance.cultureInfo = this.culture ?? getCurrentCulture();
-      if (instance.cache("cultureInfo", instance.culture)) instance.markShouldUpdate();
+      if (instance.cache("cultureInfo", instance.cultureInfo)) instance.markShouldUpdate();
       super.explore(context, instance);
    }
 

@@ -6,6 +6,9 @@ import { Controller } from "./Controller";
 import { bind } from "./bind";
 import { FirstVisibleChildLayout } from "./layout/FirstVisibleChildLayout";
 import { Culture, createCulture } from "./Culture";
+import { Cx } from "./Cx";
+import renderer from "react-test-renderer";
+import { createElement } from "react";
 
 describe("Restate", () => {
    it("provides a blank slate", async () => {
@@ -448,5 +451,36 @@ describe("Restate", () => {
             { type: "span", props: {}, children: ["21:00"] },
          ],
       });
+   });
+
+   it("re-renders detached content when the parent culture changes", async () => {
+      let time = () =>
+         Culture.getDateTimeCulture().getFormatter("HHmmN").format(new Date("2026-04-24T12:00:00Z"));
+
+      let widget = (
+         <cx>
+            <div>
+               <Restate detached>
+                  <span text={time} />
+               </Restate>
+            </div>
+         </cx>
+      );
+
+      let store = new Store();
+      let utc = createCulture({ timezone: "UTC" });
+      let tokyo = createCulture({ timezone: "Asia/Tokyo" });
+      let cx = (cultureInfo: any) =>
+         createElement(Cx, { widget, store, subscribe: true, immediate: true, cultureInfo });
+      let component: any;
+      await act(async () => {
+         component = renderer.create(cx(utc));
+      });
+      assert.deepEqual(component.toJSON().children[0].children, ["12:00"]);
+
+      await act(async () => {
+         component.update(cx(tokyo));
+      });
+      assert.deepEqual(component.toJSON().children[0].children, ["21:00"]);
    });
 });

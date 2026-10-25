@@ -380,7 +380,7 @@ class CxContext extends VDOM.Component<CxContextProps, {}> {
 
       this.props.flags.preparing = true;
 
-      if (this.props.cultureInfo) pushCulture(this.props.cultureInfo);
+      if (props.cultureInfo) pushCulture(props.cultureInfo);
 
       try {
          do {
@@ -438,7 +438,7 @@ class CxContext extends VDOM.Component<CxContextProps, {}> {
             this.timings.afterExplore = this.timings.afterPrepare = this.timings.afterRender = now();
          }
       } finally {
-         if (this.props.cultureInfo) popCulture(this.props.cultureInfo);
+         if (props.cultureInfo) popCulture(props.cultureInfo);
       }
 
       this.timings.beforeVDOMRender = now();
