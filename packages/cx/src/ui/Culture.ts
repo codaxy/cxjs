@@ -77,45 +77,36 @@ export function popCulture(cultureSpecs?: CultureInfo): CultureInfo | undefined 
    return stack.pop();
 }
 
+// formatters, expressions and templates cached on the culture are built from its settings, so drop them all
+function updateDefaultCulture(changes: Partial<ResolvedCultureInfo>): void {
+   Object.assign(getDefaultCulture(), changes, { cache: {} });
+   Culture.invalidateCache();
+}
+
 export class Culture {
-   static setCulture(cultureCode: string): void {
-      let cultureSpecs = getDefaultCulture();
-      cultureSpecs.culture = cultureCode;
-      cultureSpecs.cache = {};
-      Localization.setCulture(cultureCode);
-      this.invalidateCache();
+   static setCulture(culture: string): void {
+      Localization.setCulture(culture);
+      updateDefaultCulture({ culture });
    }
 
-   static setNumberCulture(cultureCode: string): void {
-      let cultureSpecs = getDefaultCulture();
-      cultureSpecs.numberCulture = cultureCode;
-      delete cultureSpecs.cache.numberCulture;
-      this.invalidateCache();
+   static setNumberCulture(numberCulture: string): void {
+      updateDefaultCulture({ numberCulture });
    }
 
-   static setDateTimeCulture(cultureCode: string): void {
-      let cultureSpecs = getDefaultCulture();
-      cultureSpecs.dateTimeCulture = cultureCode;
-      delete cultureSpecs.cache.dateTimeCulture;
-      this.invalidateCache();
+   static setDateTimeCulture(dateTimeCulture: string): void {
+      updateDefaultCulture({ dateTimeCulture });
    }
 
-   static setDefaultCurrency(currencyCode: string): void {
-      let cultureSpecs = getDefaultCulture();
-      cultureSpecs.defaultCurrency = currencyCode;
-      this.invalidateCache();
+   static setDefaultCurrency(defaultCurrency: string): void {
+      updateDefaultCulture({ defaultCurrency });
    }
 
    static setDefaultTimezone(timezone: string): void {
-      let cultureSpecs = getDefaultCulture();
-      cultureSpecs.timezone = timezone;
-      this.invalidateCache();
+      updateDefaultCulture({ timezone });
    }
 
-   static setDefaultDateEncoding(encoding: (date: Date) => string): void {
-      let cultureSpecs = getDefaultCulture();
-      cultureSpecs.dateEncoding = encoding;
-      this.invalidateCache();
+   static setDefaultDateEncoding(dateEncoding: (date: Date) => string): void {
+      updateDefaultCulture({ dateEncoding });
    }
 
    static invalidateCache(): void {
