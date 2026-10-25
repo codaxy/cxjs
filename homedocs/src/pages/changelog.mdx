@@ -10,6 +10,11 @@ description: Version history and release notes
 
 - A widget bound with an accessor chain now writes the prop's declared default to the store when it initializes, as a `{ bind }` object always has. Previously the store slot stayed `undefined`, so the outcome depended on how the binding was written: a chain-bound field held `undefined` instead of its `emptyValue` (`null`), a chain-bound `LineGraph` (or any other chart element with `active`) was not drawn until toggled, and a chain-bound `Slider` calculated its handle position from `undefined` and wrote `NaN` to the store on mouse wheel. Existing values are never overwritten. See [Breaking Changes](/docs/intro/breaking-changes) for what to check when upgrading ([#1337](https://github.com/codaxy/cxjs/issues/1337))
 
+**Fixes**
+
+- `Culture.setDefaultTimezone`, `setDefaultCurrency`, `setNumberCulture`, `setDateTimeCulture` and `setDefaultDateEncoding` now apply to formats that were already used. With culture-sensitive formatting enabled, formatters and compiled expressions and templates are cached on the default culture, and these setters dropped at most part of that cache, so content rendered after the call still used the previous settings — for example, a page reused to render documents for different timezones formatted every document in the first one's timezone. Every setter now resets the cache, as `setCulture` already did. Widgets that already exist are not updated; see [Culture Scopes](/docs/concepts/localization#culture-scopes) for formatting part of the page with a different culture ([#1342](https://github.com/codaxy/cxjs/issues/1342))
+- `Link` and `LinkButton` with `match="subroute"` now treat `?` as a boundary, like `/`. A list page carrying query state, such as `~/items?filter=x`, no longer turns off the highlight of its `~/items` nav item, while `~/items/42?tab=log` already kept it on ([#1340](https://github.com/codaxy/cxjs/pull/1340))
+
 ---
 
 ## cx\@26.9.3
