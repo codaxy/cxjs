@@ -5,6 +5,7 @@ import assert from "assert";
 import { Controller } from "./Controller";
 import { bind } from "./bind";
 import { FirstVisibleChildLayout } from "./layout/FirstVisibleChildLayout";
+import { Culture, createCulture } from "./Culture";
 
 describe("Restate", () => {
    it("provides a blank slate", async () => {
@@ -417,6 +418,35 @@ describe("Restate", () => {
          type: "div",
          props: {},
          children: [{ type: "div", props: {}, children: ["Second"] }],
+      });
+   });
+
+   it("renders detached content in its own culture", async () => {
+      let time = () =>
+         Culture.getDateTimeCulture().getFormatter("HHmmN").format(new Date("2026-04-24T12:00:00Z"));
+
+      let widget = (
+         <cx>
+            <div>
+               <Restate detached culture={createCulture({ timezone: "UTC" })}>
+                  <span text={time} />
+               </Restate>
+               <Restate detached culture={createCulture({ timezone: "Asia/Tokyo" })}>
+                  <span text={time} />
+               </Restate>
+            </div>
+         </cx>
+      );
+
+      const component = await createTestRenderer(new Store(), widget);
+
+      assert.deepEqual(component.toJSON(), {
+         type: "div",
+         props: {},
+         children: [
+            { type: "span", props: {}, children: ["12:00"] },
+            { type: "span", props: {}, children: ["21:00"] },
+         ],
       });
    });
 });

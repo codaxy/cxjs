@@ -49,6 +49,44 @@ Available locale packages include: `de-de`, `en-us`, `es-es`, `fr-fr`, `nl-nl`, 
 | `Culture.setDefaultTimezone(tz)`     | Sets the default timezone.                          |
 | `Culture.setDefaultDateEncoding(fn)` | Sets function for encoding dates.                   |
 
+These methods configure the default culture. Call them before the content is rendered: they apply to content
+rendered after the call, while widgets that already exist may keep the previous settings. If you change settings at
+runtime, re-render the content afterwards, as shown in [Dynamic Culture Loading](#dynamic-culture-loading).
+
+### Culture Scopes
+
+To format part of the page with a different culture, timezone or currency, for example to show documents for
+different timezones side by side, wrap that content in a detached `Restate` with its own culture created by
+`createCulture`:
+
+```tsx
+import { createCulture, enableCultureSensitiveFormatting, Restate, tpl } from "cx/ui";
+
+enableCultureSensitiveFormatting();
+
+<Restate detached culture={createCulture({ timezone: "Asia/Tokyo", defaultCurrency: "JPY" })} data={{ doc: m.doc }}>
+  <div text={tpl(m.doc.createdAt, "{0:datetime}")} />
+</Restate>;
+```
+
+Each culture created by `createCulture` has its own format cache. `culture`, `defaultCurrency` and `dateEncoding`
+are taken from the current culture unless specified; other settings are not. Culture scopes require culture-sensitive
+formatting, which is enabled automatically by some widgets, such as `NumberField`.
+
+The culture of a scope is set when the scope is created. To switch it, create a new scope, for example inside
+a `ContentResolver`:
+
+```tsx
+<ContentResolver
+  params={{ timezone: m.timezone }}
+  onResolve={({ timezone }) => (
+    <Restate detached culture={createCulture({ timezone })} data={{ doc: m.doc }}>
+      ...
+    </Restate>
+  )}
+/>
+```
+
 ### Dynamic Culture Loading
 
 Use dynamic imports for code-splitting:
