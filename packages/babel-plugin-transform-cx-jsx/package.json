@@ -6,6 +6,11 @@
    "author": "Codaxy",
    "license": "MIT",
    "main": "index.js",
+   "files": [
+      "index.js",
+      "expandFatArrows.js",
+      "LICENSE-THIRD-PARTY.md"
+   ],
    "dependencies": {
       "@babel/plugin-syntax-jsx": "^7.27.1"
    },

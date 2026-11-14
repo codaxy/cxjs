@@ -61,6 +61,10 @@ Widgets are written in TypeScript; see `meta/MIGRATION.md` for the full pattern:
 
 Tests are `*.spec.ts` / `*.spec.tsx` files next to the source they test, run with Vitest (`packages/cx/vitest.config.mts`). Import `describe`/`it` from `"vitest"` explicitly; there are no test globals.
 
+- `*.spec.ts(x)` run in Node; use them for logic that does not render.
+- `*.browser.spec.tsx` run in headless Chromium (Vitest browser mode with Playwright); use them for anything that renders. Render with `createTestRenderer` / `renderToDOM` from `src/util/test/createTestRenderer.tsx`, which mount into a real DOM.
+- Browser tests need Chromium once per machine: `yarn workspace cx exec playwright install chromium`.
+
 ### Documentation
 
 - Pages: `homedocs/src/pages/docs/<section>/<page>.mdx`

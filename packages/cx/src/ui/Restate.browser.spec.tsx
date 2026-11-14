@@ -1,14 +1,13 @@
 import { describe, it } from "vitest";
 import { Restate } from "./Restate";
 import { Store } from "../data/Store";
-import { createTestRenderer, act } from "../util/test/createTestRenderer";
+import { createTestRenderer, act, renderToDOM, TestNode } from "../util/test/createTestRenderer";
 import assert from "assert";
 import { Controller } from "./Controller";
 import { bind } from "./bind";
 import { FirstVisibleChildLayout } from "./layout/FirstVisibleChildLayout";
 import { Culture, createCulture } from "./Culture";
 import { Cx } from "./Cx";
-import renderer from "react-test-renderer";
 import { createElement } from "react";
 
 describe("Restate", () => {
@@ -473,15 +472,12 @@ describe("Restate", () => {
       let tokyo = createCulture({ timezone: "Asia/Tokyo" });
       let cx = (cultureInfo: any) =>
          createElement(Cx, { widget, store, subscribe: true, immediate: true, cultureInfo });
-      let component: any;
-      await act(async () => {
-         component = renderer.create(cx(utc));
-      });
-      assert.deepEqual(component.toJSON().children[0].children, ["12:00"]);
+      let component = await renderToDOM(cx(utc));
+      assert.deepEqual(((component.toJSON() as TestNode).children![0] as TestNode).children, ["12:00"]);
 
       await act(async () => {
          component.update(cx(tokyo));
       });
-      assert.deepEqual(component.toJSON().children[0].children, ["21:00"]);
+      assert.deepEqual(((component.toJSON() as TestNode).children![0] as TestNode).children, ["21:00"]);
    });
 });

@@ -19,3 +19,4 @@ Thumbs.db
 .claude/settings.local.json
 sass-test
 /nul
+.vitest

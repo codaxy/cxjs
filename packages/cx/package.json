@@ -60,7 +60,8 @@
     "build": "yarn compile && node build",
     "compile": "tsc -p tsconfig.compile.json",
     "check-types": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "author": "Codaxy",
   "license": "MIT",
@@ -87,9 +88,10 @@
   "devDependencies": {
     "@types/node": "^25.0.3",
     "@types/react-dom": "^19.2.3",
-    "@types/react-test-renderer": "^19.1.0",
+    "@vitest/browser-playwright": "^5.1.0",
+    "assert": "^2.1.0",
     "cx-react": "workspace:*",
-    "react-test-renderer": "^19.2.3",
+    "playwright": "^1.64.1",
     "typescript": "^5.9.3",
     "vitest": "^5.1.0"
   }

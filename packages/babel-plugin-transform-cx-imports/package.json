@@ -6,6 +6,10 @@
    "author": "Codaxy",
    "license": "MIT",
    "main": "index.js",
+   "files": [
+      "index.js",
+      "LICENSE-THIRD-PARTY.md"
+   ],
    "dependencies": {
       "@babel/plugin-syntax-jsx": "^7.27.1"
    },

@@ -1,9 +1,8 @@
 import { describe, it } from "vitest";
 import assert from "assert";
-import renderer from "react-test-renderer";
 import { createModel } from "../../data/createAccessorModelProxy";
 import { Store } from "../../data/Store";
-import { act, createTestWidget } from "../../util/test/createTestRenderer";
+import { act, createTestRenderer } from "../../util/test/createTestRenderer";
 import { Slider } from "./Slider";
 
 interface Model {
@@ -13,32 +12,22 @@ interface Model {
    };
 }
 
-// react-test-renderer has no DOM, but Slider attaches its wheel listener to
-// its root element on mount. The mock captures that listener so tests can
-// call it directly.
+// Renders the slider into the DOM. `wheel` dispatches a real wheel event on the
+// slider's root element, where Slider attaches its wheel listener on mount.
 async function renderSlider(store: Store, widget: any) {
-   let wheelListeners: ((e: any) => void)[] = [];
-   let component: renderer.ReactTestRenderer;
-   await act(async () => {
-      component = renderer.create(createTestWidget(store, widget), {
-         createNodeMock: () => ({
-            addEventListener: (event: string, listener: (e: any) => void) => {
-               if (event == "wheel") wheelListeners.push(listener);
-            },
-            removeEventListener: () => {},
-         }),
-      });
-   });
+   let component = await createTestRenderer(store, widget);
+   let slider = component.container.querySelector<HTMLElement>(".cxb-slider")!;
 
    return {
-      component: component!,
-      handleLeft: () =>
-         component.root.find((node: any) => String(node.props.className ?? "").includes("slider-handle")).props.style
-            .left,
+      component,
+      handleLeft: () => {
+         let handles = component.container.querySelectorAll<HTMLElement>("[class*='slider-handle']");
+         assert.strictEqual(handles.length, 1);
+         return handles[0].style.left;
+      },
       wheel: async (deltaY: number) => {
          await act(async () => {
-            for (let listener of wheelListeners)
-               listener({ deltaY, preventDefault: () => {}, stopPropagation: () => {} });
+            slider.dispatchEvent(new WheelEvent("wheel", { deltaY, bubbles: true, cancelable: true }));
          });
       },
    };

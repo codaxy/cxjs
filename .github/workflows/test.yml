@@ -14,13 +14,16 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'
 
       - name: Enable Corepack
         run: corepack enable
 
       - name: Install dependencies
         run: yarn install --immutable
+
+      - name: Install Chromium for browser tests
+        run: yarn workspace cx exec playwright install --with-deps --only-shell chromium
 
       - name: Build cx package
         run: yarn build

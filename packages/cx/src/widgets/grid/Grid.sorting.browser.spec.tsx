@@ -4,7 +4,7 @@ import { Store } from "../../data/Store";
 import { Grid } from "./Grid";
 import { bind } from "../../ui/bind";
 import { computable } from "../../data/computable";
-import { createTestRenderer, act } from "../../util/test/createTestRenderer";
+import { createTestRenderer, act, TestRenderer } from "../../util/test/createTestRenderer";
 
 // priorities 1, 2, 10 sort differently as numbers (1, 2, 10) than their
 // "P{priority}" labels do as strings (P1, P10, P2), which makes the sort key
@@ -38,16 +38,24 @@ function getRenderedLabels(component: any): string[] {
    return tds.map(textOf);
 }
 
-async function clickHeader(component: any, text: string) {
-   let th = component.root.findAllByType("th").find((t: any) => thText(t) == text);
+function getHeaders(component: TestRenderer): HTMLElement[] {
+   return Array.from(component.container.querySelectorAll("th"));
+}
+
+async function clickHeader(component: TestRenderer, text: string) {
+   let th = getHeaders(component).find((t) => thText(t) == text);
    assert.ok(th, `Header cell "${text}" not found`);
    await act(async () => {
-      th.props.onClick({ preventDefault() {}, stopPropagation() {} });
+      th.click();
    });
 }
 
-function thText(th: any): string {
-   return th.children.map((c: any) => (typeof c == "string" ? c : "")).join("");
+// text placed directly in the header cell, without the text of nested elements
+function thText(th: Element): string {
+   return Array.from(th.childNodes)
+      .filter((node) => node.nodeType == Node.TEXT_NODE)
+      .map((node) => node.textContent)
+      .join("");
 }
 
 describe("Grid sorting precedence", () => {
@@ -181,8 +189,8 @@ describe("Grid sorting precedence", () => {
 
       await clickHeader(component, "Priority");
 
-      let ths = component.root.findAllByType("th");
-      let sorted = ths.filter((th: any) => (th.props.className || "").includes("sorted-asc"));
+      let ths = getHeaders(component);
+      let sorted = ths.filter((th) => th.className.includes("sorted-asc"));
       assert.strictEqual(sorted.length, 1);
       assert.strictEqual(thText(sorted[0]), "Priority");
    });

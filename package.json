@@ -34,14 +34,6 @@
     "legacy/fiddle",
     "legacy/ts-minimal"
   ],
-  "jest": {
-    "transform": {
-      "^.+\\.js$": "./test/jest.transform.js"
-    },
-    "transformIgnorePatterns": [
-      "node_modules/(?!cx|cx-react)"
-    ]
-  },
   "dependencies": {
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@types/react": "^19.2.7",

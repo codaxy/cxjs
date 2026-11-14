@@ -4,14 +4,14 @@ import { createModel } from "../data/createAccessorModelProxy";
 import { Store } from "../data/Store";
 import { RenderingContext } from "../ui/RenderingContext";
 import { Svg } from "../svg/Svg";
-import { createTestRenderer } from "../util/test/createTestRenderer";
+import { createTestRenderer, TestRenderer } from "../util/test/createTestRenderer";
 import { NumericAxis } from "./axis/NumericAxis";
 import { Chart } from "./Chart";
 import { Legend } from "./Legend";
 import { LineGraph } from "./LineGraph";
 
-// Svg renders its children only after measuring its DOM element, which
-// react-test-renderer does not provide. A fixed size makes the chart render.
+// Svg renders its children only after measuring its DOM element, and the test
+// containers have no set size. A fixed size makes the chart render on mount.
 class FixedSizeSvg extends Svg {
    initState(context: RenderingContext, instance: any) {
       instance.state = { size: { width: 300, height: 200 } };
@@ -30,9 +30,9 @@ const points = [
    { x: 1, y: 1 },
 ];
 
-function findByClass(component: any, part: string) {
-   return component.root.findAll(
-      (node: any) => typeof node.type === "string" && String(node.props.className ?? "").includes(part),
+function findByClass(component: TestRenderer, part: string) {
+   return Array.from(component.container.querySelectorAll("*")).filter((el) =>
+      (el.getAttribute("class") ?? "").includes(part),
    );
 }
 
@@ -73,7 +73,7 @@ describe("LineGraph active binding initialization", () => {
       let store = new Store();
       let component = await createTestRenderer(store, chart(m.$page.chain));
       let [shape] = findByClass(component, "legend-shape");
-      assert.ok(shape.props.className.includes("color-0"));
+      assert.ok(shape.getAttribute("class")!.includes("color-0"));
    });
 
    it("keeps a stored active = false for both binding styles", async () => {
