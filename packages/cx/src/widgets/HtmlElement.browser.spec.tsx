@@ -1,7 +1,7 @@
 import { describe, it } from "vitest";
 import { Store } from "../data/Store";
 import assert from "assert";
-import { createTestRenderer } from "../util/test/createTestRenderer";
+import { render, settle, markup } from "../util/test/render";
 import { bind } from "../ui/bind";
 import { VDOM } from "../ui/Widget";
 import { Instance } from "../ui/Instance";
@@ -20,12 +20,9 @@ describe("HtmlElement", () => {
       },
     });
 
-    const component = await createTestRenderer(store, widget);
+    const screen = await render(widget, { store });
 
-    let tree = component.toJSON();
-    assert(tree && !Array.isArray(tree), "Expected single element");
-    assert.equal(tree.type, "div");
-    assert.deepEqual(tree.children, ["Test"]);
+    assert.equal(screen.html(), "<div>Test</div>");
   });
 
   it("allows spread bindings", async () => {
@@ -35,32 +32,22 @@ describe("HtmlElement", () => {
       },
     });
 
-    const component = await createTestRenderer(
-      store,
+    const screen = await render(
       <cx>
         <a href="#" {...{ title: { bind: "title" } }}>
           Link
         </a>
       </cx>,
+      { store },
     );
 
-    let tree = component.toJSON();
-    assert(tree && !Array.isArray(tree), "Expected single element");
-    assert.deepEqual(tree, {
-      type: "a",
-      children: ["Link"],
-      props: {
-        href: "#",
-        title: "title",
-      },
-    });
+    assert.equal(screen.html(), '<a href="#" title="title">Link</a>');
   });
 
   it("supports SVG elements with camelCase attributes", async () => {
     let store = new Store();
 
-    const component = await createTestRenderer(
-      store,
+    const screen = await render(
       <cx>
         <svg>
           <path
@@ -73,32 +60,30 @@ describe("HtmlElement", () => {
           />
         </svg>
       </cx>,
+      { store },
     );
 
-    let tree = component.toJSON();
-    assert(tree && !Array.isArray(tree), "Expected single element");
-    assert.equal(tree.type, "svg");
-    assert(tree.children && tree.children.length === 1, "Expected one child");
-    let path = tree.children[0] as any;
-    assert.equal(path.type, "path");
-    assert.equal(path.props.d, "M200,176V64a23.9,23.9,0,0,0-24-24H40");
-    assert.equal(path.props.fill, "none");
-    assert.equal(path.props.stroke, "#343434");
-    assert.equal(path.props.strokeLinecap, "round");
-    assert.equal(path.props.strokeLinejoin, "round");
-    assert.equal(path.props.strokeWidth, "12");
+    // camelCase props are rendered as the corresponding SVG attributes
+    let path =
+      '<path d="M200,176V64a23.9,23.9,0,0,0-24-24H40" fill="none" stroke="#343434" ' +
+      'stroke-linecap="round" stroke-linejoin="round" stroke-width="12"></path>';
+    assert.equal(screen.html(), markup`
+      <svg>
+         ${path}
+      </svg>
+    `);
   });
 
   it("infers event handler parameter types", async () => {
-    let clickedWith: {
+    type ClickArgs = {
       event: React.MouseEvent<HTMLButtonElement>;
       instance: Instance;
-    } | null = null;
+    };
+    let clickedWith: ClickArgs | null = null;
 
     let store = new Store();
 
-    const component = await createTestRenderer(
-      store,
+    const screen = await render(
       <cx>
         <button
           onClick={(e, instance) => {
@@ -109,10 +94,17 @@ describe("HtmlElement", () => {
           Click me
         </button>
       </cx>,
+      { store },
     );
 
-    let tree = component.toJSON();
-    assert(tree && !Array.isArray(tree), "Expected single element");
-    assert.equal(tree.type, "button");
+    assert.equal(screen.html(), "<button>Click me</button>");
+
+    await settle(() => screen.getByRole("button", { name: "Click me" }).click());
+    assert.ok(clickedWith, "onClick should be called");
+    // clickedWith is assigned in the callback, which TypeScript's control flow analysis doesn't see
+    let { event, instance } = clickedWith as unknown as ClickArgs;
+    assert.equal(event.type, "click");
+    assert.equal(event.target, screen.container.querySelector("button"));
+    assert.ok(instance && instance.widget, "onClick should receive the widget instance");
   });
 });

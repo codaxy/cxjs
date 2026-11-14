@@ -1,6 +1,6 @@
 import { describe, it } from "vitest";
 import { Store } from "../data/Store";
-import { createTestRenderer } from "../util/test/createTestRenderer";
+import { render, markup } from "../util/test/render";
 import assert from "assert";
 import { Controller } from "./Controller";
 import { DataProxy } from "./DataProxy";
@@ -31,14 +31,9 @@ describe("DataProxy", () => {
          },
       });
 
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      let tree = component.toJSON();
-      assert.deepEqual(tree, {
-         type: "span",
-         props: {},
-         children: ["good"],
-      });
+      assert.equal(screen.html(), "<span>good</span>");
    });
 
    it("can write into values aliased with bind", async () => {
@@ -67,17 +62,13 @@ describe("DataProxy", () => {
          },
       });
 
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      let tree = component.toJSON();
+      let tree = screen.html();
 
       assert(store.get("value"), "excellent");
 
-      assert.deepEqual(tree, {
-         type: "span",
-         props: {},
-         children: ["excellent"],
-      });
+      assert.equal(tree, "<span>excellent</span>");
    });
 
    it("can write into aliased values using provided setters", async () => {
@@ -111,17 +102,13 @@ describe("DataProxy", () => {
          },
       });
 
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      let tree = component.toJSON();
+      let tree = screen.html();
 
       assert(store.get("value"), "excellent");
 
-      assert.deepEqual(tree, {
-         type: "span",
-         props: {},
-         children: ["excellent"],
-      });
+      assert.equal(tree, "<span>excellent</span>");
    });
 
    it("allows shorter syntax", async () => {
@@ -139,14 +126,9 @@ describe("DataProxy", () => {
          },
       });
 
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      let tree = component.toJSON();
-      assert.deepEqual(tree, {
-         type: "span",
-         props: {},
-         children: ["good"],
-      });
+      assert.equal(screen.html(), "<span>good</span>");
    });
 
    it("correctly updates aliased data after write", async () => {
@@ -176,17 +158,13 @@ describe("DataProxy", () => {
          },
       });
 
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      let tree = component.toJSON();
+      let tree = screen.html();
 
       assert(store.get("value"), "excellent");
 
-      assert.deepEqual(tree, {
-         type: "span",
-         props: {},
-         children: ["excellent"],
-      });
+      assert.equal(tree, "<span>excellent</span>");
    });
 
    it("properly binds structures", async () => {
@@ -215,17 +193,13 @@ describe("DataProxy", () => {
          },
       });
 
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      let tree = component.toJSON();
+      let tree = screen.html();
 
       assert(store.get("person.firstName"), "Jim");
 
-      assert.deepEqual(tree, {
-         type: "span",
-         props: {},
-         children: ["Jim Smith"],
-      });
+      assert.equal(tree, "<span>Jim Smith</span>");
    });
 
    it("works with Store refs", async () => {
@@ -257,14 +231,9 @@ describe("DataProxy", () => {
          },
       });
 
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      let tree = component.toJSON();
-      assert.deepEqual(tree, {
-         type: "span",
-         props: {},
-         children: ["b"],
-      });
+      assert.equal(screen.html(), "<span>b</span>");
    });
 
    it("controllers set on the DataProxy can see calculated values", async () => {
@@ -286,9 +255,8 @@ describe("DataProxy", () => {
 
       let store = new Store();
 
-      const component = await createTestRenderer(store, widget);
+      await render(widget, { store });
 
-      let tree = component.toJSON();
       assert.equal(value, 5);
    });
 
@@ -318,21 +286,14 @@ describe("DataProxy", () => {
          },
       });
 
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      let tree = component.toJSON();
-
-      assert.deepEqual(tree, [
-         {
-            type: "span",
-            props: {},
-            children: ["initial"],
-         },
-         {
-            type: "span",
-            props: {},
-            children: null,
-         },
-      ]);
+      assert.equal(
+         screen.html(),
+         markup`
+            <span>initial</span>
+            <span></span>
+         `,
+      );
    });
 });

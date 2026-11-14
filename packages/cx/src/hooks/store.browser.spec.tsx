@@ -1,7 +1,7 @@
 import { describe, it } from "vitest";
 import assert from "assert";
 import { Prop } from "../ui/Prop";
-import { createTestRenderer } from "../util/test/createTestRenderer";
+import { render } from "../util/test/render";
 import { computable } from "../data";
 import { Store } from "../data/Store";
 import { createFunctionalComponent } from "../ui/createFunctionalComponent";
@@ -20,14 +20,9 @@ describe("ref", () => {
 
       let store = new Store();
 
-      const component = await createTestRenderer(store, FComp);
+      const screen = await render(FComp, { store });
 
-      let tree = component.toJSON();
-      assert.deepEqual(tree, {
-         type: "div",
-         children: ["10"],
-         props: {},
-      });
+      assert.equal(screen.html(), "<div>10</div>");
    });
 
    it("can be used to adapt any prop passed to a functional component", async () => {
@@ -42,13 +37,8 @@ describe("ref", () => {
       let store = new Store({ data: { value: 100 } });
 
       async function test(value: Prop<any>, expectation: any) {
-         const component = await createTestRenderer(store, <FComp value={value} />);
-         let tree = component.toJSON();
-         assert.deepEqual(tree, {
-            type: "div",
-            children: [expectation],
-            props: {},
-         });
+         const screen = await render(<FComp value={value} />, { store });
+         assert.equal(screen.html(), `<div>${expectation}</div>`);
       }
 
       await test({ bind: "value" }, "x100");

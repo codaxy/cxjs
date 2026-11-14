@@ -4,7 +4,7 @@ import { LookupField } from "./LookupField";
 import { Store } from "../../data/Store";
 import { ValidationGroup } from "./ValidationGroup";
 import { bind } from "../../ui/bind";
-import { createTestRenderer } from "../../util/test/createTestRenderer";
+import { render } from "../../util/test/render";
 import assert from "assert";
 
 interface User {
@@ -121,7 +121,7 @@ describe("LookupField", () => {
          store.set("value", 99);
          store.set("text", "Stale");
 
-         await createTestRenderer(store, widget);
+         await render(widget, { store });
 
          let errors = store.get("errors");
          assert.equal(errors.length, 1);
@@ -146,7 +146,7 @@ describe("LookupField", () => {
          store.set("value", 1);
          store.set("text", "One");
 
-         await createTestRenderer(store, widget);
+         await render(widget, { store });
 
          let errors = store.get("errors");
          assert.equal(errors.length, 0);
@@ -168,7 +168,7 @@ describe("LookupField", () => {
 
          let store = new Store();
 
-         await createTestRenderer(store, widget);
+         await render(widget, { store });
 
          let errors = store.get("errors");
          assert.equal(errors.length, 0);
@@ -192,7 +192,7 @@ describe("LookupField", () => {
          store.set("value", 99);
          store.set("text", "Stale");
 
-         await createTestRenderer(store, widget);
+         await render(widget, { store });
 
          let errors = store.get("errors");
          assert.equal(errors.length, 0);
@@ -215,7 +215,7 @@ describe("LookupField", () => {
          let store = new Store();
          store.set("values", [1, 99]);
 
-         await createTestRenderer(store, widget);
+         await render(widget, { store });
 
          let errors = store.get("errors");
          assert.equal(errors.length, 1);
@@ -234,7 +234,7 @@ describe("LookupField", () => {
          store.set("value", 99);
          store.set("text", "Stale");
 
-         await createTestRenderer(store, widget);
+         await render(widget, { store });
 
          let errors = store.get("errors");
          assert.equal(errors.length, 0);

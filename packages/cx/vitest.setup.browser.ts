@@ -1,9 +1,8 @@
 import { afterEach } from "vitest";
-import { cleanup } from "./src/util/test/createTestRenderer";
+import { cleanup } from "./src/util/test/render";
 
-// tells React that updates are wrapped in act(...)
-(globalThis as any).IS_REACT_ACT_ENVIRONMENT = true;
+// React's act environment is enabled only while rendering and inside `settle` (see src/util/test/render.tsx).
 
-afterEach(() => {
-   cleanup();
+afterEach(async () => {
+   await cleanup();
 });

@@ -3,7 +3,7 @@ import { Store } from "../data/Store";
 import { createFunctionalComponent } from "./createFunctionalComponent";
 import { bind } from "./bind";
 import { expr } from "./expr";
-import { createTestRenderer, act } from "../util/test/createTestRenderer";
+import { render, settle, markup } from "../util/test/render";
 
 import assert from "assert";
 import { Rescope } from "./Rescope";
@@ -146,19 +146,9 @@ describe("createFunctionalComponent", () => {
 
     let store = new Store();
 
-    const component = await createTestRenderer(store, widget);
+    const screen = await render(widget, { store });
 
-    let tree = component.toJSON();
-    assert.deepEqual(tree, {
-      type: "div",
-      children: ["Spread"],
-      props: {
-        className: "test",
-        style: {
-          background: "red",
-        },
-      },
-    });
+    assert.equal(screen.html(), '<div class="test" style="background: red;">Spread</div>');
   });
 
   it("visible and Rescope behave as expected", async () => {
@@ -186,14 +176,9 @@ describe("createFunctionalComponent", () => {
       },
     });
 
-    const component = await createTestRenderer(store, widget);
+    const screen = await render(widget, { store });
 
-    let tree = component.toJSON();
-    assert.deepEqual(tree, {
-      type: "div",
-      children: ["OK"],
-      props: {},
-    });
+    assert.equal(screen.html(), "<div>OK</div>");
   });
 
   it("visible and multiple items behave as expected", async () => {
@@ -215,21 +200,12 @@ describe("createFunctionalComponent", () => {
 
     let store = new Store();
 
-    const component = await createTestRenderer(store, widget);
+    const screen = await render(widget, { store });
 
-    let tree = component.toJSON();
-    assert.deepEqual(tree, [
-      {
-        type: "div",
-        children: ["1"],
-        props: {},
-      },
-      {
-        type: "div",
-        children: ["3"],
-        props: {},
-      },
-    ]);
+    assert.equal(screen.html(), markup`
+      <div>1</div>
+      <div>3</div>
+    `);
   });
 
   it("respects inner layouts", async () => {
@@ -252,89 +228,16 @@ describe("createFunctionalComponent", () => {
 
     let store = new Store();
 
-    const component = await createTestRenderer(store, widget);
+    const screen = await render(widget, { store });
 
-    let tree = component.toJSON();
-
-    assert.deepEqual(tree, {
-      type: "div",
-      props: {},
-      children: [
-        {
-          type: "table",
-          props: {
-            className: "cxb-labelsleftlayout",
-            style: undefined,
-          },
-          children: [
-            {
-              type: "tbody",
-              props: {},
-              children: [
-                {
-                  type: "tr",
-                  props: {},
-                  children: [
-                    {
-                      type: "td",
-                      props: {
-                        className: "cxe-labelsleftlayout-label",
-                        style: undefined,
-                      },
-                      children: [
-                        {
-                          type: "label",
-                          props: {
-                            className: "cxb-label",
-                          },
-                          children: ["Test"],
-                        },
-                      ],
-                    },
-                    {
-                      type: "td",
-                      props: {
-                        className: "cxe-labelsleftlayout-field",
-                      },
-                      children: null,
-                    },
-                  ],
-                },
-                {
-                  type: "tr",
-                  props: {},
-                  children: [
-                    {
-                      type: "td",
-                      props: {
-                        className: "cxe-labelsleftlayout-label",
-                        style: undefined,
-                      },
-                      children: [
-                        {
-                          type: "label",
-                          props: {
-                            className: "cxb-label",
-                          },
-                          children: ["Test"],
-                        },
-                      ],
-                    },
-                    {
-                      type: "td",
-                      props: {
-                        className: "cxe-labelsleftlayout-field",
-                      },
-                      children: null,
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    });
+    // the parent's layout arranges the component's fields: one table, with a row for each field
+    let tables = screen.container.querySelectorAll("table");
+    assert.equal(tables.length, 1);
+    let rows = Array.from(tables[0].querySelectorAll("tr"));
+    assert.deepEqual(
+      rows.map((tr) => tr.querySelector("label")?.textContent),
+      ["Test", "Test"],
+    );
   });
 
   it("can use refs for data bindings", async () => {
@@ -356,14 +259,9 @@ describe("createFunctionalComponent", () => {
 
     let store = new Store();
 
-    const component = await createTestRenderer(store, widget);
+    const screen = await render(widget, { store });
 
-    let tree = component.toJSON();
-    assert.deepEqual(tree, {
-      type: "div",
-      children: ["OK"],
-      props: {},
-    });
+    assert.equal(screen.html(), "<div>OK</div>");
   });
 
   it("adds children at the right place", async () => {
@@ -385,33 +283,15 @@ describe("createFunctionalComponent", () => {
 
     let store = new Store();
 
-    const component = await createTestRenderer(store, widget);
+    const screen = await render(widget, { store });
 
-    let tree = component.toJSON();
-
-    assert.deepEqual(tree, [
-      {
-        type: "header",
-        children: null,
-        props: {},
-      },
-      {
-        type: "main",
-        children: [
-          {
-            type: "div",
-            children: null,
-            props: {},
-          },
-        ],
-        props: {},
-      },
-      {
-        type: "footer",
-        children: null,
-        props: {},
-      },
-    ]);
+    assert.equal(screen.html(), markup`
+      <header></header>
+      <main>
+         <div></div>
+      </main>
+      <footer></footer>
+    `);
   });
 
   it("works well with repeaters", async () => {
@@ -437,51 +317,21 @@ describe("createFunctionalComponent", () => {
       data: { array: [{ text: "0" }, { text: "1" }, { text: "2" }] },
     });
 
-    const component = await createTestRenderer(store, widget);
+    const screen = await render(widget, { store });
 
-    let tree = component.toJSON();
+    assert.equal(screen.html(), markup`
+      <div>0</div>
+      <div>1</div>
+      <div>2</div>
+    `);
 
-    assert.deepEqual(tree, [
-      {
-        type: "div",
-        children: ["0"],
-        props: {},
-      },
-      {
-        type: "div",
-        children: ["1"],
-        props: {},
-      },
-      {
-        type: "div",
-        children: ["2"],
-        props: {},
-      },
-    ]);
+    await settle(() => store.update("array", (array) => [array[0], { text: "10" }, array[2]]));
 
-    await act(async () => {
-      store.update("array", (array) => [array[0], { text: "10" }, array[2]]);
-    });
-
-    tree = component.toJSON();
-
-    assert.deepEqual(tree, [
-      {
-        type: "div",
-        children: ["0"],
-        props: {},
-      },
-      {
-        type: "div",
-        children: ["10"],
-        props: {},
-      },
-      {
-        type: "div",
-        children: ["2"],
-        props: {},
-      },
-    ]);
+    assert.equal(screen.html(), markup`
+      <div>0</div>
+      <div>10</div>
+      <div>2</div>
+    `);
   });
 
   it("can have its own layout", async () => {
@@ -501,15 +351,9 @@ describe("createFunctionalComponent", () => {
 
     let store = new Store();
 
-    const component = await createTestRenderer(store, widget);
+    const screen = await render(widget, { store });
 
-    let tree = component.toJSON();
-
-    assert.deepEqual(tree, {
-      type: "div",
-      children: ["1"],
-      props: {},
-    });
+    assert.equal(screen.html(), "<div>1</div>");
   });
 
   it("passes type config property to the factory function", async () => {
@@ -529,16 +373,9 @@ describe("createFunctionalComponent", () => {
 
     let store = new Store();
 
-    const component = await createTestRenderer(store, widget);
+    const screen = await render(widget, { store });
 
-    let tree = component.toJSON();
-    assert.deepEqual(tree, {
-      type: "input",
-      children: null,
-      props: {
-        type: "password",
-      },
-    });
+    assert.equal(screen.html(), '<input type="password">');
   });
 
   it("passes type config property with other props", async () => {
@@ -563,16 +400,9 @@ describe("createFunctionalComponent", () => {
 
     let store = new Store();
 
-    const component = await createTestRenderer(store, widget);
+    const screen = await render(widget, { store });
 
-    let tree = component.toJSON();
-    assert.deepEqual(tree, {
-      type: "button",
-      children: ["Submit Form"],
-      props: {
-        type: "submit",
-      },
-    });
+    assert.equal(screen.html(), '<button type="submit">Submit Form</button>');
   });
 
   it("defaults type when not provided", async () => {
@@ -592,15 +422,8 @@ describe("createFunctionalComponent", () => {
 
     let store = new Store();
 
-    const component = await createTestRenderer(store, widget);
+    const screen = await render(widget, { store });
 
-    let tree = component.toJSON();
-    assert.deepEqual(tree, {
-      type: "input",
-      children: null,
-      props: {
-        type: "text",
-      },
-    });
+    assert.equal(screen.html(), '<input type="text">');
   });
 });

@@ -62,7 +62,10 @@ Widgets are written in TypeScript; see `meta/MIGRATION.md` for the full pattern:
 Tests are `*.spec.ts` / `*.spec.tsx` files next to the source they test, run with Vitest (`packages/cx/vitest.config.mts`). Import `describe`/`it` from `"vitest"` explicitly; there are no test globals.
 
 - `*.spec.ts(x)` run in Node; use them for logic that does not render.
-- `*.browser.spec.tsx` run in headless Chromium (Vitest browser mode with Playwright); use them for anything that renders. Render with `createTestRenderer` / `renderToDOM` from `src/util/test/createTestRenderer.tsx`, which mount into a real DOM.
+- `*.browser.spec.tsx` run in headless Chromium (Vitest browser mode with Playwright); use them for anything that renders. `src/util/test/render.tsx` (test-only, excluded from the build) mirrors `vitest-browser-react`: `const screen = await render(<cx>…</cx>, { store, cultureInfo })` returns its render result (`container`, locators such as `getByText`, `rerender`, `unmount`) plus `store` and `html()`.
+- After a store change or an interaction, wait for the result with `settle`: `await settle(() => store.set("x", 1))`, `await settle(() => screen.getByText("Save").click())`. For results of asynchronous work (promises, timers) use `await expect.poll(() => screen.html()).toBe(…)`. Interact through locators or `userEvent` from `vitest/browser` (real browser events), not `dispatchEvent`.
+- Assert on what is rendered: when the structure is what the test is about, compare `screen.html()` (one element per line) with a `markup` template, e.g. `assert.equal(screen.html(), markup\`<div>Test</div>\`)`; when the test is about a value, query `screen.container` and check that value. Avoid exact HTML that includes incidental details such as generated ids or the internal markup of other widgets. The tag is deliberately not named `html`, because Prettier would reformat the content of `html` templates.
+- Don't locate table header cells with `getByRole("columnheader")`: in Vitest 5.1 the in-browser locator engine resolves `<th>` to `cell` while Playwright resolves it to `columnheader`, so such locators fail. Use `getByText` or a DOM query.
 - Browser tests need Chromium once per machine: `yarn workspace cx exec playwright install chromium`.
 
 ### Documentation

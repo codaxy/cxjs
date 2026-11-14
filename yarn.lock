@@ -6223,6 +6223,7 @@ __metadata:
     route-parser-ts: "npm:^1.1.2"
     typescript: "npm:^5.9.3"
     vitest: "npm:^5.1.0"
+    vitest-browser-react: "npm:^2.3.0"
   peerDependencies:
     "@types/react": ">=18"
     "@types/react-dom": ">=18"
@@ -15021,6 +15022,24 @@ __metadata:
     vite:
       optional: true
   checksum: 10/bdfb7c009f89c34174636aafb3ff37d909aaac243eaeb291cc3a251ba6fb29264ee7f905d1adce5dcf5b9570f248828cad87f6f6934150086fabeaa771fa51a5
+  languageName: node
+  linkType: hard
+
+"vitest-browser-react@npm:^2.3.0":
+  version: 2.3.0
+  resolution: "vitest-browser-react@npm:2.3.0"
+  peerDependencies:
+    "@types/react": ^18.0.0 || ^19.0.0
+    "@types/react-dom": ^18.0.0 || ^19.0.0
+    react: ^18.0.0 || ^19.0.0
+    react-dom: ^18.0.0 || ^19.0.0
+    vitest: ^4.0.0 || ^5.0.0
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+    "@types/react-dom":
+      optional: true
+  checksum: 10/08476168acf3d86d725c962fdccf9962ea33725ada8f0131c5c40ceeb502fa2d4e022918b4916c7cb45ab3512f8877bda1525057a0ce5ef2ce49ac0c53084978
   languageName: node
   linkType: hard
 

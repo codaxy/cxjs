@@ -1,8 +1,9 @@
 import { describe, it } from "vitest";
+import { userEvent } from "vitest/browser";
 import assert from "assert";
 import { createModel } from "../../data/createAccessorModelProxy";
 import { Store } from "../../data/Store";
-import { act, createTestRenderer } from "../../util/test/createTestRenderer";
+import { render, settle } from "../../util/test/render";
 import { Slider } from "./Slider";
 
 interface Model {
@@ -12,23 +13,21 @@ interface Model {
    };
 }
 
-// Renders the slider into the DOM. `wheel` dispatches a real wheel event on the
-// slider's root element, where Slider attaches its wheel listener on mount.
+// Renders the slider into the DOM. `wheel` scrolls the mouse wheel over the slider's root element,
+// where Slider attaches its wheel listener on mount.
 async function renderSlider(store: Store, widget: any) {
-   let component = await createTestRenderer(store, widget);
-   let slider = component.container.querySelector<HTMLElement>(".cxb-slider")!;
+   let screen = await render(widget, { store });
+   let slider = screen.container.querySelector<HTMLElement>(".cxb-slider")!;
 
    return {
-      component,
+      screen,
       handleLeft: () => {
-         let handles = component.container.querySelectorAll<HTMLElement>("[class*='slider-handle']");
+         let handles = screen.container.querySelectorAll<HTMLElement>("[class*='slider-handle']");
          assert.strictEqual(handles.length, 1);
          return handles[0].style.left;
       },
       wheel: async (deltaY: number) => {
-         await act(async () => {
-            slider.dispatchEvent(new WheelEvent("wheel", { deltaY, bubbles: true, cancelable: true }));
-         });
+         await settle(() => userEvent.wheel(slider, { delta: { y: deltaY } }));
       },
    };
 }

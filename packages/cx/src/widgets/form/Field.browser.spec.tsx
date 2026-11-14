@@ -1,7 +1,7 @@
 import { describe, it } from "vitest";
 import { createModel } from "../../data/createAccessorModelProxy";
 import { Store } from "../../data/Store";
-import { createTestRenderer } from "../../util/test/createTestRenderer";
+import { render } from "../../util/test/render";
 import { TextField } from "./TextField";
 import { LabeledContainer } from "./LabeledContainer";
 import assert from "assert";
@@ -12,26 +12,22 @@ interface Model {
    hint: string;
 }
 
-function collectText(node: any): string {
-   if (node == null) return "";
-   if (typeof node === "string") return node;
-   if (Array.isArray(node)) return node.map(collectText).join("");
-   return collectText(node.children);
-}
-
 describe("Field", () => {
    const m = createModel<Model>();
 
    it("accepts an accessor chain as label", async () => {
       let store = new Store({ data: { caption: "Full name" } });
-      let component = await createTestRenderer(store, <TextField value={m.name} label={m.caption} />);
-      assert.ok(collectText(component.toJSON()).includes("Full name"));
+      let screen = await render(<TextField value={m.name} label={m.caption} />, { store });
+      let label = screen.container.querySelector("label")!;
+      assert.equal(label.textContent, "Full name");
+      // the label points to the input
+      assert.equal(label.htmlFor, screen.container.querySelector("input")!.id);
    });
 
    it("accepts an accessor chain as help", async () => {
       let store = new Store({ data: { hint: "As on your passport" } });
-      let component = await createTestRenderer(store, <TextField value={m.name} help={m.hint} />);
-      assert.ok(collectText(component.toJSON()).includes("As on your passport"));
+      let screen = await render(<TextField value={m.name} help={m.hint} />, { store });
+      assert.ok(screen.container.textContent!.includes("As on your passport"));
    });
 });
 
@@ -40,13 +36,13 @@ describe("LabeledContainer", () => {
 
    it("accepts an accessor chain as label", async () => {
       let store = new Store({ data: { caption: "Contact" } });
-      let component = await createTestRenderer(
-         store,
+      let screen = await render(
          <LabeledContainer label={m.caption}>
             <TextField value={m.name} />
          </LabeledContainer>,
+         { store },
       );
-      assert.ok(collectText(component.toJSON()).includes("Contact"));
+      assert.equal(screen.container.querySelector("label")?.textContent, "Contact");
    });
 });
 
@@ -69,44 +65,44 @@ describe("Field value binding initialization", () => {
 
    it("seeds the store with null for a {bind} object", async () => {
       let store = new Store();
-      await createTestRenderer(store, <TextField value={{ bind: "$page.boundObject" }} />);
+      await render(<TextField value={{ bind: "$page.boundObject" }} />, { store });
       assert.strictEqual(store.get("$page.boundObject"), null);
       assert.ok("boundObject" in store.get("$page"));
    });
 
    it("seeds the store with null for a {bind} object regardless of debounce", async () => {
       let store = new Store();
-      await createTestRenderer(store, <TextField value={{ bind: "$page.boundObjectDebounced", debounce: 500 }} />);
+      await render(<TextField value={{ bind: "$page.boundObjectDebounced", debounce: 500 }} />, { store });
       assert.strictEqual(store.get("$page.boundObjectDebounced"), null);
    });
 
    it("seeds the store with null for an accessor-chain binding", async () => {
       let store = new Store();
-      await createTestRenderer(store, <TextField value={m.$page.chain} />);
+      await render(<TextField value={m.$page.chain} />, { store });
       assert.strictEqual(store.get(m.$page.chain), null);
       assert.ok("chain" in store.get("$page"));
    });
 
    it("seeds the declared emptyValue, proving the default comes from the widget's prop declaration", async () => {
       let store = new Store();
-      await createTestRenderer(store, <TextField value={{ bind: "$page.customEmpty" }} emptyValue="" />);
+      await render(<TextField value={{ bind: "$page.customEmpty" }} emptyValue="" />, { store });
       assert.strictEqual(store.get("$page.customEmpty"), "");
    });
 
    it("seeds the declared emptyValue for an accessor-chain binding", async () => {
       let store = new Store();
-      await createTestRenderer(store, <TextField value={m.$page.customEmpty} emptyValue="" />);
+      await render(<TextField value={m.$page.customEmpty} emptyValue="" />, { store });
       assert.strictEqual(store.get(m.$page.customEmpty), "");
    });
 
    it("does not overwrite an existing value", async () => {
       let store = new Store({ data: { $page: { chain: "x", boundObject: "y" } } });
-      await createTestRenderer(
-         store,
+      await render(
          <div>
             <TextField value={m.$page.chain} />
             <TextField value={{ bind: "$page.boundObject" }} />
          </div>,
+         { store },
       );
       assert.strictEqual(store.get(m.$page.chain), "x");
       assert.strictEqual(store.get("$page.boundObject"), "y");

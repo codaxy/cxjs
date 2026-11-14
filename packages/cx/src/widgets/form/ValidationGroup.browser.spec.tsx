@@ -4,7 +4,7 @@ import { ValidationGroup } from "./ValidationGroup";
 import { Validator } from "./Validator";
 import { TextField } from "./TextField";
 import { bind } from "../../ui/bind";
-import { createTestRenderer, act } from "../../util/test/createTestRenderer";
+import { render, settle } from "../../util/test/render";
 
 import assert from "assert";
 
@@ -21,11 +21,10 @@ describe("ValidationGroup", () => {
 
       let store = new Store();
 
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      let tree = component.toJSON();
-      assert(tree && !Array.isArray(tree));
-      assert.equal(tree.type, "div");
+      assert.equal(screen.container.childNodes.length, 1);
+      assert.equal(screen.container.children[0]?.localName, "div");
       assert.equal(store.get("invalid"), true);
       assert.equal(store.get("valid"), false);
    });
@@ -48,9 +47,8 @@ describe("ValidationGroup", () => {
 
       let store = new Store();
 
-      const component = await createTestRenderer(store, widget);
+      await render(widget, { store });
 
-      let tree = component.toJSON();
       assert.equal(store.get("invalid"), true);
       assert.equal(store.get("invalid1"), true);
       assert.equal(store.get("invalid2"), false);
@@ -74,9 +72,8 @@ describe("ValidationGroup", () => {
 
       let store = new Store();
 
-      const component = await createTestRenderer(store, widget);
+      await render(widget, { store });
 
-      let tree = component.toJSON();
       assert.equal(store.get("invalid"), false);
       assert.equal(store.get("invalid1"), true);
       assert.equal(store.get("invalid2"), false);
@@ -103,9 +100,8 @@ describe("ValidationGroup", () => {
 
       let store = new Store();
 
-      const component = await createTestRenderer(store, widget);
+      await render(widget, { store });
 
-      let tree = component.toJSON();
       assert(visited);
    });
 
@@ -122,15 +118,13 @@ describe("ValidationGroup", () => {
       //initializing the bound value to false used to shadow later updates
       store.set("form.visited", false);
 
-      const component = await createTestRenderer(store, widget);
+      await render(widget, { store });
 
       let errors = store.get("errors");
       assert.equal(errors.length, 1);
       assert.equal(errors[0].visited, false);
 
-      await act(async () => {
-         store.set("form.visited", true);
-      });
+      await settle(() => store.set("form.visited", true));
 
       errors = store.get("errors");
       assert.equal(errors.length, 1);
@@ -150,9 +144,8 @@ describe("ValidationGroup", () => {
 
       let store = new Store();
 
-      const component = await createTestRenderer(store, widget);
+      await render(widget, { store });
 
-      let tree = component.toJSON();
       assert.equal(store.get("invalid"), true);
    });
 
@@ -169,9 +162,8 @@ describe("ValidationGroup", () => {
 
       let store = new Store();
 
-      const component = await createTestRenderer(store, widget);
+      await render(widget, { store });
 
-      let tree = component.toJSON();
       assert.equal(store.get("invalid"), false);
    });
 });

@@ -2,7 +2,7 @@ import { describe, it } from "vitest";
 import { Store } from "../data/Store";
 import { Repeater } from "./Repeater";
 import { bind } from "./bind";
-import { createTestRenderer, act } from "../util/test/createTestRenderer";
+import { render, settle, markup } from "../util/test/render";
 import { createAccessorModelProxy } from "../data/createAccessorModelProxy";
 
 import assert from "assert";
@@ -33,30 +33,18 @@ describe("Repeater", () => {
 
       let store = new Store();
 
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      let tree = component.toJSON();
-      assert.deepEqual(tree, {
-         type: "div",
-         props: {},
-         children: [
-            {
-               type: "div",
-               props: {},
-               children: ["A"],
-            },
-            {
-               type: "div",
-               props: {},
-               children: ["B"],
-            },
-            {
-               type: "div",
-               props: {},
-               children: ["C"],
-            },
-         ],
-      });
+      assert.equal(
+         screen.html(),
+         markup`
+            <div>
+               <div>A</div>
+               <div>B</div>
+               <div>C</div>
+            </div>
+         `,
+      );
    });
 
    it("changes are properly updated", async () => {
@@ -89,53 +77,32 @@ describe("Repeater", () => {
          },
       });
 
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      let tree = component.toJSON();
-      assert.deepEqual(tree, {
-         type: "div",
-         props: {},
-         children: [
-            {
-               type: "div",
-               props: {},
-               children: ["B"],
-            },
-            {
-               type: "div",
-               props: {},
-               children: ["C"],
-            },
-         ],
-      });
+      assert.equal(
+         screen.html(),
+         markup`
+            <div>
+               <div>B</div>
+               <div>C</div>
+            </div>
+         `,
+      );
 
       divInstances = [];
 
-      await act(async () => {
-         store.update("data", (data) => [{ value: "A" }, ...data]);
-      });
+      await settle(() => store.update("data", (data) => [{ value: "A" }, ...data]));
 
-      assert.deepEqual(component.toJSON(), {
-         type: "div",
-         props: {},
-         children: [
-            {
-               type: "div",
-               props: {},
-               children: ["A"],
-            },
-            {
-               type: "div",
-               props: {},
-               children: ["B"],
-            },
-            {
-               type: "div",
-               props: {},
-               children: ["C"],
-            },
-         ],
-      });
+      assert.equal(
+         screen.html(),
+         markup`
+            <div>
+               <div>A</div>
+               <div>B</div>
+               <div>C</div>
+            </div>
+         `,
+      );
 
       assert.equal(divInstances.length, 3);
       assert.equal(divInstances[0].store.get("$item.value"), "A");

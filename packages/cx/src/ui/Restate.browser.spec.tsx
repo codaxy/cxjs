@@ -1,14 +1,12 @@
 import { describe, it } from "vitest";
 import { Restate } from "./Restate";
 import { Store } from "../data/Store";
-import { createTestRenderer, act, renderToDOM, TestNode } from "../util/test/createTestRenderer";
+import { render, settle, markup } from "../util/test/render";
 import assert from "assert";
 import { Controller } from "./Controller";
 import { bind } from "./bind";
 import { FirstVisibleChildLayout } from "./layout/FirstVisibleChildLayout";
 import { Culture, createCulture } from "./Culture";
-import { Cx } from "./Cx";
-import { createElement } from "react";
 
 describe("Restate", () => {
    it("provides a blank slate", async () => {
@@ -34,25 +32,17 @@ describe("Restate", () => {
          },
       });
 
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      let tree = component.toJSON();
-      assert.deepEqual(tree, {
-         type: "div",
-         props: {},
-         children: [
-            {
-               type: "span",
-               props: {},
-               children: ["good"],
-            },
-            {
-               type: "span",
-               props: {},
-               children: null,
-            },
-         ],
-      });
+      assert.equal(
+         screen.html(),
+         markup`
+            <div>
+               <span>good</span>
+               <span></span>
+            </div>
+         `,
+      );
    });
 
    it("wires declared data", async () => {
@@ -84,9 +74,7 @@ describe("Restate", () => {
          changed = true;
       });
 
-      const component = await createTestRenderer(store, widget);
-
-      let tree = component.toJSON();
+      await render(widget, { store });
 
       assert.equal(store.get("person.name"), "Sasa");
       assert(store.get("person.nickname") === undefined);
@@ -126,37 +114,27 @@ describe("Restate", () => {
          changed = true;
       });
 
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      let tree = component.toJSON();
-      assert.deepEqual(tree, {
-         type: "div",
-         props: {},
-         children: [
-            {
-               type: "div",
-               props: {},
-               children: null,
-            },
-         ],
-      });
+      assert.equal(
+         screen.html(),
+         markup`
+            <div>
+               <div></div>
+            </div>
+         `,
+      );
 
-      await act(async () => {
-         controller!.setNickname("Sale");
-      });
+      await settle(() => controller!.setNickname("Sale"));
 
-      let tree2 = component.toJSON();
-      assert.deepEqual(tree2, {
-         type: "div",
-         props: {},
-         children: [
-            {
-               type: "div",
-               props: {},
-               children: ["Sale"],
-            },
-         ],
-      });
+      assert.equal(
+         screen.html(),
+         markup`
+            <div>
+               <div>Sale</div>
+            </div>
+         `,
+      );
    });
 
    it("doesn't notify parent if not necessary in detached mode", async () => {
@@ -187,9 +165,8 @@ describe("Restate", () => {
          changed = true;
       });
 
-      const component = await createTestRenderer(store, widget);
+      await render(widget, { store });
 
-      let tree = component.toJSON();
       assert(!changed);
    });
 
@@ -219,9 +196,8 @@ describe("Restate", () => {
          //console.log(store.getData());
       });
 
-      const component = await createTestRenderer(store, widget);
+      await render(widget, { store });
 
-      let tree = component.toJSON();
       assert.deepEqual(store.getData(), {
          person: {
             firstName: "John",
@@ -252,46 +228,28 @@ describe("Restate", () => {
 
          let store = new Store();
 
-         const component = await createTestRenderer(store, widget);
+         const screen = await render(widget, { store });
 
-         let tree = component.toJSON();
-         assert.deepEqual(tree, {
-            type: "div",
-            props: {},
-            children: [
-               {
-                  type: "div",
-                  props: {},
-                  children: ["John"],
-               },
-               {
-                  type: "div",
-                  props: {},
-                  children: ["John"],
-               },
-            ],
-         });
-         await act(async () => {
-            store.set("person.firstName", "Jack");
-         });
+         assert.equal(
+            screen.html(),
+            markup`
+               <div>
+                  <div>John</div>
+                  <div>John</div>
+               </div>
+            `,
+         );
+         await settle(() => store.set("person.firstName", "Jack"));
 
-         tree = component.toJSON();
-         assert.deepEqual(tree, {
-            type: "div",
-            props: {},
-            children: [
-               {
-                  type: "div",
-                  props: {},
-                  children: ["Jack"],
-               },
-               {
-                  type: "div",
-                  props: {},
-                  children: ["Jack"],
-               },
-            ],
-         });
+         assert.equal(
+            screen.html(),
+            markup`
+               <div>
+                  <div>Jack</div>
+                  <div>Jack</div>
+               </div>
+            `,
+         );
       }
    });
 
@@ -314,20 +272,16 @@ describe("Restate", () => {
 
          let store = new Store();
 
-         const component = await createTestRenderer(store, widget);
+         const screen = await render(widget, { store });
 
-         let tree = component.toJSON();
-         assert.deepEqual(tree, {
-            type: "div",
-            props: {},
-            children: [
-               {
-                  type: "div",
-                  props: {},
-                  children: ["Cx"],
-               },
-            ],
-         });
+         assert.equal(
+            screen.html(),
+            markup`
+               <div>
+                  <div>Cx</div>
+               </div>
+            `,
+         );
       }
    });
 
@@ -356,20 +310,16 @@ describe("Restate", () => {
          changed = true;
       });
 
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      let tree = component.toJSON();
-      assert.deepEqual(tree, {
-         type: "div",
-         props: {},
-         children: [
-            {
-               type: "div",
-               props: {},
-               children: ["Sale"],
-            },
-         ],
-      });
+      assert.equal(
+         screen.html(),
+         markup`
+            <div>
+               <div>Sale</div>
+            </div>
+         `,
+      );
    });
 
    it("works with FirstVisibleChildLayout", async () => {
@@ -388,14 +338,16 @@ describe("Restate", () => {
 
       let store = new Store();
 
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      let tree = component.toJSON();
-      assert.deepEqual(tree, {
-         type: "div",
-         props: {},
-         children: [{ type: "div", props: {}, children: ["First"] }],
-      });
+      assert.equal(
+         screen.html(),
+         markup`
+            <div>
+               <div>First</div>
+            </div>
+         `,
+      );
    });
 
    it("is transparent to FirstVisibleChildLayout", async () => {
@@ -414,19 +366,20 @@ describe("Restate", () => {
 
       let store = new Store();
 
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      let tree = component.toJSON();
-      assert.deepEqual(tree, {
-         type: "div",
-         props: {},
-         children: [{ type: "div", props: {}, children: ["Second"] }],
-      });
+      assert.equal(
+         screen.html(),
+         markup`
+            <div>
+               <div>Second</div>
+            </div>
+         `,
+      );
    });
 
    it("renders detached content in its own culture", async () => {
-      let time = () =>
-         Culture.getDateTimeCulture().getFormatter("HHmmN").format(new Date("2026-04-24T12:00:00Z"));
+      let time = () => Culture.getDateTimeCulture().getFormatter("HHmmN").format(new Date("2026-04-24T12:00:00Z"));
 
       let widget = (
          <cx>
@@ -441,21 +394,21 @@ describe("Restate", () => {
          </cx>
       );
 
-      const component = await createTestRenderer(new Store(), widget);
+      const screen = await render(widget);
 
-      assert.deepEqual(component.toJSON(), {
-         type: "div",
-         props: {},
-         children: [
-            { type: "span", props: {}, children: ["12:00"] },
-            { type: "span", props: {}, children: ["21:00"] },
-         ],
-      });
+      assert.equal(
+         screen.html(),
+         markup`
+            <div>
+               <span>12:00</span>
+               <span>21:00</span>
+            </div>
+         `,
+      );
    });
 
    it("re-renders detached content when the parent culture changes", async () => {
-      let time = () =>
-         Culture.getDateTimeCulture().getFormatter("HHmmN").format(new Date("2026-04-24T12:00:00Z"));
+      let time = () => Culture.getDateTimeCulture().getFormatter("HHmmN").format(new Date("2026-04-24T12:00:00Z"));
 
       let widget = (
          <cx>
@@ -470,14 +423,10 @@ describe("Restate", () => {
       let store = new Store();
       let utc = createCulture({ timezone: "UTC" });
       let tokyo = createCulture({ timezone: "Asia/Tokyo" });
-      let cx = (cultureInfo: any) =>
-         createElement(Cx, { widget, store, subscribe: true, immediate: true, cultureInfo });
-      let component = await renderToDOM(cx(utc));
-      assert.deepEqual(((component.toJSON() as TestNode).children![0] as TestNode).children, ["12:00"]);
+      let screen = await render(widget, { store, cultureInfo: utc });
+      assert.equal(screen.container.querySelector("span")?.textContent, "12:00");
 
-      await act(async () => {
-         component.update(cx(tokyo));
-      });
-      assert.deepEqual(((component.toJSON() as TestNode).children![0] as TestNode).children, ["21:00"]);
+      await screen.rerender(widget, { cultureInfo: tokyo });
+      assert.equal(screen.container.querySelector("span")?.textContent, "21:00");
    });
 });

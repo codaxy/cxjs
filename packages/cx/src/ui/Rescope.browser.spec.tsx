@@ -2,7 +2,7 @@ import { describe, it } from "vitest";
 import { Store } from "../data/Store";
 import { Rescope } from "./Rescope";
 import { bind } from "./bind";
-import { createTestRenderer } from "../util/test/createTestRenderer";
+import { render } from "../util/test/render";
 import { Controller } from "./Controller";
 
 import assert from "assert";
@@ -28,14 +28,9 @@ describe("Rescope", () => {
          </cx>
       );
 
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      let tree = component.toJSON();
-      assert.deepEqual(tree, {
-         type: "div",
-         props: {},
-         children: ["John"],
-      });
+      assert.equal(screen.html(), "<div>John</div>");
    });
 
    it("allows parent access through $root", async () => {
@@ -60,14 +55,9 @@ describe("Rescope", () => {
          </cx>
       );
 
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      let tree = component.toJSON();
-      assert.deepEqual(tree, {
-         type: "div",
-         props: {},
-         children: ["Title"],
-      });
+      assert.equal(screen.html(), "<div>Title</div>");
    });
 
    it("allows nested data access through data", async () => {
@@ -87,14 +77,9 @@ describe("Rescope", () => {
          </cx>
       );
 
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      let tree = component.toJSON();
-      assert.deepEqual(tree, {
-         type: "div",
-         props: {},
-         children: ["Title"],
-      });
+      assert.equal(screen.html(), "<div>Title</div>");
    });
 
    it("nested data mutations are correctly propagated to the parent store", async () => {
@@ -121,14 +106,9 @@ describe("Rescope", () => {
          </cx>
       );
 
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      let tree = component.toJSON();
-      assert.deepEqual(tree, {
-         type: "div",
-         props: {},
-         children: ["2"],
-      });
+      assert.equal(screen.html(), "<div>2</div>");
    });
 
    it("visible is calculated based on the inner scope", async () => {
@@ -154,14 +134,9 @@ describe("Rescope", () => {
          </cx>
       );
 
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      let tree = component.toJSON();
-      assert.deepEqual(tree, {
-         type: "div",
-         props: {},
-         children: ["John"],
-      });
+      assert.equal(screen.html(), "<div>John</div>");
    });
 
    it("controllers see inner scope", async () => {
@@ -192,9 +167,8 @@ describe("Rescope", () => {
          </cx>
       );
 
-      const component = await createTestRenderer(store, widget);
+      await render(widget, { store });
 
-      component.toJSON();
       assert.equal(testName, "John");
    });
 });

@@ -1,7 +1,7 @@
 import { describe, it } from "vitest";
 import { Route } from "./Route";
 import { Store } from "../../data/Store";
-import { createTestRenderer } from "../../util/test/createTestRenderer";
+import { render } from "../../util/test/render";
 import assert from "assert";
 
 describe("Route", () => {
@@ -16,10 +16,8 @@ describe("Route", () => {
 
       let store = new Store();
 
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      let tree = component.toJSON();
-      assert(tree && !Array.isArray(tree));
-      assert.equal(tree.type, "div");
+      assert.equal(screen.html(), "<div></div>");
    });
 });

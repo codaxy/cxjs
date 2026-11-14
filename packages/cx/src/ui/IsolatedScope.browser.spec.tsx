@@ -1,6 +1,6 @@
 import { describe, it } from "vitest";
 import { Store } from "../data/Store";
-import { createTestRenderer, act } from "../util/test/createTestRenderer";
+import { render, settle } from "../util/test/render";
 import assert from "assert";
 import { IsolatedScope } from "./IsolatedScope";
 import { bind } from "./bind";
@@ -31,33 +31,18 @@ describe("IsolatedScope", () => {
          },
       });
 
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      let tree = component.toJSON();
       assert.deepEqual(list, ["bad"]);
-      assert.deepEqual(tree, {
-         type: "span",
-         props: {},
-         children: ["bad"],
-      });
+      assert.equal(screen.html(), "<span>bad</span>");
 
       //component should not re-render if unrelated data changes
-      await act(async () => {
-         store.set("dummy", "dummy");
-      });
-      tree = component.toJSON();
+      await settle(() => store.set("dummy", "dummy"));
       assert.deepEqual(list, ["bad"]);
 
       //component should not re-render if unrelated data changes
-      await act(async () => {
-         store.set("value", "good");
-      });
-      tree = component.toJSON();
+      await settle(() => store.set("value", "good"));
       assert.deepEqual(list, ["bad", "good"]);
-      assert.deepEqual(tree, {
-         type: "span",
-         props: {},
-         children: ["good"],
-      });
+      assert.equal(screen.html(), "<span>good</span>");
    });
 });

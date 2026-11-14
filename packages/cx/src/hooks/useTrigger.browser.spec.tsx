@@ -1,6 +1,6 @@
 import { describe, it } from "vitest";
 import assert from "assert";
-import { createTestRenderer, act } from "../util/test/createTestRenderer";
+import { render, settle } from "../util/test/render";
 import { Store } from "../data/Store";
 import { createFunctionalComponent } from "../ui/createFunctionalComponent";
 import { useTrigger } from "./useTrigger";
@@ -24,15 +24,10 @@ describe("useTrigger", () => {
       let store = new Store();
       let test = store.ref("test", 1);
 
-      const component = await createTestRenderer(store, FComp);
-
-      component.toJSON();
+      await render(FComp, { store });
       assert.equal(last, null); //trigger did not fire because it didn't receive true as the last argument
 
-      await act(async () => {
-         test.set(2);
-      });
-      component.toJSON();
+      await settle(() => test.set(2));
       assert.equal(last, 2);
    });
 
@@ -58,15 +53,10 @@ describe("useTrigger", () => {
       let store = new Store();
       let test = store.ref("test", 1);
 
-      const component = await createTestRenderer(store, FComp);
-
-      component.toJSON();
+      await render(FComp, { store });
       assert.equal(last, 1);
 
-      await act(async () => {
-         test.set(2);
-      });
-      component.toJSON();
+      await settle(() => test.set(2));
       assert.equal(last, 2);
    });
 
@@ -92,15 +82,10 @@ describe("useTrigger", () => {
          );
       });
 
-      const component = await createTestRenderer(store, FComp);
-
-      component.toJSON();
+      await render(FComp, { store });
       assert.equal(last, 1);
 
-      await act(async () => {
-         test.set(2);
-      });
-      component.toJSON();
+      await settle(() => test.set(2));
       assert.equal(last, 2);
    });
 });

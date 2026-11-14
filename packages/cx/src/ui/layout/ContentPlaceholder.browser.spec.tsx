@@ -3,14 +3,13 @@ import { Store } from "../../data/Store";
 import { ContentPlaceholder, ContentPlaceholderScope } from "./ContentPlaceholder";
 import assert from "assert";
 import { PureContainer } from "../PureContainer";
-import { createTestRenderer, act } from "../../util/test/createTestRenderer";
+import { render, settle, markup } from "../../util/test/render";
 import { bind } from "../bind";
 
 describe("ContentPlaceholder", () => {
    it("allows putting content inside", async () => {
       let store = new Store();
-      const component = await createTestRenderer(
-         store,
+      const screen = await render(
          <cx>
             <div>
                <header>
@@ -21,31 +20,20 @@ describe("ContentPlaceholder", () => {
                </main>
             </div>
          </cx>,
+         { store },
       );
 
-      let tree = component.toJSON();
-      assert.deepEqual(tree, {
-         type: "div",
-         props: {},
-         children: [
-            {
-               type: "header",
-               props: {},
-               children: [
-                  {
-                     type: "h2",
-                     props: {},
-                     children: ["Header"],
-                  },
-               ],
-            },
-            {
-               type: "main",
-               props: {},
-               children: null,
-            },
-         ],
-      });
+      assert.equal(
+         screen.html(),
+         markup`
+            <div>
+               <header>
+                  <h2>Header</h2>
+               </header>
+               <main></main>
+            </div>
+         `,
+      );
    });
 
    it("updates content on change", async () => {
@@ -54,39 +42,30 @@ describe("ContentPlaceholder", () => {
             headerText: "Header",
          },
       });
-      const component = await createTestRenderer(
-         store,
+      const screen = await render(
          <cx>
             <div>
                <ContentPlaceholder name="header" />
                <h2 putInto="header" text={bind("headerText")} />
             </div>
          </cx>,
+         { store },
       );
 
-      let getTree = (headerText: string) => ({
-         type: "div",
-         props: {},
-         children: [
-            {
-               type: "h2",
-               props: {},
-               children: [headerText],
-            },
-         ],
-      });
+      let getHTML = (headerText: string) => markup`
+         <div>
+            <h2>${headerText}</h2>
+         </div>
+      `;
 
-      assert.deepEqual(component.toJSON(), getTree("Header"));
-      await act(async () => {
-         store.set("headerText", "Footer");
-      });
-      assert.deepEqual(component.toJSON(), getTree("Footer"));
+      assert.equal(screen.html(), getHTML("Header"));
+      await settle(() => store.set("headerText", "Footer"));
+      assert.equal(screen.html(), getHTML("Footer"));
    });
 
    it("allows putting multiple entries inside", async () => {
       let store = new Store();
-      const component = await createTestRenderer(
-         store,
+      const screen = await render(
          <cx>
             <div>
                <header>
@@ -98,42 +77,26 @@ describe("ContentPlaceholder", () => {
                </main>
             </div>
          </cx>,
+         { store },
       );
 
-      let tree = component.toJSON();
-      assert.deepEqual(tree, {
-         type: "div",
-         props: {},
-         children: [
-            {
-               type: "header",
-               props: {},
-               children: [
-                  {
-                     type: "h2",
-                     props: {},
-                     children: ["Header1"],
-                  },
-                  {
-                     type: "h2",
-                     props: {},
-                     children: ["Header2"],
-                  },
-               ],
-            },
-            {
-               type: "main",
-               props: {},
-               children: null,
-            },
-         ],
-      });
+      assert.equal(
+         screen.html(),
+         markup`
+            <div>
+               <header>
+                  <h2>Header1</h2>
+                  <h2>Header2</h2>
+               </header>
+               <main></main>
+            </div>
+         `,
+      );
    });
 
    it("allows putting multiple entries inside when content is defined before and after the placeholder", async () => {
       let store = new Store();
-      const component = await createTestRenderer(
-         store,
+      const screen = await render(
          <cx>
             <div>
                <PureContainer>
@@ -149,47 +112,27 @@ describe("ContentPlaceholder", () => {
                </PureContainer>
             </div>
          </cx>,
+         { store },
       );
 
-      let tree = component.toJSON();
-      assert.deepEqual(tree, {
-         type: "div",
-         props: {},
-         children: [
-            {
-               type: "header",
-               props: {},
-               children: [
-                  {
-                     type: "h2",
-                     props: {},
-                     children: ["Header1"],
-                  },
-                  {
-                     type: "h2",
-                     props: {},
-                     children: ["Header2"],
-                  },
-                  {
-                     type: "h2",
-                     props: {},
-                     children: ["Header3"],
-                  },
-                  {
-                     type: "h2",
-                     props: {},
-                     children: ["Header4"],
-                  },
-               ],
-            },
-         ],
-      });
+      assert.equal(
+         screen.html(),
+         markup`
+            <div>
+               <header>
+                  <h2>Header1</h2>
+                  <h2>Header2</h2>
+                  <h2>Header3</h2>
+                  <h2>Header4</h2>
+               </header>
+            </div>
+         `,
+      );
    });
 
    it("allows putting multiple entries into separate placeholders using content placeholder scopes", async () => {
       let store = new Store();
-      const component = await createTestRenderer(
-         store,
+      const screen = await render(
          <cx>
             <div>
                <ContentPlaceholderScope name="headers">
@@ -209,47 +152,24 @@ describe("ContentPlaceholder", () => {
                </ContentPlaceholderScope>
             </div>
          </cx>,
+         { store },
       );
 
-      let tree = component.toJSON();
-      assert.deepEqual(tree, {
-         type: "div",
-         props: {},
-         children: [
-            {
-               type: "header",
-               props: {},
-               children: [
-                  {
-                     type: "h2",
-                     props: {},
-                     children: ["Header1"],
-                  },
-                  {
-                     type: "h2",
-                     props: {},
-                     children: ["Header2"],
-                  },
-               ],
-            },
-            {
-               type: "header",
-               props: {},
-               children: [
-                  {
-                     type: "h2",
-                     props: {},
-                     children: ["Header3"],
-                  },
-                  {
-                     type: "h2",
-                     props: {},
-                     children: ["Header4"],
-                  },
-               ],
-            },
-         ],
-      });
+      assert.equal(
+         screen.html(),
+         markup`
+            <div>
+               <header>
+                  <h2>Header1</h2>
+                  <h2>Header2</h2>
+               </header>
+               <header>
+                  <h2>Header3</h2>
+                  <h2>Header4</h2>
+               </header>
+            </div>
+         `,
+      );
    });
 
    it("is used for defining body position in outer layouts", async () => {
@@ -265,34 +185,23 @@ describe("ContentPlaceholder", () => {
          </cx>
       );
 
-      const component = await createTestRenderer(
-         store,
+      const screen = await render(
          <cx>
             <main outerLayout={layout} />
          </cx>,
+         { store },
       );
 
-      assert.deepEqual(component.toJSON(), {
-         type: "div",
-         props: {},
-         children: [
-            {
-               type: "header",
-               props: {},
-               children: ["Header"],
-            },
-            {
-               type: "main",
-               props: {},
-               children: null,
-            },
-            {
-               type: "footer",
-               props: {},
-               children: ["Footer"],
-            },
-         ],
-      });
+      assert.equal(
+         screen.html(),
+         markup`
+            <div>
+               <header>Header</header>
+               <main></main>
+               <footer>Footer</footer>
+            </div>
+         `,
+      );
    });
 
    it("data in deeply nested placeholders is correctly updated", async () => {
@@ -318,8 +227,7 @@ describe("ContentPlaceholder", () => {
          </cx>
       );
 
-      const component = await createTestRenderer(
-         store,
+      const screen = await render(
          <cx>
             <main outerLayout={layout}>
                <div putInto="header">
@@ -331,43 +239,34 @@ describe("ContentPlaceholder", () => {
                <span text={bind("body")} />
             </main>
          </cx>,
+         { store },
       );
 
-      let getTree = (h: string, b: string, f: string) => ({
-         type: "div",
-         props: {},
-         children: [
-            {
-               type: "header",
-               props: {},
-               children: [{ type: "div", props: {}, children: [{ type: "span", props: {}, children: [h] }] }],
-            },
-            {
-               type: "main",
-               props: {},
-               children: [{ type: "span", props: {}, children: [b] }],
-            },
-            {
-               type: "footer",
-               props: {},
-               children: [{ type: "div", props: {}, children: [{ type: "span", props: {}, children: [f] }] }],
-            },
-         ],
-      });
+      let getHTML = (h: string, b: string, f: string) => markup`
+         <div>
+            <header>
+               <div>
+                  <span>${h}</span>
+               </div>
+            </header>
+            <main>
+               <span>${b}</span>
+            </main>
+            <footer>
+               <div>
+                  <span>${f}</span>
+               </div>
+            </footer>
+         </div>
+      `;
 
-      assert.deepEqual(component.toJSON(), getTree("H", "B", "F"));
-      await act(async () => {
-         store.set("header", "H2");
-      });
-      assert.deepEqual(component.toJSON(), getTree("H2", "B", "F"));
-      await act(async () => {
-         store.set("footer", "F2");
-      });
-      assert.deepEqual(component.toJSON(), getTree("H2", "B", "F2"));
-      await act(async () => {
-         store.set("body", "B2");
-      });
-      assert.deepEqual(component.toJSON(), getTree("H2", "B2", "F2"));
+      assert.equal(screen.html(), getHTML("H", "B", "F"));
+      await settle(() => store.set("header", "H2"));
+      assert.equal(screen.html(), getHTML("H2", "B", "F"));
+      await settle(() => store.set("footer", "F2"));
+      assert.equal(screen.html(), getHTML("H2", "B", "F2"));
+      await settle(() => store.set("body", "B2"));
+      assert.equal(screen.html(), getHTML("H2", "B2", "F2"));
    });
 
    it("inside a two-level deep outer-layout works", async () => {
@@ -389,39 +288,29 @@ describe("ContentPlaceholder", () => {
          </cx>
       );
 
-      const component = await createTestRenderer(
-         store,
+      const screen = await render(
          <cx>
             <section outerLayout={innerLayout} />
          </cx>,
+         { store },
       );
 
-      let tree = component.toJSON();
-
-      assert.deepEqual(tree, {
-         type: "div",
-         props: {},
-         children: [
-            {
-               type: "main",
-               props: {},
-               children: [
-                  {
-                     type: "section",
-                     props: {},
-                     children: null,
-                  },
-               ],
-            },
-         ],
-      });
+      assert.equal(
+         screen.html(),
+         markup`
+            <div>
+               <main>
+                  <section></section>
+               </main>
+            </div>
+         `,
+      );
    });
 
    it("works in strange order", async () => {
       let store = new Store();
 
-      const component = await createTestRenderer(
-         store,
+      const screen = await render(
          <cx>
             <div>
                <ContentPlaceholder name="footer" />
@@ -432,15 +321,10 @@ describe("ContentPlaceholder", () => {
                </PureContainer>
             </div>
          </cx>,
+         { store },
       );
 
-      let tree = component.toJSON();
-
-      assert.deepEqual(tree, {
-         type: "div",
-         props: {},
-         children: ["It", "works"],
-      });
+      assert.equal(screen.html(), "<div>Itworks</div>");
    });
 
    it("inside a complex two-level-deep outer-layout works", async () => {
@@ -464,18 +348,23 @@ describe("ContentPlaceholder", () => {
          </cx>
       );
 
-      const component = await createTestRenderer(
-         store,
+      const screen = await render(
          <cx>
             <section outerLayout={innerLayout} />
          </cx>,
+         { store },
       );
 
-      assert.deepEqual(component.toJSON(), {
-         type: "div",
-         props: {},
-         children: [{ type: "main", props: {}, children: [{ type: "section", props: {}, children: null }] }],
-      });
+      assert.equal(
+         screen.html(),
+         markup`
+            <div>
+               <main>
+                  <section></section>
+               </main>
+            </div>
+         `,
+      );
    });
 
    it("each level use an outer-layout", async () => {
@@ -497,20 +386,23 @@ describe("ContentPlaceholder", () => {
          </cx>
       );
 
-      const component = await createTestRenderer(
-         store,
+      const screen = await render(
          <cx>
             <PureContainer outerLayout={outerLayout1}>
                <PureContainer outerLayout={outerLayout2}>Content</PureContainer>
             </PureContainer>
          </cx>,
+         { store },
       );
 
-      assert.deepEqual(component.toJSON(), {
-         type: "div",
-         props: {},
-         children: [{ type: "main", props: {}, children: ["Content"] }],
-      });
+      assert.equal(
+         screen.html(),
+         markup`
+            <div>
+               <main>Content</main>
+            </div>
+         `,
+      );
    });
 
    it("data in a two-level deep outer-layout is correctly updated", async () => {
@@ -546,8 +438,7 @@ describe("ContentPlaceholder", () => {
          </cx>
       );
 
-      const component = await createTestRenderer(
-         store,
+      const screen = await render(
          <cx>
             <main outerLayout={innerLayout}>
                <div putInto="header">
@@ -559,42 +450,33 @@ describe("ContentPlaceholder", () => {
                <span text={bind("body")} />
             </main>
          </cx>,
+         { store },
       );
 
-      let getTree = (h: string, b: string, f: string) => ({
-         type: "div",
-         props: {},
-         children: [
-            {
-               type: "header",
-               props: {},
-               children: [{ type: "div", props: {}, children: [{ type: "span", props: {}, children: [h] }] }],
-            },
-            {
-               type: "main",
-               props: {},
-               children: [{ type: "span", props: {}, children: [b] }],
-            },
-            {
-               type: "footer",
-               props: {},
-               children: [{ type: "div", props: {}, children: [{ type: "span", props: {}, children: [f] }] }],
-            },
-         ],
-      });
+      let getHTML = (h: string, b: string, f: string) => markup`
+         <div>
+            <header>
+               <div>
+                  <span>${h}</span>
+               </div>
+            </header>
+            <main>
+               <span>${b}</span>
+            </main>
+            <footer>
+               <div>
+                  <span>${f}</span>
+               </div>
+            </footer>
+         </div>
+      `;
 
-      assert.deepEqual(component.toJSON(), getTree("H", "B", "F"));
-      await act(async () => {
-         store.set("header", "H2");
-      });
-      assert.deepEqual(component.toJSON(), getTree("H2", "B", "F"));
-      await act(async () => {
-         store.set("footer", "F2");
-      });
-      assert.deepEqual(component.toJSON(), getTree("H2", "B", "F2"));
-      await act(async () => {
-         store.set("body", "B2");
-      });
-      assert.deepEqual(component.toJSON(), getTree("H2", "B2", "F2"));
+      assert.equal(screen.html(), getHTML("H", "B", "F"));
+      await settle(() => store.set("header", "H2"));
+      assert.equal(screen.html(), getHTML("H2", "B", "F"));
+      await settle(() => store.set("footer", "F2"));
+      assert.equal(screen.html(), getHTML("H2", "B", "F2"));
+      await settle(() => store.set("body", "B2"));
+      assert.equal(screen.html(), getHTML("H2", "B2", "F2"));
    });
 });

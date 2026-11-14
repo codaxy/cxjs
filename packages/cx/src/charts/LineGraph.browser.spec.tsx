@@ -4,7 +4,7 @@ import { createModel } from "../data/createAccessorModelProxy";
 import { Store } from "../data/Store";
 import { RenderingContext } from "../ui/RenderingContext";
 import { Svg } from "../svg/Svg";
-import { createTestRenderer, TestRenderer } from "../util/test/createTestRenderer";
+import { render, RenderResult } from "../util/test/render";
 import { NumericAxis } from "./axis/NumericAxis";
 import { Chart } from "./Chart";
 import { Legend } from "./Legend";
@@ -30,8 +30,8 @@ const points = [
    { x: 1, y: 1 },
 ];
 
-function findByClass(component: TestRenderer, part: string) {
-   return Array.from(component.container.querySelectorAll("*")).filter((el) =>
+function findByClass(screen: RenderResult, part: string) {
+   return Array.from(screen.container.querySelectorAll("*")).filter((el) =>
       (el.getAttribute("class") ?? "").includes(part),
    );
 }
@@ -57,29 +57,29 @@ describe("LineGraph active binding initialization", () => {
 
    it("renders the series and seeds active = true for a {bind} object", async () => {
       let store = new Store();
-      let component = await createTestRenderer(store, chart({ bind: "$page.boundObject" }));
+      let screen = await render(chart({ bind: "$page.boundObject" }), { store });
       assert.strictEqual(store.get("$page.boundObject"), true);
-      assert.strictEqual(findByClass(component, "linegraph-line").length, 1);
+      assert.strictEqual(findByClass(screen, "linegraph-line").length, 1);
    });
 
    it("renders the series and seeds active = true for an accessor-chain binding", async () => {
       let store = new Store();
-      let component = await createTestRenderer(store, chart(m.$page.chain));
+      let screen = await render(chart(m.$page.chain), { store });
       assert.strictEqual(store.get(m.$page.chain), true);
-      assert.strictEqual(findByClass(component, "linegraph-line").length, 1);
+      assert.strictEqual(findByClass(screen, "linegraph-line").length, 1);
    });
 
    it("draws the legend entry as active for an accessor-chain binding", async () => {
       let store = new Store();
-      let component = await createTestRenderer(store, chart(m.$page.chain));
-      let [shape] = findByClass(component, "legend-shape");
+      let screen = await render(chart(m.$page.chain), { store });
+      let [shape] = findByClass(screen, "legend-shape");
       assert.ok(shape.getAttribute("class")!.includes("color-0"));
    });
 
    it("keeps a stored active = false for both binding styles", async () => {
       let store = new Store({ data: { $page: { chain: false, boundObject: false } } });
-      let chainComponent = await createTestRenderer(store, chart(m.$page.chain));
-      let bindComponent = await createTestRenderer(store, chart({ bind: "$page.boundObject" }));
+      let chainComponent = await render(chart(m.$page.chain), { store });
+      let bindComponent = await render(chart({ bind: "$page.boundObject" }), { store });
       assert.strictEqual(store.get(m.$page.chain), false);
       assert.strictEqual(store.get("$page.boundObject"), false);
       assert.strictEqual(findByClass(chainComponent, "linegraph-line").length, 0);

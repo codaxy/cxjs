@@ -1,7 +1,7 @@
-import { describe, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import { ContentResolver } from "./ContentResolver";
 import { Store } from "../data/Store";
-import { createTestRenderer, act } from "../util/test/createTestRenderer";
+import { render, settle, markup } from "../util/test/render";
 import assert from "assert";
 import { bind } from "./bind";
 import { createAccessorModelProxy } from "../data/createAccessorModelProxy";
@@ -32,20 +32,16 @@ describe("ContentResolver", () => {
          },
       });
 
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      let tree = component.toJSON();
-      assert.deepEqual(tree, {
-         type: "div",
-         props: {},
-         children: [
-            {
-               type: "span",
-               props: {},
-               children: ["Test"],
-            },
-         ],
-      });
+      assert.equal(
+         screen.html(),
+         markup`
+            <div>
+               <span>Test</span>
+            </div>
+         `,
+      );
    });
 
    it("re-resolves when params change", async () => {
@@ -71,37 +67,27 @@ describe("ContentResolver", () => {
          },
       });
 
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      let tree = component.toJSON();
-      assert.deepEqual(tree, {
-         type: "div",
-         props: {},
-         children: [
-            {
-               type: "span",
-               props: {},
-               children: ["1"],
-            },
-         ],
-      });
+      assert.equal(
+         screen.html(),
+         markup`
+            <div>
+               <span>1</span>
+            </div>
+         `,
+      );
       assert.equal(resolveCount, 1);
 
-      await act(async () => {
-         store.set("value", 2);
-      });
-      tree = component.toJSON();
-      assert.deepEqual(tree, {
-         type: "div",
-         props: {},
-         children: [
-            {
-               type: "span",
-               props: {},
-               children: ["2"],
-            },
-         ],
-      });
+      await settle(() => store.set("value", 2));
+      assert.equal(
+         screen.html(),
+         markup`
+            <div>
+               <span>2</span>
+            </div>
+         `,
+      );
       assert.equal(resolveCount, 2);
    });
 
@@ -129,12 +115,11 @@ describe("ContentResolver", () => {
          },
       });
 
-      const component = await createTestRenderer(store, widget);
+      await render(widget, { store });
       assert.equal(resolveCount, 1);
 
       // Change unrelated data
-      store.set("other", "b");
-      component.toJSON();
+      await settle(() => store.set("other", "b"));
       assert.equal(resolveCount, 1);
    });
 
@@ -157,20 +142,16 @@ describe("ContentResolver", () => {
 
       let store = new Store();
 
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      let tree = component.toJSON();
-      assert.deepEqual(tree, {
-         type: "div",
-         props: {},
-         children: [
-            {
-               type: "span",
-               props: {},
-               children: ["test: 42"],
-            },
-         ],
-      });
+      assert.equal(
+         screen.html(),
+         markup`
+            <div>
+               <span>test: 42</span>
+            </div>
+         `,
+      );
       assert.equal(receivedParams.count, 42);
       assert.equal(receivedParams.name, "test");
    });
@@ -188,25 +169,17 @@ describe("ContentResolver", () => {
 
       let store = new Store();
 
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      let tree = component.toJSON();
-      assert.deepEqual(tree, {
-         type: "div",
-         props: {},
-         children: [
-            {
-               type: "span",
-               props: {},
-               children: ["Prepended"],
-            },
-            {
-               type: "span",
-               props: {},
-               children: ["Original"],
-            },
-         ],
-      });
+      assert.equal(
+         screen.html(),
+         markup`
+            <div>
+               <span>Prepended</span>
+               <span>Original</span>
+            </div>
+         `,
+      );
    });
 
    it("supports mode=append", async () => {
@@ -222,25 +195,17 @@ describe("ContentResolver", () => {
 
       let store = new Store();
 
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      let tree = component.toJSON();
-      assert.deepEqual(tree, {
-         type: "div",
-         props: {},
-         children: [
-            {
-               type: "span",
-               props: {},
-               children: ["Original"],
-            },
-            {
-               type: "span",
-               props: {},
-               children: ["Appended"],
-            },
-         ],
-      });
+      assert.equal(
+         screen.html(),
+         markup`
+            <div>
+               <span>Original</span>
+               <span>Appended</span>
+            </div>
+         `,
+      );
    });
 
    it("supports mode=replace (default)", async () => {
@@ -256,20 +221,16 @@ describe("ContentResolver", () => {
 
       let store = new Store();
 
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      let tree = component.toJSON();
-      assert.deepEqual(tree, {
-         type: "div",
-         props: {},
-         children: [
-            {
-               type: "span",
-               props: {},
-               children: ["Replaced"],
-            },
-         ],
-      });
+      assert.equal(
+         screen.html(),
+         markup`
+            <div>
+               <span>Replaced</span>
+            </div>
+         `,
+      );
    });
 
    it("handles async resolution with Promise", async () => {
@@ -298,32 +259,21 @@ describe("ContentResolver", () => {
          },
       });
 
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
       // Initially loading should be true
       assert.equal(store.get("loading"), true);
 
-      // Resolve the promise
+      // Resolve the promise; the content renders asynchronously
       resolvePromise!(<span>Loaded Content</span>);
-
-      // Wait for promise resolution
-      await new Promise((r) => setTimeout(r, 10));
+      await expect.poll(() => screen.html()).toBe(markup`
+         <div>
+            <span>Loaded Content</span>
+         </div>
+      `);
 
       // After resolution, loading should be false
       assert.equal(store.get("loading"), false);
-
-      let tree = component.toJSON();
-      assert.deepEqual(tree, {
-         type: "div",
-         props: {},
-         children: [
-            {
-               type: "span",
-               props: {},
-               children: ["Loaded Content"],
-            },
-         ],
-      });
    });
 
    it("supports typed params with accessor chains", async () => {
@@ -365,20 +315,16 @@ describe("ContentResolver", () => {
          },
       });
 
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      let tree = component.toJSON();
-      assert.deepEqual(tree, {
-         type: "div",
-         props: {},
-         children: [
-            {
-               type: "span",
-               props: {},
-               children: ["John is 30 years old and active"],
-            },
-         ],
-      });
+      assert.equal(
+         screen.html(),
+         markup`
+            <div>
+               <span>John is 30 years old and active</span>
+            </div>
+         `,
+      );
    });
 
    it("infers types from literal params", async () => {
@@ -402,20 +348,16 @@ describe("ContentResolver", () => {
 
       let store = new Store();
 
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      let tree = component.toJSON();
-      assert.deepEqual(tree, {
-         type: "div",
-         props: {},
-         children: [
-            {
-               type: "span",
-               props: {},
-               children: ["42 items"],
-            },
-         ],
-      });
+      assert.equal(
+         screen.html(),
+         markup`
+            <div>
+               <span>42 items</span>
+            </div>
+         `,
+      );
    });
 
    it("supports simple Prop params (non-structured)", async () => {
@@ -447,20 +389,16 @@ describe("ContentResolver", () => {
          },
       });
 
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      let tree = component.toJSON();
-      assert.deepEqual(tree, {
-         type: "div",
-         props: {},
-         children: [
-            {
-               type: "span",
-               props: {},
-               children: ["Hello, Alice!"],
-            },
-         ],
-      });
+      assert.equal(
+         screen.html(),
+         markup`
+            <div>
+               <span>Hello, Alice!</span>
+            </div>
+         `,
+      );
    });
 
    it("supports simple bind() as params", async () => {
@@ -483,20 +421,16 @@ describe("ContentResolver", () => {
          },
       });
 
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      let tree = component.toJSON();
-      assert.deepEqual(tree, {
-         type: "div",
-         props: {},
-         children: [
-            {
-               type: "span",
-               props: {},
-               children: ["Count: 42"],
-            },
-         ],
-      });
+      assert.equal(
+         screen.html(),
+         markup`
+            <div>
+               <span>Count: 42</span>
+            </div>
+         `,
+      );
    });
 
    it("resolves Selector<string> | null to string | null", async () => {
@@ -527,13 +461,15 @@ describe("ContentResolver", () => {
          },
       });
 
-      const component = await createTestRenderer(store, widget);
-      let tree = component.toJSON();
-      assert.deepEqual(tree, {
-         type: "div",
-         props: {},
-         children: [{ type: "span", props: {}, children: ["Hello World"] }],
-      });
+      const screen = await render(widget, { store });
+      assert.equal(
+         screen.html(),
+         markup`
+            <div>
+               <span>Hello World</span>
+            </div>
+         `,
+      );
    });
 
    it("resolves Prop<string> to string (not any)", async () => {
@@ -568,19 +504,15 @@ describe("ContentResolver", () => {
          },
       });
 
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      let tree = component.toJSON();
-      assert.deepEqual(tree, {
-         type: "div",
-         props: {},
-         children: [
-            {
-               type: "span",
-               props: {},
-               children: ["Hello, Bob!"],
-            },
-         ],
-      });
+      assert.equal(
+         screen.html(),
+         markup`
+            <div>
+               <span>Hello, Bob!</span>
+            </div>
+         `,
+      );
    });
 });

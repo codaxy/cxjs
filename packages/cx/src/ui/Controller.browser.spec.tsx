@@ -1,7 +1,7 @@
 import { describe, it } from "vitest";
 import { Store } from "../data/Store";
 import { Controller, ControllerConfig } from "./Controller";
-import { createTestRenderer, act } from "../util/test/createTestRenderer";
+import { render, settle } from "../util/test/render";
 import { VDOM, Widget, WidgetConfig } from "./Widget";
 import { Instance } from "./Instance";
 import { bind } from "./bind";
@@ -35,14 +35,13 @@ describe("Controller", () => {
 
       let store = new Store();
 
-      const component = await createTestRenderer(
-         store,
+      await render(
          <cx>
             <div controller={TestController} />
          </cx>,
+         { store },
       );
 
-      let tree = component.toJSON();
       assert.equal(init, 1);
       assert.equal(explore, 1);
       assert.equal(prepare, 1);
@@ -71,14 +70,13 @@ describe("Controller", () => {
 
       let store = new Store();
 
-      const component = await createTestRenderer(
-         store,
+      await render(
          <cx>
             <Cmp controller={TestController} onTest="callback" />
          </cx>,
+         { store },
       );
 
-      let tree = component.toJSON();
       assert.equal(callback, 1);
    });
 
@@ -111,16 +109,15 @@ describe("Controller", () => {
 
       let store = new Store();
 
-      const component = await createTestRenderer(
-         store,
+      await render(
          <cx>
             <div controller={TestController1}>
                <Cmp controller={TestController2} onTest="callback1" />
             </div>
          </cx>,
+         { store },
       );
 
-      let tree = component.toJSON();
       assert.equal(callback1, 1);
       assert.equal(callback2, 0);
    });
@@ -142,16 +139,15 @@ describe("Controller", () => {
 
       let store = new Store();
 
-      const component = await createTestRenderer(
-         store,
+      await render(
          <cx>
             <div controller={TestController1}>
                <div controller={TestController2} />
             </div>
          </cx>,
+         { store },
       );
 
-      let tree = component.toJSON();
       assert.deepEqual(order, ["1", "2"]);
    });
 
@@ -172,16 +168,15 @@ describe("Controller", () => {
 
       let store = new Store();
 
-      const component = await createTestRenderer(
-         store,
+      await render(
          <cx>
             <div controller={TestController1}>
                <div visible={false} controller={TestController2} />
             </div>
          </cx>,
+         { store },
       );
 
-      let tree = component.toJSON();
       assert.deepEqual(order, ["1"]);
    });
 
@@ -217,14 +212,13 @@ describe("Controller", () => {
 
       let store = new Store();
 
-      const component = await createTestRenderer(
-         store,
+      await render(
          <cx>
             <div controller={TestController} />
          </cx>,
+         { store },
       );
 
-      let tree = component.toJSON();
       assert.deepEqual(log, ["t1", "c1", "t2"]);
    });
 
@@ -240,26 +234,19 @@ describe("Controller", () => {
       let store = new Store();
       store.set("visible", true);
 
-      const component = await createTestRenderer(
-         store,
+      const screen = await render(
          <cx>
             <div visible={bind("visible")} controller={TestController} />
          </cx>,
+         { store },
       );
 
-      let tree1 = component.toJSON();
       assert.equal(initCount, 1);
 
-      await act(async () => {
-         store.set("visible", false);
-      });
-      let tree2 = component.toJSON();
-      assert.equal(tree2, null);
+      await settle(() => store.set("visible", false));
+      assert.equal(screen.html(), "");
 
-      await act(async () => {
-         store.set("visible", true);
-      });
-      let tree3 = component.toJSON();
+      await settle(() => store.set("visible", true));
       assert.equal(initCount, 2);
    });
 
@@ -297,34 +284,26 @@ describe("Controller", () => {
       let store = new Store();
       store.set("visible", true);
 
-      const component = await createTestRenderer(
-         store,
+      await render(
          <cx>
             <div visible={bind("visible")} controller={testController} />
          </cx>,
+         { store },
       );
 
-      let tree1 = component.toJSON();
       assert.equal(initCount, 1);
 
-      await act(async () => {
-         store.set("visible", false);
-      });
-      let tree2 = component.toJSON();
+      await settle(() => store.set("visible", false));
       assert.equal(destroyCount, 1);
 
-      await act(async () => {
-         store.set("visible", true);
-      });
-      let tree3 = component.toJSON();
+      await settle(() => store.set("visible", true));
       assert.equal(initCount, 2);
    });
 
    it("widgets can easily define controller methods", async () => {
       let store = new Store({ data: { x: 0 } });
 
-      const component = await createTestRenderer(
-         store,
+      await render(
          <cx>
             <div
                controller={{
@@ -342,17 +321,16 @@ describe("Controller", () => {
                />
             </div>
          </cx>,
+         { store },
       );
 
-      let tree1 = component.toJSON();
       assert.equal(store.get("x"), 1);
    });
 
    it("functional controllers get store methods through configuration", async () => {
       let store = new Store({ data: { x: 0 } });
 
-      const component = await createTestRenderer(
-         store,
+      await render(
          <cx>
             <div
                controller={({ update }) => ({
@@ -370,17 +348,16 @@ describe("Controller", () => {
                />
             </div>
          </cx>,
+         { store },
       );
 
-      let tree1 = component.toJSON();
       assert.equal(store.get("x"), 1);
    });
 
    it("addComputable accepts refs", async () => {
       let store = new Store({ data: { x: 0 } });
 
-      const component = await createTestRenderer(
-         store,
+      await render(
          <cx>
             <div
                controller={({ ref }) => {
@@ -393,9 +370,9 @@ describe("Controller", () => {
                }}
             />
          </cx>,
+         { store },
       );
 
-      let tree1 = component.toJSON();
       assert.equal(store.get("y"), 1);
    });
 
@@ -420,16 +397,15 @@ describe("Controller", () => {
 
       let store = new Store();
 
-      const component = await createTestRenderer(
-         store,
+      await render(
          <cx>
             <div controller={TestController2}>
                <div controller={TestController1} />
             </div>
          </cx>,
+         { store },
       );
 
-      // let tree = component.toJSON();
       assert.deepStrictEqual(testValid, [1, 2]);
    });
 
@@ -451,13 +427,13 @@ describe("Controller", () => {
 
       let store = new Store();
 
-      const component = await createTestRenderer(
-         store,
+      await render(
          <cx>
             <div controller={ParentController}>
                <div controller={ChildController} />
             </div>
          </cx>,
+         { store },
       );
 
       assert.equal(parentValue, 42);
@@ -488,15 +464,14 @@ describe("Controller types", () => {
    it("accepts Controller class directly", async () => {
       let store = new Store();
 
-      const component = await createTestRenderer(
-         store,
+      const screen = await render(
          <cx>
             <div controller={MyController} />
          </cx>,
+         { store },
       );
 
-      let tree = component.toJSON();
-      assert.ok(tree);
+      assert.equal(screen.html(), "<div></div>");
    });
 
    it("accepts config with type property", async () => {
@@ -516,23 +491,21 @@ describe("Controller types", () => {
          }
       }
 
-      const component = await createTestRenderer(
-         store,
+      const screen = await render(
          <cx>
             <div controller={{ type: TypedController, customValue: 42 }} />
          </cx>,
+         { store },
       );
 
-      let tree = component.toJSON();
-      assert.ok(tree);
+      assert.equal(screen.html(), "<div></div>");
       assert.equal(initCalled, true);
    });
 
    it("accepts inline config object with ThisType", async () => {
       let store = new Store({ data: { count: 0 } });
 
-      const component = await createTestRenderer(
-         store,
+      await render(
          <cx>
             <div
                controller={{
@@ -543,17 +516,16 @@ describe("Controller types", () => {
                }}
             />
          </cx>,
+         { store },
       );
 
-      let tree = component.toJSON();
       assert.equal(store.get("count"), 1);
    });
 
    it("accepts factory function", async () => {
       let store = new Store({ data: { count: 0 } });
 
-      const component = await createTestRenderer(
-         store,
+      await render(
          <cx>
             <div
                controller={({ set }) => ({
@@ -563,9 +535,9 @@ describe("Controller types", () => {
                })}
             />
          </cx>,
+         { store },
       );
 
-      let tree = component.toJSON();
       assert.equal(store.get("count"), 5);
    });
 
@@ -588,8 +560,7 @@ describe("Controller types", () => {
          }
       }
 
-      const component = await createTestRenderer(
-         store,
+      await render(
          <cx>
             <div
                controller={{
@@ -598,6 +569,7 @@ describe("Controller types", () => {
                }}
             />
          </cx>,
+         { store },
       );
 
       assert.equal(store.get("result"), 50);

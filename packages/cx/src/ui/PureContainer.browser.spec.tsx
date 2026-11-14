@@ -1,7 +1,7 @@
 import { describe, it } from "vitest";
 import { Store } from "../data/Store";
 import assert from "assert";
-import { createTestRenderer, act } from "../util/test/createTestRenderer";
+import { render, settle, markup } from "../util/test/render";
 import { bind } from "./bind";
 import { PureContainer } from "./PureContainer";
 
@@ -16,15 +16,9 @@ describe("PureContainer", () => {
       );
 
       let store = new Store();
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      let tree = component.toJSON();
-      assert(tree && !Array.isArray(tree), "Expected single element");
-      assert.deepEqual(tree, {
-         type: "div",
-         props: {},
-         children: ["Test"],
-      });
+      assert.equal(screen.html(), "<div>Test</div>");
    });
 
    it("renders multiple children", async () => {
@@ -39,28 +33,16 @@ describe("PureContainer", () => {
       );
 
       let store = new Store();
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      let tree = component.toJSON();
-      assert(Array.isArray(tree), "Expected array of elements");
-      assert.equal(tree.length, 3);
-      assert.deepEqual(tree, [
-         {
-            type: "div",
-            props: {},
-            children: ["First"],
-         },
-         {
-            type: "div",
-            props: {},
-            children: ["Second"],
-         },
-         {
-            type: "div",
-            props: {},
-            children: ["Third"],
-         },
-      ]);
+      assert.equal(
+         screen.html(),
+         markup`
+            <div>First</div>
+            <div>Second</div>
+            <div>Third</div>
+         `,
+      );
    });
 
    it("renders children with data bindings", async () => {
@@ -78,15 +60,9 @@ describe("PureContainer", () => {
          },
       });
 
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      let tree = component.toJSON();
-      assert(tree && !Array.isArray(tree), "Expected single element");
-      assert.deepEqual(tree, {
-         type: "div",
-         props: {},
-         children: ["Hello World"],
-      });
+      assert.equal(screen.html(), "<div>Hello World</div>");
    });
 
    it("renders nested containers", async () => {
@@ -103,21 +79,16 @@ describe("PureContainer", () => {
       );
 
       let store = new Store();
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      let tree = component.toJSON();
-      assert(tree && !Array.isArray(tree), "Expected single element");
-      assert.deepEqual(tree, {
-         type: "div",
-         props: {},
-         children: [
-            {
-               type: "span",
-               props: {},
-               children: ["Nested"],
-            },
-         ],
-      });
+      assert.equal(
+         screen.html(),
+         markup`
+            <div>
+               <span>Nested</span>
+            </div>
+         `,
+      );
    });
 
    it("conditionally renders children based on visible binding", async () => {
@@ -136,15 +107,9 @@ describe("PureContainer", () => {
          },
       });
 
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      let tree = component.toJSON();
-      assert(tree && !Array.isArray(tree), "Expected single element");
-      assert.deepEqual(tree, {
-         type: "div",
-         props: {},
-         children: ["Visible"],
-      });
+      assert.equal(screen.html(), "<div>Visible</div>");
    });
 
    it("handles empty children", async () => {
@@ -157,15 +122,9 @@ describe("PureContainer", () => {
       );
 
       let store = new Store();
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      let tree = component.toJSON();
-      assert(tree && !Array.isArray(tree), "Expected single element");
-      assert.deepEqual(tree, {
-         type: "div",
-         props: {},
-         children: null,
-      });
+      assert.equal(screen.html(), "<div></div>");
    });
 
    it("renders children from items property", async () => {
@@ -176,21 +135,15 @@ describe("PureContainer", () => {
       );
 
       let store = new Store();
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      let tree = component.toJSON();
-      assert(Array.isArray(tree), "Expected array of elements");
-      assert.equal(tree.length, 2);
-      assert.deepEqual(tree[0], {
-         type: "div",
-         props: {},
-         children: ["Item 1"],
-      });
-      assert.deepEqual(tree[1], {
-         type: "div",
-         props: {},
-         children: ["Item 2"],
-      });
+      assert.equal(
+         screen.html(),
+         markup`
+            <div>Item 1</div>
+            <div>Item 2</div>
+         `,
+      );
    });
 
    it("updates children when store data changes", async () => {
@@ -208,26 +161,13 @@ describe("PureContainer", () => {
          },
       });
 
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      let tree = component.toJSON();
-      assert.deepEqual(tree, {
-         type: "div",
-         props: {},
-         children: ["0"],
-      });
+      assert.equal(screen.html(), "<div>0</div>");
 
       // Update the store
-      await act(async () => {
-         store.set("count", 5);
-      });
+      await settle(() => store.set("count", 5));
 
-      // Re-render
-      tree = component.toJSON();
-      assert.deepEqual(tree, {
-         type: "div",
-         props: {},
-         children: ["5"],
-      });
+      assert.equal(screen.html(), "<div>5</div>");
    });
 });

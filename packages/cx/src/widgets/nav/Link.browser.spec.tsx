@@ -2,40 +2,27 @@ import { describe, it } from "vitest";
 import { Link } from "./Link";
 import { Store } from "../../data/Store";
 import { createModel } from "../../data/createAccessorModelProxy";
-import { createTestRenderer } from "../../util/test/createTestRenderer";
+import { render } from "../../util/test/render";
 import assert from "assert";
 
 const m = createModel<{ url: string }>();
 
-function findAnchor(node: any): any {
-   if (node == null || typeof node === "string") return null;
-   if (Array.isArray(node)) {
-      for (let child of node) {
-         let result = findAnchor(child);
-         if (result) return result;
-      }
-      return null;
-   }
-   if (node.type === "a") return node;
-   return findAnchor(node.children);
-}
-
 async function renderLink(url: string, config: { href: string; match?: "equal" | "prefix" | "subroute"; active?: boolean }) {
    let store = new Store({ data: { url } });
-   let component = await createTestRenderer(
-      store,
+   let screen = await render(
       <cx>
          <Link href={config.href} url={m.url} match={config.match} active={config.active} text="Link" />
       </cx>,
+      { store },
    );
-   let anchor = findAnchor(component.toJSON());
+   let anchor = screen.container.querySelector("a");
    assert.ok(anchor, "Link should render an anchor");
    return anchor;
 }
 
 async function isActive(url: string, config: { href: string; match?: "equal" | "prefix" | "subroute"; active?: boolean }) {
    let anchor = await renderLink(url, config);
-   return String(anchor.props.className).indexOf("active") !== -1;
+   return anchor.className.indexOf("active") !== -1;
 }
 
 describe("Link", () => {

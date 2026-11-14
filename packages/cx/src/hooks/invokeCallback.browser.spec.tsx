@@ -2,7 +2,7 @@ import { describe, it } from "vitest";
 import assert from "assert";
 import { Store } from "../data/Store";
 import { createFunctionalComponent } from "../ui/createFunctionalComponent";
-import { createTestRenderer } from "../util/test/createTestRenderer";
+import { render } from "../util/test/render";
 import { invokeCallback } from "./invokeCallback";
 
 describe("invokeCallback", () => {
@@ -18,14 +18,15 @@ describe("invokeCallback", () => {
 
       let store = new Store();
       let value;
-      const component = await createTestRenderer(store, {
-         type: FComp,
-         onTest: (v: any) => {
-            value = v;
+      await render(
+         {
+            type: FComp,
+            onTest: (v: any) => {
+               value = v;
+            },
          },
-      });
-
-      component.toJSON();
+         { store },
+      );
       assert.equal(value, "works");
    });
 
@@ -44,17 +45,18 @@ describe("invokeCallback", () => {
 
       let store = new Store();
       let value;
-      const component = await createTestRenderer(store, {
-         type: FComp,
-         onTest: "onTest",
-         controller: {
-            onTest(v: any) {
-               value = v;
+      await render(
+         {
+            type: FComp,
+            onTest: "onTest",
+            controller: {
+               onTest(v: any) {
+                  value = v;
+               },
             },
          },
-      });
-
-      component.toJSON();
+         { store },
+      );
       assert.equal(value, "works");
    });
 });

@@ -3,7 +3,7 @@ import assert from "assert";
 import { createAccessorModelProxy } from "../data/createAccessorModelProxy";
 import { Store } from "../data/Store";
 import { expr } from "../ui";
-import { createTestRenderer } from "../util/test/createTestRenderer";
+import { render } from "../util/test/render";
 
 interface Model {
    $page: {
@@ -31,12 +31,9 @@ describe("Accessors", () => {
          },
       });
 
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      let tree = component.toJSON();
-      assert(tree && !Array.isArray(tree));
-      assert(tree.type === "div");
-      assert.deepStrictEqual(tree.children, ["Test"]);
+      assert.equal(screen.html(), "<div>Test</div>");
    });
 
    it("support expressions", async () => {
@@ -55,12 +52,10 @@ describe("Accessors", () => {
          },
       });
 
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      let tree = component.toJSON();
-      assert(tree && !Array.isArray(tree));
-      assert(tree.type === "div");
-      assert.deepStrictEqual(tree.children, ["4"]);
+      // 1 + 3
+      assert.equal(screen.html(), "<div>4</div>");
    });
 
    it("expr infers correct types from accessor chains", () => {

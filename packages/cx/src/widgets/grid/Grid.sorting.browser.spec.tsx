@@ -4,7 +4,7 @@ import { Store } from "../../data/Store";
 import { Grid } from "./Grid";
 import { bind } from "../../ui/bind";
 import { computable } from "../../data/computable";
-import { createTestRenderer, act, TestRenderer } from "../../util/test/createTestRenderer";
+import { render, settle, RenderResult } from "../../util/test/render";
 
 // priorities 1, 2, 10 sort differently as numbers (1, 2, 10) than their
 // "P{priority}" labels do as strings (P1, P10, P2), which makes the sort key
@@ -15,47 +15,23 @@ let records = [
    { id: 3, priority: 1 },
 ];
 
-function textOf(node: any): string {
-   if (node == null) return "";
-   if (typeof node == "string") return node;
-   if (Array.isArray(node)) return node.map(textOf).join("");
-   return textOf(node.children);
+function getRenderedLabels(screen: RenderResult): string[] {
+   return Array.from(screen.container.querySelectorAll("td")).map((td) => td.textContent ?? "");
 }
 
-function findAll(node: any, predicate: (el: any) => boolean, result: any[] = []): any[] {
-   if (node == null || typeof node == "string") return result;
-   if (Array.isArray(node)) {
-      node.forEach((child) => findAll(child, predicate, result));
-      return result;
-   }
-   if (predicate(node)) result.push(node);
-   findAll(node.children, predicate, result);
-   return result;
+function getHeaders(screen: RenderResult): HTMLElement[] {
+   return Array.from(screen.container.querySelectorAll("th"));
 }
 
-function getRenderedLabels(component: any): string[] {
-   let tds = findAll(component.toJSON(), (el) => el.type == "td");
-   return tds.map(textOf);
+// Not getByRole("columnheader"): in Vitest 5.1 the in-browser locator engine resolves <th> to the "cell" role
+// while Playwright resolves it to "columnheader", so role locators for header cells fail one way or the other.
+function header(screen: RenderResult, name: string) {
+   return screen.getByText(name, { exact: true });
 }
 
-function getHeaders(component: TestRenderer): HTMLElement[] {
-   return Array.from(component.container.querySelectorAll("th"));
-}
-
-async function clickHeader(component: TestRenderer, text: string) {
-   let th = getHeaders(component).find((t) => thText(t) == text);
-   assert.ok(th, `Header cell "${text}" not found`);
-   await act(async () => {
-      th.click();
-   });
-}
-
-// text placed directly in the header cell, without the text of nested elements
-function thText(th: Element): string {
-   return Array.from(th.childNodes)
-      .filter((node) => node.nodeType == Node.TEXT_NODE)
-      .map((node) => node.textContent)
-      .join("");
+// a real click in the browser, then wait until the grid has rendered the sorted rows
+async function clickHeader(screen: RenderResult, name: string) {
+   await settle(() => header(screen, name).click());
 }
 
 describe("Grid sorting precedence", () => {
@@ -77,13 +53,13 @@ describe("Grid sorting precedence", () => {
       );
 
       let store = new Store({ data: { records } });
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      await clickHeader(component, "Priority");
-      assert.deepStrictEqual(getRenderedLabels(component), ["P1", "P2", "P10"]);
+      await clickHeader(screen, "Priority");
+      assert.deepStrictEqual(getRenderedLabels(screen), ["P1", "P2", "P10"]);
 
-      await clickHeader(component, "Priority");
-      assert.deepStrictEqual(getRenderedLabels(component), ["P10", "P2", "P1"]);
+      await clickHeader(screen, "Priority");
+      assert.deepStrictEqual(getRenderedLabels(screen), ["P10", "P2", "P1"]);
    });
 
    it("sortValue takes precedence over sortField", async () => {
@@ -105,10 +81,10 @@ describe("Grid sorting precedence", () => {
       );
 
       let store = new Store({ data: { records } });
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      await clickHeader(component, "Priority");
-      assert.deepStrictEqual(getRenderedLabels(component), ["P10", "P2", "P1"]);
+      await clickHeader(screen, "Priority");
+      assert.deepStrictEqual(getRenderedLabels(screen), ["P10", "P2", "P1"]);
    });
 
    it("sorts by the displayed value when no sortField is set", async () => {
@@ -129,10 +105,10 @@ describe("Grid sorting precedence", () => {
       );
 
       let store = new Store({ data: { records } });
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      await clickHeader(component, "Priority");
-      assert.deepStrictEqual(getRenderedLabels(component), ["P1", "P10", "P2"]);
+      await clickHeader(screen, "Priority");
+      assert.deepStrictEqual(getRenderedLabels(screen), ["P1", "P10", "P2"]);
    });
 
    it("applies sortField precedence to sorters restored from sortField/sortDirection bindings", async () => {
@@ -157,9 +133,9 @@ describe("Grid sorting precedence", () => {
       let store = new Store({
          data: { records, sortField: "priority", sortDirection: "ASC" },
       });
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      assert.deepStrictEqual(getRenderedLabels(component), ["P1", "P2", "P10"]);
+      assert.deepStrictEqual(getRenderedLabels(screen), ["P1", "P2", "P10"]);
    });
 
    it("marks only the clicked column as sorted", async () => {
@@ -185,13 +161,13 @@ describe("Grid sorting precedence", () => {
       );
 
       let store = new Store({ data: { records } });
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      await clickHeader(component, "Priority");
+      await clickHeader(screen, "Priority");
 
-      let ths = getHeaders(component);
-      let sorted = ths.filter((th) => th.className.includes("sorted-asc"));
+      let headers = getHeaders(screen);
+      let sorted = headers.filter((th) => th.className.includes("sorted-asc"));
       assert.strictEqual(sorted.length, 1);
-      assert.strictEqual(thText(sorted[0]), "Priority");
+      assert.strictEqual(sorted[0], header(screen, "Priority").element());
    });
 });

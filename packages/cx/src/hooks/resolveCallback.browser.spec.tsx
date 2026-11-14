@@ -2,7 +2,7 @@ import { describe, it } from "vitest";
 import assert from "assert";
 import { Store } from "../data/Store";
 import { createFunctionalComponent } from "../ui/createFunctionalComponent";
-import { createTestRenderer } from "../util/test/createTestRenderer";
+import { render } from "../util/test/render";
 import { resolveCallback } from "./resolveCallback";
 
 describe("resolveCallback", () => {
@@ -20,8 +20,7 @@ describe("resolveCallback", () => {
 
       let store = new Store();
       let value;
-      const component = await createTestRenderer(
-         store,
+      await render(
          <cx>
             <FComp
                onTest={(v: string) => {
@@ -29,9 +28,8 @@ describe("resolveCallback", () => {
                }}
             />
          </cx>,
+         { store },
       );
-
-      component.toJSON();
       assert.equal(value, "works");
    });
 
@@ -52,8 +50,7 @@ describe("resolveCallback", () => {
 
       let store = new Store();
       let value;
-      const component = await createTestRenderer(
-         store,
+      await render(
          <cx>
             <FComp
                onTest="onTest"
@@ -64,9 +61,8 @@ describe("resolveCallback", () => {
                }}
             />
          </cx>,
+         { store },
       );
-
-      component.toJSON();
       assert.equal(value, "works");
    });
 });

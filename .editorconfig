@@ -1,6 +1,6 @@
 root = true
 
-[{*.js,*.ts,*tsx}]
+[{*.js,*.mjs,*.ts,*.mts,*tsx}]
 indent_style = space
 indent_size = 3
 end_of_line = lf

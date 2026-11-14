@@ -4,7 +4,7 @@ import { VDOM } from "./VDOM";
 import { Container, ContainerBase, ContainerConfig } from "./Container";
 import { Store } from "../data/Store";
 import { bind } from "./bind";
-import { createTestRenderer, createTestWidget, act } from "../util/test/createTestRenderer";
+import { render, settle, markup, RenderResult } from "../util/test/render";
 import assert from "assert";
 import { HtmlElement } from "../widgets/HtmlElement";
 import { batchUpdatesAndNotify } from "./batchUpdates";
@@ -26,8 +26,8 @@ function convergingWidget(target: number) {
    );
 }
 
-function renderedValue(component: any): number {
-   return Number(component.toJSON().children[0]);
+function renderedValue(screen: RenderResult): number {
+   return Number(screen.container.children[0].textContent);
 }
 
 describe("Cx", () => {
@@ -40,14 +40,9 @@ describe("Cx", () => {
 
       let store = new Store();
 
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      let tree = component.toJSON();
-      assert.deepEqual(tree, {
-         type: "div",
-         props: {},
-         children: ["Test"],
-      });
+      assert.equal(screen.html(), "<div>Test</div>");
    });
 
    it("store changes preserve the instance", async () => {
@@ -69,25 +64,13 @@ describe("Cx", () => {
       let store1 = new Store({ data: { text: "Test1" } });
       let store2 = new Store({ data: { text: "Test2" } });
 
-      const component = await createTestRenderer(store1, widget);
+      const screen = await render(widget, { store: store1 });
 
-      let tree1 = component.toJSON();
-      assert.deepEqual(tree1, {
-         type: "div",
-         props: {},
-         children: ["Test1"],
-      });
+      assert.equal(screen.html(), "<div>Test1</div>");
 
-      await act(async () => {
-         component.update(createTestWidget(store2, widget));
-      });
+      await screen.rerender(widget, { store: store2 });
 
-      let tree2 = component.toJSON();
-      assert.deepEqual(tree2, {
-         type: "div",
-         props: {},
-         children: ["Test2"],
-      });
+      assert.equal(screen.html(), "<div>Test2</div>");
 
       assert.equal(instanceLog.length, 2);
       assert.equal(instanceLog[0], instanceLog[1]); //store changes should preserve the instance
@@ -148,47 +131,23 @@ describe("Cx", () => {
 
       let store = new Store();
 
-      const component = await createTestRenderer(store, widget);
+      const screen = await render(widget, { store });
 
-      let tree = component.toJSON();
-      assert.deepEqual(tree, {
-         type: "div",
-         props: {},
-         children: [
-            {
-               type: "div",
-               props: {},
-               children: null,
-            },
-            {
-               type: "div",
-               props: {},
-               children: [
-                  {
-                     type: "div",
-                     props: {},
-                     children: null,
-                  },
-                  {
-                     type: "div",
-                     props: {},
-                     children: null,
-                  },
-               ],
-            },
-            {
-               type: "div",
-               props: {},
-               children: [
-                  {
-                     type: "div",
-                     props: {},
-                     children: null,
-                  },
-               ],
-            },
-         ],
-      });
+      assert.equal(
+         screen.html(),
+         markup`
+            <div>
+               <div></div>
+               <div>
+                  <div></div>
+                  <div></div>
+               </div>
+               <div>
+                  <div></div>
+               </div>
+            </div>
+         `,
+      );
 
       //console.log(events);
 
@@ -237,22 +196,22 @@ describe("Cx", () => {
    it("resolves batchUpdatesAndNotify only after the store reaches its fixpoint", async () => {
       const TARGET = 6; // shallow, like page-breaking convergence -> stays fully synchronous under a notifier
       let store = new Store({ data: { n: 0 } });
-      const component = await createTestRenderer(store, convergingWidget(TARGET));
-      assert.equal(renderedValue(component), TARGET);
+      const screen = await render(convergingWidget(TARGET), { store });
+      assert.equal(renderedValue(screen), TARGET);
 
       let notifiedStoreValue = -1;
       let notifiedRenderedValue = -1;
-      await act(async () => {
+      await settle(() =>
          batchUpdatesAndNotify(
             () => {
                store.set("n", 0); // reset -> the render cascade re-converges back up to TARGET
             },
             () => {
                notifiedStoreValue = store.get("n");
-               notifiedRenderedValue = renderedValue(component);
+               notifiedRenderedValue = renderedValue(screen);
             },
-         );
-      });
+         ),
+      );
 
       // The notify callback is what page-breaking relies on: it must run only once the change is fully
       // implemented -- both the store and the rendered DOM are at the final value, never an intermediate.
@@ -263,12 +222,12 @@ describe("Cx", () => {
    it("does not fire the notify callback early when an update is already in flight", async () => {
       const TARGET = 50;
       let store = new Store({ data: { n: 0 } });
-      const component = await createTestRenderer(store, convergingWidget(TARGET));
-      assert.equal(renderedValue(component), TARGET);
+      const screen = await render(convergingWidget(TARGET), { store });
+      assert.equal(renderedValue(screen), TARGET);
 
       let notifiedStoreValue = -1;
       let notifiedRenderedValue = -1;
-      await act(async () => {
+      await settle(() => {
          store.set("n", 0); // puts an update in flight before the notifier below subscribes
          batchUpdatesAndNotify(
             () => {
@@ -276,7 +235,7 @@ describe("Cx", () => {
             },
             () => {
                notifiedStoreValue = store.get("n");
-               notifiedRenderedValue = renderedValue(component);
+               notifiedRenderedValue = renderedValue(screen);
             },
          );
       });
@@ -290,7 +249,7 @@ describe("Cx", () => {
    it("converges a deep render burst without tripping React's max-update-depth guard", async () => {
       const TARGET = 200; // far beyond React's ~50 nested-update limit; only survives because of the yield
       let store = new Store({ data: { n: 0 } });
-      const component = await createTestRenderer(store, convergingWidget(TARGET));
-      assert.equal(renderedValue(component), TARGET);
+      const screen = await render(convergingWidget(TARGET), { store });
+      assert.equal(renderedValue(screen), TARGET);
    });
 });
