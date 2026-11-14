@@ -221,10 +221,10 @@ describe("Grid cell editing", () => {
       assert.deepEqual(checked, ["name:3", "name:1"]);
    });
 
-   // Known bug: escape saves the edit instead of cancelling it. Cancelling first moves the focus from the editor
+   // Known bug #1346: escape saves the edit instead of cancelling it. Cancelling first moves the focus from the editor
    // back to the grid, and the grid's focus handler ends the edit as saved (calling onCellEdited) before the
    // cancellation restores the previous record, which by then is the edited one.
-   it.fails("cancels the edit with escape (documented, currently saves it)", async () => {
+   it.fails("cancels the edit with escape (#1346)", async () => {
       let { store, widget, edits } = setup();
       let screen = await render(widget, { store });
 

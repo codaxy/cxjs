@@ -180,10 +180,10 @@ describe("Grid row drag and drop", () => {
       assert.equal(screen.container.querySelector(".cxe-grid-dropzone"), null);
    });
 
-   // Known regression since the TypeScript transition: beginDragDrop collects the selected records only if the
+   // Known regression #1347, since the TypeScript transition: beginDragDrop collects the selected records only if the
    // dragged row is not selected ("if (!record.row?.selected)"), so dragging a selected row drags only that row.
    // The JavaScript version checked "record.selected", which mapped records do not have, so it always collected them.
-   it.fails("drags all selected rows together (currently only the dragged row)", async () => {
+   it.fails("drags all selected rows together (#1347)", async () => {
       let { screen, drops } = await setup({ selection: { type: KeySelection, bind: m.selection, multiple: true } });
 
       await settle(() => userEvent.click(screen.getByText("Name 2", { exact: true }).element()));
