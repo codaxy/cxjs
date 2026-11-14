@@ -171,12 +171,17 @@ export class Repeater<T = any> extends ContainerBase<RepeaterConfig<T>> {
 
    explore(context: RenderingContext, instance: any, data?: any): void {
       let instances: any[] = [];
+      // items that are not explored are marked as still in use (explored items are marked when their visibility
+      // is checked); otherwise the instance cache drops them when the repeater renders, which destroys their content
+      let instanceCache = instance.getInstanceCache();
       instance.mappedRecords.forEach((record: any) => {
          let subInstance = instance.getChild(context, this.item, record.key, record.store);
-         let changed = subInstance.cache("recordData", record.data) || subInstance.cache("key", record.key);
+         let changed = subInstance.cache("recordData", record.data);
+         if (subInstance.cache("key", record.key)) changed = true;
          subInstance.record = record;
          if (this.cached && !changed && subInstance.visible && !subInstance.childStateDirty) {
             instances.push(subInstance);
+            instanceCache.addChild(subInstance);
             subInstance.shouldUpdate = false;
          } else if (subInstance.scheduleExploreIfVisible(context)) instances.push(subInstance);
       });
