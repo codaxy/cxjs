@@ -1,6 +1,7 @@
 import { fileURLToPath } from "node:url";
 import { playwright } from "@vitest/browser-playwright";
 import { configDefaults, defineConfig } from "vitest/config";
+import { mouse } from "./vitest.commands";
 
 const src = (path: string) => fileURLToPath(new URL(`./src/${path}`, import.meta.url));
 
@@ -44,6 +45,7 @@ export default defineConfig({
                   enabled: true,
                   headless: true,
                   provider: playwright(),
+                  commands: { mouse },
                   instances: [{ browser: "chromium" }],
                   // the default viewport is phone-sized (414 x 896)
                   viewport: { width: 1280, height: 800 },
