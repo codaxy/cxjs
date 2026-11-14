@@ -79,9 +79,13 @@ Tests are `*.spec.ts` / `*.spec.tsx` files next to the source they test, run wit
 
 Bump the version in `packages/cx/package.json` and add an entry to `homedocs/src/pages/changelog.mdx`.
 
+The changelog is written at release time from the commit history since the previous release. Don't add changelog entries together with individual changes.
+
 ### Commit Messages
 
 Conventional style with the widget as scope: `fix(Grid): …`, `feat(Svg): …`.
+
+Because the changelog is built from them, commit messages should describe the change from the user's point of view, including any change in behavior that applications may notice.
 
 ## Code Style
 
