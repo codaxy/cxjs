@@ -1055,23 +1055,38 @@ export class Grid<T = unknown> extends ContainerBase<GridConfig<T>, GridInstance
       let { store } = instance;
       instance.isSelected = this.selection.getIsSelectedDelegate(store);
 
-      //do not process rows in buffered mode or cached mode if nothing has changed;
-      if (!this.buffered && (!this.cached || instance.shouldUpdate)) {
-         for (let i = 0; i < instance.records!.length; i++) {
-            let record = instance.records![i];
-            if (record.type == "data") {
-               let row = (record.row = instance.getChild(
-                  context,
-                  instance.row,
-                  record.key,
-                  record.store,
-               ) as GridRowInstance);
-               row.selected = instance.isSelected(record.data, record.index);
-               let changed = false;
-               if (row.cache("selected", row.selected)) changed = true;
-               if (row.cache("recordData", record.data)) changed = true;
-               if (this.cached && !changed && !row.childStateDirty) row.shouldUpdate = false;
-               else row.scheduleExploreIfVisible(context);
+      if (!this.buffered) {
+         // Rows that are not explored in this cycle are marked as still in use (explored rows are marked when
+         // their visibility is checked). Otherwise the instance cache drops them when the grid renders, which
+         // destroys their content and creates it again on the next change.
+         let instanceCache = instance.getInstanceCache();
+
+         //in cached mode, do not process rows if nothing has changed
+         if (!this.cached || instance.shouldUpdate) {
+            for (let i = 0; i < instance.records!.length; i++) {
+               let record = instance.records![i];
+               if (record.type == "data") {
+                  let row = (record.row = instance.getChild(
+                     context,
+                     instance.row,
+                     record.key,
+                     record.store,
+                  ) as GridRowInstance);
+                  row.selected = instance.isSelected(record.data, record.index);
+                  let changed = false;
+                  if (row.cache("selected", row.selected)) changed = true;
+                  if (row.cache("recordData", record.data)) changed = true;
+                  if (this.cached && !changed && !row.childStateDirty) {
+                     row.shouldUpdate = false;
+                     if (row.visible) instanceCache.addChild(row);
+                  } else row.scheduleExploreIfVisible(context);
+               }
+            }
+         } else if (instance.records) {
+            // the rows are not visited, but the grid may still render (e.g. if the header changes)
+            for (let i = 0; i < instance.records.length; i++) {
+               let row = instance.records[i].row;
+               if (row?.visible) instanceCache.addChild(row);
             }
          }
       }

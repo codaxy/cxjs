@@ -275,6 +275,9 @@ export class List extends StyledContainerBase<ListConfig> {
    explore(context: RenderingContext, instance: Instance): void {
       let instances: Instance[] = [];
       let isSelected = this.selection.getIsSelectedDelegate(instance.store);
+      // items that are not explored are marked as still in use (explored items are marked when their visibility
+      // is checked); otherwise the instance cache drops them when the list renders, which destroys their content
+      let instanceCache = instance.getInstanceCache();
       instance.mappedRecords!.forEach((record) => {
          if (record.type == "data") {
             let itemInstance = instance.getChild(context, this.child, record.key, record.store);
@@ -287,6 +290,7 @@ export class List extends StyledContainerBase<ListConfig> {
 
             if (this.cached && !changed && itemInstance.visible && !itemInstance.childStateDirty) {
                instances.push(itemInstance);
+               instanceCache.addChild(itemInstance);
                itemInstance.shouldUpdate = false;
             } else if (itemInstance.scheduleExploreIfVisible(context)) instances.push(itemInstance);
          } else if (record.type == "group-header" && record.grouping.header) {
