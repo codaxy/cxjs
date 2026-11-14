@@ -1,3 +1,4 @@
+import { describe, it } from "vitest";
 import { createStructuredSelector } from "./createStructuredSelector";
 import assert from "assert";
 import { getSelector } from "./getSelector";

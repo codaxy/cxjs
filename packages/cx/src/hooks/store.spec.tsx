@@ -1,3 +1,4 @@
+import { describe, it } from "vitest";
 import assert from "assert";
 import { Prop } from "../ui/Prop";
 import { createTestRenderer } from "../util/test/createTestRenderer";

@@ -1,3 +1,4 @@
+import { describe, it } from "vitest";
 import { createModel } from "../../data/createAccessorModelProxy";
 import { Store } from "../../data/Store";
 import { createTestRenderer } from "../../util/test/createTestRenderer";

@@ -1,3 +1,4 @@
+import { describe, it } from 'vitest';
 import { rewriteImports } from './groupImports';
 import assert from 'assert';
 

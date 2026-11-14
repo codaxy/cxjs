@@ -1,3 +1,4 @@
+import { describe, it } from "vitest";
 import { getSearchQueryPredicate, getSearchQueryHighlighter } from "./getSearchQueryPredicate";
 
 import assert from "assert";

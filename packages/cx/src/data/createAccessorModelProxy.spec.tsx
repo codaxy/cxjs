@@ -1,3 +1,4 @@
+import { describe, it } from "vitest";
 import { createAccessorModelProxy, AccessorChain } from "./createAccessorModelProxy";
 import { Prop, ResolvePropType } from "../ui/Prop";
 import { Widget, WidgetConfig } from "../ui/Widget";

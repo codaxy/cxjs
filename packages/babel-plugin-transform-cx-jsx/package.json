@@ -12,13 +12,13 @@
    "devDependencies": {
       "@babel/core": "^7.28.5",
       "@babel/preset-env": "^7.28.5",
-      "mocha": "^10.8.2"
+      "vitest": "^5.1.0"
    },
    "peerDependencies": {
       "@babel/core": "^7.0.0"
    },
    "scripts": {
-      "test": "mocha"
+      "test": "vitest run"
    },
    "keywords": [
       "babel-plugin",

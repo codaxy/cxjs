@@ -1,3 +1,4 @@
+import { describe, it } from "vitest";
 import assert from "assert";
 import { Button } from "./widgets/Button";
 import { Widget, WidgetConfig } from "./ui/Widget";

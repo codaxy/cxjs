@@ -1,3 +1,4 @@
+import { describe, it } from "vitest";
 import { StructuredSelector } from "./StructuredSelector";
 import assert from "assert";
 import { createAccessorModelProxy } from "./createAccessorModelProxy";

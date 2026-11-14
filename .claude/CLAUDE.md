@@ -19,7 +19,7 @@ Run from the repository root:
 
 Per package:
 
-- `yarn workspace cx run test` — `cx` tests only (ts-mocha)
+- `yarn workspace cx run test` — `cx` tests only (Vitest)
 - `yarn workspace cx run check-types` — type-check `cx`
 - `yarn workspace cxjs-homepage-and-documentation run dev` — documentation site (Astro)
 
@@ -59,7 +59,7 @@ Widgets are written in TypeScript; see `meta/MIGRATION.md` for the full pattern:
 
 ### Tests
 
-Tests are `*.spec.ts` / `*.spec.tsx` files next to the source they test, run with ts-mocha (`packages/cx/.mocharc.json`).
+Tests are `*.spec.ts` / `*.spec.tsx` files next to the source they test, run with Vitest (`packages/cx/vitest.config.mts`). Import `describe`/`it` from `"vitest"` explicitly; there are no test globals.
 
 ### Documentation
 

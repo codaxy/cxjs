@@ -1,3 +1,4 @@
+import { describe, it } from "vitest";
 import { Grouper } from "./Grouper";
 import assert from "assert";
 

@@ -1,3 +1,4 @@
+import { describe, it } from "vitest";
 import { Binding } from "./Binding";
 import assert from "assert";
 import { createAccessorModelProxy } from "./createAccessorModelProxy";

@@ -1,3 +1,4 @@
+import { describe, it } from "vitest";
 import { RenderingContext } from "../RenderingContext";
 import { Instance } from "../Instance";
 import { TreeAdapter } from "./TreeAdapter";

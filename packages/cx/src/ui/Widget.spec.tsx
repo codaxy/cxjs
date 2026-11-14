@@ -1,3 +1,4 @@
+import { describe, it } from "vitest";
 import { Controller, ControllerConfig } from "./Controller";
 import { ControllerProp } from "./Widget";
 import { validateConfig } from "../util/Component";

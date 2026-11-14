@@ -1,3 +1,4 @@
+import { describe, it } from "vitest";
 import assert from "assert";
 import renderer from "react-test-renderer";
 import { createModel } from "../../data/createAccessorModelProxy";

@@ -1,9 +1,8 @@
-"use strict";
+import { describe, it } from "vitest";
+import babel from "@babel/core";
+import plugin from "./index.js";
 
-let babel = require("@babel/core");
-let plugin = require("./index");
-
-let assert = require("assert");
+import assert from "assert";
 
 function unwrap(code) {
    return code.substring(0, code.length - 1);

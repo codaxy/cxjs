@@ -1,3 +1,4 @@
+import { describe, it } from "vitest";
 import { Cx } from "./Cx";
 import { VDOM } from "./VDOM";
 import { Container, ContainerBase, ContainerConfig } from "./Container";

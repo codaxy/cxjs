@@ -1,4 +1,5 @@
-﻿import assert from "assert";
+﻿import { describe, it } from "vitest";
+import assert from "assert";
 import { Store } from "../../data/Store";
 import { Grid } from "./Grid";
 import { bind } from "../../ui/bind";

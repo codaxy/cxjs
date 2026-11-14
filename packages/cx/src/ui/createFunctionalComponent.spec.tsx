@@ -1,3 +1,4 @@
+import { describe, it } from "vitest";
 import { Store } from "../data/Store";
 import { createFunctionalComponent } from "./createFunctionalComponent";
 import { bind } from "./bind";

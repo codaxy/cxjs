@@ -1,3 +1,4 @@
+import { describe, it } from "vitest";
 import assert from "assert";
 import { createTestRenderer, act } from "../util/test/createTestRenderer";
 import { Store } from "../data/Store";

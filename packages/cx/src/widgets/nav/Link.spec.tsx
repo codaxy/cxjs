@@ -1,3 +1,4 @@
+import { describe, it } from "vitest";
 import { Link } from "./Link";
 import { Store } from "../../data/Store";
 import { createModel } from "../../data/createAccessorModelProxy";

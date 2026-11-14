@@ -1,3 +1,4 @@
+import { describe, it } from "vitest";
 import { Store } from "../data/Store";
 import { Repeater } from "./Repeater";
 import { bind } from "./bind";

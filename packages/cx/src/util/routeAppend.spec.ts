@@ -1,3 +1,4 @@
+import { describe, it } from "vitest";
 import {routeAppend} from './routeAppend';
 
 import assert from 'assert';

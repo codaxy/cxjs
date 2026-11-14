@@ -1,3 +1,4 @@
+import { describe, it } from "vitest";
 import { ContentResolver } from "./ContentResolver";
 import { Store } from "../data/Store";
 import { createTestRenderer, act } from "../util/test/createTestRenderer";

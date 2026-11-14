@@ -1,3 +1,4 @@
+import { describe, it } from "vitest";
 import { Store } from "../Store";
 import { updateArray } from "./updateArray";
 import assert from "assert";

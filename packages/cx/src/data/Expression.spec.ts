@@ -1,3 +1,4 @@
+import { describe, it } from "vitest";
 import { Expression } from "./Expression";
 import assert from "assert";
 import { StringTemplate } from "./StringTemplate";

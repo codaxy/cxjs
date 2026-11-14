@@ -1,3 +1,4 @@
+import { describe, it } from "vitest";
 import { computable } from "./computable";
 import assert from "assert";
 import { createAccessorModelProxy } from "./createAccessorModelProxy";

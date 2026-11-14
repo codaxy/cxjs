@@ -60,7 +60,7 @@
     "build": "yarn compile && node build",
     "compile": "tsc -p tsconfig.compile.json",
     "check-types": "tsc --noEmit",
-    "test": "ts-mocha -p tsconfig.mocha.json"
+    "test": "vitest run"
   },
   "author": "Codaxy",
   "license": "MIT",
@@ -85,17 +85,12 @@
     "url": "git+ssh://git@github.com/codaxy/cxjs.git"
   },
   "devDependencies": {
-    "@types/jest": "^30.0.0",
-    "@types/mocha": "^10.0.10",
     "@types/node": "^25.0.3",
     "@types/react-dom": "^19.2.3",
     "@types/react-test-renderer": "^19.1.0",
     "cx-react": "workspace:*",
-    "mocha": "^11.7.5",
     "react-test-renderer": "^19.2.3",
-    "ts-mocha": "^11.1.0",
-    "ts-node": "^10.9.2",
-    "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vitest": "^5.1.0"
   }
 }

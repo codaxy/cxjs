@@ -1,3 +1,4 @@
+import { describe, it } from "vitest";
 import { getSelector } from "./getSelector";
 import assert from "assert";
 import { createAccessorModelProxy } from "./createAccessorModelProxy";

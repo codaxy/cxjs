@@ -8,7 +8,7 @@
     "build": "webpack",
     "build:root": "webpack",
     "start": "webpack-dev-server --open",
-    "test": "mocha --require @babel/register app/**/*.spec.js"
+    "test": "vitest run app"
   },
   "repository": {
     "type": "git",
@@ -65,13 +65,13 @@
     "inline-manifest-webpack-plugin": "^4.0.2",
     "json-loader": "^0.5.7",
     "mini-css-extract-plugin": "^2.9.2",
-    "mocha": "^10.8.2",
     "modify-babel-preset": "^3.2.1",
     "sass": "^1.77.8",
     "sass-loader": "^16.0.6",
     "style-loader": "^4.0.0",
     "svg-url-loader": "^8.0.0",
     "url-loader": "^4.1.1",
+    "vitest": "^5.1.0",
     "webpack": "^5.103.0",
     "webpack-bundle-analyzer": "^4.10.2",
     "webpack-cleanup-plugin": "^0.5.1",

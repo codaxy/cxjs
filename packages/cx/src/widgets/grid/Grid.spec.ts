@@ -1,3 +1,4 @@
+import { describe, it } from "vitest";
 import assert from "assert";
 import { Grid } from "./Grid";
 import { Widget } from "../../ui/Widget";

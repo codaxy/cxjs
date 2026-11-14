@@ -1,3 +1,4 @@
+import { describe, it } from "vitest";
 import { isValidIdentifierName } from "./isValidIdentifierName";
 import assert from "assert";
 

@@ -1,3 +1,4 @@
+import { describe, it } from "vitest";
 import { tpl } from "./tpl";
 import assert from "assert";
 import { createAccessorModelProxy } from "../data/createAccessorModelProxy";

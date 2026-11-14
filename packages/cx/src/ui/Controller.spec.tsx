@@ -1,3 +1,4 @@
+import { describe, it } from "vitest";
 import { Store } from "../data/Store";
 import { Controller, ControllerConfig } from "./Controller";
 import { createTestRenderer, act } from "../util/test/createTestRenderer";

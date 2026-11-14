@@ -1,3 +1,4 @@
+import { describe, it } from "vitest";
 import { Store } from "../../data/Store";
 import { ContentPlaceholder, ContentPlaceholderScope } from "./ContentPlaceholder";
 import assert from "assert";
