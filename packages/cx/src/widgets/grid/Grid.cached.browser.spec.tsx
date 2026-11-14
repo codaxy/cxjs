@@ -1,9 +1,22 @@
 import { describe, it } from "vitest";
 import assert from "assert";
+import { createModel } from "../../data/createAccessorModelProxy";
 import { Store } from "../../data/Store";
-import { bind } from "../../ui/bind";
 import { Grid } from "./Grid";
 import { render, settle, RenderResult } from "../../util/test/render";
+
+interface Item {
+   id: number;
+   value: string;
+}
+
+interface Model {
+   records: Item[];
+   title: string;
+   $record: Item;
+}
+
+const m = createModel<Model>();
 
 function getCellTexts(screen: RenderResult): string[] {
    return Array.from(screen.container.querySelectorAll("tbody td")).map((td) => td.textContent ?? "");
@@ -28,15 +41,15 @@ function setup() {
          <Grid
             cached
             keyField="id"
-            records={bind("records")}
+            records={m.records}
             columns={[
                {
-                  header: { text: bind("title") },
+                  header: { text: m.title },
                   field: "value",
                   children: (
                      <cx>
                         <span
-                           text={bind("$record.value")}
+                           text={m.$record.value}
                            onInit={() => lifecycle.init++}
                            onDestroy={() => lifecycle.destroy++}
                         />
@@ -51,7 +64,7 @@ function setup() {
 }
 
 function changeRecord(store: Store, id: number, value: string) {
-   store.update("records", (records: any[]) => records.map((r) => (r.id == id ? { ...r, value } : r)));
+   store.update(m.records, (records: any[]) => records.map((r) => (r.id == id ? { ...r, value } : r)));
 }
 
 describe("Grid with cached rows", () => {
@@ -70,7 +83,7 @@ describe("Grid with cached rows", () => {
       let { store, widget, lifecycle } = setup();
       let screen = await render(widget, { store });
 
-      await settle(() => store.set("title", "Name"));
+      await settle(() => store.set(m.title, "Name"));
       assert.equal(screen.container.querySelector("thead th")?.textContent, "Name");
 
       await settle(() => changeRecord(store, 2, "x"));
@@ -82,7 +95,7 @@ describe("Grid with cached rows", () => {
       let { store, widget, lifecycle } = setup();
       let screen = await render(widget, { store });
 
-      await settle(() => store.update("records", (records: any[]) => records.filter((r) => r.id != 2)));
+      await settle(() => store.update(m.records, (records: any[]) => records.filter((r) => r.id != 2)));
 
       assert.deepEqual(getCellTexts(screen), ["a", "c"]);
       assert.deepEqual(lifecycle, { init: 3, destroy: 1 });

@@ -1,9 +1,21 @@
 import { describe, it } from "vitest";
 import assert from "assert";
+import { createModel } from "../data/createAccessorModelProxy";
 import { Store } from "../data/Store";
-import { bind } from "../ui/bind";
 import { List } from "./List";
 import { render, settle, RenderResult } from "../util/test/render";
+
+interface Item {
+   id: number;
+   value: string;
+}
+
+interface Model {
+   records: Item[];
+   $record: Item;
+}
+
+const m = createModel<Model>();
 
 function getItemTexts(screen: RenderResult): string[] {
    return Array.from(screen.container.querySelectorAll("li")).map((li) => li.textContent ?? "");
@@ -24,12 +36,8 @@ describe("List with cached items", () => {
       let lifecycle = { init: 0, destroy: 0 };
       let widget = (
          <cx>
-            <List records={bind("records")} keyField="id" cached>
-               <span
-                  text={bind("$record.value")}
-                  onInit={() => lifecycle.init++}
-                  onDestroy={() => lifecycle.destroy++}
-               />
+            <List records={m.records} keyField="id" cached>
+               <span text={m.$record.value} onInit={() => lifecycle.init++} onDestroy={() => lifecycle.destroy++} />
             </List>
          </cx>
       );
@@ -43,7 +51,7 @@ describe("List with cached items", () => {
 
       for (let i = 1; i <= 4; i++)
          await settle(() =>
-            store.update("records", (records: any[]) => records.map((r) => (r.id == 2 ? { ...r, value: "b" + i } : r))),
+            store.update(m.records, (records: any[]) => records.map((r) => (r.id == 2 ? { ...r, value: "b" + i } : r))),
          );
 
       assert.deepEqual(getItemTexts(screen), ["a", "b4", "c"]);
@@ -54,7 +62,7 @@ describe("List with cached items", () => {
       let { store, widget, lifecycle } = setup();
       let screen = await render(widget, { store });
 
-      await settle(() => store.update("records", (records: any[]) => records.filter((r) => r.id != 2)));
+      await settle(() => store.update(m.records, (records: any[]) => records.filter((r) => r.id != 2)));
 
       assert.deepEqual(getItemTexts(screen), ["a", "c"]);
       assert.deepEqual(lifecycle, { init: 3, destroy: 1 });

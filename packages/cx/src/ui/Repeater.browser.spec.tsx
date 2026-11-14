@@ -148,6 +148,19 @@ describe("Repeater", () => {
    });
 });
 
+interface Item {
+   id: number;
+   value: string;
+}
+
+interface Model {
+   records: Item[];
+   other: number;
+   $record: Item;
+}
+
+const m = createAccessorModelProxy<Model>();
+
 describe("Repeater with cached items", () => {
    // the items report their lifecycle, so the tests can tell whether they kept their instances
    function setup() {
@@ -164,12 +177,8 @@ describe("Repeater with cached items", () => {
       let widget = (
          <cx>
             <div>
-               <Repeater records={bind("records")} keyField="id" cached>
-                  <span
-                     text={bind("$record.value")}
-                     onInit={() => lifecycle.init++}
-                     onDestroy={() => lifecycle.destroy++}
-                  />
+               <Repeater records={m.records} keyField="id" cached>
+                  <span text={m.$record.value} onInit={() => lifecycle.init++} onDestroy={() => lifecycle.destroy++} />
                </Repeater>
             </div>
          </cx>
@@ -184,7 +193,7 @@ describe("Repeater with cached items", () => {
 
       for (let i = 1; i <= 4; i++)
          await settle(() =>
-            store.update("records", (records: any[]) => records.map((r) => (r.id == 2 ? { ...r, value: "b" + i } : r))),
+            store.update(m.records, (records: any[]) => records.map((r) => (r.id == 2 ? { ...r, value: "b" + i } : r))),
          );
 
       assert.equal(screen.container.textContent, "ab4c");
@@ -195,7 +204,7 @@ describe("Repeater with cached items", () => {
       let { store, widget, lifecycle } = setup();
       let screen = await render(widget, { store });
 
-      await settle(() => store.update("records", (records: any[]) => records.filter((r) => r.id != 2)));
+      await settle(() => store.update(m.records, (records: any[]) => records.filter((r) => r.id != 2)));
 
       assert.equal(screen.container.textContent, "ac");
       assert.deepEqual(lifecycle, { init: 3, destroy: 1 });
@@ -217,7 +226,7 @@ describe("Repeater with cached items", () => {
       let screen = await render(
          <cx>
             <div>
-               <Repeater records={bind("records")} keyField="id" cached>
+               <Repeater records={m.records} keyField="id" cached>
                   <span
                      text={(data: any) => {
                         evaluated.push(data.$record.id);
@@ -232,12 +241,12 @@ describe("Repeater with cached items", () => {
       assert.deepEqual(evaluated, [1, 2, 3]);
 
       evaluated = [];
-      await settle(() => store.set("other", 1));
+      await settle(() => store.set(m.other, 1));
       assert.deepEqual(evaluated, []);
 
       for (let i = 1; i <= 2; i++)
          await settle(() =>
-            store.update("records", (records: any[]) => records.map((r) => (r.id == 2 ? { ...r, value: "b" + i } : r))),
+            store.update(m.records, (records: any[]) => records.map((r) => (r.id == 2 ? { ...r, value: "b" + i } : r))),
          );
       assert.deepEqual(evaluated, [2, 2]);
       assert.equal(screen.container.textContent, "ab2c");
