@@ -47,6 +47,11 @@ export class Text extends Widget<TextConfig> {
    render(context: any, { data }: any, key: string) {
       return data.value != null ? data.value : "";
    }
+
+   // subclasses may keep more in their instances
+   canShareInstance(): boolean {
+      return this.constructor === Text;
+   }
 }
 
 Widget.alias("text", Text);
