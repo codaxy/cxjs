@@ -2,7 +2,7 @@
 // Elements and text rendered without instances of their own, through the shared instance: they update
 // when their data or their children change, also when the store changes during explore, and elements with
 // handlers, which keep their instances, still work around them. Static content, whose data is constant, is shared by
-// all its parents and still appears in each of them, and cannot be updated.
+// all its parents and still appears in each of them, and cannot be updated. All of it can be turned off.
 import { describe, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import assert from "assert";
@@ -281,5 +281,35 @@ describe("static content", () => {
             </div>
          `,
       );
+   });
+});
+
+describe("Widget.shareInstances", () => {
+   it("gives every widget an instance of its own when turned off, so that widgets can be updated again", async () => {
+      Widget.shareInstances = false;
+      try {
+         let caption = Widget.create(StaticText, { text: "Name:" });
+         let store = newStore({ people: people() });
+         const screen = await render(
+            <cx>
+               <ul>
+                  <Repeater records={m.people}>
+                     <li>
+                        <label items={[caption]} />
+                        <span text={m.$record.firstName} />
+                     </li>
+                  </Repeater>
+               </ul>
+            </cx>,
+            { store },
+         );
+         assert.equal(caption.staticState, null);
+         caption.text = "First name:";
+         caption.update();
+         await settle(() => store.set(m.other, 1));
+         assert.deepEqual(names(screen), ["First name:John", "First name:Jane"]);
+      } finally {
+         Widget.shareInstances = true;
+      }
    });
 });

@@ -4,15 +4,16 @@ import { ContainerBase } from "./Container";
 import { ChildState, StaticChildState } from "./ChildState";
 import { Instance, renderResultFix } from "./Instance";
 import type { RenderingContext } from "./RenderingContext";
-import type { Widget } from "./Widget";
+import { Widget } from "./Widget";
 
 /**
  * Whether an initialized widget is rendered through the shared instance, without an instance of its own.
- * That takes a widget that allows it (see `Widget.canShareInstance`) and has none of the hooks that need an instance
- * of its own.
+ * That takes `Widget.shareInstances`, a widget that allows it (see `Widget.canShareInstance`), and none of the hooks
+ * that need an instance of its own.
  */
 function canUseSharedInstance(widget: Widget): boolean {
    return (
+      Widget.shareInstances &&
       widget.canShareInstance() &&
       !widget.controller &&
       !widget.onInit &&

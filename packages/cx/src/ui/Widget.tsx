@@ -160,6 +160,13 @@ export abstract class Widget<
 
   public static optimizePrepare?: boolean;
 
+  /**
+   * Whether widgets that allow it, such as plain elements and text, are rendered without instances of their own, and
+   * static content once for all its parents (see SharedInstance). On by default; set it to false before the first
+   * render to give every widget an instance of its own, as before.
+   */
+  public static shareInstances: boolean;
+
   constructor(config?: Config) {
     super(config);
     this.widgetId = widgetId++;
@@ -346,6 +353,7 @@ Widget.prototype.styled = false;
 
 Widget.namespace = "ui.";
 Widget.optimizePrepare = true;
+Widget.shareInstances = true;
 
 Widget.factory = (type: string, _config?: any, _more?: any) => {
   throw new Error(`Invalid widget type: ${type}.`);
