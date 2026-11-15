@@ -11,7 +11,6 @@ import { RenderingContext } from "../../ui/RenderingContext";
 import { ResizeManager } from "../../ui/ResizeManager";
 import { StaticText } from "../../ui/StaticText";
 import { VDOM } from "../../ui/Widget";
-import { Console } from "../../util/Console";
 import { debounce } from "../../util/debounce";
 import { closest } from "../../util/DOM";
 import { findScrollableParent } from "../../util/findScrollableParent";
@@ -28,7 +27,6 @@ import { shallowEquals } from "../../util/shallowEquals";
 import { registerDropZone, DragEvent, DragEndEvent, initiateDragDrop } from "../drag-drop/ops";
 import { HtmlElement } from "../HtmlElement";
 import { getCursorPos } from "../overlay/captureMouse";
-import { AvgHeight } from "./AvgHeight";
 import { createGridCellEditor } from "./createGridCellEditor";
 import type { GridInstance } from "./Grid";
 import type {
@@ -41,6 +39,7 @@ import type {
    GridMoveCursorOptions,
 } from "./Grid.types";
 import { GridRowComponent, GridRowInstance } from "./GridRow";
+import { GridRowHeights } from "./GridRowHeights";
 import { lockColumnWidths, syncFixedFooters, syncFixedHeaders } from "./syncTableSizes";
 
 export interface GridComponentProps {
@@ -80,8 +79,7 @@ export class GridComponent extends VDOM.Component<GridComponentProps, GridCompon
    declare end?: number;
    declare loadingStartPage?: number;
    declare loadingEndPage?: number;
-   declare heightStats?: AvgHeight;
-   declare rowHeights?: Record<string, number>;
+   declare measuredHeights: GridRowHeights;
    declare rowHeight?: number;
    scrollerRef: (el: HTMLElement | null) => void;
    fixedScrollerRef: (el: HTMLElement | null) => void;
@@ -103,6 +101,7 @@ export class GridComponent extends VDOM.Component<GridComponentProps, GridCompon
    constructor(props: GridComponentProps) {
       super(props);
       this.dom = {};
+      this.measuredHeights = new GridRowHeights();
       let { widget } = props.instance;
 
       let end = Math.min(widget.bufferSize, props.data.totalRecordCount);
@@ -910,7 +909,10 @@ export class GridComponent extends VDOM.Component<GridComponentProps, GridCompon
       if (widget.buffered && !this.pending) {
          let start = 0;
          if (widget.measureRowHeights && instance.records)
-            start = Math.max(0, this.estimateStart(instance.records, this.dom.scroller!.scrollTop) - widget.bufferStep);
+            start = Math.max(
+               0,
+               this.measuredHeights.estimateStart(instance.records, this.dom.scroller!.scrollTop) - widget.bufferStep,
+            );
          else if (this.rowHeight! > 0)
             start = Math.round(this.dom.scroller!.scrollTop / this.rowHeight! - widget.bufferStep);
 
@@ -1249,60 +1251,6 @@ export class GridComponent extends VDOM.Component<GridComponentProps, GridCompon
       }
    }
 
-   estimateHeight(
-      records: MappedGridRecord[],
-      start: number,
-      end: number,
-      breakCondition?: (index: number, totalHeight: number) => boolean,
-   ) {
-      let avgDataRowHeight = this.heightStats!.estimate("data") ?? 0;
-      let totalHeight = 0;
-      for (let i = start; i < end; i++) {
-         let record = records[i];
-         switch (record.type) {
-            case "data":
-               if (record.key in this.rowHeights!) totalHeight += this.rowHeights![record.key];
-               else totalHeight += avgDataRowHeight;
-               break;
-
-            case "group-header":
-               if (record.grouping.showCaption) {
-                  let captionKey = "group-caption-" + record.level;
-                  if (`${captionKey}-${record.group.$key}` in this.rowHeights!)
-                     totalHeight += this.rowHeights![`${captionKey}-${record.group.$key}`];
-                  else totalHeight += this.heightStats!.estimate(captionKey) ?? avgDataRowHeight;
-               }
-               break;
-
-            case "group-footer":
-               if (record.grouping.showFooter) {
-                  let captionKey = "group-footer-" + record.level;
-                  if (`${captionKey}-${record.group.$key}` in this.rowHeights!)
-                     totalHeight += this.rowHeights![`${captionKey}-${record.group.$key}`];
-                  else totalHeight += this.heightStats!.estimate(captionKey) ?? avgDataRowHeight;
-               }
-               break;
-
-            default:
-               Console.warn("UNPROCESSED RECORD TYPE", record);
-               break;
-         }
-
-         if (breakCondition && breakCondition(i, totalHeight) === false) break;
-      }
-      return totalHeight;
-   }
-
-   estimateStart(records: MappedGridRecord[], height: number) {
-      let start = 0;
-      if (height == 0) return 0;
-      this.estimateHeight(records, 0, records.length, (index, h) => {
-         start = index;
-         return h < height;
-      });
-      return start;
-   }
-
    componentDidUpdate() {
       let { instance, data } = this.props;
       let { widget } = instance;
@@ -1343,7 +1291,7 @@ export class GridComponent extends VDOM.Component<GridComponentProps, GridCompon
          let remaining = 0,
             count = Math.min(data.totalRecordCount, end! - start!);
 
-         if (widget.measureRowHeights) this.recordRowHeights();
+         if (widget.measureRowHeights) this.measuredHeights.record(this.dom.table!);
 
          if (count > 0) {
             //do not change row height while a drag-drop operation is in place
@@ -1359,14 +1307,12 @@ export class GridComponent extends VDOM.Component<GridComponentProps, GridCompon
          let upperMargin = 0,
             lowerMargin = 0;
          if (widget.measureRowHeights && instance.records) {
-            upperMargin = this.estimateHeight(instance.records, 0, start);
-            lowerMargin = this.estimateHeight(instance.records, end, instance.records.length);
+            upperMargin = this.measuredHeights.estimateHeight(instance.records, 0, start);
+            lowerMargin = this.measuredHeights.estimateHeight(instance.records, end, instance.records.length);
          } else {
             upperMargin = start * rowHeight;
             lowerMargin = remaining * rowHeight;
          }
-
-         //console.log(upperMargin, start * rowHeight, this.rowHeights, this.heightStats);
 
          this.dom.table!.style.marginTop = `${(-headerHeight + upperMargin).toFixed(0)}px`;
          this.dom.table!.style.marginBottom = `${(lowerMargin - scrollOverlap).toFixed(0)}px`;
@@ -1381,24 +1327,6 @@ export class GridComponent extends VDOM.Component<GridComponentProps, GridCompon
       }
 
       this.rowHeight = rowHeight;
-   }
-
-   // records the heights of the rendered rows, used to estimate the heights of rows that are not rendered
-   recordRowHeights() {
-      if (!this.rowHeights) this.rowHeights = {};
-      if (!this.heightStats) this.heightStats = new AvgHeight();
-      for (let i = 0; i < this.dom.table!.children.length; i++) {
-         let body = this.dom.table!.children[i] as HTMLElement;
-         if (body.dataset.recordKey != null) {
-            if (!(body.dataset.recordKey in this.rowHeights)) this.heightStats.add("data", body.offsetHeight);
-            this.rowHeights[body.dataset.recordKey] = body.offsetHeight;
-         } else if (body.dataset.groupKey) {
-            let key = body.dataset.groupElement + "-" + body.dataset.groupKey;
-            this.rowHeights[key] = body.offsetHeight;
-            if (!(body.dataset.recordKey! in this.rowHeights))
-               this.heightStats.add(body.dataset.groupElement!, body.offsetHeight);
-         }
-      }
    }
 
    // scrolls to the top when the grid is empty or its sorting, filtering or scrollResetParams change
