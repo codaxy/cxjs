@@ -9,6 +9,7 @@ import {
 } from "../ui/Container";
 import type { RenderProps, WidgetData } from "../ui/Instance";
 import { Instance } from "../ui/Instance";
+import { sharesInstance } from "../ui/SharedInstance";
 import {
   BooleanProp,
   ClassProp,
@@ -291,6 +292,23 @@ export class HtmlElement<
       });
     }
     super.prepareData(context, instance);
+  }
+
+  /**
+   * An element shares the instance unless it has event handlers, a tooltip, `onRef` or `autoFocus`, all of which
+   * need an instance of its own, or renders a component, which gets the instance. Its items are rendered with it,
+   * so they must share the instance too. Subclasses may keep more in their instances.
+   */
+  canShareInstance(): boolean {
+    return (
+      this.constructor === HtmlElement &&
+      isString(this.tag) &&
+      !this.events &&
+      !this.tooltip &&
+      !this.onRef &&
+      !this.autoFocus &&
+      this.items.every(sharesInstance)
+    );
   }
 
   attachProps(

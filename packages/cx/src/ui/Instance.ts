@@ -939,13 +939,7 @@ export class InstanceCache {
       let cached = this.children.get(k);
       let state = cached instanceof ChildState ? cached : null;
       if (!state || state.widget !== widget) {
-         // as Instance.init, this writes the default values of the widget's bindings to the store
-         widget.selector!.init(parentStore);
-         state = new ChildState(
-            widget,
-            k,
-            widget.selector!.createStoreSelector(),
-         );
+         state = ChildState.create(widget, k, parentStore);
          this.children.set(k, state);
       }
       return state;

@@ -28,7 +28,7 @@ export * from "./keyboardShortcuts";
 export * from "./StructuredInstanceDataAccessor";
 export * from "./HoverSync";
 // used by widgets, which the dist bundles import from cx/ui
-export { isSharedInstance } from "./SharedInstance";
+export { sharesInstance, isSharedInstance } from "./SharedInstance";
 
 export * from "./createFunctionalComponent";
 export * from "./flattenProps";

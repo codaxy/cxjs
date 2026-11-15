@@ -3,12 +3,7 @@ import { Instance } from "../Instance";
 import { View } from "../../data/View";
 import type { InstanceBase } from "../InstanceBase";
 import type { Widget } from "../Widget";
-import {
-   acquireSharedInstance,
-   exploreChildState,
-   releaseSharedInstance,
-   canUseSharedInstance,
-} from "../SharedInstance";
+import { acquireSharedInstance, exploreChildState, releaseSharedInstance, sharesInstance } from "../SharedInstance";
 
 let childStateRevision = 0;
 
@@ -32,20 +27,7 @@ export function exploreChildren(
          let widget = children[c] as Widget;
          let cell: InstanceBase;
 
-         // Whether the widget can be rendered without an instance of its own is decided once, at its first explore
-         // as a child. The decision depends on its configuration, so the widget is initialized first if needed,
-         // rather than with its first instance as usual. It is keyed on the decision, not on initialization here,
-         // because a widget may already be initialized elsewhere, e.g. by Container.find or by an instance created
-         // directly with getChild, and would otherwise never share the instance.
-         if (widget.sharesInstance === undefined) {
-            if (!widget.initialized) {
-               widget.init();
-               widget.initialized = true;
-            }
-            widget.sharesInstance = canUseSharedInstance(widget);
-         }
-
-         if (widget.sharesInstance) {
+         if (sharesInstance(widget)) {
             // updated and rendered right away, through the shared instance
             let state = instance.getInstanceCache().getState(widget, store, key);
             if (!sharedInstance) sharedInstance = acquireSharedInstance(instance, store);
