@@ -11,7 +11,6 @@ import { RenderingContext } from "../../ui/RenderingContext";
 import { ResizeManager } from "../../ui/ResizeManager";
 import { StaticText } from "../../ui/StaticText";
 import { VDOM } from "../../ui/Widget";
-import { debounce } from "../../util/debounce";
 import { closest } from "../../util/DOM";
 import { findScrollableParent } from "../../util/findScrollableParent";
 import { getActiveElement } from "../../util/getActiveElement";
@@ -19,7 +18,6 @@ import { getParentFrameBoundingClientRect } from "../../util/getParentFrameBound
 import { getTopLevelBoundingClientRect } from "../../util/getTopLevelBoundingClientRect";
 import { isArray } from "../../util/isArray";
 import { isNonEmptyArray } from "../../util/isNonEmptyArray";
-import { isNumber } from "../../util/isNumber";
 import { isTextInputElement } from "../../util/isTextInputElement";
 import { KeyCode } from "../../util/KeyCode";
 import { scrollElementIntoView } from "../../util/scrollElementIntoView";
@@ -39,6 +37,7 @@ import type {
    GridMoveCursorOptions,
 } from "./Grid.types";
 import { GridRowComponent, GridRowInstance } from "./GridRow";
+import { GridPageLoader } from "./GridPageLoader";
 import { GridRowHeights } from "./GridRowHeights";
 import { lockColumnWidths, syncFixedFooters, syncFixedHeaders } from "./syncTableSizes";
 
@@ -77,8 +76,7 @@ export class GridComponent extends VDOM.Component<GridComponentProps, GridCompon
    syncBuffering: boolean = false;
    declare start?: number;
    declare end?: number;
-   declare loadingStartPage?: number;
-   declare loadingEndPage?: number;
+   declare pageLoader: GridPageLoader;
    declare measuredHeights: GridRowHeights;
    declare rowHeight?: number;
    scrollerRef: (el: HTMLElement | null) => void;
@@ -86,9 +84,6 @@ export class GridComponent extends VDOM.Component<GridComponentProps, GridCompon
    gridRef: (el: HTMLElement | null) => void;
    declare cellEditorValid?: boolean;
    declare scrollWidth: number;
-   declare loading?: boolean;
-   declare loadPageRange?: any;
-   declare prevFetchRecordsState?: any;
    declare pending?: any;
    offResize?: () => void;
    unregisterDropZone?: () => void;
@@ -102,6 +97,7 @@ export class GridComponent extends VDOM.Component<GridComponentProps, GridCompon
       super(props);
       this.dom = {};
       this.measuredHeights = new GridRowHeights();
+      this.pageLoader = new GridPageLoader(this);
       let { widget } = props.instance;
 
       let end = Math.min(widget.bufferSize, props.data.totalRecordCount);
@@ -121,8 +117,8 @@ export class GridComponent extends VDOM.Component<GridComponentProps, GridCompon
       if (widget.infinite) {
          this.start = 0;
          this.end = end;
-         this.loadingStartPage = 0;
-         this.loadingEndPage = 0;
+         this.pageLoader.loadingStartPage = 0;
+         this.pageLoader.loadingEndPage = 0;
          this.lastSorters = props.data.sorters;
       }
 
@@ -772,122 +768,6 @@ export class GridComponent extends VDOM.Component<GridComponentProps, GridCompon
       return result;
    }
 
-   ensureData(visibleStart: number, visibleEnd: number) {
-      if (this.loading) return;
-
-      let { instance } = this.props;
-      let { widget } = instance;
-      let { pageSize } = widget;
-
-      let startPage = Math.trunc(visibleStart / pageSize) + 1,
-         endPage = Math.trunc((visibleEnd - 1) / pageSize) + 1;
-
-      //debouncing restricts excessive page loading on fast scrolling as rendering data is
-      //useless because visible region is scrolled away before data appears
-      //the user should spent some time on the page before loading it
-
-      if (!this.loadPageRange)
-         this.loadPageRange = debounce((startPage, endPage) => {
-            let { data } = this.props;
-            let { records, offset } = data;
-            let promises = [];
-
-            for (let page = startPage; page <= endPage; page++) {
-               let s = (page - 1) * pageSize,
-                  e = s + pageSize;
-               if (s >= offset && e <= offset + records.length) {
-                  promises.push(Promise.resolve(records.slice(s - offset, e - offset)));
-               } else {
-                  let result = instance.invoke(
-                     "onFetchRecords",
-                     {
-                        page,
-                        pageSize,
-                        sorters: data.sorters,
-                        sortField: data.sortField,
-                        sortDirection: data.sortDirection,
-                        filterParams: data.filterParams,
-                        state: this.prevFetchRecordsState,
-                     },
-                     instance,
-                  );
-                  promises.push(Promise.resolve(result));
-               }
-            }
-
-            this.loading = true;
-
-            Promise.all(promises)
-               .then((pageRecords) => {
-                  this.loading = false;
-                  let records: any[] = [];
-                  let totalRecordCount: number | undefined;
-                  let lastPage: boolean | undefined;
-
-                  pageRecords.forEach((page) => {
-                     if (Array.isArray(page)) {
-                        records.push(...page);
-                        lastPage = records.length < pageSize;
-                     } else {
-                        if (!Array.isArray(page.records))
-                           throw new Error(
-                              "onFetchRecords should return an array of records or an object with results inside records property.",
-                           );
-                        totalRecordCount = page.totalRecordCount;
-                        lastPage = page.lastPage;
-                        this.prevFetchRecordsState = page.state;
-                        records.push(...page.records);
-                     }
-                  });
-
-                  let { data } = this.props;
-
-                  if (!isNumber(totalRecordCount)) {
-                     totalRecordCount = (startPage - 1) * pageSize + records.length;
-                     if (!lastPage) {
-                        if (records.length == (endPage - startPage + 1) * pageSize) totalRecordCount++;
-                        if (data.totalRecordCount > totalRecordCount) totalRecordCount = data.totalRecordCount;
-                     }
-                  }
-
-                  instance.buffer.totalRecordCount = data.totalRecordCount = totalRecordCount;
-                  instance.buffer.records = data.records = records;
-                  instance.buffer.page = data.page = startPage;
-                  data.offset = (startPage - 1) * pageSize;
-                  data.empty = totalRecordCount == 0;
-
-                  instance.store.silently(() => {
-                     instance.set("records", records);
-                     instance.set("page", startPage);
-                     instance.set("totalRecordCount", totalRecordCount);
-                  });
-
-                  let stateChanges: any = {
-                     startPage,
-                     endPage,
-                  };
-
-                  if (this.state.end == 0) stateChanges.end = Math.min(widget.bufferSize!, totalRecordCount!);
-
-                  this.setState(stateChanges, () => {
-                     this.loadingStartPage = startPage;
-                     this.loadingEndPage = endPage;
-                     this.onScroll();
-                  });
-               })
-               .catch((error) => {
-                  this.loading = false;
-                  if (widget.onLoadingError) instance.invoke("onLoadingError", error, instance);
-               });
-         }, 30);
-
-      if (startPage < this.loadingStartPage! || endPage > this.loadingEndPage!) {
-         this.loadingStartPage = startPage;
-         this.loadingEndPage = endPage;
-         this.loadPageRange(startPage, endPage);
-      }
-   }
-
    onScroll() {
       //check if unmounted
       if (!this.dom.scroller!) return;
@@ -921,7 +801,7 @@ export class GridComponent extends VDOM.Component<GridComponentProps, GridCompon
          let end = Math.min(data.totalRecordCount, start + widget.bufferSize);
 
          if (widget.infinite) {
-            this.ensureData(start, end);
+            this.pageLoader.ensureData(start, end);
          }
 
          if (this.syncBuffering) {
@@ -965,7 +845,7 @@ export class GridComponent extends VDOM.Component<GridComponentProps, GridCompon
       }
       if (widget.pipeKeyDown) instance.invoke("pipeKeyDown", this.handleKeyDown.bind(this), instance);
       this.unregisterDropZone = registerDropZone(this);
-      if (widget.infinite) this.ensureData(0, 0);
+      if (widget.infinite) this.pageLoader.ensureData(0, 0);
       if (this.dom.fixedScroller!) {
          this.onFixedColumnsWheel = this.onFixedColumnsWheel.bind(this);
          this.dom.fixedScroller!.addEventListener("wheel", this.onFixedColumnsWheel, { passive: false });
@@ -1349,15 +1229,7 @@ export class GridComponent extends VDOM.Component<GridComponentProps, GridCompon
          this.lastScrollFilterParams = data.filterParams;
          this.lastScrollResetParams = data.scrollResetParams;
          this.lastSorters = data.sorters;
-         if (widget.infinite) {
-            this.loadingStartPage = 0;
-            this.loadingEndPage = 0;
-            instance.buffer.records = data.records = [];
-            instance.buffer.totalRecordCount = 0;
-            instance.buffer.page = 1;
-            this.prevFetchRecordsState = null;
-            this.loading = false;
-         }
+         if (widget.infinite) this.pageLoader.reset();
       }
    }
 
