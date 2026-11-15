@@ -1,7 +1,7 @@
 import type { View } from "../data/View";
 import { GlobalCacheIdentifier } from "../util/GlobalCacheIdentifier";
 import { ContainerBase } from "./Container";
-import { ChildState } from "./ChildState";
+import { ChildState, StaticChildState } from "./ChildState";
 import { Instance, renderResultFix } from "./Instance";
 import type { RenderingContext } from "./RenderingContext";
 import type { Widget } from "./Widget";
@@ -11,7 +11,7 @@ import type { Widget } from "./Widget";
  * That takes a widget that allows it (see `Widget.canShareInstance`) and has none of the hooks that need an instance
  * of its own.
  */
-export function canUseSharedInstance(widget: Widget): boolean {
+function canUseSharedInstance(widget: Widget): boolean {
    return (
       widget.canShareInstance() &&
       !widget.controller &&
@@ -47,6 +47,49 @@ export function sharesInstance(widget: Widget): boolean {
       widget.sharesInstance = canUseSharedInstance(widget);
    }
    return widget.sharesInstance;
+}
+
+/**
+ * The state shared by all occurrences of a static widget, or null if the widget is not static. A static widget is
+ * rendered through the shared instance, its data is constant, and so are its items. It is rendered once, and all
+ * its parents list the same state, which is not kept in their instance caches. Such a widget cannot be updated (see
+ * Widget.update). Decided once, and kept in `widget.staticState`.
+ */
+export function staticState(widget: Widget): StaticChildState | null {
+   if (widget.staticState === undefined) widget.staticState = isStatic(widget) ? new StaticChildState(widget) : null;
+   return widget.staticState;
+}
+
+function isStatic(widget: Widget): boolean {
+   // sharesInstance initializes the widget, which sets up its items
+   if (!sharesInstance(widget) || !widget.memoize || !widget.selector!.config.constant) return false;
+   return !(widget instanceof ContainerBase) || widget.items.every((item) => staticState(item) != null);
+}
+
+/**
+ * The state of a child of `parent` rendered without an instance of its own, to update with `exploreChildState`: the
+ * shared state of a static widget, or the parent's state for the widget. Null if the widget needs an instance.
+ */
+export function getChildState(
+   parent: Instance,
+   widget: Widget,
+   store: View,
+   key?: string | number | null,
+): ChildState | null {
+   let state = staticState(widget);
+   if (state) return state;
+   return sharesInstance(widget) ? parent.getInstanceCache().getState(widget, store, key) : null;
+}
+
+/**
+ * Makes the parent render again if a child without an instance of its own changed (`childrenChanged`). Changes are
+ * reported through the parent's cache, which is updated when the parent renders, as instances compare their data
+ * with their own cache. An explore pass that is repeated before rendering, after the store changed during explore
+ * (see Cx), thus reports them again.
+ */
+export function markChildStateChanges(context: RenderingContext, parent: Instance, childrenChanged: boolean): void {
+   if (childrenChanged) parent.childStateRevision = (parent.childStateRevision || 0) + 1;
+   if (parent.cache("childStateRevision", parent.childStateRevision)) parent.markShouldUpdate(context);
 }
 
 const SHARED_INSTANCE_ID = "shared-instance";
@@ -87,6 +130,8 @@ export function releaseSharedInstance(instance: Instance): void {
  * the container is rendered from them. Returns true if the child became visible or hidden, or rendered again.
  */
 export function exploreChildState(context: RenderingContext, instance: Instance, state: ChildState): boolean {
+   // explored once, for all its parents
+   if (state instanceof StaticChildState && state.visible !== undefined) return false;
    let { widget } = state;
    instance.widget = widget;
    instance.key = state.key;
@@ -106,7 +151,9 @@ export function exploreChildState(context: RenderingContext, instance: Instance,
       if (!itemStates) {
          itemStates = state.itemStates = [];
          for (let item of items)
-            itemStates.push(ChildState.create(item, String(item.vdomKey || item.widgetId), instance.store));
+            itemStates.push(
+               staticState(item) || ChildState.create(item, String(item.vdomKey || item.widgetId), instance.store),
+            );
       }
       for (let i = 0; i < itemStates.length; i++)
          if (exploreChildState(context, instance, itemStates[i])) itemsChanged = true;

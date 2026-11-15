@@ -1,15 +1,20 @@
 /** @jsxImportSource cx */
 // Elements and text rendered without instances of their own, through the shared instance: they update
 // when their data or their children change, also when the store changes during explore, and elements with
-// handlers, which keep their instances, still work around them.
+// handlers, which keep their instances, still work around them. Static content, whose data is constant, is shared by
+// all its parents and still appears in each of them, and cannot be updated.
 import { describe, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import assert from "assert";
 import { createModel } from "../data/createAccessorModelProxy";
 import { Store } from "../data/Store";
-import { render, settle, markup } from "../util/test/render";
+import { render, settle, markup, RenderResult } from "../util/test/render";
+import { IsolatedScope } from "./IsolatedScope";
+import { Repeater } from "./Repeater";
 import { Restate } from "./Restate";
+import { StaticText } from "./StaticText";
 import { Text } from "./Text";
+import { Widget } from "./Widget";
 
 interface Person {
    firstName: string;
@@ -18,15 +23,29 @@ interface Person {
 
 interface Model {
    person: Person;
+   people: Person[];
    show: boolean;
    cls: string;
    color: string;
+   other: number;
+   $record: Person;
 }
 
 const m = createModel<Model>();
 
 function newStore(data: Partial<Model> = {}) {
    return new Store({ data: { person: { firstName: "John", city: "Split" }, show: true, ...data } });
+}
+
+function people(): Person[] {
+   return [
+      { firstName: "John", city: "Split" },
+      { firstName: "Jane", city: "Zagreb" },
+   ];
+}
+
+function names(screen: RenderResult) {
+   return Array.from(screen.container.querySelectorAll("li"), (li) => li.textContent);
 }
 
 describe("SharedInstance", () => {
@@ -173,5 +192,94 @@ describe("SharedInstance", () => {
 
       await settle(() => userEvent.click(screen.container.querySelector("button")!));
       assert.deepEqual(clicked, ["John"]);
+   });
+});
+
+describe("static content", () => {
+   it("appears in every parent", async () => {
+      let store = newStore({ people: people() });
+      const screen = await render(
+         <cx>
+            <ul>
+               <Repeater records={m.people}>
+                  <li onClick={() => {}}>
+                     <label>Name:</label>
+                     <span text={m.$record.firstName} />
+                  </li>
+               </Repeater>
+            </ul>
+         </cx>,
+         { store },
+      );
+      assert.deepEqual(names(screen), ["Name:John", "Name:Jane"]);
+
+      await settle(() => store.update(m.people, (p) => [...p, { firstName: "Ann", city: "Rijeka" }]));
+      assert.deepEqual(names(screen), ["Name:John", "Name:Jane", "Name:Ann"]);
+   });
+
+   it("cannot be updated, as it is rendered once for all its parents", async () => {
+      let caption = Widget.create(StaticText, { text: "Name:" });
+      let store = newStore({ people: people() });
+      const screen = await render(
+         <cx>
+            <ul>
+               <Repeater records={m.people}>
+                  <li onClick={() => {}}>
+                     <label items={[caption]} />
+                  </li>
+               </Repeater>
+            </ul>
+         </cx>,
+         { store },
+      );
+      assert.deepEqual(names(screen), ["Name:", "Name:"]);
+      assert.throws(() => caption.update(), /Static widgets cannot be updated/);
+   });
+
+   it("is not rendered if it is never visible", async () => {
+      const screen = await render(
+         <cx>
+            <div>
+               <span visible={false}>Hidden</span>
+               <span>Shown</span>
+            </div>
+         </cx>,
+         { store: newStore() },
+      );
+      assert.equal(
+         screen.html(),
+         markup`
+            <div>
+               <span>Shown</span>
+            </div>
+         `,
+      );
+   });
+
+   it("stays in isolated scopes that skip explore", async () => {
+      let store = newStore();
+      const screen = await render(
+         <cx>
+            <div onClick={() => {}}>
+               <IsolatedScope bind="person">
+                  <label>City:</label>
+                  <span text={m.person.city} />
+               </IsolatedScope>
+            </div>
+         </cx>,
+         { store },
+      );
+      await settle(() => store.set(m.other, 1));
+      await settle(() => store.set(m.other, 2));
+      await settle(() => store.set(m.person.city, "Zagreb"));
+      assert.equal(
+         screen.html(),
+         markup`
+            <div>
+               <label>City:</label>
+               <span>Zagreb</span>
+            </div>
+         `,
+      );
    });
 });

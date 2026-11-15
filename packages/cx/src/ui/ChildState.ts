@@ -31,3 +31,13 @@ export class ChildState extends InstanceBase {
       this.itemStates = undefined;
    }
 }
+
+/**
+ * The state shared by all occurrences of a static widget, in all its parents (see staticState in SharedInstance).
+ * It is explored and rendered once, and not kept in the parents' instance caches.
+ */
+export class StaticChildState extends ChildState {
+   constructor(widget: Widget) {
+      super(widget, String(widget.vdomKey || widget.widgetId), widget.selector!.createStoreSelector());
+   }
+}

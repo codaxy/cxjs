@@ -3,9 +3,14 @@ import { Instance } from "../Instance";
 import { View } from "../../data/View";
 import type { InstanceBase } from "../InstanceBase";
 import type { Widget } from "../Widget";
-import { acquireSharedInstance, exploreChildState, releaseSharedInstance, sharesInstance } from "../SharedInstance";
-
-let childStateRevision = 0;
+import { StaticChildState } from "../ChildState";
+import {
+   acquireSharedInstance,
+   exploreChildState,
+   getChildState,
+   markChildStateChanges,
+   releaseSharedInstance,
+} from "../SharedInstance";
 
 export function exploreChildren(
    context: RenderingContext,
@@ -26,14 +31,15 @@ export function exploreChildren(
          // the items of containers, initialized widgets by now
          let widget = children[c] as Widget;
          let cell: InstanceBase;
+         let state = getChildState(instance, widget, store, key);
 
-         if (sharesInstance(widget)) {
+         if (state) {
             // updated and rendered right away, through the shared instance
-            let state = instance.getInstanceCache().getState(widget, store, key);
             if (!sharedInstance) sharedInstance = acquireSharedInstance(instance, store);
             if (exploreChildState(context, sharedInstance, state)) statesChanged = true;
             if (!state.visible) continue;
-            instance.getInstanceCache().addChild(state);
+            // static states are shared by all parents, so they are not kept in the instance cache
+            if (!(state instanceof StaticChildState)) instance.getInstanceCache().addChild(state);
             cell = state;
          } else {
             let child = instance.getChild(context, widget, key, store);
@@ -58,13 +64,7 @@ export function exploreChildren(
 
    if (identical >= 0 && identical != newChildren.length) newChildren = newChildren.slice(0, identical);
 
-   if (sharedInstance) {
-      // Changes of children without instances are reported through the parent's cache, which is updated when the
-      // parent renders, as instances compare their data with their own cache. An explore pass that is repeated
-      // before rendering, after the store changed during explore (see Cx), thus reports them again.
-      if (statesChanged) instance.childStateRevision = ++childStateRevision;
-      if (instance.cache("childStateRevision", instance.childStateRevision)) instance.markShouldUpdate(context);
-   }
+   if (sharedInstance) markChildStateChanges(context, instance, statesChanged);
 
    return newChildren;
 }

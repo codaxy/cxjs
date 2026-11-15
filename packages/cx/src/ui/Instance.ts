@@ -168,7 +168,7 @@ export class Instance<
    declare public instanceCache?: InstanceCache | null;
    /** The visible children: instances, and states of children rendered without instances (see InstanceBase). */
    declare public children?: InstanceBase[];
-   /** Changes whenever a child rendered without an instance of its own changes; see exploreChildren. */
+   /** Counts the changes of children rendered without instances of their own; see markChildStateChanges. */
    declare public childStateRevision?: number;
    public helpers?: Record<string, Instance>;
    public components?: Record<string, Instance>;
