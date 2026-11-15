@@ -3,6 +3,7 @@ import { describe, it } from "vitest";
 import assert from "assert";
 import { Store } from "../data/Store";
 import { Container } from "./Container";
+import { ChildState } from "./ChildState";
 import { Instance, InstanceCache } from "./Instance";
 import { Text } from "./Text";
 import { Widget } from "./Widget";
@@ -45,5 +46,15 @@ describe("InstanceCache", () => {
 
       assert.equal(cache.getChild(widgets[1], store), replacement);
       assert.notEqual(cache.getChild(widgets[0], store), a);
+   });
+
+   it("creates an instance for a widget that has a state of a child without an instance under its key", () => {
+      let { store, cache, widgets } = setup();
+      let state = cache.getState(widgets[0], store);
+      assert.ok(state instanceof ChildState);
+
+      let instance = cache.getChild(widgets[0], store);
+      assert.ok(instance instanceof Instance);
+      assert.equal(instance.key, state.key);
    });
 });

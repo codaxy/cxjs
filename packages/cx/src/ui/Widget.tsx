@@ -121,6 +121,8 @@ export abstract class Widget<
   public selector?: StructuredSelector;
   public nameMap?: any;
   public version?: number;
+  /** Set when the widget is first explored as a child: whether it is rendered through the shared instance. */
+  declare public sharesInstance?: boolean;
 
   // Lifecycle hooks - callbacks that can be set in configuration
   declare public onInit?: (
@@ -299,6 +301,15 @@ export abstract class Widget<
     throw new Error(
       'Widget\'s render method should be overridden. This error usually happens if with incorrect imports, i.e. import { TextField } from "cx/data". Please check the console for details about the component configuration.',
     );
+  }
+
+  /**
+   * Whether the widget can be rendered through a shared instance, without an instance of its own (see
+   * SharedInstance). Widgets can allow it if their instances keep nothing but their data, and their render
+   * results do not keep the instance, for example in event handlers.
+   */
+  public canShareInstance(): boolean {
+    return false;
   }
 
   public update(): void {

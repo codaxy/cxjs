@@ -13,6 +13,8 @@ import { throttle } from "../util/throttle";
 import { validatedDebounce } from "../util/validatedDebounce";
 import { batchUpdates } from "./batchUpdates";
 import { Controller } from "./Controller";
+import { ChildState } from "./ChildState";
+import { InstanceBase } from "./InstanceBase";
 import { RenderingContext } from "./RenderingContext";
 import type { Widget } from "./Widget";
 
@@ -132,10 +134,10 @@ let instanceId = 1000;
 /**
  * Base Instance class
  */
-export class Instance<WidgetType extends Widget<any, any> = Widget<any, any>> {
+export class Instance<
+   WidgetType extends Widget<any, any> = Widget<any, any>,
+> extends InstanceBase<WidgetType> {
    // Core properties
-   declare public widget: WidgetType;
-   declare public key: string;
    declare public id: string;
    declare public parent?: Instance;
    declare public parentStore: View;
@@ -143,18 +145,12 @@ export class Instance<WidgetType extends Widget<any, any> = Widget<any, any>> {
    declare public controller?: Controller;
 
    // Data and state
-   declare public data: Record<string, any>;
-   declare public rawData: Record<string, any>;
    declare public state?: Record<string, any>;
    declare public cached: Record<string, any>;
    declare public cacheList?: Record<string, any> | null;
 
-   // Selectors
-   public dataSelector?: (store: any) => Record<string, any>;
-
    // Lifecycle flags
    public initialized?: boolean;
-   declare public visible?: boolean;
    declare public explored?: boolean;
    declare public prepared?: boolean;
    declare public shouldUpdate?: boolean;
@@ -170,14 +166,14 @@ export class Instance<WidgetType extends Widget<any, any> = Widget<any, any>> {
 
    // Child management
    declare public instanceCache?: InstanceCache | null;
-   declare public children?: Instance[];
-   /** The explore pass in which the parent's instance cache last marked the instance; see InstanceCache. */
-   declare public cachePass?: number;
+   /** The visible children: instances, and states of children rendered without instances (see InstanceBase). */
+   declare public children?: InstanceBase[];
+   /** Changes whenever a child rendered without an instance of its own changes; see exploreChildren. */
+   declare public childStateRevision?: number;
    public helpers?: Record<string, Instance>;
    public components?: Record<string, Instance>;
 
    // Rendering
-   declare public vdom?: any;
    declare public contentVDOM?: any;
    declare public renderList?: any;
    declare public assignedRenderList?: any;
@@ -204,8 +200,7 @@ export class Instance<WidgetType extends Widget<any, any> = Widget<any, any>> {
       parent?: Instance,
       parentStore?: any,
    ) {
-      this.widget = widget;
-      this.key = key;
+      super(widget, key);
       this.id = String(++instanceId);
       this.cached = {};
       this.parent = parent;
@@ -877,7 +872,7 @@ export class Instance<WidgetType extends Widget<any, any> = Widget<any, any>> {
    }
 }
 
-function renderResultFix(res: any): any {
+export function renderResultFix(res: any): any {
    return res != null && isDefined(res.content) ? res : { content: res };
 }
 
@@ -888,7 +883,7 @@ let cachePass = 0;
  * `addChild` are kept by the following `sweep`; the others are removed.
  */
 export class InstanceCache {
-   declare public children: Map<string, Instance>;
+   declare public children: Map<string, InstanceBase>;
    declare public parent: Instance;
    declare public monitored: Record<string, Instance> | null;
    declare public keyPrefix: string;
@@ -914,7 +909,8 @@ export class InstanceCache {
       const k =
          this.keyPrefix +
          (key != null ? key : widget.vdomKey || widget.widgetId);
-      let instance = this.children.get(k);
+      let cached = this.children.get(k);
+      let instance = cached instanceof Instance ? cached : null;
 
       if (
          !instance ||
@@ -931,8 +927,32 @@ export class InstanceCache {
       return instance;
    }
 
+   /** The state of a child rendered through the shared instance, kept under the key its instance would have. */
+   public getState(
+      widget: Widget,
+      parentStore: View,
+      key?: string | number | null,
+   ): ChildState {
+      const k =
+         this.keyPrefix +
+         (key != null ? key : widget.vdomKey || widget.widgetId);
+      let cached = this.children.get(k);
+      let state = cached instanceof ChildState ? cached : null;
+      if (!state || state.widget !== widget) {
+         // as Instance.init, this writes the default values of the widget's bindings to the store
+         widget.selector!.init(parentStore);
+         state = new ChildState(
+            widget,
+            k,
+            widget.selector!.createStoreSelector(),
+         );
+         this.children.set(k, state);
+      }
+      return state;
+   }
+
    /** Marks the child to be kept by the next sweep. */
-   public addChild(instance: Instance): void {
+   public addChild(instance: InstanceBase): void {
       if (this.children.get(instance.key) !== instance) {
          this.children.set(instance.key, instance);
          // a child it replaces may have been marked already

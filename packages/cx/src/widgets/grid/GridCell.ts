@@ -4,6 +4,7 @@ import { Instance } from "../../ui/Instance";
 import { BooleanProp, NumberProp, Prop, StringProp } from "../../ui/Prop";
 import { RenderingContext } from "../../ui/RenderingContext";
 import { isUndefined } from "../../util/isUndefined";
+import { isSharedInstance } from "../../ui/SharedInstance";
 
 /** The data of a cell that the grid row uses to render the cell's `<td>` element. */
 export interface GridCellRenderData {
@@ -21,7 +22,8 @@ export interface GridCellRenderResult {
    atomic: true;
    key: string;
    content: React.ReactNode;
-   instance: Instance;
+   /** The instance of the cell; null for cells without child widgets, which are rendered without an instance. */
+   instance: Instance | null;
    data: GridCellRenderData;
    uniqueColumnId?: string;
    /** Set by the grid on cells merged into the cell above them. */
@@ -142,6 +144,11 @@ export class GridCell extends StyledContainerBase<GridCellConfig> {
       data.style = this.CSS.parseStyle(data.style);
    }
 
+   // subclasses may keep more in their instances
+   canShareInstance(): boolean {
+      return this.items.length == 0 && this.constructor === GridCell;
+   }
+
    render(context: RenderingContext, instance: Instance, key: string): GridCellRenderResult {
       let { data } = instance;
       let content;
@@ -155,7 +162,7 @@ export class GridCell extends StyledContainerBase<GridCellConfig> {
       return {
          atomic: true,
          content,
-         instance,
+         instance: isSharedInstance(instance) ? null : instance,
          data,
          key,
          uniqueColumnId: this.uniqueColumnId,

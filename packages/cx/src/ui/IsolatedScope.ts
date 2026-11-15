@@ -45,8 +45,7 @@ export class IsolatedScope<
          super.explore(context, instance);
       } else if (instance.children) {
          // mark children to prevent sweeping them away
-         for (let i = 0; i < instance.children.length; i++)
-            instance.instanceCache.addChild(instance.children[i]);
+         for (let i = 0; i < instance.children.length; i++) instance.instanceCache.addChild(instance.children[i]);
       }
    }
 }
