@@ -171,6 +171,8 @@ export class Instance<WidgetType extends Widget<any, any> = Widget<any, any>> {
    // Child management
    declare public instanceCache?: InstanceCache | null;
    declare public children?: Instance[];
+   /** The explore pass in which the parent's instance cache last marked the instance; see InstanceCache. */
+   declare public cachePass?: number;
    public helpers?: Record<string, Instance>;
    public components?: Record<string, Instance>;
 
@@ -879,19 +881,29 @@ function renderResultFix(res: any): any {
    return res != null && isDefined(res.content) ? res : { content: res };
 }
 
+let cachePass = 0;
+
+/**
+ * The child instances of an instance, by key, kept between renders. Children marked in an explore pass with
+ * `addChild` are kept by the following `sweep`; the others are removed.
+ */
 export class InstanceCache {
-   declare public children: Record<string, Instance>;
+   declare public children: Map<string, Instance>;
    declare public parent: Instance;
-   declare public marked: Record<string, Instance>;
    declare public monitored: Record<string, Instance> | null;
    declare public keyPrefix: string;
+   /** The current explore pass, unique across caches. */
+   declare public pass: number;
+   /** How many of the children were marked in the current pass. */
+   declare public markedCount: number;
 
    constructor(parent: Instance, keyPrefix?: string | number | null) {
-      this.children = {};
+      this.children = new Map();
       this.parent = parent;
-      this.marked = {};
       this.monitored = null;
       this.keyPrefix = keyPrefix != null ? keyPrefix + "-" : "";
+      this.pass = ++cachePass;
+      this.markedCount = 0;
    }
 
    public getChild(
@@ -902,7 +914,7 @@ export class InstanceCache {
       const k =
          this.keyPrefix +
          (key != null ? key : widget.vdomKey || widget.widgetId);
-      let instance = this.children[k];
+      let instance = this.children.get(k);
 
       if (
          !instance ||
@@ -911,7 +923,7 @@ export class InstanceCache {
             (instance.widget.controller || instance.widget.onInit))
       ) {
          instance = widget.createInstance(k, this.parent, parentStore);
-         this.children[k] = instance;
+         this.children.set(k, instance);
       } else if (instance.parentStore !== parentStore) {
          instance.setParentStore(parentStore);
       }
@@ -919,12 +931,23 @@ export class InstanceCache {
       return instance;
    }
 
+   /** Marks the child to be kept by the next sweep. */
    public addChild(instance: Instance): void {
-      this.marked[instance.key] = instance;
+      if (this.children.get(instance.key) !== instance) {
+         this.children.set(instance.key, instance);
+         // a child it replaces may have been marked already
+         this.markedCount = -1;
+      }
+      if (instance.cachePass !== this.pass) {
+         instance.cachePass = this.pass;
+         if (this.markedCount >= 0) this.markedCount++;
+      }
    }
 
+   /** Starts an explore pass. */
    public mark(): void {
-      this.marked = {};
+      this.pass = ++cachePass;
+      this.markedCount = 0;
    }
 
    public trackDestroy(instance: Instance): void {
@@ -933,8 +956,8 @@ export class InstanceCache {
    }
 
    public destroy(): void {
-      this.children = {};
-      this.marked = {};
+      this.children = new Map();
+      this.markedCount = 0;
 
       if (!this.monitored) return;
 
@@ -945,17 +968,22 @@ export class InstanceCache {
       this.monitored = null;
    }
 
+   /** Removes the children not marked in the current pass. */
    public sweep(): void {
-      this.children = this.marked;
+      if (this.markedCount !== this.children.size) {
+         for (const [key, child] of this.children)
+            if (child.cachePass !== this.pass) this.children.delete(key);
+         this.markedCount = this.children.size;
+      }
       if (!this.monitored) return;
       let activeCount = 0;
       for (const key in this.monitored) {
          const monitoredChild = this.monitored[key];
-         const child = this.children[key];
+         const child = this.children.get(key);
          if (child !== monitoredChild || !monitoredChild.visible) {
             monitoredChild.destroy();
             delete this.monitored[key];
-            if (child === monitoredChild) delete this.children[key];
+            if (child === monitoredChild) this.children.delete(key);
          } else activeCount++;
       }
       if (activeCount === 0) this.monitored = null;
