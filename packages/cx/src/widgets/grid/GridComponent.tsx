@@ -32,6 +32,7 @@ import { AvgHeight } from "./AvgHeight";
 import { createGridCellEditor } from "./createGridCellEditor";
 import type { GridInstance } from "./Grid";
 import type {
+   GridDom,
    MappedGridRecord,
    GridDragEvent,
    GridRowDragEvent,
@@ -40,7 +41,7 @@ import type {
    GridMoveCursorOptions,
 } from "./Grid.types";
 import { GridRowComponent, GridRowInstance } from "./GridRow";
-import { syncHeaderHeights, copyCellSizePrecise, copyCellSize } from "./syncTableSizes";
+import { lockColumnWidths, syncFixedFooters, syncFixedHeaders } from "./syncTableSizes";
 
 export interface GridComponentProps {
    instance: GridInstance;
@@ -73,17 +74,7 @@ export interface GridComponentState {
 }
 
 export class GridComponent extends VDOM.Component<GridComponentProps, GridComponentState> {
-   dom: {
-      el?: HTMLElement | null;
-      table?: HTMLElement | null;
-      scroller?: HTMLElement | null;
-      fixedScroller?: HTMLElement | null;
-      fixedTable?: HTMLElement | null;
-      fixedHeader?: HTMLElement | null;
-      fixedColumnsFixedHeader?: HTMLElement | null;
-      fixedFooter?: HTMLElement | null;
-      fixedColumnsFixedFooter?: HTMLElement | null;
-   };
+   dom: GridDom;
    syncBuffering: boolean = false;
    declare start?: number;
    declare end?: number;
@@ -1321,13 +1312,13 @@ export class GridComponent extends VDOM.Component<GridComponentProps, GridCompon
          isArray(data.records) &&
          data.records.length >= widget.lockColumnWidthsRequiredRowCount
       )
-         this.lockColumnWidths();
+         lockColumnWidths(this.dom, instance.state.lockedColWidth);
 
       if (widget.scrollable) {
          this.scrollWidth = this.dom.scroller!.offsetWidth - this.dom.scroller!.clientWidth;
 
-         let { resized, headerHeight } = this.syncFixedHeaders();
-         let footerHeight = this.syncFixedFooters();
+         let { resized, headerHeight } = syncFixedHeaders(this.dom, this.scrollWidth, widget.preciseMeasurements);
+         let footerHeight = syncFixedFooters(this.dom, this.scrollWidth, instance.fixedFooterOverlap);
          this.updateTableMargins(headerHeight, footerHeight);
          this.resetScrollPosition();
 
@@ -1337,129 +1328,6 @@ export class GridComponent extends VDOM.Component<GridComponentProps, GridCompon
 
          if (resized) instance.fixedHeaderResizeEvent.notify();
       }
-   }
-
-   // keeps the header cells at the widths they have now, see Grid.lockColumnWidths
-   lockColumnWidths() {
-      let { instance } = this.props;
-      let headerTBody = this.dom.table!.firstChild! as HTMLElement;
-      for (let r = 0; r < headerTBody.children.length; r++) {
-         let sr = headerTBody.children[r];
-         for (let c = 0; c < sr.children.length; c++) {
-            let cell = sr.children[c] as HTMLElement;
-            cell.style.width =
-               cell.style.minWidth =
-               cell.style.maxWidth =
-                  `${(sr.children[c] as HTMLElement).offsetWidth}px`;
-            cell.style.boxSizing = "border-box";
-            if ((cell as HTMLElement).dataset.uniqueColId)
-               instance.state.lockedColWidth[(cell as HTMLElement).dataset.uniqueColId!] = (
-                  sr.children[c] as HTMLElement
-               ).offsetWidth;
-         }
-      }
-   }
-
-   // sizes the fixed header tables to match the main table and returns the height of the header
-   syncFixedHeaders() {
-      let { widget } = this.props.instance;
-      let resized = false,
-         headerHeight = 0;
-
-      if (this.dom.fixedTable!)
-         syncHeaderHeights(
-            this.dom.table!.firstChild as HTMLTableSectionElement,
-            this.dom.fixedTable!.firstChild as HTMLTableSectionElement,
-         );
-
-      if (this.dom.fixedHeader!) {
-         let fixedHeaderTBody = this.dom.fixedHeader!.firstChild!.firstChild as HTMLTableSectionElement;
-
-         resized = widget.preciseMeasurements
-            ? copyCellSizePrecise(this.dom.table!.firstChild as HTMLTableSectionElement, fixedHeaderTBody)
-            : copyCellSize(this.dom.table!.firstChild as HTMLTableSectionElement, fixedHeaderTBody);
-
-         let scrollColumnEl = fixedHeaderTBody?.firstChild?.lastChild as HTMLElement | null;
-         if (scrollColumnEl) scrollColumnEl.style.minWidth = scrollColumnEl.style.maxWidth = this.scrollWidth + "px";
-
-         this.dom.fixedHeader!.style.display = "block";
-         headerHeight = this.dom.fixedHeader!.offsetHeight;
-         this.dom.scroller!.style.marginTop = `${headerHeight}px`;
-         if (this.dom.fixedScroller!) this.dom.fixedScroller!.style.marginTop = `${headerHeight}px`;
-         else if (this.dom.fixedHeader!.style.left != null) this.dom.fixedHeader!.style.removeProperty("left");
-      } else {
-         this.dom.scroller!.style.removeProperty("marginTop");
-         if (this.dom.fixedScroller!) this.dom.fixedScroller!.style.removeProperty("marginTop");
-      }
-
-      if (this.dom.fixedColumnsFixedHeader!) {
-         let fixedColumnsWidth = `${this.dom.fixedScroller!.offsetWidth}px`;
-         this.dom.fixedColumnsFixedHeader!.style.right = "auto";
-         this.dom.fixedColumnsFixedHeader!.style.width = fixedColumnsWidth;
-         if (this.dom.fixedHeader!) this.dom.fixedHeader!.style.left = fixedColumnsWidth;
-
-         this.dom.fixedColumnsFixedHeader!.style.display = "block";
-
-         let fixedHeaderTBody = this.dom.fixedColumnsFixedHeader!.firstElementChild
-            ?.firstElementChild as HTMLTableSectionElement;
-
-         if (this.dom.fixedTable!.firstChild) {
-            resized = copyCellSize(this.dom.fixedTable!.firstElementChild as HTMLTableSectionElement, fixedHeaderTBody);
-         }
-      }
-
-      return { resized, headerHeight };
-   }
-
-   // sizes the fixed footer tables to match the main table and returns the height of the footer
-   syncFixedFooters() {
-      let { fixedFooterOverlap } = this.props.instance;
-      let footerHeight = 0;
-
-      if (this.dom.fixedFooter! || this.dom.fixedColumnsFixedFooter!) {
-         if (this.dom.fixedColumnsFixedFooter!) {
-            let fixedColumnsWidth = `${this.dom.fixedScroller!.offsetWidth}px`;
-            this.dom.fixedColumnsFixedFooter!.style.right = "auto";
-            this.dom.fixedColumnsFixedFooter!.style.width = fixedColumnsWidth;
-
-            let dstTableBody = this.dom.fixedColumnsFixedFooter!.firstElementChild
-               ?.firstElementChild as HTMLTableSectionElement;
-            if (dstTableBody) {
-               let srcTableBody = this.dom.fixedTable!.lastElementChild as HTMLTableSectionElement;
-               copyCellSize(srcTableBody, dstTableBody, fixedFooterOverlap);
-               this.dom.fixedColumnsFixedFooter!.style.display = "block";
-               footerHeight = this.dom.fixedFooter!.offsetHeight;
-            }
-         }
-
-         if (this.dom.fixedFooter!) {
-            let dstTableBody = this.dom.fixedFooter!.firstElementChild?.firstElementChild as HTMLTableSectionElement;
-
-            if (dstTableBody) {
-               let srcTableBody = this.dom.table!.lastElementChild as HTMLTableSectionElement;
-
-               copyCellSize(srcTableBody, dstTableBody, fixedFooterOverlap);
-
-               let scrollColumnEl = dstTableBody.firstElementChild?.lastElementChild as HTMLElement;
-               if (scrollColumnEl)
-                  scrollColumnEl.style.minWidth = scrollColumnEl.style.maxWidth = this.scrollWidth + "px";
-
-               this.dom.fixedFooter!.style.display = "block";
-               footerHeight = this.dom.fixedFooter!.offsetHeight;
-            }
-
-            if (this.dom.fixedScroller!) this.dom.fixedFooter!.style.left = `${this.dom.fixedScroller!.offsetWidth}px`;
-            else if (this.dom.fixedFooter!.style.left != null) this.dom.fixedFooter!.style.removeProperty("left");
-         }
-
-         this.dom.scroller!.style.marginBottom = `${footerHeight}px`;
-         if (this.dom.fixedScroller!) this.dom.fixedScroller!.style.marginBottom = `${footerHeight}px`;
-      } else {
-         this.dom.scroller!.style.marginBottom = "0";
-         if (this.dom.fixedScroller!) this.dom.fixedScroller!.style.marginBottom = "0";
-      }
-
-      return footerHeight;
    }
 
    // makes room for the fixed header and footer and, in buffered grids, for the rows that are not rendered

@@ -521,3 +521,16 @@ export interface GridColumnHeaderConfig extends WidgetConfig {
    pad?: boolean;
    colSpan?: NumberProp;
 }
+
+/** The DOM elements of a grid, kept by its React component. Not part of the public API. */
+export interface GridDom {
+   el?: HTMLElement | null;
+   table?: HTMLElement | null;
+   scroller?: HTMLElement | null;
+   fixedScroller?: HTMLElement | null;
+   fixedTable?: HTMLElement | null;
+   fixedHeader?: HTMLElement | null;
+   fixedColumnsFixedHeader?: HTMLElement | null;
+   fixedFooter?: HTMLElement | null;
+   fixedColumnsFixedFooter?: HTMLElement | null;
+}
