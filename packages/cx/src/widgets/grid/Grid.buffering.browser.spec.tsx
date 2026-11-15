@@ -226,4 +226,46 @@ describe("Grid infinite loading", () => {
       ]);
       assert.equal(scroller(screen).scrollTop, 0);
    });
+
+   it("forgets the loaded pages and the fetch state when the grid is sorted", async () => {
+      let requests: { page: number; state: any }[] = [];
+      let screen = await render(
+         <cx>
+            <Grid
+               infinite
+               buffered
+               keyField="id"
+               style="height: 300px"
+               columns={[{ header: "Name", field: "name", sortable: true }]}
+               // the state returned with a page is passed to the next fetch; it is not declared in the Grid types
+               onFetchRecords={({ page, pageSize, state }: any) => {
+                  requests.push({ page, state });
+                  let start = (page - 1) * pageSize;
+                  return new Promise<any>((resolve) =>
+                     setTimeout(
+                        () =>
+                           resolve({
+                              records: all.slice(start, start + pageSize),
+                              totalRecordCount: all.length,
+                              state: "after page " + page,
+                           }),
+                        5,
+                     ),
+                  );
+               }}
+            />
+         </cx>,
+      );
+      await waitForGrid();
+      assert.deepEqual(requests, [{ page: 1, state: undefined }]);
+
+      // the first page is loaded and the grid is not scrolled, yet sorting fetches it again, without the state
+      // returned for the unsorted records
+      await clickHeader(screen, "Name");
+      await expect.poll(() => requests.length).toBe(2);
+      assert.deepEqual(requests, [
+         { page: 1, state: undefined },
+         { page: 1, state: null },
+      ]);
+   });
 });
