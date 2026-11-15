@@ -1956,8 +1956,10 @@ export class Grid<T = unknown> extends ContainerBase<GridConfig<T>, GridInstance
          !isNonEmptyArray(sorters) &&
          !dataAdapter.isTreeAdapter &&
          !(instance.dataAdapter as any).groupings
-      )
+      ) {
+         dataAdapter.pruneCache(instance, data.records);
          return undefined;
+      }
 
       return dataAdapter.getRecords(context, instance, data.records, store);
    }
