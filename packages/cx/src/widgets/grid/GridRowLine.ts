@@ -1,10 +1,18 @@
 import { Container, ContainerConfig } from "../../ui/Container";
 import { Widget } from "../../ui/Widget";
-import { GridCell } from "./GridCell";
+import { GridCell, GridCellRenderResult } from "./GridCell";
 import type { GridColumnConfig } from "./Grid";
 import { RenderingContext } from "../../ui/RenderingContext";
 import { Instance } from "../../ui/Instance";
 import { BooleanProp } from "../../ui/Prop";
+
+/** What a line of a grid row renders: its cells and the data for its `<tr>` element. */
+export interface GridRowLineRenderResult {
+   atomic: true;
+   key: string;
+   data: { classNames?: string; style?: any; [key: string]: any };
+   content: GridCellRenderResult[];
+}
 
 export interface GridRowLineConfig extends ContainerConfig {
    /** Array of column configurations for this row line. */
@@ -35,12 +43,13 @@ export class GridRowLine extends Container {
       super.init();
    }
 
-   render(context: RenderingContext, instance: Instance, key: string) {
+   render(context: RenderingContext, instance: Instance, key: string): GridRowLineRenderResult {
       let { data } = instance;
       return {
          key,
          data,
-         content: this.renderChildren(context, instance),
+         // the children of a line are grid cells
+         content: this.renderChildren(context, instance) as GridCellRenderResult[],
          atomic: true
       };
    }

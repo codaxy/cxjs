@@ -5,6 +5,31 @@ import { BooleanProp, NumberProp, Prop, StringProp } from "../../ui/Prop";
 import { RenderingContext } from "../../ui/RenderingContext";
 import { isUndefined } from "../../util/isUndefined";
 
+/** The data of a cell that the grid row uses to render the cell's `<td>` element. */
+export interface GridCellRenderData {
+   classNames?: string;
+   style?: any;
+   colSpan?: number;
+   rowSpan?: number;
+   fixed?: boolean;
+   editable?: boolean;
+   [key: string]: any;
+}
+
+/** What a grid cell renders: the content of its `<td>` element and the data for the element itself. */
+export interface GridCellRenderResult {
+   atomic: true;
+   key: string;
+   content: React.ReactNode;
+   instance: Instance;
+   data: GridCellRenderData;
+   uniqueColumnId?: string;
+   /** Set by the grid on cells merged into the cell above them. */
+   merged?: boolean;
+   /** Set by the grid on the first of merged cells: the number of rows it spans. */
+   mergeRowSpan?: number;
+}
+
 export interface GridCellConfig extends StyledContainerConfig {
    /** Selector used to obtain the value that should be displayed inside the cell. Not required if `field` is used. */
    value?: StringProp | NumberProp;
@@ -117,7 +142,7 @@ export class GridCell extends StyledContainerBase<GridCellConfig> {
       data.style = this.CSS.parseStyle(data.style);
    }
 
-   render(context: RenderingContext, instance: Instance, key: string) {
+   render(context: RenderingContext, instance: Instance, key: string): GridCellRenderResult {
       let { data } = instance;
       let content;
 
