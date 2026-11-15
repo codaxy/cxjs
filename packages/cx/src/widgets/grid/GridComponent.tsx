@@ -364,163 +364,9 @@ export class GridComponent extends VDOM.Component<GridComponentProps, GridCompon
          record.row.shouldUpdate = false;
       };
 
-      if (widget.buffered) {
-         let context = new RenderingContext();
-         let dummyDataClass = CSS.element(baseClass, "data", { dummy: true });
-         if (!instance.recordInstanceCache) instance.recordInstanceCache = new InstanceCache(instance);
-         instance.recordInstanceCache.mark();
-         this.getRecordsSlice(start, end).forEach((r: any, i: any) => {
-            if (r == null) {
-               addRow(
-                  {
-                     key: "dummy-" + start + i,
-                     row: {
-                        data: { classNames: dummyDataClass },
-                        widget: instance.row,
-                     },
-                     vdom: {
-                        content: [
-                           {
-                              key: 0,
-                              data: {},
-                              content: [
-                                 {
-                                    key: 0,
-                                    data: {
-                                       colSpan: 1000,
-                                       style: {
-                                          height: `${this.rowHeight}px`,
-                                       },
-                                    },
-                                 },
-                              ],
-                           },
-                        ],
-                     },
-                  },
-                  start + i,
-               );
-            } else {
-               let record = instance.records
-                  ? r
-                  : widget.mapRecord(context, instance, r, widget.infinite ? start + i - data.offset : start + i);
-               let row = (record.row = instance.recordInstanceCache.getChild(instance.row, record.store, record.key));
-               instance.recordInstanceCache.addChild(row);
-               row.detached = true;
-               row.selected = instance.isSelected(record.data, record.index);
-
-               if (record.type == "data") {
-                  addRow(record, start + i, true);
-               } else if (record.type == "group-header") {
-                  let g = record.grouping;
-                  if (g.caption || g.showCaption) {
-                     children.push(
-                        widget.renderGroupHeader(
-                           null,
-                           instance,
-                           g,
-                           record.level,
-                           record.group,
-                           record.key + "-caption",
-                           record.store,
-                           false,
-                        ),
-                     );
-
-                     if (hasFixedColumns)
-                        fixedChildren.push(
-                           widget.renderGroupHeader(
-                              null,
-                              instance,
-                              g,
-                              record.level,
-                              record.group,
-                              record.key + "-caption",
-                              record.store,
-                              true,
-                           ),
-                        );
-                  }
-               } else if (record.type == "group-footer") {
-                  let g = record.grouping;
-                  if (g.showFooter && (!widget.fixedFooter || start + i != instance.records!.length - 1)) {
-                     children.push(
-                        widget.renderGroupFooter(
-                           null,
-                           instance,
-                           g,
-                           record.level,
-                           record.group,
-                           record.key + "-footer",
-                           record.store,
-                           false,
-                           false,
-                        ),
-                     );
-
-                     if (hasFixedColumns)
-                        fixedChildren.push(
-                           widget.renderGroupFooter(
-                              null,
-                              instance,
-                              g,
-                              record.level,
-                              record.group,
-                              record.key + "-footer",
-                              record.store,
-                              false,
-                              true,
-                           ),
-                        );
-                  }
-               }
-            }
-         });
-         instance.recordInstanceCache.sweep();
-      } else {
-         let { row } = instance;
-         let { hasMergedCells, mergedColumns } = row;
-         if (hasMergedCells) {
-            // merge adjacent cells with the same value in columns that are marked as merged
-            let rowSpan: Record<string, any> = {};
-            let getCellRenderInfo = (vdom: any, cellIndex: number) => vdom.content[0]?.content[cellIndex];
-            for (let index = instance.records!.length - 1; index >= 0; index--) {
-               let row = instance.records![index];
-               let prevRow = instance.records![index - 1];
-               if (row.type == "data") {
-                  let stopMerge = false;
-                  for (let mi = 0; mi < mergedColumns.length; mi++) {
-                     let mergedCol = mergedColumns[mi];
-                     let cellInfo = getCellRenderInfo(row.vdom, mergedCol.index);
-                     cellInfo.merged = false;
-                     delete cellInfo.mergeRowSpan;
-                     if (prevRow?.type == "data") {
-                        let shouldMerge = false;
-                        switch (mergedCol.mode) {
-                           case "always":
-                              shouldMerge = true;
-                              break;
-                           case "same-value":
-                              let prevCellInfo = getCellRenderInfo(prevRow.vdom, mergedCol.index);
-                              shouldMerge = !stopMerge && cellInfo.data.value === prevCellInfo.data.value;
-                              break;
-                        }
-
-                        if (shouldMerge) {
-                           cellInfo.merged = true;
-                           rowSpan[mergedCol.uniqueColumnId] = (rowSpan[mergedCol.uniqueColumnId] ?? 1) + 1;
-                        } else {
-                           if (mergedCol.mode == "same-value") stopMerge = true;
-                        }
-                     }
-                     if (!cellInfo.merged && rowSpan[mergedCol.uniqueColumnId] > 1) {
-                        cellInfo.mergeRowSpan = rowSpan[mergedCol.uniqueColumnId];
-                        rowSpan[mergedCol.uniqueColumnId] = 1;
-                     }
-                  }
-               } else rowSpan = {};
-            }
-         }
+      if (widget.buffered) this.renderBufferedRows(start, end, addRow, children, fixedChildren);
+      else {
+         if (instance.row.hasMergedCells) this.mergeCells();
 
          instance.records!.forEach((record, i) => {
             if (record.type == "data") addRow(record, i, false);
@@ -531,46 +377,7 @@ export class GridComponent extends VDOM.Component<GridComponentProps, GridCompon
          });
       }
 
-      if (this.state.dropTarget == "grid" && this.state.dropInsertionIndex != null) {
-         let dragInsertionRow = (
-            <tbody key="dropzone">
-               <tr>
-                  <td
-                     className={CSS.element(baseClass, "dropzone")}
-                     colSpan={1000}
-                     style={{
-                        height: data.dropMode == "insertion" ? 0 : this.state.dropItemHeight,
-                     }}
-                  />
-               </tr>
-            </tbody>
-         );
-
-         let dataRecordClass = CSS.element(baseClass, "data");
-
-         let isDataRecord = widget.buffered
-            ? (item: any) => item?.props?.instance?.data?.class == dataRecordClass
-            : (item: any) => item?.props?.record?.type;
-
-         let index = 0;
-         while (index < children.length && !isDataRecord(children[index])) index++;
-
-         let count = 0;
-         while (index < children.length && count < this.state.dropInsertionIndex) {
-            if (isDataRecord(children[index])) count++;
-            index++;
-         }
-
-         let savedIndexPos = index;
-
-         if (!this.state.dropNextToTheRowAbove)
-            while (index < children.length && !isDataRecord(children[index])) index++;
-
-         // do not allow insertion after the last group footer
-         if (savedIndexPos < index && index == children.length) index = savedIndexPos;
-
-         children.splice(index, 0, dragInsertionRow);
-      }
+      if (this.state.dropTarget == "grid" && this.state.dropInsertionIndex != null) this.insertDropZoneRow(children);
 
       let content = [],
          fixedColumnsContent = [];
@@ -740,6 +547,221 @@ export class GridComponent extends VDOM.Component<GridComponentProps, GridCompon
             {this.props.children}
          </div>
       );
+   }
+
+   // adds the rows in the visible range of a buffered grid; records that are not loaded yet get placeholder rows
+   renderBufferedRows(
+      start: number,
+      end: number,
+      addRow: (record: any, index: number, standalone?: boolean) => void,
+      children: any[],
+      fixedChildren: any[],
+   ) {
+      let { instance, data } = this.props;
+      let { widget, hasFixedColumns } = instance;
+      let { CSS, baseClass } = widget;
+
+      let context = new RenderingContext();
+      let dummyDataClass = CSS.element(baseClass, "data", { dummy: true });
+      if (!instance.recordInstanceCache) instance.recordInstanceCache = new InstanceCache(instance);
+      instance.recordInstanceCache.mark();
+      this.getRecordsSlice(start, end).forEach((r: any, i: any) => {
+         if (r == null) {
+            addRow(
+               {
+                  key: "dummy-" + start + i,
+                  row: {
+                     data: { classNames: dummyDataClass },
+                     widget: instance.row,
+                  },
+                  vdom: {
+                     content: [
+                        {
+                           key: 0,
+                           data: {},
+                           content: [
+                              {
+                                 key: 0,
+                                 data: {
+                                    colSpan: 1000,
+                                    style: {
+                                       height: `${this.rowHeight}px`,
+                                    },
+                                 },
+                              },
+                           ],
+                        },
+                     ],
+                  },
+               },
+               start + i,
+            );
+         } else {
+            let record = instance.records
+               ? r
+               : widget.mapRecord(context, instance, r, widget.infinite ? start + i - data.offset : start + i);
+            let row = (record.row = instance.recordInstanceCache.getChild(instance.row, record.store, record.key));
+            instance.recordInstanceCache.addChild(row);
+            row.detached = true;
+            row.selected = instance.isSelected(record.data, record.index);
+
+            if (record.type == "data") {
+               addRow(record, start + i, true);
+            } else if (record.type == "group-header") {
+               let g = record.grouping;
+               if (g.caption || g.showCaption) {
+                  children.push(
+                     widget.renderGroupHeader(
+                        null,
+                        instance,
+                        g,
+                        record.level,
+                        record.group,
+                        record.key + "-caption",
+                        record.store,
+                        false,
+                     ),
+                  );
+
+                  if (hasFixedColumns)
+                     fixedChildren.push(
+                        widget.renderGroupHeader(
+                           null,
+                           instance,
+                           g,
+                           record.level,
+                           record.group,
+                           record.key + "-caption",
+                           record.store,
+                           true,
+                        ),
+                     );
+               }
+            } else if (record.type == "group-footer") {
+               let g = record.grouping;
+               if (g.showFooter && (!widget.fixedFooter || start + i != instance.records!.length - 1)) {
+                  children.push(
+                     widget.renderGroupFooter(
+                        null,
+                        instance,
+                        g,
+                        record.level,
+                        record.group,
+                        record.key + "-footer",
+                        record.store,
+                        false,
+                        false,
+                     ),
+                  );
+
+                  if (hasFixedColumns)
+                     fixedChildren.push(
+                        widget.renderGroupFooter(
+                           null,
+                           instance,
+                           g,
+                           record.level,
+                           record.group,
+                           record.key + "-footer",
+                           record.store,
+                           false,
+                           true,
+                        ),
+                     );
+               }
+            }
+         }
+      });
+      instance.recordInstanceCache.sweep();
+   }
+
+   mergeCells() {
+      let { instance } = this.props;
+      let { mergedColumns } = instance.row;
+      // merge adjacent cells with the same value in columns that are marked as merged
+      let rowSpan: Record<string, any> = {};
+      let getCellRenderInfo = (vdom: any, cellIndex: number) => vdom.content[0]?.content[cellIndex];
+      for (let index = instance.records!.length - 1; index >= 0; index--) {
+         let row = instance.records![index];
+         let prevRow = instance.records![index - 1];
+         if (row.type == "data") {
+            let stopMerge = false;
+            for (let mi = 0; mi < mergedColumns.length; mi++) {
+               let mergedCol = mergedColumns[mi];
+               let cellInfo = getCellRenderInfo(row.vdom, mergedCol.index);
+               cellInfo.merged = false;
+               delete cellInfo.mergeRowSpan;
+               if (prevRow?.type == "data") {
+                  let shouldMerge = false;
+                  switch (mergedCol.mode) {
+                     case "always":
+                        shouldMerge = true;
+                        break;
+                     case "same-value":
+                        let prevCellInfo = getCellRenderInfo(prevRow.vdom, mergedCol.index);
+                        shouldMerge = !stopMerge && cellInfo.data.value === prevCellInfo.data.value;
+                        break;
+                  }
+
+                  if (shouldMerge) {
+                     cellInfo.merged = true;
+                     rowSpan[mergedCol.uniqueColumnId] = (rowSpan[mergedCol.uniqueColumnId] ?? 1) + 1;
+                  } else {
+                     if (mergedCol.mode == "same-value") stopMerge = true;
+                  }
+               }
+               if (!cellInfo.merged && rowSpan[mergedCol.uniqueColumnId] > 1) {
+                  cellInfo.mergeRowSpan = rowSpan[mergedCol.uniqueColumnId];
+                  rowSpan[mergedCol.uniqueColumnId] = 1;
+               }
+            }
+         } else rowSpan = {};
+      }
+   }
+
+   // inserts the row that shows where the dragged rows will be dropped
+   insertDropZoneRow(children: any[]) {
+      let { instance, data } = this.props;
+      let { widget } = instance;
+      let { CSS, baseClass } = widget;
+
+      let dragInsertionRow = (
+         <tbody key="dropzone">
+            <tr>
+               <td
+                  className={CSS.element(baseClass, "dropzone")}
+                  colSpan={1000}
+                  style={{
+                     height: data.dropMode == "insertion" ? 0 : this.state.dropItemHeight,
+                  }}
+               />
+            </tr>
+         </tbody>
+      );
+
+      let dataRecordClass = CSS.element(baseClass, "data");
+
+      let isDataRecord = widget.buffered
+         ? (item: any) => item?.props?.instance?.data?.class == dataRecordClass
+         : (item: any) => item?.props?.record?.type;
+
+      let index = 0;
+      while (index < children.length && !isDataRecord(children[index])) index++;
+
+      let count = 0;
+      while (index < children.length && count < this.state.dropInsertionIndex!) {
+         if (isDataRecord(children[index])) count++;
+         index++;
+      }
+
+      let savedIndexPos = index;
+
+      if (!this.state.dropNextToTheRowAbove) while (index < children.length && !isDataRecord(children[index])) index++;
+
+      // do not allow insertion after the last group footer
+      if (savedIndexPos < index && index == children.length) index = savedIndexPos;
+
+      children.splice(index, 0, dragInsertionRow);
    }
 
    getRecordsSlice(start: number, end: number): MappedGridRecord<any>[] {
@@ -1292,228 +1314,265 @@ export class GridComponent extends VDOM.Component<GridComponentProps, GridCompon
 
    componentDidUpdate() {
       let { instance, data } = this.props;
-      let { widget, fixedFooterOverlap } = instance;
+      let { widget } = instance;
 
       if (
          widget.lockColumnWidths &&
          isArray(data.records) &&
          data.records.length >= widget.lockColumnWidthsRequiredRowCount
-      ) {
-         let headerTBody = this.dom.table!.firstChild! as HTMLElement;
-         for (let r = 0; r < headerTBody.children.length; r++) {
-            let sr = headerTBody.children[r];
-            for (let c = 0; c < sr.children.length; c++) {
-               let cell = sr.children[c] as HTMLElement;
-               cell.style.width =
-                  cell.style.minWidth =
-                  cell.style.maxWidth =
-                     `${(sr.children[c] as HTMLElement).offsetWidth}px`;
-               cell.style.boxSizing = "border-box";
-               if ((cell as HTMLElement).dataset.uniqueColId)
-                  instance.state.lockedColWidth[(cell as HTMLElement).dataset.uniqueColId!] = (
-                     sr.children[c] as HTMLElement
-                  ).offsetWidth;
-            }
-         }
-      }
+      )
+         this.lockColumnWidths();
 
       if (widget.scrollable) {
          this.scrollWidth = this.dom.scroller!.offsetWidth - this.dom.scroller!.clientWidth;
 
-         let resized = false,
-            headerHeight = 0,
-            footerHeight = 0,
-            rowHeight = 0;
+         let { resized, headerHeight } = this.syncFixedHeaders();
+         let footerHeight = this.syncFixedFooters();
+         this.updateTableMargins(headerHeight, footerHeight);
+         this.resetScrollPosition();
 
-         if (this.dom.fixedTable!)
-            syncHeaderHeights(
-               this.dom.table!.firstChild as HTMLTableSectionElement,
-               this.dom.fixedTable!.firstChild as HTMLTableSectionElement,
-            );
-
-         if (this.dom.fixedHeader!) {
-            let fixedHeaderTBody = this.dom.fixedHeader!.firstChild!.firstChild as HTMLTableSectionElement;
-
-            resized = widget.preciseMeasurements
-               ? copyCellSizePrecise(this.dom.table!.firstChild as HTMLTableSectionElement, fixedHeaderTBody)
-               : copyCellSize(this.dom.table!.firstChild as HTMLTableSectionElement, fixedHeaderTBody);
-
-            let scrollColumnEl = fixedHeaderTBody?.firstChild?.lastChild as HTMLElement | null;
-            if (scrollColumnEl) scrollColumnEl.style.minWidth = scrollColumnEl.style.maxWidth = this.scrollWidth + "px";
-
-            this.dom.fixedHeader!.style.display = "block";
-            headerHeight = this.dom.fixedHeader!.offsetHeight;
-            this.dom.scroller!.style.marginTop = `${headerHeight}px`;
-            if (this.dom.fixedScroller!) this.dom.fixedScroller!.style.marginTop = `${headerHeight}px`;
-            else if (this.dom.fixedHeader!.style.left != null) this.dom.fixedHeader!.style.removeProperty("left");
-         } else {
-            this.dom.scroller!.style.removeProperty("marginTop");
-            if (this.dom.fixedScroller!) this.dom.fixedScroller!.style.removeProperty("marginTop");
-         }
-
-         if (this.dom.fixedColumnsFixedHeader!) {
-            let fixedColumnsWidth = `${this.dom.fixedScroller!.offsetWidth}px`;
-            this.dom.fixedColumnsFixedHeader!.style.right = "auto";
-            this.dom.fixedColumnsFixedHeader!.style.width = fixedColumnsWidth;
-            if (this.dom.fixedHeader!) this.dom.fixedHeader!.style.left = fixedColumnsWidth;
-
-            this.dom.fixedColumnsFixedHeader!.style.display = "block";
-
-            let fixedHeaderTBody = this.dom.fixedColumnsFixedHeader!.firstElementChild
-               ?.firstElementChild as HTMLTableSectionElement;
-
-            if (this.dom.fixedTable!.firstChild) {
-               resized = copyCellSize(
-                  this.dom.fixedTable!.firstElementChild as HTMLTableSectionElement,
-                  fixedHeaderTBody,
-               );
-            }
-         }
-
-         if (this.dom.fixedFooter! || this.dom.fixedColumnsFixedFooter!) {
-            if (this.dom.fixedColumnsFixedFooter!) {
-               let fixedColumnsWidth = `${this.dom.fixedScroller!.offsetWidth}px`;
-               this.dom.fixedColumnsFixedFooter!.style.right = "auto";
-               this.dom.fixedColumnsFixedFooter!.style.width = fixedColumnsWidth;
-
-               let dstTableBody = this.dom.fixedColumnsFixedFooter!.firstElementChild
-                  ?.firstElementChild as HTMLTableSectionElement;
-               if (dstTableBody) {
-                  let srcTableBody = this.dom.fixedTable!.lastElementChild as HTMLTableSectionElement;
-                  copyCellSize(srcTableBody, dstTableBody, fixedFooterOverlap);
-                  this.dom.fixedColumnsFixedFooter!.style.display = "block";
-                  footerHeight = this.dom.fixedFooter!.offsetHeight;
-               }
-            }
-
-            if (this.dom.fixedFooter!) {
-               let dstTableBody = this.dom.fixedFooter!.firstElementChild?.firstElementChild as HTMLTableSectionElement;
-
-               if (dstTableBody) {
-                  let srcTableBody = this.dom.table!.lastElementChild as HTMLTableSectionElement;
-
-                  copyCellSize(srcTableBody, dstTableBody, fixedFooterOverlap);
-
-                  let scrollColumnEl = dstTableBody.firstElementChild?.lastElementChild as HTMLElement;
-                  if (scrollColumnEl)
-                     scrollColumnEl.style.minWidth = scrollColumnEl.style.maxWidth = this.scrollWidth + "px";
-
-                  this.dom.fixedFooter!.style.display = "block";
-                  footerHeight = this.dom.fixedFooter!.offsetHeight;
-               }
-
-               if (this.dom.fixedScroller!)
-                  this.dom.fixedFooter!.style.left = `${this.dom.fixedScroller!.offsetWidth}px`;
-               else if (this.dom.fixedFooter!.style.left != null) this.dom.fixedFooter!.style.removeProperty("left");
-            }
-
-            this.dom.scroller!.style.marginBottom = `${footerHeight}px`;
-            if (this.dom.fixedScroller!) this.dom.fixedScroller!.style.marginBottom = `${footerHeight}px`;
-         } else {
-            this.dom.scroller!.style.marginBottom = "0";
-            if (this.dom.fixedScroller!) this.dom.fixedScroller!.style.marginBottom = "0";
-         }
-
-         let scrollOverlap = fixedFooterOverlap ? footerHeight : 0;
-
-         if (widget.buffered) {
-            let { start, end } = this.getBufferStartEnd();
-            let remaining = 0,
-               count = Math.min(data.totalRecordCount, end! - start!);
-
-            if (widget.measureRowHeights) {
-               if (!this.rowHeights) this.rowHeights = {};
-               if (!this.heightStats) this.heightStats = new AvgHeight();
-               for (let i = 0; i < this.dom.table!.children.length; i++) {
-                  let body = this.dom.table!.children[i] as HTMLElement;
-                  if (body.dataset.recordKey != null) {
-                     if (!(body.dataset.recordKey in this.rowHeights)) this.heightStats.add("data", body.offsetHeight);
-                     this.rowHeights[body.dataset.recordKey] = body.offsetHeight;
-                  } else if (body.dataset.groupKey) {
-                     let key = body.dataset.groupElement + "-" + body.dataset.groupKey;
-                     this.rowHeights[key] = body.offsetHeight;
-                     if (!(body.dataset.recordKey! in this.rowHeights))
-                        this.heightStats.add(body.dataset.groupElement!, body.offsetHeight);
-                  }
-               }
-            }
-
-            if (count > 0) {
-               //do not change row height while a drag-drop operation is in place
-               rowHeight = this.state.dragged
-                  ? this.rowHeight!
-                  : Math.round((this.dom.table!.offsetHeight - headerHeight) / count);
-               // if (this.rowHeight && this.rowHeight != rowHeight) {
-               //    console.warn("ROW-HEIGHT-CHANGE", this.rowHeight, rowHeight);
-               // }
-               remaining = Math.max(0, data.totalRecordCount - end);
-            }
-
-            let upperMargin = 0,
-               lowerMargin = 0;
-            if (widget.measureRowHeights && instance.records) {
-               upperMargin = this.estimateHeight(instance.records, 0, start);
-               lowerMargin = this.estimateHeight(instance.records, end, instance.records.length);
-            } else {
-               upperMargin = start * rowHeight;
-               lowerMargin = remaining * rowHeight;
-            }
-
-            //console.log(upperMargin, start * rowHeight, this.rowHeights, this.heightStats);
-
-            this.dom.table!.style.marginTop = `${(-headerHeight + upperMargin).toFixed(0)}px`;
-            this.dom.table!.style.marginBottom = `${(lowerMargin - scrollOverlap).toFixed(0)}px`;
-         } else {
-            this.dom.table!.style.marginTop = `${-headerHeight}px`;
-            this.dom.table!.style.marginBottom = `${-scrollOverlap}px`;
-         }
-
-         if (this.dom.fixedTable!) {
-            this.dom.fixedTable!.style.marginTop = this.dom.table!.style.marginTop;
-            this.dom.fixedTable!.style.marginBottom = this.dom.table!.style.marginBottom;
-         }
-
-         this.rowHeight = rowHeight;
-
-         let sortersChanged = widget.infinite && !shallowEquals(data.sorters, this.lastSorters);
-
-         if (data.empty && !widget.infinite) {
-            this.dom.scroller!.scrollTop = 0;
-         }
-
-         if (
-            sortersChanged ||
-            data.filterParams !== this.lastScrollFilterParams ||
-            data.scrollResetParams !== this.lastScrollResetParams
-         ) {
-            this.dom.scroller!.scrollTop = 0;
-            this.lastScrollFilterParams = data.filterParams;
-            this.lastScrollResetParams = data.scrollResetParams;
-            this.lastSorters = data.sorters;
-            if (widget.infinite) {
-               this.loadingStartPage = 0;
-               this.loadingEndPage = 0;
-               instance.buffer.records = data.records = [];
-               instance.buffer.totalRecordCount = 0;
-               instance.buffer.page = 1;
-               this.prevFetchRecordsState = null;
-               this.loading = false;
-            }
-         }
-
-         if (widget.scrollSelectionIntoView && !widget.buffered) {
-            let { CSS, baseClass } = widget;
-            let selectedRowSelector = `.${CSS.element(baseClass, "data")}.${CSS.state("selected")}`;
-            let firstSelectedRow = this.dom.table!.querySelector(selectedRowSelector);
-            if (firstSelectedRow != this.selectedEl) {
-               firstSelectedRow && scrollElementIntoView(firstSelectedRow);
-               this.selectedEl = firstSelectedRow;
-            }
-         }
+         if (widget.scrollSelectionIntoView && !widget.buffered) this.scrollSelectionIntoView();
 
          setTimeout(this.onScroll.bind(this), 0);
 
          if (resized) instance.fixedHeaderResizeEvent.notify();
+      }
+   }
+
+   // keeps the header cells at the widths they have now, see Grid.lockColumnWidths
+   lockColumnWidths() {
+      let { instance } = this.props;
+      let headerTBody = this.dom.table!.firstChild! as HTMLElement;
+      for (let r = 0; r < headerTBody.children.length; r++) {
+         let sr = headerTBody.children[r];
+         for (let c = 0; c < sr.children.length; c++) {
+            let cell = sr.children[c] as HTMLElement;
+            cell.style.width =
+               cell.style.minWidth =
+               cell.style.maxWidth =
+                  `${(sr.children[c] as HTMLElement).offsetWidth}px`;
+            cell.style.boxSizing = "border-box";
+            if ((cell as HTMLElement).dataset.uniqueColId)
+               instance.state.lockedColWidth[(cell as HTMLElement).dataset.uniqueColId!] = (
+                  sr.children[c] as HTMLElement
+               ).offsetWidth;
+         }
+      }
+   }
+
+   // sizes the fixed header tables to match the main table and returns the height of the header
+   syncFixedHeaders() {
+      let { widget } = this.props.instance;
+      let resized = false,
+         headerHeight = 0;
+
+      if (this.dom.fixedTable!)
+         syncHeaderHeights(
+            this.dom.table!.firstChild as HTMLTableSectionElement,
+            this.dom.fixedTable!.firstChild as HTMLTableSectionElement,
+         );
+
+      if (this.dom.fixedHeader!) {
+         let fixedHeaderTBody = this.dom.fixedHeader!.firstChild!.firstChild as HTMLTableSectionElement;
+
+         resized = widget.preciseMeasurements
+            ? copyCellSizePrecise(this.dom.table!.firstChild as HTMLTableSectionElement, fixedHeaderTBody)
+            : copyCellSize(this.dom.table!.firstChild as HTMLTableSectionElement, fixedHeaderTBody);
+
+         let scrollColumnEl = fixedHeaderTBody?.firstChild?.lastChild as HTMLElement | null;
+         if (scrollColumnEl) scrollColumnEl.style.minWidth = scrollColumnEl.style.maxWidth = this.scrollWidth + "px";
+
+         this.dom.fixedHeader!.style.display = "block";
+         headerHeight = this.dom.fixedHeader!.offsetHeight;
+         this.dom.scroller!.style.marginTop = `${headerHeight}px`;
+         if (this.dom.fixedScroller!) this.dom.fixedScroller!.style.marginTop = `${headerHeight}px`;
+         else if (this.dom.fixedHeader!.style.left != null) this.dom.fixedHeader!.style.removeProperty("left");
+      } else {
+         this.dom.scroller!.style.removeProperty("marginTop");
+         if (this.dom.fixedScroller!) this.dom.fixedScroller!.style.removeProperty("marginTop");
+      }
+
+      if (this.dom.fixedColumnsFixedHeader!) {
+         let fixedColumnsWidth = `${this.dom.fixedScroller!.offsetWidth}px`;
+         this.dom.fixedColumnsFixedHeader!.style.right = "auto";
+         this.dom.fixedColumnsFixedHeader!.style.width = fixedColumnsWidth;
+         if (this.dom.fixedHeader!) this.dom.fixedHeader!.style.left = fixedColumnsWidth;
+
+         this.dom.fixedColumnsFixedHeader!.style.display = "block";
+
+         let fixedHeaderTBody = this.dom.fixedColumnsFixedHeader!.firstElementChild
+            ?.firstElementChild as HTMLTableSectionElement;
+
+         if (this.dom.fixedTable!.firstChild) {
+            resized = copyCellSize(this.dom.fixedTable!.firstElementChild as HTMLTableSectionElement, fixedHeaderTBody);
+         }
+      }
+
+      return { resized, headerHeight };
+   }
+
+   // sizes the fixed footer tables to match the main table and returns the height of the footer
+   syncFixedFooters() {
+      let { fixedFooterOverlap } = this.props.instance;
+      let footerHeight = 0;
+
+      if (this.dom.fixedFooter! || this.dom.fixedColumnsFixedFooter!) {
+         if (this.dom.fixedColumnsFixedFooter!) {
+            let fixedColumnsWidth = `${this.dom.fixedScroller!.offsetWidth}px`;
+            this.dom.fixedColumnsFixedFooter!.style.right = "auto";
+            this.dom.fixedColumnsFixedFooter!.style.width = fixedColumnsWidth;
+
+            let dstTableBody = this.dom.fixedColumnsFixedFooter!.firstElementChild
+               ?.firstElementChild as HTMLTableSectionElement;
+            if (dstTableBody) {
+               let srcTableBody = this.dom.fixedTable!.lastElementChild as HTMLTableSectionElement;
+               copyCellSize(srcTableBody, dstTableBody, fixedFooterOverlap);
+               this.dom.fixedColumnsFixedFooter!.style.display = "block";
+               footerHeight = this.dom.fixedFooter!.offsetHeight;
+            }
+         }
+
+         if (this.dom.fixedFooter!) {
+            let dstTableBody = this.dom.fixedFooter!.firstElementChild?.firstElementChild as HTMLTableSectionElement;
+
+            if (dstTableBody) {
+               let srcTableBody = this.dom.table!.lastElementChild as HTMLTableSectionElement;
+
+               copyCellSize(srcTableBody, dstTableBody, fixedFooterOverlap);
+
+               let scrollColumnEl = dstTableBody.firstElementChild?.lastElementChild as HTMLElement;
+               if (scrollColumnEl)
+                  scrollColumnEl.style.minWidth = scrollColumnEl.style.maxWidth = this.scrollWidth + "px";
+
+               this.dom.fixedFooter!.style.display = "block";
+               footerHeight = this.dom.fixedFooter!.offsetHeight;
+            }
+
+            if (this.dom.fixedScroller!) this.dom.fixedFooter!.style.left = `${this.dom.fixedScroller!.offsetWidth}px`;
+            else if (this.dom.fixedFooter!.style.left != null) this.dom.fixedFooter!.style.removeProperty("left");
+         }
+
+         this.dom.scroller!.style.marginBottom = `${footerHeight}px`;
+         if (this.dom.fixedScroller!) this.dom.fixedScroller!.style.marginBottom = `${footerHeight}px`;
+      } else {
+         this.dom.scroller!.style.marginBottom = "0";
+         if (this.dom.fixedScroller!) this.dom.fixedScroller!.style.marginBottom = "0";
+      }
+
+      return footerHeight;
+   }
+
+   // makes room for the fixed header and footer and, in buffered grids, for the rows that are not rendered
+   updateTableMargins(headerHeight: number, footerHeight: number) {
+      let { instance, data } = this.props;
+      let { widget, fixedFooterOverlap } = instance;
+      let rowHeight = 0;
+
+      let scrollOverlap = fixedFooterOverlap ? footerHeight : 0;
+
+      if (widget.buffered) {
+         let { start, end } = this.getBufferStartEnd();
+         let remaining = 0,
+            count = Math.min(data.totalRecordCount, end! - start!);
+
+         if (widget.measureRowHeights) this.recordRowHeights();
+
+         if (count > 0) {
+            //do not change row height while a drag-drop operation is in place
+            rowHeight = this.state.dragged
+               ? this.rowHeight!
+               : Math.round((this.dom.table!.offsetHeight - headerHeight) / count);
+            // if (this.rowHeight && this.rowHeight != rowHeight) {
+            //    console.warn("ROW-HEIGHT-CHANGE", this.rowHeight, rowHeight);
+            // }
+            remaining = Math.max(0, data.totalRecordCount - end);
+         }
+
+         let upperMargin = 0,
+            lowerMargin = 0;
+         if (widget.measureRowHeights && instance.records) {
+            upperMargin = this.estimateHeight(instance.records, 0, start);
+            lowerMargin = this.estimateHeight(instance.records, end, instance.records.length);
+         } else {
+            upperMargin = start * rowHeight;
+            lowerMargin = remaining * rowHeight;
+         }
+
+         //console.log(upperMargin, start * rowHeight, this.rowHeights, this.heightStats);
+
+         this.dom.table!.style.marginTop = `${(-headerHeight + upperMargin).toFixed(0)}px`;
+         this.dom.table!.style.marginBottom = `${(lowerMargin - scrollOverlap).toFixed(0)}px`;
+      } else {
+         this.dom.table!.style.marginTop = `${-headerHeight}px`;
+         this.dom.table!.style.marginBottom = `${-scrollOverlap}px`;
+      }
+
+      if (this.dom.fixedTable!) {
+         this.dom.fixedTable!.style.marginTop = this.dom.table!.style.marginTop;
+         this.dom.fixedTable!.style.marginBottom = this.dom.table!.style.marginBottom;
+      }
+
+      this.rowHeight = rowHeight;
+   }
+
+   // records the heights of the rendered rows, used to estimate the heights of rows that are not rendered
+   recordRowHeights() {
+      if (!this.rowHeights) this.rowHeights = {};
+      if (!this.heightStats) this.heightStats = new AvgHeight();
+      for (let i = 0; i < this.dom.table!.children.length; i++) {
+         let body = this.dom.table!.children[i] as HTMLElement;
+         if (body.dataset.recordKey != null) {
+            if (!(body.dataset.recordKey in this.rowHeights)) this.heightStats.add("data", body.offsetHeight);
+            this.rowHeights[body.dataset.recordKey] = body.offsetHeight;
+         } else if (body.dataset.groupKey) {
+            let key = body.dataset.groupElement + "-" + body.dataset.groupKey;
+            this.rowHeights[key] = body.offsetHeight;
+            if (!(body.dataset.recordKey! in this.rowHeights))
+               this.heightStats.add(body.dataset.groupElement!, body.offsetHeight);
+         }
+      }
+   }
+
+   // scrolls to the top when the grid is empty or its sorting, filtering or scrollResetParams change
+   resetScrollPosition() {
+      let { instance, data } = this.props;
+      let { widget } = instance;
+
+      let sortersChanged = widget.infinite && !shallowEquals(data.sorters, this.lastSorters);
+
+      if (data.empty && !widget.infinite) {
+         this.dom.scroller!.scrollTop = 0;
+      }
+
+      if (
+         sortersChanged ||
+         data.filterParams !== this.lastScrollFilterParams ||
+         data.scrollResetParams !== this.lastScrollResetParams
+      ) {
+         this.dom.scroller!.scrollTop = 0;
+         this.lastScrollFilterParams = data.filterParams;
+         this.lastScrollResetParams = data.scrollResetParams;
+         this.lastSorters = data.sorters;
+         if (widget.infinite) {
+            this.loadingStartPage = 0;
+            this.loadingEndPage = 0;
+            instance.buffer.records = data.records = [];
+            instance.buffer.totalRecordCount = 0;
+            instance.buffer.page = 1;
+            this.prevFetchRecordsState = null;
+            this.loading = false;
+         }
+      }
+   }
+
+   scrollSelectionIntoView() {
+      let { widget } = this.props.instance;
+      let { CSS, baseClass } = widget;
+      let selectedRowSelector = `.${CSS.element(baseClass, "data")}.${CSS.state("selected")}`;
+      let firstSelectedRow = this.dom.table!.querySelector(selectedRowSelector);
+      if (firstSelectedRow != this.selectedEl) {
+         firstSelectedRow && scrollElementIntoView(firstSelectedRow);
+         this.selectedEl = firstSelectedRow;
       }
    }
 
