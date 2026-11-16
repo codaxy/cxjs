@@ -1,6 +1,7 @@
 import { PureContainerBase, PureContainerConfig } from "./PureContainer";
 import { isArray } from "../util/isArray";
 import { Instance } from "./Instance";
+import { StaticChildState } from "./ChildState";
 import { StructuredProp } from "./Prop";
 import { AccessorChain } from "../data";
 
@@ -44,9 +45,10 @@ export class IsolatedScope<
       if (instance.shouldUpdate) {
          super.explore(context, instance);
       } else if (instance.children) {
-         // mark children to prevent sweeping them away
+         // mark children to prevent sweeping them away; static children are not cached
          for (let i = 0; i < instance.children.length; i++)
-            instance.instanceCache.addChild(instance.children[i]);
+            if (!(instance.children[i] instanceof StaticChildState))
+               instance.instanceCache.addChild(instance.children[i]);
       }
    }
 }

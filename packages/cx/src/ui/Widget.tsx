@@ -16,6 +16,7 @@ import type {
 
 import { BooleanProp, ClassProp, ModProp, StyleProp } from "./Prop";
 import { Instance } from "./Instance";
+import type { StaticChildState } from "./ChildState";
 import { VDOM as vdom } from "./VDOM";
 import { View } from "../data/View";
 
@@ -121,6 +122,10 @@ export abstract class Widget<
   public selector?: StructuredSelector;
   public nameMap?: any;
   public version?: number;
+  /** Set when the widget is first explored as a child: whether it is rendered through the shared instance. */
+  declare public sharesInstance?: boolean;
+  /** Set when the widget is first explored as a child: its state shared by all its parents if static, or null. */
+  declare public staticState?: StaticChildState | null;
 
   // Lifecycle hooks - callbacks that can be set in configuration
   declare public onInit?: (
@@ -154,6 +159,13 @@ export abstract class Widget<
   public prepare?(context: RenderingContext, instance: InstanceType): void;
 
   public static optimizePrepare?: boolean;
+
+  /**
+   * Whether widgets that allow it, such as plain elements and text, are rendered without instances of their own, and
+   * static content once for all its parents (see SharedInstance). On by default; set it to false before the first
+   * render to give every widget an instance of its own, as before.
+   */
+  public static shareInstances: boolean;
 
   constructor(config?: Config) {
     super(config);
@@ -301,7 +313,24 @@ export abstract class Widget<
     );
   }
 
+  /**
+   * Whether the widget can be rendered through a shared instance, without an instance of its own (see
+   * SharedInstance). Widgets can allow it if their instances keep nothing but their data, and their render
+   * results do not keep the instance, for example in event handlers.
+   */
+  public canShareInstance(): boolean {
+    return false;
+  }
+
+  /**
+   * Makes the widget render again after its configuration was changed. Static widgets, whose data is constant and
+   * which are rendered once for all their parents (see SharedInstance), cannot be updated.
+   */
   public update(): void {
+    if (this.staticState)
+      throw new Error(
+        "Static widgets cannot be updated, as they are rendered once for all their parents. Bind the changing values to the store instead.",
+      );
     this.version = (this.version || 0) + 1;
   }
 
@@ -324,6 +353,7 @@ Widget.prototype.styled = false;
 
 Widget.namespace = "ui.";
 Widget.optimizePrepare = true;
+Widget.shareInstances = true;
 
 Widget.factory = (type: string, _config?: any, _more?: any) => {
   throw new Error(`Invalid widget type: ${type}.`);
