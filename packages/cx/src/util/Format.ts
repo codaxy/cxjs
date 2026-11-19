@@ -11,9 +11,12 @@ import { dayBefore } from "./date/dayBefore";
 
 type Formatter = (value: any) => string;
 
+// a formatter built by a factory may return null to have the value shown as null text
+type ValueFormatter = (value: any) => string | null;
+
 const defaultFormatter: Formatter = (v) => v.toString();
 
-let formatFactory: Record<string, (...args: any[]) => (value: any) => string> = {
+let formatFactory: Record<string, (...args: any[]) => ValueFormatter> = {
    string: function () {
       return defaultFormatter;
    },
@@ -181,7 +184,7 @@ formatFactory.capitalize = formatFactory.capitalize;
 formatFactory.titlecase = formatFactory.titleCase;
 
 function buildFormatter(format: string): Formatter {
-   let formatter = defaultFormatter,
+   let formatter: ValueFormatter = defaultFormatter,
       nullText = "";
    if (format) {
       let pipeParts = format.split("|");
@@ -195,11 +198,14 @@ function buildFormatter(format: string): Formatter {
          else {
             let outerFmt = factory(...parts);
             let innerFmt = formatter;
-            formatter = (v) => outerFmt(innerFmt(v));
+            formatter = (v) => {
+               let text = innerFmt(v);
+               return text == null ? text : outerFmt(text);
+            };
          }
       }
    }
-   return (v) => (v == null || v === "" ? nullText : formatter(v));
+   return (v) => (v == null || v === "" ? nullText : (formatter(v) ?? nullText));
 }
 
 let format: { cache: Record<string, Formatter>; cacheIdentifier?: number } = { cache: {} };
@@ -236,11 +242,11 @@ export class Format {
       return getFormatter(format);
    }
 
-   static register(format: string | string[], formatter: Formatter): void {
+   static register(format: string | string[], formatter: ValueFormatter): void {
       this.registerFactory(format, () => formatter);
    }
 
-   static registerFactory(format: string | string[], factory: (...args: any[]) => Formatter): void {
+   static registerFactory(format: string | string[], factory: (...args: any[]) => ValueFormatter): void {
       if (isArray(format)) format.forEach((f) => this.registerFactory(f, factory));
       else formatFactory[format] = factory;
    }
