@@ -37,55 +37,94 @@ export function resolveNumberFormattingFlags(flags?: string): any {
    return result;
 }
 
+// Builds a number formatter from Intl options and format flags. Values that round to zero at the
+// displayed precision count as zero: the `z` flag shows them as null text, and the `a` flag shows them
+// without a sign. Intl applies `currencySign: "accounting"` only to currencies, so other styles
+// get parentheses here.
+function getNumberFormatter(options: Intl.NumberFormatOptions, flags?: string): (value: number) => string | null {
+   let culture = Culture.getNumberCulture();
+   let flagOptions = resolveNumberFormattingFlags(flags);
+   let formatter = culture.getFormatter({ ...options, ...flagOptions });
+   let accounting = flags != null && flags.indexOf("a") >= 0;
+   let zeroAsNull = flags != null && flags.indexOf("z") >= 0;
+
+   if (!accounting && !zeroAsNull) return (value) => formatter.format(value);
+
+   // Compact notation applies the fraction digits to the shortened value, so only exact zero counts there.
+   let zeroLimit = Number.MIN_VALUE;
+   let { maximumFractionDigits } = options;
+   if (flagOptions?.notation != "compact" && maximumFractionDigits != null && maximumFractionDigits >= 0) {
+      // percentages are multiplied by 100 before rounding
+      zeroLimit = 5 / 10 ** (maximumFractionDigits + (options.style == "percent" ? 3 : 1));
+   }
+
+   let negativeLimit = -zeroLimit;
+
+   // Intl puts currencies in parentheses itself
+   if (!accounting || options.style == "currency") {
+      if (zeroAsNull) return (value) => (value < zeroLimit && value > negativeLimit ? null : formatter.format(value));
+      return (value) => formatter.format(value < zeroLimit && value > negativeLimit ? 0 : value);
+   }
+
+   let negativeFormatter = culture.getFormatter({ ...options, ...flagOptions, signDisplay: "never" });
+
+   if (zeroAsNull)
+      return (value) =>
+         value <= negativeLimit
+            ? "(" + negativeFormatter.format(value) + ")"
+            : value < zeroLimit
+              ? null
+              : formatter.format(value);
+
+   return (value) =>
+      value <= negativeLimit
+         ? "(" + negativeFormatter.format(value) + ")"
+         : formatter.format(value < zeroLimit ? 0 : value);
+}
+
 export function enableCultureSensitiveFormatting() {
    if (cultureSensitiveFormatsRegistered) return;
 
    cultureSensitiveFormatsRegistered = true;
 
-   Fmt.registerFactory(["number", "n"], (format: any, minimumFractionDigits?: any, maximumFractionDigits?: any, flags?: string) => {
-      let culture = Culture.getNumberCulture();
+   Fmt.registerFactory(
+      ["number", "n"],
+      (format: any, minimumFractionDigits?: any, maximumFractionDigits?: any, flags?: string) =>
+         getNumberFormatter(resolveMinMaxFractionDigits(minimumFractionDigits, maximumFractionDigits), flags),
+   );
 
-      let formatter = culture.getFormatter({
-         ...resolveMinMaxFractionDigits(minimumFractionDigits, maximumFractionDigits),
-         ...resolveNumberFormattingFlags(flags),
-      });
+   Fmt.registerFactory(
+      "currency",
+      (format: any, currency?: string, minimumFractionDigits?: any, maximumFractionDigits?: any, flags?: string) =>
+         getNumberFormatter(
+            {
+               style: "currency",
+               currency: currency || Culture.defaultCurrency,
+               ...resolveMinMaxFractionDigits(minimumFractionDigits, maximumFractionDigits),
+            },
+            flags,
+         ),
+   );
 
-      return (value: any) => formatter.format(value);
-   });
+   Fmt.registerFactory(
+      ["percentage", "p", "%"],
+      (format: any, minimumFractionDigits?: any, maximumFractionDigits?: any, flags?: string) =>
+         getNumberFormatter(
+            { style: "percent", ...resolveMinMaxFractionDigits(minimumFractionDigits, maximumFractionDigits) },
+            flags,
+         ),
+   );
 
-   Fmt.registerFactory("currency", (format: any, currency?: string, minimumFractionDigits?: any, maximumFractionDigits?: any, flags?: string) => {
-      let culture = Culture.getNumberCulture();
-      currency = currency || Culture.defaultCurrency;
-
-      let formatter = culture.getFormatter({
-         style: "currency",
-         currency: currency,
-         ...resolveMinMaxFractionDigits(minimumFractionDigits, maximumFractionDigits),
-         ...resolveNumberFormattingFlags(flags),
-      });
-
-      return (value: any) => formatter.format(value);
-   });
-
-   Fmt.registerFactory(["percentage", "p", "%"], (format: any, minimumFractionDigits?: any, maximumFractionDigits?: any, flags?: string) => {
-      let culture = Culture.getNumberCulture();
-      let formatter = culture.getFormatter({
-         style: "percent",
-         ...resolveMinMaxFractionDigits(minimumFractionDigits, maximumFractionDigits),
-         ...resolveNumberFormattingFlags(flags),
-      });
-      return (value: any) => formatter.format(value);
-   });
-
-   Fmt.registerFactory(["percentSign", "ps"], (format: any, minimumFractionDigits?: any, maximumFractionDigits?: any, flags?: string) => {
-      let culture = Culture.getNumberCulture();
-      let formatter = culture.getFormatter({
-         style: "percent",
-         ...resolveMinMaxFractionDigits(minimumFractionDigits, maximumFractionDigits),
-         ...resolveNumberFormattingFlags(flags),
-      });
-      return (value: any) => formatter.format(value / 100);
-   });
+   Fmt.registerFactory(
+      ["percentSign", "ps"],
+      (format: any, minimumFractionDigits?: any, maximumFractionDigits?: any, flags?: string) => {
+         let formatter = getNumberFormatter(
+            { style: "percent", ...resolveMinMaxFractionDigits(minimumFractionDigits, maximumFractionDigits) },
+            flags,
+         );
+         return (value: any) => formatter(value / 100);
+      },
+   );
 
    Fmt.registerFactory(["date", "d"], (fmt: any, format = "yyyyMMdd") => {
       let culture = Culture.getDateTimeCulture();
