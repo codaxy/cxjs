@@ -158,7 +158,15 @@ export class NumberField<
       let result = instance.invoke("onParseInput", value, instance);
       if (result !== undefined) return result;
     }
-    return Culture.getNumberCulture().parse(value);
+    let result = Culture.getNumberCulture().parse(value);
+    // accounting formats show negative values in parentheses
+    if (
+      result > 0 &&
+      hasOpeningParenthesis(value) &&
+      isAccountingFormat(instance.data.format)
+    )
+      result = -result;
+    return result;
   }
 
   validate(
@@ -591,7 +599,7 @@ class Input extends VDOM.Component<InputProps, InputState> {
 
       value = widget.parseValue(formatted, instance) * data.scale + data.offset;
 
-      // Allow users to type numbers like 100.0003 or -0.05 without interruptions
+      // Allow users to type numbers like 100.0003, -0.05 or (0.05) without interruptions
       // If the last typed character is zero or dot (decimal separator), skip processing it
       let selectionEnd = this.input!.selectionEnd;
       if (
@@ -603,7 +611,9 @@ class Input extends VDOM.Component<InputProps, InputState> {
         (inputValue[selectionEnd - 1] == decimalSeparator ||
           (inputValue.indexOf(decimalSeparator) >= 0 &&
             inputValue[selectionEnd - 1] == "0") ||
-          (selectionEnd == 2 && inputValue[0] === "-" && inputValue[1] === "0"))
+          (selectionEnd == 2 &&
+            (inputValue[0] === "-" || inputValue[0] === "(") &&
+            inputValue[1] === "0"))
       )
         return;
 
@@ -651,4 +661,21 @@ class Input extends VDOM.Component<InputProps, InputState> {
       instance.set("focused", false);
     }
   }
+}
+
+// true if the text has an opening parenthesis before the first digit
+function hasOpeningParenthesis(text: string): boolean {
+  for (let i = 0; i < text.length; i++) {
+    if (text[i] == "(") return true;
+    if ("0" <= text[i] && text[i] <= "9") return false;
+  }
+  return false;
+}
+
+// true if the format shows negative values in parentheses, e.g. ($5.00), but not a suffix such as 5.00 (kg)
+function isAccountingFormat(format: string): boolean {
+  return (
+    hasOpeningParenthesis(Format.value(-1, format)) &&
+    !hasOpeningParenthesis(Format.value(1, format))
+  );
 }

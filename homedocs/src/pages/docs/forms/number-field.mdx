@@ -30,6 +30,8 @@ The `NumberField` widget is used for numeric inputs. It supports formatting for 
 
 NumberField supports various number formats including currencies and percentages. Use `scale` to convert between display and stored values (e.g., 0.01 for percentages).
 
+With the accounting flag `a`, negative values are shown in parentheses, and a value typed in parentheses, such as `(5)`, is read as negative. Don't use the `z` flag in NumberField formats: the field reads its formatted text back, and zero shown as null text can't be read back as zero.
+
 <CodeExample code={NumberFieldFormattingExampleCode}>
   <NumberFieldFormattingExample client:load />
 </CodeExample>
