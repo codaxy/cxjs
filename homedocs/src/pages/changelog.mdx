@@ -4,6 +4,25 @@ title: Changelog
 description: Version history and release notes
 ---
 
+## cx\@26.11.0
+
+**Features**
+
+- The accounting flag `a` now also works with `n`, `p` and `ps` formats, showing negative values in parentheses: `n;2;2;a` formats -1234.5 as `(1,234.50)` and `p;1;1;a` formats -0.052 as `(5.2%)`. Previously the flag had no effect on these formats. Currencies keep following the culture's accounting pattern ([#1357](https://github.com/codaxy/cxjs/pull/1357))
+- New `z` format flag shows zero as the null text, e.g. `n;2;2;z|-` formats 0 as `-` ([#1357](https://github.com/codaxy/cxjs/pull/1357))
+- A formatter registered with `Format.registerFactory` may return `null` to show the null text ([#1357](https://github.com/codaxy/cxjs/pull/1357))
+
+**Changes**
+
+- With the `a` or `z` flag, a value that rounds to zero at the displayed precision counts as zero, so floating-point leftovers such as `0.1 + 0.2 - 0.3` are treated as zero, and `currency;USD;2;2;a` now formats -0.001 as `$0.00` instead of `($0.00)` ([#1357](https://github.com/codaxy/cxjs/pull/1357))
+
+**Fixes**
+
+- `NumberField` with an accounting format, such as `currency;USD;2;2;a`, no longer turns negative values positive. The field read its own formatted text `($5.00)` back as +5; a value in parentheses is now read as negative when the format shows negative values that way, while parentheses elsewhere, such as a `(kg)` suffix, are not treated as a sign. A small negative value can be typed in parentheses, e.g. `(0.05)` ([#1357](https://github.com/codaxy/cxjs/pull/1357))
+- `Grid` and `List` with `cached` now keep the instances of unchanged rows. They were dropped and created again on the next change, which ran `onInit`/`onDestroy` of their content while the rows stayed on screen and made cached grids slower than uncached ones; changing only the grid header dropped all rows
+- `Repeater`'s `cached` option now takes effect: items of unchanged records are skipped. As with `Grid`, cached items that show data from outside their record no longer update when only that data changes
+---
+
 ## cx\@26.10.0
 
 **Changes**
