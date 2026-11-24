@@ -146,6 +146,37 @@ describe("PureContainer", () => {
       );
    });
 
+   it("renders text as a template with plainText={false} (#1354)", async () => {
+      let store = new Store({ data: { name: "John" } });
+      const screen = await render(
+         <cx>
+            <div>
+               <PureContainer plainText={false} items={["Hello {name}"]} />
+            </div>
+         </cx>,
+         { store },
+      );
+
+      assert.equal(screen.html(), "<div>Hello John</div>");
+
+      await settle(() => store.set("name", "Jane"));
+      assert.equal(screen.html(), "<div>Hello Jane</div>");
+   });
+
+   it("renders text with placeholders literally by default", async () => {
+      let store = new Store({ data: { name: "John" } });
+      const screen = await render(
+         <cx>
+            <div>
+               <PureContainer items={["Hello {name}"]} />
+            </div>
+         </cx>,
+         { store },
+      );
+
+      assert.equal(screen.html(), "<div>Hello {name}</div>");
+   });
+
    it("updates children when store data changes", async () => {
       let widget = (
          <cx>

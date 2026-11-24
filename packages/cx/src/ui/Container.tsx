@@ -157,7 +157,7 @@ export class ContainerBase<
    protected addText(text: string): void {
       if (this.plainText || text.indexOf("{") == -1 || text.indexOf("}") == -1)
          this.add(Widget.create(StaticText, { text: text }, {}));
-      else this.add(Widget.create(Text, { text: { tpl: text } }, {}));
+      else this.add(Widget.create(Text, { tpl: text }, {}));
    }
 
    public find(filter: any, options?: any): any[] {
