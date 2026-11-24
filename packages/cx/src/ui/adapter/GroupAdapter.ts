@@ -98,7 +98,8 @@ export class GroupAdapter<T = any> extends ArrayAdapter<T> {
             ? sorters.map((s) => ({
                  field: s.field,
                  direction: s.direction,
-                 comparer: s.comparer,
+                 // as in ArrayAdapter, the collator options of a sorter take precedence over those of the adapter
+                 comparer: s.comparer ?? (isDefined(s.sortOptions) ? this.getComparer(s.sortOptions) : undefined),
                  nullsFirst: s.nullsFirst,
                  nullValue: s.nullValue,
               }))

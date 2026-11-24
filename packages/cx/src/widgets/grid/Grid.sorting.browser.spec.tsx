@@ -268,6 +268,10 @@ describe("Grid sorting with collator options", () => {
       );
    }
 
+   function captions(screen: RenderResult) {
+      return Array.from(screen.container.querySelectorAll("tbody.cxe-grid-group-caption")).map((t) => t.textContent);
+   }
+
    it("compares plain strings without sortOptions", async () => {
       let screen = await setup({});
       await clickHeader(screen, "Room");
@@ -287,5 +291,22 @@ describe("Grid sorting with collator options", () => {
 
       await clickHeader(screen, "Room");
       assert.deepStrictEqual(getRenderedLabels(screen), ["Room 10", "Room 2", "Room 1"]);
+   });
+
+   it("applies the sortOptions of the column to groups sorted with sortGroups", async () => {
+      let screen = await setup(
+         {
+            grouping: [
+               { key: { room: { bind: "$record.room" } }, showCaption: true, caption: { bind: "$group.room" } },
+            ],
+            sortGroups: true,
+         },
+         { sortOptions: { numeric: true } },
+      );
+      await clickHeader(screen, "Room");
+      assert.deepStrictEqual(captions(screen), ["Room 1", "Room 2", "Room 10"]);
+
+      await clickHeader(screen, "Room");
+      assert.deepStrictEqual(captions(screen), ["Room 10", "Room 2", "Room 1"]);
    });
 });
