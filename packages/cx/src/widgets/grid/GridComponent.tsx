@@ -92,6 +92,8 @@ export class GridComponent extends VDOM.Component<GridComponentProps, GridCompon
    declare lastScrollResetParams?: any;
    declare selectedEl?: Element | null;
    declare cellEditUndoData?: any;
+   /** Set while moveCursor ends a cell edit, so that the focus returning to the grid does not end it again. */
+   declare endingCellEdit?: boolean;
 
    constructor(props: GridComponentProps) {
       super(props);
@@ -1258,7 +1260,12 @@ export class GridComponent extends VDOM.Component<GridComponentProps, GridCompon
             if (!futureState.cellEdit && wasCellEditing) {
                // If cell editing is in progress, moving the cursor may cause that the cell editor to unmount before
                // the blur event which may cause data loss for components which do not have reactOn=change set, e.g. NumberField.
-               unfocusElement(null, false);
+               this.endingCellEdit = true;
+               try {
+                  unfocusElement(null, false);
+               } finally {
+                  this.endingCellEdit = false;
+               }
                let record = this.getRecordAt(prevState.cursor)!;
                if ((!this.cellEditorValid || cancelEdit) && this.cellEditUndoData)
                   record.store.set(widget.recordName, this.cellEditUndoData);
@@ -1353,7 +1360,7 @@ export class GridComponent extends VDOM.Component<GridComponentProps, GridCompon
 
       //focus moved within the grid
       if (this.state.focused) {
-         if (this.state.cellEdit && this.dom.el! == getActiveElement())
+         if (this.state.cellEdit && !this.endingCellEdit && this.dom.el! == getActiveElement())
             this.moveCursor(this.state.cursor, {
                cellEdit: false,
             });
