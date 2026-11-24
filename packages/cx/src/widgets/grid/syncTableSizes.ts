@@ -112,7 +112,9 @@ export function syncHeaderHeights(header1: HTMLElement, header2: HTMLElement) {
  * see Grid.lockColumnWidths.
  */
 export function lockColumnWidths(dom: GridDom, lockedColWidth: Record<string, number>) {
-   let headerTBody = dom.table!.firstChild! as HTMLElement;
+   // the table is empty until the rows of a buffered grid without a header are rendered
+   let headerTBody = dom.table?.firstElementChild as HTMLElement | null;
+   if (!headerTBody) return;
    for (let r = 0; r < headerTBody.children.length; r++) {
       let sr = headerTBody.children[r];
       for (let c = 0; c < sr.children.length; c++) {
