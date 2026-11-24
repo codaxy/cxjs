@@ -5,6 +5,7 @@ import type { RenderingContext } from "../ui/RenderingContext";
 import { VDOM, Widget } from "../ui/Widget";
 import { isFunction, isNonEmptyArray } from "../util";
 import { isArray } from "../util/isArray";
+import { isAccessorChain } from "../data/createAccessorModelProxy";
 
 type ReactElementWrapperConfigBase = Omit<ContainerConfig, "items">;
 
@@ -27,6 +28,11 @@ type TransformReactElementProps<T> = {
 /** ReactElementWrapper configuration with component-specific props */
 // componentType is not included here - it's added by the jsx-runtime and declared in the class
 export type ReactElementWrapperConfig<P> = ReactElementWrapperConfigBase & TransformReactElementProps<P>;
+
+// functions passed to on* props, such as onClick, are event handlers, not selectors
+function isEventHandler(attr: string, value: unknown): boolean {
+   return /^on[A-Z]/.test(attr) && isFunction(value) && !isAccessorChain(value);
+}
 
 interface ReactElementWrapperInstance extends Instance {
    events?: Record<string, Function>;
@@ -59,7 +65,8 @@ export class ReactElementWrapper<C extends React.ComponentType<any> = React.Comp
                attr === "putInto" ||
                attr === "contentFor" ||
                attr === "children" ||
-               attr === "items"
+               attr === "items" ||
+               isEventHandler(attr, this[attr])
             )
                continue;
 
@@ -70,14 +77,15 @@ export class ReactElementWrapper<C extends React.ComponentType<any> = React.Comp
       super.init();
    }
 
-   public initInstance(_context: RenderingContext, _instance: ReactElementWrapperInstance): void {
-      let events: Record<string, Function> | undefined;
+   public initInstance(context: RenderingContext, instance: ReactElementWrapperInstance): void {
+      super.initInstance(context, instance);
       if (!isNonEmptyArray(this.jsxAttributes)) return;
-      events = {};
-      for (let prop of this.jsxAttributes) {
-         let f = this[prop];
-         if (prop.startsWith("on") && isFunction(f)) events[prop] = (...args: any[]) => f.apply(_instance, args);
+      let events: Record<string, Function> = {};
+      for (let attr of this.jsxAttributes) {
+         let f = this[attr] as Function;
+         if (isEventHandler(attr, f)) events[attr] = (...args: any[]) => f.apply(instance, args);
       }
+      instance.events = events;
    }
 
    declareData(...args: Record<string, unknown>[]): void {
