@@ -1624,7 +1624,8 @@ export class GridComponent extends VDOM.Component<GridComponentProps, GridCompon
          selected.push(mappedRecord);
       };
 
-      if (!record.row?.selected) {
+      // dragging a selected row drags the whole selection; dragging any other row drags only that row
+      if (isSelected(record.data, record.index!)) {
          if (instance.records) instance.records.forEach((r) => add(r, r.data, r.index!));
          else this.getRecordsSlice(0, data.totalRecordCount).forEach((r, index) => add(null, r, index));
       }
