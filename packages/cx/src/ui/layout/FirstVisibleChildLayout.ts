@@ -1,11 +1,12 @@
 import { PureContainerConfig } from "./../PureContainer";
 import { Instance } from "../Instance";
+import type { InstanceBase } from "../InstanceBase";
 import { PureContainer } from "../PureContainer";
 import { RenderingContext } from "../RenderingContext";
 
-function isVisibleDeep(instance: Instance): boolean {
+function isVisibleDeep(instance: InstanceBase): boolean {
    if (instance.visible && (!instance.widget.isPureContainer || !instance.widget.useParentLayout)) return true;
-   if (instance.children) {
+   if (instance instanceof Instance && instance.children) {
       for (let i = 0; i < instance.children.length; i++) if (isVisibleDeep(instance.children[i])) return true;
    }
    return false;

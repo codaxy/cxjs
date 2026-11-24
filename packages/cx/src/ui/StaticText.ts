@@ -6,6 +6,11 @@ export class StaticText extends Widget {
    render() {
       return this.text;
    }
+
+   // subclasses may keep more in their instances
+   canShareInstance(): boolean {
+      return this.constructor === StaticText;
+   }
 }
 
 Widget.alias('static-text', StaticText);

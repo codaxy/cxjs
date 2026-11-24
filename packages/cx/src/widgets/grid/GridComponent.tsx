@@ -166,12 +166,16 @@ export class GridComponent extends VDOM.Component<GridComponentProps, GridCompon
 
    createRowRenderer(cellWrap: any) {
       let { instance, data } = this.props;
-      let { widget, isRecordSelectable, visibleColumns, isRecordDraggable, row } = instance;
-      let { CSS, baseClass } = widget;
+      let { widget, isRecordSelectable, isRecordDraggable, row } = instance;
+      let { CSS } = widget;
       let { dragSource } = data;
       let { dragged, cursor, cursorCellIndex, cellEdit, dropInsertionIndex, dropTarget } = this.state;
       let { colWidth, dimensionsVersion } = instance.state;
       let { hasMergedCells } = row;
+      // column widths are partly updated in place, so rows compare their values to know when to render again
+      let colWidths = Object.keys(colWidth)
+         .map((id) => id + ":" + colWidth[id])
+         .join(";");
 
       return (record: MappedGridRecord, index: number, standalone: any, fixed: any) => {
          let { store, key, row } = record;
@@ -197,87 +201,33 @@ export class GridComponent extends VDOM.Component<GridComponentProps, GridCompon
          mod["draggable"] = draggable;
          mod["non-draggable"] = !draggable;
 
-         let wrap = (children: any) => {
-            let skipCells: any = {};
-            return (
-               <GridRowComponent
-                  key={key}
-                  className={CSS.state(mod)}
-                  store={store}
-                  dragSource={dragSource}
-                  instance={row!}
-                  grid={instance}
-                  record={record}
-                  parent={this}
-                  cursorIndex={index}
-                  selected={row?.selected}
-                  isBeingDragged={dragged}
-                  isDraggedOver={mod.over}
-                  cursor={mod.cursor}
-                  cursorCellIndex={index == cursor && cursorCellIndex}
-                  cellEdit={index == cursor && cursorCellIndex != null && cellEdit}
-                  shouldUpdate={row?.shouldUpdate}
-                  dimensionsVersion={dimensionsVersion}
-                  fixed={fixed}
-                  useTrTag={hasMergedCells}
-               >
-                  {children.content.map(({ key, data, content }: any, line: any) => {
-                     let cells = content.map(
-                        ({ key, data, content, uniqueColumnId, merged, mergeRowSpan }: any, cellIndex: number) => {
-                           if (Boolean(data.fixed) !== fixed) return null;
-                           if (merged) return null;
-                           let cellected =
-                              index == cursor && cellIndex == cursorCellIndex && widget.cellEditable && line == 0;
-                           let className = cellected
-                              ? CSS.expand(data.classNames, CSS.state("cellected"))
-                              : data.classNames;
-                           if (cellected && cellEdit) {
-                              let column = visibleColumns[cursorCellIndex];
-                              if (column && column.editor && data.editable)
-                                 return this.renderCellEditor(key, CSS, baseClass, row, column);
-                           }
-                           let width = colWidth[uniqueColumnId];
-                           let style = data.style;
-                           if (width) {
-                              style = {
-                                 ...style,
-                                 maxWidth: `${width}px`,
-                              };
-                           }
-
-                           if (skipCells[`${line}-${cellIndex}`]) return null;
-
-                           if (data.colSpan > 1 || data.rowSpan > 1) {
-                              for (let r = line; r < line + (data.rowSpan ?? 1); r++)
-                                 for (let c = cellIndex; c < cellIndex + (data.colSpan ?? 1); c++)
-                                    skipCells[`${r}-${c}`] = true;
-                           }
-
-                           if (cellWrap) content = cellWrap(content);
-
-                           return (
-                              <td
-                                 key={key}
-                                 className={className}
-                                 style={style}
-                                 colSpan={data.colSpan}
-                                 rowSpan={mergeRowSpan ?? data.rowSpan}
-                              >
-                                 {content}
-                              </td>
-                           );
-                        },
-                     );
-                     if (hasMergedCells) return cells;
-                     return (
-                        <tr key={key} className={data.classNames} style={data.style}>
-                           {cells}
-                        </tr>
-                     );
-                  })}
-               </GridRowComponent>
-            );
-         };
+         let wrap = (children: any) => (
+            <GridRowComponent
+               key={key}
+               className={CSS.state(mod)}
+               store={store}
+               dragSource={dragSource}
+               instance={row!}
+               grid={instance}
+               record={record}
+               parent={this}
+               cursorIndex={index}
+               selected={row?.selected}
+               isBeingDragged={dragged}
+               isDraggedOver={mod.over}
+               cursor={mod.cursor}
+               cursorCellIndex={index == cursor && cursorCellIndex}
+               cellEdit={index == cursor && cursorCellIndex != null && cellEdit}
+               shouldUpdate={row?.shouldUpdate}
+               dimensionsVersion={dimensionsVersion}
+               fixed={fixed}
+               useTrTag={hasMergedCells}
+               lines={children.content}
+               cellCursorIndex={index == cursor ? cursorCellIndex : null}
+               cellWrap={cellWrap}
+               colWidths={colWidths}
+            />
+         );
 
          if (!standalone) return wrap(record.vdom);
 

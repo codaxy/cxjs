@@ -13,6 +13,8 @@ import { throttle } from "../util/throttle";
 import { validatedDebounce } from "../util/validatedDebounce";
 import { batchUpdates } from "./batchUpdates";
 import { Controller } from "./Controller";
+import { ChildState } from "./ChildState";
+import { InstanceBase } from "./InstanceBase";
 import { RenderingContext } from "./RenderingContext";
 import type { Widget } from "./Widget";
 
@@ -132,10 +134,10 @@ let instanceId = 1000;
 /**
  * Base Instance class
  */
-export class Instance<WidgetType extends Widget<any, any> = Widget<any, any>> {
+export class Instance<
+   WidgetType extends Widget<any, any> = Widget<any, any>,
+> extends InstanceBase<WidgetType> {
    // Core properties
-   declare public widget: WidgetType;
-   declare public key: string;
    declare public id: string;
    declare public parent?: Instance;
    declare public parentStore: View;
@@ -143,18 +145,12 @@ export class Instance<WidgetType extends Widget<any, any> = Widget<any, any>> {
    declare public controller?: Controller;
 
    // Data and state
-   declare public data: Record<string, any>;
-   declare public rawData: Record<string, any>;
    declare public state?: Record<string, any>;
    declare public cached: Record<string, any>;
    declare public cacheList?: Record<string, any> | null;
 
-   // Selectors
-   public dataSelector?: (store: any) => Record<string, any>;
-
    // Lifecycle flags
    public initialized?: boolean;
-   declare public visible?: boolean;
    declare public explored?: boolean;
    declare public prepared?: boolean;
    declare public shouldUpdate?: boolean;
@@ -170,12 +166,14 @@ export class Instance<WidgetType extends Widget<any, any> = Widget<any, any>> {
 
    // Child management
    declare public instanceCache?: InstanceCache | null;
-   declare public children?: Instance[];
+   /** The visible children: instances, and states of children rendered without instances (see InstanceBase). */
+   declare public children?: InstanceBase[];
+   /** Counts the changes of children rendered without instances of their own; see markChildStateChanges. */
+   declare public childStateRevision?: number;
    public helpers?: Record<string, Instance>;
    public components?: Record<string, Instance>;
 
    // Rendering
-   declare public vdom?: any;
    declare public contentVDOM?: any;
    declare public renderList?: any;
    declare public assignedRenderList?: any;
@@ -202,8 +200,7 @@ export class Instance<WidgetType extends Widget<any, any> = Widget<any, any>> {
       parent?: Instance,
       parentStore?: any,
    ) {
-      this.widget = widget;
-      this.key = key;
+      super(widget, key);
       this.id = String(++instanceId);
       this.cached = {};
       this.parent = parent;
@@ -875,23 +872,33 @@ export class Instance<WidgetType extends Widget<any, any> = Widget<any, any>> {
    }
 }
 
-function renderResultFix(res: any): any {
+export function renderResultFix(res: any): any {
    return res != null && isDefined(res.content) ? res : { content: res };
 }
 
+let cachePass = 0;
+
+/**
+ * The child instances of an instance, by key, kept between renders. Children marked in an explore pass with
+ * `addChild` are kept by the following `sweep`; the others are removed.
+ */
 export class InstanceCache {
-   declare public children: Record<string, Instance>;
+   declare public children: Map<string, InstanceBase>;
    declare public parent: Instance;
-   declare public marked: Record<string, Instance>;
    declare public monitored: Record<string, Instance> | null;
    declare public keyPrefix: string;
+   /** The current explore pass, unique across caches. */
+   declare public pass: number;
+   /** How many of the children were marked in the current pass. */
+   declare public markedCount: number;
 
    constructor(parent: Instance, keyPrefix?: string | number | null) {
-      this.children = {};
+      this.children = new Map();
       this.parent = parent;
-      this.marked = {};
       this.monitored = null;
       this.keyPrefix = keyPrefix != null ? keyPrefix + "-" : "";
+      this.pass = ++cachePass;
+      this.markedCount = 0;
    }
 
    public getChild(
@@ -902,7 +909,8 @@ export class InstanceCache {
       const k =
          this.keyPrefix +
          (key != null ? key : widget.vdomKey || widget.widgetId);
-      let instance = this.children[k];
+      let cached = this.children.get(k);
+      let instance = cached instanceof Instance ? cached : null;
 
       if (
          !instance ||
@@ -911,7 +919,7 @@ export class InstanceCache {
             (instance.widget.controller || instance.widget.onInit))
       ) {
          instance = widget.createInstance(k, this.parent, parentStore);
-         this.children[k] = instance;
+         this.children.set(k, instance);
       } else if (instance.parentStore !== parentStore) {
          instance.setParentStore(parentStore);
       }
@@ -919,12 +927,41 @@ export class InstanceCache {
       return instance;
    }
 
-   public addChild(instance: Instance): void {
-      this.marked[instance.key] = instance;
+   /** The state of a child rendered through the shared instance, kept under the key its instance would have. */
+   public getState(
+      widget: Widget,
+      parentStore: View,
+      key?: string | number | null,
+   ): ChildState {
+      const k =
+         this.keyPrefix +
+         (key != null ? key : widget.vdomKey || widget.widgetId);
+      let cached = this.children.get(k);
+      let state = cached instanceof ChildState ? cached : null;
+      if (!state || state.widget !== widget) {
+         state = ChildState.create(widget, k, parentStore);
+         this.children.set(k, state);
+      }
+      return state;
    }
 
+   /** Marks the child to be kept by the next sweep. */
+   public addChild(instance: InstanceBase): void {
+      if (this.children.get(instance.key) !== instance) {
+         this.children.set(instance.key, instance);
+         // a child it replaces may have been marked already
+         this.markedCount = -1;
+      }
+      if (instance.cachePass !== this.pass) {
+         instance.cachePass = this.pass;
+         if (this.markedCount >= 0) this.markedCount++;
+      }
+   }
+
+   /** Starts an explore pass. */
    public mark(): void {
-      this.marked = {};
+      this.pass = ++cachePass;
+      this.markedCount = 0;
    }
 
    public trackDestroy(instance: Instance): void {
@@ -933,8 +970,8 @@ export class InstanceCache {
    }
 
    public destroy(): void {
-      this.children = {};
-      this.marked = {};
+      this.children = new Map();
+      this.markedCount = 0;
 
       if (!this.monitored) return;
 
@@ -945,17 +982,22 @@ export class InstanceCache {
       this.monitored = null;
    }
 
+   /** Removes the children not marked in the current pass. */
    public sweep(): void {
-      this.children = this.marked;
+      if (this.markedCount !== this.children.size) {
+         for (const [key, child] of this.children)
+            if (child.cachePass !== this.pass) this.children.delete(key);
+         this.markedCount = this.children.size;
+      }
       if (!this.monitored) return;
       let activeCount = 0;
       for (const key in this.monitored) {
          const monitoredChild = this.monitored[key];
-         const child = this.children[key];
+         const child = this.children.get(key);
          if (child !== monitoredChild || !monitoredChild.visible) {
             monitoredChild.destroy();
             delete this.monitored[key];
-            if (child === monitoredChild) delete this.children[key];
+            if (child === monitoredChild) this.children.delete(key);
          } else activeCount++;
       }
       if (activeCount === 0) this.monitored = null;

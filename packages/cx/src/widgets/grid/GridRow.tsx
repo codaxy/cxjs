@@ -1,3 +1,4 @@
+/** @jsxImportSource react */
 import { preventFocusOnTouch, unfocusElement } from "../../ui/FocusManager";
 import type { RenderingContext } from "../../ui/RenderingContext";
 import { VDOM } from "../../ui/Widget";
@@ -6,7 +7,7 @@ import { isTouchEvent } from "../../util/isTouchEvent";
 import { KeyCode } from "../../util/KeyCode";
 import { ValidationGroup, ValidationGroupConfig, ValidationGroupInstance } from "../../widgets/form/ValidationGroup";
 import { ddDetect, ddMouseDown, ddMouseUp, isDragHandleEvent } from "../drag-drop/ops";
-import { GridRowLine, GridRowLineConfig } from "./GridRowLine";
+import { GridRowLine, GridRowLineConfig, GridRowLineRenderResult } from "./GridRowLine";
 import type { GridInstance } from "./Grid";
 import { BooleanProp, StringProp, Prop, StructuredProp } from "../../ui/Prop";
 import { WidgetStyleConfig } from "../../ui/Widget";
@@ -101,6 +102,15 @@ export interface GridRowComponentProps {
    dimensionsVersion?: number;
    fixed?: boolean;
    children?: React.ReactNode;
+
+   /** The rendered lines of the row. If set, the row renders its cells from them, instead of rendering `children`. */
+   lines?: GridRowLineRenderResult[];
+   /** The index of the cell with the cursor, if the cursor is in this row; otherwise null. */
+   cellCursorIndex?: number | null;
+   /** Wraps the content of each cell. */
+   cellWrap?: ((content: any) => any) | false;
+   /** The widths of the columns, as a string, so that rows render again when they change. */
+   colWidths?: string;
 }
 
 interface GridRowComponentState {
@@ -179,8 +189,65 @@ export class GridRowComponent extends VDOM.Component<GridRowComponentProps, Grid
             onContextMenu: this.onRowContextMenu,
             "data-record-key": record.key,
          },
-         children,
+         this.props.lines ? this.renderLines(this.props.lines) : children,
       );
+   }
+
+   renderLines(lines: GridRowLineRenderResult[]): React.ReactNode {
+      let { grid, parent, instance, fixed, useTrTag, cellCursorIndex, cellEdit, cellWrap } = this.props;
+      let { widget, visibleColumns } = grid;
+      let { CSS, baseClass } = widget;
+      let { colWidth } = grid.state;
+      let skipCells: Record<string, boolean> = {};
+
+      return lines.map(({ key, data, content }, line) => {
+         let cells = content.map(({ key, data, content, uniqueColumnId, merged, mergeRowSpan }, cellIndex) => {
+            if (Boolean(data.fixed) !== fixed) return null;
+            if (merged) return null;
+            let cellected = cellCursorIndex != null && cellIndex == cellCursorIndex && widget.cellEditable && line == 0;
+            let className = cellected ? CSS.expand(data.classNames, CSS.state("cellected")) : data.classNames;
+            if (cellected && cellEdit) {
+               let column = visibleColumns[cellCursorIndex!];
+               if (column && column.editor && data.editable)
+                  return parent.renderCellEditor(key, CSS, baseClass, instance, column);
+            }
+            let width = colWidth[uniqueColumnId!];
+            let style = data.style;
+            if (width) {
+               style = {
+                  ...style,
+                  maxWidth: `${width}px`,
+               };
+            }
+
+            if (skipCells[`${line}-${cellIndex}`]) return null;
+
+            if ((data.colSpan ?? 0) > 1 || (data.rowSpan ?? 0) > 1) {
+               for (let r = line; r < line + (data.rowSpan ?? 1); r++)
+                  for (let c = cellIndex; c < cellIndex + (data.colSpan ?? 1); c++) skipCells[`${r}-${c}`] = true;
+            }
+
+            if (cellWrap) content = cellWrap(content);
+
+            return (
+               <td
+                  key={key}
+                  className={className}
+                  style={style}
+                  colSpan={data.colSpan}
+                  rowSpan={mergeRowSpan ?? data.rowSpan}
+               >
+                  {content}
+               </td>
+            );
+         });
+         if (useTrTag) return cells;
+         return (
+            <tr key={key} className={data.classNames} style={data.style}>
+               {cells}
+            </tr>
+         );
+      });
    }
 
    onMouseDown(e: React.MouseEvent | React.TouchEvent): void {
@@ -271,6 +338,37 @@ export class GridRowComponent extends VDOM.Component<GridRowComponentProps, Grid
    }
 
    shouldComponentUpdate(props: GridRowComponentProps, state: GridRowComponentState): boolean {
+      if (props.lines) {
+         let { record } = props;
+         return (
+            props.shouldUpdate !== false ||
+            props.lines !== this.props.lines ||
+            // merged cells change when the rows around them change, and the cursor row may show a cell editor
+            !!props.useTrTag ||
+            props.cellCursorIndex != null ||
+            props.cellCursorIndex !== this.props.cellCursorIndex ||
+            props.className !== this.props.className ||
+            record.key !== this.props.record.key ||
+            record.data !== this.props.record.data ||
+            record.index !== this.props.record.index ||
+            props.store !== this.props.store ||
+            props.instance !== this.props.instance ||
+            props.dragSource !== this.props.dragSource ||
+            props.fixed !== this.props.fixed ||
+            props.colWidths !== this.props.colWidths ||
+            !!props.cellWrap !== !!this.props.cellWrap ||
+            props.cursor != this.props.cursor ||
+            props.selected != this.props.selected ||
+            props.isBeingDragged != this.props.isBeingDragged ||
+            props.cursorIndex !== this.props.cursorIndex ||
+            props.cursorCellIndex !== this.props.cursorCellIndex ||
+            props.cellEdit !== this.props.cellEdit ||
+            props.dimensionsVersion !== this.props.dimensionsVersion ||
+            props.isDraggedOver !== this.props.isDraggedOver ||
+            state !== this.state
+         );
+      }
+
       return (
          props.shouldUpdate !== false ||
          props.record != this.props.record ||
