@@ -31,7 +31,15 @@ import type { GroupAdapter } from "../../ui/adapter/GroupAdapter";
 import type { WidgetConfig } from "../../ui/Widget";
 import type { GridInstance } from "./Grid";
 
-export type GridFetchRecordsResult<T> = T[] | { records: T[]; lastPage?: boolean; totalRecordCount?: number };
+export type GridFetchRecordsResult<T> =
+   | T[]
+   | {
+        records: T[];
+        lastPage?: boolean;
+        totalRecordCount?: number;
+        /** Custom state, e.g. a cursor or a token, passed to the next onFetchRecords call. */
+        state?: any;
+     };
 
 export interface MappedGridRecord<T = any> extends DataAdapterRecord<T> {
    row?: GridRowInstance;
@@ -404,6 +412,10 @@ export interface GridConfig<T = any> extends StyledContainerConfig {
          sorters?: DataRecord[];
          sortField?: string;
          sortDirection?: string;
+         /** The grid's filterParams. */
+         filterParams?: any;
+         /** The state returned by the previous onFetchRecords call. */
+         state?: any;
       },
       instance?: Instance,
    ) => GridFetchRecordsResult<T> | Promise<GridFetchRecordsResult<T>>;
