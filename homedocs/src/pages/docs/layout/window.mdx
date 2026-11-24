@@ -82,6 +82,6 @@ The factory returns a Promise that resolves when the window is closed, making it
 | `resizable` | `boolean` | Enables window resizing. |
 | `closable` | `boolean` | Controls close button visibility. Defaults to `true`. |
 | `closeOnEscape` | `boolean` | Closes the window when Escape key is pressed. |
-| `onBeforeDismiss` | `function` | Called with `(instance, component)` before the window is dismissed, e.g. with Escape or the close button. Return `false` to keep it open, e.g. to ask whether unsaved changes should be discarded. |
+| `onBeforeDismiss` | `function` | Called with `(instance, component)` before the window is dismissed, e.g. with Escape or the close button. Return `false`, or a promise that resolves to `false`, to keep it open, e.g. to ask whether unsaved changes should be discarded with `MsgBox.yesNo`. |
 | `fixed` | `boolean` | Disables moving the window by dragging the header. |
 | `pad` | `boolean` | Adds default padding to the window body. |
