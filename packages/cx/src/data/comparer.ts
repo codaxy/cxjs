@@ -1,16 +1,20 @@
 import { getSelector } from "./getSelector";
 import { isDefined } from "../util/isDefined";
 import { defaultCompare } from "./defaultCompare";
-import type { CollatorOptions, Sorter } from "../ui/Prop";
+import type { Sorter } from "../ui/Prop";
 
-export interface ExtendedSorter extends Sorter {
+export interface ComparerSorter extends Sorter {
+   /** Function used to compare the values of this sorter, instead of the default comparison. */
    comparer?: (a: any, b: any) => number;
+   /** Alias of `comparer`. */
    compare?: (a: any, b: any) => number;
-   sortOptions?: CollatorOptions;
 }
 
+/** @deprecated Use ComparerSorter. Collator options are applied by data adapters; see ExtendedSorter in cx/ui. */
+export type ExtendedSorter = ComparerSorter;
+
 export function getComparer(
-   sorters: ExtendedSorter[],
+   sorters: ComparerSorter[],
    dataAccessor?: (x: any) => any,
    comparer?: (a: any, b: any) => number,
 ): (a: any, b: any) => number {
@@ -52,7 +56,7 @@ export function getComparer(
 }
 
 export function indexSorter(
-   sorters: ExtendedSorter[],
+   sorters: ComparerSorter[],
    dataAccessor?: (x: any) => any,
    compare?: (a: any, b: any) => number,
 ): (data: any[]) => number[] {
@@ -65,7 +69,7 @@ export function indexSorter(
 }
 
 export function sorter(
-   sorters: ExtendedSorter[],
+   sorters: ComparerSorter[],
    dataAccessor?: (x: any) => any,
    compare?: (a: any, b: any) => number,
 ): (data: any[]) => any[] {

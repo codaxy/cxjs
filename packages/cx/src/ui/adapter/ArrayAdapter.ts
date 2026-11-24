@@ -1,6 +1,6 @@
 import { DataAdapter, DataAdapterRecord, DataAdapterConfig } from "./DataAdapter";
 import { ReadOnlyDataView } from "../../data/ReadOnlyDataView";
-import { sorter, type ExtendedSorter } from "../../data/comparer";
+import { sorter, type ComparerSorter } from "../../data/comparer";
 import { isArray } from "../../util/isArray";
 import { ArrayElementView } from "../../data/ArrayElementView";
 import { Accessor, getAccessor } from "../../data/getAccessor";
@@ -27,8 +27,13 @@ export interface ArrayAdapterConfig extends DataAdapterConfig {
    preserveOrder?: boolean;
 }
 
-// Re-exported for back-compat; the canonical definition lives in `data/comparer`.
-export type { ExtendedSorter } from "../../data/comparer";
+export interface ExtendedSorter extends ComparerSorter {
+   /**
+    * Collator options for this sorter, which the adapter turns into a comparer using the current culture.
+    * Without them, the adapter's sortOptions apply. Ignored if the sorter has a comparer.
+    */
+   sortOptions?: CollatorOptions;
+}
 
 export interface ResolvedSorter {
    getter: (x: any) => any;

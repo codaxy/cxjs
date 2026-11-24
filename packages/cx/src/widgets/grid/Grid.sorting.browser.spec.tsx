@@ -238,3 +238,54 @@ describe("Grid sorting of empty values", () => {
       assert.deepStrictEqual(getRenderedLabels(screen), ["", "2026-03-01", "2026-01-01"]);
    });
 });
+
+// "Room 10" sorts before "Room 2" as plain strings, and after it with the numeric collation
+describe("Grid sorting with collator options", () => {
+   interface Booking {
+      id: number;
+      room: string;
+   }
+
+   const m = createModel<{ bookings: Booking[] }>();
+
+   const bookings: Booking[] = [
+      { id: 1, room: "Room 10" },
+      { id: 2, room: "Room 2" },
+      { id: 3, room: "Room 1" },
+   ];
+
+   async function setup(grid: object, column: object = {}) {
+      let store = new Store({ data: { bookings } });
+      return render(
+         <cx>
+            <Grid
+               records={m.bookings}
+               columns={[{ header: "Room", field: "room", sortable: true, ...column }]}
+               {...grid}
+            />
+         </cx>,
+         { store },
+      );
+   }
+
+   it("compares plain strings without sortOptions", async () => {
+      let screen = await setup({});
+      await clickHeader(screen, "Room");
+      assert.deepStrictEqual(getRenderedLabels(screen), ["Room 1", "Room 10", "Room 2"]);
+   });
+
+   it("applies the sortOptions of the grid", async () => {
+      let screen = await setup({ sortOptions: { numeric: true } });
+      await clickHeader(screen, "Room");
+      assert.deepStrictEqual(getRenderedLabels(screen), ["Room 1", "Room 2", "Room 10"]);
+   });
+
+   it("applies the sortOptions of the column", async () => {
+      let screen = await setup({}, { sortOptions: { numeric: true } });
+      await clickHeader(screen, "Room");
+      assert.deepStrictEqual(getRenderedLabels(screen), ["Room 1", "Room 2", "Room 10"]);
+
+      await clickHeader(screen, "Room");
+      assert.deepStrictEqual(getRenderedLabels(screen), ["Room 10", "Room 2", "Room 1"]);
+   });
+});
