@@ -109,6 +109,36 @@ describe("Grid lockColumnWidths", () => {
 
       assert.ok(widths()[0] > before[0], `${widths()} vs ${before}`);
    });
+
+   // the table of a buffered grid without its own header, as grouping with showHeader hides it, is empty until the
+   // rows are rendered
+   it("does not fail in a buffered grid without its own header (#1142)", async () => {
+      let store = new Store({ data: { records: people(3) } });
+      let screen = await render(
+         <cx>
+            <Grid
+               records={m.records}
+               keyField="id"
+               scrollable
+               buffered
+               style="height: 200px"
+               lockColumnWidths
+               grouping={[{ key: { name: m.$record.name }, showHeader: true }]}
+               columns={[
+                  { header: "Name", field: "name" },
+                  { header: "Id", field: "id" },
+               ]}
+            />
+         </cx>,
+         { store },
+      );
+
+      await settle(() => store.set(m.records, []));
+      await settle(() => store.set(m.records, people(3)));
+      await waitForGrid();
+
+      assert.equal(screen.container.querySelectorAll("tbody.cxe-grid-data").length, 3);
+   });
 });
 
 describe("Grid scrollSelectionIntoView", () => {
