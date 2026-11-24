@@ -338,6 +338,10 @@ const isCompleteExample = hasCompleteExample(code, extractImports(code));
 const stackblitzProject = isCompleteExample
   ? generateStackBlitzProject(code, extractImports(code), sections)
   : null;
+// The project is embedded as JSON in an attribute. Its index.html starts with a doctype, and Astro omits the doctype
+// of a page that already contains "<!doctype html>" somewhere, which renders it in quirks mode. Escaping "<" keeps
+// the JSON valid, as JSON.parse turns the escape sequence back into "<".
+const stackblitzProjectData = stackblitzProject && JSON.stringify(stackblitzProject).replace(/</g, "\\u003c");
 ---
 
 <div class="code-example my-8 relative" data-pagefind-ignore>
@@ -353,7 +357,7 @@ const stackblitzProject = isCompleteExample
         !hasTabs && stackblitzProject && (
           <button
             class="stackblitz-btn absolute top-2 right-2 z-10 px-2 py-1 text-xs font-medium transition-colors hover:text-white flex items-center gap-1.5 cursor-pointer rounded"
-            data-project={JSON.stringify(stackblitzProject)}
+            data-project={stackblitzProjectData}
             style="color: rgba(255, 255, 255, 0.5);"
             title="Open in StackBlitz"
           >
@@ -431,7 +435,7 @@ const stackblitzProject = isCompleteExample
             {stackblitzProject && (
               <button
                 class="ml-auto stackblitz-btn px-3 py-2 text-xs font-medium transition-colors hover:text-white flex items-center gap-1.5 border-l border-[hsl(var(--code-border))] cursor-pointer"
-                data-project={JSON.stringify(stackblitzProject)}
+                data-project={stackblitzProjectData}
                 style="color: rgba(255, 255, 255, 0.5);"
                 title="Open in StackBlitz"
               >
