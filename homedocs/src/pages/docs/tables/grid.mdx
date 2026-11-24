@@ -366,6 +366,8 @@ See also: [Row Drag and Drop](/docs/tables/row-drag-and-drop)
 | `sortable`             | `boolean`          | Set to `true` to make the column sortable.              |
 | `sortField`            | `string`           | Alternative field used for sorting. Takes precedence over the displayed `value`. |
 | `sortValue`            | `selector`         | Selector used for sorting instead of the field or the displayed value. Takes precedence over all other sort sources. |
+| `nullsFirst`           | `boolean`          | Sort null values before other values, in both directions. By default, they are sorted last. |
+| `nullSortValue`        | `any`              | Value used in place of null values when sorting, which are then sorted like any other value. |
 | `primarySortDirection` | `string`           | Initial sort direction on first click: `ASC` or `DESC`. |
 | `aggregate`            | `string`           | Aggregate function: `sum`, `count`, `distinct`, `avg`.  |
 | `aggregateField`       | `string`           | Field used for aggregation if different from `field`.   |

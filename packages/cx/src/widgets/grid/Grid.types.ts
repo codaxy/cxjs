@@ -221,6 +221,10 @@ export interface GridColumnConfig {
 
    /** Options for data sorting. See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Collator */
    sortOptions?: CollatorOptions;
+   /** Sort null values before other values, in both directions. By default, null values are sorted last. */
+   nullsFirst?: boolean;
+   /** Value used in place of null values when sorting, which are then sorted like any other value. */
+   nullSortValue?: any;
    colSpan?: NumberProp;
 
    mergeCells?: Prop<null | false | "same-value" | "always">;

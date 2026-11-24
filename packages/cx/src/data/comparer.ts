@@ -24,6 +24,8 @@ export function getComparer(
          getter: dataAccessor ? (x: any) => selector(dataAccessor(x)) : selector,
          factor: s.direction && s.direction[0].toLowerCase() == "d" ? -1 : 1,
          compare: s.comparer || s.compare || comparer || defaultCompare,
+         nullValue: s.nullValue,
+         nulls: s.nullsFirst ? -1 : 1,
       };
    });
 
@@ -31,15 +33,15 @@ export function getComparer(
       let d, av, bv;
       for (let i = 0; i < resolvedSorters.length; i++) {
          d = resolvedSorters[i];
-         av = d.getter(a);
-         bv = d.getter(b);
+         av = d.getter(a) ?? d.nullValue;
+         bv = d.getter(b) ?? d.nullValue;
 
-         // show nulls always on the bottom
+         // nulls are placed first or last, independent of the sort direction
          if (av == null) {
             if (bv == null) continue;
-            else return 1;
+            else return d.nulls;
          }
-         if (bv == null) return -1;
+         if (bv == null) return -d.nulls;
 
          let r = d.compare(av, bv);
          if (r == 0) continue;

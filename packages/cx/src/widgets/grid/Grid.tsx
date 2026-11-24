@@ -473,6 +473,8 @@ export class Grid<T = unknown> extends ContainerBase<GridConfig<T>, GridInstance
                     : sortColumn.value;
                data.sorters[0].comparer = sortColumn.comparer;
                data.sorters[0].sortOptions = sortColumn.sortOptions;
+               data.sorters[0].nullsFirst = sortColumn.nullsFirst;
+               data.sorters[0].nullValue = sortColumn.nullSortValue;
                break;
             }
          }
@@ -1053,6 +1055,8 @@ export class Grid<T = unknown> extends ContainerBase<GridConfig<T>, GridInstance
       let value = isDefined(column.sortValue) ? column.sortValue : column.sortField ? undefined : column.value;
       let comparer = column.comparer;
       let sortOptions = column.sortOptions;
+      let nullsFirst = column.nullsFirst;
+      let nullValue = column.nullSortValue;
 
       if (header && header.allowSorting && column.sortable && (field || isDefined(value))) {
          let direction = column.primarySortDirection ?? "ASC";
@@ -1077,6 +1081,8 @@ export class Grid<T = unknown> extends ContainerBase<GridConfig<T>, GridInstance
                     value,
                     comparer,
                     sortOptions,
+                    nullsFirst,
+                    nullValue,
                  },
               ]
             : null;
