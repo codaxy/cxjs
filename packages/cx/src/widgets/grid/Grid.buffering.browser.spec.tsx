@@ -1,12 +1,13 @@
 // Buffered grids render only the rows around the scroll position; the rest of the scroll height is reserved
 // with table margins. Row heights come from the grid styles, so the styles are loaded.
 import "../../index.scss";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { userEvent } from "vitest/browser";
 import assert from "assert";
 import { createModel } from "../../data/createAccessorModelProxy";
 import { Store } from "../../data/Store";
 import { KeySelection } from "../../ui/selection/KeySelection";
+import { ArrayAdapter } from "../../ui/adapter/ArrayAdapter";
 import { Grid, GridConfig, GridFetchRecordsResult } from "./Grid";
 import { render, settle, RenderResult } from "../../util/test/render";
 
@@ -143,6 +144,32 @@ describe("Grid buffering", () => {
 
       let tbody = scroller(screen).querySelector(`tbody[data-record-key="${id}"]`)!;
       assert.equal(tbody.querySelector("td")!.textContent, "Changed");
+   });
+
+   it("releases the stores of removed records it rendered, and keeps the rows of the records that stay", async () => {
+      let initInstance = vi.spyOn(ArrayAdapter.prototype, "initInstance");
+      let { store, screen } = await setup();
+      let grid = initInstance.mock.calls[0][1];
+      initInstance.mockRestore();
+      await settle(() => store.set(m.records, records.slice(0, 20)));
+      let firstRow = dataRows(screen)[0];
+
+      // the first record stays, the other records are replaced with new ones, one per change
+      for (let i = 0; i < 100; i++)
+         await settle(() =>
+            store.update(m.records, (records) => [
+               records[0],
+               ...records.slice(2),
+               { id: N + 1 + i, name: "New " + i, rank: 0 },
+            ]),
+         );
+      assert.ok(grid.cacheByKey!.size <= 2 * 20 + 32, `${grid.cacheByKey!.size} record stores`);
+      assert.equal(renderedKeys(screen).length, 20);
+      assert.equal(dataRows(screen)[19].querySelector("td")!.textContent, "New 99");
+
+      await settle(() => store.update(m.records, (records) => [{ ...records[0], name: "First" }, ...records.slice(1)]));
+      assert.equal(dataRows(screen)[0].querySelector("td")!.textContent, "First");
+      assert.strictEqual(dataRows(screen)[0], firstRow);
    });
 
    it("selects rows and moves the cursor beyond the rendered window, scrolling it into view", async () => {

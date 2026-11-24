@@ -1,8 +1,9 @@
-import { describe, it } from "vitest";
+import { describe, it, vi } from "vitest";
 import assert from "assert";
 import { createModel } from "../../data/createAccessorModelProxy";
 import { Store } from "../../data/Store";
 import { tpl } from "../../ui/tpl";
+import { ArrayAdapter } from "../../ui/adapter/ArrayAdapter";
 import { Grid, GridConfig } from "./Grid";
 import { render, settle, RenderResult } from "../../util/test/render";
 
@@ -117,6 +118,32 @@ describe("Grid rendering", () => {
       assert.deepEqual(cellTexts(screen), [["Bob"], ["Alice"], ["Carol"]]);
       assert.strictEqual(dataRows(screen)[1], aliceRow);
       assert.strictEqual(dataRows(screen)[0].getAttribute("data-record-key"), "3");
+   });
+
+   it("releases the stores of removed records, and keeps the rows of the records that stay", async () => {
+      let initInstance = vi.spyOn(ArrayAdapter.prototype, "initInstance");
+      let { store, screen } = await setup({ columns: [{ header: "Name", field: "name" }] });
+      let grid = initInstance.mock.calls[0][1];
+      initInstance.mockRestore();
+      let carolRow = dataRows(screen)[0];
+
+      // Carol stays, the other records are replaced with new ones, one per change
+      for (let i = 0; i < 100; i++)
+         await settle(() =>
+            store.update(m.records, (records) => [
+               records[0],
+               ...records.slice(2),
+               { id: 100 + i, name: "Name " + i, visits: 0, active: true },
+            ]),
+         );
+      assert.ok(grid.cacheByKey!.size <= 2 * 3 + 32, `${grid.cacheByKey!.size} record stores`);
+      assert.deepEqual(cellTexts(screen), [["Carol"], ["Name 98"], ["Name 99"]]);
+
+      await settle(() =>
+         store.update(m.records, (records) => [{ ...records[0], name: "Caroline" }, ...records.slice(1)]),
+      );
+      assert.deepEqual(cellTexts(screen)[0], ["Caroline"]);
+      assert.strictEqual(dataRows(screen)[0], carolRow);
    });
 
    it("shows emptyText when there are no records", async () => {

@@ -13,7 +13,8 @@ import { Prop, CollatorOptions } from "../Prop";
 
 export interface RecordStoreCache {
    recordStoreCache: WeakMap<any, View>;
-   cacheByKey: Record<string | number, View>;
+   /** Record stores by key, kept so that records keep their stores when they change; see pruneCache. */
+   cacheByKey: Map<string | number, View>;
    recordsAccessor?: Accessor;
 }
 
@@ -59,7 +60,7 @@ export class ArrayAdapter<T = any> extends DataAdapter<T> {
    public initInstance(context: RenderingContext, instance: Instance & Partial<RecordStoreCache>): void {
       if (!instance.recordStoreCache) {
          instance.recordStoreCache = new WeakMap();
-         instance.cacheByKey = {};
+         instance.cacheByKey = new Map();
       }
 
       if (!instance.recordsAccessor && this.recordsAccessor) {
@@ -79,7 +80,34 @@ export class ArrayAdapter<T = any> extends DataAdapter<T> {
          this.initInstance(context, instance);
       }
 
-      return this.mapRecords(context, instance, records, parentStore, instance.recordsAccessor);
+      let result = this.mapRecords(context, instance, records, parentStore, instance.recordsAccessor);
+      // the result holds all mapped records, including the children of expanded tree nodes
+      this.prune(instance, result, (record) => record.data);
+      return result;
+   }
+
+   /**
+    * Prunes the record stores cached by key, once the cache holds more than twice as many stores as there are
+    * records: the stores of records that are no longer in `records` are dropped, and those of the records that stay
+    * are kept. Stores cached by record (without a key) are released with their records. Called by getRecords, and by
+    * widgets that map records on demand with mapRecord.
+    */
+   public pruneCache(instance: Instance & Partial<RecordStoreCache>, records: T[]): void {
+      if (isArray(records)) this.prune(instance, records, (data) => data);
+   }
+
+   /** Prunes the cache to the stores of the records of `items`; see pruneCache. */
+   protected prune<I>(instance: Instance & Partial<RecordStoreCache>, items: I[], getData: (item: I) => T): void {
+      let cache = instance.cacheByKey;
+      if (!cache || cache.size <= 2 * items.length + 32) return;
+      let kept = new Map<string | number, View>();
+      for (let item of items) {
+         let data = getData(item);
+         let key = isObject(data) ? (data as any)[this.keyField!] : null;
+         let store = key != null ? cache.get(key) : undefined;
+         if (store) kept.set(key, store);
+      }
+      instance.cacheByKey = kept;
    }
 
    public mapRecords(
@@ -120,7 +148,7 @@ export class ArrayAdapter<T = any> extends DataAdapter<T> {
       index: number,
    ): DataAdapterRecord<T> {
       const key = this.cacheByKeyField && this.keyField && isObject(data) ? (data as any)[this.keyField] : null;
-      let recordStore = key != null ? instance.cacheByKey![key] : instance.recordStoreCache!.get(data);
+      let recordStore = key != null ? instance.cacheByKey!.get(key) : instance.recordStoreCache!.get(data);
 
       if (recordsAccessor) {
          if (!recordStore) {
@@ -158,7 +186,7 @@ export class ArrayAdapter<T = any> extends DataAdapter<T> {
       }
 
       if (key != null) {
-         instance.cacheByKey![key] = recordStore;
+         instance.cacheByKey!.set(key, recordStore);
       } else if (isObject(data)) {
          instance.recordStoreCache!.set(data, recordStore);
       }
