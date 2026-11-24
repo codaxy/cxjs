@@ -54,6 +54,24 @@ describe("ArrayAdapter", () => {
       assert.equal(data[0], records[1].store.get("$record"));
    });
 
+   it("restores the original order when sorted without sorters (#1350)", () => {
+      let adapter = new ArrayAdapter();
+      let data = [{ id: 2 }, { id: 3 }, { id: 1 }];
+      let store = new Store();
+      let instance = new Instance(null!, "1", null!, store);
+      let ids = () => adapter.mapRecords(new RenderingContext(), instance, data, store).map((r) => r.data.id);
+
+      adapter.sort([{ field: "id", direction: "ASC" }]);
+      assert.deepEqual(ids(), [1, 2, 3]);
+
+      adapter.sort(undefined);
+      assert.deepEqual(ids(), [2, 3, 1]);
+
+      adapter.sort([{ field: "id", direction: "DESC" }]);
+      adapter.sort([]);
+      assert.deepEqual(ids(), [2, 3, 1]);
+   });
+
    describe("record stores", () => {
       function setup() {
          let adapter = new ArrayAdapter({ keyField: "id" });

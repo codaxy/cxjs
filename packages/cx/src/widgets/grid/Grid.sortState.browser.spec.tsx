@@ -158,9 +158,7 @@ describe("Grid sort state", () => {
       assert.equal(store.get(m.sortDirection), null);
    });
 
-   // Known bug #1350: the records keep the previous sort order, because ArrayAdapter.sort keeps the previous
-   // sorter when it is called without sorters.
-   it.fails("restores the original order when sorting is cleared (#1350)", async () => {
+   it("restores the original order when sorting is cleared (#1350)", async () => {
       let { screen } = await setup({ clearableSort: true });
 
       await clickHeader(screen, "Name");

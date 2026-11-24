@@ -208,7 +208,7 @@ export class ArrayAdapter<T = any> extends DataAdapter<T> {
       return sortOptions ? Culture.getComparer(sortOptions) : undefined;
    }
 
-   public buildSorter(sorters: ExtendedSorter[]): void {
+   public buildSorter(sorters?: ExtendedSorter[]): void {
       if (isArray(sorters) && sorters.length > 0) {
          let dataAccessor: (x: DataAdapterRecord<T>) => any;
          let fieldValueMapper: (x: ExtendedSorter) => Prop<any>;
@@ -239,10 +239,9 @@ export class ArrayAdapter<T = any> extends DataAdapter<T> {
       }
    }
 
+   /** Sorts the records with the given sorters; without sorters, the records keep their original order. */
    public sort(sorters?: ExtendedSorter[]): void {
-      if (sorters) {
-         this.buildSorter(sorters);
-      }
+      this.buildSorter(sorters);
    }
 }
 
