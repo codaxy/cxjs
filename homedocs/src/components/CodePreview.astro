@@ -250,8 +250,6 @@ const hasTabs = controllerCode || modelCode;
   }
 
   .code-content-wrapper {
-    scrollbar-width: thin;
-    scrollbar-color: hsl(var(--border)) transparent;
     display: flex;
     flex-direction: column;
   }
@@ -295,20 +293,6 @@ const hasTabs = controllerCode || modelCode;
     text-align: right;
     color: hsl(var(--muted-foreground) / 0.4);
     font-size: 0.75rem;
-  }
-
-  .code-content-wrapper::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-
-  .code-content-wrapper::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  .code-content-wrapper::-webkit-scrollbar-thumb {
-    background-color: hsl(var(--border));
-    border-radius: 3px;
   }
 </style>
 

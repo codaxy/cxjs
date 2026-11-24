@@ -164,6 +164,38 @@ body {
     color 0.2s ease;
 }
 
+// Code blocks are dark in both themes. With the scrollbar-color of the CxJS theme, Chrome draws the scrollbar itself
+// and uses a hover color for light backgrounds, which is invisible on dark ones. Code blocks therefore reset
+// scrollbar-color and scrollbar-width, so that Chrome applies the ::-webkit-scrollbar styles below; other browsers
+// draw their default scrollbar for a dark background.
+.code-content-wrapper,
+.code-content pre,
+pre.astro-code {
+  color-scheme: dark;
+  scrollbar-color: auto;
+  scrollbar-width: auto;
+
+  &::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  &::-webkit-scrollbar-track,
+  &::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2) padding-box;
+    border: 2px solid transparent;
+    border-radius: 5px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.35);
+  }
+}
+
 // ========================================
 // Import Styles
 // Note: @import is used here because:
