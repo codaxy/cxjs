@@ -228,7 +228,8 @@ export class TreeAdapter<
          if (!sorters || !isArray(sorters)) {
             sorters = [];
          }
-         sorters = [{ field: this.leafField, direction: "ASC" }, ...sorters];
+         // nodes without leafField are shown as folders, together with the nodes that have it set to false
+         sorters = [{ field: this.leafField, direction: "ASC", nullValue: false }, ...sorters];
       }
       super.sort(sorters);
    }

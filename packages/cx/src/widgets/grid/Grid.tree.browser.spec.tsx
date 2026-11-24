@@ -25,8 +25,6 @@ interface Model {
 
 const m = createModel<Model>();
 
-// Folders set $leaf: false. foldersFirst (the default) sorts by $leaf, and nodes without $leaf, which TreeNode
-// shows as folders, are sorted after the leaves.
 function tree(): Node[] {
    return [
       {
@@ -97,6 +95,32 @@ describe("Grid tree", () => {
       let { screen } = await setup();
 
       assert.deepEqual(describeTree(screen), ["- Documents", "  + Archive", "    Letter", "+ Pictures", "  Notes"]);
+   });
+
+   it("shows folders without $leaf before the leaves (#1348)", async () => {
+      let { screen } = await setup([
+         { id: 1, name: "Notes", $leaf: true },
+         { id: 2, name: "Pictures", $children: [] },
+         { id: 3, name: "Letter", $leaf: true },
+         { id: 4, name: "Documents", $leaf: false, $children: [] },
+      ]);
+      assert.deepEqual(describeTree(screen), ["+ Pictures", "+ Documents", "  Notes", "  Letter"]);
+
+      // sorting orders the folders and the leaves separately
+      await settle(() => userEvent.click(screen.getByText("Name", { exact: true })));
+      assert.deepEqual(describeTree(screen), ["+ Documents", "+ Pictures", "  Letter", "  Notes"]);
+   });
+
+   it("keeps the order of folders and leaves with foldersFirst: false", async () => {
+      let { screen } = await setup(
+         [
+            { id: 1, name: "Notes", $leaf: true },
+            { id: 2, name: "Pictures", $children: [] },
+         ],
+         {},
+         { foldersFirst: false },
+      );
+      assert.deepEqual(describeTree(screen), ["  Notes", "+ Pictures"]);
    });
 
    it("expands and collapses nodes with the handle and stores the state in the records", async () => {

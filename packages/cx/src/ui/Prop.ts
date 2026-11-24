@@ -129,6 +129,10 @@ export interface Sorter {
    field?: string;
    value?: Prop<any>;
    direction: SortDirection;
+   /** Sort null values before other values, in both directions. By default, null values are sorted last. */
+   nullsFirst?: boolean;
+   /** Value used in place of null values, which are then sorted like any other value. */
+   nullValue?: any;
 }
 
 export interface CollatorOptions {

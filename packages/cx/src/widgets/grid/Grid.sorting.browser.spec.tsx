@@ -4,6 +4,7 @@ import { Store } from "../../data/Store";
 import { Grid } from "./Grid";
 import { bind } from "../../ui/bind";
 import { computable } from "../../data/computable";
+import { createModel } from "../../data/createAccessorModelProxy";
 import { render, settle, RenderResult } from "../../util/test/render";
 
 // priorities 1, 2, 10 sort differently as numbers (1, 2, 10) than their
@@ -169,5 +170,71 @@ describe("Grid sorting precedence", () => {
       let sorted = headers.filter((th) => th.className.includes("sorted-asc"));
       assert.strictEqual(sorted.length, 1);
       assert.strictEqual(sorted[0], header(screen, "Priority").element());
+   });
+});
+
+describe("Grid sorting of empty values", () => {
+   interface Task {
+      id: number;
+      due: string | null;
+   }
+
+   const m = createModel<{ tasks: Task[]; sortField: string; sortDirection: "ASC" | "DESC" }>();
+
+   const tasks: Task[] = [
+      { id: 1, due: "2026-03-01" },
+      { id: 2, due: null },
+      { id: 3, due: "2026-01-01" },
+   ];
+
+   async function setup(column: { nullsFirst?: boolean; nullSortValue?: any }, data: object = {}) {
+      let store = new Store({ data: { tasks, ...data } });
+      let screen = await render(
+         <cx>
+            <Grid
+               records={m.tasks}
+               sortField={m.sortField}
+               sortDirection={m.sortDirection}
+               columns={[{ header: "Due", field: "due", sortable: true, ...column }]}
+            />
+         </cx>,
+         { store },
+      );
+      return screen;
+   }
+
+   it("sorts empty values last in both directions by default", async () => {
+      let screen = await setup({});
+
+      await clickHeader(screen, "Due");
+      assert.deepStrictEqual(getRenderedLabels(screen), ["2026-01-01", "2026-03-01", ""]);
+
+      await clickHeader(screen, "Due");
+      assert.deepStrictEqual(getRenderedLabels(screen), ["2026-03-01", "2026-01-01", ""]);
+   });
+
+   it("sorts empty values first in both directions with nullsFirst", async () => {
+      let screen = await setup({ nullsFirst: true });
+
+      await clickHeader(screen, "Due");
+      assert.deepStrictEqual(getRenderedLabels(screen), ["", "2026-01-01", "2026-03-01"]);
+
+      await clickHeader(screen, "Due");
+      assert.deepStrictEqual(getRenderedLabels(screen), ["", "2026-03-01", "2026-01-01"]);
+   });
+
+   it("sorts empty values as nullSortValue", async () => {
+      let screen = await setup({ nullSortValue: "2026-02-01" });
+
+      await clickHeader(screen, "Due");
+      assert.deepStrictEqual(getRenderedLabels(screen), ["2026-01-01", "", "2026-03-01"]);
+
+      await clickHeader(screen, "Due");
+      assert.deepStrictEqual(getRenderedLabels(screen), ["2026-03-01", "", "2026-01-01"]);
+   });
+
+   it("applies nullsFirst to sorters restored from sortField/sortDirection bindings", async () => {
+      let screen = await setup({ nullsFirst: true }, { sortField: "due", sortDirection: "DESC" });
+      assert.deepStrictEqual(getRenderedLabels(screen), ["", "2026-03-01", "2026-01-01"]);
    });
 });
