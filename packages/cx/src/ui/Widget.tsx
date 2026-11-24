@@ -299,6 +299,9 @@ export abstract class Widget<
         if (ins.scheduleExploreIfVisible(context))
           instance.components[cmp] = ins;
       }
+      // showing or hiding a component changes the rendering of the widget, as for the children of a container
+      if (instance.cache("components", Object.keys(instance.components).join(",")))
+        instance.markShouldUpdate(context);
     }
   }
 
