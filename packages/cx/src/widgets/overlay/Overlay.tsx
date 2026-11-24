@@ -17,6 +17,7 @@ import { getActiveElement } from "../../util/getActiveElement";
 import { getTopLevelBoundingClientRect } from "../../util/getTopLevelBoundingClientRect";
 import { isDataRecord } from "../../util/isDataRecord";
 import { isNumber } from "../../util/isNumber";
+import { isPromise } from "../../util/isPromise";
 import { KeyCode } from "../../util/KeyCode";
 import { parseStyle } from "../../util/parseStyle";
 import { SubscriberList } from "../../util/SubscriberList";
@@ -120,9 +121,11 @@ export interface OverlayConfig extends StyledContainerConfig {
 
    /**
     * Callback invoked before the overlay is dismissed, e.g. with Escape, the close button or the function returned
-    * by `open`. Return `false` to keep the overlay open. Setting `visible` to `false` closes the overlay without it.
+    * by `open`. Return `false`, or a promise that resolves to `false`, to keep the overlay open. While the promise is
+    * pending, further attempts to dismiss the overlay are ignored. Setting `visible` to `false` closes the overlay
+    * without it.
     */
-   onBeforeDismiss?: string | ((instance: Instance, component: any) => boolean | void);
+   onBeforeDismiss?: string | ((instance: Instance, component: any) => BeforeDismissResult);
 
    /** Callback fired when overlay will dismiss. */
    overlayWillDismiss?: (instance: Instance, component: any) => boolean;
@@ -136,9 +139,21 @@ export interface OverlayOpenOptions {
    name?: string;
    dismiss?: () => void;
    parentEl?: Element;
-   subscribeToBeforeDismiss?: (callback: () => boolean) => void;
+   subscribeToBeforeDismiss?: (callback: () => boolean | Promise<boolean>) => void;
    destroyDelay?: number;
    removeParentDOMElement?: boolean;
+}
+
+export type BeforeDismissResult = boolean | void | Promise<boolean | void>;
+
+/** Runs the check before an overlay is dismissed, which may be asynchronous, and closes the overlay if it allows it. */
+function dismissIfAllowed(check: (() => boolean | Promise<boolean>) | null | undefined, close: () => void): void {
+   let allowed = check ? check() : true;
+   if (isPromise(allowed))
+      allowed.then((allowed) => {
+         if (allowed) close();
+      });
+   else if (allowed !== false) close();
 }
 
 export interface ConfigureOverlayContainerContext {
@@ -149,7 +164,7 @@ export interface ConfigureOverlayContainerContext {
 export class OverlayInstance<WidgetType extends OverlayBase<any, any> = Overlay> extends Instance<WidgetType> {
    declare positionChangeSubscribers: SubscriberList;
    declare dismiss?: () => void;
-   onBeforeDismiss?: () => boolean;
+   onBeforeDismiss?: () => boolean | Promise<boolean>;
    declare beaconEl?: HTMLElement | null;
 }
 
@@ -189,7 +204,7 @@ export class OverlayBase<
    declare onClick?: string;
    declare onMouseDown?: string;
    declare onBackdropClick?: string;
-   declare onBeforeDismiss?: string | ((instance: Instance, component: any) => boolean | void);
+   declare onBeforeDismiss?: string | ((instance: Instance, component: any) => BeforeDismissResult);
    declare overlayWillDismiss?: (instance: Instance, component: any) => boolean;
    declare style?: any;
    declare pad?: boolean;
@@ -237,8 +252,7 @@ export class OverlayBase<
       if (isBinding(this.visible)) {
          if (!instance.dismiss) {
             instance.dismiss = () => {
-               if (instance.onBeforeDismiss && instance.onBeforeDismiss() === false) return;
-               instance.set("visible", false);
+               dismissIfAllowed(instance.onBeforeDismiss, () => instance.set("visible", false));
             };
          }
       } else if (context.options.dismiss) instance.dismiss = context.options.dismiss;
@@ -368,7 +382,7 @@ export class OverlayBase<
       let el = this.containerFactory(undefined, options?.initiatingEvent);
       el.style.display = "hidden";
 
-      let beforeDismiss: (() => boolean) | null = null;
+      let beforeDismiss: (() => boolean | Promise<boolean>) | null = null;
       let stop: any;
 
       options = {
@@ -377,11 +391,12 @@ export class OverlayBase<
          ...options,
          parentEl: el,
          dismiss: () => {
-            if (beforeDismiss && beforeDismiss() === false) return;
-            stop();
-            beforeDismiss = null;
+            dismissIfAllowed(beforeDismiss, () => {
+               stop();
+               beforeDismiss = null;
+            });
          },
-         subscribeToBeforeDismiss: (cb: () => boolean) => {
+         subscribeToBeforeDismiss: (cb: () => boolean | Promise<boolean>) => {
             beforeDismiss = cb;
          },
       };
@@ -507,7 +522,7 @@ class OverlayContent extends VDOM.Component<OverlayContentProps, {}> {
 export interface OverlayComponentProps {
    instance: OverlayInstance;
    parentEl?: HTMLElement;
-   subscribeToBeforeDismiss?: (cb: () => boolean) => void;
+   subscribeToBeforeDismiss?: (cb: () => boolean | Promise<boolean>) => void;
    children: any;
    beaconEl: HTMLElement | null;
 }
@@ -529,6 +544,7 @@ export class OverlayComponent<
    declare shadowEl?: HTMLElement | null;
    declare dismissed?: boolean;
    declare unmounting?: boolean;
+   declare dismissPending?: boolean;
    onPopState?: () => void;
    unsubscribeWheelBlock?: () => void;
    declare customStyle: any;
@@ -818,11 +834,37 @@ export class OverlayComponent<
       }
    }
 
-   onBeforeDismiss() {
+   onBeforeDismiss(): boolean | Promise<boolean> {
       let { instance } = this.props;
       let { widget } = instance;
 
-      if (widget.onBeforeDismiss && instance.invoke("onBeforeDismiss", instance, this) === false) return false;
+      // while an asynchronous onBeforeDismiss is pending, e.g. a confirmation, or once dismissing is allowed and the
+      // overlay is about to close, other attempts to dismiss it are ignored
+      if (this.dismissPending || this.dismissed) return false;
+
+      let allowed = widget.onBeforeDismiss ? instance.invoke("onBeforeDismiss", instance, this) : true;
+      if (isPromise(allowed)) {
+         this.dismissPending = true;
+         return allowed.then(
+            (allowed) => {
+               this.dismissPending = false;
+               // the overlay may have been closed in the meantime
+               return allowed !== false && !this.unmounting && this.beginDismiss();
+            },
+            (error) => {
+               this.dismissPending = false;
+               throw error;
+            },
+         );
+      }
+      if (allowed === false) return false;
+      return this.beginDismiss();
+   }
+
+   beginDismiss(): boolean {
+      let { instance } = this.props;
+      let { widget } = instance;
+
       if (widget.overlayWillDismiss && widget.overlayWillDismiss(instance, this) === false) return false;
 
       this.dismissed = true;

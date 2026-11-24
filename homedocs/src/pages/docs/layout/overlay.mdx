@@ -56,7 +56,7 @@ The `open` method returns a `close` function that can be called to dismiss the o
 | `closeOnEscape` | `boolean` | Closes the overlay when Escape key is pressed. |
 | `dismissOnFocusOut` | `boolean` | Dismisses the overlay when it loses focus. |
 | `dismissOnPopState` | `boolean` | Dismisses the overlay if the user presses the browser back button. |
-| `onBeforeDismiss` | `function` | Called with `(instance, component)` before the overlay is dismissed. Return `false` to keep it open. Setting `visible` to `false` closes the overlay without calling it. |
+| `onBeforeDismiss` | `function` | Called with `(instance, component)` before the overlay is dismissed. Return `false`, or a promise that resolves to `false`, to keep it open; other attempts to dismiss the overlay are ignored while the promise is pending. Setting `visible` to `false` closes the overlay without calling it. |
 | `animate` | `boolean` | Appends the `animate` state after initial render for CSS animations. |
 | `destroyDelay` | `number` | Milliseconds to wait before removing from DOM (use with `animate`). |
 | `autoFocus` | `boolean` | Automatically focuses the overlay when shown. |
