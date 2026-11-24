@@ -57,6 +57,12 @@ export interface DateTimeFieldConfig extends FieldConfig {
   /** Set to `true` to disallow the `maxValue`. Default value is `false`. */
   maxExclusive?: BooleanProp;
 
+  /**
+   * Reference date of the calendar picker. If no date is selected, the calendar opens on the month of this date
+   * instead of the current month, e.g. if the current month cannot be selected.
+   */
+  refDate?: Prop<string | Date>;
+
   /** Date format used to display the selected date. */
   format?: StringProp;
 
@@ -141,6 +147,7 @@ export class DateTimeField extends Field<DateTimeFieldConfig> {
   declare public disabledDaysOfWeekErrorText?: string;
   declare public value?: unknown;
   declare public minValue?: unknown;
+  declare public refDate?: unknown;
   declare public maxValue?: unknown;
   declare public minExclusive?: boolean;
   declare public maxExclusive?: boolean;
@@ -225,8 +232,6 @@ export class DateTimeField extends Field<DateTimeFieldConfig> {
       data.date = date;
     } else data.formatted = "";
 
-    if (data.refDate) data.refDate = zeroTime(parseDateInvariant(data.refDate));
-
     if (data.maxValue) data.maxValue = parseDateInvariant(data.maxValue);
 
     if (data.minValue) data.minValue = parseDateInvariant(data.minValue);
@@ -300,6 +305,7 @@ export class DateTimeField extends Field<DateTimeFieldConfig> {
         data={instance.data}
         picker={{
           value: this.value,
+          refDate: this.refDate,
           minValue: this.minValue,
           maxValue: this.maxValue,
           minExclusive: this.minExclusive,
