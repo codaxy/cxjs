@@ -395,8 +395,8 @@ class MenuItemComponent extends VDOM.Component<MenuItemComponentProps, MenuItemC
       debug(menuFlag, "MenuItem", "keyDown", this.el);
       let { horizontal, widget } = this.props.instance;
       if (widget.dropdown) {
+         // the dropdown is usually already open, as items open it on focus (openOnFocus)
          if (
-            !this.state.dropdownOpen &&
             e.target == this.el &&
             (e.keyCode == KeyCode.enter || (horizontal ? e.keyCode == KeyCode.down : e.keyCode == KeyCode.right))
          ) {
