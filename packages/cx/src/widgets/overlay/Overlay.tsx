@@ -118,8 +118,11 @@ export interface OverlayConfig extends StyledContainerConfig {
    /** Callback for key down event. */
    onKeyDown?: string;
 
-   /** Callback fired before dismiss. */
-   onBeforeDismiss?: string | (() => boolean);
+   /**
+    * Callback invoked before the overlay is dismissed, e.g. with Escape, the close button or the function returned
+    * by `open`. Return `false` to keep the overlay open. Setting `visible` to `false` closes the overlay without it.
+    */
+   onBeforeDismiss?: string | ((instance: Instance, component: any) => boolean | void);
 
    /** Callback fired when overlay will dismiss. */
    overlayWillDismiss?: (instance: Instance, component: any) => boolean;
@@ -186,6 +189,7 @@ export class OverlayBase<
    declare onClick?: string;
    declare onMouseDown?: string;
    declare onBackdropClick?: string;
+   declare onBeforeDismiss?: string | ((instance: Instance, component: any) => boolean | void);
    declare overlayWillDismiss?: (instance: Instance, component: any) => boolean;
    declare style?: any;
    declare pad?: boolean;
@@ -818,6 +822,7 @@ export class OverlayComponent<
       let { instance } = this.props;
       let { widget } = instance;
 
+      if (widget.onBeforeDismiss && instance.invoke("onBeforeDismiss", instance, this) === false) return false;
       if (widget.overlayWillDismiss && widget.overlayWillDismiss(instance, this) === false) return false;
 
       this.dismissed = true;
