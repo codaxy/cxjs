@@ -1,8 +1,10 @@
-import { describe, it } from "vitest";
+import { afterEach, beforeEach, describe, it } from "vitest";
+import { userEvent } from "vitest/browser";
 import { Link } from "./Link";
 import { Store } from "../../data/Store";
+import { History } from "../../ui/app/History";
 import { createModel } from "../../data/createAccessorModelProxy";
-import { render } from "../../util/test/render";
+import { render, settle } from "../../util/test/render";
 import assert from "assert";
 
 const m = createModel<{ url: string }>();
@@ -95,6 +97,66 @@ describe("Link", () => {
 
       it("is inactive without a query", async () => {
          assert.equal(await isActive("~/page", { href: "~/page?tab=1" }), false);
+      });
+   });
+
+   describe("click on a local href", () => {
+      let pushState = History.pushState;
+      let pushed: string[];
+      let browserNavigates: boolean | undefined;
+
+      // runs after the handlers of the app; records whether the browser would follow the link, then stops it
+      function stopNavigation(e: MouseEvent) {
+         browserNavigates = !e.defaultPrevented;
+         e.preventDefault();
+      }
+
+      beforeEach(() => {
+         pushed = [];
+         browserNavigates = undefined;
+         History.pushState = (state, title, url) => {
+            pushed.push(url);
+            return true;
+         };
+         window.addEventListener("click", stopNavigation);
+      });
+
+      afterEach(() => {
+         History.pushState = pushState;
+         window.removeEventListener("click", stopNavigation);
+      });
+
+      async function click(target?: string) {
+         let screen = await render(
+            <cx>
+               <Link href="~/reports" target={target} text="Reports" />
+            </cx>,
+         );
+         await settle(() => userEvent.click(screen.getByText("Reports")));
+      }
+
+      it("navigates in the app without a target", async () => {
+         await click();
+         assert.deepEqual(pushed, ["/reports"]);
+         assert.equal(browserNavigates, false);
+      });
+
+      it("navigates in the app with target=_self", async () => {
+         await click("_self");
+         assert.deepEqual(pushed, ["/reports"]);
+         assert.equal(browserNavigates, false);
+      });
+
+      it("leaves target=_blank to the browser", async () => {
+         await click("_blank");
+         assert.deepEqual(pushed, []);
+         assert.equal(browserNavigates, true);
+      });
+
+      it("leaves a named target to the browser", async () => {
+         await click("report");
+         assert.deepEqual(pushed, []);
+         assert.equal(browserNavigates, true);
       });
    });
 
