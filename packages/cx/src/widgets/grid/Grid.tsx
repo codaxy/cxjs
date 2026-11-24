@@ -1462,10 +1462,12 @@ export class Grid<T = unknown> extends ContainerBase<GridConfig<T>, GridInstance
       dataAdapter.setFilter(filter);
       dataAdapter.sort(sorters);
 
-      //if no filtering or sorting applied, let the component maps records on demand
+      // if no filtering or sorting applied, let the component map records on demand; measured row heights are
+      // estimated from the mapped records, so they need all records
       if (
          this.buffered &&
          !this.fixedFooter &&
+         !this.measureRowHeights &&
          !filter &&
          !isNonEmptyArray(sorters) &&
          !dataAdapter.isTreeAdapter &&

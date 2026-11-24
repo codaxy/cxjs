@@ -199,14 +199,11 @@ describe("Grid measureRowHeights", () => {
    }
 
    it("positions buffered rows of different heights by their measured heights", { timeout: 20000 }, async () => {
-      // sorted, so that the grid maps all records; see the known bug below
       let screen = await setupVariableHeights({ defaultSortField: "id" });
       await assertPositionsFollowMeasuredHeights(screen);
    });
 
-   // Known bug #1351: measured heights are used only if the grid has mapped records (instance.records), which a
-   // buffered grid without sorting, filtering or grouping does not have, so it falls back to a uniform row height.
-   it.fails("uses measured heights in a buffered grid without sorting (#1351)", { timeout: 20000 }, async () => {
+   it("uses measured heights in a buffered grid without sorting (#1351)", { timeout: 20000 }, async () => {
       let screen = await setupVariableHeights({});
       await assertPositionsFollowMeasuredHeights(screen);
    });
