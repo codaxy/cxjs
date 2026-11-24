@@ -39,8 +39,8 @@ Section predates Tailwind CSS and is rarely used when Tailwind is available. Con
 | Property | Type | Description |
 | -------- | ---- | ----------- |
 | `title` | `string` | Section's title text. |
-| `header` | `config` | Custom content for the header. Use `putInto="header"` on child elements. |
-| `footer` | `config` | Custom content for the footer. Use `putInto="footer"` on child elements. |
+| `header` | `config` | Custom content for the header. Without a header or a title, content with `putInto="header"` anywhere inside the section goes to the header. |
+| `footer` | `config` | Custom content for the footer. Without a footer, content with `putInto="footer"` anywhere inside the section goes to the footer. |
 | `pad` | `boolean` | Add default padding to the section body. Default is `true`. |
 | `mod` | `string` | Visual modifier. Values: `card`, `primary`, `success`, `warning`, `error`. |
 | `hLevel` | `number` | Heading level for the title. Default is `3`. |

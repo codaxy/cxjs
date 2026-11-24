@@ -15,6 +15,34 @@ Sometimes we are forced to introduce breaking changes to the framework.
 This page will provide information about breaking changes and how to migrate your applications to the latest
 versions of the framework.
 
+## 26.12.0
+
+### Section collects nested header and footer content
+
+Before 26.12.0, `Section` took header and footer content only from its direct children with `putInto="header"` or
+`putInto="footer"`. Content nested deeper, e.g. inside a `Rescope` or a `FlexRow`, went to the next outer
+placeholder with that name, such as the footer of a `Window` or a header placeholder in the application layout.
+
+A section without its own `header` (or `title`) and `footer` now shows such content itself, as `Window` does.
+
+```tsx
+<Window title="Edit">
+   <Section>
+      <FlexRow>
+         ...
+         <div putInto="footer">
+            <Button>OK</Button>
+         </div>
+      </FlexRow>
+   </Section>
+</Window>
+
+// before 26.12.0: the button is shown in the footer of the window
+// since 26.12.0:  the button is shown in the footer of the section
+```
+
+To keep the content in the outer placeholder, move it out of the section.
+
 ## 26.10.0
 
 ### Accessor-chain bindings write declared defaults to the store

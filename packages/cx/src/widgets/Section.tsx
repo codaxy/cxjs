@@ -8,6 +8,7 @@ import { RenderingContext } from "../ui/RenderingContext";
 import { Instance } from "../ui/Instance";
 import { BooleanProp, StringProp, StyleProp, ClassProp, Prop } from "../ui/Prop";
 import { Create } from "../util/Component";
+import { ContentPlaceholder, ContentPlaceholderInstance } from "../ui/layout/ContentPlaceholder";
 
 export interface SectionConfig extends StyledContainerConfig {
    id?: Prop<string | number>;
@@ -36,10 +37,16 @@ export interface SectionConfig extends StyledContainerConfig {
    /** Section's title. */
    title?: StringProp;
 
-   /** Contents that should go in the header. */
+   /**
+    * Contents that should go in the header. Without a header or a title, content with `putInto="header"` anywhere
+    * inside the section is shown in the header.
+    */
    header?: Create<typeof Widget>;
 
-   /** Contents that should go in the footer. */
+   /**
+    * Contents that should go in the footer. Without a footer, content with `putInto="footer"` anywhere inside the
+    * section is shown in the footer.
+    */
    footer?: Create<typeof Widget>;
 
    /** Title heading level (1-6) */
@@ -94,10 +101,18 @@ export class Section extends ContainerBase<SectionConfig, Instance> {
    }
 
    initComponents(context: RenderingContext, instance: Instance): void {
+      // without a header or a footer, the section collects nested content put into them, as Window does; the
+      // placeholders are scoped, so they take only content from inside the section
       super.initComponents(context, instance, {
-         header: this.getHeader(),
-         footer: this.getFooter(),
+         header: this.getHeader() ?? ContentPlaceholder.create({ name: "header", scoped: true }),
+         footer: this.getFooter() ?? ContentPlaceholder.create({ name: "footer", scoped: true }),
       });
+   }
+
+   exploreCleanup(context: RenderingContext, instance: Instance): void {
+      super.exploreCleanup?.(context, instance);
+      (instance.components?.header as ContentPlaceholderInstance)?.unregisterContentPlaceholder?.();
+      (instance.components?.footer as ContentPlaceholderInstance)?.unregisterContentPlaceholder?.();
    }
 
    getHeader(): Widget | null {
@@ -138,24 +153,27 @@ export class Section extends ContainerBase<SectionConfig, Instance> {
       let header: React.ReactNode, footer: React.ReactNode;
       let { CSS, baseClass } = this;
 
-      if (components?.header) {
+      // the header and the footer are rendered only if they have content, e.g. if something is put into them
+      let headerContent = components?.header && getContent(components.header.render(context));
+      if (headerContent != null) {
          header = (
             <header
                className={CSS.expand(CSS.element(baseClass, "header"), data.headerClass)}
                style={data.headerStyle as any}
             >
-               {getContent(components.header.render(context))}
+               {headerContent}
             </header>
          );
       }
 
-      if (components?.footer) {
+      let footerContent = components?.footer && getContent(components.footer.render(context));
+      if (footerContent != null) {
          footer = (
             <footer
                className={CSS.expand(CSS.element(baseClass, "footer"), data.footerClass)}
                style={data.footerStyle as any}
             >
-               {getContent(components.footer.render(context))}
+               {footerContent}
             </footer>
          );
       }
