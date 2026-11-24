@@ -264,11 +264,11 @@ describe("Grid infinite loading", () => {
                keyField="id"
                style="height: 300px"
                columns={[{ header: "Name", field: "name", sortable: true }]}
-               // the state returned with a page is passed to the next fetch; it is not declared in the Grid types
-               onFetchRecords={({ page, pageSize, state }: any) => {
+               // the state returned with a page is passed to the next fetch
+               onFetchRecords={({ page, pageSize, state }) => {
                   requests.push({ page, state });
                   let start = (page - 1) * pageSize;
-                  return new Promise<any>((resolve) =>
+                  return new Promise<GridFetchRecordsResult<any>>((resolve) =>
                      setTimeout(
                         () =>
                            resolve({
