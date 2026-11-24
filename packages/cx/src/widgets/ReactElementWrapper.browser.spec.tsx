@@ -1,4 +1,5 @@
 import { describe, it } from "vitest";
+import { userEvent } from "vitest/browser";
 import { Store } from "../data/Store";
 import assert from "assert";
 import { render, settle, markup } from "../util/test/render";
@@ -14,6 +15,7 @@ import {
 } from "./HtmlElement.spec.helpers";
 import { Controller } from "../ui/Controller";
 import { createAccessorModelProxy } from "../data/createAccessorModelProxy";
+import { Instance } from "../ui/Instance";
 import { ReactElementWrapper } from "./ReactElementWrapper";
 
 describe("ReactElementWrapper", () => {
@@ -147,6 +149,7 @@ describe("ReactElementWrapper", () => {
       assert.equal(root.localName, "div");
       assert.equal(root.className, "react-ref-effect-component");
       assert.equal(root.textContent, "Component with ref and effect");
+      assert.equal(mountedElement, root);
    });
 
    it("renders React function component with useEffect that updates state", async () => {
@@ -357,6 +360,45 @@ describe("ReactElementWrapper", () => {
             </div>
          `,
       );
+   });
+
+   it("passes event handlers to the component, called with the instance as this (#1349)", async () => {
+      interface Model {
+         count: number;
+         label: string;
+      }
+      let m = createAccessorModelProxy<Model>();
+      let store = new Store<Model>({ data: { count: 0, label: "Add" } });
+      let calls: any[][] = [];
+
+      function Counter(props: { label: string; onAdd: (step: number) => void }) {
+         return VDOM.createElement("button", { onClick: () => props.onAdd(2) }, props.label);
+      }
+
+      const screen = await render(
+         <cx>
+            <Counter
+               label={m.label}
+               onAdd={function (step) {
+                  calls.push([step, this instanceof Instance]);
+                  this.store.update(m.count, (count) => count + step);
+               }}
+            />
+         </cx>,
+         { store },
+      );
+
+      // the handler is not evaluated as a selector while rendering
+      assert.deepEqual(calls, []);
+
+      await settle(() => userEvent.click(screen.getByText("Add")));
+      await settle(() => userEvent.click(screen.getByText("Add")));
+
+      assert.deepEqual(calls, [
+         [2, true],
+         [2, true],
+      ]);
+      assert.equal(store.get(m.count), 4);
    });
 
    describe("React component type inference", () => {
