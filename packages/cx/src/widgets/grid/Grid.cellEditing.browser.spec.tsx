@@ -4,6 +4,7 @@ import assert from "assert";
 import { createModel } from "../../data/createAccessorModelProxy";
 import { Store } from "../../data/Store";
 import { TextField } from "../form/TextField";
+import { NumberField } from "../form/NumberField";
 import { Grid, GridConfig } from "./Grid";
 import { render, settle, RenderResult } from "../../util/test/render";
 
@@ -11,6 +12,7 @@ interface Person {
    id: number;
    name: string;
    city: string;
+   age: number;
 }
 
 interface Model {
@@ -23,7 +25,7 @@ const m = createModel<Model>();
 function setup(gridProps: Partial<GridConfig> = {}) {
    let edits: { field: string; oldName: string; newName: string; newCity: string; index?: number }[] = [];
    let store = new Store({
-      data: { records: [1, 2, 3].map((id) => ({ id, name: "Name " + id, city: "City " + id })) },
+      data: { records: [1, 2, 3].map((id) => ({ id, name: "Name " + id, city: "City " + id, age: 20 + id })) },
    });
    let widget = (
       <cx>
@@ -221,10 +223,7 @@ describe("Grid cell editing", () => {
       assert.deepEqual(checked, ["name:3", "name:1"]);
    });
 
-   // Known bug #1346: escape saves the edit instead of cancelling it. Cancelling first moves the focus from the editor
-   // back to the grid, and the grid's focus handler ends the edit as saved (calling onCellEdited) before the
-   // cancellation restores the previous record, which by then is the edited one.
-   it.fails("cancels the edit with escape (#1346)", async () => {
+   it("cancels the edit with escape (#1346)", async () => {
       let { store, widget, edits } = setup();
       let screen = await render(widget, { store });
 
@@ -235,5 +234,29 @@ describe("Grid cell editing", () => {
       assert.equal(editor(screen), null);
       assert.equal(store.get(m.records)[1].city, "City 2");
       assert.deepEqual(edits, []);
+   });
+
+   it("cancels a NumberField edit with escape and saves it with enter (#1346)", async () => {
+      // NumberField writes its value on blur, which happens while the edit ends
+      let { store, widget, edits } = setup({
+         columns: [{ header: "Age", field: "age", editor: <NumberField value={m.$record.age} /> }],
+      });
+      let screen = await render(widget, { store });
+
+      await click(screen, "22");
+      await press("{Enter}{Control>}a{/Control}99");
+      await press("{Escape}");
+
+      assert.equal(editor(screen), null);
+      assert.equal(store.get(m.records)[1].age, 22);
+      assert.deepEqual(edits, []);
+
+      await press("{Enter}{Control>}a{/Control}99{Enter}");
+
+      assert.equal(store.get(m.records)[1].age, 99);
+      assert.deepEqual(
+         edits.map((e) => e.field),
+         ["age"],
+      );
    });
 });
