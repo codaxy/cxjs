@@ -180,10 +180,7 @@ describe("Grid row drag and drop", () => {
       assert.equal(screen.container.querySelector(".cxe-grid-dropzone"), null);
    });
 
-   // Known regression #1347, since the TypeScript transition: beginDragDrop collects the selected records only if the
-   // dragged row is not selected ("if (!record.row?.selected)"), so dragging a selected row drags only that row.
-   // The JavaScript version checked "record.selected", which mapped records do not have, so it always collected them.
-   it.fails("drags all selected rows together (#1347)", async () => {
+   it("drags all selected rows together (#1347)", async () => {
       let { screen, drops } = await setup({ selection: { type: KeySelection, bind: m.selection, multiple: true } });
 
       await settle(() => userEvent.click(screen.getByText("Name 2", { exact: true }).element()));
@@ -195,6 +192,30 @@ describe("Grid row drag and drop", () => {
       assert.deepEqual(
          drops.map((d) => [d.insertionIndex, d.source, d.sources]),
          [[0, 3, [2, 3]]],
+      );
+   });
+
+   it("drags only the dragged row if it is not selected", async () => {
+      let { screen, store, drops } = await setup({
+         selection: { type: KeySelection, bind: m.selection, multiple: true },
+      });
+
+      await settle(() => userEvent.click(screen.getByText("Name 2", { exact: true }).element()));
+      await settle(() =>
+         userEvent.click(screen.getByText("Name 3", { exact: true }).element(), { modifiers: ["Control"] } as any),
+      );
+      // a ctrl-press on a selected row deselects it, so the drag starts on a row that is not selected
+      await userEvent.keyboard("{Control>}");
+      try {
+         await dragRow(screen, 3, 1, "top");
+      } finally {
+         await userEvent.keyboard("{/Control}");
+      }
+
+      assert.deepEqual(store.get(m.selection), [2]);
+      assert.deepEqual(
+         drops.map((d) => [d.insertionIndex, d.source, d.sources]),
+         [[0, 3, [3]]],
       );
    });
 
