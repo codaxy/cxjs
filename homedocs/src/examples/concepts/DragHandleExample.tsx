@@ -57,7 +57,7 @@ export default (
         inflate={50}
       />
       <DragSource data={m.$record} hideOnDrag handled>
-        <div class="flex items-center gap-2 p-2 border rounded bg-white">
+        <div class="flex items-center gap-2 p-2 border rounded bg-(--cx-theme-background-color)">
           <DragHandle class="cursor-move text-gray-400 hover:text-gray-600 px-1">
             ⋮⋮
           </DragHandle>

@@ -14,7 +14,7 @@ export default (
   <div class="flex flex-wrap gap-4 items-start">
     <ColorPicker value={m.color} />
     <div
-      class="w-24 h-24 rounded border border-gray-300"
+      class="w-24 h-24 rounded border border-gray-500/30"
       style={{ background: m.color }}
     />
   </div>

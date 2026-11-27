@@ -36,7 +36,7 @@ class PageController extends Controller {
 // @index
 export default (
   <div controller={PageController}>
-    <Svg style="width: 500px; height: 300px; border: 1px dashed #ddd">
+    <Svg style="width: 500px; height: 300px; border: 1px dashed var(--cx-theme-border-color)">
       <Chart
         margin="60 20 40 60"
         axes={{
@@ -44,7 +44,7 @@ export default (
           y: <NumericAxis vertical />,
         }}
       >
-        <Rectangle fill="white" />
+        <Rectangle style="fill: var(--cx-theme-background-color)" />
         <Gridlines />
         <ColumnGraph
           data={m.data}

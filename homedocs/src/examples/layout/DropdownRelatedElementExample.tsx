@@ -11,7 +11,7 @@ const m = createModel<PageModel>();
 
 // @index
 export default (
-  <div className="p-5 border-2 border-dashed border-gray-300 rounded relative">
+  <div className="p-5 border-2 border-dashed border-gray-500/30 rounded relative">
     <span className="absolute top-1 right-2 text-xs text-gray-400">
       Parent Container
     </span>

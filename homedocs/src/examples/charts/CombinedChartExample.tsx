@@ -78,7 +78,7 @@ export default (
           y: <CategoryAxis vertical inverted />,
         }}
       >
-        <Rectangle fill="white" />
+        <Rectangle style="fill: var(--cx-theme-background-color)" />
         <Gridlines />
         <Repeater records={m.data} recordAlias="$point" sorters={m.sorters}>
           <Bar

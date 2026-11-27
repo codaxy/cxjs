@@ -90,7 +90,7 @@ export default (
   <div controller={PageController}>
     <Legend />
     <ContentPlaceholderScope name="xAxis">
-      <div style="border: 1px dashed #ddd">
+      <div style="border: 1px dashed var(--cx-theme-border-color)">
         <div style="overflow-y: auto; max-height: 400px; margin-top: 16px">
           <Svg
             style={{
@@ -112,7 +112,7 @@ export default (
                 y: <CategoryAxis vertical />,
               }}
             >
-              <Rectangle fill="white" />
+              <Rectangle style="fill: var(--cx-theme-background-color)" />
               <Gridlines />
               <BarGraph
                 name="2023"

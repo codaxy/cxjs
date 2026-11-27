@@ -55,7 +55,7 @@ class PageController extends Controller {
 export default (
   <div controller={PageController}>
     <Legend />
-    <Svg style="height: 320px; border: 1px dashed #ddd">
+    <Svg style="height: 320px; border: 1px dashed var(--cx-theme-border-color)">
       <Chart
         margin="20 20 30 80"
         axes={{
@@ -63,7 +63,7 @@ export default (
           y: <CategoryAxis vertical inverted />,
         }}
       >
-        <Rectangle fill="white" />
+        <Rectangle style="fill: var(--cx-theme-background-color)" />
         <Repeater records={m.data} recordAlias="$point">
           <Bar
             name="Poor"

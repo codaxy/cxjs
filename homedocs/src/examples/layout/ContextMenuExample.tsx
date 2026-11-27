@@ -5,7 +5,7 @@ export default (
   <div
     style={{
       padding: "40px",
-      border: "1px dashed #ccc",
+      border: "1px dashed var(--cx-theme-border-color)",
       textAlign: "center",
       cursor: "context-menu",
     }}

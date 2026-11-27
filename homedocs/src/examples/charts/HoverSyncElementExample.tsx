@@ -41,8 +41,8 @@ export default (
             <HoverSyncElement
               hoverId={m.$record.id}
               class="px-4 py-2 border rounded cursor-pointer transition-all"
-              style="background: white; border-color: #e5e7eb"
-              hoverStyle="background: #f3f4f6; border-color: #9ca3af"
+              style="background: var(--cx-theme-background-color); border-color: var(--cx-theme-border-color)"
+              hoverStyle="background: color-mix(in srgb, var(--cx-theme-primary-color) 10%, transparent); border-color: var(--cx-theme-primary-color)"
               hoverClass="shadow-md"
             >
               <span text={m.$record.name} />

@@ -80,7 +80,7 @@ export default (
             <Rectangle
               anchors="1 1 1 1"
               offset="-10 20 10 -20"
-              style="fill: white; stroke: gray"
+              style="fill: var(--cx-theme-background-color); stroke: gray"
             >
               <Text tpl="{$record.value:n;0}%" dy="0.4em" ta="middle" />
             </Rectangle>

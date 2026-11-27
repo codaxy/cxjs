@@ -43,7 +43,7 @@ export default (
       ]}
     />
     <Repeater records={m.selectedCities} recordAlias={m.$city}>
-      <div class="border-b border-gray-300 py-2">
+      <div class="border-b border-gray-500/30 py-2">
         <strong text={m.$city.text} />
         <div text={tpl(m.$city.population, "Population: {0:n;0}")} />
         <div text={tpl(m.$city.landArea, "Land Area: {0} km²")} />

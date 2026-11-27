@@ -16,7 +16,7 @@ export const model = {
 
 // @index
 export default (
-  <div className="flex h-[150px] border border-gray-300">
+  <div className="flex h-[150px] border border-gray-500/30">
     <div
       className="p-4"
       style={{ width: format(m.leftWidth, "n;0:suffix;px") }}
@@ -27,7 +27,7 @@ export default (
       size={m.leftWidth}
       minSize={100}
       maxSize={400}
-      className="border-x border-gray-300"
+      className="border-x border-gray-500/30"
     />
     <div className="flex-1 p-4">Right panel</div>
   </div>

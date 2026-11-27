@@ -39,7 +39,7 @@ class PageController extends Controller {
 // @index
 export default (
   <div controller={PageController}>
-    <Svg style="width: 500px; height: 400px; border: 1px dashed #ddd">
+    <Svg style="width: 500px; height: 400px; border: 1px dashed var(--cx-theme-border-color)">
       <Chart
         offset="50 -30 -40 50"
         axes={{
@@ -61,7 +61,7 @@ export default (
             >
               <NonOverlappingRect offset="-15 25 0 -25" anchors="0 0.5 0 0.5">
                 <Rectangle
-                  style="fill: white; stroke: red; stroke-width: 0.5"
+                  style="fill: var(--cx-theme-background-color); stroke: red; stroke-width: 0.5"
                   anchors="0 1 1 0"
                   rx={3}
                 >
