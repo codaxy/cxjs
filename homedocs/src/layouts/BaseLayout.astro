@@ -66,6 +66,17 @@ const gtmId = import.meta.env.GTM_ID;
         }
       })();
     </script>
+    <script is:inline>
+      // On client-side navigation, the new document's <html> (without the dark class) replaces the current one before
+      // the script above runs again, so the page briefly renders in light colors and color transitions flash.
+      // Carrying the class over to the new document before the swap avoids that.
+      if (!window._themeSwapInitialized) {
+        window._themeSwapInitialized = true;
+        document.addEventListener('astro:before-swap', (e) => {
+          e.newDocument.documentElement.classList.toggle('dark', document.documentElement.classList.contains('dark'));
+        });
+      }
+    </script>
     <slot name="head" />
   </head>
   <body>

@@ -55,12 +55,13 @@
 .prose a:not(.cxb-button):not(.cxb-tab) {
   color: var(--sl-color-text-accent);
   text-decoration: none;
-  //border-bottom: 1px solid transparent;
-  //transition: border-color 0.15s ease;
+}
 
-  &:hover {
-    //border-bottom-color: currentColor;
-  }
+// Underline text links on hover; cards, anchors and widgets (not-prose) are left alone
+.prose a:not(.cxb-button):not(.cxb-tab):not(.heading-anchor):not(.nav-link):not(:where(.not-prose *)):hover {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
 }
 
 .prose blockquote {
@@ -150,15 +151,21 @@
 
 .prose p code,
 .prose li code {
-  font-size: inherit;
-  font-weight: 600;
-  color: var(--sl-color-text-accent);
+  // Monospace glyphs are wider and taller than Inter at the same size, so inline code is set slightly smaller
+  font-size: 0.9em;
+  font-weight: 500;
+  color: var(--code-text);
   background: var(--sl-color-gray-6);
   @apply px-1 rounded;
 }
 
 .prose a:has(code) {
   color: var(--sl-color-text-accent);
+}
+
+// Code inside a link takes the link color, so linked and plain code can be told apart
+.prose a code {
+  color: inherit !important;
 }
 
 // Table styles - only apply to direct table children to avoid conflicts with CxJS widgets
@@ -197,7 +204,7 @@
     border-bottom: 1px solid hsl(var(--border) / 0.5);
 
     code {
-      color: hsl(var(--primary));
+      color: var(--code-text);
       background: hsl(var(--secondary));
       padding: 0.125rem 0.375rem;
       border-radius: 0.25rem;

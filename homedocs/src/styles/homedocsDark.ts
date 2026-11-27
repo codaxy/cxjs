@@ -9,6 +9,7 @@ const homedocsDarkPreset: ThemeVariables = {
 
    // Primary colors
    primaryColor: "hsl(var(--primary))",
+   primaryTextColor: "hsl(var(--primary-foreground))",
    accentColor: "hsl(var(--accent))",
    accentTextColor: "hsl(0, 0%, 98%)",
    dangerColor: "#ef4444",

@@ -93,6 +93,29 @@ import InventoryExample from '../examples/homepage/InventoryExample.tsx';
       .feature-icon {
         transition: transform 0.3s ease;
       }
+
+      /* Cards fade in on scroll. Only the script hides them, so they stay visible if it doesn't run. */
+      .js-reveal {
+        opacity: 0;
+      }
+
+      /* Reduced motion: no animations, everything shown in its final state */
+      @media (prefers-reduced-motion: reduce) {
+        .float-1, .float-2, .float-3, .float-4, .pulse-glow, .fade-in-up, .slide-in-left, .slide-in-right, .gradient-text {
+          animation: none !important;
+        }
+        .animate-delay-100, .animate-delay-200, .animate-delay-300, .animate-delay-400, .js-reveal {
+          opacity: 1 !important;
+        }
+        .grid-pattern {
+          animation: none;
+          opacity: 0.05;
+        }
+        .feature-card:hover,
+        .feature-card:hover .feature-icon {
+          transform: none;
+        }
+      }
   </style>
     <div class="min-h-screen bg-background overflow-x-clip">
       <HomeHeader />
@@ -122,8 +145,8 @@ import InventoryExample from '../examples/homepage/InventoryExample.tsx';
             Version 26 Now Available
           </div>
 
-          <h1 class="text-4xl md:text-5xl lg:text-[64px] font-bold leading-[1.1] tracking-tight text-heading mb-6 transition-colors duration-300">
-            The One-Stop Shop for<br />Portals and Dashboards
+          <h1 class="text-4xl md:text-5xl lg:text-[64px] font-bold leading-[1.1] tracking-tight text-heading mb-6 transition-colors duration-300 text-balance">
+            The One-Stop Shop for<br class="hidden md:inline" /> Portals and Dashboards
           </h1>
 
           <p class="text-[16px] md:text-[18px] leading-relaxed text-muted-foreground max-w-[560px] mx-auto mb-10 transition-colors duration-300">
@@ -131,11 +154,11 @@ import InventoryExample from '../examples/homepage/InventoryExample.tsx';
           </p>
 
           <div class="flex items-center justify-center gap-3">
-            <a href="/docs/intro/hello-world" class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-[var(--cx-c-brand)] text-white text-[16px] font-medium hover:bg-[var(--cx-c-brand-dark)] transition-all duration-200 shadow-md hover:shadow-lg hover:-translate-y-0.5">
+            <a href="/docs/intro/hello-world" class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-[var(--cx-c-brand)] text-primary-foreground text-[16px] font-medium hover:bg-[var(--cx-c-brand-dark)] transition-all duration-200 shadow-md hover:shadow-lg motion-safe:hover:-translate-y-0.5">
               Get started
               <svg class="w-4 h-4" viewBox="0 0 16 16" fill="currentColor"><path d="M6.47 4.29a.75.75 0 0 1 1.06 0l3.75 3.75a.75.75 0 0 1 0 1.06l-3.75 3.75a.75.75 0 1 1-1.06-1.06L9.69 8.5H2.75a.75.75 0 0 1 0-1.5h6.94L6.47 5.35a.75.75 0 0 1 0-1.06z"></path></svg>
             </a>
-            <a href="https://github.com/codaxy/cxjs" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-border bg-background text-foreground text-[16px] font-medium hover:bg-secondary/60 transition-all duration-200 hover:-translate-y-0.5">
+            <a href="https://github.com/codaxy/cxjs" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-border bg-background text-foreground text-[16px] font-medium hover:bg-secondary/60 transition-all duration-200 motion-safe:hover:-translate-y-0.5">
               <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path></svg>
               GitHub
             </a>
@@ -409,10 +432,10 @@ import InventoryExample from '../examples/homepage/InventoryExample.tsx';
           </p>
           <a
             href="/docs/intro/hello-world"
-            class="group inline-flex items-center gap-2 px-8 py-4 rounded-lg bg-primary text-primary-foreground font-semibold hover:bg-primary/90 transition-all shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-1"
+            class="group inline-flex items-center gap-2 px-8 py-4 rounded-lg bg-primary text-primary-foreground font-semibold hover:bg-primary/90 transition-all shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 motion-safe:hover:-translate-y-1"
           >
             Get Started
-            <svg class="h-5 w-5 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg class="h-5 w-5 transition-transform motion-safe:group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M5 12h14M12 5l7 7-7 7"/>
             </svg>
           </a>
@@ -478,17 +501,21 @@ import InventoryExample from '../examples/homepage/InventoryExample.tsx';
           rootMargin: '0px 0px -50px 0px'
         };
 
+        // Cards are visible by default and hidden here only when they can be revealed again on scroll
+        if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
         const observer = new IntersectionObserver((entries) => {
           entries.forEach(entry => {
             if (entry.isIntersecting) {
+              entry.target.classList.remove('js-reveal');
               entry.target.classList.add('fade-in-up');
               observer.unobserve(entry.target);
             }
           });
         }, observerOptions);
 
-        document.querySelectorAll('.feature-card').forEach(card => {
-          card.style.opacity = '0';
+        document.querySelectorAll('.feature-card:not(.fade-in-up)').forEach(card => {
+          card.classList.add('js-reveal');
           observer.observe(card);
         });
       }

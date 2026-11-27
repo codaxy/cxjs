@@ -25,13 +25,23 @@ const currentCategory = getCurrentCategory(pathname);
       </svg>
     </button>
 
-    <!-- Logo -->
-    <a href="/" class="flex items-center gap-2 mr-6">
-      <img src="/favicon.svg" alt="CxJS" class="h-8 w-8" />
-      <span class="hidden font-semibold text-foreground sm:inline-block">
-        CxJS
-      </span>
-    </a>
+    <!-- Logo: CxJS goes to the homepage, Docs to the start of the documentation -->
+    <div class="flex items-center mr-6 shrink-0">
+      <a
+        href="/"
+        class="group flex items-center gap-2"
+        title="CxJS home"
+      >
+        <img src="/favicon.svg" alt="CxJS" class="h-9 w-9 transition-transform group-hover:scale-110" />
+        <span class="hidden text-xl font-semibold text-foreground sm:inline-block">CxJS</span>
+      </a>
+      <a
+        href="/docs/intro/what-is-cxjs"
+        class="ml-1.5 text-xl font-normal text-muted-foreground hover:text-foreground transition-colors"
+      >
+        Docs
+      </a>
+    </div>
 
     <!-- Category dropdown (md to xl) -->
     <CategoryDropdown class="hidden md:block xl:hidden" />
