@@ -354,55 +354,20 @@ const stackblitzProjectData = stackblitzProject && JSON.stringify(stackblitzProj
       class="code-block relative rounded-lg overflow-hidden border border-border bg-[hsl(var(--code-bg))]"
     >
       {
-        !hasTabs && stackblitzProject && (
-          <button
-            class="stackblitz-btn absolute top-2 right-2 z-10 px-2 py-1 text-xs font-medium transition-colors hover:text-white flex items-center gap-1.5 cursor-pointer rounded"
-            data-project={stackblitzProjectData}
-            style="color: rgba(255, 255, 255, 0.5);"
-            title="Open in StackBlitz"
-          >
-            <svg
-              class="w-3.5 h-3.5"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path
-                d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <polyline
-                points="15 3 21 3 21 9"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <line
-                x1="10"
-                x2="21"
-                y1="14"
-                y2="3"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-            <span class="hidden sm:inline">StackBlitz</span>
-          </button>
-        )
-      }
-      {
-        hasTabs && (
+        (hasTabs || stackblitzProject) && (
           <div class="code-tabs flex border-b border-[hsl(var(--code-border))]">
+            {/* Without tabs, the bar only holds the StackBlitz link, so the link doesn't cover the first line of code */}
+            {hasTabs && (
+            <div class="code-tab-list flex min-w-0 overflow-x-auto">
             <button
-              class="code-tab active px-4 py-2 text-xs font-medium uppercase transition-colors"
+              class="code-tab active shrink-0 whitespace-nowrap px-2.5 sm:px-4 py-2 text-[11px] sm:text-xs font-medium uppercase transition-colors"
               data-tab="code"
             >
               Index
             </button>
             {modelCode && (
               <button
-                class="code-tab px-4 py-2 text-xs font-medium uppercase transition-colors"
+                class="code-tab shrink-0 whitespace-nowrap px-2.5 sm:px-4 py-2 text-[11px] sm:text-xs font-medium uppercase transition-colors"
                 data-tab="model"
               >
                 Model
@@ -410,7 +375,7 @@ const stackblitzProjectData = stackblitzProject && JSON.stringify(stackblitzProj
             )}
             {componentsCode && (
               <button
-                class="code-tab px-4 py-2 text-xs font-medium uppercase transition-colors"
+                class="code-tab shrink-0 whitespace-nowrap px-2.5 sm:px-4 py-2 text-[11px] sm:text-xs font-medium uppercase transition-colors"
                 data-tab="components"
               >
                 Components
@@ -418,7 +383,7 @@ const stackblitzProjectData = stackblitzProject && JSON.stringify(stackblitzProj
             )}
             {controllerCode && (
               <button
-                class="code-tab px-4 py-2 text-xs font-medium uppercase transition-colors"
+                class="code-tab shrink-0 whitespace-nowrap px-2.5 sm:px-4 py-2 text-[11px] sm:text-xs font-medium uppercase transition-colors"
                 data-tab="controller"
               >
                 Controller
@@ -426,15 +391,17 @@ const stackblitzProjectData = stackblitzProject && JSON.stringify(stackblitzProj
             )}
             {importsCode && (
               <button
-                class="code-tab px-4 py-2 text-xs font-medium uppercase transition-colors"
+                class="code-tab shrink-0 whitespace-nowrap px-2.5 sm:px-4 py-2 text-[11px] sm:text-xs font-medium uppercase transition-colors"
                 data-tab="imports"
               >
                 Imports
               </button>
             )}
+            </div>
+            )}
             {stackblitzProject && (
               <button
-                class="ml-auto stackblitz-btn px-3 py-2 text-xs font-medium transition-colors hover:text-white flex items-center gap-1.5 border-l border-[hsl(var(--code-border))] cursor-pointer"
+                class="ml-auto shrink-0 stackblitz-btn px-2.5 sm:px-3 py-2 text-xs font-medium transition-colors hover:text-white flex items-center gap-1.5 border-l border-[hsl(var(--code-border))] cursor-pointer"
                 data-project={stackblitzProjectData}
                 style="color: rgba(255, 255, 255, 0.5);"
                 title="Open in StackBlitz"
@@ -472,6 +439,7 @@ const stackblitzProjectData = stackblitzProject && JSON.stringify(stackblitzProj
         )
       }
 
+      <div class="code-scroll-area relative">
       <div class="code-content-wrapper max-h-96 overflow-y-auto">
         <div class="code-content" data-content="code">
           <Code code={displayCode} lang="tsx" theme="github-dark-dimmed" />
@@ -512,6 +480,10 @@ const stackblitzProjectData = stackblitzProject && JSON.stringify(stackblitzProj
             </div>
           )
         }
+      </div>
+      <!-- Scroll hint, shown while the visible code continues below the bottom edge -->
+      <div class="code-scroll-fade" aria-hidden="true"></div>
+      <div class="code-scroll-more" aria-hidden="true"></div>
       </div>
     </div>
 
@@ -576,6 +548,51 @@ const stackblitzProjectData = stackblitzProject && JSON.stringify(stackblitzProj
     border: none;
     cursor: pointer;
     color: rgba(255, 255, 255, 0.5);
+  }
+
+  /* On narrow screens the tabs scroll sideways, without a visible scrollbar */
+  .code-tab-list {
+    scrollbar-width: none;
+  }
+
+  .code-tab-list::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Scroll hint: a fade along the bottom edge and a count of the lines below it. Both are overlays, so showing or
+     hiding them does not change the layout. */
+  .code-scroll-fade,
+  .code-scroll-more {
+    position: absolute;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+  }
+
+  .code-scroll-fade {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 3rem;
+    background: linear-gradient(to bottom, transparent, hsl(var(--code-bg)));
+  }
+
+  .code-scroll-more {
+    right: 0.75rem;
+    bottom: 0.5rem;
+    padding: 0.125rem 0.5rem;
+    border-radius: 9999px;
+    font-size: 11px;
+    line-height: 1.5;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.75);
+    background: hsl(var(--code-bg) / 0.85);
+    border: 1px solid hsl(var(--code-border));
+  }
+
+  .code-scroll-area[data-more] .code-scroll-fade,
+  .code-scroll-area[data-more] .code-scroll-more {
+    opacity: 1;
   }
 
   .code-tab:hover {
@@ -647,6 +664,62 @@ const stackblitzProjectData = stackblitzProject && JSON.stringify(stackblitzProj
 
   initCodeExampleTabs();
   document.addEventListener("astro:page-load", initCodeExampleTabs);
+
+  // Scroll hint: while the visible tab continues below the bottom edge of the code block, show a fade and the number
+  // of lines that are cut off or hidden.
+  function initCodeScrollHints() {
+    document.querySelectorAll(".code-example .code-scroll-area").forEach(function (area) {
+      if (area.dataset.scrollHint) return;
+      area.dataset.scrollHint = "1";
+
+      var wrapper = area.querySelector(".code-content-wrapper");
+      var fade = area.querySelector(".code-scroll-fade");
+      var label = area.querySelector(".code-scroll-more");
+      if (!wrapper || !fade || !label) return;
+
+      function update() {
+        var bottom = wrapper.getBoundingClientRect().bottom;
+        var hidden = 0;
+        wrapper.querySelectorAll(".code-content:not(.hidden) .line").forEach(function (line) {
+          if (line.getBoundingClientRect().bottom > bottom + 1) hidden++;
+        });
+
+        if (hidden > 0) {
+          // keep the fade off the vertical scrollbar
+          var scrollbar = wrapper.offsetWidth - wrapper.clientWidth;
+          fade.style.right = scrollbar + "px";
+          label.style.right = 12 + scrollbar + "px";
+          label.textContent = "↓ " + hidden + (hidden === 1 ? " more line" : " more lines");
+          area.setAttribute("data-more", "");
+        } else {
+          area.removeAttribute("data-more");
+        }
+      }
+
+      wrapper.addEventListener("scroll", update, { passive: true });
+
+      var example = area.closest(".code-example");
+      example.querySelectorAll(".code-tab").forEach(function (tab) {
+        tab.addEventListener("click", function () {
+          requestAnimationFrame(update);
+        });
+      });
+
+      // size changes: viewport width, font loading, code wrapping
+      if (window.ResizeObserver) {
+        var observer = new ResizeObserver(update);
+        observer.observe(wrapper);
+        wrapper.querySelectorAll(".code-content").forEach(function (content) {
+          observer.observe(content);
+        });
+      }
+
+      update();
+    });
+  }
+
+  initCodeScrollHints();
+  document.addEventListener("astro:page-load", initCodeScrollHints);
 </script>
 
 <script>

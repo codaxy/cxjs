@@ -3,7 +3,7 @@ import { Chart, CategoryAxis, Gridlines, Marker } from "cx/charts";
 
 // @index
 export default (
-  <Svg style="width: 400px; height: 300px; border: 1px dashed #ddd">
+  <Svg style="width: 400px; height: 300px; border: 1px dashed var(--cx-theme-border-color)">
     <Chart
       margin="60 60 60 90"
       axes={{
@@ -11,7 +11,7 @@ export default (
         y: <CategoryAxis vertical />,
       }}
     >
-      <Rectangle fill="white" />
+      <Rectangle style="fill: var(--cx-theme-background-color)" />
       <Gridlines />
 
       <Marker x="Red" y="Triangle" shape="triangle" size={20} colorIndex={0} />

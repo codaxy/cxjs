@@ -3,7 +3,7 @@ import { Svg, Rectangle, Text } from "cx/svg";
 // @index
 export default (
   <div class="flex flex-wrap gap-2">
-    <Svg style="width: 100px; height: 100px; background: white; border: 1px dotted #ccc">
+    <Svg style="width: 100px; height: 100px; background: var(--cx-theme-background-color); border: 1px dotted var(--cx-theme-border-color)">
       <Rectangle anchors="0 1 1 0" offset="5 -5 -5 5" style="fill: lightblue" />
       <Text textAnchor="middle" dy="-0.1em" style="font-size: 10px">
         A: 0 1 1 0
@@ -13,7 +13,7 @@ export default (
       </Text>
     </Svg>
 
-    <Svg style="width: 100px; height: 100px; background: white; border: 1px dotted #ccc">
+    <Svg style="width: 100px; height: 100px; background: var(--cx-theme-background-color); border: 1px dotted var(--cx-theme-border-color)">
       <Rectangle anchors="0.5 0.5 0.5 0.5" offset="-30 30 30 -30" style="fill: lightblue" />
       <Text textAnchor="middle" dy="-0.1em" style="font-size: 10px">
         A: 0.5 0.5 0.5 0.5
@@ -23,7 +23,7 @@ export default (
       </Text>
     </Svg>
 
-    <Svg style="width: 100px; height: 100px; background: white; border: 1px dotted #ccc">
+    <Svg style="width: 100px; height: 100px; background: var(--cx-theme-background-color); border: 1px dotted var(--cx-theme-border-color)">
       <Rectangle anchors="0 1 1 0" margin={5} style="fill: lightblue" />
       <Text textAnchor="middle" dy="-0.1em" style="font-size: 10px">
         A: 0 1 1 0
@@ -33,7 +33,7 @@ export default (
       </Text>
     </Svg>
 
-    <Svg style="width: 100px; height: 100px; background: white; border: 1px dotted #ccc">
+    <Svg style="width: 100px; height: 100px; background: var(--cx-theme-background-color); border: 1px dotted var(--cx-theme-border-color)">
       <Rectangle anchors="0.5 0.5 0.5 0.5" margin={-30} style="fill: lightblue" />
       <Text textAnchor="middle" dy="-0.1em" style="font-size: 10px">
         A: 0.5 0.5 0.5 0.5

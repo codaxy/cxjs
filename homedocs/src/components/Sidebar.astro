@@ -119,6 +119,20 @@ const currentSlug = pathParts[pathParts.length - 1];
       }
     }
 
+    // Pages opened directly (e.g. from a search engine) may have their entry below the fold. Scroll it to the upper
+    // third, without animation. On a fresh load the item must also clear the bottom quarter of the sidebar; after
+    // in-docs navigation the restored position is kept unless the item is out of view.
+    function revealActiveItem(fresh) {
+      const container = getScrollContainer();
+      const active = container?.querySelector('a[aria-current="page"]');
+      if (!container || !active) return;
+      const c = container.getBoundingClientRect();
+      const a = active.getBoundingClientRect();
+      const bottomLimit = c.bottom - (fresh ? container.clientHeight / 4 : 0);
+      if (a.top >= c.top && a.bottom <= bottomLimit) return;
+      container.scrollTop += a.top - c.top - container.clientHeight / 3;
+    }
+
     function restoreScrollPosition() {
       const container = getScrollContainer();
       const savedScroll = sessionStorage.getItem(SCROLL_KEY);
@@ -126,9 +140,12 @@ const currentSlug = pathParts[pathParts.length - 1];
       const currentCategory = getCurrentCategory();
 
       // Only restore scroll if staying in the same category
-      if (container && savedScroll && savedCategory === currentCategory) {
+      const restore = !!(container && savedScroll && savedCategory === currentCategory);
+      if (restore) {
         container.scrollTop = parseInt(savedScroll, 10);
       }
+
+      revealActiveItem(!restore);
     }
 
     // Only add listeners once

@@ -45,7 +45,7 @@ export default (
           y: <NumericAxis vertical />,
         }}
       >
-        <Rectangle mod="cover" />
+        <Rectangle style="fill: var(--cx-theme-background-color)" />
         <Gridlines />
         <LineGraph
           name="Sales"

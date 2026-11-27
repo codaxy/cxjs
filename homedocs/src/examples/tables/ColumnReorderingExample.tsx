@@ -122,7 +122,7 @@ export default (
         )}
       >
         <DragSource
-          class="bg-gray-100 border border-gray-300 px-2 py-1 text-sm mr-1 cursor-pointer"
+          class="bg-gray-500/10 border border-gray-500/30 px-2 py-1 text-sm mr-1 cursor-pointer"
           data={{ type: "unused-column", key: m.$record.key }}
         >
           <span text={m.$record.header} />
@@ -130,9 +130,9 @@ export default (
       </Repeater>
 
       <DropZone
-        class="border border-dashed border-gray-300 flex-grow px-2 py-1 text-sm transition-colors"
+        class="border border-dashed border-gray-500/30 flex-grow px-2 py-1 text-sm transition-colors"
         onDropTest={(e) => e?.source?.type === "grid-column"}
-        overClass="bg-yellow-100"
+        overClass="bg-yellow-500/20"
         onDrop={(e, { store }) => {
           let { key } = e.source.column;
           store.update(m.columnOrder, (order) =>

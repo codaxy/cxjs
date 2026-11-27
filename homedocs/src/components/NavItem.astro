@@ -20,13 +20,48 @@ const isActive = isActiveProp !== undefined
 <li class:list={[hideOnMobile && "hidden md:block"]}>
   <a
     href={href}
+    aria-current={isActive ? "page" : undefined}
     class:list={[
-      "block px-3 py-2 text-sm rounded-md transition-colors",
+      "nav-item relative block border-l pl-3 pr-3 py-1.5 text-sm transition-[color]",
       isActive
-        ? "bg-primary/10 text-primary font-medium border-l-2 border-primary"
-        : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+        ? "border-primary font-medium"
+        : "border-sidebar-border text-muted-foreground hover:text-foreground"
     ]}
   >
     {text}
   </a>
 </li>
+
+<style>
+  /*
+   * Each item draws its own segment of the group's rail as its left border. Hovered and active items cover their
+   * segment with a solid 3px bar that starts exactly at the border's outer edge, so no gray line shows next to it at
+   * fractional display scaling. The bar has no transition, so it doesn't flash when the sidebar is replaced on navigation.
+   */
+  .nav-item {
+    --nav-bar-hover: hsl(220 9% 85%);
+  }
+
+  :global(.dark) .nav-item {
+    --nav-bar-hover: hsl(0 0% 36%);
+  }
+
+  .nav-item[aria-current="page"] {
+    color: var(--sl-color-text-accent);
+  }
+
+  .nav-item:hover::before,
+  .nav-item[aria-current="page"]::before {
+    content: "";
+    position: absolute;
+    left: -1px;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--nav-bar-hover);
+  }
+
+  .nav-item[aria-current="page"]::before {
+    background: hsl(var(--primary));
+  }
+</style>

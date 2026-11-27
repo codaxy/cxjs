@@ -19,14 +19,14 @@ export const model = {
 export default (
   <div className="flex gap-4">
     <DetachedScope bind={m.scope1}>
-      <div className="p-4 bg-gray-100 rounded">
+      <div className="p-4 bg-gray-500/10 rounded">
         <p>Detached Scope 1</p>
         <p text={m.scope1.count} />
       </div>
     </DetachedScope>
 
     <DetachedScope bind={m.scope2}>
-      <div className="p-4 bg-gray-100 rounded">
+      <div className="p-4 bg-gray-500/10 rounded">
         <p>Detached Scope 2</p>
         <p text={m.scope2.count} />
       </div>

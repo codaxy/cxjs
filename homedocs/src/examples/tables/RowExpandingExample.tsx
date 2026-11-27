@@ -81,7 +81,7 @@ export default (
     row={{
       style: {
         background: expr(m.$record.expanded, (expanded) =>
-          expanded ? "#fff7e6" : null,
+          expanded ? "rgba(255, 165, 0, 0.12)" : null,
         ),
       },
       line1: {

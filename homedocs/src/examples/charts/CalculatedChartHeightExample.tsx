@@ -59,7 +59,7 @@ export default (
       style={{
         width: "500px",
         height: computable(m.categoryCount, (count) => (count ?? 1) * 40 + 60),
-        border: "1px dashed #ddd",
+        border: "1px dashed var(--cx-theme-border-color)",
       }}
     >
       <Chart
@@ -69,7 +69,7 @@ export default (
           x: <NumericAxis minLabelTickSize={1} />,
         }}
       >
-        <Rectangle fill="white" />
+        <Rectangle style="fill: var(--cx-theme-background-color)" />
         <Gridlines />
         <Repeater
           records={m.points}

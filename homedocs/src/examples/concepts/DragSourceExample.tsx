@@ -20,7 +20,7 @@ export default (
         alert(`Dropped: ${source.data.text}`);
       }}
     >
-      <div class="p-4 border border-gray-200 rounded bg-green-50 min-w-32 text-center">
+      <div class="p-4 border border-gray-500/30 rounded bg-green-500/10 min-w-32 text-center">
         Drop here
       </div>
     </DropZone>

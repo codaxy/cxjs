@@ -53,7 +53,8 @@
     --sl-color-gray-7: #f9fafb;
     --sl-color-accent: #27aae1;
     --sl-color-accent-low: #e0f4fc;
-    --sl-color-text-accent: #27aae1;
+    // Darker than the brand color, for text on light backgrounds (5:1 on white)
+    --sl-color-text-accent: #0975aa;
     --sl-color-bg: #ffffff;
     --sl-color-bg-sidebar: #ffffff;
     --sl-color-bg-content: #f9fafb;
@@ -61,8 +62,12 @@
 
     // CxJS Brand Colors
     --cx-c-brand: #27aae1;
-    --cx-c-brand-light: #5bbac7;
+    --cx-c-brand-light: #5bc4ef;
     --cx-c-brand-dark: #358dbf;
+
+    // Violet from the middle of the logo gradient (#a28cc2), darkened for inline code text (5.5:1 on white)
+    --cx-c-brand-secondary: #7b55b5;
+    --code-text: var(--cx-c-brand-secondary);
 
     color-scheme: light;
   }
@@ -77,8 +82,8 @@
     --popover: 0 0% 14%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 234 89% 73%;
-    --primary-foreground: 243 47% 20%;
+    --primary: 197 80% 60%;
+    --primary-foreground: 200 60% 12%;
 
     --secondary: 0 0% 18%;
     --secondary-foreground: 0 0% 98%;
@@ -94,7 +99,7 @@
 
     --border: 0 0% 22%;
     --input: 0 0% 22%;
-    --ring: 234 89% 73%;
+    --ring: 197 80% 60%;
 
     --code-bg: 0 0% 6%;
     --code-border: 0 0% 20%;
@@ -113,18 +118,22 @@
     --sl-color-gray-5: #404040;
     --sl-color-gray-6: #262626;
     --sl-color-gray-7: #171717;
-    --sl-color-accent: #a78bfa;
-    --sl-color-accent-low: #3b1f6e;
-    --sl-color-text-accent: #a78bfa;
+    --sl-color-accent: #47bceb;
+    --sl-color-accent-low: #0f3a4d;
+    --sl-color-text-accent: #47bceb;
     --sl-color-bg: #171717;
     --sl-color-bg-sidebar: #1f1f1f;
     --sl-color-bg-content: #262626;
     --sl-color-text: #fafafa;
 
-    // CxJS Brand Colors - Dark mode
-    --cx-c-brand: #5bbac7;
-    --cx-c-brand-light: #8fccd5;
+    // CxJS Brand Colors - Dark mode (lighter cyan, same as --primary)
+    --cx-c-brand: #47bceb;
+    --cx-c-brand-light: #7dd0f1;
     --cx-c-brand-dark: #27aae1;
+
+    // Violet from the logo gradient, lightened for dark backgrounds (7.5:1)
+    --cx-c-brand-secondary: #b39ddb;
+    --code-text: var(--cx-c-brand-secondary);
 
     color-scheme: dark;
   }
@@ -162,6 +171,16 @@ body {
   transition:
     background-color 0.2s ease,
     color 0.2s ease;
+}
+
+// Fira Code is loaded for code; its ligatures (=> as an arrow, !== as a crossed-out sign) are turned off so code reads
+// and copies as typed.
+code,
+pre,
+kbd,
+samp {
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "calt" 0;
 }
 
 // Code blocks are dark in both themes. With the scrollbar-color of the CxJS theme, Chrome draws the scrollbar itself

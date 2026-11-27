@@ -56,7 +56,7 @@ const gtmId = import.meta.env.GTM_ID;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet" />
     <script is:inline data-astro-rerun>
       (function() {
         const theme = localStorage.getItem('theme') ||
@@ -65,6 +65,17 @@ const gtmId = import.meta.env.GTM_ID;
           document.documentElement.classList.add('dark');
         }
       })();
+    </script>
+    <script is:inline>
+      // On client-side navigation, the new document's <html> (without the dark class) replaces the current one before
+      // the script above runs again, so the page briefly renders in light colors and color transitions flash.
+      // Carrying the class over to the new document before the swap avoids that.
+      if (!window._themeSwapInitialized) {
+        window._themeSwapInitialized = true;
+        document.addEventListener('astro:before-swap', (e) => {
+          e.newDocument.documentElement.classList.toggle('dark', document.documentElement.classList.contains('dark'));
+        });
+      }
     </script>
     <slot name="head" />
   </head>

@@ -61,7 +61,7 @@ export default (
       <DragSource
         data={m.$record}
         //hideOnDrag
-        class="p-2 border rounded bg-white cursor-move hover:bg-gray-50"
+        class="p-2 border rounded bg-(--cx-theme-background-color) cursor-move hover:bg-gray-500/10"
       >
         <span text={m.$record.text} />
       </DragSource>

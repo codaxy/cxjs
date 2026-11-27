@@ -64,7 +64,7 @@ export default (
           y: <NumericAxis vertical />,
         }}
       >
-        <Rectangle fill="white" />
+        <Rectangle style="fill: var(--cx-theme-background-color)" />
         <Gridlines />
         <ClipRect>
           <ColumnGraph
@@ -85,7 +85,7 @@ export default (
           y: <NumericAxis vertical />,
         }}
       >
-        <Rectangle fill="white" />
+        <Rectangle style="fill: var(--cx-theme-background-color)" />
         <Gridlines />
         <ColumnGraph
           data={m.data}

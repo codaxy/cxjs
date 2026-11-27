@@ -8,7 +8,7 @@ interface Props {
 const { collapsed = false } = Astro.props;
 ---
 
-<aside class="on-this-page not-prose border border-border rounded-lg p-4 bg-card relative z-10 w-full mt-6 mb-6 xl:absolute xl:-right-58 xl:top-6 xl:mt-0 xl:mb-0 xl:ml-6 xl:w-64 xl:max-h-[calc(100vh-6rem)] xl:overflow-y-auto" {...(collapsed ? { 'data-collapsed': '' } : {})}>
+<aside data-pagefind-ignore class="on-this-page not-prose border border-border rounded-lg p-4 bg-card relative z-10 w-full mt-6 mb-6 xl:absolute xl:-right-58 xl:top-6 xl:mt-0 xl:mb-0 xl:ml-6 xl:w-64 xl:max-h-[calc(100vh-6rem)] xl:overflow-y-auto" {...(collapsed ? { 'data-collapsed': '' } : {})}>
   <div>
     <button
       class="on-this-page-btn flex w-full items-center justify-between text-xs font-semibold uppercase tracking-wider text-muted-foreground hover:text-foreground transition-colors"

@@ -55,8 +55,8 @@ class PageController extends Controller {
 export default (
   <div class="flex gap-4" controller={PageController}>
     <DropZone
-      class="flex flex-col gap-2 p-4 border rounded min-w-32 min-h-32 bg-gray-50"
-      overClass="!bg-green-50 !border-green-300"
+      class="flex flex-col gap-2 p-4 border rounded min-w-32 min-h-32 bg-gray-500/5"
+      overClass="!bg-green-500/15 !border-green-500"
       onDropTest={({ source }) => source.data.type === "fruit"}
       onDrop={({ source }, { store }) => {
         removeItem(store, source.data);
@@ -67,7 +67,7 @@ export default (
       <div class="flex flex-col gap-1 min-h-16">
         <Repeater records={m.fruits} recordAlias={m.$fruit} keyField="name">
           <DragSource data={m.$fruit}>
-            <div class="p-2 border rounded bg-white cursor-move">
+            <div class="p-2 border rounded bg-(--cx-theme-background-color) cursor-move">
               <span text={m.$fruit.name} />
             </div>
           </DragSource>
@@ -76,8 +76,8 @@ export default (
     </DropZone>
 
     <DropZone
-      class="flex flex-col gap-2 p-4 border rounded min-w-32 min-h-32 bg-gray-50"
-      overClass="!bg-orange-50 !border-orange-300"
+      class="flex flex-col gap-2 p-4 border rounded min-w-32 min-h-32 bg-gray-500/5"
+      overClass="!bg-orange-500/15 !border-orange-500"
       onDropTest={({ source }) => source.data.type === "vegetable"}
       onDrop={({ source }, { store }) => {
         removeItem(store, source.data);
@@ -92,7 +92,7 @@ export default (
           keyField="name"
         >
           <DragSource data={m.$vegetable}>
-            <div class="p-2 border rounded bg-white cursor-move">
+            <div class="p-2 border rounded bg-(--cx-theme-background-color) cursor-move">
               <span text={m.$vegetable.name} />
             </div>
           </DragSource>
@@ -101,8 +101,8 @@ export default (
     </DropZone>
 
     <DropZone
-      class="flex flex-col gap-2 p-4 border rounded min-w-32 min-h-32 bg-gray-50"
-      overClass="!bg-blue-50 !border-blue-300"
+      class="flex flex-col gap-2 p-4 border rounded min-w-32 min-h-32 bg-gray-500/5"
+      overClass="!bg-blue-500/15 !border-blue-500"
       onDrop={({ source }, { store }) => {
         removeItem(store, source.data);
         store.set(m.anything, [...store.get(m.anything), source.data]);
@@ -112,7 +112,7 @@ export default (
       <div class="flex flex-col gap-1 min-h-16">
         <Repeater records={m.anything} recordAlias={m.$item} keyField="name">
           <DragSource data={m.$item}>
-            <div class="p-2 border rounded bg-white cursor-move">
+            <div class="p-2 border rounded bg-(--cx-theme-background-color) cursor-move">
               <span text={m.$item.name} />
             </div>
           </DragSource>

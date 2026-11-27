@@ -38,7 +38,7 @@ const LineChart = createFunctionalComponent(
 export default (
   <div class="flex flex-col gap-4">
     <LineChart
-      chartStyle="height: 200px; background: white; border: 1px solid lightgray"
+      chartStyle="height: 200px; background: var(--cx-theme-background-color); border: 1px solid var(--cx-theme-border-color)"
       lineStyle="stroke: red; stroke-width: 1"
       areaStyle="fill: rgba(255, 0, 0, 0.3)"
       data={Array.from({ length: 50 }, (_, x) => ({

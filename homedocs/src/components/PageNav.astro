@@ -23,7 +23,7 @@ const prevPage = currentIndex > 0 ? pages[currentIndex - 1] : null;
 const nextPage = currentIndex < pages.length - 1 ? pages[currentIndex + 1] : null;
 ---
 
-<nav class="page-nav">
+<nav class="page-nav" data-pagefind-ignore>
   {prevPage ? (
     <a href={prevPage.href} class="nav-link prev">
       <svg class="nav-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">

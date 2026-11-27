@@ -2237,6 +2237,8 @@
     var GLOW_RADIUS = 150;
 
     function initHoneycomb() {
+      // The glow that follows the mouse is decorative motion; leave it out when reduced motion is requested
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
       var svg = document.getElementById("honeycomb-svg");
       if (!svg) return;
       var edgeEls = svg.querySelectorAll(".hc-edge");

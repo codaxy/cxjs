@@ -62,7 +62,7 @@ export default (
         handled
         clone={
           <div
-            class="p-2 border rounded bg-white shadow-lg opacity-90"
+            class="p-2 border rounded bg-(--cx-theme-background-color) shadow-lg opacity-90"
             text={m.$widget.title}
           />
         }

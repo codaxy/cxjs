@@ -3,7 +3,7 @@ import { Chart, NumericAxis, Gridlines } from "cx/charts";
 
 // @index
 export default (
-  <Svg style="width: 400px; height: 300px; border: 1px solid #ddd">
+  <Svg style="width: 400px; height: 300px; border: 1px solid var(--cx-theme-border-color)">
     <Chart
       margin="60 60 60 60"
       axes={{
@@ -13,7 +13,7 @@ export default (
         y2: { type: NumericAxis, vertical: true, secondary: true },
       }}
     >
-      <Rectangle fill="white" margin={1} />
+      <Rectangle style="fill: var(--cx-theme-background-color)" margin={1} />
       <Gridlines />
       <Gridlines xAxis="x2" yAxis="y2" />
     </Chart>

@@ -2,7 +2,7 @@ import { Svg, Ellipse } from "cx/svg";
 
 // @index
 export default (
-  <Svg style="width: 400px; height: 400px; border: 1px dashed #ddd" padding={5}>
+  <Svg style="width: 400px; height: 400px; border: 1px dashed var(--cx-theme-border-color)" padding={5}>
     <Ellipse margin={10} colorIndex={0} />
     <Ellipse margin={20} colorIndex={1} />
     <Ellipse margin={30} colorIndex={2} />

@@ -92,11 +92,14 @@
   align-items: center;
   justify-content: center;
 
+  // An SVG cross instead of the "×" character, which sits below the center of the circle in Inter
   &::before {
-    content: "×";
-    font-size: 14px;
-    color: hsl(var(--muted-foreground));
-    line-height: 1;
+    content: "";
+    width: 8px;
+    height: 8px;
+    background: hsl(var(--muted-foreground));
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath d='M1 1l6 6M7 1L1 7' stroke='black' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E")
+      center / contain no-repeat;
   }
 
   &:hover {
@@ -228,4 +231,46 @@
   box-shadow:
     0 4px 24px -4px rgba(0, 0, 0, 0.4),
     0 8px 32px -8px rgba(0, 0, 0, 0.3);
+}
+
+// Mobile search panel (see Header.astro): full-width input, results below it instead of in a dropdown.
+// It is only used below 640px; the header script also closes it when the viewport gets wider.
+@media (min-width: 640px) {
+  #mobile-search-panel,
+  #mobile-search-backdrop {
+    display: none !important;
+  }
+}
+
+#mobile-search-panel {
+  .pagefind-ui .pagefind-ui__search-input {
+    width: 100%;
+    height: 40px;
+    font-size: 16px; // 16px or more keeps iOS from zooming in on focus
+    padding-right: 36px !important;
+  }
+
+  // The results are part of the form here, so the icon and clear button are centered on the 40px input, not the form
+  .pagefind-ui .pagefind-ui__form::before,
+  .pagefind-ui .pagefind-ui__search-clear {
+    top: 20px;
+  }
+
+  .pagefind-ui .pagefind-ui__drawer {
+    position: static;
+    width: auto;
+    max-width: none;
+    max-height: none;
+    overflow: visible;
+    margin-top: 8px;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    background: transparent;
+  }
+
+  .pagefind-ui .pagefind-ui__result {
+    padding: 10px 4px !important;
+    border-radius: 6px;
+  }
 }

@@ -11,7 +11,7 @@ export default (
             top: Math.random() * 50 + 25 + "%",
             padding: "30px",
             border: "2px solid gray",
-            background: "#efefef",
+            background: "var(--cx-theme-surface-color)",
             textAlign: "center",
           }}
         >

@@ -74,7 +74,7 @@ export default (
           />
         ),
         footer: (
-          <div class="text-sm text-gray-500 p-2 border-t border-gray-200">
+          <div class="text-sm text-gray-500 p-2 border-t border-gray-500/30">
             <span text={m.$group.count} /> contact(s)
           </div>
         ),
