@@ -354,46 +354,10 @@ const stackblitzProjectData = stackblitzProject && JSON.stringify(stackblitzProj
       class="code-block relative rounded-lg overflow-hidden border border-border bg-[hsl(var(--code-bg))]"
     >
       {
-        !hasTabs && stackblitzProject && (
-          <button
-            class="stackblitz-btn absolute top-2 right-2 z-10 px-2 py-1 text-xs font-medium transition-colors hover:text-white flex items-center gap-1.5 cursor-pointer rounded"
-            data-project={stackblitzProjectData}
-            style="color: rgba(255, 255, 255, 0.5);"
-            title="Open in StackBlitz"
-          >
-            <svg
-              class="w-3.5 h-3.5"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path
-                d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <polyline
-                points="15 3 21 3 21 9"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <line
-                x1="10"
-                x2="21"
-                y1="14"
-                y2="3"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-            <span class="hidden sm:inline">StackBlitz</span>
-          </button>
-        )
-      }
-      {
-        hasTabs && (
+        (hasTabs || stackblitzProject) && (
           <div class="code-tabs flex border-b border-[hsl(var(--code-border))]">
+            {/* Without tabs, the bar only holds the StackBlitz link, so the link doesn't cover the first line of code */}
+            {hasTabs && (
             <div class="code-tab-list flex min-w-0 overflow-x-auto">
             <button
               class="code-tab active shrink-0 whitespace-nowrap px-2.5 sm:px-4 py-2 text-[11px] sm:text-xs font-medium uppercase transition-colors"
@@ -434,6 +398,7 @@ const stackblitzProjectData = stackblitzProject && JSON.stringify(stackblitzProj
               </button>
             )}
             </div>
+            )}
             {stackblitzProject && (
               <button
                 class="ml-auto shrink-0 stackblitz-btn px-2.5 sm:px-3 py-2 text-xs font-medium transition-colors hover:text-white flex items-center gap-1.5 border-l border-[hsl(var(--code-border))] cursor-pointer"

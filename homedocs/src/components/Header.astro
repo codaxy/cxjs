@@ -25,7 +25,7 @@ const currentCategory = getCurrentCategory(pathname);
       </svg>
     </button>
 
-    <!-- Logo: CxJS goes to the homepage, Docs to the start of the documentation -->
+    <!-- Logo: CxJS goes to the homepage; Docs is a label showing that this is the documentation -->
     <div class="flex items-center mr-6 shrink-0">
       <a
         href="/"
@@ -35,12 +35,7 @@ const currentCategory = getCurrentCategory(pathname);
         <img src="/favicon.svg" alt="CxJS" class="h-9 w-9 transition-transform group-hover:scale-110" />
         <span class="hidden text-xl font-semibold text-foreground sm:inline-block">CxJS</span>
       </a>
-      <a
-        href="/docs/intro/what-is-cxjs"
-        class="ml-1.5 text-xl font-normal text-muted-foreground hover:text-foreground transition-colors"
-      >
-        Docs
-      </a>
+      <span class="ml-1.5 text-xl font-normal text-muted-foreground select-none">Docs</span>
     </div>
 
     <!-- Category dropdown (md to xl) -->
