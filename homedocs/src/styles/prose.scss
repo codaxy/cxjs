@@ -38,6 +38,17 @@
   list-style: decimal;
 }
 
+// Bullets and numbers in a muted gray: visible on white, calmer than the text in dark mode
+.prose ul > li::marker,
+.prose ol > li::marker {
+  color: hsl(220 9% 58%);
+}
+
+.dark .prose ul > li::marker,
+.dark .prose ol > li::marker {
+  color: hsl(var(--muted-foreground) / 0.8);
+}
+
 // Nested lists
 .prose li ul,
 .prose li ol {

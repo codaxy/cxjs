@@ -62,12 +62,27 @@ const currentCategory = getCurrentCategory(pathname);
     <!-- Right side -->
     <div class="ml-auto flex items-center gap-2">
       <!-- Search -->
-      <div class="hidden sm:block relative">
+      <div id="desktop-search-slot" class="hidden sm:block relative">
         <Search id="search" className="pagefind-ui" uiOptions={{ showImages: false, showSubResults: false, excerptLength: 15 }} />
         <kbd class="search-kbd absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none px-2 py-0.5 text-xs font-medium text-muted-foreground bg-secondary border border-border rounded opacity-60">
           ⌘K
         </kbd>
       </div>
+
+      <!-- Mobile search (below sm, where the search box above is hidden) -->
+      <button
+        id="mobile-search-btn"
+        type="button"
+        class="sm:hidden inline-flex items-center justify-center h-9 w-9 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+        aria-label="Search"
+        aria-expanded="false"
+        aria-controls="mobile-search-panel"
+      >
+        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.3-4.3"></path>
+        </svg>
+      </button>
 
       <!-- Theme toggle -->
       <ThemeToggle />
@@ -86,6 +101,13 @@ const currentCategory = getCurrentCategory(pathname);
       </a>
     </div>
   </div>
+
+  <!-- Mobile search panel: the single Pagefind instance is moved here while the panel is open -->
+  <div id="mobile-search-backdrop" class="hidden absolute left-0 right-0 top-full h-[calc(100dvh-3.5rem)] bg-background/80 backdrop-blur-sm"></div>
+  <div
+    id="mobile-search-panel"
+    class="hidden absolute left-0 right-0 top-full max-h-[calc(100dvh-3.5rem)] overflow-y-auto border-b border-border bg-background px-4 py-3 shadow-lg"
+  ></div>
 </header>
 
 <script is:inline>
@@ -112,6 +134,43 @@ const currentCategory = getCurrentCategory(pathname);
       closeIcon?.classList.remove('hidden');
     }
 
+    // Mobile search: the Pagefind element is moved from the header into the panel while it's open, so there is
+    // only one instance and one input (Ctrl/Cmd+K keeps working on the same input).
+    function isMobileSearchOpen() {
+      return !document.getElementById('mobile-search-panel')?.classList.contains('hidden');
+    }
+
+    function openMobileSearch() {
+      const panel = document.getElementById('mobile-search-panel');
+      const backdrop = document.getElementById('mobile-search-backdrop');
+      const search = document.getElementById('search');
+      if (!panel || !search) return;
+
+      panel.appendChild(search);
+      panel.classList.remove('hidden');
+      backdrop?.classList.remove('hidden');
+      document.getElementById('mobile-search-btn')?.setAttribute('aria-expanded', 'true');
+
+      // Focus synchronously within the tap, so that phones open the keyboard
+      search.querySelector('.pagefind-ui__search-input')?.focus();
+    }
+
+    function closeMobileSearch() {
+      const panel = document.getElementById('mobile-search-panel');
+      const backdrop = document.getElementById('mobile-search-backdrop');
+      const slot = document.getElementById('desktop-search-slot');
+      const search = document.getElementById('search');
+      if (!panel || panel.classList.contains('hidden')) return;
+
+      if (slot && search && search.parentElement !== slot) {
+        slot.insertBefore(search, slot.firstChild);
+      }
+      search?.querySelector('.pagefind-ui__search-input')?.blur();
+      panel.classList.add('hidden');
+      backdrop?.classList.add('hidden');
+      document.getElementById('mobile-search-btn')?.setAttribute('aria-expanded', 'false');
+    }
+
     // Only add listeners once
     if (!window._mobileMenuInitialized) {
       window._mobileMenuInitialized = true;
@@ -125,10 +184,41 @@ const currentCategory = getCurrentCategory(pathname);
           if (isOpen) {
             closeMobileMenu();
           } else {
+            closeMobileSearch();
             openMobileMenu();
           }
+          return;
+        }
+
+        if (e.target.closest('#mobile-search-btn')) {
+          if (isMobileSearchOpen()) {
+            closeMobileSearch();
+          } else {
+            closeMobileMenu();
+            openMobileSearch();
+          }
+          return;
+        }
+
+        if (e.target.closest('#mobile-search-backdrop')) {
+          closeMobileSearch();
         }
       });
+
+      // Escape closes the mobile search
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && isMobileSearchOpen()) {
+          closeMobileSearch();
+        }
+      });
+
+      // Back at sm and wider the panel is hidden, so put the search back into the header
+      window.matchMedia('(min-width: 640px)').addEventListener('change', (e) => {
+        if (e.matches) closeMobileSearch();
+      });
+
+      // Close the search on navigation, e.g. after a result is clicked
+      document.addEventListener('astro:before-preparation', closeMobileSearch);
 
       // Close menu on navigation
       document.addEventListener('astro:before-preparation', closeMobileMenu);

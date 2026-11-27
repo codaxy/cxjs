@@ -173,6 +173,16 @@ body {
     color 0.2s ease;
 }
 
+// Fira Code is loaded for code; its ligatures (=> as an arrow, !== as a crossed-out sign) are turned off so code reads
+// and copies as typed.
+code,
+pre,
+kbd,
+samp {
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "calt" 0;
+}
+
 // Code blocks are dark in both themes. With the scrollbar-color of the CxJS theme, Chrome draws the scrollbar itself
 // and uses a hover color for light backgrounds, which is invisible on dark ones. Code blocks therefore reset
 // scrollbar-color and scrollbar-width, so that Chrome applies the ::-webkit-scrollbar styles below; other browsers
